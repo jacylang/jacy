@@ -65,12 +65,18 @@ namespace jc::core {
             }
         }
 
-        if ()
+        if (cli.config.has("compile-depth", "lexer")) {
+            return;
+        }
 
         const auto & ast = parser.parse(tokens);
 
         if (cli.config.has("print", "ast")) {
             astPrinter.print(ast);
+        }
+
+        if (cli.config.has("compile-depth", "parser")) {
+            return;
         }
     }
 }

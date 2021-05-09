@@ -11,10 +11,7 @@
 
 namespace jc::cli {
     using str_vec = std::vector<std::string>;
-    struct KeyValueArg {
-        int count;
-        str_vec allowed;
-    };
+    using key_value_arg = std::pair<int, str_vec>; // Pair of count (-1 means any count) and values expected
 
     struct Config {
         enum class Mode {
@@ -29,7 +26,7 @@ namespace jc::cli {
         const static str_vec allowedBoolArgs;
 
         // Allowed key-value arguments (with '-' prefix and subsequent values)
-        const static std::map<std::string, KeyValueArg> allowedKeyValueArgs;
+        const static std::map<std::string, key_value_arg> allowedKeyValueArgs;
 
         // Key-value arguments that receive any non-specific parameters
         const static str_vec anyParamKeyValueArgs;

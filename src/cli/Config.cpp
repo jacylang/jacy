@@ -12,8 +12,8 @@ namespace jc::cli {
         "dev",
     };
 
-    const std::map<std::string, str_vec> Config::allowedKeyValueArgs = {
-        {"c-depth", {"lexer", "parser"}},
+    const std::map<std::string, key_value_arg> Config::allowedKeyValueArgs = {
+        {"compile-depth", {1, {"lexer", "parser"}}},
     };
 
     const str_vec Config::anyParamKeyValueArgs = {};
@@ -22,7 +22,7 @@ namespace jc::cli {
     const std::map<std::string, std::string> Config::aliases = {};
 
     const std::map<std::string, str_vec> Config::argsDependencies = {
-        {"c-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
+        {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
     };
 
 

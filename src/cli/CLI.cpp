@@ -57,10 +57,11 @@ namespace jc::cli {
             if (arg.second.empty()) {
                 throw CLIError(common::Logger::format("Expected value for '", arg.first, "' argument"));
             }
+
             // Check for allowed parameters for key-value argument if it receives specific list
-            if (not utils::arr::has(config.anyParamKeyValueArgs, arg.first)) {
+            if (not utils::arr::has(Config::anyParamKeyValueArgs, arg.first)) {
                 for (const auto & argParam : arg.second) {
-                    const auto & allowed = Config::allowedKeyValueArgs.at(arg.first).allowed;
+                    const auto & allowed = Config::allowedKeyValueArgs.at(arg.first).second;
                     if (not utils::arr::has(allowed, argParam)) {
                         throw CLIError(common::Logger::format(
                             "Unknown parameter for argument '", arg.first,
@@ -68,6 +69,15 @@ namespace jc::cli {
                         ));
                     }
                 }
+            }
+
+            // Check for parameters count
+            const auto & allowedCount = Config::allowedKeyValueArgs.at(arg.first).first;
+            if (allowedCount != -1 and allowedCount != arg.second.size()) {
+                throw CLIError(common::Logger::format(
+                    "Expected", allowedCount, "count of parameters for argument", arg.first + ",",
+                    "got", arg.second.size(), " parameters: ", utils::arr::join(arg.second, " ")
+                ));
             }
             if (alias != Config::aliases.end()) {
                 utils::map::rename(config.keyValueArgs, arg.first, alias->second);
