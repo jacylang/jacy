@@ -5,20 +5,17 @@ namespace jc::core {
 
     }
 
-    std::vector<std::string> Jacy::allowedExtensions = {
-        "jc",
-    };
-
     void Jacy::run(int argc, const char ** argv) {
-        mainFile = "F:/Projects/Jacy/Jacy/sample/example.jc";
-        runSource();
+        try {
+            cli.applyArgs(argc, argv);
+        } catch (common::Error & e) {
+            log.error(e.message);
+            return;
+        }
 
-        return;
-        applyArgs(argc, argv);
-
-        if (settings.mode == Settings::Mode::Repl) {
+        if (cli.config.mode == cli::Config::Mode::Repl) {
             runRepl();
-        } else if (settings.mode == Settings::Mode::Source) {
+        } else if (cli.config.mode == cli::Config::Mode::Source) {
             runSource();
         }
     }
@@ -39,6 +36,8 @@ namespace jc::core {
     }
 
     void Jacy::runSource() {
+        // TODO: Multiple files
+        const auto & mainFile = cli.config.getSourceFiles().at(0);
         std::fstream file(mainFile);
 
         if (!file.is_open()) {
@@ -58,32 +57,20 @@ namespace jc::core {
     }
 
     void Jacy::runCode(const std::string & code) {
-        const auto tokens = lexer.lex(code);
+        const auto & tokens = lexer.lex(code);
 
-        for (const auto & token : tokens) {
-            std::cout << token.toString() << std::endl;
-        }
-    }
-
-    void Jacy::applyArgs(int argc, const char ** argv) {
-        for (int i = 0; i < argc; i++) {
-            const auto arg = std::string(argv[i]);
-
-            // Check if arg is source file
-            for (const auto & ext : allowedExtensions) {
-                if (utils::endsWith(arg, "." + ext)) {
-                    if (!mainFile.empty()) {
-                        throw CLIError("Multiple source files not allowed");
-                    }
-                    mainFile = arg;
-                }
+        if (cli.config.has("print", "tokens")) {
+            for (const auto & token : tokens) {
+                std::cout << token.toString() << std::endl;
             }
         }
 
-        if (mainFile.empty()) {
-            settings.mode = Settings::Mode::Repl;
-        } else {
-            settings.mode = Settings::Mode::Source;
+        if ()
+
+        const auto & ast = parser.parse(tokens);
+
+        if (cli.config.has("print", "ast")) {
+            astPrinter.print(ast);
         }
     }
 }

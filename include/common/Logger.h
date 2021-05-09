@@ -7,6 +7,10 @@
 #include <map>
 #include <string>
 #include <sstream>
+#include <sstream>
+#include <vector>
+
+#include "dev/DevConfig.h"
 
 namespace jc::common {
     enum class Color {
@@ -20,7 +24,8 @@ namespace jc::common {
 
     // LogLevel //
     enum class LogLevel : uint8_t {
-        Verbose,
+        Dev, // Forces everything to be printed and prefix message with '[DEV]'
+        Verbose, /// @deprecated (use `dev` instead)
         Debug,
         Info,
         Warn,
@@ -28,11 +33,43 @@ namespace jc::common {
     };
 
     struct LoggerConfig {
+        LoggerConfig() {
+            // NOTE: Force to use `dev` level
+            if (dev::DevConfig::dev) {
+                level = LogLevel::Dev;
+            }
+        }
+
         LogLevel level{LogLevel::Debug};
-        bool logOwner{true};
-        bool logLevel{true};
+        bool printOwner{false};
+        bool printLevel{true};
         bool colorize{true};
     };
+
+    inline std::ostream & operator<<(std::ostream & os, const std::vector<std::string> & vec) {
+        os << "[";
+        for (size_t i = 0; i < vec.size(); ++i) {
+            os << vec.at(i);
+            if (i < vec.size() - 1) {
+                os << ", ";
+            }
+        }
+        os << "]";
+        return os;
+    }
+
+    template<class V>
+    inline std::ostream & operator<<(std::ostream & os, const std::map<std::string, V> & map) {
+        os << "{";
+        for (auto it = map.begin(); it != map.end(); it++) {
+            os << it->first << ": " << it->second;
+            if (it != std::prev(map.end())) {
+                os << ", ";
+            }
+        }
+        os << "}";
+        return os;
+    }
 
     class Logger {
     public:
@@ -53,6 +90,22 @@ namespace jc::common {
 
         template<class ...Args>
         void error(Args && ...args);
+
+        template<class ...Args>
+        void dev(Args && ...args);
+
+        template<class Arg, class ...Args>
+        Logger & raw(Arg && first, Args && ...other);
+
+        template<class Arg, class ...Args>
+        void colorized(Color color, Arg && first, Args && ...other);
+
+        void nl() {
+            std::cout << std::endl;
+        }
+
+        template<class Arg, class ...Args>
+        static std::string format(Arg && first, Args && ...other);
 
     private:
         std::string owner;

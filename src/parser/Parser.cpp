@@ -84,7 +84,7 @@ namespace jc::parser {
     /////////////
     // Parsers //
     /////////////
-    tree::stmt_list Parser::parse(const token_list & tokens) {
+    ast::stmt_list Parser::parse(const token_list & tokens) {
         this->tokens = tokens;
 
         while (!eof()) {
@@ -97,8 +97,8 @@ namespace jc::parser {
         }
     }
 
-    tree::stmt_ptr Parser::parseTopLevel() {
-        tree::stmt_ptr lhs;
+    ast::stmt_ptr Parser::parseTopLevel() {
+        ast::stmt_ptr lhs;
 
         if (is(TokenType::Import)) {
             lhs = parseImportStmt();
@@ -114,17 +114,14 @@ namespace jc::parser {
 
         if (peek().isAssignOp() and lhs->isAssignable()) {
             const auto & assignOp = peek();
-            return std::make_shared<tree::Assignment>(lhs, assignOp, parseExpr());
+            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr());
         }
 
         return lhs;
     }
 
-    tree::stmt_ptr Parser::parseStmt(bool optionalStmtOnly) {
+    ast::stmt_ptr Parser::parseStmt(bool optionalStmtOnly) {
         switch (peek().type) {
-            case TokenType::Do: {
-                return parseDoWhileStmt();
-            }
             case TokenType::While: {
                 return parseWhileStmt();
             }
@@ -135,7 +132,7 @@ namespace jc::parser {
                 if (optionalStmtOnly) {
                     return nullptr;
                 }
-                return std::make_shared<tree::ExprStmt>(parseExpr());
+                return std::make_shared<ast::ExprStmt>(parseExpr());
             }
         }
     }
@@ -143,14 +140,8 @@ namespace jc::parser {
     /////////////////////////////
     // Control-flow statements //
     /////////////////////////////
-    tree::stmt_ptr Parser::parseDoWhileStmt() {
-        const auto doWhileStmt = std::make_shared<tree::DoWhileStmt>(peek().loc);
-
-        // TODO
-    }
-
-    tree::stmt_ptr Parser::parseWhileStmt() {
-        const auto whileStmt = std::make_shared<tree::WhileStmt>(peek().loc);
+    ast::stmt_ptr Parser::parseWhileStmt() {
+        const auto & loc = peek().loc;
 
         skip(TokenType::While, false, true);
 
@@ -160,20 +151,19 @@ namespace jc::parser {
             skip(TokenType::LParen, false, true);
         }
 
-        whileStmt->condition = parseExpr();
+        const auto & condition = parseExpr();
 
         if (isParen) {
             skip(TokenType::RParen, true, true);
         }
 
-        // TODO: One line
-        whileStmt->body = parseBlock();
+        const auto & body = parseBlock();
 
-        return whileStmt;
+        return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
 
-    tree::stmt_ptr Parser::parseForStmt() {
-        const auto forStmt = std::make_shared<tree::ForStmt>(peek().loc);
+    ast::stmt_ptr Parser::parseForStmt() {
+        const auto & loc = peek().loc;
 
         skip(TokenType::For, false, true);
 
@@ -184,27 +174,26 @@ namespace jc::parser {
         }
 
         // TODO: Any variable declaration
-        forStmt->forEntity = parseId();
+        const auto & forEntity = parseId();
 
         skip(TokenType::In, true, true);
 
-        forStmt->inExpr = parseExpr();
+        const auto & inExpr = parseExpr();
 
         if (isParen) {
             skip(TokenType::RParen, true, true);
         }
 
-        // TODO: One line
-        forStmt->body = parseBlock();
+        const auto & body = parseBlock();
 
-        return forStmt;
+        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
 
     //////////////////
     // Declarations //
     //////////////////
-    tree::stmt_ptr Parser::parseDecl(bool optional) {
-        tree::attr_list attributes = parseAttributes();
+    ast::stmt_ptr Parser::parseDecl(bool optional) {
+        ast::attr_list attributes = parseAttributes();
         parser::token_list modifiers = parseModifiers();
 
         switch (peek().type) {
@@ -237,15 +226,15 @@ namespace jc::parser {
         }
     }
 
-    tree::stmt_list Parser::parseDeclList() {
-        tree::stmt_list declarations;
+    ast::stmt_list Parser::parseDeclList() {
+        ast::stmt_list declarations;
         while (const auto & decl = parseDecl()) {
             declarations.push_back(decl);
         }
         return declarations;
     }
 
-    tree::stmt_ptr Parser::parseVarDecl() {
+    ast::stmt_ptr Parser::parseVarDecl() {
         const auto & kind = peek();
 
 //        if (kind.type != TokenType::Const and kind.type != TokenType::Var and kind.type != TokenType::Val) {
@@ -255,15 +244,15 @@ namespace jc::parser {
         // TODO: Destructuring
         const auto & id = parseId();
 
-        tree::type_ptr type;
+        ast::type_ptr type;
         if (skipOpt(TokenType::Colon)) {
             type = parseType();
         }
 
-        return std::make_shared<tree::VarDecl>(kind, id, type);
+        return std::make_shared<ast::VarDecl>(kind, id, type);
     }
 
-    tree::stmt_ptr Parser::parseTypeDecl() {
+    ast::stmt_ptr Parser::parseTypeDecl() {
         const auto & loc = peek().loc;
 
         skip(TokenType::Type, false, true);
@@ -271,10 +260,10 @@ namespace jc::parser {
         const auto & id = parseId();
         const auto & type = parseType();
 
-        return std::make_shared<tree::TypeAlias>(id, type, loc);
+        return std::make_shared<ast::TypeAlias>(id, type, loc);
     }
 
-    tree::stmt_ptr Parser::parseFuncDecl(const tree::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
         const auto & loc = peek().loc;
 
         skip(TokenType::Func, false, true);
@@ -296,19 +285,29 @@ namespace jc::parser {
             skip(TokenType::RParen, true, true);
         }
 
-        tree::block_ptr body;
-        tree::expr_ptr oneLineBody;
-        if (peek().is(TokenType::DoubleArrow)) {
-            skipNLs(true);
-            oneLineBody = parseExpr();
-        } else {
-            body = parseBlock();
+        ast::type_ptr returnType{nullptr};
+        if (!isParen and skipOpt(TokenType::Arrow, true) or skipOpt(TokenType::Colon, true)) {
+            returnType = parseType();
         }
 
-        return std::make_shared<tree::FuncDecl>(attributes, modifiers, typeParams, params, id, body, oneLineBody, loc);
+        ast::block_ptr body;
+        ast::expr_ptr oneLineBody;
+        std::tie(body, oneLineBody) = parseBodyMaybeOneLine();
+
+        return std::make_shared<ast::FuncDecl>(
+            attributes,
+            modifiers,
+            typeParams,
+            id,
+            params,
+            returnType,
+            body,
+            oneLineBody,
+            loc
+        );
     }
 
-    tree::stmt_ptr Parser::parseClassDecl(const tree::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseClassDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
         const auto & loc = peek().loc;
 
         skip(TokenType::Class, false, true);
@@ -317,22 +316,22 @@ namespace jc::parser {
 
         const auto & typeParams = parseTypeParams();
 
-        tree::delegation_list delegations;
+        ast::delegation_list delegations;
         if (skipOpt(TokenType::Colon)) {
             delegations = parseDelegationList();
         }
 
         const auto & body = parseDeclList();
 
-        return std::make_shared<tree::ClassDecl>(attributes, modifiers, id, typeParams, delegations, body, loc);
+        return std::make_shared<ast::ClassDecl>(attributes, modifiers, id, typeParams, delegations, body, loc);
     }
 
-    tree::stmt_ptr Parser::parseImportStmt() {
+    ast::stmt_ptr Parser::parseImportStmt() {
         skip(TokenType::Import, false, true);
 
     }
 
-    tree::stmt_ptr Parser::parseObjectDecl(const tree::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
         const auto & loc = peek().loc;
 
         skip(TokenType::Object, false, true);
@@ -341,41 +340,43 @@ namespace jc::parser {
 
         skipNLs(true);
 
-        tree::delegation_list delegations;
+        ast::delegation_list delegations;
         if (skipOpt(TokenType::Colon, true)) {
             delegations = parseDelegationList();
         }
 
-        tree::stmt_list body;
+        ast::stmt_list body;
         if (is(TokenType::RBrace)) {
             body = parseDeclList();
         }
 
-        return std::make_shared<tree::ObjectDecl>(attributes, modifiers, id, delegations, body, loc);
+        return std::make_shared<ast::ObjectDecl>(attributes, modifiers, id, delegations, body, loc);
     }
 
-    tree::stmt_ptr Parser::parseEnumDecl(const tree::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
 
     }
 
-    tree::delegation_list Parser::parseDelegationList() {
-        tree::delegation_list delegations;
+    ast::delegation_list Parser::parseDelegationList() {
+        ast::delegation_list delegations;
 
         do {
             delegations.push_back(parseDelegation());
         } while (skipOpt(TokenType::Comma, true));
+
+        return delegations;
     }
 
-    tree::delegation_ptr Parser::parseDelegation() {
+    ast::delegation_ptr Parser::parseDelegation() {
 
     }
 
     // Expressions //
-    tree::expr_ptr Parser::parseExpr() {
+    ast::expr_ptr Parser::parseExpr() {
         return pipe();
     }
 
-    tree::expr_ptr Parser::pipe() {
+    ast::expr_ptr Parser::pipe() {
         auto lhs = disjunction();
 
         skipNLs(true);
@@ -388,7 +389,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::disjunction() {
+    ast::expr_ptr Parser::disjunction() {
         auto lhs = conjunction();
 
         skipNLs(true);
@@ -401,7 +402,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::conjunction() {
+    ast::expr_ptr Parser::conjunction() {
         auto lhs = bitOr();
 
         skipNLs(true);
@@ -414,7 +415,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::bitOr() {
+    ast::expr_ptr Parser::bitOr() {
         auto lhs = Xor();
 
         skipNLs(true);
@@ -427,7 +428,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::Xor() {
+    ast::expr_ptr Parser::Xor() {
         auto lhs = bitAnd();
 
         skipNLs(true);
@@ -440,7 +441,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::bitAnd() {
+    ast::expr_ptr Parser::bitAnd() {
         auto lhs = equality();
 
         skipNLs(true);
@@ -453,7 +454,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::equality() {
+    ast::expr_ptr Parser::equality() {
         auto lhs = comparison();
 
         skipNLs(true);
@@ -469,7 +470,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::comparison() {
+    ast::expr_ptr Parser::comparison() {
         auto lhs = spaceship();
 
         skipNLs(true);
@@ -485,7 +486,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::spaceship() {
+    ast::expr_ptr Parser::spaceship() {
         auto lhs = namedChecks();
 
         skipNLs(true);
@@ -498,7 +499,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::namedChecks() {
+    ast::expr_ptr Parser::namedChecks() {
         auto lhs = nullishCoalesce();
 
         skipNLs(true);
@@ -514,7 +515,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::nullishCoalesce() {
+    ast::expr_ptr Parser::nullishCoalesce() {
         auto lhs = shift();
 
         skipNLs(true);
@@ -527,7 +528,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::shift() {
+    ast::expr_ptr Parser::shift() {
         auto lhs = infix();
 
         skipNLs(true);
@@ -541,7 +542,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::infix() {
+    ast::expr_ptr Parser::infix() {
         auto lhs = range();
 
         skipNLs(true);
@@ -554,7 +555,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::range() {
+    ast::expr_ptr Parser::range() {
         auto lhs = add();
 
         skipNLs(true);
@@ -570,7 +571,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::add() {
+    ast::expr_ptr Parser::add() {
         auto lhs = mul();
 
         skipNLs(true);
@@ -584,7 +585,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::mul() {
+    ast::expr_ptr Parser::mul() {
         auto lhs = power();
 
         skipNLs(true);
@@ -599,7 +600,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::power() {
+    ast::expr_ptr Parser::power() {
         auto lhs = typeCast();
 
         skipNLs(true);
@@ -612,7 +613,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::typeCast() {
+    ast::expr_ptr Parser::typeCast() {
         auto lhs = prefix();
 
         skipNLs(true);
@@ -626,17 +627,17 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::prefix() {
+    ast::expr_ptr Parser::prefix() {
         if (skipOpt(TokenType::Not)
         or  skipOpt(TokenType::Sub)
         or  skipOpt(TokenType::Inv)) {
-            return std::make_shared<tree::Prefix>(lastToken, prefix()); // Right-assoc
+            return std::make_shared<ast::Prefix>(lastToken, prefix()); // Right-assoc
         }
 
         return postfix();
     }
 
-    tree::expr_ptr Parser::postfix() {
+    ast::expr_ptr Parser::postfix() {
         auto lhs = primary();
 
         skipNLs(true);
@@ -644,9 +645,9 @@ namespace jc::parser {
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
                 lhs = makeInfix(lhs, lastToken, primary());
             } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
-                lhs = std::make_shared<tree::Postfix>(lhs, lastToken);
+                lhs = std::make_shared<ast::Postfix>(lhs, lastToken);
             } else if (skipOpt(TokenType::LBracket)) {
-                tree::expr_list indices;
+                ast::expr_list indices;
 
                 bool first = true;
                 while (!eof()) {
@@ -665,9 +666,9 @@ namespace jc::parser {
                     }
                 }
 
-                lhs = std::make_shared<tree::Subscript>(lhs, indices);
+                lhs = std::make_shared<ast::Subscript>(lhs, indices);
             } else if (is(TokenType::LParen)) {
-                lhs = std::make_shared<tree::Invoke>(lhs, parseNamedList());
+                lhs = std::make_shared<ast::Invoke>(lhs, parseNamedList());
             } else {
                 break;
             }
@@ -676,7 +677,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    tree::expr_ptr Parser::primary() {
+    ast::expr_ptr Parser::primary() {
         if (peek().isLiteral()) {
             return parseLiteral();
         }
@@ -701,32 +702,36 @@ namespace jc::parser {
             return parseWhenExpr();
         }
 
+        if (is(TokenType::Loop)) {
+            return parseLoopExpr();
+        }
+
         expectedError("primary expression");
     }
 
-    tree::id_ptr Parser::parseId(bool skipNLs) {
+    ast::id_ptr Parser::parseId(bool skipNLs) {
         if (!is(TokenType::Id)) {
             expectedError("identifier");
         }
         skip(TokenType::Id, false, skipNLs);
-        return std::make_shared<tree::Identifier>(lastToken);
+        return std::make_shared<ast::Identifier>(lastToken);
     }
 
-    tree::literal_ptr Parser::parseLiteral() {
+    ast::literal_ptr Parser::parseLiteral() {
         if (!peek().isLiteral()) {
             expectedError("literal");
         }
         const auto & token = peek();
         advance();
-        return std::make_shared<tree::LiteralConstant>(token);
+        return std::make_shared<ast::LiteralConstant>(token);
     }
 
-    tree::expr_ptr Parser::parseListExpr() {
+    ast::expr_ptr Parser::parseListExpr() {
         const auto & loc = peek().loc;
 
         skip(TokenType::LBracket, false, true);
 
-        tree::expr_list elements;
+        ast::expr_list elements;
 
         bool first = true;
         while (!eof()) {
@@ -742,38 +747,38 @@ namespace jc::parser {
                 break;
             }
 
-            const auto & exprLoc = peek().loc;
+            const auto & spreadToken = peek();
             if (skipOpt(TokenType::Spread)) {
-                elements.push_back(std::make_shared<tree::SpreadExpr>(parseExpr(), exprLoc));
+                elements.push_back(std::make_shared<ast::SpreadExpr>(spreadToken, parseExpr()));
             } else {
                 elements.push_back(parseExpr());
             }
         }
 
-        return std::make_shared<tree::ListExpr>(elements, loc);
+        return std::make_shared<ast::ListExpr>(elements, loc);
     }
 
-    tree::expr_ptr Parser::parseTupleOrParenExpr() {
+    ast::expr_ptr Parser::parseTupleOrParenExpr() {
         const auto & loc = peek().loc;
 
         skip(TokenType::LParen, false, true);
 
         // Empty tuple
         if (skipOpt(TokenType::RParen)) {
-            return std::make_shared<tree::TupleExpr>({}, loc);
+            return std::make_shared<ast::UnitExpr>(loc);
         }
 
         const auto & firstExpr = parseExpr();
 
         // Parenthesized expression
         if (is(TokenType::RParen)) {
-            return std::make_shared<tree::ParenExpr>(firstExpr);
+            return std::make_shared<ast::ParenExpr>(firstExpr);
         }
 
-        tree::named_el_list namedElements;
+        ast::named_el_list namedList;
 
         // Add first element (expression)
-        namedElements.push_back({nullptr, firstExpr});
+        namedList.push_back(std::make_shared<ast::NamedElement>(nullptr, firstExpr));
 
         bool first = true;
         while (!eof()) {
@@ -785,13 +790,13 @@ namespace jc::parser {
             }
 
             const auto & expr = parseExpr();
-            tree::id_ptr id = nullptr;
-            tree::expr_ptr value = nullptr;
+            ast::id_ptr id = nullptr;
+            ast::expr_ptr value = nullptr;
             skipNLs(true);
 
             // Named element case like (name: value)
-            if (expr->is(tree::ExprType::Id) and skipOpt(TokenType::Colon)) {
-                id = tree::Expr::as<tree::Identifier>(expr);
+            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Colon)) {
+                id = ast::Expr::as<ast::Identifier>(expr);
                 value = parseExpr();
             } else {
                 value = expr;
@@ -802,13 +807,13 @@ namespace jc::parser {
             }
         }
 
-        return std::make_shared<tree::TupleExpr>(namedElements, loc);
+        return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
 
     //////////////////////////////
     // Control-flow expressions //
     //////////////////////////////
-    tree::expr_ptr Parser::parseIfExpr() {
+    ast::expr_ptr Parser::parseIfExpr() {
         const auto & loc = peek().loc;
 
         skip(TokenType::If, false, true);
@@ -821,16 +826,26 @@ namespace jc::parser {
         }
 
         const auto & ifBranch = parseBlock();
-        tree::block_ptr elseBranch = nullptr;
+        ast::block_ptr elseBranch = nullptr;
 
         if (skipOpt(TokenType::Else)) {
             elseBranch = parseBlock();
         }
 
-        return std::make_shared<tree::IfExpr>(condition, ifBranch, elseBranch, loc);
+        return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
     }
 
-    tree::expr_ptr Parser::parseWhenExpr() {
+    ast::expr_ptr Parser::parseLoopExpr() {
+        const auto & loc = peek().loc;
+
+        skip(TokenType::Loop, false, true);
+
+        const auto & body = parseBlock();
+
+        return std::make_shared<ast::LoopExpr>(body, loc);
+    }
+
+    ast::expr_ptr Parser::parseWhenExpr() {
         const auto & loc = peek().loc;
 
         skip(TokenType::When, false, true);
@@ -845,7 +860,7 @@ namespace jc::parser {
 
         skip(TokenType::LBrace, true, true);
 
-        tree::when_entry_list entries;
+        ast::when_entry_list entries;
         bool first = true;
         while (!eof()) {
             if (first) {
@@ -864,10 +879,10 @@ namespace jc::parser {
         skip(TokenType::RBrace, true, true);
     }
 
-    tree::when_entry_ptr Parser::parseWhenEntry() {
+    ast::when_entry_ptr Parser::parseWhenEntry() {
         const auto & loc = peek().loc;
 
-        tree::expr_list conditions;
+        ast::expr_list conditions;
 
         bool first = true;
         while (!eof()) {
@@ -888,28 +903,28 @@ namespace jc::parser {
 
         skip(TokenType::DoubleArrow, true, true);
 
-        tree::block_ptr body{nullptr};
-        tree::expr_ptr oneLineBody{nullptr};
+        ast::block_ptr body{nullptr};
+        ast::expr_ptr oneLineBody{nullptr};
         if (is(TokenType::LBrace)) {
             body = parseBlock();
         } else {
             oneLineBody = parseExpr();
         }
 
-        return std::make_shared<tree::WhenEntry>(conditions, body, oneLineBody, loc);
+        return std::make_shared<ast::WhenEntry>(conditions, body, oneLineBody, loc);
     }
 
     ///////////////
     // Fragments //
     ///////////////
-    tree::block_ptr Parser::parseBlock() {
+    ast::block_ptr Parser::parseBlock() {
         bool allowOneLine = false;
 
         if (skipOpt(TokenType::DoubleArrow, true) or skipNLs(true)) {
             allowOneLine = true;
         }
 
-        tree::block_ptr block;
+        ast::block_ptr block;
         if (skipOpt(TokenType::LBrace, true)) {
             bool first = true;
             while (!eof()) {
@@ -932,15 +947,29 @@ namespace jc::parser {
         }
     }
 
-    tree::attr_list Parser::parseAttributes() {
-        tree::attr_list attributes;
-        while (tree::attr_ptr attr = parseAttr()) {
+    std::tuple<ast::block_ptr, ast::expr_ptr> Parser::parseBodyMaybeOneLine() {
+        ast::block_ptr body;
+        ast::expr_ptr oneLineBody;
+
+        if (peek().is(TokenType::DoubleArrow)) {
+            skipNLs(true);
+            oneLineBody = parseExpr();
+        } else {
+            body = parseBlock();
+        }
+
+        return {body, oneLineBody};
+    }
+
+    ast::attr_list Parser::parseAttributes() {
+        ast::attr_list attributes;
+        while (ast::attr_ptr attr = parseAttr()) {
             attributes.push_back(attr);
         }
         return attributes;
     }
 
-    tree::attr_ptr Parser::parseAttr() {
+    ast::attr_ptr Parser::parseAttr() {
         const auto & loc = peek().loc;
         if (!skipOpt(TokenType::At_WWS)) {
             return nullptr;
@@ -949,15 +978,15 @@ namespace jc::parser {
         const auto & id = parseId();
         const auto & params = parseNamedList();
 
-        return std::make_shared<tree::Attribute>(id, params, loc);
+        return std::make_shared<ast::Attribute>(id, params, loc);
     }
 
-    tree::named_list_ptr Parser::parseNamedList() {
+    ast::named_list_ptr Parser::parseNamedList() {
         const auto & loc = peek().loc;
 
         skip(TokenType::LParen, false, true);
 
-        tree::named_el_list namedList;
+        ast::named_el_list namedList;
 
         bool first = true;
         while (!eof()) {
@@ -973,82 +1002,132 @@ namespace jc::parser {
                 break;
             }
 
-            tree::id_ptr id = nullptr;
-            tree::expr_ptr value = nullptr;
+            ast::id_ptr id = nullptr;
+            ast::expr_ptr value = nullptr;
 
             const auto & expr = parseExpr();
 
             skipNLs(true);
 
-            if (expr->is(tree::ExprType::Id) and skipOpt(TokenType::Assign)) {
-                id = tree::Expr::as<tree::Identifier>(expr);
+            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign)) {
+                id = ast::Expr::as<ast::Identifier>(expr);
                 value = parseExpr();
             } else {
                 value = expr;
             }
         }
 
-        return std::make_shared<tree::NamedList>(namedList, loc);
+        return std::make_shared<ast::NamedList>(namedList, loc);
     }
 
     parser::token_list Parser::parseModifiers() {
 
     }
 
-    tree::func_param_list Parser::parseFuncParams() {
+    ast::func_param_list Parser::parseFuncParams() {
 
     }
 
     ///////////
     // Types //
     ///////////
-    tree::type_ptr Parser::parseType() {
+    ast::type_ptr Parser::parseType() {
         const auto & loc = peek().loc;
 
         // List type
         if (skipOpt(TokenType::LBracket, true)) {
-            auto listType = std::make_shared<tree::ListType>(parseType(), loc);
+            auto listType = std::make_shared<ast::ListType>(parseType(), loc);
             skip(TokenType::RBracket, true, true);
             return listType;
         }
 
-        tree::type_ptr lhs;
+        ast::type_ptr lhs;
+
+        if (is(TokenType::Id)) {
+            return parseIdType();
+        }
 
         bool allowFuncType;
-        tree::tuple_t_el_list tupleElements;
+        ast::tuple_t_el_list tupleElements;
         bool isParen = false;
         if (is(TokenType::LParen)) {
             std::tie(allowFuncType, tupleElements) = parseParenType();
+
+            if (tupleElements.size() == 1
+            and tupleElements.at(0)->id
+            and tupleElements.at(0)->type) {
+                // TODO
+                // ERROR: Cannot declare single-element tuple type
+            }
+
             isParen = true; // Just to be sure :)
         }
 
         if (isParen and skipOpt(TokenType::Arrow, true)) {
+            // Function type case
+
             if (!allowFuncType) {
                 // Note: We don't ignore `->` if !allowFuncType
                 //  'cause we want to check for problem like (name: string) -> type
                 // ERROR: Invalid parameter list for function type
             }
 
-            tree::type_list params;
+            ast::type_list params;
             for (const auto & tupleEl : tupleElements) {
                 params.push_back(tupleEl->type);
             }
 
             const auto & returnType = parseType();
 
-            return std::make_shared<tree::FuncType>(params, returnType, loc);
+            return std::make_shared<ast::FuncType>(params, returnType, loc);
         } else if (isParen) {
-            return std::make_shared<tree::TupleType>(tupleElements, loc);
+            if (tupleElements.empty()) {
+                return std::make_shared<ast::UnitType>(loc);
+            } else if (tupleElements.size() == 1 and !tupleElements.at(0)->id and tupleElements.at(0)->type) {
+                return std::make_shared<ast::ParenType>(tupleElements.at(0)->type, loc);
+            }
+            return std::make_shared<ast::TupleType>(tupleElements, loc);
         } else {
             return lhs;
         }
     }
 
-    std::tuple<bool, tree::tuple_t_el_list> Parser::parseParenType() {
+    ast::type_ptr Parser::parseIdType() {
+        const auto & loc = peek().loc;
+
+        ast::id_t_list ids;
+
+        bool first = true;
+        while (!eof()) {
+            if (!is(TokenType::Id)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenType::Dot, true, true);
+            }
+
+            const auto & id = parseId(true);
+            ast::type_param_list typeParams = parseTypeParams();
+            ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
+        }
+
+        return std::make_shared<ast::RefType>(ids, loc);
+    }
+
+    std::tuple<bool, ast::tuple_t_el_list> Parser::parseParenType() {
+        const auto & loc = peek().loc;
+
         skip(TokenType::LParen, false, true);
 
+        if (skipOpt(TokenType::RParen)) {
+            return {true, {}};
+        }
+
         bool allowFuncType = true;
-        tree::tuple_t_el_list tupleElements;
+        ast::tuple_t_el_list tupleElements;
 
         bool first = true;
         while (!eof()) {
@@ -1056,30 +1135,18 @@ namespace jc::parser {
                 break;
             }
 
-            tree::id_ptr id{nullptr};
+            ast::id_ptr id{nullptr};
             if (is(TokenType::Id)) {
                 id = parseId(true);
             }
 
-            tree::type_ptr type{nullptr};
+            ast::type_ptr type{nullptr};
             if (id and is(TokenType::Colon)) {
                 // Named tuple element case
                 allowFuncType = false;
                 type = parseType();
             } else {
-                if (id) {
-                    // TODO
-                    // ERROR: Cannot declare single-element named tuple type
-                }
-
-                // Parenthesized type case
                 type = parseType();
-
-                // Note: Some strange hack, this can be either just a parenthesized type
-                //  either single param function type beginning
-                tupleElements.push_back(
-                    std::make_shared<tree::TupleTypeElement>(nullptr, std::make_shared<tree::ParenType>(type))
-                );
             }
 
             if (first) {
@@ -1088,23 +1155,19 @@ namespace jc::parser {
                 skip(TokenType::Comma, true, true);
             }
 
-            if (skipOpt(TokenType::RParen)) {
-                break;
-            }
-
-            tupleElements.push_back(std::make_shared<tree::TupleTypeElement>(id, type));
+            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type));
         }
 
-        return std::tuple<bool, tree::tuple_t_el_list>(allowFuncType, tupleElements);
+        return std::tuple<bool, ast::tuple_t_el_list>(allowFuncType, tupleElements);
     }
 
-    tree::type_param_list Parser::parseTypeParams() {
+    ast::type_param_list Parser::parseTypeParams() {
         if (!is(TokenType::LAngle)) {
             return {};
         }
 
         const auto & loc = peek().loc;
-        tree::type_param_list typeParams;
+        ast::type_param_list typeParams;
 
         bool first = true;
         while (!eof()) {
@@ -1122,12 +1185,12 @@ namespace jc::parser {
 
             skipNLs(true);
 
-            tree::type_ptr type;
+            ast::type_ptr type;
             if (is(TokenType::Colon)) {
                 type = parseType();
             }
 
-            typeParams.push_back(std::make_shared<tree::TypeParam>(id, type));
+            typeParams.push_back(std::make_shared<ast::TypeParam>(id, type));
         }
 
         return typeParams;

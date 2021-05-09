@@ -2,6 +2,7 @@
   <dictionary name="PYJOHN">
     <words>
       <w>antlr</w>
+      <w>astprinter</w>
       <w>basevisitor</w>
       <w>boolliteral</w>
       <w>breakexpr</w>
@@ -12,6 +13,8 @@
       <w>controlstructbody</w>
       <w>decl</w>
       <w>delegationlist</w>
+      <w>deps</w>
+      <w>devconfig</w>
       <w>dowhilestmt</w>
       <w>elif</w>
       <w>enumdecl</w>
@@ -27,6 +30,7 @@
       <w>langle</w>
       <w>listexpr</w>
       <w>literalconstant</w>
+      <w>loopexpr</w>
       <w>mult</w>
       <w>namedlist</w>
       <w>nullish</w>
@@ -34,6 +38,7 @@
       <w>objectdecl</w>
       <w>parenexpr</w>
       <w>rangle</w>
+      <w>repl</w>
       <w>returnexpr</w>
       <w>spreadexpr</w>
       <w>stmts</w>
@@ -48,6 +53,7 @@
       <w>typealias</w>
       <w>typeparameters</w>
       <w>typeparams</w>
+      <w>unitexpr</w>
       <w>vardecl</w>
       <w>whenexpr</w>
       <w>whilestmt</w>

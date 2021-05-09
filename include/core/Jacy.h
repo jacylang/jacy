@@ -8,21 +8,13 @@
 #include <sstream>
 
 #include "common/Error.h"
-#include "utils/string.h"
+#include "utils/str.h"
 #include "parser/Lexer.h"
+#include "parser/Parser.h"
+#include "ast/AstPrinter.h"
+#include "cli/CLI.h"
 
 namespace jc::core {
-    struct CLIError : common::Error {
-        explicit CLIError(const std::string & msg) : Error(msg) {}
-    };
-
-    struct Settings {
-        enum class Mode {
-            Repl,
-            Source,
-        } mode;
-    };
-
     class Jacy {
     public:
         Jacy();
@@ -33,14 +25,12 @@ namespace jc::core {
         void runSource();
         void runCode(const std::string & code);
     private:
-        Settings settings;
-        std::string mainFile;
-
-        void applyArgs(int argc, const char ** argv);
-
-        static std::vector<std::string> allowedExtensions;
+        common::Logger log{"jacy", {}};
+        cli::CLI cli;
 
         parser::Lexer lexer;
+        parser::Parser parser;
+        ast::AstPrinter astPrinter;
     };
 }
 

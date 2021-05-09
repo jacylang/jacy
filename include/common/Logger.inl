@@ -1,6 +1,5 @@
 #include "Logger.h"
 
-
 template<class ...Args>
 void Logger::verbose(Args && ...args) {
     log(LogLevel::Verbose, args...);
@@ -26,22 +25,50 @@ void Logger::error(Args && ...args) {
     log(LogLevel::Error, args...);
 }
 
+template<class ...Args>
+void Logger::dev(Args && ...args) {
+    log(LogLevel::Dev, args...);
+}
+
+template<class Arg, class ...Args>
+Logger & Logger::raw(Arg && first, Args && ...other) {
+    std::cout << std::forward<Arg>(first);
+    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+    return *this;
+}
+
+template<class Arg, class ...Args>
+void Logger::colorized(Color color, Arg && first, Args && ...other) {
+    std::cout << colors.at(color); // Not putting it to `raw`, because it will be prefixed with white-space
+    raw(first, other..., ansiReset).nl();
+}
+
+template<class Arg, class ...Args>
+std::string Logger::format(Arg && first, Args && ...other) {
+    std::stringstream ss;
+    ss << first;
+    ((ss << other), ...);
+    return ss.str();
+}
+
 template<class Arg, class ...Args>
 void Logger::log(LogLevel level, Arg && first, Args && ...other) {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return;
     }
 
-    if (config.logOwner) {
+    const auto & dev = level == LogLevel::Dev;
+
+    if (config.printOwner or dev) {
         std::cout << owner << " ";
     }
 
-    if (config.logLevel) {
-        if (config.colorize) {
+    if (config.printLevel or dev) {
+        if (config.colorize or dev) {
             std::cout << colors.at(levelColors.at(level));
         }
         std::cout << levelNames.at(level) << ": ";
-        if (config.colorize) {
+        if (config.colorize or dev) {
             std::cout << Logger::ansiReset;
         }
     }
@@ -50,5 +77,5 @@ void Logger::log(LogLevel level, Arg && first, Args && ...other) {
 
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
 
-    std::cout << std::endl;
+    nl();
 }

@@ -7,6 +7,7 @@ namespace jc::common {
         {LogLevel::Info, "info"},
         {LogLevel::Warn, "warn"},
         {LogLevel::Error, "error"},
+        {LogLevel::Dev, "[DEV]"}
     };
 
     const std::map<LogLevel, Color> Logger::levelColors = {
@@ -15,6 +16,7 @@ namespace jc::common {
         {LogLevel::Info, Color::Green},
         {LogLevel::Warn, Color::Yellow},
         {LogLevel::Error, Color::Red},
+        {LogLevel::Dev, Color::Magenta},
     };
 
     const std::map<Color, std::string> Logger::colors = {
@@ -27,5 +29,4 @@ namespace jc::common {
     };
 
     const std::string Logger::ansiReset = "\033[1;0m";
-
 }

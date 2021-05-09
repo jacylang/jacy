@@ -7,7 +7,7 @@
 #include <map>
 #include <algorithm>
 
-#include "utils/array.h"
+#include "utils/arr.h"
 
 /**
  * WWS means Without whitespace
@@ -127,6 +127,7 @@ namespace jc::parser {
         NotIn,
         Infix,
         Is,
+        Loop,
         NotIs,
         Null,
         Object,

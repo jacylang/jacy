@@ -1,0 +1,47 @@
+#ifndef JACY_WHENEXPR_H
+#define JACY_WHENEXPR_H
+
+#include "ast/expr/Expr.h"
+#include "ast/fragments/Block.h"
+
+namespace jc::ast {
+    struct WhenEntry;
+    using when_entry_ptr = std::shared_ptr<WhenEntry>;
+    using when_entry_list = std::vector<when_entry_ptr>;
+
+    struct WhenEntry : Node {
+        WhenEntry(
+            expr_list conditions,
+            block_ptr body,
+            expr_ptr oneLineBody,
+            const Location & loc
+        ) : conditions(conditions),
+            body(body),
+            oneLineBody(oneLineBody),
+            Node(loc) {}
+
+        // TODO: Complex prefix conditions like `in lhs`
+        expr_list conditions;
+        block_ptr body;
+        expr_ptr oneLineBody;
+    };
+
+    struct WhenExpr : Expr {
+        WhenExpr(
+            expr_ptr subject,
+            when_entry_list entries,
+            const Location & loc
+        ) : subject(subject),
+            entries(entries),
+            Expr(loc, ExprType::When) {}
+
+        expr_ptr subject;
+        when_entry_list entries;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
+    };
+}
+
+#endif //JACY_WHENEXPR_H

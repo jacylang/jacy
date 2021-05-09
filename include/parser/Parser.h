@@ -5,12 +5,12 @@
 
 #include "common/Logger.h"
 #include "Token.h"
-#include "tree/nodes.h"
+#include "ast/nodes.h"
 #include "common/common.h"
 #include "common/Error.h"
 
 namespace jc::parser {
-    using tree::makeInfix;
+    using ast::makeInfix;
 
     struct ParserError : common::Error {
         explicit ParserError(const std::string & msg) : Error(msg) {}
@@ -30,14 +30,14 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        tree::stmt_list parse(const token_list & tokens);
+        ast::stmt_list parse(const token_list & tokens);
     private:
         common::Logger log{"parser", {}};
 
         token_list tokens;
         size_t index;
 
-        tree::stmt_list tree;
+        ast::stmt_list tree;
 
         const Token & peek() const;
         const Token & advance();
@@ -56,84 +56,86 @@ namespace jc::parser {
         bool skipOpt(TokenType type, bool skipRightNLs = false);
 
         // States //
-        tree::attr_list attributes{};
+        ast::attr_list attributes{};
         parser::Token lastToken; // Last non-NL token
 
     private:
-        tree::stmt_ptr parseTopLevel();
+        ast::stmt_ptr parseTopLevel();
 
-        tree::stmt_ptr parseStmt(bool optionalStmtOnly = true);
+        ast::stmt_ptr parseStmt(bool optionalStmtOnly = true);
 
         // Control-flow statements //
     private:
-        tree::stmt_ptr parseDoWhileStmt();
-        tree::stmt_ptr parseWhileStmt();
-        tree::stmt_ptr parseForStmt();
+        ast::stmt_ptr parseWhileStmt();
+        ast::stmt_ptr parseForStmt();
 
         // Declarations //
     private:
-        tree::stmt_ptr parseDecl(bool optional = false);
-        tree::stmt_list parseDeclList();
+        ast::stmt_ptr parseDecl(bool optional = false);
+        ast::stmt_list parseDeclList();
 
-        tree::stmt_ptr parseVarDecl();
-        tree::stmt_ptr parseTypeDecl();
-        tree::stmt_ptr parseFuncDecl(const tree::attr_list & attributes, const parser::token_list & modifiers);
-        tree::stmt_ptr parseClassDecl(const tree::attr_list & attributes, const parser::token_list & modifiers);
-        tree::stmt_ptr parseObjectDecl(const tree::attr_list & attributes, const parser::token_list & modifiers);
-        tree::stmt_ptr parseEnumDecl(const tree::attr_list & attributes, const parser::token_list & modifiers);
+        ast::stmt_ptr parseVarDecl();
+        ast::stmt_ptr parseTypeDecl();
+        ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
+        ast::stmt_ptr parseClassDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
+        ast::stmt_ptr parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
+        ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
 
-        tree::delegation_list parseDelegationList();
-        tree::delegation_ptr parseDelegation();
+        ast::delegation_list parseDelegationList();
+        ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        tree::expr_ptr parseExpr();
-        tree::expr_ptr pipe();
-        tree::expr_ptr disjunction();
-        tree::expr_ptr conjunction();
-        tree::expr_ptr bitOr();
-        tree::expr_ptr Xor();
-        tree::expr_ptr bitAnd();
-        tree::expr_ptr equality();
-        tree::expr_ptr comparison();
-        tree::expr_ptr spaceship();
-        tree::expr_ptr namedChecks();
-        tree::expr_ptr nullishCoalesce();
-        tree::expr_ptr shift();
-        tree::expr_ptr infix();
-        tree::expr_ptr range();
-        tree::expr_ptr add();
-        tree::expr_ptr mul();
-        tree::expr_ptr power();
-        tree::expr_ptr typeCast();
-        tree::expr_ptr prefix();
-        tree::expr_ptr postfix();
-        tree::expr_ptr primary();
+        ast::expr_ptr parseExpr();
+        ast::expr_ptr pipe();
+        ast::expr_ptr disjunction();
+        ast::expr_ptr conjunction();
+        ast::expr_ptr bitOr();
+        ast::expr_ptr Xor();
+        ast::expr_ptr bitAnd();
+        ast::expr_ptr equality();
+        ast::expr_ptr comparison();
+        ast::expr_ptr spaceship();
+        ast::expr_ptr namedChecks();
+        ast::expr_ptr nullishCoalesce();
+        ast::expr_ptr shift();
+        ast::expr_ptr infix();
+        ast::expr_ptr range();
+        ast::expr_ptr add();
+        ast::expr_ptr mul();
+        ast::expr_ptr power();
+        ast::expr_ptr typeCast();
+        ast::expr_ptr prefix();
+        ast::expr_ptr postfix();
+        ast::expr_ptr primary();
 
-        tree::id_ptr parseId(bool skipNLs = false);
-        tree::literal_ptr parseLiteral();
-        tree::expr_ptr parseListExpr();
-        tree::expr_ptr parseTupleOrParenExpr();
+        ast::id_ptr parseId(bool skipNLs = false);
+        ast::literal_ptr parseLiteral();
+        ast::expr_ptr parseListExpr();
+        ast::expr_ptr parseTupleOrParenExpr();
 
         // Control-flow expressions //
-        tree::expr_ptr parseIfExpr();
-        tree::expr_ptr parseWhenExpr();
-        tree::when_entry_ptr parseWhenEntry();
+        ast::expr_ptr parseIfExpr();
+        ast::expr_ptr parseLoopExpr();
+        ast::expr_ptr parseWhenExpr();
+        ast::when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        tree::block_ptr parseBlock();
-        tree::attr_list parseAttributes();
-        tree::attr_ptr parseAttr();
-        tree::named_list_ptr parseNamedList();
+        ast::block_ptr parseBlock();
+        std::tuple<ast::block_ptr, ast::expr_ptr> parseBodyMaybeOneLine();
+        ast::attr_list parseAttributes();
+        ast::attr_ptr parseAttr();
+        ast::named_list_ptr parseNamedList();
         parser::token_list parseModifiers();
-        tree::func_param_list parseFuncParams();
+        ast::func_param_list parseFuncParams();
 
         // Modules //
-        tree::stmt_ptr parseImportStmt();
+        ast::stmt_ptr parseImportStmt();
 
         // Types //
-        tree::type_ptr parseType();
-        std::tuple<bool, tree::tuple_t_el_list> parseParenType();
-        tree::type_param_list parseTypeParams();
+        ast::type_ptr parseType();
+        ast::type_ptr parseIdType();
+        std::tuple<bool, ast::tuple_t_el_list> parseParenType();
+        ast::type_param_list parseTypeParams();
 
         // Errors //
         void unexpectedError();

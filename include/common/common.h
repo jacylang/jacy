@@ -1,4 +1,4 @@
-#ifndef JACY_ARRAY_H
+#ifndef JACY_ARR_H
 #define JACY_COMMON_H
 
 namespace jc::common {
@@ -9,4 +9,4 @@ namespace jc::common {
     };
 }
 
-#endif // JACY_ARRAY_H
+#endif // JACY_ARR_H
