@@ -28,8 +28,15 @@ namespace jc::sugg {
         SuggKind kind;
         eid_t eid{NoneEID}; // Explanation ID, -1 if no exists
 
-        Suggestion(const Span & span, SuggKind kind, eid_t eid = -1)
+        Suggestion(const Span & span, SuggKind kind, eid_t eid = NoneEID)
             : kind(kind), span(span), eid(eid) {}
+    };
+
+    struct MsgSugg : Suggestion {
+        MsgSugg(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
+            : msg(msg), Suggestion(span, kind, eid) {}
+
+        const std::string msg;
     };
 }
 

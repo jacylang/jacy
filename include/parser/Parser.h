@@ -152,8 +152,8 @@ namespace jc::parser {
     private:
         session::sess_ptr sess;
         bool hasErrorSuggestions{false};
-        std::vector<ParserSugg> suggestions;
-        void suggest(const ParserSugg & suggestion);
+        std::vector<sugg::Suggestion> suggestions;
+        void suggest(const sugg::Suggestion & suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
 

@@ -4,6 +4,10 @@
 #include "explain/Suggestion.h"
 #include "common/Logger.h"
 
+/**
+ * Note: these suggestions can be used only on parser-level
+ */
+
 namespace jc::parser {
     using span::Span;
     using sugg::SuggKind;
@@ -17,9 +21,10 @@ namespace jc::parser {
             : Suggestion(span, kind, eid) {}
     };
 
-    struct MsgSugg : ParserSugg {
-        MsgSugg(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : msg(msg), ParserSugg(span, kind, eid) {}
+    /// @brief Error-hard-coded message suggestion for parsing errors
+    struct ParseErrSugg : ParserSugg {
+        ParseErrSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
+            : msg(msg), ParserSugg(span, SuggKind::Error, eid) {}
 
         const std::string msg;
     };

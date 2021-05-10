@@ -221,7 +221,7 @@ namespace jc::parser {
             TokenType::In,
             true,
             true,
-            MsgSugg("Missing `in` in `for` loop, put it here", cspan(), sugg::SuggKind::Error)
+            ParseErrSugg("Missing `in` in `for` loop, put it here", cspan())
         );
 
         const auto & inExpr = parseExpr();
@@ -783,7 +783,7 @@ namespace jc::parser {
                             TokenType::Comma,
                             true,
                             true,
-                            MsgSugg("Missing `,` separator in subscript operator call", cspan(), sugg::SuggKind::Error)
+                            ParseErrSugg("Missing `,` separator in subscript operator call", cspan())
                         );
                     }
 
@@ -880,7 +880,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator in list expression", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator in list expression", cspan())
                 );
             }
 
@@ -933,7 +933,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator in tuple literal", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator in tuple literal", cspan())
                 );
             }
 
@@ -1050,7 +1050,7 @@ namespace jc::parser {
             TokenType::LBrace,
             true,
             true,
-            MsgSugg("To start `when` body put `{` here or `;` to ignore body", cspan(), sugg::SuggKind::Error)
+            ParseErrSugg("To start `when` body put `{` here or `;` to ignore body", cspan())
         );
 
         ast::when_entry_list entries;
@@ -1073,7 +1073,7 @@ namespace jc::parser {
             TokenType::RBrace,
             true,
             true,
-            MsgSugg("Missing closing `}` at the end of `when` body", cspan(), sugg::SuggKind::Error)
+            ParseErrSugg("Missing closing `}` at the end of `when` body", cspan())
         );
 
         return std::make_shared<ast::WhenExpr>(subject, entries, loc);
@@ -1095,7 +1095,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` delimiter between when expression entries", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` delimiter between when expression entries", cspan())
                 );
             }
 
@@ -1112,7 +1112,7 @@ namespace jc::parser {
             TokenType::DoubleArrow,
             true,
             true,
-            MsgSugg("Expected `=>` after `when` entry conditions", cspan(), sugg::SuggKind::Error)
+            ParseErrSugg("Expected `=>` after `when` entry conditions", cspan())
         );
 
         ast::block_ptr body{nullptr};
@@ -1158,10 +1158,9 @@ namespace jc::parser {
             block->stmts.push_back(parseStmt());
         } else {
             suggest(
-                MsgSugg(
+                ParseErrSugg(
                     "Likely you meant to put a '=>', start body from new line or enclose body in `{}`",
-                    cspan(),
-                    sugg::SuggKind::Error
+                    cspan()
                 )
             );
         }
@@ -1229,7 +1228,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator between elements", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator between elements", cspan())
                 );
             }
 
@@ -1285,7 +1284,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator in tuple literal", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator in tuple literal", cspan())
                 );
             }
 
@@ -1304,10 +1303,9 @@ namespace jc::parser {
             TokenType::Colon,
             true,
             true,
-            MsgSugg(
+            ParseErrSugg(
                 "`func` parameters without type are not allowed, please put `:` here and specify type",
-                cspan(),
-                sugg::SuggKind::Error
+                cspan()
             )
         );
 
@@ -1336,7 +1334,7 @@ namespace jc::parser {
                 TokenType::RBracket,
                 true,
                 true,
-                MsgSugg("Missing closing `]` at the end of list type", cspan(), sugg::SuggKind::Error)
+                ParseErrSugg("Missing closing `]` at the end of list type", cspan())
             );
             return listType;
         }
@@ -1461,7 +1459,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator in tuple type", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator in tuple type", cspan())
                 );
             }
 
@@ -1490,7 +1488,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    MsgSugg("Missing `,` separator between type parameters", cspan(), sugg::SuggKind::Error)
+                    ParseErrSugg("Missing `,` separator between type parameters", cspan())
                 );
             }
 
@@ -1514,12 +1512,12 @@ namespace jc::parser {
     }
 
     // Suggestions //
-    void Parser::suggest(const ParserSugg & suggestion) {
+    void Parser::suggest(const sugg::Suggestion & suggestion) {
         suggestions.emplace_back(suggestion);
     }
 
     void Parser::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
-        suggest(MsgSugg{msg, span, kind, eid});
+        suggest(sugg::MsgSugg{msg, span, kind, eid});
     }
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
