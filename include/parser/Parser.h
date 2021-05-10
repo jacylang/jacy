@@ -61,27 +61,27 @@ namespace jc::parser {
             bool skipRightNLs,
             const ParserSugg & suggestion
         );
+        void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         bool skipOpt(TokenType type, bool skipRightNLs = false);
 
         // States //
+    private:
         ast::attr_list attributes{};
         parser::Token lastToken; // Last non-NL token
 
+        // Parsers //
     private:
         ast::stmt_ptr parseTopLevel();
 
         ast::stmt_ptr parseStmt();
 
         // Control-flow statements //
-    private:
         ast::stmt_ptr parseWhileStmt();
         ast::stmt_ptr parseForStmt();
 
         // Declarations //
-    private:
         ast::stmt_ptr parseDecl();
         ast::stmt_list parseDeclList();
-
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
         ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
@@ -89,6 +89,7 @@ namespace jc::parser {
         ast::stmt_ptr parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
         ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
 
+        // Delegations //
         ast::delegation_list parseDelegationList();
         ast::delegation_ptr parseDelegation();
 
@@ -116,6 +117,7 @@ namespace jc::parser {
         ast::expr_ptr postfix();
         ast::expr_ptr primary();
 
+        // Atomic expressions //
         ast::id_ptr parseId(bool skipNLs = false);
         ast::literal_ptr parseLiteral();
         ast::expr_ptr parseListExpr();

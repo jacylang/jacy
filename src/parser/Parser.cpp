@@ -63,6 +63,21 @@ namespace jc::parser {
             return;
         }
 
+        // FIXME: Undefined behavior because lastToken might be not reset
+        lastToken = peek();
+        advance();
+
+        if (skipRightNLs) {
+            skipNLs(true);
+        }
+    }
+
+    void Parser::justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn) {
+        if(not peek().is(type)) {
+            devPanic(common::Logger::format("[bug] Expected ", expected, "in", panicIn));
+        }
+
+        // FIXME
         lastToken = peek();
         advance();
 
@@ -153,18 +168,13 @@ namespace jc::parser {
         logParse("WhileStmt");
         const auto & loc = peek().loc;
 
-        skip(
-            TokenType::While,
-            false,
-            true,
-            BuggySkipSugg{"'while' keyword", "parseWhileStmt", cspan()}
-        );
+        justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
         const auto & maybeParenToken = peek();
         const bool isParen = maybeParenToken.is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, false, true, BuggySkipSugg{"'('", "parseWhileStmt -> isParen", cspan()});
+            justSkip(TokenType::LParen, true, "`(`", "`parseWhileStmt` -> `isParen`");
         }
 
         const auto & condition = parseExpr();
@@ -175,8 +185,8 @@ namespace jc::parser {
                 true,
                 true,
                 MsgSpanLinkSugg(
-                    "Expected closing ')' after while condition", cspan(),
-                    "Condition starts here", maybeParenToken.span(sess),
+                    "Missing closing `)` after `while` condition", cspan(),
+                    "`while` condition starts here", maybeParenToken.span(sess),
                     sugg::SuggKind::Error
                 )
             );
@@ -194,26 +204,43 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::For, false, true, "[bug] 'for' keyword");
+        justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
-        const bool isParen = peek().is(TokenType::LParen);
+        const auto & maybeParenToken = peek();
+        const bool isParen = maybeParenToken.is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, false, true, "[bug] '(' after 'for'");
+            justSkip(TokenType::LParen, true, "`(`", "`parseForStmt` -> `isParen`");
         }
 
-        // TODO: Any variable declaration
+        // TODO: Destructuring
         const auto & forEntity = parseId();
 
-        skip(TokenType::In, true, true, "'in'");
+        skip(
+            TokenType::In,
+            true,
+            true,
+            MsgSugg("Missing `in` in `for` loop, put it here", cspan(), sugg::SuggKind::Error)
+        );
 
         const auto & inExpr = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true, "')' in for-expression");
+            skip(
+                TokenType::RParen,
+                true,
+                true,
+                MsgSpanLinkSugg(
+                    "Missing closing `)` after `for` loop header", cspan(),
+                    "Header starts here", maybeParenToken.span(sess),
+                    sugg::SuggKind::Error
+                )
+            );
         }
 
         const auto & body = parseBlock();
+
+        // TODO!: "Remove parentheses" suggestion
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -289,7 +316,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Type, false, true, buggySkip("'type'", "parseTypeDecl"));
+        justSkip(TokenType::Type, true, "`type`", "`parseTypeDecl`");
 
         const auto & id = parseId();
         const auto & type = parseType();
@@ -302,23 +329,33 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Func, false, true, buggySkip("'func'", "parseFuncDecl"));
+        justSkip(TokenType::Func, true, "`func`", "`parseFuncDecl`");
 
         const auto & typeParams = parseTypeParams();
 
         // TODO: Type reference for extensions
         const auto & id = parseId(true);
 
-        bool isParen = is(TokenType::LParen);
+        const auto & maybeParenToken = peek();
+        bool isParen = maybeParenToken.is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, true, true, buggySkip("'('", "parseFuncDecl -> isParen"));
+            justSkip(TokenType::LParen, true, "'('", "`parseFuncDecl` -> `isParen`");
         }
 
         const auto & params = parseFuncParamList(isParen);
 
         if (isParen) {
-            skip(TokenType::RParen, true, true, "");
+            skip(
+                TokenType::RParen,
+                true,
+                true,
+                MsgSpanLinkSugg(
+                    "Missing closing `)` after `func` parameter list", cspan(),
+                    "`func` parameter list starts here", maybeParenToken.span(sess),
+                    sugg::SuggKind::Error
+                )
+            );
         }
 
         ast::type_ptr returnType{nullptr};
@@ -348,7 +385,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Class, false, true);
+        justSkip(TokenType::Class, true, "`class`", "`parseClassDecl`");
 
         const auto & id = parseId();
 
@@ -365,8 +402,7 @@ namespace jc::parser {
     }
 
     ast::stmt_ptr Parser::parseImportStmt() {
-        skip(TokenType::Import, false, true);
-
+        throw common::NotImplementedError("Import statement parsing");
     }
 
     ast::stmt_ptr Parser::parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
@@ -374,7 +410,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Object, false, true);
+        justSkip(TokenType::Object, true, "`object`", "`parseObjectDecl`");
 
         const auto & id = parseId();
 
@@ -742,7 +778,12 @@ namespace jc::parser {
                     if (first) {
                         first = false;
                     } else {
-                        skip(TokenType::Comma, true, true);
+                        skip(
+                            TokenType::Comma,
+                            true,
+                            true,
+                            MsgSugg("Missing `,` separator in subscript operator call", cspan(), sugg::SuggKind::Error)
+                        );
                     }
 
                     indices.push_back(parseExpr());
@@ -794,16 +835,16 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        addError("Expected primary expression", 0, peek().span(sess));
+        suggestErrorMsg("Expected primary expression", cspan());
     }
 
     ast::id_ptr Parser::parseId(bool skipNLs) {
         logParse("id");
 
         if (!is(TokenType::Id)) {
-            addError("Expected identifier", 0, peek().span(sess));
+            suggestErrorMsg("Expected identifier", cspan());
         }
-        skip(TokenType::Id, false, skipNLs);
+        justSkip(TokenType::Id, true, "[identifier]", "`parseId`");
         return std::make_shared<ast::Identifier>(lastToken);
     }
 
@@ -823,7 +864,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::LBracket, false, true);
+        justSkip(TokenType::LBracket, true, "`[`", "`parseListExpr`");
 
         ast::expr_list elements;
 
@@ -834,7 +875,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator in list expression", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             if (skipOpt(TokenType::RBracket)) {
@@ -857,7 +903,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::LParen, false, true);
+        justSkip(TokenType::LParen, true, "`(`", "`parseTupleOrParenExpr`");
 
         // Empty tuple
         if (skipOpt(TokenType::RParen)) {
@@ -882,7 +928,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator in tuple literal", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             const auto & expr = parseExpr();
@@ -914,13 +965,27 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::If, false, true);
+        justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
 
-        const bool isParen = skipOpt(TokenType::LParen, true);
+        const auto & maybeParenToken = peek();
+        const bool isParen = maybeParenToken.is(TokenType::LParen);
+        if (isParen) {
+            justSkip(TokenType::LParen, true, "`(`", "`parseIfExpr` -> `isParen`");
+        }
+
         const auto & condition = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true);
+            skip(
+                TokenType::RParen,
+                true,
+                true,
+                MsgSpanLinkSugg(
+                    "Missing closing `)` after `if` condition", cspan(),
+                    "`if` condition starts here", maybeParenToken.span(sess),
+                    sugg::SuggKind::Error
+                )
+            );
         }
 
         const auto & ifBranch = parseBlock();
@@ -930,6 +995,8 @@ namespace jc::parser {
             elseBranch = parseBlock();
         }
 
+        // TODO!: "Remove parentheses" suggestion
+
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
     }
 
@@ -938,7 +1005,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Loop, false, true);
+        justSkip(TokenType::Loop, true, "`loop`", "`parseLoopExpr`");
 
         const auto & body = parseBlock();
 
@@ -950,17 +1017,40 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::When, false, true);
+        justSkip(TokenType::When, true, "`when`", "`parseWhenExpr`");
 
-        const bool isParen = skipOpt(TokenType::LParen);
+        const auto & maybeParenToken = peek();
+        const bool isParen = maybeParenToken.is(TokenType::LParen);
+        if (isParen) {
+            justSkip(TokenType::LParen, true, "`(`", "`parseIfExpr` -> `isParen`");
+        }
 
         const auto & subject = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true);
+            skip(
+                TokenType::RParen,
+                true,
+                true,
+                MsgSpanLinkSugg(
+                    "Missing closing `)` after `when` subject", cspan(),
+                    "`when` subject starts here", maybeParenToken.span(sess),
+                    sugg::SuggKind::Error
+                )
+            );
         }
 
-        skip(TokenType::LBrace, true, true);
+        if (skipOpt(TokenType::Semi)) {
+            // `when` body is ignored with `;`
+            return std::make_shared<ast::WhenExpr>(subject, ast::when_entry_list{}, loc);
+        }
+
+        skip(
+            TokenType::LBrace,
+            true,
+            true,
+            MsgSugg("To start `when` body put `{` here or `;` to ignore body", )
+        );
 
         ast::when_entry_list entries;
         bool first = true;
@@ -979,6 +1069,8 @@ namespace jc::parser {
         }
 
         skip(TokenType::RBrace, true, true);
+
+        return std::make_shared<ast::WhenExpr>(subject, entries, loc);
     }
 
     ast::when_entry_ptr Parser::parseWhenEntry() {
@@ -993,7 +1085,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` delimiter between when expression entries", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             // Check also for closing brace to not going to bottom of file (checkout please)
@@ -1109,7 +1206,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Colon, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator between elements", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             if (skipOpt(TokenType::RParen)) {
@@ -1160,7 +1262,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator in tuple literal", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             params.push_back(parseFuncParam());
@@ -1266,7 +1373,8 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Dot, true, true);
+                // FIXME: Checkout that works
+                justSkip(TokenType::Dot, true, "`.`", "parseIdType -> after not first element");
             }
 
             const auto & id = parseId(true);
@@ -1314,7 +1422,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator in tuple type", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type));
@@ -1338,7 +1451,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenType::Comma, true, true);
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    MsgSugg("Missing `,` separator between type parameters", cspan(), sugg::SuggKind::Error)
+                );
             }
 
             if (skipOpt(TokenType::RAngle)) {

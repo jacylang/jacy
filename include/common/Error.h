@@ -6,7 +6,7 @@
 
 namespace jc::common {
     struct Error : std::exception {
-        Error(const std::string & msg) : message(msg) {}
+        explicit Error(const std::string & msg) : message(msg) {}
         virtual ~Error() = default;
 
         std::string message;
@@ -28,8 +28,13 @@ namespace jc::common {
         UnexpectedEof() : Error("Unexpected end of file") {}
     };
 
+    // DEV //
     struct DevError : Error {
-        DevError(const std::string & msg) : Error("[DEV_ERROR] " + msg) {}
+        explicit DevError(const std::string & msg) : Error("[DEV_ERROR] " + msg) {}
+    };
+
+    struct NotImplementedError : DevError {
+        explicit NotImplementedError(const std::string & part) : DevError(part + " is not implemented") {}
     };
 }
 

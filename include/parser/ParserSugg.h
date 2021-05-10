@@ -46,18 +46,6 @@ namespace jc::parser {
         const std::string spanMsg;
         const std::string linkMsg;
     };
-
-    struct BuggySkipSugg : MsgSugg {
-        BuggySkipSugg(
-            const std::string & expected,
-            const std::string & where,
-            const Span & span
-        ) : MsgSugg(
-            common::Logger::format("[bug] Expected", expected, "in", where),
-            span,
-            SuggKind::Error
-        ) {}
-    };
 }
 
 #endif // JACY_PARSERSUGG_H
