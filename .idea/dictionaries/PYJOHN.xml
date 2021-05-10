@@ -40,6 +40,7 @@
       <w>rangle</w>
       <w>repl</w>
       <w>returnexpr</w>
+      <w>sess</w>
       <w>spreadexpr</w>
       <w>stmts</w>
       <w>stringutils</w>

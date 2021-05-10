@@ -8,6 +8,8 @@
 #include "ast/nodes.h"
 #include "common/common.h"
 #include "common/Error.h"
+#include "parser/Suggestion.h"
+#include "session/Session.h"
 
 namespace jc::parser {
     using ast::makeInfix;
@@ -30,8 +32,11 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        ast::stmt_list parse(const token_list & tokens);
+        ast::stmt_list parse(const session::Session & sess, const token_list & tokens);
+
     private:
+        uint16_t fileId;
+
         common::Logger log{"parser", {}};
 
         token_list tokens;
@@ -52,7 +57,7 @@ namespace jc::parser {
         // Skippers //
         bool skipNLs(bool optional = false);
         void skipSemis();
-        void skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const std::string & expected = "");
+        void skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const std::string & expected);
         bool skipOpt(TokenType type, bool skipRightNLs = false);
 
         // States //
@@ -138,9 +143,12 @@ namespace jc::parser {
         std::tuple<bool, ast::tuple_t_el_list> parseParenType();
         ast::type_param_list parseTypeParams();
 
-        // Errors //
-        void unexpectedError();
-        void expectedError(const std::string & expected);
+        // Suggestions //
+    private:
+        bool hasErrorSuggestions{false};
+        std::vector<Suggestion> suggestions;
+        void suggest(Suggestion::Kind kind, const std::string & msg, uint16_t eid, const Span & span);
+        void addError(const std::string & msg, uint16_t eid, const Span & span);
 
         // DEBUG //
         void logParse(const std::string & entity);

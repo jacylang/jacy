@@ -166,6 +166,10 @@ namespace jc::parser {
         return utils::arr::has(literals, type);
     }
 
+    bool Token::isModifier() const {
+        return is(TokenType::Infix) or is(TokenType::Operator);
+    }
+
     std::string Token::typeToString(const Token & token) {
         const auto found = tokenTypeStrings.find(token.type);
         if (found != tokenTypeStrings.end()) {
@@ -199,7 +203,7 @@ namespace jc::parser {
         return str;
     }
 
-    bool Token::isModifier() const {
-        return is(TokenType::Infix) or is(TokenType::Operator);
+    Span Token::span(const session::Session & sess) const {
+        return {loc.offset, len(), sess.fileId};
     }
 }

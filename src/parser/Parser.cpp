@@ -36,7 +36,7 @@ namespace jc::parser {
     // Skippers //
     bool Parser::skipNLs(bool optional) {
         if (not peek().is(TokenType::Nl) and !optional) {
-            expectedError("new line");
+            addError("Expected new-line", 0, )
         }
 
         bool gotNL = false;
@@ -84,8 +84,10 @@ namespace jc::parser {
     /////////////
     // Parsers //
     /////////////
-    ast::stmt_list Parser::parse(const token_list & tokens) {
+    ast::stmt_list Parser::parse(const session::Session & sess, const token_list & tokens) {
         log.dev("Parse...");
+
+        fileId = sess.fileId;
 
         this->tokens = tokens;
 
@@ -153,18 +155,18 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::While, false, true);
+        skip(TokenType::While, false, true, "[bug] while keyword");
 
         const bool isParen = peek().is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, false, true);
+            skip(TokenType::LParen, false, true, "[bug] LParen for while condition");
         }
 
         const auto & condition = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true);
+            skip(TokenType::RParen, true, true, "')' after while condition");
         }
 
         const auto & body = parseBlock();
@@ -177,23 +179,23 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::For, false, true);
+        skip(TokenType::For, false, true, "[bug] 'for' keyword");
 
         const bool isParen = peek().is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, false, true);
+            skip(TokenType::LParen, false, true, "[bug] '(' after 'for'");
         }
 
         // TODO: Any variable declaration
         const auto & forEntity = parseId();
 
-        skip(TokenType::In, true, true);
+        skip(TokenType::In, true, true, "'in'");
 
         const auto & inExpr = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true);
+            skip(TokenType::RParen, true, true, "')' in for-expression");
         }
 
         const auto & body = parseBlock();
@@ -275,7 +277,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Type, false, true);
+        skip(TokenType::Type, false, true, "[bug] 'type' keyword");
 
         const auto & id = parseId();
         const auto & type = parseType();
@@ -288,7 +290,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Func, false, true);
+        skip(TokenType::Func, false, true, "[bug] 'func' keyword");
 
         const auto & typeParams = parseTypeParams();
 
@@ -298,7 +300,7 @@ namespace jc::parser {
         bool isParen = is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, true, true);
+            skip(TokenType::LParen, true, true, "");
         }
 
         const auto & params = parseFuncParamList(isParen);
@@ -1346,13 +1348,8 @@ namespace jc::parser {
         return typeParams;
     }
 
-    // Errors //
-    void Parser::unexpectedError() {
-        throw UnexpectedTokenError(peek().toString());
-    }
-
-    void Parser::expectedError(const std::string & expected) {
-        throw ExpectedError(expected, peek().toString(true));
+    void Parser::suggest(Suggestion::Kind kind, const std::string & msg, uint16_t eid, const Span & span) {
+        suggestions.emplace_back(Suggestion{kind, msg, eid, span});
     }
 
     // DEBUG //

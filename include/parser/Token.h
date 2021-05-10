@@ -8,6 +8,8 @@
 #include <algorithm>
 
 #include "utils/arr.h"
+#include "parser/Span.h"
+#include "session/Session.h"
 
 /**
  * WWS means Without whitespace
@@ -19,9 +21,9 @@ namespace jc::parser {
     using token_list = std::vector<Token>;
 
     struct Location {
-        uint64_t line{0};
-        uint64_t col{0};
-        uint64_t pos{0};
+        uint32_t offset;
+        uint32_t line;
+        uint64_t col;
 
         std::string toString() const {
             return std::to_string(line) + ":" + std::to_string(col);
@@ -175,6 +177,9 @@ namespace jc::parser {
         bool isAssignOp() const;
         bool isLiteral() const;
         bool isModifier() const;
+        span_len len() const;
+
+        Span span(const session::Session & sess) const;
 
         // Debug //
         static std::string typeToString(const Token & token);

@@ -21,7 +21,6 @@ namespace jc::parser {
         common::Logger log{"lexer", {}};
 
         std::string source;
-        uint64_t index{0};
         Location loc{};
         char peek();
         char lookup(int distance = 1);
