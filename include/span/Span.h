@@ -3,12 +3,12 @@
 
 #include <cstdint>
 
-namespace jc::parser {
-    using span_len = uint16_t;
+namespace jc::span {
+    using span_len_t = uint16_t;
 
     struct Span {
         uint32_t ind;
-        span_len len;
+        span_len_t len;
         uint16_t fileId; // TODO: Context
     };
 }

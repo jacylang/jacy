@@ -170,19 +170,23 @@ namespace jc::parser {
         return is(TokenType::Infix) or is(TokenType::Operator);
     }
 
-    std::string Token::typeToString(const Token & token) {
-        const auto found = tokenTypeStrings.find(token.type);
+    std::string Token::typeToString(TokenType type) {
+        const auto found = tokenTypeStrings.find(type);
         if (found != tokenTypeStrings.end()) {
             return found->second;
         }
 
         for (const auto & kw : keywords) {
-            if (kw.second == token.type) {
+            if (kw.second == type) {
                 return kw.first;
             }
         }
 
         return "No representation";
+    }
+
+    std::string Token::typeToString(const Token & token) {
+        return typeToString(token.type);
     }
 
     std::string Token::typeToString() const {
@@ -203,7 +207,7 @@ namespace jc::parser {
         return str;
     }
 
-    Span Token::span(const session::Session & sess) const {
-        return {loc.offset, len(), sess.fileId};
+    Span Token::span(const session::sess_ptr & sess) const {
+        return {loc.offset, loc.len, sess->fileId};
     }
 }

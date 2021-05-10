@@ -8,7 +8,7 @@
 #include <algorithm>
 
 #include "utils/arr.h"
-#include "parser/Span.h"
+#include "span/Span.h"
 #include "session/Session.h"
 
 /**
@@ -22,8 +22,13 @@ namespace jc::parser {
 
     struct Location {
         uint32_t offset;
+        uint16_t len;
         uint32_t line;
         uint64_t col;
+
+        span::Span span(session::sess_ptr sess) const {
+            return {offset, len, sess->fileId};
+        }
 
         std::string toString() const {
             return std::to_string(line) + ":" + std::to_string(col);
@@ -177,11 +182,11 @@ namespace jc::parser {
         bool isAssignOp() const;
         bool isLiteral() const;
         bool isModifier() const;
-        span_len len() const;
 
-        Span span(const session::Session & sess) const;
+        Span span(const session::sess_ptr & sess) const;
 
         // Debug //
+        static std::string typeToString(TokenType type);
         static std::string typeToString(const Token & token);
         std::string typeToString() const;
         std::string toString(bool withLoc = false) const;

@@ -8,7 +8,7 @@
 #include "ast/nodes.h"
 #include "common/common.h"
 #include "common/Error.h"
-#include "parser/Suggestion.h"
+#include "parser/ParserSugg.h"
 #include "session/Session.h"
 
 namespace jc::parser {
@@ -32,11 +32,9 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        ast::stmt_list parse(const session::Session & sess, const token_list & tokens);
+        ast::stmt_list parse(session::sess_ptr sess, const token_list & tokens);
 
     private:
-        uint16_t fileId;
-
         common::Logger log{"parser", {}};
 
         token_list tokens;
@@ -57,7 +55,12 @@ namespace jc::parser {
         // Skippers //
         bool skipNLs(bool optional = false);
         void skipSemis();
-        void skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const std::string & expected);
+        void skip(
+            TokenType type,
+            bool skipLeftNLs,
+            bool skipRightNLs,
+            const ParserSugg & suggestion
+        );
         bool skipOpt(TokenType type, bool skipRightNLs = false);
 
         // States //
@@ -76,7 +79,7 @@ namespace jc::parser {
 
         // Declarations //
     private:
-        ast::stmt_ptr parseDecl(bool optional = false);
+        ast::stmt_ptr parseDecl();
         ast::stmt_list parseDeclList();
 
         ast::stmt_ptr parseVarDecl();
@@ -145,13 +148,19 @@ namespace jc::parser {
 
         // Suggestions //
     private:
+        session::sess_ptr sess;
         bool hasErrorSuggestions{false};
-        std::vector<Suggestion> suggestions;
-        void suggest(Suggestion::Kind kind, const std::string & msg, uint16_t eid, const Span & span);
-        void addError(const std::string & msg, uint16_t eid, const Span & span);
+        std::vector<ParserSugg> suggestions;
+        void suggest(const ParserSugg & suggestion);
+        void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
+        void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
 
-        // DEBUG //
+        /// Shortcut for `peek().span(sess)`
+        Span cspan() const;
+
+        // DEV //
         void logParse(const std::string & entity);
+        void devPanic(const std::string & msg);
     };
 }
 

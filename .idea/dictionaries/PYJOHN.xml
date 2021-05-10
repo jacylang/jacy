@@ -11,6 +11,7 @@
       <w>continueexpr</w>
       <w>continuestmt</w>
       <w>controlstructbody</w>
+      <w>cspan</w>
       <w>decl</w>
       <w>delegationlist</w>
       <w>deps</w>
@@ -21,6 +22,7 @@
       <w>exprstmt</w>
       <w>floatliteral</w>
       <w>forstmt</w>
+      <w>ftok</w>
       <w>funccall</w>
       <w>funcdecl</w>
       <w>funcparam</w>
@@ -37,6 +39,7 @@
       <w>nullliteral</w>
       <w>objectdecl</w>
       <w>parenexpr</w>
+      <w>parsersugg</w>
       <w>rangle</w>
       <w>repl</w>
       <w>returnexpr</w>
@@ -44,6 +47,7 @@
       <w>spreadexpr</w>
       <w>stmts</w>
       <w>stringutils</w>
+      <w>sugg</w>
       <w>superexpr</w>
       <w>thirdparty</w>
       <w>thisexpr</w>

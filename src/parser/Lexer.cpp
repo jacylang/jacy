@@ -7,13 +7,14 @@ namespace jc::parser {
         loc.offset = 0;
     }
 
-    void Lexer::addToken(Token && t) {
+    void Lexer::addToken(Token && t, uint16_t len) {
         t.loc = loc;
+        t.loc.len = len;
         tokens.emplace_back(t);
     }
 
     void Lexer::addToken(TokenType type, const std::string & val) {
-        addToken(Token(type, val, loc));
+        addToken(Token(type, val, loc), val.size());
     }
 
     char Lexer::peek() {

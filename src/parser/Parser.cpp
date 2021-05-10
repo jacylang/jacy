@@ -36,7 +36,7 @@ namespace jc::parser {
     // Skippers //
     bool Parser::skipNLs(bool optional) {
         if (not peek().is(TokenType::Nl) and !optional) {
-            addError("Expected new-line", 0, )
+            suggestErrorMsg("Expected new-line", peek().span(sess));
         }
 
         bool gotNL = false;
@@ -53,13 +53,14 @@ namespace jc::parser {
         }
     }
 
-    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const std::string & expected) {
+    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const ParserSugg & suggestion) {
         if (skipLeftNLs) {
             skipNLs(true);
         }
 
         if (not peek().is(type)) {
-            expectedError(expected.empty() ? Token::typeToString(peek()) : expected);
+            suggest(suggestion);
+            return;
         }
 
         lastToken = peek();
@@ -84,11 +85,10 @@ namespace jc::parser {
     /////////////
     // Parsers //
     /////////////
-    ast::stmt_list Parser::parse(const session::Session & sess, const token_list & tokens) {
+    ast::stmt_list Parser::parse(session::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
-        fileId = sess.fileId;
-
+        this->sess = sess;
         this->tokens = tokens;
 
         while (!eof()) {
@@ -120,8 +120,7 @@ namespace jc::parser {
         }
 
         if (!lhs) {
-            log.dev("ERROR: Left-hand side is null in parseTopLevel");
-            throw common::Error("Stop after dev error");
+            devPanic("ERROR: Left-hand side is null in parseTopLevel");
         }
 
         return lhs;
@@ -138,7 +137,7 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto decl = parseDecl(true);
+                auto decl = parseDecl();
                 if (decl) {
                     return decl;
                 }
@@ -152,24 +151,40 @@ namespace jc::parser {
     /////////////////////////////
     ast::stmt_ptr Parser::parseWhileStmt() {
         logParse("WhileStmt");
-
         const auto & loc = peek().loc;
 
-        skip(TokenType::While, false, true, "[bug] while keyword");
+        skip(
+            TokenType::While,
+            false,
+            true,
+            BuggySkipSugg{"'while' keyword", "parseWhileStmt", cspan()}
+        );
 
-        const bool isParen = peek().is(TokenType::LParen);
+        const auto & maybeParenToken = peek();
+        const bool isParen = maybeParenToken.is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, false, true, "[bug] LParen for while condition");
+            skip(TokenType::LParen, false, true, BuggySkipSugg{"'('", "parseWhileStmt -> isParen", cspan()});
         }
 
         const auto & condition = parseExpr();
 
         if (isParen) {
-            skip(TokenType::RParen, true, true, "')' after while condition");
+            skip(
+                TokenType::RParen,
+                true,
+                true,
+                MsgSpanLinkSugg(
+                    "Expected closing ')' after while condition", cspan(),
+                    "Condition starts here", maybeParenToken.span(sess),
+                    sugg::SuggKind::Error
+                )
+            );
         }
 
         const auto & body = parseBlock();
+
+        // TODO!: "Remove parentheses" suggestion
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -206,7 +221,7 @@ namespace jc::parser {
     //////////////////
     // Declarations //
     //////////////////
-    ast::stmt_ptr Parser::parseDecl(bool optional) {
+    ast::stmt_ptr Parser::parseDecl() {
         logParse("Decl");
 
         ast::attr_list attributes = parseAttributes();
@@ -234,10 +249,7 @@ namespace jc::parser {
                 return parseTypeDecl();
             }
             default: {
-                if (optional) {
-                    return nullptr;
-                }
-                expectedError("Declaration");
+                return nullptr;
             }
         }
     }
@@ -277,7 +289,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Type, false, true, "[bug] 'type' keyword");
+        skip(TokenType::Type, false, true, buggySkip("'type'", "parseTypeDecl"));
 
         const auto & id = parseId();
         const auto & type = parseType();
@@ -290,7 +302,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::Func, false, true, "[bug] 'func' keyword");
+        skip(TokenType::Func, false, true, buggySkip("'func'", "parseFuncDecl"));
 
         const auto & typeParams = parseTypeParams();
 
@@ -300,13 +312,13 @@ namespace jc::parser {
         bool isParen = is(TokenType::LParen);
 
         if (isParen) {
-            skip(TokenType::LParen, true, true, "");
+            skip(TokenType::LParen, true, true, buggySkip("'('", "parseFuncDecl -> isParen"));
         }
 
         const auto & params = parseFuncParamList(isParen);
 
         if (isParen) {
-            skip(TokenType::RParen, true, true);
+            skip(TokenType::RParen, true, true, "");
         }
 
         ast::type_ptr returnType{nullptr};
@@ -782,14 +794,14 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        expectedError("primary expression");
+        addError("Expected primary expression", 0, peek().span(sess));
     }
 
     ast::id_ptr Parser::parseId(bool skipNLs) {
         logParse("id");
 
         if (!is(TokenType::Id)) {
-            expectedError("identifier");
+            addError("Expected identifier", 0, peek().span(sess));
         }
         skip(TokenType::Id, false, skipNLs);
         return std::make_shared<ast::Identifier>(lastToken);
@@ -799,7 +811,7 @@ namespace jc::parser {
         logParse("literal");
 
         if (!peek().isLiteral()) {
-            expectedError("literal");
+            devPanic("Expected literal in parseLiteral");
         }
         const auto & token = peek();
         advance();
@@ -1348,12 +1360,31 @@ namespace jc::parser {
         return typeParams;
     }
 
-    void Parser::suggest(Suggestion::Kind kind, const std::string & msg, uint16_t eid, const Span & span) {
-        suggestions.emplace_back(Suggestion{kind, msg, eid, span});
+    // Suggestions //
+    void Parser::suggest(const ParserSugg & suggestion) {
+        suggestions.emplace_back(suggestion);
+    }
+
+    void Parser::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
+        suggest(MsgSugg{msg, span, kind, eid});
+    }
+
+    void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
+        hasErrorSuggestions = true;
+        suggest(msg, span, SuggKind::Error, eid);
+    }
+
+    Span Parser::cspan() const {
+        return peek().span(sess);
     }
 
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
         log.dev("Parse", entity, peek().toString());
+    }
+
+    void Parser::devPanic(const std::string & msg) {
+        log.dev("ERROR:", msg);
+        throw common::Error("Stop after dev panic");
     }
 }
