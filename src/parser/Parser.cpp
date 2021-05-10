@@ -1476,7 +1476,6 @@ namespace jc::parser {
     }
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
-        hasErrorSuggestions = true;
         suggest(msg, span, SuggKind::Error, eid);
     }
 

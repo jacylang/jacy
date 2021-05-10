@@ -13,6 +13,7 @@
 #include "parser/Parser.h"
 #include "ast/AstPrinter.h"
 #include "cli/CLI.h"
+#include "session/SourceMap.h"
 
 namespace jc::core {
     class Jacy {
@@ -24,6 +25,7 @@ namespace jc::core {
         void runRepl();
         void runSource();
         void runCode(const std::string & code);
+
     private:
         common::Logger log{"jacy", {}};
         cli::CLI cli;

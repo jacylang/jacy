@@ -5,7 +5,9 @@
 #include "span/Span.h"
 
 namespace jc::sugg {
+    struct Suggestion;
     using span::Span;
+    using sugg_list = std::vector<Suggestion>;
 
     enum class SuggKind {
         Error,

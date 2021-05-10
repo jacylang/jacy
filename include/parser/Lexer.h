@@ -4,6 +4,7 @@
 #include "Token.h"
 #include "common/Error.h"
 #include "common/Logger.h"
+#include "session/SourceMap.h"
 
 namespace jc::parser {
     struct LexerError : common::Error {

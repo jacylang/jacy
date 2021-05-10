@@ -3,13 +3,14 @@
 
 #include "common/Logger.h"
 #include "suggest/Suggestion.h"
+#include "common/Error.h"
 
 namespace jc::sugg {
     class Suggester {
     public:
         Suggester();
 
-        void outputSuggestions(const );
+        void outputSuggestions(const sugg_list & suggestions);
 
     private:
         common::Logger log{"suggester", {}};

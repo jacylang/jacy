@@ -8,5 +8,18 @@ namespace jc::sugg {
         loggerConfig.colorize = false;
     }
 
+    void Suggester::outputSuggestions(const sugg_list & suggestions) {
+        bool errorAppeared = false;
+        for (const auto & s : suggestions) {
+            if (s.kind == SuggKind::Error) {
+                errorAppeared = true;
+            }
 
+
+        }
+
+        if (errorAppeared) {
+            throw common::Error("Stop due to errors above");
+        }
+    }
 }

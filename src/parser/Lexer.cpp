@@ -108,7 +108,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isQuote() {
-        return peek() == '\'' || peek() == '"' || peek() == '`';
+        return peek() == '\'' || peek() == '"';
     }
 
     // Lexers //
@@ -226,6 +226,9 @@ namespace jc::parser {
         const auto quote = forward();
         std::string str;
 
+        // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
+        const auto tokenType = quote == '"' ? TokenType::DQStringLiteral : TokenType::SQStringLiteral;
+
         // TODO: String templates
         while (!eof() and peek() != quote) {
             str += forward();
@@ -237,7 +240,7 @@ namespace jc::parser {
 
         advance();
 
-        addToken(TokenType::StringLiteral, str);
+        addToken(tokenType, str);
     }
 
     void Lexer::lexOp() {
@@ -543,12 +546,17 @@ namespace jc::parser {
 
         this->source = source;
 
+        sess::source_t sourceLines;
+        std::string line;
+
         while (!eof()) {
+            line += peek();
             if (hidden()) {
                 advance();
             } else if (isNL()) {
                 addToken(TokenType::Nl);
                 advance();
+                sourceLines.push_back(line);
             } else if (isDigit()) {
                 lexNumber();
             } else if (isIdFirst()) {
@@ -562,8 +570,11 @@ namespace jc::parser {
 
         addToken(TokenType::Eof);
 
+        sess::sourceMap.addSource(std::move(sourceLines));
+
         return tokens;
     }
+
 
     void Lexer::error(const std::string & msg) {
         throw LexerError(msg);

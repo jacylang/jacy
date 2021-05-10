@@ -51,24 +51,24 @@ namespace jc::parser {
     };
 
     const std::map<TokenType, std::string> Token::tokenTypeStrings = {
-        {TokenType::Eof,                "EOF"},
-        {TokenType::Nl,                 "NL"},
-        {TokenType::DecLiteral,         "DecLiteral"},
-        {TokenType::BinLiteral,         "BinLiteral"},
-        {TokenType::OctLiteral,         "OctLiteral"},
-        {TokenType::HexLiteral,         "HexLiteral"},
-        {TokenType::FloatLiteral,       "FloatLiteral"},
-        {TokenType::StringLiteral,      "StringLiteral"},
-        {TokenType::Id,                 "ID"},
+        {TokenType::Eof,             "EOF"},
+        {TokenType::Nl,              "NL"},
+        {TokenType::DecLiteral,      "DecLiteral"},
+        {TokenType::BinLiteral,      "BinLiteral"},
+        {TokenType::OctLiteral,      "OctLiteral"},
+        {TokenType::HexLiteral,      "HexLiteral"},
+        {TokenType::FloatLiteral,    "FloatLiteral"},
+        {TokenType::SQStringLiteral, "SQStringLiteral"},
+        {TokenType::Id,              "ID"},
 
         // Operators //
-        {TokenType::Assign,             "="},
-        {TokenType::AddAssign,          "+="},
-        {TokenType::SubAssign,          "-="},
-        {TokenType::MulAssign,          "*="},
-        {TokenType::DivAssign,          "/="},
-        {TokenType::ModAssign,          "%="},
-        {TokenType::PowerAssign,        "**="},
+        {TokenType::Assign,          "="},
+        {TokenType::AddAssign,       "+="},
+        {TokenType::SubAssign,       "-="},
+        {TokenType::MulAssign,       "*="},
+        {TokenType::DivAssign,       "/="},
+        {TokenType::ModAssign,       "%="},
+        {TokenType::PowerAssign,     "**="},
         {TokenType::ShlAssign,          "<<="},
         {TokenType::ShrAssign,          ">>="},
         {TokenType::BitAndAssign,       "&="},
@@ -151,7 +151,8 @@ namespace jc::parser {
         TokenType::OctLiteral,
         TokenType::HexLiteral,
         TokenType::FloatLiteral,
-        TokenType::StringLiteral,
+        TokenType::SQStringLiteral,
+        TokenType::DQStringLiteral,
     };
 
     bool Token::is(TokenType type) const {
@@ -196,7 +197,7 @@ namespace jc::parser {
     std::string Token::toString(bool withLoc) const {
         std::string str = typeToString();
 
-        if (type == TokenType::Id or type == TokenType::StringLiteral) {
+        if (type == TokenType::Id or type == TokenType::SQStringLiteral) {
             str += ":'" + val + "'";
         }
 
@@ -207,7 +208,7 @@ namespace jc::parser {
         return str;
     }
 
-    Span Token::span(const sess::sess_ptr & sess) const {
+    span::Span Token::span(const sess::sess_ptr & sess) const {
         return {loc.offset, loc.len, sess->fileId};
     }
 }

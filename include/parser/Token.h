@@ -43,7 +43,8 @@ namespace jc::parser {
         OctLiteral,
         HexLiteral,
         FloatLiteral,
-        StringLiteral,
+        SQStringLiteral, // Single-quote string literal
+        DQStringLiteral, // Double-quote string literal
         Id,
 
         // Operators //
@@ -183,7 +184,7 @@ namespace jc::parser {
         bool isLiteral() const;
         bool isModifier() const;
 
-        Span span(const sess::sess_ptr & sess) const;
+        span::Span span(const sess::sess_ptr & sess) const;
 
         // Debug //
         static std::string typeToString(TokenType type);

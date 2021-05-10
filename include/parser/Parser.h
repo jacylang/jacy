@@ -150,8 +150,7 @@ namespace jc::parser {
         // Suggestions //
     private:
         sess::sess_ptr sess;
-        bool hasErrorSuggestions{false};
-        std::vector<sugg::Suggestion> suggestions;
+        sugg::sugg_list suggestions;
         void suggest(const sugg::Suggestion & suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);

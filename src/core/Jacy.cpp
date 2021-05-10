@@ -57,6 +57,7 @@ namespace jc::core {
     }
 
     void Jacy::runCode(const std::string & code) {
+        const auto & sess = std::make_shared<sess::Session>();
         const auto & tokens = lexer.lex(code);
 
         if (cli.config.has("print", "tokens")) {
@@ -69,10 +70,10 @@ namespace jc::core {
             return;
         }
 
-        const auto & ast = parser.parse(tokens);
+        const auto & tree = parser.parse(sess, tokens);
 
         if (cli.config.has("print", "ast")) {
-            astPrinter.print(ast);
+            astPrinter.print(tree);
         }
 
         if (cli.config.has("compile-depth", "parser")) {
