@@ -48,6 +48,7 @@ namespace jc::parser {
     }
 
     void Parser::skipSemis() {
+        // TODO!: Error message
         while (isSemis()) {
             advance();
         }
@@ -1049,7 +1050,7 @@ namespace jc::parser {
             TokenType::LBrace,
             true,
             true,
-            MsgSugg("To start `when` body put `{` here or `;` to ignore body", )
+            MsgSugg("To start `when` body put `{` here or `;` to ignore body", cspan(), sugg::SuggKind::Error)
         );
 
         ast::when_entry_list entries;
@@ -1068,7 +1069,12 @@ namespace jc::parser {
             entries.push_back(parseWhenEntry());
         }
 
-        skip(TokenType::RBrace, true, true);
+        skip(
+            TokenType::RBrace,
+            true,
+            true,
+            MsgSugg("Missing closing `}` at the end of `when` body", cspan(), sugg::SuggKind::Error)
+        );
 
         return std::make_shared<ast::WhenExpr>(subject, entries, loc);
     }
@@ -1102,7 +1108,12 @@ namespace jc::parser {
             conditions.push_back(parseExpr());
         }
 
-        skip(TokenType::DoubleArrow, true, true);
+        skip(
+            TokenType::DoubleArrow,
+            true,
+            true,
+            MsgSugg("Expected `=>` after `when` entry conditions", cspan(), sugg::SuggKind::Error)
+        );
 
         ast::block_ptr body{nullptr};
         ast::expr_ptr oneLineBody{nullptr};
@@ -1146,8 +1157,16 @@ namespace jc::parser {
         } else if (allowOneLine) {
             block->stmts.push_back(parseStmt());
         } else {
-            expectedError("Likely you meant to put a '=>' or start body from new line");
+            suggest(
+                MsgSugg(
+                    "Likely you meant to put a '=>', start body from new line or enclose body in `{}`",
+                    cspan(),
+                    sugg::SuggKind::Error
+                )
+            );
         }
+
+        return block;
     }
 
     std::tuple<ast::block_ptr, ast::expr_ptr> Parser::parseBodyMaybeOneLine() {
@@ -1195,7 +1214,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::LParen, false, true);
+        justSkip(TokenType::LParen, true, "`(`", "`parseNamedList`");
 
         ast::named_el_list namedList;
 
@@ -1280,7 +1299,18 @@ namespace jc::parser {
         const auto & loc = peek().loc;
 
         const auto & id = parseId();
-        skip(TokenType::Colon, true, true);
+
+        skip(
+            TokenType::Colon,
+            true,
+            true,
+            MsgSugg(
+                "`func` parameters without type are not allowed, please put `:` here and specify type",
+                cspan(),
+                sugg::SuggKind::Error
+            )
+        );
+
         const auto & type = parseType();
         ast::expr_ptr defaultValue{nullptr};
         if (peek().isAssignOp()) {
@@ -1302,7 +1332,12 @@ namespace jc::parser {
         // List type
         if (skipOpt(TokenType::LBracket, true)) {
             auto listType = std::make_shared<ast::ListType>(parseType(), loc);
-            skip(TokenType::RBracket, true, true);
+            skip(
+                TokenType::RBracket,
+                true,
+                true,
+                MsgSugg("Missing closing `]` at the end of list type", cspan(), sugg::SuggKind::Error)
+            );
             return listType;
         }
 
@@ -1390,7 +1425,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
-        skip(TokenType::LParen, false, true);
+        justSkip(TokenType::LParen, true, "`(`", "`parseParenType`");
 
         if (skipOpt(TokenType::RParen)) {
             return {true, {}};
