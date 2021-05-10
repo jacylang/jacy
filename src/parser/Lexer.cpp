@@ -1,14 +1,18 @@
 #include "parser/Lexer.h"
 
 namespace jc::parser {
-    Lexer::Lexer() {}
+    Lexer::Lexer() {
+        loc.line = 1;
+        loc.col = 1;
+    }
 
-    void Lexer::addToken(const Token & t) {
-        tokens.push_back(t);
+    void Lexer::addToken(Token && t) {
+        t.loc = loc;
+        tokens.emplace_back(t);
     }
 
     void Lexer::addToken(TokenType type, const std::string & val) {
-        addToken(Token(type, val));
+        addToken(Token(type, val, loc));
     }
 
     char Lexer::peek() {
@@ -26,7 +30,15 @@ namespace jc::parser {
     }
 
     char Lexer::advance(int distance) {
-        index += distance;
+        for (int i = 0; i < distance; i++) {
+            if (isNL()) {
+                loc.line++;
+                loc.col = 1;
+            } else {
+                loc.col++;
+            }
+            index++;
+        }
         return peek();
     }
 
@@ -525,6 +537,8 @@ namespace jc::parser {
     //
 
     token_list Lexer::lex(const std::string & source) {
+        log.dev("Tokenize...");
+
         this->source = source;
 
         while (!eof()) {

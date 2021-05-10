@@ -19,9 +19,13 @@ namespace jc::parser {
     using token_list = std::vector<Token>;
 
     struct Location {
-        uint64_t line;
-        uint64_t col;
-        uint64_t pos;
+        uint64_t line{0};
+        uint64_t col{0};
+        uint64_t pos{0};
+
+        std::string toString() const {
+            return std::to_string(line) + ":" + std::to_string(col);
+        }
     };
 
     enum class TokenType {
@@ -155,7 +159,7 @@ namespace jc::parser {
 
     struct Token {
         Token() {}
-        Token(TokenType type, std::string val) : type(type), val(std::move(val)) {}
+        Token(TokenType type, std::string val, const Location & loc) : type(type), val(std::move(val)), loc(loc) {}
 
         TokenType type{TokenType::None};
         std::string val{""};
@@ -170,11 +174,12 @@ namespace jc::parser {
         bool is(TokenType type) const;
         bool isAssignOp() const;
         bool isLiteral() const;
+        bool isModifier() const;
 
         // Debug //
         static std::string typeToString(const Token & token);
         std::string typeToString() const;
-        std::string toString(bool withPos = false) const;
+        std::string toString(bool withLoc = false) const;
     };
 }
 

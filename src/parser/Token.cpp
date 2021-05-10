@@ -185,13 +185,21 @@ namespace jc::parser {
         return typeToString(*this);
     }
 
-    std::string Token::toString(bool withPos) const {
-        std::string str = "[" + typeToString();
+    std::string Token::toString(bool withLoc) const {
+        std::string str = typeToString();
 
         if (type == TokenType::Id or type == TokenType::StringLiteral) {
             str += ":'" + val + "'";
         }
 
-        return str + "]";
+        if (withLoc) {
+            str += " at " + loc.toString();
+        }
+
+        return str;
+    }
+
+    bool Token::isModifier() const {
+        return is(TokenType::Infix) or is(TokenType::Operator);
     }
 }

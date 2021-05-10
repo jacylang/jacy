@@ -22,13 +22,14 @@ namespace jc::parser {
 
         std::string source;
         uint64_t index{0};
+        Location loc{};
         char peek();
         char lookup(int distance = 1);
         char advance(int distance = 1);
         char forward();
 
         void addToken(TokenType type, const std::string & val = "");
-        void addToken(const Token & t);
+        void addToken(Token && t);
         token_list tokens;
 
         // Checkers

@@ -35,7 +35,7 @@ namespace jc::parser {
         common::Logger log{"parser", {}};
 
         token_list tokens;
-        size_t index;
+        size_t index{0};
 
         ast::stmt_list tree;
 
@@ -62,7 +62,7 @@ namespace jc::parser {
     private:
         ast::stmt_ptr parseTopLevel();
 
-        ast::stmt_ptr parseStmt(bool optionalStmtOnly = true);
+        ast::stmt_ptr parseStmt();
 
         // Control-flow statements //
     private:
@@ -126,7 +126,8 @@ namespace jc::parser {
         ast::attr_ptr parseAttr();
         ast::named_list_ptr parseNamedList();
         parser::token_list parseModifiers();
-        ast::func_param_list parseFuncParams();
+        ast::func_param_list parseFuncParamList(bool isParen);
+        ast::func_param_ptr parseFuncParam();
 
         // Modules //
         ast::stmt_ptr parseImportStmt();
@@ -140,6 +141,9 @@ namespace jc::parser {
         // Errors //
         void unexpectedError();
         void expectedError(const std::string & expected);
+
+        // DEBUG //
+        void logParse(const std::string & entity);
     };
 }
 

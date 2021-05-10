@@ -61,7 +61,7 @@ namespace jc::core {
 
         if (cli.config.has("print", "tokens")) {
             for (const auto & token : tokens) {
-                std::cout << token.toString() << std::endl;
+                std::cout << token.toString(true) << std::endl;
             }
         }
 

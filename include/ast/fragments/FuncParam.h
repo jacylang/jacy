@@ -9,9 +9,9 @@ namespace jc::ast {
     using func_param_ptr = std::shared_ptr<FuncParam>;
     using func_param_list = std::vector<func_param_ptr>;
 
-    struct FuncParam {
-        FuncParam(id_ptr id, type_ptr type, expr_ptr defaultValue)
-            : id(id), type(type), defaultValue(defaultValue) {}
+    struct FuncParam : Node {
+        FuncParam(id_ptr id, type_ptr type, expr_ptr defaultValue, const Location & loc)
+            : id(id), type(type), defaultValue(defaultValue), Node(loc) {}
 
         id_ptr id;
         type_ptr type;

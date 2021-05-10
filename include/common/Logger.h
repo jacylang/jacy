@@ -107,6 +107,10 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static std::string format(Arg && first, Args && ...other);
 
+        const LoggerConfig & getConfig() const {
+            return config;
+        }
+
     private:
         std::string owner;
         LoggerConfig config;
