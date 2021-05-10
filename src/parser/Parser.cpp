@@ -1132,9 +1132,7 @@ namespace jc::parser {
     ast::block_ptr Parser::parseBlock() {
         logParse("block");
 
-        bool allowOneLine = false;
-
-        if (skipOpt(TokenType::DoubleArrow, true) or skipNLs(true)) {
+        if (skipOpt(TokenType::DoubleArrow, true)) {
             allowOneLine = true;
         }
 
