@@ -207,7 +207,7 @@ namespace jc::parser {
         return str;
     }
 
-    Span Token::span(const session::sess_ptr & sess) const {
+    Span Token::span(const sess::sess_ptr & sess) const {
         return {loc.offset, loc.len, sess->fileId};
     }
 }

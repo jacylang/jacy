@@ -60,6 +60,7 @@ namespace jc::parser {
         }
 
         if (not peek().is(type)) {
+            advance();
             suggest(suggestion);
             return;
         }
@@ -101,7 +102,7 @@ namespace jc::parser {
     /////////////
     // Parsers //
     /////////////
-    ast::stmt_list Parser::parse(session::sess_ptr sess, const token_list & tokens) {
+    ast::stmt_list Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
         this->sess = sess;

@@ -45,6 +45,8 @@
       <w>repl</w>
       <w>returnexpr</w>
       <w>sess</w>
+      <w>sessionstorage</w>
+      <w>sourcemap</w>
       <w>spreadexpr</w>
       <w>stmts</w>
       <w>stringutils</w>

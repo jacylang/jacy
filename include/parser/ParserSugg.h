@@ -1,7 +1,7 @@
 #ifndef JACY_PARSERSUGG_H
 #define JACY_PARSERSUGG_H
 
-#include "explain/Suggestion.h"
+#include "suggest/Suggestion.h"
 #include "common/Logger.h"
 
 /**
@@ -14,7 +14,7 @@ namespace jc::parser {
     using sugg::eid_t;
     using sugg::NoneEID;
 
-    // Note: Read parameters order rules for `Suggestion`s in `explain/Suggestion.h`
+    // Note: Read parameters order rules for `Suggestion`s in `suggest/Suggestion.h`
 
     struct ParserSugg : sugg::Suggestion {
         ParserSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)

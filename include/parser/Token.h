@@ -26,7 +26,7 @@ namespace jc::parser {
         uint32_t line;
         uint64_t col;
 
-        span::Span span(session::sess_ptr sess) const {
+        span::Span span(sess::sess_ptr sess) const {
             return {offset, len, sess->fileId};
         }
 
@@ -183,7 +183,7 @@ namespace jc::parser {
         bool isLiteral() const;
         bool isModifier() const;
 
-        Span span(const session::sess_ptr & sess) const;
+        Span span(const sess::sess_ptr & sess) const;
 
         // Debug //
         static std::string typeToString(TokenType type);

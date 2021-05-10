@@ -32,7 +32,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        ast::stmt_list parse(session::sess_ptr sess, const token_list & tokens);
+        ast::stmt_list parse(sess::sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -150,7 +150,7 @@ namespace jc::parser {
 
         // Suggestions //
     private:
-        session::sess_ptr sess;
+        sess::sess_ptr sess;
         bool hasErrorSuggestions{false};
         std::vector<sugg::Suggestion> suggestions;
         void suggest(const sugg::Suggestion & suggestion);

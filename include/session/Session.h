@@ -4,12 +4,14 @@
 #include <string>
 #include <memory>
 
-namespace jc::session {
+#include "session/SourceMap.h"
+
+namespace jc::sess {
     struct Session;
     using sess_ptr = std::shared_ptr<Session>;
 
     struct Session {
-        uint16_t fileId;
+        file_id_t fileId;
     };
 }
 

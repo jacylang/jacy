@@ -1,7 +1,7 @@
 #ifndef JACY_SUGGESTION_H
 #define JACY_SUGGESTION_H
 
-#include "explain/Explain.h"
+#include "suggest/Explain.h"
 #include "span/Span.h"
 
 namespace jc::sugg {

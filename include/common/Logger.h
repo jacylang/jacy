@@ -32,6 +32,7 @@ namespace jc::common {
         Error,
     };
 
+    // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
         LoggerConfig() {
             // NOTE: Force to use `dev` level
@@ -107,7 +108,7 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static std::string format(Arg && first, Args && ...other);
 
-        const LoggerConfig & getConfig() const {
+        LoggerConfig & getConfig() {
             return config;
         }
 
