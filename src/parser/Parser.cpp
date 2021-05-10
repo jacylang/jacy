@@ -171,31 +171,8 @@ namespace jc::parser {
 
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
-        const auto & maybeParenToken = peek();
-        const bool isParen = maybeParenToken.is(TokenType::LParen);
-
-        if (isParen) {
-            justSkip(TokenType::LParen, true, "`(`", "`parseWhileStmt` -> `isParen`");
-        }
-
         const auto & condition = parseExpr();
-
-        if (isParen) {
-            skip(
-                TokenType::RParen,
-                true,
-                true,
-                MsgSpanLinkSugg(
-                    "Missing closing `)` after `while` condition", cspan(),
-                    "`while` condition starts here", maybeParenToken.span(sess),
-                    sugg::SuggKind::Error
-                )
-            );
-        }
-
         const auto & body = parseBlock();
-
-        // TODO!: "Remove parentheses" suggestion
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -206,13 +183,6 @@ namespace jc::parser {
         const auto & loc = peek().loc;
 
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
-
-        const auto & maybeParenToken = peek();
-        const bool isParen = maybeParenToken.is(TokenType::LParen);
-
-        if (isParen) {
-            justSkip(TokenType::LParen, true, "`(`", "`parseForStmt` -> `isParen`");
-        }
 
         // TODO: Destructuring
         const auto & forEntity = parseId();
@@ -225,23 +195,7 @@ namespace jc::parser {
         );
 
         const auto & inExpr = parseExpr();
-
-        if (isParen) {
-            skip(
-                TokenType::RParen,
-                true,
-                true,
-                MsgSpanLinkSugg(
-                    "Missing closing `)` after `for` loop header", cspan(),
-                    "Header starts here", maybeParenToken.span(sess),
-                    sugg::SuggKind::Error
-                )
-            );
-        }
-
         const auto & body = parseBlock();
-
-        // TODO!: "Remove parentheses" suggestion
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -329,6 +283,8 @@ namespace jc::parser {
         logParse("FuncDecl");
 
         const auto & loc = peek().loc;
+
+        // TODO!!: Allow FuncDecl multi-syntax only if it's configured in linter settings
 
         justSkip(TokenType::Func, true, "`func`", "`parseFuncDecl`");
 
@@ -840,6 +796,8 @@ namespace jc::parser {
     }
 
     ast::id_ptr Parser::parseId(bool skipNLs) {
+        // TODO!!!: Custom expectation name
+
         logParse("id");
 
         if (!is(TokenType::Id)) {
@@ -968,35 +926,21 @@ namespace jc::parser {
 
         justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
 
-        const auto & maybeParenToken = peek();
-        const bool isParen = maybeParenToken.is(TokenType::LParen);
-        if (isParen) {
-            justSkip(TokenType::LParen, true, "`(`", "`parseIfExpr` -> `isParen`");
-        }
-
         const auto & condition = parseExpr();
 
-        if (isParen) {
-            skip(
-                TokenType::RParen,
-                true,
-                true,
-                MsgSpanLinkSugg(
-                    "Missing closing `)` after `if` condition", cspan(),
-                    "`if` condition starts here", maybeParenToken.span(sess),
-                    sugg::SuggKind::Error
-                )
-            );
-        }
-
-        const auto & ifBranch = parseBlock();
+        // Check if user ignored `if` branch using `;` or parse body
+        const auto & ifBranch = skipOpt(TokenType::Semi) ? nullptr : parseBlock();
         ast::block_ptr elseBranch = nullptr;
 
         if (skipOpt(TokenType::Else)) {
+            const auto & maybeSemi = peek();
+            if (skipOpt(TokenType::Semi)) {
+                // Note: cover case when user writes `if {} else;`
+                suggest(ParseErrSugg("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
+                return nullptr;
+            }
             elseBranch = parseBlock();
         }
-
-        // TODO!: "Remove parentheses" suggestion
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
     }
@@ -1020,26 +964,7 @@ namespace jc::parser {
 
         justSkip(TokenType::When, true, "`when`", "`parseWhenExpr`");
 
-        const auto & maybeParenToken = peek();
-        const bool isParen = maybeParenToken.is(TokenType::LParen);
-        if (isParen) {
-            justSkip(TokenType::LParen, true, "`(`", "`parseIfExpr` -> `isParen`");
-        }
-
         const auto & subject = parseExpr();
-
-        if (isParen) {
-            skip(
-                TokenType::RParen,
-                true,
-                true,
-                MsgSpanLinkSugg(
-                    "Missing closing `)` after `when` subject", cspan(),
-                    "`when` subject starts here", maybeParenToken.span(sess),
-                    sugg::SuggKind::Error
-                )
-            );
-        }
 
         if (skipOpt(TokenType::Semi)) {
             // `when` body is ignored with `;`
@@ -1132,8 +1057,20 @@ namespace jc::parser {
     ast::block_ptr Parser::parseBlock() {
         logParse("block");
 
+        bool allowOneLine = false;
+        const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenType::DoubleArrow, true)) {
             allowOneLine = true;
+        }
+
+        if (allowOneLine and is(TokenType::LBrace)) {
+            suggest(
+                sugg::MsgSugg(
+                    "Useless `=>` in case of use body with `{`",
+                    maybeDoubleArrow.span(sess),
+                    sugg::SuggKind::Warn
+                )
+            );
         }
 
         ast::block_ptr block;
