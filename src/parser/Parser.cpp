@@ -59,15 +59,13 @@ namespace jc::parser {
             skipNLs(true);
         }
 
+        // We advance anyway, to avoid infinite recursions
+        advance();
+
         if (not peek().is(type)) {
-            advance();
             suggest(suggestion);
             return;
         }
-
-        // FIXME: Undefined behavior because lastToken might be not reset
-        lastToken = peek();
-        advance();
 
         if (skipRightNLs) {
             skipNLs(true);
@@ -79,8 +77,6 @@ namespace jc::parser {
             devPanic(common::Logger::format("[bug] Expected ", expected, "in", panicIn));
         }
 
-        // FIXME
-        lastToken = peek();
         advance();
 
         if (skipRightNLs) {
@@ -422,10 +418,11 @@ namespace jc::parser {
         auto lhs = disjunction();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Pipe)) {
-            const auto & opToken = lastToken;
             const auto rhs = disjunction();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -437,10 +434,11 @@ namespace jc::parser {
         auto lhs = conjunction();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Or)) {
-            const auto & opToken = lastToken;
             const auto rhs = conjunction();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -452,10 +450,11 @@ namespace jc::parser {
         auto lhs = bitOr();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::And)) {
-            const auto & opToken = lastToken;
             const auto rhs = bitOr();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -467,10 +466,11 @@ namespace jc::parser {
         auto lhs = Xor();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::BitOr)) {
-            const auto & opToken = lastToken;
             const auto rhs = Xor();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -482,10 +482,11 @@ namespace jc::parser {
         auto lhs = bitAnd();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Xor)) {
-            const auto & opToken = lastToken;
             const auto rhs = bitAnd();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -497,10 +498,11 @@ namespace jc::parser {
         auto lhs = equality();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::BitAnd)) {
-            const auto & opToken = lastToken;
             const auto rhs = equality();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -512,13 +514,14 @@ namespace jc::parser {
         auto lhs = comparison();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Eq)
             or skipOpt(TokenType::NotEq)
             or skipOpt(TokenType::RefEq)
             or skipOpt(TokenType::RefNotEq)) {
-            const auto & opToken = lastToken;
             const auto rhs = comparison();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -530,13 +533,16 @@ namespace jc::parser {
         auto lhs = spaceship();
 
         skipNLs(true);
-        while (skipOpt(TokenType::LAngle)
+        auto maybeOp = peek();
+        while (
+            skipOpt(TokenType::LAngle)
             or skipOpt(TokenType::RAngle)
             or skipOpt(TokenType::LE)
-            or skipOpt(TokenType::GE)) {
-            const auto & opToken = lastToken;
+            or skipOpt(TokenType::GE)
+        ) {
             const auto rhs = spaceship();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -548,10 +554,11 @@ namespace jc::parser {
         auto lhs = namedChecks();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Spaceship)) {
-            const auto & opToken = lastToken;
             const auto rhs = namedChecks();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -563,13 +570,14 @@ namespace jc::parser {
         auto lhs = nullishCoalesce();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::In)
             or skipOpt(TokenType::NotIn)
             or skipOpt(TokenType::Is)
             or skipOpt(TokenType::NotIs)) {
-            const auto & opToken = lastToken;
             const auto rhs = nullishCoalesce();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -581,10 +589,11 @@ namespace jc::parser {
         auto lhs = shift();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::NullCoalesce)) {
-            const auto & opToken = lastToken;
             const auto rhs = shift();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -596,11 +605,11 @@ namespace jc::parser {
         auto lhs = infix();
 
         skipNLs(true);
-        while (skipOpt(TokenType::Shl)
-            or skipOpt(TokenType::Shr)) {
-            const auto & opToken = lastToken;
+        auto maybeOp = peek();
+        while (skipOpt(TokenType::Shl) or skipOpt(TokenType::Shr)) {
             const auto rhs = infix();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -612,10 +621,11 @@ namespace jc::parser {
         auto lhs = range();
 
         skipNLs(true);
+        auto maybeOp = peek();
         while (skipOpt(TokenType::Id)) {
-            const auto & opToken = lastToken;
             const auto rhs = range();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -627,13 +637,16 @@ namespace jc::parser {
         auto lhs = add();
 
         skipNLs(true);
-        while (skipOpt(TokenType::Range)
+        auto maybeOp = peek();
+        while (
+            skipOpt(TokenType::Range)
             or skipOpt(TokenType::RangeLE)
             or skipOpt(TokenType::RangeRE)
-            or skipOpt(TokenType::RangeBothE)) {
-            const auto & opToken = lastToken;
+            or skipOpt(TokenType::RangeBothE)
+        ) {
             const auto rhs = add();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -645,11 +658,11 @@ namespace jc::parser {
         auto lhs = mul();
 
         skipNLs(true);
-        while (skipOpt(TokenType::Add)
-            or skipOpt(TokenType::Sub)) {
-            const auto & opToken = lastToken;
+        auto maybeOp = peek();
+        while (skipOpt(TokenType::Add) or skipOpt(TokenType::Sub)) {
             const auto rhs = mul();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -661,12 +674,15 @@ namespace jc::parser {
         auto lhs = power();
 
         skipNLs(true);
-        while (skipOpt(TokenType::Mul)
+        auto maybeOp = peek();
+        while (
+            skipOpt(TokenType::Mul)
             or skipOpt(TokenType::Div)
-            or skipOpt(TokenType::Mod)) {
-            const auto & opToken = lastToken;
+            or skipOpt(TokenType::Mod)
+        ) {
             const auto rhs = power();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -678,10 +694,10 @@ namespace jc::parser {
         auto lhs = typeCast();
 
         skipNLs(true);
+        const auto & maybeOp = peek();
         if (skipOpt(TokenType::Power)) {
-            const auto & opToken = lastToken;
             const auto & rhs = power(); // Right-assoc
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
         }
 
         return lhs;
@@ -693,11 +709,11 @@ namespace jc::parser {
         auto lhs = prefix();
 
         skipNLs(true);
-        while (skipOpt(TokenType::As)
-            or skipOpt(TokenType::AsQM)) {
-            const auto & opToken = lastToken;
+        auto maybeOp = peek();
+        while (skipOpt(TokenType::As) or skipOpt(TokenType::AsQM)) {
             const auto rhs = prefix();
-            lhs = makeInfix(lhs, opToken, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs);
+            maybeOp = peek();
         }
 
         return lhs;
@@ -706,10 +722,12 @@ namespace jc::parser {
     ast::expr_ptr Parser::prefix() {
         logParse("prefix");
 
+        const auto & maybeOp = peek();
         if (skipOpt(TokenType::Not)
-        or  skipOpt(TokenType::Sub)
-        or  skipOpt(TokenType::Inv)) {
-            return std::make_shared<ast::Prefix>(lastToken, prefix()); // Right-assoc
+            or skipOpt(TokenType::Sub)
+            or skipOpt(TokenType::Inv)
+        ) {
+            return std::make_shared<ast::Prefix>(maybeOp, prefix()); // Right-assoc
         }
 
         return postfix();
@@ -722,10 +740,11 @@ namespace jc::parser {
 
         skipNLs(true);
         while (!eof()) {
+            auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
-                lhs = makeInfix(lhs, lastToken, primary());
+                lhs = makeInfix(lhs, maybeOp, primary());
             } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
-                lhs = std::make_shared<ast::Postfix>(lhs, lastToken);
+                lhs = std::make_shared<ast::Postfix>(lhs, maybeOp);
             } else if (skipOpt(TokenType::LBracket)) {
                 ast::expr_list indices;
 
@@ -798,14 +817,14 @@ namespace jc::parser {
 
     ast::id_ptr Parser::parseId(bool skipNLs) {
         // TODO!!!: Custom expectation name
-
         logParse("id");
 
+        const auto & maybeIdToken = peek();
         if (!is(TokenType::Id)) {
             suggestErrorMsg("Expected identifier", cspan());
         }
         justSkip(TokenType::Id, true, "[identifier]", "`parseId`");
-        return std::make_shared<ast::Identifier>(lastToken);
+        return std::make_shared<ast::Identifier>(maybeIdToken);
     }
 
     ast::literal_ptr Parser::parseLiteral() {

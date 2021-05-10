@@ -67,7 +67,6 @@ namespace jc::parser {
         // States //
     private:
         ast::attr_list attributes{};
-        parser::Token lastToken; // Last non-NL token
 
         // Parsers //
     private:
