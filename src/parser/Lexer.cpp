@@ -37,13 +37,13 @@ namespace jc::parser {
 
     char Lexer::advance(int distance) {
         for (int i = 0; i < distance; i++) {
+            line += peek();
             if (isNL()) {
                 sourceLines.push_back(line);
                 line = "";
                 loc.line++;
                 loc.col = 1;
             } else {
-                line += peek();
                 loc.col++;
             }
             loc.offset++;
@@ -553,9 +553,7 @@ namespace jc::parser {
 
         this->source = source;
 
-
         while (!eof()) {
-            line += peek();
             if (hidden()) {
                 advance();
             } else if (isNL()) {
