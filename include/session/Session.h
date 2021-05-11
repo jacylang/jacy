@@ -11,6 +11,8 @@ namespace jc::sess {
     using source_t = std::vector<std::string>;
 
     struct Session {
+        Session(file_id_t fileId) : fileId(fileId) {}
+
         file_id_t fileId;
     };
 }

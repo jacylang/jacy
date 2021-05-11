@@ -16,7 +16,7 @@ namespace jc::parser {
         Lexer();
         virtual ~Lexer() = default;
 
-        token_list lex(const std::string & source);
+        token_list lex(sess::sess_ptr sess, const std::string & source);
 
     private:
         common::Logger log{"lexer", {}};
@@ -65,7 +65,8 @@ namespace jc::parser {
         void unexpectedTokenError();
         void unexpectedEof();
 
-        // Source //
+        // Session //
+        sess::sess_ptr sess;
         sess::source_t sourceLines;
         std::string line;
     };

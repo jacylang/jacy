@@ -18,7 +18,7 @@ namespace jc::sess {
     static struct SourceMap {
         std::map<file_id_t, source_t> sources;
 
-        void addSource(source_t && source) {
+        file_id_t addSource() {
             // TODO!: Hash-generated `fileId`
             const auto & rand = []() {
                 std::random_device dev;
@@ -30,6 +30,12 @@ namespace jc::sess {
             while (sources.find(fileId) != sources.end()) {
                 fileId = rand();
             }
+            std::cout << "added source to fileId " << fileId << std::endl;
+            sources.emplace(fileId, source_t{});
+            return fileId;
+        }
+
+        void setSource(file_id_t fileId, source_t && source) {
             sources.emplace(fileId, std::move(source));
         }
 

@@ -548,10 +548,11 @@ namespace jc::parser {
 
     //
 
-    token_list Lexer::lex(const std::string & source) {
+    token_list Lexer::lex(sess::sess_ptr sess, const std::string & source) {
         log.dev("Tokenize...");
 
         this->source = source;
+        this->sess = sess;
 
         while (!eof()) {
             if (hidden()) {
@@ -577,7 +578,7 @@ namespace jc::parser {
             log.raw(i, "|", sourceLines.at(i));
         }
 
-        sess::sourceMap.addSource(std::move(sourceLines));
+        sess::sourceMap.setSource(sess->fileId, std::move(sourceLines));
 
         return tokens;
     }
