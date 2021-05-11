@@ -1,8 +1,8 @@
 #ifndef JACY_PARSERSUGG_H
 #define JACY_PARSERSUGG_H
 
-#include "suggest/Suggestion.h"
 #include "common/Logger.h"
+#include "suggest/Suggestion.h"
 
 /**
  * Note: these suggestions can be used only on parser-level
@@ -16,40 +16,28 @@ namespace jc::parser {
 
     // Note: Read parameters order rules for `Suggestion`s in `suggest/Suggestion.h`
 
-    struct ParserSugg : sugg::Suggestion {
-        ParserSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : Suggestion(span, kind, eid) {}
-    };
-
     /// @brief Error-hard-coded message suggestion for parsing errors
-    struct ParseErrSugg : ParserSugg {
+    struct ParseErrSugg : sugg::MsgSugg {
         ParseErrSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
-            : msg(msg), ParserSugg(span, SuggKind::Error, eid) {}
+            : msg(msg), MsgSugg(msg, span, SuggKind::Error, eid) {}
 
         const std::string msg;
     };
 
-    struct SpanLinkSugg : ParserSugg {
-        SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : link(link), ParserSugg(span, kind, eid) {}
-
-        Span link;
+    /// @brief Warn-hard-coded message suggestion for parsing errors
+    struct ParseWarnSugg : sugg::MsgSugg {
+        ParseWarnSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
+            : MsgSugg(msg, span, SuggKind::Warn, eid) {}
     };
 
-    struct MsgSpanLinkSugg : SpanLinkSugg {
-        MsgSpanLinkSugg(
+    struct ParseErrSpanLinkSugg : sugg::MsgSpanLinkSugg {
+        ParseErrSpanLinkSugg(
             const std::string & spanMsg,
             const Span & span,
             const std::string & linkMsg,
             const Span & link,
-            SuggKind kind,
             eid_t eid = NoneEID
-        ) : spanMsg(spanMsg),
-            linkMsg(linkMsg),
-            SpanLinkSugg(span, link, kind, eid) {}
-
-        const std::string spanMsg;
-        const std::string linkMsg;
+        ) : MsgSpanLinkSugg(spanMsg, span, linkMsg, link, sugg::SuggKind::Error, eid) {}
     };
 }
 

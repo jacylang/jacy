@@ -40,6 +40,29 @@ namespace jc::sugg {
 
         const std::string msg;
     };
+
+    struct SpanLinkSugg : Suggestion {
+        SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
+            : link(link), Suggestion(span, kind, eid) {}
+
+        Span link;
+    };
+
+    struct MsgSpanLinkSugg : SpanLinkSugg {
+        MsgSpanLinkSugg(
+            const std::string & spanMsg,
+            const Span & span,
+            const std::string & linkMsg,
+            const Span & link,
+            SuggKind kind,
+            eid_t eid = NoneEID
+        ) : spanMsg(spanMsg),
+            linkMsg(linkMsg),
+            SpanLinkSugg(link, span, kind, eid) {}
+
+        const std::string spanMsg;
+        const std::string linkMsg;
+    };
 }
 
 #endif // JACY_SUGGESTION_H

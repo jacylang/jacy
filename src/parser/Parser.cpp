@@ -54,7 +54,7 @@ namespace jc::parser {
         }
     }
 
-    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const ParserSugg & suggestion) {
+    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const sugg::Suggestion & suggestion) {
         if (skipLeftNLs) {
             skipNLs(true);
         }
@@ -304,10 +304,9 @@ namespace jc::parser {
                 TokenType::RParen,
                 true,
                 true,
-                MsgSpanLinkSugg(
+                ParseErrSpanLinkSugg(
                     "Missing closing `)` after `func` parameter list", cspan(),
-                    "`func` parameter list starts here", maybeParenToken.span(sess),
-                    sugg::SuggKind::Error
+                    "`func` parameter list starts here", maybeParenToken.span(sess)
                 )
             );
         }

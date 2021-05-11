@@ -59,7 +59,7 @@ namespace jc::parser {
             TokenType type,
             bool skipLeftNLs,
             bool skipRightNLs,
-            const ParserSugg & suggestion
+            const sugg::Suggestion & suggestion
         );
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         bool skipOpt(TokenType type, bool skipRightNLs = false);
