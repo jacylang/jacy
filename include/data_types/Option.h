@@ -7,62 +7,59 @@
 #include "common/Logger.h"
 
 namespace jc::dt {
-    namespace use_once {
-        struct None {
-            struct init {};
-            None(init) {}
-        };
-    }
-
     namespace inner {
-        template<class T>
-        struct BaseOption {
-            BaseOption() {
-                common::Logger::devPanic("Created `BaseOption`");
-            }
-
-            friend BaseOption<T>;
-
-            T unwrap(const std::string & msg = "") {
-                if (none()) {
-                    common::Logger::devPanic(msg.empty() ? "Called `Option::unwrap` on a `None` value" : msg);
-                }
-                return value;
-            }
-
-            virtual bool none() = 0;
-
-        private:
-            explicit BaseOption(const T & value) : value(value) {}
-
-        protected:
-            T value;
+        struct none_t {
+            struct init {};
+            none_t(init) {}
         };
     }
 
-    using None = use_once::None(use_once::None::init);
+    const inner::none_t None(inner::none_t::init());
 
     template<class T>
-    struct Option : inner::BaseOption<T> {
-        explicit Option(const T & value) : inner::BaseOption<T>(value), hasValue(true) {}
-        explicit Option(None) : hasValue(false) {}
+    struct Option {
+        Option() : hasValue(false) {}
+        Option(inner::none_t) : hasValue(false) {}
+        Option(const T & value) : value(value), hasValue(true) {}
+        Option(T && value) : value(std::move(value)), hasValue(true) {}
+
+        template<class U>
+        explicit Option(const Option<U> & other) : hasValue(other.hasValue) {
+            if (other.hasValue) {
+                value = other.hasValue;
+            }
+        }
+
+        friend Option<T>;
+
+        T unwrap(const std::string & msg = "") {
+            if (none()) {
+                common::Logger::devPanic(msg.empty() ? "Called `Option::unwrap` on a `None` value" : msg);
+            }
+            return value;
+        }
 
         bool none() {
             return !hasValue;
         }
-        bool hasValue{false};
-    };
 
-    template<class T>
-    struct OptionPtr : inner::BaseOption<std::shared_ptr<T>> {
-        using value_type = std::shared_ptr<T>;
-
-        explicit OptionPtr(const value_type & value) : inner::BaseOption<value_type>(value) {}
-        explicit OptionPtr(None) : inner::BaseOption<T>(nullptr) {}
-
-        bool none() {
-            return inner::BaseOption<T>::value == nullptr;
+        template<class U>
+        Option<T> & operator=(const Option<U> & other) {
+            hasValue = other.hasValue;
+            if (other.hasValue) {
+                value = other.value;
+            }
+            return *this;
         }
+
+        Option<T> & operator=(inner::none_t) {
+            hasValue = false;
+            return *this;
+        }
+
+    private:
+        T value;
+        bool hasValue{false};
     };
 }
 

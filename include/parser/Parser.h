@@ -77,7 +77,7 @@ namespace jc::parser {
         ast::stmt_ptr parseForStmt();
 
         // Declarations //
-        ast::stmt_ptr parseDecl();
+        dt::Option<ast::stmt_ptr> parseDecl();
         ast::stmt_list parseDeclList();
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
@@ -91,28 +91,28 @@ namespace jc::parser {
         ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        dt::OptionPtr<ast::Expr> parseExpr();
-        dt::OptionPtr<ast::Expr> pipe();
-        dt::OptionPtr<ast::Expr> disjunction();
-        dt::OptionPtr<ast::Expr> conjunction();
-        dt::OptionPtr<ast::Expr> bitOr();
-        dt::OptionPtr<ast::Expr> Xor();
-        dt::OptionPtr<ast::Expr> bitAnd();
-        dt::OptionPtr<ast::Expr> equality();
-        dt::OptionPtr<ast::Expr> comparison();
-        dt::OptionPtr<ast::Expr> spaceship();
-        dt::OptionPtr<ast::Expr> namedChecks();
-        dt::OptionPtr<ast::Expr> nullishCoalesce();
-        dt::OptionPtr<ast::Expr> shift();
-        dt::OptionPtr<ast::Expr> infix();
-        dt::OptionPtr<ast::Expr> range();
-        dt::OptionPtr<ast::Expr> add();
-        dt::OptionPtr<ast::Expr> mul();
-        dt::OptionPtr<ast::Expr> power();
-        dt::OptionPtr<ast::Expr> typeCast();
-        dt::OptionPtr<ast::Expr> prefix();
-        dt::OptionPtr<ast::Expr> postfix();
-        dt::OptionPtr<ast::Expr> primary();
+        dt::Option<ast::expr_ptr> parseExpr();
+        dt::Option<ast::expr_ptr> pipe();
+        dt::Option<ast::expr_ptr> disjunction();
+        dt::Option<ast::expr_ptr> conjunction();
+        dt::Option<ast::expr_ptr> bitOr();
+        dt::Option<ast::expr_ptr> Xor();
+        dt::Option<ast::expr_ptr> bitAnd();
+        dt::Option<ast::expr_ptr> equality();
+        dt::Option<ast::expr_ptr> comparison();
+        dt::Option<ast::expr_ptr> spaceship();
+        dt::Option<ast::expr_ptr> namedChecks();
+        dt::Option<ast::expr_ptr> nullishCoalesce();
+        dt::Option<ast::expr_ptr> shift();
+        dt::Option<ast::expr_ptr> infix();
+        dt::Option<ast::expr_ptr> range();
+        dt::Option<ast::expr_ptr> add();
+        dt::Option<ast::expr_ptr> mul();
+        dt::Option<ast::expr_ptr> power();
+        dt::Option<ast::expr_ptr> typeCast();
+        dt::Option<ast::expr_ptr> prefix();
+        dt::Option<ast::expr_ptr> postfix();
+        dt::Option<ast::expr_ptr> primary();
 
         // Atomic expressions //
         ast::id_ptr parseId(bool skipNLs = false);

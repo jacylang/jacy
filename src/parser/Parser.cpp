@@ -129,7 +129,7 @@ namespace jc::parser {
 
         if (lhs && peek().isAssignOp() and lhs->isAssignable()) {
             const auto & assignOp = peek();
-            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr());
+            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr().unwrap());
         }
 
         if (!lhs) {
@@ -151,10 +151,7 @@ namespace jc::parser {
             }
             default: {
                 auto decl = parseDecl();
-                if (decl) {
-                    return decl;
-                }
-                return std::make_shared<ast::ExprStmt>(parseExpr());
+                return std::make_shared<ast::ExprStmt>(parseExpr().unwrap());
             }
         }
     }
@@ -200,7 +197,7 @@ namespace jc::parser {
     //////////////////
     // Declarations //
     //////////////////
-    ast::stmt_ptr Parser::parseDecl() {
+    dt::Option<ast::stmt_ptr> Parser::parseDecl() {
         logParse("Decl");
 
         ast::attr_list attributes = parseAttributes();
@@ -228,7 +225,7 @@ namespace jc::parser {
                 return parseTypeDecl();
             }
             default: {
-                return nullptr;
+                return dt::None;
             }
         }
     }
@@ -405,13 +402,13 @@ namespace jc::parser {
     }
 
     // Expressions //
-    dt::OptionPtr<ast::Expr> Parser::parseExpr() {
+    dt::Option<ast::expr_ptr> Parser::parseExpr() {
         logParse("Expr");
 
         return pipe();
     }
 
-    dt::OptionPtr<ast::Expr> Parser::pipe() {
+    dt::Option<ast::expr_ptr> Parser::pipe() {
         logParse("pipe");
 
         auto lhs = disjunction();
@@ -427,7 +424,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::disjunction() {
+    dt::Option<ast::expr_ptr> Parser::disjunction() {
         logParse("disjunction");
 
         auto lhs = conjunction();
@@ -443,7 +440,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::conjunction() {
+    dt::Option<ast::expr_ptr> Parser::conjunction() {
         logParse("conjunction");
 
         auto lhs = bitOr();
@@ -459,7 +456,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::bitOr() {
+    dt::Option<ast::expr_ptr> Parser::bitOr() {
         logParse("bitOr");
 
         auto lhs = Xor();
@@ -475,7 +472,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::Xor() {
+    dt::Option<ast::expr_ptr> Parser::Xor() {
         logParse("Xor");
 
         auto lhs = bitAnd();
@@ -491,7 +488,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::bitAnd() {
+    dt::Option<ast::expr_ptr> Parser::bitAnd() {
         logParse("bitAnd");
 
         auto lhs = equality();
@@ -507,7 +504,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::equality() {
+    dt::Option<ast::expr_ptr> Parser::equality() {
         logParse("equality");
 
         auto lhs = comparison();
@@ -526,7 +523,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::comparison() {
+    dt::Option<ast::expr_ptr> Parser::comparison() {
         logParse("comparison");
 
         auto lhs = spaceship();
@@ -547,7 +544,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::spaceship() {
+    dt::Option<ast::expr_ptr> Parser::spaceship() {
         logParse("spaceship");
 
         auto lhs = namedChecks();
@@ -563,7 +560,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::namedChecks() {
+    dt::Option<ast::expr_ptr> Parser::namedChecks() {
         logParse("namedChecks");
 
         auto lhs = nullishCoalesce();
@@ -582,7 +579,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::nullishCoalesce() {
+    dt::Option<ast::expr_ptr> Parser::nullishCoalesce() {
         logParse("nullishCoalesce");
 
         auto lhs = shift();
@@ -598,7 +595,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::shift() {
+    dt::Option<ast::expr_ptr> Parser::shift() {
         logParse("shift");
 
         auto lhs = infix();
@@ -614,7 +611,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::infix() {
+    dt::Option<ast::expr_ptr> Parser::infix() {
         logParse("infix");
 
         auto lhs = range();
@@ -630,7 +627,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::range() {
+    dt::Option<ast::expr_ptr> Parser::range() {
         logParse("range");
 
         auto lhs = add();
@@ -651,7 +648,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::add() {
+    dt::Option<ast::expr_ptr> Parser::add() {
         logParse("add");
 
         auto lhs = mul();
@@ -667,7 +664,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::mul() {
+    dt::Option<ast::expr_ptr> Parser::mul() {
         logParse("mul");
 
         auto lhs = power();
@@ -687,7 +684,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::power() {
+    dt::Option<ast::expr_ptr> Parser::power() {
         logParse("power");
 
         auto lhs = typeCast();
@@ -702,7 +699,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::typeCast() {
+    dt::Option<ast::expr_ptr> Parser::typeCast() {
         logParse("typeCast");
 
         auto lhs = prefix();
@@ -718,7 +715,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::prefix() {
+    dt::Option<ast::expr_ptr> Parser::prefix() {
         logParse("prefix");
 
         const auto & maybeOp = peek();
@@ -732,7 +729,7 @@ namespace jc::parser {
         return postfix();
     }
 
-    dt::OptionPtr<ast::Expr> Parser::postfix() {
+    dt::Option<ast::expr_ptr> Parser::postfix() {
         logParse("postfix");
 
         auto lhs = primary();
@@ -780,7 +777,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::OptionPtr<ast::Expr> Parser::primary() {
+    dt::Option<ast::expr_ptr> Parser::primary() {
         logParse("primary");
 
         if (peek().isLiteral()) {
