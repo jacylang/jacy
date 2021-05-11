@@ -34,7 +34,7 @@ namespace jc::sugg {
             : kind(kind), span(span), eid(eid) {}
 
         // DEBUG //
-        virtual std::string toString() {
+        virtual std::string toString(sess::sess_ptr sess) const {
             std::string str;
             switch (kind) {
                 case SuggKind::Error: {
@@ -44,8 +44,12 @@ namespace jc::sugg {
                     str += "WARN";
                 } break;
             }
-            str +=
-            return "[]"
+
+            str += " at " + span.toString() + ": `" + sess::sourceMap.sliceBySpan(span, sess) + "`";
+
+            str += eid != NoneEID ? " [EID=" + std::to_string(eid) + "]" : "";
+
+            return str;
         }
     };
 

@@ -737,6 +737,10 @@ namespace jc::parser {
 
         auto lhs = primary();
 
+        if (!suggestions.empty()) {
+            log.debug("Suggestions in `postfix`:\n", sugg::Suggester::dump(sess, suggestions));
+        }
+
         skipNLs(true);
         while (!eof()) {
             auto maybeOp = peek();

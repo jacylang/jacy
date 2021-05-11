@@ -12,7 +12,7 @@ namespace jc::sugg {
 
         void outputSuggestions(const sugg_list & suggestions);
 
-        void dump(const sugg_list & suggestions);
+        static std::string dump(sess::sess_ptr sess, const sugg_list & suggestions);
 
     private:
         common::Logger log{"suggester", {}};

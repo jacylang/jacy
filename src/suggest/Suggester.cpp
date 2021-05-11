@@ -21,9 +21,11 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::dump(const sugg_list & suggestions) {
+    std::string Suggester::dump(sess::sess_ptr sess, const sugg_list & suggestions) {
+        std::string str;
         for (const auto & sg : suggestions) {
-
+            str += sg.toString(sess);
         }
+        return str;
     }
 }

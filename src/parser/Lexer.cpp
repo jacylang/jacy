@@ -9,7 +9,7 @@ namespace jc::parser {
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.loc = loc;
-//        t.loc.len = len;
+        t.loc.len = len;
         tokens.emplace_back(t);
     }
 
@@ -38,9 +38,12 @@ namespace jc::parser {
     char Lexer::advance(int distance) {
         for (int i = 0; i < distance; i++) {
             if (isNL()) {
+                sourceLines.push_back(line);
+                line = "";
                 loc.line++;
                 loc.col = 1;
             } else {
+                line += peek();
                 loc.col++;
             }
             loc.offset++;
@@ -550,8 +553,6 @@ namespace jc::parser {
 
         this->source = source;
 
-        sess::source_t sourceLines;
-        std::string line;
 
         while (!eof()) {
             line += peek();
@@ -560,8 +561,6 @@ namespace jc::parser {
             } else if (isNL()) {
                 addToken(TokenType::Nl, 1);
                 advance();
-                sourceLines.push_back(line);
-                line = "";
             } else if (isDigit()) {
                 lexNumber();
             } else if (isIdFirst()) {

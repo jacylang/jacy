@@ -10,6 +10,7 @@
 #include "common/Error.h"
 #include "parser/ParserSugg.h"
 #include "session/Session.h"
+#include "suggest/Suggester.h"
 
 namespace jc::parser {
     using ast::makeInfix;

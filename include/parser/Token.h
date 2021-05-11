@@ -24,9 +24,10 @@ namespace jc::parser {
         uint32_t offset;
         uint32_t line;
         uint32_t col;
+        uint16_t len;
 
         span::Span span(sess::sess_ptr sess) const {
-            return {line, col, sess->fileId};
+            return {line, col, len, sess->fileId};
         }
 
         std::string toString() const {

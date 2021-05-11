@@ -64,6 +64,10 @@ namespace jc::parser {
         void error(const std::string & msg);
         void unexpectedTokenError();
         void unexpectedEof();
+
+        // Source //
+        sess::source_t sourceLines;
+        std::string line;
     };
 }
 

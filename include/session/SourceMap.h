@@ -7,8 +7,14 @@
 
 #include "session/Session.h"
 #include "parser/Token.h"
+#include "common/Error.h"
+
+namespace jc::span {
+    struct Span;
+}
 
 namespace jc::sess {
+
     static struct SourceMap {
         std::map<file_id_t, source_t> sources;
 
@@ -26,6 +32,8 @@ namespace jc::sess {
             }
             sources.emplace(fileId, std::move(source));
         }
+
+        std::string sliceBySpan(const span::Span & span, sess_ptr sess);
     } sourceMap;
 }
 
