@@ -557,6 +557,7 @@ namespace jc::parser {
                 addToken(TokenType::Nl);
                 advance();
                 sourceLines.push_back(line);
+                line = "";
             } else if (isDigit()) {
                 lexNumber();
             } else if (isIdFirst()) {
@@ -569,6 +570,11 @@ namespace jc::parser {
         }
 
         addToken(TokenType::Eof);
+
+        log.debug("Source lines:");
+        for (size_t i = 0; i < sourceLines.size(); i++) {
+            log.raw(i, "|", sourceLines.at(i));
+        }
 
         sess::sourceMap.addSource(std::move(sourceLines));
 

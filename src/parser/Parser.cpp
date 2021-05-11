@@ -893,7 +893,7 @@ namespace jc::parser {
 
         // Parenthesized expression
         if (skipOpt(TokenType::RParen)) {
-            return std::make_shared<ast::ParenExpr>(firstExpr);
+            return std::make_shared<ast::ParenExpr>(firstExpr, loc);
         }
 
         ast::named_el_list namedList;

@@ -24,7 +24,7 @@ namespace jc::parser {
         uint32_t offset;
         uint16_t len;
         uint32_t line;
-        uint64_t col;
+        uint32_t col;
 
         span::Span span(sess::sess_ptr sess) const {
             return {offset, len, sess->fileId};
