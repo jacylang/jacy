@@ -33,9 +33,10 @@ void Logger::dev(Args && ...args) {
 template<class Arg, class ...Args>
 void Logger::devPanic(Arg && first, Args && ...other) {
     std::cout << colors.at(Color::Red);
-    std::cout << std::forward<Arg>(first);
+    std::cout << "[DEV PANIC]: " << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     std::cout << Logger::ansiReset;
+    Logger::nl();
 
     throw common::Error("Stop after dev panic!");
 }

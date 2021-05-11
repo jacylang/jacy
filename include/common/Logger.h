@@ -48,7 +48,8 @@ namespace jc::common {
         bool colorize{true};
     };
 
-    inline std::ostream & operator<<(std::ostream & os, const std::vector<std::string> & vec) {
+    template<class T>
+    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
         os << "[";
         for (size_t i = 0; i < vec.size(); ++i) {
             os << vec.at(i);
@@ -60,8 +61,8 @@ namespace jc::common {
         return os;
     }
 
-    template<class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::map<std::string, V> & map) {
+    template<class K, class V>
+    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
         os << "{";
         for (auto it = map.begin(); it != map.end(); it++) {
             os << it->first << ": " << it->second;
@@ -102,7 +103,7 @@ namespace jc::common {
         template<class Arg, class ...Args>
         void colorized(Color color, Arg && first, Args && ...other);
 
-        void nl() {
+        static inline void nl() {
             std::cout << std::endl;
         }
 
