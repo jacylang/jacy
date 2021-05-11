@@ -11,6 +11,7 @@
 #include "parser/ParserSugg.h"
 #include "session/Session.h"
 #include "suggest/Suggester.h"
+#include "data_types/Option.h"
 
 namespace jc::parser {
     using ast::makeInfix;
@@ -90,28 +91,28 @@ namespace jc::parser {
         ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        ast::expr_ptr parseExpr();
-        ast::expr_ptr pipe();
-        ast::expr_ptr disjunction();
-        ast::expr_ptr conjunction();
-        ast::expr_ptr bitOr();
-        ast::expr_ptr Xor();
-        ast::expr_ptr bitAnd();
-        ast::expr_ptr equality();
-        ast::expr_ptr comparison();
-        ast::expr_ptr spaceship();
-        ast::expr_ptr namedChecks();
-        ast::expr_ptr nullishCoalesce();
-        ast::expr_ptr shift();
-        ast::expr_ptr infix();
-        ast::expr_ptr range();
-        ast::expr_ptr add();
-        ast::expr_ptr mul();
-        ast::expr_ptr power();
-        ast::expr_ptr typeCast();
-        ast::expr_ptr prefix();
-        ast::expr_ptr postfix();
-        ast::expr_ptr primary();
+        dt::OptionPtr<ast::Expr> parseExpr();
+        dt::OptionPtr<ast::Expr> pipe();
+        dt::OptionPtr<ast::Expr> disjunction();
+        dt::OptionPtr<ast::Expr> conjunction();
+        dt::OptionPtr<ast::Expr> bitOr();
+        dt::OptionPtr<ast::Expr> Xor();
+        dt::OptionPtr<ast::Expr> bitAnd();
+        dt::OptionPtr<ast::Expr> equality();
+        dt::OptionPtr<ast::Expr> comparison();
+        dt::OptionPtr<ast::Expr> spaceship();
+        dt::OptionPtr<ast::Expr> namedChecks();
+        dt::OptionPtr<ast::Expr> nullishCoalesce();
+        dt::OptionPtr<ast::Expr> shift();
+        dt::OptionPtr<ast::Expr> infix();
+        dt::OptionPtr<ast::Expr> range();
+        dt::OptionPtr<ast::Expr> add();
+        dt::OptionPtr<ast::Expr> mul();
+        dt::OptionPtr<ast::Expr> power();
+        dt::OptionPtr<ast::Expr> typeCast();
+        dt::OptionPtr<ast::Expr> prefix();
+        dt::OptionPtr<ast::Expr> postfix();
+        dt::OptionPtr<ast::Expr> primary();
 
         // Atomic expressions //
         ast::id_ptr parseId(bool skipNLs = false);
@@ -157,7 +158,6 @@ namespace jc::parser {
 
         // DEV //
         void logParse(const std::string & entity);
-        void devPanic(const std::string & msg);
     };
 }
 

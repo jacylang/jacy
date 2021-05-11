@@ -578,7 +578,7 @@ namespace jc::parser {
             log.raw(i + 1, "|", sourceLines.at(i));
         }
 
-        sess::sourceMap.setSource(sess->fileId, std::move(sourceLines));
+        sess::SourceMap::getInstance().setSource(sess, std::move(sourceLines));
 
         return tokens;
     }

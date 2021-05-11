@@ -184,7 +184,7 @@ namespace jc::parser {
         bool isLiteral() const;
         bool isModifier() const;
 
-        span::Span span(const sess::sess_ptr & sess) const;
+        span::Span span(sess::sess_ptr sess) const;
 
         // Debug //
         static std::string typeToString(TokenType type);

@@ -208,7 +208,7 @@ namespace jc::parser {
         return str;
     }
 
-    span::Span Token::span(const sess::sess_ptr & sess) const {
+    span::Span Token::span(sess::sess_ptr sess) const {
         return span::Span(loc.line, loc.col, loc.len, sess->fileId);
     }
 }

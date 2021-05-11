@@ -17,7 +17,19 @@ namespace jc::sess {
         return fileId;
     }
 
-    std::string SourceMap::sliceBySpan(const span::Span & span, sess_ptr sess) {
+    void SourceMap::setSource(sess_ptr sess, source_t && source) {
+        if (sources.find(sess->fileId) == sources.end()) {
+            common::Logger::devPanic(
+                "No source found by fileId",
+                sess->fileId,
+                "in SourceMap::setSource, existent files:",
+                utils::map::keys(sources));
+        }
+        std::cout << "Set source by fileId " << sess->fileId << std::endl;
+        sources.emplace(sess->fileId, std::move(source));
+    }
+
+    std::string SourceMap::sliceBySpan(sess_ptr sess, const span::Span & span) {
         const auto & sourceIt = sources.find(sess->fileId);
         if (sourceIt == sources.end()) {
             // FIXME
@@ -33,17 +45,5 @@ namespace jc::sess {
 
         const auto & line = sourceIt->second.at(span.line);
         return line.substr(span.col, span.len);
-    }
-
-    void SourceMap::setSource(file_id_t fileId, source_t && source) {
-        if (sources.find(fileId) == sources.end()) {
-            common::Logger::devPanic(
-                "No source found by fileId",
-                fileId,
-                "in SourceMap::setSource, existent files:",
-                utils::map::keys(sources));
-        }
-        std::cout << "Set source by fileId " << fileId << std::endl;
-        sources.emplace(fileId, std::move(source));
     }
 }

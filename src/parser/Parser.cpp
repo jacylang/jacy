@@ -74,7 +74,7 @@ namespace jc::parser {
 
     void Parser::justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn) {
         if(not peek().is(type)) {
-            devPanic(common::Logger::format("[bug] Expected ", expected, "in", panicIn));
+            common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
         }
 
         advance();
@@ -133,7 +133,7 @@ namespace jc::parser {
         }
 
         if (!lhs) {
-            devPanic("ERROR: Left-hand side is null in parseTopLevel");
+            common::Logger::devPanic("ERROR: Left-hand side is null in parseTopLevel");
         }
 
         return lhs;
@@ -405,13 +405,13 @@ namespace jc::parser {
     }
 
     // Expressions //
-    ast::expr_ptr Parser::parseExpr() {
+    dt::OptionPtr<ast::Expr> Parser::parseExpr() {
         logParse("Expr");
 
         return pipe();
     }
 
-    ast::expr_ptr Parser::pipe() {
+    dt::OptionPtr<ast::Expr> Parser::pipe() {
         logParse("pipe");
 
         auto lhs = disjunction();
@@ -427,7 +427,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::disjunction() {
+    dt::OptionPtr<ast::Expr> Parser::disjunction() {
         logParse("disjunction");
 
         auto lhs = conjunction();
@@ -443,7 +443,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::conjunction() {
+    dt::OptionPtr<ast::Expr> Parser::conjunction() {
         logParse("conjunction");
 
         auto lhs = bitOr();
@@ -459,7 +459,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::bitOr() {
+    dt::OptionPtr<ast::Expr> Parser::bitOr() {
         logParse("bitOr");
 
         auto lhs = Xor();
@@ -475,7 +475,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::Xor() {
+    dt::OptionPtr<ast::Expr> Parser::Xor() {
         logParse("Xor");
 
         auto lhs = bitAnd();
@@ -491,7 +491,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::bitAnd() {
+    dt::OptionPtr<ast::Expr> Parser::bitAnd() {
         logParse("bitAnd");
 
         auto lhs = equality();
@@ -507,7 +507,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::equality() {
+    dt::OptionPtr<ast::Expr> Parser::equality() {
         logParse("equality");
 
         auto lhs = comparison();
@@ -526,7 +526,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::comparison() {
+    dt::OptionPtr<ast::Expr> Parser::comparison() {
         logParse("comparison");
 
         auto lhs = spaceship();
@@ -547,7 +547,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::spaceship() {
+    dt::OptionPtr<ast::Expr> Parser::spaceship() {
         logParse("spaceship");
 
         auto lhs = namedChecks();
@@ -563,7 +563,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::namedChecks() {
+    dt::OptionPtr<ast::Expr> Parser::namedChecks() {
         logParse("namedChecks");
 
         auto lhs = nullishCoalesce();
@@ -582,7 +582,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::nullishCoalesce() {
+    dt::OptionPtr<ast::Expr> Parser::nullishCoalesce() {
         logParse("nullishCoalesce");
 
         auto lhs = shift();
@@ -598,7 +598,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::shift() {
+    dt::OptionPtr<ast::Expr> Parser::shift() {
         logParse("shift");
 
         auto lhs = infix();
@@ -614,7 +614,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::infix() {
+    dt::OptionPtr<ast::Expr> Parser::infix() {
         logParse("infix");
 
         auto lhs = range();
@@ -630,7 +630,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::range() {
+    dt::OptionPtr<ast::Expr> Parser::range() {
         logParse("range");
 
         auto lhs = add();
@@ -651,7 +651,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::add() {
+    dt::OptionPtr<ast::Expr> Parser::add() {
         logParse("add");
 
         auto lhs = mul();
@@ -667,7 +667,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::mul() {
+    dt::OptionPtr<ast::Expr> Parser::mul() {
         logParse("mul");
 
         auto lhs = power();
@@ -687,7 +687,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::power() {
+    dt::OptionPtr<ast::Expr> Parser::power() {
         logParse("power");
 
         auto lhs = typeCast();
@@ -702,7 +702,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::typeCast() {
+    dt::OptionPtr<ast::Expr> Parser::typeCast() {
         logParse("typeCast");
 
         auto lhs = prefix();
@@ -718,7 +718,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::prefix() {
+    dt::OptionPtr<ast::Expr> Parser::prefix() {
         logParse("prefix");
 
         const auto & maybeOp = peek();
@@ -732,14 +732,10 @@ namespace jc::parser {
         return postfix();
     }
 
-    ast::expr_ptr Parser::postfix() {
+    dt::OptionPtr<ast::Expr> Parser::postfix() {
         logParse("postfix");
 
         auto lhs = primary();
-
-        if (!suggestions.empty()) {
-            log.debug("Suggestions in `postfix`:\n", sugg::Suggester::dump(sess, suggestions));
-        }
 
         skipNLs(true);
         while (!eof()) {
@@ -784,7 +780,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    ast::expr_ptr Parser::primary() {
+    dt::OptionPtr<ast::Expr> Parser::primary() {
         logParse("primary");
 
         if (peek().isLiteral()) {
@@ -834,7 +830,7 @@ namespace jc::parser {
         logParse("literal");
 
         if (!peek().isLiteral()) {
-            devPanic("Expected literal in parseLiteral");
+            common::Logger::devPanic("Expected literal in parseLiteral");
         }
         const auto & token = peek();
         advance();
@@ -1479,6 +1475,7 @@ namespace jc::parser {
     }
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
+        common::Logger::devPanic("Parse error: ", msg);
         suggest(msg, span, SuggKind::Error, eid);
     }
 
@@ -1489,10 +1486,5 @@ namespace jc::parser {
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
         log.dev("Parse", entity, peek().toString());
-    }
-
-    void Parser::devPanic(const std::string & msg) {
-        log.dev("ERROR:", msg);
-        throw common::Error("Stop after dev panic");
     }
 }

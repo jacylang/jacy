@@ -45,7 +45,7 @@ namespace jc::sugg {
                 } break;
             }
 
-            str += " at " + span.toString() + ": `" + sess::sourceMap.sliceBySpan(span, sess) + "`";
+            str += " at " + span.toString() + ": `" + sess::SourceMap::getInstance().sliceBySpan(sess, span) + "`";
 
             str += eid != NoneEID ? " [EID=" + std::to_string(eid) + "]" : "";
 
