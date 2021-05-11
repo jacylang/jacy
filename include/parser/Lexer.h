@@ -28,8 +28,9 @@ namespace jc::parser {
         char advance(int distance = 1);
         char forward();
 
-        void addToken(Token && t, uint16_t len);
-        void addToken(TokenType type, const std::string & val = "");
+        void addToken(Token && t, span::span_len_t len);
+        void addToken(TokenType type, const std::string & val);
+        void addToken(TokenType type, span::span_len_t len);
         token_list tokens;
 
         // Checkers

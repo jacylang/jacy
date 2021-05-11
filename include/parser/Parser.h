@@ -64,10 +64,6 @@ namespace jc::parser {
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         bool skipOpt(TokenType type, bool skipRightNLs = false);
 
-        // States //
-    private:
-        ast::attr_list attributes{};
-
         // Parsers //
     private:
         ast::stmt_ptr parseTopLevel();
