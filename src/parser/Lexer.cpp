@@ -575,7 +575,7 @@ namespace jc::parser {
 
         log.debug("Source lines:");
         for (size_t i = 0; i < sourceLines.size(); i++) {
-            log.raw(i, "|", sourceLines.at(i));
+            log.raw(i + 1, "|", sourceLines.at(i));
         }
 
         sess::sourceMap.setSource(sess->fileId, std::move(sourceLines));

@@ -4,7 +4,7 @@
 #include "common/Error.h"
 
 namespace jc::dev {
-//    void devPanic();
+    void devPanic();
 }
 
 #endif // JACY_DEV_DEBUG_H

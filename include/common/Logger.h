@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "dev/DevConfig.h"
+#include "common/Error.h"
 
 namespace jc::common {
     enum class Color {
@@ -94,6 +95,9 @@ namespace jc::common {
 
         template<class ...Args>
         void dev(Args && ...args);
+
+        template<class ...Args>
+        void devPanic(Args && ...args);
 
         template<class Arg, class ...Args>
         Logger & raw(Arg && first, Args && ...other);

@@ -30,6 +30,12 @@ void Logger::dev(Args && ...args) {
     log(LogLevel::Dev, args...);
 }
 
+template<class ...Args>
+void Logger::devPanic(Args && ...args) {
+    log(LogLevel::Error, args...);
+    throw common::Error("Stop after dev panic!");
+}
+
 template<class Arg, class ...Args>
 Logger & Logger::raw(Arg && first, Args && ...other) {
     std::cout << std::forward<Arg>(first);
