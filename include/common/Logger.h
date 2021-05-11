@@ -96,9 +96,6 @@ namespace jc::common {
         template<class ...Args>
         void dev(Args && ...args);
 
-        template<class ...Args>
-        void devPanic(Args && ...args);
-
         template<class Arg, class ...Args>
         Logger & raw(Arg && first, Args && ...other);
 
@@ -115,6 +112,10 @@ namespace jc::common {
         LoggerConfig & getConfig() {
             return config;
         }
+
+        // DEBUG //
+        template<class Arg, class ...Args>
+        static void devPanic(Arg && first, Args && ...other);
 
     private:
         std::string owner;
