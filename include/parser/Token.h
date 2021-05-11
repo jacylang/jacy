@@ -22,12 +22,11 @@ namespace jc::parser {
 
     struct Location {
         uint32_t offset;
-        uint16_t len;
         uint32_t line;
         uint32_t col;
 
         span::Span span(sess::sess_ptr sess) const {
-            return {offset, len, sess->fileId};
+            return {line, col, sess->fileId};
         }
 
         std::string toString() const {

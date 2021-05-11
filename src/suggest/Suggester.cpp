@@ -10,16 +10,20 @@ namespace jc::sugg {
 
     void Suggester::outputSuggestions(const sugg_list & suggestions) {
         bool errorAppeared = false;
-        for (const auto & s : suggestions) {
-            if (s.kind == SuggKind::Error) {
+        for (const auto & sg : suggestions) {
+            if (sg.kind == SuggKind::Error) {
                 errorAppeared = true;
             }
-
-
         }
 
         if (errorAppeared) {
             throw common::Error("Stop due to errors above");
+        }
+    }
+
+    void Suggester::dump(const sugg_list & suggestions) {
+        for (const auto & sg : suggestions) {
+
         }
     }
 }

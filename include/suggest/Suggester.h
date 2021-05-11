@@ -12,6 +12,8 @@ namespace jc::sugg {
 
         void outputSuggestions(const sugg_list & suggestions);
 
+        void dump(const sugg_list & suggestions);
+
     private:
         common::Logger log{"suggester", {}};
     };

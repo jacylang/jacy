@@ -3,6 +3,7 @@
 
 #include "suggest/Explain.h"
 #include "span/Span.h"
+#include "session/SourceMap.h"
 
 namespace jc::sugg {
     struct Suggestion;
@@ -12,7 +13,6 @@ namespace jc::sugg {
     enum class SuggKind {
         Error,
         Warn,
-        Suggest,
     };
 
     // Note: Constructor parameters order rule for `Suggestion`:
@@ -32,6 +32,21 @@ namespace jc::sugg {
 
         Suggestion(const Span & span, SuggKind kind, eid_t eid = NoneEID)
             : kind(kind), span(span), eid(eid) {}
+
+        // DEBUG //
+        virtual std::string toString() {
+            std::string str;
+            switch (kind) {
+                case SuggKind::Error: {
+                    str += "ERROR";
+                } break;
+                case SuggKind::Warn: {
+                    str += "WARN";
+                } break;
+            }
+            str +=
+            return "[]"
+        }
     };
 
     struct MsgSugg : Suggestion {

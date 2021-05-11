@@ -9,7 +9,7 @@ namespace jc::parser {
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.loc = loc;
-        t.loc.len = len;
+//        t.loc.len = len;
         tokens.emplace_back(t);
     }
 
