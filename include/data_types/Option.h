@@ -14,7 +14,7 @@ namespace jc::dt {
         };
     }
 
-    const inner::none_t None(inner::none_t::init());
+    const inner::none_t None((inner::none_t::init()));
 
     template<class T>
     struct Option {
