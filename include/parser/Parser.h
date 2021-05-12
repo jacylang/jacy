@@ -30,11 +30,18 @@ namespace jc::parser {
         explicit UnexpectedTokenError(const std::string & token) : ParserError("Unexpected token " + token) {}
     };
 
+    // Note: Usage
+    //  0b11111111
+    //  1. Multiple?
+    //  2. Right-assoc?
+    //  3. Infix = 0, Prefix = 1 (postfix is different parser func)
+    //  4. Skip optional left NLs?
+    //  5. Skip optional right NLs?
+    using prec_parser_marks = uint8_t;
+
     struct PrecParser {
-        bool multiple;
+        prec_parser_marks marks;
         std::vector<TokenType> ops;
-        bool skipLeftNLs;
-        bool skipRightNLs;
     };
 
     class Parser {

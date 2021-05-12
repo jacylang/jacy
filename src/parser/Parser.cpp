@@ -421,370 +421,84 @@ namespace jc::parser {
             common::Logger::devPanic("`precParse` with index > precTable.size");
         }
 
+        const auto parserMarks = precTable.at(index).marks;
+        const auto multiple = (parserMarks >> 7) & 1;
+        const auto rightAssoc = (parserMarks >> 6) & 1;
+        const auto prefix = (parserMarks >> 5) & 1;
+        const auto skipLeftNLs = (parserMarks >> 4) & 1;
+        const auto skipRightNLs = (parserMarks >> 3) & 1;
+
         const auto & parser = precTable.at(index);
-        auto single = precParse(index + 1);
-        if (single.none()) {
-            return single;
+
+        ast::expr_ptr lhs{nullptr};
+        if (!prefix) {
+            auto single = precParse(index + 1);
+            if (single.none()) {
+                return single;
+            }
+
+            lhs = single.unwrap();
         }
 
-        auto lhs = single.unwrap();
-
-        if (parser.skipLeftNLs) {
+        if (skipLeftNLs) {
             skipNLs(true);
         }
 
         const auto & maybeOp = peek();
         bool first = true;
+        bool skipped = false;
         while (!eof()) {
-            bool skipped = false;
             for (const auto & op : parser.ops) {
-                skipped = skipOpt(op, parser.skipRightNLs);
+                skipped = skipOpt(op, skipRightNLs);
                 if (skipped) {
                     break;
                 }
             }
             if (skipped) {
-                const auto rhs = precParse(index + 1);
+                const auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
+                if (prefix) {
+                    if (lhs) {
+                        common::Logger::devPanic("LHS exists in prefix parser");
+                    }
+                    return std::static_pointer_cast<ast::Expr>(std::make_shared<ast::Prefix>(maybeOp, rhs)); // FIXME: Multiple?!
+                }
                 lhs = makeInfix(lhs, maybeOp, rhs.unwrap());
+                if (!multiple) {
+                    break;
+                }
             } else {
                 break;
             }
+        }
+
+        if (!skipped and prefix) {
+            return postfix();
         }
 
         return lhs;
     }
 
     const std::vector<PrecParser> Parser::precTable = {
-        {true, {TokenType::Pipe}, true, true},
-        {}
+        {0b10011000, {TokenType::Pipe}},
+        {0b10011000, {TokenType::Or}},
+        {0b10011000, {TokenType::And}},
+        {0b10011000, {TokenType::BitOr}},
+        {0b10011000, {TokenType::Xor}},
+        {0b10011000, {TokenType::BitAnd}},
+        {0b10011000, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
+        {0b10011000, {TokenType::LAngle, TokenType::LAngle, TokenType::LE, TokenType::GE}},
+        {0b10011000, {TokenType::Spaceship}},
+        {0b10011000, {TokenType::In, TokenType::NotIn, TokenType::Is, TokenType::NotIs}},
+        {0b10011000, {TokenType::NullCoalesce}},
+        {0b10011000, {TokenType::Shl, TokenType::Shr}},
+        {0b10011000, {TokenType::Id}},
+        {0b10011000, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
+        {0b10011000, {TokenType::Add, TokenType::Sub}},
+        {0b10011000, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
+        {0b11011000, {TokenType::Power}},
+        {0b10011000, {TokenType::As, TokenType::AsQM}},
+        {0b00111000, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // FIXME: Not multiple?!
     };
-
-    dt::Option<ast::expr_ptr> Parser::pipe() {
-        logParse("pipe");
-
-        auto single = disjunction();
-        if (single.none()) {
-            return single;
-        }
-
-        auto lhs = single.unwrap();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Pipe)) {
-            const auto rhs = disjunction();
-            lhs = makeInfix(lhs, maybeOp, rhs.unwrap());
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::disjunction() {
-        logParse("disjunction");
-
-        auto lhs = conjunction();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Or)) {
-            const auto rhs = conjunction();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::conjunction() {
-        logParse("conjunction");
-
-        auto lhs = bitOr();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::And)) {
-            const auto rhs = bitOr();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::bitOr() {
-        logParse("bitOr");
-
-        auto lhs = Xor();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::BitOr)) {
-            const auto rhs = Xor();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::Xor() {
-        logParse("Xor");
-
-        auto lhs = bitAnd();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Xor)) {
-            const auto rhs = bitAnd();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::bitAnd() {
-        logParse("bitAnd");
-
-        auto lhs = equality();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::BitAnd)) {
-            const auto rhs = equality();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::equality() {
-        logParse("equality");
-
-        auto lhs = comparison();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Eq)
-            or skipOpt(TokenType::NotEq)
-            or skipOpt(TokenType::RefEq)
-            or skipOpt(TokenType::RefNotEq)) {
-            const auto rhs = comparison();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::comparison() {
-        logParse("comparison");
-
-        auto lhs = spaceship();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (
-            skipOpt(TokenType::LAngle)
-            or skipOpt(TokenType::RAngle)
-            or skipOpt(TokenType::LE)
-            or skipOpt(TokenType::GE)
-        ) {
-            const auto rhs = spaceship();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::spaceship() {
-        logParse("spaceship");
-
-        auto lhs = namedChecks();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Spaceship)) {
-            const auto rhs = namedChecks();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::namedChecks() {
-        logParse("namedChecks");
-
-        auto lhs = nullishCoalesce();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::In)
-            or skipOpt(TokenType::NotIn)
-            or skipOpt(TokenType::Is)
-            or skipOpt(TokenType::NotIs)) {
-            const auto rhs = nullishCoalesce();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::nullishCoalesce() {
-        logParse("nullishCoalesce");
-
-        auto lhs = shift();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::NullCoalesce)) {
-            const auto rhs = shift();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::shift() {
-        logParse("shift");
-
-        auto lhs = infix();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Shl) or skipOpt(TokenType::Shr)) {
-            const auto rhs = infix();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::infix() {
-        logParse("infix");
-
-        auto lhs = range();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Id)) {
-            const auto rhs = range();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::range() {
-        logParse("range");
-
-        auto lhs = add();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (
-            skipOpt(TokenType::Range)
-            or skipOpt(TokenType::RangeLE)
-            or skipOpt(TokenType::RangeRE)
-            or skipOpt(TokenType::RangeBothE)
-        ) {
-            const auto rhs = add();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::add() {
-        logParse("add");
-
-        auto lhs = mul();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::Add) or skipOpt(TokenType::Sub)) {
-            const auto rhs = mul();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::mul() {
-        logParse("mul");
-
-        auto lhs = power();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (
-            skipOpt(TokenType::Mul)
-            or skipOpt(TokenType::Div)
-            or skipOpt(TokenType::Mod)
-        ) {
-            const auto rhs = power();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::power() {
-        logParse("power");
-
-        auto lhs = typeCast();
-
-        skipNLs(true);
-        const auto & maybeOp = peek();
-        if (skipOpt(TokenType::Power)) {
-            const auto & rhs = power(); // Right-assoc
-            lhs = makeInfix(lhs, maybeOp, rhs);
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::typeCast() {
-        logParse("typeCast");
-
-        auto lhs = prefix();
-
-        skipNLs(true);
-        auto maybeOp = peek();
-        while (skipOpt(TokenType::As) or skipOpt(TokenType::AsQM)) {
-            const auto rhs = prefix();
-            lhs = makeInfix(lhs, maybeOp, rhs);
-            maybeOp = peek();
-        }
-
-        return lhs;
-    }
-
-    dt::Option<ast::expr_ptr> Parser::prefix() {
-        logParse("prefix");
-
-        const auto & maybeOp = peek();
-        if (
-            skipOpt(TokenType::Not)
-            or skipOpt(TokenType::Sub)
-            or skipOpt(TokenType::Inv)
-        ) {
-            return std::make_shared<ast::Prefix>(maybeOp, prefix()); // Right-assoc
-        }
-
-        return postfix();
-    }
 
     dt::Option<ast::expr_ptr> Parser::postfix() {
         logParse("postfix");
