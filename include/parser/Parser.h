@@ -135,7 +135,8 @@ namespace jc::parser {
         ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        ast::opt_expr_ptr parseExpr(const std::string & suggMsg = "");
+        ast::expr_ptr justParseExpr(const std::string & panicIn);
+        ast::expr_ptr parseExpr(const std::string & suggMsg);
         ast::opt_expr_ptr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;

@@ -85,7 +85,7 @@ namespace jc::parser {
     }
 
     dt::Option<Token> Parser::skipOpt(TokenType type, bool skipRightNLs) {
-        const auto last = dt::Option(peek());
+        const auto & last = dt::Option(peek());
         if (peek().is(type)) {
             advance();
             if (skipRightNLs) {
@@ -130,7 +130,8 @@ namespace jc::parser {
 
         if (lhs && peek().isAssignOp() and lhs->isAssignable()) {
             const auto & assignOp = peek();
-            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr().unwrap());
+            advance();
+            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr("Expected assignment expression"));
         }
 
         if (!lhs) {
@@ -152,7 +153,7 @@ namespace jc::parser {
             }
             default: {
                 auto decl = parseDecl();
-                return std::make_shared<ast::ExprStmt>(parseExpr().unwrap());
+                return std::make_shared<ast::ExprStmt>(justParseExpr("`parseStmt` -> `default`"));
             }
         }
     }
@@ -166,7 +167,7 @@ namespace jc::parser {
 
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
-        const auto & condition = parseExpr().unwrap();
+        const auto & condition = parseExpr("Expected condition in `while`");
         const auto & body = parseBlock();
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
@@ -180,7 +181,7 @@ namespace jc::parser {
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
         // TODO: Destructuring
-        const auto & forEntity = parseId("Expected ");
+        const auto & forEntity = parseId("Expected `for` entity in `for` loop");
 
         skip(
             TokenType::In,
@@ -189,7 +190,7 @@ namespace jc::parser {
             ParseErrSugg("Missing `in` in `for` loop, put it here", cspan())
         );
 
-        const auto & inExpr = parseExpr().unwrap();
+        const auto & inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
         const auto & body = parseBlock();
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
@@ -406,14 +407,20 @@ namespace jc::parser {
     }
 
     // Expressions //
-    ast::opt_expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    ast::expr_ptr Parser::justParseExpr(const std::string & panicIn) {
+        logParse("[just] Expr");
+
+        return pipe().unwrap("Expected expression in " + panicIn);
+    }
+
+    ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         auto expr = pipe();
-        if (!expr and not suggMsg.empty()) {
+        if (!expr) {
             suggestErrorMsg(suggMsg, cspan());
         }
-        return expr;
+        return expr.value();
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
@@ -532,7 +539,7 @@ namespace jc::parser {
                         );
                     }
 
-                    indices.push_back(parseExpr().unwrap()); // Agenda
+                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
 
                     if (is(TokenType::RBracket)) {
                         break;
@@ -645,9 +652,14 @@ namespace jc::parser {
 
             const auto & maybeSpreadOp = peek();
             if (skipOpt(TokenType::Spread)) {
-                elements.push_back(std::make_shared<ast::SpreadExpr>(maybeSpreadOp, parseExpr()));
+                elements.push_back(
+                    std::make_shared<ast::SpreadExpr>(
+                        maybeSpreadOp,
+                        parseExpr("Expected expression after spread operator `...` in list expression")
+                    )
+                );
             } else {
-                elements.push_back(parseExpr());
+                elements.push_back(justParseExpr("`parseListExpr` -> no `...`"));
             }
         }
 
@@ -666,7 +678,7 @@ namespace jc::parser {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
-        const auto & firstExpr = parseExpr();
+        const auto & firstExpr = justParseExpr("`parseTupleOrParenExpr` -> not `()`");
 
         // Parenthesized expression
         if (skipOpt(TokenType::RParen)) {
@@ -692,7 +704,7 @@ namespace jc::parser {
                 );
             }
 
-            const auto & expr = parseExpr();
+            const auto & expr = parseExpr("Expected tuple member"); // FIXME
             ast::id_ptr id = nullptr;
             ast::expr_ptr value = nullptr;
             skipNLs(true);
@@ -700,7 +712,7 @@ namespace jc::parser {
             // Named element case like (name: value)
             if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Colon)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
-                value = parseExpr();
+                value = parseExpr("Expected value for tuple member");
             } else {
                 value = expr;
             }
@@ -723,7 +735,7 @@ namespace jc::parser {
 
         justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
 
-        const auto & condition = parseExpr();
+        const auto & condition = parseExpr("Expected condition in `if` expression");
 
         // Check if user ignored `if` branch using `;` or parse body
         const auto & ifBranch = skipOpt(TokenType::Semi) ? nullptr : parseBlock();
@@ -761,7 +773,7 @@ namespace jc::parser {
 
         justSkip(TokenType::When, true, "`when`", "`parseWhenExpr`");
 
-        const auto & subject = parseExpr();
+        const auto & subject = parseExpr("Expected subject expression in `when` expression");
 
         if (skipOpt(TokenType::Semi)) {
             // `when` body is ignored with `;`
@@ -827,7 +839,7 @@ namespace jc::parser {
             }
 
             // TODO: Complex conditions
-            conditions.push_back(parseExpr());
+            conditions.push_back(parseExpr("Expected `when` entry condition"));
         }
 
         skip(
@@ -837,12 +849,13 @@ namespace jc::parser {
             ParseErrSugg("Expected `=>` after `when` entry conditions", cspan())
         );
 
+        // FIXME: No oneLineBody
         ast::block_ptr body{nullptr};
         ast::expr_ptr oneLineBody{nullptr};
         if (is(TokenType::LBrace)) {
             body = parseBlock();
         } else {
-            oneLineBody = parseExpr();
+            oneLineBody = parseExpr(""); // FIXME
         }
 
         return std::make_shared<ast::WhenEntry>(conditions, body, oneLineBody, loc);
@@ -906,9 +919,8 @@ namespace jc::parser {
         ast::block_ptr body;
         ast::expr_ptr oneLineBody;
 
-        if (peek().is(TokenType::DoubleArrow)) {
-            skipNLs(true);
-            oneLineBody = parseExpr();
+        if (skipOpt(TokenType::DoubleArrow, true)) {
+            oneLineBody = parseExpr("Expression expected for one-line body");
         } else {
             body = parseBlock();
         }
@@ -971,13 +983,13 @@ namespace jc::parser {
             ast::id_ptr id = nullptr;
             ast::expr_ptr value = nullptr;
 
-            const auto & expr = parseExpr().unwrap();
+            const auto & expr = justParseExpr("`parseNamedList` -> after `,`");
 
             skipNLs(true);
 
-            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign)) {
+            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign, true)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
-                value = parseExpr().unwrap();
+                value = parseExpr("Assignment expression expected");
             } else {
                 value = expr;
             }
@@ -1030,7 +1042,9 @@ namespace jc::parser {
     ast::func_param_ptr Parser::parseFuncParam() {
         const auto & loc = peek().loc;
 
-        const auto & id = justParseId("`FuncParam`");
+        // FIXME: `parseFuncParam` is optional
+
+        const auto & id = parseId("Expected");
 
         skip(
             TokenType::Colon,
@@ -1047,7 +1061,7 @@ namespace jc::parser {
         if (peek().isAssignOp()) {
             advance();
             skipNLs(true);
-            defaultValue = parseExpr();
+            defaultValue = parseExpr("Expression expected as default value of function parameter");
         }
         return std::make_shared<ast::FuncParam>(id, type, defaultValue, loc);
     }
@@ -1143,7 +1157,7 @@ namespace jc::parser {
                 justSkip(TokenType::Dot, true, "`.`", "parseIdType -> after not first element");
             }
 
-            const auto & id = justParseId("`IdType`");
+            const auto & id = parseId("`parseIdType`");
             ast::type_param_list typeParams = parseTypeParams();
             ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
         }
@@ -1255,7 +1269,6 @@ namespace jc::parser {
     }
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
-        common::Logger::devPanic("Parse error: ", msg);
         suggest(msg, span, SuggKind::Error, eid);
     }
 

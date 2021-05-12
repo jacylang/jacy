@@ -39,6 +39,10 @@ namespace jc::dt {
             return value;
         }
 
+        T value() const {
+            return value;
+        }
+
         bool none() const {
             return !hasValue;
         }
