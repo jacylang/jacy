@@ -165,7 +165,7 @@ namespace jc::parser {
 
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
-        const auto & condition = parseExpr();
+        const auto & condition = parseExpr().unwrap();
         const auto & body = parseBlock();
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
@@ -188,7 +188,7 @@ namespace jc::parser {
             ParseErrSugg("Missing `in` in `for` loop, put it here", cspan())
         );
 
-        const auto & inExpr = parseExpr();
+        const auto & inExpr = parseExpr().unwrap();
         const auto & body = parseBlock();
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
@@ -234,8 +234,12 @@ namespace jc::parser {
         logParse("DeclList");
 
         ast::stmt_list declarations;
-        while (const auto & decl = parseDecl()) {
-            declarations.push_back(decl);
+        while (!eof()) {
+            const auto & decl = parseDecl();
+            if (decl.none()) {
+                break;
+            }
+            declarations.push_back(decl.unwrap());
         }
         return declarations;
     }
@@ -408,16 +412,68 @@ namespace jc::parser {
         return pipe();
     }
 
+    dt::Option<ast::expr_ptr> Parser::precParse(size_t index) {
+        logParse("precParse");
+
+        if (precTable.size() == index) {
+            return postfix();
+        } else if (precTable.size() > index) {
+            common::Logger::devPanic("`precParse` with index > precTable.size");
+        }
+
+        const auto & parser = precTable.at(index);
+        auto single = precParse(index + 1);
+        if (single.none()) {
+            return single;
+        }
+
+        auto lhs = single.unwrap();
+
+        if (parser.skipLeftNLs) {
+            skipNLs(true);
+        }
+
+        const auto & maybeOp = peek();
+        bool first = true;
+        while (!eof()) {
+            bool skipped = false;
+            for (const auto & op : parser.ops) {
+                skipped = skipOpt(op, parser.skipRightNLs);
+                if (skipped) {
+                    break;
+                }
+            }
+            if (skipped) {
+                const auto rhs = precParse(index + 1);
+                lhs = makeInfix(lhs, maybeOp, rhs.unwrap());
+            } else {
+                break;
+            }
+        }
+
+        return lhs;
+    }
+
+    const std::vector<PrecParser> Parser::precTable = {
+        {true, {TokenType::Pipe}, true, true},
+        {}
+    };
+
     dt::Option<ast::expr_ptr> Parser::pipe() {
         logParse("pipe");
 
-        auto lhs = disjunction();
+        auto single = disjunction();
+        if (single.none()) {
+            return single;
+        }
+
+        auto lhs = single.unwrap();
 
         skipNLs(true);
         auto maybeOp = peek();
         while (skipOpt(TokenType::Pipe)) {
             const auto rhs = disjunction();
-            lhs = makeInfix(lhs, maybeOp, rhs);
+            lhs = makeInfix(lhs, maybeOp, rhs.unwrap());
             maybeOp = peek();
         }
 
@@ -719,7 +775,8 @@ namespace jc::parser {
         logParse("prefix");
 
         const auto & maybeOp = peek();
-        if (skipOpt(TokenType::Not)
+        if (
+            skipOpt(TokenType::Not)
             or skipOpt(TokenType::Sub)
             or skipOpt(TokenType::Inv)
         ) {

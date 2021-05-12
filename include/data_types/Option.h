@@ -32,14 +32,14 @@ namespace jc::dt {
 
         friend Option<T>;
 
-        T unwrap(const std::string & msg = "") {
+        T unwrap(const std::string & msg = "") const {
             if (none()) {
                 common::Logger::devPanic(msg.empty() ? "Called `Option::unwrap` on a `None` value" : msg);
             }
             return value;
         }
 
-        bool none() {
+        bool none() const {
             return !hasValue;
         }
 

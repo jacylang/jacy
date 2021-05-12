@@ -2,6 +2,7 @@
 #define JACY_PARSER_H
 
 #include <tuple>
+#include <functional>
 
 #include "common/Logger.h"
 #include "Token.h"
@@ -27,6 +28,13 @@ namespace jc::parser {
 
     struct UnexpectedTokenError : ParserError {
         explicit UnexpectedTokenError(const std::string & token) : ParserError("Unexpected token " + token) {}
+    };
+
+    struct PrecParser {
+        bool multiple;
+        std::vector<TokenType> ops;
+        bool skipLeftNLs;
+        bool skipRightNLs;
     };
 
     class Parser {
@@ -92,6 +100,10 @@ namespace jc::parser {
 
         // Expressions //
         dt::Option<ast::expr_ptr> parseExpr();
+        dt::Option<ast::expr_ptr> precParse(size_t index);
+
+        static const std::vector<PrecParser> precTable;
+
         dt::Option<ast::expr_ptr> pipe();
         dt::Option<ast::expr_ptr> disjunction();
         dt::Option<ast::expr_ptr> conjunction();
