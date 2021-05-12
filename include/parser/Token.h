@@ -21,7 +21,6 @@ namespace jc::parser {
     using token_list = std::vector<Token>;
 
     struct Location {
-        uint32_t offset;
         uint32_t line;
         uint32_t col;
         uint16_t len;

@@ -4,7 +4,6 @@ namespace jc::parser {
     Lexer::Lexer() {
         loc.line = 1;
         loc.col = 1;
-        loc.offset = 0;
     }
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
@@ -25,14 +24,14 @@ namespace jc::parser {
         if (eof()) {
             return 0;
         }
-        return source.at(loc.offset);
+        return source.at(index);
     }
 
     char Lexer::lookup(int distance) {
-        if (loc.offset + distance >= source.size()) {
+        if (index + distance >= source.size()) {
             return 0;
         }
-        return source.at(loc.offset + distance);
+        return source.at(index + distance);
     }
 
     char Lexer::advance(int distance) {
@@ -46,7 +45,7 @@ namespace jc::parser {
             } else {
                 loc.col++;
             }
-            loc.offset++;
+            index++;
         }
         return peek();
     }
@@ -59,7 +58,7 @@ namespace jc::parser {
 
     //
     bool Lexer::eof() {
-        return loc.offset >= source.size();
+        return index >= source.size();
     }
 
     bool Lexer::hidden() {
