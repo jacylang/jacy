@@ -179,7 +179,7 @@ namespace jc::parser {
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
         // TODO: Destructuring
-        const auto & forEntity = justParseId();
+        const auto & forEntity = justParseId("`parseForStmt`");
 
         skip(
             TokenType::In,
@@ -254,7 +254,7 @@ namespace jc::parser {
 //        }
 
         // TODO: Destructuring
-        const auto & id = parseId();
+        const auto & id = parseId("An identifier expected as a `"+ peek().typeToString() +"` name");
 
         ast::type_ptr type;
         if (skipOpt(TokenType::Colon)) {
@@ -271,7 +271,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Type, true, "`type`", "`parseTypeDecl`");
 
-        const auto & id = parseId();
+        const auto & id = parseId("An identifier expected as a type name");
         const auto & type = parseType();
 
         return std::make_shared<ast::TypeAlias>(id, type, loc);
@@ -289,7 +289,7 @@ namespace jc::parser {
         const auto & typeParams = parseTypeParams();
 
         // TODO: Type reference for extensions
-        const auto & id = parseId(true);
+        const auto & id = parseId("An identifier expected as a type parameter name");
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenType::LParen);
@@ -341,8 +341,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Class, true, "`class`", "`parseClassDecl`");
 
-        const auto & id = parseId();
-
+        const auto & id = parseId("An identifier expected as a class name");
         const auto & typeParams = parseTypeParams();
 
         ast::delegation_list delegations;
@@ -366,7 +365,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Object, true, "`object`", "`parseObjectDecl`");
 
-        const auto & id = parseId();
+        const auto & id = parseId("An identifier expected as an object name");
 
         skipNLs(true);
 
@@ -556,7 +555,7 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Id)) {
-            return justParseId();
+            return justParseId("`primary`");
         }
 
         if (is(TokenType::If)) {
