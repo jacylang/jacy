@@ -14,8 +14,34 @@
 #include "suggest/Suggester.h"
 #include "data_types/Option.h"
 
+/**
+ * # Some notes about parser
+ *
+ * ## `just` parsers and `justSkip`
+ * `just` prefix in parser functions means that you want to parse something you know that will be next.
+ * For example, if you checked that `peek()` is `TokenType::Id`, then you use `justParseId` and there
+ * will be `devPanic` if no `Id` found.
+ * `just` parsers don't return the pointer to type that it parses, it returns (in all cases for now)
+ * a pointer to expression (that's to avoid static_cast to `Option` type of entities that will `just`
+ * parsed when we already know what is that).
+ * So, when we use `just` parser we don't need to use returned Node for current parsing entity.
+ * `just` parsers only exists for functions that already have non-`just` analogue (to make everything a little bit
+ * non-complex).
+ * `justSkip` has the same logic, it just skips something that we already know is going to be next.
+ *
+ * Be careful with using `just` parsers which returns `Option` -- unwrap can lead to devPanic.
+ *
+ * ## How suggestions collected if error occurred
+ * This is kind of hard work, but what we do is trying to split parsing into as small parts as possible and following
+ * this rules (nested parser parses fragment or atomic, and super parser parses ):
+ * - If nested parser has error we return `Option::None`
+ * - When super parser
+ */
+
 namespace jc::parser {
+    // TODO: Remove them because precParse is a unification
     using ast::makeInfix;
+    using ast::makePrefix;
 
     struct ParserError : common::Error {
         explicit ParserError(const std::string & msg) : Error(msg) {}
@@ -31,17 +57,20 @@ namespace jc::parser {
     };
 
     // Note: Usage
-    //  0b11111111
-    //  1. Multiple?
-    //  2. Right-assoc?
-    //  3. Infix = 0, Prefix = 1 (postfix is different parser func)
-    //  4. Skip optional left NLs?
-    //  5. Skip optional right NLs?
-    using prec_parser_marks = uint8_t;
+    //  0b00011111 - `0` are unused
+    //  0. --
+    //  1. --
+    //  2. --
+    //  3. Multiple?
+    //  4. Right-assoc?
+    //  5. Infix = 0, Prefix = 1 (postfix is different parser func)
+    //  6. Skip optional left NLs?
+    //  7. Skip optional right NLs?
+    using prec_parser_flags = uint8_t;
 
     struct PrecParser {
-        prec_parser_marks marks;
-        std::vector<TokenType> ops;
+        const prec_parser_flags flags;
+        const std::vector<TokenType> ops;
     };
 
     class Parser {
@@ -79,7 +108,7 @@ namespace jc::parser {
             const sugg::Suggestion & suggestion
         );
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
-        bool skipOpt(TokenType type, bool skipRightNLs = false);
+        dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
 
         // Parsers //
     private:
@@ -106,37 +135,37 @@ namespace jc::parser {
         ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        dt::Option<ast::expr_ptr> parseExpr();
-        dt::Option<ast::expr_ptr> precParse(size_t index);
+        ast::opt_expr_ptr parseExpr(const std::string & suggMsg = "");
+        ast::opt_expr_ptr precParse(uint8_t index);
 
-        static const std::vector<PrecParser> precTable;
+        const static std::vector<PrecParser> precTable;
 
-        dt::Option<ast::expr_ptr> pipe();
-        dt::Option<ast::expr_ptr> disjunction();
-        dt::Option<ast::expr_ptr> conjunction();
-        dt::Option<ast::expr_ptr> bitOr();
-        dt::Option<ast::expr_ptr> Xor();
-        dt::Option<ast::expr_ptr> bitAnd();
-        dt::Option<ast::expr_ptr> equality();
-        dt::Option<ast::expr_ptr> comparison();
-        dt::Option<ast::expr_ptr> spaceship();
-        dt::Option<ast::expr_ptr> namedChecks();
-        dt::Option<ast::expr_ptr> nullishCoalesce();
-        dt::Option<ast::expr_ptr> shift();
-        dt::Option<ast::expr_ptr> infix();
-        dt::Option<ast::expr_ptr> range();
-        dt::Option<ast::expr_ptr> add();
-        dt::Option<ast::expr_ptr> mul();
-        dt::Option<ast::expr_ptr> power();
-        dt::Option<ast::expr_ptr> typeCast();
-        dt::Option<ast::expr_ptr> prefix();
-        dt::Option<ast::expr_ptr> postfix();
-        dt::Option<ast::expr_ptr> primary();
+        ast::opt_expr_ptr pipe();
+        ast::opt_expr_ptr disjunction();
+        ast::opt_expr_ptr conjunction();
+        ast::opt_expr_ptr bitOr();
+        ast::opt_expr_ptr Xor();
+        ast::opt_expr_ptr bitAnd();
+        ast::opt_expr_ptr equality();
+        ast::opt_expr_ptr comparison();
+        ast::opt_expr_ptr spaceship();
+        ast::opt_expr_ptr namedChecks();
+        ast::opt_expr_ptr nullishCoalesce();
+        ast::opt_expr_ptr shift();
+        ast::opt_expr_ptr infix();
+        ast::opt_expr_ptr range();
+        ast::opt_expr_ptr add();
+        ast::opt_expr_ptr mul();
+        ast::opt_expr_ptr power();
+        ast::opt_expr_ptr typeCast();
+        ast::opt_expr_ptr prefix();
+        ast::opt_expr_ptr postfix();
+        ast::opt_expr_ptr primary();
 
         // Atomic expressions //
-        ast::id_ptr justParseId(const std::string & panicIn);
+        ast::expr_ptr justParseId(const std::string & panicIn);
         ast::id_ptr parseId(const std::string & suggMsg);
-        ast::literal_ptr parseLiteral();
+        ast::expr_ptr parseLiteral();
         ast::expr_ptr parseListExpr();
         ast::expr_ptr parseTupleOrParenExpr();
 

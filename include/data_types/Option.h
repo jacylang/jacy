@@ -43,6 +43,16 @@ namespace jc::dt {
             return !hasValue;
         }
 
+        operator bool() const {
+            return hasValue;
+        }
+
+        Option<T> & operator=(const T & rawT) {
+            hasValue = true;
+            value = rawT;
+            return *this;
+        }
+
         template<class U>
         Option<T> & operator=(const Option<U> & other) {
             hasValue = other.hasValue;

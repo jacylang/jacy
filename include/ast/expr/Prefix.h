@@ -15,6 +15,10 @@ namespace jc::ast {
             return visitor.visit(this);
         }
     };
+
+    const auto makePrefix = [](const parser::Token & token, expr_ptr rhs) {
+        return std::make_shared<Prefix>(token, rhs);
+    };
 }
 
 #endif // JACY_PREFIX_H

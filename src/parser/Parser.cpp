@@ -84,15 +84,16 @@ namespace jc::parser {
         }
     }
 
-    bool Parser::skipOpt(TokenType type, bool skipRightNLs) {
+    dt::Option<Token> Parser::skipOpt(TokenType type, bool skipRightNLs) {
+        const auto last = dt::Option(peek());
         if (peek().is(type)) {
             advance();
             if (skipRightNLs) {
                 skipNLs(true);
             }
-            return true;
+            return last;
         }
-        return false;
+        return dt::None;
     }
 
     /////////////
@@ -179,7 +180,7 @@ namespace jc::parser {
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
         // TODO: Destructuring
-        const auto & forEntity = justParseId("`parseForStmt`");
+        const auto & forEntity = parseId("Expected ");
 
         skip(
             TokenType::In,
@@ -405,31 +406,34 @@ namespace jc::parser {
     }
 
     // Expressions //
-    dt::Option<ast::expr_ptr> Parser::parseExpr() {
+    ast::opt_expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
-        return pipe();
+        auto expr = pipe();
+        if (!expr and not suggMsg.empty()) {
+            suggestErrorMsg(suggMsg, cspan());
+        }
+        return expr;
     }
 
-    dt::Option<ast::expr_ptr> Parser::precParse(size_t index) {
+    ast::opt_expr_ptr Parser::precParse(uint8_t index) {
         logParse("precParse");
 
         if (precTable.size() == index) {
             return postfix();
-        } else if (precTable.size() > index) {
+        } else {
             common::Logger::devPanic("`precParse` with index > precTable.size");
         }
 
-        const auto parserMarks = precTable.at(index).marks;
-        const auto multiple = (parserMarks >> 7) & 1;
-        const auto rightAssoc = (parserMarks >> 6) & 1;
-        const auto prefix = (parserMarks >> 5) & 1;
-        const auto skipLeftNLs = (parserMarks >> 4) & 1;
-        const auto skipRightNLs = (parserMarks >> 3) & 1;
-
         const auto & parser = precTable.at(index);
+        const auto flags = parser.flags;
+        const auto multiple = (flags >> 4) & 1;
+        const auto rightAssoc = (flags >> 3) & 1;
+        const auto prefix = (flags >> 2) & 1;
+        const auto skipLeftNLs = (flags >> 1) & 1;
+        const auto skipRightNLs = flags & 1;
 
-        ast::expr_ptr lhs{nullptr};
+        ast::opt_expr_ptr lhs(dt::None);
         if (!prefix) {
             auto single = precParse(index + 1);
             if (single.none()) {
@@ -443,25 +447,24 @@ namespace jc::parser {
             skipNLs(true);
         }
 
-        const auto & maybeOp = peek();
-        bool first = true;
-        bool skipped = false;
+        dt::Option<Token> maybeOp;
         while (!eof()) {
             for (const auto & op : parser.ops) {
-                skipped = skipOpt(op, skipRightNLs);
-                if (skipped) {
+                maybeOp = skipOpt(op, skipRightNLs);
+                if (maybeOp) {
                     break;
                 }
             }
-            if (skipped) {
+            if (maybeOp) {
                 const auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
                 if (prefix) {
                     if (lhs) {
-                        common::Logger::devPanic("LHS exists in prefix parser");
+                        common::Logger::devPanic("Left-hand side exists in prefix parser");
                     }
-                    return std::static_pointer_cast<ast::Expr>(std::make_shared<ast::Prefix>(maybeOp, rhs)); // FIXME: Multiple?!
+                    lhs = makePrefix(maybeOp.unwrap(), rhs.unwrap());
+                    return lhs;
                 }
-                lhs = makeInfix(lhs, maybeOp, rhs.unwrap());
+                lhs = makeInfix(lhs.unwrap(), maybeOp.unwrap(), rhs.unwrap());
                 if (!multiple) {
                     break;
                 }
@@ -470,7 +473,7 @@ namespace jc::parser {
             }
         }
 
-        if (!skipped and prefix) {
+        if (!maybeOp and prefix) {
             return postfix();
         }
 
@@ -478,25 +481,25 @@ namespace jc::parser {
     }
 
     const std::vector<PrecParser> Parser::precTable = {
-        {0b10011000, {TokenType::Pipe}},
-        {0b10011000, {TokenType::Or}},
-        {0b10011000, {TokenType::And}},
-        {0b10011000, {TokenType::BitOr}},
-        {0b10011000, {TokenType::Xor}},
-        {0b10011000, {TokenType::BitAnd}},
-        {0b10011000, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
-        {0b10011000, {TokenType::LAngle, TokenType::LAngle, TokenType::LE, TokenType::GE}},
-        {0b10011000, {TokenType::Spaceship}},
-        {0b10011000, {TokenType::In, TokenType::NotIn, TokenType::Is, TokenType::NotIs}},
-        {0b10011000, {TokenType::NullCoalesce}},
-        {0b10011000, {TokenType::Shl, TokenType::Shr}},
-        {0b10011000, {TokenType::Id}},
-        {0b10011000, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
-        {0b10011000, {TokenType::Add, TokenType::Sub}},
-        {0b10011000, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
-        {0b11011000, {TokenType::Power}},
-        {0b10011000, {TokenType::As, TokenType::AsQM}},
-        {0b00111000, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // FIXME: Not multiple?!
+        {0b10011, {TokenType::Pipe}},
+        {0b10011, {TokenType::Or}},
+        {0b10011, {TokenType::And}},
+        {0b10011, {TokenType::BitOr}},
+        {0b10011, {TokenType::Xor}},
+        {0b10011, {TokenType::BitAnd}},
+        {0b10011, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
+        {0b10011, {TokenType::LAngle, TokenType::LAngle, TokenType::LE, TokenType::GE}},
+        {0b10011, {TokenType::Spaceship}},
+        {0b10011, {TokenType::In, TokenType::NotIn, TokenType::Is, TokenType::NotIs}},
+        {0b10011, {TokenType::NullCoalesce}},
+        {0b10011, {TokenType::Shl, TokenType::Shr}},
+        {0b10011, {TokenType::Id}},
+        {0b10011, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
+        {0b10011, {TokenType::Add, TokenType::Sub}},
+        {0b10011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
+        {0b11011, {TokenType::Power}}, // Note: Right-assoc
+        {0b10011, {TokenType::As, TokenType::AsQM}},
+        {0b01111, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // Note: Prefix, Right-assoc hack; FIXME: Not multiple?!
     };
 
     dt::Option<ast::expr_ptr> Parser::postfix() {
@@ -508,9 +511,9 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
-                lhs = makeInfix(lhs, maybeOp, primary());
+                lhs = makeInfix(lhs.unwrap(), maybeOp, primary().unwrap());
             } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
-                lhs = std::make_shared<ast::Postfix>(lhs, maybeOp);
+                lhs = std::make_shared<ast::Postfix>(lhs.unwrap(), maybeOp);
             } else if (skipOpt(TokenType::LBracket)) {
                 ast::expr_list indices;
 
@@ -529,16 +532,16 @@ namespace jc::parser {
                         );
                     }
 
-                    indices.push_back(parseExpr());
+                    indices.push_back(parseExpr().unwrap()); // Agenda
 
                     if (is(TokenType::RBracket)) {
                         break;
                     }
                 }
 
-                lhs = std::make_shared<ast::Subscript>(lhs, indices);
+                lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
             } else if (is(TokenType::LParen)) {
-                lhs = std::make_shared<ast::Invoke>(lhs, parseNamedList());
+                lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseNamedList());
             } else {
                 break;
             }
@@ -581,7 +584,7 @@ namespace jc::parser {
         suggestErrorMsg("Expected primary expression", cspan());
     }
 
-    ast::id_ptr Parser::justParseId(const std::string & panicIn) {
+    ast::expr_ptr Parser::justParseId(const std::string & panicIn) {
         logParse("[just] id");
 
         const auto & id = peek();
@@ -601,7 +604,7 @@ namespace jc::parser {
         return std::make_shared<ast::Identifier>(maybeIdToken);
     }
 
-    ast::literal_ptr Parser::parseLiteral() {
+    ast::expr_ptr Parser::parseLiteral() {
         logParse("literal");
 
         if (!peek().isLiteral()) {
@@ -640,9 +643,9 @@ namespace jc::parser {
                 break;
             }
 
-            const auto & spreadToken = peek();
+            const auto & maybeSpreadOp = peek();
             if (skipOpt(TokenType::Spread)) {
-                elements.push_back(std::make_shared<ast::SpreadExpr>(spreadToken, parseExpr()));
+                elements.push_back(std::make_shared<ast::SpreadExpr>(maybeSpreadOp, parseExpr()));
             } else {
                 elements.push_back(parseExpr());
             }
@@ -1262,6 +1265,6 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
-        log.dev("Parse", entity, peek().toString());
+        log.dev("Parse", "`" + entity + "`", peek().toString());
     }
 }

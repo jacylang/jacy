@@ -3,10 +3,12 @@
 
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
+#include "data_types/Option.h"
 
 namespace jc::ast {
     struct Expr;
     using expr_ptr = std::shared_ptr<Expr>;
+    using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
 
     enum class ExprType {
