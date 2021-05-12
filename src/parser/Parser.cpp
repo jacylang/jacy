@@ -179,7 +179,7 @@ namespace jc::parser {
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
         // TODO: Destructuring
-        const auto & forEntity = parseId();
+        const auto & forEntity = justParseId();
 
         skip(
             TokenType::In,
@@ -556,7 +556,7 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Id)) {
-            return parseId();
+            return justParseId();
         }
 
         if (is(TokenType::If)) {
@@ -582,13 +582,21 @@ namespace jc::parser {
         suggestErrorMsg("Expected primary expression", cspan());
     }
 
-    ast::id_ptr Parser::parseId(bool skipNLs) {
+    ast::id_ptr Parser::justParseId(const std::string & panicIn) {
+        logParse("[just] id");
+
+        const auto & id = peek();
+        justSkip(TokenType::Id, true, "[identifier]", "`" + panicIn + "`");
+        return std::make_shared<ast::Identifier>(id);
+    }
+
+    ast::id_ptr Parser::parseId(const std::string & suggMsg) {
         // TODO!!!: Custom expectation name
         logParse("id");
 
         const auto & maybeIdToken = peek();
         if (!is(TokenType::Id)) {
-            suggestErrorMsg("Expected identifier", cspan());
+            suggestErrorMsg(suggMsg.empty() ? "Expected identifier" : suggMsg, cspan());
         }
         justSkip(TokenType::Id, true, "[identifier]", "`parseId`");
         return std::make_shared<ast::Identifier>(maybeIdToken);
@@ -924,7 +932,7 @@ namespace jc::parser {
             return nullptr;
         }
 
-        const auto & id = parseId();
+        const auto & id = parseId("Expected attribute name");
         const auto & params = parseNamedList();
 
         return std::make_shared<ast::Attribute>(id, params, loc);
@@ -961,13 +969,13 @@ namespace jc::parser {
             ast::id_ptr id = nullptr;
             ast::expr_ptr value = nullptr;
 
-            const auto & expr = parseExpr();
+            const auto & expr = parseExpr().unwrap();
 
             skipNLs(true);
 
             if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
-                value = parseExpr();
+                value = parseExpr().unwrap();
             } else {
                 value = expr;
             }
@@ -995,6 +1003,7 @@ namespace jc::parser {
         bool first = true;
         while (!eof()) {
             skipNLs(true);
+
             if (isParen and is(TokenType::RParen) or is(TokenType::DoubleArrow)) {
                 break;
             }
@@ -1019,7 +1028,7 @@ namespace jc::parser {
     ast::func_param_ptr Parser::parseFuncParam() {
         const auto & loc = peek().loc;
 
-        const auto & id = parseId();
+        const auto & id = justParseId("`FuncParam`");
 
         skip(
             TokenType::Colon,
@@ -1132,7 +1141,7 @@ namespace jc::parser {
                 justSkip(TokenType::Dot, true, "`.`", "parseIdType -> after not first element");
             }
 
-            const auto & id = parseId(true);
+            const auto & id = justParseId("`IdType`");
             ast::type_param_list typeParams = parseTypeParams();
             ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
         }
@@ -1162,7 +1171,8 @@ namespace jc::parser {
 
             ast::id_ptr id{nullptr};
             if (is(TokenType::Id)) {
-                id = parseId(true);
+                id = justParseId("`parenType`");
+                skipNLs(true);
             }
 
             ast::type_ptr type{nullptr};
@@ -1218,7 +1228,7 @@ namespace jc::parser {
                 break;
             }
 
-            const auto & id = parseId();
+            const auto & id = parseId("Expected type parameter name");
 
             skipNLs(true);
 
