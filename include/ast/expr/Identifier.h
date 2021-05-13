@@ -12,8 +12,7 @@ namespace jc::ast {
     using IdList = std::vector<id_ptr>;
 
     struct Identifier : Expr {
-        Identifier(const parser::Token & token)
-            : token(token), Expr(token.loc, ExprType::Id) {}
+        explicit Identifier(const parser::Token & token) : token(token), Expr(token.loc, ExprType::Id) {}
 
         parser::Token token;
 

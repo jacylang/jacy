@@ -3,16 +3,16 @@
 namespace jc::parser {
     Parser::Parser() {}
 
-    const Token & Parser::peek() const {
+    Token Parser::peek() const {
         return tokens.at(index);
     }
 
-    const Token & Parser::advance() {
+    Token Parser::advance() {
         index++;
         return peek();
     }
 
-    const Token & Parser::lookup() const {
+    Token Parser::lookup() const {
         return tokens.at(index + 1);
     }
 
@@ -153,6 +153,9 @@ namespace jc::parser {
             }
             default: {
                 auto decl = parseDecl();
+                if (decl) {
+                    return decl.unwrap();
+                }
                 return std::make_shared<ast::ExprStmt>(justParseExpr("`parseStmt` -> `default`"));
             }
         }
@@ -227,6 +230,18 @@ namespace jc::parser {
                 return parseTypeDecl();
             }
             default: {
+                if (!attributes.empty()) {
+                    for (const auto & attr : attributes) {
+                        suggestErrorMsg("Unexpected attribute", attr->id->token.span(sess));
+                    }
+                }
+
+                if (!modifiers.empty()) {
+                    for (const auto & modif : modifiers) {
+                        suggestErrorMsg("Unexpected modifier", modif.span(sess));
+                    }
+                }
+
                 return dt::None;
             }
         }
@@ -427,8 +442,6 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
-        logParse("precParse");
-
         if (precTable.size() == index) {
             return postfix();
         } else if (index > precTable.size()) {
@@ -468,7 +481,8 @@ namespace jc::parser {
                 }
             }
             if (maybeOp) {
-                const auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
+                logParse("`precParse` -> " + maybeOp.unwrap().typeToString());
+                auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
                 if (prefix) {
                     if (lhs) {
                         common::Logger::devPanic("Left-hand side exists in prefix parser");
@@ -570,7 +584,8 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Id)) {
-            return ast::Expr::as<ast::Expr>(justParseId("`primary`"));
+            auto id = justParseId("`primary`");
+            return ast::Expr::as<ast::Expr>(id);
         }
 
         if (is(TokenType::If)) {
@@ -599,7 +614,7 @@ namespace jc::parser {
     ast::id_ptr Parser::justParseId(const std::string & panicIn) {
         logParse("[just] id");
 
-        const auto id = peek();
+        auto id = peek();
         justSkip(TokenType::Id, true, "[identifier]", "`" + panicIn + "`");
         return std::make_shared<ast::Identifier>(id);
     }
@@ -608,11 +623,8 @@ namespace jc::parser {
         // TODO!!!: Custom expectation name
         logParse("id");
 
-        const auto maybeIdToken = peek();
-        if (!is(TokenType::Id)) {
-            suggestErrorMsg(suggMsg.empty() ? "Expected identifier" : suggMsg, cspan());
-        }
-        justSkip(TokenType::Id, true, "[identifier]", "`parseId`");
+        auto maybeIdToken = peek();
+        skip(TokenType::Id, false, true, ParseErrSugg(suggMsg, cspan()));
         return std::make_shared<ast::Identifier>(maybeIdToken);
     }
 
@@ -678,30 +690,32 @@ namespace jc::parser {
 
         justSkip(TokenType::LParen, true, "`(`", "`parseTupleOrParenExpr`");
 
-        // Empty tuple
+        // Empty tuple //
         if (skipOpt(TokenType::RParen)) {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
+        // Read first expression that can be either `Id` or expr
         const auto & firstExprLoc = peek().loc;
         auto firstExpr = justParseExpr("`parseTupleOrParenExpr` -> not `()`");
 
-        // Parenthesized expression
+        // Parenthesized expression //
         if (skipOpt(TokenType::RParen)) {
             return std::make_shared<ast::ParenExpr>(firstExpr, loc);
         }
 
         ast::named_el_list namedList;
 
-        // Add first element (expression)
-        namedList.push_back(std::make_shared<ast::NamedElement>(dt::None, firstExpr, firstExprLoc));
-
         bool first = true;
         while (!eof()) {
             skipNLs(true);
+            ast::opt_expr_ptr expr;
             if (first) {
+                // We already parsed one expression, so first one can be either `Id` either value
+                expr = firstExpr;
                 first = false;
             } else {
+                expr = parseExpr("Expected tuple member"); // FIXME
                 skip(
                     TokenType::Comma,
                     true,
@@ -709,15 +723,13 @@ namespace jc::parser {
                     ParseErrSugg("Missing `,` separator in tuple literal", cspan())
                 );
             }
-
-            auto expr = parseExpr("Expected tuple member"); // FIXME
             dt::Option<ast::id_ptr> id = dt::None;
             dt::Option<ast::expr_ptr> value = dt::None;
             skipNLs(true);
 
             // Named element case like (name: value)
-            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Colon)) {
-                id = ast::Expr::as<ast::Identifier>(expr);
+            if (expr.unwrap()->is(ast::ExprType::Id) and skipOpt(TokenType::Colon)) {
+                id = ast::Expr::as<ast::Identifier>(expr.unwrap());
                 value = parseExpr("Expected value for tuple member");
             } else {
                 value = expr;

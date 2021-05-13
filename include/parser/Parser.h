@@ -90,9 +90,9 @@ namespace jc::parser {
 
         ast::stmt_list tree;
 
-        const Token & peek() const;
-        const Token & advance();
-        const Token & lookup() const;
+        Token peek() const;
+        Token advance();
+        Token lookup() const;
 
         // Checkers //
         bool eof();

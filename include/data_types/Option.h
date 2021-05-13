@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <cstddef>
 
 #include "common/Logger.h"
 
@@ -21,7 +22,9 @@ namespace jc::dt {
         Option() : hasValue(false) {}
         Option(inner::none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
-        Option(T && value) : value(std::move(value)), hasValue(true) {}
+        Option(nullptr_t) {
+            common::Logger::devPanic("Initialization of `Option` with nullptr");
+        }
 
         template<class U>
         explicit Option(const Option<U> & other) : hasValue(other.hasValue) {
