@@ -2,7 +2,6 @@
 
 namespace jc::common {
     const std::map<LogLevel, std::string> Logger::levelNames = {
-        {LogLevel::Verbose, "verbose"},
         {LogLevel::Debug, "debug"},
         {LogLevel::Info, "info"},
         {LogLevel::Warn, "warn"},
@@ -11,7 +10,6 @@ namespace jc::common {
     };
 
     const std::map<LogLevel, Color> Logger::levelColors = {
-        {LogLevel::Verbose, Color::Magenta},
         {LogLevel::Debug, Color::Blue},
         {LogLevel::Info, Color::Green},
         {LogLevel::Warn, Color::Yellow},

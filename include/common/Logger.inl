@@ -34,11 +34,6 @@ inline std::ostream & operator<<(std::ostream & os, Color color) {
 }
 
 template<class ...Args>
-void Logger::verbose(Args && ...args) {
-    log(LogLevel::Verbose, args...);
-}
-
-template<class ...Args>
 void Logger::debug(Args && ...args) {
     log(LogLevel::Debug, args...);
 }

@@ -27,7 +27,6 @@ namespace jc::common {
     // LogLevel //
     enum class LogLevel : uint8_t {
         Dev, // Forces everything to be printed and prefix message with '[DEV]'
-        Verbose, /// @deprecated (use `dev` instead)
         Debug,
         Info,
         Warn,
@@ -61,9 +60,6 @@ namespace jc::common {
     public:
         Logger(std::string owner, const LoggerConfig & config) : owner(std::move(owner)), config(config) {}
         virtual ~Logger() = default;
-
-        template<class ...Args>
-        void verbose(Args && ...args);
 
         template<class ...Args>
         void debug(Args && ...args);
