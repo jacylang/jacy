@@ -38,6 +38,14 @@ namespace jc::ast {
     struct UnitExpr;
     struct WhenExpr;
 
+    // Types //
+    struct ParenType;
+    struct TupleType;
+    struct FuncType;
+    struct ListType;
+    struct RefType;
+    struct UnitType;
+
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
@@ -77,6 +85,14 @@ namespace jc::ast {
         virtual void visit(TupleExpr*) = 0;
         virtual void visit(UnitExpr*) = 0;
         virtual void visit(WhenExpr*) = 0;
+
+        // Types //
+        virtual void visit(ParenType*) = 0;
+        virtual void visit(TupleType*) = 0;
+        virtual void visit(FuncType*) = 0;
+        virtual void visit(ListType*) = 0;
+        virtual void visit(RefType*) = 0;
+        virtual void visit(UnitType*) = 0;
     };
 }
 

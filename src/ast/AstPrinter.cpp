@@ -66,7 +66,7 @@ namespace jc::ast {
 
             if (param->type) {
                 log.raw(": ");
-                print(param->type.unwrap().get());
+                param->type.unwrap()->accept(*this);
             }
             if (param->defaultValue) {
                 log.raw(" = ");
@@ -80,7 +80,7 @@ namespace jc::ast {
 
         if (funcDecl->returnType) {
             log.raw(": ");
-            print(funcDecl->returnType.get());
+            funcDecl->returnType->accept(*this);
         }
 
         if (funcDecl->oneLineBody) {
@@ -106,7 +106,7 @@ namespace jc::ast {
         log.raw("type ");
         typeAlias->id->accept(*this);
         log.raw(" = ");
-        print(typeAlias->type.get());
+        typeAlias->type->accept(*this);
     }
 
     void AstPrinter::visit(VarDecl * varDecl) {
@@ -114,7 +114,7 @@ namespace jc::ast {
         varDecl->id->accept(*this);
         if (varDecl->type) {
             log.raw(": ");
-            print(varDecl->type.get());
+            varDecl->type->accept(*this);
         }
     }
 
@@ -273,6 +273,58 @@ namespace jc::ast {
         log.raw("}");
     }
 
+    void AstPrinter::visit(ParenType * parenType) {
+        log.raw("(");
+        parenType->type->accept(*this);
+        log.raw(")");
+    }
+
+    void AstPrinter::visit(TupleType * tupleType) {
+        log.raw("(");
+        for (size_t i = 0; i < tupleType->elements.size(); i++) {
+            const auto & el = tupleType->elements.at(i);
+            if (el->id) {
+                el->id.unwrap()->accept(*this);
+            }
+            if (el->type) {
+                if (el->id) {
+                    log.raw(": ");
+                }
+                el->type.unwrap()->accept(*this);
+            }
+            if (i < tupleType->elements.size() - 1) {
+                log.raw(", ");
+            }
+        }
+        log.raw(")");
+    }
+
+    void AstPrinter::visit(FuncType * funcType) {
+        log.raw("(");
+        print(funcType->params);
+        log.raw(") -> ");
+        funcType->returnType->accept(*this);
+    }
+
+    void AstPrinter::visit(ListType * listType) {
+        log.raw("[");
+        listType->type->accept(*this);
+        log.raw("]");
+    }
+
+    void AstPrinter::visit(RefType * refType) {
+        for (size_t i = 0; i < refType->ids.size(); i++) {
+            print(refType->ids.at(i).get());
+            if (i < refType->ids.size() - 1) {
+                log.raw(", ");
+            }
+        }
+    }
+
+    void AstPrinter::visit(UnitType * unitType) {
+        log.raw("()");
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             std::cout << indentChar;
@@ -305,7 +357,7 @@ namespace jc::ast {
             typeParam->id->accept(*this);
             if (typeParam->type) {
                 log.raw(": ");
-                print(typeParam->type.get());
+                typeParam->type->accept(*this);
             }
         }
         log.raw(">");
@@ -344,8 +396,18 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::print(ast::Type * type) {
+    void AstPrinter::print(const ast::type_list & typeList) {
+        for (size_t i = 0; i < typeList.size(); i++) {
+            typeList.at(i)->accept(*this);
+            if (i < typeList.size() - 1) {
+                log.raw(", ");
+            }
+        }
+    }
 
+    void AstPrinter::print(IdType * idType) {
+        idType->id->accept(*this);
+        print(idType->typeParams);
     }
 
     void AstPrinter::incIndent() {

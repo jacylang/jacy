@@ -3,6 +3,7 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/TypeParams.h"
+#include "ast/BaseVisitor.h"
 
 namespace jc::ast {
     struct Type;
@@ -27,6 +28,28 @@ namespace jc::ast {
         Type(const Location & loc, TypeKind kind) : Node(loc), kind(kind) {}
 
         TypeKind kind;
+
+        virtual void accept(BaseVisitor & visitor) = 0;
+    };
+
+    struct ParenType : Type {
+        ParenType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::Paren) {}
+
+        type_ptr type;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
+    };
+
+    struct TupleType : Type {
+        TupleType(tuple_t_el_list elements, const Location & loc) : elements(elements), Type(loc, TypeKind::Tuple) {}
+
+        tuple_t_el_list elements;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct TupleTypeElement : Node {
@@ -43,18 +66,20 @@ namespace jc::ast {
 
         type_list params;
         type_ptr returnType;
-    };
 
-    struct ParenType : Type {
-        ParenType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::Paren) {}
-
-        type_ptr type;
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct ListType : Type {
         ListType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::List) {}
 
         type_ptr type;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct IdType : Node {
@@ -68,16 +93,18 @@ namespace jc::ast {
         RefType(id_t_list ids, const Location & loc) : ids(ids), Type(loc, TypeKind::Ref) {}
 
         id_t_list ids;
-    };
 
-    struct TupleType : Type {
-        TupleType(tuple_t_el_list elements, const Location & loc) : elements(elements), Type(loc, TypeKind::Tuple) {}
-
-        tuple_t_el_list elements;
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct UnitType : Type {
         explicit UnitType(const Location & loc) : Type(loc, TypeKind::Unit) {}
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 

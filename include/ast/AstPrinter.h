@@ -13,7 +13,7 @@ namespace jc::ast {
     public:
         AstPrinter() = default;
 
-        void print(const ast::stmt_list & tree);
+        void print(const stmt_list & tree);
 
         // Statements //
         void visit(Assignment * assignment) override;
@@ -51,17 +51,25 @@ namespace jc::ast {
         void visit(UnitExpr * unitExpr) override;
         void visit(WhenExpr * whenExpr) override;
 
+        void visit(ParenType * parenType) override;
+        void visit(TupleType * tupleType) override;
+        void visit(FuncType * funcType) override;
+        void visit(ListType * listType) override;
+        void visit(RefType * refType) override;
+        void visit(UnitType * unitType) override;
+
     private:
         common::Logger log{"ast_printer", {}};
 
         void printIndent() const;
-        void print(const ast::attr_list & attributes);
+        void print(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
-        void print(const ast::type_param_list & typeParams);
-        void print(const ast::delegation_list & delegations);
-        void print(const ast::block_ptr & block);
-        void print(ast::ArgList * namedList);
-        void print(ast::Type * type);
+        void print(const type_param_list & typeParams);
+        void print(const delegation_list & delegations);
+        void print(const block_ptr & block);
+        void print(ArgList * namedList);
+        void print(const type_list & typeList);
+        void print(IdType * idType);
 
         const std::string indentChar = "  ";
         void incIndent();
