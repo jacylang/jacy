@@ -441,7 +441,17 @@ namespace jc::parser {
         if (!expr) {
             suggestErrorMsg(suggMsg, cspan());
         }
-        return expr.getValue();
+        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
+        return expr.getValueUnsafe();
+    }
+
+    ast::opt_expr_ptr Parser::parseExprWrapped(const std::string & suggMsg) {
+        logParse("[opt] Expr");
+        auto expr = precParse(0);
+        if (!expr) {
+            suggestErrorMsg(suggMsg, cspan());
+        }
+        return expr;
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
@@ -611,7 +621,8 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        suggestErrorMsg("Expected primary expression", cspan());
+        return dt::None;
+//        suggestErrorMsg("Expected primary expression", cspan());
     }
 
     ast::id_ptr Parser::justParseId(const std::string & panicIn) {
@@ -698,9 +709,10 @@ namespace jc::parser {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
-        // Read first expression that can be either `Id` or expr
+        // FIXME: Change to make `ParenExpr` after full parsed
+        // Read first expression that can `Id` or expr
         const auto & firstExprLoc = peek().loc;
-        auto firstExpr = justParseExpr("`parseTupleOrParenExpr` -> not `()`");
+        auto firstExpr = parseExpr("Expected tuple member"); // FIXME: For lambdas
 
         // Parenthesized expression //
         if (skipOpt(TokenType::RParen)) {
@@ -718,7 +730,7 @@ namespace jc::parser {
                 expr = firstExpr;
                 first = false;
             } else {
-                expr = parseExpr("Expected tuple member"); // FIXME
+                expr = parseExprWrapped("Expected tuple member"); // FIXME: For lambdas
                 skip(
                     TokenType::Comma,
                     true,
@@ -726,6 +738,11 @@ namespace jc::parser {
                     std::make_unique<ParseErrSugg>("Missing `,` separator in tuple literal", cspan())
                 );
             }
+
+            if (!expr) {
+                break;
+            }
+
             dt::Option<ast::id_ptr> id = dt::None;
             dt::Option<ast::expr_ptr> value = dt::None;
             skipNLs(true);
@@ -971,7 +988,7 @@ namespace jc::parser {
         return std::make_shared<ast::Attribute>(id, params, loc);
     }
 
-    ast::arg_list_ptr Parser::parseArgList(const std::string & keeper) {
+    ast::arg_list_ptr Parser::parseArgList(const std::string & construction) {
         logParse("ArgList");
 
         const auto & loc = peek().loc;
@@ -995,7 +1012,10 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    std::make_unique<ParseErrSugg>("Missing `,` separator between elements", cspan())
+                    std::make_unique<ParseErrSugg>(
+                        "Missing `,` separator between arguments in " + construction,
+                        cspan()
+                    )
                 );
             }
 
@@ -1008,7 +1028,7 @@ namespace jc::parser {
 
             if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign, true)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
-                value = parseExpr("Assignment expression expected");
+                value = parseExpr("Expression expected as value for named argument in " + construction);
             } else {
                 value = expr;
             }
@@ -1119,7 +1139,7 @@ namespace jc::parser {
             and tupleElements.at(0)->id
             and tupleElements.at(0)->type) {
                 // TODO
-                // ERROR: Cannot declare single-element tuple type
+                // ERROR: Cannot declare single-element tuple type (move to semantic check)
             }
 
             isParen = true; // Just to be sure :)
@@ -1137,7 +1157,7 @@ namespace jc::parser {
             ast::type_list params;
             for (const auto & tupleEl : tupleElements) {
                 if (tupleEl->id) {
-                    // ERROR: Cannot declare function type with named parameter
+                    // ERROR: Cannot declare function type with named parameter (move to semantic check)
                 }
                 // FIXME: Suggest if type is None
                 params.push_back(tupleEl->type.unwrap());

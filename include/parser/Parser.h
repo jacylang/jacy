@@ -139,6 +139,7 @@ namespace jc::parser {
         // Expressions //
         ast::expr_ptr justParseExpr(const std::string & panicIn);
         ast::expr_ptr parseExpr(const std::string & suggMsg);
+        ast::opt_expr_ptr parseExprWrapped(const std::string & suggMsg);
         ast::opt_expr_ptr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
@@ -164,7 +165,7 @@ namespace jc::parser {
         std::tuple<ast::block_ptr, ast::expr_ptr> parseBodyMaybeOneLine();
         ast::attr_list parseAttributes();
         dt::Option<ast::attr_ptr> parseAttr();
-        ast::arg_list_ptr parseArgList(const std::string & keeper);
+        ast::arg_list_ptr parseArgList(const std::string & construction);
         parser::token_list parseModifiers();
         ast::func_param_list parseFuncParamList(bool isParen);
         ast::func_param_ptr parseFuncParam();

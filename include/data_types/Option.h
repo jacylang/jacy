@@ -26,13 +26,6 @@ namespace jc::dt {
             common::Logger::devPanic("Initialization of `Option` with nullptr");
         }
 
-        template<class U>
-        explicit Option(const Option<U> & other) : hasValue(other.hasValue) {
-            if (other.hasValue) {
-                value = other.hasValue;
-            }
-        }
-
         friend Option<T>;
 
         T unwrap(const std::string & msg = "") const {
@@ -42,7 +35,7 @@ namespace jc::dt {
             return value;
         }
 
-        T getValue() const {
+        T & getValueUnsafe() {
             return value;
         }
 
@@ -72,6 +65,27 @@ namespace jc::dt {
         Option<T> & operator=(inner::none_t) {
             hasValue = false;
             return *this;
+        }
+
+        const T * operator->() const {
+            if (none()) {
+                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
+            }
+            return &value;
+        }
+
+        T * operator->() {
+            if (none()) {
+                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
+            }
+            return &value;
+        }
+
+        const T & operator*() const {
+            if (none()) {
+                common::Logger::devPanic("Called `const T & Option::operator*` a `None` value");
+            }
+            return value;
         }
 
     private:
