@@ -21,11 +21,20 @@ namespace jc::sugg {
         }
     }
 
-    std::string Suggester::dump(sess::sess_ptr sess, const sugg_list & suggestions) {
+    void Suggester::dump(sess::sess_ptr sess, const sugg_list & suggestions) {
         std::string str;
+        bool errorAppeared = false;
         for (const auto & sg : suggestions) {
             str += sg.toString(sess);
+            if (sg.kind == SuggKind::Error) {
+                errorAppeared = true;
+            }
         }
-        return str;
+
+        common::Logger::raw(str);
+
+        if (errorAppeared) {
+            common::Logger::devPanic("Stop after dump of error suggestions");
+        }
     }
 }

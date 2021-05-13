@@ -1,5 +1,38 @@
 #include "Logger.h"
 
+/**
+ * std::ostream overloads
+ */
+template<class T>
+std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
+    os << "[";
+    for (size_t i = 0; i < vec.size(); ++i) {
+            os << vec.at(i);
+            if (i < vec.size() - 1) {
+            os << ", ";
+        }
+    }
+    os << "]";
+    return os;
+}
+
+template<class K, class V>
+std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
+    os << "{";
+    for (auto it = map.begin(); it != map.end(); it++) {
+        os << it->first << ": " << it->second;
+        if (it != std::prev(map.end())) {
+            os << ", ";
+        }
+    }
+    os << "}";
+    return os;
+}
+
+inline std::ostream & operator<<(std::ostream & os, Color color) {
+    os << Logger::colors.at(color);
+}
+
 template<class ...Args>
 void Logger::verbose(Args && ...args) {
     log(LogLevel::Verbose, args...);
@@ -55,6 +88,12 @@ void Logger::colorized(Color color, Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
+void Logger::print(Arg && first, Args && ...other) {
+    std::cout << std::forward<Arg>(first);
+    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+}
+
+template<class Arg, class ...Args>
 std::string Logger::format(Arg && first, Args && ...other) {
     std::stringstream ss;
     ss << first;
@@ -80,7 +119,7 @@ void Logger::log(LogLevel level, Arg && first, Args && ...other) {
         }
         std::cout << levelNames.at(level) << ": ";
         if (config.colorize or dev) {
-            std::cout << Logger::ansiReset;
+            std::cout << Color::Reset;
         }
     }
 

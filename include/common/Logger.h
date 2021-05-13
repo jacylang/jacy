@@ -21,6 +21,7 @@ namespace jc::common {
         Yellow,
         Magenta,
         Cyan,
+        Reset,
     };
 
     // LogLevel //
@@ -49,30 +50,12 @@ namespace jc::common {
     };
 
     template<class T>
-    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
-        os << "[";
-        for (size_t i = 0; i < vec.size(); ++i) {
-            os << vec.at(i);
-            if (i < vec.size() - 1) {
-                os << ", ";
-            }
-        }
-        os << "]";
-        return os;
-    }
+    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec);
 
     template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
-        os << "{";
-        for (auto it = map.begin(); it != map.end(); it++) {
-            os << it->first << ": " << it->second;
-            if (it != std::prev(map.end())) {
-                os << ", ";
-            }
-        }
-        os << "}";
-        return os;
-    }
+    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map);
+
+    inline std::ostream & operator<<(std::ostream & os, Color color);
 
     class Logger {
     public:
@@ -108,6 +91,9 @@ namespace jc::common {
         }
 
         template<class Arg, class ...Args>
+        static void print(Arg && first, Args && ...other);
+
+        template<class Arg, class ...Args>
         static std::string format(Arg && first, Args && ...other);
 
         LoggerConfig & getConfig() {
@@ -125,10 +111,12 @@ namespace jc::common {
         template<class Arg, class ...Args>
         void log(LogLevel level, Arg && first, Args && ...other);
 
+    public:
+        static const std::map<Color, std::string> colors;
+
+    private:
         static const std::map<LogLevel, std::string> levelNames;
         static const std::map<LogLevel, Color> levelColors;
-        static const std::map<Color, std::string> colors;
-        static const std::string ansiReset;
     };
 
     #include "common/Logger.inl"

@@ -26,7 +26,6 @@ namespace jc::common {
         {Color::Yellow, "\033[1;33m"},
         {Color::Magenta, "\033[1;35m"},
         {Color::Cyan, "\033[1;36m"},
+        {Color::Reset, "\033[1;0m"},
     };
-
-    const std::string Logger::ansiReset = "\033[1;0m";
 }

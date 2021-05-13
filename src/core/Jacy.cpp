@@ -79,6 +79,8 @@ namespace jc::core {
             astPrinter.print(tree);
         }
 
+        sugg::Suggester::dump(sess, parser.getSuggestions());
+
         if (cli.config.has("compile-depth", "parser")) {
             return;
         }

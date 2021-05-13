@@ -410,13 +410,13 @@ namespace jc::parser {
     ast::expr_ptr Parser::justParseExpr(const std::string & panicIn) {
         logParse("[just] Expr");
 
-        return pipe().unwrap("Expected expression in " + panicIn);
+        return precParse(0).unwrap("Expected expression in " + panicIn);
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
-        auto expr = pipe();
+        auto expr = precParse(0);
         if (!expr) {
             suggestErrorMsg(suggMsg, cspan());
         }
@@ -1042,9 +1042,7 @@ namespace jc::parser {
     ast::func_param_ptr Parser::parseFuncParam() {
         const auto & loc = peek().loc;
 
-        // FIXME: `parseFuncParam` is optional
-
-        const auto & id = parseId("Expected");
+        const auto & id = parseId("Expected function parameter");
 
         skip(
             TokenType::Colon,
@@ -1274,6 +1272,10 @@ namespace jc::parser {
 
     Span Parser::cspan() const {
         return peek().span(sess);
+    }
+
+    sugg::sugg_list Parser::getSuggestions() const {
+        return suggestions;
     }
 
     // DEBUG //
