@@ -8,13 +8,20 @@ namespace jc::ast {
         }
     }
 
+    ////////////////
+    // Statements //
+    ////////////////
     void AstPrinter::visit(Assignment * assignment) {
+        printIndent();
+
         assignment->lhs->accept(*this);
         log.raw(" = ");
         assignment->rhs->accept(*this);
     }
 
     void AstPrinter::visit(ClassDecl * classDecl) {
+        printIndent();
+
         print(classDecl->attributes);
         printModifiers(classDecl->modifiers);
         log.raw(" class ");
@@ -25,6 +32,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(EnumDecl * enumDecl) {
+        printIndent();
+
         log.raw("enum ");
         enumDecl->id->accept(*this);
 
@@ -41,10 +50,14 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(ExprStmt * exprStmt) {
+        printIndent();
+
         exprStmt->expr->accept(*this);
     }
 
     void AstPrinter::visit(ForStmt * forStmt) {
+        printIndent();
+
         log.raw("for ");
         forStmt->forEntity->accept(*this);
         log.raw(" in ");
@@ -53,6 +66,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(FuncDecl * funcDecl) {
+        printIndent();
+
         print(funcDecl->attributes);
         printModifiers(funcDecl->modifiers);
         log.raw("func ");
@@ -92,6 +107,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(ObjectDecl * objectDecl) {
+        printIndent();
+
         print(objectDecl->attributes);
         printModifiers(objectDecl->modifiers);
         log.raw("object ");
@@ -103,6 +120,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(TypeAlias * typeAlias) {
+        printIndent();
+
         log.raw("type ");
         typeAlias->id->accept(*this);
         log.raw(" = ");
@@ -110,6 +129,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(VarDecl * varDecl) {
+        printIndent();
+
         log.raw(varDecl->kind.typeToString());
         varDecl->id->accept(*this);
         if (varDecl->type) {
@@ -119,12 +140,17 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(WhileStmt * whileStmt) {
+        printIndent();
+
         log.raw("while ");
         whileStmt->condition->accept(*this);
         log.raw(" ");
         print(whileStmt->body);
     }
 
+    /////////////////
+    // Expressions //
+    /////////////////
     void AstPrinter::visit(BreakExpr * breakExpr) {
         log.raw("break");
     }

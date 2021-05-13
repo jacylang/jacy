@@ -575,7 +575,6 @@ namespace jc::parser {
 
                 lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
             } else if (is(TokenType::LParen)) {
-                log.dev("Invoke lhs type", (int)lhs.unwrap()->type);
                 lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseArgList("function call"));
             } else {
                 break;
