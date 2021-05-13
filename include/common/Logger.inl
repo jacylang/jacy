@@ -34,28 +34,28 @@ inline std::ostream & operator<<(std::ostream & os, Color color) {
 }
 
 template<class ...Args>
-void Logger::debug(Args && ...args) {
-    log(LogLevel::Debug, args...);
+Logger & Logger::debug(Args && ...args) {
+    return log(LogLevel::Debug, args...);
 }
 
 template<class ...Args>
-void Logger::info(Args && ...args) {
-    log(LogLevel::Info, args...);
+Logger & Logger::info(Args && ...args) {
+    return log(LogLevel::Info, args...);
 }
 
 template<class ...Args>
-void Logger::warn(Args && ...args) {
-    log(LogLevel::Warn, args...);
+Logger & Logger::warn(Args && ...args) {
+    return log(LogLevel::Warn, args...);
 }
 
 template<class ...Args>
-void Logger::error(Args && ...args) {
-    log(LogLevel::Error, args...);
+Logger & Logger::error(Args && ...args) {
+    return log(LogLevel::Error, args...);
 }
 
 template<class ...Args>
-void Logger::dev(Args && ...args) {
-    log(LogLevel::Dev, args...);
+Logger & Logger::dev(Args && ...args) {
+    return log(LogLevel::Dev, args...);
 }
 
 template<class Arg, class ...Args>
@@ -104,9 +104,9 @@ std::string Logger::format(Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-void Logger::log(LogLevel level, Arg && first, Args && ...other) {
+Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
-        return;
+        return *this;
     }
 
     const auto & dev = level == LogLevel::Dev;
@@ -130,4 +130,6 @@ void Logger::log(LogLevel level, Arg && first, Args && ...other) {
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
 
     nl();
+
+    return *this;
 }
