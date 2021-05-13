@@ -181,7 +181,7 @@ namespace jc::parser {
         ast::block_ptr parseBlock();
         std::tuple<ast::block_ptr, ast::expr_ptr> parseBodyMaybeOneLine();
         ast::attr_list parseAttributes();
-        ast::attr_ptr parseAttr();
+        dt::Option<ast::attr_ptr> parseAttr();
         ast::named_list_ptr parseNamedList();
         parser::token_list parseModifiers();
         ast::func_param_list parseFuncParamList(bool isParen);

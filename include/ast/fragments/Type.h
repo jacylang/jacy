@@ -30,10 +30,11 @@ namespace jc::ast {
     };
 
     struct TupleTypeElement : Node {
-        TupleTypeElement(id_ptr id, type_ptr type) : id(id), type(type), Node(id->loc) {}
+        TupleTypeElement(opt_id_ptr id, opt_type_ptr type, const Location & loc)
+            : id(id), type(type), Node(loc) {}
 
-        id_ptr id;
-        type_ptr type;
+        opt_id_ptr id;
+        opt_type_ptr type;
     };
 
     struct FuncType : Type {

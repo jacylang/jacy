@@ -10,6 +10,7 @@ namespace jc::ast {
     using type_param_list = std::vector<std::shared_ptr<TypeParam>>;
     using type_params_ptr = std::shared_ptr<TypeParams>;
     using type_ptr = std::shared_ptr<Type>;
+    using opt_type_ptr = dt::Option<type_ptr>;
 
     struct TypeParam : Node {
         TypeParam(id_ptr id, type_ptr type) : id(id), type(type), Node(id->loc) {}

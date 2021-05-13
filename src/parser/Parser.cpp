@@ -313,10 +313,13 @@ namespace jc::parser {
                 )
             );
         }
-
-        ast::type_ptr returnType{nullptr};
+        ast::opt_type_ptr returnType;
         if (!isParen and skipOpt(TokenType::Arrow, true) or skipOpt(TokenType::Colon, true)) {
             returnType = parseType();
+        }
+
+        if (!returnType) {
+            suggestErrorMsg("Expected return type for function", cspan());
         }
 
         ast::block_ptr body;
@@ -329,7 +332,7 @@ namespace jc::parser {
             typeParams,
             id,
             params,
-            returnType,
+            returnType.unwrap(),
             body,
             oneLineBody,
             loc
@@ -680,7 +683,8 @@ namespace jc::parser {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
-        const auto & firstExpr = justParseExpr("`parseTupleOrParenExpr` -> not `()`");
+        const auto & firstExprLoc = peek().loc;
+        auto firstExpr = justParseExpr("`parseTupleOrParenExpr` -> not `()`");
 
         // Parenthesized expression
         if (skipOpt(TokenType::RParen)) {
@@ -690,7 +694,7 @@ namespace jc::parser {
         ast::named_el_list namedList;
 
         // Add first element (expression)
-        namedList.push_back(std::make_shared<ast::NamedElement>(nullptr, firstExpr));
+        namedList.push_back(std::make_shared<ast::NamedElement>(dt::None, firstExpr, firstExprLoc));
 
         bool first = true;
         while (!eof()) {
@@ -707,8 +711,8 @@ namespace jc::parser {
             }
 
             const auto & expr = parseExpr("Expected tuple member"); // FIXME
-            ast::id_ptr id = nullptr;
-            ast::expr_ptr value = nullptr;
+            dt::Option<ast::id_ptr> id = dt::None;
+            dt::Option<ast::expr_ptr> value = dt::None;
             skipNLs(true);
 
             // Named element case like (name: value)
@@ -740,15 +744,19 @@ namespace jc::parser {
         const auto & condition = parseExpr("Expected condition in `if` expression");
 
         // Check if user ignored `if` branch using `;` or parse body
-        const auto & ifBranch = skipOpt(TokenType::Semi) ? nullptr : parseBlock();
-        ast::block_ptr elseBranch = nullptr;
+        dt::Option<ast::block_ptr> ifBranch = dt::None;
+        dt::Option<ast::block_ptr> elseBranch = dt::None;
+
+        if (!skipOpt(TokenType::Semi)) {
+            // TODO!: Add `parseBlockMaybeNone`
+            ifBranch = parseBlock();
+        }
 
         if (skipOpt(TokenType::Else)) {
             const auto & maybeSemi = peek();
             if (skipOpt(TokenType::Semi)) {
                 // Note: cover case when user writes `if {} else;`
                 suggest(ParseErrSugg("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
-                return nullptr;
             }
             elseBranch = parseBlock();
         }
@@ -934,18 +942,18 @@ namespace jc::parser {
         logParse("AttrList");
 
         ast::attr_list attributes;
-        while (ast::attr_ptr attr = parseAttr()) {
-            attributes.push_back(attr);
+        while (const auto & attr = parseAttr()) {
+            attributes.push_back(attr.unwrap());
         }
         return attributes;
     }
 
-    ast::attr_ptr Parser::parseAttr() {
+    dt::Option<ast::attr_ptr> Parser::parseAttr() {
         logParse("Attribute");
 
         const auto & loc = peek().loc;
         if (!skipOpt(TokenType::At_WWS)) {
-            return nullptr;
+            return dt::None;
         }
 
         const auto & id = parseId("Expected attribute name");
@@ -982,8 +990,8 @@ namespace jc::parser {
                 break;
             }
 
-            ast::id_ptr id = nullptr;
-            ast::expr_ptr value = nullptr;
+            ast::opt_id_ptr id = dt::None;
+            ast::opt_expr_ptr value = dt::None;
 
             const auto & expr = justParseExpr("`parseNamedList` -> after `,`");
 
@@ -1057,7 +1065,7 @@ namespace jc::parser {
         );
 
         const auto & type = parseType();
-        ast::expr_ptr defaultValue{nullptr};
+        ast::opt_expr_ptr defaultValue;
         if (peek().isAssignOp()) {
             advance();
             skipNLs(true);
@@ -1119,7 +1127,11 @@ namespace jc::parser {
 
             ast::type_list params;
             for (const auto & tupleEl : tupleElements) {
-                params.push_back(tupleEl->type);
+                if (tupleEl->id) {
+                    // ERROR: Cannot declare function type with named parameter
+                }
+                // FIXME: Suggest if type is None
+                params.push_back(tupleEl->type.unwrap());
             }
 
             const auto & returnType = parseType();
@@ -1129,7 +1141,7 @@ namespace jc::parser {
             if (tupleElements.empty()) {
                 return std::make_shared<ast::UnitType>(loc);
             } else if (tupleElements.size() == 1 and !tupleElements.at(0)->id and tupleElements.at(0)->type) {
-                return std::make_shared<ast::ParenType>(tupleElements.at(0)->type, loc);
+                return std::make_shared<ast::ParenType>(tupleElements.at(0)->type.unwrap(), loc);
             }
             return std::make_shared<ast::TupleType>(tupleElements, loc);
         } else {
@@ -1185,13 +1197,14 @@ namespace jc::parser {
                 break;
             }
 
-            ast::id_ptr id{nullptr};
+            const auto & elementLoc = peek().loc;
+            ast::opt_id_ptr id;
             if (is(TokenType::Id)) {
                 id = justParseId("`parenType`");
                 skipNLs(true);
             }
 
-            ast::type_ptr type{nullptr};
+            ast::opt_type_ptr type;
             if (id and is(TokenType::Colon)) {
                 // Named tuple element case
                 allowFuncType = false;
@@ -1211,7 +1224,7 @@ namespace jc::parser {
                 );
             }
 
-            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type));
+            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type, elementLoc));
         }
 
         return std::tuple<bool, ast::tuple_t_el_list>(allowFuncType, tupleElements);

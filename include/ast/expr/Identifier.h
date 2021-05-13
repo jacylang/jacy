@@ -8,6 +8,7 @@
 namespace jc::ast {
     struct Identifier;
     using id_ptr = std::shared_ptr<Identifier>;
+    using opt_id_ptr = dt::Option<id_ptr>;
     using IdList = std::vector<id_ptr>;
 
     struct Identifier : Expr {

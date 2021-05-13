@@ -11,10 +11,11 @@ namespace jc::ast {
     using named_list_ptr = std::shared_ptr<NamedList>;
 
     struct NamedElement : Node {
-        NamedElement(id_ptr id, expr_ptr value) : id(id), value(value), Node(id->loc) {}
+        NamedElement(dt::Option<id_ptr> id, dt::Option<expr_ptr> value, const Location & loc)
+            : id(std::move(id)), value(std::move(value)), Node(loc) {}
 
-        id_ptr id;
-        expr_ptr value;
+        dt::Option<id_ptr> id;
+        dt::Option<expr_ptr> value;
     };
 
     struct NamedList : Node {
