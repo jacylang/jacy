@@ -11,7 +11,7 @@ namespace jc::sugg {
     void Suggester::outputSuggestions(const sugg_list & suggestions) {
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
-            if (sg.kind == SuggKind::Error) {
+            if (sg->kind == SuggKind::Error) {
                 errorAppeared = true;
             }
         }
@@ -25,8 +25,8 @@ namespace jc::sugg {
         std::string str;
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
-            str += sg.toString(sess);
-            if (sg.kind == SuggKind::Error) {
+            str += sg->dump(sess) + "\n";
+            if (sg->kind == SuggKind::Error) {
                 errorAppeared = true;
             }
         }

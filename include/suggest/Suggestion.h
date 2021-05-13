@@ -8,7 +8,8 @@
 namespace jc::sugg {
     struct Suggestion;
     using span::Span;
-    using sugg_list = std::vector<Suggestion>;
+    using sugg_ptr = std::unique_ptr<Suggestion>;
+    using sugg_list = std::vector<sugg_ptr>;
 
     enum class SuggKind {
         Error,
@@ -33,8 +34,11 @@ namespace jc::sugg {
         Suggestion(const Span & span, SuggKind kind, eid_t eid = NoneEID)
             : kind(kind), span(span), eid(eid) {}
 
+        // TODO
+        //        std::string toString(sess::sess_ptr sess) const;
+
         // DEBUG //
-        virtual std::string toString(sess::sess_ptr sess) const {
+        std::string dump(sess::sess_ptr sess) const {
             std::string str;
             switch (kind) {
                 case SuggKind::Error: {
@@ -45,12 +49,13 @@ namespace jc::sugg {
                 } break;
             }
 
-            str += " at " + span.toString() + ": `" + sess::SourceMap::getInstance().sliceBySpan(sess, span) + "`";
-
+            str += dataDump();
             str += eid != NoneEID ? " [EID=" + std::to_string(eid) + "]" : "";
 
             return str;
         }
+
+        virtual std::string dataDump() const = 0;
     };
 
     struct MsgSugg : Suggestion {
@@ -58,6 +63,10 @@ namespace jc::sugg {
             : msg(msg), Suggestion(span, kind, eid) {}
 
         const std::string msg;
+
+        virtual std::string dataDump() const override {
+            return "`" + msg + "`" + " at " + span.toString();
+        }
     };
 
     struct SpanLinkSugg : Suggestion {
@@ -81,6 +90,10 @@ namespace jc::sugg {
 
         const std::string spanMsg;
         const std::string linkMsg;
+
+        virtual std::string dataDump() const override {
+            return "`" + spanMsg + " at " + span.toString() + ", linked to `" + linkMsg + "` at " + link.toString();
+        }
     };
 }
 

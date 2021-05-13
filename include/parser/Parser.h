@@ -107,7 +107,7 @@ namespace jc::parser {
             TokenType type,
             bool skipLeftNLs,
             bool skipRightNLs,
-            const sugg::Suggestion & suggestion
+            sugg::sugg_ptr suggestion
         );
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
@@ -143,25 +143,6 @@ namespace jc::parser {
 
         const static std::vector<PrecParser> precTable;
 
-//        ast::opt_expr_ptr pipe();
-//        ast::opt_expr_ptr disjunction();
-//        ast::opt_expr_ptr conjunction();
-//        ast::opt_expr_ptr bitOr();
-//        ast::opt_expr_ptr Xor();
-//        ast::opt_expr_ptr bitAnd();
-//        ast::opt_expr_ptr equality();
-//        ast::opt_expr_ptr comparison();
-//        ast::opt_expr_ptr spaceship();
-//        ast::opt_expr_ptr namedChecks();
-//        ast::opt_expr_ptr nullishCoalesce();
-//        ast::opt_expr_ptr shift();
-//        ast::opt_expr_ptr infix();
-//        ast::opt_expr_ptr range();
-//        ast::opt_expr_ptr add();
-//        ast::opt_expr_ptr mul();
-//        ast::opt_expr_ptr power();
-//        ast::opt_expr_ptr typeCast();
-//        ast::opt_expr_ptr prefix();
         ast::opt_expr_ptr postfix();
         ast::opt_expr_ptr primary();
 
@@ -201,7 +182,7 @@ namespace jc::parser {
     private:
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
-        void suggest(const sugg::Suggestion & suggestion);
+        void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
 

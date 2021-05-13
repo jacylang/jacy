@@ -65,6 +65,7 @@ namespace jc::core {
 
         if (cli.config.has("print", "tokens")) {
             log.info("Printing tokens (`--print tokens`)");
+            log.info("Count of tokens:", tokens.size());
             for (const auto & token : tokens) {
                 std::cout << token.toString(true) << std::endl;
             }

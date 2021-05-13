@@ -4,6 +4,9 @@ namespace jc::parser {
     Parser::Parser() {}
 
     Token Parser::peek() const {
+        if (index >= tokens.size()) {
+            return Token{TokenType::Eof, "", {}}; // FIXME: WTF?
+        }
         return tokens.at(index);
     }
 
@@ -54,7 +57,7 @@ namespace jc::parser {
         }
     }
 
-    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, const sugg::Suggestion & suggestion) {
+    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, sugg::sugg_ptr suggestion) {
         if (skipLeftNLs) {
             skipNLs(true);
         }
@@ -63,7 +66,7 @@ namespace jc::parser {
         advance();
 
         if (not peek().is(type)) {
-            suggest(suggestion);
+            suggest(std::move(suggestion));
             return;
         }
 
@@ -114,7 +117,7 @@ namespace jc::parser {
             tree.push_back(parseTopLevel());
         }
 
-        return {tree, suggestions};
+        return {tree, std::move(suggestions)};
     }
 
     ast::stmt_ptr Parser::parseTopLevel() {
@@ -190,7 +193,7 @@ namespace jc::parser {
             TokenType::In,
             true,
             true,
-            ParseErrSugg("Missing `in` in `for` loop, put it here", cspan())
+            std::make_unique<ParseErrSugg>("Missing `in` in `for` loop, put it here", cspan())
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
@@ -322,7 +325,7 @@ namespace jc::parser {
                 TokenType::RParen,
                 true,
                 true,
-                ParseErrSpanLinkSugg(
+                std::make_unique<ParseErrSpanLinkSugg>(
                     "Missing closing `)` after `func` parameter list", cspan(),
                     "`func` parameter list starts here", maybeParenToken.span(sess)
                 )
@@ -554,7 +557,7 @@ namespace jc::parser {
                             TokenType::Comma,
                             true,
                             true,
-                            ParseErrSugg("Missing `,` separator in subscript operator call", cspan())
+                            std::make_unique<ParseErrSugg>("Missing `,` separator in subscript operator call", cspan())
                         );
                     }
 
@@ -624,7 +627,7 @@ namespace jc::parser {
         logParse("id");
 
         auto maybeIdToken = peek();
-        skip(TokenType::Id, false, true, ParseErrSugg(suggMsg, cspan()));
+        skip(TokenType::Id, false, true, std::make_unique<ParseErrSugg>(suggMsg, cspan()));
         return std::make_shared<ast::Identifier>(maybeIdToken);
     }
 
@@ -659,7 +662,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator in list expression", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator in list expression", cspan())
                 );
             }
 
@@ -720,7 +723,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator in tuple literal", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator in tuple literal", cspan())
                 );
             }
             dt::Option<ast::id_ptr> id = dt::None;
@@ -768,7 +771,7 @@ namespace jc::parser {
             auto maybeSemi = peek();
             if (skipOpt(TokenType::Semi)) {
                 // Note: cover case when user writes `if {} else;`
-                suggest(ParseErrSugg("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
+                suggest(std::make_unique<ParseErrSugg>("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
             }
             elseBranch = parseBlock();
         }
@@ -806,7 +809,7 @@ namespace jc::parser {
             TokenType::LBrace,
             true,
             true,
-            ParseErrSugg("To start `when` body put `{` here or `;` to ignore body", cspan())
+            std::make_unique<ParseErrSugg>("To start `when` body put `{` here or `;` to ignore body", cspan())
         );
 
         ast::when_entry_list entries;
@@ -829,7 +832,7 @@ namespace jc::parser {
             TokenType::RBrace,
             true,
             true,
-            ParseErrSugg("Missing closing `}` at the end of `when` body", cspan())
+            std::make_unique<ParseErrSugg>("Missing closing `}` at the end of `when` body", cspan())
         );
 
         return std::make_shared<ast::WhenExpr>(subject, entries, loc);
@@ -851,7 +854,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` delimiter between when expression entries", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` delimiter between when expression entries", cspan())
                 );
             }
 
@@ -868,7 +871,7 @@ namespace jc::parser {
             TokenType::DoubleArrow,
             true,
             true,
-            ParseErrSugg("Expected `=>` after `when` entry conditions", cspan())
+            std::make_unique<ParseErrSugg>("Expected `=>` after `when` entry conditions", cspan())
         );
 
         // FIXME: No oneLineBody
@@ -891,7 +894,7 @@ namespace jc::parser {
 
         if (allowOneLine and is(TokenType::LBrace)) {
             suggest(
-                sugg::MsgSugg(
+                std::make_unique<sugg::MsgSugg>(
                     "Useless `=>` in case of use body with `{`",
                     maybeDoubleArrow.span(sess),
                     sugg::SuggKind::Warn
@@ -919,7 +922,7 @@ namespace jc::parser {
             block->stmts.push_back(parseStmt());
         } else {
             suggest(
-                ParseErrSugg(
+                std::make_unique<ParseErrSugg>(
                     "Likely you meant to put a '=>', start body from new line or enclose body in `{}`",
                     cspan()
                 )
@@ -988,7 +991,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator between elements", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator between elements", cspan())
                 );
             }
 
@@ -1045,7 +1048,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator in tuple literal", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator in tuple literal", cspan())
                 );
             }
 
@@ -1064,7 +1067,7 @@ namespace jc::parser {
             TokenType::Colon,
             true,
             true,
-            ParseErrSugg(
+            std::make_unique<ParseErrSugg>(
                 "`func` parameters without type are not allowed, please put `:` here and specify type",
                 cspan()
             )
@@ -1095,7 +1098,7 @@ namespace jc::parser {
                 TokenType::RBracket,
                 true,
                 true,
-                ParseErrSugg("Missing closing `]` at the end of list type", cspan())
+                std::make_unique<ParseErrSugg>("Missing closing `]` at the end of list type", cspan())
             );
             return listType;
         }
@@ -1226,7 +1229,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator in tuple type", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator in tuple type", cspan())
                 );
             }
 
@@ -1255,7 +1258,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    ParseErrSugg("Missing `,` separator between type parameters", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` separator between type parameters", cspan())
                 );
             }
 
@@ -1279,12 +1282,12 @@ namespace jc::parser {
     }
 
     // Suggestions //
-    void Parser::suggest(const sugg::Suggestion & suggestion) {
-        suggestions.emplace_back(suggestion);
+    void Parser::suggest(sugg::sugg_ptr suggestion) {
+        suggestions.emplace_back(std::move(suggestion));
     }
 
     void Parser::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
-        suggest(sugg::MsgSugg{msg, span, kind, eid});
+        suggest(std::make_unique<sugg::MsgSugg>(msg, span, kind, eid));
     }
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
