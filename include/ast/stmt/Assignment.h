@@ -6,11 +6,11 @@
 
 namespace jc::ast {
     struct Assignment : Stmt {
-        Assignment(stmt_ptr lhs, const parser::Token & token, expr_ptr rhs)
-            : lhs(lhs), token(token), rhs(rhs), Stmt(lhs->loc, StmtType::Assignment) {}
+        Assignment(stmt_ptr lhs, const parser::Token & op, expr_ptr rhs)
+            : lhs(std::move(lhs)), op(op), rhs(std::move(rhs)), Stmt(lhs->loc, StmtType::Assignment) {}
 
         stmt_ptr lhs;
-        parser::Token token;
+        parser::Token op;
         expr_ptr rhs;
 
         void accept(BaseVisitor & visitor) override {

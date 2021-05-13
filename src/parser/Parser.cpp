@@ -85,7 +85,7 @@ namespace jc::parser {
     }
 
     dt::Option<Token> Parser::skipOpt(TokenType type, bool skipRightNLs) {
-        const auto & last = dt::Option<Token>(peek());
+        auto last = dt::Option<Token>(peek());
         if (peek().is(type)) {
             advance();
             if (skipRightNLs) {
@@ -129,7 +129,7 @@ namespace jc::parser {
         }
 
         if (lhs && peek().isAssignOp() and lhs->isAssignable()) {
-            const auto & assignOp = peek();
+            auto assignOp = peek();
             advance();
             return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr("Expected assignment expression"));
         }
@@ -167,8 +167,8 @@ namespace jc::parser {
 
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
-        const auto & condition = parseExpr("Expected condition in `while`");
-        const auto & body = parseBlock();
+        auto condition = parseExpr("Expected condition in `while`");
+        auto body = parseBlock();
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -181,7 +181,7 @@ namespace jc::parser {
         justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
 
         // TODO: Destructuring
-        const auto & forEntity = parseId("Expected `for` entity in `for` loop");
+        auto forEntity = parseId("Expected `for` entity in `for` loop");
 
         skip(
             TokenType::In,
@@ -190,8 +190,8 @@ namespace jc::parser {
             ParseErrSugg("Missing `in` in `for` loop, put it here", cspan())
         );
 
-        const auto & inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        const auto & body = parseBlock();
+        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
+        auto body = parseBlock();
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -237,7 +237,7 @@ namespace jc::parser {
 
         ast::stmt_list declarations;
         while (!eof()) {
-            const auto & decl = parseDecl();
+            auto decl = parseDecl();
             if (decl.none()) {
                 break;
             }
@@ -249,14 +249,14 @@ namespace jc::parser {
     ast::stmt_ptr Parser::parseVarDecl() {
         logParse("VarDecl");
 
-        const auto & kind = peek();
+        auto kind = peek();
 
 //        if (kind.type != TokenType::Const and kind.type != TokenType::Var and kind.type != TokenType::Val) {
 //            throw common::DevError("Unexpected var kind token in parseVarDecl");
 //        }
 
         // TODO: Destructuring
-        const auto & id = parseId("An identifier expected as a `"+ peek().typeToString() +"` name");
+        auto id = parseId("An identifier expected as a `"+ peek().typeToString() +"` name");
 
         ast::type_ptr type;
         if (skipOpt(TokenType::Colon)) {
@@ -273,8 +273,8 @@ namespace jc::parser {
 
         justSkip(TokenType::Type, true, "`type`", "`parseTypeDecl`");
 
-        const auto & id = parseId("An identifier expected as a type name");
-        const auto & type = parseType();
+        auto id = parseId("An identifier expected as a type name");
+        auto type = parseType();
 
         return std::make_shared<ast::TypeAlias>(id, type, loc);
     }
@@ -288,10 +288,10 @@ namespace jc::parser {
 
         justSkip(TokenType::Func, true, "`func`", "`parseFuncDecl`");
 
-        const auto & typeParams = parseTypeParams();
+        auto typeParams = parseTypeParams();
 
         // TODO: Type reference for extensions
-        const auto & id = parseId("An identifier expected as a type parameter name");
+        auto id = parseId("An identifier expected as a type parameter name");
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenType::LParen);
@@ -300,7 +300,7 @@ namespace jc::parser {
             justSkip(TokenType::LParen, true, "'('", "`parseFuncDecl` -> `isParen`");
         }
 
-        const auto & params = parseFuncParamList(isParen);
+        auto params = parseFuncParamList(isParen);
 
         if (isParen) {
             skip(
@@ -346,15 +346,15 @@ namespace jc::parser {
 
         justSkip(TokenType::Class, true, "`class`", "`parseClassDecl`");
 
-        const auto & id = parseId("An identifier expected as a class name");
-        const auto & typeParams = parseTypeParams();
+        auto id = parseId("An identifier expected as a class name");
+        auto typeParams = parseTypeParams();
 
         ast::delegation_list delegations;
         if (skipOpt(TokenType::Colon)) {
             delegations = parseDelegationList();
         }
 
-        const auto & body = parseDeclList();
+        auto body = parseDeclList();
 
         return std::make_shared<ast::ClassDecl>(attributes, modifiers, id, typeParams, delegations, body, loc);
     }
@@ -370,7 +370,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Object, true, "`object`", "`parseObjectDecl`");
 
-        const auto & id = parseId("An identifier expected as an object name");
+        auto id = parseId("An identifier expected as an object name");
 
         skipNLs(true);
 
@@ -599,7 +599,7 @@ namespace jc::parser {
     ast::id_ptr Parser::justParseId(const std::string & panicIn) {
         logParse("[just] id");
 
-        const auto & id = peek();
+        const auto id = peek();
         justSkip(TokenType::Id, true, "[identifier]", "`" + panicIn + "`");
         return std::make_shared<ast::Identifier>(id);
     }
@@ -608,7 +608,7 @@ namespace jc::parser {
         // TODO!!!: Custom expectation name
         logParse("id");
 
-        const auto & maybeIdToken = peek();
+        const auto maybeIdToken = peek();
         if (!is(TokenType::Id)) {
             suggestErrorMsg(suggMsg.empty() ? "Expected identifier" : suggMsg, cspan());
         }
@@ -622,7 +622,7 @@ namespace jc::parser {
         if (!peek().isLiteral()) {
             common::Logger::devPanic("Expected literal in parseLiteral");
         }
-        const auto & token = peek();
+        auto token = peek();
         advance();
         return std::make_shared<ast::LiteralConstant>(token);
     }
@@ -710,7 +710,7 @@ namespace jc::parser {
                 );
             }
 
-            const auto & expr = parseExpr("Expected tuple member"); // FIXME
+            auto expr = parseExpr("Expected tuple member"); // FIXME
             dt::Option<ast::id_ptr> id = dt::None;
             dt::Option<ast::expr_ptr> value = dt::None;
             skipNLs(true);
@@ -741,7 +741,7 @@ namespace jc::parser {
 
         justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
 
-        const auto & condition = parseExpr("Expected condition in `if` expression");
+        auto condition = parseExpr("Expected condition in `if` expression");
 
         // Check if user ignored `if` branch using `;` or parse body
         dt::Option<ast::block_ptr> ifBranch = dt::None;
@@ -753,7 +753,7 @@ namespace jc::parser {
         }
 
         if (skipOpt(TokenType::Else)) {
-            const auto & maybeSemi = peek();
+            auto maybeSemi = peek();
             if (skipOpt(TokenType::Semi)) {
                 // Note: cover case when user writes `if {} else;`
                 suggest(ParseErrSugg("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
@@ -771,7 +771,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Loop, true, "`loop`", "`parseLoopExpr`");
 
-        const auto & body = parseBlock();
+        auto body = parseBlock();
 
         return std::make_shared<ast::LoopExpr>(body, loc);
     }
@@ -783,7 +783,7 @@ namespace jc::parser {
 
         justSkip(TokenType::When, true, "`when`", "`parseWhenExpr`");
 
-        const auto & subject = parseExpr("Expected subject expression in `when` expression");
+        auto subject = parseExpr("Expected subject expression in `when` expression");
 
         if (skipOpt(TokenType::Semi)) {
             // `when` body is ignored with `;`
@@ -936,7 +936,7 @@ namespace jc::parser {
         logParse("AttrList");
 
         ast::attr_list attributes;
-        while (const auto & attr = parseAttr()) {
+        while (auto attr = parseAttr()) {
             attributes.push_back(attr.unwrap());
         }
         return attributes;
@@ -950,8 +950,8 @@ namespace jc::parser {
             return dt::None;
         }
 
-        const auto & id = parseId("Expected attribute name");
-        const auto & params = parseNamedList();
+        auto id = parseId("Expected attribute name");
+        auto params = parseNamedList();
 
         return std::make_shared<ast::Attribute>(id, params, loc);
     }
@@ -987,7 +987,7 @@ namespace jc::parser {
             ast::opt_id_ptr id = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
-            const auto & expr = justParseExpr("`parseNamedList` -> after `,`");
+            auto expr = justParseExpr("`parseNamedList` -> after `,`");
 
             skipNLs(true);
 
@@ -1046,7 +1046,7 @@ namespace jc::parser {
     ast::func_param_ptr Parser::parseFuncParam() {
         const auto & loc = peek().loc;
 
-        const auto & id = parseId("Expected function parameter");
+        auto id = parseId("Expected function parameter");
 
         skip(
             TokenType::Colon,
@@ -1058,7 +1058,7 @@ namespace jc::parser {
             )
         );
 
-        const auto & type = parseType();
+        auto type = parseType();
         ast::opt_expr_ptr defaultValue;
         if (peek().isAssignOp()) {
             advance();
@@ -1128,7 +1128,7 @@ namespace jc::parser {
                 params.push_back(tupleEl->type.unwrap());
             }
 
-            const auto & returnType = parseType();
+            auto returnType = parseType();
 
             return std::make_shared<ast::FuncType>(params, returnType, loc);
         } else if (isParen) {
@@ -1251,7 +1251,7 @@ namespace jc::parser {
                 break;
             }
 
-            const auto & id = parseId("Expected type parameter name");
+            auto id = parseId("Expected type parameter name");
 
             skipNLs(true);
 

@@ -40,7 +40,9 @@ namespace jc::sess {
         }
 
         if (span.line >= sourceIt->second.size()) {
-            common::Logger::devPanic("Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line));
+            common::Logger::devPanic(
+                "Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line),
+                "File lines count:", sourceIt->second.size());
         }
 
         const auto & line = sourceIt->second.at(span.line);
