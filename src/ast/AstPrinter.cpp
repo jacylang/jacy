@@ -62,15 +62,15 @@ namespace jc::ast {
         log.raw("(");
         for (size_t i = 0; i < funcDecl->params.size(); ++i) {
             const auto & param = funcDecl->params.at(i);
-            param->id->accept(*this);
+            param->id.unwrap()->accept(*this);
 
             if (param->type) {
                 log.raw(": ");
-                print(param->type.get());
+                print(param->type.unwrap().get());
             }
             if (param->defaultValue) {
                 log.raw(" = ");
-                param->defaultValue->accept(*this);
+                param->defaultValue.unwrap()->accept(*this);
             }
             if (i < funcDecl->params.size() - 1) {
                 log.raw(", ");
@@ -143,13 +143,13 @@ namespace jc::ast {
 
     void AstPrinter::visit(IfExpr * ifExpr) {
         log.raw("if ");
-        ifExpr->condition->accept(*this);
+        ifExpr->condition.unwrap()->accept(*this);
         log.raw(" ");
         if (ifExpr->ifBranch) {
-            print(ifExpr->ifBranch);
+            print(ifExpr->ifBranch.unwrap());
         }
         if (ifExpr->elseBranch) {
-            print(ifExpr->elseBranch);
+            print(ifExpr->elseBranch.unwrap());
         }
     }
 
@@ -333,13 +333,13 @@ namespace jc::ast {
     void AstPrinter::print(ast::NamedList * namedList) {
         for (const auto & namedEl : namedList->elements) {
             if (namedEl->id) {
-                namedEl->id->accept(*this);
+                namedEl->id.unwrap()->accept(*this);
                 if (namedEl->value) {
                     log.raw(" = ");
                 }
             }
             if (namedEl->value) {
-                namedEl->value->accept(*this);
+                namedEl->value.unwrap()->accept(*this);
             }
         }
     }
