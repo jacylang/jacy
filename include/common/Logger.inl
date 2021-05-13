@@ -34,27 +34,27 @@ inline std::ostream & operator<<(std::ostream & os, Color color) {
 }
 
 template<class ...Args>
-Logger & Logger::debug(Args && ...args) {
+const Logger & Logger::debug(Args && ...args) {
     return log(LogLevel::Debug, args...);
 }
 
 template<class ...Args>
-Logger & Logger::info(Args && ...args) {
+const Logger & Logger::info(Args && ...args) {
     return log(LogLevel::Info, args...);
 }
 
 template<class ...Args>
-Logger & Logger::warn(Args && ...args) {
+const Logger & Logger::warn(Args && ...args) {
     return log(LogLevel::Warn, args...);
 }
 
 template<class ...Args>
-Logger & Logger::error(Args && ...args) {
+const Logger & Logger::error(Args && ...args) {
     return log(LogLevel::Error, args...);
 }
 
 template<class ...Args>
-Logger & Logger::dev(Args && ...args) {
+const Logger & Logger::dev(Args && ...args) {
     return log(LogLevel::Dev, args...);
 }
 
@@ -77,7 +77,7 @@ void Logger::devDebug(Arg && first, Args && ... other) {
 }
 
 template<class Arg, class ...Args>
-Logger & Logger::raw(Arg && first, Args && ...other) {
+const Logger & Logger::raw(Arg && first, Args && ...other) {
     std::cout << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     return *this;
@@ -104,7 +104,7 @@ std::string Logger::format(Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) {
+const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
