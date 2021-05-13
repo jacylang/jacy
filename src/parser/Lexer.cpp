@@ -4,6 +4,7 @@ namespace jc::parser {
     Lexer::Lexer() {
         loc.line = 1;
         loc.col = 1;
+        index = 0;
     }
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
