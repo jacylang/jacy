@@ -428,8 +428,10 @@ namespace jc::parser {
 
         if (precTable.size() == index) {
             return postfix();
-        } else {
-            common::Logger::devPanic("`precParse` with index > precTable.size");
+        } else if (index > precTable.size()) {
+            common::Logger::devPanic(
+                "`precParse` with index > precTable.size, index =", (int)index,
+                "precTable.size =", precTable.size());
         }
 
         const auto & parser = precTable.at(index);
