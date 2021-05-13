@@ -860,15 +860,9 @@ namespace jc::parser {
         );
 
         // FIXME: No oneLineBody
-        ast::block_ptr body{nullptr};
-        ast::expr_ptr oneLineBody{nullptr};
-        if (is(TokenType::LBrace)) {
-            body = parseBlock();
-        } else {
-            oneLineBody = parseExpr(""); // FIXME
-        }
+        ast::block_ptr body = parseBlock();
 
-        return std::make_shared<ast::WhenEntry>(conditions, body, oneLineBody, loc);
+        return std::make_shared<ast::WhenEntry>(conditions, body, loc);
     }
 
     ///////////////

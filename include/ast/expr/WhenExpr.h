@@ -13,17 +13,14 @@ namespace jc::ast {
         WhenEntry(
             expr_list conditions,
             block_ptr body,
-            expr_ptr oneLineBody,
             const Location & loc
         ) : conditions(conditions),
             body(body),
-            oneLineBody(oneLineBody),
             Node(loc) {}
 
         // TODO: Complex prefix conditions like `in lhs`
         expr_list conditions;
         block_ptr body;
-        expr_ptr oneLineBody;
     };
 
     struct WhenExpr : Expr {
