@@ -52,7 +52,7 @@ namespace jc::core {
         try {
             runCode(source);
         } catch (common::Error & e) {
-            std::cout << e.message << std::endl;
+            log.error(e.message);
         }
     }
 
@@ -64,24 +64,30 @@ namespace jc::core {
         const auto & tokens = lexer.lex(sess, code);
 
         if (cli.config.has("print", "tokens")) {
+            log.info("Printing tokens (`--print tokens`)");
             for (const auto & token : tokens) {
                 std::cout << token.toString(true) << std::endl;
             }
+            common::Logger::nl();
         }
 
         if (cli.config.has("compile-depth", "lexer")) {
+            log.info("Stop after lexing due to `compile-depth=lexer`");
             return;
         }
 
         const auto & tree = parser.parse(sess, tokens);
 
         if (cli.config.has("print", "ast")) {
+            log.info("Printing AST (`--print ast`)");
             astPrinter.print(tree);
+            common::Logger::nl();
         }
 
         sugg::Suggester::dump(sess, parser.getSuggestions());
 
         if (cli.config.has("compile-depth", "parser")) {
+            log.info("Stop after parsing due to `compile-depth=parser`");
             return;
         }
     }

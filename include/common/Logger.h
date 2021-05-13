@@ -104,6 +104,9 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static void devPanic(Arg && first, Args && ...other);
 
+        template<class Arg, class ...Args>
+        static void devDebug(Arg && first, Args && ...other);
+
     private:
         std::string owner;
         LoggerConfig config;
@@ -117,6 +120,9 @@ namespace jc::common {
     private:
         static const std::map<LogLevel, std::string> levelNames;
         static const std::map<LogLevel, Color> levelColors;
+
+        template<class Arg, class... Args>
+        void debDebug(Arg && first, Args && ... other);
     };
 
     #include "common/Logger.inl"

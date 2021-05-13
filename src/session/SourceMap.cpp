@@ -25,14 +25,14 @@ namespace jc::sess {
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        std::cout << "Set source by fileId " << sess->fileId << std::endl;
+        common::Logger::devDebug("Set source by fileId ", sess->fileId);
         sources.emplace(sess->fileId, std::move(source));
     }
 
     std::string SourceMap::sliceBySpan(sess_ptr sess, const span::Span & span) {
         const auto & sourceIt = sources.find(sess->fileId);
         if (sourceIt == sources.end()) {
-            // FIXME
+            // FIXME: Remove
             for (const auto & id : utils::map::keys(sources)) {
                 std::cout << "got fileId: " << id << " ";
             }

@@ -65,13 +65,20 @@ void Logger::dev(Args && ...args) {
 
 template<class Arg, class ...Args>
 void Logger::devPanic(Arg && first, Args && ...other) {
-    std::cout << colors.at(Color::Red);
+    std::cout << levelColors.at(LogLevel::Error);
     std::cout << "[DEV PANIC]: " << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
-    std::cout << Logger::ansiReset;
+    std::cout << Color::Reset;
     Logger::nl();
 
     throw common::Error("Stop after dev panic!");
+}
+
+template<class Arg, class... Args>
+void Logger::devDebug(Arg && first, Args && ... other) {
+    std::cout << levelColors.at(LogLevel::Debug) << "[DEV DEBUG]: " << Color::Reset << std::forward<Arg>(first);
+    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+    Logger::nl();
 }
 
 template<class Arg, class ...Args>
@@ -84,7 +91,7 @@ Logger & Logger::raw(Arg && first, Args && ...other) {
 template<class Arg, class ...Args>
 void Logger::colorized(Color color, Arg && first, Args && ...other) {
     std::cout << colors.at(color); // Not putting it to `raw`, because it will be prefixed with white-space
-    raw(first, other..., ansiReset).nl();
+    raw(first, other..., Color::Reset).nl();
 }
 
 template<class Arg, class ...Args>

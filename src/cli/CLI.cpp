@@ -4,8 +4,6 @@ namespace jc::cli {
     CLI::CLI() = default;
 
     void CLI::applyArgs(int argc, const char ** argv) {
-        log.dev("Applying cli arguments...");
-
         bool inKeyValue = false;
         std::string currentKey; // Key of current key-value argument
         std::vector<std::string> values; // Collection of values for current key-value argument

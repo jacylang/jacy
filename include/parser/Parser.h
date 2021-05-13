@@ -29,7 +29,8 @@
  * non-complex).
  * `justSkip` has the same logic, it just skips something that we already know is going to be next.
  *
- * Be careful with using `just` parsers which returns `Option` -- unwrap can lead to devPanic.
+ * Note: Be careful with using `just` parsers which returns `Option` -- unwrap can lead to devPanic.
+ * Note: If parser returns not `expr_ptr` but `*_ptr` it can be safely statically casted to `expr_ptr`
  *
  * ## How suggestions collected if error occurred
  * This is kind of hard work, but what we do is trying to split parsing into as small parts as possible and following
@@ -164,7 +165,7 @@ namespace jc::parser {
         ast::opt_expr_ptr primary();
 
         // Atomic expressions //
-        ast::expr_ptr justParseId(const std::string & panicIn);
+        ast::id_ptr justParseId(const std::string & panicIn);
         ast::id_ptr parseId(const std::string & suggMsg);
         ast::expr_ptr parseLiteral();
         ast::expr_ptr parseListExpr();

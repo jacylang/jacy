@@ -85,7 +85,7 @@ namespace jc::parser {
     }
 
     dt::Option<Token> Parser::skipOpt(TokenType type, bool skipRightNLs) {
-        const auto & last = dt::Option(peek());
+        const auto & last = dt::Option<Token>(peek());
         if (peek().is(type)) {
             advance();
             if (skipRightNLs) {
@@ -420,7 +420,7 @@ namespace jc::parser {
         if (!expr) {
             suggestErrorMsg(suggMsg, cspan());
         }
-        return expr.value();
+        return expr.getValue();
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
@@ -565,7 +565,7 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Id)) {
-            return justParseId("`primary`");
+            return ast::Expr::as<ast::Expr>(justParseId("`primary`"));
         }
 
         if (is(TokenType::If)) {
@@ -591,7 +591,7 @@ namespace jc::parser {
         suggestErrorMsg("Expected primary expression", cspan());
     }
 
-    ast::expr_ptr Parser::justParseId(const std::string & panicIn) {
+    ast::id_ptr Parser::justParseId(const std::string & panicIn) {
         logParse("[just] id");
 
         const auto & id = peek();

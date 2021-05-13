@@ -31,7 +31,7 @@ namespace jc::sugg {
             }
         }
 
-        common::Logger::raw(str);
+        common::Logger::print(str);
 
         if (errorAppeared) {
             common::Logger::devPanic("Stop after dump of error suggestions");

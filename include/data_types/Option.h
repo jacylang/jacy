@@ -39,7 +39,7 @@ namespace jc::dt {
             return value;
         }
 
-        T value() const {
+        T getValue() const {
             return value;
         }
 
