@@ -2,6 +2,7 @@
   <dictionary name="PYJOHN">
     <words>
       <w>antlr</w>
+      <w>arglist</w>
       <w>astprinter</w>
       <w>basevisitor</w>
       <w>boolliteral</w>

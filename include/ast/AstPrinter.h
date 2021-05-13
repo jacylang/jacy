@@ -60,7 +60,7 @@ namespace jc::ast {
         void print(const ast::type_param_list & typeParams);
         void print(const ast::delegation_list & delegations);
         void print(const ast::block_ptr & block);
-        void print(ast::NamedList * namedList);
+        void print(ast::ArgList * namedList);
         void print(ast::Type * type);
 
         const std::string indentChar = "  ";

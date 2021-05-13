@@ -49,7 +49,7 @@ namespace jc::sugg {
                 } break;
             }
 
-            str += dataDump();
+            str += " " + dataDump();
             str += eid != NoneEID ? " [EID=" + std::to_string(eid) + "]" : "";
 
             return str;
@@ -65,7 +65,7 @@ namespace jc::sugg {
         const std::string msg;
 
         virtual std::string dataDump() const override {
-            return "`" + msg + "`" + " at " + span.toString();
+            return "\"" + msg + "\"" + " at " + span.toString();
         }
     };
 
@@ -92,7 +92,7 @@ namespace jc::sugg {
         const std::string linkMsg;
 
         virtual std::string dataDump() const override {
-            return "`" + spanMsg + " at " + span.toString() + ", linked to `" + linkMsg + "` at " + link.toString();
+            return "\"" + spanMsg + "\" at " + span.toString() + ", linked to \"" + linkMsg + "\" at " + link.toString();
         }
     };
 }

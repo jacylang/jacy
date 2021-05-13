@@ -330,7 +330,7 @@ namespace jc::ast {
         log.raw("}");
     }
 
-    void AstPrinter::print(ast::NamedList * namedList) {
+    void AstPrinter::print(ast::ArgList * namedList) {
         for (const auto & namedEl : namedList->elements) {
             if (namedEl->id) {
                 namedEl->id.unwrap()->accept(*this);

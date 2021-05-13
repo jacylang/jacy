@@ -570,7 +570,7 @@ namespace jc::parser {
 
                 lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
             } else if (is(TokenType::LParen)) {
-                lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseNamedList());
+                lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseArgList("function call"));
             } else {
                 break;
             }
@@ -707,7 +707,7 @@ namespace jc::parser {
             return std::make_shared<ast::ParenExpr>(firstExpr, loc);
         }
 
-        ast::named_el_list namedList;
+        ast::arg_list namedList;
 
         bool first = true;
         while (!eof()) {
@@ -743,7 +743,7 @@ namespace jc::parser {
             }
         }
 
-        return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
+        return std::make_shared<ast::TupleExpr>(std::make_shared<ast::ArgList>(namedList, loc), loc);
     }
 
     //////////////////////////////
@@ -966,23 +966,27 @@ namespace jc::parser {
         }
 
         auto id = parseId("Expected attribute name");
-        auto params = parseNamedList();
+        auto params = parseArgList("attribute");
 
         return std::make_shared<ast::Attribute>(id, params, loc);
     }
 
-    ast::named_list_ptr Parser::parseNamedList() {
-        logParse("NamedList");
+    ast::arg_list_ptr Parser::parseArgList(const std::string & keeper) {
+        logParse("ArgList");
 
         const auto & loc = peek().loc;
 
-        justSkip(TokenType::LParen, true, "`(`", "`parseNamedList`");
+        justSkip(TokenType::LParen, true, "`(`", "`parseArgList`");
 
-        ast::named_el_list namedList;
+        ast::arg_list namedList;
 
         bool first = true;
         while (!eof()) {
             skipNLs(true);
+
+            if (skipOpt(TokenType::RParen)) {
+                break;
+            }
 
             if (first) {
                 first = false;
@@ -995,14 +999,10 @@ namespace jc::parser {
                 );
             }
 
-            if (skipOpt(TokenType::RParen)) {
-                break;
-            }
-
             ast::opt_id_ptr id = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
-            auto expr = justParseExpr("`parseNamedList` -> after `,`");
+            auto expr = justParseExpr("`parseArgList` -> after `,`");
 
             skipNLs(true);
 
@@ -1014,7 +1014,7 @@ namespace jc::parser {
             }
         }
 
-        return std::make_shared<ast::NamedList>(namedList, loc);
+        return std::make_shared<ast::ArgList>(namedList, loc);
     }
 
     parser::token_list Parser::parseModifiers() {
