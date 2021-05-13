@@ -542,7 +542,6 @@ namespace jc::parser {
 
         auto lhs = primary();
 
-        skipNLs(true);
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
