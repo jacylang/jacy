@@ -52,6 +52,7 @@
       <w>stmts</w>
       <w>stringutils</w>
       <w>sugg</w>
+      <w>suggresult</w>
       <w>superexpr</w>
       <w>thirdparty</w>
       <w>thisexpr</w>

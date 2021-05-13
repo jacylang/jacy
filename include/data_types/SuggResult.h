@@ -1,0 +1,32 @@
+#ifndef JACY_DATA_TYPES_SUGGRESULT_H
+#define JACY_DATA_TYPES_SUGGRESULT_H
+
+/**
+ * This is a data structure that's pretty similar to `Result`,
+ * but when it's unwrapped it will cause a panic only if there was an Error suggestion.
+ */
+
+#include <utility>
+
+#include "suggest/Suggester.h"
+
+namespace jc::dt {
+    template<class T>
+    class SuggResult {
+    public:
+        SuggResult(const T & value, sugg::sugg_list suggestions)
+            : value(value), suggestions(std::move(suggestions)) {}
+
+        T unwrap(sess::sess_ptr sess) {
+            // FIXME: Remove devDebug and make real suggestions
+            sugg::Suggester::dump(sess, suggestions);
+            return value;
+        }
+
+    private:
+        T value;
+        sugg::sugg_list suggestions;
+    };
+}
+
+#endif // JACY_DATA_TYPES_SUGGRESULT_H

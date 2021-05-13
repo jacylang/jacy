@@ -99,7 +99,7 @@ namespace jc::parser {
     /////////////
     // Parsers //
     /////////////
-    ast::stmt_list Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
+    dt::SuggResult<ast::stmt_list> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
         this->sess = sess;
@@ -114,7 +114,7 @@ namespace jc::parser {
             tree.push_back(parseTopLevel());
         }
 
-        return tree;
+        return {tree, suggestions};
     }
 
     ast::stmt_ptr Parser::parseTopLevel() {
@@ -1281,10 +1281,6 @@ namespace jc::parser {
 
     Span Parser::cspan() const {
         return peek().span(sess);
-    }
-
-    sugg::sugg_list Parser::getSuggestions() const {
-        return suggestions;
     }
 
     // DEBUG //

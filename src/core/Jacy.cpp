@@ -76,15 +76,13 @@ namespace jc::core {
             return;
         }
 
-        const auto & tree = parser.parse(sess, tokens);
+        const auto & tree = parser.parse(sess, tokens).unwrap(sess);
 
         if (cli.config.has("print", "ast")) {
             log.info("Printing AST (`--print ast`)");
             astPrinter.print(tree);
             common::Logger::nl();
         }
-
-        sugg::Suggester::dump(sess, parser.getSuggestions());
 
         if (cli.config.has("compile-depth", "parser")) {
             log.info("Stop after parsing due to `compile-depth=parser`");

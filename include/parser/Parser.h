@@ -13,6 +13,7 @@
 #include "session/Session.h"
 #include "suggest/Suggester.h"
 #include "data_types/Option.h"
+#include "data_types/SuggResult.h"
 
 /**
  * # Some notes about parser
@@ -36,7 +37,7 @@
  * This is kind of hard work, but what we do is trying to split parsing into as small parts as possible and following
  * this rules (nested parser parses fragment or atomic, and super parser parses ):
  * - If nested parser has error we return `Option::None`
- * - When super parser
+ * - When super parser... TODO
  */
 
 namespace jc::parser {
@@ -79,7 +80,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        ast::stmt_list parse(sess::sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::stmt_list> parse(sess::sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -207,10 +208,6 @@ namespace jc::parser {
         /// Shortcut for `peek().span(sess)`
         Span cspan() const;
 
-    public:
-        sugg::sugg_list getSuggestions() const;
-
-    private:
         // DEV //
         void logParse(const std::string & entity);
     };
