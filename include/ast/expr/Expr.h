@@ -47,7 +47,6 @@ namespace jc::ast {
 
         template<class T>
         static std::shared_ptr<T> as(expr_ptr expr) {
-            common::Logger::devDebug("Cast expr of type ", (int)expr->type, "to something");
             return std::static_pointer_cast<T>(expr);
         }
 

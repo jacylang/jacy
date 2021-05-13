@@ -740,6 +740,8 @@ namespace jc::parser {
             } else {
                 value = expr;
             }
+
+            namedList.push_back(std::make_shared<ast::Argument>(id, value, exprToken.loc));
         }
 
         return std::make_shared<ast::TupleExpr>(std::make_shared<ast::ArgList>(namedList, loc), loc);

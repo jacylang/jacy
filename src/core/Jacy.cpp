@@ -64,6 +64,7 @@ namespace jc::core {
         const auto & tokens = lexer.lex(sess, code);
 
         if (cli.config.has("print", "tokens")) {
+            common::Logger::nl();
             log.info("Printing tokens (`--print tokens`)");
             log.info("Count of tokens:", tokens.size());
             for (const auto & token : tokens) {
@@ -80,6 +81,7 @@ namespace jc::core {
         const auto & tree = parser.parse(sess, tokens).unwrap(sess);
 
         if (cli.config.has("print", "ast")) {
+            common::Logger::nl();
             log.info("Printing AST (`--print ast`)");
             astPrinter.print(tree);
             common::Logger::nl();

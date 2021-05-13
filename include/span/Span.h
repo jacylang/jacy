@@ -20,10 +20,6 @@ namespace jc::span {
             id = count();
         }
 
-        ~Span() {
-            std::cout << "Delete span " << id << std::endl;
-        }
-
         span_len_t len; // not in use
         uint32_t line;
         uint32_t col;
