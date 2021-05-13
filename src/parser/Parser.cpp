@@ -62,13 +62,14 @@ namespace jc::parser {
             skipNLs(true);
         }
 
-        // We advance anyway, to avoid infinite recursions
-        advance();
-
         if (not peek().is(type)) {
             suggest(std::move(suggestion));
+            // We advance anyway, to avoid infinite recursions
+            advance();
             return;
         }
+
+        advance();
 
         if (skipRightNLs) {
             skipNLs(true);
@@ -123,6 +124,10 @@ namespace jc::parser {
     ast::stmt_ptr Parser::parseTopLevel() {
         logParse("top-level");
 
+        if (isSemis()) {
+            skipSemis();
+        }
+
         ast::stmt_ptr lhs;
 
         if (is(TokenType::Import)) {
@@ -159,7 +164,9 @@ namespace jc::parser {
                 if (decl) {
                     return decl.unwrap();
                 }
-                return std::make_shared<ast::ExprStmt>(justParseExpr("`parseStmt` -> `default`"));
+                auto exprStmt = std::make_shared<ast::ExprStmt>(justParseExpr("`parseStmt` -> `default`"));
+                skipSemis();
+                return exprStmt;
             }
         }
     }
@@ -407,7 +414,6 @@ namespace jc::parser {
 
     ast::stmt_ptr Parser::parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
         logParse("EnumDecl");
-
     }
 
     ast::delegation_list Parser::parseDelegationList() {
@@ -424,7 +430,6 @@ namespace jc::parser {
 
     ast::delegation_ptr Parser::parseDelegation() {
         logParse("Delegation");
-
     }
 
     // Expressions //
@@ -443,15 +448,6 @@ namespace jc::parser {
         }
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         return expr.getValueUnsafe();
-    }
-
-    ast::opt_expr_ptr Parser::parseExprWrapped(const std::string & suggMsg) {
-        logParse("[opt] Expr");
-        auto expr = precParse(0);
-        if (!expr) {
-            suggestErrorMsg(suggMsg, cspan());
-        }
-        return expr;
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
@@ -580,6 +576,7 @@ namespace jc::parser {
 
                 lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
             } else if (is(TokenType::LParen)) {
+                log.dev("Invoke lhs type", (int)lhs.unwrap()->type);
                 lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseArgList("function call"));
             } else {
                 break;
@@ -709,28 +706,16 @@ namespace jc::parser {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
-        // FIXME: Change to make `ParenExpr` after full parsed
-        // Read first expression that can `Id` or expr
-        const auto & firstExprLoc = peek().loc;
-        auto firstExpr = parseExpr("Expected tuple member"); // FIXME: For lambdas
-
-        // Parenthesized expression //
-        if (skipOpt(TokenType::RParen)) {
-            return std::make_shared<ast::ParenExpr>(firstExpr, loc);
-        }
-
         ast::arg_list namedList;
-
         bool first = true;
         while (!eof()) {
-            skipNLs(true);
-            ast::opt_expr_ptr expr;
+            if (skipOpt(TokenType::RParen)) {
+                break;
+            }
+
             if (first) {
-                // We already parsed one expression, so first one can be either `Id` either value
-                expr = firstExpr;
                 first = false;
-            } else {
-                expr = parseExprWrapped("Expected tuple member"); // FIXME: For lambdas
+            } else { // FIXME: For lambdas
                 skip(
                     TokenType::Comma,
                     true,
@@ -739,24 +724,23 @@ namespace jc::parser {
                 );
             }
 
-            if (!expr) {
-                break;
-            }
+            auto exprToken = peek();
+            auto expr = parseExpr("Expected tuple member");
 
             dt::Option<ast::id_ptr> id = dt::None;
             dt::Option<ast::expr_ptr> value = dt::None;
             skipNLs(true);
 
             // Named element case like (name: value)
-            if (expr.unwrap()->is(ast::ExprType::Id) and skipOpt(TokenType::Colon)) {
-                id = ast::Expr::as<ast::Identifier>(expr.unwrap());
+            if (skipOpt(TokenType::Colon)) {
+                if (expr->is(ast::ExprType::Id)) {
+                    id = ast::Expr::as<ast::Identifier>(expr);
+                } else {
+                    suggestErrorMsg("Expected name for named tuple member", exprToken.span(sess));
+                }
                 value = parseExpr("Expected value for tuple member");
             } else {
                 value = expr;
-            }
-
-            if (skipOpt(TokenType::RParen)) {
-                break;
             }
         }
 
