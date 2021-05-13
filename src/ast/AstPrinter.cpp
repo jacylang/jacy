@@ -409,7 +409,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::print(ast::ArgList * namedList) {
-        for (const auto & namedEl : namedList->elements) {
+        for (size_t i = 0; i < namedList->elements.size(); i++) {
+            const auto & namedEl = namedList->elements.at(i);
             if (namedEl->id) {
                 namedEl->id.unwrap()->accept(*this);
                 if (namedEl->value) {
@@ -418,6 +419,9 @@ namespace jc::ast {
             }
             if (namedEl->value) {
                 namedEl->value.unwrap()->accept(*this);
+            }
+            if (i < namedList->elements.size() - 1) {
+                log.raw(", ");
             }
         }
     }
