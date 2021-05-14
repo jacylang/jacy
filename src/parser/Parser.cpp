@@ -333,9 +333,12 @@ namespace jc::parser {
 //            suggestErrorMsg("Expected return type for function", cspan());
 //        }
 
-        ast::block_ptr body;
-        ast::expr_ptr oneLineBody;
+        ast::opt_block_ptr body;
+        ast::opt_expr_ptr oneLineBody;
         std::tie(body, oneLineBody) = parseBodyMaybeOneLine();
+
+        log.dev("Body is null", body.getValueUnsafe() == nullptr, "onelinebody is null", oneLineBody.getValueUnsafe() == nullptr,
+                "body is none", body.none(), "onelinebody is none", oneLineBody.none());
 
         return std::make_shared<ast::FuncDecl>(
             attributes,
@@ -873,6 +876,7 @@ namespace jc::parser {
     ast::block_ptr Parser::parseBlock() {
         logParse("block");
 
+        const auto loc = peek().loc;
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenType::DoubleArrow, true)) {
@@ -889,7 +893,7 @@ namespace jc::parser {
             );
         }
 
-        ast::block_ptr block;
+        ast::stmt_list stmts;
         if (skipOpt(TokenType::LBrace, true)) {
             bool first = true;
             while (!eof()) {
@@ -903,10 +907,10 @@ namespace jc::parser {
                     skipSemis();
                 }
 
-                block->stmts.push_back(parseStmt());
+                stmts.push_back(parseStmt());
             }
         } else if (allowOneLine) {
-            block->stmts.push_back(parseStmt());
+            stmts.push_back(parseStmt());
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(
@@ -916,14 +920,14 @@ namespace jc::parser {
             );
         }
 
-        return block;
+        return std::make_shared<ast::Block>(stmts, loc);
     }
 
-    std::tuple<ast::block_ptr, ast::expr_ptr> Parser::parseBodyMaybeOneLine() {
+    std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseBodyMaybeOneLine() {
         logParse("BodyMaybeOneLine");
 
-        ast::block_ptr body;
-        ast::expr_ptr oneLineBody;
+        ast::opt_block_ptr body;
+        ast::opt_expr_ptr oneLineBody;
 
         if (skipOpt(TokenType::DoubleArrow, true)) {
             oneLineBody = parseExpr("Expression expected for one-line body");

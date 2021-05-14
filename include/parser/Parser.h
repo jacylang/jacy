@@ -161,7 +161,7 @@ namespace jc::parser {
 
         // Fragments //
         ast::block_ptr parseBlock();
-        std::tuple<ast::block_ptr, ast::expr_ptr> parseBodyMaybeOneLine();
+        std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseBodyMaybeOneLine();
         ast::attr_list parseAttributes();
         dt::Option<ast::attr_ptr> parseAttr();
         ast::named_list_ptr parseArgList(const std::string & construction);

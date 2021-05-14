@@ -100,9 +100,9 @@ namespace jc::ast {
 
         if (funcDecl->oneLineBody) {
             log.raw(" => ");
-            funcDecl->oneLineBody->accept(*this);
+            funcDecl->oneLineBody.unwrap()->accept(*this);
         } else {
-            print(funcDecl->body);
+            print(funcDecl->body.unwrap());
         }
     }
 
