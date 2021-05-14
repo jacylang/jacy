@@ -54,7 +54,7 @@ namespace jc::ast {
         void visit(ParenType * parenType) override;
         void visit(TupleType * tupleType) override;
         void visit(FuncType * funcType) override;
-        void visit(ListType * listType) override;
+        void visit(ArrayType * listType) override;
         void visit(RefType * refType) override;
         void visit(UnitType * unitType) override;
 

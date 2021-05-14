@@ -42,7 +42,7 @@ namespace jc::ast {
     struct ParenType;
     struct TupleType;
     struct FuncType;
-    struct ListType;
+    struct ArrayType;
     struct RefType;
     struct UnitType;
 
@@ -90,7 +90,7 @@ namespace jc::ast {
         virtual void visit(ParenType*) = 0;
         virtual void visit(TupleType*) = 0;
         virtual void visit(FuncType*) = 0;
-        virtual void visit(ListType*) = 0;
+        virtual void visit(ArrayType*) = 0;
         virtual void visit(RefType*) = 0;
         virtual void visit(UnitType*) = 0;
     };

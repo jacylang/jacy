@@ -139,7 +139,7 @@ namespace jc::parser {
         ast::delegation_ptr parseDelegation();
 
         // Expressions //
-        ast::expr_ptr justParseExpr(const std::string & panicIn);
+        ast::opt_expr_ptr parseOptExpr();
         ast::expr_ptr parseExpr(const std::string & suggMsg);
         ast::opt_expr_ptr precParse(uint8_t index);
 
@@ -178,7 +178,11 @@ namespace jc::parser {
         ast::type_ptr parseType(const std::string & suggMsg);
         ast::opt_type_ptr parseOptType();
         ast::type_ptr parseIdType();
-        std::tuple<bool, ast::tuple_t_el_list> parseParenType();
+        ast::tuple_t_el_list parseParenType();
+        ast::type_ptr parseArrayType();
+        ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Location & loc);
+
+        // Type fragments //
         ast::type_param_list parseTypeParams();
 
         // Suggestions //

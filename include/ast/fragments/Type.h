@@ -30,6 +30,10 @@ namespace jc::ast {
         TypeKind kind;
 
         virtual void accept(BaseVisitor & visitor) = 0;
+
+        static inline type_ptr asBase(type_ptr type) {
+            return std::static_pointer_cast<Type>(type);
+        }
     };
 
     struct ParenType : Type {
@@ -72,8 +76,8 @@ namespace jc::ast {
         }
     };
 
-    struct ListType : Type {
-        ListType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::List) {}
+    struct ArrayType : Type {
+        ArrayType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::List) {}
 
         type_ptr type;
 
