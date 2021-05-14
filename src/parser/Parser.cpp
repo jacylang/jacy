@@ -64,8 +64,8 @@ namespace jc::parser {
 
         if (not peek().is(type)) {
             suggest(std::move(suggestion));
-            // We advance anyway, to avoid infinite recursions
-            advance();
+//            // We advance anyway, to avoid infinite recursions
+//            advance();
             return;
         }
 
@@ -285,7 +285,7 @@ namespace jc::parser {
 
         ast::type_ptr type;
         if (skipOpt(TokenType::Colon)) {
-            type = parseType();
+            type = parseType("Expected type after `:` in variable declaration");
         }
 
         return std::make_shared<ast::VarDecl>(kind, id, type);
@@ -299,7 +299,8 @@ namespace jc::parser {
         justSkip(TokenType::Type, true, "`type`", "`parseTypeDecl`");
 
         auto id = parseId("An identifier expected as a type name");
-        auto type = parseType();
+        skip(TokenType::Assign, true, true, std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
+        auto type = parseType("Expected type");
 
         return std::make_shared<ast::TypeAlias>(id, type, loc);
     }
@@ -324,9 +325,12 @@ namespace jc::parser {
         auto params = parseFuncParamList();
 
         ast::opt_type_ptr returnType;
+        bool typeAnnotated = false;
         if (skipOpt(TokenType::Colon, true)) {
-            returnType = parseType();
+            typeAnnotated = true;
         }
+
+        returnType = parseType();
 
         // TODO: Move to step after type check
 //        if (!returnType) {
@@ -606,7 +610,6 @@ namespace jc::parser {
         }
 
         return dt::None;
-//        suggestErrorMsg("Expected primary expression", cspan());
     }
 
     ast::id_ptr Parser::justParseId(const std::string & panicIn) {
@@ -1081,7 +1084,7 @@ namespace jc::parser {
             )
         );
 
-        auto type = parseType();
+        auto type = parseType("Expected type");
         ast::opt_expr_ptr defaultValue;
         if (peek().isAssignOp()) {
             advance();
@@ -1094,14 +1097,22 @@ namespace jc::parser {
     ///////////
     // Types //
     ///////////
-    ast::type_ptr Parser::parseType() {
+    ast::type_ptr Parser::parseType(const std::string & suggMsg) {
+        auto type = parseOptType();
+        if (!type) {
+            suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+        }
+        return type.getValueUnsafe();
+    }
+
+    ast::opt_type_ptr Parser::parseOptType() {
         logParse("Type");
 
         const auto & loc = peek().loc;
 
         // List type
         if (skipOpt(TokenType::LBracket, true)) {
-            auto listType = std::make_shared<ast::ListType>(parseType(), loc);
+            auto listType = std::make_shared<ast::ListType>(parseType("Expected type"), loc);
             skip(
                 TokenType::RBracket,
                 true,
@@ -1110,8 +1121,6 @@ namespace jc::parser {
             );
             return listType;
         }
-
-        ast::type_ptr lhs;
 
         if (is(TokenType::Id)) {
             return parseIdType();
@@ -1124,8 +1133,8 @@ namespace jc::parser {
             std::tie(allowFuncType, tupleElements) = parseParenType();
 
             if (tupleElements.size() == 1
-            and tupleElements.at(0)->id
-            and tupleElements.at(0)->type) {
+                and tupleElements.at(0)->id
+                and tupleElements.at(0)->type) {
                 // TODO
                 // ERROR: Cannot declare single-element tuple type (move to semantic check)
             }
@@ -1151,7 +1160,7 @@ namespace jc::parser {
                 params.push_back(tupleEl->type.unwrap(""));
             }
 
-            auto returnType = parseType();
+            auto returnType = parseType("Expected return type in function type after `->`");
 
             return std::make_shared<ast::FuncType>(params, returnType, loc);
         } else if (isParen) {
@@ -1161,9 +1170,9 @@ namespace jc::parser {
                 return std::make_shared<ast::ParenType>(tupleElements.at(0)->type.unwrap(), loc);
             }
             return std::make_shared<ast::TupleType>(tupleElements, loc);
-        } else {
-            return lhs;
         }
+
+        return dt::None;
     }
 
     ast::type_ptr Parser::parseIdType() {
@@ -1172,6 +1181,8 @@ namespace jc::parser {
         const auto & loc = peek().loc;
 
         ast::id_t_list ids;
+
+        // TODO: `::` instead of `.`
 
         bool first = true;
         while (!eof()) {
@@ -1225,9 +1236,9 @@ namespace jc::parser {
             if (id and is(TokenType::Colon)) {
                 // Named tuple element case
                 allowFuncType = false;
-                type = parseType();
+                type = parseType("Expected type in named tuple type after `:`");
             } else {
-                type = parseType();
+                type = parseType("Expected type");
             }
 
             if (first) {
@@ -1279,8 +1290,8 @@ namespace jc::parser {
             skipNLs(true);
 
             ast::type_ptr type;
-            if (is(TokenType::Colon)) {
-                type = parseType();
+            if (skipOpt(TokenType::Colon)) {
+                type = parseType("Expected bound type after `:` in type parameters");
             }
 
             typeParams.push_back(std::make_shared<ast::TypeParam>(id, type));

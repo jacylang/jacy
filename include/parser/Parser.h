@@ -38,6 +38,8 @@
  * this rules (nested parser parses fragment or atomic, and super parser parses ):
  * - If nested parser has error we return `Option::None`
  * - When super parser... TODO
+ *
+ *
  */
 
 namespace jc::parser {
@@ -173,7 +175,8 @@ namespace jc::parser {
         ast::stmt_ptr parseImportStmt();
 
         // Types //
-        ast::type_ptr parseType();
+        ast::type_ptr parseType(const std::string & suggMsg);
+        ast::opt_type_ptr parseOptType();
         ast::type_ptr parseIdType();
         std::tuple<bool, ast::tuple_t_el_list> parseParenType();
         ast::type_param_list parseTypeParams();

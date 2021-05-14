@@ -102,6 +102,7 @@ namespace jc::ast {
             log.raw(" => ");
             funcDecl->oneLineBody.unwrap()->accept(*this);
         } else {
+            log.raw(" ");
             print(funcDecl->body.unwrap());
         }
     }
@@ -400,6 +401,11 @@ namespace jc::ast {
     }
 
     void AstPrinter::print(const ast::block_ptr & block) {
+        if (block->stmts.empty()) {
+            log.raw("{}");
+            return;
+        }
+
         log.raw("{").nl();
         incIndent();
         print(block->stmts);
