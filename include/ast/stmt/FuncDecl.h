@@ -15,9 +15,9 @@ namespace jc::ast {
             type_param_list typeParams,
             id_ptr id,
             func_param_list params,
-            type_ptr returnType,
-            block_ptr body,
-            expr_ptr oneLineBody,
+            opt_type_ptr returnType,
+            opt_block_ptr body,
+            opt_expr_ptr oneLineBody,
             const Location & loc
         ) : attributes(attributes),
             modifiers(modifiers),
@@ -34,9 +34,9 @@ namespace jc::ast {
         type_param_list typeParams;
         id_ptr id;
         func_param_list params;
-        type_ptr returnType;
-        block_ptr body{nullptr};
-        expr_ptr oneLineBody{nullptr};
+        opt_type_ptr returnType;
+        opt_block_ptr body;
+        opt_expr_ptr oneLineBody;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

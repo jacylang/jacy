@@ -95,7 +95,7 @@ namespace jc::ast {
 
         if (funcDecl->returnType) {
             log.raw(": ");
-            funcDecl->returnType->accept(*this);
+            funcDecl->returnType.unwrap()->accept(*this);
         }
 
         if (funcDecl->oneLineBody) {

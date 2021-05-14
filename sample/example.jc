@@ -1,7 +1,3 @@
-// Types notes
+func a {
 
-(a) // Parenthesized type
-(a.b) // Parenthesized type
-(string, string) // Tuple type
-(a: string, b: string) // Named tuple type
-(a: string, string) // Mixed named and anonymous tuple type
+}

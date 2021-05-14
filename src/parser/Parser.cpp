@@ -162,7 +162,7 @@ namespace jc::parser {
             default: {
                 auto decl = parseDecl();
                 if (decl) {
-                    return decl.unwrap();
+                    return decl.unwrap("Checked non-None declaration in `parseStmt`");
                 }
                 auto exprStmt = std::make_shared<ast::ExprStmt>(justParseExpr("`parseStmt` -> `default`"));
                 skipSemis();
@@ -266,7 +266,7 @@ namespace jc::parser {
             if (decl.none()) {
                 break;
             }
-            declarations.push_back(decl.unwrap());
+            declarations.push_back(decl.unwrap("In `parseDeclList` checked non-None declaration"));
         }
         return declarations;
     }
@@ -321,31 +321,17 @@ namespace jc::parser {
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenType::LParen);
 
-        if (isParen) {
-            justSkip(TokenType::LParen, true, "'('", "`parseFuncDecl` -> `isParen`");
-        }
+        auto params = parseFuncParamList();
 
-        auto params = parseFuncParamList(isParen);
-
-        if (isParen) {
-            skip(
-                TokenType::RParen,
-                true,
-                true,
-                std::make_unique<ParseErrSpanLinkSugg>(
-                    "Missing closing `)` after `func` parameter list", cspan(),
-                    "`func` parameter list starts here", maybeParenToken.span(sess)
-                )
-            );
-        }
         ast::opt_type_ptr returnType;
-        if (!isParen and skipOpt(TokenType::Arrow, true) or skipOpt(TokenType::Colon, true)) {
+        if (skipOpt(TokenType::Colon, true)) {
             returnType = parseType();
         }
 
-        if (!returnType) {
-            suggestErrorMsg("Expected return type for function", cspan());
-        }
+        // TODO: Move to step after type check
+//        if (!returnType) {
+//            suggestErrorMsg("Expected return type for function", cspan());
+//        }
 
         ast::block_ptr body;
         ast::expr_ptr oneLineBody;
@@ -357,7 +343,7 @@ namespace jc::parser {
             typeParams,
             id,
             params,
-            returnType.unwrap(),
+            returnType,
             body,
             oneLineBody,
             loc
@@ -474,7 +460,7 @@ namespace jc::parser {
                 return single;
             }
 
-            lhs = single.unwrap();
+            lhs = single.unwrap("`precParse` -> `single`");
         }
 
         if (skipLeftNLs) {
@@ -1032,16 +1018,20 @@ namespace jc::parser {
         return modifiers;
     }
 
-    ast::func_param_list Parser::parseFuncParamList(bool isParen) {
+    ast::func_param_list Parser::parseFuncParamList() {
         logParse("FuncParams");
 
-        const auto & loc = peek().loc;
+        const auto maybeParenToken = peek();
+        if (!skipOpt(TokenType::LParen, true)) {
+            return {};
+        }
+
         ast::func_param_list params;
         bool first = true;
         while (!eof()) {
             skipNLs(true);
 
-            if (isParen and is(TokenType::RParen) or is(TokenType::DoubleArrow)) {
+            if (is(TokenType::RParen)) {
                 break;
             }
 
@@ -1058,6 +1048,16 @@ namespace jc::parser {
 
             params.push_back(parseFuncParam());
         }
+
+        skip(
+            TokenType::RParen,
+            true,
+            true,
+            std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `)` after `func` parameter list", cspan(),
+                "`func` parameter list starts here", maybeParenToken.span(sess)
+            )
+        );
 
         return params;
     }
@@ -1144,7 +1144,7 @@ namespace jc::parser {
                     // ERROR: Cannot declare function type with named parameter (move to semantic check)
                 }
                 // FIXME: Suggest if type is None
-                params.push_back(tupleEl->type.unwrap());
+                params.push_back(tupleEl->type.unwrap(""));
             }
 
             auto returnType = parseType();

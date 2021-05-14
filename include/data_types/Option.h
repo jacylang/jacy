@@ -30,7 +30,7 @@ namespace jc::dt {
 
         T unwrap(const std::string & msg = "") const {
             if (none()) {
-                common::Logger::devPanic(msg.empty() ? "Called `Option::unwrap` on a `None` value" : msg);
+                common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
             return value;
         }
