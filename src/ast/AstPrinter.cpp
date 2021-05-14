@@ -292,7 +292,6 @@ namespace jc::ast {
                 }
             }
             log.raw(" => ");
-
         }
 
         decIndent();
@@ -408,7 +407,7 @@ namespace jc::ast {
         log.raw("}");
     }
 
-    void AstPrinter::print(ast::ArgList * namedList) {
+    void AstPrinter::print(ast::NamedList * namedList) {
         for (size_t i = 0; i < namedList->elements.size(); i++) {
             const auto & namedEl = namedList->elements.at(i);
             if (namedEl->id) {

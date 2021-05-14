@@ -704,7 +704,7 @@ namespace jc::parser {
             return std::make_shared<ast::UnitExpr>(loc);
         }
 
-        ast::arg_list namedList;
+        ast::named_list namedList;
         bool first = true;
         while (!eof()) {
             if (skipOpt(TokenType::RParen)) {
@@ -741,10 +741,10 @@ namespace jc::parser {
                 value = expr;
             }
 
-            namedList.push_back(std::make_shared<ast::Argument>(id, value, exprToken.loc));
+            namedList.push_back(std::make_shared<ast::NamedElement>(id, value, exprToken.loc));
         }
 
-        return std::make_shared<ast::TupleExpr>(std::make_shared<ast::ArgList>(namedList, loc), loc);
+        return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
 
     //////////////////////////////
@@ -972,14 +972,14 @@ namespace jc::parser {
         return std::make_shared<ast::Attribute>(id, params, loc);
     }
 
-    ast::arg_list_ptr Parser::parseArgList(const std::string & construction) {
-        logParse("ArgList");
+    ast::named_list_ptr Parser::parseArgList(const std::string & construction) {
+        logParse("NamedList");
 
         const auto & loc = peek().loc;
 
         justSkip(TokenType::LParen, true, "`(`", "`parseArgList`");
 
-        ast::arg_list namedList;
+        ast::named_list namedList;
 
         bool first = true;
         while (!eof()) {
@@ -1018,7 +1018,7 @@ namespace jc::parser {
             }
         }
 
-        return std::make_shared<ast::ArgList>(namedList, loc);
+        return std::make_shared<ast::NamedList>(namedList, loc);
     }
 
     parser::token_list Parser::parseModifiers() {

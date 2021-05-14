@@ -67,7 +67,7 @@ namespace jc::ast {
         void print(const type_param_list & typeParams);
         void print(const delegation_list & delegations);
         void print(const block_ptr & block);
-        void print(ArgList * namedList);
+        void print(NamedList * namedList);
         void print(const type_list & typeList);
         void print(IdType * idType);
 
