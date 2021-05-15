@@ -17,8 +17,10 @@ namespace jc::ast {
         Enum,
         For,
         Func,
+        Impl,
         Struct,
         TypeAlias,
+        Trait,
         VarDecl,
         While,
     };

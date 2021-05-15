@@ -20,7 +20,9 @@ namespace jc::ast {
         void visit(ExprStmt * exprStmt) override;
         void visit(ForStmt * forStmt) override;
         void visit(FuncDecl * funcDecl) override;
+        void visit(Impl * impl) override;
         void visit(Struct * _struct) override;
+        void visit(Trait * trait) override;
         void visit(TypeAlias * typeAlias) override;
         void visit(VarDecl * varDecl) override;
         void visit(WhileStmt * whileStmt) override;
@@ -54,7 +56,7 @@ namespace jc::ast {
         void visit(TupleType * tupleType) override;
         void visit(FuncType * funcType) override;
         void visit(ArrayType * listType) override;
-        void visit(RefType * refType) override;
+        void visit(TypePath * refType) override;
         void visit(UnitType * unitType) override;
 
     private:

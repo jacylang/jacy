@@ -90,12 +90,34 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(Impl * impl) {
+        printIndent();
+
+        log.raw("impl ");
+        print(impl->typeParams);
+        log.raw(" for ");
+        impl->forType->accept(*this);
+        print(impl->members);
+    }
+
     void AstPrinter::visit(Struct * _struct) {
         printIndent();
 
         log.raw("struct ");
         _struct->id->accept(*this);
         print(_struct->members);
+    }
+
+    void AstPrinter::visit(Trait * trait) {
+        printIndent();
+
+        log.raw("trait ");
+        trait->id->accept(*this);
+        print(trait->typeParams);
+        for (const auto & superTrait : trait->superTraits) {
+            superTrait->accept(*this);
+        }
+        print(trait->members);
     }
 
     void AstPrinter::visit(TypeAlias * typeAlias) {
@@ -325,7 +347,7 @@ namespace jc::ast {
         log.raw("]");
     }
 
-    void AstPrinter::visit(RefType * refType) {
+    void AstPrinter::visit(TypePath * refType) {
         for (size_t i = 0; i < refType->ids.size(); i++) {
             print(refType->ids.at(i).get());
             if (i < refType->ids.size() - 1) {

@@ -128,6 +128,8 @@ namespace jc::parser {
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
         ast::stmt_ptr parseStruct();
+        ast::stmt_ptr parseImpl();
+        ast::stmt_ptr parseTrait();
         ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
         ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
 
@@ -172,13 +174,14 @@ namespace jc::parser {
         // Types //
         ast::type_ptr parseType(const std::string & suggMsg);
         ast::opt_type_ptr parseOptType();
-        ast::type_ptr parseIdType();
         ast::tuple_t_el_list parseParenType();
         ast::type_ptr parseArrayType();
         ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Location & loc);
 
         // Type fragments //
         ast::type_param_list parseTypeParams();
+        ast::type_path_ptr parseTypePath(const std::string & suggMsg);
+        ast::opt_type_path_ptr parseOptTypePath();
 
         // Suggestions //
     private:

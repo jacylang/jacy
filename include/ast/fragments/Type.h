@@ -9,18 +9,22 @@ namespace jc::ast {
     struct Type;
     struct TupleTypeElement;
     struct IdType;
+    struct TypePath;
     using type_ptr = std::shared_ptr<Type>;
     using type_list = std::vector<type_ptr>;
     using tuple_t_el_ptr = std::shared_ptr<TupleTypeElement>;
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
     using id_t_list = std::vector<std::shared_ptr<IdType>>;
+    using type_path_ptr = std::shared_ptr<TypePath>;
+    using opt_type_path_ptr = dt::Option<type_path_ptr>;
+    using type_path_list = std::vector<type_path_ptr>;
 
     enum class TypeKind {
         Paren,
         Tuple,
         Func,
         List,
-        Ref,
+        Path,
         Unit,
     };
 
@@ -87,14 +91,16 @@ namespace jc::ast {
     };
 
     struct IdType : Node {
-        IdType(id_ptr id, type_param_list typeParams) : id(id), typeParams(typeParams), Node(id->loc) {}
+        IdType(id_ptr id, type_param_list typeParams)
+            : id(std::move(id)), typeParams(std::move(typeParams)), Node(id->loc) {}
 
         id_ptr id;
         type_param_list typeParams;
     };
 
-    struct RefType : Type {
-        RefType(id_t_list ids, const Location & loc) : ids(ids), Type(loc, TypeKind::Ref) {}
+    struct TypePath : Type {
+        TypePath(id_t_list ids, const Location & loc)
+            : ids(std::move(ids)), Type(loc, TypeKind::Path) {}
 
         id_t_list ids;
 

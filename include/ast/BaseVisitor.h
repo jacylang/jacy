@@ -7,7 +7,9 @@ namespace jc::ast {
     struct ExprStmt;
     struct ForStmt;
     struct FuncDecl;
+    struct Impl;
     struct Struct;
+    struct Trait;
     struct TypeAlias;
     struct VarDecl;
     struct WhileStmt;
@@ -42,7 +44,7 @@ namespace jc::ast {
     struct TupleType;
     struct FuncType;
     struct ArrayType;
-    struct RefType;
+    struct TypePath;
     struct UnitType;
 
     class BaseVisitor {
@@ -54,7 +56,9 @@ namespace jc::ast {
         virtual void visit(ExprStmt*) = 0;
         virtual void visit(ForStmt*) = 0;
         virtual void visit(FuncDecl*) = 0;
+        virtual void visit(Impl*) = 0;
         virtual void visit(Struct*) = 0;
+        virtual void visit(Trait*) = 0;
         virtual void visit(TypeAlias*) = 0;
         virtual void visit(VarDecl*) = 0;
         virtual void visit(WhileStmt*) = 0;
@@ -89,7 +93,7 @@ namespace jc::ast {
         virtual void visit(TupleType*) = 0;
         virtual void visit(FuncType*) = 0;
         virtual void visit(ArrayType*) = 0;
-        virtual void visit(RefType*) = 0;
+        virtual void visit(TypePath*) = 0;
         virtual void visit(UnitType*) = 0;
     };
 }

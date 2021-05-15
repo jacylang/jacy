@@ -374,8 +374,13 @@ namespace jc::parser {
                 advance();
             } break;
             case ':': {
-                addToken(TokenType::Colon, 1);
-                advance();
+                if (lookup() == ':') {
+                    addToken(TokenType::Path, 2);
+                    advance(2);
+                } else {
+                    addToken(TokenType::Colon, 1);
+                    advance();
+                }
             } break;
             case '.': {
                 if (isDigit(lookup())) {

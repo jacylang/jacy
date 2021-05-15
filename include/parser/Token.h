@@ -92,6 +92,7 @@ namespace jc::parser {
         RangeRE,                    // ..<
         RangeBothE,                 // >.<
         Dot,                        // .
+        Path,                       // ::
         SafeCall,                   // ?.
         Spread,                     // ...
         Pipe,                       // |>
@@ -125,6 +126,7 @@ namespace jc::parser {
         For,
         Func,
         If,
+        Impl,
         In,
         Init,
         NotIn,

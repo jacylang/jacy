@@ -210,6 +210,12 @@ namespace jc::parser {
             case TokenType::Struct: {
                 return parseStruct();
             }
+            case TokenType::Impl: {
+                return parseImpl();
+            }
+            case TokenType::Trait: {
+                return parseTrait();
+            }
             default: {
                 if (!attributes.empty()) {
                     for (const auto & attr : attributes) {
@@ -310,6 +316,75 @@ namespace jc::parser {
         }
 
         return std::make_shared<ast::Struct>(id, typeParams, members, loc);
+    }
+
+    ast::stmt_ptr Parser::parseImpl() {
+        logParse("`Impl`");
+
+        const auto & loc = peek().loc;
+
+        justSkip(TokenType::Impl, true, "`impl`", "`parseImpl`");
+
+        auto typeParams = parseTypeParams();
+        auto traitTypePath = parseTypePath("Expected path to trait type");
+
+        skip(
+            TokenType::For,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>("Missing `for`", cspan())
+        );
+
+        auto forType = parseType("Missing type");
+
+        ast::stmt_list members;
+        if (!skipOpt(TokenType::Semi)) {
+            members = parseDeclList();
+        }
+
+        return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, loc);
+    }
+
+    ast::stmt_ptr Parser::parseTrait() {
+        logParse("`Trait`");
+
+        const auto & loc = peek().loc;
+
+        justSkip(TokenType::Trait, true, "`trait`", "`parseTrait`");
+
+        auto id = parseId("Missing `trait` name");
+        auto typeParams = parseTypeParams();
+
+        ast::type_path_list superTraits;
+        if (skipOpt(TokenType::Colon, true)) {
+            bool first = true;
+            while (!eof()) {
+                auto superTrait = parseOptTypePath();
+                if (!superTrait) {
+                    suggestErrorMsg("Expected super-trait identifier", cspan());
+                }
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenType::Comma,
+                        true,
+                        true,
+                        std::make_unique<ParseErrSugg>("Missing `,` separator", cspan())
+                    );
+                }
+                if (superTrait) {
+                    superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
+                }
+            }
+        }
+
+        ast::stmt_list members;
+        if (!skipOpt(TokenType::Semi)) {
+            members = parseDeclList();
+        }
+
+        return std::make_shared<ast::Trait>(id, typeParams, superTraits, members, loc);
     }
 
     ast::stmt_ptr Parser::parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
@@ -1090,7 +1165,7 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Id)) {
-            return parseIdType();
+            return ast::Type::asBase(parseOptTypePath().unwrap("`parseOptType` -> `id`"));
         }
 
         const auto & loc = peek().loc;
@@ -1123,36 +1198,6 @@ namespace jc::parser {
         }
 
         return dt::None;
-    }
-
-    ast::type_ptr Parser::parseIdType() {
-        logParse("IdType");
-
-        const auto & loc = peek().loc;
-
-        ast::id_t_list ids;
-
-        // TODO: `::` instead of `.`
-
-        bool first = true;
-        while (!eof()) {
-            if (!is(TokenType::Id)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                // FIXME: Checkout that works
-                justSkip(TokenType::Dot, true, "`.`", "parseIdType -> after not first element");
-            }
-
-            const auto & id = parseId("`parseIdType`");
-            ast::type_param_list typeParams = parseTypeParams();
-            ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
-        }
-
-        return std::make_shared<ast::RefType>(ids, loc);
     }
 
     ast::tuple_t_el_list Parser::parseParenType() {
@@ -1284,6 +1329,46 @@ namespace jc::parser {
         }
 
         return typeParams;
+    }
+
+    ast::type_path_ptr Parser::parseTypePath(const std::string & suggMsg) {
+        auto pathType = parseOptTypePath();
+        if (!pathType) {
+            suggestErrorMsg(suggMsg, cspan());
+        }
+        return pathType.getValueUnsafe();
+    }
+
+    ast::opt_type_path_ptr Parser::parseOptTypePath() {
+        logParse("`parseOptTypePath`");
+
+        if (!is(TokenType::Id)) {
+            return dt::None;
+        }
+
+        const auto & loc = peek().loc;
+
+        ast::id_t_list ids;
+
+        bool first = true;
+        while (!eof()) {
+            if (!is(TokenType::Id)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                // FIXME: Checkout that works
+                justSkip(TokenType::Path, true, "`.`", "parseIdType -> after not first element");
+            }
+
+            const auto & id = parseId("`parseOptTypePath`");
+            ast::type_param_list typeParams = parseTypeParams();
+            ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
+        }
+
+        return std::make_shared<ast::TypePath>(ids, loc);
     }
 
     // Suggestions //
