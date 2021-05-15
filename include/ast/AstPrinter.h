@@ -16,18 +16,16 @@ namespace jc::ast {
         void print(const stmt_list & tree);
 
         // Statements //
-        void visit(Assignment * assignment) override;
-        void visit(ClassDecl * classDecl) override;
         void visit(EnumDecl * enumDecl) override;
         void visit(ExprStmt * exprStmt) override;
         void visit(ForStmt * forStmt) override;
         void visit(FuncDecl * funcDecl) override;
-        void visit(ObjectDecl * objectDecl) override;
         void visit(TypeAlias * typeAlias) override;
         void visit(VarDecl * varDecl) override;
         void visit(WhileStmt * whileStmt) override;
 
         // Expressions //
+        void visit(Assignment * assignment) override;
         void visit(BreakExpr * breakExpr) override;
         void visit(ContinueExpr * continueExpr) override;
         void visit(Identifier * identifier) override;

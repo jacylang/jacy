@@ -10,7 +10,8 @@ namespace jc::ast {
     using block_list = std::vector<block_ptr>;
 
     struct Block : Node {
-        Block(stmt_list stmts, const Location & loc) : stmts(std::move(stmts)), Node(loc) {}
+        Block(stmt_list stmts, const Location & loc)
+            : stmts(std::move(stmts)), Node(loc) {}
 
         stmt_list stmts;
     };

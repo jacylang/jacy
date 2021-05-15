@@ -125,11 +125,13 @@ namespace jc::parser {
     }
 
     ast::opt_stmt_ptr Parser::parseItem() {
+        logParse("`item`");
+
         return parseDecl();
     }
 
     ast::opt_stmt_ptr Parser::parseStmt() {
-        logParse("Stmt");
+        logParse("`Stmt`");
 
         switch (peek().type) {
             case TokenType::While: {
@@ -147,6 +149,7 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (!expr) {
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
+                    advance();
                     return dt::None;
                 }
 
@@ -307,8 +310,14 @@ namespace jc::parser {
         auto params = parseFuncParamList();
 
         bool typeAnnotated = false;
+        const auto & maybeColonToken = peek();
         if (skipOpt(TokenType::Colon, true)) {
             typeAnnotated = true;
+        } else if (skipOpt(TokenType::Arrow, true)) {
+            suggestErrorMsg(
+                "Maybe you meant to put `:` instead of `->` for return type annotation",
+                maybeColonToken.span(sess)
+            );
         }
 
         const auto & returnTypeToken = peek();
@@ -317,17 +326,9 @@ namespace jc::parser {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span(sess)));
         }
 
-        // TODO: Move to step after type check
-//        if (!returnType) {
-//            suggestErrorMsg("Expected return type for function", cspan());
-//        }
-
         ast::opt_block_ptr body;
         ast::opt_expr_ptr oneLineBody;
-        std::tie(body, oneLineBody) = parseBodyMaybeOneLine();
-
-        log.dev("Body is null", body.getValueUnsafe() == nullptr, "onelinebody is null", oneLineBody.getValueUnsafe() == nullptr,
-                "body is none", body.none(), "onelinebody is none", oneLineBody.none());
+        std::tie(body, oneLineBody) = parseFuncBody();
 
         return std::make_shared<ast::FuncDecl>(
             attributes,
@@ -848,16 +849,6 @@ namespace jc::parser {
             allowOneLine = true;
         }
 
-        if (allowOneLine and is(TokenType::LBrace)) {
-            suggest(
-                std::make_unique<sugg::MsgSugg>(
-                    "Useless `=>` in case of use body with `{`",
-                    maybeDoubleArrow.span(sess),
-                    sugg::SuggKind::Warn
-                )
-            );
-        }
-
         ast::stmt_list stmts;
         if (skipOpt(TokenType::LBrace, true)) {
             bool first = true;
@@ -872,10 +863,16 @@ namespace jc::parser {
                     skipSemis();
                 }
 
-                stmts.push_back(parseStmt());
+                auto stmt = parseStmt();
+                if (stmt) {
+                    stmts.push_back(stmt.unwrap());
+                }
             }
         } else if (allowOneLine) {
-            stmts.push_back(parseStmt());
+            auto stmt = parseStmt();
+            if (stmt) {
+                stmts.push_back(stmt.unwrap());
+            }
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(
@@ -888,13 +885,13 @@ namespace jc::parser {
         return std::make_shared<ast::Block>(stmts, loc);
     }
 
-    std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseBodyMaybeOneLine() {
+    std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseFuncBody() {
         logParse("BodyMaybeOneLine");
 
         ast::opt_block_ptr body;
         ast::opt_expr_ptr oneLineBody;
 
-        if (skipOpt(TokenType::DoubleArrow, true)) {
+        if (skipOpt(TokenType::Assign, true)) {
             oneLineBody = parseExpr("Expression expected for one-line body");
         } else {
             body = parseBlock();

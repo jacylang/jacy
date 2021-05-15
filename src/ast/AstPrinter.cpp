@@ -11,26 +11,6 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
-    void AstPrinter::visit(Assignment * assignment) {
-        printIndent();
-
-        assignment->lhs->accept(*this);
-        log.raw(" = ");
-        assignment->rhs->accept(*this);
-    }
-
-    void AstPrinter::visit(ClassDecl * classDecl) {
-        printIndent();
-
-        print(classDecl->attributes);
-        printModifiers(classDecl->modifiers);
-        log.raw(" class ");
-        classDecl->id->accept(*this);
-        print(classDecl->typeParams);
-        print(classDecl->delegations);
-        print(classDecl->body);
-    }
-
     void AstPrinter::visit(EnumDecl * enumDecl) {
         printIndent();
 
@@ -99,25 +79,15 @@ namespace jc::ast {
         }
 
         if (funcDecl->oneLineBody) {
-            log.raw(" => ");
+            log.raw(" = ");
+            // For one-line block increment indent to make it prettier
+            incIndent();
             funcDecl->oneLineBody.unwrap()->accept(*this);
+            decIndent();
         } else {
             log.raw(" ");
             print(funcDecl->body.unwrap());
         }
-    }
-
-    void AstPrinter::visit(ObjectDecl * objectDecl) {
-        printIndent();
-
-        print(objectDecl->attributes);
-        printModifiers(objectDecl->modifiers);
-        log.raw("object ");
-        if (objectDecl->id) {
-            objectDecl->id->accept(*this);
-        }
-        print(objectDecl->delegations);
-        print(objectDecl->body);
     }
 
     void AstPrinter::visit(TypeAlias * typeAlias) {
@@ -152,6 +122,14 @@ namespace jc::ast {
     /////////////////
     // Expressions //
     /////////////////
+    void AstPrinter::visit(Assignment * assignment) {
+        printIndent();
+
+        assignment->lhs->accept(*this);
+        log.raw(" = ");
+        assignment->rhs->accept(*this);
+    }
+
     void AstPrinter::visit(BreakExpr * breakExpr) {
         log.raw("break");
     }
@@ -176,6 +154,7 @@ namespace jc::ast {
             print(ifExpr->ifBranch.unwrap());
         }
         if (ifExpr->elseBranch) {
+            log.raw(" else ");
             print(ifExpr->elseBranch.unwrap());
         }
     }
@@ -410,6 +389,8 @@ namespace jc::ast {
         incIndent();
         print(block->stmts);
         decIndent();
+        // Closing brace must go on the "super"-indent
+        printIndent();
         log.raw("}");
     }
 

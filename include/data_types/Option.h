@@ -28,14 +28,18 @@ namespace jc::dt {
 
         friend Option<T>;
 
-        T unwrap(const std::string & msg = "") const {
+        const T & unwrap(const std::string & msg = "") {
             if (none()) {
                 common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
             return value;
         }
 
-        T & getValueUnsafe() const {
+        const T & getValueUnsafe() const {
+            return value;
+        }
+
+        T & getValueUnsafe() {
             return value;
         }
 

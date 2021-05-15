@@ -3,18 +3,16 @@
 
 namespace jc::ast {
     // Statements //
-    struct Assignment;
-    struct ClassDecl;
     struct EnumDecl;
     struct ExprStmt;
     struct ForStmt;
     struct FuncDecl;
-    struct ObjectDecl;
     struct TypeAlias;
     struct VarDecl;
     struct WhileStmt;
 
     // Expressions //
+    struct Assignment;
     struct BreakExpr;
     struct ContinueExpr;
     struct Identifier;
@@ -51,18 +49,16 @@ namespace jc::ast {
         virtual ~BaseVisitor() = default;
 
         // Statements //
-        virtual void visit(Assignment*) = 0;
-        virtual void visit(ClassDecl*) = 0;
         virtual void visit(EnumDecl*) = 0;
         virtual void visit(ExprStmt*) = 0;
         virtual void visit(ForStmt*) = 0;
         virtual void visit(FuncDecl*) = 0;
-        virtual void visit(ObjectDecl*) = 0;
         virtual void visit(TypeAlias*) = 0;
         virtual void visit(VarDecl*) = 0;
         virtual void visit(WhileStmt*) = 0;
 
         // Expressions //
+        virtual void visit(Assignment*) = 0;
         virtual void visit(BreakExpr*) = 0;
         virtual void visit(ContinueExpr*) = 0;
         virtual void visit(Identifier*) = 0;

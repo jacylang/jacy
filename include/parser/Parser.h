@@ -161,7 +161,7 @@ namespace jc::parser {
 
         // Fragments //
         ast::block_ptr parseBlock();
-        std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseBodyMaybeOneLine();
+        std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
         ast::attr_list parseAttributes();
         dt::Option<ast::attr_ptr> parseAttr();
         ast::named_list_ptr parseArgList(const std::string & construction);
@@ -192,7 +192,7 @@ namespace jc::parser {
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
 
         template<class T>
-        T & errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
+        T errorForNone(dt::Option<T> option, const std::string & suggMsg, const Span & span) {
             if (option.none()) {
                 suggestErrorMsg(suggMsg, span);
                 return option.getValueUnsafe();
