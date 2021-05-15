@@ -113,7 +113,7 @@ namespace jc::parser {
         this->sess = sess;
         this->tokens = tokens;
 
-        tree = parseItemList();
+        tree = parseItemList("Unexpected expression on top-level");
 
         return {tree, std::move(suggestions)};
     }
@@ -204,25 +204,25 @@ namespace jc::parser {
             case TokenType::Var:
             case TokenType::Val: {
                 decl = parseVarDecl();
-            }
+            } break;
             case TokenType::Func: {
                 decl = parseFuncDecl(modifiers);
-            }
+            } break;
             case TokenType::Enum: {
                 decl = parseEnumDecl();
-            }
+            } break;
             case TokenType::Type: {
                 decl = parseTypeDecl();
-            }
+            } break;
             case TokenType::Struct: {
                 decl = parseStruct();
-            }
+            } break;
             case TokenType::Impl: {
                 decl = parseImpl();
-            }
+            } break;
             case TokenType::Trait: {
                 decl = parseTrait();
-            }
+            } break;
         }
 
         if (decl) {
@@ -246,7 +246,7 @@ namespace jc::parser {
         return dt::None;
     }
 
-    ast::stmt_list Parser::parseItemList() {
+    ast::stmt_list Parser::parseItemList(const std::string & suggMsg) {
         logParse("DeclList");
 
         ast::stmt_list declarations;
@@ -260,7 +260,7 @@ namespace jc::parser {
             if (decl) {
                 declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
             } else {
-                suggestErrorMsg("Unexpected token", cspan());
+                suggestErrorMsg(suggMsg, cspan());
                 advance();
             }
         }
@@ -1157,7 +1157,7 @@ namespace jc::parser {
                 return {};
             }
 
-            members = parseItemList();
+            members = parseItemList("Unexpected expression in " + construction + " body");
 
             if (braceSkippped) {
                 skip(
@@ -1325,11 +1325,17 @@ namespace jc::parser {
             return {};
         }
 
+        justSkip(TokenType::LAngle, true, "`<`", "`parseTypeParams`");
+
         const auto & loc = peek().loc;
         ast::type_param_list typeParams;
 
         bool first = true;
         while (!eof()) {
+            if (skipOpt(TokenType::RAngle)) {
+                break;
+            }
+
             if (first) {
                 first = false;
             } else {
@@ -1339,10 +1345,6 @@ namespace jc::parser {
                     true,
                     std::make_unique<ParseErrSugg>("Missing `,` separator between type parameters", cspan())
                 );
-            }
-
-            if (skipOpt(TokenType::RAngle)) {
-                break;
             }
 
             auto id = parseId("Expected type parameter name");

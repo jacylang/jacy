@@ -118,7 +118,7 @@ namespace jc::parser {
         // Parsers //
     private:
         dt::Option<ast::stmt_ptr> parseItem();
-        ast::stmt_list parseItemList();
+        ast::stmt_list parseItemList(const std::string & suggMsg);
         ast::opt_stmt_ptr parseStmt();
 
         // Control-flow statements //

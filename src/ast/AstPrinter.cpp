@@ -95,8 +95,10 @@ namespace jc::ast {
     void AstPrinter::visit(Impl * impl) {
         printIndent();
 
-        log.raw("impl ");
+        log.raw("impl");
         print(impl->typeParams);
+        log.raw(" ");
+        impl->traitTypePath->accept(*this);
         log.raw(" for ");
         impl->forType->accept(*this);
         printMembers(impl->members);
