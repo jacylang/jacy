@@ -189,7 +189,8 @@ namespace jc::parser {
         logParse("Decl");
 
         ast::attr_list attributes = parseAttributes();
-        parser::token_list modifiers = parseModifiers();
+//        parser::token_list modifiers = parseModifiers();
+        parser::token_list modifiers = {};
 
         switch (peek().type) {
             case TokenType::Const:
@@ -289,6 +290,7 @@ namespace jc::parser {
         justSkip(TokenType::Struct, true, "`struct`", "`parseStruct`");
 
         auto id = parseId("Expected struct name");
+        auto typeParams = parseTypeParams();
 
         ast::stmt_list members;
         if (!skipOpt(TokenType::Semi)) {
@@ -307,7 +309,7 @@ namespace jc::parser {
             );
         }
 
-        return std::make_shared<ast::Struct>(id, members, loc);
+        return std::make_shared<ast::Struct>(id, typeParams, members, loc);
     }
 
     ast::stmt_ptr Parser::parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
@@ -988,16 +990,16 @@ namespace jc::parser {
         return std::make_shared<ast::NamedList>(namedList, loc);
     }
 
-    parser::token_list Parser::parseModifiers() {
-        logParse("Modifiers");
-
-        parser::token_list modifiers;
-        while (peek().isModifier()) {
-            modifiers.push_back(peek());
-            advance();
-        }
-        return modifiers;
-    }
+//    parser::token_list Parser::parseModifiers() {
+//        logParse("Modifiers");
+//
+//        parser::token_list modifiers;
+//        while (peek().isModifier()) {
+//            modifiers.push_back(peek());
+//            advance();
+//        }
+//        return modifiers;
+//    }
 
     ast::func_param_list Parser::parseFuncParamList() {
         logParse("FuncParams");

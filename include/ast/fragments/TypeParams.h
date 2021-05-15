@@ -6,9 +6,7 @@
 namespace jc::ast {
     struct Type;
     struct TypeParam;
-    struct TypeParams;
     using type_param_list = std::vector<std::shared_ptr<TypeParam>>;
-    using type_params_ptr = std::shared_ptr<TypeParams>;
     using type_ptr = std::shared_ptr<Type>;
     using opt_type_ptr = dt::Option<type_ptr>;
 
@@ -17,13 +15,6 @@ namespace jc::ast {
 
         id_ptr id;
         type_ptr type;
-    };
-
-    struct TypeParams : Node {
-        TypeParams(const type_param_list & typeParams, const Location & loc)
-            : typeParams(typeParams), Node(loc) {}
-
-        type_param_list typeParams;
     };
 }
 

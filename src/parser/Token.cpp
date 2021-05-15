@@ -24,6 +24,7 @@ namespace jc::parser {
         {"pub",         TokenType::Pub},
         {"struct",      TokenType::Struct},
         {"this",        TokenType::This},
+        {"trait",       TokenType::Trait},
         {"true",        TokenType::True},
         {"type",        TokenType::Type},
         {"val",         TokenType::Val},

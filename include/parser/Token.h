@@ -136,6 +136,7 @@ namespace jc::parser {
         Pub,
         Struct,
         This,
+        Trait,
         True,
         Type,
         Val,
