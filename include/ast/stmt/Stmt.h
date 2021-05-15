@@ -9,6 +9,7 @@
 namespace jc::ast {
     struct Stmt;
     using stmt_ptr = std::shared_ptr<Stmt>;
+    using opt_stmt_ptr = dt::Option<stmt_ptr>;
     using stmt_list = std::vector<stmt_ptr>;
 
     enum class StmtType {

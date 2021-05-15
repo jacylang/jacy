@@ -8,12 +8,13 @@
 
 namespace jc::ast {
     struct VarDecl : Stmt {
-        VarDecl(parser::Token kind, id_ptr id, type_ptr type)
-            : kind(kind), id(id), type(type), Stmt(kind.loc, StmtType::VarDecl) {}
+        VarDecl(parser::Token kind, id_ptr id, type_ptr type, opt_expr_ptr assignExpr)
+            : kind(kind), id(id), type(type), assignExpr(assignExpr), Stmt(kind.loc, StmtType::VarDecl) {}
 
         parser::Token kind;
         id_ptr id;
         type_ptr type;
+        opt_expr_ptr assignExpr;
 
         bool isAssignable() const override {
             return true;

@@ -35,7 +35,7 @@ namespace jc::dt {
             return value;
         }
 
-        T & getValueUnsafe() {
+        T & getValueUnsafe() const {
             return value;
         }
 

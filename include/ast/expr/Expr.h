@@ -12,6 +12,7 @@ namespace jc::ast {
     using expr_list = std::vector<expr_ptr>;
 
     enum class ExprType {
+        Assign,
         Break,
         Continue,
         Id,

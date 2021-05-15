@@ -10,6 +10,7 @@
 #include "ast/fragments/TypeParams.h"
 
 // Expressions //
+#include "ast/expr/Assignment.h"
 #include "ast/expr/BreakExpr.h"
 #include "ast/expr/ContinueExpr.h"
 #include "ast/expr/Identifier.h"
@@ -34,13 +35,10 @@
 #include "ast/expr/WhenExpr.h"
 
 // Statements //
-#include "ast/stmt/Assignment.h"
-#include "ast/stmt/ClassDecl.h"
 #include "ast/stmt/EnumDecl.h"
 #include "ast/stmt/ExprStmt.h"
 #include "ast/stmt/ForStmt.h"
 #include "ast/stmt/FuncDecl.h"
-#include "ast/stmt/ObjectDecl.h"
 #include "ast/stmt/TypeAlias.h"
 #include "ast/stmt/VarDecl.h"
 #include "ast/stmt/WhileStmt.h"

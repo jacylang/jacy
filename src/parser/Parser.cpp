@@ -115,37 +115,20 @@ namespace jc::parser {
                 break;
             }
 
-            tree.push_back(parseTopLevel());
+            auto item = parseItem();
+            if (item) {
+                tree.emplace_back(item.unwrap("`parse` -> `item`"));
+            }
         }
 
         return {tree, std::move(suggestions)};
     }
 
-    ast::stmt_ptr Parser::parseTopLevel() {
-        logParse("top-level");
-
-        if (isSemis()) {
-            skipSemis();
-        }
-
-        ast::stmt_ptr lhs;
-
-        lhs = parseStmt();
-
-        if (lhs && peek().isAssignOp() and lhs->isAssignable()) {
-            auto assignOp = peek();
-            advance();
-            return std::make_shared<ast::Assignment>(lhs, assignOp, parseExpr("Expected assignment expression"));
-        }
-
-        if (!lhs) {
-            common::Logger::devPanic("ERROR: Left-hand side is null in parseTopLevel");
-        }
-
-        return lhs;
+    ast::opt_stmt_ptr Parser::parseItem() {
+        return parseDecl();
     }
 
-    ast::stmt_ptr Parser::parseStmt() {
+    ast::opt_stmt_ptr Parser::parseStmt() {
         logParse("Stmt");
 
         switch (peek().type) {
@@ -156,19 +139,20 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto decl = parseDecl();
-                if (decl) {
-                    return decl.unwrap("Checked non-None declaration in `parseStmt`");
+                auto item = parseItem();
+                if (item) {
+                    return item.unwrap("`item` in `parseStmt`");
                 }
-                auto expr = parseExpr("WTF?");
 
+                auto expr = parseOptExpr();
                 if (!expr) {
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
+                    return dt::None;
                 }
 
-                auto exprStmt = std::make_shared<ast::ExprStmt>(expr);
+                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
                 skipSemis();
-                return exprStmt;
+                return std::static_pointer_cast<ast::Stmt>(exprStmt);
             }
         }
     }
@@ -226,12 +210,6 @@ namespace jc::parser {
             case TokenType::Val: {
                 return parseVarDecl();
             }
-            case TokenType::Class: {
-                return parseClassDecl(attributes, modifiers);
-            }
-            case TokenType::Object: {
-                return parseObjectDecl(attributes, modifiers);
-            }
             case TokenType::Func: {
                 return parseFuncDecl(attributes, modifiers);
             }
@@ -277,10 +255,7 @@ namespace jc::parser {
         logParse("VarDecl");
 
         auto kind = peek();
-
-//        if (kind.type != TokenType::Const and kind.type != TokenType::Var and kind.type != TokenType::Val) {
-//            throw common::DevError("Unexpected var kind token in parseVarDecl");
-//        }
+        advance();
 
         // TODO: Destructuring
         auto id = parseId("An identifier expected as a `"+ peek().typeToString() +"` name");
@@ -290,7 +265,12 @@ namespace jc::parser {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        return std::make_shared<ast::VarDecl>(kind, id, type);
+        ast::opt_expr_ptr assignExpr;
+        if (skipOpt(TokenType::Assign, true)) {
+            assignExpr = parseExpr("Expected expression after `=`");
+        }
+
+        return std::make_shared<ast::VarDecl>(kind, id, type, assignExpr);
     }
 
     ast::stmt_ptr Parser::parseTypeDecl() {
@@ -362,52 +342,8 @@ namespace jc::parser {
         );
     }
 
-    ast::stmt_ptr Parser::parseClassDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
-        logParse("ClassDecl");
-
-        const auto & loc = peek().loc;
-
-        justSkip(TokenType::Class, true, "`class`", "`parseClassDecl`");
-
-        auto id = parseId("An identifier expected as a class name");
-        auto typeParams = parseTypeParams();
-
-        ast::delegation_list delegations;
-        if (skipOpt(TokenType::Colon)) {
-            delegations = parseDelegationList();
-        }
-
-        auto body = parseDeclList();
-
-        return std::make_shared<ast::ClassDecl>(attributes, modifiers, id, typeParams, delegations, body, loc);
-    }
-
     ast::stmt_ptr Parser::parseImportStmt() {
         throw common::NotImplementedError("Import statement parsing");
-    }
-
-    ast::stmt_ptr Parser::parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
-        logParse("ObjectDecl");
-
-        const auto & loc = peek().loc;
-
-        justSkip(TokenType::Object, true, "`object`", "`parseObjectDecl`");
-
-        auto id = parseId("An identifier expected as an object name");
-
-        skipNLs(true);
-
-        ast::delegation_list delegations;
-        if (skipOpt(TokenType::Colon, true)) {
-            delegations = parseDelegationList();
-        }
-
-        ast::stmt_list body;
-        if (is(TokenType::RBrace)) {
-            body = parseDeclList();
-        }
-
-        return std::make_shared<ast::ObjectDecl>(attributes, modifiers, id, delegations, body, loc);
     }
 
     ast::stmt_ptr Parser::parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
@@ -434,18 +370,39 @@ namespace jc::parser {
     ast::opt_expr_ptr Parser::parseOptExpr() {
         logParse("`parseOptExpr`");
 
-        return precParse(0);
+        return assignment();
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("`parseExpr`");
 
         auto expr = parseOptExpr();
-        if (!expr) {
-            suggestErrorMsg(suggMsg, cspan());
-        }
+        errorForNone(expr, suggMsg, cspan());
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         return expr.getValueUnsafe();
+    }
+
+    ast::opt_expr_ptr Parser::assignment() {
+        const auto & loc = peek().loc;
+        auto lhs = precParse(0);
+
+        const auto maybeAssignOp = peek();
+        if (maybeAssignOp.isAssignOp()) {
+            auto checkedLhs = errorForNone(
+                lhs,
+                "Unexpected empty left-hand side in assignment",
+                maybeAssignOp.span(sess)
+            );
+            advance();
+            skipNLs(true);
+            return ast::Expr::as<ast::Expr>(std::make_shared<ast::Assignment>(
+                checkedLhs,
+                maybeAssignOp,
+                parseExpr("Expected expression in assignment"),
+                loc
+            ));
+        }
+        return lhs;
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
@@ -682,7 +639,7 @@ namespace jc::parser {
                     )
                 );
             } else {
-                elements.push_back(justParseExpr("`parseListExpr` -> no `...`"));
+                elements.push_back(parseExpr("Expression expected"));
             }
         }
 
@@ -1004,7 +961,7 @@ namespace jc::parser {
             ast::opt_id_ptr id = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
-            auto expr = justParseExpr("`parseArgList` -> after `,`");
+            auto expr = parseExpr("Expression expected");
 
             skipNLs(true);
 

@@ -116,9 +116,8 @@ namespace jc::parser {
 
         // Parsers //
     private:
-        ast::stmt_ptr parseTopLevel();
-
-        ast::stmt_ptr parseStmt();
+        ast::opt_stmt_ptr parseItem();
+        ast::opt_stmt_ptr parseStmt();
 
         // Control-flow statements //
         ast::stmt_ptr parseWhileStmt();
@@ -130,8 +129,6 @@ namespace jc::parser {
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
         ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseClassDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseObjectDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
         ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
 
         // Delegations //
@@ -141,6 +138,7 @@ namespace jc::parser {
         // Expressions //
         ast::opt_expr_ptr parseOptExpr();
         ast::expr_ptr parseExpr(const std::string & suggMsg);
+        ast::opt_expr_ptr assignment();
         ast::opt_expr_ptr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
@@ -192,6 +190,15 @@ namespace jc::parser {
         void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
+
+        template<class T>
+        T & errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
+            if (option.none()) {
+                suggestErrorMsg(suggMsg, span);
+                return option.getValueUnsafe();
+            }
+            return option.unwrap();
+        }
 
         /// Shortcut for `peek().span(sess)`
         Span cspan() const;
