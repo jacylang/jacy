@@ -123,8 +123,16 @@ namespace jc::ast {
         log.raw("trait ");
         trait->id->accept(*this);
         print(trait->typeParams);
-        for (const auto & superTrait : trait->superTraits) {
-            superTrait->accept(*this);
+
+        if (!trait->superTraits.empty()) {
+            log.raw(" : ");
+        }
+
+        for (size_t i = 0; i < trait->superTraits.size(); i++) {
+            trait->superTraits.at(i)->accept(*this);
+            if (i < trait->superTraits.size() - 1) {
+                log.raw(", ");
+            }
         }
         printMembers(trait->members);
     }
@@ -356,11 +364,14 @@ namespace jc::ast {
         log.raw("]");
     }
 
-    void AstPrinter::visit(TypePath * refType) {
-        for (size_t i = 0; i < refType->ids.size(); i++) {
-            print(refType->ids.at(i).get());
-            if (i < refType->ids.size() - 1) {
-                log.raw(", ");
+    void AstPrinter::visit(TypePath * typePath) {
+        if (typePath->global) {
+            log.raw("::");
+        }
+        for (size_t i = 0; i < typePath->ids.size(); i++) {
+            print(typePath->ids.at(i).get());
+            if (i < typePath->ids.size() - 1) {
+                log.raw("::");
             }
         }
     }
@@ -466,7 +477,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::printMembers(const stmt_list & members) {
-        log.raw("{");
+        log.raw(" {");
         incIndent();
         for (const auto & stmt : members) {
             stmt->accept(*this);

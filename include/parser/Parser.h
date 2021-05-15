@@ -101,11 +101,12 @@ namespace jc::parser {
         bool is(TokenType type) const;
         bool isNL();
         bool isSemis();
+        bool isHardSemi();
 
         // Skippers //
         bool skipNLs(bool optional = false);
         void skipSemis();
-        void skip(
+        bool skip(
             TokenType type,
             bool skipLeftNLs,
             bool skipRightNLs,

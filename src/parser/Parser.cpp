@@ -33,7 +33,11 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        return peek().is(TokenType::Semi) or isNL();
+        return isHardSemi() or isNL();
+    }
+
+    bool Parser::isHardSemi() {
+        return is(TokenType::Semi) or eof();
     }
 
     // Skippers //
@@ -57,14 +61,14 @@ namespace jc::parser {
         }
     }
 
-    void Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, sugg::sugg_ptr suggestion) {
+    bool Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, sugg::sugg_ptr suggestion) {
         if (skipLeftNLs) {
             skipNLs(true);
         }
 
         if (not peek().is(type)) {
             suggest(std::move(suggestion));
-            return;
+            return false;
         }
 
         advance();
@@ -72,6 +76,8 @@ namespace jc::parser {
         if (skipRightNLs) {
             skipNLs(true);
         }
+
+        return true;
     }
 
     void Parser::justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn) {
@@ -350,11 +356,6 @@ namespace jc::parser {
         if (skipOpt(TokenType::Colon, true)) {
             bool first = true;
             while (!eof()) {
-                auto superTrait = parseOptTypePath();
-                if (!superTrait) {
-                    suggestErrorMsg("Expected super-trait identifier", cspan());
-                }
-
                 if (is(TokenType::LBrace) or is(TokenType::Semi)) {
                     break;
                 }
@@ -369,7 +370,11 @@ namespace jc::parser {
                         std::make_unique<ParseErrSugg>("Missing `,` separator", cspan())
                     );
                 }
-                if (superTrait) {
+
+                auto superTrait = parseOptTypePath();
+                if (!superTrait) {
+                    suggestErrorMsg("Expected super-trait identifier", cspan());
+                } else {
                     superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
                 }
             }
@@ -1138,8 +1143,8 @@ namespace jc::parser {
 
     ast::stmt_list Parser::parseMembers(const std::string & construction) {
         ast::stmt_list members;
-        if (!skipOpt(TokenType::Semi)) {
-            skip(
+        if (!isHardSemi()) {
+            auto braceSkippped = skip(
                 TokenType::LBrace,
                 true,
                 true,
@@ -1151,13 +1156,20 @@ namespace jc::parser {
             if (skipOpt(TokenType::RBrace)) {
                 return {};
             }
+
             members = parseItemList();
-            skip(
-                TokenType::RBrace,
-                true,
-                true,
-                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
-            );
+
+            if (braceSkippped) {
+                skip(
+                    TokenType::RBrace,
+                    true,
+                    true,
+                    std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+                );
+            }
+        } else {
+            // Here we already know, that current token is `;` or `EOF`, so skip semi to ignore block
+            skipOpt(TokenType::Semi);
         }
         return members;
     }
@@ -1199,7 +1211,7 @@ namespace jc::parser {
             }
 
             if (skipOpt(TokenType::Arrow, true)) {
-                return parseFuncType(tupleElements, loc);
+                return parseFuncType(std::move(tupleElements), loc);
             } else {
                 if (tupleElements.empty()) {
                     return ast::Type::asBase(std::make_shared<ast::UnitType>(loc));
@@ -1374,11 +1386,15 @@ namespace jc::parser {
 
         ast::id_t_list ids;
         while (!eof()) {
-            auto id = parseId("Type identifier expected");
+            auto id = parseId("Type expected");
 
             ids.push_back(std::make_shared<ast::IdType>(id, parseTypeParams()));
 
             if (skipOpt(TokenType::Path)) {
+                if (eof()) {
+                    suggestErrorMsg("Missing type after `::`", cspan());
+                }
+
                 continue;
             }
             break;
