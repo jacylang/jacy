@@ -105,7 +105,7 @@ namespace jc::parser {
 
         // Skippers //
         bool skipNLs(bool optional = false);
-        void skipSemis();
+        void skipSemis(bool useless = false);
         bool skip(
             TokenType type,
             bool skipLeftNLs,

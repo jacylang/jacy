@@ -54,10 +54,23 @@ namespace jc::parser {
         return gotNL;
     }
 
-    void Parser::skipSemis() {
+    void Parser::skipSemis(bool useless) {
         // TODO!: Error message
+        auto maybeSemi = peek();
+        auto lastSemi = peek();
         while (isSemis()) {
+            lastSemi = peek();
             advance();
+        }
+        if (useless) {
+            suggest(
+                std::make_unique<sugg::RangeSugg>(
+                    "Useless semis",
+                    maybeSemi.span(sess),
+                    lastSemi.span(sess),
+                    sugg::SuggKind::Warn
+                )
+            );
         }
     }
 
@@ -251,7 +264,7 @@ namespace jc::parser {
 
         ast::stmt_list declarations;
         while (!eof()) {
-            skipNLs(true);
+            skipSemis(true);
             if (eof()) {
                 break;
             }
@@ -863,7 +876,12 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skipSemis();
+                skip(
+                    TokenType::Comma,
+                    true,
+                    true,
+                    std::make_unique<ParseErrSugg>("Missing `,` delimiter between `when` entries", cspan())
+                );
             }
 
             if (skipOpt(TokenType::RBrace)) {
@@ -899,7 +917,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
-                    std::make_unique<ParseErrSugg>("Missing `,` delimiter between when expression entries", cspan())
+                    std::make_unique<ParseErrSugg>("Missing `,` delimiter between patterns", cspan())
                 );
             }
 
@@ -939,6 +957,7 @@ namespace jc::parser {
 
         ast::stmt_list stmts;
         if (skipOpt(TokenType::LBrace, true)) {
+            skipSemis(true);
             bool first = true;
             while (!eof()) {
                 if (skipOpt(TokenType::RBrace)) {

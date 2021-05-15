@@ -1,3 +1,4 @@
-func<T> a: T {
-    print("Hello")
-}
+;;;;
+;;;;
+;
+func a = "hello"

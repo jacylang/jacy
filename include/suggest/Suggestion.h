@@ -95,6 +95,23 @@ namespace jc::sugg {
             return "\"" + spanMsg + "\" at " + span.toString() + ", linked to \"" + linkMsg + "\" at " + link.toString();
         }
     };
+
+    struct RangeSugg : SpanLinkSugg {
+        RangeSugg(
+            const std::string & msg,
+            const Span & from,
+            const Span & to,
+            SuggKind kind,
+            eid_t eid = NoneEID
+        ) : msg(msg),
+            SpanLinkSugg(to, from, kind, eid) {}
+
+        const std::string msg;
+
+        virtual std::string dataDump() const override {
+            return "\"" + msg + "\" from " + span.toString() + " to " + link.toString();
+        }
+    };
 }
 
 #endif // JACY_SUGGESTION_H

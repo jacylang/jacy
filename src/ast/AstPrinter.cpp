@@ -52,8 +52,9 @@ namespace jc::ast {
         printIndent();
 
         printModifiers(funcDecl->modifiers);
-        log.raw("func ");
+        log.raw("func");
         print(funcDecl->typeParams);
+        log.raw(" ");
         funcDecl->id->accept(*this);
 
         log.raw("(");
