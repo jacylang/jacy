@@ -2,6 +2,9 @@
 
 namespace jc::ast {
     void AstPrinter::print(const ast::stmt_list & tree) {
+        if (tree.empty()) {
+            log.debug("Tree is empty");
+        }
         for (const auto & stmt : tree) {
             stmt->accept(*this);
             log.nl();

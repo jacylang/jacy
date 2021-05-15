@@ -110,7 +110,7 @@ namespace jc::parser {
         {TokenType::LBracket,           "["},
         {TokenType::RBracket,           "]"},
         {TokenType::Comma,              ","},
-        {TokenType::Colon,              ","},
+        {TokenType::Colon,              ":"},
         {TokenType::Quest,              "?"},
     };
 

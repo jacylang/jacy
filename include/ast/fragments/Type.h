@@ -99,9 +99,10 @@ namespace jc::ast {
     };
 
     struct TypePath : Type {
-        TypePath(id_t_list ids, const Location & loc)
-            : ids(std::move(ids)), Type(loc, TypeKind::Path) {}
+        TypePath(bool global, id_t_list ids, const Location & loc)
+            : global(global), ids(std::move(ids)), Type(loc, TypeKind::Path) {}
 
+        bool global;
         id_t_list ids;
 
         void accept(BaseVisitor & visitor) override {

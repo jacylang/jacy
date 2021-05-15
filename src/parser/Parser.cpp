@@ -64,8 +64,6 @@ namespace jc::parser {
 
         if (not peek().is(type)) {
             suggest(std::move(suggestion));
-//            // We advance anyway, to avoid infinite recursions
-//            advance();
             return;
         }
 
@@ -115,7 +113,7 @@ namespace jc::parser {
     }
 
     ast::opt_stmt_ptr Parser::parseStmt() {
-        logParse("`Stmt`");
+        logParse("Stmt");
 
         switch (peek().type) {
             case TokenType::While: {
@@ -208,13 +206,13 @@ namespace jc::parser {
                 return parseTypeDecl();
             }
             case TokenType::Struct: {
-                return parseStruct();
+                return parseStruct(attributes, modifiers);
             }
             case TokenType::Impl: {
-                return parseImpl();
+                return parseImpl(attributes, modifiers);
             }
             case TokenType::Trait: {
-                return parseTrait();
+                return parseTrait(attributes, modifiers);
             }
             default: {
                 if (!attributes.empty()) {
@@ -246,7 +244,10 @@ namespace jc::parser {
 
             auto decl = parseDecl();
             if (decl) {
-                tree.emplace_back(decl.unwrap("`parseDeclList` -> `decl`"));
+                declarations.emplace_back(decl.unwrap("`parseDeclList` -> `decl`"));
+            } else {
+                suggestErrorMsg("Unexpected token", cspan());
+                advance();
             }
         }
         return declarations;
@@ -288,8 +289,8 @@ namespace jc::parser {
         return std::make_shared<ast::TypeAlias>(id, type, loc);
     }
 
-    ast::stmt_ptr Parser::parseStruct() {
-        logParse("`Struct`");
+    ast::stmt_ptr Parser::parseStruct(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+        logParse("Struct");
 
         const auto & loc = peek().loc;
 
@@ -298,28 +299,13 @@ namespace jc::parser {
         auto id = parseId("Expected struct name");
         auto typeParams = parseTypeParams();
 
-        ast::stmt_list members;
-        if (!skipOpt(TokenType::Semi)) {
-            skip(
-                TokenType::LBrace,
-                true,
-                true,
-                std::make_unique<ParseErrSugg>("To start `struct` body put `{` here or `;` to ignore body", cspan())
-            );
-            members = parseDeclList();
-            skip(
-                TokenType::RBrace,
-                true,
-                true,
-                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
-            );
-        }
+        ast::stmt_list members = parseMembers("struct");
 
         return std::make_shared<ast::Struct>(id, typeParams, members, loc);
     }
 
-    ast::stmt_ptr Parser::parseImpl() {
-        logParse("`Impl`");
+    ast::stmt_ptr Parser::parseImpl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+        logParse("Impl");
 
         const auto & loc = peek().loc;
 
@@ -337,16 +323,13 @@ namespace jc::parser {
 
         auto forType = parseType("Missing type");
 
-        ast::stmt_list members;
-        if (!skipOpt(TokenType::Semi)) {
-            members = parseDeclList();
-        }
+        ast::stmt_list members = parseMembers("impl");
 
         return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, loc);
     }
 
-    ast::stmt_ptr Parser::parseTrait() {
-        logParse("`Trait`");
+    ast::stmt_ptr Parser::parseTrait(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+        logParse("Trait");
 
         const auto & loc = peek().loc;
 
@@ -363,6 +346,11 @@ namespace jc::parser {
                 if (!superTrait) {
                     suggestErrorMsg("Expected super-trait identifier", cspan());
                 }
+
+                if (is(TokenType::LBrace) or is(TokenType::Semi)) {
+                    break;
+                }
+
                 if (first) {
                     first = false;
                 } else {
@@ -379,10 +367,7 @@ namespace jc::parser {
             }
         }
 
-        ast::stmt_list members;
-        if (!skipOpt(TokenType::Semi)) {
-            members = parseDeclList();
-        }
+        ast::stmt_list members = parseMembers("trait");
 
         return std::make_shared<ast::Trait>(id, typeParams, superTraits, members, loc);
     }
@@ -462,13 +447,13 @@ namespace jc::parser {
 
     // Expressions //
     ast::opt_expr_ptr Parser::parseOptExpr() {
-        logParse("`parseOptExpr`");
+        logParse("parseOptExpr");
 
         return assignment();
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("`parseExpr`");
+        logParse("parseExpr");
 
         auto expr = parseOptExpr();
         errorForNone(expr, suggMsg, cspan());
@@ -539,7 +524,7 @@ namespace jc::parser {
                 }
             }
             if (maybeOp) {
-                logParse("`precParse` -> " + maybeOp.unwrap().typeToString());
+                logParse("precParse -> " + maybeOp.unwrap().typeToString());
                 auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
                 if (prefix) {
                     if (lhs) {
@@ -922,7 +907,6 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected `=>` after `when` entry conditions", cspan())
         );
 
-        // FIXME: No oneLineBody
         ast::block_ptr body = parseBlock();
 
         return std::make_shared<ast::WhenEntry>(conditions, body, loc);
@@ -1145,6 +1129,32 @@ namespace jc::parser {
         return std::make_shared<ast::FuncParam>(id, type, defaultValue, loc);
     }
 
+    ast::stmt_list Parser::parseMembers(const std::string & construction) {
+        ast::stmt_list members;
+        if (!skipOpt(TokenType::Semi)) {
+            skip(
+                TokenType::LBrace,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>(
+                    "To start `" + construction + "` body put `{` here or `;` to ignore body",
+                    cspan()
+                )
+            );
+            if (skipOpt(TokenType::RBrace)) {
+                return {};
+            }
+            members = parseDeclList();
+            skip(
+                TokenType::RBrace,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+        }
+        return members;
+    }
+
     ///////////
     // Types //
     ///////////
@@ -1164,7 +1174,7 @@ namespace jc::parser {
             return parseArrayType();
         }
 
-        if (is(TokenType::Id)) {
+        if (is(TokenType::Id) or is(TokenType::Path)) {
             return ast::Type::asBase(parseOptTypePath().unwrap("`parseOptType` -> `id`"));
         }
 
@@ -1340,35 +1350,34 @@ namespace jc::parser {
     }
 
     ast::opt_type_path_ptr Parser::parseOptTypePath() {
-        logParse("`parseOptTypePath`");
+        logParse("parseOptTypePath");
+
+        const auto & maybePathToken = peek();
+        bool global = skipOpt(TokenType::Path, true);
 
         if (!is(TokenType::Id)) {
+            if (global) {
+                suggestErrorMsg(
+                    "Unexpected `::`, maybe you meant to specify a type?",
+                    maybePathToken.span(sess)
+                );
+            }
             return dt::None;
         }
 
-        const auto & loc = peek().loc;
-
         ast::id_t_list ids;
-
-        bool first = true;
         while (!eof()) {
-            if (!is(TokenType::Id)) {
-                break;
-            }
+            auto id = parseId("Type identifier expected");
 
-            if (first) {
-                first = false;
-            } else {
-                // FIXME: Checkout that works
-                justSkip(TokenType::Path, true, "`.`", "parseIdType -> after not first element");
-            }
+            ids.push_back(std::make_shared<ast::IdType>(id, parseTypeParams()));
 
-            const auto & id = parseId("`parseOptTypePath`");
-            ast::type_param_list typeParams = parseTypeParams();
-            ids.push_back(std::make_shared<ast::IdType>(id, typeParams));
+            if (skipOpt(TokenType::Path)) {
+                continue;
+            }
+            break;
         }
 
-        return std::make_shared<ast::TypePath>(ids, loc);
+        return std::make_shared<ast::TypePath>(global, ids, maybePathToken.loc);
     }
 
     // Suggestions //
