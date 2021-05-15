@@ -90,6 +90,14 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(Struct * _struct) {
+        printIndent();
+
+        log.raw("struct ");
+        _struct->id->accept(*this);
+        print(_struct->members);
+    }
+
     void AstPrinter::visit(TypeAlias * typeAlias) {
         printIndent();
 

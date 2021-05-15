@@ -20,6 +20,7 @@ namespace jc::ast {
         void visit(ExprStmt * exprStmt) override;
         void visit(ForStmt * forStmt) override;
         void visit(FuncDecl * funcDecl) override;
+        void visit(Struct * _struct) override;
         void visit(TypeAlias * typeAlias) override;
         void visit(VarDecl * varDecl) override;
         void visit(WhileStmt * whileStmt) override;

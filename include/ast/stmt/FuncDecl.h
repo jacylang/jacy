@@ -27,7 +27,7 @@ namespace jc::ast {
             returnType(returnType),
             body(body),
             oneLineBody(oneLineBody),
-            Stmt(loc, StmtType::FuncDecl) {}
+            Stmt(loc, StmtType::Func) {}
 
         attr_list attributes;
         parser::token_list modifiers;

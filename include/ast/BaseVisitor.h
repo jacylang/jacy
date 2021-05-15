@@ -7,6 +7,7 @@ namespace jc::ast {
     struct ExprStmt;
     struct ForStmt;
     struct FuncDecl;
+    struct Struct;
     struct TypeAlias;
     struct VarDecl;
     struct WhileStmt;
@@ -53,6 +54,7 @@ namespace jc::ast {
         virtual void visit(ExprStmt*) = 0;
         virtual void visit(ForStmt*) = 0;
         virtual void visit(FuncDecl*) = 0;
+        virtual void visit(Struct*) = 0;
         virtual void visit(TypeAlias*) = 0;
         virtual void visit(VarDecl*) = 0;
         virtual void visit(WhileStmt*) = 0;

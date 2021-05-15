@@ -13,17 +13,14 @@ namespace jc::ast {
     using stmt_list = std::vector<stmt_ptr>;
 
     enum class StmtType {
-        Assignment,
         Expr,
-        ClassDecl,
-        DoWhile,
-        EnumDecl,
+        Enum,
         For,
-        FuncDecl,
-        ObjectDecl,
+        Func,
+        Struct,
+        TypeAlias,
         VarDecl,
         While,
-        TypeAlias,
     };
 
     struct Stmt : Node {

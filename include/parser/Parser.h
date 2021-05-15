@@ -116,7 +116,8 @@ namespace jc::parser {
 
         // Parsers //
     private:
-        ast::opt_stmt_ptr parseItem();
+        dt::Option<ast::stmt_ptr> parseDecl();
+        ast::stmt_list parseDeclList();
         ast::opt_stmt_ptr parseStmt();
 
         // Control-flow statements //
@@ -124,10 +125,9 @@ namespace jc::parser {
         ast::stmt_ptr parseForStmt();
 
         // Declarations //
-        dt::Option<ast::stmt_ptr> parseDecl();
-        ast::stmt_list parseDeclList();
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
+        ast::stmt_ptr parseStruct();
         ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
         ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
 
@@ -168,9 +168,6 @@ namespace jc::parser {
         parser::token_list parseModifiers();
         ast::func_param_list parseFuncParamList();
         ast::func_param_ptr parseFuncParam();
-
-        // Modules //
-        ast::stmt_ptr parseImportStmt();
 
         // Types //
         ast::type_ptr parseType(const std::string & suggMsg);

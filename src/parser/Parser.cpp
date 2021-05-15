@@ -109,25 +109,9 @@ namespace jc::parser {
         this->sess = sess;
         this->tokens = tokens;
 
-        while (!eof()) {
-            skipNLs(true);
-            if (eof()) {
-                break;
-            }
-
-            auto item = parseItem();
-            if (item) {
-                tree.emplace_back(item.unwrap("`parse` -> `item`"));
-            }
-        }
+        tree = parseDeclList();
 
         return {tree, std::move(suggestions)};
-    }
-
-    ast::opt_stmt_ptr Parser::parseItem() {
-        logParse("`item`");
-
-        return parseDecl();
     }
 
     ast::opt_stmt_ptr Parser::parseStmt() {
@@ -141,9 +125,9 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto item = parseItem();
-                if (item) {
-                    return item.unwrap("`item` in `parseStmt`");
+                auto decl = parseDecl();
+                if (decl) {
+                    return decl.unwrap("`parseStmt` -> `decl`");
                 }
 
                 auto expr = parseOptExpr();
@@ -222,6 +206,9 @@ namespace jc::parser {
             case TokenType::Type: {
                 return parseTypeDecl();
             }
+            case TokenType::Struct: {
+                return parseStruct();
+            }
             default: {
                 if (!attributes.empty()) {
                     for (const auto & attr : attributes) {
@@ -245,11 +232,15 @@ namespace jc::parser {
 
         ast::stmt_list declarations;
         while (!eof()) {
-            auto decl = parseDecl();
-            if (decl.none()) {
+            skipNLs(true);
+            if (eof()) {
                 break;
             }
-            declarations.push_back(decl.unwrap("In `parseDeclList` checked non-None declaration"));
+
+            auto decl = parseDecl();
+            if (decl) {
+                tree.emplace_back(decl.unwrap("`parseDeclList` -> `decl`"));
+            }
         }
         return declarations;
     }
@@ -288,6 +279,35 @@ namespace jc::parser {
         auto type = parseType("Expected type");
 
         return std::make_shared<ast::TypeAlias>(id, type, loc);
+    }
+
+    ast::stmt_ptr Parser::parseStruct() {
+        logParse("`Struct`");
+
+        const auto & loc = peek().loc;
+
+        justSkip(TokenType::Struct, true, "`struct`", "`parseStruct`");
+
+        auto id = parseId("Expected struct name");
+
+        ast::stmt_list members;
+        if (!skipOpt(TokenType::Semi)) {
+            skip(
+                TokenType::LBrace,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>("To start `struct` body put `{` here or `;` to ignore body", cspan())
+            );
+            members = parseDeclList();
+            skip(
+                TokenType::RBrace,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+        }
+
+        return std::make_shared<ast::Struct>(id, members, loc);
     }
 
     ast::stmt_ptr Parser::parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
@@ -341,10 +361,6 @@ namespace jc::parser {
             oneLineBody,
             loc
         );
-    }
-
-    ast::stmt_ptr Parser::parseImportStmt() {
-        throw common::NotImplementedError("Import statement parsing");
     }
 
     ast::stmt_ptr Parser::parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {

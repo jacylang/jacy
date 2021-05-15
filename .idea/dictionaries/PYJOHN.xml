@@ -53,6 +53,7 @@
       <w>spreadexpr</w>
       <w>stmts</w>
       <w>stringutils</w>
+      <w>structdecl</w>
       <w>sugg</w>
       <w>suggresult</w>
       <w>superexpr</w>

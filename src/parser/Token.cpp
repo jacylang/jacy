@@ -22,7 +22,7 @@ namespace jc::parser {
         {"return",      TokenType::Return},
         {"pri",         TokenType::Pri},
         {"pub",         TokenType::Pub},
-        {"struct",          TokenType::Struct},
+        {"struct",      TokenType::Struct},
         {"this",        TokenType::This},
         {"true",        TokenType::True},
         {"type",        TokenType::Type},
