@@ -107,7 +107,7 @@ namespace jc::parser {
         this->sess = sess;
         this->tokens = tokens;
 
-        tree = parseDeclList();
+        tree = parseItemList();
 
         return {tree, std::move(suggestions)};
     }
@@ -123,7 +123,7 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto decl = parseDecl();
+                auto decl = parseItem();
                 if (decl) {
                     return decl.unwrap("`parseStmt` -> `decl`");
                 }
@@ -183,56 +183,64 @@ namespace jc::parser {
     //////////////////
     // Declarations //
     //////////////////
-    dt::Option<ast::stmt_ptr> Parser::parseDecl() {
-        logParse("Decl");
+    dt::Option<ast::stmt_ptr> Parser::parseItem() {
+        logParse("Item");
 
+        const auto & loc = peek().loc;
         ast::attr_list attributes = parseAttributes();
 //        parser::token_list modifiers = parseModifiers();
         parser::token_list modifiers = {};
+        
+        ast::opt_stmt_ptr decl;
 
         switch (peek().type) {
             case TokenType::Const:
             case TokenType::Var:
             case TokenType::Val: {
-                return parseVarDecl();
+                decl = parseVarDecl();
             }
             case TokenType::Func: {
-                return parseFuncDecl(attributes, modifiers);
+                decl = parseFuncDecl(modifiers);
             }
             case TokenType::Enum: {
-                return parseEnumDecl(attributes, modifiers);
+                decl = parseEnumDecl();
             }
             case TokenType::Type: {
-                return parseTypeDecl();
+                decl = parseTypeDecl();
             }
             case TokenType::Struct: {
-                return parseStruct(attributes, modifiers);
+                decl = parseStruct();
             }
             case TokenType::Impl: {
-                return parseImpl(attributes, modifiers);
+                decl = parseImpl();
             }
             case TokenType::Trait: {
-                return parseTrait(attributes, modifiers);
-            }
-            default: {
-                if (!attributes.empty()) {
-                    for (const auto & attr : attributes) {
-                        suggestErrorMsg("Unexpected attribute", attr->id->token.span(sess));
-                    }
-                }
-
-                if (!modifiers.empty()) {
-                    for (const auto & modif : modifiers) {
-                        suggestErrorMsg("Unexpected modifier", modif.span(sess));
-                    }
-                }
-
-                return dt::None;
+                decl = parseTrait();
             }
         }
+
+        if (decl) {
+            return std::static_pointer_cast<ast::Stmt>(
+                std::make_shared<ast::Item>(attributes, decl.unwrap("`parseItem` -> `decl`"), loc)
+            );
+        }
+
+        if (!attributes.empty()) {
+            for (const auto & attr : attributes) {
+                suggestErrorMsg("Unexpected attribute", attr->id->token.span(sess));
+            }
+        }
+
+        if (!modifiers.empty()) {
+            for (const auto & modif : modifiers) {
+                suggestErrorMsg("Unexpected modifier", modif.span(sess));
+            }
+        }
+
+        return dt::None;
     }
 
-    ast::stmt_list Parser::parseDeclList() {
+    ast::stmt_list Parser::parseItemList() {
         logParse("DeclList");
 
         ast::stmt_list declarations;
@@ -242,9 +250,9 @@ namespace jc::parser {
                 break;
             }
 
-            auto decl = parseDecl();
+            auto decl = parseItem();
             if (decl) {
-                declarations.emplace_back(decl.unwrap("`parseDeclList` -> `decl`"));
+                declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
             } else {
                 suggestErrorMsg("Unexpected token", cspan());
                 advance();
@@ -289,7 +297,7 @@ namespace jc::parser {
         return std::make_shared<ast::TypeAlias>(id, type, loc);
     }
 
-    ast::stmt_ptr Parser::parseStruct(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseStruct() {
         logParse("Struct");
 
         const auto & loc = peek().loc;
@@ -304,7 +312,7 @@ namespace jc::parser {
         return std::make_shared<ast::Struct>(id, typeParams, members, loc);
     }
 
-    ast::stmt_ptr Parser::parseImpl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseImpl() {
         logParse("Impl");
 
         const auto & loc = peek().loc;
@@ -328,7 +336,7 @@ namespace jc::parser {
         return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, loc);
     }
 
-    ast::stmt_ptr Parser::parseTrait(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseTrait() {
         logParse("Trait");
 
         const auto & loc = peek().loc;
@@ -372,7 +380,7 @@ namespace jc::parser {
         return std::make_shared<ast::Trait>(id, typeParams, superTraits, members, loc);
     }
 
-    ast::stmt_ptr Parser::parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseFuncDecl(const parser::token_list & modifiers) {
         logParse("FuncDecl");
 
         const auto & loc = peek().loc;
@@ -413,7 +421,6 @@ namespace jc::parser {
         std::tie(body, oneLineBody) = parseFuncBody();
 
         return std::make_shared<ast::FuncDecl>(
-            attributes,
             modifiers,
             typeParams,
             id,
@@ -425,7 +432,7 @@ namespace jc::parser {
         );
     }
 
-    ast::stmt_ptr Parser::parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseEnumDecl() {
         logParse("EnumDecl");
     }
 
@@ -1144,7 +1151,7 @@ namespace jc::parser {
             if (skipOpt(TokenType::RBrace)) {
                 return {};
             }
-            members = parseDeclList();
+            members = parseItemList();
             skip(
                 TokenType::RBrace,
                 true,

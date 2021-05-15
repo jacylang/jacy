@@ -8,6 +8,7 @@ namespace jc::ast {
     struct ForStmt;
     struct FuncDecl;
     struct Impl;
+    struct Item;
     struct Struct;
     struct Trait;
     struct TypeAlias;
@@ -57,6 +58,7 @@ namespace jc::ast {
         virtual void visit(ForStmt*) = 0;
         virtual void visit(FuncDecl*) = 0;
         virtual void visit(Impl*) = 0;
+        virtual void visit(Item*) = 0;
         virtual void visit(Struct*) = 0;
         virtual void visit(Trait*) = 0;
         virtual void visit(TypeAlias*) = 0;

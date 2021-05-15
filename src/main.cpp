@@ -5,7 +5,7 @@ int main(int argc, const char ** argv) {
     try {
         jacy->run(argc, argv);
     } catch (std::exception & e) {
-        std::cout << "Error: " << e.what() << std::endl;
+        std::cout << "Uncaught error: " << e.what() << std::endl;
     }
     return 0;
 }

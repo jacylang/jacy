@@ -23,14 +23,14 @@ namespace jc::core {
     void Jacy::runRepl() {
         std::string line;
         while (!std::cin.eof()) {
-            std::cout << "jc> ";
+            log.raw("jc> ");
             line.clear();
             std::getline(std::cin, line);
 
             try {
                 runCode(line);
             } catch (common::Error & e) {
-                std::cout << e.message << std::endl;
+                log.error(e.message);
             }
         }
     }
@@ -68,7 +68,7 @@ namespace jc::core {
             log.info("Printing tokens (`--print tokens`)");
             log.info("Count of tokens:", tokens.size());
             for (const auto & token : tokens) {
-                std::cout << token.toString(true) << std::endl;
+                log.raw(token.toString(true)).nl();
             }
             common::Logger::nl();
         }

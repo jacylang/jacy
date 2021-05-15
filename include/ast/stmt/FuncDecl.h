@@ -10,7 +10,6 @@
 namespace jc::ast {
     struct FuncDecl : Stmt {
         FuncDecl(
-            attr_list attributes,
             parser::token_list modifiers,
             type_param_list typeParams,
             id_ptr id,
@@ -19,8 +18,7 @@ namespace jc::ast {
             opt_block_ptr body,
             opt_expr_ptr oneLineBody,
             const Location & loc
-        ) : attributes(attributes),
-            modifiers(modifiers),
+        ) : modifiers(modifiers),
             typeParams(typeParams),
             id(id),
             params(params),
@@ -29,7 +27,6 @@ namespace jc::ast {
             oneLineBody(oneLineBody),
             Stmt(loc, StmtType::Func) {}
 
-        attr_list attributes;
         parser::token_list modifiers;
         type_param_list typeParams;
         id_ptr id;

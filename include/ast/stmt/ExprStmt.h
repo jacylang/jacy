@@ -10,10 +10,6 @@ namespace jc::ast {
 
         expr_ptr expr;
 
-        bool isAssignable() const override {
-            return expr->isAssignable();
-        }
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
         }

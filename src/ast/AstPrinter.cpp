@@ -51,7 +51,6 @@ namespace jc::ast {
     void AstPrinter::visit(FuncDecl * funcDecl) {
         printIndent();
 
-        print(funcDecl->attributes);
         printModifiers(funcDecl->modifiers);
         log.raw("func ");
         print(funcDecl->typeParams);
@@ -100,7 +99,14 @@ namespace jc::ast {
         print(impl->typeParams);
         log.raw(" for ");
         impl->forType->accept(*this);
-        print(impl->members);
+        printMembers(impl->members);
+    }
+
+    void AstPrinter::visit(Item * item) {
+        printIndent();
+
+        print(item->attributes);
+        item->stmt->accept(*this);
     }
 
     void AstPrinter::visit(Struct * _struct) {
@@ -108,7 +114,7 @@ namespace jc::ast {
 
         log.raw("struct ");
         _struct->id->accept(*this);
-        print(_struct->members);
+        printMembers(_struct->members);
     }
 
     void AstPrinter::visit(Trait * trait) {
@@ -120,7 +126,7 @@ namespace jc::ast {
         for (const auto & superTrait : trait->superTraits) {
             superTrait->accept(*this);
         }
-        print(trait->members);
+        printMembers(trait->members);
     }
 
     void AstPrinter::visit(TypeAlias * typeAlias) {
@@ -365,7 +371,7 @@ namespace jc::ast {
 
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
-            std::cout << indentChar;
+            log.raw(indentChar);
         }
     }
 
@@ -457,6 +463,16 @@ namespace jc::ast {
     void AstPrinter::print(IdType * idType) {
         idType->id->accept(*this);
         print(idType->typeParams);
+    }
+
+    void AstPrinter::printMembers(const stmt_list & members) {
+        log.raw("{");
+        incIndent();
+        for (const auto & stmt : members) {
+            stmt->accept(*this);
+            log.nl();
+        }
+        log.raw("}");
     }
 
     void AstPrinter::incIndent() {

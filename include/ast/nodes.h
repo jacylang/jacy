@@ -40,6 +40,7 @@
 #include "ast/stmt/ForStmt.h"
 #include "ast/stmt/FuncDecl.h"
 #include "ast/stmt/Impl.h"
+#include "ast/stmt/Item.h"
 #include "ast/stmt/Struct.h"
 #include "ast/stmt/Trait.h"
 #include "ast/stmt/TypeAlias.h"

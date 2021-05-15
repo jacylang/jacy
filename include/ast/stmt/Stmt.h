@@ -18,6 +18,7 @@ namespace jc::ast {
         For,
         Func,
         Impl,
+        Item,
         Struct,
         TypeAlias,
         Trait,
@@ -32,10 +33,6 @@ namespace jc::ast {
 
         bool is(StmtType type) const {
             return this->type == type;
-        }
-
-        virtual bool isAssignable() const {
-            return false;
         }
 
         virtual void accept(BaseVisitor & visitor) = 0;

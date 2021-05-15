@@ -21,6 +21,7 @@ namespace jc::ast {
         void visit(ForStmt * forStmt) override;
         void visit(FuncDecl * funcDecl) override;
         void visit(Impl * impl) override;
+        void visit(Item * item) override;
         void visit(Struct * _struct) override;
         void visit(Trait * trait) override;
         void visit(TypeAlias * typeAlias) override;
@@ -71,6 +72,7 @@ namespace jc::ast {
         void print(NamedList * namedList);
         void print(const type_list & typeList);
         void print(IdType * idType);
+        void printMembers(const stmt_list & members);
 
         const std::string indentChar = "  ";
         void incIndent();

@@ -77,7 +77,7 @@ void Logger::devDebug(Arg && first, Args && ... other) {
 }
 
 template<class Arg, class ...Args>
-const Logger & Logger::raw(Arg && first, Args && ...other) {
+const Logger & Logger::raw(Arg && first, Args && ...other) const {
     std::cout << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     return *this;

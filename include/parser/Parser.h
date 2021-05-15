@@ -116,8 +116,8 @@ namespace jc::parser {
 
         // Parsers //
     private:
-        dt::Option<ast::stmt_ptr> parseDecl();
-        ast::stmt_list parseDeclList();
+        dt::Option<ast::stmt_ptr> parseItem();
+        ast::stmt_list parseItemList();
         ast::opt_stmt_ptr parseStmt();
 
         // Control-flow statements //
@@ -127,11 +127,11 @@ namespace jc::parser {
         // Declarations //
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
-        ast::stmt_ptr parseStruct(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseImpl(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseTrait(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseFuncDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
-        ast::stmt_ptr parseEnumDecl(const ast::attr_list & attributes, const parser::token_list & modifiers);
+        ast::stmt_ptr parseStruct();
+        ast::stmt_ptr parseImpl();
+        ast::stmt_ptr parseTrait();
+        ast::stmt_ptr parseFuncDecl(const parser::token_list & modifiers);
+        ast::stmt_ptr parseEnumDecl();
 
         // Delegations //
         ast::delegation_list parseDelegationList();

@@ -34,7 +34,7 @@ namespace jc::sess {
         if (sourceIt == sources.end()) {
             // FIXME: Remove
             for (const auto & id : utils::map::keys(sources)) {
-                std::cout << "got fileId: " << id << " ";
+                common::Logger::devDebug("got fileId:", id);
             }
             common::Logger::devPanic("Got invalid fileId in SourceMap::sliceBySpan: ", span.fileId);
         }

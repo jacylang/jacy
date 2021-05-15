@@ -51,10 +51,6 @@ namespace jc::ast {
             return std::static_pointer_cast<T>(expr);
         }
 
-        virtual bool isAssignable() const {
-            return false;
-        }
-
         virtual void accept(BaseVisitor & visitor) = 0;
     };
 }
