@@ -3,46 +3,26 @@
 namespace jc::parser {
     const std::map<std::string, TokenType> Token::keywords = {
         {"as",          TokenType::As},
-        {"as?",         TokenType::AsQM},
         {"break",       TokenType::Break},
-        {"catch",       TokenType::Catch},
-        {"class",       TokenType::Class},
         {"const",       TokenType::Const},
         {"continue",    TokenType::Continue},
-        {"do",          TokenType::Do},
         {"elif",        TokenType::Elif},
         {"else",        TokenType::Else},
         {"enum",        TokenType::Enum},
-        {"export",      TokenType::Export},
         {"false",       TokenType::False},
-        {"finally",     TokenType::Finally},
         {"for",         TokenType::For},
         {"func",        TokenType::Func},
-        {"get",         TokenType::Get},
         {"if",          TokenType::If},
-        {"import",      TokenType::Import},
         {"in",          TokenType::In},
         {"!in",         TokenType::NotIn},
         {"infix",       TokenType::Infix},
         {"init",        TokenType::Init},
-        {"is",          TokenType::Is},
-        {"!is",         TokenType::NotIs},
         {"loop",        TokenType::Loop},
-        {"null",        TokenType::Null},
-        {"object",      TokenType::Object},
-        {"operator",    TokenType::Operator},
         {"return",      TokenType::Return},
-        {"prefix",      TokenType::Prefix},
-        {"private",     TokenType::Private},
-        {"protected",   TokenType::Protected},
-        {"public",      TokenType::Public},
-        {"set",         TokenType::Set},
-        {"super",       TokenType::Super},
+        {"pri",         TokenType::Pri},
+        {"pub",         TokenType::Pub},
         {"this",        TokenType::This},
-        {"throw",       TokenType::Throw},
-        {"to",          TokenType::To},
         {"true",        TokenType::True},
-        {"try",         TokenType::Try},
         {"type",        TokenType::Type},
         {"val",         TokenType::Val},
         {"var",         TokenType::Var},
@@ -167,9 +147,9 @@ namespace jc::parser {
         return utils::arr::has(literals, type);
     }
 
-    bool Token::isModifier() const {
-        return is(TokenType::Infix) or is(TokenType::Operator);
-    }
+//    bool Token::isModifier() const {
+//        return is(TokenType::Infix) or is(TokenType::Operator);
+//    }
 
     std::string Token::typeToString(TokenType type) {
         const auto found = tokenTypeStrings.find(type);

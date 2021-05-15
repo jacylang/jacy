@@ -481,7 +481,7 @@ namespace jc::parser {
         {0b10011, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
         {0b10011, {TokenType::LAngle, TokenType::LAngle, TokenType::LE, TokenType::GE}},
         {0b10011, {TokenType::Spaceship}},
-        {0b10011, {TokenType::In, TokenType::NotIn, TokenType::Is, TokenType::NotIs}},
+        {0b10011, {TokenType::In, TokenType::NotIn}},
         {0b10011, {TokenType::NullCoalesce}},
         {0b10011, {TokenType::Shl, TokenType::Shr}},
         {0b10011, {TokenType::Id}},
@@ -489,7 +489,6 @@ namespace jc::parser {
         {0b10011, {TokenType::Add, TokenType::Sub}},
         {0b10011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
         {0b11011, {TokenType::Power}}, // Note: Right-assoc
-        {0b10011, {TokenType::As, TokenType::AsQM}},
         {0b01111, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // Note: Prefix, Right-assoc hack; FIXME: Not multiple?!
     };
 

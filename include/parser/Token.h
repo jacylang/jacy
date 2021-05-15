@@ -115,46 +115,26 @@ namespace jc::parser {
 
         // Keywords //
         As,
-        AsQM,
         Break,
-        Catch,
-        Class,
         Const,
         Continue,
-        Do,
-        Elif,
+        Elif, // TODO
         Else,
         Enum,
-        Export,
         False,
-        Finally,
         For,
         Func,
-        Get,
         If,
-        Import,
         In,
         Init,
         NotIn,
         Infix,
-        Is,
         Loop,
-        NotIs,
-        Null,
-        Object,
-        Operator,
         Return,
-        Prefix,
-        Private,
-        Protected,
-        Public,
-        Set,
-        Super,
+        Pri,
+        Pub,
         This,
-        Throw,
-        To,
         True,
-        Try,
         Type,
         Val,
         Var,
@@ -181,7 +161,7 @@ namespace jc::parser {
         bool is(TokenType type) const;
         bool isAssignOp() const;
         bool isLiteral() const;
-        bool isModifier() const;
+//        bool isModifier() const;
 
         span::Span span(sess::sess_ptr sess) const;
 

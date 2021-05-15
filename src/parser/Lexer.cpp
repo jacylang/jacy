@@ -216,11 +216,6 @@ namespace jc::parser {
             id += forward();
         }
 
-        if (id == "as" and peek() == '?') {
-            addToken(TokenType::AsQM, 3);
-            return;
-        }
-
         const auto kw = Token::keywords.find(id);
         if (kw != Token::keywords.end()) {
             addToken(kw->second, kw->first.size());
@@ -422,10 +417,6 @@ namespace jc::parser {
                         addToken(TokenType::NotEq, 2);
                         advance(2);
                     }
-                } else if (lookup() == 'i' and lookup(2) == 's') {
-                    // `!is` operator
-                    addToken(TokenType::NotIs, 3);
-                    advance(3);
                 } else if (lookup() == 'i' and lookup(2) == 'n') {
                     addToken(TokenType::NotIn, 3);
                     advance(3);
