@@ -130,6 +130,7 @@ namespace jc::parser {
         NotIn,
         Infix,
         Loop,
+        Mut,
         Return,
         Pri,
         Pub,

@@ -18,6 +18,7 @@ namespace jc::parser {
         {"infix",       TokenType::Infix},
         {"init",        TokenType::Init},
         {"loop",        TokenType::Loop},
+        {"mut",         TokenType::Mut},
         {"return",      TokenType::Return},
         {"pri",         TokenType::Pri},
         {"pub",         TokenType::Pub},
