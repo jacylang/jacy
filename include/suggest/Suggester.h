@@ -26,6 +26,9 @@ namespace jc::sugg {
         void pointMsgTo(const std::string & msg, const Span & span);
         void printPrevLine(size_t index);
         size_t printLine(size_t index);
+        static void printIndent();
+
+        const uint8_t wrapLen{80};
     };
 }
 

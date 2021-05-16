@@ -97,7 +97,7 @@ namespace jc::parser {
         Token lookup() const;
 
         // Checkers //
-        bool eof();
+        bool eof() const;
         bool is(TokenType type) const;
         bool isNL();
         bool isSemis();
@@ -105,7 +105,7 @@ namespace jc::parser {
 
         // Skippers //
         bool skipNLs(bool optional = false);
-        void skipSemis(bool useless = false);
+        void skipSemis(bool optional);
         bool skip(
             TokenType type,
             bool skipLeftNLs,
@@ -204,6 +204,7 @@ namespace jc::parser {
 
         /// Shortcut for `peek().span(sess)`
         Span cspan() const;
+        Span lspan() const;
 
         // DEV //
         void logParse(const std::string & entity);

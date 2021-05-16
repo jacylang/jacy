@@ -11,7 +11,7 @@ namespace jc::utils::str {
     std::string repeat(const std::string & rep, size_t count);
     std::string padStart(const std::string & str, size_t targetLen, char ch);
     std::string padEnd(const std::string & str, size_t targetLen, char ch);
-    std::string pointLine(size_t len, size_t pos);
+    std::string pointLine(size_t lineLen, size_t pos, size_t spanLen);
 }
 
 #endif // JACY_STR_H

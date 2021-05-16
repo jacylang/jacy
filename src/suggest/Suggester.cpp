@@ -8,6 +8,7 @@ namespace jc::sugg {
 
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
+            sg->accept(*this);
             if (sg->kind == SuggKind::Error) {
                 errorAppeared = true;
             }
@@ -19,15 +20,16 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(MsgSugg * sugg) {
-
+        pointMsgTo(sugg->msg, sugg->span);
     }
 
     void Suggester::visit(MsgSpanLinkSugg * sugg) {
-
+        pointMsgTo(sugg->spanMsg, sugg->span);
+        pointMsgTo(sugg->linkMsg, sugg->link);
     }
 
     void Suggester::visit(RangeSugg * sugg) {
-
+        common::Logger::devPanic("Not implemented: `RangeSugg` suggestion");
     }
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
@@ -36,8 +38,10 @@ namespace jc::sugg {
         const auto point = span.col;
 
         if (msg.size() >= lineLen) {
-            Logger::print(utils::str::pointLine(msg.size(), point));
+            printIndent();
+            Logger::print(utils::str::pointLine(msg.size(), point, span.len));
             Logger::nl();
+            printIndent();
             Logger::print(msg);
             Logger::nl();
         }
@@ -53,7 +57,13 @@ namespace jc::sugg {
 
     size_t Suggester::printLine(size_t index) {
         const auto & line = sourceMap.getLine(sess, index);
-        Logger::print(index, "|", line);
+        Logger::print(index + 1, "|", line);
+        Logger::nl();
         return line.size();
+    }
+
+    void Suggester::printIndent() {
+        // This is the indent that we've got from line number prefix like "1 | " (here's 4 chars)
+        Logger::print("    ");
     }
 }

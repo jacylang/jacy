@@ -20,7 +20,7 @@ namespace jc::parser {
     }
 
     // Checkers //
-    bool Parser::eof() {
+    bool Parser::eof() const {
         return peek().is(TokenType::Eof);
     }
 
@@ -37,7 +37,7 @@ namespace jc::parser {
     }
 
     bool Parser::isHardSemi() {
-        return is(TokenType::Semi) or eof();
+        return is(TokenType::Semi);
     }
 
     // Skippers //
@@ -54,23 +54,13 @@ namespace jc::parser {
         return gotNL;
     }
 
-    void Parser::skipSemis(bool useless) {
-        // TODO!: Error message
-        auto maybeSemi = peek();
-        auto lastSemi = peek();
-        while (isSemis()) {
-            lastSemi = peek();
-            advance();
+    void Parser::skipSemis(bool optional) {
+        if (!isSemis() and !optional) {
+            suggestErrorMsg("`;` or new-line expected", cspan());
+            return;
         }
-        if (useless) {
-            suggest(
-                std::make_unique<sugg::RangeSugg>(
-                    "Useless semis",
-                    maybeSemi.span(sess),
-                    lastSemi.span(sess),
-                    sugg::SuggKind::Warn
-                )
-            );
+        while (isHardSemi()) {
+            advance();
         }
     }
 
@@ -155,7 +145,7 @@ namespace jc::parser {
                 }
 
                 auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
-                skipSemis();
+                skipSemis(false);
                 return std::static_pointer_cast<ast::Stmt>(exprStmt);
             }
         }
@@ -612,6 +602,9 @@ namespace jc::parser {
                 bool first = true;
                 while (!eof()) {
                     skipNLs(true);
+                    if (is(TokenType::RBracket)) {
+                        break;
+                    }
 
                     if (first) {
                         first = false;
@@ -625,11 +618,16 @@ namespace jc::parser {
                     }
 
                     indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
-
-                    if (is(TokenType::RBracket)) {
-                        break;
-                    }
                 }
+                skip(
+                    TokenType::RParen,
+                    true,
+                    true,
+                    std::make_unique<ParseErrSpanLinkSugg>(
+                        "Missing closing `]` in array expression", cspan(),
+                        "Opening `[` is here", maybeOp.span(sess)
+                    )
+                );
 
                 lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
             } else if (is(TokenType::LParen)) {
@@ -960,18 +958,19 @@ namespace jc::parser {
         }
 
         ast::stmt_list stmts;
+        const auto & maybeBraceToken = peek();
         if (skipOpt(TokenType::LBrace, true)) {
-            skipSemis(true);
             bool first = true;
             while (!eof()) {
-                if (skipOpt(TokenType::RBrace)) {
+                if (is(TokenType::RBrace)) {
                     break;
                 }
 
                 if (first) {
                     first = false;
                 } else {
-                    skipSemis();
+                    // Here semis is optional, because `parseStmt` handles semis itself
+                    skipSemis(true);
                 }
 
                 auto stmt = parseStmt();
@@ -981,6 +980,15 @@ namespace jc::parser {
                     suggestErrorMsg("WTF?", cspan());
                 }
             }
+            skip(
+                TokenType::RBrace,
+                true,
+                true,
+                std::make_unique<ParseErrSpanLinkSugg>(
+                    "Missing closing `}` at the end of " + construction + " body", cspan(),
+                    "opening `{` is here", maybeBraceToken.span(sess)
+                )
+            );
         } else if (allowOneLine) {
             auto stmt = parseStmt();
             if (stmt) {
@@ -1048,9 +1056,7 @@ namespace jc::parser {
 
         bool first = true;
         while (!eof()) {
-            skipNLs(true);
-
-            if (skipOpt(TokenType::RParen)) {
+            if (is(TokenType::RParen)) {
                 break;
             }
 
@@ -1082,6 +1088,12 @@ namespace jc::parser {
                 value = expr;
             }
         }
+        skip(
+            TokenType::RParen,
+            true,
+            false,
+            std::make_unique<ParseErrSugg>("Expected closing `)` in " + construction, cspan())
+        );
 
         return std::make_shared<ast::NamedList>(namedList, loc);
     }
@@ -1127,13 +1139,12 @@ namespace jc::parser {
 
             params.push_back(parseFuncParam());
         }
-
         skip(
             TokenType::RParen,
             true,
             true,
             std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `)` after `func` parameter list", cspan(),
+                "Missing closing `)` after `func` parameter list", lookup().span(sess),
                 "`func` parameter list starts here", maybeParenToken.span(sess)
             )
         );
@@ -1192,9 +1203,9 @@ namespace jc::parser {
                     std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
                 );
             }
-        } else {
+        } else if (!eof()) {
             // Here we already know, that current token is `;` or `EOF`, so skip semi to ignore block
-            skipOpt(TokenType::Semi);
+            justSkip(TokenType::Semi, false, "`;`", "`parseMembers`");
         }
         return members;
     }
@@ -1259,6 +1270,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
 
+        const auto & lParenToken = peek();
         justSkip(TokenType::LParen, true, "`(`", "`parseParenType`");
 
         if (skipOpt(TokenType::RParen)) {
@@ -1271,7 +1283,7 @@ namespace jc::parser {
         size_t elIndex = 0;
         bool first = true;
         while (!eof()) {
-            if (tupleElements.empty() and skipOpt(TokenType::RParen)) {
+            if (is(TokenType::RParen)) {
                 break;
             }
 
@@ -1305,6 +1317,15 @@ namespace jc::parser {
             tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type, elementLoc));
             elIndex++;
         }
+        skip(
+            TokenType::RParen,
+            true,
+            true,
+            std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `)` in tuple type", cspan(),
+                "Opening `(` is here", lParenToken.span(sess)
+            )
+        );
 
         return tupleElements;
     }
@@ -1350,6 +1371,7 @@ namespace jc::parser {
             return {};
         }
 
+        const auto & lAngleToken = peek();
         justSkip(TokenType::LAngle, true, "`<`", "`parseTypeParams`");
 
         const auto & loc = peek().loc;
@@ -1357,7 +1379,7 @@ namespace jc::parser {
 
         bool first = true;
         while (!eof()) {
-            if (skipOpt(TokenType::RAngle)) {
+            if (is(TokenType::RAngle)) {
                 break;
             }
 
@@ -1383,6 +1405,15 @@ namespace jc::parser {
 
             typeParams.push_back(std::make_shared<ast::TypeParam>(id, type));
         }
+        skip(
+            TokenType::RParen,
+            true,
+            true,
+            std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `>` in type parameter list", cspan(),
+                "Opening `<` is here", lAngleToken.span(sess)
+            )
+        );
 
         return typeParams;
     }
@@ -1445,6 +1476,13 @@ namespace jc::parser {
 
     Span Parser::cspan() const {
         return peek().span(sess);
+    }
+
+    Span Parser::lspan() const {
+        if (eof()) {
+            log.devPanic("Called `lspan` after EOF");
+        }
+        return lookup().span(sess);
     }
 
     // DEBUG //

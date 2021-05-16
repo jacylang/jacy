@@ -36,6 +36,7 @@
       <w>listexpr</w>
       <w>literalconstant</w>
       <w>loopexpr</w>
+      <w>lspan</w>
       <w>modif</w>
       <w>mult</w>
       <w>namedlist</w>

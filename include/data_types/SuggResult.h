@@ -19,7 +19,6 @@ namespace jc::dt {
             : value(value), suggestions(std::move(suggestions)) {}
 
         T unwrap(sess::sess_ptr sess, bool dump) {
-            common::Logger::devDebug("Unwrap suggestions");
             if (dump) {
                 sugg::SuggDumper suggDumper;
                 suggDumper.apply(sess, suggestions);

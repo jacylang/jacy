@@ -564,10 +564,8 @@ namespace jc::parser {
 
         addToken(TokenType::Eof, 0);
 
-        log.debug("Source lines:");
-        for (size_t i = 0; i < sourceLines.size(); i++) {
-            log.raw(i + 1, "|", sourceLines.at(i));
-        }
+        // Add last line, cause it ends with `EOF`
+        sourceLines.push_back(line);
 
         sess::SourceMap::getInstance().setSource(sess, std::move(sourceLines));
 

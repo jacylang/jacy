@@ -25,12 +25,23 @@ namespace jc::sess {
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        common::Logger::devDebug("Set source by fileId ", sess->fileId);
-        sources.emplace(sess->fileId, std::move(source));
+        sources[sess->fileId] = std::move(source);
+        common::Logger::devDebug("Set source by fileId:", sess->fileId);
+    }
+
+    const source_t & SourceMap::getSource(sess_ptr sess) const {
+        if (sources.find(sess->fileId) == sources.end()) {
+            common::Logger::devPanic("No source found by fileId", sess->fileId, "in `SourceMap::getSource`");
+        }
+        return sources.at(sess->fileId);
     }
 
     std::string SourceMap::getLine(sess_ptr sess, size_t index) const {
-        return sources.at(sess->fileId).at(index);
+        const auto & source = getSource(sess);
+        if (source.size() <= index) {
+            common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
+        }
+        return source.at(index);
     }
 
     std::string SourceMap::sliceBySpan(sess_ptr sess, const span::Span & span) {

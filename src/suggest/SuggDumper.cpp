@@ -35,10 +35,10 @@ namespace jc::sugg {
     void SuggDumper::prefix(const sugg::sugg_ptr & sugg) {
         switch (sugg->kind) {
             case SuggKind::Error: {
-                Logger::print("[ERROR]");
+                Logger::print("[ERROR] ");
             } break;
             case SuggKind::Warn: {
-                Logger::print("[WARN]");
+                Logger::print("[WARN] ");
             } break;
         }
     }
