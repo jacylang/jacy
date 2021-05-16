@@ -1,9 +1,7 @@
 #include "core/Jacy.h"
 
 namespace jc::core {
-    Jacy::Jacy() {
-
-    }
+    Jacy::Jacy() = default;
 
     void Jacy::run(int argc, const char ** argv) {
         try {
@@ -90,6 +88,12 @@ namespace jc::core {
         if (cli.config.has("compile-depth", "parser")) {
             log.info("Stop after parsing due to `compile-depth=parser`");
             return;
+        }
+
+        linter.lint(sess, tree).unwrap(sess);
+
+        if (cli.config.has("compile-depth", "linter")) {
+            log.info("Stop after linting due to `compile-depth=linter`");
         }
     }
 }

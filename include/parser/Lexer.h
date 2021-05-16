@@ -53,9 +53,9 @@ namespace jc::parser {
 
         // Lexers
         void lexNumber();
-        void lexBinLiteral(bool upperCase);
-        void lexOctLiteral(bool upperCase);
-        void lexHexLiteral(bool upperCase);
+        void lexBinLiteral();
+        void lexOctLiteral();
+        void lexHexLiteral();
         void lexFloatLiteral(const std::string & start);
         void lexId();
         void lexString();

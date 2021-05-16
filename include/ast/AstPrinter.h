@@ -47,8 +47,6 @@ namespace jc::ast {
         void visit(Subscript * subscript) override;
         void visit(SuperExpr * superExpr) override;
         void visit(ThisExpr * thisExpr) override;
-        void visit(ThrowExpr * throwExpr) override;
-        void visit(TryCatchExpr * tryCatchExpr) override;
         void visit(TupleExpr * tupleExpr) override;
         void visit(UnitExpr * unitExpr) override;
         void visit(WhenExpr * whenExpr) override;

@@ -30,7 +30,6 @@ namespace jc::ast {
         Subscript,
         Super,
         This,
-        Throw,
         Tuple,
         Unit,
         When,
@@ -43,6 +42,11 @@ namespace jc::ast {
 
         bool is(ExprType type) const {
             return this->type == type;
+        }
+
+        bool isSimple() const {
+            return type == ExprType::LiteralConstant
+                or type == ExprType::Id;
         }
 
         template<class T>

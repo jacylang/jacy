@@ -8,19 +8,17 @@
 #include "common/Logger.h"
 
 namespace jc::dt {
-    namespace inner {
-        struct none_t {
-            struct init {};
-            none_t(init) {}
-        };
-    }
+    struct none_t {
+        struct init {};
+        none_t(init) {}
+    };
 
-    const inner::none_t None((inner::none_t::init()));
+    const none_t None((none_t::init()));
 
     template<class T>
     struct Option {
         Option() : hasValue(false) {}
-        Option(inner::none_t) : hasValue(false) {}
+        Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
         Option(nullptr_t) {
             common::Logger::devPanic("Initialization of `Option` with nullptr");
@@ -66,7 +64,7 @@ namespace jc::dt {
             return *this;
         }
 
-        Option<T> & operator=(inner::none_t) {
+        Option<T> & operator=(none_t) {
             hasValue = false;
             return *this;
         }

@@ -5,11 +5,16 @@
 #include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
 #include "suggest/Suggestion.h"
+#include "data_types/SuggResult.h"
 
 namespace jc::hir {
     class Linter : public ast::BaseVisitor {
+    public:
         Linter();
 
+        dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::stmt_list & tree);
+
+    private:
         // Statements //
         void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;

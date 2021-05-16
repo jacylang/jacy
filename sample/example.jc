@@ -1,4 +1,1 @@
-func a = "hello"
-func b(p: &str) = str
-
-print(a |> b)
+func a = (1)

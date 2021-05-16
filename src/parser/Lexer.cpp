@@ -121,31 +121,26 @@ namespace jc::parser {
     // Lexers //
     void Lexer::lexNumber() {
         std::string num;
-        const bool allowBase = forward() == '0';
-        bool baseUpperCase;
+        const bool allowBase = peek() == '0';
 
         if (allowBase) {
             switch (peek()) {
                 case 'b':
                 case 'B': {
-                    baseUpperCase = peek() == 'B';
-                    lexBinLiteral(baseUpperCase);
+                    lexBinLiteral();
                     return;
                 }
                 case 'o':
                 case 'O': {
-                    baseUpperCase = peek() == 'O';
-                    lexOctLiteral(baseUpperCase);
+                    lexOctLiteral();
                     return;
                 }
                 case 'x':
                 case 'X': {
-                    baseUpperCase = peek() == 'X';
-                    lexHexLiteral(baseUpperCase);
+                    lexHexLiteral();
                     return;
                 }
             }
-            num = '0';
         }
 
         while (isDigit()) {
@@ -164,9 +159,9 @@ namespace jc::parser {
         }
     }
 
-    void Lexer::lexBinLiteral(bool upperCase) {
-        std::string num = "0";
-        num += upperCase ? "B" : "b";
+    void Lexer::lexBinLiteral() {
+        std::string num(1, peek());
+        num += advance();
 
         while (isBinDigit()) {
             num += forward();
@@ -175,9 +170,9 @@ namespace jc::parser {
         addToken(TokenType::BinLiteral, num);
     }
 
-    void Lexer::lexOctLiteral(bool upperCase) {
-        std::string num = "0";
-        num += upperCase ? "O" : "o";
+    void Lexer::lexOctLiteral() {
+        std::string num(1, peek());
+        num += advance();
 
         while (isOctDigit()) {
             num += forward();
@@ -186,9 +181,9 @@ namespace jc::parser {
         addToken(TokenType::OctLiteral, num);
     }
 
-    void Lexer::lexHexLiteral(bool upperCase) {
-        std::string num = "0";
-        num += upperCase ? "X" : "x";
+    void Lexer::lexHexLiteral() {
+        std::string num(1, peek());
+        num += advance();
 
         while (isHexDigit()) {
             num += forward();

@@ -3,6 +3,16 @@
 namespace jc::hir {
     Linter::Linter() = default;
 
+    dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::stmt_list & tree) {
+        this->sess = sess;
+
+        for (const auto & stmt : tree) {
+            stmt->accept(*this);
+        }
+
+        return {dt::None, std::move(suggestions)};
+    }
+
     ////////////////
     // Statements //
     ////////////////
@@ -94,7 +104,24 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
-
+        if (parenExpr->expr->type == ast::ExprType::Paren) {
+            suggest(
+                std::make_unique<sugg::MsgSugg>(
+                    "Useless double-wrapped parenthesized expression",
+                    parenExpr->loc.span(sess),
+                    sugg::SuggKind::Warn
+                )
+            );
+        }
+        if (parenExpr->expr->isSimple()) {
+            suggest(
+                std::make_unique<sugg::MsgSugg>(
+                    "Useless parentheses around simple expression",
+                    parenExpr->loc.span(sess),
+                    sugg::SuggKind::Warn
+                )
+            );
+        }
     }
 
     void Linter::visit(ast::Postfix * postfix) {

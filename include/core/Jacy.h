@@ -14,6 +14,7 @@
 #include "ast/AstPrinter.h"
 #include "cli/CLI.h"
 #include "session/SourceMap.h"
+#include "hir/Linter.h"
 
 namespace jc::core {
     class Jacy {
@@ -33,6 +34,7 @@ namespace jc::core {
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;
+        hir::Linter linter;
     };
 }
 

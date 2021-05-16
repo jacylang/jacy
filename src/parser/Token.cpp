@@ -182,8 +182,17 @@ namespace jc::parser {
     std::string Token::toString(bool withLoc) const {
         std::string str = typeToString();
 
-        if (type == TokenType::Id or type == TokenType::SQStringLiteral) {
-            str += ":'" + val + "'";
+        switch (type) {
+            case TokenType::DecLiteral:
+            case TokenType::BinLiteral:
+            case TokenType::OctLiteral:
+            case TokenType::HexLiteral:
+            case TokenType::FloatLiteral:
+            case TokenType::SQStringLiteral:
+            case TokenType::DQStringLiteral:
+            case TokenType::Id: {
+                str += ":'" + val + "'";
+            }
         }
 
         if (withLoc) {
