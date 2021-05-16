@@ -28,8 +28,6 @@
 #include "ast/expr/Subscript.h"
 #include "ast/expr/SuperExpr.h"
 #include "ast/expr/ThisExpr.h"
-#include "ast/expr/ThrowExpr.h"
-#include "ast/expr/TryCatchExpr.h"
 #include "ast/expr/TupleExpr.h"
 #include "ast/expr/UnitExpr.h"
 #include "ast/expr/WhenExpr.h"

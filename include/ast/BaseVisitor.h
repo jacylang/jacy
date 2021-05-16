@@ -34,8 +34,6 @@ namespace jc::ast {
     struct Subscript;
     struct SuperExpr;
     struct ThisExpr;
-    struct ThrowExpr;
-    struct TryCatchExpr;
     struct TupleExpr;
     struct UnitExpr;
     struct WhenExpr;
@@ -84,8 +82,6 @@ namespace jc::ast {
         virtual void visit(Subscript*) = 0;
         virtual void visit(SuperExpr*) = 0;
         virtual void visit(ThisExpr*) = 0;
-        virtual void visit(ThrowExpr*) = 0;
-        virtual void visit(TryCatchExpr*) = 0;
         virtual void visit(TupleExpr*) = 0;
         virtual void visit(UnitExpr*) = 0;
         virtual void visit(WhenExpr*) = 0;

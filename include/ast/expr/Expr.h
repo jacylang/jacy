@@ -31,7 +31,6 @@ namespace jc::ast {
         Super,
         This,
         Throw,
-        TryCatch,
         Tuple,
         Unit,
         When,

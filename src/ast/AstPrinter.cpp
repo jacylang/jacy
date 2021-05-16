@@ -287,15 +287,6 @@ namespace jc::ast {
         log.raw("this");
     }
 
-    void AstPrinter::visit(ThrowExpr * throwExpr) {
-        log.raw("throw ");
-        throwExpr->expr->accept(*this);
-    }
-
-    void AstPrinter::visit(TryCatchExpr * tryCatchExpr) {
-
-    }
-
     void AstPrinter::visit(TupleExpr * tupleExpr) {
         log.raw("(");
         print(tupleExpr->elements.get());

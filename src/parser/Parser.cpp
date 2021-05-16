@@ -1163,7 +1163,7 @@ namespace jc::parser {
     ast::stmt_list Parser::parseMembers(const std::string & construction) {
         ast::stmt_list members;
         if (!isHardSemi()) {
-            auto braceSkippped = skip(
+            auto braceSkipped = skip(
                 TokenType::LBrace,
                 true,
                 true,
@@ -1178,7 +1178,7 @@ namespace jc::parser {
 
             members = parseItemList("Unexpected expression in " + construction + " body");
 
-            if (braceSkippped) {
+            if (braceSkipped) {
                 skip(
                     TokenType::RBrace,
                     true,
