@@ -25,9 +25,11 @@ namespace jc::sugg {
 
         void pointMsgTo(const std::string & msg, const Span & span);
         void printPrevLine(size_t index);
-        size_t printLine(size_t index);
-        static void printIndent();
+        void printLine(size_t index);
+        void printWithIndent(const std::string & msg);
 
+        // Indent is 4 spaces because of space that takes line number prefix (`1 | `)
+        const std::string indent = "    ";
         const uint8_t wrapLen{80};
     };
 }

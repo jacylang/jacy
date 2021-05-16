@@ -39,14 +39,50 @@ namespace jc::utils::str {
     }
 
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen) {
-        if (pos + spanLen > lineLen) {
-            common::Logger::devPanic("`utils::str::pointLine` -> pos + spanLen > lineLen");
-        }
+        size_t targetLen = pos + spanLen <= lineLen ? lineLen - pos - spanLen : 0;
         std::string str = pos > 0 ? padStart("", pos, '-') : "";
         for (size_t i = 0; i < spanLen; i++) {
             str += "^";
         }
-        str += padEnd("", lineLen - pos - spanLen, '-');
+        str += padEnd("", targetLen, '-');
         return str;
+    }
+
+    std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix) {
+        if (targetLen >= str.size()) {
+            return str;
+        }
+        if (!suffix.empty() and targetLen <= suffix.size()) {
+            return str;
+        }
+        if (suffix.empty()) {
+            return str.substr(str.size() - targetLen);
+        }
+        return str.substr(0, targetLen - suffix.size()) + suffix;
+    }
+
+    std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix) {
+        if (targetLen >= str.size()) {
+            return str;
+        }
+        if (!prefix.empty() and targetLen <= prefix.size()) {
+            return str;
+        }
+        if (prefix.empty()) {
+            return str.substr(str.size() - targetLen);
+        }
+        return prefix + str.substr(str.size() - targetLen + prefix.size());
+    }
+
+    std::string hardWrap(const std::string & str, uint8_t wrapLen) {
+        std::string result;
+        uint8_t counter = 0;
+        for (const auto & ch : str) {
+            result += ch;
+            if (counter + 1 == wrapLen) {
+                result += "\n";
+            }
+        }
+        return result;
     }
 }

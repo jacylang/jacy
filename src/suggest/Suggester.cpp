@@ -3,6 +3,7 @@
 namespace jc::sugg {
     Suggester::Suggester() : sourceMap(sess::SourceMap::getInstance()) {}
 
+
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
         this->sess = sess;
 
@@ -36,16 +37,46 @@ namespace jc::sugg {
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
         printPrevLine(span.line);
-        size_t lineLen = printLine(span.line);
-        const auto point = span.col;
+        printLine(span.line);
 
-        if (msg.size() >= lineLen) {
-            printIndent();
-            Logger::print(utils::str::pointLine(msg.size(), point, span.len));
-            Logger::nl();
-            printIndent();
-            Logger::print(msg);
-            Logger::nl();
+        const auto & point = span.col;
+        const auto & msgLen = msg.size();
+
+        // Note: We add 3 because we want to put 3 additional `-` for readability
+        const auto & realMsgLen = msgLen + 3;
+        const auto & spanMax = point + span.len; // The max point of span
+
+        if (realMsgLen <= point) {
+            // We can put message before `---^`
+
+            // Here we put our message before `^` and fill empty space with `-`
+            std::string pointLine = utils::str::padStart(msg, point - 3, ' ');
+            pointLine += "---";
+            pointLine += utils::str::repeat("^", span.len);
+
+            // We don't need to write additional `-` after `^`, so just print it
+            printWithIndent(pointLine);
+        } else if (wrapLen > spanMax and wrapLen - spanMax >= realMsgLen) {
+            // We can put message after `^--`, because it fits space after span
+
+            std::string pointLine = utils::str::repeat("^", span.len);
+            pointLine += "---";
+            pointLine += msg;
+            printWithIndent(pointLine);
+        } else {
+            // Message is too long to print it before or after `^`
+            // So we print it on the next line, filling previous with `-` and point to span with `^`
+
+            size_t pointLineLen = msg.size();
+            std::string formattedMsg = msg;
+            if (msgLen > wrapLen) {
+                // If msg is too long, we clip point line with wrap length, and wrap msg into paragraph
+                pointLineLen = wrapLen;
+                formattedMsg = utils::str::hardWrap(msg, wrapLen);
+            }
+
+            printWithIndent(utils::str::pointLine(pointLineLen, point, span.len));
+            printWithIndent(formattedMsg);
         }
     }
 
@@ -57,15 +88,16 @@ namespace jc::sugg {
         printLine(index - 1);
     }
 
-    size_t Suggester::printLine(size_t index) {
+    void Suggester::printLine(size_t index) {
         const auto & line = sourceMap.getLine(sess, index);
-        Logger::print(index + 1, "|", line);
+        Logger::print(index + 1, "|", utils::str::clipStart(line, wrapLen - indent.size()));
         Logger::nl();
-        return line.size();
     }
 
-    void Suggester::printIndent() {
+    void Suggester::printWithIndent(const std::string & msg) {
         // This is the indent that we've got from line number prefix like "1 | " (here's 4 chars)
-        Logger::print("    ");
+        Logger::print(indent);
+        Logger::print(utils::str::clipEnd(msg, wrapLen - indent.size(), ""));
+        Logger::nl();
     }
 }

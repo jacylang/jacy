@@ -37,7 +37,7 @@ namespace jc::parser {
     }
 
     bool Parser::isHardSemi() {
-        return is(TokenType::Semi);
+        return is(TokenType::Semi) or eof();
     }
 
     // Skippers //
@@ -59,7 +59,7 @@ namespace jc::parser {
             suggestErrorMsg("`;` or new-line expected", cspan());
             return;
         }
-        while (isHardSemi()) {
+        while (isSemis()) {
             advance();
         }
     }
@@ -199,7 +199,7 @@ namespace jc::parser {
         ast::attr_list attributes = parseAttributes();
 //        parser::token_list modifiers = parseModifiers();
         parser::token_list modifiers = {};
-        
+
         ast::opt_stmt_ptr decl;
 
         switch (peek().type) {
@@ -264,7 +264,6 @@ namespace jc::parser {
                 declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
             } else {
                 suggestErrorMsg(suggMsg, cspan());
-                advance();
             }
         }
         return declarations;
