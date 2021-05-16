@@ -31,7 +31,12 @@ namespace jc::sugg {
     void SuggDumper::visit(RangeSugg * sugg) {
         Logger::print("\"" + sugg->msg + "\"", "from", sugg->span.toString(), "to", sugg->link.toString());
     }
-    
+
+    void SuggDumper::visit(HelpSugg * helpSugg) {
+        helpSugg->sugg->accept(*this);
+        Logger::print("help:", "\"" + helpSugg->helpMsg + "\" at", helpSugg->span.toString());
+    }
+
     void SuggDumper::prefix(const sugg::sugg_ptr & sugg) {
         switch (sugg->kind) {
             case SuggKind::Error: {

@@ -89,6 +89,26 @@ namespace jc::sugg {
             return suggester.visit(this);
         }
     };
+
+    struct HelpSugg : Suggestion {
+        HelpSugg(
+            const std::string & helpMsg,
+            sugg_ptr sugg,
+            const Span & link,
+            const Span & span,
+            SuggKind kind,
+            eid_t eid = NoneEID
+        ) : helpMsg(helpMsg),
+            sugg(std::move(sugg)),
+            Suggestion(span, kind, eid) {}
+
+        std::string helpMsg;
+        sugg_ptr sugg;
+
+        void accept(BaseSuggester & suggester) override {
+            return suggester.visit(this);
+        }
+    };
 }
 
 #endif // JACY_SUGGESTION_H
