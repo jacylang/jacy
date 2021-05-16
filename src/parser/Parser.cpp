@@ -161,7 +161,7 @@ namespace jc::parser {
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("`while`", true);
+        auto body = parseBlock("while", true);
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -184,7 +184,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("`for`", true);
+        auto body = parseBlock("for", true);
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -820,7 +820,7 @@ namespace jc::parser {
 
         if (!skipOpt(TokenType::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock("`if`", true);
+            ifBranch = parseBlock("if", true);
         }
 
         if (skipOpt(TokenType::Else)) {
@@ -829,7 +829,7 @@ namespace jc::parser {
                 // Note: cover case when user writes `if {} else;`
                 suggest(std::make_unique<ParseErrSugg>("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
             }
-            elseBranch = parseBlock("`else`", true);
+            elseBranch = parseBlock("else", true);
         }
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
@@ -842,7 +842,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Loop, true, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock("`loop`", true);
+        auto body = parseBlock("loop", true);
 
         return std::make_shared<ast::LoopExpr>(body, loc);
     }
@@ -936,7 +936,7 @@ namespace jc::parser {
         );
 
         // FIXME: Require `=>` for block
-        ast::block_ptr body = parseBlock("`when`", false);
+        ast::block_ptr body = parseBlock("when", false);
 
         return std::make_shared<ast::WhenEntry>(conditions, body, loc);
     }
@@ -945,14 +945,14 @@ namespace jc::parser {
     // Fragments //
     ///////////////
     ast::block_ptr Parser::parseBlock(const std::string & construction, bool allowArrow) {
-        logParse("block");
+        logParse("block:" + construction);
 
         const auto loc = peek().loc;
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenType::DoubleArrow, true)) {
             if (!allowArrow) {
-                suggestErrorMsg("`" + construction + "` does not start with `=>`", maybeDoubleArrow.span(sess));
+                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span(sess));
             }
             allowOneLine = true;
         }
@@ -997,7 +997,7 @@ namespace jc::parser {
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(
-                    "Likely you meant to put a '=>', start body from new line or enclose body in `{}`",
+                    "Likely you meant to put `{}` or write one one-line body with `=`",
                     cspan()
                 )
             );
@@ -1013,9 +1013,9 @@ namespace jc::parser {
         ast::opt_expr_ptr oneLineBody;
 
         if (skipOpt(TokenType::Assign, true)) {
-            oneLineBody = parseExpr("Expression expected for one-line body");
+            oneLineBody = parseExpr("Expression expected for one-line `func` body");
         } else {
-            body = parseBlock("`func`", false);
+            body = parseBlock("func", false);
         }
 
         return {body, oneLineBody};
@@ -1046,7 +1046,7 @@ namespace jc::parser {
     }
 
     ast::named_list_ptr Parser::parseArgList(const std::string & construction) {
-        logParse("NamedList");
+        logParse("NamedList:" + construction);
 
         const auto & loc = peek().loc;
 
@@ -1178,6 +1178,8 @@ namespace jc::parser {
     }
 
     ast::stmt_list Parser::parseMembers(const std::string & construction) {
+        logParse("Members:" + construction);
+
         ast::stmt_list members;
         if (!isHardSemi()) {
             auto braceSkipped = skip(
@@ -1478,9 +1480,9 @@ namespace jc::parser {
         return peek().span(sess);
     }
 
-    Span Parser::lspan() const {
+    Span Parser::nspan() const {
         if (eof()) {
-            log.devPanic("Called `lspan` after EOF");
+            log.devPanic("Called `nspan` after EOF");
         }
         return lookup().span(sess);
     }

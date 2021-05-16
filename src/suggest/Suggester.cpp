@@ -7,8 +7,10 @@ namespace jc::sugg {
         this->sess = sess;
 
         bool errorAppeared = false;
+        common::Logger::nl();
         for (const auto & sg : suggestions) {
             sg->accept(*this);
+            common::Logger::nl();
             if (sg->kind == SuggKind::Error) {
                 errorAppeared = true;
             }

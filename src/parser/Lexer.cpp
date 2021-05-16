@@ -1,24 +1,18 @@
 #include "parser/Lexer.h"
 
 namespace jc::parser {
-    Lexer::Lexer() {
-        loc.line = 0;
-        loc.col = 0;
-        index = 0;
-    }
-
     void Lexer::addToken(Token && t, span::span_len_t len) {
-        t.loc = loc;
-        t.loc.len = len;
+        tokenLoc.len = len;
+        t.loc = tokenLoc;
         tokens.emplace_back(t);
     }
 
     void Lexer::addToken(TokenType type, const std::string & val) {
-        addToken(Token(type, val, loc), val.size());
+        addToken(Token(type, val, tokenLoc), val.size());
     }
 
     void Lexer::addToken(TokenType type, span::span_len_t len) {
-        addToken(Token(type, "", loc), len);
+        addToken(Token(type, "", tokenLoc), len);
     }
 
     char Lexer::peek() {
@@ -41,10 +35,10 @@ namespace jc::parser {
             if (isNL()) {
                 sourceLines.push_back(line);
                 line = "";
-                loc.line++;
-                loc.col = 0;
+                lexerLine++;
+                lexerCol = 0;
             } else {
-                loc.col++;
+                lexerCol++;
             }
             index++;
         }
@@ -546,6 +540,7 @@ namespace jc::parser {
         this->sess = sess;
 
         while (!eof()) {
+            tokenLoc = {lexerLine, lexerCol};
             if (hidden()) {
                 advance();
             } else if (isNL()) {
@@ -562,7 +557,8 @@ namespace jc::parser {
             }
         }
 
-        addToken(TokenType::Eof, 0);
+        tokenLoc = {lexerLine, lexerCol};
+        addToken(TokenType::Eof, 1);
 
         // Add last line, cause it ends with `EOF`
         sourceLines.push_back(line);

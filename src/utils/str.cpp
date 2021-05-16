@@ -42,7 +42,7 @@ namespace jc::utils::str {
         if (pos + spanLen > lineLen) {
             common::Logger::devPanic("`utils::str::pointLine` -> pos + spanLen > lineLen");
         }
-        std::string str = pos > 0 ? padStart("", pos - 1, '-') : "";
+        std::string str = pos > 0 ? padStart("", pos, '-') : "";
         for (size_t i = 0; i < spanLen; i++) {
             str += "^";
         }

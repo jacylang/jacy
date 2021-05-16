@@ -30,7 +30,7 @@ namespace jc::parser {
         }
 
         std::string toString() const {
-            return std::to_string(line + 1) + ":" + std::to_string(col + 1);
+            return std::to_string(line + 1) + ":" + std::to_string(col + 1) + " L=" + std::to_string(len);
         }
     };
 
@@ -150,8 +150,14 @@ namespace jc::parser {
     };
 
     struct Token {
-        Token() {}
-        Token(TokenType type, std::string val, const Location & loc) : type(type), val(std::move(val)), loc(loc) {}
+        Token() = default;
+        Token(
+            TokenType type,
+            std::string val,
+            const Location & loc
+        ) : type(type),
+            val(std::move(val)),
+            loc(loc) {}
 
         TokenType type{TokenType::None};
         std::string val{""};

@@ -204,7 +204,7 @@ namespace jc::parser {
 
         /// Shortcut for `peek().span(sess)`
         Span cspan() const;
-        Span lspan() const;
+        Span nspan() const;
 
         // DEV //
         void logParse(const std::string & entity);
