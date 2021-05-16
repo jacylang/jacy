@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "suggest/Suggester.h"
+#include "suggest/SuggDumper.h"
 
 namespace jc::dt {
     template<class T>
@@ -17,9 +18,14 @@ namespace jc::dt {
         SuggResult(const T & value, sugg::sugg_list suggestions)
             : value(value), suggestions(std::move(suggestions)) {}
 
-        T unwrap(sess::sess_ptr sess) {
-            // FIXME: Remove devDebug and make real suggestions
-            sugg::Suggester::dump(sess, suggestions);
+        T unwrap(sess::sess_ptr sess, bool dump) {
+            common::Logger::devDebug("Unwrap suggestions");
+            if (dump) {
+                sugg::SuggDumper suggDumper;
+                suggDumper.apply(sess, suggestions);
+            }
+            sugg::Suggester suggester;
+            suggester.apply(sess, suggestions);
             return value;
         }
 

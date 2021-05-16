@@ -5,7 +5,7 @@ namespace jc::dev {
         {"dev", true}
     };
     const std::map<std::string, std::vector<std::string>> DevConfig::defaultKeyValueArgs = {
-        {"print", {"ast", "tokens"}},
+        {"print", {"ast", "tokens", "sugg"}},
         {"compile-depth", {"parser"}}
     };
 }

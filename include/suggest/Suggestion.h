@@ -4,12 +4,10 @@
 #include "suggest/Explain.h"
 #include "span/Span.h"
 #include "session/SourceMap.h"
+#include "suggest/BaseSuggester.h"
 
 namespace jc::sugg {
-    struct Suggestion;
     using span::Span;
-    using sugg_ptr = std::unique_ptr<Suggestion>;
-    using sugg_list = std::vector<sugg_ptr>;
 
     enum class SuggKind {
         Error,
@@ -34,28 +32,7 @@ namespace jc::sugg {
         Suggestion(const Span & span, SuggKind kind, eid_t eid = NoneEID)
             : kind(kind), span(span), eid(eid) {}
 
-        // TODO
-        //        std::string toString(sess::sess_ptr sess) const;
-
-        // DEBUG //
-        std::string dump(sess::sess_ptr sess) const {
-            std::string str;
-            switch (kind) {
-                case SuggKind::Error: {
-                    str += "ERROR";
-                } break;
-                case SuggKind::Warn: {
-                    str += "WARN";
-                } break;
-            }
-
-            str += " " + dataDump();
-            str += eid != NoneEID ? " [EID=" + std::to_string(eid) + "]" : "";
-
-            return str;
-        }
-
-        virtual std::string dataDump() const = 0;
+        virtual void accept(BaseSuggester & suggester) = 0;
     };
 
     struct MsgSugg : Suggestion {
@@ -64,8 +41,8 @@ namespace jc::sugg {
 
         const std::string msg;
 
-        virtual std::string dataDump() const override {
-            return "\"" + msg + "\"" + " at " + span.toString();
+        void accept(BaseSuggester & suggester) override {
+            return suggester.visit(this);
         }
     };
 
@@ -78,38 +55,38 @@ namespace jc::sugg {
 
     struct MsgSpanLinkSugg : SpanLinkSugg {
         MsgSpanLinkSugg(
-            const std::string & spanMsg,
+            std::string spanMsg,
             const Span & span,
-            const std::string & linkMsg,
+            std::string linkMsg,
             const Span & link,
             SuggKind kind,
             eid_t eid = NoneEID
-        ) : spanMsg(spanMsg),
-            linkMsg(linkMsg),
+        ) : spanMsg(std::move(spanMsg)),
+            linkMsg(std::move(linkMsg)),
             SpanLinkSugg(link, span, kind, eid) {}
 
         const std::string spanMsg;
         const std::string linkMsg;
 
-        virtual std::string dataDump() const override {
-            return "\"" + spanMsg + "\" at " + span.toString() + ", linked to \"" + linkMsg + "\" at " + link.toString();
+        void accept(BaseSuggester & suggester) override {
+            return suggester.visit(this);
         }
     };
 
     struct RangeSugg : SpanLinkSugg {
         RangeSugg(
-            const std::string & msg,
+            std::string msg,
             const Span & from,
             const Span & to,
             SuggKind kind,
             eid_t eid = NoneEID
-        ) : msg(msg),
+        ) : msg(std::move(msg)),
             SpanLinkSugg(to, from, kind, eid) {}
 
         const std::string msg;
 
-        virtual std::string dataDump() const override {
-            return "\"" + msg + "\" from " + span.toString() + " to " + link.toString();
+        void accept(BaseSuggester & suggester) override {
+            return suggester.visit(this);
         }
     };
 }

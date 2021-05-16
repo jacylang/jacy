@@ -29,6 +29,10 @@ namespace jc::sess {
         sources.emplace(sess->fileId, std::move(source));
     }
 
+    std::string SourceMap::getLine(sess_ptr sess, size_t index) const {
+        return sources.at(sess->fileId).at(index);
+    }
+
     std::string SourceMap::sliceBySpan(sess_ptr sess, const span::Span & span) {
         const auto & sourceIt = sources.find(sess->fileId);
         if (sourceIt == sources.end()) {

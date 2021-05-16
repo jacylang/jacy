@@ -30,7 +30,7 @@ namespace jc::parser {
         }
 
         std::string toString() const {
-            return std::to_string(line) + ":" + std::to_string(col);
+            return std::to_string(line + 1) + ":" + std::to_string(col + 1);
         }
     };
 

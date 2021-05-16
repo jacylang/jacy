@@ -30,6 +30,8 @@ namespace jc::sess {
         file_id_t addSource();
         void setSource(sess_ptr sess, source_t && source);
 
+        std::string getLine(sess_ptr sess, size_t index) const;
+
         std::string sliceBySpan(sess_ptr sess, const span::Span & span);
     };
 }

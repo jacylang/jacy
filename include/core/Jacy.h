@@ -14,6 +14,8 @@
 #include "ast/AstPrinter.h"
 #include "cli/CLI.h"
 #include "session/SourceMap.h"
+#include "suggest/SuggDumper.h"
+#include "suggest/Suggester.h"
 #include "hir/Linter.h"
 
 namespace jc::core {
@@ -34,6 +36,8 @@ namespace jc::core {
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;
+        sugg::SuggDumper suggDumper;
+        sugg::Suggester suggester;
         hir::Linter linter;
     };
 }

@@ -76,7 +76,9 @@ namespace jc::core {
             return;
         }
 
-        const auto & tree = parser.parse(sess, tokens).unwrap(sess);
+        auto parseResult = parser.parse(sess, tokens);
+
+        const auto & tree = parseResult.unwrap(sess, cli.config.has("print", "sugg"));
 
         if (cli.config.has("print", "ast")) {
             common::Logger::nl();
@@ -90,7 +92,7 @@ namespace jc::core {
             return;
         }
 
-        linter.lint(sess, tree).unwrap(sess);
+        linter.lint(sess, tree).unwrap(sess, cli.config.has("print", "sugg"));
 
         if (cli.config.has("compile-depth", "linter")) {
             log.info("Stop after linting due to `compile-depth=linter`");

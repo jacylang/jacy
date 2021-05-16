@@ -1,14 +1,11 @@
 #include "suggest/Suggester.h"
 
 namespace jc::sugg {
-    Suggester::Suggester() {
-        auto & loggerConfig = log.getConfig();
-        loggerConfig.printOwner = false;
-        loggerConfig.printLevel = false;
-        loggerConfig.colorize = false;
-    }
+    Suggester::Suggester() : sourceMap(sess::SourceMap::getInstance()) {}
 
-    void Suggester::outputSuggestions(const sugg_list & suggestions) {
+    void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
+        this->sess = sess;
+
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
             if (sg->kind == SuggKind::Error) {
@@ -21,20 +18,42 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::dump(sess::sess_ptr sess, const sugg_list & suggestions) {
-        std::string str;
-        bool errorAppeared = false;
-        for (const auto & sg : suggestions) {
-            str += sg->dump(sess) + "\n";
-            if (sg->kind == SuggKind::Error) {
-                errorAppeared = true;
-            }
+    void Suggester::visit(MsgSugg * sugg) {
+
+    }
+
+    void Suggester::visit(MsgSpanLinkSugg * sugg) {
+
+    }
+
+    void Suggester::visit(RangeSugg * sugg) {
+
+    }
+
+    void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
+        printPrevLine(span.line);
+        size_t lineLen = printLine(span.line);
+        const auto point = span.col;
+
+        if (msg.size() >= lineLen) {
+            Logger::print(utils::str::pointLine(msg.size(), point));
+            Logger::nl();
+            Logger::print(msg);
+            Logger::nl();
+        }
+    }
+
+    void Suggester::printPrevLine(size_t index) {
+        if (index == 0) {
+            return;
         }
 
-        common::Logger::print(str);
+        printLine(index - 1);
+    }
 
-        if (errorAppeared) {
-            common::Logger::devPanic("Stop after dump of error suggestions");
-        }
+    size_t Suggester::printLine(size_t index) {
+        const auto & line = sourceMap.getLine(sess, index);
+        Logger::print(index, "|", line);
+        return line.size();
     }
 }

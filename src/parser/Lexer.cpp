@@ -2,8 +2,8 @@
 
 namespace jc::parser {
     Lexer::Lexer() {
-        loc.line = 1;
-        loc.col = 1;
+        loc.line = 0;
+        loc.col = 0;
         index = 0;
     }
 
@@ -42,7 +42,7 @@ namespace jc::parser {
                 sourceLines.push_back(line);
                 line = "";
                 loc.line++;
-                loc.col = 1;
+                loc.col = 0;
             } else {
                 loc.col++;
             }

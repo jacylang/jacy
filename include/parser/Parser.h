@@ -163,7 +163,7 @@ namespace jc::parser {
         ast::when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        ast::block_ptr parseBlock();
+        ast::block_ptr parseBlock(const std::string & construction, bool allowArrow);
         std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
         ast::attr_list parseAttributes();
         dt::Option<ast::attr_ptr> parseAttr();

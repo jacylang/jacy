@@ -171,7 +171,7 @@ namespace jc::parser {
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock();
+        auto body = parseBlock("`while`", true);
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -194,7 +194,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock();
+        auto body = parseBlock("`for`", true);
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -822,7 +822,7 @@ namespace jc::parser {
 
         if (!skipOpt(TokenType::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock();
+            ifBranch = parseBlock("`if`", true);
         }
 
         if (skipOpt(TokenType::Else)) {
@@ -831,7 +831,7 @@ namespace jc::parser {
                 // Note: cover case when user writes `if {} else;`
                 suggest(std::make_unique<ParseErrSugg>("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
             }
-            elseBranch = parseBlock();
+            elseBranch = parseBlock("`else`", true);
         }
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
@@ -844,7 +844,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Loop, true, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock();
+        auto body = parseBlock("`loop`", true);
 
         return std::make_shared<ast::LoopExpr>(body, loc);
     }
@@ -937,7 +937,8 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected `=>` after `when` entry conditions", cspan())
         );
 
-        ast::block_ptr body = parseBlock();
+        // FIXME: Require `=>` for block
+        ast::block_ptr body = parseBlock("`when`", false);
 
         return std::make_shared<ast::WhenEntry>(conditions, body, loc);
     }
@@ -945,13 +946,16 @@ namespace jc::parser {
     ///////////////
     // Fragments //
     ///////////////
-    ast::block_ptr Parser::parseBlock() {
+    ast::block_ptr Parser::parseBlock(const std::string & construction, bool allowArrow) {
         logParse("block");
 
         const auto loc = peek().loc;
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenType::DoubleArrow, true)) {
+            if (!allowArrow) {
+                suggestErrorMsg("`" + construction + "` does not start with `=>`", maybeDoubleArrow.span(sess));
+            }
             allowOneLine = true;
         }
 
@@ -973,6 +977,8 @@ namespace jc::parser {
                 auto stmt = parseStmt();
                 if (stmt) {
                     stmts.push_back(stmt.unwrap());
+                } else {
+                    suggestErrorMsg("WTF?", cspan());
                 }
             }
         } else if (allowOneLine) {
@@ -1001,7 +1007,7 @@ namespace jc::parser {
         if (skipOpt(TokenType::Assign, true)) {
             oneLineBody = parseExpr("Expression expected for one-line body");
         } else {
-            body = parseBlock();
+            body = parseBlock("`func`", false);
         }
 
         return {body, oneLineBody};
