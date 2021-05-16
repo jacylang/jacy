@@ -54,7 +54,8 @@ namespace jc::parser {
         return gotNL;
     }
 
-    void Parser::skipSemis(bool optional) {
+    void Parser::skipSemis(bool optional, bool useless) {
+        // TODO: Useless semi sugg
         if (!isSemis() and !optional) {
             suggestErrorMsg("`;` or new-line expected", cspan());
             return;
@@ -64,13 +65,28 @@ namespace jc::parser {
         }
     }
 
-    bool Parser::skip(TokenType type, bool skipLeftNLs, bool skipRightNLs, sugg::sugg_ptr suggestion) {
+    bool Parser::skip(
+        TokenType type,
+        bool skipLeftNLs,
+        bool skipRightNLs,
+        bool recoverUnexpected,
+        sugg::sugg_ptr suggestion
+    ) {
         if (skipLeftNLs) {
             skipNLs(true);
         }
 
         if (not peek().is(type)) {
             suggest(std::move(suggestion));
+
+            // Recover only once
+            if (recoverUnexpected and !eof() and lookup().is(type)) {
+                // TODO!: Help suggestions {sugg_ptr, help_msg}
+                log.dev("Recover once:", Token::typeToString(type));
+                advance();
+                return true;
+            }
+
             return false;
         }
 
@@ -107,9 +123,17 @@ namespace jc::parser {
         return dt::None;
     }
 
-    /////////////
+    void Parser::unexpectedToken(const Span & span) {
+        suggestErrorMsg("Unexpected token", span);
+        advance();
+    }
+
+    void Parser::unexpectedToken(sugg::sugg_ptr helpSugg) {
+        suggest(std::move(helpSugg));
+        advance();
+    }
+
     // Parsers //
-    /////////////
     dt::SuggResult<ast::stmt_list> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
@@ -121,77 +145,36 @@ namespace jc::parser {
         return {tree, std::move(suggestions)};
     }
 
-    ast::opt_stmt_ptr Parser::parseStmt() {
-        logParse("Stmt");
+    ///////////
+    // Items //
+    ///////////
+    ast::stmt_list Parser::parseItemList(const std::string & gotExprSugg) {
+        logParse("DeclList");
 
-        switch (peek().type) {
-            case TokenType::While: {
-                return parseWhileStmt();
+        ast::stmt_list declarations;
+        while (!eof()) {
+            skipSemis(true);
+            if (eof()) {
+                break;
             }
-            case TokenType::For: {
-                return parseForStmt();
-            }
-            default: {
-                auto decl = parseItem();
-                if (decl) {
-                    return decl.unwrap("`parseStmt` -> `decl`");
-                }
 
+            auto decl = parseItem();
+            if (decl) {
+                declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
+            } else {
+                const auto & exprToken = peek();
                 auto expr = parseOptExpr();
-                if (!expr) {
-                    suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
-                    advance();
-                    return dt::None;
+                if (expr) {
+                    suggestErrorMsg(gotExprSugg, cspan());
+                } else {
+                    // nonsense
+                    unexpectedToken(exprToken.span(sess));
                 }
-
-                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
-                skipSemis(false);
-                return std::static_pointer_cast<ast::Stmt>(exprStmt);
             }
         }
+        return declarations;
     }
 
-    /////////////////////////////
-    // Control-flow statements //
-    /////////////////////////////
-    ast::stmt_ptr Parser::parseWhileStmt() {
-        logParse("WhileStmt");
-        const auto & loc = peek().loc;
-
-        justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
-
-        auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", true);
-
-        return std::make_shared<ast::WhileStmt>(condition, body, loc);
-    }
-
-    ast::stmt_ptr Parser::parseForStmt() {
-        logParse("ForStmt");
-
-        const auto & loc = peek().loc;
-
-        justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
-
-        // TODO: Destructuring
-        auto forEntity = parseId("Expected `for` entity in `for` loop");
-
-        skip(
-            TokenType::In,
-            true,
-            true,
-            std::make_unique<ParseErrSugg>("Missing `in` in `for` loop, put it here", cspan())
-        );
-
-        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", true);
-
-        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
-    }
-
-    //////////////////
-    // Declarations //
-    //////////////////
     dt::Option<ast::stmt_ptr> Parser::parseItem() {
         logParse("Item");
 
@@ -249,24 +232,70 @@ namespace jc::parser {
         return dt::None;
     }
 
-    ast::stmt_list Parser::parseItemList(const std::string & suggMsg) {
-        logParse("DeclList");
+    ast::opt_stmt_ptr Parser::parseStmt() {
+        logParse("Stmt");
 
-        ast::stmt_list declarations;
-        while (!eof()) {
-            skipSemis(true);
-            if (eof()) {
-                break;
+        switch (peek().type) {
+            case TokenType::While: {
+                return parseWhileStmt();
             }
+            case TokenType::For: {
+                return parseForStmt();
+            }
+            default: {
+                auto decl = parseItem();
+                if (decl) {
+                    return decl.unwrap("`parseStmt` -> `decl`");
+                }
 
-            auto decl = parseItem();
-            if (decl) {
-                declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
-            } else {
-                suggestErrorMsg(suggMsg, cspan());
+                auto expr = parseOptExpr();
+                if (!expr) {
+                    suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
+                    advance();
+                    return dt::None;
+                }
+
+                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
+                skipSemis(false);
+                return std::static_pointer_cast<ast::Stmt>(exprStmt);
             }
         }
-        return declarations;
+    }
+
+    ast::stmt_ptr Parser::parseWhileStmt() {
+        logParse("WhileStmt");
+        const auto & loc = peek().loc;
+
+        justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
+
+        auto condition = parseExpr("Expected condition in `while`");
+        auto body = parseBlock("while", true);
+
+        return std::make_shared<ast::WhileStmt>(condition, body, loc);
+    }
+
+    ast::stmt_ptr Parser::parseForStmt() {
+        logParse("ForStmt");
+
+        const auto & loc = peek().loc;
+
+        justSkip(TokenType::For, true, "`for`", "`parseForStmt`");
+
+        // TODO: Destructuring
+        auto forEntity = parseId("Expected `for` entity in `for` loop");
+
+        skip(
+            TokenType::In,
+            true,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>("Missing `in` in `for` loop, put it here", cspan())
+        );
+
+        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
+        auto body = parseBlock("for", true);
+
+        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
 
     ast::stmt_ptr Parser::parseVarDecl() {
@@ -299,7 +328,12 @@ namespace jc::parser {
         justSkip(TokenType::Type, true, "`type`", "`parseTypeDecl`");
 
         auto id = parseId("An identifier expected as a type name");
-        skip(TokenType::Assign, true, true, std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
+        skip(
+            TokenType::Assign,
+            true,
+            true,
+            false,
+            std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
         auto type = parseType("Expected type");
 
         return std::make_shared<ast::TypeAlias>(id, type, loc);
@@ -332,6 +366,7 @@ namespace jc::parser {
 
         skip(
             TokenType::For,
+            true,
             true,
             true,
             std::make_unique<ParseErrSugg>("Missing `for`", cspan())
@@ -369,6 +404,7 @@ namespace jc::parser {
                         TokenType::Comma,
                         true,
                         true,
+                        false,
                         std::make_unique<ParseErrSugg>("Missing `,` separator", cspan())
                     );
                 }
@@ -612,6 +648,7 @@ namespace jc::parser {
                             TokenType::Comma,
                             true,
                             true,
+                            false,
                             std::make_unique<ParseErrSugg>("Missing `,` separator in subscript operator call", cspan())
                         );
                     }
@@ -622,6 +659,7 @@ namespace jc::parser {
                     TokenType::RParen,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSpanLinkSugg>(
                         "Missing closing `]` in array expression", cspan(),
                         "Opening `[` is here", maybeOp.span(sess)
@@ -687,7 +725,13 @@ namespace jc::parser {
         logParse("id");
 
         auto maybeIdToken = peek();
-        skip(TokenType::Id, false, true, std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+        skip(
+            TokenType::Id,
+            false,
+            true,
+            false,
+            std::make_unique<ParseErrSugg>(suggMsg, cspan())
+        );
         return std::make_shared<ast::Identifier>(maybeIdToken);
     }
 
@@ -722,6 +766,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` separator in list expression", cspan())
                 );
             }
@@ -772,6 +817,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` separator in tuple literal", cspan())
                 );
             }
@@ -801,9 +847,6 @@ namespace jc::parser {
         return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
 
-    //////////////////////////////
-    // Control-flow expressions //
-    //////////////////////////////
     ast::expr_ptr Parser::parseIfExpr() {
         logParse("IfExpr");
 
@@ -864,6 +907,7 @@ namespace jc::parser {
             TokenType::LBrace,
             true,
             true,
+            true,
             std::make_unique<ParseErrSugg>("To start `when` body put `{` here or `;` to ignore body", cspan())
         );
 
@@ -877,6 +921,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` delimiter between `when` entries", cspan())
                 );
             }
@@ -892,6 +937,7 @@ namespace jc::parser {
             TokenType::RBrace,
             true,
             true,
+            false,
             std::make_unique<ParseErrSugg>("Missing closing `}` at the end of `when` body", cspan())
         );
 
@@ -914,6 +960,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` delimiter between patterns", cspan())
                 );
             }
@@ -929,6 +976,7 @@ namespace jc::parser {
 
         skip(
             TokenType::DoubleArrow,
+            true,
             true,
             true,
             std::make_unique<ParseErrSugg>("Expected `=>` after `when` entry conditions", cspan())
@@ -983,6 +1031,7 @@ namespace jc::parser {
                 TokenType::RBrace,
                 true,
                 true,
+                false,
                 std::make_unique<ParseErrSpanLinkSugg>(
                     "Missing closing `}` at the end of " + construction + " body", cspan(),
                     "opening `{` is here", maybeBraceToken.span(sess)
@@ -1066,6 +1115,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>(
                         "Missing `,` separator between arguments in " + construction,
                         cspan()
@@ -1090,6 +1140,7 @@ namespace jc::parser {
         skip(
             TokenType::RParen,
             true,
+            false,
             false,
             std::make_unique<ParseErrSugg>("Expected closing `)` in " + construction, cspan())
         );
@@ -1132,6 +1183,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` separator in tuple literal", cspan())
                 );
             }
@@ -1142,6 +1194,7 @@ namespace jc::parser {
             TokenType::RParen,
             true,
             true,
+            false,
             std::make_unique<ParseErrSpanLinkSugg>(
                 "Missing closing `)` after `func` parameter list", lookup().span(sess),
                 "`func` parameter list starts here", maybeParenToken.span(sess)
@@ -1158,6 +1211,7 @@ namespace jc::parser {
 
         skip(
             TokenType::Colon,
+            true,
             true,
             true,
             std::make_unique<ParseErrSugg>(
@@ -1185,6 +1239,7 @@ namespace jc::parser {
                 TokenType::LBrace,
                 true,
                 true,
+                false,
                 std::make_unique<ParseErrSugg>(
                     "To start `" + construction + "` body put `{` here or `;` to ignore body",
                     cspan()
@@ -1201,6 +1256,7 @@ namespace jc::parser {
                     TokenType::RBrace,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
                 );
             }
@@ -1311,6 +1367,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` separator in tuple type", cspan())
                 );
             }
@@ -1322,6 +1379,7 @@ namespace jc::parser {
             TokenType::RParen,
             true,
             true,
+            false,
             std::make_unique<ParseErrSpanLinkSugg>(
                 "Missing closing `)` in tuple type", cspan(),
                 "Opening `(` is here", lParenToken.span(sess)
@@ -1339,6 +1397,7 @@ namespace jc::parser {
             TokenType::RBracket,
             true,
             true,
+            false,
             std::make_unique<ParseErrSugg>("Missing closing `]` at the end of list type", cspan())
         );
         return arrayType;
@@ -1362,9 +1421,6 @@ namespace jc::parser {
         return std::make_shared<ast::FuncType>(params, returnType, loc);
     }
 
-    ////////////////////
-    // Type fragments //
-    ////////////////////
     ast::type_param_list Parser::parseTypeParams() {
         logParse("TypeParams");
 
@@ -1391,6 +1447,7 @@ namespace jc::parser {
                     TokenType::Comma,
                     true,
                     true,
+                    false,
                     std::make_unique<ParseErrSugg>("Missing `,` separator between type parameters", cspan())
                 );
             }
@@ -1410,6 +1467,7 @@ namespace jc::parser {
             TokenType::RParen,
             true,
             true,
+            false,
             std::make_unique<ParseErrSpanLinkSugg>(
                 "Missing closing `>` in type parameter list", cspan(),
                 "Opening `<` is here", lAngleToken.span(sess)

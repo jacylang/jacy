@@ -105,27 +105,27 @@ namespace jc::parser {
 
         // Skippers //
         bool skipNLs(bool optional = false);
-        void skipSemis(bool optional);
+        void skipSemis(bool optional, bool useless = false);
         bool skip(
             TokenType type,
             bool skipLeftNLs,
             bool skipRightNLs,
+            bool recoverUnexpected,
             sugg::sugg_ptr suggestion
         );
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
+        void unexpectedToken(const Span & span);
+        void unexpectedToken(sugg::sugg_ptr helpSugg);
 
         // Parsers //
     private:
+        // Items //
         dt::Option<ast::stmt_ptr> parseItem();
-        ast::stmt_list parseItemList(const std::string & suggMsg);
+        ast::stmt_list parseItemList(const std::string & gotExprSugg);
         ast::opt_stmt_ptr parseStmt();
-
-        // Control-flow statements //
         ast::stmt_ptr parseWhileStmt();
         ast::stmt_ptr parseForStmt();
-
-        // Declarations //
         ast::stmt_ptr parseVarDecl();
         ast::stmt_ptr parseTypeDecl();
         ast::stmt_ptr parseStruct();
