@@ -93,7 +93,7 @@ namespace jc::parser {
         ast::stmt_list tree;
 
         Token peek() const;
-        Token advance();
+        Token advance(uint8_t distance = 1);
         Token lookup() const;
 
         // Checkers //
@@ -115,6 +115,7 @@ namespace jc::parser {
         );
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
+        dt::Option<Token> recoverOnce(TokenType type, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
         void unexpectedToken(const Span & span);
         void unexpectedToken(sugg::sugg_ptr helpSugg);
 
@@ -151,7 +152,7 @@ namespace jc::parser {
 
         // Atomic expressions //
         ast::id_ptr justParseId(const std::string & panicIn);
-        ast::id_ptr parseId(const std::string & suggMsg);
+        ast::id_ptr parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
         ast::expr_ptr parseLiteral();
         ast::expr_ptr parseListExpr();
         ast::expr_ptr parseTupleOrParenExpr();
