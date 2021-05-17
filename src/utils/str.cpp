@@ -75,14 +75,34 @@ namespace jc::utils::str {
     }
 
     std::string hardWrap(const std::string & str, uint8_t wrapLen) {
-        std::string result;
+        std::string res;
         uint8_t counter = 0;
         for (const auto & ch : str) {
-            result += ch;
+            res += ch;
             if (counter + 1 == wrapLen) {
-                result += "\n";
+                res += "\n";
             }
         }
-        return result;
+        return res;
+    }
+
+    std::string trimStart(const std::string & str, char remove) {
+        std::string res = str;
+        res.erase(res.begin(), std::find_if(res.begin(), res.end(), [&](char ch) {
+            return ch != remove;
+        }));
+        return res;
+    }
+
+    std::string trimEnd(const std::string & str, char remove) {
+        std::string res = str;
+        res.erase(std::find_if(res.rbegin(), res.rend(), [&](char ch) {
+            return ch != remove;
+        }).base(), res.end());
+        return res;
+    }
+
+    std::string trim(const std::string & str, char remove) {
+        return trimStart(trimEnd(str));
     }
 }

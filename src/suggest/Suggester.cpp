@@ -16,6 +16,7 @@ namespace jc::sugg {
                 errorAppeared = true;
             }
         }
+        common::Logger::nl();
 
         if (errorAppeared) {
             throw common::Error("Stop due to errors above");
@@ -37,7 +38,7 @@ namespace jc::sugg {
 
     void Suggester::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
-        // 6 = "help:" + one white-space
+        // Note: 6 = "help:" + one white-space
         common::Logger::print("help:", utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
@@ -96,7 +97,7 @@ namespace jc::sugg {
 
     void Suggester::printLine(size_t index) {
         const auto & line = sourceMap.getLine(sess, index);
-        Logger::print(index + 1, "|", utils::str::clipStart(line, wrapLen - indent.size()));
+        Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
         Logger::nl();
     }
 

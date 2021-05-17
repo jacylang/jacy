@@ -20,6 +20,8 @@ namespace jc::dt {
 
         T unwrap(sess::sess_ptr sess, bool dump) {
             if (dump) {
+                common::Logger::nl();
+                common::Logger::devDebug("Printing suggestions (`--print sugg`)");
                 sugg::SuggDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }

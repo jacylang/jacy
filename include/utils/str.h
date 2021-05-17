@@ -2,6 +2,7 @@
 #define JACY_STR_H
 
 #include <string>
+#include <algorithm>
 
 #include "common/Logger.h"
 
@@ -15,6 +16,9 @@ namespace jc::utils::str {
     std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix = "...");
     std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");
     std::string hardWrap(const std::string & str, uint8_t wrapLen);
+    std::string trimStart(const std::string & str, char remove = ' ');
+    std::string trimEnd(const std::string & str, char remove = ' ');
+    std::string trim(const std::string & str, char remove = ' ');
 }
 
 #endif // JACY_STR_H
