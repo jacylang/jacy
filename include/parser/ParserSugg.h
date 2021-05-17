@@ -2,7 +2,7 @@
 #define JACY_PARSERSUGG_H
 
 #include "common/Logger.h"
-#include "suggest/Suggestion.h"
+#include "suggest/BaseSugg.h"
 
 /**
  * Note: these suggestions can be used only on parser-level
@@ -14,7 +14,7 @@ namespace jc::parser {
     using sugg::eid_t;
     using sugg::NoneEID;
 
-    // Note: Read parameters order rules for `Suggestion`s in `suggest/Suggestion.h`
+    // Note: Read parameters order rules for `BaseSugg`s in `suggest/BaseSugg.h`
 
     /// @brief Error-hard-coded message suggestion for parsing errors
     struct ParseErrSugg : sugg::MsgSugg {

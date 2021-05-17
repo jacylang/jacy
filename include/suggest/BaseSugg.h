@@ -23,23 +23,32 @@ namespace jc::sugg {
     //  - all other parameters goes first in any order
 
     /**
-     * Base Suggestion
+     * BaseSugg
      * Does not contain any useful information except `eid`
      */
-    struct Suggestion {
+    struct BaseSugg {
+        virtual SuggKind getKind() const = 0;
+        virtual void accept(BaseSuggester & suggester) = 0;
+    };
+
+    struct SpanSugg : BaseSugg {
         Span span;
         SuggKind kind;
         eid_t eid{NoneEID}; // Explanation ID, -1 if no exists
 
-        Suggestion(const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : kind(kind), span(span), eid(eid) {}
+        SpanSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)
+            : span(span), eid(eid) {}
 
-        virtual void accept(BaseSuggester & suggester) = 0;
+        SuggKind getKind() const override {
+            return kind;
+        }
+
+        void accept(BaseSuggester & suggester) override = 0;
     };
 
-    struct MsgSugg : Suggestion {
+    struct MsgSugg : SpanSugg {
         MsgSugg(std::string msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : msg(std::move(msg)), Suggestion(span, kind, eid) {}
+            : msg(std::move(msg)), SpanSugg(span, kind, eid) {}
 
         const std::string msg;
 
@@ -48,9 +57,9 @@ namespace jc::sugg {
         }
     };
 
-    struct SpanLinkSugg : Suggestion {
+    struct SpanLinkSugg : SpanSugg {
         SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : link(link), Suggestion(span, kind, eid) {}
+            : link(link), SpanSugg(span, kind, eid) {}
 
         Span link;
     };
@@ -92,19 +101,19 @@ namespace jc::sugg {
         }
     };
 
-    struct HelpSugg : Suggestion {
+    struct HelpSugg : BaseSugg {
         HelpSugg(
             std::string helpMsg,
-            sugg_ptr sugg,
-            const Span & span,
-            SuggKind kind,
-            eid_t eid = NoneEID
+            sugg_ptr sugg
         ) : helpMsg(std::move(helpMsg)),
-            sugg(std::move(sugg)),
-            Suggestion(span, kind, eid) {}
+            sugg(std::move(sugg)) {}
 
         std::string helpMsg;
         sugg_ptr sugg;
+
+        SuggKind getKind() const override {
+            return sugg->getKind();
+        }
 
         void accept(BaseSuggester & suggester) override {
             return suggester.visit(this);

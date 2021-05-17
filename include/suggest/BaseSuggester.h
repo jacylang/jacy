@@ -2,13 +2,13 @@
 #define JACY_SUGGEST_BASESUGGESTER_H
 
 namespace jc::sugg {
-    struct Suggestion;
+    struct BaseSugg;
     struct MsgSugg;
     struct MsgSpanLinkSugg;
     struct RangeSugg;
     struct HelpSugg;
 
-    using sugg_ptr = std::unique_ptr<Suggestion>;
+    using sugg_ptr = std::unique_ptr<BaseSugg>;
     using sugg_list = std::vector<sugg_ptr>;
 
     class BaseSuggester {

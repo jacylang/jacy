@@ -79,8 +79,14 @@ namespace jc::parser {
         if (not peek().is(type)) {
             // Recover only once
             if (recoverUnexpected and !eof() and lookup().is(type)) {
-                // TODO!: Help suggestions {sugg_ptr, help_msg}
                 log.dev("Recover once:", Token::typeToString(type));
+                suggestHelp(
+                    "Remove " + peek().toString(),
+                    std::make_unique<ParseErrSugg>(
+                        "Unexpected `" + peek().typeToString(),
+                        cspan()
+                    )
+                );
                 advance();
                 return true;
             }
@@ -1534,7 +1540,7 @@ namespace jc::parser {
     }
 
     void Parser::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
-        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, sugg, ))
+        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
     }
 
     Span Parser::cspan() const {

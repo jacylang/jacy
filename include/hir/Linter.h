@@ -4,7 +4,7 @@
 #include "common/Logger.h"
 #include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
-#include "suggest/Suggestion.h"
+#include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
 
 namespace jc::hir {

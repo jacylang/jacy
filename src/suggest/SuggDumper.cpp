@@ -9,7 +9,7 @@ namespace jc::sugg {
             sg->accept(*this);
             postfix(sg);
             Logger::nl();
-            if (sg->kind == SuggKind::Error) {
+            if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
             }
         }

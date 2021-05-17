@@ -3,7 +3,7 @@
 
 #include "common/Logger.h"
 #include "common/Error.h"
-#include "suggest/Suggestion.h"
+#include "suggest/BaseSugg.h"
 #include "utils/str.h"
 
 namespace jc::sugg {
