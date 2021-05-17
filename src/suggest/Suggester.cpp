@@ -8,15 +8,15 @@ namespace jc::sugg {
         this->sess = sess;
 
         bool errorAppeared = false;
-        common::Logger::nl();
+        Logger::nl();
         for (const auto & sg : suggestions) {
             sg->accept(*this);
-            common::Logger::nl();
+            Logger::nl();
             if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
             }
         }
-        common::Logger::nl();
+        Logger::nl();
 
         if (errorAppeared) {
             throw common::Error("Stop due to errors above");
@@ -33,13 +33,13 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(RangeSugg * sugg) {
-        common::Logger::devPanic("Not implemented: `RangeSugg` suggestion");
+        Logger::devPanic("Not implemented: `RangeSugg` suggestion");
     }
 
     void Suggester::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
-        // Note: 6 = "help:" + one white-space
-        common::Logger::print("help:", utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
+        // Note: 6 = "help: "
+        printWithIndent("help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {

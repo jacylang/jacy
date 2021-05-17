@@ -7,6 +7,7 @@
 #include "utils/str.h"
 
 namespace jc::sugg {
+    using common::Color;
     using common::Logger;
 
     class Suggester : public BaseSuggester {

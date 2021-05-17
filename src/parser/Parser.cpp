@@ -665,6 +665,10 @@ namespace jc::parser {
 
         auto lhs = primary();
 
+        if (!lhs) {
+            return dt::None;
+        }
+
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
@@ -748,6 +752,16 @@ namespace jc::parser {
         if (is(TokenType::Loop)) {
             return parseLoopExpr();
         }
+
+        std::string errMsg;
+        switch (peek().type) {
+            // TODO!: Different suggestions
+            default: {
+                errMsg = "Unexpected token " + peek().toString();
+            }
+        }
+        suggestErrorMsg(errMsg, cspan());
+        advance();
 
         return dt::None;
     }
@@ -1582,6 +1596,6 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
-        log.dev("Parse", "`" + entity + "`", peek().dump());
+        log.dev("Parse", "`" + entity + "`, peek:", peek().dump());
     }
 }
