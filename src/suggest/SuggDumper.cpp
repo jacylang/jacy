@@ -5,9 +5,7 @@ namespace jc::sugg {
     void SuggDumper::apply(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
-            prefix(sg);
             sg->accept(*this);
-            postfix(sg);
             Logger::nl();
             if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
@@ -20,16 +18,25 @@ namespace jc::sugg {
     }
 
     void SuggDumper::visit(MsgSugg * sugg) {
-        Logger::print("\"" + sugg->msg + "\"", "at", sugg->span.toString());
+        prefix(sugg);
+        printMsg(sugg->msg);
+        printSpan(sugg->span);
+        postfix(sugg);
     }
 
     void SuggDumper::visit(MsgSpanLinkSugg * sugg) {
-        Logger::print("\"" + sugg->spanMsg + "\" at", sugg->span.toString()
-            + ", linked to \"" + sugg->linkMsg + "\" at", sugg->link.toString());
+        prefix(sugg);
+        printMsg(sugg->spanMsg);
+        printSpan(sugg->span);
+        Logger::print(", linked to ");
+        printMsg(sugg->linkMsg);
+        printSpan(sugg->span);
+        postfix(sugg);
     }
 
     void SuggDumper::visit(RangeSugg * sugg) {
-        Logger::print("\"" + sugg->msg + "\"", "from", sugg->span.toString(), "to", sugg->link.toString());
+        printMsg(sugg->msg);
+        Logger::print(" from", sugg->span.toString(), "to", sugg->link.toString());
     }
 
     void SuggDumper::visit(HelpSugg * helpSugg) {
@@ -37,7 +44,7 @@ namespace jc::sugg {
         Logger::print("help:", "\"" + helpSugg->helpMsg + "\"");
     }
 
-    void SuggDumper::prefix(const sugg::sugg_ptr & sugg) {
+    void SuggDumper::prefix(SpanSugg * sugg) {
         switch (sugg->getKind()) {
             case SuggKind::Error: {
                 Logger::print("[ERROR] ");
@@ -48,7 +55,15 @@ namespace jc::sugg {
         }
     }
 
-    void SuggDumper::postfix(const sugg::sugg_ptr & sugg) {
+    void SuggDumper::postfix(SpanSugg * sugg) {
         Logger::print(sugg->eid != NoneEID ? " [EID=" + std::to_string(sugg->eid) + "]" : "");
+    }
+
+    void SuggDumper::printMsg(const std::string & msg) {
+        Logger::print("\"" + msg + "\"");
+    }
+
+    void SuggDumper::printSpan(const Span & span) {
+        Logger::print(" at", span.toString());
     }
 }

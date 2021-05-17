@@ -10,7 +10,7 @@ namespace jc::sugg {
     public:
         SuggDumper() = default;
 
-        void apply(sess::sess_ptr sess, const sugg::sugg_list & suggestions) override;
+        void apply(sess::sess_ptr sess, const sugg_list & suggestions) override;
 
         void visit(MsgSugg * msgSugg) override;
         void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;
@@ -18,8 +18,10 @@ namespace jc::sugg {
         void visit(HelpSugg * helpSugg) override;
 
     private:
-        static void prefix(const sugg::sugg_ptr & sugg);
-        static void postfix(const sugg::sugg_ptr & sugg);
+        static void prefix(SpanSugg * sugg);
+        static void postfix(SpanSugg * sugg);
+        static void printMsg(const std::string & msg);
+        static void printSpan(const Span & span);
     };
 }
 
