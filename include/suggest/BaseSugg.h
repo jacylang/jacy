@@ -37,7 +37,7 @@ namespace jc::sugg {
         eid_t eid{NoneEID}; // Explanation ID, -1 if no exists
 
         SpanSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : span(span), eid(eid) {}
+            : span(span), kind(kind), eid(eid) {}
 
         SuggKind getKind() const override {
             return kind;

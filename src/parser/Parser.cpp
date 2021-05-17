@@ -86,7 +86,7 @@ namespace jc::parser {
                 suggestHelp(
                     "Remove " + peek().toString(),
                     std::make_unique<ParseErrSugg>(
-                        "Unexpected `" + peek().typeToString(),
+                        "Unexpected " + peek().toString(),
                         cspan()
                     )
                 );
@@ -1582,6 +1582,6 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
-        log.dev("Parse", "`" + entity + "`", peek().toString());
+        log.dev("Parse", "`" + entity + "`", peek().dump());
     }
 }

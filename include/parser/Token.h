@@ -176,11 +176,13 @@ namespace jc::parser {
 
         span::Span span(sess::sess_ptr sess) const;
 
-        // Debug //
+        std::string toString(bool prettyQuotes = true) const;
         static std::string typeToString(TokenType type);
         static std::string typeToString(const Token & token);
         std::string typeToString() const;
-        std::string toString(bool withLoc = false) const;
+
+        // Debug //
+        std::string dump(bool withLoc = false) const;
     };
 }
 

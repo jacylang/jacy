@@ -179,7 +179,30 @@ namespace jc::parser {
         return typeToString(*this);
     }
 
-    std::string Token::toString(bool withLoc) const {
+    std::string Token::toString(bool prettyQuotes) const {
+        std::string str;
+        if (prettyQuotes) {
+            str += "`";
+        }
+        switch (type) {
+            case TokenType::DecLiteral:
+            case TokenType::BinLiteral:
+            case TokenType::OctLiteral:
+            case TokenType::HexLiteral:
+            case TokenType::FloatLiteral:
+            case TokenType::SQStringLiteral:
+            case TokenType::DQStringLiteral:
+            case TokenType::Id: {
+                str += val;
+            } break;
+            default: {
+                str += typeToString();
+            }
+        }
+        return str + "`";
+    }
+
+    std::string Token::dump(bool withLoc) const {
         std::string str = typeToString();
 
         switch (type) {

@@ -75,7 +75,7 @@ namespace jc::core {
             common::Logger::nl();
             log.info("Printing tokens (`--print tokens`) [ Count of tokens:", tokens.size(), "]");
             for (const auto & token : tokens) {
-                log.raw(token.toString(true)).nl();
+                log.raw(token.dump(true)).nl();
             }
             common::Logger::nl();
         }
