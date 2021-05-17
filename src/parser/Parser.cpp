@@ -290,6 +290,7 @@ namespace jc::parser {
                     return decl.unwrap("`parseStmt` -> `decl`");
                 }
 
+                // FIXME: Maybe useless due to check inside `parseExpr`
                 auto expr = parseOptExpr();
                 if (!expr) {
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
@@ -614,16 +615,23 @@ namespace jc::parser {
                 }
             }
             if (maybeOp) {
-                logParse("precParse -> " + maybeOp.unwrap().typeToString());
+                logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
                 auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
                 if (prefix) {
                     if (lhs) {
                         common::Logger::devPanic("Left-hand side exists in prefix parser");
                     }
-                    lhs = makePrefix(maybeOp.unwrap(), rhs.unwrap());
+                    lhs = makePrefix(
+                        maybeOp.unwrap("precParse -> prefix -> maybeOp"),
+                        rhs.unwrap("precParse -> prefix -> rhs")
+                    );
                     return lhs;
                 }
-                lhs = makeInfix(lhs.unwrap(), maybeOp.unwrap(), rhs.unwrap());
+                lhs = makeInfix(
+                    lhs.unwrap("precParse -> !prefix -> lhs"),
+                    maybeOp.unwrap("precParse -> !prefix -> maybeOp"),
+                    rhs.unwrap("precParse -> !prefix -> rhs")
+                );
                 if (!multiple) {
                     break;
                 }
@@ -672,9 +680,14 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
-                lhs = makeInfix(lhs.unwrap(), maybeOp, primary().unwrap());
+                // FIXME: RHS
+                lhs = makeInfix(
+                    lhs.unwrap("postfix -> `.` | `?.` -> lhs"),
+                    maybeOp,
+                    primary().unwrap("postfix -> `.` | `?.` -> rhs")
+                );
             } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
-                lhs = std::make_shared<ast::Postfix>(lhs.unwrap(), maybeOp);
+                lhs = std::make_shared<ast::Postfix>(lhs.unwrap("postfix -> `--` | `++` -> lhs"), maybeOp);
             } else if (skipOpt(TokenType::LBracket)) {
                 ast::expr_list indices;
 
@@ -710,9 +723,12 @@ namespace jc::parser {
                     )
                 );
 
-                lhs = std::make_shared<ast::Subscript>(lhs.unwrap(), indices);
+                lhs = std::make_shared<ast::Subscript>(lhs.unwrap("postfix -> `[` -> `lhs`"), indices);
             } else if (is(TokenType::LParen)) {
-                lhs = std::make_shared<ast::Invoke>(lhs.unwrap(), parseArgList("function call"));
+                lhs = std::make_shared<ast::Invoke>(
+                    lhs.unwrap("postfix -> `(` -> lhs"),
+                    parseArgList("function call")
+                );
             } else {
                 break;
             }
@@ -753,15 +769,62 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        std::string errMsg;
+        // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
+        //  so we need check all the constructions again to give pretty suggestion.
+        // We don't put parsed items to AST, because now we inside an expression parsing.
+        auto token = peek();
+        bool nonsense = false;
+        std::string construction;
         switch (peek().type) {
-            // TODO!: Different suggestions
+            case TokenType::While: {
+                parseWhileStmt();
+                construction = "`while` statement";
+            } break;
+            case TokenType::For: {
+                parseForStmt();
+                construction = "`for` statement";
+            } break;
+            case TokenType::Val:
+            case TokenType::Var:
+            case TokenType::Const: {
+                parseVarDecl();
+                construction = "`" + token.typeToString() + "` declaration";
+            } break;
+            case TokenType::Type: {
+                parseTypeDecl();
+                construction = "`type` declaration";
+            } break;
+            case TokenType::Struct: {
+                parseStruct();
+                construction = "`struct` declaration";
+            } break;
+            case TokenType::Impl: {
+                parseImpl();
+                construction = "implementation";
+            } break;
+            case TokenType::Trait: {
+                parseTrait();
+                construction = "`trait` declaration";
+            } break;
+            case TokenType::Func: {
+                parseFuncDecl({});
+                construction = "`func` declaration";
+            } break;
+            case TokenType::Enum: {
+                parseEnumDecl();
+                construction = "`enum` declaration";
+            } break;
             default: {
-                errMsg = "Unexpected token " + peek().toString();
+                nonsense = true;
             }
         }
-        suggestErrorMsg(errMsg, cspan());
-        advance();
+
+        if (nonsense) {
+            suggestErrorMsg("Unexpected token " + token.toString(), token.span(sess));
+            advance();
+        } else {
+            suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
+        }
 
         return dt::None;
     }

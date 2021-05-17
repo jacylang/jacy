@@ -125,6 +125,7 @@ namespace jc::parser {
         dt::Option<ast::stmt_ptr> parseItem();
         ast::stmt_list parseItemList(const std::string & gotExprSugg);
         ast::opt_stmt_ptr parseStmt();
+
         ast::stmt_ptr parseWhileStmt();
         ast::stmt_ptr parseForStmt();
         ast::stmt_ptr parseVarDecl();
