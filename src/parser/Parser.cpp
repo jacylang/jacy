@@ -207,6 +207,7 @@ namespace jc::parser {
                 const auto & exprToken = peek();
                 auto expr = parseOptExpr();
                 if (expr) {
+                    // FIXME!: Use RangeSugg
                     suggestErrorMsg(gotExprSugg, cspan());
                 } else {
                     // nonsense
@@ -618,7 +619,9 @@ namespace jc::parser {
                 logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
                 auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
                 if (!rhs) {
-                    return dt::None;
+                    // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
+                    // and `precParse` already generated error suggestion
+                    continue;
                 }
                 if (prefix) {
                     if (lhs) {
@@ -685,6 +688,8 @@ namespace jc::parser {
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
                 auto rhs = primary();
                 if (!rhs) {
+                    // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
+                    // and `primary` already generated error suggestion
                     continue;
                 }
                 lhs = makeInfix(
@@ -743,7 +748,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::Option<ast::expr_ptr> Parser::primary() {
+    ast::opt_expr_ptr Parser::primary() {
         logParse("primary");
 
         if (peek().isLiteral()) {
