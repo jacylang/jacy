@@ -68,7 +68,7 @@ namespace jc::sugg {
             pointLine += utils::str::repeat("^", span.len);
 
             // We don't need to write additional `-` after `^`, so just print it
-            printWithIndent(pointLine);
+            printWithIndent(utils::str::clipStart(pointLine, wrapLen - indent.size() - 7, ""));
         } else if (wrapLen > spanMax and wrapLen - spanMax >= realMsgLen) {
             // We can put message after `^--`, because it fits space after span
 
