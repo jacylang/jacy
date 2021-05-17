@@ -77,8 +77,6 @@ namespace jc::parser {
         }
 
         if (not peek().is(type)) {
-            suggest(std::move(suggestion));
-
             // Recover only once
             if (recoverUnexpected and !eof() and lookup().is(type)) {
                 // TODO!: Help suggestions {sugg_ptr, help_msg}
@@ -86,6 +84,8 @@ namespace jc::parser {
                 advance();
                 return true;
             }
+
+            suggest(std::move(suggestion));
 
             return false;
         }
@@ -1531,6 +1531,10 @@ namespace jc::parser {
 
     void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
         suggest(msg, span, SuggKind::Error, eid);
+    }
+
+    void Parser::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
+        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, sugg, ))
     }
 
     Span Parser::cspan() const {

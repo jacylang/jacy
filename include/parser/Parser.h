@@ -192,6 +192,7 @@ namespace jc::parser {
         void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
+        void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
 
         template<class T>
         T errorForNone(dt::Option<T> option, const std::string & suggMsg, const Span & span) {

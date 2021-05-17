@@ -1,6 +1,8 @@
 #ifndef JACY_SUGGESTION_H
 #define JACY_SUGGESTION_H
 
+#include <utility>
+
 #include "suggest/Explain.h"
 #include "span/Span.h"
 #include "session/SourceMap.h"
@@ -36,8 +38,8 @@ namespace jc::sugg {
     };
 
     struct MsgSugg : Suggestion {
-        MsgSugg(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : msg(msg), Suggestion(span, kind, eid) {}
+        MsgSugg(std::string msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
+            : msg(std::move(msg)), Suggestion(span, kind, eid) {}
 
         const std::string msg;
 
@@ -92,13 +94,12 @@ namespace jc::sugg {
 
     struct HelpSugg : Suggestion {
         HelpSugg(
-            const std::string & helpMsg,
+            std::string helpMsg,
             sugg_ptr sugg,
-            const Span & link,
             const Span & span,
             SuggKind kind,
             eid_t eid = NoneEID
-        ) : helpMsg(helpMsg),
+        ) : helpMsg(std::move(helpMsg)),
             sugg(std::move(sugg)),
             Suggestion(span, kind, eid) {}
 
