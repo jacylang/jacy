@@ -12,7 +12,7 @@ namespace jc::sugg {
         for (const auto & sg : suggestions) {
             sg->accept(*this);
             common::Logger::nl();
-            if (sg->kind == SuggKind::Error) {
+            if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
             }
         }
@@ -33,6 +33,12 @@ namespace jc::sugg {
 
     void Suggester::visit(RangeSugg * sugg) {
         common::Logger::devPanic("Not implemented: `RangeSugg` suggestion");
+    }
+
+    void Suggester::visit(HelpSugg * helpSugg) {
+        helpSugg->sugg->accept(*this);
+        // 6 = "help:" + one white-space
+        common::Logger::print("help:", utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {

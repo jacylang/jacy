@@ -18,6 +18,7 @@ namespace jc::sugg {
         void visit(MsgSugg * msgSugg) override;
         void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;
         void visit(RangeSugg * rangeSugg) override;
+        void visit(HelpSugg * helpSugg) override;
 
     private:
         sess::sess_ptr sess;
