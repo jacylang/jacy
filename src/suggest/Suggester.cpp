@@ -66,7 +66,7 @@ namespace jc::sugg {
         } else if (wrapLen > spanMax and wrapLen - spanMax >= realMsgLen) {
             // We can put message after `^--`, because it fits space after span
 
-            std::string pointLine = utils::str::repeat("^", span.len);
+            std::string pointLine = utils::str::repeat(" ", point) + utils::str::repeat("^", span.len);
             pointLine += "---";
             pointLine += msg;
             printWithIndent(pointLine);
