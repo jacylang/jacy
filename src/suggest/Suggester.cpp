@@ -7,6 +7,11 @@ namespace jc::sugg {
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
         this->sess = sess;
 
+        // Set indent based on max line number, add 3 for " | "
+        // So, considering this, max indent that can appear will be 13 white-spaces
+        const auto lastLineNum = sourceMap.getLinesCount(sess);
+        indent = utils::str::repeat(" ", lastLineNum + 3);
+
         bool errorAppeared = false;
         Logger::nl();
         for (const auto & sg : suggestions) {
@@ -97,6 +102,9 @@ namespace jc::sugg {
 
     void Suggester::printLine(size_t index) {
         const auto & line = sourceMap.getLine(sess, index);
+        // Print indent according to line number
+        // FIXME: uint overflow can appear
+        Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
         Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
         Logger::nl();
     }

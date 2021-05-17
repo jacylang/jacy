@@ -36,6 +36,10 @@ namespace jc::sess {
         return sources.at(sess->fileId);
     }
 
+    uint32_t SourceMap::getLinesCount(sess_ptr sess) const {
+        return getSource(sess).size();
+    }
+
     std::string SourceMap::getLine(sess_ptr sess, size_t index) const {
         const auto & source = getSource(sess);
         if (source.size() <= index) {

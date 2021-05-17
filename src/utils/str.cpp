@@ -13,7 +13,7 @@ namespace jc::utils::str {
 
     std::string repeat(const std::string & rep, size_t count) {
         if (count == 0) {
-            return rep;
+            return "";
         }
         std::string str;
         for (size_t i = 0; i < count; i++) {

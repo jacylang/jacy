@@ -30,8 +30,7 @@ namespace jc::sugg {
         void printLine(size_t index);
         void printWithIndent(const std::string & msg);
 
-        // Indent is 4 spaces because of space that takes line number prefix (`1 | `)
-        const std::string indent = "    ";
+        std::string indent;
         const uint8_t wrapLen{80};
     };
 }
