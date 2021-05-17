@@ -10,7 +10,7 @@ namespace jc::sugg {
         // Set indent based on max line number, add 3 for " | "
         // So, considering this, max indent that can appear will be 13 white-spaces
         const auto lastLineNum = sourceMap.getLinesCount(sess);
-        indent = utils::str::repeat(" ", lastLineNum + 3);
+        indent = utils::str::repeat(" ", std::to_string(lastLineNum).size() + 3);
 
         bool errorAppeared = false;
         Logger::nl();
@@ -48,6 +48,7 @@ namespace jc::sugg {
     }
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
+        // TODO!: Maybe not printing previous line if it's empty?
         printPrevLine(span.line);
         printLine(span.line);
 

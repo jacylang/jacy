@@ -70,6 +70,7 @@
       <w>typealias</w>
       <w>typeparameters</w>
       <w>typeparams</w>
+      <w>uint</w>
       <w>unitexpr</w>
       <w>vardecl</w>
       <w>whenexpr</w>
