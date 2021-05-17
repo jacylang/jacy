@@ -617,6 +617,9 @@ namespace jc::parser {
             if (maybeOp) {
                 logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
                 auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
+                if (!rhs) {
+                    return dt::None;
+                }
                 if (prefix) {
                     if (lhs) {
                         common::Logger::devPanic("Left-hand side exists in prefix parser");
@@ -680,11 +683,14 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
-                // FIXME: RHS
+                auto rhs = primary();
+                if (!rhs) {
+                    continue;
+                }
                 lhs = makeInfix(
                     lhs.unwrap("postfix -> `.` | `?.` -> lhs"),
                     maybeOp,
-                    primary().unwrap("postfix -> `.` | `?.` -> rhs")
+                    rhs.unwrap("postfix -> `.` | `?.` -> rhs")
                 );
             } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
                 lhs = std::make_shared<ast::Postfix>(lhs.unwrap("postfix -> `--` | `++` -> lhs"), maybeOp);
