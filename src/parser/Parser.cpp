@@ -340,7 +340,9 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", true);
 
-        return std::make_shared<ast::WhileStmt>(condition, body, loc);
+        if (condition) {
+            return std::make_shared<ast::WhileStmt>(condition.unwrap("parseWhileStmt -> condition"), body, loc);
+        }
     }
 
     ast::stmt_ptr Parser::parseForStmt() {
@@ -575,13 +577,16 @@ namespace jc::parser {
         return assignment();
     }
 
-    ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    ast::opt_expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         auto expr = parseOptExpr();
         errorForNone(expr, suggMsg, cspan());
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        return expr.getValueUnsafe();
+        if (expr) {
+            return expr;
+        }
+        return dt::None;
     }
 
     ast::opt_expr_ptr Parser::assignment() {
