@@ -23,6 +23,7 @@ namespace jc::ast {
         LiteralConstant,
         Loop,
         Paren,
+        Path,
         Postfix,
         Prefix,
         Return,
