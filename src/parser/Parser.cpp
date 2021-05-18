@@ -13,6 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
+        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -49,7 +50,7 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        return isHardSemi() or isNL();
+        return is(TokenType::Semi) or isNL();
     }
 
     bool Parser::isHardSemi() {
@@ -196,18 +197,20 @@ namespace jc::parser {
     ast::stmt_list Parser::parseItemList(const std::string & gotExprSugg) {
         logParse("ItemList");
 
-        ast::stmt_list declarations;
+        ast::stmt_list items;
         while (!eof()) {
             skipSemis(true);
             if (eof()) {
                 break;
             }
 
-            auto decl = parseItem();
-            if (decl) {
-                declarations.emplace_back(decl.unwrap("`parseItemList` -> `decl`"));
+            auto item = parseItem();
+            if (item) {
+                items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
             } else {
+                log.dev("Not item");
                 const auto & exprToken = peek();
+                log.dev("Expr token", exprToken.toString());
                 auto expr = parseOptExpr();
                 if (expr) {
                     // FIXME!: Use RangeSugg
@@ -216,7 +219,7 @@ namespace jc::parser {
                 // If expr is `None` we already made an error in `primary`
             }
         }
-        return declarations;
+        return items;
     }
 
     dt::Option<ast::stmt_ptr> Parser::parseItem() {
