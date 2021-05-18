@@ -1,1 +1,3 @@
-func a;() {}
+func main {
+    1
+}

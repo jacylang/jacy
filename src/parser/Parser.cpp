@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-        log.dev("Advance");
+//        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -74,7 +74,7 @@ namespace jc::parser {
     void Parser::skipSemis(bool optional, bool useless) {
         // TODO: Useless semi sugg
         if (!isSemis() and !optional) {
-            suggestErrorMsg("`;` or new-line expected", cspan());
+            suggestErrorMsg("`;` or new-line expected", prev().span(sess));
             return;
         }
         while (isSemis()) {
@@ -349,6 +349,10 @@ namespace jc::parser {
     ast::stmt_ptr Parser::parseVarDecl() {
         logParse("VarDecl:" + peek().toString());
 
+        if (!is(TokenType::Var) and !is(TokenType::Val) and !is(TokenType::Const)) {
+            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarDecl");
+        }
+
         auto kind = peek();
         advance();
 
@@ -589,7 +593,7 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
-        logParse("precParse");
+//        logParse("precParse");
 
         if (precTable.size() == index) {
             return postfix();
@@ -916,7 +920,7 @@ namespace jc::parser {
         logParse("literal");
 
         if (!peek().isLiteral()) {
-            common::Logger::devPanic("Expected literal in parseLiteral");
+            common::Logger::devPanic("Expected literal in `parseLiteral`");
         }
         auto token = peek();
         advance();
@@ -1192,10 +1196,8 @@ namespace jc::parser {
 
                 if (first) {
                     first = false;
-                } else {
-                    // Here semis is optional, because `parseStmt` handles semis itself
-                    skipSemis(true);
                 }
+                // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
 
                 auto stmt = parseStmt();
                 if (stmt) {
