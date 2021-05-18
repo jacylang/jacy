@@ -62,7 +62,7 @@ namespace jc::common {
         virtual ~Logger() = default;
 
         template<class ...Args>
-        const Logger & debug(Args && ...args);
+        const Logger & debug(Args && ...args) const;
 
         template<class ...Args>
         const Logger & info(Args && ...args);
@@ -108,7 +108,7 @@ namespace jc::common {
         LoggerConfig config;
 
         template<class Arg, class ...Args>
-        const Logger & log(LogLevel level, Arg && first, Args && ...other);
+        const Logger & log(LogLevel level, Arg && first, Args && ...other) const;
 
     public:
         static const std::map<Color, std::string> colors;

@@ -90,13 +90,13 @@ void Logger::colorized(Color color, Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-void Logger::print(Arg && first, Args && ...other) {
+void Logger::print(Arg && first, Args && ...other)  {
     std::cout << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
 }
 
 template<class Arg, class ...Args>
-std::string Logger::format(Arg && first, Args && ...other) {
+std::string Logger::format(Arg && first, Args && ...other) const {
     std::stringstream ss;
     ss << first;
     ((ss << other), ...);
@@ -104,7 +104,7 @@ std::string Logger::format(Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) {
+const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }

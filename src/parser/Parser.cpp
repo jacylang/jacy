@@ -4,10 +4,12 @@ namespace jc::parser {
     Parser::Parser() {}
 
     Token Parser::peek() const {
-        if (index >= tokens.size()) {
-            return Token{TokenType::Eof, "", {}}; // FIXME: WTF?
+        try {
+            return tokens.at(index);
+        } catch (std::out_of_range & error) {
+            log.error("Parser: called peek() out of token list bound");
+            throw error;
         }
-        return tokens.at(index);
     }
 
     Token Parser::advance(uint8_t distance) {
@@ -16,9 +18,6 @@ namespace jc::parser {
     }
 
     Token Parser::lookup() const {
-        if (eof()) {
-            return Token{TokenType::Eof, "", {}}; // FIXME: WTF?
-        }
         return tokens.at(index + 1);
     }
 
@@ -191,7 +190,7 @@ namespace jc::parser {
     // Items //
     ///////////
     ast::stmt_list Parser::parseItemList(const std::string & gotExprSugg) {
-        logParse("DeclList");
+        logParse("ItemList");
 
         ast::stmt_list declarations;
         while (!eof()) {
@@ -343,7 +342,7 @@ namespace jc::parser {
     }
 
     ast::stmt_ptr Parser::parseVarDecl() {
-        logParse("VarDecl");
+        logParse("VarDecl:" + peek().toString());
 
         auto kind = peek();
         advance();
@@ -581,6 +580,8 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
+        logParse("precParse");
+
         if (precTable.size() == index) {
             return postfix();
         } else if (index > precTable.size()) {
@@ -742,7 +743,7 @@ namespace jc::parser {
             } else if (is(TokenType::LParen)) {
                 lhs = std::make_shared<ast::Invoke>(
                     lhs.unwrap("postfix -> `(` -> lhs"),
-                    parseArgList("function call")
+                    parseNamedList("function call")
                 );
             } else {
                 break;
@@ -835,9 +836,11 @@ namespace jc::parser {
 
         if (nonsense) {
             suggestErrorMsg("Unexpected token " + token.toString(), token.span(sess));
-            advance();
         } else {
             suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
+        }
+
+        if (!eof()) {
             advance();
         }
 
@@ -1217,7 +1220,7 @@ namespace jc::parser {
     }
 
     std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseFuncBody() {
-        logParse("BodyMaybeOneLine");
+        logParse("funcBody");
 
         ast::opt_block_ptr body;
         ast::opt_expr_ptr oneLineBody;
@@ -1250,17 +1253,17 @@ namespace jc::parser {
         }
 
         auto id = parseId("Expected attribute name", true, true);
-        auto params = parseArgList("attribute");
+        auto params = parseNamedList("attribute");
 
         return std::make_shared<ast::Attribute>(id, params, loc);
     }
 
-    ast::named_list_ptr Parser::parseArgList(const std::string & construction) {
+    ast::named_list_ptr Parser::parseNamedList(const std::string & construction) {
         logParse("NamedList:" + construction);
 
         const auto & loc = peek().loc;
 
-        justSkip(TokenType::LParen, true, "`(`", "`parseArgList`");
+        justSkip(TokenType::LParen, true, "`(`", "`parseNamedList`");
 
         ast::named_list namedList;
 
@@ -1372,6 +1375,8 @@ namespace jc::parser {
     }
 
     dt::Option<ast::func_param_ptr> Parser::parseFuncParam() {
+        logParse("FuncParams");
+
         const auto & loc = peek().loc;
 
         if (!is(TokenType::Id)) {
@@ -1442,6 +1447,8 @@ namespace jc::parser {
     // Types //
     ///////////
     ast::type_ptr Parser::parseType(const std::string & suggMsg) {
+        logParse("Type");
+
         auto type = parseOptType();
         if (!type) {
             suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
@@ -1450,7 +1457,7 @@ namespace jc::parser {
     }
 
     ast::opt_type_ptr Parser::parseOptType() {
-        logParse("Type");
+        logParse("[opt] Type");
 
         // Array type
         if (is(TokenType::LBracket)) {
@@ -1561,6 +1568,8 @@ namespace jc::parser {
     }
 
     ast::type_ptr Parser::parseArrayType() {
+        logParse("ArrayType");
+
         const auto loc = peek().loc;
         justSkip(TokenType::LBracket, true, "`LBracket`", "`parseArrayType`");
         auto arrayType = std::make_shared<ast::ArrayType>(parseType("Expected type"), loc);
@@ -1575,6 +1584,8 @@ namespace jc::parser {
     }
 
     ast::type_ptr Parser::parseFuncType(ast::tuple_t_el_list tupleElements, const Location & loc) {
+        logParse("FuncType");
+
         ast::type_list params;
         for (const auto & tupleEl : tupleElements) {
             if (tupleEl->id) {
@@ -1649,6 +1660,8 @@ namespace jc::parser {
     }
 
     ast::type_path_ptr Parser::parseTypePath(const std::string & suggMsg) {
+        logParse("TypePath");
+
         auto pathType = parseOptTypePath();
         if (!pathType) {
             suggestErrorMsg(suggMsg, cspan());
@@ -1657,7 +1670,7 @@ namespace jc::parser {
     }
 
     ast::opt_type_path_ptr Parser::parseOptTypePath() {
-        logParse("parseOptTypePath");
+        logParse("[opt] TypePath");
 
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenType::Path, true);
