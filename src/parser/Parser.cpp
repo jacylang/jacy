@@ -105,8 +105,10 @@ namespace jc::parser {
         bool recoverUnexpected,
         sugg::sugg_ptr suggestion
     ) {
+        // FIXME: TODO Virtual semi recovery
+        bool skippedLeftNLs;
         if (skipLeftNLs) {
-            skipNLs(true);
+            skippedLeftNLs = skipNLs(true);
         }
 
         if (not peek().is(type)) {
@@ -615,7 +617,7 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
-//        logParse("precParse");
+        logParse("precParse:" + std::to_string(index));
 
         if (precTable.size() == index) {
             return postfix();
@@ -643,8 +645,9 @@ namespace jc::parser {
             lhs = single.unwrap("`precParse` -> `single`");
         }
 
+        bool skippedLeftNls = false;
         if (skipLeftNLs) {
-            skipNLs(true);
+            skippedLeftNls = skipNLs(true);
         }
 
         dt::Option<Token> maybeOp;
@@ -656,11 +659,14 @@ namespace jc::parser {
         }
 
         if (!maybeOp) {
+            log.dev("Prec parse, !maybeOp", peek().toString());
             if (prefix) {
                 // Not operator found and now we parsing prefix case, so just parse postfix
                 return postfix();
             }
-            emitVirtualSemi();
+            if (skippedLeftNls) {
+                emitVirtualSemi();
+            }
             // FIXME: Check if works, maybe we need to go down by `precParse`
             return lhs;
         }
