@@ -124,6 +124,10 @@ namespace jc::hir {
         }
     }
 
+    void Linter::visit(ast::PathExpr * pathExpr) {
+
+    }
+
     void Linter::visit(ast::Postfix * postfix) {
 
     }

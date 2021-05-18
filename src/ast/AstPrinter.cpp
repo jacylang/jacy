@@ -249,6 +249,19 @@ namespace jc::ast {
         log.raw(")");
     }
 
+    void AstPrinter::visit(PathExpr * pathExpr) {
+        if (pathExpr->global) {
+            log.raw("::");
+        }
+        for (const auto & segment : pathExpr->segments) {
+            segment->id->accept(*this);
+            if (segment->typeParams.size()) {
+                log.raw("::");
+                print(segment->typeParams);
+            }
+        }
+    }
+
     void AstPrinter::visit(Postfix * postfix) {
         postfix->lhs->accept(*this);
         log.raw(postfix->token.typeToString());

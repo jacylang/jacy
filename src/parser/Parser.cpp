@@ -755,9 +755,8 @@ namespace jc::parser {
             return parseLiteral();
         }
 
-        if (is(TokenType::Id)) {
-            auto id = justParseId("`primary`");
-            return ast::Expr::as<ast::Expr>(id);
+        if (is(TokenType::Id) or is(TokenType::Path)) {
+            return parsePathExpr();
         }
 
         if (is(TokenType::If)) {
@@ -849,10 +848,48 @@ namespace jc::parser {
     }
 
     ast::id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
-        logParse("id");
+        logParse("Identifier");
 
         auto maybeIdToken = recoverOnce(TokenType::Id, suggMsg, skipLeftNLs, skipRightNls);
         return std::make_shared<ast::Identifier>(maybeIdToken.getValueUnsafe());
+    }
+
+    ast::expr_ptr Parser::parsePathExpr() {
+        logParse("PathExpr");
+
+        const auto & maybePathToken = peek();
+        bool global = skipOpt(TokenType::Path, true);
+
+        if (!is(TokenType::Id)) {
+            if (global) {
+                suggestErrorMsg(
+                    "Unexpected `::`, maybe you meant to specify a type?",
+                    maybePathToken.span(sess)
+                );
+            } else {
+                common::Logger::devPanic("parsePathExpr -> !id -> !global");
+            }
+        }
+
+        ast::path_expr_list segments;
+        while (!eof()) {
+            const auto & loc = peek().loc;
+            auto id = parseId("Identifier in path", true, true);
+
+            ast::type_param_list typeParams;
+            if (skipOpt(TokenType::Path, true)) {
+                typeParams = parseTypeParams();
+            }
+
+            segments.push_back(std::make_shared<ast::PathExprSeg>(id, typeParams, loc));
+
+            if (skipOpt(TokenType::Path)) {
+                continue;
+            }
+            break;
+        }
+
+        return std::make_shared<ast::PathExpr>(global, segments, maybePathToken.loc);
     }
 
     ast::expr_ptr Parser::parseLiteral() {

@@ -21,6 +21,7 @@
 #include "ast/expr/LiteralConstant.h"
 #include "ast/expr/LoopExpr.h"
 #include "ast/expr/ParenExpr.h"
+#include "ast/expr/PathExpr.h"
 #include "ast/expr/Postfix.h"
 #include "ast/expr/Prefix.h"
 #include "ast/expr/ReturnExpr.h"

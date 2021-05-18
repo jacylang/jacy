@@ -46,6 +46,7 @@
       <w>objectdecl</w>
       <w>parenexpr</w>
       <w>parsersugg</w>
+      <w>pathexpr</w>
       <w>prec</w>
       <w>rangle</w>
       <w>repl</w>

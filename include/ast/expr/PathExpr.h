@@ -6,15 +6,28 @@
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {
+    struct PathExprSeg;
+    using path_expr_ptr = std::shared_ptr<PathExprSeg>;
+    using path_expr_list = std::vector<path_expr_ptr>;
+
     struct PathExprSeg : Node {
-        PathExprSeg() {}
+        PathExprSeg(id_ptr id, type_param_list typeParams, const Location & loc)
+            : id(std::move(id)), typeParams(std::move(typeParams)), Node(loc) {}
 
         id_ptr id;
         type_param_list typeParams;
     };
 
     struct PathExpr : Expr {
-        PathExpr(bool global, )
+        PathExpr(bool global, path_expr_list segments, const Location & loc)
+            : global(global), segments(std::move(segments)), Expr(loc, ExprType::Path) {}
+
+        bool global;
+        path_expr_list segments;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 
