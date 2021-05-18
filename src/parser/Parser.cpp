@@ -476,13 +476,15 @@ namespace jc::parser {
 
         auto typeParams = parseTypeParams();
 
-        // TODO: Type reference for extensions
         auto id = parseId("An identifier expected as a type parameter name", true, true);
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenType::LParen);
 
-        auto params = parseFuncParamList();
+        ast::func_param_list params;
+        if (isParen) {
+            params = parseFuncParamList();
+        }
 
         bool typeAnnotated = false;
         const auto & maybeColonToken = peek();
@@ -554,6 +556,8 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::assignment() {
+        logParse("Assign");
+
         const auto & loc = peek().loc;
         auto lhs = precParse(0);
 
@@ -596,8 +600,8 @@ namespace jc::parser {
         ast::opt_expr_ptr lhs(dt::None);
         if (!prefix) {
             auto single = precParse(index + 1);
-            if (single.none()) {
-                return single;
+            if (!single) {
+                return dt::None;
             }
 
             lhs = single.unwrap("`precParse` -> `single`");
@@ -608,46 +612,46 @@ namespace jc::parser {
         }
 
         dt::Option<Token> maybeOp;
-        while (!eof()) {
-            for (const auto & op : parser.ops) {
-                maybeOp = skipOpt(op, skipRightNLs);
-                if (maybeOp) {
-                    break;
-                }
-            }
-            if (maybeOp) {
-                logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
-                auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
-                if (!rhs) {
-                    // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
-                    // and `precParse` already generated error suggestion
-                    continue;
-                }
-                if (prefix) {
-                    if (lhs) {
-                        common::Logger::devPanic("Left-hand side exists in prefix parser");
-                    }
-                    lhs = makePrefix(
-                        maybeOp.unwrap("precParse -> prefix -> maybeOp"),
-                        rhs.unwrap("precParse -> prefix -> rhs")
-                    );
-                    return lhs;
-                }
-                lhs = makeInfix(
-                    lhs.unwrap("precParse -> !prefix -> lhs"),
-                    maybeOp.unwrap("precParse -> !prefix -> maybeOp"),
-                    rhs.unwrap("precParse -> !prefix -> rhs")
-                );
-                if (!multiple) {
-                    break;
-                }
-            } else {
+        for (const auto & op : parser.ops) {
+            if (is(op)) {
+                maybeOp = peek();
                 break;
             }
         }
 
         if (!maybeOp and prefix) {
+            // Not operator found and now we parsing prefix case, so just parse postfix
             return postfix();
+        } else if (!maybeOp) {
+            return lhs;
+        }
+
+        while (skipOpt(maybeOp.unwrap("precParse -> maybeOp").type, skipRightNLs)) {
+            logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
+            auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
+            if (!rhs) {
+                // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
+                // and `precParse` already generated error suggestion
+                continue;
+            }
+            if (prefix) {
+                if (lhs) {
+                    common::Logger::devPanic("Left-hand side exists in prefix parser");
+                }
+                lhs = makePrefix(
+                    maybeOp.unwrap("precParse -> prefix -> maybeOp"),
+                    rhs.unwrap("precParse -> prefix -> rhs")
+                );
+                return lhs;
+            }
+            lhs = makeInfix(
+                lhs.unwrap("precParse -> !prefix -> lhs"),
+                maybeOp.unwrap("precParse -> !prefix -> maybeOp"),
+                rhs.unwrap("precParse -> !prefix -> rhs")
+            );
+            if (!multiple) {
+                break;
+            }
         }
 
         return lhs;
@@ -834,6 +838,7 @@ namespace jc::parser {
             advance();
         } else {
             suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
+            advance();
         }
 
         return dt::None;
@@ -1345,7 +1350,12 @@ namespace jc::parser {
                 );
             }
 
-            params.push_back(parseFuncParam());
+            auto param = parseFuncParam();
+            if (!param) {
+                continue;
+            }
+
+            params.push_back(param.unwrap("parseFuncParamList -> param"));
         }
         skip(
             TokenType::RParen,
@@ -1361,8 +1371,12 @@ namespace jc::parser {
         return params;
     }
 
-    ast::func_param_ptr Parser::parseFuncParam() {
+    dt::Option<ast::func_param_ptr> Parser::parseFuncParam() {
         const auto & loc = peek().loc;
+
+        if (!is(TokenType::Id)) {
+            return dt::None;
+        }
 
         auto id = parseId("Expected function parameter", true, true);
 
