@@ -50,11 +50,26 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        return is(TokenType::Semi) or isNL();
+        // Note: Order matters -- we use virtual semi first
+        return useVirtualSemi() or is(TokenType::Semi) or isNL();
     }
 
     bool Parser::isHardSemi() {
         return is(TokenType::Semi) or eof();
+    }
+
+    void Parser::emitVirtualSemi() {
+        // Used when we skipped NLs and haven't found something we want,
+        // It's used to make parser return-free
+        virtualSemi = true;
+    }
+
+    bool Parser::useVirtualSemi() {
+        if (virtualSemi) {
+            virtualSemi = false;
+            return true;
+        }
+        return false;
     }
 
     // Skippers //
@@ -73,6 +88,7 @@ namespace jc::parser {
 
     void Parser::skipSemis(bool optional, bool useless) {
         // TODO: Useless semi sugg
+        log.dev("Skip semis", peek().toString());
         if (!isSemis() and !optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span(sess));
             return;
@@ -107,6 +123,12 @@ namespace jc::parser {
                 advance(2);
                 return true;
             }
+
+            // FIXME: Add param for virtual semi emitting
+//            if (skipLeftNLs) {
+//                // We have't found specific token, but skipped NLs which are semis
+//                emitVirtualSemi();
+//            }
 
             suggest(std::move(suggestion));
 
@@ -633,10 +655,13 @@ namespace jc::parser {
             }
         }
 
-        if (!maybeOp and prefix) {
-            // Not operator found and now we parsing prefix case, so just parse postfix
-            return postfix();
-        } else if (!maybeOp) {
+        if (!maybeOp) {
+            if (prefix) {
+                // Not operator found and now we parsing prefix case, so just parse postfix
+                return postfix();
+            }
+            emitVirtualSemi();
+            // FIXME: Check if works, maybe we need to go down by `precParse`
             return lhs;
         }
 
@@ -703,7 +728,8 @@ namespace jc::parser {
 
         while (!eof()) {
             auto maybeOp = peek();
-            if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
+            // FIXME: Move member access to precTable?
+            if (skipOpt(TokenType::Dot, true) or skipOpt(TokenType::SafeCall, true)) {
                 // TODO: `.` Only for id.id / id.int
                 auto rhs = primary();
                 if (!rhs) {

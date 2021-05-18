@@ -103,6 +103,9 @@ namespace jc::parser {
         bool isNL();
         bool isSemis();
         bool isHardSemi();
+        void emitVirtualSemi();
+        bool useVirtualSemi();
+        bool virtualSemi{false};
 
         // Skippers //
         bool skipNLs(bool optional = false);
