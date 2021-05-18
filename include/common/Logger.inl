@@ -34,27 +34,27 @@ inline std::ostream & operator<<(std::ostream & os, Color color) {
 }
 
 template<class ...Args>
-const Logger & Logger::debug(Args && ...args) {
+const Logger & Logger::debug(Args && ...args) const {
     return log(LogLevel::Debug, args...);
 }
 
 template<class ...Args>
-const Logger & Logger::info(Args && ...args) {
+const Logger & Logger::info(Args && ...args) const {
     return log(LogLevel::Info, args...);
 }
 
 template<class ...Args>
-const Logger & Logger::warn(Args && ...args) {
+const Logger & Logger::warn(Args && ...args) const {
     return log(LogLevel::Warn, args...);
 }
 
 template<class ...Args>
-const Logger & Logger::error(Args && ...args) {
+const Logger & Logger::error(Args && ...args) const {
     return log(LogLevel::Error, args...);
 }
 
 template<class ...Args>
-const Logger & Logger::dev(Args && ...args) {
+const Logger & Logger::dev(Args && ...args) const {
     return log(LogLevel::Dev, args...);
 }
 
@@ -96,7 +96,7 @@ void Logger::print(Arg && first, Args && ...other)  {
 }
 
 template<class Arg, class ...Args>
-std::string Logger::format(Arg && first, Args && ...other) const {
+std::string Logger::format(Arg && first, Args && ...other) {
     std::stringstream ss;
     ss << first;
     ((ss << other), ...);

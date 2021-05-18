@@ -95,6 +95,7 @@ namespace jc::parser {
         Token peek() const;
         Token advance(uint8_t distance = 1);
         Token lookup() const;
+        Token prev() const;
 
         // Checkers //
         bool eof() const;
@@ -116,8 +117,6 @@ namespace jc::parser {
         void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
         dt::Option<Token> recoverOnce(TokenType type, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
-        void unexpectedToken(const Span & span);
-        void unexpectedToken(sugg::sugg_ptr helpSugg);
 
         // Parsers //
     private:
@@ -168,7 +167,7 @@ namespace jc::parser {
         // Fragments //
         ast::block_ptr parseBlock(const std::string & construction, bool allowArrow);
         std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
-        ast::attr_list parseAttributes();
+        ast::attr_list parseAttrList();
         dt::Option<ast::attr_ptr> parseAttr();
         ast::named_list_ptr parseNamedList(const std::string & construction);
 //        parser::token_list parseModifiers();

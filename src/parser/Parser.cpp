@@ -18,7 +18,21 @@ namespace jc::parser {
     }
 
     Token Parser::lookup() const {
-        return tokens.at(index + 1);
+        try {
+            return tokens.at(index + 1);
+        } catch (std::out_of_range & error) {
+            log.error("Parser: called lookup() out of token list bound");
+            throw error;
+        }
+    }
+
+    Token Parser::prev() const {
+        try {
+            return tokens.at(index - 1);
+        } catch (std::out_of_range & error) {
+            log.error("Parser: called prev() out of token list bound");
+            throw error;
+        }
     }
 
     // Checkers //
@@ -164,16 +178,6 @@ namespace jc::parser {
         return maybeToken;
     }
 
-    void Parser::unexpectedToken(const Span & span) {
-        suggestErrorMsg("Unexpected token", span);
-        advance();
-    }
-
-    void Parser::unexpectedToken(sugg::sugg_ptr helpSugg) {
-        suggest(std::move(helpSugg));
-        advance();
-    }
-
     // Parsers //
     dt::SuggResult<ast::stmt_list> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
@@ -207,11 +211,9 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (expr) {
                     // FIXME!: Use RangeSugg
-                    suggestErrorMsg(gotExprSugg, cspan());
-                } else {
-                    // nonsense
-                    unexpectedToken(exprToken.span(sess));
+                    suggestErrorMsg(gotExprSugg, exprToken.span(sess));
                 }
+                // If expr is `None` we already made an error in `primary`
             }
         }
         return declarations;
@@ -221,7 +223,7 @@ namespace jc::parser {
         logParse("Item");
 
         const auto & loc = peek().loc;
-        ast::attr_list attributes = parseAttributes();
+        ast::attr_list attributes = parseAttrList();
 //        parser::token_list modifiers = parseModifiers();
         parser::token_list modifiers = {};
 
@@ -540,13 +542,13 @@ namespace jc::parser {
 
     // Expressions //
     ast::opt_expr_ptr Parser::parseOptExpr() {
-        logParse("parseOptExpr");
+        logParse("[opt] Expr");
 
         return assignment();
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("parseExpr");
+        logParse("Expr");
 
         auto expr = parseOptExpr();
         errorForNone(expr, suggMsg, cspan());
@@ -555,10 +557,14 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::assignment() {
-        logParse("Assign");
+        logParse("Assignment");
 
         const auto & loc = peek().loc;
         auto lhs = precParse(0);
+
+        if (!lhs) {
+            return dt::None;
+        }
 
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
@@ -598,7 +604,7 @@ namespace jc::parser {
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
 
-        ast::opt_expr_ptr lhs(dt::None);
+        ast::opt_expr_ptr lhs;
         if (!prefix) {
             auto single = precParse(index + 1);
             if (!single) {
@@ -691,6 +697,7 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::Dot) or skipOpt(TokenType::SafeCall)) {
+                // TODO: `.` Only for id.id / id.int
                 auto rhs = primary();
                 if (!rhs) {
                     // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
@@ -755,6 +762,10 @@ namespace jc::parser {
 
     ast::opt_expr_ptr Parser::primary() {
         logParse("primary");
+
+        if (eof()) {
+            common::Logger::devPanic("Called parse `primary` on `EOF`");
+        }
 
         if (peek().isLiteral()) {
             return parseLiteral();
@@ -840,9 +851,7 @@ namespace jc::parser {
             suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
         }
 
-        if (!eof()) {
-            advance();
-        }
+        advance();
 
         return dt::None;
     }
@@ -1234,7 +1243,7 @@ namespace jc::parser {
         return {body, oneLineBody};
     }
 
-    ast::attr_list Parser::parseAttributes() {
+    ast::attr_list Parser::parseAttrList() {
         logParse("AttrList");
 
         ast::attr_list attributes;

@@ -65,16 +65,16 @@ namespace jc::common {
         const Logger & debug(Args && ...args) const;
 
         template<class ...Args>
-        const Logger & info(Args && ...args);
+        const Logger & info(Args && ...args) const;
 
         template<class ...Args>
-        const Logger & warn(Args && ...args);
+        const Logger & warn(Args && ...args) const;
 
         template<class ...Args>
-        const Logger & error(Args && ...args);
+        const Logger & error(Args && ...args) const;
 
         template<class ...Args>
-        const Logger & dev(Args && ...args);
+        const Logger & dev(Args && ...args) const;
 
         template<class Arg, class ...Args>
         const Logger & raw(Arg && first, Args && ...other) const;
@@ -82,7 +82,7 @@ namespace jc::common {
         template<class Arg, class ...Args>
         void colorized(Color color, Arg && first, Args && ...other);
 
-        static inline void nl() {
+        static inline void nl()  {
             std::cout << std::endl;
         }
 
