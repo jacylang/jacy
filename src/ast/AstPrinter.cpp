@@ -211,11 +211,13 @@ namespace jc::ast {
 
     void AstPrinter::visit(Infix * infix) {
         infix->lhs->accept(*this);
+        log.raw(" ");
         if (infix->token.type == parser::TokenType::Id) {
             log.raw(infix->token.val);
         } else {
             log.raw(infix->token.typeToString());
         }
+        log.raw(" ");
         infix->rhs->accept(*this);
     }
 
