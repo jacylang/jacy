@@ -88,7 +88,6 @@ namespace jc::parser {
 
     void Parser::skipSemis(bool optional, bool useless) {
         // TODO: Useless semi sugg
-        log.dev("Skip semis", peek().toString());
         if (!isSemis() and !optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span(sess));
             return;
@@ -232,9 +231,7 @@ namespace jc::parser {
             if (item) {
                 items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
             } else {
-                log.dev("Not item");
                 const auto & exprToken = peek();
-                log.dev("Expr token", exprToken.toString());
                 auto expr = parseOptExpr();
                 if (expr) {
                     // FIXME!: Use RangeSugg
@@ -659,7 +656,6 @@ namespace jc::parser {
         }
 
         if (!maybeOp) {
-            log.dev("Prec parse, !maybeOp", peek().toString());
             if (prefix) {
                 // Not operator found and now we parsing prefix case, so just parse postfix
                 return postfix();
@@ -671,7 +667,8 @@ namespace jc::parser {
             return lhs;
         }
 
-        while (skipOpt(maybeOp.unwrap("precParse -> maybeOp").type, skipRightNLs)) {
+        auto op = maybeOp.unwrap("precParse -> maybeOp");
+        while (skipOpt(op.type, skipRightNLs)) {
             logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
             auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
             if (!rhs) {
@@ -684,14 +681,14 @@ namespace jc::parser {
                     common::Logger::devPanic("Left-hand side exists in prefix parser");
                 }
                 lhs = makePrefix(
-                    maybeOp.unwrap("precParse -> prefix -> maybeOp"),
+                    op,
                     rhs.unwrap("precParse -> prefix -> rhs")
                 );
                 return lhs;
             }
             lhs = makeInfix(
                 lhs.unwrap("precParse -> !prefix -> lhs"),
-                maybeOp.unwrap("precParse -> !prefix -> maybeOp"),
+                op,
                 rhs.unwrap("precParse -> !prefix -> rhs")
             );
             if (!multiple) {
@@ -1334,19 +1331,20 @@ namespace jc::parser {
                 );
             }
 
+            const auto & loc = peek().loc;
             ast::opt_id_ptr id = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
             auto expr = parseExpr("Expression expected");
 
-            skipNLs(true);
-
-            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Assign, true)) {
+            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Colon, true)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
                 value = parseExpr("Expression expected as value for named argument in " + construction);
             } else {
                 value = expr;
             }
+
+            namedList.emplace_back(std::make_shared<ast::NamedElement>(id, value, loc));
         }
         skip(
             TokenType::RParen,
