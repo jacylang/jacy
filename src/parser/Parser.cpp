@@ -1448,11 +1448,8 @@ namespace jc::parser {
             }
 
             auto param = parseFuncParam();
-            if (!param) {
-                continue;
-            }
 
-            params.push_back(param.unwrap("parseFuncParamList -> param"));
+            params.push_back(param);
         }
         skip(
             TokenType::RParen,
@@ -1468,14 +1465,10 @@ namespace jc::parser {
         return params;
     }
 
-    dt::Option<ast::func_param_ptr> Parser::parseFuncParam() {
+    ast::func_param_ptr Parser::parseFuncParam() {
         logParse("FuncParams");
 
         const auto & loc = peek().loc;
-
-        if (!is(TokenType::Id)) {
-            return dt::None;
-        }
 
         auto id = parseId("Expected function parameter", true, true);
 

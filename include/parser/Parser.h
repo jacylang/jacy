@@ -182,7 +182,7 @@ namespace jc::parser {
         ast::named_list_ptr parseNamedList(const std::string & construction);
 //        parser::token_list parseModifiers();
         ast::func_param_list parseFuncParamList();
-        dt::Option<ast::func_param_ptr> parseFuncParam();
+        ast::func_param_ptr parseFuncParam();
         ast::stmt_list parseMembers(const std::string & construction);
 
         // Types //

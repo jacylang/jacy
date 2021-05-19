@@ -56,7 +56,7 @@ namespace jc::ast {
         log.raw("for ");
         forStmt->forEntity->accept(*this);
         log.raw(" in ");
-        forStmt->inExpr->accept(*this);;
+        forStmt->inExpr->accept(*this);
         print(forStmt->body);
     }
 

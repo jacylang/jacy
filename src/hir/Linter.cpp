@@ -16,34 +16,49 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::ErrorStmt * errorStmt) {
-        common::Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->loc.toString());
+        Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->loc.toString());
     }
 
     void Linter::visit(ast::ErrorExpr * errorExpr) {
-        common::Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->loc.toString());
+        Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->loc.toString());
     }
 
     void Linter::visit(ast::ErrorType * errorType) {
-        common::Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->loc.toString());
+        Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->loc.toString());
     }
 
     ////////////////
     // Statements //
     ////////////////
     void Linter::visit(ast::EnumDecl * enumDecl) {
-        common::Logger::devPanic("Not im")
+        Logger::notImplemented("Linter::visit enumDecl");
     }
 
     void Linter::visit(ast::ExprStmt * exprStmt) {
-
+        exprStmt->expr->accept(*this);
     }
 
     void Linter::visit(ast::ForStmt * forStmt) {
-
+        forStmt->forEntity->accept(*this);
+        forStmt->inExpr->accept(*this);
+        lint(forStmt->body);
     }
 
     void Linter::visit(ast::FuncDecl * funcDecl) {
+        for (const auto & modifier : funcDecl->modifiers) {
+            // TODO: Check for allowed modifiers
+        }
+        // Something for type params?
+        funcDecl->id->accept(*this);
 
+        for (const auto & param : funcDecl->params) {
+            if (!param->id) {
+                Logger::devPanic("`Linter::funcDecl` -> param.id is None");
+            }
+            if (param->type) {
+
+            }
+        }
     }
 
     void Linter::visit(ast::Impl * impl) {
@@ -91,7 +106,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::Identifier * identifier) {
         if (!identifier->token) {
-            common::Logger::devPanic("[ERROR ID] on linter stage at", identifier->loc.toString());
+            Logger::devPanic("[ERROR ID] on linter stage at", identifier->loc.toString());
         }
     }
 
@@ -212,6 +227,12 @@ namespace jc::hir {
 
     void Linter::visit(ast::UnitType * unitType) {
 
+    }
+
+    void Linter::lint(const ast::block_ptr & block) {
+        for (const auto & stmt : block->stmts) {
+            stmt->accept(*this);
+        }
     }
 
     // Suggestions //

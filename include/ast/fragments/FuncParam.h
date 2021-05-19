@@ -11,8 +11,8 @@ namespace jc::ast {
 
     struct FuncParam : Node {
         FuncParam(
-            opt_id_ptr id,
-            opt_type_ptr type,
+            id_ptr id,
+            type_ptr type,
             opt_expr_ptr defaultValue,
             const Location & loc
         ) : id(std::move(id)),
@@ -20,8 +20,8 @@ namespace jc::ast {
             defaultValue(std::move(defaultValue)),
             Node(loc) {}
 
-        opt_id_ptr id;
-        opt_type_ptr type;
+        id_ptr id;
+        type_ptr type;
         opt_expr_ptr defaultValue;
     };
 }

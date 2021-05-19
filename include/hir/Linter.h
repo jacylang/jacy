@@ -8,6 +8,8 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::hir {
+    using common::Logger;
+
     class Linter : public ast::BaseVisitor {
     public:
         Linter();
@@ -65,6 +67,8 @@ namespace jc::hir {
         void visit(ast::UnitType * unitType) override;
 
     private:
+        void lint(const ast::block_ptr & block);
+
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
