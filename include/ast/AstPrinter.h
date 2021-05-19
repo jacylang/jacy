@@ -68,7 +68,7 @@ namespace jc::ast {
         void printIndent() const;
         void print(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
-        void print(const type_param_list & typeParams);
+        void print(const opt_type_params & optTypeParams, bool pathPrefix = false);
         void print(const delegation_list & delegations);
         void print(const block_ptr & block);
         void print(NamedList * namedList);

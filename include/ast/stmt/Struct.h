@@ -8,7 +8,7 @@ namespace jc::ast {
     struct Struct : Stmt {
         Struct(
             id_ptr id,
-            type_param_list typeParams,
+            opt_type_params typeParams,
             stmt_list members,
             const Location & loc
         ) : id(std::move(id)),
@@ -17,7 +17,7 @@ namespace jc::ast {
             Stmt(loc, StmtType::Struct) {}
 
         id_ptr id;
-        type_param_list typeParams;
+        opt_type_params typeParams;
         stmt_list members;
 
         void accept(BaseVisitor & visitor) override {

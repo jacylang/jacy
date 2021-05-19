@@ -270,10 +270,7 @@ namespace jc::ast {
         }
         for (const auto & segment : pathExpr->segments) {
             segment->id->accept(*this);
-            if (segment->typeParams.size()) {
-                log.raw("::");
-                print(segment->typeParams);
-            }
+            print(segment->typeParams, true);
         }
     }
 
@@ -424,9 +421,16 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::print(const ast::type_param_list & typeParams) {
+    void AstPrinter::print(const ast::opt_type_params & optTypeParams, bool pathPrefix) {
+        if (!optTypeParams) {
+            return;
+        }
+
+        auto typeParams = optTypeParams.unwrap("AstPrinter -> print typeParams -> optTypeParams");
         if (typeParams.empty()) {
             return;
+        } else if (pathPrefix) {
+            log.raw("::");
         }
 
         log.raw("<");

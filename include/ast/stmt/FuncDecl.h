@@ -11,7 +11,7 @@ namespace jc::ast {
     struct FuncDecl : Stmt {
         FuncDecl(
             parser::token_list modifiers,
-            type_param_list typeParams,
+            opt_type_params typeParams,
             id_ptr id,
             func_param_list params,
             opt_type_ptr returnType,
@@ -28,7 +28,7 @@ namespace jc::ast {
             Stmt(loc, StmtType::Func) {}
 
         parser::token_list modifiers;
-        type_param_list typeParams;
+        opt_type_params typeParams;
         id_ptr id;
         func_param_list params;
         opt_type_ptr returnType;

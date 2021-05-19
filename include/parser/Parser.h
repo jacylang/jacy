@@ -186,7 +186,7 @@ namespace jc::parser {
         ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Location & loc);
 
         // Type fragments //
-        ast::type_param_list parseTypeParams();
+        ast::opt_type_params parseTypeParams();
         ast::type_path_ptr parseTypePath(const std::string & suggMsg);
         ast::opt_type_path_ptr parseOptTypePath();
 

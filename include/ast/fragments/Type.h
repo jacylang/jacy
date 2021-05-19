@@ -91,11 +91,11 @@ namespace jc::ast {
     };
 
     struct IdType : Node {
-        IdType(id_ptr id, type_param_list typeParams)
+        IdType(id_ptr id, opt_type_params typeParams)
             : id(std::move(id)), typeParams(std::move(typeParams)), Node(id->loc) {}
 
         id_ptr id;
-        type_param_list typeParams;
+        opt_type_params typeParams;
     };
 
     struct TypePath : Type {

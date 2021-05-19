@@ -944,8 +944,10 @@ namespace jc::parser {
             const auto & loc = peek().loc;
             auto id = parseId("Identifier in path", true, true);
 
-            ast::type_param_list typeParams;
+            ast::opt_type_params typeParams;
+            bool pathMaybeGeneric = false;
             if (skipOpt(TokenType::Path, true)) {
+                pathMaybeGeneric = true;
                 typeParams = parseTypeParams();
             }
 
@@ -1654,11 +1656,11 @@ namespace jc::parser {
         return std::make_shared<ast::FuncType>(params, returnType, loc);
     }
 
-    ast::type_param_list Parser::parseTypeParams() {
+    ast::opt_type_params Parser::parseTypeParams() {
         logParse("TypeParams");
 
         if (!is(TokenType::LAngle)) {
-            return {};
+            return dt::None;
         }
 
         const auto & lAngleToken = peek();

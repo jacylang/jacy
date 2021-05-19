@@ -24,7 +24,7 @@ namespace jc::dt {
             common::Logger::devPanic("Initialization of `Option` with nullptr");
         }
 
-        const T & unwrap(const std::string & msg = "") {
+        const T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }

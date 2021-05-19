@@ -8,7 +8,7 @@ namespace jc::ast {
     struct Trait : Stmt {
         Trait(
             id_ptr id,
-            type_param_list typeParams,
+            opt_type_params typeParams,
             type_path_list superTraits,
             stmt_list members,
             const Location & loc
@@ -19,7 +19,7 @@ namespace jc::ast {
             Stmt(loc, StmtType::Trait) {}
 
         id_ptr id;
-        type_param_list typeParams;
+        opt_type_params typeParams;
         type_path_list superTraits;
         stmt_list members;
 

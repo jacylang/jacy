@@ -7,7 +7,7 @@
 namespace jc::ast {
     struct Impl : Stmt {
         Impl(
-            type_param_list typeParams,
+            opt_type_params typeParams,
             type_path_ptr traitTypePath,
             type_ptr forType,
             stmt_list members,
@@ -18,7 +18,7 @@ namespace jc::ast {
             members(std::move(members)),
             Stmt(loc, StmtType::Impl) {}
 
-        type_param_list typeParams;
+        opt_type_params typeParams;
         type_path_ptr traitTypePath;
         type_ptr forType;
         stmt_list members;
