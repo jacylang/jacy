@@ -229,10 +229,10 @@ namespace jc::ast {
     void AstPrinter::visit(Infix * infix) {
         infix->lhs->accept(*this);
         log.raw(" ");
-        if (infix->token.type == parser::TokenType::Id) {
-            log.raw(infix->token.val);
+        if (infix->op.type == parser::TokenType::Id) {
+            log.raw(infix->op.val);
         } else {
-            log.raw(infix->token.typeToString());
+            log.raw(infix->op.typeToString());
         }
         log.raw(" ");
         infix->rhs->accept(*this);
@@ -284,11 +284,11 @@ namespace jc::ast {
 
     void AstPrinter::visit(Postfix * postfix) {
         postfix->lhs->accept(*this);
-        log.raw(postfix->token.typeToString());
+        log.raw(postfix->op.typeToString());
     }
 
     void AstPrinter::visit(Prefix * prefix) {
-        log.raw(prefix->token.typeToString());
+        log.raw(prefix->op.typeToString());
         prefix->rhs->accept(*this);
     }
 

@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct Prefix : Expr {
-        Prefix(const parser::Token & token, expr_ptr rhs)
-            : token(token), rhs(rhs), Expr(token.loc, ExprType::Prefix) {}
+        Prefix(const parser::Token & op, expr_ptr rhs)
+            : op(op), rhs(rhs), Expr(op.loc, ExprType::Prefix) {}
 
-        parser::Token token;
+        parser::Token op;
         expr_ptr rhs;
 
         void accept(BaseVisitor & visitor) override {

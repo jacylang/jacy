@@ -8,11 +8,11 @@ namespace jc::ast {
     using infix_ptr = std::shared_ptr<Infix>;
 
     struct Infix : Expr {
-        Infix(expr_ptr lhs, const parser::Token & token, expr_ptr rhs)
-            : lhs(lhs), token(token), rhs(rhs), Expr(lhs->loc, ExprType::Infix) {}
+        Infix(expr_ptr lhs, const parser::Token & op, expr_ptr rhs)
+            : lhs(lhs), op(op), rhs(rhs), Expr(lhs->loc, ExprType::Infix) {}
 
         expr_ptr lhs;
-        parser::Token token;
+        parser::Token op;
         expr_ptr rhs;
 
         void accept(BaseVisitor & visitor) override {

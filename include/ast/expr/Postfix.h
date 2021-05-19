@@ -5,11 +5,11 @@
 
 namespace jc::ast {
     struct Postfix : Expr {
-        Postfix(expr_ptr lhs, const parser::Token & token)
-            : lhs(lhs), token(token), Expr(lhs->loc, ExprType::Postfix) {}
+        Postfix(expr_ptr lhs, const parser::Token & op)
+            : lhs(lhs), op(op), Expr(lhs->loc, ExprType::Postfix) {}
 
         expr_ptr lhs;
-        parser::Token token;
+        parser::Token op;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

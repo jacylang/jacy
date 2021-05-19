@@ -97,7 +97,7 @@ namespace jc::hir {
 
     }
 
-    void Linter::visit(ast::Infix * infix) {
+    void Linter::visit(ast::Infix * infix)
 
     }
 
