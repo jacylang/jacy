@@ -68,6 +68,8 @@ namespace jc::hir {
 
     private:
         void lint(const ast::block_ptr & block);
+        void lint(const ast::named_list_ptr & namedList);
+        void lint(const ast::type_param_list & typeParams);
         void lintMembers(const ast::stmt_list & members);
         bool isPlaceExpr(const ast::expr_ptr & expr);
 

@@ -5,6 +5,8 @@
 #include "ast/fragments/TypeParams.h"
 #include "ast/BaseVisitor.h"
 
+// TODO: Separate Types by files in folder `type`
+
 namespace jc::ast {
     struct Type;
     struct TupleTypeElement;

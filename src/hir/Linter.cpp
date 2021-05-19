@@ -49,7 +49,9 @@ namespace jc::hir {
             // FIXME: Check for allowed modifiers
         }
 
-        // FIXME: Something for type params?
+        if (funcDecl->typeParams) {
+            lint(funcDecl->typeParams.unwrap());
+        }
 
         funcDecl->id->accept(*this);
 
@@ -77,7 +79,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::Impl * impl) {
         if (impl->typeParams) {
-            // FIXME: Something with type params?
+            lint(impl->typeParams.unwrap());
         }
 
         impl->traitTypePath->accept(*this);
@@ -94,7 +96,7 @@ namespace jc::hir {
         _struct->id->accept(*this);
 
         if (_struct->typeParams) {
-            // FIXME: Something with type params?
+            lint(_struct->typeParams.unwrap());
         }
 
         lintMembers(_struct->members);
@@ -104,7 +106,7 @@ namespace jc::hir {
         trait->id->accept(*this);
 
         if (trait->typeParams) {
-            // FIXME: Something with type params?
+            lint(trait->typeParams.unwrap());
         }
 
         for (const auto & superTrait : trait->superTraits) {
@@ -174,7 +176,7 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::BreakExpr * breakExpr) {
-        // FIXME: Not up to date (not expression inside)
+        // FIXME: Not up to date (no expression inside)
     }
 
     void Linter::visit(ast::ContinueExpr * continueExpr) {}
@@ -191,6 +193,10 @@ namespace jc::hir {
         if (ifExpr->ifBranch) {
             lint(ifExpr->ifBranch.unwrap());
         }
+
+        if (ifExpr->elseBranch) {
+            lint(ifExpr->elseBranch.unwrap());
+        }
     }
 
     void Linter::visit(ast::Infix * infix) {
@@ -201,19 +207,24 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Invoke * invoke) {
+        invoke->lhs->accept(*this);
+        lint(invoke->args);
 
+        // TODO
     }
 
     void Linter::visit(ast::ListExpr * listExpr) {
-
+        for (const auto & el : listExpr->elements) {
+            el->accept(*this);
+        }
     }
 
     void Linter::visit(ast::LiteralConstant * literalConstant) {
-
+        // What's here?
     }
 
     void Linter::visit(ast::LoopExpr * loopExpr) {
-
+        lint(loopExpr->body);
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
@@ -238,79 +249,135 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::PathExpr * pathExpr) {
-
+        for (const auto & seg : pathExpr->segments) {
+            seg->id->accept(*this);
+            if (seg->typeParams) {
+                lint(seg->typeParams.unwrap());
+            }
+        }
     }
 
     void Linter::visit(ast::Postfix * postfix) {
-
+        // FIXME: Postfix will be removed
+        Logger::devPanic("Linter: postfix operators will be removed");
     }
 
     void Linter::visit(ast::Prefix * prefix) {
-
+        // What's here?
     }
 
     void Linter::visit(ast::ReturnExpr * returnExpr) {
-
+        // FIXME: Parsing not done!
+        Logger::notImplemented("Linter: parsing for ReturnExpr not done yet");
     }
 
     void Linter::visit(ast::SpreadExpr * spreadExpr) {
+        // TODO: Context check? Where we allow spread?
 
+        spreadExpr->expr->accept(*this);
     }
 
     void Linter::visit(ast::Subscript * subscript) {
-
+        subscript->lhs->accept(*this);
+        for (const auto & index : subscript->indices) {
+            index->accept(*this);
+        }
     }
 
     void Linter::visit(ast::SuperExpr * superExpr) {
-
+        // A??
     }
 
     void Linter::visit(ast::ThisExpr * thisExpr) {
-
+        // A??
     }
 
     void Linter::visit(ast::TupleExpr * tupleExpr) {
-
+        lint(tupleExpr->elements);
     }
 
     void Linter::visit(ast::UnitExpr * unitExpr) {
-
+        // Meow
     }
 
     void Linter::visit(ast::WhenExpr * whenExpr) {
+        whenExpr->subject->accept(*this);
 
+        for (const auto & entry : whenExpr->entries) {
+            for (const auto & condition : entry->conditions) {
+                // FIXME: Patterns in the future
+                condition->accept(*this);
+            }
+            lint(entry->body);
+        }
     }
 
     ///////////
     // Types //
     ///////////
     void Linter::visit(ast::ParenType * parenType) {
-
+        parenType->accept(*this);
     }
 
     void Linter::visit(ast::TupleType * tupleType) {
-
+        // FIXME: Add check for one-element tuple type, etc.
+        for (const auto & el : tupleType->elements) {
+            if (el->id) {
+                el->id.unwrap()->accept(*this);
+            }
+            if (el->type) {
+                el->type.unwrap()->accept(*this);
+            }
+        }
     }
 
     void Linter::visit(ast::FuncType * funcType) {
-
+        for (const auto & param : funcType->params) {
+            param->accept(*this);
+        }
+        funcType->returnType->accept(*this);
     }
 
     void Linter::visit(ast::ArrayType * listType) {
-
+        listType->type->accept(*this);
     }
 
     void Linter::visit(ast::TypePath * typePath) {
-
+        for (const auto & seg : typePath->ids) {
+            seg->id->accept(*this);
+            if (seg->typeParams) {
+                lint(seg->typeParams.unwrap());
+            }
+        }
     }
 
     void Linter::visit(ast::UnitType * unitType) {
-
+        // Meow...
     }
 
     void Linter::lint(const ast::block_ptr & block) {
         for (const auto & stmt : block->stmts) {
             stmt->accept(*this);
+        }
+    }
+
+    void Linter::lint(const ast::named_list_ptr & namedList) {
+        for (const auto & el : namedList->elements) {
+            if (el->id) {
+                el->id.unwrap()->accept(*this);
+            }
+            if (el->value) {
+                el->value.unwrap()->accept(*this);
+            }
+        }
+    }
+
+    void Linter::lint(const ast::type_param_list & typeParams) {
+        for (const auto & typeParam : typeParams) {
+            typeParam->id->accept(*this);
+            if (typeParam->type) {
+                typeParam->type.unwrap()->accept(*this);
+            }
         }
     }
 
