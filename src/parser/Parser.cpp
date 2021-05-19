@@ -729,6 +729,7 @@ namespace jc::parser {
         {0b10011, {TokenType::Add, TokenType::Sub}},
         {0b10011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
         {0b11011, {TokenType::Power}}, // Note: Right-assoc
+        {0b10011, {TokenType::As}},
         {0b01111, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // Note: Prefix, Right-assoc hack; FIXME: Not multiple?!
     };
 
