@@ -72,11 +72,11 @@ namespace jc::ast {
         log.raw("(");
         for (size_t i = 0; i < funcDecl->params.size(); ++i) {
             const auto & param = funcDecl->params.at(i);
-            param->id.unwrap()->accept(*this);
+            param->id->accept(*this);
 
             if (param->type) {
                 log.raw(": ");
-                param->type.unwrap()->accept(*this);
+                param->type->accept(*this);
             }
             if (param->defaultValue) {
                 log.raw(" = ");

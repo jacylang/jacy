@@ -69,10 +69,6 @@ void Logger::devPanic(Arg && first, Args && ...other) {
     throw common::Error("Stop after dev panic!");
 }
 
-void Logger::notImplemented(const std::string & what) {
-    devPanic("Not implemented error: `" + what + "`");
-}
-
 template<class Arg, class... Args>
 void Logger::devDebug(Arg && first, Args && ... other) {
     std::cout << levelColors.at(LogLevel::Debug) << "[DEV DEBUG]: " << Color::Reset << std::forward<Arg>(first);

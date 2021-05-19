@@ -200,7 +200,6 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Infix * infix) {
-        log.dev("Visit infix", infix->op.toString());
         if (infix->op.is(parser::TokenType::Id)) {
             suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
         }
