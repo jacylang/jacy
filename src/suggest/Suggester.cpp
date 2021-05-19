@@ -3,7 +3,6 @@
 namespace jc::sugg {
     Suggester::Suggester() : sourceMap(sess::SourceMap::getInstance()) {}
 
-
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
         this->sess = sess;
 

@@ -1259,7 +1259,8 @@ namespace jc::parser {
                 )
             );
         } else if (allowOneLine) {
-            stmts.push_back(parseStmt());
+            auto exprStmt = std::make_shared<ast::ExprStmt>(parseExpr("Expected expression for one-line block"));
+            stmts.push_back(exprStmt);
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(

@@ -31,7 +31,7 @@ namespace jc::sugg {
         void printWithIndent(const std::string & msg);
 
         std::string indent;
-        const uint8_t wrapLen{80};
+        const uint8_t wrapLen{120};
     };
 }
 
