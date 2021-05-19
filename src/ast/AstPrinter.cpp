@@ -19,6 +19,10 @@ namespace jc::ast {
         log.raw("[ERROR EXPR]");
     }
 
+    void AstPrinter::visit(ErrorType * errorType) {
+        log.raw("[ERROR TYPE]");
+    }
+
     ////////////////
     // Statements //
     ////////////////

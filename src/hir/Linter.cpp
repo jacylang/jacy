@@ -21,6 +21,10 @@ namespace jc::hir {
         common::Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->loc.toString());
     }
 
+    void Linter::visit(ast::ErrorType * errorType) {
+        common::Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->loc.toString());
+    }
+
     ////////////////
     // Statements //
     ////////////////

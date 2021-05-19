@@ -17,6 +17,7 @@ namespace jc::ast {
 
         void visit(ErrorStmt * errorStmt) override;
         void visit(ErrorExpr * errorExpr) override;
+        void visit(ErrorType * errorType) override;
 
         // Statements //
         void visit(EnumDecl * enumDecl) override;

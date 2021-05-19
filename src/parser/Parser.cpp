@@ -1077,7 +1077,7 @@ namespace jc::parser {
     }
 
     ast::expr_ptr Parser::parseIfExpr(bool isElif) {
-        logParse("IfExpr");
+        logParse("IfExpr:elif=" + std::to_string(isElif));
 
         const auto & loc = peek().loc;
 
@@ -1107,7 +1107,7 @@ namespace jc::parser {
             elseBranch = parseBlock("else", BlockArrow::Useless);
         } else if (is(TokenType::Elif)) {
             ast::stmt_list elif;
-            elif.push_back(std::make_shared<ast::ExprStmt>(parseIfExpr()));
+            elif.push_back(std::make_shared<ast::ExprStmt>(parseIfExpr(true)));
             elseBranch = std::make_shared<ast::Block>(elif, loc);
         }
 
@@ -1273,6 +1273,7 @@ namespace jc::parser {
                     "opening `{` is here", maybeBraceToken.span(sess)
                 )
             );
+            emitVirtualSemi();
         } else if (allowOneLine) {
             auto exprStmt = std::make_shared<ast::ExprStmt>(
                 parseExpr("Expected expression in one-line block in " + construction)

@@ -17,6 +17,7 @@ namespace jc::hir {
     private:
         void visit(ast::ErrorStmt * errorStmt) override;
         void visit(ast::ErrorExpr * errorExpr) override;
+        void visit(ast::ErrorType * errorType) override;
 
         // Statements //
         void visit(ast::EnumDecl * enumDecl) override;
