@@ -77,6 +77,13 @@ namespace jc::parser {
         const std::vector<TokenType> ops;
     };
 
+    enum class BlockArrow : int8_t {
+        NotAllowed,
+        Allow,
+        Require,
+        Useless,
+    };
+
     class Parser {
     public:
         Parser();
@@ -168,7 +175,7 @@ namespace jc::parser {
         ast::when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        ast::block_ptr parseBlock(const std::string & construction, int8_t arrow);
+        ast::block_ptr parseBlock(const std::string & construction, BlockArrow);
         std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
         ast::attr_list parseAttrList();
         dt::Option<ast::attr_ptr> parseAttr();

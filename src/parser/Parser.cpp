@@ -341,7 +341,7 @@ namespace jc::parser {
         justSkip(TokenType::While, true, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", 1);
+        auto body = parseBlock("while", BlockArrow::Allow);
 
         return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
@@ -365,7 +365,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", 1);
+        auto body = parseBlock("for", BlockArrow::Allow);
 
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, loc);
     }
@@ -1090,7 +1090,7 @@ namespace jc::parser {
 
         if (!skipOpt(TokenType::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock("if", 1);
+            ifBranch = parseBlock("if", BlockArrow::Allow);
         }
 
         if (skipOpt(TokenType::Else)) {
@@ -1099,7 +1099,7 @@ namespace jc::parser {
                 // Note: cover case when user writes `if {} else;`
                 suggest(std::make_unique<ParseErrSugg>("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
             }
-            elseBranch = parseBlock("else", 2);
+            elseBranch = parseBlock("else", BlockArrow::Useless);
         }
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
@@ -1112,7 +1112,7 @@ namespace jc::parser {
 
         justSkip(TokenType::Loop, true, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock("loop", 1);
+        auto body = parseBlock("loop", BlockArrow::Allow);
 
         return std::make_shared<ast::LoopExpr>(body, loc);
     }
@@ -1210,7 +1210,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected `=>` after `when` entry conditions", cspan())
         );
 
-        ast::block_ptr body = parseBlock("when", 2);
+        ast::block_ptr body = parseBlock("when", BlockArrow::Require);
 
         return std::make_shared<ast::WhenEntry>(conditions, body, loc);
     }
@@ -1218,34 +1218,22 @@ namespace jc::parser {
     ///////////////
     // Fragments //
     ///////////////
-    /**
-     * @brief Parse block, maybe one-line
-     * @param construction Name of construction for which block to parse
-     * @param arrow i8 multi-meaning param
-     * @return block, maybe one-line
-     *
-     * Arrow param values:
-     * 0 - No `=>` allowed
-     * 1 - Allow `=>` for one-line case
-     * 2 - Require `=>`
-     * -1 - Optional `=>` with remove warn suggestion (block can be one-line even if there's no `=>`)
-     */
-    ast::block_ptr Parser::parseBlock(const std::string & construction, int8_t arrow) {
-        logParse("block:" + construction + " arrow:" + std::to_string(arrow));
+    ast::block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
+        logParse("block:" + construction);
 
         const auto loc = peek().loc;
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenType::DoubleArrow, true)) {
-            if (arrow == 0) {
+            if (arrow == BlockArrow::NotAllowed) {
                 suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span(sess));
-            } else if (arrow == -1) {
+            } else if (arrow == BlockArrow::Useless) {
                 suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span(sess));
             }
             allowOneLine = true;
-        } else if (arrow == 2) {
+        } else if (arrow == BlockArrow::Require) {
             suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span(sess));
-        } else if (arrow == -1) {
+        } else if (arrow == BlockArrow::Useless) {
             // Allow one-line even if no `=>` given for optional
             allowOneLine = true;
         }
@@ -1303,7 +1291,7 @@ namespace jc::parser {
         if (skipOpt(TokenType::Assign, true)) {
             oneLineBody = parseExpr("Expression expected for one-line `func` body");
         } else {
-            body = parseBlock("func", 0);
+            body = parseBlock("func", BlockArrow::NotAllowed);
         }
 
         return {body, oneLineBody};
