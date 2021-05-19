@@ -1075,12 +1075,16 @@ namespace jc::parser {
         return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
 
-    ast::expr_ptr Parser::parseIfExpr() {
+    ast::expr_ptr Parser::parseIfExpr(bool isElif) {
         logParse("IfExpr");
 
         const auto & loc = peek().loc;
 
-        justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
+        if (isElif) {
+            justSkip(TokenType::Elif, true, "`elif`", "`parseIfExpr`");
+        } else {
+            justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
+        }
 
         auto condition = parseExpr("Expected condition in `if` expression");
 
@@ -1101,18 +1105,12 @@ namespace jc::parser {
             }
             elseBranch = parseBlock("else", BlockArrow::Useless);
         } else if (is(TokenType::Elif)) {
-            return parseElif(std::move(condition), std::move(ifBranch));
+            ast::stmt_list elif;
+            elif.push_back(std::make_shared<ast::ExprStmt>(parseIfExpr()));
+            elseBranch = std::make_shared<ast::Block>(elif, loc);
         }
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
-    }
-
-    ast::expr_ptr Parser::parseElif(ast::expr_ptr condition, ast::opt_block_ptr ifBranch) {
-        logParse("Elif");
-
-        justSkip(TokenType::Elif, true, "`elif`", "`parseElif`");
-
-        return std::make_shared<ast::IfExpr>(condition, ifBranch, )
     }
 
     ast::expr_ptr Parser::parseLoopExpr() {

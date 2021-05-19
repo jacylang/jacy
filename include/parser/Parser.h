@@ -169,8 +169,7 @@ namespace jc::parser {
         ast::expr_ptr parseTupleOrParenExpr();
 
         // Control-flow expressions //
-        ast::expr_ptr parseIfExpr();
-        ast::expr_ptr parseElif(ast::expr_ptr condition, ast::opt_block_ptr ifBranch);
+        ast::expr_ptr parseIfExpr(bool isElif = false);
         ast::expr_ptr parseLoopExpr();
         ast::expr_ptr parseWhenExpr();
         ast::when_entry_ptr parseWhenEntry();
