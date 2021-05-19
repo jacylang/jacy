@@ -1692,6 +1692,11 @@ namespace jc::parser {
 
             skipNLs(true);
 
+            if (is(TokenType::RAngle)) {
+                typeParams.push_back(std::make_shared<ast::TypeParam>(id, dt::None));
+                break;
+            }
+
             ast::type_ptr type;
             if (skipOpt(TokenType::Colon)) {
                 type = parseType("Expected bound type after `:` in type parameters");
@@ -1700,7 +1705,7 @@ namespace jc::parser {
             typeParams.push_back(std::make_shared<ast::TypeParam>(id, type));
         }
         skip(
-            TokenType::RParen,
+            TokenType::RAngle,
             true,
             true,
             false,

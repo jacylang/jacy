@@ -442,7 +442,7 @@ namespace jc::ast {
             typeParam->id->accept(*this);
             if (typeParam->type) {
                 log.raw(": ");
-                typeParam->type->accept(*this);
+                typeParam->type.unwrap("AstPrinter -> print typeParams -> typeParam.type")->accept(*this);
             }
         }
         log.raw(">");

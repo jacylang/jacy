@@ -12,10 +12,11 @@ namespace jc::ast {
     using opt_type_ptr = dt::Option<type_ptr>;
 
     struct TypeParam : Node {
-        TypeParam(id_ptr id, type_ptr type) : id(id), type(type), Node(id->loc) {}
+        TypeParam(id_ptr id, opt_type_ptr type)
+            : id(std::move(id)), type(std::move(type)), Node(id->loc) {}
 
         id_ptr id;
-        type_ptr type;
+        opt_type_ptr type;
     };
 }
 
