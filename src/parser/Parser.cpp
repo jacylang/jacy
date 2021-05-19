@@ -949,11 +949,12 @@ namespace jc::parser {
             if (skipOpt(TokenType::Path, true)) {
                 pathMaybeGeneric = true;
                 typeParams = parseTypeParams();
+                pathMaybeGeneric = !typeParams;
             }
 
             segments.push_back(std::make_shared<ast::PathExprSeg>(id, typeParams, loc));
 
-            if (skipOpt(TokenType::Path)) {
+            if (pathMaybeGeneric or skipOpt(TokenType::Path)) {
                 continue;
             }
             break;
