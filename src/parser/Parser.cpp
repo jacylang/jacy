@@ -1093,16 +1093,26 @@ namespace jc::parser {
             ifBranch = parseBlock("if", BlockArrow::Allow);
         }
 
-        if (skipOpt(TokenType::Else)) {
+        if (skipOpt(TokenType::Else, true)) {
             auto maybeSemi = peek();
             if (skipOpt(TokenType::Semi)) {
                 // Note: cover case when user writes `if {} else;`
-                suggest(std::make_unique<ParseErrSugg>("Ignoring `else` with `;` is not allowed", maybeSemi.span(sess)));
+                suggest(std::make_unique<ParseErrSugg>("Ignoring `else` body with `;` is not allowed", maybeSemi.span(sess)));
             }
             elseBranch = parseBlock("else", BlockArrow::Useless);
+        } else if (is(TokenType::Elif)) {
+            return parseElif(std::move(condition), std::move(ifBranch));
         }
 
         return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, loc);
+    }
+
+    ast::expr_ptr Parser::parseElif(ast::expr_ptr condition, ast::opt_block_ptr ifBranch) {
+        logParse("Elif");
+
+        justSkip(TokenType::Elif, true, "`elif`", "`parseElif`");
+
+        return std::make_shared<ast::IfExpr>(condition, ifBranch, )
     }
 
     ast::expr_ptr Parser::parseLoopExpr() {
