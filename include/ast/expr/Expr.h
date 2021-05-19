@@ -34,6 +34,8 @@ namespace jc::ast {
         Tuple,
         Unit,
         When,
+
+        Error,
     };
 
     struct Expr : Node {
@@ -56,6 +58,14 @@ namespace jc::ast {
         }
 
         virtual void accept(BaseVisitor & visitor) = 0;
+    };
+
+    struct ErrorExpr : Expr {
+        explicit ErrorExpr(const Location & loc) : Expr(loc, ExprType::Error) {}
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 

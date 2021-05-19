@@ -10,6 +10,7 @@
 #include "utils/arr.h"
 #include "span/Span.h"
 #include "session/Session.h"
+#include "data_types/Option.h"
 
 /**
  * WWS means Without whitespace
@@ -19,6 +20,7 @@
 namespace jc::parser {
     struct Token;
     using token_list = std::vector<Token>;
+    using opt_token = dt::Option<Token>;
 
     struct Location {
         uint32_t line;

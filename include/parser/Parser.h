@@ -126,7 +126,7 @@ namespace jc::parser {
         // Items //
         dt::Option<ast::stmt_ptr> parseItem();
         ast::stmt_list parseItemList(const std::string & gotExprSugg);
-        ast::opt_stmt_ptr parseStmt();
+        ast::stmt_ptr parseStmt();
 
         ast::stmt_ptr parseWhileStmt();
         ast::stmt_ptr parseForStmt();
@@ -144,7 +144,7 @@ namespace jc::parser {
 
         // Expressions //
         ast::opt_expr_ptr parseOptExpr();
-        ast::opt_expr_ptr parseExpr(const std::string & suggMsg);
+        ast::expr_ptr parseExpr(const std::string & suggMsg);
         ast::opt_expr_ptr assignment();
         ast::opt_expr_ptr precParse(uint8_t index);
 

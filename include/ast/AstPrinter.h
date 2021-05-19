@@ -15,6 +15,9 @@ namespace jc::ast {
 
         void print(const stmt_list & tree);
 
+        void visit(ErrorStmt * errorStmt) override;
+        void visit(ErrorExpr * errorExpr) override;
+
         // Statements //
         void visit(EnumDecl * enumDecl) override;
         void visit(ExprStmt * exprStmt) override;

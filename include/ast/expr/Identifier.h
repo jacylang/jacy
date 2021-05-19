@@ -12,9 +12,10 @@ namespace jc::ast {
     using IdList = std::vector<id_ptr>;
 
     struct Identifier : Expr {
-        explicit Identifier(const parser::Token & token) : token(token), Expr(token.loc, ExprType::Id) {}
+        explicit Identifier(parser::opt_token token, const Location & loc)
+            : token(std::move(token)), Expr(loc, ExprType::Id) {}
 
-        parser::Token token;
+        parser::opt_token token;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

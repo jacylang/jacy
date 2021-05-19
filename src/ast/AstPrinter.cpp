@@ -11,6 +11,14 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(ErrorStmt * errorStmt) {
+        log.raw("[ERROR STMT]");
+    }
+
+    void AstPrinter::visit(ErrorExpr * errorExpr) {
+        log.raw("[ERROR EXPR]");
+    }
+
     ////////////////
     // Statements //
     ////////////////
@@ -189,10 +197,15 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(Identifier * identifier) {
-        if (identifier->token.type == parser::TokenType::Id) {
-            log.raw(identifier->token.val);
+        if (!identifier->token) {
+            log.raw("[ERROR ID]");
         } else {
-            // TODO: Soft keywords
+            auto token = identifier->token.unwrap("AstPrinter -> visit id -> token");
+            if (token.type == parser::TokenType::Id) {
+                log.raw(token.val);
+            } else {
+                // TODO: Soft keywords
+            }
         }
     }
 

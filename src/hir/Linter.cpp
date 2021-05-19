@@ -13,6 +13,14 @@ namespace jc::hir {
         return {dt::None, std::move(suggestions)};
     }
 
+    void Linter::visit(ast::ErrorStmt * errorStmt) {
+        common::Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->loc.toString());
+    }
+
+    void Linter::visit(ast::ErrorExpr * errorExpr) {
+        common::Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->loc.toString());
+    }
+
     ////////////////
     // Statements //
     ////////////////
@@ -76,7 +84,9 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Identifier * identifier) {
-
+        if (!identifier->token) {
+            common::Logger::devPanic("[ERROR ID] on linter stage at", identifier->loc.toString());
+        }
     }
 
     void Linter::visit(ast::IfExpr * ifExpr) {

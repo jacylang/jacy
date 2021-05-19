@@ -24,6 +24,8 @@ namespace jc::ast {
         Trait,
         VarDecl,
         While,
+
+        Error,
     };
 
     struct Stmt : Node {
@@ -36,6 +38,14 @@ namespace jc::ast {
         }
 
         virtual void accept(BaseVisitor & visitor) = 0;
+    };
+
+    struct ErrorStmt : Stmt {
+        explicit ErrorStmt(const Location & loc) : Stmt(loc, StmtType::Error) {}
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 

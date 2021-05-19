@@ -287,7 +287,8 @@ namespace jc::parser {
 
         if (!attributes.empty()) {
             for (const auto & attr : attributes) {
-                suggestErrorMsg("Unexpected attribute", attr->id->token.span(sess));
+                // FIXME: Span from Location
+                suggestErrorMsg("Unexpected attribute", cspan());
             }
         }
 
@@ -300,8 +301,10 @@ namespace jc::parser {
         return dt::None;
     }
 
-    ast::opt_stmt_ptr Parser::parseStmt() {
+    ast::stmt_ptr Parser::parseStmt() {
         logParse("Stmt");
+
+        const auto & loc = peek().loc;
 
         switch (peek().type) {
             case TokenType::While: {
@@ -321,7 +324,7 @@ namespace jc::parser {
                 if (!expr) {
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
                     advance();
-                    return dt::None;
+                    std::make_shared<ast::ErrorStmt>(loc);
                 }
 
                 auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
@@ -340,9 +343,7 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", true);
 
-        if (condition) {
-            return std::make_shared<ast::WhileStmt>(condition.unwrap("parseWhileStmt -> condition"), body, loc);
-        }
+        return std::make_shared<ast::WhileStmt>(condition, body, loc);
     }
 
     ast::stmt_ptr Parser::parseForStmt() {
@@ -577,16 +578,17 @@ namespace jc::parser {
         return assignment();
     }
 
-    ast::opt_expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
+        const auto & loc = peek().loc;
         auto expr = parseOptExpr();
         errorForNone(expr, suggMsg, cspan());
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr) {
-            return expr;
+            return expr.unwrap("parseExpr -> expr");
         }
-        return dt::None;
+        return std::make_shared<ast::ErrorExpr>(loc);
     }
 
     ast::opt_expr_ptr Parser::assignment() {
@@ -606,12 +608,16 @@ namespace jc::parser {
                 "Unexpected empty left-hand side in assignment",
                 maybeAssignOp.span(sess)
             );
+
             advance();
             skipNLs(true);
+
+            auto rhs = parseExpr("Expected expression in assignment");
+
             return ast::Expr::as<ast::Expr>(std::make_shared<ast::Assignment>(
                 checkedLhs,
                 maybeAssignOp,
-                parseExpr("Expected expression in assignment"),
+                rhs,
                 loc
             ));
         }
@@ -902,14 +908,18 @@ namespace jc::parser {
 
         auto id = peek();
         justSkip(TokenType::Id, true, "[identifier]", "`" + panicIn + "`");
-        return std::make_shared<ast::Identifier>(id);
+        return std::make_shared<ast::Identifier>(id, id.loc);
     }
 
     ast::id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
         logParse("Identifier");
 
+        const auto & loc = peek().loc;
         auto maybeIdToken = recoverOnce(TokenType::Id, suggMsg, skipLeftNLs, skipRightNls);
-        return std::make_shared<ast::Identifier>(maybeIdToken.getValueUnsafe());
+        if (maybeIdToken) {
+            return std::make_shared<ast::Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), loc);
+        }
+        return std::make_shared<ast::Identifier>(maybeIdToken, loc);
     }
 
     ast::expr_ptr Parser::parsePathExpr() {
@@ -1233,12 +1243,7 @@ namespace jc::parser {
                 }
                 // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
 
-                auto stmt = parseStmt();
-                if (stmt) {
-                    stmts.push_back(stmt.unwrap());
-                } else {
-                    suggestErrorMsg("WTF?", cspan());
-                }
+                stmts.push_back(parseStmt());
             }
             skip(
                 TokenType::RBrace,
@@ -1251,10 +1256,7 @@ namespace jc::parser {
                 )
             );
         } else if (allowOneLine) {
-            auto stmt = parseStmt();
-            if (stmt) {
-                stmts.push_back(stmt.unwrap());
-            }
+            stmts.push_back(parseStmt());
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(

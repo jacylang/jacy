@@ -2,6 +2,9 @@
 #define JACY_BASEVISITOR_H
 
 namespace jc::ast {
+    struct ErrorStmt;
+    struct ErrorExpr;
+
     // Statements //
     struct EnumDecl;
     struct ExprStmt;
@@ -50,6 +53,9 @@ namespace jc::ast {
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
+
+        virtual void visit(ErrorStmt*) = 0;
+        virtual void visit(ErrorExpr*) = 0;
 
         // Statements //
         virtual void visit(EnumDecl*) = 0;
