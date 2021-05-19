@@ -215,7 +215,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(IfExpr * ifExpr) {
         log.raw("if ");
-        ifExpr->condition.unwrap()->accept(*this);
+        ifExpr->condition->accept(*this);
         log.raw(" ");
         if (ifExpr->ifBranch) {
             print(ifExpr->ifBranch.unwrap());

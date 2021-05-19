@@ -68,6 +68,7 @@ namespace jc::hir {
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
+        void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
 
         common::Logger log{"linter", {}};
     };

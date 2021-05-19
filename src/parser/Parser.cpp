@@ -1035,7 +1035,7 @@ namespace jc::parser {
         ast::named_list namedList;
         bool first = true;
         while (!eof()) {
-            if (skipOpt(TokenType::RParen)) {
+            if (is(TokenType::RParen)) {
                 break;
             }
 
@@ -1052,10 +1052,10 @@ namespace jc::parser {
             }
 
             auto exprToken = peek();
-            auto expr = parseExpr("Expected tuple member");
+            auto expr = parseExpr("Expected tuple member"); // FIXME: Maybe optional + break?
 
-            dt::Option<ast::id_ptr> id = dt::None;
-            dt::Option<ast::expr_ptr> value = dt::None;
+            ast::opt_id_ptr id = dt::None;
+            ast::opt_expr_ptr value = dt::None;
             skipNLs(true);
 
             // Named element case like (name: value)
@@ -1072,6 +1072,20 @@ namespace jc::parser {
 
             namedList.push_back(std::make_shared<ast::NamedElement>(id, value, exprToken.loc));
         }
+        skip(
+            TokenType::RParen,
+            true,
+            false,
+            false,
+            std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
+        );
+
+        if (namedList.size() == 1 and not namedList.at(0)->id and namedList.at(0)->value) {
+            return std::make_shared<ast::ParenExpr>(
+                namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"),
+                loc
+            );
+        }
 
         return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
@@ -1087,11 +1101,17 @@ namespace jc::parser {
             justSkip(TokenType::If, true, "`if`", "`parseIfExpr`");
         }
 
+        const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
+        if (condition->is(ast::ExprType::Paren)) {
+            log.dev("PAREN IN IF");
+            suggestWarnMsg("Unnecessary parentheses", maybeParen.span(sess));
+        }
+
         // Check if user ignored `if` branch using `;` or parse body
-        dt::Option<ast::block_ptr> ifBranch = dt::None;
-        dt::Option<ast::block_ptr> elseBranch = dt::None;
+        ast::opt_block_ptr ifBranch = dt::None;
+        ast::opt_block_ptr elseBranch = dt::None;
 
         if (!skipOpt(TokenType::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`

@@ -9,18 +9,18 @@
 namespace jc::ast {
     struct IfExpr : Expr {
         IfExpr(
-            dt::Option<expr_ptr> condition,
-            dt::Option<block_ptr> ifBranch,
-            dt::Option<block_ptr> elseBranch,
+            expr_ptr condition,
+            opt_block_ptr ifBranch,
+            opt_block_ptr elseBranch,
             const Location & loc
         ) : condition(std::move(condition)),
             ifBranch(std::move(ifBranch)),
             elseBranch(std::move(elseBranch)),
             Expr(loc, ExprType::If) {}
 
-        dt::Option<expr_ptr> condition;
-        dt::Option<block_ptr> ifBranch;
-        dt::Option<block_ptr> elseBranch;
+        expr_ptr condition;
+        opt_block_ptr ifBranch;
+        opt_block_ptr elseBranch;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

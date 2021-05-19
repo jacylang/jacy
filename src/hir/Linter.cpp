@@ -213,4 +213,8 @@ namespace jc::hir {
     void Linter::suggest(sugg::sugg_ptr suggestion) {
         suggestions.push_back(std::move(suggestion));
     }
+
+    void Linter::suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
+        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Warn, eid));
+    }
 }
