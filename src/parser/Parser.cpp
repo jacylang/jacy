@@ -718,7 +718,7 @@ namespace jc::parser {
         {0b10011, {TokenType::Xor}},
         {0b10011, {TokenType::BitAnd}},
         {0b10011, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
-        {0b10011, {TokenType::LAngle, TokenType::LAngle, TokenType::LE, TokenType::GE}},
+        {0b10011, {TokenType::LAngle, TokenType::RAngle, TokenType::LE, TokenType::GE}},
         {0b10011, {TokenType::Spaceship}},
         {0b10011, {TokenType::In, TokenType::NotIn}},
         {0b10011, {TokenType::NullCoalesce}},
@@ -1336,7 +1336,7 @@ namespace jc::parser {
                     false,
                     std::make_unique<ParseErrSugg>(
                         "Missing `,` separator between arguments in " + construction,
-                        cspan()
+                        nspan()
                     )
                 );
             }

@@ -55,8 +55,8 @@ namespace jc::sugg {
         const auto & point = span.col;
         const auto & msgLen = msg.size();
 
-        // Note: We add 3 because we want to put 3 additional `-` for readability
-        const auto & realMsgLen = msgLen + 3;
+        // Note: We add 4 because we want to put 4 additional `---^` or `^---` for readability
+        const auto & realMsgLen = msgLen + 4;
         const auto & spanMax = point + span.len; // The max point of span
 
         if (realMsgLen <= point) {
