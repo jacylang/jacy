@@ -268,9 +268,13 @@ namespace jc::ast {
         if (pathExpr->global) {
             log.raw("::");
         }
-        for (const auto & segment : pathExpr->segments) {
+        for (size_t i = 0; i < pathExpr->segments.size(); i++) {
+            const auto & segment = pathExpr->segments.at(i);
             segment->id->accept(*this);
             print(segment->typeParams, true);
+            if (i < pathExpr->segments.size() - 1) {
+                log.raw("::");
+            }
         }
     }
 
