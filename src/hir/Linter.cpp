@@ -46,63 +46,138 @@ namespace jc::hir {
 
     void Linter::visit(ast::FuncDecl * funcDecl) {
         for (const auto & modifier : funcDecl->modifiers) {
-            // TODO: Check for allowed modifiers
+            // FIXME: Check for allowed modifiers
         }
-        // Something for type params?
+
+        // FIXME: Something for type params?
+
         funcDecl->id->accept(*this);
 
         for (const auto & param : funcDecl->params) {
-            if (!param->id) {
-                Logger::devPanic("`Linter::funcDecl` -> param.id is None");
-            }
             if (param->type) {
-
+                param->type->accept(*this);
             }
+            if (param->defaultValue) {
+                param->defaultValue.unwrap()->accept(*this);
+            }
+        }
+
+        if (funcDecl->returnType) {
+            funcDecl->returnType.unwrap()->accept(*this);
+        }
+
+        if (funcDecl->body) {
+            lint(funcDecl->body.unwrap());
+        } else if (funcDecl->oneLineBody) {
+            funcDecl->oneLineBody.unwrap()->accept(*this);
+        } else {
+            Logger::devPanic("Linter: FuncDecl hasn't either one-line either raw body");
         }
     }
 
     void Linter::visit(ast::Impl * impl) {
+        if (impl->typeParams) {
+            // FIXME: Something with type params?
+        }
 
+        impl->traitTypePath->accept(*this);
+        impl->forType->accept(*this);
+        lintMembers(impl->members);
     }
 
     void Linter::visit(ast::Item * item) {
-
+        // FIXME: Something with attributes?
+        item->stmt->accept(*this);
     }
 
     void Linter::visit(ast::Struct * _struct) {
+        _struct->id->accept(*this);
 
+        if (_struct->typeParams) {
+            // FIXME: Something with type params?
+        }
+
+        lintMembers(_struct->members);
     }
 
     void Linter::visit(ast::Trait * trait) {
+        trait->id->accept(*this);
 
+        if (trait->typeParams) {
+            // FIXME: Something with type params?
+        }
+
+        for (const auto & superTrait : trait->superTraits) {
+            superTrait->accept(*this);
+        }
+
+        lintMembers(trait->members);
     }
 
     void Linter::visit(ast::TypeAlias * typeAlias) {
-
+        typeAlias->id->accept(*this);
+        typeAlias->type->accept(*this);
     }
 
     void Linter::visit(ast::VarDecl * varDecl) {
+        varDecl->id->accept(*this);
+        varDecl->type->accept(*this);
 
+        if (varDecl->assignExpr) {
+            varDecl->assignExpr.unwrap()->accept(*this);
+        }
+
+        if (varDecl->kind.is(parser::TokenType::Const) and !varDecl->assignExpr) {
+            suggestErrorMsg("`const` must be initialized immediately", varDecl->kind.span(sess));
+        }
     }
 
     void Linter::visit(ast::WhileStmt * whileStmt) {
-
+        whileStmt->condition->accept(*this);
+        lint(whileStmt->body);
     }
 
     /////////////////
     // Expressions //
     /////////////////
-    void Linter::visit(ast::Assignment * assignment) {
+    void Linter::visit(ast::Assignment * assign) {
+        assign->lhs->accept(*this);
+        assign->rhs->accept(*this);
 
+        const auto & span = assign->op.span(sess);
+        switch (assign->lhs->type) {
+            case ast::ExprType::Assign: {
+                suggestErrorMsg("Chained assignment is not allowed", span);
+            } break;
+            case ast::ExprType::Id: {
+                // Note: Checks for `id = expr` go here...
+            } break;
+            case ast::ExprType::Paren: {
+                // Note: Checks for `(expr) = expr` go here...
+            } break;
+            case ast::ExprType::Path: {
+                // Note: Checks for `path::to::something = expr` go here...
+            } break;
+            case ast::ExprType::Subscript: {
+                // Note: Checks for `expr[expr, ...] = expr` go here...
+            } break;
+            case ast::ExprType::Tuple: {
+                // Note: Checks for `(a, b, c) = expr` go here..
+                // Note: This is destructuring, it won't appear in first version
+            } break;
+            default: {}
+        }
+
+        if (!isPlaceExpr(assign->lhs)) {
+            suggestErrorMsg("Invalid left-hand side expression in assignment", span);
+        }
     }
 
     void Linter::visit(ast::BreakExpr * breakExpr) {
-
+        // FIXME: Not up to date (not expression inside)
     }
 
-    void Linter::visit(ast::ContinueExpr * continueExpr) {
-
-    }
+    void Linter::visit(ast::ContinueExpr * continueExpr) {}
 
     void Linter::visit(ast::Identifier * identifier) {
         if (!identifier->token) {
@@ -111,7 +186,11 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::IfExpr * ifExpr) {
+        ifExpr->condition->accept(*this);
 
+        if (ifExpr->ifBranch) {
+            lint(ifExpr->ifBranch.unwrap());
+        }
     }
 
     void Linter::visit(ast::Infix * infix) {
@@ -233,6 +312,21 @@ namespace jc::hir {
         for (const auto & stmt : block->stmts) {
             stmt->accept(*this);
         }
+    }
+
+    void Linter::lintMembers(const ast::stmt_list & members) {
+        for (const auto & member : members) {
+            member->accept(*this);
+        }
+    }
+
+    bool Linter::isPlaceExpr(const ast::expr_ptr & expr) {
+        if (expr->is(ast::ExprType::Paren)) {
+            return isPlaceExpr(ast::Expr::as<ast::ParenExpr>(expr)->expr);
+        }
+        return expr->is(ast::ExprType::Id)
+            or expr->is(ast::ExprType::Path)
+            or expr->is(ast::ExprType::Subscript);
     }
 
     // Suggestions //

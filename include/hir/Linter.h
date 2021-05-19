@@ -35,7 +35,7 @@ namespace jc::hir {
         void visit(ast::WhileStmt * whileStmt) override;
 
         // Expressions //
-        void visit(ast::Assignment * assignment) override;
+        void visit(ast::Assignment * assign) override;
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
         void visit(ast::Identifier * identifier) override;
@@ -68,6 +68,8 @@ namespace jc::hir {
 
     private:
         void lint(const ast::block_ptr & block);
+        void lintMembers(const ast::stmt_list & members);
+        bool isPlaceExpr(const ast::expr_ptr & expr);
 
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
