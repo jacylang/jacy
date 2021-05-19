@@ -168,7 +168,7 @@ namespace jc::parser {
         ast::when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        ast::block_ptr parseBlock(const std::string & construction, bool allowArrow);
+        ast::block_ptr parseBlock(const std::string & construction, int8_t arrow);
         std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
         ast::attr_list parseAttrList();
         dt::Option<ast::attr_ptr> parseAttr();
@@ -197,6 +197,7 @@ namespace jc::parser {
         void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
+        void suggestWarnMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
         void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
 
         template<class T>
