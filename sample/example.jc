@@ -1,5 +1,3 @@
 func main {
-    if a {
-
-    }
+    print(a b c)
 }

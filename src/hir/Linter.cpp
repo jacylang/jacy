@@ -4,6 +4,8 @@ namespace jc::hir {
     Linter::Linter() = default;
 
     dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::stmt_list & tree) {
+        log.dev("Lint...");
+
         this->sess = sess;
 
         for (const auto & stmt : tree) {
@@ -29,7 +31,7 @@ namespace jc::hir {
     // Statements //
     ////////////////
     void Linter::visit(ast::EnumDecl * enumDecl) {
-
+        common::Logger::devPanic("Not im")
     }
 
     void Linter::visit(ast::ExprStmt * exprStmt) {
@@ -97,8 +99,11 @@ namespace jc::hir {
 
     }
 
-    void Linter::visit(ast::Infix * infix)
-
+    void Linter::visit(ast::Infix * infix) {
+        log.dev("Visit infix", infix->op.toString());
+        if (infix->op.is(parser::TokenType::Id)) {
+            suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
+        }
     }
 
     void Linter::visit(ast::Invoke * invoke) {
@@ -212,6 +217,10 @@ namespace jc::hir {
     // Suggestions //
     void Linter::suggest(sugg::sugg_ptr suggestion) {
         suggestions.push_back(std::move(suggestion));
+    }
+
+    void Linter::suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
+        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Error, eid));
     }
 
     void Linter::suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {

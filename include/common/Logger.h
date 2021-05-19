@@ -100,6 +100,8 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static void devPanic(Arg && first, Args && ...other);
 
+        static void notImplemented(const std::string & what);
+
         template<class Arg, class ...Args>
         static void devDebug(Arg && first, Args && ...other);
 
