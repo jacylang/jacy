@@ -4,6 +4,7 @@
 namespace jc::ast {
     struct ErrorStmt;
     struct ErrorExpr;
+    struct ErrorType;
 
     // Statements //
     struct EnumDecl;
@@ -56,6 +57,7 @@ namespace jc::ast {
 
         virtual void visit(ErrorStmt*) = 0;
         virtual void visit(ErrorExpr*) = 0;
+        virtual void visit(ErrorType*) = 0;
 
         // Statements //
         virtual void visit(EnumDecl*) = 0;

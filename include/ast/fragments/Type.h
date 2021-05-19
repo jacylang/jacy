@@ -26,6 +26,8 @@ namespace jc::ast {
         List,
         Path,
         Unit,
+
+        Error,
     };
 
     struct Type : Node {
@@ -112,6 +114,14 @@ namespace jc::ast {
 
     struct UnitType : Type {
         explicit UnitType(const Location & loc) : Type(loc, TypeKind::Unit) {}
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
+    };
+
+    struct ErrorType : Type {
+        explicit ErrorType(const Location & loc) : Type(loc, TypeKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

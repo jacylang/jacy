@@ -625,7 +625,7 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
-        logParse("precParse:" + std::to_string(index));
+//        logParse("precParse:" + std::to_string(index));
 
         if (precTable.size() == index) {
             return postfix();
@@ -667,6 +667,7 @@ namespace jc::parser {
         }
 
         if (!maybeOp) {
+            // FIXME: CHECK PLS
             if (prefix) {
                 // Not operator found and now we parsing prefix case, so just parse postfix
                 return postfix();
@@ -1521,11 +1522,13 @@ namespace jc::parser {
     ast::type_ptr Parser::parseType(const std::string & suggMsg) {
         logParse("Type");
 
+        const auto & loc = peek().loc;
         auto type = parseOptType();
         if (!type) {
             suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+            return std::make_shared<ast::ErrorType>(loc);
         }
-        return type.getValueUnsafe();
+        return type.unwrap("`parseType` -> `type`");
     }
 
     ast::opt_type_ptr Parser::parseOptType() {
@@ -1743,6 +1746,7 @@ namespace jc::parser {
         if (!pathType) {
             suggestErrorMsg(suggMsg, cspan());
         }
+        // FIXME: Replace `getValueUnsafe` with unwrap + error node
         return pathType.getValueUnsafe();
     }
 

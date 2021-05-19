@@ -29,7 +29,7 @@ std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
     return os;
 }
 
-inline std::ostream & operator<<(std::ostream & os, Color color) {
+std::ostream & operator<<(std::ostream & os, Color color) {
     os << Logger::colors.at(color);
 }
 
