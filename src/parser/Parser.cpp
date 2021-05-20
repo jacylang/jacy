@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-        log.dev("Advance");
+//        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -841,7 +841,8 @@ namespace jc::parser {
 
         auto op = maybeOp.unwrap("precParse -> maybeOp");
         while (skipOpt(op.type, skipRightNLs)) {
-            logParse("precParse -> " + maybeOp.unwrap("precParse -> maybeOp").typeToString());
+            logParse("precParse -> " + op.typeToString());
+
             auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
             if (!rhs) {
                 // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
@@ -899,15 +900,22 @@ namespace jc::parser {
             }
             auto rhs = maybeRhs.unwrap();
             if (op.is(TokenType::BitAnd) or op.is(TokenType::And)) {
+                logParse("Borrow");
+
                 bool mut = skipOpt(TokenType::Mut, true);
                 return ast::Expr::as<ast::Expr>(
                     std::make_shared<ast::BorrowExpr>(op.is(TokenType::And), mut, rhs, begin.to(cspan()))
                 );
             } else if (op.is(TokenType::Mul)) {
+                logParse("Deref");
+
                 return ast::Expr::as<ast::Expr>(
                     std::make_shared<ast::DerefExpr>(rhs, begin.to(cspan()))
                 );
             }
+
+            logParse("Prefix");
+
             return ast::Expr::as<ast::Expr>(
                 std::make_shared<ast::Prefix>(op, rhs, begin.to(cspan()))
             );
@@ -925,6 +933,8 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Quest)) {
+            logParse("Quest");
+
             return ast::Expr::as<ast::Expr>(
                 std::make_shared<ast::QuestExpr>(lhs.unwrap(), begin.to(cspan()))
             );
@@ -948,6 +958,8 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenType::LBracket)) {
+                logParse("Subscript");
+
                 ast::expr_list indices;
 
                 bool first = true;
@@ -986,6 +998,8 @@ namespace jc::parser {
 
                 begin = cspan();
             } else if (is(TokenType::LParen)) {
+                logParse("Invoke");
+
                 lhs = std::make_shared<ast::Invoke>(
                     lhs,
                     parseNamedList("function call"),
@@ -1010,6 +1024,8 @@ namespace jc::parser {
 
         auto begin = cspan();
         while (skipOpt(TokenType::Dot, true)) {
+            logParse("MemberAccess");
+
             auto id = parseId("Expected field name", true, true);
 
             lhs = std::make_shared<ast::MemberAccess>(lhs.unwrap(), id, begin.to(cspan()));
