@@ -193,7 +193,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(BreakExpr * breakExpr) {
-        log.raw("break");
+        log.raw("break ");
+        if (breakExpr->expr) {
+            breakExpr->expr.unwrap()->accept(*this);
+        }
     }
 
     void AstPrinter::visit(ContinueExpr * continueExpr) {
@@ -282,11 +285,6 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::visit(Postfix * postfix) {
-        postfix->lhs->accept(*this);
-        log.raw(postfix->op.typeToString());
-    }
-
     void AstPrinter::visit(Prefix * prefix) {
         log.raw(prefix->op.typeToString());
         prefix->rhs->accept(*this);
@@ -294,7 +292,9 @@ namespace jc::ast {
 
     void AstPrinter::visit(ReturnExpr * returnExpr) {
         log.raw("return ");
-        returnExpr->expr->accept(*this);
+        if (returnExpr->expr) {
+            returnExpr->expr.unwrap()->accept(*this);
+        }
     }
 
     void AstPrinter::visit(SpreadExpr * spreadExpr) {
