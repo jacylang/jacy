@@ -1228,17 +1228,23 @@ namespace jc::parser {
             allowOneLine = true;
         }
 
-        ast::stmt_list stmts;
         const auto & maybeBraceToken = peek();
         bool brace = false;
         if (arrow == BlockArrow::Just) {
+            // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenType::LBrace, true, "`{`", "`parseBlock:Just`");
             brace = true;
         } else {
             brace = skipOpt(TokenType::LBrace, true);
         }
 
+        ast::stmt_list stmts;
         if (brace) {
+            // Suggest to remove useless `=>` if brace given in case unambiguous case
+            if (maybeDoubleArrow.is(TokenType::DoubleArrow) and arrow == BlockArrow::Allow) {
+                suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span(sess));
+            }
+
             bool first = true;
             while (!eof()) {
                 if (is(TokenType::RBrace)) {
@@ -1272,7 +1278,7 @@ namespace jc::parser {
         } else {
             suggest(
                 std::make_unique<ParseErrSugg>(
-                    "Likely you meant to put `{}` or write one one-line body with `=`",
+                    "Likely you meant to put `{}` or write one one-line body with `=>`",
                     cspan()
                 )
             );
