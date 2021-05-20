@@ -176,7 +176,9 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::BreakExpr * breakExpr) {
-        // FIXME: Not up to date (no expression inside)
+        if (breakExpr->expr) {
+            breakExpr->expr.unwrap()->accept(*this);
+        }
     }
 
     void Linter::visit(ast::ContinueExpr * continueExpr) {}
@@ -275,8 +277,9 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::ReturnExpr * returnExpr) {
-        // FIXME: Parsing not done!
-        Logger::notImplemented("Linter: parsing for ReturnExpr not done yet");
+        if (returnExpr->expr) {
+            returnExpr->expr.unwrap()->accept(*this);
+        }
     }
 
     void Linter::visit(ast::SpreadExpr * spreadExpr) {
