@@ -45,7 +45,6 @@ namespace jc::ast {
         void visit(LoopExpr * loopExpr) override;
         void visit(ParenExpr * parenExpr) override;
         void visit(PathExpr * pathExpr) override;
-        void visit(Postfix * postfix) override;
         void visit(Prefix * prefix) override;
         void visit(ReturnExpr * returnExpr) override;
         void visit(SpreadExpr * spreadExpr) override;
