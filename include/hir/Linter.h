@@ -38,6 +38,7 @@ namespace jc::hir {
         void visit(ast::Assignment * assign) override;
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
+        void visit(ast::DerefExpr * derefExpr) override;
         void visit(ast::Identifier * identifier) override;
         void visit(ast::IfExpr * ifExpr) override;
         void visit(ast::Infix * infix) override;
@@ -45,9 +46,11 @@ namespace jc::hir {
         void visit(ast::ListExpr * listExpr) override;
         void visit(ast::LiteralConstant * literalConstant) override;
         void visit(ast::LoopExpr * loopExpr) override;
+        void visit(ast::MemberAccess * memberAccess) override;
         void visit(ast::ParenExpr * parenExpr) override;
         void visit(ast::PathExpr * pathExpr) override;
         void visit(ast::Prefix * prefix) override;
+        void visit(ast::QuestExpr * questExpr) override;
         void visit(ast::ReturnExpr * returnExpr) override;
         void visit(ast::SpreadExpr * spreadExpr) override;
         void visit(ast::Subscript * subscript) override;

@@ -181,6 +181,10 @@ namespace jc::hir {
 
     void Linter::visit(ast::ContinueExpr * continueExpr) {}
 
+    void Linter::visit(ast::DerefExpr * derefExpr) {
+        derefExpr->expr->accept(*this);
+    }
+
     void Linter::visit(ast::Identifier * identifier) {
         if (!identifier->token) {
             Logger::devPanic("[ERROR ID] on linter stage at", identifier->loc.toString());
@@ -226,6 +230,11 @@ namespace jc::hir {
         lint(loopExpr->body);
     }
 
+    void Linter::visit(ast::MemberAccess * memberAccess) {
+        memberAccess->lhs->accept(*this);
+        memberAccess->id->accept(*this);
+    }
+
     void Linter::visit(ast::ParenExpr * parenExpr) {
         if (parenExpr->expr->type == ast::ExprType::Paren) {
             suggest(
@@ -257,7 +266,12 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Prefix * prefix) {
-        // What's here?
+        // TODO: Panic for unexpected token as prefix
+        prefix->rhs->accept(*this);
+    }
+
+    void Linter::visit(ast::QuestExpr * questExpr) {
+        questExpr->expr->accept(*this);
     }
 
     void Linter::visit(ast::ReturnExpr * returnExpr) {
