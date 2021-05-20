@@ -22,7 +22,7 @@ namespace jc::ast {
         Lambda(
             lambda_param_list params,
             opt_type_ptr returnType,
-            block_ptr body,
+            expr_ptr body,
             const Location & loc
         ) : params(std::move(params)),
             returnType(std::move(returnType)),
@@ -31,7 +31,7 @@ namespace jc::ast {
 
         lambda_param_list params;
         opt_type_ptr returnType;
-        block_ptr body;
+        expr_ptr body;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

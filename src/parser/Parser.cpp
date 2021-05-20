@@ -640,11 +640,11 @@ namespace jc::parser {
         }
 
         ast::opt_type_ptr returnType;
-        ast::block_ptr body;
+        ast::expr_ptr body;
         if (skipOpt(TokenType::Arrow, true)) {
             returnType = parseType("Expected lambda return type after `->`");
+            body = parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed);
         } else {
-            // FIXME: Replace with block expr when will be added
             body = parseExpr("Expected lambda body");
         }
 
