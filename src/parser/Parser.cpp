@@ -746,6 +746,7 @@ namespace jc::parser {
     }
 
     ast::opt_expr_ptr Parser::quest() {
+        const auto & loc = peek().loc;
         auto lhs = postfix();
 
         if (!lhs) {
@@ -753,7 +754,9 @@ namespace jc::parser {
         }
 
         if (is(TokenType::Quest)) {
-
+            return ast::Expr::as<ast::Expr>(
+                std::make_shared<ast::QuestExpr>(lhs.unwrap(), loc)
+            );
         }
 
         return lhs;

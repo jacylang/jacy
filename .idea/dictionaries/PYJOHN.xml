@@ -51,6 +51,7 @@
       <w>parsersugg</w>
       <w>pathexpr</w>
       <w>prec</w>
+      <w>questexpr</w>
       <w>rangle</w>
       <w>repl</w>
       <w>returnexpr</w>
