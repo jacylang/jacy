@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-//        log.dev("Advance");
+        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -337,7 +337,6 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (!expr) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
-                    log.dev("Stmt expr none:", expr.none());
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
                     advance();
                     return std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
@@ -592,17 +591,21 @@ namespace jc::parser {
         logParse("[opt] Expr");
 
         const auto & begin = cspan();
-        if (skipOpt(TokenType::Return, true)) {
+        if (skipOpt(TokenType::Return)) {
             logParse("ReturnExpr");
+
+            auto expr = assignment();
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::ReturnExpr>(assignment(), begin.to(cspan()))
+                std::make_shared<ast::ReturnExpr>(expr, begin.to(cspan()))
             );
         }
 
-        if (skipOpt(TokenType::Break, true)) {
+        if (skipOpt(TokenType::Break)) {
             logParse("BreakExpr");
+
+            auto expr = assignment();
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::BreakExpr>(assignment(), begin.to(cspan()))
+                std::make_shared<ast::BreakExpr>(expr, begin.to(cspan()))
             );
         }
 
@@ -610,7 +613,71 @@ namespace jc::parser {
             return parseLambda();
         }
 
-        return assignment();
+        auto expr = assignment();
+
+        if (expr) {
+            return expr;
+        }
+
+        // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
+        // so we need check all the constructions again to give pretty suggestion.
+        // We don't put parsed items to AST, because now we inside an expression parsing.
+        auto token = peek();
+        bool nonsense = false;
+        std::string construction;
+        switch (peek().type) {
+            case TokenType::While: {
+                parseWhileStmt();
+                construction = "`while` statement";
+            } break;
+            case TokenType::For: {
+                parseForStmt();
+                construction = "`for` statement";
+            } break;
+            case TokenType::Val:
+            case TokenType::Var:
+            case TokenType::Const: {
+                parseVarDecl();
+                construction = "`" + token.typeToString() + "` declaration";
+            } break;
+            case TokenType::Type: {
+                parseTypeDecl();
+                construction = "`type` declaration";
+            } break;
+            case TokenType::Struct: {
+                parseStruct();
+                construction = "`struct` declaration";
+            } break;
+            case TokenType::Impl: {
+                parseImpl();
+                construction = "implementation";
+            } break;
+            case TokenType::Trait: {
+                parseTrait();
+                construction = "`trait` declaration";
+            } break;
+            case TokenType::Func: {
+                parseFuncDecl({});
+                construction = "`func` declaration";
+            } break;
+            case TokenType::Enum: {
+                parseEnumDecl();
+                construction = "`enum` declaration";
+            } break;
+            default: {
+                nonsense = true;
+            }
+        }
+
+        if (nonsense) {
+            suggestErrorMsg("Unexpected token " + token.toString(), token.span(sess));
+        } else {
+            suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
+        }
+
+        advance();
+
+        return dt::None;
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
@@ -992,64 +1059,6 @@ namespace jc::parser {
         if (is(TokenType::Loop)) {
             return parseLoopExpr();
         }
-
-        // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
-        //  so we need check all the constructions again to give pretty suggestion.
-        // We don't put parsed items to AST, because now we inside an expression parsing.
-        auto token = peek();
-        bool nonsense = false;
-        std::string construction;
-        switch (peek().type) {
-            case TokenType::While: {
-                parseWhileStmt();
-                construction = "`while` statement";
-            } break;
-            case TokenType::For: {
-                parseForStmt();
-                construction = "`for` statement";
-            } break;
-            case TokenType::Val:
-            case TokenType::Var:
-            case TokenType::Const: {
-                parseVarDecl();
-                construction = "`" + token.typeToString() + "` declaration";
-            } break;
-            case TokenType::Type: {
-                parseTypeDecl();
-                construction = "`type` declaration";
-            } break;
-            case TokenType::Struct: {
-                parseStruct();
-                construction = "`struct` declaration";
-            } break;
-            case TokenType::Impl: {
-                parseImpl();
-                construction = "implementation";
-            } break;
-            case TokenType::Trait: {
-                parseTrait();
-                construction = "`trait` declaration";
-            } break;
-            case TokenType::Func: {
-                parseFuncDecl({});
-                construction = "`func` declaration";
-            } break;
-            case TokenType::Enum: {
-                parseEnumDecl();
-                construction = "`enum` declaration";
-            } break;
-            default: {
-                nonsense = true;
-            }
-        }
-
-        if (nonsense) {
-            suggestErrorMsg("Unexpected token " + token.toString(), token.span(sess));
-        } else {
-            suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
-        }
-
-        advance();
 
         return dt::None;
     }
