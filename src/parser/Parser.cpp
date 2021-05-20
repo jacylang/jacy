@@ -941,6 +941,12 @@ namespace jc::parser {
             return parseListExpr();
         }
 
+        if (is(TokenType::LBrace)) {
+            return ast::Expr::as<ast::Expr>(
+                parseBlock("Block expression", BlockArrow::Just)
+            );
+        }
+
         if (is(TokenType::When)) {
             return parseWhenExpr();
         }
@@ -1197,7 +1203,7 @@ namespace jc::parser {
     }
 
     ast::block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
-        logParse("block:" + construction);
+        logParse("Block:" + construction);
 
         const auto loc = peek().loc;
         bool allowOneLine = false;
@@ -1209,8 +1215,14 @@ namespace jc::parser {
                 suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span(sess));
             }
             allowOneLine = true;
+
+            if (arrow == BlockArrow::Just) {
+                suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span(sess));
+            }
+
         } else if (arrow == BlockArrow::Require) {
             suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span(sess));
+            allowOneLine = true;
         } else if (arrow == BlockArrow::Useless) {
             // Allow one-line even if no `=>` given for optional
             allowOneLine = true;
@@ -1218,7 +1230,15 @@ namespace jc::parser {
 
         ast::stmt_list stmts;
         const auto & maybeBraceToken = peek();
-        if (skipOpt(TokenType::LBrace, true)) {
+        bool brace = false;
+        if (arrow == BlockArrow::Just) {
+            justSkip(TokenType::LBrace, true, "`{`", "`parseBlock:Just`");
+            brace = true;
+        } else {
+            brace = skipOpt(TokenType::LBrace, true);
+        }
+
+        if (brace) {
             bool first = true;
             while (!eof()) {
                 if (is(TokenType::RBrace)) {
