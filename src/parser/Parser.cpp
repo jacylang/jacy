@@ -628,7 +628,7 @@ namespace jc::parser {
 //        logParse("precParse:" + std::to_string(index));
 
         if (precTable.size() == index) {
-            return postfix();
+            return prefix();
         } else if (index > precTable.size()) {
             common::Logger::devPanic(
                 "`precParse` with index > precTable.size, index =", (int)index,
@@ -639,19 +639,16 @@ namespace jc::parser {
         const auto flags = parser.flags;
         const auto multiple = (flags >> 4) & 1;
         const auto rightAssoc = (flags >> 3) & 1;
-        const auto prefix = (flags >> 2) & 1;
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
 
         ast::opt_expr_ptr lhs;
-        if (!prefix) {
-            auto single = precParse(index + 1);
-            if (!single) {
-                return dt::None;
-            }
-
-            lhs = single.unwrap("`precParse` -> `single`");
+        auto single = precParse(index + 1);
+        if (!single) {
+            return dt::None;
         }
+
+        lhs = single.unwrap("`precParse` -> `single`");
 
         bool skippedLeftNls = false;
         if (skipLeftNLs) {
@@ -667,15 +664,10 @@ namespace jc::parser {
         }
 
         if (!maybeOp) {
-            // FIXME: CHECK PLS
-            if (prefix) {
-                // Not operator found and now we parsing prefix case, so just parse postfix
-                return postfix();
-            }
             if (skippedLeftNls) {
+                // Recover NL semis
                 emitVirtualSemi();
             }
-            // FIXME: Check if works, maybe we need to go down by `precParse`
             return lhs;
         }
 
@@ -688,20 +680,10 @@ namespace jc::parser {
                 // and `precParse` already generated error suggestion
                 continue;
             }
-            if (prefix) {
-                if (lhs) {
-                    common::Logger::devPanic("Left-hand side exists in prefix parser");
-                }
-                lhs = makePrefix(
-                    op,
-                    rhs.unwrap("precParse -> prefix -> rhs")
-                );
-                return lhs;
-            }
             lhs = makeInfix(
-                lhs.unwrap("precParse -> !prefix -> lhs"),
+                lhs.unwrap("precParse -> lhs"),
                 op,
-                rhs.unwrap("precParse -> !prefix -> rhs")
+                rhs.unwrap("precParse -> rhs")
             );
             if (!multiple) {
                 break;
@@ -712,26 +694,40 @@ namespace jc::parser {
     }
 
     const std::vector<PrecParser> Parser::precTable = {
-        {0b10011, {TokenType::Pipe}},
-        {0b10011, {TokenType::Or}},
-        {0b10011, {TokenType::And}},
-        {0b10011, {TokenType::BitOr}},
-        {0b10011, {TokenType::Xor}},
-        {0b10011, {TokenType::BitAnd}},
-        {0b10011, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
-        {0b10011, {TokenType::LAngle, TokenType::RAngle, TokenType::LE, TokenType::GE}},
-        {0b10011, {TokenType::Spaceship}},
-        {0b10011, {TokenType::In, TokenType::NotIn}},
-        {0b10011, {TokenType::NullCoalesce}},
-        {0b10011, {TokenType::Shl, TokenType::Shr}},
-        {0b10011, {TokenType::Id}},
-        {0b10011, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
-        {0b10011, {TokenType::Add, TokenType::Sub}},
-        {0b10011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
-        {0b11011, {TokenType::Power}}, // Note: Right-assoc
-        {0b10011, {TokenType::As}},
-        {0b01111, {TokenType::Not, TokenType::Sub, TokenType::Inv}}, // Note: Prefix, Right-assoc hack; FIXME: Not multiple?!
+        {0b1011, {TokenType::Pipe}},
+        {0b1011, {TokenType::Or}},
+        {0b1011, {TokenType::And}},
+        {0b1011, {TokenType::BitOr}},
+        {0b1011, {TokenType::Xor}},
+        {0b1011, {TokenType::BitAnd}},
+        {0b1011, {TokenType::Eq, TokenType::NotEq, TokenType::RefEq, TokenType::RefNotEq}},
+        {0b1011, {TokenType::LAngle, TokenType::RAngle, TokenType::LE, TokenType::GE}},
+        {0b1011, {TokenType::Spaceship}},
+        {0b1011, {TokenType::In, TokenType::NotIn}},
+        {0b1011, {TokenType::NullCoalesce}},
+        {0b1011, {TokenType::Shl, TokenType::Shr}},
+        {0b1011, {TokenType::Id}},
+        {0b1011, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
+        {0b1011, {TokenType::Add, TokenType::Sub}},
+        {0b1011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
+        {0b1111, {TokenType::Power}}, // Note: Right-assoc
+        {0b1011, {TokenType::As}},
     };
+
+    ast::opt_expr_ptr Parser::prefix() {
+        const auto & op = peek();
+        if (skipOpt(TokenType::Not)
+        or skipOpt(TokenType::Sub)
+        or skipOpt(TokenType::BitAnd)
+        or skipOpt(TokenType::And)
+        or skipOpt(TokenType::Mul)) {
+            if (op.is(TokenType::BitAnd) or op.is(TokenType::And)) {
+
+            }
+        }
+
+        return postfix();
+    }
 
     dt::Option<ast::expr_ptr> Parser::postfix() {
         logParse("postfix");

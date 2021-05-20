@@ -7,6 +7,7 @@
       <w>basesuggester</w>
       <w>basevisitor</w>
       <w>boolliteral</w>
+      <w>borrowexpr</w>
       <w>breakexpr</w>
       <w>breakstmt</w>
       <w>classdecl</w>

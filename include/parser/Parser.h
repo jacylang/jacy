@@ -61,13 +61,13 @@ namespace jc::parser {
     };
 
     // Note: Usage
-    //  0b00011111 - `0` are unused
+    //  0b00001111 - `0` are unused
     //  0. --
     //  1. --
     //  2. --
-    //  3. Multiple?
-    //  4. Right-assoc?
-    //  5. Infix = 0, Prefix = 1 (postfix is different parser func)
+    //  3. --
+    //  4. Multiple?
+    //  5. Right-assoc?
     //  6. Skip optional left NLs?
     //  7. Skip optional right NLs?
     using prec_parser_flags = uint8_t;
@@ -157,6 +157,7 @@ namespace jc::parser {
 
         const static std::vector<PrecParser> precTable;
 
+        ast::opt_expr_ptr prefix();
         ast::opt_expr_ptr postfix();
         ast::opt_expr_ptr primary();
 
