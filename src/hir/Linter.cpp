@@ -206,9 +206,17 @@ namespace jc::hir {
         if (breakExpr->expr) {
             breakExpr->expr.unwrap()->accept(*this);
         }
+
+        if (not isDeepInside(LinterContext::Loop)) {
+            suggestErrorMsg("`break` outside of loop", breakExpr->span);
+        }
     }
 
-    void Linter::visit(ast::ContinueExpr * continueExpr) {}
+    void Linter::visit(ast::ContinueExpr * continueExpr) {
+        if (not isDeepInside(LinterContext::Loop)) {
+            suggestErrorMsg("`continue` outside of loop", continueExpr->span);
+        }
+    }
 
     void Linter::visit(ast::DerefExpr * derefExpr) {
         derefExpr->expr->accept(*this);
@@ -370,6 +378,10 @@ namespace jc::hir {
     void Linter::visit(ast::ReturnExpr * returnExpr) {
         if (returnExpr->expr) {
             returnExpr->expr.unwrap()->accept(*this);
+        }
+
+        if (not isDeepInside(LinterContext::Func)) {
+            suggestErrorMsg("`return` outside of function", returnExpr->span);
         }
     }
 
