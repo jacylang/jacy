@@ -1826,7 +1826,7 @@ namespace jc::parser {
         return arrayType;
     }
 
-    ast::type_ptr Parser::parseFuncType(ast::tuple_t_el_list tupleElements, const Location & loc) {
+    ast::type_ptr Parser::parseFuncType(ast::tuple_t_el_list tupleElements, const Span & span) {
         logParse("FuncType");
 
         ast::type_list params;

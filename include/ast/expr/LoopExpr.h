@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct LoopExpr : Expr {
-        LoopExpr(block_ptr body, const Location & loc) : body(body), Expr(loc, ExprType::Loop) {}
+        LoopExpr(block_ptr body, const Span & span) : body(body), Expr(span, ExprType::Loop) {}
 
         block_ptr body;
 

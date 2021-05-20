@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct ListExpr : Expr {
-        ListExpr(expr_list elements, const Location & loc) : elements(elements), Expr(loc, ExprType::List) {}
+        ListExpr(expr_list elements, const Span & span) : elements(elements), Expr(span, ExprType::List) {}
 
         expr_list elements;
 

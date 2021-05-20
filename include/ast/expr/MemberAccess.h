@@ -8,8 +8,9 @@ namespace jc::ast {
     struct MemberAccess : Expr {
         MemberAccess(
             expr_ptr lhs,
-            id_ptr id
-        ) : Expr(lhs->loc, ExprType::MemberAccess),
+            id_ptr id,
+            const Span & span
+        ) : Expr(span, ExprType::MemberAccess),
             lhs(std::move(lhs)),
             id(std::move(id)) {}
 

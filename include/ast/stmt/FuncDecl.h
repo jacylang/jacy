@@ -17,7 +17,7 @@ namespace jc::ast {
             opt_type_ptr returnType,
             opt_block_ptr body,
             opt_expr_ptr oneLineBody,
-            const Location & loc
+            const Span & span
         ) : modifiers(modifiers),
             typeParams(typeParams),
             id(id),
@@ -25,7 +25,7 @@ namespace jc::ast {
             returnType(returnType),
             body(body),
             oneLineBody(oneLineBody),
-            Stmt(loc, StmtType::Func) {}
+            Stmt(span, StmtType::Func) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;

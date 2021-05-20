@@ -10,11 +10,11 @@ namespace jc::ast {
             id_ptr id,
             opt_type_params typeParams,
             stmt_list members,
-            const Location & loc
+            const Span & span
         ) : id(std::move(id)),
             typeParams(std::move(typeParams)),
             members(std::move(members)),
-            Stmt(loc, StmtType::Struct) {}
+            Stmt(span, StmtType::Struct) {}
 
         id_ptr id;
         opt_type_params typeParams;

@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct ParenExpr : Expr {
-        ParenExpr(expr_ptr expr, const Location & loc) : expr(expr), Expr(loc, ExprType::Paren) {}
+        ParenExpr(expr_ptr expr, const Span & span) : expr(expr), Expr(span, ExprType::Paren) {}
 
         expr_ptr expr;
 

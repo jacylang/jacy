@@ -192,7 +192,7 @@ namespace jc::parser {
         ast::opt_type_ptr parseOptType();
         ast::tuple_t_el_list parseParenType();
         ast::type_ptr parseArrayType();
-        ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Location & loc);
+        ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Span & span);
 
         // Type fragments //
         ast::opt_type_params parseTypeParams();

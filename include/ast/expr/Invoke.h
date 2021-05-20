@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct Invoke : Expr {
-        Invoke(expr_ptr lhs, named_list_ptr args)
-            : lhs(lhs), args(args), Expr(lhs->loc, ExprType::Invoke) {}
+        Invoke(expr_ptr lhs, named_list_ptr args, const Span & span)
+            : lhs(lhs), args(args), Expr(span, ExprType::Invoke) {}
 
         expr_ptr lhs;
         named_list_ptr args;

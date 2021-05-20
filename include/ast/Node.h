@@ -8,13 +8,13 @@
 
 namespace jc::ast {
     struct Node;
-    using parser::Location;
+    using span::Span;
     using node_ptr = std::shared_ptr<Node>;
 
     struct Node {
-        explicit Node(const Location & loc) : loc(loc) {}
+        explicit Node(const Span & span) : span(span) {}
 
-        parser::Location loc;
+        Span span;
     };
 }
 

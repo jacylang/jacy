@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct UnitExpr : Expr {
-        UnitExpr(const Location & loc) : Expr(loc, ExprType::Unit) {}
+        UnitExpr(const Span & span) : Expr(span, ExprType::Unit) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

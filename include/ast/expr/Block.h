@@ -11,8 +11,8 @@ namespace jc::ast {
     using block_list = std::vector<block_ptr>;
 
     struct Block : Expr {
-        Block(stmt_list stmts, const Location & loc)
-            : stmts(std::move(stmts)), Expr(loc, ExprType::Block) {}
+        Block(stmt_list stmts, const Span & span)
+            : stmts(std::move(stmts)), Expr(span, ExprType::Block) {}
 
         stmt_list stmts;
 

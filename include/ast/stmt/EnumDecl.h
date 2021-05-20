@@ -17,7 +17,7 @@ namespace jc::ast {
     };
 
     struct EnumDecl : Stmt {
-        EnumDecl(const Location & loc) : Stmt(loc, StmtType::Enum) {}
+        EnumDecl(const Span & span) : Stmt(span, StmtType::Enum) {}
 
         id_ptr id{nullptr};
         enum_entry_list entries{};

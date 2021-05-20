@@ -29,7 +29,7 @@ namespace jc::ast {
     };
 
     struct Stmt : Node {
-        Stmt(const Location & loc, StmtType type) : Node(loc), type(type) {}
+        Stmt(const Span & span, StmtType type) : Node(span), type(type) {}
 
         StmtType type;
 
@@ -41,7 +41,7 @@ namespace jc::ast {
     };
 
     struct ErrorStmt : Stmt {
-        explicit ErrorStmt(const Location & loc) : Stmt(loc, StmtType::Error) {}
+        explicit ErrorStmt(const Span & span) : Stmt(span, StmtType::Error) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

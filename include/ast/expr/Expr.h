@@ -44,7 +44,7 @@ namespace jc::ast {
     };
 
     struct Expr : Node {
-        Expr(const Location & loc, ExprType type) : Node(loc), type(type) {}
+        Expr(const Span & span, ExprType type) : Node(span), type(type) {}
 
         ExprType type;
 
@@ -66,7 +66,7 @@ namespace jc::ast {
     };
 
     struct ErrorExpr : Expr {
-        explicit ErrorExpr(const Location & loc) : Expr(loc, ExprType::Error) {}
+        explicit ErrorExpr(const Span & span) : Expr(span, ExprType::Error) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

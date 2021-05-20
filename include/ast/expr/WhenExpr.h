@@ -13,10 +13,10 @@ namespace jc::ast {
         WhenEntry(
             expr_list conditions,
             block_ptr body,
-            const Location & loc
+            const Span & span
         ) : conditions(conditions),
             body(body),
-            Node(loc) {}
+            Node(span) {}
 
         // TODO: Complex prefix conditions like `in lhs`
         expr_list conditions;
@@ -27,10 +27,10 @@ namespace jc::ast {
         WhenExpr(
             expr_ptr subject,
             when_entry_list entries,
-            const Location & loc
+            const Span & span
         ) : subject(subject),
             entries(entries),
-            Expr(loc, ExprType::When) {}
+            Expr(span, ExprType::When) {}
 
         expr_ptr subject;
         when_entry_list entries;

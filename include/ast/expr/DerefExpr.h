@@ -7,8 +7,8 @@ namespace jc::ast {
     struct DerefExpr : Expr {
         DerefExpr(
             expr_ptr expr,
-            const Location & loc
-        ) : Expr(loc, ExprType::Deref),
+            const Span & span
+        ) : Expr(span, ExprType::Deref),
             expr(std::move(expr)) {}
 
         expr_ptr expr;

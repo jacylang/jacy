@@ -11,7 +11,7 @@ namespace jc::ast {
     using attr_list = std::vector<attr_ptr>;
 
     struct Attribute : Node {
-        Attribute(id_ptr id, named_list_ptr params, const Location & loc) : id(id), params(params), Node(loc) {}
+        Attribute(id_ptr id, named_list_ptr params, const Span & span) : id(id), params(params), Node(span) {}
 
         id_ptr id;
         named_list_ptr params;

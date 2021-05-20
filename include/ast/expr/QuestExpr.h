@@ -7,8 +7,8 @@ namespace jc::ast {
     struct QuestExpr : Expr {
         QuestExpr(
             expr_ptr expr,
-            const Location & loc
-        ) : Expr(loc, ExprType::Quest),
+            const Span & span
+        ) : Expr(span, ExprType::Quest),
             expr(std::move(expr)) {}
 
         expr_ptr expr;

@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct ReturnExpr : Expr {
-        ReturnExpr(opt_expr_ptr expr, const Location & loc)
-            : Expr(loc, ExprType::Return),
+        ReturnExpr(opt_expr_ptr expr, const Span & span)
+            : Expr(span, ExprType::Return),
               expr(std::move(expr)) {}
 
         opt_expr_ptr expr;

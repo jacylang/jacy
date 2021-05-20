@@ -6,8 +6,8 @@
 
 namespace jc::ast {
     struct Item : Stmt {
-        Item(attr_list attributes, stmt_ptr stmt, const Location & loc)
-            : attributes(std::move(attributes)), stmt(std::move(stmt)), Stmt(loc, StmtType::Item) {}
+        Item(attr_list attributes, stmt_ptr stmt, const Span & span)
+            : attributes(std::move(attributes)), stmt(std::move(stmt)), Stmt(span, StmtType::Item) {}
 
         attr_list attributes;
         stmt_ptr stmt;

@@ -8,8 +8,8 @@ namespace jc::ast {
     using literal_ptr = std::shared_ptr<LiteralConstant>;
 
     struct LiteralConstant : Expr {
-        explicit LiteralConstant(const parser::Token & token)
-            : token(token), Expr(token.loc, ExprType::LiteralConstant) {}
+        explicit LiteralConstant(const parser::Token & token, const Span & span)
+            : token(token), Expr(span, ExprType::LiteralConstant) {}
 
         parser::Token token;
 

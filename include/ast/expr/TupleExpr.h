@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct TupleExpr : Expr {
-        TupleExpr(named_list_ptr elements, const Location & loc)
-            : elements(elements), Expr(loc, ExprType::Tuple) {}
+        TupleExpr(named_list_ptr elements, const Span & span)
+            : elements(elements), Expr(span, ExprType::Tuple) {}
 
         named_list_ptr elements;
 

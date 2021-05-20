@@ -14,11 +14,11 @@ namespace jc::ast {
             id_ptr id,
             type_ptr type,
             opt_expr_ptr defaultValue,
-            const Location & loc
+            const Span & span
         ) : id(std::move(id)),
             type(std::move(type)),
             defaultValue(std::move(defaultValue)),
-            Node(loc) {}
+            Node(span) {}
 
         id_ptr id;
         type_ptr type;

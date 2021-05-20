@@ -9,8 +9,8 @@ namespace jc::ast {
             bool twin,
             bool mut,
             expr_ptr expr,
-            const Location & loc
-        ) : Expr(loc, ExprType::Borrow),
+            const Span & span
+        ) : Expr(span, ExprType::Borrow),
             twin(twin),
             mut(mut),
             expr(std::move(expr)) {}

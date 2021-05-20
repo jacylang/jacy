@@ -33,7 +33,7 @@ namespace jc::ast {
     };
 
     struct Type : Node {
-        Type(const Location & loc, TypeKind kind) : Node(loc), kind(kind) {}
+        Type(const Span & span, TypeKind kind) : Node(span), kind(kind) {}
 
         TypeKind kind;
 
@@ -45,7 +45,7 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::Paren) {}
+        ParenType(type_ptr type, const Span & span) : type(type), Type(span, TypeKind::Paren) {}
 
         type_ptr type;
 
@@ -55,7 +55,7 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        TupleType(tuple_t_el_list elements, const Location & loc) : elements(elements), Type(loc, TypeKind::Tuple) {}
+        TupleType(tuple_t_el_list elements, const Span & span) : elements(elements), Type(span, TypeKind::Tuple) {}
 
         tuple_t_el_list elements;
 
@@ -65,16 +65,16 @@ namespace jc::ast {
     };
 
     struct TupleTypeElement : Node {
-        TupleTypeElement(opt_id_ptr id, opt_type_ptr type, const Location & loc)
-            : id(id), type(type), Node(loc) {}
+        TupleTypeElement(opt_id_ptr id, opt_type_ptr type, const Span & span)
+            : id(id), type(type), Node(span) {}
 
         opt_id_ptr id;
         opt_type_ptr type;
     };
 
     struct FuncType : Type {
-        FuncType(type_list params, type_ptr returnType, const Location & loc)
-            : params(params), returnType(returnType), Type(loc, TypeKind::Func) {}
+        FuncType(type_list params, type_ptr returnType, const Span & span)
+            : params(params), returnType(returnType), Type(span, TypeKind::Func) {}
 
         type_list params;
         type_ptr returnType;
@@ -85,7 +85,7 @@ namespace jc::ast {
     };
 
     struct ArrayType : Type {
-        ArrayType(type_ptr type, const Location & loc) : type(type), Type(loc, TypeKind::List) {}
+        ArrayType(type_ptr type, const Span & span) : type(type), Type(span, TypeKind::List) {}
 
         type_ptr type;
 
@@ -95,16 +95,16 @@ namespace jc::ast {
     };
 
     struct IdType : Node {
-        IdType(id_ptr id, opt_type_params typeParams)
-            : id(std::move(id)), typeParams(std::move(typeParams)), Node(id->loc) {}
+        IdType(id_ptr id, opt_type_params typeParams, const Span & span)
+            : id(std::move(id)), typeParams(std::move(typeParams)), Node(span) {}
 
         id_ptr id;
         opt_type_params typeParams;
     };
 
     struct TypePath : Type {
-        TypePath(bool global, id_t_list ids, const Location & loc)
-            : global(global), ids(std::move(ids)), Type(loc, TypeKind::Path) {}
+        TypePath(bool global, id_t_list ids, const Span & span)
+            : global(global), ids(std::move(ids)), Type(span, TypeKind::Path) {}
 
         bool global;
         id_t_list ids;
@@ -115,7 +115,7 @@ namespace jc::ast {
     };
 
     struct UnitType : Type {
-        explicit UnitType(const Location & loc) : Type(loc, TypeKind::Unit) {}
+        explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
@@ -123,7 +123,7 @@ namespace jc::ast {
     };
 
     struct ErrorType : Type {
-        explicit ErrorType(const Location & loc) : Type(loc, TypeKind::Error) {}
+        explicit ErrorType(const Span & span) : Type(span, TypeKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

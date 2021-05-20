@@ -12,11 +12,11 @@ namespace jc::ast {
             expr_ptr condition,
             opt_block_ptr ifBranch,
             opt_block_ptr elseBranch,
-            const Location & loc
+            const Span & span
         ) : condition(std::move(condition)),
             ifBranch(std::move(ifBranch)),
             elseBranch(std::move(elseBranch)),
-            Expr(loc, ExprType::If) {}
+            Expr(span, ExprType::If) {}
 
         expr_ptr condition;
         opt_block_ptr ifBranch;
