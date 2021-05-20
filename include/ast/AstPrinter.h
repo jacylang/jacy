@@ -43,6 +43,7 @@ namespace jc::ast {
         void visit(IfExpr * ifExpr) override;
         void visit(Infix * infix) override;
         void visit(Invoke * invoke) override;
+        void visit(LambdaExpr * lambdaExpr) override;
         void visit(ListExpr * listExpr) override;
         void visit(LiteralConstant * literalConstant) override;
         void visit(LoopExpr * loopExpr) override;

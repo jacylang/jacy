@@ -281,6 +281,28 @@ namespace jc::ast {
         log.raw(")");
     }
 
+    void AstPrinter::visit(LambdaExpr * lambdaExpr) {
+        log.raw("|");
+        for (size_t i = 0; i < lambdaExpr->params.size(); i++) {
+            const auto & param = lambdaExpr->params.at(i);
+            param->id->accept(*this);
+            if (param->type) {
+                log.raw(": ");
+                param->type.unwrap()->accept(*this);
+            }
+            if (i < lambdaExpr->params.size() - 1) {
+                log.raw(", ");
+            }
+        }
+        log.raw("|");
+
+        if (lambdaExpr->returnType) {
+            lambdaExpr->returnType.unwrap()->accept(*this);
+        }
+
+        lambdaExpr->body->accept(*this);
+    }
+
     void AstPrinter::visit(ListExpr * listExpr) {
         log.raw("[");
         for (const auto & el : listExpr->elements) {
