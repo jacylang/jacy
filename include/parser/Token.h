@@ -95,7 +95,6 @@ namespace jc::parser {
         RangeBothE,                 // >.<
         Dot,                        // .
         Path,                       // ::
-        SafeCall,                   // ?.
         Spread,                     // ...
         Pipe,                       // |>
         Dollar,                     // $

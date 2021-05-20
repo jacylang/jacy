@@ -506,13 +506,8 @@ namespace jc::parser {
                         advance(2);
                     }
                 } else {
-                    if (lookup() == '.') {
-                        addToken(TokenType::SafeCall, 2);
-                        advance(2);
-                    } else {
-                        addToken(TokenType::Quest, 1);
-                        advance();
-                    }
+                    addToken(TokenType::Quest, 1);
+                    advance();
                 }
             } break;
             case '$': {

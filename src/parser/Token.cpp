@@ -92,7 +92,6 @@ namespace jc::parser {
         {TokenType::RangeBothE,         ">.<"},
         {TokenType::Dot,                "."},
         {TokenType::Path,               "::"},
-        {TokenType::SafeCall,           "?."},
         {TokenType::Spread,             "..."},
         {TokenType::Pipe,               "|>"},
         {TokenType::Dollar,             "$"},

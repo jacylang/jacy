@@ -637,8 +637,8 @@ namespace jc::parser {
 
         const auto & parser = precTable.at(index);
         const auto flags = parser.flags;
-        const auto multiple = (flags >> 4) & 1;
-        const auto rightAssoc = (flags >> 3) & 1;
+        const auto multiple = (flags >> 3) & 1;
+        const auto rightAssoc = (flags >> 2) & 1;
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
 
@@ -757,7 +757,7 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             // FIXME: Move member access to precTable?
-            if (skipOpt(TokenType::Dot, true) or skipOpt(TokenType::SafeCall, true)) {
+            if (skipOpt(TokenType::Dot, true)) {
                 // TODO: `.` Only for id.id / id.int
                 auto rhs = primary();
                 if (!rhs) {
