@@ -99,6 +99,7 @@ namespace jc::hir {
         bool isInside(LinterContext ctx);
         bool isDeepInside(LinterContext ctx);
         void pushContext(LinterContext ctx);
+        void popContext();
 
         // Suggestions //
     private:

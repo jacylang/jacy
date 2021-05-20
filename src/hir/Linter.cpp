@@ -32,6 +32,9 @@ namespace jc::hir {
     ////////////////
     void Linter::visit(ast::EnumDecl * enumDecl) {
         Logger::notImplemented("Linter::visit enumDecl");
+
+        pushContext(LinterContext::Enum);
+        popContext();
     }
 
     void Linter::visit(ast::ExprStmt * exprStmt) {
@@ -41,7 +44,9 @@ namespace jc::hir {
     void Linter::visit(ast::ForStmt * forStmt) {
         forStmt->forEntity->accept(*this);
         forStmt->inExpr->accept(*this);
+        pushContext(LinterContext::For);
         forStmt->body->accept(*this);
+        popContext();
     }
 
     void Linter::visit(ast::FuncDecl * funcDecl) {
@@ -68,6 +73,7 @@ namespace jc::hir {
             funcDecl->returnType.unwrap()->accept(*this);
         }
 
+        pushContext(LinterContext::Func);
         if (funcDecl->body) {
             funcDecl->body.unwrap()->accept(*this);
         } else if (funcDecl->oneLineBody) {
@@ -75,6 +81,7 @@ namespace jc::hir {
         } else {
             Logger::devPanic("Linter: FuncDecl hasn't either one-line either raw body");
         }
+        popContext();
     }
 
     void Linter::visit(ast::Impl * impl) {
@@ -84,7 +91,10 @@ namespace jc::hir {
 
         impl->traitTypePath->accept(*this);
         impl->forType->accept(*this);
+
+        pushContext(LinterContext::Impl);
         lintMembers(impl->members);
+        popContext();
     }
 
     void Linter::visit(ast::Item * item) {
@@ -99,7 +109,9 @@ namespace jc::hir {
             lint(_struct->typeParams.unwrap());
         }
 
+        pushContext(LinterContext::Struct);
         lintMembers(_struct->members);
+        popContext();
     }
 
     void Linter::visit(ast::Trait * trait) {
@@ -113,7 +125,9 @@ namespace jc::hir {
             superTrait->accept(*this);
         }
 
+        pushContext(LinterContext::Trait);
         lintMembers(trait->members);
+        popContext();
     }
 
     void Linter::visit(ast::TypeAlias * typeAlias) {
@@ -136,7 +150,10 @@ namespace jc::hir {
 
     void Linter::visit(ast::WhileStmt * whileStmt) {
         whileStmt->condition->accept(*this);
+
+        pushContext(LinterContext::While);
         whileStmt->body->accept(*this);
+        popContext();
     }
 
     /////////////////
@@ -274,7 +291,9 @@ namespace jc::hir {
             lambdaExpr->returnType.unwrap()->accept(*this);
         }
 
+        pushContext(LinterContext::Lambda);
         lambdaExpr->body->accept(*this);
+        popContext();
     }
 
     void Linter::visit(ast::ListExpr * listExpr) {
@@ -288,7 +307,9 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::LoopExpr * loopExpr) {
+        pushContext(LinterContext::Loop);
         loopExpr->body->accept(*this);
+        popContext();
     }
 
     void Linter::visit(ast::MemberAccess * memberAccess) {
@@ -384,6 +405,7 @@ namespace jc::hir {
     void Linter::visit(ast::WhenExpr * whenExpr) {
         whenExpr->subject->accept(*this);
 
+        pushContext(LinterContext::When);
         for (const auto & entry : whenExpr->entries) {
             for (const auto & condition : entry->conditions) {
                 // FIXME: Patterns in the future
@@ -391,6 +413,7 @@ namespace jc::hir {
             }
             entry->body->accept(*this);
         }
+        popContext();
     }
 
     ///////////
@@ -490,6 +513,10 @@ namespace jc::hir {
 
     void Linter::pushContext(LinterContext ctx) {
         ctxStack.push_back(ctx);
+    }
+
+    void Linter::popContext() {
+        ctxStack.pop_back();
     }
 
     // Suggestions //
