@@ -16,15 +16,15 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::ErrorStmt * errorStmt) {
-        Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->loc.toString());
+        Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->span.toString());
     }
 
     void Linter::visit(ast::ErrorExpr * errorExpr) {
-        Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->loc.toString());
+        Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->span.toString());
     }
 
     void Linter::visit(ast::ErrorType * errorType) {
-        Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->loc.toString());
+        Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->span.toString());
     }
 
     ////////////////
@@ -216,7 +216,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::Identifier * identifier) {
         if (!identifier->token) {
-            Logger::devPanic("[ERROR ID] on linter stage at", identifier->loc.toString());
+            Logger::devPanic("[ERROR ID] on linter stage at", identifier->span.toString());
         }
     }
 
@@ -322,7 +322,7 @@ namespace jc::hir {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
                     "Useless double-wrapped parenthesized expression",
-                    parenExpr->loc.span(sess),
+                    parenExpr->span,
                     sugg::SuggKind::Warn
                 )
             );
@@ -331,7 +331,7 @@ namespace jc::hir {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
                     "Useless parentheses around simple expression",
-                    parenExpr->loc.span(sess),
+                    parenExpr->span,
                     sugg::SuggKind::Warn
                 )
             );
