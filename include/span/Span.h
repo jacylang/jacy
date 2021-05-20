@@ -4,21 +4,13 @@
 #include <cstdint>
 #include <iostream>
 
+#include "common/Logger.h"
+
 namespace jc::span {
     using span_len_t = uint16_t;
-
-    static inline uint64_t count() {
-        static uint64_t counter = 0;
-        return counter++;
-    }
-
     struct Span {
-        uint64_t id;
-
         Span(uint32_t line, uint32_t col, span_len_t len, uint16_t fileId)
-            : line(line), col(col), len(len), fileId(fileId) {
-            id = count();
-        }
+            : line(line), col(col), len(len), fileId(fileId) {}
 
         span_len_t len; // not in use
         uint32_t line;
@@ -27,6 +19,13 @@ namespace jc::span {
 
         std::string toString() const {
             return std::to_string(line + 1) + ":" + std::to_string(col + 1);
+        }
+
+        Span to(const Span & end) const {
+            if (end.fileId != fileId) {
+                common::Logger::devPanic("Called `Span::to` with spans from different files");
+            }
+            return Span(line, col, len + end.len, fileId);
         }
     };
 }
