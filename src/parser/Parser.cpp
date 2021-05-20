@@ -334,12 +334,13 @@ namespace jc::parser {
                     return decl.unwrap("`parseStmt` -> `decl`");
                 }
 
-                // FIXME: Maybe useless due to check inside `parseExpr`
                 auto expr = parseOptExpr();
                 if (!expr) {
+                    // FIXME: Maybe useless due to check inside `parseExpr`
+                    log.dev("Stmt expr none:", expr.none());
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
                     advance();
-                    std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
+                    return std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
                 }
 
                 auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
@@ -591,13 +592,15 @@ namespace jc::parser {
         logParse("[opt] Expr");
 
         const auto & begin = cspan();
-        if (skipOpt(TokenType::Return)) {
+        if (skipOpt(TokenType::Return, true)) {
+            logParse("ReturnExpr");
             return ast::Expr::as<ast::Expr>(
                 std::make_shared<ast::ReturnExpr>(assignment(), begin.to(cspan()))
             );
         }
 
-        if (skipOpt(TokenType::Break)) {
+        if (skipOpt(TokenType::Break, true)) {
+            logParse("BreakExpr");
             return ast::Expr::as<ast::Expr>(
                 std::make_shared<ast::BreakExpr>(assignment(), begin.to(cspan()))
             );
@@ -608,6 +611,19 @@ namespace jc::parser {
         }
 
         return assignment();
+    }
+
+    ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+        logParse("Expr");
+
+        const auto & begin = cspan();
+        auto expr = parseOptExpr();
+        errorForNone(expr, suggMsg, cspan());
+        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
+        if (expr) {
+            return expr.unwrap("parseExpr -> expr");
+        }
+        return std::make_shared<ast::ErrorExpr>(begin.to(cspan()));
     }
 
     ast::expr_ptr Parser::parseLambda() {
@@ -672,19 +688,6 @@ namespace jc::parser {
         }
 
         return std::make_shared<ast::Lambda>(params, returnType, body, begin.to(cspan()));
-    }
-
-    ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("Expr");
-
-        const auto & begin = cspan();
-        auto expr = parseOptExpr();
-        errorForNone(expr, suggMsg, cspan());
-        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        if (expr) {
-            return expr.unwrap("parseExpr -> expr");
-        }
-        return std::make_shared<ast::ErrorExpr>(begin.to(cspan()));
     }
 
     ast::opt_expr_ptr Parser::assignment() {
