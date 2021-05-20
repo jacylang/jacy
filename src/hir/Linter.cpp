@@ -175,6 +175,10 @@ namespace jc::hir {
         }
     }
 
+    void Linter::visit(ast::BorrowExpr * borrowExpr) {
+        borrowExpr->expr->accept(*this);
+    }
+
     void Linter::visit(ast::BreakExpr * breakExpr) {
         if (breakExpr->expr) {
             breakExpr->expr.unwrap()->accept(*this);

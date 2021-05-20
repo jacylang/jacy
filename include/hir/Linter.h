@@ -36,6 +36,7 @@ namespace jc::hir {
 
         // Expressions //
         void visit(ast::Assignment * assign) override;
+        void visit(ast::BorrowExpr * borrowExpr) override;
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
         void visit(ast::DerefExpr * derefExpr) override;
