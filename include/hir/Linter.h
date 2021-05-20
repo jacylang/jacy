@@ -45,6 +45,7 @@ namespace jc::hir {
         void visit(ast::IfExpr * ifExpr) override;
         void visit(ast::Infix * infix) override;
         void visit(ast::Invoke * invoke) override;
+        void visit(ast::LambdaExpr * lambdaExpr) override;
         void visit(ast::ListExpr * listExpr) override;
         void visit(ast::LiteralConstant * literalConstant) override;
         void visit(ast::LoopExpr * loopExpr) override;
