@@ -19,10 +19,6 @@ namespace jc::ast {
             return visitor.visit(this);
         }
     };
-
-    const auto makeInfix = [](expr_ptr lhs, const parser::Token & token, expr_ptr rhs) {
-        return std::make_shared<Infix>(lhs, token, rhs);
-    };
 }
 
 #endif // JACY_INFIX_H

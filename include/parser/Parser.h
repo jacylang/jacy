@@ -43,10 +43,6 @@
  */
 
 namespace jc::parser {
-    // TODO: Remove them because precParse is a unification
-    using ast::makeInfix;
-    using ast::makePrefix;
-
     struct ParserError : common::Error {
         explicit ParserError(const std::string & msg) : Error(msg) {}
     };

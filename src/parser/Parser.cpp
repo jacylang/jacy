@@ -693,7 +693,7 @@ namespace jc::parser {
                 // and `precParse` already generated error suggestion
                 continue;
             }
-            lhs = makeInfix(
+            lhs = std::make_shared<ast::Infix>(
                 lhs.unwrap("precParse -> lhs"),
                 op,
                 rhs.unwrap("precParse -> rhs")
