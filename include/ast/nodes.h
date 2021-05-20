@@ -11,6 +11,7 @@
 
 // Expressions //
 #include "ast/expr/Assignment.h"
+#include "ast/expr/BorrowExpr.h"
 #include "ast/expr/BreakExpr.h"
 #include "ast/expr/ContinueExpr.h"
 #include "ast/expr/Identifier.h"

@@ -716,13 +716,20 @@ namespace jc::parser {
 
     ast::opt_expr_ptr Parser::prefix() {
         const auto & op = peek();
-        if (skipOpt(TokenType::Not)
-        or skipOpt(TokenType::Sub)
-        or skipOpt(TokenType::BitAnd)
-        or skipOpt(TokenType::And)
-        or skipOpt(TokenType::Mul)) {
+        if (skipOpt(TokenType::Not, true)
+        or skipOpt(TokenType::Sub, true)
+        or skipOpt(TokenType::BitAnd, true)
+        or skipOpt(TokenType::And, true)
+        or skipOpt(TokenType::Mul, true)) {
+            auto rhs = prefix();
+            if (!rhs) {
+                suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
+            }
             if (op.is(TokenType::BitAnd) or op.is(TokenType::And)) {
-
+                bool mut = skipOpt(TokenType::Mut, true);
+                return ast::Expr::as<ast::Expr>(
+                    std::make_shared<ast::BorrowExpr>(op.is(TokenType::And), mut, rhs.unwrap(), op.loc)
+                );
             }
         }
 

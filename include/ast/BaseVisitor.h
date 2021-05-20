@@ -6,7 +6,7 @@ namespace jc::ast {
     struct ErrorExpr;
     struct ErrorType;
 
-    // Statements //
+    // Statements //N
     struct EnumDecl;
     struct ExprStmt;
     struct ForStmt;
@@ -21,6 +21,7 @@ namespace jc::ast {
 
     // Expressions //
     struct Assignment;
+    struct BorrowExpr;
     struct BreakExpr;
     struct ContinueExpr;
     struct Identifier;
@@ -74,6 +75,7 @@ namespace jc::ast {
 
         // Expressions //
         virtual void visit(Assignment*) = 0;
+        virtual void visit(BorrowExpr*) = 0;
         virtual void visit(BreakExpr*) = 0;
         virtual void visit(ContinueExpr*) = 0;
         virtual void visit(Identifier*) = 0;
