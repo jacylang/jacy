@@ -5,7 +5,11 @@
 
 namespace jc::ast {
     struct BreakExpr : Expr {
-        explicit BreakExpr(const Location & loc) : Expr(loc, ExprType::Break) {}
+        BreakExpr(opt_expr_ptr expr, const Location & loc)
+            : Expr(loc, ExprType::Break),
+              expr(std::move(expr)) {}
+
+        opt_expr_ptr expr;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

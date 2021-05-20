@@ -5,9 +5,11 @@
 
 namespace jc::ast {
     struct ReturnExpr : Expr {
-        ReturnExpr(const Location & loc) : Expr(loc, ExprType::Return) {}
+        ReturnExpr(opt_expr_ptr expr, const Location & loc)
+            : Expr(loc, ExprType::Return),
+              expr(std::move(expr)) {}
 
-        expr_ptr expr;
+        opt_expr_ptr expr;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

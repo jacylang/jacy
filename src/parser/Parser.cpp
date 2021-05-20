@@ -575,6 +575,19 @@ namespace jc::parser {
     ast::opt_expr_ptr Parser::parseOptExpr() {
         logParse("[opt] Expr");
 
+        const auto & loc = peek().loc;
+        if (skipOpt(TokenType::Return)) {
+            return ast::Expr::as<ast::Expr>(
+                std::make_shared<ast::ReturnExpr>(assignment(), loc)
+            );
+        }
+
+        if (skipOpt(TokenType::Break)) {
+            return ast::Expr::as<ast::Expr>(
+                std::make_shared<ast::BreakExpr>(assignment(), loc)
+            );
+        }
+
         return assignment();
     }
 
