@@ -1,5 +1,5 @@
-#ifndef JACY_AST_EXPR_LAMBDAEXPR_H
-#define JACY_AST_EXPR_LAMBDAEXPR_H
+#ifndef JACY_AST_EXPR_LAMBDA_H
+#define JACY_AST_EXPR_LAMBDA_H
 
 #include "ast/expr/Identifier.h"
 #include "ast/fragments/Type.h"
@@ -18,8 +18,8 @@ namespace jc::ast {
         opt_type_ptr type;
     };
 
-    struct LambdaExpr : Expr {
-        LambdaExpr(
+    struct Lambda : Expr {
+        Lambda(
             lambda_param_list params,
             opt_type_ptr returnType,
             block_ptr body,
@@ -39,4 +39,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_EXPR_LAMBDAEXPR_H
+#endif // JACY_AST_EXPR_LAMBDA_H

@@ -595,7 +595,7 @@ namespace jc::parser {
     }
 
     ast::expr_ptr Parser::parseLambda() {
-        logParse("`LambdaExpr`");
+        logParse("`Lambda`");
 
         const auto & loc = peek().loc;
 
@@ -648,7 +648,7 @@ namespace jc::parser {
             body = parseExpr("Expected lambda body");
         }
 
-        return std::make_shared<ast::LambdaExpr>(params, returnType, body, loc);
+        return std::make_shared<ast::Lambda>(params, returnType, body, loc);
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {

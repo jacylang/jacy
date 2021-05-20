@@ -262,7 +262,7 @@ namespace jc::hir {
         // TODO
     }
 
-    void Linter::visit(ast::LambdaExpr * lambdaExpr) {
+    void Linter::visit(ast::Lambda * lambdaExpr) {
         for (const auto & param : lambdaExpr->params) {
             param->id->accept(*this);
             if (param->type) {

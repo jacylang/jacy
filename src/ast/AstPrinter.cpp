@@ -281,7 +281,7 @@ namespace jc::ast {
         log.raw(")");
     }
 
-    void AstPrinter::visit(LambdaExpr * lambdaExpr) {
+    void AstPrinter::visit(Lambda * lambdaExpr) {
         log.raw("|");
         for (size_t i = 0; i < lambdaExpr->params.size(); i++) {
             const auto & param = lambdaExpr->params.at(i);
