@@ -36,6 +36,7 @@ namespace jc::hir {
 
         // Expressions //
         void visit(ast::Assignment * assign) override;
+        void visit(ast::Block * block) override;
         void visit(ast::BorrowExpr * borrowExpr) override;
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
@@ -70,7 +71,6 @@ namespace jc::hir {
         void visit(ast::UnitType * unitType) override;
 
     private:
-        void lint(const ast::block_ptr & block);
         void lint(const ast::named_list_ptr & namedList);
         void lint(const ast::type_param_list & typeParams);
         void lintMembers(const ast::stmt_list & members);

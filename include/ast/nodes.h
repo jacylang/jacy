@@ -3,7 +3,6 @@
 
 // Fragments //
 #include "ast/fragments/Attribute.h"
-#include "ast/expr/Block.h"
 #include "ast/fragments/Delegation.h"
 #include "ast/fragments/FuncParam.h"
 #include "ast/fragments/Type.h"
@@ -11,6 +10,7 @@
 
 // Expressions //
 #include "ast/expr/Assignment.h"
+#include "ast/expr/Block.h"
 #include "ast/expr/BorrowExpr.h"
 #include "ast/expr/BreakExpr.h"
 #include "ast/expr/ContinueExpr.h"

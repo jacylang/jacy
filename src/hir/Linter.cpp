@@ -41,7 +41,7 @@ namespace jc::hir {
     void Linter::visit(ast::ForStmt * forStmt) {
         forStmt->forEntity->accept(*this);
         forStmt->inExpr->accept(*this);
-        lint(forStmt->body);
+        forStmt->body->accept(*this);
     }
 
     void Linter::visit(ast::FuncDecl * funcDecl) {
@@ -69,7 +69,7 @@ namespace jc::hir {
         }
 
         if (funcDecl->body) {
-            lint(funcDecl->body.unwrap());
+            funcDecl->body.unwrap()->accept(*this);
         } else if (funcDecl->oneLineBody) {
             funcDecl->oneLineBody.unwrap()->accept(*this);
         } else {
@@ -136,7 +136,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::WhileStmt * whileStmt) {
         whileStmt->condition->accept(*this);
-        lint(whileStmt->body);
+        whileStmt->body->accept(*this);
     }
 
     /////////////////
@@ -175,6 +175,12 @@ namespace jc::hir {
         }
     }
 
+    void Linter::visit(ast::Block * block) {
+        for (const auto & stmt : block->stmts) {
+            stmt->accept(*this);
+        }
+    }
+
     void Linter::visit(ast::BorrowExpr * borrowExpr) {
         borrowExpr->expr->accept(*this);
     }
@@ -201,11 +207,11 @@ namespace jc::hir {
         ifExpr->condition->accept(*this);
 
         if (ifExpr->ifBranch) {
-            lint(ifExpr->ifBranch.unwrap());
+            ifExpr->ifBranch.unwrap()->accept(*this);
         }
 
         if (ifExpr->elseBranch) {
-            lint(ifExpr->elseBranch.unwrap());
+            ifExpr->elseBranch.unwrap()->accept(*this);
         }
     }
 
@@ -267,7 +273,7 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::LoopExpr * loopExpr) {
-        lint(loopExpr->body);
+        loopExpr->body->accept(*this);
     }
 
     void Linter::visit(ast::MemberAccess * memberAccess) {
@@ -368,7 +374,7 @@ namespace jc::hir {
                 // FIXME: Patterns in the future
                 condition->accept(*this);
             }
-            lint(entry->body);
+            entry->body->accept(*this);
         }
     }
 
@@ -413,12 +419,6 @@ namespace jc::hir {
 
     void Linter::visit(ast::UnitType * unitType) {
         // Meow...
-    }
-
-    void Linter::lint(const ast::block_ptr & block) {
-        for (const auto & stmt : block->stmts) {
-            stmt->accept(*this);
-        }
     }
 
     void Linter::lint(const ast::named_list_ptr & namedList) {
