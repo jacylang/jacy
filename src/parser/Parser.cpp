@@ -587,7 +587,68 @@ namespace jc::parser {
             );
         }
 
+        if (is(TokenType::BitOr) or is(TokenType::Or)) {
+            return parseLambda();
+        }
+
         return assignment();
+    }
+
+    ast::expr_ptr Parser::parseLambda() {
+        logParse("`LambdaExpr`");
+
+        const auto & loc = peek().loc;
+
+        bool expectParams = false;
+        if (skipOpt(TokenType::BitOr, true)) {
+            expectParams = true;
+        } else {
+            justSkip(TokenType::Or, true, "`||`", "`parseLambda`");
+        }
+
+        ast::lambda_param_list params;
+        if (expectParams) {
+            bool first = true;
+            while (!eof()) {
+                skipNLs(true);
+
+                if (is(TokenType::BitOr)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenType::Comma,
+                        true,
+                        true,
+                        false,
+                        std::make_unique<ParseErrSugg>("Missing `,` separator between lambda parameters", cspan())
+                    );
+                }
+
+                const auto & paramLoc = peek().loc;
+                ast::id_ptr id = parseId("Expected lambda parameter name", true, true);
+                ast::opt_type_ptr type;
+                if (skipOpt(TokenType::Colon, true)) {
+                    type = parseType("Expected lambda parameter type after `:`");
+                }
+
+                params.push_back(std::make_shared<ast::LambdaParam>(id, type, paramLoc));
+            }
+        }
+
+        ast::opt_type_ptr returnType;
+        ast::block_ptr body;
+        if (skipOpt(TokenType::Arrow, true)) {
+            returnType = parseType("Expected lambda return type after `->`");
+        } else {
+            // FIXME: Replace with block expr when will be added
+            body = parseExpr("Expected lambda body");
+        }
+
+        return std::make_shared<ast::LambdaExpr>(params, returnType, body, loc);
     }
 
     ast::expr_ptr Parser::parseExpr(const std::string & suggMsg) {
