@@ -595,7 +595,7 @@ namespace jc::parser {
     }
 
     ast::expr_ptr Parser::parseLambda() {
-        logParse("`Lambda`");
+        logParse("Lambda:" + peek().toString());
 
         const auto & loc = peek().loc;
 
@@ -637,6 +637,13 @@ namespace jc::parser {
 
                 params.push_back(std::make_shared<ast::LambdaParam>(id, type, paramLoc));
             }
+            skip(
+                TokenType::BitOr,
+                true,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>("Missing closing `|` at the end of lambda patameters", cspan())
+            );
         }
 
         ast::opt_type_ptr returnType;
