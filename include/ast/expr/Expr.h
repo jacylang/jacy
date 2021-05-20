@@ -13,6 +13,7 @@ namespace jc::ast {
 
     enum class ExprType {
         Assign,
+        Block,
         Borrow,
         Break,
         Continue,

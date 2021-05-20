@@ -3,7 +3,7 @@
 
 // Fragments //
 #include "ast/fragments/Attribute.h"
-#include "ast/fragments/Block.h"
+#include "ast/expr/Block.h"
 #include "ast/fragments/Delegation.h"
 #include "ast/fragments/FuncParam.h"
 #include "ast/fragments/Type.h"

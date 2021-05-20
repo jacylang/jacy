@@ -3,7 +3,7 @@
 
 #include "ast/stmt/Stmt.h"
 #include "ast/expr/Expr.h"
-#include "ast/fragments/Block.h"
+#include "ast/expr/Block.h"
 #include "ast/expr/Identifier.h"
 
 namespace jc::ast {

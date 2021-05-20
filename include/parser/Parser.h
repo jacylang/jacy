@@ -168,6 +168,8 @@ namespace jc::parser {
         ast::expr_ptr parseListExpr();
         ast::expr_ptr parseTupleOrParenExpr();
 
+        ast::block_ptr parseBlock(const std::string & construction, BlockArrow);
+
         // Control-flow expressions //
         ast::expr_ptr parseIfExpr(bool isElif = false);
         ast::expr_ptr parseLoopExpr();
@@ -175,7 +177,6 @@ namespace jc::parser {
         ast::when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        ast::block_ptr parseBlock(const std::string & construction, BlockArrow);
         std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
         ast::attr_list parseAttrList();
         dt::Option<ast::attr_ptr> parseAttr();

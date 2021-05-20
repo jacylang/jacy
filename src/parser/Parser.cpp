@@ -1196,6 +1196,71 @@ namespace jc::parser {
         return std::make_shared<ast::TupleExpr>(std::make_shared<ast::NamedList>(namedList, loc), loc);
     }
 
+    ast::block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
+        logParse("block:" + construction);
+
+        const auto loc = peek().loc;
+        bool allowOneLine = false;
+        const auto & maybeDoubleArrow = peek();
+        if (skipOpt(TokenType::DoubleArrow, true)) {
+            if (arrow == BlockArrow::NotAllowed) {
+                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span(sess));
+            } else if (arrow == BlockArrow::Useless) {
+                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span(sess));
+            }
+            allowOneLine = true;
+        } else if (arrow == BlockArrow::Require) {
+            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span(sess));
+        } else if (arrow == BlockArrow::Useless) {
+            // Allow one-line even if no `=>` given for optional
+            allowOneLine = true;
+        }
+
+        ast::stmt_list stmts;
+        const auto & maybeBraceToken = peek();
+        if (skipOpt(TokenType::LBrace, true)) {
+            bool first = true;
+            while (!eof()) {
+                if (is(TokenType::RBrace)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                }
+                // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
+
+                stmts.push_back(parseStmt());
+            }
+            skip(
+                TokenType::RBrace,
+                true,
+                true,
+                false,
+                std::make_unique<ParseErrSpanLinkSugg>(
+                    "Missing closing `}` at the end of " + construction + " body", cspan(),
+                    "opening `{` is here", maybeBraceToken.span(sess)
+                )
+            );
+            emitVirtualSemi();
+        } else if (allowOneLine) {
+            auto exprStmt = std::make_shared<ast::ExprStmt>(
+                parseExpr("Expected expression in one-line block in " + construction)
+            );
+            // Note: Don't require semis for one-line body
+            stmts.push_back(exprStmt);
+        } else {
+            suggest(
+                std::make_unique<ParseErrSugg>(
+                    "Likely you meant to put `{}` or write one one-line body with `=`",
+                    cspan()
+                )
+            );
+        }
+
+        return std::make_shared<ast::Block>(stmts, loc);
+    }
+
     ast::expr_ptr Parser::parseIfExpr(bool isElif) {
         logParse("IfExpr:elif=" + std::to_string(isElif));
 
@@ -1347,74 +1412,6 @@ namespace jc::parser {
         ast::block_ptr body = parseBlock("when", BlockArrow::Require);
 
         return std::make_shared<ast::WhenEntry>(conditions, body, loc);
-    }
-
-    ///////////////
-    // Fragments //
-    ///////////////
-    ast::block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
-        logParse("block:" + construction);
-
-        const auto loc = peek().loc;
-        bool allowOneLine = false;
-        const auto & maybeDoubleArrow = peek();
-        if (skipOpt(TokenType::DoubleArrow, true)) {
-            if (arrow == BlockArrow::NotAllowed) {
-                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span(sess));
-            } else if (arrow == BlockArrow::Useless) {
-                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span(sess));
-            }
-            allowOneLine = true;
-        } else if (arrow == BlockArrow::Require) {
-            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span(sess));
-        } else if (arrow == BlockArrow::Useless) {
-            // Allow one-line even if no `=>` given for optional
-            allowOneLine = true;
-        }
-
-        ast::stmt_list stmts;
-        const auto & maybeBraceToken = peek();
-        if (skipOpt(TokenType::LBrace, true)) {
-            bool first = true;
-            while (!eof()) {
-                if (is(TokenType::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                }
-                // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
-
-                stmts.push_back(parseStmt());
-            }
-            skip(
-                TokenType::RBrace,
-                true,
-                true,
-                false,
-                std::make_unique<ParseErrSpanLinkSugg>(
-                    "Missing closing `}` at the end of " + construction + " body", cspan(),
-                    "opening `{` is here", maybeBraceToken.span(sess)
-                )
-            );
-            emitVirtualSemi();
-        } else if (allowOneLine) {
-            auto exprStmt = std::make_shared<ast::ExprStmt>(
-                parseExpr("Expected expression in one-line block in " + construction)
-            );
-            // Note: Don't require semis for one-line body
-            stmts.push_back(exprStmt);
-        } else {
-            suggest(
-                std::make_unique<ParseErrSugg>(
-                    "Likely you meant to put `{}` or write one one-line body with `=`",
-                    cspan()
-                )
-            );
-        }
-
-        return std::make_shared<ast::Block>(stmts, loc);
     }
 
     std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseFuncBody() {

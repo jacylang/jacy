@@ -1,6 +1,7 @@
 #ifndef JACY_BLOCK_H
 #define JACY_BLOCK_H
 
+#include "ast/expr/Expr.h"
 #include "ast/stmt/Stmt.h"
 
 namespace jc::ast {
@@ -9,11 +10,15 @@ namespace jc::ast {
     using opt_block_ptr = dt::Option<block_ptr>;
     using block_list = std::vector<block_ptr>;
 
-    struct Block : Node {
+    struct Block : Expr {
         Block(stmt_list stmts, const Location & loc)
-            : stmts(std::move(stmts)), Node(loc) {}
+            : stmts(std::move(stmts)), Expr(loc, ExprType::Block) {}
 
         stmt_list stmts;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 

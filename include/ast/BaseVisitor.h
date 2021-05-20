@@ -21,6 +21,7 @@ namespace jc::ast {
 
     // Expressions //
     struct Assignment;
+    struct Block;
     struct BorrowExpr;
     struct BreakExpr;
     struct ContinueExpr;
@@ -78,6 +79,7 @@ namespace jc::ast {
 
         // Expressions //
         virtual void visit(Assignment*) = 0;
+        virtual void visit(Block*) = 0;
         virtual void visit(BorrowExpr*) = 0;
         virtual void visit(BreakExpr*) = 0;
         virtual void visit(ContinueExpr*) = 0;

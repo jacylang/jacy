@@ -5,7 +5,7 @@
 #include "ast/expr/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 #include "ast/fragments/Attribute.h"
-#include "ast/fragments/Block.h"
+#include "ast/expr/Block.h"
 
 namespace jc::ast {
     struct FuncDecl : Stmt {

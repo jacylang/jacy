@@ -2,7 +2,7 @@
 #define JACY_LOOPEXPR_H
 
 #include "ast/expr/Expr.h"
-#include "ast/fragments/Block.h"
+#include "Block.h"
 
 namespace jc::ast {
     struct LoopExpr : Expr {
