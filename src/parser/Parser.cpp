@@ -248,8 +248,7 @@ namespace jc::parser {
 
         const auto & loc = peek().loc;
         ast::attr_list attributes = parseAttrList();
-//        parser::token_list modifiers = parseModifiers();
-        parser::token_list modifiers = {};
+        parser::token_list modifiers = parseModifiers();
 
         ast::opt_stmt_ptr decl;
 
@@ -299,6 +298,21 @@ namespace jc::parser {
         }
 
         return dt::None;
+    }
+
+    parser::token_list Parser::parseModifiers() {
+        parser::token_list modifiers;
+
+        while (!eof()) {
+            const auto & modifier = peek();
+            if (skipOpt(TokenType::Move, true) or skipOpt(TokenType::Mut, true)) {
+                modifiers.push_back(modifier);
+            } else {
+                break;
+            }
+        }
+
+        return modifiers;
     }
 
     ast::stmt_ptr Parser::parseStmt() {
