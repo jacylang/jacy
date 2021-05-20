@@ -158,6 +158,7 @@ namespace jc::parser {
         const static std::vector<PrecParser> precTable;
 
         ast::opt_expr_ptr prefix();
+        ast::opt_expr_ptr quest();
         ast::opt_expr_ptr postfix();
         ast::opt_expr_ptr primary();
 

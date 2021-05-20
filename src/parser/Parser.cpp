@@ -724,7 +724,7 @@ namespace jc::parser {
             auto maybeRhs = prefix();
             if (!maybeRhs) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
-                return postfix(); // FIXME: CHECK!!!
+                return quest(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.unwrap();
             if (op.is(TokenType::BitAnd) or op.is(TokenType::And)) {
@@ -742,7 +742,21 @@ namespace jc::parser {
             );
         }
 
-        return postfix();
+        return quest();
+    }
+
+    ast::opt_expr_ptr Parser::quest() {
+        auto lhs = postfix();
+
+        if (!lhs) {
+            return dt::None;
+        }
+
+        if (is(TokenType::Quest)) {
+
+        }
+
+        return lhs;
     }
 
     dt::Option<ast::expr_ptr> Parser::postfix() {
