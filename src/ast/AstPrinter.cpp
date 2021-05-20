@@ -192,6 +192,19 @@ namespace jc::ast {
         assignment->rhs->accept(*this);
     }
 
+    void AstPrinter::visit(BorrowExpr * borrowExpr) {
+        if (borrowExpr->twin) {
+            log.raw("&&");
+        } else {
+            log.raw("&");
+        }
+        if (borrowExpr->mut) {
+            log.raw("mut");
+        }
+        log.raw(" ");
+        borrowExpr->expr->accept(*this);
+    }
+
     void AstPrinter::visit(BreakExpr * breakExpr) {
         log.raw("break ");
         if (breakExpr->expr) {

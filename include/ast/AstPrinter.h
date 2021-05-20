@@ -34,6 +34,7 @@ namespace jc::ast {
 
         // Expressions //
         void visit(Assignment * assignment) override;
+        void visit(BorrowExpr * borrowExpr) override;
         void visit(BreakExpr * breakExpr) override;
         void visit(ContinueExpr * continueExpr) override;
         void visit(DerefExpr * derefExpr) override;
