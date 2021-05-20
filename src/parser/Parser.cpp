@@ -655,13 +655,7 @@ namespace jc::parser {
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
 
-        ast::opt_expr_ptr lhs;
-        auto single = precParse(index + 1);
-        if (!single) {
-            return dt::None;
-        }
-
-        lhs = single.unwrap("`precParse` -> `single`");
+        auto maybeLhs = precParse(index + 1);
 
         bool skippedLeftNls = false;
         if (skipLeftNLs) {
@@ -676,13 +670,18 @@ namespace jc::parser {
             }
         }
 
-        if (!maybeOp) {
+        if (!maybeOp && maybeLhs) {
             if (skippedLeftNls) {
                 // Recover NL semis
                 emitVirtualSemi();
             }
-            return lhs;
+            return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
+        } else {
+            // Left-hand side is none, and there's no range operator
+            return dt::None;
         }
+
+        ast::opt_expr_ptr lhs = maybeLhs.unwrap();
 
         auto op = maybeOp.unwrap("precParse -> maybeOp");
         while (skipOpt(op.type, skipRightNLs)) {
@@ -720,7 +719,7 @@ namespace jc::parser {
         {0b1011, {TokenType::NullCoalesce}},
         {0b1011, {TokenType::Shl, TokenType::Shr}},
         {0b1011, {TokenType::Id}},
-        {0b1011, {TokenType::Range, TokenType::RangeLE, TokenType::RangeRE, TokenType::RangeBothE}},
+        {0b1011, {TokenType::Range, TokenType::RangeEQ}},
         {0b1011, {TokenType::Add, TokenType::Sub}},
         {0b1011, {TokenType::Mul, TokenType::Div, TokenType::Mod}},
         {0b1111, {TokenType::Power}}, // Note: Right-assoc

@@ -378,8 +378,8 @@ namespace jc::parser {
                     if (lookup(2) == '.') {
                         addToken(TokenType::Spread, 3);
                         advance(3);
-                    } else if (lookup(2) == '<') {
-                        addToken(TokenType::RangeRE, 3);
+                    } else if (lookup(2) == '=') {
+                        addToken(TokenType::RangeEQ, 3);
                         advance(3);
                     } else {
                         addToken(TokenType::Range, 2);
@@ -460,16 +460,6 @@ namespace jc::parser {
                 if (lookup() == '=') {
                     addToken(TokenType::GE, 2);
                     advance(2);
-                } else if (lookup() == '.') {
-                    if (lookup(2) == '.') {
-                        addToken(TokenType::RangeLE, 3);
-                        advance(3);
-                    } else if (lookup(2) == '<') {
-                        addToken(TokenType::RangeBothE, 3);
-                        advance(3);
-                    } else {
-                        unexpectedTokenError();
-                    }
                 } else if (lookup() == '>') {
                     if (lookup(2) == '=') {
                         addToken(TokenType::ShrAssign, 3);

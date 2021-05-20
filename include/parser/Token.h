@@ -90,9 +90,7 @@ namespace jc::parser {
         RefEq,                      // ===
         RefNotEq,                   // !==
         Range,                      // ..
-        RangeLE,                    // >..
-        RangeRE,                    // ..<
-        RangeBothE,                 // >.<
+        RangeEQ,                    // ..=
         Dot,                        // .
         Path,                       // ::
         Spread,                     // ...

@@ -233,9 +233,7 @@ namespace jc::hir {
             case parser::TokenType::Shl:
             case parser::TokenType::Shr:
             case parser::TokenType::Range:
-            case parser::TokenType::RangeLE:
-            case parser::TokenType::RangeRE:
-            case parser::TokenType::RangeBothE:
+            case parser::TokenType::RangeEQ:
             case parser::TokenType::Add:
             case parser::TokenType::Sub:
             case parser::TokenType::Mul:
