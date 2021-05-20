@@ -294,10 +294,12 @@ namespace jc::ast {
                 log.raw(", ");
             }
         }
-        log.raw("|");
+        log.raw("| ");
 
         if (lambdaExpr->returnType) {
+            log.raw(" -> ");
             lambdaExpr->returnType.unwrap()->accept(*this);
+            log.raw(" ");
         }
 
         lambdaExpr->body->accept(*this);
