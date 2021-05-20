@@ -210,8 +210,44 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Infix * infix) {
-        if (infix->op.is(parser::TokenType::Id)) {
-            suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
+        switch (infix->op.type) {
+            case parser::TokenType::Id: {
+                suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
+            } break;
+            case parser::TokenType::Pipe:
+            case parser::TokenType::Or:
+            case parser::TokenType::And:
+            case parser::TokenType::BitOr:
+            case parser::TokenType::Xor:
+            case parser::TokenType::BitAnd:
+            case parser::TokenType::Eq:
+            case parser::TokenType::NotEq:
+            case parser::TokenType::LAngle:
+            case parser::TokenType::RAngle:
+            case parser::TokenType::LE:
+            case parser::TokenType::GE:
+            case parser::TokenType::Spaceship:
+            case parser::TokenType::In:
+            case parser::TokenType::NotIn:
+            case parser::TokenType::NullCoalesce:
+            case parser::TokenType::Shl:
+            case parser::TokenType::Shr:
+            case parser::TokenType::Range:
+            case parser::TokenType::RangeLE:
+            case parser::TokenType::RangeRE:
+            case parser::TokenType::RangeBothE:
+            case parser::TokenType::Add:
+            case parser::TokenType::Sub:
+            case parser::TokenType::Mul:
+            case parser::TokenType::Div:
+            case parser::TokenType::Mod:
+            case parser::TokenType::Power:
+            case parser::TokenType::As: {
+
+            } break;
+            default: {
+                Logger::devPanic("Unexpected token used as infix operator:", infix->op.toString());
+            }
         }
     }
 
