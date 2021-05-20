@@ -32,6 +32,7 @@ namespace jc::ast {
     struct ListExpr;
     struct LiteralConstant;
     struct LoopExpr;
+    struct MemberAccess;
     struct ParenExpr;
     struct PathExpr;
     struct Prefix;
@@ -87,6 +88,7 @@ namespace jc::ast {
         virtual void visit(ListExpr*) = 0;
         virtual void visit(LiteralConstant*) = 0;
         virtual void visit(LoopExpr*) = 0;
+        virtual void visit(MemberAccess*) = 0;
         virtual void visit(ParenExpr*) = 0;
         virtual void visit(PathExpr*) = 0;
         virtual void visit(Prefix*) = 0;

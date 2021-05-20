@@ -24,6 +24,7 @@ namespace jc::ast {
         List,
         LiteralConstant,
         Loop,
+        MemberAccess,
         Paren,
         Path,
         Prefix,
