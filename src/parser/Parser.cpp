@@ -1276,9 +1276,14 @@ namespace jc::parser {
             // Note: Don't require semis for one-line body
             stmts.push_back(exprStmt);
         } else {
+            std::string suggMsg = "Likely you meant to put `{}`";
+            if (arrow == BlockArrow::Allow) {
+                // Suggest putting `=>` only if construction allows
+                suggMsg += " or write one one-line body with `=>`";
+            }
             suggest(
                 std::make_unique<ParseErrSugg>(
-                    "Likely you meant to put `{}` or write one one-line body with `=>`",
+                    suggMsg,
                     cspan()
                 )
             );

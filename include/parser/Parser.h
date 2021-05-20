@@ -77,7 +77,7 @@ namespace jc::parser {
         Just, // Block as standalone expression
         NotAllowed, // Arrow not allowed (error)
         Allow, // Allow for one-line body
-        Require, // Require `=>` for `{}` and one-line block
+        Require, // Require `=>` for either `{}` either one-line block
         Useless, // `=>` is useless (unambiguous case)
     };
 
