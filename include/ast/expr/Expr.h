@@ -16,6 +16,7 @@ namespace jc::ast {
         Borrow,
         Break,
         Continue,
+        Deref,
         Id,
         If,
         Infix,

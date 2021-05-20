@@ -721,16 +721,25 @@ namespace jc::parser {
         or skipOpt(TokenType::BitAnd, true)
         or skipOpt(TokenType::And, true)
         or skipOpt(TokenType::Mul, true)) {
-            auto rhs = prefix();
-            if (!rhs) {
+            auto maybeRhs = prefix();
+            if (!maybeRhs) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
+                return postfix(); // FIXME: CHECK!!!
             }
+            auto rhs = maybeRhs.unwrap();
             if (op.is(TokenType::BitAnd) or op.is(TokenType::And)) {
                 bool mut = skipOpt(TokenType::Mut, true);
                 return ast::Expr::as<ast::Expr>(
-                    std::make_shared<ast::BorrowExpr>(op.is(TokenType::And), mut, rhs.unwrap(), op.loc)
+                    std::make_shared<ast::BorrowExpr>(op.is(TokenType::And), mut, rhs, op.loc)
+                );
+            } else if (op.is(TokenType::Mul)) {
+                return ast::Expr::as<ast::Expr>(
+                    std::make_shared<ast::DerefExpr>(rhs, op.loc)
                 );
             }
+            return ast::Expr::as<ast::Expr>(
+                std::make_shared<ast::Prefix>(op, rhs, op.loc)
+            );
         }
 
         return postfix();

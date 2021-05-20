@@ -18,6 +18,8 @@
       <w>decl</w>
       <w>delegationlist</w>
       <w>deps</w>
+      <w>deref</w>
+      <w>derefexpr</w>
       <w>devconfig</w>
       <w>dowhilestmt</w>
       <w>elif</w>

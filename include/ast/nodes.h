@@ -14,6 +14,7 @@
 #include "ast/expr/BorrowExpr.h"
 #include "ast/expr/BreakExpr.h"
 #include "ast/expr/ContinueExpr.h"
+#include "ast/expr/DerefExpr.h"
 #include "ast/expr/Identifier.h"
 #include "ast/expr/IfExpr.h"
 #include "ast/expr/Infix.h"

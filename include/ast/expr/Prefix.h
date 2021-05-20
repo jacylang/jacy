@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct Prefix : Expr {
-        Prefix(const parser::Token & op, expr_ptr rhs)
-            : op(op), rhs(rhs), Expr(op.loc, ExprType::Prefix) {}
+        Prefix(const parser::Token & op, expr_ptr rhs, const Location & loc)
+            : op(op), rhs(rhs), Expr(loc, ExprType::Prefix) {}
 
         parser::Token op;
         expr_ptr rhs;
@@ -14,10 +14,6 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
         }
-    };
-
-    const auto makePrefix = [](const parser::Token & token, expr_ptr rhs) {
-        return std::make_shared<Prefix>(token, rhs);
     };
 }
 

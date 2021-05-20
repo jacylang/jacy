@@ -24,6 +24,7 @@ namespace jc::ast {
     struct BorrowExpr;
     struct BreakExpr;
     struct ContinueExpr;
+    struct DerefExpr;
     struct Identifier;
     struct IfExpr;
     struct Infix;
@@ -78,6 +79,7 @@ namespace jc::ast {
         virtual void visit(BorrowExpr*) = 0;
         virtual void visit(BreakExpr*) = 0;
         virtual void visit(ContinueExpr*) = 0;
+        virtual void visit(DerefExpr*) = 0;
         virtual void visit(Identifier*) = 0;
         virtual void visit(IfExpr*) = 0;
         virtual void visit(Infix*) = 0;
