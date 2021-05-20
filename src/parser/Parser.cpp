@@ -738,7 +738,7 @@ namespace jc::parser {
                 emitVirtualSemi();
             }
             return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
-        } else {
+        } else if (!maybeOp) {
             // Left-hand side is none, and there's no range operator
             return dt::None;
         }
