@@ -272,7 +272,18 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Prefix * prefix) {
-        // TODO: Panic for unexpected token as prefix
+        switch (prefix->op.type) {
+            case parser::TokenType::Not: {
+
+            } break;
+            case parser::TokenType::Sub: {
+
+            } break;
+            default: {
+                Logger::devPanic("Unexpected token used as prefix operator:", prefix->op.toString());
+            }
+        }
+
         prefix->rhs->accept(*this);
     }
 
