@@ -131,6 +131,7 @@ namespace jc::parser {
         NotIn,
         Infix,
         Loop,
+        Move,
         Mut,
         Return,
         Pri,
