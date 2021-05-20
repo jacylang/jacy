@@ -47,7 +47,6 @@ namespace jc::hir {
         void visit(ast::LoopExpr * loopExpr) override;
         void visit(ast::ParenExpr * parenExpr) override;
         void visit(ast::PathExpr * pathExpr) override;
-        void visit(ast::Postfix * postfix) override;
         void visit(ast::Prefix * prefix) override;
         void visit(ast::ReturnExpr * returnExpr) override;
         void visit(ast::SpreadExpr * spreadExpr) override;

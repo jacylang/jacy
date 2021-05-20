@@ -256,11 +256,6 @@ namespace jc::hir {
         }
     }
 
-    void Linter::visit(ast::Postfix * postfix) {
-        // FIXME: Postfix will be removed
-        Logger::devPanic("Linter: postfix operators will be removed");
-    }
-
     void Linter::visit(ast::Prefix * prefix) {
         // What's here?
     }

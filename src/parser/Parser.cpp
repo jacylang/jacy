@@ -770,8 +770,6 @@ namespace jc::parser {
                     maybeOp,
                     rhs.unwrap("postfix -> `.` | `?.` -> rhs")
                 );
-            } else if (skipOpt(TokenType::Inc) or skipOpt(TokenType::Dec)) {
-                lhs = std::make_shared<ast::Postfix>(lhs.unwrap("postfix -> `--` | `++` -> lhs"), maybeOp);
             } else if (skipOpt(TokenType::LBracket)) {
                 ast::expr_list indices;
 
