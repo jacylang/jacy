@@ -21,6 +21,7 @@ namespace jc::ast {
         If,
         Infix,
         Invoke,
+        Lambda,
         List,
         LiteralConstant,
         Loop,

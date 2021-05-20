@@ -507,7 +507,6 @@ namespace jc::parser {
         justSkip(TokenType::Func, true, "`func`", "`parseFuncDecl`");
 
         auto typeParams = parseTypeParams();
-
         auto id = parseId("An identifier expected as a type parameter name", true, true);
 
         const auto & maybeParenToken = peek();
@@ -524,7 +523,7 @@ namespace jc::parser {
             typeAnnotated = true;
         } else if (skipOpt(TokenType::Arrow, true)) {
             suggestErrorMsg(
-                "Maybe you meant to put `:` instead of `->` for return type annotation",
+                "Maybe you meant to put `:` instead of `->` for return type annotation?",
                 maybeColonToken.span(sess)
             );
         }

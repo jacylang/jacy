@@ -19,6 +19,7 @@
 #include "ast/expr/IfExpr.h"
 #include "ast/expr/Infix.h"
 #include "ast/expr/Invoke.h"
+#include "ast/expr/LambdaExpr.h"
 #include "ast/expr/ListExpr.h"
 #include "ast/expr/LiteralConstant.h"
 #include "ast/expr/LoopExpr.h"

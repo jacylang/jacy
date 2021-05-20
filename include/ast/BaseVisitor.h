@@ -29,6 +29,7 @@ namespace jc::ast {
     struct IfExpr;
     struct Infix;
     struct Invoke;
+    struct LambdaExpr;
     struct ListExpr;
     struct LiteralConstant;
     struct LoopExpr;
@@ -85,6 +86,7 @@ namespace jc::ast {
         virtual void visit(IfExpr*) = 0;
         virtual void visit(Infix*) = 0;
         virtual void visit(Invoke*) = 0;
+        virtual void visit(LambdaExpr*) = 0;
         virtual void visit(ListExpr*) = 0;
         virtual void visit(LiteralConstant*) = 0;
         virtual void visit(LoopExpr*) = 0;
