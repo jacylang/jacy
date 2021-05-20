@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-//        log.dev("Advance");
+        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -604,6 +604,7 @@ namespace jc::parser {
             logParse("BreakExpr");
 
             auto expr = assignment();
+            log.dev("Break expr none:", expr.none());
             return ast::Expr::as<ast::Expr>(
                 std::make_shared<ast::BreakExpr>(expr, begin.to(cspan()))
             );
@@ -826,13 +827,16 @@ namespace jc::parser {
 
         // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
 
-        if (!maybeOp && maybeLhs) {
+        if (!maybeOp) {
             if (skippedLeftNls) {
                 // Recover NL semis
                 emitVirtualSemi();
             }
-            return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
-        } else if (!maybeOp) {
+
+            if (maybeLhs) {
+                return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
+            }
+
             // Left-hand side is none, and there's no range operator
             return dt::None;
         }
@@ -932,7 +936,7 @@ namespace jc::parser {
             return dt::None;
         }
 
-        if (is(TokenType::Quest)) {
+        if (skipOpt(TokenType::Quest)) {
             logParse("Quest");
 
             return ast::Expr::as<ast::Expr>(
