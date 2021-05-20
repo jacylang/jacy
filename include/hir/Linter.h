@@ -10,6 +10,22 @@
 namespace jc::hir {
     using common::Logger;
 
+    /// LinterContext - collection of contexts for linting that only needed for context-dependent constructions,
+    /// for example, `break` can appear only inside loop-like context, but `if` does not bring any kind of this
+    /// dependency.
+    enum class LinterContext {
+        Lambda,
+        Loop,
+        When,
+        Enum,
+        For,
+        Func,
+        Impl,
+        Struct,
+        Trait,
+        While,
+    };
+
     class Linter : public ast::BaseVisitor {
     public:
         Linter();
@@ -77,6 +93,15 @@ namespace jc::hir {
         void lintMembers(const ast::stmt_list & members);
         bool isPlaceExpr(const ast::expr_ptr & expr);
 
+        // Context //
+    private:
+        std::vector<LinterContext> ctxStack;
+        bool isInside(LinterContext ctx);
+        bool isDeepInside(LinterContext ctx);
+        void pushContext(LinterContext ctx);
+
+        // Suggestions //
+    private:
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);

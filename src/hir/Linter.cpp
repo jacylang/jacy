@@ -471,6 +471,27 @@ namespace jc::hir {
             or expr->is(ast::ExprType::Subscript);
     }
 
+    // Context //
+    bool Linter::isInside(LinterContext ctx) {
+        if (ctxStack.empty()) {
+            Logger::devPanic("Called `Linter::isInside` on empty context stack");
+        }
+        return ctxStack.back() == ctx;
+    }
+
+    bool Linter::isDeepInside(LinterContext ctx) {
+        for (auto rit = ctxStack.rbegin(); rit != ctxStack.rend(); rit++) {
+            if (*rit == ctx) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void Linter::pushContext(LinterContext ctx) {
+        ctxStack.push_back(ctx);
+    }
+
     // Suggestions //
     void Linter::suggest(sugg::sugg_ptr suggestion) {
         suggestions.push_back(std::move(suggestion));
