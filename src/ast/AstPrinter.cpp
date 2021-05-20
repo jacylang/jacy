@@ -203,6 +203,11 @@ namespace jc::ast {
         log.raw("continue");
     }
 
+    void AstPrinter::visit(DerefExpr * derefExpr) {
+        log.raw("*");
+        derefExpr->expr->accept(*this);
+    }
+
     void AstPrinter::visit(Identifier * identifier) {
         if (!identifier->token) {
             log.raw("[ERROR ID]");
@@ -265,6 +270,12 @@ namespace jc::ast {
         print(loopExpr->body);
     }
 
+    void AstPrinter::visit(MemberAccess * memberAccess) {
+        memberAccess->lhs->accept(*this);
+        log.raw(".");
+        memberAccess->id->accept(*this);
+    }
+
     void AstPrinter::visit(ParenExpr * parenExpr) {
         log.raw("(");
         parenExpr->expr->accept(*this);
@@ -288,6 +299,11 @@ namespace jc::ast {
     void AstPrinter::visit(Prefix * prefix) {
         log.raw(prefix->op.typeToString());
         prefix->rhs->accept(*this);
+    }
+
+    void AstPrinter::visit(QuestExpr * questExpr) {
+        questExpr->expr->accept(*this);
+        log.raw("?");
     }
 
     void AstPrinter::visit(ReturnExpr * returnExpr) {

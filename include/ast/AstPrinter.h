@@ -36,6 +36,7 @@ namespace jc::ast {
         void visit(Assignment * assignment) override;
         void visit(BreakExpr * breakExpr) override;
         void visit(ContinueExpr * continueExpr) override;
+        void visit(DerefExpr * derefExpr) override;
         void visit(Identifier * identifier) override;
         void visit(IfExpr * ifExpr) override;
         void visit(Infix * infix) override;
@@ -43,9 +44,11 @@ namespace jc::ast {
         void visit(ListExpr * listExpr) override;
         void visit(LiteralConstant * literalConstant) override;
         void visit(LoopExpr * loopExpr) override;
+        void visit(MemberAccess * memberAccess) override;
         void visit(ParenExpr * parenExpr) override;
         void visit(PathExpr * pathExpr) override;
         void visit(Prefix * prefix) override;
+        void visit(QuestExpr * questExpr) override;
         void visit(ReturnExpr * returnExpr) override;
         void visit(SpreadExpr * spreadExpr) override;
         void visit(Subscript * subscript) override;
