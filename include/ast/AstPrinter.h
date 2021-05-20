@@ -34,6 +34,7 @@ namespace jc::ast {
 
         // Expressions //
         void visit(Assignment * assignment) override;
+        void visit(Block * block) override;
         void visit(BorrowExpr * borrowExpr) override;
         void visit(BreakExpr * breakExpr) override;
         void visit(ContinueExpr * continueExpr) override;
@@ -74,7 +75,6 @@ namespace jc::ast {
         void printModifiers(const parser::token_list & modifiers);
         void print(const opt_type_params & optTypeParams, bool pathPrefix = false);
         void print(const delegation_list & delegations);
-        void print(const block_ptr & block);
         void print(NamedList * namedList);
         void print(const type_list & typeList);
         void print(IdType * idType);

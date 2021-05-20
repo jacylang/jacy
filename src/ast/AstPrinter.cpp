@@ -57,7 +57,7 @@ namespace jc::ast {
         forStmt->forEntity->accept(*this);
         log.raw(" in ");
         forStmt->inExpr->accept(*this);
-        print(forStmt->body);
+        forStmt->body->accept(*this);
     }
 
     void AstPrinter::visit(FuncDecl * funcDecl) {
@@ -101,7 +101,7 @@ namespace jc::ast {
             decIndent();
         } else {
             log.raw(" ");
-            print(funcDecl->body.unwrap());
+            funcDecl->body.unwrap()->accept(*this);
         }
     }
 
@@ -178,7 +178,7 @@ namespace jc::ast {
         log.raw("while ");
         whileStmt->condition->accept(*this);
         log.raw(" ");
-        print(whileStmt->body);
+        whileStmt->body->accept(*this);
     }
 
     /////////////////
@@ -190,6 +190,21 @@ namespace jc::ast {
         assignment->lhs->accept(*this);
         log.raw(" = ");
         assignment->rhs->accept(*this);
+    }
+
+    void AstPrinter::visit(Block * block) {
+        if (block->stmts.empty()) {
+            log.raw("{}");
+            return;
+        }
+
+        log.raw("{").nl();
+        incIndent();
+        print(block->stmts);
+        decIndent();
+        // Closing brace must go on the "super"-indent
+        printIndent();
+        log.raw("}");
     }
 
     void AstPrinter::visit(BorrowExpr * borrowExpr) {
@@ -239,11 +254,11 @@ namespace jc::ast {
         ifExpr->condition->accept(*this);
         log.raw(" ");
         if (ifExpr->ifBranch) {
-            print(ifExpr->ifBranch.unwrap());
+            ifExpr->ifBranch.unwrap()->accept(*this);
         }
         if (ifExpr->elseBranch) {
             log.raw(" else ");
-            print(ifExpr->elseBranch.unwrap());
+            ifExpr->elseBranch.unwrap()->accept(*this);
         }
     }
 
@@ -280,7 +295,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(LoopExpr * loopExpr) {
         log.raw("loop ");
-        print(loopExpr->body);
+        loopExpr->body->accept(*this);
     }
 
     void AstPrinter::visit(MemberAccess * memberAccess) {
@@ -490,21 +505,6 @@ namespace jc::ast {
         for (const auto & del : delegations) {
             del->id->accept(*this);
         }
-    }
-
-    void AstPrinter::print(const ast::block_ptr & block) {
-        if (block->stmts.empty()) {
-            log.raw("{}");
-            return;
-        }
-
-        log.raw("{").nl();
-        incIndent();
-        print(block->stmts);
-        decIndent();
-        // Closing brace must go on the "super"-indent
-        printIndent();
-        log.raw("}");
     }
 
     void AstPrinter::print(ast::NamedList * namedList) {
