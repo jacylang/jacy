@@ -33,7 +33,7 @@ namespace jc::hir {
     void Linter::visit(ast::EnumDecl * enumDecl) {
         Logger::notImplemented("Linter::visit enumDecl");
 
-        pushContext(LinterContext::Enum);
+        pushContext(LinterContext::Struct);
         popContext();
     }
 
@@ -44,7 +44,7 @@ namespace jc::hir {
     void Linter::visit(ast::ForStmt * forStmt) {
         forStmt->forEntity->accept(*this);
         forStmt->inExpr->accept(*this);
-        pushContext(LinterContext::For);
+        pushContext(LinterContext::Loop);
         forStmt->body->accept(*this);
         popContext();
     }
@@ -92,7 +92,7 @@ namespace jc::hir {
         impl->traitTypePath->accept(*this);
         impl->forType->accept(*this);
 
-        pushContext(LinterContext::Impl);
+        pushContext(LinterContext::Struct);
         lintMembers(impl->members);
         popContext();
     }
@@ -125,7 +125,7 @@ namespace jc::hir {
             superTrait->accept(*this);
         }
 
-        pushContext(LinterContext::Trait);
+        pushContext(LinterContext::Struct);
         lintMembers(trait->members);
         popContext();
     }
@@ -151,7 +151,7 @@ namespace jc::hir {
     void Linter::visit(ast::WhileStmt * whileStmt) {
         whileStmt->condition->accept(*this);
 
-        pushContext(LinterContext::While);
+        pushContext(LinterContext::Loop);
         whileStmt->body->accept(*this);
         popContext();
     }
@@ -291,7 +291,7 @@ namespace jc::hir {
             lambdaExpr->returnType.unwrap()->accept(*this);
         }
 
-        pushContext(LinterContext::Lambda);
+        pushContext(LinterContext::Func);
         lambdaExpr->body->accept(*this);
         popContext();
     }
@@ -405,7 +405,6 @@ namespace jc::hir {
     void Linter::visit(ast::WhenExpr * whenExpr) {
         whenExpr->subject->accept(*this);
 
-        pushContext(LinterContext::When);
         for (const auto & entry : whenExpr->entries) {
             for (const auto & condition : entry->conditions) {
                 // FIXME: Patterns in the future
@@ -413,7 +412,6 @@ namespace jc::hir {
             }
             entry->body->accept(*this);
         }
-        popContext();
     }
 
     ///////////

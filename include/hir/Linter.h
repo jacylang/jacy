@@ -13,17 +13,11 @@ namespace jc::hir {
     /// LinterContext - collection of contexts for linting that only needed for context-dependent constructions,
     /// for example, `break` can appear only inside loop-like context, but `if` does not bring any kind of this
     /// dependency.
+    /// Note: These are not actual `Func`, `Loop` and `Struct` nodes.
     enum class LinterContext {
-        Lambda,
-        Loop,
-        When,
-        Enum,
-        For,
         Func,
-        Impl,
+        Loop,
         Struct,
-        Trait,
-        While,
     };
 
     class Linter : public ast::BaseVisitor {
