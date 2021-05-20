@@ -765,7 +765,7 @@ namespace jc::parser {
     dt::Option<ast::expr_ptr> Parser::call() {
         logParse("postfix");
 
-        auto maybeLhs = primary();
+        auto maybeLhs = memberAccess();
 
         if (!maybeLhs) {
             return dt::None;
@@ -819,6 +819,22 @@ namespace jc::parser {
             } else {
                 break;
             }
+        }
+
+        return lhs;
+    }
+
+    ast::opt_expr_ptr Parser::memberAccess() {
+        auto lhs = primary();
+
+        if (!lhs) {
+            return dt::None;
+        }
+
+        while (skipOpt(TokenType::Dot, true)) {
+            auto id = parseId("Expected field name", true, true);
+
+            lhs = std::make_shared<ast::MemberAccess>(lhs.unwrap(), id);
         }
 
         return lhs;
