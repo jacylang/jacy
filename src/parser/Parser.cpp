@@ -670,6 +670,8 @@ namespace jc::parser {
             }
         }
 
+        // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
+
         if (!maybeOp && maybeLhs) {
             if (skippedLeftNls) {
                 // Recover NL semis
@@ -1149,7 +1151,6 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `if` expression");
 
         if (condition->is(ast::ExprType::Paren)) {
-            log.dev("PAREN IN IF");
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span(sess));
         }
 
