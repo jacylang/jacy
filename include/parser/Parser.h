@@ -159,7 +159,7 @@ namespace jc::parser {
 
         ast::opt_expr_ptr prefix();
         ast::opt_expr_ptr quest();
-        ast::opt_expr_ptr postfix();
+        ast::opt_expr_ptr call();
         ast::opt_expr_ptr primary();
 
         // Atomic expressions //

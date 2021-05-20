@@ -747,7 +747,7 @@ namespace jc::parser {
 
     ast::opt_expr_ptr Parser::quest() {
         const auto & loc = peek().loc;
-        auto lhs = postfix();
+        auto lhs = call();
 
         if (!lhs) {
             return dt::None;
@@ -762,32 +762,20 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::Option<ast::expr_ptr> Parser::postfix() {
+    dt::Option<ast::expr_ptr> Parser::call() {
         logParse("postfix");
 
-        auto lhs = primary();
+        auto maybeLhs = primary();
 
-        if (!lhs) {
+        if (!maybeLhs) {
             return dt::None;
         }
 
+        auto lhs = maybeLhs.unwrap();
+
         while (!eof()) {
             auto maybeOp = peek();
-            // FIXME: Move member access to precTable?
-            if (skipOpt(TokenType::Dot, true)) {
-                // TODO: `.` Only for id.id / id.int
-                auto rhs = primary();
-                if (!rhs) {
-                    // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
-                    // and `primary` already generated error suggestion
-                    continue;
-                }
-                lhs = makeInfix(
-                    lhs.unwrap("postfix -> `.` | `?.` -> lhs"),
-                    maybeOp,
-                    rhs.unwrap("postfix -> `.` | `?.` -> rhs")
-                );
-            } else if (skipOpt(TokenType::LBracket)) {
+            if (skipOpt(TokenType::LBracket)) {
                 ast::expr_list indices;
 
                 bool first = true;
@@ -822,10 +810,10 @@ namespace jc::parser {
                     )
                 );
 
-                lhs = std::make_shared<ast::Subscript>(lhs.unwrap("postfix -> `[` -> `lhs`"), indices);
+                lhs = std::make_shared<ast::Subscript>(lhs, indices);
             } else if (is(TokenType::LParen)) {
                 lhs = std::make_shared<ast::Invoke>(
-                    lhs.unwrap("postfix -> `(` -> lhs"),
+                    lhs,
                     parseNamedList("function call")
                 );
             } else {
