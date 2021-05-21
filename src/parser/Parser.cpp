@@ -822,12 +822,15 @@ namespace jc::parser {
             if (maybeLhs) {
                 return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
             }
+        }
 
+        if (!maybeLhs) {
+            // TODO: Prefix range operators
             // Left-hand side is none, and there's no range operator
             return dt::None;
         }
 
-        ast::opt_expr_ptr lhs = maybeLhs.unwrap();
+        ast::opt_expr_ptr lhs = maybeLhs.unwrap("precParse -> maybeLhs");
 
         auto op = maybeOp.unwrap("precParse -> maybeOp");
         while (skipOpt(op.kind, skipRightNLs)) {
@@ -871,7 +874,7 @@ namespace jc::parser {
         {0b1011, {TokenKind::Range,  TokenKind::RangeEQ}},
         {0b1011, {TokenKind::Add,    TokenKind::Sub}},
         {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
-        {0b1111, {TokenKind::Power}}, // Note: Right-assoc
+        {0b0111, {TokenKind::Power}}, // Note: Right-assoc
         {0b1011, {TokenKind::As}},
     };
 

@@ -89,6 +89,9 @@ namespace jc::ast {
         void incIndent();
         void decIndent();
         uint64_t indent{0};
+
+        // DEBUG //
+        bool precedenceDebug = true;
     };
 }
 

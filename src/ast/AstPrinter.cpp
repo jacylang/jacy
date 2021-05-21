@@ -263,6 +263,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(Infix * infix) {
+        if (precedenceDebug) {
+            log.raw("(");
+        }
+
         infix->lhs->accept(*this);
         log.raw(" ");
         if (infix->op.kind == parser::TokenKind::Id) {
@@ -272,6 +276,10 @@ namespace jc::ast {
         }
         log.raw(" ");
         infix->rhs->accept(*this);
+
+        if (precedenceDebug) {
+            log.raw(")");
+        }
     }
 
     void AstPrinter::visit(Invoke * invoke) {
