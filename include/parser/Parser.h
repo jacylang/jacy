@@ -142,10 +142,6 @@ namespace jc::parser {
         ast::stmt_ptr parseFuncDecl(const parser::token_list & modifiers);
         ast::stmt_ptr parseEnumDecl();
 
-        // Delegations //
-        ast::delegation_list parseDelegationList();
-        ast::delegation_ptr parseDelegation();
-
         // Expressions //
         ast::opt_expr_ptr parseOptExpr();
         ast::expr_ptr parseExpr(const std::string & suggMsg);

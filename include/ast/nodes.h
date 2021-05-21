@@ -3,7 +3,6 @@
 
 // Fragments //
 #include "ast/fragments/Attribute.h"
-#include "ast/fragments/Delegation.h"
 #include "ast/fragments/FuncParam.h"
 #include "ast/fragments/Type.h"
 #include "ast/fragments/TypeParams.h"
@@ -31,7 +30,6 @@
 #include "ast/expr/ReturnExpr.h"
 #include "ast/expr/SpreadExpr.h"
 #include "ast/expr/Subscript.h"
-#include "ast/expr/SuperExpr.h"
 #include "ast/expr/ThisExpr.h"
 #include "ast/expr/TupleExpr.h"
 #include "ast/expr/UnitExpr.h"

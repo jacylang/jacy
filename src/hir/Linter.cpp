@@ -44,6 +44,7 @@ namespace jc::hir {
     void Linter::visit(ast::ForStmt * forStmt) {
         forStmt->forEntity->accept(*this);
         forStmt->inExpr->accept(*this);
+
         pushContext(LinterContext::Loop);
         forStmt->body->accept(*this);
         popContext();

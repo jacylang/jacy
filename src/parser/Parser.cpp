@@ -572,22 +572,6 @@ namespace jc::parser {
         logParse("EnumDecl");
     }
 
-    ast::delegation_list Parser::parseDelegationList() {
-        logParse("DelegationList");
-
-        ast::delegation_list delegations;
-
-        do {
-            delegations.push_back(parseDelegation());
-        } while (skipOpt(TokenType::Comma, true));
-
-        return delegations;
-    }
-
-    ast::delegation_ptr Parser::parseDelegation() {
-        logParse("Delegation");
-    }
-
     // Expressions //
     ast::opt_expr_ptr Parser::parseOptExpr() {
         logParse("[opt] Expr");
