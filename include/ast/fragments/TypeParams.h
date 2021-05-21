@@ -11,22 +11,31 @@ namespace jc::ast {
     using type_ptr = std::shared_ptr<Type>;
     using opt_type_ptr = dt::Option<type_ptr>;
 
-    struct TypeParam : Node {
-        explicit TypeParam(const Span & span) : Node(span) {}
+    enum class TypeParamKind {
+        Type,
+        Lifetime,
+        Const,
     };
 
-    struct Lifetime : TypeParam {
-        Lifetime(id_ptr id, const Span & span) : id(id), TypeParam(span) {}
+    struct TypeParam : Node {
+        explicit TypeParam(TypeParamKind kind, const Span & span)
+            : kind(kind), Node(span) {}
 
-        id_ptr id;
+        TypeParamKind kind;
     };
 
     struct GenericType : TypeParam {
         GenericType(id_ptr id, opt_type_ptr type, const Span & span)
-            : id(std::move(id)), type(std::move(type)), TypeParam(span) {}
+            : id(std::move(id)), type(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
 
         id_ptr id;
         opt_type_ptr type;
+    };
+
+    struct Lifetime : TypeParam {
+        Lifetime(id_ptr id, const Span & span) : id(std::move(id)), TypeParam(TypeParamKind::Lifetime, span) {}
+
+        id_ptr id;
     };
 
     struct ConstParam : TypeParam {
@@ -38,7 +47,7 @@ namespace jc::ast {
         ) : id(std::move(id)),
             type(std::move(type)),
             defaultValue(std::move(defaultValue)),
-            TypeParam(span) {}
+            TypeParam(TypeParamKind::Const, span) {}
 
         id_ptr id;
         type_ptr type;

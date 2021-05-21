@@ -1899,21 +1899,40 @@ namespace jc::parser {
             }
 
             const auto & typeParamBegin = cspan();
-            auto id = parseId("Expected type parameter name", true, true);
 
-            skipNLs(true);
-
-            if (is(TokenType::RAngle)) {
-                typeParams.push_back(std::make_shared<ast::TypeParam>(id, dt::None, typeParamBegin.to(cspan())));
-                break;
+            if (skipOpt(TokenType::Backtick)) {
+                auto id = parseId("Expected lifetime identifier", false, false);
+                typeParams.push_back(std::make_shared<ast::Lifetime>(id, typeParamBegin.to(cspan())));
+            } else if (is(TokenType::Id)) {
+                auto id = justParseId("`parseTypeParams`");
+                ast::opt_type_ptr type;
+                if (skipOpt(TokenType::Colon)) {
+                    type = parseType("Expected bound type after `:` in type parameters");
+                }
+                typeParams.push_back(std::make_shared<ast::GenericType>(id, type, typeParamBegin.to(cspan())));
+            } else if (skipOpt(TokenType::Const, true)) {
+                auto id = parseId("Expected `const` generic name", true, true);
+                skip(
+                    TokenType::Colon,
+                    true,
+                    true,
+                    true,
+                    std::make_unique<ParseErrSugg>(
+                        "Expected `:` to annotate `const` generic type",
+                        cspan()
+                    )
+                );
+                auto type = parseType("Expected `const` generic type");
+                ast::opt_expr_ptr defaultValue;
+                if (skipOpt(TokenType::Assign)) {
+                    defaultValue = parseExpr("Expected `const` generic default value after `=`");
+                }
+                typeParams.push_back(
+                    std::make_shared<ast::ConstParam>(id, type, defaultValue, typeParamBegin.to(cspan()))
+                );
+            } else {
+                suggestErrorMsg("Expected type parameter", typeParamBegin);
             }
-
-            ast::type_ptr type;
-            if (skipOpt(TokenType::Colon)) {
-                type = parseType("Expected bound type after `:` in type parameters");
-            }
-
-            typeParams.push_back(std::make_shared<ast::TypeParam>(id, type, typeParamBegin.to(cspan())));
         }
         skip(
             TokenType::RAngle,
