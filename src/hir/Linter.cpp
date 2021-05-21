@@ -174,23 +174,23 @@ namespace jc::hir {
         assign->rhs->accept(*this);
 
         const auto & span = assign->op.span(sess);
-        switch (assign->lhs->type) {
-            case ast::ExprType::Assign: {
+        switch (assign->lhs->kind) {
+            case ast::ExprKind::Assign: {
                 suggestErrorMsg("Chained assignment is not allowed", span);
             } break;
-            case ast::ExprType::Id: {
+            case ast::ExprKind::Id: {
                 // Note: Checks for `id = expr` go here...
             } break;
-            case ast::ExprType::Paren: {
+            case ast::ExprKind::Paren: {
                 // Note: Checks for `(expr) = expr` go here...
             } break;
-            case ast::ExprType::Path: {
+            case ast::ExprKind::Path: {
                 // Note: Checks for `path::to::something = expr` go here...
             } break;
-            case ast::ExprType::Subscript: {
+            case ast::ExprKind::Subscript: {
                 // Note: Checks for `expr[expr, ...] = expr` go here...
             } break;
-            case ast::ExprType::Tuple: {
+            case ast::ExprKind::Tuple: {
                 // Note: Checks for `(a, b, c) = expr` go here..
                 // Note: This is destructuring, it won't appear in first version
             } break;
@@ -336,7 +336,7 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
-        if (parenExpr->expr->type == ast::ExprType::Paren) {
+        if (parenExpr->expr->kind == ast::ExprKind::Paren) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
                     "Useless double-wrapped parenthesized expression",
@@ -533,12 +533,12 @@ namespace jc::hir {
     }
 
     bool Linter::isPlaceExpr(const ast::expr_ptr & expr) {
-        if (expr->is(ast::ExprType::Paren)) {
+        if (expr->is(ast::ExprKind::Paren)) {
             return isPlaceExpr(ast::Expr::as<ast::ParenExpr>(expr)->expr);
         }
-        return expr->is(ast::ExprType::Id)
-            or expr->is(ast::ExprType::Path)
-            or expr->is(ast::ExprType::Subscript);
+        return expr->is(ast::ExprKind::Id)
+            or expr->is(ast::ExprKind::Path)
+            or expr->is(ast::ExprKind::Subscript);
     }
 
     // Context //

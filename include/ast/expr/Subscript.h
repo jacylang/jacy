@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct Subscript : Expr {
         Subscript(expr_ptr lhs, expr_list indices, const Span & span)
-            : lhs(std::move(lhs)), indices(std::move(indices)), Expr(span, ExprType::Subscript) {}
+            : lhs(std::move(lhs)), indices(std::move(indices)), Expr(span, ExprKind::Subscript) {}
 
         expr_ptr lhs;
         expr_list indices;

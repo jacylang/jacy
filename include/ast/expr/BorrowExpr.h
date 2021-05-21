@@ -10,7 +10,7 @@ namespace jc::ast {
             bool mut,
             expr_ptr expr,
             const Span & span
-        ) : Expr(span, ExprType::Borrow),
+        ) : Expr(span, ExprKind::Borrow),
             twin(twin),
             mut(mut),
             expr(std::move(expr)) {}

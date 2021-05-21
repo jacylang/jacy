@@ -27,7 +27,7 @@ namespace jc::ast {
         ) : params(std::move(params)),
             returnType(std::move(returnType)),
             body(std::move(body)),
-            Expr(span, ExprType::Lambda) {}
+            Expr(span, ExprKind::Lambda) {}
 
         lambda_param_list params;
         opt_type_ptr returnType;

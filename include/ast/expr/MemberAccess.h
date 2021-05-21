@@ -10,7 +10,7 @@ namespace jc::ast {
             expr_ptr lhs,
             id_ptr id,
             const Span & span
-        ) : Expr(span, ExprType::MemberAccess),
+        ) : Expr(span, ExprKind::MemberAccess),
             lhs(std::move(lhs)),
             id(std::move(id)) {}
 

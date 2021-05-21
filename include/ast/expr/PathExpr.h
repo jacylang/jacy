@@ -20,7 +20,7 @@ namespace jc::ast {
 
     struct PathExpr : Expr {
         PathExpr(bool global, path_expr_list segments, const Span & span)
-            : global(global), segments(std::move(segments)), Expr(span, ExprType::Path) {}
+            : global(global), segments(std::move(segments)), Expr(span, ExprKind::Path) {}
 
         bool global;
         path_expr_list segments;

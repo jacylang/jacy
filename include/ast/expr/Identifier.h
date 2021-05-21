@@ -13,7 +13,7 @@ namespace jc::ast {
 
     struct Identifier : Expr {
         explicit Identifier(parser::opt_token token, const Span & span)
-            : token(std::move(token)), Expr(span, ExprType::Id) {}
+            : token(std::move(token)), Expr(span, ExprKind::Id) {}
 
         parser::opt_token token;
 

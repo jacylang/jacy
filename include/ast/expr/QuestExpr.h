@@ -8,7 +8,7 @@ namespace jc::ast {
         QuestExpr(
             expr_ptr expr,
             const Span & span
-        ) : Expr(span, ExprType::Quest),
+        ) : Expr(span, ExprKind::Quest),
             expr(std::move(expr)) {}
 
         expr_ptr expr;

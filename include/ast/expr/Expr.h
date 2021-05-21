@@ -11,7 +11,7 @@ namespace jc::ast {
     using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
 
-    enum class ExprType {
+    enum class ExprKind {
         Assign,
         Block,
         Borrow,
@@ -44,17 +44,17 @@ namespace jc::ast {
     };
 
     struct Expr : Node {
-        Expr(const Span & span, ExprType type) : Node(span), type(type) {}
+        Expr(const Span & span, ExprKind kind) : Node(span), kind(kind) {}
 
-        ExprType type;
+        ExprKind kind;
 
-        bool is(ExprType type) const {
-            return this->type == type;
+        bool is(ExprKind kind) const {
+            return this->kind == kind;
         }
 
         bool isSimple() const {
-            return type == ExprType::LiteralConstant
-                or type == ExprType::Id;
+            return kind == ExprKind::LiteralConstant
+                   or kind == ExprKind::Id;
         }
 
         template<class T>
@@ -66,7 +66,7 @@ namespace jc::ast {
     };
 
     struct ErrorExpr : Expr {
-        explicit ErrorExpr(const Span & span) : Expr(span, ExprType::Error) {}
+        explicit ErrorExpr(const Span & span) : Expr(span, ExprKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

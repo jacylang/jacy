@@ -1229,7 +1229,7 @@ namespace jc::parser {
 
             // Named element case like (name: value)
             if (skipOpt(TokenType::Colon)) {
-                if (expr->is(ast::ExprType::Id)) {
+                if (expr->is(ast::ExprKind::Id)) {
                     id = ast::Expr::as<ast::Identifier>(expr);
                 } else {
                     suggestErrorMsg("Expected name for named tuple member", exprToken.span(sess));
@@ -1365,7 +1365,7 @@ namespace jc::parser {
         const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
-        if (condition->is(ast::ExprType::Paren)) {
+        if (condition->is(ast::ExprKind::Paren)) {
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span(sess));
         }
 
@@ -1580,7 +1580,7 @@ namespace jc::parser {
 
             auto expr = parseExpr("Expression expected");
 
-            if (expr->is(ast::ExprType::Id) and skipOpt(TokenType::Colon, true)) {
+            if (expr->is(ast::ExprKind::Id) and skipOpt(TokenType::Colon, true)) {
                 id = ast::Expr::as<ast::Identifier>(expr);
                 value = parseExpr("Expression expected as value for named argument in " + construction);
             } else {

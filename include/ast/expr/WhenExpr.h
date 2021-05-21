@@ -30,7 +30,7 @@ namespace jc::ast {
             const Span & span
         ) : subject(std::move(subject)),
             entries(std::move(entries)),
-            Expr(span, ExprType::When) {}
+            Expr(span, ExprKind::When) {}
 
         expr_ptr subject;
         when_entry_list entries;
