@@ -20,7 +20,7 @@
  *
  * ## `just` parsers and `justSkip`
  * `just` prefix in parser functions means that you want to parse something you know that will be next.
- * For example, if you checked that `peek()` is `TokenType::Id`, then you use `justParseId` and there
+ * For example, if you checked that `peek()` is `TokenKind::Id`, then you use `justParseId` and there
  * will be `devPanic` if no `Id` found.
  * `just` parsers don't return the pointer to type that it parses, it returns (in all cases for now)
  * a pointer to expression (that's to avoid static_cast to `Option` type of entities that will `just`
@@ -70,7 +70,7 @@ namespace jc::parser {
 
     struct PrecParser {
         const prec_parser_flags flags;
-        const std::vector<TokenType> ops;
+        const std::vector<TokenKind> ops;
     };
 
     enum class BlockArrow : int8_t {
@@ -103,7 +103,7 @@ namespace jc::parser {
 
         // Checkers //
         bool eof() const;
-        bool is(TokenType type) const;
+        bool is(TokenKind kind) const;
         bool isNL();
         bool isSemis();
         bool isHardSemi();
@@ -115,15 +115,15 @@ namespace jc::parser {
         bool skipNLs(bool optional = false);
         void skipSemis(bool optional, bool useless = false);
         bool skip(
-            TokenType type,
+            TokenKind kind,
             bool skipLeftNLs,
             bool skipRightNLs,
             bool recoverUnexpected,
             sugg::sugg_ptr suggestion
         );
-        void justSkip(TokenType type, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
-        dt::Option<Token> skipOpt(TokenType type, bool skipRightNLs = false);
-        dt::Option<Token> recoverOnce(TokenType type, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
+        void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
+        dt::Option<Token> skipOpt(TokenKind kind, bool skipRightNLs = false);
+        dt::Option<Token> recoverOnce(TokenKind kind, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
 
         // Parsers //
     private:

@@ -53,10 +53,10 @@ namespace jc::hir {
     void Linter::visit(ast::FuncDecl * funcDecl) {
         for (const auto & modifier : funcDecl->modifiers) {
             if (!isInside(LinterContext::Struct)) {
-                switch (modifier.type) {
-                    case parser::TokenType::Static:
-                    case parser::TokenType::Mut:
-                    case parser::TokenType::Move: {
+                switch (modifier.kind) {
+                    case parser::TokenKind::Static:
+                    case parser::TokenKind::Mut:
+                    case parser::TokenKind::Move: {
                         suggestErrorMsg(modifier.toString() + " functions can only appear as methods", modifier.span(sess));
                     } break;
                     default: {}
@@ -153,7 +153,7 @@ namespace jc::hir {
             varDecl->assignExpr.unwrap()->accept(*this);
         }
 
-        if (varDecl->kind.is(parser::TokenType::Const) and !varDecl->assignExpr) {
+        if (varDecl->kind.is(parser::TokenKind::Const) and !varDecl->assignExpr) {
             suggestErrorMsg("`const` must be initialized immediately", varDecl->kind.span(sess));
         }
     }
@@ -251,37 +251,37 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Infix * infix) {
-        switch (infix->op.type) {
-            case parser::TokenType::Id: {
+        switch (infix->op.kind) {
+            case parser::TokenKind::Id: {
                 suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
             } break;
-            case parser::TokenType::Pipe:
-            case parser::TokenType::Or:
-            case parser::TokenType::And:
-            case parser::TokenType::BitOr:
-            case parser::TokenType::Xor:
-            case parser::TokenType::BitAnd:
-            case parser::TokenType::Eq:
-            case parser::TokenType::NotEq:
-            case parser::TokenType::LAngle:
-            case parser::TokenType::RAngle:
-            case parser::TokenType::LE:
-            case parser::TokenType::GE:
-            case parser::TokenType::Spaceship:
-            case parser::TokenType::In:
-            case parser::TokenType::NotIn:
-            case parser::TokenType::NullCoalesce:
-            case parser::TokenType::Shl:
-            case parser::TokenType::Shr:
-            case parser::TokenType::Range:
-            case parser::TokenType::RangeEQ:
-            case parser::TokenType::Add:
-            case parser::TokenType::Sub:
-            case parser::TokenType::Mul:
-            case parser::TokenType::Div:
-            case parser::TokenType::Mod:
-            case parser::TokenType::Power:
-            case parser::TokenType::As: {
+            case parser::TokenKind::Pipe:
+            case parser::TokenKind::Or:
+            case parser::TokenKind::And:
+            case parser::TokenKind::BitOr:
+            case parser::TokenKind::Xor:
+            case parser::TokenKind::BitAnd:
+            case parser::TokenKind::Eq:
+            case parser::TokenKind::NotEq:
+            case parser::TokenKind::LAngle:
+            case parser::TokenKind::RAngle:
+            case parser::TokenKind::LE:
+            case parser::TokenKind::GE:
+            case parser::TokenKind::Spaceship:
+            case parser::TokenKind::In:
+            case parser::TokenKind::NotIn:
+            case parser::TokenKind::NullCoalesce:
+            case parser::TokenKind::Shl:
+            case parser::TokenKind::Shr:
+            case parser::TokenKind::Range:
+            case parser::TokenKind::RangeEQ:
+            case parser::TokenKind::Add:
+            case parser::TokenKind::Sub:
+            case parser::TokenKind::Mul:
+            case parser::TokenKind::Div:
+            case parser::TokenKind::Mod:
+            case parser::TokenKind::Power:
+            case parser::TokenKind::As: {
 
             } break;
             default: {
@@ -366,11 +366,11 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Prefix * prefix) {
-        switch (prefix->op.type) {
-            case parser::TokenType::Not: {
+        switch (prefix->op.kind) {
+            case parser::TokenKind::Not: {
 
             } break;
-            case parser::TokenType::Sub: {
+            case parser::TokenKind::Sub: {
 
             } break;
             default: {

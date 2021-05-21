@@ -7,12 +7,12 @@ namespace jc::parser {
         tokens.emplace_back(t);
     }
 
-    void Lexer::addToken(TokenType type, const std::string & val) {
-        addToken(Token(type, val, tokenLoc), val.size());
+    void Lexer::addToken(TokenKind kind, const std::string & val) {
+        addToken(Token(kind, val, tokenLoc), val.size());
     }
 
-    void Lexer::addToken(TokenType type, span::span_len_t len) {
-        addToken(Token(type, "", tokenLoc), len);
+    void Lexer::addToken(TokenKind kind, span::span_len_t len) {
+        addToken(Token(kind, "", tokenLoc), len);
     }
 
     char Lexer::peek() {
@@ -143,13 +143,13 @@ namespace jc::parser {
 
         if (peek() == '.') {
             if (!isDigit(lookup())) {
-                addToken(TokenType::DecLiteral, num);
+                addToken(TokenKind::DecLiteral, num);
                 return;
             }
 
             lexFloatLiteral(num);
         } else {
-            addToken(TokenType::DecLiteral, num);
+            addToken(TokenKind::DecLiteral, num);
         }
     }
 
@@ -161,7 +161,7 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenType::BinLiteral, num);
+        addToken(TokenKind::BinLiteral, num);
     }
 
     void Lexer::lexOctLiteral() {
@@ -172,7 +172,7 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenType::OctLiteral, num);
+        addToken(TokenKind::OctLiteral, num);
     }
 
     void Lexer::lexHexLiteral() {
@@ -183,7 +183,7 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenType::HexLiteral, num);
+        addToken(TokenKind::HexLiteral, num);
     }
 
     void Lexer::lexFloatLiteral(const std::string & start) {
@@ -195,7 +195,7 @@ namespace jc::parser {
 
         // TODO: Exponents
 
-        addToken(TokenType::FloatLiteral, num);
+        addToken(TokenKind::FloatLiteral, num);
     }
 
     void Lexer::lexId() {
@@ -209,7 +209,7 @@ namespace jc::parser {
         if (kw != Token::keywords.end()) {
             addToken(kw->second, kw->first.size());
         } else {
-            addToken(TokenType::Id, id);
+            addToken(TokenKind::Id, id);
         }
     }
 
@@ -218,7 +218,7 @@ namespace jc::parser {
         std::string str;
 
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
-        const auto tokenType = quote == '"' ? TokenType::DQStringLiteral : TokenType::SQStringLiteral;
+        const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
         // TODO: String templates
         while (!eof() and peek() != quote) {
@@ -231,63 +231,63 @@ namespace jc::parser {
 
         advance();
 
-        addToken(tokenType, str);
+        addToken(kind, str);
     }
 
     void Lexer::lexOp() {
         switch (peek()) {
             case '=': {
                 if (lookup() == '>') {
-                    addToken(TokenType::DoubleArrow, 2);
+                    addToken(TokenKind::DoubleArrow, 2);
                     advance(2);
                 } else if (lookup() == '=') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::RefEq, 3);
+                        addToken(TokenKind::RefEq, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::Eq, 2);
+                        addToken(TokenKind::Eq, 2);
                         advance(2);
                     }
                 } else {
-                    addToken(TokenType::Assign, 1);
+                    addToken(TokenKind::Assign, 1);
                     advance();
                 }
             } break;
             case '+': {
                 if (lookup() == '=') {
-                    addToken(TokenType::AddAssign, 2);
+                    addToken(TokenKind::AddAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Add, 1);
+                    addToken(TokenKind::Add, 1);
                     advance();
                 }
             } break;
             case '-': {
                 if (lookup() == '=') {
-                    addToken(TokenType::SubAssign, 2);
+                    addToken(TokenKind::SubAssign, 2);
                     advance(2);
                 } else if (lookup() == '>') {
-                    addToken(TokenType::Arrow, 2);
+                    addToken(TokenKind::Arrow, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Sub, 1);
+                    addToken(TokenKind::Sub, 1);
                     advance();
                 }
             } break;
             case '*': {
                 if (lookup() == '*') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::PowerAssign, 3);
+                        addToken(TokenKind::PowerAssign, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::Power, 2);
+                        addToken(TokenKind::Power, 2);
                         advance(2);
                     }
                 } else if (lookup() == '=') {
-                    addToken(TokenType::MulAssign, 2);
+                    addToken(TokenKind::MulAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Mul, 1);
+                    addToken(TokenKind::Mul, 1);
                     advance();
                 }
             } break;
@@ -308,60 +308,60 @@ namespace jc::parser {
                     }
                     advance(2);
                 } else if (lookup() == '=') {
-                    addToken(TokenType::DivAssign, 2);
+                    addToken(TokenKind::DivAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Div, 1);
+                    addToken(TokenKind::Div, 1);
                     advance();
                 }
             } break;
             case '%': {
                 if (lookup() == '=') {
-                    addToken(TokenType::ModAssign, 2);
+                    addToken(TokenKind::ModAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Mod, 1);
+                    addToken(TokenKind::Mod, 1);
                     advance();
                 }
             } break;
             case ';': {
-                addToken(TokenType::Semi, 1);
+                addToken(TokenKind::Semi, 1);
                 advance();
             } break;
             case '(': {
-                addToken(TokenType::LParen, 1);
+                addToken(TokenKind::LParen, 1);
                 advance();
             } break;
             case ')': {
-                addToken(TokenType::RParen, 1);
+                addToken(TokenKind::RParen, 1);
                 advance();
             } break;
             case '{': {
-                addToken(TokenType::LBrace, 1);
+                addToken(TokenKind::LBrace, 1);
                 advance();
             } break;
             case '}': {
-                addToken(TokenType::RBrace, 1);
+                addToken(TokenKind::RBrace, 1);
                 advance();
             } break;
             case '[': {
-                addToken(TokenType::LBracket, 1);
+                addToken(TokenKind::LBracket, 1);
                 advance();
             } break;
             case ']': {
-                addToken(TokenType::RBracket, 1);
+                addToken(TokenKind::RBracket, 1);
                 advance();
             } break;
             case ',': {
-                addToken(TokenType::Comma, 1);
+                addToken(TokenKind::Comma, 1);
                 advance();
             } break;
             case ':': {
                 if (lookup() == ':') {
-                    addToken(TokenType::Path, 2);
+                    addToken(TokenKind::Path, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Colon, 1);
+                    addToken(TokenKind::Colon, 1);
                     advance();
                 }
             } break;
@@ -370,145 +370,145 @@ namespace jc::parser {
                     lexFloatLiteral(".");
                 } else if (lookup() == '.') {
                     if (lookup(2) == '.') {
-                        addToken(TokenType::Spread, 3);
+                        addToken(TokenKind::Spread, 3);
                         advance(3);
                     } else if (lookup(2) == '=') {
-                        addToken(TokenType::RangeEQ, 3);
+                        addToken(TokenKind::RangeEQ, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::Range, 2);
+                        addToken(TokenKind::Range, 2);
                         advance(2);
                     }
                 } else {
-                    addToken(TokenType::Dot, 1);
+                    addToken(TokenKind::Dot, 1);
                     advance();
                 }
             } break;
             case '&': {
                 if (lookup() == '&') {
-                    addToken(TokenType::And, 2);
+                    addToken(TokenKind::And, 2);
                     advance(2);
                 } else if (lookup() == '=') {
-                    addToken(TokenType::BitAndAssign, 2);
+                    addToken(TokenKind::BitAndAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::BitAnd, 1);
+                    addToken(TokenKind::BitAnd, 1);
                     advance();
                 }
             } break;
             case '!': {
                 if (lookup() == '=') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::RefNotEq, 2);
+                        addToken(TokenKind::RefNotEq, 2);
                         advance(3);
                     } else {
-                        addToken(TokenType::NotEq, 2);
+                        addToken(TokenKind::NotEq, 2);
                         advance(2);
                     }
                 } else if (lookup() == 'i' and lookup(2) == 'n') {
-                    addToken(TokenType::NotIn, 3);
+                    addToken(TokenKind::NotIn, 3);
                     advance(3);
                 } else {
-                    addToken(TokenType::Not, 1);
+                    addToken(TokenKind::Not, 1);
                     advance();
                 }
             } break;
             case '|': {
                 if (lookup() == '|') {
-                    addToken(TokenType::Or, 2);
+                    addToken(TokenKind::Or, 2);
                     advance(2);
                 } else if (lookup() == '>') {
-                    addToken(TokenType::Pipe, 2);
+                    addToken(TokenKind::Pipe, 2);
                     advance(2);
                 } else if (lookup() == '=') {
-                    addToken(TokenType::BitOrAssign, 2);
+                    addToken(TokenKind::BitOrAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::BitOr, 1);
+                    addToken(TokenKind::BitOr, 1);
                     advance();
                 }
             } break;
             case '<': {
                 if (lookup() == '=') {
                     if (lookup(2) == '>') {
-                        addToken(TokenType::Spaceship, 3);
+                        addToken(TokenKind::Spaceship, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::LE, 2);
+                        addToken(TokenKind::LE, 2);
                         advance(2);
                     }
                 } else if (lookup() == '<') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::ShlAssign, 3);
+                        addToken(TokenKind::ShlAssign, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::Shl, 2);
+                        addToken(TokenKind::Shl, 2);
                         advance(2);
                     }
                 } else {
-                    addToken(TokenType::LAngle, 1);
+                    addToken(TokenKind::LAngle, 1);
                     advance();
                 }
             } break;
             case '>': {
                 if (lookup() == '=') {
-                    addToken(TokenType::GE, 2);
+                    addToken(TokenKind::GE, 2);
                     advance(2);
                 } else if (lookup() == '>') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::ShrAssign, 3);
+                        addToken(TokenKind::ShrAssign, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::Shr, 2);
+                        addToken(TokenKind::Shr, 2);
                         advance(2);
                     }
                 } else {
-                    addToken(TokenType::RAngle, 1);
+                    addToken(TokenKind::RAngle, 1);
                     advance();
                 }
             } break;
             case '^': {
                 if (lookup() == '=') {
-                    addToken(TokenType::XorAssign, 2);
+                    addToken(TokenKind::XorAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenType::Xor, 1);
+                    addToken(TokenKind::Xor, 1);
                     advance();
                 }
             } break;
             case '~': {
-                addToken(TokenType::Inv, 1);
+                addToken(TokenKind::Inv, 1);
                 advance();
             } break;
             case '?': {
                 if (lookup() == '?') {
                     if (lookup(2) == '=') {
-                        addToken(TokenType::NullishAssign, 3);
+                        addToken(TokenKind::NullishAssign, 3);
                         advance(3);
                     } else {
-                        addToken(TokenType::NullCoalesce, 2);
+                        addToken(TokenKind::NullCoalesce, 2);
                         advance(2);
                     }
                 } else {
-                    addToken(TokenType::Quest, 1);
+                    addToken(TokenKind::Quest, 1);
                     advance();
                 }
             } break;
             case '$': {
-                addToken(TokenType::Dollar, 1);
+                addToken(TokenKind::Dollar, 1);
                 advance();
             } break;
             case '@': {
                 if (!hidden()) {
-                    addToken(TokenType::At_WWS, 1);
+                    addToken(TokenKind::At_WWS, 1);
                     advance();
                 } else {
-                    addToken(TokenType::At, 1);
+                    addToken(TokenKind::At, 1);
                     advance();
                 }
             } break;
             case '`': {
-                addToken(TokenType::Backtick, 1);
+                addToken(TokenKind::Backtick, 1);
                 advance();
             } break;
             default: {
@@ -530,7 +530,7 @@ namespace jc::parser {
             if (hidden()) {
                 advance();
             } else if (isNL()) {
-                addToken(TokenType::Nl, 1);
+                addToken(TokenKind::Nl, 1);
                 advance();
             } else if (isDigit()) {
                 lexNumber();
@@ -544,7 +544,7 @@ namespace jc::parser {
         }
 
         tokenLoc = {lexerLine, lexerCol};
-        addToken(TokenType::Eof, 1);
+        addToken(TokenKind::Eof, 1);
 
         // Add last line, cause it ends with `EOF`
         sourceLines.push_back(line);

@@ -164,7 +164,7 @@ namespace jc::ast {
     void AstPrinter::visit(VarDecl * varDecl) {
         printIndent();
 
-        log.raw(varDecl->kind.typeToString());
+        log.raw(varDecl->kind.kindToString());
         varDecl->id->accept(*this);
         if (varDecl->type) {
             log.raw(": ");
@@ -241,7 +241,7 @@ namespace jc::ast {
             log.raw("[ERROR ID]");
         } else {
             auto token = identifier->token.unwrap("AstPrinter -> visit id -> token");
-            if (token.type == parser::TokenType::Id) {
+            if (token.kind == parser::TokenKind::Id) {
                 log.raw(token.val);
             } else {
                 // TODO: Soft keywords
@@ -265,10 +265,10 @@ namespace jc::ast {
     void AstPrinter::visit(Infix * infix) {
         infix->lhs->accept(*this);
         log.raw(" ");
-        if (infix->op.type == parser::TokenType::Id) {
+        if (infix->op.kind == parser::TokenKind::Id) {
             log.raw(infix->op.val);
         } else {
-            log.raw(infix->op.typeToString());
+            log.raw(infix->op.kindToString());
         }
         log.raw(" ");
         infix->rhs->accept(*this);
@@ -349,7 +349,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(Prefix * prefix) {
-        log.raw(prefix->op.typeToString());
+        log.raw(prefix->op.kindToString());
         prefix->rhs->accept(*this);
     }
 
@@ -366,7 +366,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(SpreadExpr * spreadExpr) {
-        log.raw(spreadExpr->token.typeToString());
+        log.raw(spreadExpr->token.kindToString());
         spreadExpr->expr->accept(*this);
     }
 
@@ -525,7 +525,7 @@ namespace jc::ast {
 
     void AstPrinter::printModifiers(const parser::token_list & modifiers) {
         for (const auto & mod : modifiers) {
-            log.raw(mod.typeToString());
+            log.raw(mod.kindToString());
         }
     }
 

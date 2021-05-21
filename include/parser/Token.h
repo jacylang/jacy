@@ -36,7 +36,7 @@ namespace jc::parser {
         }
     };
 
-    enum class TokenType {
+    enum class TokenKind : uint8_t {
         Eof,
         Nl,
         DecLiteral,
@@ -152,34 +152,33 @@ namespace jc::parser {
     struct Token {
         Token() = default;
         Token(
-            TokenType type,
+            TokenKind kind,
             std::string val,
             const Location & loc
-        ) : type(type),
+        ) : kind(kind),
             val(std::move(val)),
             loc(loc) {}
 
-        TokenType type{TokenType::None};
+        TokenKind kind{TokenKind::None};
         std::string val{""};
 
         Location loc{};
 
-        static const std::map<std::string, TokenType> keywords;
-        static const std::map<TokenType, std::string> tokenTypeStrings;
-        static const std::vector<TokenType> assignOperators;
-        static const std::vector<TokenType> literals;
+        static const std::map<std::string, TokenKind> keywords;
+        static const std::map<TokenKind, std::string> tokenKindStrings;
+        static const std::vector<TokenKind> assignOperators;
+        static const std::vector<TokenKind> literals;
 
-        bool is(TokenType type) const;
+        bool is(TokenKind kind) const;
         bool isAssignOp() const;
         bool isLiteral() const;
-//        bool isModifier() const;
 
         span::Span span(sess::sess_ptr sess) const;
 
         std::string toString(bool prettyQuotes = true) const;
-        static std::string typeToString(TokenType type);
-        static std::string typeToString(const Token & token);
-        std::string typeToString() const;
+        static std::string kindToString(TokenKind kind);
+        static std::string kindToString(const Token & token);
+        std::string kindToString() const;
 
         // Debug //
         std::string dump(bool withLoc = false) const;

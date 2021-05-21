@@ -1,167 +1,163 @@
 #include "parser/Token.h"
 
 namespace jc::parser {
-    const std::map<std::string, TokenType> Token::keywords = {
-        {"as",          TokenType::As},
-        {"break",       TokenType::Break},
-        {"const",       TokenType::Const},
-        {"continue",    TokenType::Continue},
-        {"elif",        TokenType::Elif},
-        {"else",        TokenType::Else},
-        {"enum",        TokenType::Enum},
-        {"false",       TokenType::False},
-        {"for",         TokenType::For},
-        {"func",        TokenType::Func},
-        {"if",          TokenType::If},
-        {"impl",        TokenType::Impl},
-        {"in",          TokenType::In},
-        {"!in",         TokenType::NotIn},
-        {"infix",       TokenType::Infix},
-        {"init",        TokenType::Init},
-        {"loop",        TokenType::Loop},
-        {"move",        TokenType::Move},
-        {"mut",         TokenType::Mut},
-        {"return",      TokenType::Return},
-        {"pri",         TokenType::Pri},
-        {"pub",         TokenType::Pub},
-        {"static",      TokenType::Static},
-        {"struct",      TokenType::Struct},
-        {"this",        TokenType::This},
-        {"trait",       TokenType::Trait},
-        {"true",        TokenType::True},
-        {"type",        TokenType::Type},
-        {"val",         TokenType::Val},
-        {"var",         TokenType::Var},
-        {"when",        TokenType::When},
-        {"while",       TokenType::While},
+    const std::map<std::string, TokenKind> Token::keywords = {
+        {"as",       TokenKind::As},
+        {"break",    TokenKind::Break},
+        {"const",    TokenKind::Const},
+        {"continue", TokenKind::Continue},
+        {"elif",     TokenKind::Elif},
+        {"else",     TokenKind::Else},
+        {"enum",     TokenKind::Enum},
+        {"false",    TokenKind::False},
+        {"for",      TokenKind::For},
+        {"func",     TokenKind::Func},
+        {"if",       TokenKind::If},
+        {"impl",     TokenKind::Impl},
+        {"in",       TokenKind::In},
+        {"!in",      TokenKind::NotIn},
+        {"infix",    TokenKind::Infix},
+        {"init",     TokenKind::Init},
+        {"loop",     TokenKind::Loop},
+        {"move",     TokenKind::Move},
+        {"mut",      TokenKind::Mut},
+        {"return",   TokenKind::Return},
+        {"pri",      TokenKind::Pri},
+        {"pub",      TokenKind::Pub},
+        {"static",   TokenKind::Static},
+        {"struct",   TokenKind::Struct},
+        {"this",     TokenKind::This},
+        {"trait",    TokenKind::Trait},
+        {"true",     TokenKind::True},
+        {"type",     TokenKind::Type},
+        {"val",      TokenKind::Val},
+        {"var",      TokenKind::Var},
+        {"when",     TokenKind::When},
+        {"while",    TokenKind::While},
     };
 
-    const std::map<TokenType, std::string> Token::tokenTypeStrings = {
-        {TokenType::Eof,             "EOF"},
-        {TokenType::Nl,              "NL"},
-        {TokenType::DecLiteral,      "DecLiteral"},
-        {TokenType::BinLiteral,      "BinLiteral"},
-        {TokenType::OctLiteral,      "OctLiteral"},
-        {TokenType::HexLiteral,      "HexLiteral"},
-        {TokenType::FloatLiteral,    "FloatLiteral"},
-        {TokenType::SQStringLiteral, "SQStringLiteral"},
-        {TokenType::Id,              "ID"},
+    const std::map<TokenKind, std::string> Token::tokenKindStrings = {
+        {TokenKind::Eof,             "EOF"},
+        {TokenKind::Nl,              "NL"},
+        {TokenKind::DecLiteral,      "DecLiteral"},
+        {TokenKind::BinLiteral,      "BinLiteral"},
+        {TokenKind::OctLiteral,      "OctLiteral"},
+        {TokenKind::HexLiteral,      "HexLiteral"},
+        {TokenKind::FloatLiteral,    "FloatLiteral"},
+        {TokenKind::SQStringLiteral, "SQStringLiteral"},
+        {TokenKind::Id,              "ID"},
 
         // Operators //
-        {TokenType::Assign,          "="},
-        {TokenType::AddAssign,       "+="},
-        {TokenType::SubAssign,       "-="},
-        {TokenType::MulAssign,       "*="},
-        {TokenType::DivAssign,       "/="},
-        {TokenType::ModAssign,       "%="},
-        {TokenType::PowerAssign,     "**="},
-        {TokenType::ShlAssign,          "<<="},
-        {TokenType::ShrAssign,          ">>="},
-        {TokenType::BitAndAssign,       "&="},
-        {TokenType::BitOrAssign,        "|="},
-        {TokenType::XorAssign,          "^="},
-        {TokenType::NullishAssign,      "??="},
-        {TokenType::Add,                "+"},
-        {TokenType::Sub,                "-"},
-        {TokenType::Mul,                "*"},
-        {TokenType::Div,                "/"},
-        {TokenType::Mod,                "%"},
-        {TokenType::Power,              "**"},
-        {TokenType::Or,                 "||"},
-        {TokenType::And,                "&&"},
-        {TokenType::NullCoalesce,       "??"},
-        {TokenType::Shl,                "<<"},
-        {TokenType::Shr,                ">>"},
-        {TokenType::BitAnd,             "&"},
-        {TokenType::BitOr,              "|"},
-        {TokenType::Xor,                "^"},
-        {TokenType::Inv,                "~"},
-        {TokenType::Not,                "!"},
-        {TokenType::Eq,                 "=="},
-        {TokenType::NotEq,              "!="},
-        {TokenType::LAngle,             "<"},
-        {TokenType::RAngle,             ">"},
-        {TokenType::LE,                 "<="},
-        {TokenType::GE,                 ">="},
-        {TokenType::Spaceship,          "<=>"},
-        {TokenType::RefEq,              "==="},
-        {TokenType::RefNotEq,           "!=="},
-        {TokenType::Range,              ".."},
-        {TokenType::RangeEQ,            "..="},
-        {TokenType::Dot,                "."},
-        {TokenType::Path,               "::"},
-        {TokenType::Spread,             "..."},
-        {TokenType::Pipe,               "|>"},
-        {TokenType::Dollar,             "$"},
-        {TokenType::At,                 "@"},
-        {TokenType::At_WWS,             "@(WWS)"},
+        {TokenKind::Assign,          "="},
+        {TokenKind::AddAssign,       "+="},
+        {TokenKind::SubAssign,       "-="},
+        {TokenKind::MulAssign,       "*="},
+        {TokenKind::DivAssign,       "/="},
+        {TokenKind::ModAssign,       "%="},
+        {TokenKind::PowerAssign,     "**="},
+        {TokenKind::ShlAssign,       "<<="},
+        {TokenKind::ShrAssign,       ">>="},
+        {TokenKind::BitAndAssign,    "&="},
+        {TokenKind::BitOrAssign,     "|="},
+        {TokenKind::XorAssign,       "^="},
+        {TokenKind::NullishAssign,   "??="},
+        {TokenKind::Add,             "+"},
+        {TokenKind::Sub,             "-"},
+        {TokenKind::Mul,             "*"},
+        {TokenKind::Div,             "/"},
+        {TokenKind::Mod,             "%"},
+        {TokenKind::Power,           "**"},
+        {TokenKind::Or,              "||"},
+        {TokenKind::And,             "&&"},
+        {TokenKind::NullCoalesce,    "??"},
+        {TokenKind::Shl,             "<<"},
+        {TokenKind::Shr,             ">>"},
+        {TokenKind::BitAnd,          "&"},
+        {TokenKind::BitOr,           "|"},
+        {TokenKind::Xor,             "^"},
+        {TokenKind::Inv,             "~"},
+        {TokenKind::Not,             "!"},
+        {TokenKind::Eq,              "=="},
+        {TokenKind::NotEq,           "!="},
+        {TokenKind::LAngle,          "<"},
+        {TokenKind::RAngle,          ">"},
+        {TokenKind::LE,              "<="},
+        {TokenKind::GE,              ">="},
+        {TokenKind::Spaceship,       "<=>"},
+        {TokenKind::RefEq,           "==="},
+        {TokenKind::RefNotEq,        "!=="},
+        {TokenKind::Range,           ".."},
+        {TokenKind::RangeEQ,         "..="},
+        {TokenKind::Dot,             "."},
+        {TokenKind::Path,            "::"},
+        {TokenKind::Spread,          "..."},
+        {TokenKind::Pipe,            "|>"},
+        {TokenKind::Dollar,          "$"},
+        {TokenKind::At,              "@"},
+        {TokenKind::At_WWS,          "@(WWS)"},
 
         // Punctuations //
-        {TokenType::Semi,               ";"},
-        {TokenType::Arrow,              "->"},
-        {TokenType::DoubleArrow,        "=>"},
-        {TokenType::LParen,             "("},
-        {TokenType::RParen,             ")"},
-        {TokenType::LBrace,             "{"},
-        {TokenType::RBrace,             "}"},
-        {TokenType::LBracket,           "["},
-        {TokenType::RBracket,           "]"},
-        {TokenType::Comma,              ","},
-        {TokenType::Colon,              ":"},
-        {TokenType::Quest,              "?"},
-        {TokenType::Backtick,           "`"},
+        {TokenKind::Semi,            ";"},
+        {TokenKind::Arrow,           "->"},
+        {TokenKind::DoubleArrow,     "=>"},
+        {TokenKind::LParen,          "("},
+        {TokenKind::RParen,          ")"},
+        {TokenKind::LBrace,          "{"},
+        {TokenKind::RBrace,          "}"},
+        {TokenKind::LBracket,        "["},
+        {TokenKind::RBracket,        "]"},
+        {TokenKind::Comma,           ","},
+        {TokenKind::Colon,           ":"},
+        {TokenKind::Quest,           "?"},
+        {TokenKind::Backtick,        "`"},
     };
 
-    const std::vector<TokenType> Token::assignOperators = {
-        TokenType::Assign,
-        TokenType::AddAssign,
-        TokenType::SubAssign,
-        TokenType::MulAssign,
-        TokenType::DivAssign,
-        TokenType::ModAssign,
-        TokenType::PowerAssign,
-        TokenType::ShlAssign,
-        TokenType::ShrAssign,
-        TokenType::BitAndAssign,
-        TokenType::BitOrAssign,
-        TokenType::XorAssign,
-        TokenType::NullishAssign,
+    const std::vector<TokenKind> Token::assignOperators = {
+        TokenKind::Assign,
+        TokenKind::AddAssign,
+        TokenKind::SubAssign,
+        TokenKind::MulAssign,
+        TokenKind::DivAssign,
+        TokenKind::ModAssign,
+        TokenKind::PowerAssign,
+        TokenKind::ShlAssign,
+        TokenKind::ShrAssign,
+        TokenKind::BitAndAssign,
+        TokenKind::BitOrAssign,
+        TokenKind::XorAssign,
+        TokenKind::NullishAssign,
     };
 
-    const std::vector<TokenType> Token::literals = {
-        TokenType::DecLiteral,
-        TokenType::BinLiteral,
-        TokenType::OctLiteral,
-        TokenType::HexLiteral,
-        TokenType::FloatLiteral,
-        TokenType::SQStringLiteral,
-        TokenType::DQStringLiteral,
+    const std::vector<TokenKind> Token::literals = {
+        TokenKind::DecLiteral,
+        TokenKind::BinLiteral,
+        TokenKind::OctLiteral,
+        TokenKind::HexLiteral,
+        TokenKind::FloatLiteral,
+        TokenKind::SQStringLiteral,
+        TokenKind::DQStringLiteral,
     };
 
-    bool Token::is(TokenType type) const {
-        return this->type == type;
+    bool Token::is(TokenKind kind) const {
+        return this->kind == kind;
     }
 
     bool Token::isAssignOp() const {
-        return utils::arr::has(assignOperators, type);
+        return utils::arr::has(assignOperators, kind);
     }
 
     bool Token::isLiteral() const {
-        return utils::arr::has(literals, type);
+        return utils::arr::has(literals, kind);
     }
 
-//    bool Token::isModifier() const {
-//        return is(TokenType::Infix) or is(TokenType::Operator);
-//    }
-
-    std::string Token::typeToString(TokenType type) {
-        const auto found = tokenTypeStrings.find(type);
-        if (found != tokenTypeStrings.end()) {
+    std::string Token::kindToString(TokenKind kind) {
+        const auto found = tokenKindStrings.find(kind);
+        if (found != tokenKindStrings.end()) {
             return found->second;
         }
 
         for (const auto & kw : keywords) {
-            if (kw.second == type) {
+            if (kw.second == kind) {
                 return kw.first;
             }
         }
@@ -169,12 +165,12 @@ namespace jc::parser {
         return "No representation";
     }
 
-    std::string Token::typeToString(const Token & token) {
-        return typeToString(token.type);
+    std::string Token::kindToString(const Token & token) {
+        return kindToString(token.kind);
     }
 
-    std::string Token::typeToString() const {
-        return typeToString(*this);
+    std::string Token::kindToString() const {
+        return kindToString(*this);
     }
 
     std::string Token::toString(bool prettyQuotes) const {
@@ -182,36 +178,36 @@ namespace jc::parser {
         if (prettyQuotes) {
             str += "`";
         }
-        switch (type) {
-            case TokenType::DecLiteral:
-            case TokenType::BinLiteral:
-            case TokenType::OctLiteral:
-            case TokenType::HexLiteral:
-            case TokenType::FloatLiteral:
-            case TokenType::SQStringLiteral:
-            case TokenType::DQStringLiteral:
-            case TokenType::Id: {
+        switch (kind) {
+            case TokenKind::DecLiteral:
+            case TokenKind::BinLiteral:
+            case TokenKind::OctLiteral:
+            case TokenKind::HexLiteral:
+            case TokenKind::FloatLiteral:
+            case TokenKind::SQStringLiteral:
+            case TokenKind::DQStringLiteral:
+            case TokenKind::Id: {
                 str += val;
             } break;
             default: {
-                str += typeToString();
+                str += kindToString();
             }
         }
         return str + "`";
     }
 
     std::string Token::dump(bool withLoc) const {
-        std::string str = typeToString();
+        std::string str = kindToString();
 
-        switch (type) {
-            case TokenType::DecLiteral:
-            case TokenType::BinLiteral:
-            case TokenType::OctLiteral:
-            case TokenType::HexLiteral:
-            case TokenType::FloatLiteral:
-            case TokenType::SQStringLiteral:
-            case TokenType::DQStringLiteral:
-            case TokenType::Id: {
+        switch (kind) {
+            case TokenKind::DecLiteral:
+            case TokenKind::BinLiteral:
+            case TokenKind::OctLiteral:
+            case TokenKind::HexLiteral:
+            case TokenKind::FloatLiteral:
+            case TokenKind::SQStringLiteral:
+            case TokenKind::DQStringLiteral:
+            case TokenKind::Id: {
                 str += ":'" + val + "'";
             }
         }
