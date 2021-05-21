@@ -1769,14 +1769,6 @@ namespace jc::parser {
         if (is(TokenType::LParen)) {
             auto tupleElements = parseParenType();
 
-            if (tupleElements.size() == 1
-                and tupleElements.at(0)->id
-                and tupleElements.at(0)->type) {
-                // TODO
-                // ERROR: Cannot declare single-element tuple type (move to semantic check)
-                common::Logger::devPanic("Not implemented error: Single element named tuple type");
-            }
-
             if (skipOpt(TokenType::Arrow, true)) {
                 return parseFuncType(std::move(tupleElements), begin);
             } else {
@@ -1889,8 +1881,7 @@ namespace jc::parser {
             if (tupleEl->id) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
-                // ERROR: Cannot declare function type with named parameter (move to semantic check)
-                common::Logger::devPanic("Not implemented error: Function type with named parameters");
+                suggestErrorMsg("Cannot declare function type with named parameter", tupleEl->id.unwrap()->span);
             }
             // FIXME: Suggest if type is None
             params.push_back(tupleEl->type.unwrap(""));

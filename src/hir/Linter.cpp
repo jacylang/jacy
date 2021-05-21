@@ -434,8 +434,13 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::TupleType * tupleType) {
+        const auto & els = tupleType->elements;
+        if (els.size() == 1 and els.at(0)->id and els.at(0)->type) {
+            suggestErrorMsg("Cannot declare single-element named tuple type", tupleType->span);
+        }
+
         // FIXME: Add check for one-element tuple type, etc.
-        for (const auto & el : tupleType->elements) {
+        for (const auto & el : els) {
             if (el->id) {
                 el->id.unwrap()->accept(*this);
             }
