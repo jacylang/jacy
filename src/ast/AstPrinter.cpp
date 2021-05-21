@@ -520,17 +520,6 @@ namespace jc::ast {
         log.raw(">");
     }
 
-    void AstPrinter::print(const ast::delegation_list & delegations) {
-        if (delegations.empty()) {
-            return;
-        }
-
-        log.raw(" : ");
-        for (const auto & del : delegations) {
-            del->id->accept(*this);
-        }
-    }
-
     void AstPrinter::print(ast::NamedList * namedList) {
         for (size_t i = 0; i < namedList->elements.size(); i++) {
             const auto & namedEl = namedList->elements.at(i);
