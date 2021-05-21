@@ -257,9 +257,6 @@ namespace jc::parser {
                 if (lookup() == '=') {
                     addToken(TokenType::AddAssign, 2);
                     advance(2);
-                } else if (lookup() == '+') {
-                    addToken(TokenType::Inc, 2);
-                    advance(2);
                 } else {
                     addToken(TokenType::Add, 1);
                     advance();
@@ -268,9 +265,6 @@ namespace jc::parser {
             case '-': {
                 if (lookup() == '=') {
                     addToken(TokenType::SubAssign, 2);
-                    advance(2);
-                } else if (lookup() == '-') {
-                    addToken(TokenType::Dec, 2);
                     advance(2);
                 } else if (lookup() == '>') {
                     addToken(TokenType::Arrow, 2);

@@ -67,8 +67,6 @@ namespace jc::parser {
         {TokenType::Div,                "/"},
         {TokenType::Mod,                "%"},
         {TokenType::Power,              "**"},
-        {TokenType::Inc,                "++"},
-        {TokenType::Dec,                "--"},
         {TokenType::Or,                 "||"},
         {TokenType::And,                "&&"},
         {TokenType::NullCoalesce,       "??"},

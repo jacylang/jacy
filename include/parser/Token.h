@@ -68,8 +68,6 @@ namespace jc::parser {
         Div,                        // /
         Mod,                        // %
         Power,                      // **
-        Inc,                        // ++
-        Dec,                        // --
         Or,                         // ||
         And,                        // &&
         NullCoalesce,               // ??
