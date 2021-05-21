@@ -68,6 +68,10 @@ namespace jc::ast {
         void visit(TypePath * typePath) override;
         void visit(UnitType * unitType) override;
 
+        void visit(GenericType * genericType) override;
+        void visit(Lifetime * lifetime) override;
+        void visit(ConstParam * constParam) override;
+
     private:
         common::Logger log{"ast_printer", {}};
 

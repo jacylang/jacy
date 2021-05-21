@@ -475,6 +475,30 @@ namespace jc::ast {
         log.raw("()");
     }
 
+    void AstPrinter::visit(GenericType * genericType) {
+        genericType->id->accept(*this);
+        if (genericType->type) {
+            log.raw(": ");
+            genericType->type.unwrap()->accept(*this);
+        }
+    }
+
+    void AstPrinter::visit(ConstParam * constParam) {
+        log.raw("const ");
+        constParam->id->accept(*this);
+        log.raw(": ");
+        constParam->type->accept(*this);
+        if (constParam->defaultValue) {
+            log.raw(" = ");
+            constParam->defaultValue.unwrap()->accept(*this);
+        }
+    }
+
+    void AstPrinter::visit(Lifetime * lifetime) {
+        log.raw("`");
+        lifetime->id->accept(*this);
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);
