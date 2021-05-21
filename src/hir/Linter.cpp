@@ -471,6 +471,11 @@ namespace jc::hir {
         listType->type->accept(*this);
     }
 
+    void Linter::visit(ast::ArrayType * arrayType) {
+        arrayType->type->accept(*this);
+        arrayType->sizeExpr->accept(*this);
+    }
+
     void Linter::visit(ast::TypePath * typePath) {
         for (const auto & seg : typePath->ids) {
             seg->id->accept(*this);

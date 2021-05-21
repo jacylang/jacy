@@ -78,6 +78,7 @@ namespace jc::hir {
         void visit(ast::TupleType * tupleType) override;
         void visit(ast::FuncType * funcType) override;
         void visit(ast::SliceType * listType) override;
+        void visit(ast::ArrayType * arrayType) override;
         void visit(ast::TypePath * typePath) override;
         void visit(ast::UnitType * unitType) override;
 
