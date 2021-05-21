@@ -1833,7 +1833,7 @@ namespace jc::parser {
     }
 
     ast::type_ptr Parser::parseArrayType() {
-        logParse("ArrayType");
+        logParse("SliceType");
 
         const auto & begin = cspan();
         justSkip(TokenType::LBracket, true, "`LBracket`", "`parseArrayType`");
@@ -1845,7 +1845,7 @@ namespace jc::parser {
             false,
             std::make_unique<ParseErrSugg>("Missing closing `]` at the end of list type", cspan())
         );
-        return std::make_shared<ast::ArrayType>(type, begin.to(cspan()));
+        return std::make_shared<ast::SliceType>(type, begin.to(cspan()));
     }
 
     ast::type_ptr Parser::parseFuncType(ast::tuple_t_el_list tupleElements, const Span & span) {

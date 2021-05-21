@@ -25,7 +25,8 @@ namespace jc::ast {
         Paren,
         Tuple,
         Func,
-        List,
+        Slice,
+        Array,
         Path,
         Unit,
 
@@ -84,10 +85,23 @@ namespace jc::ast {
         }
     };
 
-    struct ArrayType : Type {
-        ArrayType(type_ptr type, const Span & span) : type(type), Type(span, TypeKind::List) {}
+    struct SliceType : Type {
+        SliceType(type_ptr type, const Span & span)
+            : type(type), Type(span, TypeKind::Slice) {}
 
         type_ptr type;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
+    };
+
+    struct ArrayType : Type {
+        ArrayType(type_ptr type, expr_ptr sizeExpr, const Span & span)
+            : type(type), size(sizeExpr), Type(span, TypeKind::Array) {}
+
+        type_ptr type;
+        expr_ptr size;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

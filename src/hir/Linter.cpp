@@ -467,7 +467,7 @@ namespace jc::hir {
         funcType->returnType->accept(*this);
     }
 
-    void Linter::visit(ast::ArrayType * listType) {
+    void Linter::visit(ast::SliceType * listType) {
         listType->type->accept(*this);
     }
 

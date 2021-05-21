@@ -453,7 +453,7 @@ namespace jc::ast {
         funcType->returnType->accept(*this);
     }
 
-    void AstPrinter::visit(ArrayType * listType) {
+    void AstPrinter::visit(SliceType * listType) {
         log.raw("[");
         listType->type->accept(*this);
         log.raw("]");
