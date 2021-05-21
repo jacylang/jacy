@@ -534,11 +534,10 @@ namespace jc::ast {
         }
 
         log.raw("<");
-        for (const auto & typeParam : typeParams) {
-            typeParam->id->accept(*this);
-            if (typeParam->type) {
-                log.raw(": ");
-                typeParam->type.unwrap("AstPrinter -> print typeParams -> typeParam.type")->accept(*this);
+        for (size_t i = 0; i < typeParams.size(); i++) {
+            typeParams.at(i)->accept(*this);
+            if (i < typeParams.size() - 1) {
+                log.raw(", ");
             }
         }
         log.raw(">");

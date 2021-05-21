@@ -1,3 +1,7 @@
+func<`a, const a: usize = 100, T, K: i32> foo() {
+    print('hello')
+}
+
 func main {
-    break
+
 }
