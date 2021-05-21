@@ -306,7 +306,9 @@ namespace jc::parser {
 
         while (!eof()) {
             const auto & modifier = peek();
-            if (skipOpt(TokenType::Move, true) or skipOpt(TokenType::Mut, true)) {
+            if (skipOpt(TokenType::Move, true)
+            or skipOpt(TokenType::Mut, true)
+            or skipOpt(TokenType::Static, true)) {
                 modifiers.push_back(modifier);
             } else {
                 break;
