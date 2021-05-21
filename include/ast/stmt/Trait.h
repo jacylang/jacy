@@ -16,7 +16,7 @@ namespace jc::ast {
             typeParams(std::move(typeParams)),
             superTraits(std::move(superTraits)),
             members(std::move(members)),
-            Stmt(span, StmtType::Trait) {}
+            Stmt(span, StmtKind::Trait) {}
 
         id_ptr id;
         opt_type_params typeParams;

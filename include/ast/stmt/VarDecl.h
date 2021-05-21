@@ -18,7 +18,7 @@ namespace jc::ast {
             id(std::move(id)),
             type(std::move(type)),
             assignExpr(std::move(assignExpr)),
-            Stmt(span, StmtType::VarDecl) {}
+            Stmt(span, StmtKind::VarDecl) {}
 
         parser::Token kind;
         id_ptr id;

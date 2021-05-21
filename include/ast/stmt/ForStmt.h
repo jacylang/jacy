@@ -18,7 +18,7 @@ namespace jc::ast {
         ) : forEntity(std::move(forEntity)),
             inExpr(std::move(inExpr)),
             body(std::move(body)),
-            Stmt(span, StmtType::For) {}
+            Stmt(span, StmtKind::For) {}
 
         id_ptr forEntity;
         expr_ptr inExpr;

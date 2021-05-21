@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct TypeAlias : Stmt {
         TypeAlias(id_ptr id, type_ptr type, const Span & span)
-            : id(std::move(id)), type(std::move(type)), Stmt(span, StmtType::TypeAlias) {}
+            : id(std::move(id)), type(std::move(type)), Stmt(span, StmtKind::TypeAlias) {}
 
         id_ptr id;
         type_ptr type;

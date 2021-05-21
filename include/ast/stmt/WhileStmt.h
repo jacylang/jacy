@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct WhileStmt : Stmt {
         WhileStmt(expr_ptr condition, block_ptr body, const Span & span)
-            : condition(std::move(condition)), body(std::move(body)), Stmt(span, StmtType::While) {}
+            : condition(std::move(condition)), body(std::move(body)), Stmt(span, StmtKind::While) {}
 
         expr_ptr condition;
         block_ptr body;
