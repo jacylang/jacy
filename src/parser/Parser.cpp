@@ -203,7 +203,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<ast::stmt_list> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
+    dt::SuggResult<ast::item_list> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
         this->sess = sess;
@@ -217,10 +217,10 @@ namespace jc::parser {
     ///////////
     // Items //
     ///////////
-    ast::stmt_list Parser::parseItemList(const std::string & gotExprSugg) {
+    ast::item_list Parser::parseItemList(const std::string & gotExprSugg) {
         logParse("ItemList");
 
-        ast::stmt_list items;
+        ast::item_list items;
         while (!eof()) {
             skipSemis(true);
             if (eof()) {
@@ -243,7 +243,7 @@ namespace jc::parser {
         return items;
     }
 
-    dt::Option<ast::stmt_ptr> Parser::parseItem() {
+    dt::Option<ast::item_ptr> Parser::parseItem() {
         logParse("Item");
 
         const auto & begin = cspan();
@@ -280,9 +280,7 @@ namespace jc::parser {
         }
 
         if (decl) {
-            return std::static_pointer_cast<ast::Stmt>(
-                std::make_shared<ast::Item>(attributes, decl.unwrap("`parseItem` -> `decl`"), begin.to(cspan()))
-            );
+            return std::make_shared<ast::Item>(attributes, decl.unwrap("`parseItem` -> `decl`"), begin.to(cspan()));
         }
 
         if (!attributes.empty()) {
@@ -728,7 +726,7 @@ namespace jc::parser {
                 true,
                 true,
                 true,
-                std::make_unique<ParseErrSugg>("Missing closing `|` at the end of lambda patameters", cspan())
+                std::make_unique<ParseErrSugg>("Missing closing `|` at the end of lambda parameters", cspan())
             );
         }
 

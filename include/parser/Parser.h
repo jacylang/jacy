@@ -6,7 +6,7 @@
 
 #include "common/Logger.h"
 #include "Token.h"
-#include "ast/nodes.h"
+#include "ast/Party.h"
 #include "common/common.h"
 #include "common/Error.h"
 #include "parser/ParserSugg.h"
@@ -38,7 +38,6 @@
  * this rules (nested parser parses fragment or atomic, and super parser parses ):
  * - If nested parser has error we return `Option::None`
  * - When super parser... TODO
- *
  *
  */
 
@@ -86,7 +85,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::stmt_list> parse(sess::sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::item_list> parse(sess::sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -94,7 +93,7 @@ namespace jc::parser {
         token_list tokens;
         size_t index{0};
 
-        ast::stmt_list tree;
+        ast::item_list tree;
 
         Token peek() const;
         Token advance(uint8_t distance = 1);
@@ -128,8 +127,8 @@ namespace jc::parser {
         // Parsers //
     private:
         // Items //
-        dt::Option<ast::stmt_ptr> parseItem();
-        ast::stmt_list parseItemList(const std::string & gotExprSugg);
+        dt::Option<ast::item_ptr> parseItem();
+        ast::item_list parseItemList(const std::string & gotExprSugg);
         ast::stmt_ptr parseStmt();
 
         ast::stmt_ptr parseWhileStmt();
