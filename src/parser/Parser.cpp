@@ -1838,13 +1838,27 @@ namespace jc::parser {
         const auto & begin = cspan();
         justSkip(TokenType::LBracket, true, "`LBracket`", "`parseArrayType`");
         auto type = parseType("Expected type");
+
+        if (skipOpt(TokenType::Semi, true)) {
+            auto sizeExpr = parseExpr("Expected constant size expression in array type");
+            skip(
+                TokenType::RBracket,
+                true,
+                true,
+                false,
+                std::make_unique<ParseErrSugg>("Missing closing `]` in array type", cspan())
+            );
+            return std::make_shared<ast::ArrayType>(type, sizeExpr, begin.to(cspan()));
+        }
+
         skip(
             TokenType::RBracket,
             true,
             true,
             false,
-            std::make_unique<ParseErrSugg>("Missing closing `]` at the end of list type", cspan())
+            std::make_unique<ParseErrSugg>("Missing closing `]` in slice type", cspan())
         );
+
         return std::make_shared<ast::SliceType>(type, begin.to(cspan()));
     }
 
