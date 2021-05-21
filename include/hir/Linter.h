@@ -81,6 +81,11 @@ namespace jc::hir {
         void visit(ast::TypePath * typePath) override;
         void visit(ast::UnitType * unitType) override;
 
+        // Type params //
+        void visit(ast::GenericType * genericType) override;
+        void visit(ast::Lifetime * lifetime) override;
+        void visit(ast::ConstParam * constParam) override;
+
     private:
         void lint(const ast::named_list_ptr & namedList);
         void lint(const ast::type_param_list & typeParams);

@@ -484,6 +484,26 @@ namespace jc::hir {
         // Meow...
     }
 
+    // Type params //
+    void Linter::visit(ast::GenericType * genericType) {
+        genericType->id->accept(*this);
+        if (genericType->type) {
+            genericType->type.unwrap()->accept(*this);
+        }
+    }
+
+    void Linter::visit(ast::Lifetime * lifetime) {
+        lifetime->id->accept(*this);
+    }
+
+    void Linter::visit(ast::ConstParam * constParam) {
+        constParam->id->accept(*this);
+        constParam->type->accept(*this);
+        if (constParam->defaultValue) {
+            constParam->defaultValue.unwrap()->accept(*this);
+        }
+    }
+
     void Linter::lint(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
             if (el->id) {
