@@ -24,6 +24,7 @@ namespace jc::parser {
         {"return",      TokenType::Return},
         {"pri",         TokenType::Pri},
         {"pub",         TokenType::Pub},
+        {"static",      TokenType::Static},
         {"struct",      TokenType::Struct},
         {"this",        TokenType::This},
         {"trait",       TokenType::Trait},

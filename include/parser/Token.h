@@ -136,6 +136,7 @@ namespace jc::parser {
         Return,
         Pri,
         Pub,
+        Static,
         Struct,
         This,
         Trait,
