@@ -517,10 +517,7 @@ namespace jc::hir {
 
     void Linter::lint(const ast::type_param_list & typeParams) {
         for (const auto & typeParam : typeParams) {
-            typeParam->id->accept(*this);
-            if (typeParam->type) {
-                typeParam->type.unwrap()->accept(*this);
-            }
+            typeParam->accept(*this);
         }
     }
 
