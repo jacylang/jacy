@@ -22,6 +22,8 @@ namespace jc::ast {
             : kind(kind), Node(span) {}
 
         TypeParamKind kind;
+
+        virtual void accept(BaseVisitor & visitor) = 0;
     };
 
     struct GenericType : TypeParam {
@@ -30,12 +32,20 @@ namespace jc::ast {
 
         id_ptr id;
         opt_type_ptr type;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct Lifetime : TypeParam {
         Lifetime(id_ptr id, const Span & span) : id(std::move(id)), TypeParam(TypeParamKind::Lifetime, span) {}
 
         id_ptr id;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 
     struct ConstParam : TypeParam {
@@ -52,6 +62,10 @@ namespace jc::ast {
         id_ptr id;
         type_ptr type;
         opt_expr_ptr defaultValue;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
     };
 }
 

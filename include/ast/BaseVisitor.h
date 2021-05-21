@@ -56,6 +56,11 @@ namespace jc::ast {
     struct TypePath;
     struct UnitType;
 
+    // Type params //
+    struct GenericType;
+    struct Lifetime;
+    struct ConstParam;
+
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
@@ -113,6 +118,11 @@ namespace jc::ast {
         virtual void visit(ArrayType*) = 0;
         virtual void visit(TypePath*) = 0;
         virtual void visit(UnitType*) = 0;
+
+        // Type params //
+        virtual void visit(GenericType*) = 0;
+        virtual void visit(Lifetime*) = 0;
+        virtual void visit(ConstParam*) = 0;
     };
 }
 

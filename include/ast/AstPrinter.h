@@ -75,7 +75,6 @@ namespace jc::ast {
         void print(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void print(const opt_type_params & optTypeParams, bool pathPrefix = false);
-        void print(const delegation_list & delegations);
         void print(NamedList * namedList);
         void print(const type_list & typeList);
         void print(IdType * idType);
