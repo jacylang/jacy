@@ -12,7 +12,7 @@ namespace jc::ast {
     using opt_type_ptr = dt::Option<type_ptr>;
 
     struct TypeParam : Node {
-        TypeParam(const Span & span) : Node(span) {}
+        explicit TypeParam(const Span & span) : Node(span) {}
     };
 
     struct Lifetime : TypeParam {
@@ -37,14 +37,15 @@ namespace jc::ast {
             const Span & span
         ) : id(std::move(id)),
             type(std::move(type)),
-            defaultValue {}
+            defaultValue(std::move(defaultValue)),
+            TypeParam(span) {}
 
         id_ptr id;
         type_ptr type;
         opt_expr_ptr defaultValue;
-    }
+    };
 }
 
-#endif //JACY_TYPEPARAMS_H
+#endif // JACY_TYPEPARAMS_H
 
 

@@ -1,7 +1,7 @@
 #include "parser/Parser.h"
 
 namespace jc::parser {
-    Parser::Parser() {}
+    Parser::Parser() = default;
 
     Token Parser::peek() const {
         try {
@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-        log.dev("Advance");
+//        log.dev("Advance");
         index += distance;
         return peek();
     }
