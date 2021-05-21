@@ -4,6 +4,7 @@
       <w>antlr</w>
       <w>arglist</w>
       <w>astprinter</w>
+      <w>backtick</w>
       <w>basesuggester</w>
       <w>basevisitor</w>
       <w>boolliteral</w>

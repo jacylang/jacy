@@ -1600,17 +1600,6 @@ namespace jc::parser {
         return std::make_shared<ast::NamedList>(namedList, begin.to(cspan()));
     }
 
-//    parser::token_list Parser::parseModifiers() {
-//        logParse("Modifiers");
-//
-//        parser::token_list modifiers;
-//        while (peek().isModifier()) {
-//            modifiers.push_back(peek());
-//            advance();
-//        }
-//        return modifiers;
-//    }
-
     ast::func_param_list Parser::parseFuncParamList() {
         logParse("FuncParams");
 

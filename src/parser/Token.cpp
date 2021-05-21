@@ -109,6 +109,7 @@ namespace jc::parser {
         {TokenType::Comma,              ","},
         {TokenType::Colon,              ":"},
         {TokenType::Quest,              "?"},
+        {TokenType::Backtick,           "`"},
     };
 
     const std::vector<TokenType> Token::assignOperators = {

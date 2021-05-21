@@ -496,13 +496,20 @@ namespace jc::parser {
             } break;
             case '$': {
                 addToken(TokenType::Dollar, 1);
+                advance();
             } break;
             case '@': {
                 if (!hidden()) {
                     addToken(TokenType::At_WWS, 1);
+                    advance();
                 } else {
                     addToken(TokenType::At, 1);
+                    advance();
                 }
+            } break;
+            case '`': {
+                addToken(TokenType::Backtick, 1);
+                advance();
             } break;
             default: {
                 unexpectedTokenError();
