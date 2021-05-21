@@ -65,6 +65,7 @@ namespace jc::ast {
         void visit(TupleType * tupleType) override;
         void visit(FuncType * funcType) override;
         void visit(SliceType * listType) override;
+        void visit(ArrayType * arrayType) override;
         void visit(TypePath * typePath) override;
         void visit(UnitType * unitType) override;
 

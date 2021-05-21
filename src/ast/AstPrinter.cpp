@@ -459,6 +459,14 @@ namespace jc::ast {
         log.raw("]");
     }
 
+    void AstPrinter::visit(ArrayType * arrayType) {
+        log.raw("[");
+        arrayType->type->accept(*this);
+        log.raw("; ");
+        arrayType->sizeExpr->accept(*this);
+        log.raw("]");
+    }
+
     void AstPrinter::visit(TypePath * typePath) {
         if (typePath->global) {
             log.raw("::");
