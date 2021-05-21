@@ -51,12 +51,15 @@ namespace jc::hir {
 
     void Linter::visit(ast::FuncDecl * funcDecl) {
         for (const auto & modifier : funcDecl->modifiers) {
-            if (modifier.is(parser::TokenType::Static) and !isInside(LinterContext::Struct)) {
-                suggestErrorMsg("`static` functions can only appear as methods", modifier.span(sess));
-            } else if (modifier.is(parser::TokenType::Mut) and !isInside(LinterContext::Struct)) {
-                suggestErrorMsg("`mut` functions can only appear as methods", modifier.span(sess));
-            } else if (modifier.is(parser::TokenType::Move) and !isInside(LinterContext::Struct)) {
-                suggestErrorMsg("`move` functions can only appear as methods", modifier.span(sess));
+            if (!isInside(LinterContext::Struct)) {
+                switch (modifier.type) {
+                    case parser::TokenType::Static:
+                    case parser::TokenType::Mut:
+                    case parser::TokenType::Move: {
+                        suggestErrorMsg(modifier.toString() + " functions can only appear as methods", modifier.span(sess));
+                    } break;
+                    default: {}
+                }
             }
         }
 
