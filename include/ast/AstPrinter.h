@@ -91,7 +91,7 @@ namespace jc::ast {
         uint64_t indent{0};
 
         // DEBUG //
-        bool precedenceDebug = true;
+        bool precedenceDebug = false;
     };
 }
 

@@ -796,56 +796,58 @@ namespace jc::parser {
         const auto skipRightNLs = flags & 1;
 
         auto begin = cspan();
-        auto maybeLhs = precParse(index + 1);
-
-        bool skippedLeftNls = false;
-        if (skipLeftNLs) {
-            skippedLeftNls = skipNLs(true);
-        }
-
-        dt::Option<Token> maybeOp;
-        for (const auto & op : parser.ops) {
-            if (is(op)) {
-                maybeOp = peek();
-                break;
-            }
-        }
-
-        // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
-
-        if (!maybeOp) {
-            if (skippedLeftNls) {
-                // Recover NL semis
-                emitVirtualSemi();
+        ast::opt_expr_ptr maybeLhs = precParse(index + 1);
+        while (!eof()) {
+            bool skippedLeftNls = false;
+            if (skipLeftNLs) {
+                skippedLeftNls = skipNLs(true);
             }
 
-            if (maybeLhs) {
-                return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
+            dt::Option<Token> maybeOp;
+            for (const auto & op : parser.ops) {
+                if (is(op)) {
+                    maybeOp = peek();
+                    break;
+                }
             }
-        }
 
-        if (!maybeLhs) {
-            // TODO: Prefix range operators
-            // Left-hand side is none, and there's no range operator
-            return dt::None;
-        }
+            // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
 
-        ast::opt_expr_ptr lhs = maybeLhs.unwrap("precParse -> maybeLhs");
+            if (!maybeOp) {
+                if (skippedLeftNls) {
+                    // Recover NL semis
+                    emitVirtualSemi();
+                }
 
-        auto op = maybeOp.unwrap("precParse -> maybeOp");
-        while (skipOpt(op.kind, skipRightNLs)) {
+                if (maybeLhs) {
+                    return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
+                }
+            }
+
+            if (!maybeLhs) {
+                // TODO: Prefix range operators
+                // Left-hand side is none, and there's no range operator
+                return dt::None; // FIXME: CHECK FOR PREFIX
+            }
+
+            auto lhs = maybeLhs.unwrap("precParse -> maybeLhs");
+
+            auto op = maybeOp.unwrap("precParse -> maybeOp");
             logParse("precParse -> " + op.kindToString());
 
-            auto rhs = rightAssoc ? precParse(index) : precParse(index + 1);
-            if (!rhs) {
+            justSkip(op.kind, skipRightNLs, op.toString(), "`precParse`");
+
+            auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
+            if (!maybeRhs) {
                 // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
                 // and `precParse` already generated error suggestion
                 continue;
             }
-            lhs = std::make_shared<ast::Infix>(
-                lhs.unwrap("precParse -> lhs"),
+            auto rhs = maybeRhs.unwrap("`precParse` -> `rhs`");
+            maybeLhs = std::make_shared<ast::Infix>(
+                lhs,
                 op,
-                rhs.unwrap("precParse -> rhs"),
+                rhs,
                 begin.to(cspan())
             );
             if (!multiple) {
@@ -854,7 +856,7 @@ namespace jc::parser {
             begin = cspan();
         }
 
-        return lhs;
+        return maybeLhs;
     }
 
     const std::vector<PrecParser> Parser::precTable = {
