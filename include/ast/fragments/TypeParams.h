@@ -39,7 +39,8 @@ namespace jc::ast {
     };
 
     struct Lifetime : TypeParam {
-        Lifetime(id_ptr id, const Span & span) : id(std::move(id)), TypeParam(TypeParamKind::Lifetime, span) {}
+        Lifetime(id_ptr id, const Span & span)
+            : id(std::move(id)), TypeParam(TypeParamKind::Lifetime, span) {}
 
         id_ptr id;
 

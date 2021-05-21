@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct SpreadExpr : Expr {
         SpreadExpr(const parser::Token & token, expr_ptr expr, const Span & span)
-            : token(token), expr(expr), Expr(span, ExprType::Spread) {}
+            : token(token), expr(std::move(expr)), Expr(span, ExprType::Spread) {}
 
         parser::Token token;
         expr_ptr expr;

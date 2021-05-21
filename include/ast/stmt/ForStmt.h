@@ -10,8 +10,15 @@ namespace jc::ast {
     struct ForStmt : Stmt {
         // TODO: Add destructuring
 
-        ForStmt(id_ptr forEntity, expr_ptr inExpr, block_ptr body, const Span & span)
-            : forEntity(forEntity), inExpr(inExpr), body(body), Stmt(span, StmtType::For) {}
+        ForStmt(
+            id_ptr forEntity,
+            expr_ptr inExpr,
+            block_ptr body,
+            const Span & span
+        ) : forEntity(std::move(forEntity)),
+            inExpr(std::move(inExpr)),
+            body(std::move(body)),
+            Stmt(span, StmtType::For) {}
 
         id_ptr forEntity;
         expr_ptr inExpr;

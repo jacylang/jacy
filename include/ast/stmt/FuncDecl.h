@@ -18,13 +18,13 @@ namespace jc::ast {
             opt_block_ptr body,
             opt_expr_ptr oneLineBody,
             const Span & span
-        ) : modifiers(modifiers),
-            typeParams(typeParams),
-            id(id),
-            params(params),
-            returnType(returnType),
-            body(body),
-            oneLineBody(oneLineBody),
+        ) : modifiers(std::move(modifiers)),
+            typeParams(std::move(typeParams)),
+            id(std::move(id)),
+            params(std::move(params)),
+            returnType(std::move(returnType)),
+            body(std::move(body)),
+            oneLineBody(std::move(oneLineBody)),
             Stmt(span, StmtType::Func) {}
 
         parser::token_list modifiers;

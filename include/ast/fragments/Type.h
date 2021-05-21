@@ -46,7 +46,8 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(type_ptr type, const Span & span) : type(type), Type(span, TypeKind::Paren) {}
+        ParenType(type_ptr type, const Span & span)
+            : type(std::move(type)), Type(span, TypeKind::Paren) {}
 
         type_ptr type;
 
@@ -56,7 +57,8 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        TupleType(tuple_t_el_list elements, const Span & span) : elements(elements), Type(span, TypeKind::Tuple) {}
+        TupleType(tuple_t_el_list elements, const Span & span)
+            : elements(std::move(elements)), Type(span, TypeKind::Tuple) {}
 
         tuple_t_el_list elements;
 
@@ -67,7 +69,7 @@ namespace jc::ast {
 
     struct TupleTypeElement : Node {
         TupleTypeElement(opt_id_ptr id, opt_type_ptr type, const Span & span)
-            : id(id), type(type), Node(span) {}
+            : id(std::move(id)), type(std::move(type)), Node(span) {}
 
         opt_id_ptr id;
         opt_type_ptr type;
@@ -75,7 +77,7 @@ namespace jc::ast {
 
     struct FuncType : Type {
         FuncType(type_list params, type_ptr returnType, const Span & span)
-            : params(params), returnType(returnType), Type(span, TypeKind::Func) {}
+            : params(std::move(params)), returnType(std::move(returnType)), Type(span, TypeKind::Func) {}
 
         type_list params;
         type_ptr returnType;
@@ -87,7 +89,7 @@ namespace jc::ast {
 
     struct SliceType : Type {
         SliceType(type_ptr type, const Span & span)
-            : type(type), Type(span, TypeKind::Slice) {}
+            : type(std::move(type)), Type(span, TypeKind::Slice) {}
 
         type_ptr type;
 
@@ -98,7 +100,7 @@ namespace jc::ast {
 
     struct ArrayType : Type {
         ArrayType(type_ptr type, expr_ptr sizeExpr, const Span & span)
-            : type(type), size(sizeExpr), Type(span, TypeKind::Array) {}
+            : type(std::move(type)), size(std::move(sizeExpr)), Type(span, TypeKind::Array) {}
 
         type_ptr type;
         expr_ptr size;

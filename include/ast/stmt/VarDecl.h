@@ -8,8 +8,17 @@
 
 namespace jc::ast {
     struct VarDecl : Stmt {
-        VarDecl(parser::Token kind, id_ptr id, type_ptr type, opt_expr_ptr assignExpr, const Span & span)
-            : kind(kind), id(id), type(type), assignExpr(assignExpr), Stmt(span, StmtType::VarDecl) {}
+        VarDecl(
+            const parser::Token & kind,
+            id_ptr id,
+            type_ptr type,
+            opt_expr_ptr assignExpr,
+            const Span & span
+        ) : kind(kind),
+            id(std::move(id)),
+            type(std::move(type)),
+            assignExpr(std::move(assignExpr)),
+            Stmt(span, StmtType::VarDecl) {}
 
         parser::Token kind;
         id_ptr id;
