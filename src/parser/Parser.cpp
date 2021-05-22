@@ -397,7 +397,7 @@ namespace jc::parser {
         advance();
 
         // TODO: Destructuring
-        auto id = parseId("An identifier expected as a `" + peek().kindToString() + "` name", true, true);
+        auto name = parseId("An identifier expected as a `" + peek().kindToString() + "` name", true, true);
 
         ast::type_ptr type;
         if (skipOpt(TokenKind::Colon)) {
@@ -409,7 +409,7 @@ namespace jc::parser {
             assignExpr = parseExpr("Expected expression after `=`");
         }
 
-        return std::make_shared<ast::VarDecl>(kind, id, type, assignExpr, begin.to(cspan()));
+        return std::make_shared<ast::VarDecl>(kind, name, type, assignExpr, begin.to(cspan()));
     }
 
     ast::stmt_ptr Parser::parseTypeDecl() {
@@ -419,7 +419,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Type, true, "`type`", "`parseTypeDecl`");
 
-        auto id = parseId("An identifier expected as a type name", true, true);
+        auto name = parseId("An identifier expected as a type name", true, true);
         skip(
             TokenKind::Assign,
             true,
@@ -428,7 +428,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
         auto type = parseType("Expected type");
 
-        return std::make_shared<ast::TypeAlias>(id, type, begin.to(cspan()));
+        return std::make_shared<ast::TypeAlias>(name, type, begin.to(cspan()));
     }
 
     ast::stmt_ptr Parser::parseStruct() {
@@ -438,12 +438,12 @@ namespace jc::parser {
 
         justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
 
-        auto id = parseId("Expected struct name", true, true);
+        auto name = parseId("Expected struct name", true, true);
         auto typeParams = parseTypeParams();
 
         ast::item_list members = parseMembers("struct");
 
-        return std::make_shared<ast::Struct>(id, typeParams, members, begin.to(cspan()));
+        return std::make_shared<ast::Struct>(name, typeParams, members, begin.to(cspan()));
     }
 
     ast::stmt_ptr Parser::parseImpl() {
@@ -478,7 +478,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
 
-        auto id = parseId("Missing `trait` name", true, true);
+        auto name = parseId("Missing `trait` name", true, true);
         auto typeParams = parseTypeParams();
 
         ast::type_path_list superTraits;
@@ -512,7 +512,7 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("trait");
 
-        return std::make_shared<ast::Trait>(id, typeParams, superTraits, members, begin.to(cspan()));
+        return std::make_shared<ast::Trait>(name, typeParams, superTraits, members, begin.to(cspan()));
     }
 
     ast::stmt_ptr Parser::parseFuncDecl(const parser::token_list & modifiers) {
@@ -523,7 +523,7 @@ namespace jc::parser {
         justSkip(TokenKind::Func, true, "`func`", "`parseFuncDecl`");
 
         auto typeParams = parseTypeParams();
-        auto id = parseId("An identifier expected as a type parameter name", true, true);
+        auto name = parseId("An identifier expected as a type parameter name", true, true);
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenKind::LParen);
@@ -557,7 +557,7 @@ namespace jc::parser {
         return std::make_shared<ast::FuncDecl>(
             modifiers,
             typeParams,
-            id,
+            name,
             params,
             returnType,
             body,
@@ -713,13 +713,13 @@ namespace jc::parser {
                 }
 
                 const auto & paramBegin = cspan();
-                ast::id_ptr id = parseId("Expected lambda parameter name", true, true);
+                auto name = parseId("Expected lambda parameter name", true, true);
                 ast::opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon, true)) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
 
-                params.push_back(std::make_shared<ast::LambdaParam>(id, type, paramBegin.to(cspan())));
+                params.push_back(std::make_shared<ast::LambdaParam>(name, type, paramBegin.to(cspan())));
             }
             skip(
                 TokenKind::BitOr,
@@ -1019,9 +1019,9 @@ namespace jc::parser {
         while (skipOpt(TokenKind::Dot, true)) {
             logParse("MemberAccess");
 
-            auto id = parseId("Expected field name", true, true);
+            auto name = parseId("Expected field name", true, true);
 
-            lhs = std::make_shared<ast::MemberAccess>(lhs.unwrap(), id, begin.to(cspan()));
+            lhs = std::make_shared<ast::MemberAccess>(lhs.unwrap(), name, begin.to(cspan()));
             begin = cspan();
         }
 
@@ -1076,9 +1076,9 @@ namespace jc::parser {
         logParse("[just] id");
 
         const auto & begin = cspan();
-        auto id = peek();
+        auto name = peek();
         justSkip(TokenKind::Id, true, "[identifier]", "`" + panicIn + "`");
-        return std::make_shared<ast::Identifier>(id, begin.to(cspan()));
+        return std::make_shared<ast::Identifier>(name, begin.to(cspan()));
     }
 
     ast::id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
@@ -1113,7 +1113,7 @@ namespace jc::parser {
         ast::path_expr_list segments;
         while (!eof()) {
             const auto & segmentBegin = cspan();
-            auto id = parseId("Identifier in path", true, true);
+            auto name = parseId("Identifier in path", true, true);
 
             ast::opt_type_params typeParams;
             bool pathMaybeGeneric = false;
@@ -1123,7 +1123,7 @@ namespace jc::parser {
                 pathMaybeGeneric = !typeParams;
             }
 
-            segments.push_back(std::make_shared<ast::PathExprSeg>(id, typeParams, segmentBegin.to(cspan())));
+            segments.push_back(std::make_shared<ast::PathExprSeg>(name, typeParams, segmentBegin.to(cspan())));
 
             if (pathMaybeGeneric or skipOpt(TokenKind::Path)) {
                 continue;
@@ -1226,14 +1226,14 @@ namespace jc::parser {
             auto exprToken = peek();
             auto expr = parseExpr("Expected tuple member"); // FIXME: Maybe optional + break?
 
-            ast::opt_id_ptr id = dt::None;
+            ast::opt_id_ptr name = dt::None;
             ast::opt_expr_ptr value = dt::None;
             skipNLs(true);
 
             // Named element case like (name: value)
             if (skipOpt(TokenKind::Colon)) {
                 if (expr->is(ast::ExprKind::Id)) {
-                    id = ast::Expr::as<ast::Identifier>(expr);
+                    name = ast::Expr::as<ast::Identifier>(expr);
                 } else {
                     suggestErrorMsg("Expected name for named tuple member", exprToken.span(sess));
                 }
@@ -1242,7 +1242,7 @@ namespace jc::parser {
                 value = expr;
             }
 
-            namedList.push_back(std::make_shared<ast::NamedElement>(id, value, exprToken.span(sess).to(cspan())));
+            namedList.push_back(std::make_shared<ast::NamedElement>(name, value, exprToken.span(sess).to(cspan())));
         }
         skip(
             TokenKind::RParen,
@@ -1541,10 +1541,10 @@ namespace jc::parser {
             return dt::None;
         }
 
-        auto id = parseId("Expected attribute name", true, true);
+        auto name = parseId("Expected attribute name", true, true);
         auto params = parseNamedList("attribute");
 
-        return std::make_shared<ast::Attribute>(id, params, begin.to(cspan()));
+        return std::make_shared<ast::Attribute>(name, params, begin.to(cspan()));
     }
 
     ast::named_list_ptr Parser::parseNamedList(const std::string & construction) {
@@ -1578,19 +1578,19 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            ast::opt_id_ptr id = dt::None;
+            ast::opt_id_ptr name = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
             auto expr = parseExpr("Expression expected");
 
             if (expr->is(ast::ExprKind::Id) and skipOpt(TokenKind::Colon, true)) {
-                id = ast::Expr::as<ast::Identifier>(expr);
+                name = ast::Expr::as<ast::Identifier>(expr);
                 value = parseExpr("Expression expected as value for named argument in " + construction);
             } else {
                 value = expr;
             }
 
-            namedList.emplace_back(std::make_shared<ast::NamedElement>(id, value, elBegin.to(cspan())));
+            namedList.emplace_back(std::make_shared<ast::NamedElement>(name, value, elBegin.to(cspan())));
         }
         skip(
             TokenKind::RParen,
@@ -1655,7 +1655,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        auto id = parseId("Expected function parameter", true, true);
+        auto name = parseId("Expected function parameter", true, true);
 
         skip(
             TokenKind::Colon,
@@ -1675,7 +1675,7 @@ namespace jc::parser {
             skipNLs(true);
             defaultValue = parseExpr("Expression expected as default value of function parameter");
         }
-        return std::make_shared<ast::FuncParam>(id, type, defaultValue, begin.to(cspan()));
+        return std::make_shared<ast::FuncParam>(name, type, defaultValue, begin.to(cspan()));
     }
 
     ast::item_list Parser::parseMembers(const std::string & construction) {
@@ -1791,14 +1791,14 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            ast::opt_id_ptr id;
+            ast::opt_id_ptr name;
             if (is(TokenKind::Id)) {
-                id = justParseId("`parenType`");
+                name = justParseId("`parenType`");
                 skipNLs(true);
             }
 
             ast::opt_type_ptr type;
-            if (id and is(TokenKind::Colon)) {
+            if (name and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
                 type = parseType("Expected type in named tuple type after `:`");
@@ -1818,7 +1818,7 @@ namespace jc::parser {
                 );
             }
 
-            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(id, type, elBegin.to(cspan())));
+            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(name, type, elBegin.to(cspan())));
             elIndex++;
         }
         skip(
@@ -1918,17 +1918,17 @@ namespace jc::parser {
             const auto & typeParamBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick)) {
-                auto id = parseId("Expected lifetime identifier", false, false);
-                typeParams.push_back(std::make_shared<ast::Lifetime>(id, typeParamBegin.to(cspan())));
+                auto name = parseId("Expected lifetime identifier", false, false);
+                typeParams.push_back(std::make_shared<ast::Lifetime>(name, typeParamBegin.to(cspan())));
             } else if (is(TokenKind::Id)) {
-                auto id = justParseId("`parseTypeParams`");
+                auto name = justParseId("`parseTypeParams`");
                 ast::opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                typeParams.push_back(std::make_shared<ast::GenericType>(id, type, typeParamBegin.to(cspan())));
+                typeParams.push_back(std::make_shared<ast::GenericType>(name, type, typeParamBegin.to(cspan())));
             } else if (skipOpt(TokenKind::Const, true)) {
-                auto id = parseId("Expected `const` generic name", true, true);
+                auto name = parseId("Expected `const` generic name", true, true);
                 skip(
                     TokenKind::Colon,
                     true,
@@ -1945,7 +1945,7 @@ namespace jc::parser {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
                 typeParams.push_back(
-                    std::make_shared<ast::ConstParam>(id, type, defaultValue, typeParamBegin.to(cspan()))
+                    std::make_shared<ast::ConstParam>(name, type, defaultValue, typeParamBegin.to(cspan()))
                 );
             } else {
                 suggestErrorMsg("Expected type parameter", typeParamBegin);
@@ -1992,13 +1992,13 @@ namespace jc::parser {
             return dt::None;
         }
 
-        ast::id_t_list ids;
+        ast::id_t_list segments;
         while (!eof()) {
             const auto & segBegin = cspan();
-            auto id = parseId("Type expected", true, true);
+            auto name = parseId("Type expected", true, true);
             auto typeParams = parseTypeParams();
 
-            ids.push_back(std::make_shared<ast::IdType>(id, typeParams, segBegin.to(cspan())));
+            segments.push_back(std::make_shared<ast::IdType>(name, typeParams, segBegin.to(cspan())));
 
             if (skipOpt(TokenKind::Path)) {
                 if (eof()) {
@@ -2010,7 +2010,7 @@ namespace jc::parser {
             break;
         }
 
-        return std::make_shared<ast::TypePath>(global, ids, maybePathToken.span(sess).to(cspan()));
+        return std::make_shared<ast::TypePath>(global, segments, maybePathToken.span(sess).to(cspan()));
     }
 
     // Suggestions //
