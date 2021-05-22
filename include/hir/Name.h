@@ -8,19 +8,34 @@
 namespace jc::hir {
     struct Name;
     struct Rib;
-    using name_ptr = std::shared_ptr<Name>;
-    using name_map = std::map<std::string, name_ptr>;
     using rib_ptr = std::shared_ptr<Rib>;
     using rib_stack = std::stack<rib_ptr>;
+
+    template<class T>
+    using name_map = std::map<std::string, std::shared_ptr<T>>;
 
     struct Name {
         ast::node_id nodeId;
     };
 
+    struct Type : Name {
+        enum class Kind {
+            Generic,
+        } kind;
+    };
+
+    struct Item : Name {
+
+    };
+
+    struct Local : Name {
+
+    };
+
     struct Rib {
-        name_map types;
-        name_map items;
-        name_map locals;
+        name_map<Type> types;
+        name_map<Item> items;
+        name_map<Local> locals;
     };
 }
 
