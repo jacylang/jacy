@@ -50,6 +50,7 @@ namespace jc::resolve {
     struct Item : Name {
         enum class Kind {
             Func,
+            Trait,
         } kind;
 
         Item(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}

@@ -10,6 +10,7 @@ namespace jc::resolve {
         ~ItemResolver() override = default;
 
         void visit(ast::FuncDecl * funcDecl) override;
+        void visit(ast::Trait * trait) override;
 
         // Declarations //
     private:

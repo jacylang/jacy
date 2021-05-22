@@ -5,6 +5,10 @@ namespace jc::resolve {
         declareItem(funcDecl->name->getValue(), Item::Kind::Func, funcDecl->name->id);
     }
 
+    void ItemResolver::visit(ast::Trait * trait) {
+        declareItem(trait->name->getValue(), Item::Kind::Trait, trait->name->id);
+    }
+
     void ItemResolver::declareItem(const std::string & name, Item::Kind kind, ast::node_id nodeId) {
         const auto & found = rib->items.find(name);
         if (found == rib->items.end()) {
