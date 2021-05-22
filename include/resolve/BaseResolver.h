@@ -15,10 +15,12 @@ namespace jc::resolve {
     public:
         explicit BaseResolver(const std::string & name) : StubVisitor(name, ast::StubVisitorMode::Stub) {}
 
+        friend class NameResolver;
+
         sugg::sugg_list extractSuggestions();
 
         // Ribs //
-    private:
+    protected:
         rib_ptr rib;
         void acceptRib(rib_ptr newRib);
 

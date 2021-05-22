@@ -10,8 +10,6 @@ namespace jc::resolve {
         TypeResolver() : BaseResolver("TypeResolver") {}
         ~TypeResolver() override = default;
 
-        friend class NameResolver;
-
         void visit(ast::FuncDecl * funcDecl) override;
 
         void visit(ast::GenericType * genericType) override;

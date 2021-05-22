@@ -11,6 +11,8 @@ namespace jc::resolve {
 
         void visit(ast::FuncDecl * funcDecl) override;
 
+        // Declarations //
+    private:
         void declareItem(const std::string & name, item_ptr item);
     };
 }

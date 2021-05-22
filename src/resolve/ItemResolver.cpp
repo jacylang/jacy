@@ -6,6 +6,5 @@ namespace jc::resolve {
     }
 
     void ItemResolver::declareItem(const std::string & name, item_ptr item) {
-
     }
 }
