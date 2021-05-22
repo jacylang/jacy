@@ -5,6 +5,7 @@
       <w>arglist</w>
       <w>astprinter</w>
       <w>backtick</w>
+      <w>baseresolver</w>
       <w>basesuggester</w>
       <w>basevisitor</w>
       <w>boolliteral</w>

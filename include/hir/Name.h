@@ -15,6 +15,8 @@ namespace jc::hir {
     using name_map = std::map<std::string, std::shared_ptr<T>>;
 
     struct Name {
+        Name(ast::node_id nodeId) : nodeId(nodeId) {}
+
         ast::node_id nodeId;
     };
 
@@ -22,6 +24,8 @@ namespace jc::hir {
         enum class Kind {
             Generic,
         } kind;
+
+        Type(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
     };
 
     struct Item : Name {
@@ -36,10 +40,15 @@ namespace jc::hir {
         } kind;
     };
 
+    struct Lifetime : Name {
+        explicit Lifetime(ast::node_id nodeId) : Name(nodeId) {}
+    };
+
     struct Rib {
         name_map<Type> types;
         name_map<Item> items;
         name_map<Local> locals;
+        name_map<Lifetime> lifetimes;
     };
 }
 

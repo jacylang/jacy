@@ -3,16 +3,25 @@
 namespace jc::hir {
     void TypeResolver::visit(ast::FuncDecl * funcDecl) {
         resolve(funcDecl->typeParams);
+
+        for (const auto & param : )
     }
 
     // Type params //
     void TypeResolver::visit(ast::GenericType * genericType) {
-        declareType(genericType->name);
+        declareType(genericType->name->getValue(), std::make_shared<Type>(Type::Kind::Generic, genericType->id));
     }
 
     // Ribs //
     void TypeResolver::acceptRib(rib_ptr newRib) {
         rib = newRib;
+    }
+
+    void TypeResolver::declareType(const std::string & name, const std::shared_ptr<Type> & type) {
+        if (rib->types.find(name) == rib->types.end()) {
+            rib->types.emplace(name, type);
+        }
+
     }
 
     // Resolution //
