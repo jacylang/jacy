@@ -27,9 +27,9 @@ namespace jc::ast {
             return currentNodeId++;
         }
 
-        const Node & getNode(node_id nodeId) const {
-            return *nodes.at(nodeId);
-        }
+        const Node & getNode(node_id nodeId) const;
+
+        const Span & getNodeSpan(node_id nodeId) const;
 
     private:
         node_id currentNodeId{0};
