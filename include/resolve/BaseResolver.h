@@ -20,7 +20,7 @@ namespace jc::resolve {
 
         void setSession(sess::sess_ptr sess);
 
-        sugg::sugg_list extractSuggestions();
+        sugg::sugg_list && extractSuggestions();
 
         // Ribs //
     protected:

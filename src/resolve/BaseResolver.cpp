@@ -5,7 +5,7 @@ namespace jc::resolve {
         this->sess = sess;
     }
 
-    sugg::sugg_list BaseResolver::extractSuggestions() {
+    sugg::sugg_list && BaseResolver::extractSuggestions() {
         return std::move(suggestions);
     }
 
