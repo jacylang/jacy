@@ -10,6 +10,7 @@
 namespace jc::resolve {
     class TypeResolver;
     using common::Logger;
+    using utils::arr::moveConcat;
 
     class NameResolver : public ast::StubVisitor {
     public:

@@ -9,13 +9,10 @@ namespace jc::resolve {
             item->accept(*this);
         }
 
-        sugg::sugg_list suggestions;
-        auto typeSuggs = typeResolver.extractSuggestions();
-        auto itemSuggs = itemResolver.extractSuggestions();
-        suggestions.insert(suggestions.end(), std::make_move_iterator(typeSuggs.begin()), std::make_move_iterator(typeSuggs.end()));
-        suggestions.insert(suggestions.end(), std::make_move_iterator(itemSuggs.begin()), std::make_move_iterator(itemSuggs.end()));
-
-        return {ribs, std::move(suggestions)};
+        return {ribs, std::move(moveConcat(
+            typeResolver.extractSuggestions(),
+            itemResolver.extractSuggestions()
+        ))};
     }
 
     // Statements //
