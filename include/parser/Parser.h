@@ -180,7 +180,7 @@ namespace jc::parser {
         parser::token_list parseModifiers();
         ast::func_param_list parseFuncParamList();
         ast::func_param_ptr parseFuncParam();
-        ast::stmt_list parseMembers(const std::string & construction);
+        ast::item_list parseMembers(const std::string & construction);
 
         // Types //
         ast::type_ptr parseType(const std::string & suggMsg);

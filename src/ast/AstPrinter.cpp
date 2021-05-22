@@ -591,11 +591,11 @@ namespace jc::ast {
         print(idType->typeParams);
     }
 
-    void AstPrinter::printMembers(const stmt_list & members) {
+    void AstPrinter::printMembers(const item_list & members) {
         log.raw(" {");
         incIndent();
-        for (const auto & stmt : members) {
-            stmt->accept(*this);
+        for (const auto & item : members) {
+            item->accept(*this);
             log.nl();
         }
         log.raw("}");

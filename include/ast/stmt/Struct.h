@@ -1,7 +1,7 @@
 #ifndef JACY_AST_STMT_STRUCTDECL_H
 #define JACY_AST_STMT_STRUCTDECL_H
 
-#include "ast/stmt/Stmt.h"
+#include "ast/stmt/Item.h"
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {
@@ -9,7 +9,7 @@ namespace jc::ast {
         Struct(
             id_ptr id,
             opt_type_params typeParams,
-            stmt_list members,
+            item_list members,
             const Span & span
         ) : id(std::move(id)),
             typeParams(std::move(typeParams)),
@@ -18,7 +18,7 @@ namespace jc::ast {
 
         id_ptr id;
         opt_type_params typeParams;
-        stmt_list members;
+        item_list members;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

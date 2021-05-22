@@ -441,7 +441,7 @@ namespace jc::parser {
         auto id = parseId("Expected struct name", true, true);
         auto typeParams = parseTypeParams();
 
-        ast::stmt_list members = parseMembers("struct");
+        ast::item_list members = parseMembers("struct");
 
         return std::make_shared<ast::Struct>(id, typeParams, members, begin.to(cspan()));
     }
@@ -466,7 +466,7 @@ namespace jc::parser {
 
         auto forType = parseType("Missing type");
 
-        ast::stmt_list members = parseMembers("impl");
+        ast::item_list members = parseMembers("impl");
 
         return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, begin.to(cspan()));
     }
@@ -510,7 +510,7 @@ namespace jc::parser {
             }
         }
 
-        ast::stmt_list members = parseMembers("trait");
+        ast::item_list members = parseMembers("trait");
 
         return std::make_shared<ast::Trait>(id, typeParams, superTraits, members, begin.to(cspan()));
     }
@@ -1678,10 +1678,10 @@ namespace jc::parser {
         return std::make_shared<ast::FuncParam>(id, type, defaultValue, begin.to(cspan()));
     }
 
-    ast::stmt_list Parser::parseMembers(const std::string & construction) {
+    ast::item_list Parser::parseMembers(const std::string & construction) {
         logParse("Members:" + construction);
 
-        ast::stmt_list members;
+        ast::item_list members;
         if (!isHardSemi()) {
             auto braceSkipped = skip(
                 TokenKind::LBrace,
