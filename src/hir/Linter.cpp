@@ -509,6 +509,7 @@ namespace jc::hir {
         }
     }
 
+    // Linters //
     void Linter::lint(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
             if (el->id) {

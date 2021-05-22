@@ -38,6 +38,7 @@
       <w>lambdaexpr</w>
       <w>langle</w>
       <w>linter</w>
+      <w>linters</w>
       <w>listexpr</w>
       <w>literalconstant</w>
       <w>loopexpr</w>
@@ -66,6 +67,7 @@
       <w>stmts</w>
       <w>stringutils</w>
       <w>structdecl</w>
+      <w>stubvisitor</w>
       <w>sugg</w>
       <w>suggdumper</w>
       <w>suggresult</w>
