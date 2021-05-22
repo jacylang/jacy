@@ -216,19 +216,21 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Subscript * subscript) {
         subscript->lhs->accept(*this);
+
+        for (const auto & index : subscript->indices) {
+            index->accept(*this);
+        }
     }
 
-    void NameResolver::visit(ast::ThisExpr * thisExpr) {
-        StubVisitor::visit(thisExpr);
-    }
+    void NameResolver::visit(ast::ThisExpr * thisExpr) {}
 
     void NameResolver::visit(ast::TupleExpr * tupleExpr) {
-        StubVisitor::visit(tupleExpr);
+        visitNamedList(tupleExpr->elements);
     }
 
     // Types //
     void NameResolver::visit(ast::UnitExpr * unitExpr) {
-        StubVisitor::visit(unitExpr);
+
     }
 
     void NameResolver::visit(ast::WhenExpr * whenExpr) {
