@@ -30,7 +30,7 @@ namespace jc::sugg {
         printSpan(sugg->span);
         Logger::print(", linked to ");
         printMsg(sugg->linkMsg);
-        printSpan(sugg->span);
+        printSpan(sugg->link);
         postfix(sugg);
     }
 
