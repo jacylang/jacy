@@ -25,7 +25,7 @@ namespace jc::resolve {
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
         funcDecl->accept(*itemResolver);
 
-        enterRib(); // Enter type rib
+        enterRib(); // -> (func params)
         funcDecl->accept(*typeResolver);
 
         if (funcDecl->oneLineBody) {
@@ -34,7 +34,7 @@ namespace jc::resolve {
             visit(funcDecl->body.unwrap().get());
         }
 
-        exitRib();
+        exitRib(); // <- (func params)
     }
 
     void NameResolver::visit(ast::Impl * impl) {
@@ -156,10 +156,22 @@ namespace jc::resolve {
 
         for (const auto & param : lambdaExpr->params) {
             param->name->accept(*this);
-            param.
+            if (param->type) {
+                param->type.unwrap()->accept(*this);
+            }
         }
 
+        if (lambdaExpr->returnType) {
+            lambdaExpr->returnType.unwrap()->accept(*this);
+        }
+
+        lambdaExpr->body->accept(*this);
+
         exitRib(); // <- (lambda params)
+    }
+
+    void NameResolver::visit(ast::ListExpr * listExpr) {
+
     }
 
     // Extended visitors //

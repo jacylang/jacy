@@ -74,6 +74,7 @@ namespace jc::resolve {
         explicit Lifetime(ast::node_id nodeId) : Name(nodeId) {}
     };
 
+    // FIXME: Add rib kinds
     struct Rib {
         name_map<Type> types;
         name_map<Item> items;
