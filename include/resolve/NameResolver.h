@@ -92,3 +92,15 @@ namespace jc::resolve {
 }
 
 #endif // JACY_RESOLVE_NAMERESOLVER_H
+
+
+/**
+
+    func<T, `a> foo(param: &`a T) {
+
+    }
+
+    global rib -> foo
+    type rib -> T
+    lifetime rib -> `a
+
