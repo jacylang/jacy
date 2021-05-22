@@ -1972,12 +1972,13 @@ namespace jc::parser {
     ast::type_path_ptr Parser::parseTypePath(const std::string & suggMsg) {
         logParse("TypePath");
 
+        auto begin = cspan();
         auto pathType = parseOptTypePath();
         if (!pathType) {
             suggestErrorMsg(suggMsg, cspan());
         }
         // FIXME: Replace `getValueUnsafe` with unwrap + error node
-        return pathType.getValueUnsafe();
+        return std::make_shared<ast::ErrorTypePath>(begin.to(cspan()));
     }
 
     ast::opt_type_path_ptr Parser::parseOptTypePath() {

@@ -31,6 +31,7 @@ namespace jc::ast {
         Unit,
 
         Error,
+        ErrorTypePath,
     };
 
     struct Type : Node {
@@ -119,11 +120,13 @@ namespace jc::ast {
     };
 
     struct TypePath : Type {
+        explicit TypePath(const Span & span) : Type(span, TypeKind::ErrorTypePath) {}
+
         TypePath(bool global, id_t_list segments, const Span & span)
             : global(global), segments(std::move(segments)), Type(span, TypeKind::Path) {}
 
-        bool global;
-        id_t_list segments;
+        bool global{};
+        id_t_list segments{};
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
@@ -140,6 +143,14 @@ namespace jc::ast {
 
     struct ErrorType : Type {
         explicit ErrorType(const Span & span) : Type(span, TypeKind::Error) {}
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(this);
+        }
+    };
+
+    struct ErrorTypePath : TypePath {
+        explicit ErrorTypePath(const Span & span) : TypePath(span) {}
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
