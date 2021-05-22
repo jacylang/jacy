@@ -1,5 +1,5 @@
-#ifndef JACY_HIR_LINTER_H
-#define JACY_HIR_LINTER_H
+#ifndef JACY_AST_LINTER_H
+#define JACY_AST_LINTER_H
 
 #include "common/Logger.h"
 #include "ast/StubVisitor.h"
@@ -109,4 +109,4 @@ namespace jc::hir {
     };
 }
 
-#endif //JACY_HIR_LINTER_H
+#endif //JACY_AST_LINTER_H
