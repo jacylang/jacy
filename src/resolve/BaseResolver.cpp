@@ -15,16 +15,16 @@ namespace jc::resolve {
         suggestions.emplace_back(std::move(suggestion));
     }
 
-    void BaseResolver::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, kind, eid));
+    void BaseResolver::suggest(const std::string & msg, ast::node_id nodeId, SuggKind kind, eid_t eid) {
+        suggest(std::make_unique<sugg::MsgSugg>(msg, ast::Node::nodeMap.getNodeSpan(nodeId), kind, eid));
     }
 
-    void BaseResolver::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
-        suggest(msg, span, SuggKind::Error, eid);
+    void BaseResolver::suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid) {
+        suggest(msg, nodeId, SuggKind::Error, eid);
     }
 
-    void BaseResolver::suggestWarnMsg(const std::string & msg, const Span & span, eid_t eid) {
-        suggest(msg, span, SuggKind::Warn, eid);
+    void BaseResolver::suggestWarnMsg(const std::string & msg, ast::node_id nodeId, eid_t eid) {
+        suggest(msg, nodeId, SuggKind::Warn, eid);
     }
 
     void BaseResolver::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {

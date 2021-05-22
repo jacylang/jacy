@@ -35,7 +35,8 @@ namespace jc::resolve {
         if (found == rib->types.end()) {
             rib->types.emplace(name, type);
         }
-        suggestErrorMsg("Cannot redeclare type '" + name +
-            "', because it is already declared as " + found->second->kindToString(), );
+        suggestErrorMsg("Cannot redeclare type '" + name + "', because it is already declared as " + found->second->kindToString(),
+            ast::Node::nodeMap.getNodeSpan(found->second->nodeId)
+        );
     }
 }
