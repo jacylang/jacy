@@ -21,9 +21,6 @@ namespace jc::resolve {
         // Declarations //
     private:
         void declareType(const std::string & name, type_ptr type);
-
-        // Resolution //
-    private:
     };
 }
 

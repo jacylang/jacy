@@ -25,7 +25,7 @@ namespace jc::resolve {
         void acceptRib(rib_ptr newRib);
 
         // Suggestions //
-    private:
+    protected:
         sess::sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);

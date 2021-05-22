@@ -6,5 +6,9 @@ namespace jc::resolve {
     }
 
     void ItemResolver::declareItem(const std::string & name, item_ptr item) {
+        if (rib->items.find(name) == rib->items.end()) {
+            rib->items.emplace(name, item);
+        }
+
     }
 }

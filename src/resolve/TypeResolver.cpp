@@ -34,9 +34,5 @@ namespace jc::resolve {
         if (rib->types.find(name) == rib->types.end()) {
             rib->types.emplace(name, type);
         }
-
     }
-
-    // Resolution //
-
 }
