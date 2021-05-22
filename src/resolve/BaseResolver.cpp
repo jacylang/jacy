@@ -30,4 +30,16 @@ namespace jc::resolve {
     void BaseResolver::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
         suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
     }
+
+    void BaseResolver::suggestCannotRedeclare(
+        const std::string & name,
+        const std::string & as,
+        const std::string & declaredAs,
+        ast::node_id nodeId
+    ) {
+        suggestErrorMsg(
+            Logger::format("Cannot redeclare '" + name + "' as", as + ", because it is already declared as", declaredAs, "here"),
+            nodeId
+        );
+    }
 }

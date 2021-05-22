@@ -10,6 +10,7 @@ namespace jc::resolve {
     using span::Span;
     using sugg::SuggKind;
     using sugg::eid_t;
+    using common::Logger;
 
     class BaseResolver : public ast::StubVisitor {
     public:
@@ -33,6 +34,12 @@ namespace jc::resolve {
         void suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
         void suggestWarnMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
         void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
+        void suggestCannotRedeclare(
+            const std::string & name,
+            const std::string & as,
+            const std::string & declaredAs,
+            ast::node_id nodeId
+        );
     };
 }
 

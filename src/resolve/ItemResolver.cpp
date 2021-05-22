@@ -6,9 +6,10 @@ namespace jc::resolve {
     }
 
     void ItemResolver::declareItem(const std::string & name, item_ptr item) {
-        if (rib->items.find(name) == rib->items.end()) {
+        const auto & found = rib->items.find(name);
+        if (found == rib->items.end()) {
             rib->items.emplace(name, item);
         }
-
+        suggestCannotRedeclare(name, item->kindToString(), found->second->kindToString(), found->second->nodeId);
     }
 }
