@@ -2,8 +2,8 @@
 
 namespace jc::resolve {
     dt::SuggResult<rib_stack> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
-        typeResolver->setSession(sess);
-        itemResolver->setSession(sess);
+        typeResolver = std::make_unique<TypeResolver>(sess);
+        itemResolver = std::make_unique<ItemResolver>(sess);
 
         enterRib();
 

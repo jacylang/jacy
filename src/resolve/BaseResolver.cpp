@@ -1,10 +1,6 @@
 #include "resolve/BaseResolver.h"
 
 namespace jc::resolve {
-    void BaseResolver::setSession(sess::sess_ptr sess) {
-        this->sess = sess;
-    }
-
     sugg::sugg_list BaseResolver::extractSuggestions() {
         return std::move(suggestions);
     }
