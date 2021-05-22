@@ -4,7 +4,7 @@
 #include "resolve/BaseResolver.h"
 #include "resolve/Name.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     class TypeResolver : public BaseResolver {
     public:
         TypeResolver() : BaseResolver("TypeResolver") {}

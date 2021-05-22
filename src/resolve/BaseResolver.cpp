@@ -1,6 +1,6 @@
 #include "resolve/BaseResolver.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     sugg::sugg_list BaseResolver::extractSuggestions() {
         return std::move(suggestions);
     }

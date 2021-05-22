@@ -1,7 +1,7 @@
 #include "resolve/NameResolver.h"
 #include "resolve/TypeResolver.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     // Statements //
     void NameResolver::visit(ast::ExprStmt * exprStmt) {
         exprStmt->expr->accept(*this);

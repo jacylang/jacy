@@ -5,7 +5,7 @@
 #include "resolve/Name.h"
 #include "TypeResolver.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     class TypeResolver;
     using common::Logger;
 

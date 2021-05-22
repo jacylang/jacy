@@ -5,7 +5,7 @@
 
 #include "ast/Node.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;

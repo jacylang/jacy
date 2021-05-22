@@ -1,6 +1,6 @@
 #include "ast/Linter.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::item_list & tree) {
         log.dev("Lint...");
 

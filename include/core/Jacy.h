@@ -38,7 +38,7 @@ namespace jc::core {
         ast::AstPrinter astPrinter;
         sugg::SuggDumper suggDumper;
         sugg::Suggester suggester;
-        hir::Linter linter;
+        resolve::Linter linter;
     };
 }
 

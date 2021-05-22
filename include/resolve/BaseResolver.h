@@ -5,7 +5,7 @@
 #include "suggest/BaseSugg.h"
 #include "span/Span.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     using span::Span;
     using sugg::SuggKind;
     using sugg::eid_t;

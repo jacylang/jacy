@@ -1,6 +1,6 @@
 #include "resolve/TypeResolver.h"
 
-namespace jc::hir {
+namespace jc::resolve {
     void TypeResolver::visit(ast::FuncDecl * funcDecl) {
         resolve(funcDecl->typeParams);
     }
