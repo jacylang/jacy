@@ -171,7 +171,29 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::ListExpr * listExpr) {
+        for (const auto & el : listExpr->elements) {
+            el->accept(*this);
+        }
+    }
 
+    void NameResolver::visit(ast::LiteralConstant * literalConstant) {}
+
+    void NameResolver::visit(ast::LoopExpr * loopExpr) {
+        visit(loopExpr->body.get());
+    }
+
+    void NameResolver::visit(ast::MemberAccess * memberAccess) {
+        memberAccess->lhs->accept(*this);
+
+        // TODO!!!: Resolve field
+    }
+
+    void NameResolver::visit(ast::ParenExpr * parenExpr) {
+        parenExpr->expr->accept(*this);
+    }
+
+    void NameResolver::visit(ast::PathExpr * pathExpr) {
+        // TODO!!!
     }
 
     // Extended visitors //
@@ -215,5 +237,73 @@ namespace jc::resolve {
     void NameResolver::enterSpecificRib(const rib_ptr & rib) {
         typeResolver->acceptRib(rib);
         itemResolver->acceptRib(rib);
+    }
+
+    void NameResolver::visit(ast::Prefix * prefix) {
+        StubVisitor::visit(prefix);
+    }
+
+    void NameResolver::visit(ast::QuestExpr * questExpr) {
+        StubVisitor::visit(questExpr);
+    }
+
+    void NameResolver::visit(ast::ReturnExpr * returnExpr) {
+        StubVisitor::visit(returnExpr);
+    }
+
+    void NameResolver::visit(ast::SpreadExpr * spreadExpr) {
+        StubVisitor::visit(spreadExpr);
+    }
+
+    void NameResolver::visit(ast::Subscript * subscript) {
+        StubVisitor::visit(subscript);
+    }
+
+    void NameResolver::visit(ast::SuperExpr * superExpr) {
+        StubVisitor::visit(superExpr);
+    }
+
+    void NameResolver::visit(ast::ThisExpr * thisExpr) {
+        StubVisitor::visit(thisExpr);
+    }
+
+    void NameResolver::visit(ast::TupleExpr * tupleExpr) {
+        StubVisitor::visit(tupleExpr);
+    }
+
+    void NameResolver::visit(ast::UnitExpr * unitExpr) {
+        StubVisitor::visit(unitExpr);
+    }
+
+    void NameResolver::visit(ast::WhenExpr * whenExpr) {
+        StubVisitor::visit(whenExpr);
+    }
+
+    void NameResolver::visit(ast::ParenType * parenType) {
+        StubVisitor::visit(parenType);
+    }
+
+    void NameResolver::visit(ast::TupleType * tupleType) {
+        StubVisitor::visit(tupleType);
+    }
+
+    void NameResolver::visit(ast::FuncType * funcType) {
+        StubVisitor::visit(funcType);
+    }
+
+    void NameResolver::visit(ast::SliceType * listType) {
+        StubVisitor::visit(listType);
+    }
+
+    void NameResolver::visit(ast::ArrayType * arrayType) {
+        StubVisitor::visit(arrayType);
+    }
+
+    void NameResolver::visit(ast::TypePath * typePath) {
+        StubVisitor::visit(typePath);
+    }
+
+    void NameResolver::visit(ast::UnitType * unitType) {
+        StubVisitor::visit(unitType);
     }
 }
