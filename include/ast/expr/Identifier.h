@@ -20,6 +20,10 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
         }
+
+        std::string getValue() const {
+            return token->val;
+        }
     };
 }
 

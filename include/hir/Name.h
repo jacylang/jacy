@@ -25,11 +25,15 @@ namespace jc::hir {
     };
 
     struct Item : Name {
+        enum class Kind {
 
+        } kind;
     };
 
     struct Local : Name {
+        enum class Kind {
 
+        } kind;
     };
 
     struct Rib {

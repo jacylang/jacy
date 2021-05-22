@@ -14,11 +14,13 @@ namespace jc::hir {
 
         void visit(ast::FuncDecl * funcDecl) override;
 
+        void visit(ast::GenericType * genericType) override;
+
         // Ribs //
     private:
         rib_ptr rib;
         void acceptRib(rib_ptr newRib);
-        void declareType(const std::string & name, name_ptr name);
+        void declareType(const std::string & name, std::shared_ptr<Type> type);
 
         // Resolution //
     private:

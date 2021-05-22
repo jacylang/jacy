@@ -5,6 +5,11 @@ namespace jc::hir {
         resolve(funcDecl->typeParams);
     }
 
+    // Type params //
+    void TypeResolver::visit(ast::GenericType * genericType) {
+        declareType(genericType->name);
+    }
+
     // Ribs //
     void TypeResolver::acceptRib(rib_ptr newRib) {
         rib = newRib;
@@ -18,7 +23,7 @@ namespace jc::hir {
 
         auto typeParams = maybeTypeParams.unwrap();
         for (const auto & typeParam : typeParams) {
-            declareType(typeParam, )
+            typeParam->accept(*this);
         }
     }
 }
