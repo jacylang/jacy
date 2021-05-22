@@ -2,7 +2,7 @@
 
 namespace jc::resolve {
     void ItemResolver::visit(ast::FuncDecl * funcDecl) {
-        declareItem(funcDecl->name->getValue(), std::make_shared<Item>(Item::Kind::Func, funcDecl->name->id));
+        declareItem(funcDecl->name->getValue(), Item::Kind::Func, funcDecl->name->id);
     }
 
     void ItemResolver::declareItem(const std::string & name, Item::Kind kind, ast::node_id nodeId) {
