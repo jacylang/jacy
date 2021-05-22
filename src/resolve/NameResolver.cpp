@@ -247,31 +247,42 @@ namespace jc::resolve {
 
     // Types //
     void NameResolver::visit(ast::ParenType * parenType) {
-        StubVisitor::visit(parenType);
+        parenType->type->accept(*this);
     }
 
     void NameResolver::visit(ast::TupleType * tupleType) {
-        StubVisitor::visit(tupleType);
+        for (const auto & el : tupleType->elements) {
+            if (el->name) {
+                el->name.unwrap()->accept(*this);
+            }
+            if (el->type) {
+                el->type.unwrap()->accept(*this);
+            }
+        }
     }
 
     void NameResolver::visit(ast::FuncType * funcType) {
-        StubVisitor::visit(funcType);
+        for (const auto & param : funcType->params) {
+            param->accept(*this);
+        }
+        funcType->returnType->accept(*this);
     }
 
     void NameResolver::visit(ast::SliceType * listType) {
-        StubVisitor::visit(listType);
+        listType->type->accept(*this);
     }
 
     void NameResolver::visit(ast::ArrayType * arrayType) {
-        StubVisitor::visit(arrayType);
+        arrayType->type->accept(*this);
+        arrayType->sizeExpr->accept(*this);
     }
 
     void NameResolver::visit(ast::TypePath * typePath) {
-        StubVisitor::visit(typePath);
+        // TODO: !!!
     }
 
     void NameResolver::visit(ast::UnitType * unitType) {
-        StubVisitor::visit(unitType);
+        // TODO: MEOW?
     }
 
     // Extended visitors //
