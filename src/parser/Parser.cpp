@@ -1084,12 +1084,13 @@ namespace jc::parser {
     ast::id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
         logParse("Identifier");
 
-        const auto & begin = cspan();
+        // Note: We don't make `span.to(span)`, because then we could capture white-spaces
+        const auto & span = cspan();
         auto maybeIdToken = recoverOnce(TokenKind::Id, suggMsg, skipLeftNLs, skipRightNls);
         if (maybeIdToken) {
-            return std::make_shared<ast::Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), begin.to(cspan()));
+            return std::make_shared<ast::Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
         }
-        return std::make_shared<ast::Identifier>(maybeIdToken, begin.to(cspan()));
+        return std::make_shared<ast::Identifier>(maybeIdToken, span);
     }
 
     ast::expr_ptr Parser::parsePathExpr() {
