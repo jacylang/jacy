@@ -1,8 +1,6 @@
 #include "hir/Linter.h"
 
 namespace jc::hir {
-    Linter::Linter() = default;
-
     dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::item_list & tree) {
         log.dev("Lint...");
 

@@ -2,7 +2,7 @@
 #define JACY_HIR_LINTER_H
 
 #include "common/Logger.h"
-#include "ast/BaseVisitor.h"
+#include "ast/StubVisitor.h"
 #include "ast/nodes.h"
 #include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
@@ -20,9 +20,9 @@ namespace jc::hir {
         Struct,
     };
 
-    class Linter : public ast::BaseVisitor {
+    class Linter : public ast::StubVisitor {
     public:
-        Linter();
+        Linter() : StubVisitor("Linter", ast::StubVisitorMode::NotImplemented) {}
 
         dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
 
