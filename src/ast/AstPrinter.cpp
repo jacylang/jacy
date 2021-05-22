@@ -397,10 +397,6 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::visit(SuperExpr * superExpr) {
-        log.raw("super");
-    }
-
     void AstPrinter::visit(ThisExpr * thisExpr) {
         log.raw("this");
     }

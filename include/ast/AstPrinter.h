@@ -56,7 +56,6 @@ namespace jc::ast {
         void visit(ReturnExpr * returnExpr) override;
         void visit(SpreadExpr * spreadExpr) override;
         void visit(Subscript * subscript) override;
-        void visit(SuperExpr * superExpr) override;
         void visit(ThisExpr * thisExpr) override;
         void visit(TupleExpr * tupleExpr) override;
         void visit(UnitExpr * unitExpr) override;

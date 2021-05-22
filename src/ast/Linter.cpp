@@ -394,10 +394,6 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::SuperExpr * superExpr) {
-        // A??
-    }
-
     void Linter::visit(ast::ThisExpr * thisExpr) {
         // A??
     }

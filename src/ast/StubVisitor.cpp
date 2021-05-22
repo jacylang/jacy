@@ -151,10 +151,6 @@ namespace jc::ast {
         visit("subscript");
     }
 
-    void StubVisitor::visit(ast::SuperExpr * superExpr) {
-        visit("superExpr");
-    }
-
     void StubVisitor::visit(ast::ThisExpr * thisExpr) {
         visit("thisExpr");
     }
