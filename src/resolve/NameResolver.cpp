@@ -1,6 +1,12 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
+    void NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
+        for (const auto & item : tree) {
+            item->accept(*this);
+        }
+    }
+
     // Statements //
     void NameResolver::visit(ast::ExprStmt * exprStmt) {
         exprStmt->expr->accept(*this);

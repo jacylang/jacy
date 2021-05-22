@@ -106,5 +106,7 @@ namespace jc::core {
         if (cli.config.has("compile-depth", "linter")) {
             log.info("Stop after linting due to `compile-depth=linter`");
         }
+
+        nameResolver.resolve(sess, tree)
     }
 }

@@ -18,6 +18,8 @@ namespace jc::resolve {
 
         friend class NameResolver;
 
+        void setSession(sess::sess_ptr sess);
+
         sugg::sugg_list extractSuggestions();
 
         // Ribs //
