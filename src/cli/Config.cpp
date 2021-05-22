@@ -13,8 +13,8 @@ namespace jc::cli {
     };
 
     const std::map<std::string, key_value_arg> Config::allowedKeyValueArgs = {
-        {"print", {-1, {"ast", "tokens", "sugg", "source"}}},
-        {"compile-depth", {1, {"lexer", "parser", "linter"}}},
+        {"print", {-1, {"ast", "tokens", "sugg", "source", "names"}}},
+        {"compile-depth", {1, {"lexer", "parser", "linter", "name-resolution"}}},
     };
 
     const str_vec Config::anyParamKeyValueArgs = {};

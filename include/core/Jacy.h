@@ -17,6 +17,7 @@
 #include "suggest/SuggDumper.h"
 #include "suggest/Suggester.h"
 #include "ast/Linter.h"
+#include "resolve/NameResolver.h"
 
 namespace jc::core {
     class Jacy {
@@ -37,6 +38,7 @@ namespace jc::core {
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Linter linter;
+        resolve::NameResolver nameResolver;
     };
 }
 
