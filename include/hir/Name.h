@@ -13,6 +13,10 @@ namespace jc::hir {
     using rib_ptr = std::unique_ptr<Rib>;
     using rib_stack = std::stack<rib_ptr>;
 
+    struct Name {
+        ast::node_id nodeId;
+    };
+
     struct Rib {
         name_map types;
         name_map items;

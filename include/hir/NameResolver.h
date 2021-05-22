@@ -10,7 +10,7 @@ namespace jc::hir {
     class NameResolver : public ast::StubVisitor {
     public:
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::ImplementPromise) {}
-        ~NameResolver() = default;
+        ~NameResolver() override = default;
 
         // Statements //
 //        void visit(ast::EnumDecl * enumDecl) override;
@@ -66,7 +66,7 @@ namespace jc::hir {
         // Ribs //
     private:
         rib_stack ribs;
-        size_t ribIndex;
+        size_t ribIndex{0};
         void enterRib();
         void exitRib();
 
