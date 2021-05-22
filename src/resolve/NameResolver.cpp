@@ -9,10 +9,10 @@ namespace jc::resolve {
             item->accept(*this);
         }
 
-        return {ribs, std::move(moveConcat(
+        return {ribs, moveConcat(
             typeResolver.extractSuggestions(),
             itemResolver.extractSuggestions()
-        ))};
+        )};
     }
 
     // Statements //
