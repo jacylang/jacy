@@ -8,12 +8,13 @@ namespace jc::ast {
 
     enum class StubVisitorMode {
         NotImplemented,
+        ImplementPromise,
         Stub,
     };
 
     class StubVisitor : public BaseVisitor {
     public:
-        StubVisitor() = default;
+        StubVisitor(const std::string & owner, StubVisitorMode mode) : owner(owner), mode(mode) {}
         virtual ~StubVisitor() = default;
 
         virtual void visit(ast::ErrorStmt * errorStmt) override;

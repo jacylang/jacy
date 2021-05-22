@@ -9,7 +9,7 @@ namespace jc::hir {
 
     class NameResolver : public ast::StubVisitor {
     public:
-        NameResolver() = default;
+        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::NotImplemented) {}
         ~NameResolver() = default;
 
         // Statements //

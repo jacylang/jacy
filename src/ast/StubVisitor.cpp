@@ -213,5 +213,8 @@ namespace jc::ast {
         if (mode == StubVisitorMode::NotImplemented) {
             Logger::devPanic(owner + " visit:" + construction + " not implemented");
         }
+        if (mode == StubVisitorMode::ImplementPromise) {
+            Logger::devDebug(owner + " visit:" + construction + " is not still implemented");
+        }
     }
 }
