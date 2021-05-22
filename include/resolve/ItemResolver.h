@@ -9,6 +9,8 @@ namespace jc::resolve {
         ItemResolver() : BaseResolver("ItemResolver") {}
         ~ItemResolver() override = default;
 
+        using BaseResolver::visit;
+
         void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::Trait * trait) override;
 

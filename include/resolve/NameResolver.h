@@ -14,7 +14,7 @@ namespace jc::resolve {
 
     class NameResolver : public ast::StubVisitor {
     public:
-        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::ImplementPromise) {}
+        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::NotImplemented) {}
         ~NameResolver() override = default;
 
         dt::SuggResult<rib_stack> resolve(sess::sess_ptr sess, const ast::item_list & tree);
@@ -24,7 +24,7 @@ namespace jc::resolve {
         void visit(ast::ExprStmt * exprStmt) override;
 //        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::FuncDecl * funcDecl) override;
-//        void visit(ast::Impl * impl) override;
+        void visit(ast::Impl * impl) override;
         void visit(ast::Item * item) override;
 //        void visit(ast::Struct * _struct) override;
 //        void visit(ast::Trait * trait) override;
@@ -79,8 +79,8 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        TypeResolver typeResolver;
-        ItemResolver itemResolver;
+        std::unique_ptr<TypeResolver> typeResolver;
+        std::unique_ptr<ItemResolver> itemResolver;
     };
 }
 

@@ -2,8 +2,8 @@
 
 namespace jc::resolve {
     dt::SuggResult<rib_stack> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
-        typeResolver.setSession(sess);
-        itemResolver.setSession(sess);
+        typeResolver->setSession(sess);
+        itemResolver->setSession(sess);
 
         enterRib();
 
@@ -12,8 +12,8 @@ namespace jc::resolve {
         }
 
         return {ribs, moveConcat(
-            typeResolver.extractSuggestions(),
-            itemResolver.extractSuggestions()
+            typeResolver->extractSuggestions(),
+            itemResolver->extractSuggestions()
         )};
     }
 
@@ -23,10 +23,10 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
-        itemResolver.visit(funcDecl);
+        itemResolver->visit(funcDecl);
 
         enterRib(); // Enter type rib
-        typeResolver.visit(funcDecl);
+        typeResolver->visit(funcDecl);
 
         if (funcDecl->oneLineBody) {
             funcDecl->oneLineBody.unwrap()->accept(*this);
@@ -35,6 +35,10 @@ namespace jc::resolve {
         }
 
         exitRib();
+    }
+
+    void NameResolver::visit(ast::Impl * impl) {
+        itemResolver->visit(impl);
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -56,8 +60,8 @@ namespace jc::resolve {
         ribs.push(newRib);
         ribIndex = ribs.size() - 1;
 
-        typeResolver.acceptRib(newRib);
-        itemResolver.acceptRib(newRib);
+        typeResolver->acceptRib(newRib);
+        itemResolver->acceptRib(newRib);
     }
 
     void NameResolver::exitRib() {
