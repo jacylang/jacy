@@ -15,7 +15,7 @@ namespace jc::resolve {
 
     class NameResolver : public ast::StubVisitor {
     public:
-        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::NotImplemented) {}
+        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::Panic) {}
         ~NameResolver() override = default;
 
         dt::SuggResult<rib_ptr> resolve(sess::sess_ptr sess, const ast::item_list & tree);

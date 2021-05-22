@@ -7,9 +7,10 @@ namespace jc::ast {
     using common::Logger;
 
     enum class StubVisitorMode {
-        NotImplemented, // For dev: Panics if something not implemented
-        ImplementPromise, // For dev: Logs message, but does not panic
-        Stub, // Implementation of any visitor is optional
+        NotImplemented,         // DEV ONLY: Panics if something not implemented
+        ImplementPromise,       // DEV ONLY: Logs message, but does not panic
+        Panic,                  // Non-implemented visitors must never be called
+        Stub,                   // Implementation of any visitor is optional
     };
 
     class StubVisitor : public BaseVisitor {
