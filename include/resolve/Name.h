@@ -35,6 +35,12 @@ namespace jc::resolve {
         } kind;
 
         Type(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
+
+        std::string kindToString() const {
+            switch (kind) {
+                case Kind::Generic: return "generic type";
+            }
+        }
     };
 
     struct Item : Name {
@@ -43,12 +49,16 @@ namespace jc::resolve {
         } kind;
 
         Item(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
+
+        std::string kindToString() const {
+            switch (kind) {
+                case Kind::Func: return "function";
+            }
+        }
     };
 
     struct Local : Name {
-        enum class Kind {
 
-        } kind;
     };
 
     struct Lifetime : Name {

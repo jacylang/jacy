@@ -31,8 +31,11 @@ namespace jc::resolve {
     }
 
     void TypeResolver::declareType(const std::string & name, type_ptr type) {
-        if (rib->types.find(name) == rib->types.end()) {
+        const auto & found = rib->types.find(name);
+        if (found == rib->types.end()) {
             rib->types.emplace(name, type);
         }
+        suggestErrorMsg("Cannot redeclare type '" + name +
+            "', because it is already declared as " + found->second->kindToString(), );
     }
 }
