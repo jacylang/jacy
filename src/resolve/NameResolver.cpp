@@ -9,6 +9,11 @@ namespace jc::resolve {
             item->accept(*this);
         }
 
+        sugg::sugg_list suggestions = concat(std::vector<sugg::sugg_list>{
+            typeResolver.extractSuggestions(),
+            itemResolver.extractSuggestions()
+        });
+
         return {ribs, std::move(suggestions)};
     }
 
