@@ -6,7 +6,7 @@
 namespace jc::resolve {
     class ItemResolver : public BaseResolver {
     public:
-        ItemResolver(sess::sess_ptr sess) : BaseResolver("ItemResolver", sess) {}
+        explicit ItemResolver(sess::sess_ptr sess) : BaseResolver("ItemResolver", sess) {}
         ~ItemResolver() override = default;
 
         void visit(ast::FuncDecl * funcDecl) override;

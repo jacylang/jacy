@@ -7,7 +7,7 @@
 namespace jc::resolve {
     class TypeResolver : public BaseResolver {
     public:
-        TypeResolver(sess::sess_ptr sess) : BaseResolver("TypeResolver", sess) {}
+        explicit TypeResolver(sess::sess_ptr sess) : BaseResolver("TypeResolver", sess) {}
         ~TypeResolver() override = default;
 
         void visit(ast::FuncDecl * funcDecl) override;

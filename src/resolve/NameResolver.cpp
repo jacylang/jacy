@@ -23,10 +23,10 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
-        itemResolver->visit(funcDecl);
+        funcDecl->accept(*itemResolver);
 
         enterRib(); // Enter type rib
-        typeResolver->visit(funcDecl);
+        funcDecl->accept(*typeResolver);
 
         if (funcDecl->oneLineBody) {
             funcDecl->oneLineBody.unwrap()->accept(*this);
@@ -38,7 +38,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Impl * impl) {
-        itemResolver->visit(impl);
+        impl->accept(*itemResolver);
     }
 
     void NameResolver::visit(ast::Item * item) {
