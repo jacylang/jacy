@@ -3,8 +3,10 @@
 
 #include "ast/StubVisitor.h"
 #include "hir/Name.h"
+#include "TypeResolver.h"
 
 namespace jc::hir {
+    class TypeResolver;
     using common::Logger;
 
     class NameResolver : public ast::StubVisitor {
@@ -16,7 +18,7 @@ namespace jc::hir {
 //        void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
 //        void visit(ast::ForStmt * forStmt) override;
-//        void visit(ast::FuncDecl * funcDecl) override;
+        void visit(ast::FuncDecl * funcDecl) override;
 //        void visit(ast::Impl * impl) override;
         void visit(ast::Item * item) override;
 //        void visit(ast::Struct * _struct) override;
@@ -72,6 +74,7 @@ namespace jc::hir {
 
         // Resolution //
     private:
+        TypeResolver typeResolver;
     };
 }
 

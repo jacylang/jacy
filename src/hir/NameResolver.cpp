@@ -1,9 +1,14 @@
 #include "hir/NameResolver.h"
+#include "hir/TypeResolver.h"
 
 namespace jc::hir {
     // Statements //
     void NameResolver::visit(ast::ExprStmt * exprStmt) {
         exprStmt->expr->accept(*this);
+    }
+
+    void NameResolver::visit(ast::FuncDecl * funcDecl) {
+
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -21,8 +26,11 @@ namespace jc::hir {
 
     // Ribs //
     void NameResolver::enterRib() {
-        ribs.push(std::make_unique<Rib>());
+        auto newRib = std::make_shared<Rib>();
+        ribs.push(newRib);
         ribIndex = ribs.size() - 1;
+
+        typeResolver.acceptRib(newRib);
     }
 
     void NameResolver::exitRib() {
@@ -32,5 +40,4 @@ namespace jc::hir {
         ribIndex--;
     }
 
-    // Resolution //
 }

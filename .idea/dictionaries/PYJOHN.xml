@@ -82,6 +82,7 @@
       <w>typeparameters</w>
       <w>typeparams</w>
       <w>typepath</w>
+      <w>typeresolver</w>
       <w>uint</w>
       <w>unitexpr</w>
       <w>vardecl</w>

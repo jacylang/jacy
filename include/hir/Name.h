@@ -8,9 +8,9 @@
 namespace jc::hir {
     struct Name;
     struct Rib;
-    using name_ptr = std::unique_ptr<Name>;
+    using name_ptr = std::shared_ptr<Name>;
     using name_map = std::map<std::string, name_ptr>;
-    using rib_ptr = std::unique_ptr<Rib>;
+    using rib_ptr = std::shared_ptr<Rib>;
     using rib_stack = std::stack<rib_ptr>;
 
     struct Name {
