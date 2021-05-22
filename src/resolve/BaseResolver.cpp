@@ -39,13 +39,15 @@ namespace jc::resolve {
         const std::string & name,
         const std::string & as,
         const std::string & declaredAs,
-        ast::node_id nodeId
+        ast::node_id nodeId,
+        ast::node_id declaredHere
     ) {
-        suggestErrorMsg(
-            Logger::format(
-                "Cannot redeclare '" + name + "' as", as + ", because it is already declared as", declaredAs, "here"
-            ),
-            nodeId
-        );
+        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
+            "Cannot redeclare '"+ name +"' as "+ as,
+            ast::Node::nodeMap.getNodeSpan(nodeId),
+            "Because it is already declared as "+ declaredAs +" here",
+            ast::Node::nodeMap.getNodeSpan(declaredHere),
+            sugg::SuggKind::Error
+        ));
     }
 }

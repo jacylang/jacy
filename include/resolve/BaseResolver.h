@@ -40,7 +40,8 @@ namespace jc::resolve {
             const std::string & name,
             const std::string & as,
             const std::string & declaredAs,
-            ast::node_id nodeId
+            ast::node_id nodeId,
+            ast::node_id declaredHere
         );
     };
 }

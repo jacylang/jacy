@@ -35,6 +35,6 @@ namespace jc::resolve {
         if (found == rib->types.end()) {
             rib->types.emplace(name, std::make_shared<Type>(kind, nodeId));
         }
-        suggestCannotRedeclare(name, Type::kindStr(kind), found->second->kindStr(), found->second->nodeId);
+        suggestCannotRedeclare(name, Type::kindStr(kind), found->second->kindStr(), nodeId, found->second->nodeId);
     }
 }
