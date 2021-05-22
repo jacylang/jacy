@@ -20,10 +20,8 @@ namespace jc::resolve {
     private:
         void visit(const ast::opt_type_params & maybeTypeParams);
 
-        // Ribs //
+        // Declarations //
     private:
-        rib_ptr rib;
-        void acceptRib(rib_ptr newRib);
         void declareType(const std::string & name, type_ptr type);
 
         // Resolution //

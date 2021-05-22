@@ -11,11 +11,6 @@ namespace jc::resolve {
 
         void visit(ast::FuncDecl * funcDecl) override;
 
-        // Ribs //
-    private:
-        rib_ptr rib;
-        void acceptRib(rib_ptr newRib);
-
         void declareItem(const std::string & name, item_ptr item);
     };
 }

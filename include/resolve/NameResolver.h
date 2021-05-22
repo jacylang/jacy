@@ -2,8 +2,8 @@
 #define JACY_RESOLVE_NAMERESOLVER_H
 
 #include "ast/StubVisitor.h"
-#include "resolve/Name.h"
-#include "TypeResolver.h"
+#include "resolve/TypeResolver.h"
+#include "resolve/ItemResolver.h"
 
 namespace jc::resolve {
     class TypeResolver;
@@ -75,6 +75,7 @@ namespace jc::resolve {
         // Resolution //
     private:
         TypeResolver typeResolver;
+        ItemResolver itemResolver;
     };
 }
 

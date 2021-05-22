@@ -5,11 +5,6 @@ namespace jc::resolve {
         declareItem(funcDecl->name->getValue(), std::make_shared<Item>(Item::Kind::Func, funcDecl->name->id));
     }
 
-
-    void ItemResolver::acceptRib(rib_ptr newRib) {
-        rib = newRib;
-    }
-
     void ItemResolver::declareItem(const std::string & name, item_ptr item) {
 
     }

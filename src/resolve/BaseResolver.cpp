@@ -5,6 +5,12 @@ namespace jc::resolve {
         return std::move(suggestions);
     }
 
+    // Ribs //
+    void BaseResolver::acceptRib(rib_ptr newRib) {
+        rib = newRib;
+    }
+
+    // Suggestion //
     void BaseResolver::suggest(sugg::sugg_ptr suggestion) {
         suggestions.emplace_back(std::move(suggestion));
     }

@@ -17,6 +17,11 @@ namespace jc::resolve {
 
         sugg::sugg_list extractSuggestions();
 
+        // Ribs //
+    private:
+        rib_ptr rib;
+        void acceptRib(rib_ptr newRib);
+
         // Suggestions //
     private:
         sess::sess_ptr sess;
