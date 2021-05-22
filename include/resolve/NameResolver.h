@@ -5,10 +5,12 @@
 #include "resolve/TypeResolver.h"
 #include "resolve/ItemResolver.h"
 #include "data_types/SuggResult.h"
+#include "utils/arr.h"
 
 namespace jc::resolve {
     class TypeResolver;
     using common::Logger;
+    using utils::arr::concat;
 
     class NameResolver : public ast::StubVisitor {
     public:

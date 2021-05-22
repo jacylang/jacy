@@ -89,6 +89,7 @@
       <w>uint</w>
       <w>unitexpr</w>
       <w>vardecl</w>
+      <w>vecs</w>
       <w>whenexpr</w>
       <w>whilestmt</w>
     </words>

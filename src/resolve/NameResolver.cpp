@@ -9,8 +9,6 @@ namespace jc::resolve {
             item->accept(*this);
         }
 
-        sugg::sugg_list suggestions;
-
         return {ribs, std::move(suggestions)};
     }
 

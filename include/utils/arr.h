@@ -11,6 +11,15 @@ namespace jc::utils::arr {
         return std::find(vec.begin(), vec.end(), value) != vec.end();
     }
 
+    template<class T>
+    std::vector<T> concat(std::vector<std::vector<T>> && vecs) {
+        std::vector<T> res;
+        for (const auto & vec : vecs) {
+            res.insert(res.begin(), vec.begin(), vec.end());
+        }
+        return std::move(res);
+    }
+
     /**
      * Fully-customized vector joiner
      * @param vec Vector of strings
