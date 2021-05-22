@@ -7,7 +7,7 @@
 #include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
 
-namespace jc::resolve {
+namespace jc::ast {
     using common::Logger;
 
     /// LinterContext - collection of contexts for linting that only needed for context-dependent constructions,

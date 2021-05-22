@@ -1,5 +1,4 @@
 #include "resolve/NameResolver.h"
-#include "resolve/TypeResolver.h"
 
 namespace jc::resolve {
     // Statements //
