@@ -79,6 +79,7 @@ namespace jc::ast {
     private:
         void visit(const std::string & construction);
 
+        const std::string owner;
         StubVisitorMode mode;
     };
 }
