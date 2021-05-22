@@ -1,8 +1,8 @@
-#ifndef JACY_HIR_TYPERESOLVER_H
-#define JACY_HIR_TYPERESOLVER_H
+#ifndef JACY_RESOLVE_TYPERESOLVER_H
+#define JACY_RESOLVE_TYPERESOLVER_H
 
-#include "hir/BaseResolver.h"
-#include "hir/Name.h"
+#include "resolve/BaseResolver.h"
+#include "resolve/Name.h"
 
 namespace jc::hir {
     class TypeResolver : public BaseResolver {
@@ -28,4 +28,4 @@ namespace jc::hir {
     };
 }
 
-#endif // JACY_HIR_TYPERESOLVER_H
+#endif // JACY_RESOLVE_TYPERESOLVER_H

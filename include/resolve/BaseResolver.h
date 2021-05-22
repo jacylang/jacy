@@ -1,5 +1,5 @@
-#ifndef JACY_HIR_BASERESOLVER_H
-#define JACY_HIR_BASERESOLVER_H
+#ifndef JACY_RESOLVE_BASERESOLVER_H
+#define JACY_RESOLVE_BASERESOLVER_H
 
 #include "ast/StubVisitor.h"
 #include "suggest/BaseSugg.h"
@@ -28,4 +28,4 @@ namespace jc::hir {
     };
 }
 
-#endif // JACY_HIR_BASERESOLVER_H
+#endif // JACY_RESOLVE_BASERESOLVER_H

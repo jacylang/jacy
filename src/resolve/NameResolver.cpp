@@ -1,5 +1,5 @@
-#include "hir/NameResolver.h"
-#include "hir/TypeResolver.h"
+#include "resolve/NameResolver.h"
+#include "resolve/TypeResolver.h"
 
 namespace jc::hir {
     // Statements //

@@ -1,4 +1,4 @@
-#include "hir/TypeResolver.h"
+#include "resolve/TypeResolver.h"
 
 namespace jc::hir {
     void TypeResolver::visit(ast::FuncDecl * funcDecl) {

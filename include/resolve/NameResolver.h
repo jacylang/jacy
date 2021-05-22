@@ -1,8 +1,8 @@
-#ifndef JACY_HIR_NAMERESOLVER_H
-#define JACY_HIR_NAMERESOLVER_H
+#ifndef JACY_RESOLVE_NAMERESOLVER_H
+#define JACY_RESOLVE_NAMERESOLVER_H
 
 #include "ast/StubVisitor.h"
-#include "hir/Name.h"
+#include "resolve/Name.h"
 #include "TypeResolver.h"
 
 namespace jc::hir {
@@ -78,4 +78,4 @@ namespace jc::hir {
     };
 }
 
-#endif // JACY_HIR_NAMERESOLVER_H
+#endif // JACY_RESOLVE_NAMERESOLVER_H

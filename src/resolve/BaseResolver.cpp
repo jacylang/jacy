@@ -1,4 +1,4 @@
-#include "hir/BaseResolver.h"
+#include "resolve/BaseResolver.h"
 
 namespace jc::hir {
     sugg::sugg_list BaseResolver::extractSuggestions() {
