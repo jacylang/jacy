@@ -5,71 +5,29 @@
 
 namespace jc::resolve {
     struct Name;
-    struct Type;
-    struct Item;
-    struct Local;
-    struct Lifetime;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
     using opt_node_id = dt::Option<ast::node_id>;
-    using type_ptr = std::shared_ptr<Type>;
-    using item_ptr = std::shared_ptr<Item>;
-    using local_ptr = std::shared_ptr<Local>;
-    using lifetime_ptr = std::shared_ptr<Lifetime>;
 
     template<class T>
     using name_map = std::map<std::string, std::shared_ptr<T>>;
 
     struct Name {
-        Name(ast::node_id nodeId) : nodeId(nodeId) {}
-
-        ast::node_id nodeId;
-    };
-
-    struct Type : Name {
         enum class Kind {
-            Generic,
-        } kind;
-
-        Type(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
-
-        std::string kindStr() const {
-            return kindStr(kind);
-        }
-
-        static std::string kindStr(Kind kind) {
-            switch (kind) {
-                case Kind::Generic: return "generic type";
-            }
-        }
-    };
-
-    struct Item : Name {
-        enum class Kind {
-            Func,
+            Const,
+            Struct,
             Trait,
+            Local,
+            TypeParam,
+            Lifetime,
+            ConstParam,
         } kind;
+        ast::node_id nodeId;
 
-        Item(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
-
-        std::string kindStr() const {
-            return kindStr(kind);
-        }
-
-        static std::string kindStr(Kind kind) {
-            switch (kind) {
-                case Kind::Func: return "function";
-            }
-        }
+        Name(Kind kind, ast::node_id nodeId) : kind(kind), nodeId(nodeId) {}
     };
 
-    struct Local : Name {
-        Local(ast::node_id nodeId) : Name(nodeId) {}
-    };
-
-    struct Lifetime : Name {
-        explicit Lifetime(ast::node_id nodeId) : Name(nodeId) {}
-    };
+    using decl_result = dt::Option<std::tuple<Name::Kind, ast::node_id>>;
 
     // FIXME: Add rib kinds
     struct Rib {
@@ -77,10 +35,11 @@ namespace jc::resolve {
         Rib(rib_ptr parent) : parent(parent) {}
 
         dt::Option<rib_ptr> parent;
-        name_map<Type> types;
-        name_map<Item> items;
-        name_map<Local> locals;
-        name_map<Lifetime> lifetimes;
+        name_map<Name> names;
+
+        /// Declare new name.
+        /// Returns node_id of node that was already declared if it was
+        decl_result declare(const std::string & name, Name::Kind kind, ast::node_id nodeId);
     };
 }
 

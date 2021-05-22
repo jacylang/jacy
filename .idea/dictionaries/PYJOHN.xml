@@ -39,6 +39,7 @@
       <w>jacy</w>
       <w>lambdaexpr</w>
       <w>langle</w>
+      <w>lifetimeresolver</w>
       <w>linter</w>
       <w>linters</w>
       <w>listexpr</w>

@@ -333,15 +333,8 @@ namespace jc::resolve {
     opt_node_id NameResolver::resolveId(const std::string & name) {
         dt::Option<rib_ptr> maybeRib = rib;
         while (maybeRib) {
-            const auto & checkRib = maybeRib.unwrap();
-            const auto & local = checkRib->locals.find(name);
-            if (local != checkRib->locals.end()) {
-                return local->second->nodeId;
-            }
-            const auto & item = checkRib->items.find(name);
-            if (item != checkRib->items.end()) {
-                return item->second->nodeId;
-            }
+            auto checkRib = maybeRib.unwrap();
+            // TODO
             maybeRib = checkRib->parent;
         }
         return dt::None;
