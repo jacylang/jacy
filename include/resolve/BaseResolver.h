@@ -4,6 +4,7 @@
 #include "ast/StubVisitor.h"
 #include "suggest/BaseSugg.h"
 #include "span/Span.h"
+#include "resolve/Name.h"
 
 namespace jc::resolve {
     using span::Span;

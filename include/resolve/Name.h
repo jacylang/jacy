@@ -39,8 +39,10 @@ namespace jc::resolve {
 
     struct Item : Name {
         enum class Kind {
-
+            Func,
         } kind;
+
+        Item(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
     };
 
     struct Local : Name {
