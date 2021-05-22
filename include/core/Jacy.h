@@ -36,8 +36,6 @@ namespace jc::core {
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;
-        sugg::SuggDumper suggDumper;
-        sugg::Suggester suggester;
         ast::Linter linter;
     };
 }
