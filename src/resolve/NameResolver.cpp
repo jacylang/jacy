@@ -6,11 +6,7 @@ namespace jc::resolve {
         itemResolver = std::make_unique<ItemResolver>(sess);
         lifetimeResolver = std::make_unique<LifetimeResolver>(sess);
 
-        enterRib();
-
-        for (const auto & item : tree) {
-            item->accept(*this);
-        }
+        visitMembers(tree);
 
         return {rib, moveConcat(
             typeResolver->extractSuggestions(),
@@ -24,22 +20,33 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
-        funcDecl->accept(*itemResolver);
+        enterRib(); // -> (type rib)
 
-        enterRib(); // -> (func params)
-        funcDecl->accept(*typeResolver);
+        if (funcDecl->typeParams) {
+            visitTypeParams(funcDecl->typeParams.unwrap());
+        }
 
         if (funcDecl->oneLineBody) {
             funcDecl->oneLineBody.unwrap()->accept(*this);
         } else {
-            visit(funcDecl->body.unwrap().get());
+            funcDecl->body.unwrap()->accept(*this);
         }
 
-        exitRib(); // <- (func params)
+        exitRib(); // <- (type rib)
     }
 
     void NameResolver::visit(ast::Impl * impl) {
-        impl->accept(*itemResolver);
+        enterRib(); // -> (type rib)
+
+        if (impl->typeParams) {
+            visitTypeParams(impl->typeParams.unwrap());
+        }
+
+        impl->traitTypePath->accept(*this);
+
+
+
+        exitRib(); // <- (type rib)
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -290,9 +297,19 @@ namespace jc::resolve {
     // Extended visitors //
     void NameResolver::visitMembers(const ast::item_list & members) {
         enterRib(); // -> (members)
+
+        // At first we need to forward all declarations.
+        // This is the work for ItemResolver.
+        for (const auto & member : members) {
+            member->accept(*itemResolver);
+        }
+
+        // Then we resolve the signatures and bodies
+        // This is done here -- in NameResolver
         for (const auto & member : members) {
             member->accept(*this);
         }
+
         exitRib(); // <- (members)
     }
 

@@ -23,7 +23,6 @@ namespace jc::resolve {
         // Statements //
 //        void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
-//        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::Impl * impl) override;
         void visit(ast::Item * item) override;
@@ -31,6 +30,8 @@ namespace jc::resolve {
         void visit(ast::Trait * trait) override;
         void visit(ast::TypeAlias * typeAlias) override;
         void visit(ast::VarDecl * varDecl) override;
+
+//        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::WhileStmt * whileStmt) override;
 
         // Expressions //
@@ -73,6 +74,7 @@ namespace jc::resolve {
         // Extended visitors //
     private:
         void visitMembers(const ast::item_list & members);
+        void visitTypeParams(const ast::type_param_list & typeParams);
         void visitNamedList(const ast::named_list_ptr & namedList);
 
         // Ribs //
