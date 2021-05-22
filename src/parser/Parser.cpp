@@ -1224,6 +1224,8 @@ namespace jc::parser {
             }
 
             auto exprToken = peek();
+
+            // FIXME: Add construction name for `Lambda`
             auto expr = parseExpr("Expected tuple member"); // FIXME: Maybe optional + break?
 
             ast::opt_id_ptr name = dt::None;
@@ -1875,7 +1877,9 @@ namespace jc::parser {
                 //  'cause we want to check for problem like (name: string) -> type
                 suggestErrorMsg("Cannot declare function type with named parameter", tupleEl->name.unwrap()->span);
             }
-            // FIXME: Suggest if type is None
+            if (not tupleEl->type) {
+                common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
+            }
             params.push_back(tupleEl->type.unwrap(""));
         }
 
