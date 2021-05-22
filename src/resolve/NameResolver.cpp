@@ -228,15 +228,24 @@ namespace jc::resolve {
         visitNamedList(tupleExpr->elements);
     }
 
-    // Types //
     void NameResolver::visit(ast::UnitExpr * unitExpr) {
-
+        // TODO MEOW?
     }
 
     void NameResolver::visit(ast::WhenExpr * whenExpr) {
-        StubVisitor::visit(whenExpr);
+        whenExpr->subject->accept(*this);
+
+        for (const auto & entry : whenExpr->entries) {
+            enterRib(); // -> (when entry)
+            for (const auto & cond : entry->conditions) {
+                cond->accept(*this);
+            }
+            entry->body->accept(*this);
+            exitRib(); // <- (when entry)
+        }
     }
 
+    // Types //
     void NameResolver::visit(ast::ParenType * parenType) {
         StubVisitor::visit(parenType);
     }
