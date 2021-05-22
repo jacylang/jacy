@@ -16,7 +16,7 @@
 #include "session/SourceMap.h"
 #include "suggest/SuggDumper.h"
 #include "suggest/Suggester.h"
-#include "hir/Linter.h"
+#include "ast/Linter.h"
 
 namespace jc::core {
     class Jacy {

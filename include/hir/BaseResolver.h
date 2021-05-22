@@ -10,7 +10,7 @@ namespace jc::hir {
     using sugg::SuggKind;
     using sugg::eid_t;
 
-    class BaseResolver : ast::StubVisitor {
+    class BaseResolver : public ast::StubVisitor {
     public:
         BaseResolver(const std::string & name) : StubVisitor(name, ast::StubVisitorMode::Stub) {}
 

@@ -3,8 +3,6 @@
 namespace jc::hir {
     void TypeResolver::visit(ast::FuncDecl * funcDecl) {
         resolve(funcDecl->typeParams);
-
-        for (const auto & param : )
     }
 
     // Type params //

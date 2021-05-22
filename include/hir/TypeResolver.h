@@ -5,10 +5,12 @@
 #include "hir/Name.h"
 
 namespace jc::hir {
-    class TypeResolver : BaseResolver {
+    class TypeResolver : public BaseResolver {
     public:
         TypeResolver() : BaseResolver("TypeResolver") {}
         ~TypeResolver() override = default;
+
+        friend class NameResolver;
 
         void visit(ast::FuncDecl * funcDecl) override;
 

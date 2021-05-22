@@ -1,4 +1,4 @@
-#include "hir/Linter.h"
+#include "ast/Linter.h"
 
 namespace jc::hir {
     dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::item_list & tree) {
