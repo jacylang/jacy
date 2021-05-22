@@ -23,6 +23,10 @@ namespace jc::ast {
         log.raw("[ERROR TYPE]");
     }
 
+    void AstPrinter::visit(ErrorTypePath * errorTypePath) {
+        log.raw("[ERROR TYPEPATH]");
+    }
+
     ////////////////
     // Statements //
     ////////////////
