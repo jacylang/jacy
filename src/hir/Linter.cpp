@@ -13,18 +13,6 @@ namespace jc::hir {
         return {dt::None, std::move(suggestions)};
     }
 
-    void Linter::visit(ast::ErrorStmt * errorStmt) {
-        Logger::devPanic("[ERROR STMT] On linter stage at", errorStmt->span.toString());
-    }
-
-    void Linter::visit(ast::ErrorExpr * errorExpr) {
-        Logger::devPanic("[ERROR EXPR] On linter stage at", errorExpr->span.toString());
-    }
-
-    void Linter::visit(ast::ErrorType * errorType) {
-        Logger::devPanic("[ERROR TYPE] On linter stage at", errorType->span.toString());
-    }
-
     ////////////////
     // Statements //
     ////////////////

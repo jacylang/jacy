@@ -81,6 +81,7 @@
       <w>typealias</w>
       <w>typeparameters</w>
       <w>typeparams</w>
+      <w>typepath</w>
       <w>uint</w>
       <w>unitexpr</w>
       <w>vardecl</w>

@@ -2,15 +2,19 @@
 
 namespace jc::ast {
     void StubVisitor::visit(ast::ErrorStmt * errorStmt) {
-        Logger::devPanic("[ERROR STMT] In StubVisitor at", errorStmt->span.toString());
+        Logger::devPanic("[ERROR STMT] In", owner, "at", errorStmt->span.toString());
     }
 
     void StubVisitor::visit(ast::ErrorExpr * errorExpr) {
-        Logger::devPanic("[ERROR EXPR] In StubVisitor at", errorExpr->span.toString());
+        Logger::devPanic("[ERROR EXPR] In", owner, "at", errorExpr->span.toString());
     }
 
     void StubVisitor::visit(ast::ErrorType * errorType) {
-        Logger::devPanic("[ERROR TYPE] In StubVisitor at", errorType->span.toString());
+        Logger::devPanic("[ERROR TYPE] In", owner, "at", errorType->span.toString());
+    }
+
+    void StubVisitor::visit(ast::ErrorTypePath * errorTypePath) {
+        Logger::devPanic("[ERROR TYPEPATH] In", owner, "at", errorTypePath->span.toString());
     }
 
     // Statements //

@@ -27,10 +27,6 @@ namespace jc::hir {
         dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
 
     private:
-        void visit(ast::ErrorStmt * errorStmt) override;
-        void visit(ast::ErrorExpr * errorExpr) override;
-        void visit(ast::ErrorType * errorType) override;
-
         // Statements //
         void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
