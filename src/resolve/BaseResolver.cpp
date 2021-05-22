@@ -38,7 +38,9 @@ namespace jc::resolve {
         ast::node_id nodeId
     ) {
         suggestErrorMsg(
-            Logger::format("Cannot redeclare '" + name + "' as", as + ", because it is already declared as", declaredAs, "here"),
+            Logger::format(
+                "Cannot redeclare '" + name + "' as", as + ", because it is already declared as", declaredAs, "here"
+            ),
             nodeId
         );
     }
