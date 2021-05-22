@@ -2,7 +2,27 @@
 
 namespace jc::resolve {
     void TypeResolver::visit(ast::FuncDecl * funcDecl) {
-        resolve(funcDecl->typeParams);
+        visit(funcDecl->typeParams);
+
+        for (const auto & param : funcDecl->params) {
+            param->type->accept(*this);
+        }
+
+        if (funcDecl->returnType) {
+            funcDecl->returnType.unwrap()->accept(*this);
+        }
+    }
+
+    // Extended visitors //
+    void TypeResolver::visit(const ast::opt_type_params & maybeTypeParams) {
+        if (not maybeTypeParams) {
+            return;
+        }
+
+        auto typeParams = maybeTypeParams.unwrap();
+        for (const auto & typeParam : typeParams) {
+            typeParam->accept(*this);
+        }
     }
 
     // Type params //
@@ -23,14 +43,5 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void TypeResolver::resolve(const ast::opt_type_params & maybeTypeParams) {
-        if (not maybeTypeParams) {
-            return;
-        }
 
-        auto typeParams = maybeTypeParams.unwrap();
-        for (const auto & typeParam : typeParams) {
-            typeParam->accept(*this);
-        }
-    }
 }

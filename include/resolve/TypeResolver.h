@@ -16,6 +16,10 @@ namespace jc::resolve {
 
         void visit(ast::GenericType * genericType) override;
 
+        // Extended visitors //
+    private:
+        void visit(const ast::opt_type_params & maybeTypeParams);
+
         // Ribs //
     private:
         rib_ptr rib;
@@ -24,7 +28,6 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        void resolve(const ast::opt_type_params & maybeTypeParams);
     };
 }
 

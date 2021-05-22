@@ -35,6 +35,7 @@
       <w>funcparam</w>
       <w>ifexpr</w>
       <w>intliteral</w>
+      <w>itemresolver</w>
       <w>jacy</w>
       <w>lambdaexpr</w>
       <w>langle</w>
