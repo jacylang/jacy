@@ -13,7 +13,7 @@ namespace jc::resolve {
 
         // Declarations //
     private:
-        void declareItem(const std::string & name, item_ptr item);
+        void declareItem(const std::string & name, Item::Kind kind, ast::node_id nodeId);
     };
 }
 

@@ -5,11 +5,11 @@ namespace jc::resolve {
         declareItem(funcDecl->name->getValue(), std::make_shared<Item>(Item::Kind::Func, funcDecl->name->id));
     }
 
-    void ItemResolver::declareItem(const std::string & name, item_ptr item) {
+    void ItemResolver::declareItem(const std::string & name, Item::Kind kind, ast::node_id nodeId) {
         const auto & found = rib->items.find(name);
         if (found == rib->items.end()) {
-            rib->items.emplace(name, item);
+            rib->items.emplace(name, std::make_shared<Item>(kind, nodeId));
         }
-        suggestCannotRedeclare(name, item->kindToString(), found->second->kindToString(), found->second->nodeId);
+        suggestCannotRedeclare(name, Item::kindToString(kind), found->second->kindToString(), found->second->nodeId);
     }
 }
