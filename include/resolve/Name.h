@@ -1,8 +1,6 @@
 #ifndef JACY_RESOLVE_NAME_H
 #define JACY_RESOLVE_NAME_H
 
-#include <stack>
-
 #include "ast/Node.h"
 
 namespace jc::resolve {
@@ -13,7 +11,6 @@ namespace jc::resolve {
     struct Lifetime;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
-    using rib_stack = std::stack<rib_ptr>;
     using opt_node_id = dt::Option<ast::node_id>;
     using type_ptr = std::shared_ptr<Type>;
     using item_ptr = std::shared_ptr<Item>;
@@ -76,9 +73,10 @@ namespace jc::resolve {
 
     // FIXME: Add rib kinds
     struct Rib {
+        Rib() : parent(dt::None) {}
         Rib(rib_ptr parent) : parent(parent) {}
 
-        rib_ptr parent;
+        dt::Option<rib_ptr> parent;
         name_map<Type> types;
         name_map<Item> items;
         name_map<Local> locals;

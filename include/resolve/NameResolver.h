@@ -17,7 +17,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::NotImplemented) {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<rib_stack> resolve(sess::sess_ptr sess, const ast::item_list & tree);
+        dt::SuggResult<rib_ptr> resolve(sess::sess_ptr sess, const ast::item_list & tree);
 
         // Statements //
 //        void visit(ast::EnumDecl * enumDecl) override;

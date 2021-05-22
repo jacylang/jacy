@@ -1,7 +1,7 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_stack> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
+    dt::SuggResult<rib_ptr> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
         typeResolver = std::make_unique<TypeResolver>(sess);
         itemResolver = std::make_unique<ItemResolver>(sess);
 
@@ -11,7 +11,7 @@ namespace jc::resolve {
             item->accept(*this);
         }
 
-        return {ribs, moveConcat(
+        return {rib, moveConcat(
             typeResolver->extractSuggestions(),
             itemResolver->extractSuggestions()
         )};
@@ -61,7 +61,6 @@ namespace jc::resolve {
 
         enterRib(); // -> (type rib)
 
-        auto typeRib = ribs.top();
         trait->accept(*typeResolver);
 
         for (const auto & superTrait : trait->superTraits) {
@@ -307,16 +306,16 @@ namespace jc::resolve {
 
     // Ribs //
     void NameResolver::enterRib() {
-        auto newRib = std::make_shared<Rib>();
-        ribs.push(newRib);
+        auto newRib = std::make_shared<Rib>(rib);
         enterSpecificRib(newRib);
     }
 
     void NameResolver::exitRib() {
-        if (ribs.empty()) {
+        auto parent = rib->parent;
+        if (!parent) {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
-        enterSpecificRib(ribs.top());
+        enterSpecificRib(parent.unwrap());
     }
 
     /**
@@ -332,7 +331,7 @@ namespace jc::resolve {
 
     // Resolution //
     opt_node_id NameResolver::resolveId(const std::string & name) {
-        dt::Option<rib_ptr> maybeRib = ribs.top();
+        dt::Option<rib_ptr> maybeRib = rib;
         while (maybeRib) {
             const auto & checkRib = maybeRib.unwrap();
             const auto & local = checkRib->locals.find(name);
@@ -343,7 +342,7 @@ namespace jc::resolve {
             if (item != checkRib->items.end()) {
                 return item->second->nodeId;
             }
-            maybeRib = ribs.top();
+            maybeRib = checkRib->parent;
         }
         return dt::None;
     }
