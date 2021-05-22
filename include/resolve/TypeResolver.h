@@ -20,7 +20,7 @@ namespace jc::resolve {
 
         // Declarations //
     private:
-        void declareType(const std::string & name, type_ptr type);
+        void declareType(const std::string & name, Type::Kind kind, ast::node_id nodeId);
     };
 }
 

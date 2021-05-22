@@ -27,14 +27,14 @@ namespace jc::resolve {
 
     // Type params //
     void TypeResolver::visit(ast::GenericType * genericType) {
-        declareType(genericType->name->getValue(), std::make_shared<Type>(Type::Kind::Generic, genericType->id));
+        declareType(genericType->name->getValue(), Type::Kind::Generic, genericType->id);
     }
 
-    void TypeResolver::declareType(const std::string & name, type_ptr type) {
+    void TypeResolver::declareType(const std::string & name, Type::Kind kind, ast::node_id nodeId) {
         const auto & found = rib->types.find(name);
         if (found == rib->types.end()) {
-            rib->types.emplace(name, type);
+            rib->types.emplace(name, std::make_shared<Type>(kind, nodeId));
         }
-        suggestCannotRedeclare(name, type->kindToString(), found->second->kindToString(), found->second->nodeId);
+        suggestCannotRedeclare(name, Type::kindStr(kind), found->second->kindStr(), found->second->nodeId);
     }
 }

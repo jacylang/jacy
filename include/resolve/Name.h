@@ -36,7 +36,11 @@ namespace jc::resolve {
 
         Type(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
 
-        std::string kindToString() const {
+        std::string kindStr() const {
+            return kindStr(kind);
+        }
+
+        static std::string kindStr(Kind kind) {
             switch (kind) {
                 case Kind::Generic: return "generic type";
             }
@@ -50,7 +54,11 @@ namespace jc::resolve {
 
         Item(Kind kind, ast::node_id nodeId) : kind(kind), Name(nodeId) {}
 
-        std::string kindToString() const {
+        std::string kindStr() const {
+            return kindStr(kind);
+        }
+
+        static std::string kindStr(Kind kind) {
             switch (kind) {
                 case Kind::Func: return "function";
             }

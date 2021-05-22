@@ -10,6 +10,6 @@ namespace jc::resolve {
         if (found == rib->items.end()) {
             rib->items.emplace(name, std::make_shared<Item>(kind, nodeId));
         }
-        suggestCannotRedeclare(name, Item::kindToString(kind), found->second->kindToString(), found->second->nodeId);
+        suggestCannotRedeclare(name, Item::kindStr(kind), found->second->kindStr(), found->second->nodeId);
     }
 }
