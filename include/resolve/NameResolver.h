@@ -69,14 +69,14 @@ namespace jc::resolve {
         void visit(ast::TypePath * typePath) override;
         void visit(ast::UnitType * unitType) override;
 
-    // Extended visitors //
+        // Extended visitors //
     private:
         void visitMembers(const ast::item_list & members);
         void visitNamedList(const ast::named_list_ptr & namedList);
 
         // Ribs //
     private:
-        rib_stack ribs;
+        rib_ptr rib;
         void enterRib();
         void exitRib();
 
@@ -86,6 +86,8 @@ namespace jc::resolve {
     private:
         std::unique_ptr<TypeResolver> typeResolver;
         std::unique_ptr<ItemResolver> itemResolver;
+
+        opt_node_id resolveId(const std::string & name);
     };
 }
 

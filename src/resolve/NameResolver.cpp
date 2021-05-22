@@ -124,11 +124,13 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Identifier * identifier) {
         // Note: If we have standalone identifier like that,
-        //  we 100% sure that it is inside of expression.
+        //  we 100% sure that it is inside of an expression.
         //  Just because TypeResolver and ItemResolver handles identifiers that're parts
-        //  of types of items already.
+        //  of types or items already.
         //  So, if we have identifier here...
         //  It MUST be any kind of variable or item (!)
+
+        resolveId(identifier->getValue());
     }
 
     void NameResolver::visit(ast::IfExpr * ifExpr) {
@@ -326,5 +328,23 @@ namespace jc::resolve {
     void NameResolver::enterSpecificRib(const rib_ptr & rib) {
         typeResolver->acceptRib(rib);
         itemResolver->acceptRib(rib);
+    }
+
+    // Resolution //
+    opt_node_id NameResolver::resolveId(const std::string & name) {
+        dt::Option<rib_ptr> maybeRib = ribs.top();
+        while (maybeRib) {
+            const auto & checkRib = maybeRib.unwrap();
+            const auto & local = checkRib->locals.find(name);
+            if (local != checkRib->locals.end()) {
+                return local->second->nodeId;
+            }
+            const auto & item = checkRib->items.find(name);
+            if (item != checkRib->items.end()) {
+                return item->second->nodeId;
+            }
+            maybeRib = ribs.top();
+        }
+        return dt::None;
     }
 }

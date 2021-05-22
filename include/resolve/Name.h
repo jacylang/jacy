@@ -67,7 +67,7 @@ namespace jc::resolve {
     };
 
     struct Local : Name {
-
+        Local(ast::node_id nodeId) : Name(nodeId) {}
     };
 
     struct Lifetime : Name {
@@ -76,6 +76,9 @@ namespace jc::resolve {
 
     // FIXME: Add rib kinds
     struct Rib {
+        Rib(rib_ptr parent) : parent(parent) {}
+
+        rib_ptr parent;
         name_map<Type> types;
         name_map<Item> items;
         name_map<Local> locals;
