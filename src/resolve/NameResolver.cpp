@@ -16,6 +16,17 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Item * item) {
         // This is kind of entry point for name resolution
+
+        enterRib(); // -> (type rib)
+        item->stmt->accept(*typeResolver);
+
+        enterRib(); // -> (lifetime rib)
+        item->stmt->accept(*lifetimeResolver);
+
+        enterRib();
+
+        exitRib(); // <- (lifetime rib)
+        exitRib(); // <- (type rib)
     }
 
     // Statements //

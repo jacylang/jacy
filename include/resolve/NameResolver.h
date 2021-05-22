@@ -67,7 +67,6 @@ namespace jc::resolve {
         // Extended visitors //
     private:
         void visitItems(const ast::item_list & members);
-        void visitTypeParams(const ast::type_param_list & typeParams);
         void visitNamedList(const ast::named_list_ptr & namedList);
 
         // Ribs //
@@ -80,8 +79,8 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        std::unique_ptr<TypeResolver> typeResolver;
         std::unique_ptr<ItemResolver> itemResolver;
+        std::unique_ptr<TypeResolver> typeResolver;
         std::unique_ptr<LifetimeResolver> lifetimeResolver;
 
         opt_node_id resolveId(const std::string & name);
