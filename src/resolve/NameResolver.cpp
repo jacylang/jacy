@@ -1,13 +1,17 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    void NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
+    dt::SuggResult<rib_stack> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
         typeResolver.setSession(sess);
         itemResolver.setSession(sess);
 
         for (const auto & item : tree) {
             item->accept(*this);
         }
+
+        sugg::sugg_list suggestions;
+
+        return {ribs, std::move(suggestions)};
     }
 
     // Statements //

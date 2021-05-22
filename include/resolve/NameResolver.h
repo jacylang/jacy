@@ -4,6 +4,7 @@
 #include "ast/StubVisitor.h"
 #include "resolve/TypeResolver.h"
 #include "resolve/ItemResolver.h"
+#include "data_types/SuggResult.h"
 
 namespace jc::resolve {
     class TypeResolver;
@@ -14,7 +15,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::ImplementPromise) {}
         ~NameResolver() override = default;
 
-        void resolve(sess::sess_ptr sess, const ast::item_list & tree);
+        dt::SuggResult<rib_stack> resolve(sess::sess_ptr sess, const ast::item_list & tree);
 
         // Statements //
 //        void visit(ast::EnumDecl * enumDecl) override;

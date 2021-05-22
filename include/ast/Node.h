@@ -15,6 +15,7 @@ namespace jc::ast {
 
     const node_id NONE_NODE_ID = UINT32_MAX;
 
+    // TODO: Move to `Party` when multi-file will be done
     class NodeMap {
     public:
         NodeMap() = default;
