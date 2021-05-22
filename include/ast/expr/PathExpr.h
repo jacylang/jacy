@@ -11,10 +11,10 @@ namespace jc::ast {
     using path_expr_list = std::vector<path_expr_ptr>;
 
     struct PathExprSeg : Node {
-        PathExprSeg(id_ptr id, opt_type_params typeParams, const Span & span)
-            : id(std::move(id)), typeParams(std::move(typeParams)), Node(span) {}
+        PathExprSeg(id_ptr name, opt_type_params typeParams, const Span & span)
+            : name(std::move(name)), typeParams(std::move(typeParams)), Node(span) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_params typeParams;
     };
 

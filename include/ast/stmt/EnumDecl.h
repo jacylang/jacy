@@ -12,13 +12,14 @@ namespace jc::ast {
     using enum_entry_list = std::vector<enum_entry_ptr>;
 
     struct EnumEntry {
-        id_ptr id;
+        id_ptr name;
         expr_ptr value;
     };
 
     struct EnumDecl : Stmt {
         EnumDecl(const Span & span) : Stmt(span, StmtKind::Enum) {}
 
+        // FIXME!!!
         id_ptr id{nullptr};
         enum_entry_list entries{};
         stmt_list body{nullptr};

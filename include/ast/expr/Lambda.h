@@ -9,12 +9,12 @@ namespace jc::ast {
     using lambda_param_list = std::vector<std::shared_ptr<LambdaParam>>;
 
     struct LambdaParam : Node {
-        LambdaParam(id_ptr id, opt_type_ptr type, const Span & span)
+        LambdaParam(id_ptr name, opt_type_ptr type, const Span & span)
             : Node(span),
-              id(std::move(id)),
+              name(std::move(name)),
               type(std::move(type)) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_ptr type;
     };
 

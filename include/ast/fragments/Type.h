@@ -68,10 +68,10 @@ namespace jc::ast {
     };
 
     struct TupleTypeElement : Node {
-        TupleTypeElement(opt_id_ptr id, opt_type_ptr type, const Span & span)
-            : id(std::move(id)), type(std::move(type)), Node(span) {}
+        TupleTypeElement(opt_id_ptr name, opt_type_ptr type, const Span & span)
+            : name(std::move(name)), type(std::move(type)), Node(span) {}
 
-        opt_id_ptr id;
+        opt_id_ptr name;
         opt_type_ptr type;
     };
 
@@ -111,19 +111,19 @@ namespace jc::ast {
     };
 
     struct IdType : Node {
-        IdType(id_ptr id, opt_type_params typeParams, const Span & span)
-            : id(std::move(id)), typeParams(std::move(typeParams)), Node(span) {}
+        IdType(id_ptr name, opt_type_params typeParams, const Span & span)
+            : name(std::move(name)), typeParams(std::move(typeParams)), Node(span) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_params typeParams;
     };
 
     struct TypePath : Type {
-        TypePath(bool global, id_t_list ids, const Span & span)
-            : global(global), ids(std::move(ids)), Type(span, TypeKind::Path) {}
+        TypePath(bool global, id_t_list segments, const Span & span)
+            : global(global), segments(std::move(segments)), Type(span, TypeKind::Path) {}
 
         bool global;
-        id_t_list ids;
+        id_t_list segments;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);

@@ -1252,7 +1252,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
         );
 
-        if (namedList.size() == 1 and not namedList.at(0)->id and namedList.at(0)->value) {
+        if (namedList.size() == 1 and not namedList.at(0)->name and namedList.at(0)->value) {
             return std::make_shared<ast::ParenExpr>(
                 namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"),
                 begin.to(cspan())
@@ -1754,7 +1754,7 @@ namespace jc::parser {
                     return ast::Type::asBase(std::make_shared<ast::UnitType>(begin.to(cspan())));
                 } else if (
                     tupleElements.size() == 1
-                    and !tupleElements.at(0)->id
+                    and !tupleElements.at(0)->name
                     and tupleElements.at(0)->type
                 ) {
                     return ast::Type::asBase(
@@ -1870,10 +1870,10 @@ namespace jc::parser {
 
         ast::type_list params;
         for (const auto & tupleEl : tupleElements) {
-            if (tupleEl->id) {
+            if (tupleEl->name) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
-                suggestErrorMsg("Cannot declare function type with named parameter", tupleEl->id.unwrap()->span);
+                suggestErrorMsg("Cannot declare function type with named parameter", tupleEl->name.unwrap()->span);
             }
             // FIXME: Suggest if type is None
             params.push_back(tupleEl->type.unwrap(""));

@@ -12,7 +12,7 @@ namespace jc::ast {
         FuncDecl(
             parser::token_list modifiers,
             opt_type_params typeParams,
-            id_ptr id,
+            id_ptr name,
             func_param_list params,
             opt_type_ptr returnType,
             opt_block_ptr body,
@@ -20,7 +20,7 @@ namespace jc::ast {
             const Span & span
         ) : modifiers(std::move(modifiers)),
             typeParams(std::move(typeParams)),
-            id(std::move(id)),
+            name(std::move(name)),
             params(std::move(params)),
             returnType(std::move(returnType)),
             body(std::move(body)),
@@ -29,7 +29,7 @@ namespace jc::ast {
 
         parser::token_list modifiers;
         opt_type_params typeParams;
-        id_ptr id;
+        id_ptr name;
         func_param_list params;
         opt_type_ptr returnType;
         opt_block_ptr body;

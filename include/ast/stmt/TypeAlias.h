@@ -7,10 +7,10 @@
 
 namespace jc::ast {
     struct TypeAlias : Stmt {
-        TypeAlias(id_ptr id, type_ptr type, const Span & span)
-            : id(std::move(id)), type(std::move(type)), Stmt(span, StmtKind::TypeAlias) {}
+        TypeAlias(id_ptr name, type_ptr type, const Span & span)
+            : name(std::move(name)), type(std::move(type)), Stmt(span, StmtKind::TypeAlias) {}
 
-        id_ptr id;
+        id_ptr name;
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {

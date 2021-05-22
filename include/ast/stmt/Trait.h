@@ -7,18 +7,18 @@
 namespace jc::ast {
     struct Trait : Stmt {
         Trait(
-            id_ptr id,
+            id_ptr name,
             opt_type_params typeParams,
             type_path_list superTraits,
             item_list members,
             const Span & span
-        ) : id(std::move(id)),
+        ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
             superTraits(std::move(superTraits)),
             members(std::move(members)),
             Stmt(span, StmtKind::Trait) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_params typeParams;
         type_path_list superTraits;
         item_list members;

@@ -11,16 +11,16 @@ namespace jc::ast {
 
     struct FuncParam : Node {
         FuncParam(
-            id_ptr id,
+            id_ptr name,
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
-        ) : id(std::move(id)),
+        ) : name(std::move(name)),
             type(std::move(type)),
             defaultValue(std::move(defaultValue)),
             Node(span) {}
 
-        id_ptr id;
+        id_ptr name;
         type_ptr type;
         opt_expr_ptr defaultValue;
     };

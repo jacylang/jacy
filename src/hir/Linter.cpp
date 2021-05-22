@@ -68,7 +68,7 @@ namespace jc::hir {
             lint(funcDecl->typeParams.unwrap());
         }
 
-        funcDecl->id->accept(*this);
+        funcDecl->name->accept(*this);
 
         for (const auto & param : funcDecl->params) {
             if (param->type) {
@@ -113,7 +113,7 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Struct * _struct) {
-        _struct->id->accept(*this);
+        _struct->name->accept(*this);
 
         if (_struct->typeParams) {
             lint(_struct->typeParams.unwrap());
@@ -125,7 +125,7 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::Trait * trait) {
-        trait->id->accept(*this);
+        trait->name->accept(*this);
 
         if (trait->typeParams) {
             lint(trait->typeParams.unwrap());
@@ -141,12 +141,12 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::TypeAlias * typeAlias) {
-        typeAlias->id->accept(*this);
+        typeAlias->name->accept(*this);
         typeAlias->type->accept(*this);
     }
 
     void Linter::visit(ast::VarDecl * varDecl) {
-        varDecl->id->accept(*this);
+        varDecl->name->accept(*this);
         varDecl->type->accept(*this);
 
         if (varDecl->assignExpr) {
@@ -299,7 +299,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::Lambda * lambdaExpr) {
         for (const auto & param : lambdaExpr->params) {
-            param->id->accept(*this);
+            param->name->accept(*this);
             if (param->type) {
                 param->type.unwrap()->accept(*this);
             }
@@ -332,7 +332,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::MemberAccess * memberAccess) {
         memberAccess->lhs->accept(*this);
-        memberAccess->id->accept(*this);
+        memberAccess->field->accept(*this);
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
@@ -358,7 +358,7 @@ namespace jc::hir {
 
     void Linter::visit(ast::PathExpr * pathExpr) {
         for (const auto & seg : pathExpr->segments) {
-            seg->id->accept(*this);
+            seg->name->accept(*this);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -445,14 +445,14 @@ namespace jc::hir {
 
     void Linter::visit(ast::TupleType * tupleType) {
         const auto & els = tupleType->elements;
-        if (els.size() == 1 and els.at(0)->id and els.at(0)->type) {
+        if (els.size() == 1 and els.at(0)->name and els.at(0)->type) {
             suggestErrorMsg("Cannot declare single-element named tuple type", tupleType->span);
         }
 
         // FIXME: Add check for one-element tuple type, etc.
         for (const auto & el : els) {
-            if (el->id) {
-                el->id.unwrap()->accept(*this);
+            if (el->name) {
+                el->name.unwrap()->accept(*this);
             }
             if (el->type) {
                 el->type.unwrap()->accept(*this);
@@ -477,8 +477,8 @@ namespace jc::hir {
     }
 
     void Linter::visit(ast::TypePath * typePath) {
-        for (const auto & seg : typePath->ids) {
-            seg->id->accept(*this);
+        for (const auto & seg : typePath->segments) {
+            seg->name->accept(*this);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -491,18 +491,18 @@ namespace jc::hir {
 
     // Type params //
     void Linter::visit(ast::GenericType * genericType) {
-        genericType->id->accept(*this);
+        genericType->name->accept(*this);
         if (genericType->type) {
             genericType->type.unwrap()->accept(*this);
         }
     }
 
     void Linter::visit(ast::Lifetime * lifetime) {
-        lifetime->id->accept(*this);
+        lifetime->name->accept(*this);
     }
 
     void Linter::visit(ast::ConstParam * constParam) {
-        constParam->id->accept(*this);
+        constParam->name->accept(*this);
         constParam->type->accept(*this);
         if (constParam->defaultValue) {
             constParam->defaultValue.unwrap()->accept(*this);
@@ -512,8 +512,8 @@ namespace jc::hir {
     // Linters //
     void Linter::lint(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
-            if (el->id) {
-                el->id.unwrap()->accept(*this);
+            if (el->name) {
+                el->name.unwrap()->accept(*this);
             }
             if (el->value) {
                 el->value.unwrap()->accept(*this);

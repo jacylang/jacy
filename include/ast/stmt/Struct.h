@@ -7,16 +7,16 @@
 namespace jc::ast {
     struct Struct : Stmt {
         Struct(
-            id_ptr id,
+            id_ptr name,
             opt_type_params typeParams,
             item_list members,
             const Span & span
-        ) : id(std::move(id)),
+        ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
             members(std::move(members)),
             Stmt(span, StmtKind::Struct) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_params typeParams;
         item_list members;
 

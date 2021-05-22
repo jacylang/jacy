@@ -27,10 +27,10 @@ namespace jc::ast {
     };
 
     struct GenericType : TypeParam {
-        GenericType(id_ptr id, opt_type_ptr type, const Span & span)
-            : id(std::move(id)), type(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
+        GenericType(id_ptr name, opt_type_ptr type, const Span & span)
+            : name(std::move(name)), type(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
 
-        id_ptr id;
+        id_ptr name;
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
@@ -39,10 +39,10 @@ namespace jc::ast {
     };
 
     struct Lifetime : TypeParam {
-        Lifetime(id_ptr id, const Span & span)
-            : id(std::move(id)), TypeParam(TypeParamKind::Lifetime, span) {}
+        Lifetime(id_ptr name, const Span & span)
+            : name(std::move(name)), TypeParam(TypeParamKind::Lifetime, span) {}
 
-        id_ptr id;
+        id_ptr name;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
@@ -51,16 +51,16 @@ namespace jc::ast {
 
     struct ConstParam : TypeParam {
         ConstParam(
-            id_ptr id,
+            id_ptr name,
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
-        ) : id(std::move(id)),
+        ) : name(std::move(name)),
             type(std::move(type)),
             defaultValue(std::move(defaultValue)),
             TypeParam(TypeParamKind::Const, span) {}
 
-        id_ptr id;
+        id_ptr name;
         type_ptr type;
         opt_expr_ptr defaultValue;
 
