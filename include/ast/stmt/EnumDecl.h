@@ -19,10 +19,9 @@ namespace jc::ast {
     struct EnumDecl : Stmt {
         EnumDecl(const Span & span) : Stmt(span, StmtKind::Enum) {}
 
-        // FIXME!!!
-        id_ptr id{nullptr};
-        enum_entry_list entries{};
-        stmt_list body{nullptr};
+        id_ptr id;
+        enum_entry_list entries;
+        stmt_list body;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
