@@ -24,7 +24,7 @@ namespace jc::hir {
     public:
         Linter();
 
-        dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::stmt_list & tree);
+        dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
 
     private:
         void visit(ast::ErrorStmt * errorStmt) override;
@@ -90,7 +90,7 @@ namespace jc::hir {
     private:
         void lint(const ast::named_list_ptr & namedList);
         void lint(const ast::type_param_list & typeParams);
-        void lintMembers(const ast::stmt_list & members);
+        void lintMembers(const ast::item_list & members);
         bool isPlaceExpr(const ast::expr_ptr & expr);
 
         // Context //

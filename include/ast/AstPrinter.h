@@ -13,7 +13,7 @@ namespace jc::ast {
     public:
         AstPrinter() = default;
 
-        void print(const stmt_list & tree);
+        void print(const item_list & tree);
 
         void visit(ErrorStmt * errorStmt) override;
         void visit(ErrorExpr * errorExpr) override;

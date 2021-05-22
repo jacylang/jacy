@@ -3,7 +3,7 @@
 namespace jc::hir {
     Linter::Linter() = default;
 
-    dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::stmt_list & tree) {
+    dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::item_list & tree) {
         log.dev("Lint...");
 
         this->sess = sess;
@@ -526,7 +526,7 @@ namespace jc::hir {
         }
     }
 
-    void Linter::lintMembers(const ast::stmt_list & members) {
+    void Linter::lintMembers(const ast::item_list & members) {
         for (const auto & member : members) {
             member->accept(*this);
         }

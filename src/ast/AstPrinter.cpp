@@ -1,7 +1,7 @@
 #include "ast/AstPrinter.h"
 
 namespace jc::ast {
-    void AstPrinter::print(const ast::stmt_list & tree) {
+    void AstPrinter::print(const ast::item_list & tree) {
         if (tree.empty()) {
             log.debug("Tree is empty");
         }
@@ -29,19 +29,21 @@ namespace jc::ast {
     void AstPrinter::visit(EnumDecl * enumDecl) {
         printIndent();
 
-        log.raw("enum ");
-        enumDecl->id->accept(*this);
+        log.notImplemented("AstPrinter:enumDecl");
 
-        for (const auto & enumEntry : enumDecl->entries) {
-            enumEntry->id->accept(*this);
-            if (enumEntry->value) {
-                log.raw(" = ");
-                enumEntry->value->accept(*this);
-            }
-            log.raw(",").nl();
-        }
-
-        print(enumDecl->body);
+//        log.raw("enum ");
+//        enumDecl->id->accept(*this);
+//
+//        for (const auto & enumEntry : enumDecl->entries) {
+//            enumEntry->id->accept(*this);
+//            if (enumEntry->value) {
+//                log.raw(" = ");
+//                enumEntry->value->accept(*this);
+//            }
+//            log.raw(",").nl();
+//        }
+//
+//        print(enumDecl->body);
     }
 
     void AstPrinter::visit(ExprStmt * exprStmt) {
@@ -200,7 +202,10 @@ namespace jc::ast {
 
         log.raw("{").nl();
         incIndent();
-        print(block->stmts);
+        for (const auto & stmt : block->stmts) {
+            stmt->accept(*this);
+            log.nl();
+        }
         decIndent();
         // Closing brace must go on the "super"-indent
         printIndent();
