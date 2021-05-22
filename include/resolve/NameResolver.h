@@ -26,24 +26,24 @@ namespace jc::resolve {
         void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::Impl * impl) override;
         void visit(ast::Item * item) override;
-//        void visit(ast::Struct * _struct) override;
-//        void visit(ast::Trait * trait) override;
-//        void visit(ast::TypeAlias * typeAlias) override;
-//        void visit(ast::VarDecl * varDecl) override;
-//        void visit(ast::WhileStmt * whileStmt) override;
+        void visit(ast::Struct * _struct) override;
+        void visit(ast::Trait * trait) override;
+        void visit(ast::TypeAlias * typeAlias) override;
+        void visit(ast::VarDecl * varDecl) override;
+        void visit(ast::WhileStmt * whileStmt) override;
 
         // Expressions //
-//        void visit(ast::Assignment * assign) override;
+        void visit(ast::Assignment * assign) override;
         void visit(ast::Block * block) override;
-//        void visit(ast::BorrowExpr * borrowExpr) override;
-//        void visit(ast::BreakExpr * breakExpr) override;
-//        void visit(ast::ContinueExpr * continueExpr) override;
-//        void visit(ast::DerefExpr * derefExpr) override;
-//        void visit(ast::Identifier * identifier) override;
-//        void visit(ast::IfExpr * ifExpr) override;
-//        void visit(ast::Infix * infix) override;
-//        void visit(ast::Invoke * invoke) override;
-//        void visit(ast::Lambda * lambdaExpr) override;
+        void visit(ast::BorrowExpr * borrowExpr) override;
+        void visit(ast::BreakExpr * breakExpr) override;
+        void visit(ast::ContinueExpr * continueExpr) override;
+        void visit(ast::DerefExpr * derefExpr) override;
+        void visit(ast::Identifier * identifier) override;
+        void visit(ast::IfExpr * ifExpr) override;
+        void visit(ast::Infix * infix) override;
+        void visit(ast::Invoke * invoke) override;
+        void visit(ast::Lambda * lambdaExpr) override;
 //        void visit(ast::ListExpr * listExpr) override;
 //        void visit(ast::LiteralConstant * literalConstant) override;
 //        void visit(ast::LoopExpr * loopExpr) override;
@@ -70,12 +70,18 @@ namespace jc::resolve {
 //        void visit(ast::TypePath * typePath) override;
 //        void visit(ast::UnitType * unitType) override;
 
+    // Extended visitors //
+    private:
+        void visitMembers(const ast::item_list & members);
+        void visitNamedList(const ast::named_list_ptr & namedList);
+
         // Ribs //
     private:
         rib_stack ribs;
-        size_t ribIndex{0};
         void enterRib();
         void exitRib();
+
+        void enterSpecificRib(const rib_ptr & rib);
 
         // Resolution //
     private:
