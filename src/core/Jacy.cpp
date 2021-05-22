@@ -107,7 +107,7 @@ namespace jc::core {
             log.info("Stop after linting due to `compile-depth=linter`");
         }
 
-        auto ribs = nameResolver.resolve(sess, tree).unwrap(sess, cli.config.has("print", "names"));
+        auto ribs = nameResolver.resolve(sess, tree).unwrap(sess, cli.config.has("print", "sugg"));
 
         if (cli.config.has("compile-depth", "name-resolution")) {
             log.info("Stop after name resolution due to `compile-depth=name-resolution`");
