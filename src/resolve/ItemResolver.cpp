@@ -9,6 +9,7 @@ namespace jc::resolve {
         const auto & found = rib->items.find(name);
         if (found == rib->items.end()) {
             rib->items.emplace(name, std::make_shared<Item>(kind, nodeId));
+            return;
         }
         suggestCannotRedeclare(name, Item::kindStr(kind), found->second->kindStr(), found->second->nodeId);
     }

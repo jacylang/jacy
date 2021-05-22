@@ -5,6 +5,8 @@ namespace jc::resolve {
         typeResolver.setSession(sess);
         itemResolver.setSession(sess);
 
+        enterRib();
+
         for (const auto & item : tree) {
             item->accept(*this);
         }
@@ -21,7 +23,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
-
+        typeResolver.visit(funcDecl);
+        itemResolver.visit(funcDecl);
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -44,6 +47,7 @@ namespace jc::resolve {
         ribIndex = ribs.size() - 1;
 
         typeResolver.acceptRib(newRib);
+        itemResolver.acceptRib(newRib);
     }
 
     void NameResolver::exitRib() {
