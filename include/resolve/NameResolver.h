@@ -4,6 +4,7 @@
 #include "ast/StubVisitor.h"
 #include "resolve/TypeResolver.h"
 #include "resolve/ItemResolver.h"
+#include "resolve/LifetimeResolver.h"
 #include "data_types/SuggResult.h"
 #include "utils/arr.h"
 
@@ -86,6 +87,7 @@ namespace jc::resolve {
     private:
         std::unique_ptr<TypeResolver> typeResolver;
         std::unique_ptr<ItemResolver> itemResolver;
+        std::unique_ptr<LifetimeResolver> lifetimeResolver;
 
         opt_node_id resolveId(const std::string & name);
     };

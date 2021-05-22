@@ -4,6 +4,7 @@ namespace jc::resolve {
     dt::SuggResult<rib_ptr> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
         typeResolver = std::make_unique<TypeResolver>(sess);
         itemResolver = std::make_unique<ItemResolver>(sess);
+        lifetimeResolver = std::make_unique<LifetimeResolver>(sess);
 
         enterRib();
 

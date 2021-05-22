@@ -4,15 +4,12 @@
 #include "resolve/BaseResolver.h"
 
 namespace jc::resolve {
-    class ItemResolver : public BaseResolver {
+    class LifetimeResolver : public BaseResolver {
     public:
-        explicit ItemResolver(sess::sess_ptr sess) : BaseResolver("LifetimeResolver", sess) {}
-        ~ItemResolver() override = default;
+        explicit LifetimeResolver(sess::sess_ptr sess) : BaseResolver("LifetimeResolver", sess) {}
+        ~LifetimeResolver() override = default;
 
         void visit(ast::Lifetime * lifetime) override;
-
-    private:
-        void declareLifetime(const std::string & name);
     };
 }
 
