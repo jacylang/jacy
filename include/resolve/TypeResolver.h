@@ -24,7 +24,7 @@ namespace jc::resolve {
     private:
         rib_ptr rib;
         void acceptRib(rib_ptr newRib);
-        void declareType(const std::string & name, const std::shared_ptr<Type> & type);
+        void declareType(const std::string & name, type_ptr type);
 
         // Resolution //
     private:

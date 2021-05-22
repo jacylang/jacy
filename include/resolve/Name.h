@@ -7,10 +7,18 @@
 
 namespace jc::resolve {
     struct Name;
+    struct Type;
+    struct Item;
+    struct Local;
+    struct Lifetime;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
     using rib_stack = std::stack<rib_ptr>;
     using opt_node_id = dt::Option<ast::node_id>;
+    using type_ptr = std::shared_ptr<Type>;
+    using item_ptr = std::shared_ptr<Item>;
+    using local_ptr = std::shared_ptr<Local>;
+    using lifetime_ptr = std::shared_ptr<Lifetime>;
 
     template<class T>
     using name_map = std::map<std::string, std::shared_ptr<T>>;

@@ -12,7 +12,7 @@ namespace jc::resolve {
 
     class BaseResolver : public ast::StubVisitor {
     public:
-        BaseResolver(const std::string & name) : StubVisitor(name, ast::StubVisitorMode::Stub) {}
+        explicit BaseResolver(const std::string & name) : StubVisitor(name, ast::StubVisitorMode::Stub) {}
 
         sugg::sugg_list extractSuggestions();
 

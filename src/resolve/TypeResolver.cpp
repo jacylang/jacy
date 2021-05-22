@@ -35,7 +35,7 @@ namespace jc::resolve {
         rib = newRib;
     }
 
-    void TypeResolver::declareType(const std::string & name, const std::shared_ptr<Type> & type) {
+    void TypeResolver::declareType(const std::string & name, type_ptr type) {
         if (rib->types.find(name) == rib->types.end()) {
             rib->types.emplace(name, type);
         }

@@ -9,7 +9,10 @@ namespace jc::resolve {
         ItemResolver() : BaseResolver("ItemResolver") {}
         ~ItemResolver() override = default;
 
+        void visit(ast::FuncDecl * funcDecl) override;
 
+    private:
+        void declareItem(const std::string & name, );
     };
 }
 
