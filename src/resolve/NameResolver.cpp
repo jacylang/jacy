@@ -6,7 +6,7 @@ namespace jc::resolve {
         itemResolver = std::make_unique<ItemResolver>(sess);
         lifetimeResolver = std::make_unique<LifetimeResolver>(sess);
 
-        visitMembers(tree);
+        visitItems(tree);
 
         return {rib, moveConcat(
             typeResolver->extractSuggestions(),
@@ -14,84 +14,13 @@ namespace jc::resolve {
         )};
     }
 
+    void NameResolver::visit(ast::Item * item) {
+        // This is kind of entry point for name resolution
+    }
+
     // Statements //
     void NameResolver::visit(ast::ExprStmt * exprStmt) {
         exprStmt->expr->accept(*this);
-    }
-
-    void NameResolver::visit(ast::FuncDecl * funcDecl) {
-        enterRib(); // -> (type rib)
-
-        if (funcDecl->typeParams) {
-            visitTypeParams(funcDecl->typeParams.unwrap());
-        }
-
-        if (funcDecl->oneLineBody) {
-            funcDecl->oneLineBody.unwrap()->accept(*this);
-        } else {
-            funcDecl->body.unwrap()->accept(*this);
-        }
-
-        exitRib(); // <- (type rib)
-    }
-
-    void NameResolver::visit(ast::Impl * impl) {
-        enterRib(); // -> (type rib)
-
-        if (impl->typeParams) {
-            visitTypeParams(impl->typeParams.unwrap());
-        }
-
-        impl->traitTypePath->accept(*this);
-
-
-
-        exitRib(); // <- (type rib)
-    }
-
-    void NameResolver::visit(ast::Item * item) {
-        item->stmt->accept(*this);
-    }
-
-    void NameResolver::visit(ast::Struct * _struct) {
-        _struct->accept(*itemResolver);
-
-        enterRib(); // -> (type rib)
-        _struct->accept(*typeResolver);
-
-        visitMembers(_struct->members);
-
-        exitRib(); // <- (type rib)
-    }
-
-    void NameResolver::visit(ast::Trait * trait) {
-        trait->accept(*itemResolver);
-
-        enterRib(); // -> (type rib)
-
-        trait->accept(*typeResolver);
-
-        for (const auto & superTrait : trait->superTraits) {
-            superTrait->accept(*this);
-        }
-
-        visitMembers(trait->members);
-
-        exitRib(); // <- (type rib)
-    }
-
-    void NameResolver::visit(ast::TypeAlias * typeAlias) {
-        typeAlias->accept(*itemResolver);
-
-        // Note: For now this rib for typeAlias type is useless, but in the future, we'll have generic type aliases
-        enterRib(); // -> (type rib)
-        typeAlias->accept(*typeResolver);
-        exitRib(); // <- (type rib)
-    }
-
-    void NameResolver::visit(ast::VarDecl * varDecl) {
-        // FIXME: Visit by LocalResolver
-        varDecl->accept(*typeResolver);
     }
 
     void NameResolver::visit(ast::WhileStmt * whileStmt) {
@@ -295,7 +224,7 @@ namespace jc::resolve {
     }
 
     // Extended visitors //
-    void NameResolver::visitMembers(const ast::item_list & members) {
+    void NameResolver::visitItems(const ast::item_list & members) {
         enterRib(); // -> (members)
 
         // At first we need to forward all declarations.

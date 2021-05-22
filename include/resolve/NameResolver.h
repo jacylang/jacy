@@ -20,17 +20,10 @@ namespace jc::resolve {
 
         dt::SuggResult<rib_ptr> resolve(sess::sess_ptr sess, const ast::item_list & tree);
 
-        // Statements //
-//        void visit(ast::EnumDecl * enumDecl) override;
-        void visit(ast::ExprStmt * exprStmt) override;
-        void visit(ast::FuncDecl * funcDecl) override;
-        void visit(ast::Impl * impl) override;
         void visit(ast::Item * item) override;
-        void visit(ast::Struct * _struct) override;
-        void visit(ast::Trait * trait) override;
-        void visit(ast::TypeAlias * typeAlias) override;
-        void visit(ast::VarDecl * varDecl) override;
 
+        // Statements //
+        void visit(ast::ExprStmt * exprStmt) override;
 //        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::WhileStmt * whileStmt) override;
 
@@ -73,7 +66,7 @@ namespace jc::resolve {
 
         // Extended visitors //
     private:
-        void visitMembers(const ast::item_list & members);
+        void visitItems(const ast::item_list & members);
         void visitTypeParams(const ast::type_param_list & typeParams);
         void visitNamedList(const ast::named_list_ptr & namedList);
 
