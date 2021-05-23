@@ -277,11 +277,11 @@ namespace jc::parser {
         return items;
     }
 
-    ast::stmt_ptr Parser::parseEnumDecl(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseEnumDecl(ast::attr_list attributes) {
         logParse("EnumDecl");
     }
 
-    ast::stmt_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {
+    ast::item_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {
         logParse("FuncDecl");
 
         const auto & begin = cspan();
@@ -321,6 +321,7 @@ namespace jc::parser {
         std::tie(body, oneLineBody) = parseFuncBody();
 
         return std::make_shared<ast::FuncDecl>(
+            std::move(attributes),
             modifiers,
             typeParams,
             name,
@@ -332,7 +333,7 @@ namespace jc::parser {
         );
     }
 
-    ast::stmt_ptr Parser::parseImpl(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseImpl(ast::attr_list attributes) {
         logParse("Impl");
 
         const auto & begin = cspan();
@@ -354,10 +355,17 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("impl");
 
-        return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, begin.to(cspan()));
+        return std::make_shared<ast::Impl>(
+            std::move(attributes),
+            typeParams,
+            traitTypePath,
+            forType,
+            members,
+            begin.to(cspan())
+        );
     }
 
-    ast::stmt_ptr Parser::parseStruct(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseStruct(ast::attr_list attributes) {
         logParse("Struct");
 
         const auto & begin = cspan();
@@ -369,10 +377,16 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("struct");
 
-        return std::make_shared<ast::Struct>(name, typeParams, members, begin.to(cspan()));
+        return std::make_shared<ast::Struct>(
+            std::move(attributes),
+            name,
+            typeParams,
+            members,
+            begin.to(cspan())
+        );
     }
 
-    ast::stmt_ptr Parser::parseTrait(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseTrait(ast::attr_list attributes) {
         logParse("Trait");
 
         const auto & begin = cspan();
@@ -413,10 +427,17 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("trait");
 
-        return std::make_shared<ast::Trait>(name, typeParams, superTraits, members, begin.to(cspan()));
+        return std::make_shared<ast::Trait>(
+            std::move(attributes),
+            name,
+            typeParams,
+            superTraits,
+            members,
+            begin.to(cspan())
+        );
     }
 
-    ast::stmt_ptr Parser::parseTypeAlias(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseTypeAlias(ast::attr_list attributes) {
         logParse("TypeDecl");
 
         const auto & begin = cspan();
@@ -432,7 +453,12 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
         auto type = parseType("Expected type");
 
-        return std::make_shared<ast::TypeAlias>(name, type, begin.to(cspan()));
+        return std::make_shared<ast::TypeAlias>(
+            std::move(attributes),
+            name,
+            type,
+            begin.to(cspan())
+        );
     }
 
     ////////////////
