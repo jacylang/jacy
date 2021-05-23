@@ -7,6 +7,10 @@ namespace jc::resolve {
         return {rib, std::move(suggestions)};
     }
 
+    void NameResolver::visit(ast::FuncDecl * funcDecl) {
+
+    }
+
     void NameResolver::visit(ast::Item * item) {
         item->stmt->accept(*this);
     }
@@ -263,6 +267,31 @@ namespace jc::resolve {
         }
 
         exitRib(); // <- (members)
+    }
+
+    void NameResolver::visitTypeParams(const ast::opt_type_params & maybeTypeParams) {
+        if (!maybeTypeParams) {
+            return;
+        }
+        const auto & typeParams = maybeTypeParams.unwrap();
+        enterRib(); // -> (type rib)
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Type) {
+
+            }
+        }
+        enterRib(); // -> (lifetime rib)
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Lifetime) {
+
+            }
+        }
+        enterRib(); // -> (const rib)
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Const) {
+
+            }
+        }
     }
 
     void NameResolver::visitNamedList(const ast::named_list_ptr & namedList) {
