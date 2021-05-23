@@ -25,6 +25,7 @@ namespace jc::resolve {
             Enum,
             TypeAlias,
             Field,
+            Param,
         } kind;
         ast::node_id nodeId;
 

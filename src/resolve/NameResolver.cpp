@@ -11,9 +11,24 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl->typeParams);
 
+        enterRib(); // -> (signature rib)
+        for (const auto & param : funcDecl->params) {
+            // TODO: Resolve params types
+        }
+        // TODO: Resolve return type
 
+        enterRib(); // -> (params rib)
+        for (const auto & param : funcDecl->params) {
+            declare(param->name->getValue(), Name::Kind::Param, param->id);
+        }
 
-        liftToDepth(prevDepth);
+        if (funcDecl->oneLineBody) {
+            funcDecl->oneLineBody.unwrap()->accept(*this);
+        } else {
+            funcDecl->body.unwrap()->accept(*this);
+        }
+
+        liftToDepth(prevDepth); // <- (params rib) <- (all type params ribs)
     }
 
     void NameResolver::visit(ast::Item * item) {
