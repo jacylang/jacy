@@ -36,6 +36,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
         enterRib();
+        // TODO
     }
 
     // Statements //

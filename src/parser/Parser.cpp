@@ -2079,7 +2079,7 @@ namespace jc::parser {
             auto typeParams = parseTypeParams();
 
             segments.push_back(
-                std::make_shared<ast::IdType>(
+                std::make_shared<ast::TypePathSegment>(
                     std::move(name), std::move(typeParams), segBegin.to(cspan())
                 )
             );
