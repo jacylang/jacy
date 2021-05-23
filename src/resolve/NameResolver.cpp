@@ -262,7 +262,12 @@ namespace jc::resolve {
     }
 
     // Declarations //
-    void NameResolver::declareItem(Name::Kind kind, ast::node_id nodeId) {
+    void NameResolver::declareItem(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
+        const auto & found = rib->names.find(name);
+        if (found == rib->names.end()) {
+            rib->names.emplace(name, std::make_shared<Name>(kind, nodeId));
+            return;
+        }
 
     }
 

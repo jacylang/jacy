@@ -75,7 +75,7 @@ namespace jc::resolve {
 
         // Declarations //
     private:
-        void declareItem(Name::Kind kind, ast::node_id nodeId);
+        void declareItem(const std::string & name, Name::Kind kind, ast::node_id nodeId);
 
         // Resolution //
     private:
