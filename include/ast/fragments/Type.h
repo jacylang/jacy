@@ -55,6 +55,10 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
+        void accept(const ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct TupleType : Type {
@@ -64,6 +68,10 @@ namespace jc::ast {
         tuple_t_el_list elements;
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -86,6 +94,10 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
+        void accept(const ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct SliceType : Type {
@@ -95,6 +107,10 @@ namespace jc::ast {
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -107,6 +123,10 @@ namespace jc::ast {
         expr_ptr sizeExpr;
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -131,12 +151,20 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
+        void accept(const ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UnitType : Type {
         explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -147,12 +175,20 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
+        void accept(const ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct ErrorTypePath : TypePath {
         explicit ErrorTypePath(const Span & span) : TypePath(span) {}
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

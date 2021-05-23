@@ -36,6 +36,10 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
+        void accept(const ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct Lifetime : TypeParam {
@@ -45,6 +49,10 @@ namespace jc::ast {
         id_ptr name;
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -65,6 +73,10 @@ namespace jc::ast {
         opt_expr_ptr defaultValue;
 
         void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(const ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

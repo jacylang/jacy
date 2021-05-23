@@ -26,6 +26,7 @@ namespace jc::ast {
         ItemKind kind;
 
         virtual void accept(BaseVisitor & visitor) = 0;
+        virtual void accept(const ConstVisitor & visitor) const = 0;
     };
 }
 
