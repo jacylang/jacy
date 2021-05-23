@@ -121,9 +121,10 @@ namespace jc::resolve {
 
     using decl_result = dt::Option<std::tuple<Name::Kind, ast::node_id>>;
 
-    // FIXME: Add rib kinds
     struct Rib {
         enum class Kind {
+            Normal,
+            AnonMod,
             Mod,
         } kind;
 

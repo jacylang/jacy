@@ -1,17 +1,17 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_ptr> NameResolver::resolve(const ast::item_list & tree) {
+    dt::SuggResult<rib_stack> NameResolver::resolve(const ast::item_list & tree) {
         visitItems(tree);
 
-        return {rib, std::move(suggestions)};
+        return {ribStack, std::move(suggestions)};
     }
 
     void NameResolver::visit(ast::Func & funcDecl) {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl.typeParams);
 
-        enterRib(); // -> (signature rib)
+        enterRib(Rib::Kind::Normal); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
             param->type->accept(*this);
         }
@@ -20,7 +20,7 @@ namespace jc::resolve {
             funcDecl.returnType.unwrap()->accept(*this);
         }
 
-        enterRib(); // -> (params rib)
+        enterRib(Rib::Kind::Normal); // -> (params rib)
         for (const auto & param : funcDecl.params) {
             declare(param->name->unwrapValue(), Name::Kind::Param, param->id);
         }
@@ -35,7 +35,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
-        enterRib();
+        enterRib(Rib::Kind::Normal);
         // TODO
     }
 
@@ -56,7 +56,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Block & block) {
-        enterRib(); // -> block rib
+        enterRib(Rib::Kind::AnonMod); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt->accept(*this);
         }
@@ -101,7 +101,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Lambda & lambdaExpr) {
-        enterRib(); // -> (lambda params)
+        enterRib(Rib::Kind::Normal); // -> (lambda params)
 
         for (const auto & param : lambdaExpr.params) {
             // TODO
@@ -192,7 +192,7 @@ namespace jc::resolve {
         whenExpr.subject->accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
-            enterRib(); // -> (when entry)
+            enterRib(Rib::Kind::AnonMod); // -> (when entry)
             for (const auto & cond : entry->conditions) {
                 cond->accept(*this);
             }
@@ -293,7 +293,7 @@ namespace jc::resolve {
             return;
         }
         const auto & typeParams = maybeTypeParams.unwrap();
-        enterRib(); // -> (type rib)
+        enterRib(Rib::Kind::Normal); // -> (type rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 declare(
@@ -303,7 +303,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterRib(); // -> (lifetime rib)
+        enterRib(Rib::Kind::Normal); // -> (lifetime rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
                 declare(
@@ -313,7 +313,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterRib(); // -> (const rib)
+        enterRib(Rib::Kind::Normal); // -> (const rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(
@@ -350,16 +350,12 @@ namespace jc::resolve {
         return ribStack.at(d);
     }
 
-    void NameResolver::enterRib(Rib::Kind kind) {
-        rib_ptr newRib;
-        switch (kind) {
-            case Rib::Kind::Mod: {
-                newRib = std::make_shared<ModRib>();
-                break;
-            }
-        }
+    void NameResolver::enterRib() {
+        enterRib(std::make_shared<Rib>(Rib::Kind::Normal));
+    }
 
-        ribStack.push_back(std::move(newRib));
+    void NameResolver::enterRib(const rib_ptr & nestedRib) {
+        ribStack.push_back(nestedRib);
         depth++;
     }
 

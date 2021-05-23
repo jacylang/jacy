@@ -17,7 +17,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::Panic) {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<rib_ptr> resolve(const ast::item_list & tree);
+        dt::SuggResult<rib_stack> resolve(const ast::item_list & tree);
 
         // Items //
 //        void visit(ast::Enum & enumDecl) override;
@@ -82,7 +82,8 @@ namespace jc::resolve {
         uint32_t getDepth() const;
         rib_ptr curRib() const;
         opt_rib ribAt(size_t ribDepth) const;
-        void enterRib(Rib::Kind kind);
+        void enterRib();
+        void enterRib(const rib_ptr & nestedRib);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
