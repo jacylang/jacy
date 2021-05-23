@@ -24,9 +24,11 @@ namespace jc::ast {
         type_path_list superTraits;
         item_list members;
 
+
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }

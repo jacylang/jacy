@@ -70,9 +70,11 @@ namespace jc::ast {
     struct ErrorExpr : Expr {
         explicit ErrorExpr(const Span & span) : Expr(span, ExprKind::Error) {}
 
+
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }

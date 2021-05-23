@@ -23,6 +23,7 @@ namespace jc::ast {
         enum_entry_list entries;
         stmt_list body;
 
+
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }

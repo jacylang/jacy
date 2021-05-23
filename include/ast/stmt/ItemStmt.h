@@ -13,6 +13,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }

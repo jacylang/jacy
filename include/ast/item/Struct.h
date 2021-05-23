@@ -22,9 +22,11 @@ namespace jc::ast {
         opt_type_params typeParams;
         field_list fields;
 
+
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }

@@ -22,9 +22,11 @@ namespace jc::ast {
         opt_block_ptr ifBranch;
         opt_block_ptr elseBranch;
 
+
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
+
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
