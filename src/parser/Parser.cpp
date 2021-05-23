@@ -1626,22 +1626,38 @@ namespace jc::parser {
                 );
             }
 
-            const auto & elBegin = cspan();
+            const auto & exprToken = peek();
             ast::opt_id_ptr name = dt::None;
             ast::opt_expr_ptr value = dt::None;
 
-            auto expr = parseExpr("Expression expected");
-
-            if (expr->is(ast::ExprKind::Id) and skipOpt(TokenKind::Colon, true)) {
-                name = ast::Expr::as<ast::Identifier>(expr);
-                value = parseExpr("Expression expected as value for named argument in " + construction);
+            if (is(TokenKind::Id)) {
+                auto identifier = justParseId("`parseNamedList`");
+                if (skipOpt(TokenKind::Colon)) {
+                    name = identifier;
+                    value = parseExpr("Expected value after `:`");
+                } else {
+                    // Recover path expression
+                    // We collected one identifier, and if it is not a tuple element name, we need to use it as path
+                    auto typeParams = parseTypeParams();
+                    value = std::make_shared<ast::PathExpr>(
+                        false,
+                        ast::path_expr_list{
+                            std::make_shared<ast::PathExprSeg>(
+                                std::move(identifier),
+                                typeParams,
+                                exprToken.span(sess).to(cspan())
+                            )
+                        },
+                        exprToken.span(sess).to(cspan())
+                    );
+                }
             } else {
-                value = expr;
+                value = parseExpr("Expression expected");
             }
 
             namedList.emplace_back(
                 std::make_shared<ast::NamedElement>(
-                    std::move(name), std::move(value), elBegin.to(cspan())
+                    std::move(name), std::move(value), exprToken.span(sess).to(cspan())
                 )
             );
         }

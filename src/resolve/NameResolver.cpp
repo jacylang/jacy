@@ -1,7 +1,7 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_ptr> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
+    dt::SuggResult<rib_ptr> NameResolver::resolve(const ast::item_list & tree) {
         visitItems(tree);
 
         return {rib, std::move(suggestions)};
