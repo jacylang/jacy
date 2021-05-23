@@ -643,50 +643,50 @@ namespace jc::parser {
             case TokenKind::While: {
                 parseWhileStmt();
                 construction = "`while` statement";
-            }
                 break;
+            }
             case TokenKind::For: {
                 parseForStmt();
                 construction = "`for` statement";
-            }
                 break;
+            }
             case TokenKind::Val:
             case TokenKind::Var:
             case TokenKind::Const: {
                 parseVarStmt();
                 construction = "`" + token.kindToString() + "` declaration";
-            }
                 break;
+            }
             case TokenKind::Type: {
                 parseTypeAlias({});
                 construction = "`type` alias";
-            }
                 break;
+            }
             case TokenKind::Struct: {
                 parseStruct({});
                 construction = "`struct` declaration";
-            }
                 break;
+            }
             case TokenKind::Impl: {
                 parseImpl({});
                 construction = "implementation";
-            }
                 break;
+            }
             case TokenKind::Trait: {
                 parseTrait({});
                 construction = "`trait` declaration";
-            }
                 break;
+            }
             case TokenKind::Func: {
                 parseFuncDecl({}, {});
                 construction = "`func` declaration";
-            }
                 break;
+            }
             case TokenKind::Enum: {
                 parseEnumDecl({});
                 construction = "`enum` declaration";
-            }
                 break;
+            }
             default: {
                 nonsense = true;
             }
