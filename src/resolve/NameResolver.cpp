@@ -257,7 +257,7 @@ namespace jc::resolve {
                 } break;
                 default: continue;
             }
-            declareItem(name, kind, member->id);
+            declare(name, kind, member->id);
         }
 
         // Then we resolve the signatures and bodies
@@ -316,8 +316,14 @@ namespace jc::resolve {
         rib = parent.unwrap();
     }
 
+    void NameResolver::exitStack(size_t count) {
+        for (size_t i = 0; i < count; count++) {
+            exitRib();
+        }
+    }
+
     // Declarations //
-    void NameResolver::declareItem(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
+    void NameResolver::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
         const auto & found = rib->names.find(name);
         if (found == rib->names.end()) {
             rib->names.emplace(name, std::make_shared<Name>(kind, nodeId));

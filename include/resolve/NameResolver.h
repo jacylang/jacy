@@ -76,10 +76,11 @@ namespace jc::resolve {
         rib_ptr rib;
         void enterRib();
         void exitRib();
+        void exitStack(size_t count);
 
         // Declarations //
     private:
-        void declareItem(const std::string & name, Name::Kind kind, ast::node_id nodeId);
+        void declare(const std::string & name, Name::Kind kind, ast::node_id nodeId);
 
         // Resolution //
     private:
