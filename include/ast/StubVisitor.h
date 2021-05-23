@@ -23,16 +23,18 @@ namespace jc::ast {
         void visit(ast::ErrorType * errorType) override;
         void visit(ast::ErrorTypePath * errorTypePath) override;
 
-        // Statements //
+        // Items //
         void visit(ast::EnumDecl * enumDecl) override;
-        void visit(ast::ExprStmt * exprStmt) override;
-        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::Impl * impl) override;
-        void visit(ast::Item * item) override;
         void visit(ast::Struct * _struct) override;
         void visit(ast::Trait * trait) override;
         void visit(ast::TypeAlias * typeAlias) override;
+
+        // Statements //
+        void visit(ast::ExprStmt * exprStmt) override;
+        void visit(ast::ForStmt * forStmt) override;
+        void visit(ast::ItemStmt * itemStmt) override;
         void visit(ast::VarStmt * varDecl) override;
         void visit(ast::WhileStmt * whileStmt) override;
 
@@ -43,7 +45,6 @@ namespace jc::ast {
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
         void visit(ast::DerefExpr * derefExpr) override;
-        void visit(ast::Identifier * identifier) override;
         void visit(ast::IfExpr * ifExpr) override;
         void visit(ast::Infix * infix) override;
         void visit(ast::Invoke * invoke) override;

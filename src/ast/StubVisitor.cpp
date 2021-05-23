@@ -30,16 +30,16 @@ namespace jc::ast {
         visit("forStmt");
     }
 
+    void StubVisitor::visit(ast::ItemStmt * itemStmt) {
+        visit("itemStmt");
+    }
+
     void StubVisitor::visit(ast::FuncDecl * funcDecl) {
         visit("funcDecl");
     }
 
     void StubVisitor::visit(ast::Impl * impl) {
         visit("impl");
-    }
-
-    void StubVisitor::visit(ast::Item * item) {
-        visit("item");
     }
 
     void StubVisitor::visit(ast::Struct * _struct) {
@@ -85,10 +85,6 @@ namespace jc::ast {
 
     void StubVisitor::visit(ast::DerefExpr * derefExpr) {
         visit("derefExpr");
-    }
-
-    void StubVisitor::visit(ast::Identifier * identifier) {
-        visit("identifier");
     }
 
     void StubVisitor::visit(ast::IfExpr * ifExpr) {
