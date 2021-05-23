@@ -13,6 +13,23 @@ namespace jc::ast {
         return {dt::None, std::move(suggestions)};
     }
 
+    // Errors //
+    void Linter::visit(ErrorExpr * errorExpr) {
+        Logger::devPanic("[ERROR EXPR] On linter stage");
+    }
+
+    void Linter::visit(ErrorStmt *errorStmt) {
+        Logger::devPanic("[ERROR STMT] On linter stage");
+    }
+
+    void Linter::visit(ErrorType *errorType) {
+        Logger::devPanic("[ERROR TYPE] On linter stage");
+    }
+
+    void Linter::visit(ErrorTypePath * errorTypePath) {
+        Logger::devPanic("[ERROR TYPEPATH] On linter stage");
+    }
+
     ////////////////
     // Statements //
     ////////////////

@@ -27,6 +27,12 @@ namespace jc::ast {
         dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
 
     private:
+        // Errors //
+        void visit(ErrorStmt * errorStmt) override;
+        void visit(ErrorExpr * errorExpr) override;
+        void visit(ErrorType * errorType) override;
+        void visit(ErrorTypePath * errorTypePath) override;
+
         // Items //
         void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::FuncDecl * funcDecl) override;
