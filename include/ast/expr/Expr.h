@@ -4,6 +4,7 @@
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
 #include "data_types/Option.h"
+#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Expr;

@@ -5,6 +5,7 @@
 
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
+#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Stmt;

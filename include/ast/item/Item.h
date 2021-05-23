@@ -2,6 +2,7 @@
 #define JACY_AST_STMT_ITEM_H
 
 #include "ast/fragments/Attribute.h"
+#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Item;
