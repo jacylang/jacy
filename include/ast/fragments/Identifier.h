@@ -16,8 +16,11 @@ namespace jc::ast {
 
         parser::opt_token token;
 
-        std::string getValue() const {
-            return token->val;
+        dt::Option<std::string> getValue() const {
+            if (token) {
+                return token->val;
+            }
+            return dt::None;
         }
     };
 }

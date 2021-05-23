@@ -509,7 +509,9 @@ namespace jc::ast {
 
     void AstPrinter::print(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
-            log.raw("@" + attr->name->getValue() + "(");
+            log.raw("@")
+            printId(attr->name->getValue());
+            log.raw("(");
             print(attr->params.get());
             log.raw(")").nl();
         }
