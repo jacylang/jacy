@@ -13,9 +13,12 @@ namespace jc::resolve {
 
         enterRib(); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
-
+            param->type->accept(*this);
         }
-        // TODO: Resolve return type
+
+        if (funcDecl.returnType) {
+            funcDecl.returnType.unwrap()->accept(*this);
+        }
 
         enterRib(); // -> (params rib)
         for (const auto & param : funcDecl.params) {
