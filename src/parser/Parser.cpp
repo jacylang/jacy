@@ -479,8 +479,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    // FIXME
-//                    return std::mae
+                    return std::make_shared<ast::ItemStmt>(item.unwrap());
                 }
 
                 auto expr = parseOptExpr();
