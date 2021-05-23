@@ -1,7 +1,7 @@
 #ifndef JACY_AST_STMT_IMPL_H
 #define JACY_AST_STMT_IMPL_H
 
-#include "ast/stmt/Item.h"
+#include "Item.h"
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {

@@ -14,14 +14,7 @@ namespace jc::ast {
 
     enum class StmtKind {
         Expr,
-        Enum,
         For,
-        Func,
-        Impl,
-        Item,
-        Struct,
-        TypeAlias,
-        Trait,
         VarDecl,
         While,
 

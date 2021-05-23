@@ -36,15 +36,15 @@
 #include "ast/expr/WhenExpr.h"
 
 // Statements //
-#include "ast/stmt/EnumDecl.h"
+#include "ast/item/EnumDecl.h"
 #include "ast/stmt/ExprStmt.h"
 #include "ast/stmt/ForStmt.h"
-#include "ast/stmt/FuncDecl.h"
-#include "ast/stmt/Impl.h"
-#include "ast/stmt/Item.h"
-#include "ast/stmt/Struct.h"
-#include "ast/stmt/Trait.h"
-#include "ast/stmt/TypeAlias.h"
+#include "ast/item/FuncDecl.h"
+#include "ast/item/Impl.h"
+#include "ast/item/Item.h"
+#include "ast/item/Struct.h"
+#include "ast/item/Trait.h"
+#include "ast/item/TypeAlias.h"
 #include "ast/stmt/VarDecl.h"
 #include "ast/stmt/WhileStmt.h"
 
