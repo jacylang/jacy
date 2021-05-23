@@ -1,7 +1,9 @@
 #include "ast/AstPrinter.h"
 
 namespace jc::ast {
-    void AstPrinter::print(const ast::item_list & tree) {
+    void AstPrinter::print(const ast::item_list & tree, AstPrinterMode mode) {
+        this->mode = mode;
+
         if (tree.empty()) {
             log.debug("Tree is empty");
         }

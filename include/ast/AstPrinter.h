@@ -9,11 +9,16 @@
 #include "common/Logger.h"
 
 namespace jc::ast {
+    enum class AstPrinterMode {
+        Parsing, // Print tree after parsing
+        Names, // Print tree after name resolution
+    };
+
     class AstPrinter : public ConstVisitor {
     public:
         AstPrinter() = default;
 
-        void print(const item_list & tree);
+        void print(const item_list & tree, AstPrinterMode mode = AstPrinterMode::Parsing);
 
         // Errors //
         void visit(const ErrorStmt & errorStmt) override;
@@ -77,6 +82,7 @@ namespace jc::ast {
 
     private:
         common::Logger log{"ast_printer", {}};
+        AstPrinterMode mode;
 
         void printIndent() const;
         void print(const attr_list & attributes);
