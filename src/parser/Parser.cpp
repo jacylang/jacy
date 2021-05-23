@@ -225,36 +225,14 @@ namespace jc::parser {
         ast::attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
 
-        ast::opt_stmt_ptr item;
-
         switch (peek().kind) {
-            case TokenKind::Const:
-            case TokenKind::Var:
-            case TokenKind::Val: {
-                item = parseVarStmt();
-            } break;
-            case TokenKind::Func: {
-                item = parseFuncDecl(modifiers);
-            } break;
-            case TokenKind::Enum: {
-                item = parseEnumDecl();
-            } break;
-            case TokenKind::Type: {
-                item = parseTypeAlias();
-            } break;
-            case TokenKind::Struct: {
-                item = parseStruct();
-            } break;
-            case TokenKind::Impl: {
-                item = parseImpl();
-            } break;
-            case TokenKind::Trait: {
-                item = parseTrait();
-            } break;
-        }
-
-        if (item) {
-            return std::make_shared<ast::Item>(attributes, item.unwrap("`parseItem` -> `decl`"), begin.to(cspan()));
+            case TokenKind::Func: return parseFuncDecl(std::move(attributes), std::move(modifiers));
+            case TokenKind::Enum: return parseEnumDecl(std::move(attributes));
+            case TokenKind::Type: return parseTypeAlias(std::move(attributes));
+            case TokenKind::Struct: return parseStruct(std::move(attributes));
+            case TokenKind::Impl: return parseImpl(std::move(attributes));
+            case TokenKind::Trait: return parseTrait(std::move(attributes));
+            default: {}
         }
 
         if (!attributes.empty()) {
