@@ -58,7 +58,7 @@ namespace jc::ast {
         }
 
         if (funcDecl->typeParams) {
-            lint(funcDecl->typeParams.unwrap());
+            lintTypeParams(funcDecl->typeParams.unwrap());
         }
 
         lintId(funcDecl->name);
@@ -89,7 +89,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::Impl * impl) {
         if (impl->typeParams) {
-            lint(impl->typeParams.unwrap());
+            lintTypeParams(impl->typeParams.unwrap());
         }
 
         impl->traitTypePath->accept(*this);
@@ -104,7 +104,7 @@ namespace jc::ast {
         lintId(_struct->name);
 
         if (_struct->typeParams) {
-            lint(_struct->typeParams.unwrap());
+            lintTypeParams(_struct->typeParams.unwrap());
         }
 
         pushContext(LinterContext::Struct);
@@ -116,7 +116,7 @@ namespace jc::ast {
         lintId(trait->name);
 
         if (trait->typeParams) {
-            lint(trait->typeParams.unwrap());
+            lintTypeParams(trait->typeParams.unwrap());
         }
 
         for (const auto & superTrait : trait->superTraits) {
@@ -275,7 +275,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::Invoke * invoke) {
         invoke->lhs->accept(*this);
-        lint(invoke->args);
+        lintNamedList(invoke->args);
 
         // TODO
     }
@@ -343,7 +343,7 @@ namespace jc::ast {
         for (const auto & seg : pathExpr->segments) {
             lintId(seg->name);
             if (seg->typeParams) {
-                lint(seg->typeParams.unwrap());
+                lintTypeParams(seg->typeParams.unwrap());
             }
         }
     }
@@ -394,7 +394,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::TupleExpr * tupleExpr) {
-        lint(tupleExpr->elements);
+        lintNamedList(tupleExpr->elements);
     }
 
     void Linter::visit(ast::UnitExpr * unitExpr) {
@@ -457,7 +457,7 @@ namespace jc::ast {
         for (const auto & seg : typePath->segments) {
             lintId(seg->name);
             if (seg->typeParams) {
-                lint(seg->typeParams.unwrap());
+                lintTypeParams(seg->typeParams.unwrap());
             }
         }
     }
@@ -487,7 +487,7 @@ namespace jc::ast {
     }
 
     // Linters //
-    void Linter::lint(const ast::named_list_ptr & namedList) {
+    void Linter::lintNamedList(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
             if (el->name) {
                 lintId(el->name.unwrap());
@@ -498,7 +498,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::lint(const ast::type_param_list & typeParams) {
+    void Linter::lintTypeParams(const ast::type_param_list & typeParams) {
         for (const auto & typeParam : typeParams) {
             typeParam->accept(*this);
         }

@@ -84,8 +84,8 @@ namespace jc::ast {
         void visit(ast::ConstParam * constParam) override;
 
     private:
-        void lint(const ast::named_list_ptr & namedList);
-        void lint(const ast::type_param_list & typeParams);
+        void lintNamedList(const ast::named_list_ptr & namedList);
+        void lintTypeParams(const ast::type_param_list & typeParams);
         void lintMembers(const ast::item_list & members);
         bool isPlaceExpr(const ast::expr_ptr & expr);
         static void lintId(const id_ptr & id);
