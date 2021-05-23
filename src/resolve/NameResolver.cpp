@@ -277,19 +277,31 @@ namespace jc::resolve {
         enterRib(); // -> (type rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
-
+                declare(
+                    std::static_pointer_cast<ast::GenericType>(typeParam)->name->getValue(),
+                    Name::Kind::TypeParam,
+                    typeParam->id
+                );
             }
         }
         enterRib(); // -> (lifetime rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
-
+                declare(
+                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name->getValue(),
+                    Name::Kind::Lifetime,
+                    typeParam->id
+                );
             }
         }
         enterRib(); // -> (const rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
-
+                declare(
+                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name->getValue(),
+                    Name::Kind::ConstParam,
+                    typeParam->id
+                );
             }
         }
     }
