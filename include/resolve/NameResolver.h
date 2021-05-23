@@ -10,7 +10,6 @@ namespace jc::resolve {
     using common::Logger;
     using sugg::SuggKind;
     using sugg::eid_t;
-    using ast::opt_node_id;
 
     class NameResolver : public ast::StubVisitor {
     public:
@@ -23,7 +22,7 @@ namespace jc::resolve {
 //        void visit(ast::Enum & enumDecl) override;
         void visit(ast::Func & funcDecl) override;
 //        void visit(ast::Impl & impl) override;
-//        void visit(ast::Struct & _struct) override;
+        void visit(ast::Struct & _struct) override;
 //        void visit(ast::Trait & trait) override;
 //        void visit(ast::TypeAlias & typeAlias) override;
 
@@ -83,13 +82,14 @@ namespace jc::resolve {
         rib_ptr curRib() const;
         opt_rib ribAt(size_t ribDepth) const;
         void enterRib();
+        void enterItemRib(node_id nameNodeId);
         void enterRib(const rib_ptr & nestedRib);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
         // Declarations //
     private:
-        void declare(const std::string & name, Name::Kind kind, ast::node_id nodeId);
+        void declare(const std::string & name, Name::Kind kind, node_id nodeId);
 
         // Resolution //
     private:
@@ -99,16 +99,16 @@ namespace jc::resolve {
     private:
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
-        void suggest(const std::string & msg, ast::node_id nodeId, SuggKind kind, eid_t eid = sugg::NoneEID);
-        void suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
-        void suggestWarnMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
+        void suggest(const std::string & msg, node_id nodeId, SuggKind kind, eid_t eid = sugg::NoneEID);
+        void suggestErrorMsg(const std::string & msg, node_id nodeId, eid_t eid = sugg::NoneEID);
+        void suggestWarnMsg(const std::string & msg, node_id nodeId, eid_t eid = sugg::NoneEID);
         void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
         void suggestCannotRedeclare(
             const std::string & name,
             const std::string & as,
             const std::string & declaredAs,
-            ast::node_id nodeId,
-            ast::node_id declaredHere
+            node_id nodeId,
+            node_id declaredHere
         );
     };
 }

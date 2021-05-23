@@ -31,7 +31,23 @@ namespace jc::resolve {
             funcDecl.body.unwrap()->accept(*this);
         }
 
-        liftToDepth(prevDepth); // <- (params rib) <- (all type params ribs)
+        liftToDepth(prevDepth);
+    }
+
+//    void NameResolver::visit(ast::Impl & impl) {}
+
+    void NameResolver::visit(ast::Struct & _struct) {
+        uint32_t prevDepth = getDepth();
+        visitTypeParams(_struct.typeParams);
+
+        enterItemRib(_struct.name->id); // -> (item rib)
+
+        for (const auto & field : _struct.fields) {
+            declare(field->name->unwrapValue(), Name::Kind::Field, field->id);
+            // TODO: Resolve field type
+        }
+
+        liftToDepth(prevDepth);
     }
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
@@ -144,10 +160,9 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::PathExpr & pathExpr) {
+        // TODO: global
         if (not pathExpr.global) {
-            if (pathExpr.segments.size() == 1) {
 
-            }
         }
     }
 
@@ -352,6 +367,10 @@ namespace jc::resolve {
 
     void NameResolver::enterRib() {
         enterRib(std::make_shared<Rib>(Rib::Kind::Normal));
+    }
+
+    void NameResolver::enterItemRib(node_id nameNodeId) {
+        enterRib(std::make_shared<ItemRib>(nameNodeId));
     }
 
     void NameResolver::enterRib(const rib_ptr & nestedRib) {

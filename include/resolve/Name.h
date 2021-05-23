@@ -4,13 +4,16 @@
 #include "ast/Node.h"
 
 namespace jc::resolve {
+    using ast::node_id;
+    using ast::opt_node_id;
+    
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
     using opt_rib = dt::Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
-
+    
     struct Name {
         enum class Kind {
             Const,
@@ -33,9 +36,9 @@ namespace jc::resolve {
             Lifetime,
         };
 
-        ast::node_id nodeId;
+        node_id nodeId;
 
-        Name(Kind kind, ast::node_id nodeId) : kind(kind), nodeId(nodeId) {}
+        Name(Kind kind, node_id nodeId) : kind(kind), nodeId(nodeId) {}
 
         static std::string kindStr(Kind kind) {
             switch (kind) {
@@ -119,7 +122,7 @@ namespace jc::resolve {
         }
     };
 
-    using decl_result = dt::Option<std::tuple<Name::Kind, ast::node_id>>;
+    using decl_result = dt::Option<std::tuple<Name::Kind, node_id>>;
 
     struct Rib {
         enum class Kind {
@@ -132,13 +135,23 @@ namespace jc::resolve {
 
         /// Declare new name.
         /// Returns kind and node_id of node that was already declared if it was
-        decl_result declare(const std::string & name, Name::Kind kind, ast::node_id nodeId);
+        decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };
 
     struct ModRib : Rib {
-        ModRib() : Rib(Kind::Mod) {}
+        ModRib(node_id nameNodeId, const span::Span & span)
+            : nameNodeId(nameNodeId), span(span), Rib(Kind::Mod) {}
+
+        node_id nameNodeId;
+        span::Span span;
+    };
+    
+    struct ItemRib : Rib {
+        explicit ItemRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Item) {}
+
+        node_id nameNodeId;
     };
 }
 
