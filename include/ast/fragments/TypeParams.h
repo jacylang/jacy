@@ -34,7 +34,7 @@ namespace jc::ast {
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -45,7 +45,7 @@ namespace jc::ast {
         id_ptr name;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -65,7 +65,7 @@ namespace jc::ast {
         opt_expr_ptr defaultValue;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

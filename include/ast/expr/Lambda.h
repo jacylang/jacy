@@ -34,7 +34,7 @@ namespace jc::ast {
         expr_ptr body;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

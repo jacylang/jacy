@@ -26,7 +26,7 @@ namespace jc::ast {
         path_expr_list segments;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

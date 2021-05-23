@@ -8,7 +8,7 @@ namespace jc::ast {
         UnitExpr(const Span & span) : Expr(span, ExprKind::Unit) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

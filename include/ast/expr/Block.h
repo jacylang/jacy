@@ -17,7 +17,7 @@ namespace jc::ast {
         stmt_list stmts;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

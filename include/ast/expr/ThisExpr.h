@@ -8,7 +8,7 @@ namespace jc::ast {
         ThisExpr(const Span & span) : Expr(span, ExprKind::This) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

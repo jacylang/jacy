@@ -11,7 +11,7 @@ namespace jc::ast {
         item_ptr item;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

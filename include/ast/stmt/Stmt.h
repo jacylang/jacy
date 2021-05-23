@@ -43,7 +43,7 @@ namespace jc::ast {
         explicit ErrorStmt(const Span & span) : Stmt(span, StmtKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

@@ -11,7 +11,7 @@ namespace jc::ast {
         named_list_ptr elements;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

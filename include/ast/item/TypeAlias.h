@@ -20,7 +20,7 @@ namespace jc::ast {
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

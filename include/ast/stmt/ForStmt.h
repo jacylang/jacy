@@ -25,7 +25,7 @@ namespace jc::ast {
         block_ptr body;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

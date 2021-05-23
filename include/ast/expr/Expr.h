@@ -69,7 +69,7 @@ namespace jc::ast {
         explicit ErrorExpr(const Span & span) : Expr(span, ExprKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

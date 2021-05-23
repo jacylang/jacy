@@ -23,7 +23,7 @@ namespace jc::ast {
         opt_block_ptr elseBranch;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

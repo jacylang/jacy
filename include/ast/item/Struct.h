@@ -23,7 +23,7 @@ namespace jc::ast {
         field_list fields;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

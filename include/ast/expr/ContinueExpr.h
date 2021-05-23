@@ -8,7 +8,7 @@ namespace jc::ast {
         explicit ContinueExpr(const Span & span) : Expr(span, ExprKind::Continue) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

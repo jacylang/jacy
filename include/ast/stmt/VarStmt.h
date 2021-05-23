@@ -26,7 +26,7 @@ namespace jc::ast {
         opt_expr_ptr assignExpr;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

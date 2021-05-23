@@ -36,7 +36,7 @@ namespace jc::ast {
         when_entry_list entries;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

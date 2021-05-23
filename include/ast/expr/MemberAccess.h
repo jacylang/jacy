@@ -18,7 +18,7 @@ namespace jc::ast {
         id_ptr field;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }

@@ -53,7 +53,7 @@ namespace jc::ast {
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -64,7 +64,7 @@ namespace jc::ast {
         tuple_t_el_list elements;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -84,7 +84,7 @@ namespace jc::ast {
         type_ptr returnType;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -95,7 +95,7 @@ namespace jc::ast {
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -107,7 +107,7 @@ namespace jc::ast {
         expr_ptr sizeExpr;
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -129,7 +129,7 @@ namespace jc::ast {
         id_t_list segments{};
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -137,7 +137,7 @@ namespace jc::ast {
         explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -145,7 +145,7 @@ namespace jc::ast {
         explicit ErrorType(const Span & span) : Type(span, TypeKind::Error) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 
@@ -153,7 +153,7 @@ namespace jc::ast {
         explicit ErrorTypePath(const Span & span) : TypePath(span) {}
 
         void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
+            return visitor.visit(*this);
         }
     };
 }
