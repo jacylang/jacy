@@ -1,7 +1,7 @@
 #ifndef JACY_AST_EXPR_LAMBDA_H
 #define JACY_AST_EXPR_LAMBDA_H
 
-#include "ast/expr/Identifier.h"
+#include "ast/fragments/Identifier.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {

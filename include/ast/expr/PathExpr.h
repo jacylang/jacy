@@ -2,7 +2,7 @@
 #define JACY_AST_PATHEXPR_H
 
 #include "ast/expr/Expr.h"
-#include "ast/expr/Identifier.h"
+#include "ast/fragments/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {

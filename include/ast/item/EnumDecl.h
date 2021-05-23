@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "ast/item/Item.h"
-#include "ast/expr/Identifier.h"
+#include "ast/fragments/Identifier.h"
 
 namespace jc::ast {
     struct EnumEntry;

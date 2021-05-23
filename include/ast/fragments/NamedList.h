@@ -1,7 +1,7 @@
 #ifndef JACY_NAMEDLIST_H
 #define JACY_NAMEDLIST_H
 
-#include "ast/expr/Identifier.h"
+#include "Identifier.h"
 
 namespace jc::ast {
     struct NamedElement;

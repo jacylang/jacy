@@ -2,7 +2,7 @@
 #define JACY_ATTRIBUTE_H
 
 #include "ast/Node.h"
-#include "ast/expr/Identifier.h"
+#include "Identifier.h"
 #include "ast/fragments/NamedList.h"
 
 namespace jc::ast {

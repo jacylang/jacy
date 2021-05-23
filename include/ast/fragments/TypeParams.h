@@ -1,7 +1,7 @@
 #ifndef JACY_TYPEPARAMS_H
 #define JACY_TYPEPARAMS_H
 
-#include "ast/expr/Identifier.h"
+#include "Identifier.h"
 
 namespace jc::ast {
     struct Type;

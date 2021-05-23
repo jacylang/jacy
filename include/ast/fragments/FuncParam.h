@@ -1,7 +1,7 @@
 #ifndef JACY_FUNCPARAM_H
 #define JACY_FUNCPARAM_H
 
-#include "ast/expr/Identifier.h"
+#include "Identifier.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {

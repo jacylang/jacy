@@ -2,7 +2,7 @@
 #define JACY_FUNCDECL_H
 
 #include "ast/item/Item.h"
-#include "ast/expr/Identifier.h"
+#include "ast/fragments/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 #include "ast/fragments/Attribute.h"
 #include "ast/expr/Block.h"
