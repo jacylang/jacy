@@ -27,7 +27,7 @@ namespace jc::ast {
             return visitor.visit(*this);
         }
 
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

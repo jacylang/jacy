@@ -40,7 +40,7 @@ namespace jc::ast {
         TypeKind kind;
 
         virtual void accept(BaseVisitor & visitor) = 0;
-        virtual void accept(const ConstVisitor & visitor) const = 0;
+        virtual void accept(ConstVisitor & visitor) const = 0;
 
         static inline type_ptr asBase(type_ptr type) {
             return std::static_pointer_cast<Type>(type);
@@ -56,8 +56,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -71,8 +70,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -95,8 +93,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -110,8 +107,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -126,8 +122,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -152,8 +147,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -164,8 +158,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -176,8 +169,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -188,8 +180,7 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
-
-        void accept(const ConstVisitor & visitor) const override {
+        void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
