@@ -85,6 +85,7 @@ namespace jc::ast {
         void print(const type_list & typeList);
         void print(IdType * idType);
         void printMembers(const item_list & members);
+        void printId(const id_ptr & maybeId);
 
         const std::string indentChar = "  ";
         void incIndent();
