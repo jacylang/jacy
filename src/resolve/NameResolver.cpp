@@ -2,31 +2,13 @@
 
 namespace jc::resolve {
     dt::SuggResult<rib_ptr> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
-        typeResolver = std::make_unique<TypeResolver>(sess);
-        itemResolver = std::make_unique<ItemResolver>(sess);
-        lifetimeResolver = std::make_unique<LifetimeResolver>(sess);
-
         visitItems(tree);
 
-        return {rib, moveConcat(
-            typeResolver->extractSuggestions(),
-            itemResolver->extractSuggestions()
-        )};
+        return {rib, std::move(suggestions)};
     }
 
     void NameResolver::visit(ast::Item * item) {
-        // This is kind of entry point for name resolution
-
-        enterRib(); // -> (type rib)
-        item->stmt->accept(*typeResolver);
-
-        enterRib(); // -> (lifetime rib)
-        item->stmt->accept(*lifetimeResolver);
-
-        enterRib();
-
-        exitRib(); // <- (lifetime rib)
-        exitRib(); // <- (type rib)
+        item->stmt->accept(*this);
     }
 
     // Statements //
@@ -241,7 +223,11 @@ namespace jc::resolve {
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
         for (const auto & member : members) {
-            member->accept(*itemResolver);
+            switch (member->stmt->kind) {
+                case ast::StmtKind::Func: {
+
+                } break;
+            }
         }
 
         // Then we resolve the signatures and bodies
@@ -264,8 +250,7 @@ namespace jc::resolve {
 
     // Ribs //
     void NameResolver::enterRib() {
-        auto newRib = std::make_shared<Rib>(rib);
-        enterSpecificRib(newRib);
+        rib = std::make_shared<Rib>(rib);
     }
 
     void NameResolver::exitRib() {
@@ -273,18 +258,12 @@ namespace jc::resolve {
         if (!parent) {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
-        enterSpecificRib(parent.unwrap());
+        rib = parent.unwrap();
     }
 
-    /**
-     * enterSpecificRib
-     * @brief Does not modify ribStack and just sets current rib to specific.
-     *  Very useful when we need to go to some rib we saved and resolve names there.
-     * @param rib
-     */
-    void NameResolver::enterSpecificRib(const rib_ptr & rib) {
-        typeResolver->acceptRib(rib);
-        itemResolver->acceptRib(rib);
+    // Declarations //
+    void NameResolver::declareItem(Name::Kind kind, ast::node_id nodeId) {
+
     }
 
     // Resolution //

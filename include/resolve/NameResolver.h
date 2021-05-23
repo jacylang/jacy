@@ -2,10 +2,8 @@
 #define JACY_RESOLVE_NAMERESOLVER_H
 
 #include "ast/StubVisitor.h"
-#include "resolve/TypeResolver.h"
-#include "resolve/ItemResolver.h"
-#include "resolve/LifetimeResolver.h"
 #include "data_types/SuggResult.h"
+#include "resolve/Name.h"
 #include "utils/arr.h"
 
 namespace jc::resolve {
@@ -75,28 +73,18 @@ namespace jc::resolve {
         void enterRib();
         void exitRib();
 
-        void enterSpecificRib(const rib_ptr & rib);
+        // Declarations //
+    private:
+        void declareItem(Name::Kind kind, ast::node_id nodeId);
 
         // Resolution //
     private:
-        std::unique_ptr<ItemResolver> itemResolver;
-        std::unique_ptr<TypeResolver> typeResolver;
-        std::unique_ptr<LifetimeResolver> lifetimeResolver;
-
         opt_node_id resolveId(const std::string & name);
+
+        // Suggestions //
+    private:
+        sugg::sugg_list suggestions;
     };
 }
 
 #endif // JACY_RESOLVE_NAMERESOLVER_H
-
-
-/**
-
-    func<T, `a> foo(param: &`a T) {
-
-    }
-
-    global rib -> foo
-    type rib -> T
-    lifetime rib -> `a
-
