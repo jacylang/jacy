@@ -257,7 +257,7 @@ namespace jc::parser {
             case TokenKind::Const:
             case TokenKind::Var:
             case TokenKind::Val: {
-                decl = parseVarDecl();
+                decl = parseVarStmt();
             } break;
             case TokenKind::Func: {
                 decl = parseFuncDecl(modifiers);
@@ -385,11 +385,11 @@ namespace jc::parser {
         return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, begin.to(cspan()));
     }
 
-    ast::stmt_ptr Parser::parseVarDecl() {
+    ast::stmt_ptr Parser::parseVarStmt() {
         logParse("VarStmt:" + peek().toString());
 
         if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
-            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarDecl");
+            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
         }
 
         const auto & begin = cspan();
@@ -622,7 +622,7 @@ namespace jc::parser {
             case TokenKind::Val:
             case TokenKind::Var:
             case TokenKind::Const: {
-                parseVarDecl();
+                parseVarStmt();
                 construction = "`" + token.kindToString() + "` declaration";
             } break;
             case TokenKind::Type: {

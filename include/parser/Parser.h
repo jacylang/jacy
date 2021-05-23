@@ -133,7 +133,7 @@ namespace jc::parser {
 
         ast::stmt_ptr parseWhileStmt();
         ast::stmt_ptr parseForStmt();
-        ast::stmt_ptr parseVarDecl();
+        ast::stmt_ptr parseVarStmt();
         ast::stmt_ptr parseTypeDecl();
         ast::stmt_ptr parseStruct();
         ast::stmt_ptr parseImpl();
