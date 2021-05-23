@@ -268,7 +268,7 @@ namespace jc::resolve {
             rib->names.emplace(name, std::make_shared<Name>(kind, nodeId));
             return;
         }
-
+//        suggestCannotRedeclare(name, );
     }
 
     // Resolution //
@@ -302,7 +302,7 @@ namespace jc::resolve {
     void NameResolver::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
         suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
     }
-`
+
     void NameResolver::suggestCannotRedeclare(
         const std::string & name,
         const std::string & as,
