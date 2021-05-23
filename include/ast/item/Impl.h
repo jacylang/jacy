@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_IMPL_H
-#define JACY_AST_STMT_IMPL_H
+#ifndef JACY_AST_ITEM_IMPL_H
+#define JACY_AST_ITEM_IMPL_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
@@ -35,4 +35,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_IMPL_H
+#endif // JACY_AST_ITEM_IMPL_H

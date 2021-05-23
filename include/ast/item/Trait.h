@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_TRAIT_H
-#define JACY_AST_STMT_TRAIT_H
+#ifndef JACY_AST_ITEM_TRAIT_H
+#define JACY_AST_ITEM_TRAIT_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Type.h"
@@ -35,4 +35,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_TRAIT_H
+#endif // JACY_AST_ITEM_TRAIT_H

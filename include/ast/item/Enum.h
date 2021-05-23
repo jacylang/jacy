@@ -1,5 +1,5 @@
-#ifndef JACY_ENUM_H
-#define JACY_ENUM_H
+#ifndef JACY_AST_ITEM_ENUM_H
+#define JACY_AST_ITEM_ENUM_H
 
 #include <vector>
 
@@ -33,4 +33,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_ENUM_H
+#endif // JACY_AST_ITEM_ENUM_H

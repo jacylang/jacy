@@ -1,5 +1,5 @@
-#ifndef JACY_FUNC_H
-#define JACY_FUNC_H
+#ifndef JACY_AST_ITEM_FUNC_H
+#define JACY_AST_ITEM_FUNC_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
@@ -48,4 +48,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_FUNC_H
+#endif // JACY_AST_ITEM_FUNC_H

@@ -1,5 +1,5 @@
-#ifndef JACY_TYPEALIAS_H
-#define JACY_TYPEALIAS_H
+#ifndef JACY_AST_ITEM_TYPEALIAS_H
+#define JACY_AST_ITEM_TYPEALIAS_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
@@ -30,4 +30,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_TYPEALIAS_H
+#endif // JACY_AST_ITEM_TYPEALIAS_H

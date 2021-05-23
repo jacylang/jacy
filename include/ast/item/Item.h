@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_ITEM_H
-#define JACY_AST_STMT_ITEM_H
+#ifndef JACY_AST_ITEM_ITEM_H
+#define JACY_AST_ITEM_ITEM_H
 
 #include "ast/fragments/Attribute.h"
 #include "ast/ConstVisitor.h"
@@ -31,4 +31,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_ITEM_H
+#endif // JACY_AST_ITEM_ITEM_H

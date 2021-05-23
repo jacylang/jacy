@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_STRUCTDECL_H
-#define JACY_AST_STMT_STRUCTDECL_H
+#ifndef JACY_AST_ITEM_STRUCT_H
+#define JACY_AST_ITEM_STRUCT_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
@@ -22,7 +22,6 @@ namespace jc::ast {
         opt_type_params typeParams;
         field_list fields;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
@@ -33,4 +32,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_STRUCTDECL_H
+#endif // JACY_AST_ITEM_STRUCT_H
