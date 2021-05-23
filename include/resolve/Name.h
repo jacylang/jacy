@@ -21,6 +21,10 @@ namespace jc::resolve {
             TypeParam,
             Lifetime,
             ConstParam,
+            Func,
+            Enum,
+            TypeAlias,
+            Field,
         } kind;
         ast::node_id nodeId;
 

@@ -37,6 +37,11 @@ namespace jc::ast {
             return this->kind == kind;
         }
 
+        template<class T>
+        static std::shared_ptr<T> as(stmt_ptr stmt) {
+            return std::static_pointer_cast<T>(stmt);
+        }
+
         virtual void accept(BaseVisitor & visitor) = 0;
     };
 

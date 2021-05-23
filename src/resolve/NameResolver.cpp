@@ -223,11 +223,37 @@ namespace jc::resolve {
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
         for (const auto & member : members) {
+            std::string name;
+            Name::Kind kind;
             switch (member->stmt->kind) {
                 case ast::StmtKind::Func: {
-
+                    name = ast::Stmt::as<ast::FuncDecl>(member)->name->getValue();
+                    kind = Name::Kind::Func;
                 } break;
+                case ast::StmtKind::Enum: {
+                    name = ast::Stmt::as<ast::EnumDecl>(member)->name->getValue();
+                    kind = Name::Kind::Enum;
+                } break;
+                case ast::StmtKind::Struct: {
+                    name = ast::Stmt::as<ast::Struct>(member)->name->getValue();
+                    kind = Name::Kind::Struct;
+                } break;
+                case ast::StmtKind::TypeAlias: {
+                    name = ast::Stmt::as<ast::TypeAlias>(member)->name->getValue();
+                    kind = Name::Kind::TypeAlias;
+                } break;
+                case ast::StmtKind::Trait: {
+                    name = ast::Stmt::as<ast::Trait>(member)->name->getValue();
+                    kind = Name::Kind::Trait;
+                } break;
+                case ast::StmtKind::VarDecl: {
+                    // Note: Here VarDecl is a field of item
+                    name = ast::Stmt::as<ast::VarDecl>(member)->name->getValue();
+                    kind = Name::Kind::Field;
+                } break;
+                default: continue;
             }
+            declareItem(name, kind, member->id);
         }
 
         // Then we resolve the signatures and bodies
