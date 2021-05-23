@@ -144,7 +144,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::PathExpr & pathExpr) {
+        if (not pathExpr.global) {
+            if (pathExpr.segments.size() == 1) {
 
+            }
+        }
     }
 
     void NameResolver::visit(ast::Prefix & prefix) {
@@ -375,7 +379,7 @@ namespace jc::resolve {
         //  When we resolve type name, we should suggest an error if it is a function or something else
 
         const auto & name = id.unwrapValue();
-        dt::Option<Name> nearestResolution;
+        dt::Option<name_ptr> nearestResolution;
         opt_node_id resolved;
         dt::Option<rib_ptr> maybeRib = rib;
         while (maybeRib) {
@@ -396,8 +400,9 @@ namespace jc::resolve {
         if (!resolved) {
             if (nearestResolution) {
                 suggestErrorMsg(
-                    "Cannot find suitable item for '" + name + "', nearest item is a " + nearestResolution->kindStr() +
-                    " that cannot be used as " + Name::usageToString(usage), id.id
+                    "Cannot find suitable item for '" + name + "', nearest item is a " +
+                    nearestResolution.unwrap()->kindStr() + " that cannot be used as " + Name::usageToString(usage),
+                    id.id
                 );
             }
 

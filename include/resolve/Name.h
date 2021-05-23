@@ -7,8 +7,7 @@ namespace jc::resolve {
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
-
-    template<class T> using name_map = std::map<std::string, std::shared_ptr<T>>;
+    using name_ptr = std::shared_ptr<Name>;
 
     struct Name {
         enum class Kind {
@@ -129,7 +128,7 @@ namespace jc::resolve {
         }
 
         dt::Option<rib_ptr> parent;
-        name_map<Name> names;
+        std::map<std::string, name_ptr> names;
 
         /// Declare new name.
         /// Returns node_id of node that was already declared if it was
