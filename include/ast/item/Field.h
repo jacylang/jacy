@@ -4,6 +4,10 @@
 #include "ast/item/Item.h"
 
 namespace jc::ast {
+    struct Field;
+    using field_ptr = std::shared_ptr<Field>;
+    using field_list = std::vector<field_ptr>;
+
     struct Field : Item {
         Field(
             attr_list attributes,

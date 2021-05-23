@@ -3,6 +3,7 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
+#include "ast/item/Field.h"
 
 namespace jc::ast {
     struct Struct : Item {
@@ -10,16 +11,16 @@ namespace jc::ast {
             attr_list attributes,
             id_ptr name,
             opt_type_params typeParams,
-            item_list members,
+            field_list fields,
             const Span & span
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
-            members(std::move(members)),
+            fields(std::move(fields)),
             Item(span, std::move(attributes), ItemKind::Struct) {}
 
         id_ptr name;
         opt_type_params typeParams;
-        item_list members;
+        field_list fields;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
