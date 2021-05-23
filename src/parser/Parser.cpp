@@ -618,27 +618,27 @@ namespace jc::parser {
                 construction = "`" + token.kindToString() + "` declaration";
             } break;
             case TokenKind::Type: {
-                parseTypeAlias();
-                construction = "`type` declaration";
+                parseTypeAlias({});
+                construction = "`type` alias";
             } break;
             case TokenKind::Struct: {
-                parseStruct();
+                parseStruct({});
                 construction = "`struct` declaration";
             } break;
             case TokenKind::Impl: {
-                parseImpl();
+                parseImpl({});
                 construction = "implementation";
             } break;
             case TokenKind::Trait: {
-                parseTrait();
+                parseTrait({});
                 construction = "`trait` declaration";
             } break;
             case TokenKind::Func: {
-                parseFuncDecl({});
+                parseFuncDecl({}, {});
                 construction = "`func` declaration";
             } break;
             case TokenKind::Enum: {
-                parseEnumDecl();
+                parseEnumDecl({});
                 construction = "`enum` declaration";
             } break;
             default: {
