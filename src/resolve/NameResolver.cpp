@@ -8,7 +8,12 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FuncDecl * funcDecl) {
+        uint32_t prevDepth = getDepth();
+        visitTypeParams(funcDecl->typeParams);
 
+
+
+        liftToDepth(prevDepth);
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -316,8 +321,13 @@ namespace jc::resolve {
     }
 
     // Ribs //
+    uint32_t NameResolver::getDepth() const {
+        return depth;
+    }
+
     void NameResolver::enterRib() {
         rib = std::make_shared<Rib>(rib);
+        depth++;
     }
 
     void NameResolver::exitRib() {
@@ -326,10 +336,15 @@ namespace jc::resolve {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
         rib = parent.unwrap();
+        depth--;
     }
 
-    void NameResolver::exitStack(size_t count) {
-        for (size_t i = 0; i < count; count++) {
+    void NameResolver::liftToDepth(size_t prevDepth) {
+        if (prevDepth > depth) {
+            common::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
+        }
+
+        for (size_t i = prevDepth; i < depth; i++) {
             exitRib();
         }
     }

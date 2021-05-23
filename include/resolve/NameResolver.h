@@ -74,9 +74,11 @@ namespace jc::resolve {
         // Ribs //
     private:
         rib_ptr rib;
+        uint32_t depth;
+        uint32_t getDepth() const;
         void enterRib();
         void exitRib();
-        void exitStack(size_t count);
+        void liftToDepth(size_t prevDepth);
 
         // Declarations //
     private:
