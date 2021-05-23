@@ -13,7 +13,7 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-//        log.dev("Advance");
+        //        log.dev("Advance");
         index += distance;
         return peek();
     }
@@ -98,11 +98,7 @@ namespace jc::parser {
     }
 
     bool Parser::skip(
-        TokenKind kind,
-        bool skipLeftNLs,
-        bool skipRightNLs,
-        bool recoverUnexpected,
-        sugg::sugg_ptr suggestion
+        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, bool recoverUnexpected, sugg::sugg_ptr suggestion
     ) {
         // FIXME: TODO Virtual semi recovery
         bool skippedLeftNLs;
@@ -115,10 +111,8 @@ namespace jc::parser {
             if (recoverUnexpected and !eof() and lookup().is(kind)) {
                 log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
                 suggestHelp(
-                    "Remove " + peek().toString(),
-                    std::make_unique<ParseErrSugg>(
-                        "Unexpected " + peek().toString(),
-                        cspan()
+                    "Remove " + peek().toString(), std::make_unique<ParseErrSugg>(
+                        "Unexpected " + peek().toString(), cspan()
                     )
                 );
                 advance(2);
@@ -126,10 +120,10 @@ namespace jc::parser {
             }
 
             // FIXME: Add param for virtual semi emitting
-//            if (skipLeftNLs) {
-//                // We have't found specific token, but skipped NLs which are semis
-//                emitVirtualSemi();
-//            }
+            //            if (skipLeftNLs) {
+            //                // We have't found specific token, but skipped NLs which are semis
+            //                emitVirtualSemi();
+            //            }
 
             suggest(std::move(suggestion));
 
@@ -145,8 +139,10 @@ namespace jc::parser {
         return true;
     }
 
-    void Parser::justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn) {
-        if(not peek().is(kind)) {
+    void Parser::justSkip(
+        TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn
+    ) {
+        if (not peek().is(kind)) {
             common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
         }
 
@@ -170,10 +166,7 @@ namespace jc::parser {
     }
 
     dt::Option<Token> Parser::recoverOnce(
-        TokenKind kind,
-        const std::string & suggMsg,
-        bool skipLeftNLs,
-        bool skipRightNls
+        TokenKind kind, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls
     ) {
         if (skipLeftNLs) {
             skipNLs(true);
@@ -185,13 +178,7 @@ namespace jc::parser {
         } else {
             // Recover once
             auto next = lookup();
-            auto recovered = skip(
-                kind,
-                false,
-                false,
-                true,
-                std::make_unique<ParseErrSugg>(suggMsg, cspan())
-            );
+            auto recovered = skip(kind, false, false, true, std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             if (recovered) {
                 maybeToken = next;
             }
@@ -226,13 +213,18 @@ namespace jc::parser {
         parser::token_list modifiers = parseModifiers();
 
         switch (peek().kind) {
-            case TokenKind::Func: return parseFuncDecl(std::move(attributes), std::move(modifiers));
-            case TokenKind::Enum: return parseEnumDecl(std::move(attributes));
-            case TokenKind::Type: return parseTypeAlias(std::move(attributes));
-            case TokenKind::Struct: return parseStruct(std::move(attributes));
-            case TokenKind::Impl: return parseImpl(std::move(attributes));
-            case TokenKind::Trait: return parseTrait(std::move(attributes));
-            default: {}
+            case TokenKind::Func:
+                return parseFuncDecl(std::move(attributes), std::move(modifiers));
+            case TokenKind::Enum:
+                return parseEnumDecl(std::move(attributes));
+            case TokenKind::Type:
+                return parseTypeAlias(std::move(attributes));
+            case TokenKind::Struct:
+                return parseStruct(std::move(attributes));
+            case TokenKind::Impl:
+                return parseImpl(std::move(attributes));
+            case TokenKind::Trait:
+                return parseTrait(std::move(attributes));
         }
 
         if (!attributes.empty()) {
@@ -305,8 +297,7 @@ namespace jc::parser {
             typeAnnotated = true;
         } else if (skipOpt(TokenKind::Arrow, true)) {
             suggestErrorMsg(
-                "Maybe you meant to put `:` instead of `->` for return type annotation?",
-                maybeColonToken.span(sess)
+                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span(sess)
             );
         }
 
@@ -322,13 +313,13 @@ namespace jc::parser {
 
         return std::make_shared<ast::FuncDecl>(
             std::move(attributes),
-            modifiers,
-            typeParams,
-            name,
-            params,
-            returnType,
-            body,
-            oneLineBody,
+            std::move(modifiers),
+            std::move(typeParams),
+            std::move(name),
+            std::move(params),
+            std::move(returnType),
+            std::move(body),
+            std::move(oneLineBody),
             begin.to(cspan())
         );
     }
@@ -343,13 +334,7 @@ namespace jc::parser {
         auto typeParams = parseTypeParams();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
-        skip(
-            TokenKind::For,
-            true,
-            true,
-            true,
-            std::make_unique<ParseErrSugg>("Missing `for`", cspan())
-        );
+        skip(TokenKind::For, true, true, true, std::make_unique<ParseErrSugg>("Missing `for`", cspan()));
 
         auto forType = parseType("Missing type");
 
@@ -357,10 +342,10 @@ namespace jc::parser {
 
         return std::make_shared<ast::Impl>(
             std::move(attributes),
-            typeParams,
-            traitTypePath,
-            forType,
-            members,
+            std::move(typeParams),
+            std::move(traitTypePath),
+            std::move(forType),
+            std::move(members),
             begin.to(cspan())
         );
     }
@@ -408,24 +393,16 @@ namespace jc::parser {
                 auto id = parseId("Expected field name", true, true);
 
                 skip(
-                    TokenKind::Colon,
-                    true,
-                    true,
-                    false,
-                    std::make_unique<ParseErrSugg>(
-                        "Missing `:` to annotate `struct` "+ id->getValue() +" type",
-                        cspan()
+                    TokenKind::Colon, true, true, false, std::make_unique<ParseErrSugg>(
+                        "Missing `:` to annotate `struct` " + id->getValue() + " type", cspan()
                     )
                 );
 
-                auto type = parseType("Expected type for "+ id->getValue() +" after `:`");
+                auto type = parseType("Expected type for " + id->getValue() + " after `:`");
 
                 fields.emplace_back(
                     std::make_shared<ast::Field>(
-                        std::move(attributes),
-                        std::move(id),
-                        std::move(type),
-                        begin.to(cspan())
+                        std::move(attributes), std::move(id), std::move(type), begin.to(cspan())
                     )
                 );
             }
@@ -442,11 +419,7 @@ namespace jc::parser {
         }
 
         return std::make_shared<ast::Struct>(
-            std::move(attributes),
-            name,
-            typeParams,
-            fields,
-            begin.to(cspan())
+            std::move(attributes), std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
         );
     }
 
@@ -493,10 +466,10 @@ namespace jc::parser {
 
         return std::make_shared<ast::Trait>(
             std::move(attributes),
-            name,
-            typeParams,
-            superTraits,
-            members,
+            std::move(name),
+            std::move(typeParams),
+            std::move(superTraits),
+            std::move(members),
             begin.to(cspan())
         );
     }
@@ -510,18 +483,12 @@ namespace jc::parser {
 
         auto name = parseId("An identifier expected as a type name", true, true);
         skip(
-            TokenKind::Assign,
-            true,
-            true,
-            false,
-            std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
+            TokenKind::Assign, true, true, false, std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan())
+        );
         auto type = parseType("Expected type");
 
         return std::make_shared<ast::TypeAlias>(
-            std::move(attributes),
-            name,
-            type,
-            begin.to(cspan())
+            std::move(attributes), std::move(name), std::move(type), begin.to(cspan())
         );
     }
 
@@ -543,7 +510,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    return std::make_shared<ast::ItemStmt>(item.unwrap());
+                    return std::make_shared<ast::ItemStmt>(std::move(item.unwrap()));
                 }
 
                 auto expr = parseOptExpr();
@@ -554,7 +521,7 @@ namespace jc::parser {
                     return std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
                 }
 
-                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
+                auto exprStmt = std::make_shared<ast::ExprStmt>(std::move(expr.unwrap("`parseStmt` -> `expr`")));
                 skipSemis(false);
                 return std::static_pointer_cast<ast::Stmt>(exprStmt);
             }
@@ -582,7 +549,9 @@ namespace jc::parser {
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
         auto body = parseBlock("for", BlockArrow::Allow);
 
-        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, begin.to(cspan()));
+        return std::make_shared<ast::ForStmt>(
+            std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan())
+        );
     }
 
     ast::stmt_ptr Parser::parseVarStmt() {
@@ -609,7 +578,9 @@ namespace jc::parser {
             assignExpr = parseExpr("Expected expression after `=`");
         }
 
-        return std::make_shared<ast::VarStmt>(kind, name, type, assignExpr, begin.to(cspan()));
+        return std::make_shared<ast::VarStmt>(
+            std::move(kind), std::move(name), std::move(type), std::move(assignExpr), begin.to(cspan())
+        );
     }
 
     ast::stmt_ptr Parser::parseWhileStmt() {
@@ -621,7 +592,9 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", BlockArrow::Allow);
 
-        return std::make_shared<ast::WhileStmt>(condition, body, begin.to(cspan()));
+        return std::make_shared<ast::WhileStmt>(
+            std::move(condition), std::move(body), begin.to(cspan())
+        );
     }
 
     /////////////////
@@ -636,7 +609,7 @@ namespace jc::parser {
 
             auto expr = assignment();
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::ReturnExpr>(expr, begin.to(cspan()))
+                std::make_shared<ast::ReturnExpr>(std::move(expr), begin.to(cspan()))
             );
         }
 
@@ -646,7 +619,7 @@ namespace jc::parser {
             auto expr = assignment();
             log.dev("Break expr none:", expr.none());
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::BreakExpr>(expr, begin.to(cspan()))
+                std::make_shared<ast::BreakExpr>(std::move(expr), begin.to(cspan()))
             );
         }
 
@@ -657,7 +630,7 @@ namespace jc::parser {
         auto expr = assignment();
 
         if (expr) {
-            return expr;
+            return std::move(expr);
         }
 
         // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
@@ -670,41 +643,50 @@ namespace jc::parser {
             case TokenKind::While: {
                 parseWhileStmt();
                 construction = "`while` statement";
-            } break;
+            }
+                break;
             case TokenKind::For: {
                 parseForStmt();
                 construction = "`for` statement";
-            } break;
+            }
+                break;
             case TokenKind::Val:
             case TokenKind::Var:
             case TokenKind::Const: {
                 parseVarStmt();
                 construction = "`" + token.kindToString() + "` declaration";
-            } break;
+            }
+                break;
             case TokenKind::Type: {
                 parseTypeAlias({});
                 construction = "`type` alias";
-            } break;
+            }
+                break;
             case TokenKind::Struct: {
                 parseStruct({});
                 construction = "`struct` declaration";
-            } break;
+            }
+                break;
             case TokenKind::Impl: {
                 parseImpl({});
                 construction = "implementation";
-            } break;
+            }
+                break;
             case TokenKind::Trait: {
                 parseTrait({});
                 construction = "`trait` declaration";
-            } break;
+            }
+                break;
             case TokenKind::Func: {
                 parseFuncDecl({}, {});
                 construction = "`func` declaration";
-            } break;
+            }
+                break;
             case TokenKind::Enum: {
                 parseEnumDecl({});
                 construction = "`enum` declaration";
-            } break;
+            }
+                break;
             default: {
                 nonsense = true;
             }
@@ -775,7 +757,11 @@ namespace jc::parser {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
 
-                params.push_back(std::make_shared<ast::LambdaParam>(name, type, paramBegin.to(cspan())));
+                params.push_back(
+                    std::make_shared<ast::LambdaParam>(
+                        std::move(name), std::move(type), paramBegin.to(cspan())
+                    )
+                );
             }
             skip(
                 TokenKind::BitOr,
@@ -795,7 +781,9 @@ namespace jc::parser {
             body = parseExpr("Expected lambda body");
         }
 
-        return std::make_shared<ast::Lambda>(params, returnType, body, begin.to(cspan()));
+        return std::make_shared<ast::Lambda>(
+            std::move(params), std::move(returnType), std::move(body), begin.to(cspan())
+        );
     }
 
     ast::opt_expr_ptr Parser::assignment() {
@@ -811,9 +799,7 @@ namespace jc::parser {
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
             auto checkedLhs = errorForNone(
-                lhs,
-                "Unexpected empty left-hand side in assignment",
-                maybeAssignOp.span(sess)
+                lhs, "Unexpected empty left-hand side in assignment", maybeAssignOp.span(sess)
             );
 
             advance();
@@ -821,25 +807,24 @@ namespace jc::parser {
 
             auto rhs = parseExpr("Expected expression in assignment");
 
-            return ast::Expr::as<ast::Expr>(std::make_shared<ast::Assignment>(
-                checkedLhs,
-                maybeAssignOp,
-                rhs,
-                begin.to(cspan())
-            ));
+            return ast::Expr::as<ast::Expr>(
+                std::make_shared<ast::Assignment>(
+                    std::move(checkedLhs), maybeAssignOp, std::move(rhs), begin.to(cspan())
+                )
+            );
         }
         return lhs;
     }
 
     ast::opt_expr_ptr Parser::precParse(uint8_t index) {
-//        logParse("precParse:" + std::to_string(index));
+        //        logParse("precParse:" + std::to_string(index));
 
         if (precTable.size() == index) {
             return prefix();
         } else if (index > precTable.size()) {
             common::Logger::devPanic(
-                "`precParse` with index > precTable.size, index =", (int)index,
-                "precTable.size =", precTable.size());
+                "`precParse` with index > precTable.size, index =", (int)index, "precTable.size =", precTable.size()
+            );
         }
 
         const auto & parser = precTable.at(index);
@@ -899,10 +884,7 @@ namespace jc::parser {
             }
             auto rhs = maybeRhs.unwrap("`precParse` -> `rhs`");
             maybeLhs = std::make_shared<ast::Infix>(
-                lhs,
-                op,
-                rhs,
-                begin.to(cspan())
+                std::move(lhs), op, std::move(rhs), begin.to(cspan())
             );
             if (!multiple) {
                 break;
@@ -937,11 +919,8 @@ namespace jc::parser {
     ast::opt_expr_ptr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
-        if (skipOpt(TokenKind::Not, true)
-        or skipOpt(TokenKind::Sub, true)
-        or skipOpt(TokenKind::BitAnd, true)
-        or skipOpt(TokenKind::And, true)
-        or skipOpt(TokenKind::Mul, true)) {
+        if (skipOpt(TokenKind::Not, true) or skipOpt(TokenKind::Sub, true) or skipOpt(TokenKind::BitAnd, true) or
+            skipOpt(TokenKind::And, true) or skipOpt(TokenKind::Mul, true)) {
             auto maybeRhs = prefix();
             if (!maybeRhs) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
@@ -953,20 +932,20 @@ namespace jc::parser {
 
                 bool mut = skipOpt(TokenKind::Mut, true);
                 return ast::Expr::as<ast::Expr>(
-                    std::make_shared<ast::BorrowExpr>(op.is(TokenKind::And), mut, rhs, begin.to(cspan()))
+                    std::make_shared<ast::BorrowExpr>(op.is(TokenKind::And), mut, std::move(rhs), begin.to(cspan()))
                 );
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
 
                 return ast::Expr::as<ast::Expr>(
-                    std::make_shared<ast::DerefExpr>(rhs, begin.to(cspan()))
+                    std::make_shared<ast::DerefExpr>(std::move(rhs), begin.to(cspan()))
                 );
             }
 
             logParse("Prefix");
 
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::Prefix>(op, rhs, begin.to(cspan()))
+                std::make_shared<ast::Prefix>(op, std::move(rhs), begin.to(cspan()))
             );
         }
 
@@ -985,7 +964,9 @@ namespace jc::parser {
             logParse("Quest");
 
             return ast::Expr::as<ast::Expr>(
-                std::make_shared<ast::QuestExpr>(lhs.unwrap(), begin.to(cspan()))
+                std::make_shared<ast::QuestExpr>(
+                    std::move(lhs.unwrap()), std::move(begin.to(cspan()))
+                )
             );
         }
 
@@ -1022,37 +1003,30 @@ namespace jc::parser {
                         first = false;
                     } else {
                         skip(
-                            TokenKind::Comma,
-                            true,
-                            true,
-                            false,
-                            std::make_unique<ParseErrSugg>("Missing `,` separator in subscript operator call", cspan())
+                            TokenKind::Comma, true, true, false, std::make_unique<ParseErrSugg>(
+                                "Missing `,` separator in subscript operator call", cspan()
+                            )
                         );
                     }
 
                     indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
                 }
                 skip(
-                    TokenKind::RParen,
-                    true,
-                    true,
-                    false,
-                    std::make_unique<ParseErrSpanLinkSugg>(
-                        "Missing closing `]` in array expression", cspan(),
-                        "Opening `[` is here", maybeOp.span(sess)
+                    TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                        "Missing closing `]` in array expression", cspan(), "Opening `[` is here", maybeOp.span(sess)
                     )
                 );
 
-                lhs = std::make_shared<ast::Subscript>(lhs, indices, begin.to(cspan()));
+                lhs = std::make_shared<ast::Subscript>(
+                    std::move(lhs), std::move(indices), begin.to(cspan())
+                );
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
                 lhs = std::make_shared<ast::Invoke>(
-                    lhs,
-                    parseNamedList("function call"),
-                    begin.to(cspan())
+                    std::move(lhs), std::move(parseNamedList("function call")), begin.to(cspan())
                 );
 
                 begin = cspan();
@@ -1077,7 +1051,9 @@ namespace jc::parser {
 
             auto name = parseId("Expected field name", true, true);
 
-            lhs = std::make_shared<ast::MemberAccess>(lhs.unwrap(), name, begin.to(cspan()));
+            lhs = std::make_shared<ast::MemberAccess>(
+                std::move(lhs.unwrap()), std::move(name), begin.to(cspan())
+            );
             begin = cspan();
         }
 
@@ -1132,9 +1108,9 @@ namespace jc::parser {
         logParse("[just] id");
 
         const auto & begin = cspan();
-        auto name = peek();
+        auto token = peek();
         justSkip(TokenKind::Id, true, "[identifier]", "`" + panicIn + "`");
-        return std::make_shared<ast::Identifier>(name, begin.to(cspan()));
+        return std::make_shared<ast::Identifier>(token, begin.to(cspan()));
     }
 
     ast::id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
@@ -1159,8 +1135,7 @@ namespace jc::parser {
         if (!is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?",
-                    maybePathToken.span(sess)
+                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span(sess)
                 );
             } else {
                 common::Logger::devPanic("parsePathExpr -> !id -> !global");
@@ -1180,7 +1155,11 @@ namespace jc::parser {
                 pathMaybeGeneric = !typeParams;
             }
 
-            segments.push_back(std::make_shared<ast::PathExprSeg>(name, typeParams, segmentBegin.to(cspan())));
+            segments.push_back(
+                std::make_shared<ast::PathExprSeg>(
+                    std::move(name), std::move(typeParams), segmentBegin.to(cspan())
+                )
+            );
 
             if (pathMaybeGeneric or skipOpt(TokenKind::Path)) {
                 continue;
@@ -1188,7 +1167,7 @@ namespace jc::parser {
             break;
         }
 
-        return std::make_shared<ast::PathExpr>(global, segments, begin.to(cspan()));
+        return std::make_shared<ast::PathExpr>(global, std::move(segments), begin.to(cspan()));
     }
 
     ast::expr_ptr Parser::parseLiteral() {
@@ -1237,7 +1216,7 @@ namespace jc::parser {
                 elements.push_back(
                     std::make_shared<ast::SpreadExpr>(
                         maybeSpreadOp,
-                        parseExpr("Expected expression after spread operator `...` in list expression"),
+                        std::move(parseExpr("Expected expression after spread operator `...` in list expression")),
                         maybeSpreadOp.span(sess).to(cspan())
                     )
                 );
@@ -1246,7 +1225,7 @@ namespace jc::parser {
             }
         }
 
-        return std::make_shared<ast::ListExpr>(elements, begin.to(cspan()));
+        return std::make_shared<ast::ListExpr>(std::move(elements), begin.to(cspan()));
     }
 
     ast::expr_ptr Parser::parseTupleOrParenExpr() {
@@ -1301,25 +1280,26 @@ namespace jc::parser {
                 value = expr;
             }
 
-            namedList.push_back(std::make_shared<ast::NamedElement>(name, value, exprToken.span(sess).to(cspan())));
+            namedList.push_back(
+                std::make_shared<ast::NamedElement>(
+                    std::move(name), std::move(value), exprToken.span(sess).to(cspan())
+                )
+            );
         }
         skip(
-            TokenKind::RParen,
-            true,
-            false,
-            false,
-            std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
+            TokenKind::RParen, true, false, false, std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
         );
 
         if (namedList.size() == 1 and not namedList.at(0)->name and namedList.at(0)->value) {
             return std::make_shared<ast::ParenExpr>(
-                namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"),
-                begin.to(cspan())
+                namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"), begin.to(cspan())
             );
         }
 
         return std::make_shared<ast::TupleExpr>(
-            std::make_shared<ast::NamedList>(namedList, begin.to(cspan())), begin.to(cspan())
+            std::make_shared<ast::NamedList>(
+                std::move(namedList), begin.to(cspan())
+            ), begin.to(cspan())
         );
     }
 
@@ -1380,19 +1360,17 @@ namespace jc::parser {
                 stmts.push_back(parseStmt());
             }
             skip(
-                TokenKind::RBrace,
-                true,
-                true,
-                false,
-                std::make_unique<ParseErrSpanLinkSugg>(
-                    "Missing closing `}` at the end of " + construction + " body", cspan(),
-                    "opening `{` is here", maybeBraceToken.span(sess)
+                TokenKind::RBrace, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                    "Missing closing `}` at the end of " + construction + " body",
+                    cspan(),
+                    "opening `{` is here",
+                    maybeBraceToken.span(sess)
                 )
             );
             emitVirtualSemi();
         } else if (allowOneLine) {
             auto exprStmt = std::make_shared<ast::ExprStmt>(
-                parseExpr("Expected expression in one-line block in " + construction)
+                std::move(parseExpr("Expected expression in one-line block in " + construction))
             );
             // Note: Don't require semis for one-line body
             stmts.push_back(exprStmt);
@@ -1404,13 +1382,12 @@ namespace jc::parser {
             }
             suggest(
                 std::make_unique<ParseErrSugg>(
-                    suggMsg,
-                    cspan()
+                    suggMsg, cspan()
                 )
             );
         }
 
-        return std::make_shared<ast::Block>(stmts, begin.to(cspan()));
+        return std::make_shared<ast::Block>(std::move(stmts), begin.to(cspan()));
     }
 
     ast::expr_ptr Parser::parseIfExpr(bool isElif) {
@@ -1444,17 +1421,23 @@ namespace jc::parser {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi)) {
                 // Note: cover case when user writes `if {} else;`
-                suggest(std::make_unique<ParseErrSugg>("Ignoring `else` body with `;` is not allowed", maybeSemi.span(sess)));
+                suggest(
+                    std::make_unique<ParseErrSugg>(
+                        "Ignoring `else` body with `;` is not allowed", maybeSemi.span(sess)
+                    )
+                );
             }
             elseBranch = parseBlock("else", BlockArrow::Useless);
         } else if (is(TokenKind::Elif)) {
             ast::stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(std::make_shared<ast::ExprStmt>(parseIfExpr(true)));
-            elseBranch = std::make_shared<ast::Block>(elif, elifBegin.to(cspan()));
+            elif.push_back(std::make_shared<ast::ExprStmt>(std::move(parseIfExpr(true))));
+            elseBranch = std::make_shared<ast::Block>(std::move(elif), elifBegin.to(cspan()));
         }
 
-        return std::make_shared<ast::IfExpr>(condition, ifBranch, elseBranch, begin.to(cspan()));
+        return std::make_shared<ast::IfExpr>(
+            std::move(condition), std::move(ifBranch), std::move(elseBranch), begin.to(cspan())
+        );
     }
 
     ast::expr_ptr Parser::parseLoopExpr() {
@@ -1466,7 +1449,7 @@ namespace jc::parser {
 
         auto body = parseBlock("loop", BlockArrow::Allow);
 
-        return std::make_shared<ast::LoopExpr>(body, begin.to(cspan()));
+        return std::make_shared<ast::LoopExpr>(std::move(body), begin.to(cspan()));
     }
 
     ast::expr_ptr Parser::parseWhenExpr() {
@@ -1480,7 +1463,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Semi)) {
             // `when` body is ignored with `;`
-            return std::make_shared<ast::WhenExpr>(subject, ast::when_entry_list{}, begin.to(cspan()));
+            return std::make_shared<ast::WhenExpr>(std::move(subject), ast::when_entry_list{}, begin.to(cspan()));
         }
 
         skip(
@@ -1521,7 +1504,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Missing closing `}` at the end of `when` body", cspan())
         );
 
-        return std::make_shared<ast::WhenExpr>(subject, entries, begin.to(cspan()));
+        return std::make_shared<ast::WhenExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
     }
 
     ast::when_entry_ptr Parser::parseWhenEntry() {
@@ -1564,7 +1547,7 @@ namespace jc::parser {
 
         ast::block_ptr body = parseBlock("when", BlockArrow::Require);
 
-        return std::make_shared<ast::WhenEntry>(conditions, body, begin.to(cspan()));
+        return std::make_shared<ast::WhenEntry>(std::move(conditions), std::move(body), begin.to(cspan()));
     }
 
     std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> Parser::parseFuncBody() {
@@ -1603,7 +1586,7 @@ namespace jc::parser {
         auto name = parseId("Expected attribute name", true, true);
         auto params = parseNamedList("attribute");
 
-        return std::make_shared<ast::Attribute>(name, params, begin.to(cspan()));
+        return std::make_shared<ast::Attribute>(std::move(name), std::move(params), begin.to(cspan()));
     }
 
     ast::named_list_ptr Parser::parseNamedList(const std::string & construction) {
@@ -1625,13 +1608,8 @@ namespace jc::parser {
                 first = false;
             } else {
                 skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    false,
-                    std::make_unique<ParseErrSugg>(
-                        "Missing `,` separator between arguments in " + construction,
-                        nspan()
+                    TokenKind::Comma, true, true, false, std::make_unique<ParseErrSugg>(
+                        "Missing `,` separator between arguments in " + construction, nspan()
                     )
                 );
             }
@@ -1649,7 +1627,11 @@ namespace jc::parser {
                 value = expr;
             }
 
-            namedList.emplace_back(std::make_shared<ast::NamedElement>(name, value, elBegin.to(cspan())));
+            namedList.emplace_back(
+                std::make_shared<ast::NamedElement>(
+                    std::move(name), std::move(value), elBegin.to(cspan())
+                )
+            );
         }
         skip(
             TokenKind::RParen,
@@ -1659,7 +1641,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected closing `)` in " + construction, cspan())
         );
 
-        return std::make_shared<ast::NamedList>(namedList, begin.to(cspan()));
+        return std::make_shared<ast::NamedList>(std::move(namedList), begin.to(cspan()));
     }
 
     parser::token_list Parser::parseModifiers() {
@@ -1667,9 +1649,7 @@ namespace jc::parser {
 
         while (!eof()) {
             const auto & modifier = peek();
-            if (skipOpt(TokenKind::Move, true)
-                or skipOpt(TokenKind::Mut, true)
-                or skipOpt(TokenKind::Static, true)) {
+            if (skipOpt(TokenKind::Move, true) or skipOpt(TokenKind::Mut, true) or skipOpt(TokenKind::Static, true)) {
                 modifiers.push_back(modifier);
             } else {
                 break;
@@ -1713,13 +1693,11 @@ namespace jc::parser {
             params.push_back(param);
         }
         skip(
-            TokenKind::RParen,
-            true,
-            true,
-            false,
-            std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `)` after `func` parameter list", lookup().span(sess),
-                "`func` parameter list starts here", maybeParenToken.span(sess)
+            TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `)` after `func` parameter list",
+                lookup().span(sess),
+                "`func` parameter list starts here",
+                maybeParenToken.span(sess)
             )
         );
 
@@ -1734,13 +1712,8 @@ namespace jc::parser {
         auto name = parseId("Expected function parameter", true, true);
 
         skip(
-            TokenKind::Colon,
-            true,
-            true,
-            true,
-            std::make_unique<ParseErrSugg>(
-                "`func` parameters without type are not allowed, please put `:` here and specify type",
-                cspan()
+            TokenKind::Colon, true, true, true, std::make_unique<ParseErrSugg>(
+                "`func` parameters without type are not allowed, please put `:` here and specify type", cspan()
             )
         );
 
@@ -1751,7 +1724,9 @@ namespace jc::parser {
             skipNLs(true);
             defaultValue = parseExpr("Expression expected as default value of function parameter");
         }
-        return std::make_shared<ast::FuncParam>(name, type, defaultValue, begin.to(cspan()));
+        return std::make_shared<ast::FuncParam>(
+            std::move(name), std::move(type), std::move(defaultValue), begin.to(cspan())
+        );
     }
 
     ast::item_list Parser::parseMembers(const std::string & construction) {
@@ -1760,13 +1735,8 @@ namespace jc::parser {
         ast::item_list members;
         if (!isHardSemi()) {
             auto braceSkipped = skip(
-                TokenKind::LBrace,
-                true,
-                true,
-                false,
-                std::make_unique<ParseErrSugg>(
-                    "To start `" + construction + "` body put `{` here or `;` to ignore body",
-                    cspan()
+                TokenKind::LBrace, true, true, false, std::make_unique<ParseErrSugg>(
+                    "To start `" + construction + "` body put `{` here or `;` to ignore body", cspan()
                 )
             );
             if (skipOpt(TokenKind::RBrace)) {
@@ -1828,16 +1798,18 @@ namespace jc::parser {
             } else {
                 if (tupleElements.empty()) {
                     return ast::Type::asBase(std::make_shared<ast::UnitType>(begin.to(cspan())));
-                } else if (
-                    tupleElements.size() == 1
-                    and !tupleElements.at(0)->name
-                    and tupleElements.at(0)->type
-                ) {
+                } else if (tupleElements.size() == 1 and !tupleElements.at(0)->name and tupleElements.at(0)->type) {
                     return ast::Type::asBase(
-                        std::make_shared<ast::ParenType>(tupleElements.at(0)->type.unwrap(), begin.to(cspan()))
+                        std::make_shared<ast::ParenType>(
+                            std::move(tupleElements.at(0)->type.unwrap()), begin.to(cspan())
+                        )
                     );
                 }
-                return ast::Type::asBase(std::make_shared<ast::TupleType>(tupleElements, begin.to(cspan())));
+                return ast::Type::asBase(
+                    std::make_shared<ast::TupleType>(
+                        std::move(tupleElements), begin.to(cspan())
+                    )
+                );
             }
         }
 
@@ -1853,7 +1825,10 @@ namespace jc::parser {
         justSkip(TokenKind::LParen, true, "`(`", "`parseParenType`");
 
         if (skipOpt(TokenKind::RParen)) {
-            return {{}, {}};
+            return {
+                {},
+                {}
+            };
         }
 
         std::vector<size_t> namedElements;
@@ -1894,17 +1869,18 @@ namespace jc::parser {
                 );
             }
 
-            tupleElements.push_back(std::make_shared<ast::TupleTypeElement>(name, type, elBegin.to(cspan())));
+            tupleElements.push_back(
+                std::make_shared<ast::TupleTypeElement>(
+                    std::move(name), std::move(type), elBegin.to(
+                        cspan()
+                    )
+                )
+            );
             elIndex++;
         }
         skip(
-            TokenKind::RParen,
-            true,
-            true,
-            false,
-            std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `)` in tuple type", cspan(),
-                "Opening `(` is here", lParenToken.span(sess)
+            TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `)` in tuple type", cspan(), "Opening `(` is here", lParenToken.span(sess)
             )
         );
 
@@ -1927,7 +1903,9 @@ namespace jc::parser {
                 false,
                 std::make_unique<ParseErrSugg>("Missing closing `]` in array type", cspan())
             );
-            return std::make_shared<ast::ArrayType>(type, sizeExpr, begin.to(cspan()));
+            return std::make_shared<ast::ArrayType>(
+                std::move(type), std::move(sizeExpr), begin.to(cspan())
+            );
         }
 
         skip(
@@ -1938,7 +1916,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Missing closing `]` in slice type", cspan())
         );
 
-        return std::make_shared<ast::SliceType>(type, begin.to(cspan()));
+        return std::make_shared<ast::SliceType>(std::move(type), begin.to(cspan()));
     }
 
     ast::type_ptr Parser::parseFuncType(ast::tuple_t_el_list tupleElements, const Span & span) {
@@ -1959,7 +1937,7 @@ namespace jc::parser {
 
         auto returnType = parseType("Expected return type in function type after `->`");
 
-        return std::make_shared<ast::FuncType>(params, returnType, span.to(cspan()));
+        return std::make_shared<ast::FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
     ast::opt_type_params Parser::parseTypeParams() {
@@ -1997,24 +1975,23 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick)) {
                 auto name = parseId("Expected lifetime identifier", false, false);
-                typeParams.push_back(std::make_shared<ast::Lifetime>(name, typeParamBegin.to(cspan())));
+                typeParams.push_back(
+                    std::make_shared<ast::Lifetime>(std::move(name), typeParamBegin.to(cspan()))
+                );
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseTypeParams`");
                 ast::opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                typeParams.push_back(std::make_shared<ast::GenericType>(name, type, typeParamBegin.to(cspan())));
+                typeParams.push_back(
+                    std::make_shared<ast::GenericType>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
+                );
             } else if (skipOpt(TokenKind::Const, true)) {
                 auto name = parseId("Expected `const` generic name", true, true);
                 skip(
-                    TokenKind::Colon,
-                    true,
-                    true,
-                    true,
-                    std::make_unique<ParseErrSugg>(
-                        "Expected `:` to annotate `const` generic type",
-                        cspan()
+                    TokenKind::Colon, true, true, true, std::make_unique<ParseErrSugg>(
+                        "Expected `:` to annotate `const` generic type", cspan()
                     )
                 );
                 auto type = parseType("Expected `const` generic type");
@@ -2023,20 +2000,17 @@ namespace jc::parser {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
                 typeParams.push_back(
-                    std::make_shared<ast::ConstParam>(name, type, defaultValue, typeParamBegin.to(cspan()))
+                    std::make_shared<ast::ConstParam>(
+                        std::move(name), std::move(type), std::move(defaultValue), typeParamBegin.to(cspan())
+                    )
                 );
             } else {
                 suggestErrorMsg("Expected type parameter", typeParamBegin);
             }
         }
         skip(
-            TokenKind::RAngle,
-            true,
-            true,
-            false,
-            std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `>` in type parameter list", cspan(),
-                "Opening `<` is here", lAngleToken.span(sess)
+            TokenKind::RAngle, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                "Missing closing `>` in type parameter list", cspan(), "Opening `<` is here", lAngleToken.span(sess)
             )
         );
 
@@ -2064,8 +2038,7 @@ namespace jc::parser {
         if (!is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?",
-                    maybePathToken.span(sess)
+                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span(sess)
                 );
             }
             return dt::None;
@@ -2077,7 +2050,11 @@ namespace jc::parser {
             auto name = parseId("Type expected", true, true);
             auto typeParams = parseTypeParams();
 
-            segments.push_back(std::make_shared<ast::IdType>(name, typeParams, segBegin.to(cspan())));
+            segments.push_back(
+                std::make_shared<ast::IdType>(
+                    std::move(name), std::move(typeParams), segBegin.to(cspan())
+                )
+            );
 
             if (skipOpt(TokenKind::Path)) {
                 if (eof()) {
@@ -2089,7 +2066,9 @@ namespace jc::parser {
             break;
         }
 
-        return std::make_shared<ast::TypePath>(global, segments, maybePathToken.span(sess).to(cspan()));
+        return std::make_shared<ast::TypePath>(
+            global, std::move(segments), maybePathToken.span(sess).to(cspan())
+        );
     }
 
     // Suggestions //
