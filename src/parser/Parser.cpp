@@ -217,32 +217,6 @@ namespace jc::parser {
     ///////////
     // Items //
     ///////////
-    ast::item_list Parser::parseItemList(const std::string & gotExprSugg) {
-        logParse("ItemList");
-
-        ast::item_list items;
-        while (!eof()) {
-            skipSemis(true);
-            if (eof()) {
-                break;
-            }
-
-            auto item = parseItem();
-            if (item) {
-                items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
-            } else {
-                const auto & exprToken = peek();
-                auto expr = parseOptExpr();
-                if (expr) {
-                    // FIXME!: Use RangeSugg
-                    suggestErrorMsg(gotExprSugg, exprToken.span(sess));
-                }
-                // If expr is `None` we already made an error in `primary`
-            }
-        }
-        return items;
-    }
-
     dt::Option<ast::item_ptr> Parser::parseItem() {
         logParse("Item");
 
@@ -266,7 +240,7 @@ namespace jc::parser {
                 decl = parseEnumDecl();
             } break;
             case TokenKind::Type: {
-                decl = parseTypeDecl();
+                decl = parseTypeAlias();
             } break;
             case TokenKind::Struct: {
                 decl = parseStruct();
@@ -299,21 +273,30 @@ namespace jc::parser {
         return dt::None;
     }
 
-    parser::token_list Parser::parseModifiers() {
-        parser::token_list modifiers;
+    ast::item_list Parser::parseItemList(const std::string & gotExprSugg) {
+        logParse("ItemList");
 
+        ast::item_list items;
         while (!eof()) {
-            const auto & modifier = peek();
-            if (skipOpt(TokenKind::Move, true)
-            or skipOpt(TokenKind::Mut, true)
-            or skipOpt(TokenKind::Static, true)) {
-                modifiers.push_back(modifier);
-            } else {
+            skipSemis(true);
+            if (eof()) {
                 break;
             }
-        }
 
-        return modifiers;
+            auto item = parseItem();
+            if (item) {
+                items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
+            } else {
+                const auto & exprToken = peek();
+                auto expr = parseOptExpr();
+                if (expr) {
+                    // FIXME!: Use RangeSugg
+                    suggestErrorMsg(gotExprSugg, exprToken.span(sess));
+                }
+                // If expr is `None` we already made an error in `primary`
+            }
+        }
+        return items;
     }
 
     ast::stmt_ptr Parser::parseStmt() {
@@ -412,12 +395,12 @@ namespace jc::parser {
         return std::make_shared<ast::VarStmt>(kind, name, type, assignExpr, begin.to(cspan()));
     }
 
-    ast::stmt_ptr Parser::parseTypeDecl() {
+    ast::stmt_ptr Parser::parseTypeAlias() {
         logParse("TypeDecl");
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Type, true, "`type`", "`parseTypeDecl`");
+        justSkip(TokenKind::Type, true, "`type`", "`parseTypeAlias`");
 
         auto name = parseId("An identifier expected as a type name", true, true);
         skip(
@@ -626,7 +609,7 @@ namespace jc::parser {
                 construction = "`" + token.kindToString() + "` declaration";
             } break;
             case TokenKind::Type: {
-                parseTypeDecl();
+                parseTypeAlias();
                 construction = "`type` declaration";
             } break;
             case TokenKind::Struct: {
@@ -1604,6 +1587,23 @@ namespace jc::parser {
         );
 
         return std::make_shared<ast::NamedList>(namedList, begin.to(cspan()));
+    }
+
+    parser::token_list Parser::parseModifiers() {
+        parser::token_list modifiers;
+
+        while (!eof()) {
+            const auto & modifier = peek();
+            if (skipOpt(TokenKind::Move, true)
+                or skipOpt(TokenKind::Mut, true)
+                or skipOpt(TokenKind::Static, true)) {
+                modifiers.push_back(modifier);
+            } else {
+                break;
+            }
+        }
+
+        return modifiers;
     }
 
     ast::func_param_list Parser::parseFuncParamList() {

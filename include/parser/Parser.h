@@ -126,20 +126,23 @@ namespace jc::parser {
 
         // Parsers //
     private:
+
         // Items //
         dt::Option<ast::item_ptr> parseItem();
         ast::item_list parseItemList(const std::string & gotExprSugg);
-        ast::stmt_ptr parseStmt();
 
-        ast::stmt_ptr parseWhileStmt();
+        ast::stmt_ptr parseEnumDecl();
+        ast::stmt_ptr parseFuncDecl(const parser::token_list & modifiers);
+        ast::stmt_ptr parseImpl();
+        ast::stmt_ptr parseStruct();
+        ast::stmt_ptr parseTrait();
+        ast::stmt_ptr parseTypeAlias();
+
+        // Statements //
+        ast::stmt_ptr parseStmt();
         ast::stmt_ptr parseForStmt();
         ast::stmt_ptr parseVarStmt();
-        ast::stmt_ptr parseTypeDecl();
-        ast::stmt_ptr parseStruct();
-        ast::stmt_ptr parseImpl();
-        ast::stmt_ptr parseTrait();
-        ast::stmt_ptr parseFuncDecl(const parser::token_list & modifiers);
-        ast::stmt_ptr parseEnumDecl();
+        ast::stmt_ptr parseWhileStmt();
 
         // Expressions //
         ast::opt_expr_ptr parseOptExpr();
