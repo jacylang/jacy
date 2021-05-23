@@ -7,16 +7,18 @@ namespace jc::ast {
     struct ErrorType;
     struct ErrorTypePath;
 
-    // Statements //
+    // Items //
     struct EnumDecl;
-    struct ExprStmt;
-    struct ForStmt;
     struct FuncDecl;
     struct Impl;
     struct Item;
     struct Struct;
     struct Trait;
     struct TypeAlias;
+
+    // Statements //
+    struct ExprStmt;
+    struct ForStmt;
     struct VarDecl;
     struct WhileStmt;
 
@@ -71,16 +73,18 @@ namespace jc::ast {
         virtual void visit(ErrorType*) = 0;
         virtual void visit(ErrorTypePath*) = 0;
 
-        // Statements //
+        // Items //
         virtual void visit(EnumDecl*) = 0;
-        virtual void visit(ExprStmt*) = 0;
-        virtual void visit(ForStmt*) = 0;
         virtual void visit(FuncDecl*) = 0;
         virtual void visit(Impl*) = 0;
         virtual void visit(Item*) = 0;
         virtual void visit(Struct*) = 0;
         virtual void visit(Trait*) = 0;
         virtual void visit(TypeAlias*) = 0;
+
+        // Statements //
+        virtual void visit(ExprStmt*) = 0;
+        virtual void visit(ForStmt*) = 0;
         virtual void visit(VarDecl*) = 0;
         virtual void visit(WhileStmt*) = 0;
 

@@ -1,7 +1,6 @@
 #ifndef JACY_AST_STMT_ITEM_H
 #define JACY_AST_STMT_ITEM_H
 
-#include "ast/stmt/Stmt.h"
 #include "ast/fragments/Attribute.h"
 
 namespace jc::ast {
@@ -9,12 +8,21 @@ namespace jc::ast {
     using item_ptr = std::shared_ptr<Item>;
     using item_list = std::vector<item_ptr>;
 
-    struct Item : Stmt {
-        Item(attr_list attributes, stmt_ptr stmt, const Span & span)
-            : attributes(std::move(attributes)), stmt(std::move(stmt)), Stmt(span, StmtKind::Item) {}
+    enum class ItemKind {
+        Enum,
+        Func,
+        Impl,
+        Struct,
+        Trait,
+        TypeAlias,
+    };
+
+    struct Item : Node {
+        Item(ItemKind kind, attr_list attributes, const Span & span)
+            : attributes(std::move(attributes)), kind(kind), Node(span) {}
 
         attr_list attributes;
-        stmt_ptr stmt;
+        ItemKind kind;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(this);
