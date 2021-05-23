@@ -37,7 +37,7 @@
 
 // Items //
 #include "ast/item/Enum.h"
-#include "ast/item/FuncDecl.h"
+#include "ast/item/Func.h"
 #include "ast/item/Impl.h"
 #include "ast/item/Item.h"
 #include "ast/item/Struct.h"

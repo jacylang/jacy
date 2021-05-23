@@ -7,7 +7,7 @@ namespace jc::resolve {
         return {rib, std::move(suggestions)};
     }
 
-    void NameResolver::visit(ast::FuncDecl & funcDecl) {
+    void NameResolver::visit(ast::Func & funcDecl) {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl.typeParams);
 
@@ -242,7 +242,7 @@ namespace jc::resolve {
             Name::Kind kind;
             switch (member->kind) {
                 case ast::ItemKind::Func: {
-                    name = std::static_pointer_cast<ast::FuncDecl>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Func>(member)->name->unwrapValue();
                     kind = Name::Kind::Func;
                 } break;
                 case ast::ItemKind::Enum: {

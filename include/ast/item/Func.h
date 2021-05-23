@@ -1,5 +1,5 @@
-#ifndef JACY_FUNCDECL_H
-#define JACY_FUNCDECL_H
+#ifndef JACY_FUNC_H
+#define JACY_FUNC_H
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
@@ -9,8 +9,8 @@
 #include "ast/expr/Block.h"
 
 namespace jc::ast {
-    struct FuncDecl : Item {
-        FuncDecl(
+    struct Func : Item {
+        Func(
             attr_list attributes,
             parser::token_list modifiers,
             opt_type_params typeParams,
@@ -48,4 +48,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_FUNCDECL_H
+#endif // JACY_FUNC_H

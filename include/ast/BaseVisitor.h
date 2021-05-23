@@ -9,7 +9,7 @@ namespace jc::ast {
 
     // Items //
     struct Enum;
-    struct FuncDecl;
+    struct Func;
     struct Impl;
     struct Struct;
     struct Trait;
@@ -74,7 +74,7 @@ namespace jc::ast {
 
         // Items //
         virtual void visit(Enum&) = 0;
-        virtual void visit(FuncDecl&) = 0;
+        virtual void visit(Func&) = 0;
         virtual void visit(Impl&) = 0;
         virtual void visit(Struct&) = 0;
         virtual void visit(Trait&) = 0;

@@ -72,7 +72,7 @@ namespace jc::ast {
         itemStmt.item->accept(*this);
     }
 
-    void AstPrinter::visit(const FuncDecl & funcDecl) {
+    void AstPrinter::visit(const Func & funcDecl) {
         printIndent();
 
         printModifiers(funcDecl.modifiers);

@@ -274,7 +274,7 @@ namespace jc::parser {
     }
 
     ast::item_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {
-        logParse("FuncDecl");
+        logParse("Func");
 
         const auto & begin = cspan();
 
@@ -311,7 +311,7 @@ namespace jc::parser {
         ast::opt_expr_ptr oneLineBody;
         std::tie(body, oneLineBody) = parseFuncBody();
 
-        return std::make_shared<ast::FuncDecl>(
+        return std::make_shared<ast::Func>(
             std::move(attributes),
             std::move(modifiers),
             std::move(typeParams),

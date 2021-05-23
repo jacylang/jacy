@@ -34,7 +34,7 @@ namespace jc::ast {
         visit("itemStmt");
     }
 
-    void StubVisitor::visit(ast::FuncDecl & funcDecl) {
+    void StubVisitor::visit(ast::Func & funcDecl) {
         visit("funcDecl");
     }
 

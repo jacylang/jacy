@@ -60,7 +60,7 @@ namespace jc::ast {
         itemStmt.item->accept(*this);
     }
 
-    void Linter::visit(const ast::FuncDecl & funcDecl) {
+    void Linter::visit(const ast::Func & funcDecl) {
         for (const auto & modifier : funcDecl.modifiers) {
             if (!isInside(LinterContext::Struct)) {
                 switch (modifier.kind) {
@@ -103,7 +103,7 @@ namespace jc::ast {
         } else if (funcDecl.oneLineBody) {
             funcDecl.oneLineBody.unwrap()->accept(*this);
         } else {
-            Logger::devPanic("Linter: FuncDecl hasn't either one-line either raw body");
+            Logger::devPanic("Linter: Func hasn't either one-line either raw body");
         }
         popContext();
     }
