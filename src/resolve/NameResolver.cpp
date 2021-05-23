@@ -268,7 +268,7 @@ namespace jc::resolve {
             rib->names.emplace(name, std::make_shared<Name>(kind, nodeId));
             return;
         }
-//        suggestCannotRedeclare(name, );
+        suggestCannotRedeclare(name, Name::kindStr(kind), found->second->kindStr(), nodeId, found->second->nodeId);
     }
 
     // Resolution //
