@@ -28,7 +28,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::ForStmt * forStmt) {
-        forStmt->forEntity->accept(*this);
+        // TODO: Update when for will have patterns
         forStmt->inExpr->accept(*this);
 
         pushContext(LinterContext::Loop);
@@ -58,8 +58,6 @@ namespace jc::ast {
         if (funcDecl->typeParams) {
             lint(funcDecl->typeParams.unwrap());
         }
-
-        funcDecl->name->accept(*this);
 
         for (const auto & param : funcDecl->params) {
             if (param->type) {
@@ -98,26 +96,17 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::Item * item) {
-        // FIXME: Something with attributes?
-        item->stmt->accept(*this);
-    }
-
     void Linter::visit(ast::Struct * _struct) {
-        _struct->name->accept(*this);
-
         if (_struct->typeParams) {
             lint(_struct->typeParams.unwrap());
         }
 
         pushContext(LinterContext::Struct);
-        lintMembers(_struct->members);
+        // FIXME: Lint fields
         popContext();
     }
 
     void Linter::visit(ast::Trait * trait) {
-        trait->name->accept(*this);
-
         if (trait->typeParams) {
             lint(trait->typeParams.unwrap());
         }
@@ -132,12 +121,10 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::TypeAlias * typeAlias) {
-        typeAlias->name->accept(*this);
         typeAlias->type->accept(*this);
     }
 
     void Linter::visit(ast::VarStmt * varDecl) {
-        varDecl->name->accept(*this);
         varDecl->type->accept(*this);
 
         if (varDecl->assignExpr) {
@@ -223,12 +210,6 @@ namespace jc::ast {
         derefExpr->expr->accept(*this);
     }
 
-    void Linter::visit(ast::Identifier * identifier) {
-        if (!identifier->token) {
-            Logger::devPanic("[ERROR ID] on linter stage at", identifier->span.toString());
-        }
-    }
-
     void Linter::visit(ast::IfExpr * ifExpr) {
         ifExpr->condition->accept(*this);
 
@@ -290,7 +271,6 @@ namespace jc::ast {
 
     void Linter::visit(ast::Lambda * lambdaExpr) {
         for (const auto & param : lambdaExpr->params) {
-            param->name->accept(*this);
             if (param->type) {
                 param->type.unwrap()->accept(*this);
             }
@@ -323,7 +303,6 @@ namespace jc::ast {
 
     void Linter::visit(ast::MemberAccess * memberAccess) {
         memberAccess->lhs->accept(*this);
-        memberAccess->field->accept(*this);
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
@@ -349,7 +328,6 @@ namespace jc::ast {
 
     void Linter::visit(ast::PathExpr * pathExpr) {
         for (const auto & seg : pathExpr->segments) {
-            seg->name->accept(*this);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -438,9 +416,6 @@ namespace jc::ast {
 
         // FIXME: Add check for one-element tuple type, etc.
         for (const auto & el : els) {
-            if (el->name) {
-                el->name.unwrap()->accept(*this);
-            }
             if (el->type) {
                 el->type.unwrap()->accept(*this);
             }
@@ -465,7 +440,6 @@ namespace jc::ast {
 
     void Linter::visit(ast::TypePath * typePath) {
         for (const auto & seg : typePath->segments) {
-            seg->name->accept(*this);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -478,18 +452,14 @@ namespace jc::ast {
 
     // Type params //
     void Linter::visit(ast::GenericType * genericType) {
-        genericType->name->accept(*this);
         if (genericType->type) {
             genericType->type.unwrap()->accept(*this);
         }
     }
 
-    void Linter::visit(ast::Lifetime * lifetime) {
-        lifetime->name->accept(*this);
-    }
+    void Linter::visit(ast::Lifetime * lifetime) {}
 
     void Linter::visit(ast::ConstParam * constParam) {
-        constParam->name->accept(*this);
         constParam->type->accept(*this);
         if (constParam->defaultValue) {
             constParam->defaultValue.unwrap()->accept(*this);
@@ -499,9 +469,6 @@ namespace jc::ast {
     // Linters //
     void Linter::lint(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
-            if (el->name) {
-                el->name.unwrap()->accept(*this);
-            }
             if (el->value) {
                 el->value.unwrap()->accept(*this);
             }

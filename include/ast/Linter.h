@@ -49,7 +49,6 @@ namespace jc::ast {
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
         void visit(ast::DerefExpr * derefExpr) override;
-        void visit(ast::Identifier * identifier) override;
         void visit(ast::IfExpr * ifExpr) override;
         void visit(ast::Infix * infix) override;
         void visit(ast::Invoke * invoke) override;
