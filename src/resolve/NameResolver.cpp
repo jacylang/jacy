@@ -11,7 +11,7 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl.typeParams);
 
-        enterRib(Rib::Kind::Normal); // -> (signature rib)
+        enterRib(); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
             param->type->accept(*this);
         }
@@ -20,7 +20,7 @@ namespace jc::resolve {
             funcDecl.returnType.unwrap()->accept(*this);
         }
 
-        enterRib(Rib::Kind::Normal); // -> (params rib)
+        enterRib(); // -> (params rib)
         for (const auto & param : funcDecl.params) {
             declare(param->name->unwrapValue(), Name::Kind::Param, param->id);
         }
@@ -35,7 +35,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
-        enterRib(Rib::Kind::Normal);
+        enterRib();
         // TODO
     }
 
@@ -56,7 +56,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Block & block) {
-        enterRib(Rib::Kind::AnonMod); // -> block rib
+        enterRib(); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt->accept(*this);
         }
@@ -101,7 +101,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Lambda & lambdaExpr) {
-        enterRib(Rib::Kind::Normal); // -> (lambda params)
+        enterRib(); // -> (lambda params)
 
         for (const auto & param : lambdaExpr.params) {
             // TODO
@@ -192,7 +192,7 @@ namespace jc::resolve {
         whenExpr.subject->accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
-            enterRib(Rib::Kind::AnonMod); // -> (when entry)
+            enterRib(); // -> (when entry)
             for (const auto & cond : entry->conditions) {
                 cond->accept(*this);
             }
@@ -293,7 +293,7 @@ namespace jc::resolve {
             return;
         }
         const auto & typeParams = maybeTypeParams.unwrap();
-        enterRib(Rib::Kind::Normal); // -> (type rib)
+        enterRib(); // -> (type rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 declare(
@@ -303,7 +303,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterRib(Rib::Kind::Normal); // -> (lifetime rib)
+        enterRib(); // -> (lifetime rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
                 declare(
@@ -313,7 +313,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterRib(Rib::Kind::Normal); // -> (const rib)
+        enterRib(); // -> (const rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(

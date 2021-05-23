@@ -124,7 +124,7 @@ namespace jc::resolve {
     struct Rib {
         enum class Kind {
             Normal,
-            AnonMod,
+            Item,
             Mod,
         } kind;
 
