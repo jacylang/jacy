@@ -89,7 +89,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        opt_node_id resolveId(const std::string & name);
+        void resolveId(ast::Identifier & id);
 
         // Suggestions //
     private:

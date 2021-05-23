@@ -15,7 +15,6 @@ namespace jc::ast {
             : token(token), Node(span) {}
 
         parser::opt_token token;
-        node_id refersTo;
 
         dt::Option<std::string> getValue() const {
             if (token) {
@@ -34,6 +33,9 @@ namespace jc::ast {
         void setReference(node_id reference) {
             refersTo = reference;
         }
+
+    private:
+        node_id refersTo;
     };
 }
 

@@ -13,7 +13,7 @@ namespace jc::resolve {
 
         enterRib(); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
-            // TODO: Resolve params types
+
         }
         // TODO: Resolve return type
 
@@ -358,14 +358,29 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    opt_node_id NameResolver::resolveId(const std::string & name) {
+    void NameResolver::resolveId(ast::Identifier & id) {
+        // TODO: Add allowed resolutions:
+        //  When we resolve type name, we should suggest an error if it is a function or something else
+
+        const auto & name = id.unwrapValue();
+        opt_node_id resolved;
         dt::Option<rib_ptr> maybeRib = rib;
         while (maybeRib) {
             auto checkRib = maybeRib.unwrap();
-            // TODO
+            const auto & found = checkRib->names.find(name);
+            if (found != checkRib->names.end()) {
+                resolved = found->second->nodeId;
+                break;
+            }
             maybeRib = checkRib->parent;
         }
-        return dt::None;
+
+        if (!resolved) {
+            suggestErrorMsg("Cannot find name '" + name + "'", id.id);
+            return;
+        }
+
+        id.setReference(resolved.unwrap());
     }
 
     // Suggestions //
