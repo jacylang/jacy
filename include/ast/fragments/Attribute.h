@@ -1,5 +1,5 @@
-#ifndef JACY_ATTRIBUTE_H
-#define JACY_ATTRIBUTE_H
+#ifndef JACY_AST_FRAGMENTS_ATTRIBUTE_H
+#define JACY_AST_FRAGMENTS_ATTRIBUTE_H
 
 #include "ast/Node.h"
 #include "Identifier.h"
@@ -19,4 +19,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_ATTRIBUTE_H
+#endif // JACY_AST_FRAGMENTS_ATTRIBUTE_H

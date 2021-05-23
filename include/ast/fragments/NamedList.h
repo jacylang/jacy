@@ -1,5 +1,5 @@
-#ifndef JACY_NAMEDLIST_H
-#define JACY_NAMEDLIST_H
+#ifndef JACY_AST_FRAGMENTS_NAMEDLIST_H
+#define JACY_AST_FRAGMENTS_NAMEDLIST_H
 
 #include "Identifier.h"
 
@@ -25,4 +25,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_NAMEDLIST_H
+#endif // JACY_AST_FRAGMENTS_NAMEDLIST_H

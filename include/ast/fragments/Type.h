@@ -1,5 +1,5 @@
-#ifndef JACY_TYPE_H
-#define JACY_TYPE_H
+#ifndef JACY_AST_FRAGMENTS_TYPE_H
+#define JACY_AST_FRAGMENTS_TYPE_H
 
 #include "ast/Node.h"
 #include "ast/fragments/TypeParams.h"
@@ -204,4 +204,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_TYPE_H
+#endif // JACY_AST_FRAGMENTS_TYPE_H
