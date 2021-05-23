@@ -15,6 +15,7 @@ namespace jc::ast {
             : token(token), Node(span) {}
 
         parser::opt_token token;
+        node_id refersTo;
 
         dt::Option<std::string> getValue() const {
             if (token) {
@@ -28,6 +29,10 @@ namespace jc::ast {
                 return token->val;
             }
             common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
+        }
+
+        void setReference(node_id reference) {
+            refersTo = reference;
         }
     };
 }
