@@ -1,5 +1,5 @@
-#ifndef JACY_VARDECL_H
-#define JACY_VARDECL_H
+#ifndef JACY_VARSTMT_H
+#define JACY_VARSTMT_H
 
 #include "ast/stmt/Stmt.h"
 #include "common/common.h"
@@ -18,7 +18,7 @@ namespace jc::ast {
             name(std::move(name)),
             type(std::move(type)),
             assignExpr(std::move(assignExpr)),
-            Stmt(span, StmtKind::VarDecl) {}
+            Stmt(span, StmtKind::Var) {}
 
         parser::Token kind;
         id_ptr name;
@@ -36,4 +36,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_VARDECL_H
+#endif // JACY_VARSTMT_H

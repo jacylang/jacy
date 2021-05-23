@@ -34,8 +34,7 @@ namespace jc::resolve {
         liftToDepth(prevDepth); // <- (params rib) <- (all type params ribs)
     }
 
-    void NameResolver::visit(ast::VarStmt & varDecl) {
-        // TODO: Split VarStmt and Field
+    void NameResolver::visit(ast::VarStmt & varStmt) {
         enterRib();
     }
 
