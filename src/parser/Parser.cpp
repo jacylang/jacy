@@ -1262,22 +1262,34 @@ namespace jc::parser {
             auto exprToken = peek();
 
             // FIXME: Add construction name for `Lambda`
-            auto expr = parseExpr("Expected tuple member"); // FIXME: Maybe optional + break?
 
             ast::opt_id_ptr name = dt::None;
             ast::opt_expr_ptr value = dt::None;
             skipNLs(true);
 
-            // Named element case like (name: value)
-            if (skipOpt(TokenKind::Colon)) {
-                if (expr->is(ast::ExprKind::Id)) {
-                    name = ast::Expr::as<ast::Identifier>(expr);
+            if (is(TokenKind::Id)) {
+                auto identifier = justParseId("`parseTupleOrParenExpr`");
+                if (skipOpt(TokenKind::Colon)) {
+                    name = identifier;
+                    value = parseExpr("Expected value after `:` in tuple");
                 } else {
-                    suggestErrorMsg("Expected name for named tuple member", exprToken.span(sess));
+                    // Recover path expression
+                    // We collected one identifier, and if it is not a tuple element name, we need to use it as path
+                    auto typeParams = parseTypeParams();
+                    value = std::make_shared<ast::PathExpr>(
+                        false,
+                        ast::path_expr_list{
+                            std::make_shared<ast::PathExprSeg>(
+                                std::move(identifier),
+                                typeParams,
+                                exprToken.span(sess).to(cspan())
+                            )
+                        },
+                        exprToken.span(sess).to(cspan())
+                    );
                 }
-                value = parseExpr("Expected value for tuple member");
             } else {
-                value = expr;
+                value = parseExpr("Expression expected");
             }
 
             namedList.push_back(
