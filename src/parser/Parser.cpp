@@ -299,203 +299,8 @@ namespace jc::parser {
         return items;
     }
 
-    ast::stmt_ptr Parser::parseStmt() {
-        logParse("Stmt");
-
-        const auto & begin = cspan();
-
-        switch (peek().kind) {
-            case TokenKind::While: {
-                return parseWhileStmt();
-            }
-            case TokenKind::For: {
-                return parseForStmt();
-            }
-            default: {
-                auto decl = parseItem();
-                if (decl) {
-                    return decl.unwrap("`parseStmt` -> `decl`");
-                }
-
-                auto expr = parseOptExpr();
-                if (!expr) {
-                    // FIXME: Maybe useless due to check inside `parseExpr`
-                    suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
-                    advance();
-                    return std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
-                }
-
-                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
-                skipSemis(false);
-                return std::static_pointer_cast<ast::Stmt>(exprStmt);
-            }
-        }
-    }
-
-    ast::stmt_ptr Parser::parseWhileStmt() {
-        logParse("WhileStmt");
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::While, true, "`while`", "`parseWhileStmt`");
-
-        auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", BlockArrow::Allow);
-
-        return std::make_shared<ast::WhileStmt>(condition, body, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseForStmt() {
-        logParse("ForStmt");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::For, true, "`for`", "`parseForStmt`");
-
-        // TODO: Destructuring
-        auto forEntity = parseId("Expected `for` entity in `for` loop", true, true);
-
-        skip(
-            TokenKind::In,
-            true,
-            true,
-            true,
-            std::make_unique<ParseErrSugg>("Missing `in` in `for` loop, put it here", cspan())
-        );
-
-        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", BlockArrow::Allow);
-
-        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseVarStmt() {
-        logParse("VarStmt:" + peek().toString());
-
-        if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
-            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
-        }
-
-        const auto & begin = cspan();
-        auto kind = peek();
-        advance();
-
-        // TODO: Destructuring
-        auto name = parseId("An identifier expected as a `" + peek().kindToString() + "` name", true, true);
-
-        ast::type_ptr type;
-        if (skipOpt(TokenKind::Colon)) {
-            type = parseType("Expected type after `:` in variable declaration");
-        }
-
-        ast::opt_expr_ptr assignExpr;
-        if (skipOpt(TokenKind::Assign, true)) {
-            assignExpr = parseExpr("Expected expression after `=`");
-        }
-
-        return std::make_shared<ast::VarStmt>(kind, name, type, assignExpr, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseTypeAlias() {
-        logParse("TypeDecl");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::Type, true, "`type`", "`parseTypeAlias`");
-
-        auto name = parseId("An identifier expected as a type name", true, true);
-        skip(
-            TokenKind::Assign,
-            true,
-            true,
-            false,
-            std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
-        auto type = parseType("Expected type");
-
-        return std::make_shared<ast::TypeAlias>(name, type, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseStruct() {
-        logParse("Struct");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
-
-        auto name = parseId("Expected struct name", true, true);
-        auto typeParams = parseTypeParams();
-
-        ast::item_list members = parseMembers("struct");
-
-        return std::make_shared<ast::Struct>(name, typeParams, members, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseImpl() {
-        logParse("Impl");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::Impl, true, "`impl`", "`parseImpl`");
-
-        auto typeParams = parseTypeParams();
-        auto traitTypePath = parseTypePath("Expected path to trait type");
-
-        skip(
-            TokenKind::For,
-            true,
-            true,
-            true,
-            std::make_unique<ParseErrSugg>("Missing `for`", cspan())
-        );
-
-        auto forType = parseType("Missing type");
-
-        ast::item_list members = parseMembers("impl");
-
-        return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, begin.to(cspan()));
-    }
-
-    ast::stmt_ptr Parser::parseTrait() {
-        logParse("Trait");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
-
-        auto name = parseId("Missing `trait` name", true, true);
-        auto typeParams = parseTypeParams();
-
-        ast::type_path_list superTraits;
-        if (skipOpt(TokenKind::Colon, true)) {
-            bool first = true;
-            while (!eof()) {
-                if (is(TokenKind::LBrace) or is(TokenKind::Semi)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(
-                        TokenKind::Comma,
-                        true,
-                        true,
-                        false,
-                        std::make_unique<ParseErrSugg>("Missing `,` separator", cspan())
-                    );
-                }
-
-                auto superTrait = parseOptTypePath();
-                if (!superTrait) {
-                    suggestErrorMsg("Expected super-trait identifier", cspan());
-                } else {
-                    superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
-                }
-            }
-        }
-
-        ast::item_list members = parseMembers("trait");
-
-        return std::make_shared<ast::Trait>(name, typeParams, superTraits, members, begin.to(cspan()));
+    ast::stmt_ptr Parser::parseEnumDecl() {
+        logParse("EnumDecl");
     }
 
     ast::stmt_ptr Parser::parseFuncDecl(const parser::token_list & modifiers) {
@@ -549,11 +354,211 @@ namespace jc::parser {
         );
     }
 
-    ast::stmt_ptr Parser::parseEnumDecl() {
-        logParse("EnumDecl");
+    ast::stmt_ptr Parser::parseImpl() {
+        logParse("Impl");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Impl, true, "`impl`", "`parseImpl`");
+
+        auto typeParams = parseTypeParams();
+        auto traitTypePath = parseTypePath("Expected path to trait type");
+
+        skip(
+            TokenKind::For,
+            true,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>("Missing `for`", cspan())
+        );
+
+        auto forType = parseType("Missing type");
+
+        ast::item_list members = parseMembers("impl");
+
+        return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, begin.to(cspan()));
     }
 
+    ast::stmt_ptr Parser::parseStruct() {
+        logParse("Struct");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
+
+        auto name = parseId("Expected struct name", true, true);
+        auto typeParams = parseTypeParams();
+
+        ast::item_list members = parseMembers("struct");
+
+        return std::make_shared<ast::Struct>(name, typeParams, members, begin.to(cspan()));
+    }
+
+    ast::stmt_ptr Parser::parseTrait() {
+        logParse("Trait");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
+
+        auto name = parseId("Missing `trait` name", true, true);
+        auto typeParams = parseTypeParams();
+
+        ast::type_path_list superTraits;
+        if (skipOpt(TokenKind::Colon, true)) {
+            bool first = true;
+            while (!eof()) {
+                if (is(TokenKind::LBrace) or is(TokenKind::Semi)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenKind::Comma,
+                        true,
+                        true,
+                        false,
+                        std::make_unique<ParseErrSugg>("Missing `,` separator", cspan())
+                    );
+                }
+
+                auto superTrait = parseOptTypePath();
+                if (!superTrait) {
+                    suggestErrorMsg("Expected super-trait identifier", cspan());
+                } else {
+                    superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
+                }
+            }
+        }
+
+        ast::item_list members = parseMembers("trait");
+
+        return std::make_shared<ast::Trait>(name, typeParams, superTraits, members, begin.to(cspan()));
+    }
+
+    ast::stmt_ptr Parser::parseTypeAlias() {
+        logParse("TypeDecl");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Type, true, "`type`", "`parseTypeAlias`");
+
+        auto name = parseId("An identifier expected as a type name", true, true);
+        skip(
+            TokenKind::Assign,
+            true,
+            true,
+            false,
+            std::make_unique<ParseErrSugg>("Expected `=` in type alias", cspan()));
+        auto type = parseType("Expected type");
+
+        return std::make_shared<ast::TypeAlias>(name, type, begin.to(cspan()));
+    }
+
+    ////////////////
+    // Statements //
+    ////////////////
+    ast::stmt_ptr Parser::parseStmt() {
+        logParse("Stmt");
+
+        const auto & begin = cspan();
+
+        switch (peek().kind) {
+            case TokenKind::While: {
+                return parseWhileStmt();
+            }
+            case TokenKind::For: {
+                return parseForStmt();
+            }
+            default: {
+                auto decl = parseItem();
+                if (decl) {
+                    return decl.unwrap("`parseStmt` -> `decl`");
+                }
+
+                auto expr = parseOptExpr();
+                if (!expr) {
+                    // FIXME: Maybe useless due to check inside `parseExpr`
+                    suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
+                    advance();
+                    return std::make_shared<ast::ErrorStmt>(begin.to(cspan()));
+                }
+
+                auto exprStmt = std::make_shared<ast::ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
+                skipSemis(false);
+                return std::static_pointer_cast<ast::Stmt>(exprStmt);
+            }
+        }
+    }
+
+    ast::stmt_ptr Parser::parseForStmt() {
+        logParse("ForStmt");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::For, true, "`for`", "`parseForStmt`");
+
+        // TODO: Destructuring
+        auto forEntity = parseId("Expected `for` entity in `for` loop", true, true);
+
+        skip(
+            TokenKind::In,
+            true,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>("Missing `in` in `for` loop, put it here", cspan())
+        );
+
+        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
+        auto body = parseBlock("for", BlockArrow::Allow);
+
+        return std::make_shared<ast::ForStmt>(forEntity, inExpr, body, begin.to(cspan()));
+    }
+
+    ast::stmt_ptr Parser::parseVarStmt() {
+        logParse("VarStmt:" + peek().toString());
+
+        if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
+            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
+        }
+
+        const auto & begin = cspan();
+        auto kind = peek();
+        advance();
+
+        // TODO: Destructuring
+        auto name = parseId("An identifier expected as a `" + peek().kindToString() + "` name", true, true);
+
+        ast::type_ptr type;
+        if (skipOpt(TokenKind::Colon)) {
+            type = parseType("Expected type after `:` in variable declaration");
+        }
+
+        ast::opt_expr_ptr assignExpr;
+        if (skipOpt(TokenKind::Assign, true)) {
+            assignExpr = parseExpr("Expected expression after `=`");
+        }
+
+        return std::make_shared<ast::VarStmt>(kind, name, type, assignExpr, begin.to(cspan()));
+    }
+
+    ast::stmt_ptr Parser::parseWhileStmt() {
+        logParse("WhileStmt");
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::While, true, "`while`", "`parseWhileStmt`");
+
+        auto condition = parseExpr("Expected condition in `while`");
+        auto body = parseBlock("while", BlockArrow::Allow);
+
+        return std::make_shared<ast::WhileStmt>(condition, body, begin.to(cspan()));
+    }
+
+    /////////////////
     // Expressions //
+    /////////////////
     ast::opt_expr_ptr Parser::parseOptExpr() {
         logParse("[opt] Expr");
 
