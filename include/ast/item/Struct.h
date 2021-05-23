@@ -3,7 +3,7 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
-#include "ast/item/Field.h"
+#include "ast/fragments/Field.h"
 
 namespace jc::ast {
     struct Struct : Item {

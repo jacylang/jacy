@@ -1,12 +1,6 @@
 #ifndef JACY_NODES_H
 #define JACY_NODES_H
 
-// Fragments //
-#include "ast/fragments/Attribute.h"
-#include "ast/fragments/FuncParam.h"
-#include "ast/fragments/Type.h"
-#include "ast/fragments/TypeParams.h"
-
 // Expressions //
 #include "ast/expr/Assignment.h"
 #include "ast/expr/Block.h"
