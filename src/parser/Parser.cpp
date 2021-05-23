@@ -375,7 +375,69 @@ namespace jc::parser {
         auto name = parseId("Expected struct name", true, true);
         auto typeParams = parseTypeParams();
 
-        ast::item_list members = parseMembers("struct");
+        ast::field_list fields;
+        if (!isHardSemi()) {
+            skip(
+                TokenKind::LBrace,
+                true,
+                true,
+                true,
+                std::make_unique<ParseErrSugg>("Expected opening `{` or `;` to ignore body in `struct`", cspan())
+            );
+
+            bool first = true;
+            while (!eof()) {
+                if (is(TokenKind::RBrace)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenKind::Comma,
+                        true,
+                        true,
+                        false,
+                        std::make_unique<ParseErrSugg>("Missing `,` separator between `struct` fields", cspan())
+                    );
+                }
+
+                const auto & begin = cspan();
+                ast::attr_list attributes = parseAttrList();
+                auto id = parseId("Expected field name", true, true);
+                skip(
+                    TokenKind::Comma,
+                    true,
+                    true,
+                    false,
+                    std::make_unique<ParseErrSugg>(
+                        "Missing `:` to annotate `struct` "+ id->getValue() +" type",
+                        cspan()
+                    )
+                );
+                auto type = parseType("Expected type for "+ id->getValue() +" after `:`");
+
+                fields.emplace_back(
+                    std::make_shared<ast::Field>(
+                        std::move(attributes),
+                        std::move(id),
+                        std::move(type),
+                        begin.to(cspan())
+                    )
+                );
+            }
+
+            skip(
+                TokenKind::RBrace,
+                true,
+                true,
+                false,
+                std::make_unique<ParseErrSugg>("Expected closing `}` in `struct`", cspan())
+            );
+        } else if (!eof()) {
+            justSkip(TokenKind::Semi, false, "`;`", "`parseStruct`");
+        }
 
         return std::make_shared<ast::Struct>(
             std::move(attributes),
