@@ -15,21 +15,23 @@ namespace jc::ast {
 
         void print(const item_list & tree);
 
+        // Errors //
         void visit(ErrorStmt * errorStmt) override;
         void visit(ErrorExpr * errorExpr) override;
         void visit(ErrorType * errorType) override;
         void visit(ErrorTypePath * errorTypePath) override;
 
-        // Statements //
+        // Items //
         void visit(EnumDecl * enumDecl) override;
-        void visit(ExprStmt * exprStmt) override;
-        void visit(ForStmt * forStmt) override;
         void visit(FuncDecl * funcDecl) override;
         void visit(Impl * impl) override;
-        void visit(Item * item) override;
         void visit(Struct * _struct) override;
         void visit(Trait * trait) override;
         void visit(TypeAlias * typeAlias) override;
+
+        // Statements //
+        void visit(ExprStmt * exprStmt) override;
+        void visit(ForStmt * forStmt) override;
         void visit(VarStmt * varDecl) override;
         void visit(WhileStmt * whileStmt) override;
 

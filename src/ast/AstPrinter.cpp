@@ -123,13 +123,6 @@ namespace jc::ast {
         printMembers(impl->members);
     }
 
-    void AstPrinter::visit(Item * item) {
-        printIndent();
-
-        print(item->attributes);
-        item->stmt->accept(*this);
-    }
-
     void AstPrinter::visit(Struct * _struct) {
         printIndent();
 
