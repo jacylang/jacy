@@ -36,6 +36,11 @@ namespace jc::ast {
         popContext();
     }
 
+    void Linter::visit(ast::ItemStmt * itemStmt) {
+        // TODO: Lint attributes
+        itemStmt->item->accept(*this);
+    }
+
     void Linter::visit(ast::FuncDecl * funcDecl) {
         for (const auto & modifier : funcDecl->modifiers) {
             if (!isInside(LinterContext::Struct)) {
