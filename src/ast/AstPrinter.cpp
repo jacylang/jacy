@@ -128,7 +128,15 @@ namespace jc::ast {
 
         log.raw("struct ");
         _struct->name->accept(*this);
-        printMembers(_struct->members);
+
+        for (size_t i = 0; i < _struct->fields.size(); i++) {
+            const auto & field = _struct->fields.at(i);
+            field.
+
+            if (i < _struct->fields.size() - 1) {
+                log.raw(", ");
+            }
+        }
     }
 
     void AstPrinter::visit(Trait * trait) {

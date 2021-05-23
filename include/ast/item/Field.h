@@ -11,14 +11,14 @@ namespace jc::ast {
     struct Field : Item {
         Field(
             attr_list attributes,
-            id_ptr id,
+            id_ptr name,
             type_ptr type,
             const Span & span
-        ) : id(std::move(id)),
+        ) : name(std::move(name)),
             type(std::move(type)),
             Item(span, std::move(attributes), ItemKind::Field) {}
 
-        id_ptr id;
+        id_ptr name;
         type_ptr type;
 
         void accept(BaseVisitor & visitor) override {
