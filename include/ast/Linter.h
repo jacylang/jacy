@@ -20,9 +20,9 @@ namespace jc::ast {
         Struct,
     };
 
-    class Linter : public ast::StubVisitor {
+    class Linter : public ast::BaseVisitor {
     public:
-        Linter() : StubVisitor("Linter", ast::StubVisitorMode::NotImplemented) {}
+        Linter() = default;
 
         dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
 
