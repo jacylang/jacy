@@ -225,36 +225,36 @@ namespace jc::parser {
         ast::attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
 
-        ast::opt_stmt_ptr decl;
+        ast::opt_stmt_ptr item;
 
         switch (peek().kind) {
             case TokenKind::Const:
             case TokenKind::Var:
             case TokenKind::Val: {
-                decl = parseVarStmt();
+                item = parseVarStmt();
             } break;
             case TokenKind::Func: {
-                decl = parseFuncDecl(modifiers);
+                item = parseFuncDecl(modifiers);
             } break;
             case TokenKind::Enum: {
-                decl = parseEnumDecl();
+                item = parseEnumDecl();
             } break;
             case TokenKind::Type: {
-                decl = parseTypeAlias();
+                item = parseTypeAlias();
             } break;
             case TokenKind::Struct: {
-                decl = parseStruct();
+                item = parseStruct();
             } break;
             case TokenKind::Impl: {
-                decl = parseImpl();
+                item = parseImpl();
             } break;
             case TokenKind::Trait: {
-                decl = parseTrait();
+                item = parseTrait();
             } break;
         }
 
-        if (decl) {
-            return std::make_shared<ast::Item>(attributes, decl.unwrap("`parseItem` -> `decl`"), begin.to(cspan()));
+        if (item) {
+            return std::make_shared<ast::Item>(attributes, item.unwrap("`parseItem` -> `decl`"), begin.to(cspan()));
         }
 
         if (!attributes.empty()) {
@@ -299,11 +299,11 @@ namespace jc::parser {
         return items;
     }
 
-    ast::stmt_ptr Parser::parseEnumDecl() {
+    ast::stmt_ptr Parser::parseEnumDecl(ast::attr_list attributes) {
         logParse("EnumDecl");
     }
 
-    ast::stmt_ptr Parser::parseFuncDecl(const parser::token_list & modifiers) {
+    ast::stmt_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {
         logParse("FuncDecl");
 
         const auto & begin = cspan();
@@ -354,7 +354,7 @@ namespace jc::parser {
         );
     }
 
-    ast::stmt_ptr Parser::parseImpl() {
+    ast::stmt_ptr Parser::parseImpl(ast::attr_list attributes) {
         logParse("Impl");
 
         const auto & begin = cspan();
@@ -379,7 +379,7 @@ namespace jc::parser {
         return std::make_shared<ast::Impl>(typeParams, traitTypePath, forType, members, begin.to(cspan()));
     }
 
-    ast::stmt_ptr Parser::parseStruct() {
+    ast::stmt_ptr Parser::parseStruct(ast::attr_list attributes) {
         logParse("Struct");
 
         const auto & begin = cspan();
@@ -394,7 +394,7 @@ namespace jc::parser {
         return std::make_shared<ast::Struct>(name, typeParams, members, begin.to(cspan()));
     }
 
-    ast::stmt_ptr Parser::parseTrait() {
+    ast::stmt_ptr Parser::parseTrait(ast::attr_list attributes) {
         logParse("Trait");
 
         const auto & begin = cspan();
@@ -438,7 +438,7 @@ namespace jc::parser {
         return std::make_shared<ast::Trait>(name, typeParams, superTraits, members, begin.to(cspan()));
     }
 
-    ast::stmt_ptr Parser::parseTypeAlias() {
+    ast::stmt_ptr Parser::parseTypeAlias(ast::attr_list attributes) {
         logParse("TypeDecl");
 
         const auto & begin = cspan();
