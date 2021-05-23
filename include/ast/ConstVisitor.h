@@ -63,9 +63,9 @@ namespace jc::ast {
     struct Lifetime;
     struct ConstParam;
 
-    class BaseVisitor {
+    class ConstVisitor {
     public:
-        virtual ~BaseVisitor() = default;
+        virtual ~ConstVisitor() = default;
 
         virtual void visit(const ErrorStmt&) = 0;
         virtual void visit(const ErrorExpr&) = 0;
