@@ -10,6 +10,7 @@ namespace jc::resolve {
     using common::Logger;
     using sugg::SuggKind;
     using sugg::eid_t;
+    using ast::opt_node_id;
 
     class NameResolver : public ast::StubVisitor {
     public:
