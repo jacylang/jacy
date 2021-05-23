@@ -45,7 +45,7 @@
 #include "ast/item/Struct.h"
 #include "ast/item/Trait.h"
 #include "ast/item/TypeAlias.h"
-#include "ast/stmt/VarDecl.h"
+#include "ast/stmt/VarStmt.h"
 #include "ast/stmt/WhileStmt.h"
 
 #include "ast/Node.h"

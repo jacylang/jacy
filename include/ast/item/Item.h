@@ -24,9 +24,7 @@ namespace jc::ast {
         attr_list attributes;
         ItemKind kind;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(this);
-        }
+        virtual void accept(BaseVisitor & visitor) = 0;
     };
 }
 

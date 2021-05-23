@@ -167,7 +167,7 @@ namespace jc::ast {
         typeAlias->type->accept(*this);
     }
 
-    void AstPrinter::visit(VarDecl * varDecl) {
+    void AstPrinter::visit(VarStmt * varDecl) {
         printIndent();
 
         log.raw(varDecl->kind.kindToString());

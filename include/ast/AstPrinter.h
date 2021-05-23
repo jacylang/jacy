@@ -30,7 +30,7 @@ namespace jc::ast {
         void visit(Struct * _struct) override;
         void visit(Trait * trait) override;
         void visit(TypeAlias * typeAlias) override;
-        void visit(VarDecl * varDecl) override;
+        void visit(VarStmt * varDecl) override;
         void visit(WhileStmt * whileStmt) override;
 
         // Expressions //

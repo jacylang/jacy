@@ -386,7 +386,7 @@ namespace jc::parser {
     }
 
     ast::stmt_ptr Parser::parseVarDecl() {
-        logParse("VarDecl:" + peek().toString());
+        logParse("VarStmt:" + peek().toString());
 
         if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
             common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarDecl");
@@ -409,7 +409,7 @@ namespace jc::parser {
             assignExpr = parseExpr("Expected expression after `=`");
         }
 
-        return std::make_shared<ast::VarDecl>(kind, name, type, assignExpr, begin.to(cspan()));
+        return std::make_shared<ast::VarStmt>(kind, name, type, assignExpr, begin.to(cspan()));
     }
 
     ast::stmt_ptr Parser::parseTypeDecl() {

@@ -35,8 +35,8 @@ namespace jc::resolve {
         item->stmt->accept(*this);
     }
 
-    void NameResolver::visit(ast::VarDecl * varDecl) {
-        // TODO: Split VarDecl and Field
+    void NameResolver::visit(ast::VarStmt * varDecl) {
+        // TODO: Split VarStmt and Field
         enterRib();
     }
 
@@ -276,8 +276,8 @@ namespace jc::resolve {
                     kind = Name::Kind::Trait;
                 } break;
                 case ast::StmtKind::VarDecl: {
-                    // Note: Here VarDecl is a field of item
-                    name = ast::Stmt::as<ast::VarDecl>(member)->name->getValue();
+                    // Note: Here VarStmt is a field of item
+                    name = ast::Stmt::as<ast::VarStmt>(member)->name->getValue();
                     kind = Name::Kind::Field;
                 } break;
                 default: continue;

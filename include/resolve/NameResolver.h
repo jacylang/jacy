@@ -26,7 +26,7 @@ namespace jc::resolve {
         void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
 //        void visit(ast::ForStmt * forStmt) override;
-        void visit(ast::VarDecl * varDecl) override;
+        void visit(ast::VarStmt * varDecl) override;
         void visit(ast::WhileStmt * whileStmt) override;
 
         // Expressions //

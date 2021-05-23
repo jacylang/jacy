@@ -131,7 +131,7 @@ namespace jc::ast {
         typeAlias->type->accept(*this);
     }
 
-    void Linter::visit(ast::VarDecl * varDecl) {
+    void Linter::visit(ast::VarStmt * varDecl) {
         varDecl->name->accept(*this);
         varDecl->type->accept(*this);
 
