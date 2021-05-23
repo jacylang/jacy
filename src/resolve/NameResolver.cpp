@@ -2,16 +2,30 @@
 
 namespace jc::resolve {
     dt::SuggResult<rib_ptr> NameResolver::resolve(sess::sess_ptr sess, const ast::item_list & tree) {
-        typeResolver = std::make_unique<TypeResolver>(sess);
-        itemResolver = std::make_unique<ItemResolver>(sess);
-        lifetimeResolver = std::make_unique<LifetimeResolver>(sess);
-
         visitItems(tree);
 
-        return {rib, moveConcat(
-            typeResolver->extractSuggestions(),
-            itemResolver->extractSuggestions()
-        )};
+        return {rib, suggestions};
+    }
+
+    // Statements //
+    void NameResolver::visit(ast::EnumDecl * enumDecl) {
+        StubVisitor::visit(enumDecl);
+    }
+
+    void NameResolver::visit(ast::ExprStmt * exprStmt) {
+        exprStmt->expr->accept(*this);
+    }
+
+    void NameResolver::visit(ast::ForStmt * forStmt) {
+        StubVisitor::visit(forStmt);
+    }
+
+    void NameResolver::visit(ast::FuncDecl * funcDecl) {
+        StubVisitor::visit(funcDecl);
+    }
+
+    void NameResolver::visit(ast::Impl * impl) {
+        StubVisitor::visit(impl);
     }
 
     void NameResolver::visit(ast::Item * item) {
@@ -23,15 +37,31 @@ namespace jc::resolve {
         enterRib(); // -> (lifetime rib)
         item->stmt->accept(*lifetimeResolver);
 
-        enterRib();
+        auto prevDepth = depth;
+        item->stmt->accept(*this);
+
+        for (size_t i = prevDepth; i < depth; i++) {
+            exitRib(); // Exit each rib entered before
+        }
 
         exitRib(); // <- (lifetime rib)
         exitRib(); // <- (type rib)
     }
 
-    // Statements //
-    void NameResolver::visit(ast::ExprStmt * exprStmt) {
-        exprStmt->expr->accept(*this);
+    void NameResolver::visit(ast::Struct * _struct) {
+        StubVisitor::visit(_struct);
+    }
+
+    void NameResolver::visit(ast::Trait * trait) {
+        StubVisitor::visit(trait);
+    }
+
+    void NameResolver::visit(ast::TypeAlias * typeAlias) {
+        StubVisitor::visit(typeAlias);
+    }
+
+    void NameResolver::visit(ast::VarDecl * varDecl) {
+        StubVisitor::visit(varDecl);
     }
 
     void NameResolver::visit(ast::WhileStmt * whileStmt) {
@@ -266,6 +296,7 @@ namespace jc::resolve {
     void NameResolver::enterRib() {
         auto newRib = std::make_shared<Rib>(rib);
         enterSpecificRib(newRib);
+        depth++;
     }
 
     void NameResolver::exitRib() {
@@ -274,6 +305,7 @@ namespace jc::resolve {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
         enterSpecificRib(parent.unwrap());
+        depth--;
     }
 
     /**

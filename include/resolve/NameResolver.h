@@ -2,11 +2,8 @@
 #define JACY_RESOLVE_NAMERESOLVER_H
 
 #include "ast/StubVisitor.h"
-#include "resolve/TypeResolver.h"
-#include "resolve/ItemResolver.h"
-#include "resolve/LifetimeResolver.h"
 #include "data_types/SuggResult.h"
-#include "utils/arr.h"
+#include "resolve/Name.h"
 
 namespace jc::resolve {
     class TypeResolver;
@@ -20,10 +17,18 @@ namespace jc::resolve {
 
         dt::SuggResult<rib_ptr> resolve(sess::sess_ptr sess, const ast::item_list & tree);
 
-        void visit(ast::Item * item) override;
-
         // Statements //
+        void visit(ast::EnumDecl * enumDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
+        void visit(ast::ForStmt * forStmt) override;
+        void visit(ast::FuncDecl * funcDecl) override;
+        void visit(ast::Impl * impl) override;
+        void visit(ast::Item * item) override;
+        void visit(ast::Struct * _struct) override;
+        void visit(ast::Trait * trait) override;
+        void visit(ast::TypeAlias * typeAlias) override;
+        void visit(ast::VarDecl * varDecl) override;
+
 //        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::WhileStmt * whileStmt) override;
 
@@ -72,6 +77,7 @@ namespace jc::resolve {
         // Ribs //
     private:
         rib_ptr rib;
+        uint32_t depth{0};
         void enterRib();
         void exitRib();
 
@@ -79,24 +85,12 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        std::unique_ptr<ItemResolver> itemResolver;
-        std::unique_ptr<TypeResolver> typeResolver;
-        std::unique_ptr<LifetimeResolver> lifetimeResolver;
-
         opt_node_id resolveId(const std::string & name);
+
+        // Suggestions //
+    private:
+        sugg::sugg_list suggestions;
     };
 }
 
 #endif // JACY_RESOLVE_NAMERESOLVER_H
-
-
-/**
-
-    func<T, `a> foo(param: &`a T) {
-
-    }
-
-    global rib -> foo
-    type rib -> T
-    lifetime rib -> `a
-
