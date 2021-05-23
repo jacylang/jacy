@@ -26,7 +26,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)),
             oneLineBody(std::move(oneLineBody)),
-            Item(ItemKind::Func, std::move(attributes), span) {}
+            Item(span, std::move(attributes), ItemKind::Func) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;

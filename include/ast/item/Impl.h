@@ -17,7 +17,7 @@ namespace jc::ast {
             traitTypePath(std::move(traitTypePath)),
             forType(std::move(forType)),
             members(std::move(members)),
-            Item(ItemKind::Impl, std::move(attributes), span) {}
+            Item(span, std::move(attributes), ItemKind::Impl) {}
 
         opt_type_params typeParams;
         type_path_ptr traitTypePath;

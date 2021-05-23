@@ -18,8 +18,8 @@ namespace jc::ast {
     };
 
     struct Item : Node {
-        Item(ItemKind kind, attr_list attributes, const Span & span)
-            : attributes(std::move(attributes)), kind(kind), Node(span) {}
+        Item(const Span & span, attr_list attributes, ItemKind kind)
+            : kind(kind), attributes(std::move(attributes)), Node(span) {}
 
         attr_list attributes;
         ItemKind kind;

@@ -17,7 +17,7 @@ namespace jc::ast {
     };
 
     struct EnumDecl : Item {
-        EnumDecl(attr_list attributes, const Span & span) : Item(ItemKind::Enum, std::move(attributes), span) {}
+        EnumDecl(attr_list attributes, const Span & span) : Item(span, std::move(attributes), ItemKind::Enum) {}
 
         id_ptr name;
         enum_entry_list entries;

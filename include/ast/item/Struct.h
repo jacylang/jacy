@@ -15,7 +15,7 @@ namespace jc::ast {
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
             members(std::move(members)),
-            Item(ItemKind::Struct, std::move(attributes), span) {}
+            Item(span, std::move(attributes), ItemKind::Struct) {}
 
         id_ptr name;
         opt_type_params typeParams;
