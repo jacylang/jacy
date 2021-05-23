@@ -4,76 +4,76 @@
 #include <cstdint>
 #include <iostream>
 
-#include "ast/BaseVisitor.h"
+#include "ast/ConstVisitor.h"
 #include "ast/nodes.h"
 #include "common/Logger.h"
 
 namespace jc::ast {
-    class AstPrinter : public BaseVisitor {
+    class AstPrinter : public ConstVisitor {
     public:
         AstPrinter() = default;
 
         void print(const item_list & tree);
 
         // Errors //
-        void visit(ErrorStmt & errorStmt) override;
-        void visit(ErrorExpr & errorExpr) override;
-        void visit(ErrorType & errorType) override;
-        void visit(ErrorTypePath & errorTypePath) override;
+        void visit(const ErrorStmt & errorStmt) const override;
+        void visit(const ErrorExpr & errorExpr) const override;
+        void visit(const ErrorType & errorType) const override;
+        void visit(const ErrorTypePath & errorTypePath) const override;
 
         // Items //
-        void visit(EnumDecl & enumDecl) override;
-        void visit(FuncDecl & funcDecl) override;
-        void visit(Impl & impl) override;
-        void visit(Struct & _struct) override;
-        void visit(Trait & trait) override;
-        void visit(TypeAlias & typeAlias) override;
+        void visit(const EnumDecl & enumDecl) const override;
+        void visit(const FuncDecl & funcDecl) const override;
+        void visit(const Impl & impl) const override;
+        void visit(const Struct & _struct) const override;
+        void visit(const Trait & trait) const override;
+        void visit(const TypeAlias & typeAlias) const override;
 
         // Statements //
-        void visit(ExprStmt & exprStmt) override;
-        void visit(ForStmt & forStmt) override;
-        void visit(ItemStmt & itemStmt) override;
-        void visit(VarStmt & varDecl) override;
-        void visit(WhileStmt & whileStmt) override;
+        void visit(const ExprStmt & exprStmt) const override;
+        void visit(const ForStmt & forStmt) const override;
+        void visit(const ItemStmt & itemStmt) const override;
+        void visit(const VarStmt & varDecl) const override;
+        void visit(const WhileStmt & whileStmt) const override;
 
         // Expressions //
-        void visit(Assignment & assignment) override;
-        void visit(Block & block) override;
-        void visit(BorrowExpr & borrowExpr) override;
-        void visit(BreakExpr & breakExpr) override;
-        void visit(ContinueExpr & continueExpr) override;
-        void visit(DerefExpr & derefExpr) override;
-        void visit(IfExpr & ifExpr) override;
-        void visit(Infix & infix) override;
-        void visit(Invoke & invoke) override;
-        void visit(Lambda & lambdaExpr) override;
-        void visit(ListExpr & listExpr) override;
-        void visit(LiteralConstant & literalConstant) override;
-        void visit(LoopExpr & loopExpr) override;
-        void visit(MemberAccess & memberAccess) override;
-        void visit(ParenExpr & parenExpr) override;
-        void visit(PathExpr & pathExpr) override;
-        void visit(Prefix & prefix) override;
-        void visit(QuestExpr & questExpr) override;
-        void visit(ReturnExpr & returnExpr) override;
-        void visit(SpreadExpr & spreadExpr) override;
-        void visit(Subscript & subscript) override;
-        void visit(ThisExpr & thisExpr) override;
-        void visit(TupleExpr & tupleExpr) override;
-        void visit(UnitExpr & unitExpr) override;
-        void visit(WhenExpr & whenExpr) override;
+        void visit(const Assignment & assignment) const override;
+        void visit(const Block & block) const override;
+        void visit(const BorrowExpr & borrowExpr) const override;
+        void visit(const BreakExpr & breakExpr) const override;
+        void visit(const ContinueExpr & continueExpr) const override;
+        void visit(const DerefExpr & derefExpr) const override;
+        void visit(const IfExpr & ifExpr) const override;
+        void visit(const Infix & infix) const override;
+        void visit(const Invoke & invoke) const override;
+        void visit(const Lambda & lambdaExpr) const override;
+        void visit(const ListExpr & listExpr) const override;
+        void visit(const LiteralConstant & literalConstant) const override;
+        void visit(const LoopExpr & loopExpr) const override;
+        void visit(const MemberAccess & memberAccess) const override;
+        void visit(const ParenExpr & parenExpr) const override;
+        void visit(const PathExpr & pathExpr) const override;
+        void visit(const Prefix & prefix) const override;
+        void visit(const QuestExpr & questExpr) const override;
+        void visit(const ReturnExpr & returnExpr) const override;
+        void visit(const SpreadExpr & spreadExpr) const override;
+        void visit(const Subscript & subscript) const override;
+        void visit(const ThisExpr & thisExpr) const override;
+        void visit(const TupleExpr & tupleExpr) const override;
+        void visit(const UnitExpr & unitExpr) const override;
+        void visit(const WhenExpr & whenExpr) const override;
 
-        void visit(ParenType & parenType) override;
-        void visit(TupleType & tupleType) override;
-        void visit(FuncType & funcType) override;
-        void visit(SliceType & listType) override;
-        void visit(ArrayType & arrayType) override;
-        void visit(TypePath & typePath) override;
-        void visit(UnitType & unitType) override;
+        void visit(const ParenType & parenType) const override;
+        void visit(const TupleType & tupleType) const override;
+        void visit(const FuncType & funcType) const override;
+        void visit(const SliceType & listType) const override;
+        void visit(const ArrayType & arrayType) const override;
+        void visit(const TypePath & typePath) const override;
+        void visit(const UnitType & unitType) const override;
 
-        void visit(GenericType & genericType) override;
-        void visit(Lifetime & lifetime) override;
-        void visit(ConstParam & constParam) override;
+        void visit(const GenericType & genericType) const override;
+        void visit(const Lifetime & lifetime) const override;
+        void visit(const ConstParam & constParam) const override;
 
     private:
         common::Logger log{"ast_printer", {}};

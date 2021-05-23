@@ -63,6 +63,7 @@ namespace jc::ast {
         }
 
         virtual void accept(BaseVisitor & visitor) = 0;
+        virtual void accept(const ConstVisitor & visitor) const = 0;
     };
 
     struct ErrorExpr : Expr {
