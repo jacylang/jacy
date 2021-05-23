@@ -123,11 +123,21 @@ namespace jc::resolve {
 
     // FIXME: Add rib kinds
     struct Rib {
+        enum class Kind {
+            Mod,
+        } kind;
+
         std::map<std::string, name_ptr> names;
 
         /// Declare new name.
-        /// Returns node_id of node that was already declared if it was
+        /// Returns kind and node_id of node that was already declared if it was
         decl_result declare(const std::string & name, Name::Kind kind, ast::node_id nodeId);
+
+        explicit Rib(Kind kind) : kind(kind) {}
+    };
+
+    struct ModRib : Rib {
+        ModRib() : Rib(Kind::Mod) {}
     };
 }
 
