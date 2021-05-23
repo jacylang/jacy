@@ -60,7 +60,8 @@ namespace jc::ast {
         printIndent();
 
         log.raw("for ");
-        forStmt->forEntity->accept(*this);
+        // TODO: Update when `for` will have patterns
+        log.raw(forStmt->forEntity->getValue());
         log.raw(" in ");
         forStmt->inExpr->accept(*this);
         forStmt->body->accept(*this);
@@ -73,12 +74,12 @@ namespace jc::ast {
         log.raw("func");
         print(funcDecl->typeParams);
         log.raw(" ");
-        funcDecl->name->accept(*this);
+        log.raw(funcDecl->name->getValue());
 
         log.raw("(");
         for (size_t i = 0; i < funcDecl->params.size(); ++i) {
             const auto & param = funcDecl->params.at(i);
-            param->name->accept(*this);
+            log.raw(param->name);
 
             if (param->type) {
                 log.raw(": ");
@@ -126,13 +127,11 @@ namespace jc::ast {
     void AstPrinter::visit(Struct * _struct) {
         printIndent();
 
-        log.raw("struct ");
-        _struct->name->accept(*this);
+        log.raw("struct", _struct->name->getValue(), "");
 
         for (size_t i = 0; i < _struct->fields.size(); i++) {
             const auto & field = _struct->fields.at(i);
-            field->name->accept(*this);
-            log.raw(": ");
+            log.raw(field->name->getValue() + ": ");
             field->type->accept(*this);
 
             if (i < _struct->fields.size() - 1) {
@@ -144,8 +143,7 @@ namespace jc::ast {
     void AstPrinter::visit(Trait * trait) {
         printIndent();
 
-        log.raw("trait ");
-        trait->name->accept(*this);
+        log.raw("trait", trait->name->getValue());
         print(trait->typeParams);
 
         if (!trait->superTraits.empty()) {
@@ -164,17 +162,14 @@ namespace jc::ast {
     void AstPrinter::visit(TypeAlias * typeAlias) {
         printIndent();
 
-        log.raw("type ");
-        typeAlias->name->accept(*this);
-        log.raw(" = ");
+        log.raw("type", typeAlias->name->getValue(), "= ");
         typeAlias->type->accept(*this);
     }
 
     void AstPrinter::visit(VarStmt * varDecl) {
         printIndent();
 
-        log.raw(varDecl->kind.kindToString());
-        varDecl->name->accept(*this);
+        log.raw(varDecl->kind.kindToString(), varDecl->name->getValue());
         if (varDecl->type) {
             log.raw(": ");
             varDecl->type->accept(*this);
@@ -248,19 +243,6 @@ namespace jc::ast {
         derefExpr->expr->accept(*this);
     }
 
-    void AstPrinter::visit(Identifier * identifier) {
-        if (!identifier->token) {
-            log.raw("[ERROR ID]");
-        } else {
-            auto token = identifier->token.unwrap("AstPrinter -> visit id -> token");
-            if (token.kind == parser::TokenKind::Id) {
-                log.raw(token.val);
-            } else {
-                // TODO: Soft keywords
-            }
-        }
-    }
-
     void AstPrinter::visit(IfExpr * ifExpr) {
         log.raw("if ");
         ifExpr->condition->accept(*this);
@@ -305,7 +287,7 @@ namespace jc::ast {
         log.raw("|");
         for (size_t i = 0; i < lambdaExpr->params.size(); i++) {
             const auto & param = lambdaExpr->params.at(i);
-            param->name->accept(*this);
+            log.raw(param->name->getValue());
             if (param->type) {
                 log.raw(": ");
                 param->type.unwrap()->accept(*this);
@@ -344,8 +326,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(MemberAccess * memberAccess) {
         memberAccess->lhs->accept(*this);
-        log.raw(".");
-        memberAccess->field->accept(*this);
+        log.raw("." + memberAccess->field->getValue());
     }
 
     void AstPrinter::visit(ParenExpr * parenExpr) {
@@ -360,7 +341,7 @@ namespace jc::ast {
         }
         for (size_t i = 0; i < pathExpr->segments.size(); i++) {
             const auto & segment = pathExpr->segments.at(i);
-            segment->name->accept(*this);
+            log.raw(segment->name->getValue());
             print(segment->typeParams, true);
             if (i < pathExpr->segments.size() - 1) {
                 log.raw("::");
@@ -447,7 +428,7 @@ namespace jc::ast {
         for (size_t i = 0; i < tupleType->elements.size(); i++) {
             const auto & el = tupleType->elements.at(i);
             if (el->name) {
-                el->name.unwrap()->accept(*this);
+                log.raw(el->name.unwrap()->getValue());
             }
             if (el->type) {
                 if (el->name) {
@@ -500,7 +481,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(GenericType * genericType) {
-        genericType->name->accept(*this);
+        log.raw(genericType->name->getValue());
         if (genericType->type) {
             log.raw(": ");
             genericType->type.unwrap()->accept(*this);
@@ -508,9 +489,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(ConstParam * constParam) {
-        log.raw("const ");
-        constParam->name->accept(*this);
-        log.raw(": ");
+        log.raw("const", constParam->name->getValue() + ": ");
         constParam->type->accept(*this);
         if (constParam->defaultValue) {
             log.raw(" = ");
@@ -519,8 +498,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(Lifetime * lifetime) {
-        log.raw("`");
-        lifetime->name->accept(*this);
+        log.raw("`" + lifetime->name->getValue());
     }
 
     void AstPrinter::printIndent() const {
@@ -531,9 +509,7 @@ namespace jc::ast {
 
     void AstPrinter::print(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
-            log.raw("@");
-            attr->name->accept(*this);
-            log.raw("(");
+            log.raw("@" + attr->name->getValue() + "(");
             print(attr->params.get());
             log.raw(")").nl();
         }
@@ -571,7 +547,7 @@ namespace jc::ast {
         for (size_t i = 0; i < namedList->elements.size(); i++) {
             const auto & namedEl = namedList->elements.at(i);
             if (namedEl->name) {
-                namedEl->name.unwrap()->accept(*this);
+                log.raw(namedEl->name.unwrap()->getValue());
                 if (namedEl->value) {
                     log.raw(" = ");
                 }
@@ -595,7 +571,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::print(IdType * idType) {
-        idType->name->accept(*this);
+        log.raw(idType->name->getValue());
         print(idType->typeParams);
     }
 
