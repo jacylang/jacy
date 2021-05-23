@@ -1,5 +1,5 @@
-#ifndef JACY_SUBSCRIPT_H
-#define JACY_SUBSCRIPT_H
+#ifndef JACY_AST_EXPR_SUBSCRIPT_H
+#define JACY_AST_EXPR_SUBSCRIPT_H
 
 #include "ast/expr/Expr.h"
 
@@ -22,4 +22,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_SUBSCRIPT_H
+#endif // JACY_AST_EXPR_SUBSCRIPT_H

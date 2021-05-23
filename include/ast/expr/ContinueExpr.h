@@ -1,5 +1,5 @@
-#ifndef JACY_CONTINUEEXPR_H
-#define JACY_CONTINUEEXPR_H
+#ifndef JACY_AST_EXPR_CONTINUEEXPR_H
+#define JACY_AST_EXPR_CONTINUEEXPR_H
 
 #include "ast/expr/Expr.h"
 
@@ -18,4 +18,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_CONTINUEEXPR_H
+#endif // JACY_AST_EXPR_CONTINUEEXPR_H

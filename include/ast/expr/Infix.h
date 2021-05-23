@@ -1,5 +1,5 @@
-#ifndef JACY_INFIX_H
-#define JACY_INFIX_H
+#ifndef JACY_AST_EXPR_INFIX_H
+#define JACY_AST_EXPR_INFIX_H
 
 #include "ast/expr/Expr.h"
 

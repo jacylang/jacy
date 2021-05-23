@@ -1,5 +1,5 @@
-#ifndef JACY_EXPR_H
-#define JACY_EXPR_H
+#ifndef JACY_AST_EXPR_EXPR_H
+#define JACY_AST_EXPR_EXPR_H
 
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
@@ -81,4 +81,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_EXPR_H
+#endif // JACY_AST_EXPR_EXPR_H

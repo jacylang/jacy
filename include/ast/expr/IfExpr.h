@@ -1,5 +1,5 @@
-#ifndef JACY_IFEXPR_H
-#define JACY_IFEXPR_H
+#ifndef JACY_AST_EXPR_IFEXPR_H
+#define JACY_AST_EXPR_IFEXPR_H
 
 #include "ast/expr/Expr.h"
 
@@ -33,4 +33,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_IFEXPR_H
+#endif // JACY_AST_EXPR_IFEXPR_H

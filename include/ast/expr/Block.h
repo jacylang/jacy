@@ -1,5 +1,5 @@
-#ifndef JACY_BLOCK_H
-#define JACY_BLOCK_H
+#ifndef JACY_AST_EXPR_BLOCK_H
+#define JACY_AST_EXPR_BLOCK_H
 
 #include "ast/expr/Expr.h"
 #include "ast/stmt/Stmt.h"
@@ -26,4 +26,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_BLOCK_H
+#endif // JACY_AST_EXPR_BLOCK_H

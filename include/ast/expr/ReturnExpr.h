@@ -1,5 +1,5 @@
-#ifndef JACY_RETURNEXPR_H
-#define JACY_RETURNEXPR_H
+#ifndef JACY_AST_EXPR_RETURNEXPR_H
+#define JACY_AST_EXPR_RETURNEXPR_H
 
 #include "ast/expr/Expr.h"
 
@@ -22,4 +22,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_RETURNEXPR_H
+#endif // JACY_AST_EXPR_RETURNEXPR_H
