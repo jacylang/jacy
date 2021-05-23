@@ -10,6 +10,8 @@ namespace jc::resolve {
     class TypeResolver;
     using common::Logger;
     using utils::arr::moveConcat;
+    using sugg::SuggKind;
+    using sugg::eid_t;
 
     class NameResolver : public ast::StubVisitor {
     public:
@@ -84,6 +86,18 @@ namespace jc::resolve {
         // Suggestions //
     private:
         sugg::sugg_list suggestions;
+        void suggest(sugg::sugg_ptr suggestion);
+        void suggest(const std::string & msg, ast::node_id nodeId, SuggKind kind, eid_t eid = sugg::NoneEID);
+        void suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
+        void suggestWarnMsg(const std::string & msg, ast::node_id nodeId, eid_t eid = sugg::NoneEID);
+        void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
+        void suggestCannotRedeclare(
+            const std::string & name,
+            const std::string & as,
+            const std::string & declaredAs,
+            ast::node_id nodeId,
+            ast::node_id declaredHere
+        );
     };
 }
 
