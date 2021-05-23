@@ -14,62 +14,66 @@ namespace jc::ast {
     }
 
     // Errors //
-    void Linter::visit(ErrorExpr * errorExpr) {
+    void Linter::visit(ErrorExpr & errorExpr) {
         Logger::devPanic("[ERROR EXPR] On linter stage");
     }
 
-    void Linter::visit(ErrorStmt *errorStmt) {
+    void Linter::visit(ErrorStmt & errorStmt) {
         Logger::devPanic("[ERROR STMT] On linter stage");
     }
 
-    void Linter::visit(ErrorType *errorType) {
+    void Linter::visit(ErrorType & errorType) {
         Logger::devPanic("[ERROR TYPE] On linter stage");
     }
 
-    void Linter::visit(ErrorTypePath * errorTypePath) {
+    void Linter::visit(ErrorTypePath & errorTypePath) {
         Logger::devPanic("[ERROR TYPEPATH] On linter stage");
     }
 
     ////////////////
     // Statements //
     ////////////////
-    void Linter::visit(ast::EnumDecl * enumDecl) {
+    void Linter::visit(ast::EnumDecl & enumDecl) {
         Logger::notImplemented("Linter::visit enumDecl");
 
         pushContext(LinterContext::Struct);
         popContext();
     }
 
-    void Linter::visit(ast::ExprStmt * exprStmt) {
+    void Linter::visit(ast::ExprStmt & exprStmt) {
         exprStmt->expr->accept(*this);
     }
 
-    void Linter::visit(ast::ForStmt * forStmt) {
+    void Linter::visit(ast::ForStmt & forStmt) {
         // TODO: Update when for will have patterns
-        lintId(forStmt->forEntity);
+        lintId(forStmt.forEntity);
 
-        forStmt->inExpr->accept(*this);
+        forStmt.inExpr->accept(*this);
 
         pushContext(LinterContext::Loop);
-        forStmt->body->accept(*this);
+        forStmt.body->accept(*this);
         popContext();
     }
 
-    void Linter::visit(ast::ItemStmt * itemStmt) {
+    void Linter::visit(ast::ItemStmt & itemStmt) {
         // TODO: Lint attributes
-        itemStmt->item->accept(*this);
+        itemStmt.item->accept(*this);
     }
 
-    void Linter::visit(ast::FuncDecl * funcDecl) {
-        for (const auto & modifier : funcDecl->modifiers) {
+    void Linter::visit(ast::FuncDecl & funcDecl) {
+        for (const auto & modifier : funcDecl.modifiers) {
             if (!isInside(LinterContext::Struct)) {
                 switch (modifier.kind) {
                     case parser::TokenKind::Static:
                     case parser::TokenKind::Mut:
                     case parser::TokenKind::Move: {
-                        suggestErrorMsg(modifier.toString() + " functions can only appear as methods", modifier.span(sess));
-                    } break;
-                    default: {}
+                        suggestErrorMsg(
+                            modifier.toString() + " functions can only appear as methods",
+                            modifier.span(sess)
+                        );
+                        break;
+                    }
+                    default:;
                 }
             }
         }
@@ -104,7 +108,7 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::Impl * impl) {
+    void Linter::visit(ast::Impl & impl) {
         if (impl->typeParams) {
             lintTypeParams(impl->typeParams.unwrap());
         }
@@ -117,7 +121,7 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::Struct * _struct) {
+    void Linter::visit(ast::Struct & _struct) {
         lintId(_struct->name);
 
         if (_struct->typeParams) {
@@ -129,7 +133,7 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::Trait * trait) {
+    void Linter::visit(ast::Trait & trait) {
         lintId(trait->name);
 
         if (trait->typeParams) {
@@ -145,12 +149,12 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::TypeAlias * typeAlias) {
+    void Linter::visit(ast::TypeAlias & typeAlias) {
         lintId(typeAlias->name);
         typeAlias->type->accept(*this);
     }
 
-    void Linter::visit(ast::VarStmt * varDecl) {
+    void Linter::visit(ast::VarStmt & varDecl) {
         lintId(varDecl->name);
 
         varDecl->type->accept(*this);
@@ -164,7 +168,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::WhileStmt * whileStmt) {
+    void Linter::visit(ast::WhileStmt & whileStmt) {
         whileStmt->condition->accept(*this);
 
         pushContext(LinterContext::Loop);
@@ -175,7 +179,7 @@ namespace jc::ast {
     /////////////////
     // Expressions //
     /////////////////
-    void Linter::visit(ast::Assignment * assign) {
+    void Linter::visit(ast::Assignment & assign) {
         assign->lhs->accept(*this);
         assign->rhs->accept(*this);
 
@@ -183,24 +187,31 @@ namespace jc::ast {
         switch (assign->lhs->kind) {
             case ast::ExprKind::Assign: {
                 suggestErrorMsg("Chained assignment is not allowed", span);
-            } break;
+            }
+                break;
             case ast::ExprKind::Id: {
                 // Note: Checks for `id = expr` go here...
-            } break;
+            }
+                break;
             case ast::ExprKind::Paren: {
                 // Note: Checks for `(expr) = expr` go here...
-            } break;
+            }
+                break;
             case ast::ExprKind::Path: {
                 // Note: Checks for `path::to::something = expr` go here...
-            } break;
+            }
+                break;
             case ast::ExprKind::Subscript: {
                 // Note: Checks for `expr[expr, ...] = expr` go here...
-            } break;
+            }
+                break;
             case ast::ExprKind::Tuple: {
                 // Note: Checks for `(a, b, c) = expr` go here..
                 // Note: This is destructuring, it won't appear in first version
-            } break;
-            default: {}
+            }
+                break;
+            default: {
+            }
         }
 
         if (!isPlaceExpr(assign->lhs)) {
@@ -208,17 +219,17 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::Block * block) {
+    void Linter::visit(ast::Block & block) {
         for (const auto & stmt : block->stmts) {
             stmt->accept(*this);
         }
     }
 
-    void Linter::visit(ast::BorrowExpr * borrowExpr) {
+    void Linter::visit(ast::BorrowExpr & borrowExpr) {
         borrowExpr->expr->accept(*this);
     }
 
-    void Linter::visit(ast::BreakExpr * breakExpr) {
+    void Linter::visit(ast::BreakExpr & breakExpr) {
         if (breakExpr->expr) {
             breakExpr->expr.unwrap()->accept(*this);
         }
@@ -228,17 +239,17 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::ContinueExpr * continueExpr) {
+    void Linter::visit(ast::ContinueExpr & continueExpr) {
         if (not isDeepInside(LinterContext::Loop)) {
             suggestErrorMsg("`continue` outside of loop", continueExpr->span);
         }
     }
 
-    void Linter::visit(ast::DerefExpr * derefExpr) {
+    void Linter::visit(ast::DerefExpr & derefExpr) {
         derefExpr->expr->accept(*this);
     }
 
-    void Linter::visit(ast::IfExpr * ifExpr) {
+    void Linter::visit(ast::IfExpr & ifExpr) {
         ifExpr->condition->accept(*this);
 
         if (ifExpr->ifBranch) {
@@ -250,11 +261,15 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::Infix * infix) {
+    void Linter::visit(ast::Infix & infix) {
         switch (infix->op.kind) {
             case parser::TokenKind::Id: {
-                suggestErrorMsg("Custom infix operators feature is reserved, but not implemented", infix->op.span(sess));
-            } break;
+                suggestErrorMsg(
+                    "Custom infix operators feature is reserved, but not implemented",
+                    infix->op.span(sess)
+                );
+            }
+                break;
             case parser::TokenKind::Pipe:
             case parser::TokenKind::Or:
             case parser::TokenKind::And:
@@ -283,21 +298,22 @@ namespace jc::ast {
             case parser::TokenKind::Power:
             case parser::TokenKind::As: {
 
-            } break;
+            }
+                break;
             default: {
                 Logger::devPanic("Unexpected token used as infix operator:", infix->op.toString());
             }
         }
     }
 
-    void Linter::visit(ast::Invoke * invoke) {
+    void Linter::visit(ast::Invoke & invoke) {
         invoke->lhs->accept(*this);
         lintNamedList(invoke->args);
 
         // TODO
     }
 
-    void Linter::visit(ast::Lambda * lambdaExpr) {
+    void Linter::visit(ast::Lambda & lambdaExpr) {
         for (const auto & param : lambdaExpr->params) {
             lintId(param->name);
             if (param->type) {
@@ -314,49 +330,45 @@ namespace jc::ast {
         popContext();
     }
 
-    void Linter::visit(ast::ListExpr * listExpr) {
+    void Linter::visit(ast::ListExpr & listExpr) {
         for (const auto & el : listExpr->elements) {
             el->accept(*this);
         }
     }
 
-    void Linter::visit(ast::LiteralConstant * literalConstant) {
+    void Linter::visit(ast::LiteralConstant & literalConstant) {
         // What's here?
     }
 
-    void Linter::visit(ast::LoopExpr * loopExpr) {
+    void Linter::visit(ast::LoopExpr & loopExpr) {
         pushContext(LinterContext::Loop);
         loopExpr->body->accept(*this);
         popContext();
     }
 
-    void Linter::visit(ast::MemberAccess * memberAccess) {
+    void Linter::visit(ast::MemberAccess & memberAccess) {
         memberAccess->lhs->accept(*this);
         lintId(memberAccess->field);
     }
 
-    void Linter::visit(ast::ParenExpr * parenExpr) {
+    void Linter::visit(ast::ParenExpr & parenExpr) {
         if (parenExpr->expr->kind == ast::ExprKind::Paren) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
-                    "Useless double-wrapped parenthesized expression",
-                    parenExpr->span,
-                    sugg::SuggKind::Warn
+                    "Useless double-wrapped parenthesized expression", parenExpr->span, sugg::SuggKind::Warn
                 )
             );
         }
         if (parenExpr->expr->isSimple()) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
-                    "Useless parentheses around simple expression",
-                    parenExpr->span,
-                    sugg::SuggKind::Warn
+                    "Useless parentheses around simple expression", parenExpr->span, sugg::SuggKind::Warn
                 )
             );
         }
     }
 
-    void Linter::visit(ast::PathExpr * pathExpr) {
+    void Linter::visit(ast::PathExpr & pathExpr) {
         for (const auto & seg : pathExpr->segments) {
             lintId(seg->name);
             if (seg->typeParams) {
@@ -365,7 +377,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::Prefix * prefix) {
+    void Linter::visit(ast::Prefix & prefix) {
         switch (prefix->op.kind) {
             case parser::TokenKind::Not:
             case parser::TokenKind::Sub: {
@@ -379,11 +391,11 @@ namespace jc::ast {
         prefix->rhs->accept(*this);
     }
 
-    void Linter::visit(ast::QuestExpr * questExpr) {
+    void Linter::visit(ast::QuestExpr & questExpr) {
         questExpr->expr->accept(*this);
     }
 
-    void Linter::visit(ast::ReturnExpr * returnExpr) {
+    void Linter::visit(ast::ReturnExpr & returnExpr) {
         if (returnExpr->expr) {
             returnExpr->expr.unwrap()->accept(*this);
         }
@@ -393,32 +405,32 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::SpreadExpr * spreadExpr) {
+    void Linter::visit(ast::SpreadExpr & spreadExpr) {
         // TODO: Context check? Where we allow spread?
 
         spreadExpr->expr->accept(*this);
     }
 
-    void Linter::visit(ast::Subscript * subscript) {
+    void Linter::visit(ast::Subscript & subscript) {
         subscript->lhs->accept(*this);
         for (const auto & index : subscript->indices) {
             index->accept(*this);
         }
     }
 
-    void Linter::visit(ast::ThisExpr * thisExpr) {
+    void Linter::visit(ast::ThisExpr & thisExpr) {
         // A??
     }
 
-    void Linter::visit(ast::TupleExpr * tupleExpr) {
+    void Linter::visit(ast::TupleExpr & tupleExpr) {
         lintNamedList(tupleExpr->elements);
     }
 
-    void Linter::visit(ast::UnitExpr * unitExpr) {
+    void Linter::visit(ast::UnitExpr & unitExpr) {
         // Meow
     }
 
-    void Linter::visit(ast::WhenExpr * whenExpr) {
+    void Linter::visit(ast::WhenExpr & whenExpr) {
         whenExpr->subject->accept(*this);
 
         for (const auto & entry : whenExpr->entries) {
@@ -433,11 +445,11 @@ namespace jc::ast {
     ///////////
     // Types //
     ///////////
-    void Linter::visit(ast::ParenType * parenType) {
+    void Linter::visit(ast::ParenType & parenType) {
         parenType->accept(*this);
     }
 
-    void Linter::visit(ast::TupleType * tupleType) {
+    void Linter::visit(ast::TupleType & tupleType) {
         const auto & els = tupleType->elements;
         if (els.size() == 1 and els.at(0)->name and els.at(0)->type) {
             suggestErrorMsg("Cannot declare single-element named tuple type", tupleType->span);
@@ -454,23 +466,23 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::FuncType * funcType) {
+    void Linter::visit(ast::FuncType & funcType) {
         for (const auto & param : funcType->params) {
             param->accept(*this);
         }
         funcType->returnType->accept(*this);
     }
 
-    void Linter::visit(ast::SliceType * listType) {
+    void Linter::visit(ast::SliceType & listType) {
         listType->type->accept(*this);
     }
 
-    void Linter::visit(ast::ArrayType * arrayType) {
+    void Linter::visit(ast::ArrayType & arrayType) {
         arrayType->type->accept(*this);
         arrayType->sizeExpr->accept(*this);
     }
 
-    void Linter::visit(ast::TypePath * typePath) {
+    void Linter::visit(ast::TypePath & typePath) {
         for (const auto & seg : typePath->segments) {
             lintId(seg->name);
             if (seg->typeParams) {
@@ -479,23 +491,23 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(ast::UnitType * unitType) {
+    void Linter::visit(ast::UnitType & unitType) {
         // Meow...
     }
 
     // Type params //
-    void Linter::visit(ast::GenericType * genericType) {
+    void Linter::visit(ast::GenericType & genericType) {
         lintId(genericType->name);
         if (genericType->type) {
             genericType->type.unwrap()->accept(*this);
         }
     }
 
-    void Linter::visit(ast::Lifetime * lifetime) {
+    void Linter::visit(ast::Lifetime & lifetime) {
         lintId(lifetime->name);
     }
 
-    void Linter::visit(ast::ConstParam * constParam) {
+    void Linter::visit(ast::ConstParam & constParam) {
         lintId(constParam->name);
         constParam->type->accept(*this);
         if (constParam->defaultValue) {
@@ -531,9 +543,7 @@ namespace jc::ast {
         if (expr->is(ast::ExprKind::Paren)) {
             return isPlaceExpr(ast::Expr::as<ast::ParenExpr>(expr)->expr);
         }
-        return expr->is(ast::ExprKind::Id)
-            or expr->is(ast::ExprKind::Path)
-            or expr->is(ast::ExprKind::Subscript);
+        return expr->is(ast::ExprKind::Id) or expr->is(ast::ExprKind::Path) or expr->is(ast::ExprKind::Subscript);
     }
 
     void Linter::lintId(const id_ptr & id) {
@@ -552,7 +562,7 @@ namespace jc::ast {
 
     bool Linter::isDeepInside(LinterContext ctx) {
         for (auto rit = ctxStack.rbegin(); rit != ctxStack.rend(); rit++) {
-            if (*rit == ctx) {
+            if (&rit == ctx) {
                 return true;
             }
         }
