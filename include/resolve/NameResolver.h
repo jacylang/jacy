@@ -7,9 +7,7 @@
 #include "utils/arr.h"
 
 namespace jc::resolve {
-    class TypeResolver;
     using common::Logger;
-    using utils::arr::moveConcat;
     using sugg::SuggKind;
     using sugg::eid_t;
 
