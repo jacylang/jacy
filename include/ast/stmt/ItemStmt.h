@@ -1,5 +1,5 @@
-#ifndef JACY_INCLUDE_AST_STMT_ITEMSTMT_H
-#define JACY_INCLUDE_AST_STMT_ITEMSTMT_H
+#ifndef JACY_AST_STMT_ITEMSTMT_H
+#define JACY_AST_STMT_ITEMSTMT_H
 
 #include "ast/stmt/Stmt.h"
 #include "ast/item/Item.h"
@@ -20,4 +20,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_INCLUDE_AST_STMT_ITEMSTMT_H
+#endif // JACY_AST_STMT_ITEMSTMT_H

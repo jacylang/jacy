@@ -1,5 +1,5 @@
-#ifndef JACY_STMT_H
-#define JACY_STMT_H
+#ifndef JACY_AST_STMT_STMT_H
+#define JACY_AST_STMT_STMT_H
 
 #include <vector>
 
@@ -55,4 +55,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_STMT_H
+#endif // JACY_AST_STMT_STMT_H

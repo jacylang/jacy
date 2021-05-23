@@ -1,5 +1,5 @@
-#ifndef JACY_FORSTMT_H
-#define JACY_FORSTMT_H
+#ifndef JACY_AST_STMT_FORSTMT_H
+#define JACY_AST_STMT_FORSTMT_H
 
 #include "ast/stmt/Stmt.h"
 #include "ast/expr/Expr.h"
@@ -35,4 +35,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_FORSTMT_H
+#endif // JACY_AST_STMT_FORSTMT_H

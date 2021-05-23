@@ -1,5 +1,5 @@
-#ifndef JACY_VARSTMT_H
-#define JACY_VARSTMT_H
+#ifndef JACY_AST_STMT_VARSTMT_H
+#define JACY_AST_STMT_VARSTMT_H
 
 #include "ast/stmt/Stmt.h"
 #include "common/common.h"
@@ -36,4 +36,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_VARSTMT_H
+#endif // JACY_AST_STMT_VARSTMT_H
