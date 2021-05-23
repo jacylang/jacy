@@ -406,8 +406,9 @@ namespace jc::parser {
                 const auto & begin = cspan();
                 ast::attr_list attributes = parseAttrList();
                 auto id = parseId("Expected field name", true, true);
+
                 skip(
-                    TokenKind::Comma,
+                    TokenKind::Colon,
                     true,
                     true,
                     false,
@@ -416,6 +417,7 @@ namespace jc::parser {
                         cspan()
                     )
                 );
+
                 auto type = parseType("Expected type for "+ id->getValue() +" after `:`");
 
                 fields.emplace_back(
@@ -443,7 +445,7 @@ namespace jc::parser {
             std::move(attributes),
             name,
             typeParams,
-            members,
+            fields,
             begin.to(cspan())
         );
     }
