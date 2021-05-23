@@ -5,6 +5,7 @@
 #include "ast/fragments/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 #include "ast/fragments/Attribute.h"
+#include "ast/fragments/FuncParam.h"
 #include "ast/expr/Block.h"
 
 namespace jc::ast {

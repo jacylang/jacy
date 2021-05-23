@@ -401,9 +401,7 @@ namespace jc::parser {
                 auto type = parseType("Expected type for " + id->getValue() + " after `:`");
 
                 fields.emplace_back(
-                    std::make_shared<ast::Field>(
-                        std::move(attributes), std::move(id), std::move(type), begin.to(cspan())
-                    )
+                    std::make_shared<ast::Field>(std::move(id), std::move(type), begin.to(cspan()))
                 );
             }
 

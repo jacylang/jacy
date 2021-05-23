@@ -2,7 +2,7 @@
 #define JACY_AST_ITEM_FIELD_H
 
 #include "ast/Node.h"
-#include "Identifier.h"
+#include "ast/fragments/Identifier.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
