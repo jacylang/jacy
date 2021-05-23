@@ -88,6 +88,7 @@ namespace jc::ast {
         void lint(const ast::type_param_list & typeParams);
         void lintMembers(const ast::item_list & members);
         bool isPlaceExpr(const ast::expr_ptr & expr);
+        static void lintId(const id_ptr & id);
 
         // Context //
     private:

@@ -29,6 +29,8 @@ namespace jc::ast {
 
     void Linter::visit(ast::ForStmt * forStmt) {
         // TODO: Update when for will have patterns
+        lintId(forStmt->forEntity);
+
         forStmt->inExpr->accept(*this);
 
         pushContext(LinterContext::Loop);
@@ -58,6 +60,8 @@ namespace jc::ast {
         if (funcDecl->typeParams) {
             lint(funcDecl->typeParams.unwrap());
         }
+
+        lintId(funcDecl->name);
 
         for (const auto & param : funcDecl->params) {
             if (param->type) {
@@ -97,6 +101,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::Struct * _struct) {
+        lintId(_struct->name);
+
         if (_struct->typeParams) {
             lint(_struct->typeParams.unwrap());
         }
@@ -107,6 +113,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::Trait * trait) {
+        lintId(trait->name);
+
         if (trait->typeParams) {
             lint(trait->typeParams.unwrap());
         }
@@ -121,10 +129,13 @@ namespace jc::ast {
     }
 
     void Linter::visit(ast::TypeAlias * typeAlias) {
+        lintId(typeAlias->name);
         typeAlias->type->accept(*this);
     }
 
     void Linter::visit(ast::VarStmt * varDecl) {
+        lintId(varDecl->name);
+
         varDecl->type->accept(*this);
 
         if (varDecl->assignExpr) {
@@ -271,6 +282,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::Lambda * lambdaExpr) {
         for (const auto & param : lambdaExpr->params) {
+            lintId(param->name);
             if (param->type) {
                 param->type.unwrap()->accept(*this);
             }
@@ -303,6 +315,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::MemberAccess * memberAccess) {
         memberAccess->lhs->accept(*this);
+        lintId(memberAccess->field);
     }
 
     void Linter::visit(ast::ParenExpr * parenExpr) {
@@ -328,6 +341,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::PathExpr * pathExpr) {
         for (const auto & seg : pathExpr->segments) {
+            lintId(seg->name);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -336,12 +350,10 @@ namespace jc::ast {
 
     void Linter::visit(ast::Prefix * prefix) {
         switch (prefix->op.kind) {
-            case parser::TokenKind::Not: {
-
-            } break;
+            case parser::TokenKind::Not:
             case parser::TokenKind::Sub: {
-
-            } break;
+                break;
+            }
             default: {
                 Logger::devPanic("Unexpected token used as prefix operator:", prefix->op.toString());
             }
@@ -416,6 +428,9 @@ namespace jc::ast {
 
         // FIXME: Add check for one-element tuple type, etc.
         for (const auto & el : els) {
+            if (el->name) {
+                lintId(el->name.unwrap());
+            }
             if (el->type) {
                 el->type.unwrap()->accept(*this);
             }
@@ -440,6 +455,7 @@ namespace jc::ast {
 
     void Linter::visit(ast::TypePath * typePath) {
         for (const auto & seg : typePath->segments) {
+            lintId(seg->name);
             if (seg->typeParams) {
                 lint(seg->typeParams.unwrap());
             }
@@ -452,14 +468,18 @@ namespace jc::ast {
 
     // Type params //
     void Linter::visit(ast::GenericType * genericType) {
+        lintId(genericType->name);
         if (genericType->type) {
             genericType->type.unwrap()->accept(*this);
         }
     }
 
-    void Linter::visit(ast::Lifetime * lifetime) {}
+    void Linter::visit(ast::Lifetime * lifetime) {
+        lintId(lifetime->name);
+    }
 
     void Linter::visit(ast::ConstParam * constParam) {
+        lintId(constParam->name);
         constParam->type->accept(*this);
         if (constParam->defaultValue) {
             constParam->defaultValue.unwrap()->accept(*this);
@@ -469,6 +489,9 @@ namespace jc::ast {
     // Linters //
     void Linter::lint(const ast::named_list_ptr & namedList) {
         for (const auto & el : namedList->elements) {
+            if (el->name) {
+                lintId(el->name.unwrap());
+            }
             if (el->value) {
                 el->value.unwrap()->accept(*this);
             }
@@ -494,6 +517,12 @@ namespace jc::ast {
         return expr->is(ast::ExprKind::Id)
             or expr->is(ast::ExprKind::Path)
             or expr->is(ast::ExprKind::Subscript);
+    }
+
+    void Linter::lintId(const id_ptr & id) {
+        if (!id->getValue()) {
+            Logger::devPanic("[ERROR ID] On Linter stage at", id->span.toString());
+        }
     }
 
     // Context //
