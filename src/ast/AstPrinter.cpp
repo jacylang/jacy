@@ -131,7 +131,9 @@ namespace jc::ast {
 
         for (size_t i = 0; i < _struct->fields.size(); i++) {
             const auto & field = _struct->fields.at(i);
-            field.
+            field->name->accept(*this);
+            log.raw(": ");
+            field->type->accept(*this);
 
             if (i < _struct->fields.size() - 1) {
                 log.raw(", ");
