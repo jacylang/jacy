@@ -67,66 +67,66 @@ namespace jc::ast {
     public:
         virtual ~ConstVisitor() = default;
 
-        virtual void visit(const ErrorStmt&) const = 0;
-        virtual void visit(const ErrorExpr&) const = 0;
-        virtual void visit(const ErrorType&) const = 0;
-        virtual void visit(const ErrorTypePath&) const = 0;
+        virtual void visit(const ErrorStmt&) = 0;
+        virtual void visit(const ErrorExpr&) = 0;
+        virtual void visit(const ErrorType&) = 0;
+        virtual void visit(const ErrorTypePath&) = 0;
 
         // Items //
-        virtual void visit(const EnumDecl&) const = 0;
-        virtual void visit(const FuncDecl&) const = 0;
-        virtual void visit(const Impl&) const = 0;
-        virtual void visit(const Struct&) const = 0;
-        virtual void visit(const Trait&) const = 0;
-        virtual void visit(const TypeAlias&) const = 0;
+        virtual void visit(const EnumDecl&) = 0;
+        virtual void visit(const FuncDecl&) = 0;
+        virtual void visit(const Impl&) = 0;
+        virtual void visit(const Struct&) = 0;
+        virtual void visit(const Trait&) = 0;
+        virtual void visit(const TypeAlias&) = 0;
 
         // Statements //
-        virtual void visit(const ExprStmt&) const = 0;
-        virtual void visit(const ForStmt&) const = 0;
-        virtual void visit(const ItemStmt&) const = 0;
-        virtual void visit(const VarStmt&) const = 0;
-        virtual void visit(const WhileStmt&) const = 0;
+        virtual void visit(const ExprStmt&) = 0;
+        virtual void visit(const ForStmt&) = 0;
+        virtual void visit(const ItemStmt&) = 0;
+        virtual void visit(const VarStmt&) = 0;
+        virtual void visit(const WhileStmt&) = 0;
 
         // Expressions //
-        virtual void visit(const Assignment&) const = 0;
-        virtual void visit(const Block&) const = 0;
-        virtual void visit(const BorrowExpr&) const = 0;
-        virtual void visit(const BreakExpr&) const = 0;
-        virtual void visit(const ContinueExpr&) const = 0;
-        virtual void visit(const DerefExpr&) const = 0;
-        virtual void visit(const IfExpr&) const = 0;
-        virtual void visit(const Infix&) const = 0;
-        virtual void visit(const Invoke&) const = 0;
-        virtual void visit(const Lambda&) const = 0;
-        virtual void visit(const ListExpr&) const = 0;
-        virtual void visit(const LiteralConstant&) const = 0;
-        virtual void visit(const LoopExpr&) const = 0;
-        virtual void visit(const MemberAccess&) const = 0;
-        virtual void visit(const ParenExpr&) const = 0;
-        virtual void visit(const PathExpr&) const = 0;
-        virtual void visit(const Prefix&) const = 0;
-        virtual void visit(const QuestExpr&) const = 0;
-        virtual void visit(const ReturnExpr&) const = 0;
-        virtual void visit(const SpreadExpr&) const = 0;
-        virtual void visit(const Subscript&) const = 0;
-        virtual void visit(const ThisExpr&) const = 0;
-        virtual void visit(const TupleExpr&) const = 0;
-        virtual void visit(const UnitExpr&) const = 0;
-        virtual void visit(const WhenExpr&) const = 0;
+        virtual void visit(const Assignment&) = 0;
+        virtual void visit(const Block&) = 0;
+        virtual void visit(const BorrowExpr&) = 0;
+        virtual void visit(const BreakExpr&) = 0;
+        virtual void visit(const ContinueExpr&) = 0;
+        virtual void visit(const DerefExpr&) = 0;
+        virtual void visit(const IfExpr&) = 0;
+        virtual void visit(const Infix&) = 0;
+        virtual void visit(const Invoke&) = 0;
+        virtual void visit(const Lambda&) = 0;
+        virtual void visit(const ListExpr&) = 0;
+        virtual void visit(const LiteralConstant&) = 0;
+        virtual void visit(const LoopExpr&) = 0;
+        virtual void visit(const MemberAccess&) = 0;
+        virtual void visit(const ParenExpr&) = 0;
+        virtual void visit(const PathExpr&) = 0;
+        virtual void visit(const Prefix&) = 0;
+        virtual void visit(const QuestExpr&) = 0;
+        virtual void visit(const ReturnExpr&) = 0;
+        virtual void visit(const SpreadExpr&) = 0;
+        virtual void visit(const Subscript&) = 0;
+        virtual void visit(const ThisExpr&) = 0;
+        virtual void visit(const TupleExpr&) = 0;
+        virtual void visit(const UnitExpr&) = 0;
+        virtual void visit(const WhenExpr&) = 0;
 
         // Types //
-        virtual void visit(const ParenType&) const = 0;
-        virtual void visit(const TupleType&) const = 0;
-        virtual void visit(const FuncType&) const = 0;
-        virtual void visit(const SliceType&) const = 0;
-        virtual void visit(const ArrayType&) const = 0;
-        virtual void visit(const TypePath&) const = 0;
-        virtual void visit(const UnitType&) const = 0;
+        virtual void visit(const ParenType&) = 0;
+        virtual void visit(const TupleType&) = 0;
+        virtual void visit(const FuncType&) = 0;
+        virtual void visit(const SliceType&) = 0;
+        virtual void visit(const ArrayType&) = 0;
+        virtual void visit(const TypePath&) = 0;
+        virtual void visit(const UnitType&) = 0;
 
         // Type params //
-        virtual void visit(const GenericType&) const = 0;
-        virtual void visit(const Lifetime&) const = 0;
-        virtual void visit(const ConstParam&) const = 0;
+        virtual void visit(const GenericType&) = 0;
+        virtual void visit(const Lifetime&) = 0;
+        virtual void visit(const ConstParam&) = 0;
     };
 }
 
