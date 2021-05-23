@@ -90,7 +90,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        void resolveId(ast::Identifier & id);
+        void resolveId(ast::Identifier & id, Name::Usage usage);
 
         // Suggestions //
     private:

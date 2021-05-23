@@ -351,6 +351,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathExpr & pathExpr) {
+        // TODO: `Names` mode
+
         if (pathExpr.global) {
             log.raw("::");
         }

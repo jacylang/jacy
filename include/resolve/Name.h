@@ -8,8 +8,7 @@ namespace jc::resolve {
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
 
-    template<class T>
-    using name_map = std::map<std::string, std::shared_ptr<T>>;
+    template<class T> using name_map = std::map<std::string, std::shared_ptr<T>>;
 
     struct Name {
         enum class Kind {
@@ -26,24 +25,96 @@ namespace jc::resolve {
             Field,
             Param,
         } kind;
+
+        enum class Usage {
+            Type,
+            Expr,
+            Lifetime,
+        };
+
         ast::node_id nodeId;
 
         Name(Kind kind, ast::node_id nodeId) : kind(kind), nodeId(nodeId) {}
 
         static std::string kindStr(Kind kind) {
             switch (kind) {
-                case Kind::Const: return "`const`";
-                case Kind::Struct: return "`struct`";
-                case Kind::Trait: return "`trait`";
-                case Kind::Local: return "local variable";
-                case Kind::TypeParam: return "type parameter";
-                case Kind::Lifetime: return "lifetime parameter";
-                case Kind::ConstParam: return "`const` parameter";
+                case Kind::Const:
+                    return "`const`";
+                case Kind::Struct:
+                    return "`struct`";
+                case Kind::Trait:
+                    return "`trait`";
+                case Kind::Local:
+                    return "local variable";
+                case Kind::TypeParam:
+                    return "type parameter";
+                case Kind::Lifetime:
+                    return "lifetime parameter";
+                case Kind::ConstParam:
+                    return "`const` parameter";
+                case Kind::Func:
+                    return "`func`";
+                case Kind::Enum:
+                    return "`enum`";
+                case Kind::TypeAlias:
+                    return "`type` alias";
+                case Kind::Field:
+                    return "field";
+                case Kind::Param:
+                    return "`func` parameter";
             }
         }
 
         std::string kindStr() const {
             return kindStr(kind);
+        }
+
+        static bool isUsableAs(Kind kind, Usage usage) {
+            if (usage == Usage::Lifetime) {
+                switch (kind) {
+                    case Kind::Lifetime:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            if (usage == Usage::Type) {
+                switch (kind) {
+                    case Kind::Struct:
+                    case Kind::Trait:
+                    case Kind::TypeAlias:
+                    case Kind::TypeParam: {
+                        return true;
+                    }
+                    default: return false;
+                }
+            }
+            if (usage == Usage::Expr) {
+                switch (kind) {
+                    case Kind::Const:
+                    case Kind::Field:
+                    case Kind::Param:
+                    case Kind::Local:
+                    case Kind::ConstParam:
+                    case Kind::Func: {
+                        return true;
+                    }
+                    default: return false;
+                }
+            }
+            return false;
+        }
+
+        bool isUsableAs(Usage usage) const {
+            return isUsableAs(kind, usage);
+        }
+
+        static std::string usageToString(Usage usage) {
+            switch (usage) {
+                case Usage::Type: return "type";
+                case Usage::Expr: return "expression";
+                case Usage::Lifetime: return "lifetime";
+            }
         }
     };
 
@@ -51,8 +122,11 @@ namespace jc::resolve {
 
     // FIXME: Add rib kinds
     struct Rib {
-        Rib() : parent(dt::None) {}
-        Rib(rib_ptr parent) : parent(parent) {}
+        Rib() : parent(dt::None) {
+        }
+
+        Rib(rib_ptr parent) : parent(parent) {
+        }
 
         dt::Option<rib_ptr> parent;
         name_map<Name> names;

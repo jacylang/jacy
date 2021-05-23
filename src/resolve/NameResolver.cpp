@@ -73,7 +73,8 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::ContinueExpr & continueExpr) {}
+    void NameResolver::visit(ast::ContinueExpr & continueExpr) {
+    }
 
     void NameResolver::visit(ast::DerefExpr & derefExpr) {
         derefExpr.expr->accept(*this);
@@ -104,7 +105,7 @@ namespace jc::resolve {
 
         for (const auto & param : lambdaExpr.params) {
             // TODO
-//            param.name->accept(*this);
+            //            param.name->accept(*this);
             if (param->type) {
                 param->type.unwrap()->accept(*this);
             }
@@ -125,7 +126,8 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::LiteralConstant & literalConstant) {}
+    void NameResolver::visit(ast::LiteralConstant & literalConstant) {
+    }
 
     void NameResolver::visit(ast::LoopExpr & loopExpr) {
         visit(*loopExpr.body);
@@ -142,7 +144,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::PathExpr & pathExpr) {
-        // TODO!!!
+
     }
 
     void NameResolver::visit(ast::Prefix & prefix) {
@@ -171,7 +173,8 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::ThisExpr & thisExpr) {}
+    void NameResolver::visit(ast::ThisExpr & thisExpr) {
+    }
 
     void NameResolver::visit(ast::TupleExpr & tupleExpr) {
         visitNamedList(tupleExpr.elements);
@@ -244,24 +247,30 @@ namespace jc::resolve {
                 case ast::ItemKind::Func: {
                     name = std::static_pointer_cast<ast::Func>(member)->name->unwrapValue();
                     kind = Name::Kind::Func;
-                } break;
+                }
+                    break;
                 case ast::ItemKind::Enum: {
                     name = std::static_pointer_cast<ast::Enum>(member)->name->unwrapValue();
                     kind = Name::Kind::Enum;
-                } break;
+                }
+                    break;
                 case ast::ItemKind::Struct: {
                     name = std::static_pointer_cast<ast::Struct>(member)->name->unwrapValue();
                     kind = Name::Kind::Struct;
-                } break;
+                }
+                    break;
                 case ast::ItemKind::TypeAlias: {
                     name = std::static_pointer_cast<ast::TypeAlias>(member)->name->unwrapValue();
                     kind = Name::Kind::TypeAlias;
-                } break;
+                }
+                    break;
                 case ast::ItemKind::Trait: {
                     name = std::static_pointer_cast<ast::Trait>(member)->name->unwrapValue();
                     kind = Name::Kind::Trait;
-                } break;
-                default: continue;
+                }
+                    break;
+                default:
+                    continue;
             }
             declare(name, kind, member->id);
         }
@@ -361,24 +370,37 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void NameResolver::resolveId(ast::Identifier & id) {
+    void NameResolver::resolveId(ast::Identifier & id, Name::Usage usage) {
         // TODO: Add allowed resolutions:
         //  When we resolve type name, we should suggest an error if it is a function or something else
 
         const auto & name = id.unwrapValue();
+        dt::Option<Name> nearestResolution;
         opt_node_id resolved;
         dt::Option<rib_ptr> maybeRib = rib;
         while (maybeRib) {
             auto checkRib = maybeRib.unwrap();
             const auto & found = checkRib->names.find(name);
             if (found != checkRib->names.end()) {
-                resolved = found->second->nodeId;
-                break;
+                // Save nearest name we found
+                nearestResolution = found->second;
+                if (found->second->isUsableAs(usage)) {
+                    // If name, we found is of allowed kind we use it
+                    resolved = found->second->nodeId;
+                    break;
+                }
             }
             maybeRib = checkRib->parent;
         }
 
         if (!resolved) {
+            if (nearestResolution) {
+                suggestErrorMsg(
+                    "Cannot find suitable item for '" + name + "', nearest item is a " + nearestResolution->kindStr() +
+                    " that cannot be used as " + Name::usageToString(usage), id.id
+                );
+            }
+
             suggestErrorMsg("Cannot find name '" + name + "'", id.id);
             return;
         }
@@ -414,12 +436,14 @@ namespace jc::resolve {
         ast::node_id nodeId,
         ast::node_id declaredHere
     ) {
-        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
-            "Cannot redeclare '"+ name +"' as "+ as,
-            ast::Node::nodeMap.getNodeSpan(nodeId),
-            "Because it is already declared as "+ declaredAs +" here",
-            ast::Node::nodeMap.getNodeSpan(declaredHere),
-            SuggKind::Error
-        ));
+        suggest(
+            std::make_unique<sugg::MsgSpanLinkSugg>(
+                "Cannot redeclare '" + name + "' as " + as,
+                ast::Node::nodeMap.getNodeSpan(nodeId),
+                "Because it is already declared as " + declaredAs + " here",
+                ast::Node::nodeMap.getNodeSpan(declaredHere),
+                SuggKind::Error
+            )
+        );
     }
 }
