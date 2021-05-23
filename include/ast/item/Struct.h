@@ -5,8 +5,9 @@
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {
-    struct Struct : Stmt {
+    struct Struct : Item {
         Struct(
+            attr_list attributes,
             id_ptr name,
             opt_type_params typeParams,
             item_list members,
@@ -14,7 +15,7 @@ namespace jc::ast {
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
             members(std::move(members)),
-            Stmt(span, StmtKind::Struct) {}
+            Item(ItemKind::Struct, std::move(attributes), span) {}
 
         id_ptr name;
         opt_type_params typeParams;

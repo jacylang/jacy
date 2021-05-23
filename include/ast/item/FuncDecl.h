@@ -1,15 +1,16 @@
 #ifndef JACY_FUNCDECL_H
 #define JACY_FUNCDECL_H
 
-#include "ast/stmt/Stmt.h"
+#include "ast/item/Item.h"
 #include "ast/expr/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 #include "ast/fragments/Attribute.h"
 #include "ast/expr/Block.h"
 
 namespace jc::ast {
-    struct FuncDecl : Stmt {
+    struct FuncDecl : Item {
         FuncDecl(
+            attr_list attributes,
             parser::token_list modifiers,
             opt_type_params typeParams,
             id_ptr name,
@@ -25,7 +26,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)),
             oneLineBody(std::move(oneLineBody)),
-            Stmt(span, StmtKind::Func) {}
+            Item(ItemKind::Func, std::move(attributes), span) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;

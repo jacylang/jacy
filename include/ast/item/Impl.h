@@ -1,12 +1,13 @@
 #ifndef JACY_AST_STMT_IMPL_H
 #define JACY_AST_STMT_IMPL_H
 
-#include "Item.h"
+#include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {
-    struct Impl : Stmt {
+    struct Impl : Item {
         Impl(
+            attr_list attributes,
             opt_type_params typeParams,
             type_path_ptr traitTypePath,
             type_ptr forType,
@@ -16,7 +17,7 @@ namespace jc::ast {
             traitTypePath(std::move(traitTypePath)),
             forType(std::move(forType)),
             members(std::move(members)),
-            Stmt(span, StmtKind::Impl) {}
+            Item(ItemKind::Impl, std::move(attributes), span) {}
 
         opt_type_params typeParams;
         type_path_ptr traitTypePath;

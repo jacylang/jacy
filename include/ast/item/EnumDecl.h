@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "ast/stmt/Stmt.h"
+#include "ast/item/Item.h"
 #include "ast/expr/Identifier.h"
 
 namespace jc::ast {
@@ -16,8 +16,8 @@ namespace jc::ast {
         expr_ptr value;
     };
 
-    struct EnumDecl : Stmt {
-        EnumDecl(const Span & span) : Stmt(span, StmtKind::Enum) {}
+    struct EnumDecl : Item {
+        EnumDecl(attr_list attributes, const Span & span) : Item(ItemKind::Enum, std::move(attributes), span) {}
 
         id_ptr name;
         enum_entry_list entries;

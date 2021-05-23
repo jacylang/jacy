@@ -5,7 +5,7 @@
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
-    struct Trait : Stmt {
+    struct Trait : Item {
         Trait(
             id_ptr name,
             opt_type_params typeParams,
@@ -16,7 +16,7 @@ namespace jc::ast {
             typeParams(std::move(typeParams)),
             superTraits(std::move(superTraits)),
             members(std::move(members)),
-            Stmt(span, StmtKind::Trait) {}
+            Item() {}
 
         id_ptr name;
         opt_type_params typeParams;
