@@ -7,6 +7,7 @@ namespace jc::resolve {
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
+    using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
 
     struct Name {
@@ -121,13 +122,6 @@ namespace jc::resolve {
 
     // FIXME: Add rib kinds
     struct Rib {
-        Rib() : parent(dt::None) {
-        }
-
-        Rib(rib_ptr parent) : parent(parent) {
-        }
-
-        dt::Option<rib_ptr> parent;
         std::map<std::string, name_ptr> names;
 
         /// Declare new name.
