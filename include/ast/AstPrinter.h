@@ -32,6 +32,7 @@ namespace jc::ast {
         // Statements //
         void visit(ExprStmt * exprStmt) override;
         void visit(ForStmt * forStmt) override;
+        void visit(ItemStmt * itemStmt) override;
         void visit(VarStmt * varDecl) override;
         void visit(WhileStmt * whileStmt) override;
 

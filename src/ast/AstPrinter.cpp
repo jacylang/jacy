@@ -67,6 +67,11 @@ namespace jc::ast {
         forStmt->body->accept(*this);
     }
 
+    void AstPrinter::visit(ItemStmt * itemStmt) {
+        // TODO: Print attributes
+        itemStmt->item->accept(*this);
+    }
+
     void AstPrinter::visit(FuncDecl * funcDecl) {
         printIndent();
 
