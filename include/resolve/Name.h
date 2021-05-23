@@ -7,6 +7,7 @@ namespace jc::resolve {
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
+    using opt_rib = dt::Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
 

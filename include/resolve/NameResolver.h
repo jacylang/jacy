@@ -80,6 +80,8 @@ namespace jc::resolve {
         rib_stack ribStack;
         uint32_t depth{0};
         uint32_t getDepth() const;
+        rib_ptr curRib() const;
+        opt_rib ribAt(size_t ribDepth) const;
         void enterRib();
         void exitRib();
         void liftToDepth(size_t prevDepth);

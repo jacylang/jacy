@@ -339,17 +339,26 @@ namespace jc::resolve {
         return depth;
     }
 
+    rib_ptr NameResolver::curRib() const {
+        return ribStack.at(depth);
+    }
+
+    opt_rib NameResolver::ribAt(size_t d) const {
+        if (d >= ribStack.size()) {
+            return dt::None;
+        }
+        return ribStack.at(d);
+    }
+
     void NameResolver::enterRib() {
-        rib = std::make_shared<Rib>(rib);
+        ribStack.push_back(std::make_shared<Rib>());
         depth++;
     }
 
     void NameResolver::exitRib() {
-        auto parent = rib->parent;
-        if (!parent) {
+        if (depth == 0) {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
-        rib = parent.unwrap();
         depth--;
     }
 
@@ -365,9 +374,9 @@ namespace jc::resolve {
 
     // Declarations //
     void NameResolver::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
-        const auto & found = rib->names.find(name);
-        if (found == rib->names.end()) {
-            rib->names.emplace(name, std::make_shared<Name>(kind, nodeId));
+        const auto & found = curRib()->names.find(name);
+        if (found == curRib()->names.end()) {
+            curRib()->names.emplace(name, std::make_shared<Name>(kind, nodeId));
             return;
         }
         suggestCannotRedeclare(name, Name::kindStr(kind), found->second->kindStr(), nodeId, found->second->nodeId);
@@ -379,9 +388,12 @@ namespace jc::resolve {
         //  When we resolve type name, we should suggest an error if it is a function or something else
 
         const auto & name = id.unwrapValue();
+
         dt::Option<name_ptr> nearestResolution;
         opt_node_id resolved;
-        dt::Option<rib_ptr> maybeRib = rib;
+
+        auto curDepth = depth;
+        dt::Option<rib_ptr> maybeRib = curRib();
         while (maybeRib) {
             auto checkRib = maybeRib.unwrap();
             const auto & found = checkRib->names.find(name);
@@ -394,7 +406,8 @@ namespace jc::resolve {
                     break;
                 }
             }
-            maybeRib = checkRib->parent;
+            curDepth--;
+            maybeRib = ribAt(curDepth);
         }
 
         if (!resolved) {
@@ -404,6 +417,7 @@ namespace jc::resolve {
                     nearestResolution.unwrap()->kindStr() + " that cannot be used as " + Name::usageToString(usage),
                     id.id
                 );
+                return;
             }
 
             suggestErrorMsg("Cannot find name '" + name + "'", id.id);
