@@ -1,5 +1,5 @@
-#ifndef JACY_ENUMDECL_H
-#define JACY_ENUMDECL_H
+#ifndef JACY_ENUM_H
+#define JACY_ENUM_H
 
 #include <vector>
 
@@ -16,13 +16,12 @@ namespace jc::ast {
         expr_ptr value;
     };
 
-    struct EnumDecl : Item {
-        EnumDecl(attr_list attributes, const Span & span) : Item(span, std::move(attributes), ItemKind::Enum) {}
+    struct Enum : Item {
+        Enum(attr_list attributes, const Span & span) : Item(span, std::move(attributes), ItemKind::Enum) {}
 
         id_ptr name;
         enum_entry_list entries;
         stmt_list body;
-
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
@@ -34,4 +33,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_ENUMDECL_H
+#endif // JACY_ENUM_H

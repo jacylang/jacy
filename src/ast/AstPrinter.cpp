@@ -30,7 +30,7 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
-    void AstPrinter::visit(const EnumDecl & enumDecl) {
+    void AstPrinter::visit(const Enum & enumDecl) {
         printIndent();
 
         log.notImplemented("AstPrinter:enumDecl");

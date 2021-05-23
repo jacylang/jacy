@@ -36,7 +36,7 @@
 #include "ast/stmt/WhileStmt.h"
 
 // Items //
-#include "ast/item/EnumDecl.h"
+#include "ast/item/Enum.h"
 #include "ast/item/FuncDecl.h"
 #include "ast/item/Impl.h"
 #include "ast/item/Item.h"

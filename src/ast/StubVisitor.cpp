@@ -18,7 +18,7 @@ namespace jc::ast {
     }
 
     // Statements //
-    void StubVisitor::visit(ast::EnumDecl & enumDecl) {
+    void StubVisitor::visit(ast::Enum & enumDecl) {
         visit("enumDecl");
     }
 

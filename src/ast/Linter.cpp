@@ -33,7 +33,7 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
-    void Linter::visit(const ast::EnumDecl & enumDecl) {
+    void Linter::visit(const ast::Enum & enumDecl) {
         Logger::notImplemented("Linter::visit enumDecl");
 
         pushContext(LinterContext::Struct);

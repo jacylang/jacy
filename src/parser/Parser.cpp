@@ -270,7 +270,7 @@ namespace jc::parser {
     }
 
     ast::item_ptr Parser::parseEnumDecl(ast::attr_list attributes) {
-        logParse("EnumDecl");
+        logParse("Enum");
     }
 
     ast::item_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {

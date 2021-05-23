@@ -8,7 +8,7 @@ namespace jc::ast {
     struct ErrorTypePath;
 
     // Items //
-    struct EnumDecl;
+    struct Enum;
     struct FuncDecl;
     struct Impl;
     struct Struct;
@@ -73,7 +73,7 @@ namespace jc::ast {
         virtual void visit(ErrorTypePath&) = 0;
 
         // Items //
-        virtual void visit(EnumDecl&) = 0;
+        virtual void visit(Enum&) = 0;
         virtual void visit(FuncDecl&) = 0;
         virtual void visit(Impl&) = 0;
         virtual void visit(Struct&) = 0;

@@ -246,7 +246,7 @@ namespace jc::resolve {
                     kind = Name::Kind::Func;
                 } break;
                 case ast::ItemKind::Enum: {
-                    name = std::static_pointer_cast<ast::EnumDecl>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Enum>(member)->name->unwrapValue();
                     kind = Name::Kind::Enum;
                 } break;
                 case ast::ItemKind::Struct: {

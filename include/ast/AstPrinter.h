@@ -22,7 +22,7 @@ namespace jc::ast {
         void visit(const ErrorTypePath & errorTypePath) override;
 
         // Items //
-        void visit(const EnumDecl & enumDecl) override;
+        void visit(const Enum & enumDecl) override;
         void visit(const FuncDecl & funcDecl) override;
         void visit(const Impl & impl) override;
         void visit(const Struct & _struct) override;

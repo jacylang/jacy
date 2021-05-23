@@ -34,7 +34,7 @@ namespace jc::ast {
         void visit(const ErrorTypePath & errorTypePath) override;
 
         // Items //
-        void visit(const ast::EnumDecl & enumDecl) override;
+        void visit(const ast::Enum & enumDecl) override;
         void visit(const ast::FuncDecl & funcDecl) override;
         void visit(const ast::Impl & impl) override;
         void visit(const ast::Struct & _struct) override;
