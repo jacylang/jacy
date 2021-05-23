@@ -35,6 +35,11 @@ namespace jc::resolve {
         item->stmt->accept(*this);
     }
 
+    void NameResolver::visit(ast::VarDecl * varDecl) {
+        // TODO: Split VarDecl and Field
+        enterRib();
+    }
+
     // Statements //
     void NameResolver::visit(ast::ExprStmt * exprStmt) {
         exprStmt->expr->accept(*this);
