@@ -20,10 +20,15 @@ namespace jc::resolve {
 
         dt::SuggResult<rib_ptr> resolve(sess::sess_ptr sess, const ast::item_list & tree);
 
-        void visit(ast::Item * item) override;
+        // Items //
+//        void visit(ast::EnumDecl * enumDecl) override;
+        void visit(ast::FuncDecl * funcDecl) override;
+//        void visit(ast::Impl * impl) override;
+//        void visit(ast::Struct * _struct) override;
+//        void visit(ast::Trait * trait) override;
+//        void visit(ast::TypeAlias * typeAlias) override;
 
         // Statements //
-        void visit(ast::FuncDecl * funcDecl) override;
         void visit(ast::ExprStmt * exprStmt) override;
 //        void visit(ast::ForStmt * forStmt) override;
         void visit(ast::VarStmt * varDecl) override;
@@ -36,7 +41,6 @@ namespace jc::resolve {
         void visit(ast::BreakExpr * breakExpr) override;
         void visit(ast::ContinueExpr * continueExpr) override;
         void visit(ast::DerefExpr * derefExpr) override;
-        void visit(ast::Identifier * identifier) override;
         void visit(ast::IfExpr * ifExpr) override;
         void visit(ast::Infix * infix) override;
         void visit(ast::Invoke * invoke) override;

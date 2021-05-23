@@ -31,10 +31,6 @@ namespace jc::resolve {
         liftToDepth(prevDepth); // <- (params rib) <- (all type params ribs)
     }
 
-    void NameResolver::visit(ast::Item * item) {
-        item->stmt->accept(*this);
-    }
-
     void NameResolver::visit(ast::VarStmt * varDecl) {
         // TODO: Split VarStmt and Field
         enterRib();
@@ -78,17 +74,6 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::DerefExpr * derefExpr) {
         derefExpr->expr->accept(*this);
-    }
-
-    void NameResolver::visit(ast::Identifier * identifier) {
-        // Note: If we have standalone identifier like that,
-        //  we 100% sure that it is inside of an expression.
-        //  Just because TypeResolver and ItemResolver handles identifiers that're parts
-        //  of types or items already.
-        //  So, if we have identifier here...
-        //  It MUST be any kind of variable or item (!)
-
-        resolveId(identifier->getValue());
     }
 
     void NameResolver::visit(ast::IfExpr * ifExpr) {
