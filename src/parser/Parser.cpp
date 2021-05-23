@@ -392,13 +392,15 @@ namespace jc::parser {
                 ast::attr_list attributes = parseAttrList();
                 auto id = parseId("Expected field name", true, true);
 
+                // TODO: Hint field name
                 skip(
                     TokenKind::Colon, true, true, false, std::make_unique<ParseErrSugg>(
-                        "Missing `:` to annotate `struct` " + id->getValue() + " type", cspan()
+                        "Missing `:` to annotate field type", cspan()
                     )
                 );
 
-                auto type = parseType("Expected type for " + id->getValue() + " after `:`");
+                // TODO: Hint field type
+                auto type = parseType("Expected type for field after `:`");
 
                 fields.emplace_back(
                     std::make_shared<ast::Field>(std::move(id), std::move(type), begin.to(cspan()))

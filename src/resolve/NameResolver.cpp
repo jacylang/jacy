@@ -281,7 +281,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 declare(
-                    std::static_pointer_cast<ast::GenericType>(typeParam)->name->getValue(),
+                    std::static_pointer_cast<ast::GenericType>(typeParam)->name->unwrapValue(),
                     Name::Kind::TypeParam,
                     typeParam->id
                 );
@@ -291,7 +291,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
                 declare(
-                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name->getValue(),
+                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name->unwrapValue(),
                     Name::Kind::Lifetime,
                     typeParam->id
                 );
@@ -301,7 +301,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(
-                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name->getValue(),
+                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name->unwrapValue(),
                     Name::Kind::ConstParam,
                     typeParam->id
                 );
