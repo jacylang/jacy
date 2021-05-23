@@ -477,9 +477,10 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto decl = parseItem();
-                if (decl) {
-                    return decl.unwrap("`parseStmt` -> `decl`");
+                auto item = parseItem();
+                if (item) {
+                    // FIXME
+//                    return std::mae
                 }
 
                 auto expr = parseOptExpr();

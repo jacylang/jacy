@@ -18,6 +18,7 @@ namespace jc::ast {
     // Statements //
     struct ExprStmt;
     struct ForStmt;
+    struct ItemStmt;
     struct VarStmt;
     struct WhileStmt;
 
@@ -83,6 +84,7 @@ namespace jc::ast {
         // Statements //
         virtual void visit(ExprStmt*) = 0;
         virtual void visit(ForStmt*) = 0;
+        virtual void visit(ItemStmt*) = 0;
         virtual void visit(VarStmt*) = 0;
         virtual void visit(WhileStmt*) = 0;
 
