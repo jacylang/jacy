@@ -350,8 +350,16 @@ namespace jc::resolve {
         return ribStack.at(d);
     }
 
-    void NameResolver::enterRib() {
-        ribStack.push_back(std::make_shared<Rib>());
+    void NameResolver::enterRib(Rib::Kind kind) {
+        rib_ptr newRib;
+        switch (kind) {
+            case Rib::Kind::Mod: {
+                newRib = std::make_shared<ModRib>();
+                break;
+            }
+        }
+
+        ribStack.push_back(std::move(newRib));
         depth++;
     }
 
