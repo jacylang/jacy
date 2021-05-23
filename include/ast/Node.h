@@ -12,6 +12,7 @@ namespace jc::ast {
     using span::Span;
     using node_ptr = std::shared_ptr<Node>;
     using node_id = uint32_t;
+    using opt_node_id = dt::Option<ast::node_id>;
 
     const node_id NONE_NODE_ID = UINT32_MAX;
 

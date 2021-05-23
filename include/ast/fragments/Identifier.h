@@ -34,8 +34,12 @@ namespace jc::ast {
             refersTo = reference;
         }
 
+        opt_node_id getReference() const {
+            return refersTo;
+        }
+
     private:
-        node_id refersTo;
+        opt_node_id refersTo;
     };
 }
 
