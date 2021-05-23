@@ -19,7 +19,7 @@ namespace jc::resolve {
 
         enterRib(); // -> (params rib)
         for (const auto & param : funcDecl->params) {
-            declare(param->name->getValue(), Name::Kind::Param, param->id);
+            declare(param->name->unwrapValue(), Name::Kind::Param, param->id);
         }
 
         if (funcDecl->oneLineBody) {
@@ -100,7 +100,8 @@ namespace jc::resolve {
         enterRib(); // -> (lambda params)
 
         for (const auto & param : lambdaExpr->params) {
-            param->name->accept(*this);
+            // TODO
+//            param->name->accept(*this);
             if (param->type) {
                 param->type.unwrap()->accept(*this);
             }
@@ -197,9 +198,6 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::TupleType * tupleType) {
         for (const auto & el : tupleType->elements) {
-            if (el->name) {
-                el->name.unwrap()->accept(*this);
-            }
             if (el->type) {
                 el->type.unwrap()->accept(*this);
             }
@@ -239,31 +237,26 @@ namespace jc::resolve {
         for (const auto & member : members) {
             std::string name;
             Name::Kind kind;
-            switch (member->stmt->kind) {
-                case ast::StmtKind::Func: {
-                    name = ast::Stmt::as<ast::FuncDecl>(member)->name->getValue();
+            switch (member->kind) {
+                case ast::ItemKind::Func: {
+                    name = std::static_pointer_cast<ast::FuncDecl>(member)->name->unwrapValue();
                     kind = Name::Kind::Func;
                 } break;
-                case ast::StmtKind::Enum: {
-                    name = ast::Stmt::as<ast::EnumDecl>(member)->name->getValue();
+                case ast::ItemKind::Enum: {
+                    name = std::static_pointer_cast<ast::EnumDecl>(member)->name->unwrapValue();
                     kind = Name::Kind::Enum;
                 } break;
-                case ast::StmtKind::Struct: {
-                    name = ast::Stmt::as<ast::Struct>(member)->name->getValue();
+                case ast::ItemKind::Struct: {
+                    name = std::static_pointer_cast<ast::Struct>(member)->name->unwrapValue();
                     kind = Name::Kind::Struct;
                 } break;
-                case ast::StmtKind::TypeAlias: {
-                    name = ast::Stmt::as<ast::TypeAlias>(member)->name->getValue();
+                case ast::ItemKind::TypeAlias: {
+                    name = std::static_pointer_cast<ast::TypeAlias>(member)->name->unwrapValue();
                     kind = Name::Kind::TypeAlias;
                 } break;
-                case ast::StmtKind::Trait: {
-                    name = ast::Stmt::as<ast::Trait>(member)->name->getValue();
+                case ast::ItemKind::Trait: {
+                    name = std::static_pointer_cast<ast::Trait>(member)->name->unwrapValue();
                     kind = Name::Kind::Trait;
-                } break;
-                case ast::StmtKind::VarDecl: {
-                    // Note: Here VarStmt is a field of item
-                    name = ast::Stmt::as<ast::VarStmt>(member)->name->getValue();
-                    kind = Name::Kind::Field;
                 } break;
                 default: continue;
             }

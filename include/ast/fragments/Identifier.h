@@ -22,6 +22,13 @@ namespace jc::ast {
             }
             return dt::None;
         }
+
+        std::string unwrapValue() const {
+            if (token) {
+                return token->val;
+            }
+            common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
+        }
     };
 }
 
