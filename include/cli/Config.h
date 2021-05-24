@@ -14,11 +14,6 @@ namespace jc::cli {
     using key_value_arg = std::pair<int, str_vec>; // Pair of count (-1 means any count) and values expected
 
     struct Config {
-        enum class Mode {
-            Repl,
-            Source,
-        } mode;
-
         // Allowed extensions for source files
         const static str_vec allowedExtensions;
 

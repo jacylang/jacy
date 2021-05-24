@@ -19,7 +19,6 @@ namespace jc::cli {
 
     const str_vec Config::anyParamKeyValueArgs = {};
 
-
     const std::map<std::string, std::string> Config::aliases = {};
 
     const std::map<std::string, str_vec> Config::argsDependencies = {
@@ -41,8 +40,11 @@ namespace jc::cli {
     }
 
     bool Config::has(const std::string & key, const std::string & value) const {
-        const auto & arg = keyValueArgs.at(key);
-        return std::find(arg.begin(), arg.end(), value) != arg.end();
+        const auto & arg = keyValueArgs.find(key);
+        if (arg == keyValueArgs.end()) {
+            return false;
+        }
+        return std::find(arg->second.begin(), arg->second.end(), value) != arg->second.end();
     }
 
     bool Config::specified(const std::string & argName) const {
