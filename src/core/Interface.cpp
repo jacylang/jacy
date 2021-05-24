@@ -6,4 +6,8 @@ namespace jc::core {
     void Interface::compile() {
 
     }
+
+    void Interface::scanSources() {
+        
+    }
 }

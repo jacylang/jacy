@@ -13,6 +13,7 @@ namespace jc::cli {
             inKeyValue = false;
         };
 
+        str_vec sourceFiles;
         for (int i = 0; i < argc; ++i) {
             const std::string arg(argv[i]);
 
@@ -29,7 +30,7 @@ namespace jc::cli {
             } else {
                 for (const auto & ext : Config::allowedExtensions) {
                     if (utils::str::endsWith(arg, "." + ext)) {
-                        config.sourceFiles.push_back(arg);
+                        sourceFiles.push_back(arg);
                     }
                 }
             }
@@ -141,8 +142,7 @@ namespace jc::cli {
 
             log.colorized(
                 common::Color::Magenta,
-                "Run jacy",
-                join(config.sourceFiles, " "),
+                "Run jacy " + config.rootFile + " ",
                 join(keys(config.boolArgs), " ", {}, {"--"}),
                 keyValueArgsStr);
         }
@@ -174,17 +174,18 @@ namespace jc::cli {
             throw CLIError(errorMsg);
         }
 
-        // Set config by args //
-        if (config.sourceFiles.empty()) {
-            config.mode = Config::Mode::Repl;
-        } else {
-            config.mode = Config::Mode::Source;
+        if (sourceFiles.size() > 1) {
+            throw CLIError("Multiple root files not allowed");
+        } else if (sourceFiles.empty()) {
+            throw CLIError("REPL Mode is not implemented, please, specify root file");
         }
+
+        config.rootFile = sourceFiles.at(0);
 
         // DEBUG
         log.debug("CLI Arguments:\n",
                   "\tBoolean arguments", config.boolArgs,
                   "\n\tKey-value arguments: ", config.keyValueArgs,
-                  "\n\tSource files: ", config.sourceFiles).nl();
+                  "\n\tRoot file: ", config.rootFile).nl();
     }
 }

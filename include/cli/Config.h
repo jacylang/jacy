@@ -52,11 +52,11 @@ namespace jc::cli {
         dt::Option<const str_vec&> getValues(const std::string & kvArgName) const;
         dt::Option<const std::string&> getSingleValue(const std::string & kvArgName) const;
 
-        const str_vec & getSourceFiles() const;
+        const std::string & getRootFile() const;
 
         std::map<std::string, bool> boolArgs;
         std::map<std::string, str_vec> keyValueArgs;
-        str_vec sourceFiles;
+        std::string rootFile;
     };
 }
 

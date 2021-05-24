@@ -15,7 +15,7 @@ namespace jc::core {
 
     void Jacy::runSource() {
         // TODO: Multiple files
-        const auto & mainFile = cli.config.getSourceFiles().at(0);
+        const auto & mainFile = cli.config.getRootFile().at(0);
         std::fstream file(mainFile);
 
         if (!file.is_open()) {

@@ -6,8 +6,6 @@
 #include "cli/Config.h"
 
 namespace jc::common {
-    using str_vec = std::vector<std::string>;
-
     class Config {
     public:
         Config();
@@ -53,11 +51,10 @@ namespace jc::common {
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
         bool checkDev() const;
-        const str_vec & getSource() const;
+        const std::string & getRootFile() const;
 
     private:
-        // Sources //
-        std::vector<std::string> sourceFiles;
+        std::string rootFile;
 
         // Key-value args //
         Mode mode{Mode::Source};

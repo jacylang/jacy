@@ -69,7 +69,7 @@ namespace jc::cli {
         return found->second.at(0);
     }
 
-    const str_vec & Config::getSourceFiles() const {
-        return sourceFiles;
+    const std::string & Config::getRootFile() const {
+        return rootFile;
     }
 }
