@@ -66,7 +66,7 @@ namespace jc::parser {
         Sub,                        // -
         Mul,                        // *
         Div,                        // /
-        Mod,                        // %
+        Rem,                        // %
         Power,                      // **
         Or,                         // ||
         And,                        // &&

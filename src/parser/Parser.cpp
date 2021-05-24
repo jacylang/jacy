@@ -219,7 +219,7 @@ namespace jc::parser {
                 return parseEnumDecl(std::move(attributes));
             case TokenKind::Type:
                 return parseTypeAlias(std::move(attributes));
-            case TokenKind::Mod:
+            case TokenKind::Rem:
                 return parseMod(std::move(attributes));
             case TokenKind::Struct:
                 return parseStruct(std::move(attributes));
@@ -945,7 +945,7 @@ namespace jc::parser {
         {0b1011, {TokenKind::Id}},
         {0b1011, {TokenKind::Range,  TokenKind::RangeEQ}},
         {0b1011, {TokenKind::Add,    TokenKind::Sub}},
-        {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
+        {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Rem}},
         {0b0111, {TokenKind::Power}}, // Note: Right-assoc
         {0b1011, {TokenKind::As}},
     };
