@@ -1,5 +1,7 @@
-func main {
+mod a {
+    func asd() {
 
+    }
 }
 
 func main {

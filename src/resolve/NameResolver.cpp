@@ -465,13 +465,13 @@ namespace jc::resolve {
         }
     }
 
-    std::string NameResolver::getNameByNodeId(node_id nameNodeId) {
-        const auto & idNode = std::dynamic_pointer_cast<ast::Identifier>(ast::Node::nodeMap.getNodePtr(nameNodeId));
-        if (!idNode) {
-            common::Logger::devPanic("Called `getNameByNodeId` with non-Identifier nameNodeId");
-        }
-        return idNode->unwrapValue();
-    }
+//    std::string NameResolver::getNameByNodeId(node_id nameNodeId) {
+//        const auto & idNode = std::dynamic_pointer_cast<ast::Identifier>(ast::Node::nodeMap.getNodePtr(nameNodeId));
+//        if (!idNode) {
+//            common::Logger::devPanic("Called `getNameByNodeId` with non-Identifier nameNodeId");
+//        }
+//        return idNode->unwrapValue();
+//    }
 
     // Suggestions //
     void NameResolver::suggest(sugg::sugg_ptr suggestion) {

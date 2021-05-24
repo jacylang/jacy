@@ -2,6 +2,7 @@
 #define JACY_AST_PARTY_H
 
 #include "ast/nodes.h"
+#include "ast/File.h"
 
 namespace jc::ast {
     class Party;
@@ -9,14 +10,10 @@ namespace jc::ast {
 
     class Party {
     public:
-        Party(item_list && items) : items(std::move(items)) {}
-
-        const item_list & getItems() const {
-            return items;
-        }
+        explicit Party(file_list files) : files(std::move(files)) {}
 
     private:
-        item_list items;
+        file_list files;
     };
 }
 
