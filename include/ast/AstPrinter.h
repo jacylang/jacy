@@ -30,6 +30,7 @@ namespace jc::ast {
         void visit(const Enum & enumDecl) override;
         void visit(const Func & funcDecl) override;
         void visit(const Impl & impl) override;
+        void visit(const Mod & mod) override;
         void visit(const Struct & _struct) override;
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
@@ -82,7 +83,7 @@ namespace jc::ast {
 
     private:
         common::Logger log{"ast_printer", {}};
-        AstPrinterMode mode;
+        AstPrinterMode mode{AstPrinterMode::Parsing};
 
         void printIndent() const;
         void print(const attr_list & attributes);

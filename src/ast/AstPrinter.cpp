@@ -131,6 +131,14 @@ namespace jc::ast {
         printMembers(impl.members);
     }
 
+    void AstPrinter::visit(const Mod & mod) {
+        printIndent();
+
+        log.raw("mod ");
+        printId(mod.name);
+        printMembers(mod.items);
+    }
+
     void AstPrinter::visit(const Struct & _struct) {
         printIndent();
 
