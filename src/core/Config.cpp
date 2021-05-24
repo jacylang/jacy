@@ -4,6 +4,9 @@ namespace jc::common {
     Config::Config() = default;
 
     void Config::applyCliConfig(const cli::Config & cliConfig) {
+        // Sources //
+        sourceFiles = cliConfig.getSourceFiles();
+
         // Apply key-value args //
 
         // `print`
@@ -56,5 +59,9 @@ namespace jc::common {
 
     bool Config::checkDev() const {
         return dev;
+    }
+
+    const str_vec & Config::getSource() const {
+        return sources;
     }
 }

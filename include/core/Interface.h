@@ -1,7 +1,6 @@
 #ifndef JACY_CORE_INTERFACE_H
 #define JACY_CORE_INTERFACE_H
 
-#include "cli/CLI.h"
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/AstPrinter.h"
@@ -26,7 +25,6 @@ namespace jc::core {
         // Members //
     private:
         common::Logger log{"Interface", {}};
-        cli::CLI cli;
 
         parser::Lexer lexer;
         parser::Parser parser;

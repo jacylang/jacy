@@ -10,6 +10,8 @@
 #include "common/Error.h"
 #include "utils/str.h"
 #include "core/Interface.h"
+#include "cli/CLI.h"
+#include "common/Config.h"
 
 namespace jc::core {
     class Jacy {
@@ -17,13 +19,11 @@ namespace jc::core {
         Jacy();
         ~Jacy() = default;
 
-        void run(int argc, const char ** argv);
-        void runRepl();
-        void runSource();
-        void runCode(const std::string & code);
+        void meow(int argc, const char ** argv);
 
     private:
         common::Logger log{"jacy", {}};
+        cli::CLI cli;
         Interface interface;
     };
 }

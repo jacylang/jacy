@@ -28,9 +28,14 @@ namespace jc::cli {
 
         void applyArgs(int argc, const char ** argv);
 
-        Config config{};
+        const Config & getConfig() const {
+            return config;
+        }
+
     private:
         common::Logger log{"cli", {}};
+
+        Config config{};
     };
 }
 

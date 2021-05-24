@@ -3,33 +3,13 @@
 namespace jc::core {
     Jacy::Jacy() = default;
 
-    void Jacy::run(int argc, const char ** argv) {
+    void Jacy::meow(int argc, const char ** argv) {
         try {
             cli.applyArgs(argc, argv);
+            common::Config::getInstance().applyCliConfig(cli.getConfig());
         } catch (common::Error & e) {
             log.error(e.message);
             return;
-        }
-
-        if (cli.config.mode == cli::Config::Mode::Repl) {
-            runRepl();
-        } else if (cli.config.mode == cli::Config::Mode::Source) {
-            runSource();
-        }
-    }
-
-    void Jacy::runRepl() {
-        std::string line;
-        while (!std::cin.eof()) {
-            log.raw("jc> ");
-            line.clear();
-            std::getline(std::cin, line);
-
-            try {
-                runCode(line);
-            } catch (common::Error & e) {
-                log.error(e.message);
-            }
         }
     }
 
