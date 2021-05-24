@@ -26,7 +26,6 @@ namespace jc::resolve {
             Func,
             Enum,
             TypeAlias,
-            Field,
             Param,
         } kind;
 
@@ -62,8 +61,6 @@ namespace jc::resolve {
                     return "`enum`";
                 case Kind::TypeAlias:
                     return "`type` alias";
-                case Kind::Field:
-                    return "field";
                 case Kind::Param:
                     return "`func` parameter";
             }
@@ -96,7 +93,6 @@ namespace jc::resolve {
             if (usage == Usage::Expr) {
                 switch (kind) {
                     case Kind::Const:
-                    case Kind::Field:
                     case Kind::Param:
                     case Kind::Local:
                     case Kind::ConstParam:
@@ -128,6 +124,7 @@ namespace jc::resolve {
         enum class Kind {
             Normal,
             Item,
+            Struct,
             Mod,
         } kind;
 
@@ -152,6 +149,13 @@ namespace jc::resolve {
         explicit ItemRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Item) {}
 
         node_id nameNodeId;
+    };
+
+    struct StructRib : Rib {
+        explicit StructRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Struct) {}
+
+        node_id nameNodeId;
+        std::vector<node_id> fields;
     };
 }
 

@@ -40,11 +40,11 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
-        enterItemRib(_struct.name->id); // -> (item rib)
+        auto structRib = std::make_shared<StructRib>(_struct.name->id);
+        enterRib(structRib); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
-            declare(field->name->unwrapValue(), Name::Kind::Field, field->id);
-            // TODO: Resolve field type
+            structRib->fields.push_back(field->name->id);
         }
 
         liftToDepth(prevDepth);
@@ -448,6 +448,14 @@ namespace jc::resolve {
         }
 
         id.setReference(resolved.unwrap());
+    }
+
+    std::string NameResolver::getNameByNodeId(node_id nameNodeId) {
+        const auto & idNode = std::dynamic_pointer_cast<ast::Identifier>(ast::Node::nodeMap.getNodePtr(nameNodeId));
+        if (!idNode) {
+            common::Logger::devPanic("Called `getNameByNodeId` with non-Identifier nameNodeId");
+        }
+        return idNode->unwrapValue();
     }
 
     // Suggestions //

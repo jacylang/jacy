@@ -30,12 +30,12 @@ namespace jc::ast {
         }
 
         const Node & getNode(node_id nodeId) const;
-
         const Span & getNodeSpan(node_id nodeId) const;
+        const node_ptr & getNodePtr(node_id nodeId) const;
 
     private:
         node_id currentNodeId{0};
-        std::map<node_id, Node*> nodes;
+        std::map<node_id, node_ptr> nodes;
     };
 
     struct Node {

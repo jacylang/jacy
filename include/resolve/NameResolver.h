@@ -94,6 +94,7 @@ namespace jc::resolve {
         // Resolution //
     private:
         void resolveId(ast::Identifier & id, Name::Usage usage);
+        std::string getNameByNodeId(node_id nameNodeId);
 
         // Suggestions //
     private:

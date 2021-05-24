@@ -10,4 +10,8 @@ namespace jc::ast {
     const Span & NodeMap::getNodeSpan(node_id nodeId) const {
         return getNode(nodeId).span;
     }
+
+    const node_ptr & NodeMap::getNodePtr(node_id nodeId) const {
+        return nodes.at(nodeId);
+    }
 }
