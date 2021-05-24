@@ -11,9 +11,9 @@ namespace jc::ast {
 
     enum class ItemKind {
         Enum,
-        Field,
         Func,
         Impl,
+        Mod,
         Struct,
         Trait,
         TypeAlias,

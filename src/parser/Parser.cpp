@@ -501,8 +501,9 @@ namespace jc::parser {
 
         auto name = parseId("Expected `mod` name", true, true);
         auto items = parseItemList("Unexpected expression in `mod`");
-        
-        // TODO
+
+
+//        return std::make_shared<ast::Mod>()
     }
 
     ////////////////
