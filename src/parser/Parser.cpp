@@ -502,7 +502,24 @@ namespace jc::parser {
         justSkip(TokenKind::Mod, true, "`mod`", "`parseMod`");
 
         auto name = parseId("Expected `mod` name", true, true);
+
+        skip(
+            TokenKind::LBrace,
+            true,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>("Expected opening `{` for `mod` body", cspan())
+        );
+
         auto items = parseItemList("Unexpected expression in `mod`");
+
+        skip(
+            TokenKind::RBrace,
+            true,
+            true,
+            false,
+            std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+        );
 
         return std::make_shared<ast::Mod>(
             std::move(attributes), std::move(name), std::move(items), begin.to(cspan())
