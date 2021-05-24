@@ -9,15 +9,7 @@
 
 #include "common/Error.h"
 #include "utils/str.h"
-#include "parser/Lexer.h"
-#include "parser/Parser.h"
-#include "ast/AstPrinter.h"
-#include "cli/CLI.h"
-#include "session/SourceMap.h"
-#include "suggest/SuggDumper.h"
-#include "suggest/Suggester.h"
-#include "ast/Linter.h"
-#include "resolve/NameResolver.h"
+#include "core/Interface.h"
 
 namespace jc::core {
     class Jacy {
@@ -32,13 +24,7 @@ namespace jc::core {
 
     private:
         common::Logger log{"jacy", {}};
-        cli::CLI cli;
-
-        parser::Lexer lexer;
-        parser::Parser parser;
-        ast::AstPrinter astPrinter;
-        ast::Linter linter;
-        resolve::NameResolver nameResolver;
+        Interface interface;
     };
 }
 
