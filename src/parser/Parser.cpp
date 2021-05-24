@@ -492,6 +492,19 @@ namespace jc::parser {
         );
     }
 
+    ast::item_ptr Parser::parseMod(ast::attr_list attributes) {
+        logParse("Mod");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Mod, true, "`mod`", "`parseMod`");
+
+        auto name = parseId("Expected `mod` name", true, true);
+        auto items = parseItemList("Unexpected expression in `mod`");
+        
+        // TODO
+    }
+
     ////////////////
     // Statements //
     ////////////////
