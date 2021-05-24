@@ -34,6 +34,8 @@ namespace jc::ast {
     // Statements //
     ////////////////
     void Linter::visit(const ast::Enum & enumDecl) {
+        // TODO: lint attributes
+
         Logger::notImplemented("Linter::visit enumDecl");
 
         pushContext(LinterContext::Struct);
@@ -61,6 +63,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(const ast::Func & funcDecl) {
+        // TODO: lint attributes
+
         for (const auto & modifier : funcDecl.modifiers) {
             if (!isInside(LinterContext::Struct)) {
                 switch (modifier.kind) {
@@ -109,6 +113,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(const ast::Impl & impl) {
+        // TODO: lint attributes
+
         if (impl.typeParams) {
             lintTypeParams(impl.typeParams.unwrap());
         }
@@ -121,7 +127,16 @@ namespace jc::ast {
         popContext();
     }
 
+    void Linter::visit(const ast::Mod & mod) {
+        // TODO: lint attributes
+
+        lintId(mod.name);
+        lintMembers(mod.items);
+    }
+
     void Linter::visit(const ast::Struct & _struct) {
+        // TODO: lint attributes
+
         lintId(_struct.name);
 
         if (_struct.typeParams) {
@@ -134,6 +149,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(const ast::Trait & trait) {
+        // TODO: lint attributes
+
         lintId(trait.name);
 
         if (trait.typeParams) {
@@ -150,6 +167,8 @@ namespace jc::ast {
     }
 
     void Linter::visit(const ast::TypeAlias & typeAlias) {
+        // TODO: lint attributes
+
         lintId(typeAlias.name);
         typeAlias.type->accept(*this);
     }

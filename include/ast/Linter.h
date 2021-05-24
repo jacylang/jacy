@@ -37,6 +37,7 @@ namespace jc::ast {
         void visit(const ast::Enum & enumDecl) override;
         void visit(const ast::Func & funcDecl) override;
         void visit(const ast::Impl & impl) override;
+        void visit(const ast::Mod & mod) override;
         void visit(const ast::Struct & _struct) override;
         void visit(const ast::Trait & trait) override;
         void visit(const ast::TypeAlias & typeAlias) override;
