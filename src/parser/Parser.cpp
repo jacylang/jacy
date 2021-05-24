@@ -219,6 +219,8 @@ namespace jc::parser {
                 return parseEnumDecl(std::move(attributes));
             case TokenKind::Type:
                 return parseTypeAlias(std::move(attributes));
+            case TokenKind::Mod:
+                return parseMod(std::move(attributes));
             case TokenKind::Struct:
                 return parseStruct(std::move(attributes));
             case TokenKind::Impl:
@@ -502,8 +504,9 @@ namespace jc::parser {
         auto name = parseId("Expected `mod` name", true, true);
         auto items = parseItemList("Unexpected expression in `mod`");
 
-
-//        return std::make_shared<ast::Mod>()
+        return std::make_shared<ast::Mod>(
+            std::move(attributes), std::move(name), std::move(items), begin.to(cspan())
+        );
     }
 
     ////////////////

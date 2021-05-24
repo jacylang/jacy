@@ -40,6 +40,7 @@
 #include "ast/item/Func.h"
 #include "ast/item/Impl.h"
 #include "ast/item/Item.h"
+#include "ast/item/Mod.h"
 #include "ast/item/Struct.h"
 #include "ast/item/Trait.h"
 #include "ast/item/TypeAlias.h"
