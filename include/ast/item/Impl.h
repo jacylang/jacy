@@ -24,7 +24,6 @@ namespace jc::ast {
         type_ptr forType;
         item_list members;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }

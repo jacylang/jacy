@@ -11,6 +11,7 @@ namespace jc::ast {
     struct Enum;
     struct Func;
     struct Impl;
+    struct Mod;
     struct Struct;
     struct Trait;
     struct TypeAlias;
@@ -76,6 +77,7 @@ namespace jc::ast {
         virtual void visit(Enum&) = 0;
         virtual void visit(Func&) = 0;
         virtual void visit(Impl&) = 0;
+        virtual void visit(Mod&) = 0;
         virtual void visit(Struct&) = 0;
         virtual void visit(Trait&) = 0;
         virtual void visit(TypeAlias&) = 0;
