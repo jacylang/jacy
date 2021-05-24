@@ -81,7 +81,7 @@ namespace jc::resolve {
         uint32_t getDepth() const;
         rib_ptr curRib() const;
         opt_rib ribAt(size_t ribDepth) const;
-        void enterRib();
+        void enterNormalRib();
         void enterItemRib(node_id nameNodeId);
         void enterRib(const rib_ptr & nestedRib);
         void exitRib();
@@ -94,6 +94,7 @@ namespace jc::resolve {
         // Resolution //
     private:
         void resolveId(ast::Identifier & id, Name::Usage usage);
+        void resolvePath(bool global, const ast::id_t_list & segments);
         std::string getNameByNodeId(node_id nameNodeId);
 
         // Suggestions //

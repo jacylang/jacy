@@ -35,7 +35,7 @@ namespace jc::resolve {
             Lifetime,
         };
 
-        node_id nodeId;
+        node_id nodeId; // Syntax-unit nodeId
 
         Name(Kind kind, node_id nodeId) : kind(kind), nodeId(nodeId) {}
 
@@ -138,13 +138,13 @@ namespace jc::resolve {
     };
 
     struct ModRib : Rib {
-        ModRib(node_id nameNodeId, const span::Span & span)
-            : nameNodeId(nameNodeId), span(span), Rib(Kind::Mod) {}
+        ModRib(const std::string & name, const span::Span & span)
+            : name(name), span(span), Rib(Kind::Mod) {}
 
-        node_id nameNodeId;
+        std::string name;
         span::Span span;
     };
-    
+
     struct ItemRib : Rib {
         explicit ItemRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Item) {}
 
@@ -155,7 +155,7 @@ namespace jc::resolve {
         explicit StructRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Struct) {}
 
         node_id nameNodeId;
-        std::vector<node_id> fields;
+        std::map<std::string, node_id> fields; // {fieldName: Field node}
     };
 }
 
