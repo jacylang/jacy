@@ -13,13 +13,15 @@ namespace jc::common {
 
         void applyCliConfig(const cli::Config & cliConfig);
 
-    private:
+        // Enums //
         enum class Mode {
             Repl,
             Source,
-        } mode {Mode::Source};
+        };
 
-        enum class Print {
+        enum class PrintKind {
+            None,
+
             Ast,
             Tokens,
             Suggestions,
@@ -27,14 +29,25 @@ namespace jc::common {
             Names,
         };
 
-        std::set<Print> print;
-
         enum class CompileDepth {
+            Full,
+
             Lexer,
             Parser,
             Linter,
             NameResolution,
         };
+
+        // Checkers //
+        bool checkMode(Mode mode) const;
+        bool checkPrint(PrintKind printKind) const;
+        bool checkDev() const;
+
+    private:
+        // Key-value args //
+        Mode mode{Mode::Source};
+        std::set<PrintKind> print;
+        CompileDepth compileDepth{CompileDepth::Full};
 
         // Bool args //
         bool dev{false};

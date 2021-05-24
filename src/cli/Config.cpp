@@ -25,7 +25,6 @@ namespace jc::cli {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
     };
 
-
     const std::map<std::string, bool> Config::defaultBoolArgs = {
         {"dev", false},
     };
@@ -51,6 +50,24 @@ namespace jc::cli {
         return is(argName) or keyValueArgs.find(argName) != keyValueArgs.end();
     }
 
+    dt::Option<const str_vec&> Config::getValues(const std::string & kvArgName) const {
+        const auto & found = keyValueArgs.find(kvArgName);
+        if (found == keyValueArgs.end()) {
+            return dt::None;
+        }
+        return found->second;
+    }
+
+    dt::Option<const std::string&> Config::getSingleValue(const std::string & kvArgName) const {
+        const auto & found = keyValueArgs.find(kvArgName);
+        if (found == keyValueArgs.end() or found->second.empty()) {
+            return dt::None;
+        }
+        if (found->second.size() > 1) {
+            common::Logger::devPanic("Unexpected count for key-value cli argument '" + kvArgName + "', more than 1");
+        }
+        return found->second.at(0);
+    }
 
     const str_vec & Config::getSourceFiles() const {
         return sourceFiles;
