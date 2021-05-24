@@ -42,6 +42,10 @@ namespace jc::ast {
         visit("impl");
     }
 
+    void StubVisitor::visit(ast::Mod & mod) {
+        visit("mod");
+    }
+
     void StubVisitor::visit(ast::Struct & _struct) {
         visit("_struct");
     }
