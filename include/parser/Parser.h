@@ -85,7 +85,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::item_list> parse(sess::sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::party_ptr> parse(sess::sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -93,7 +93,7 @@ namespace jc::parser {
         token_list tokens;
         size_t index{0};
 
-        ast::item_list tree;
+        ast::party_ptr party;
 
         Token peek() const;
         Token advance(uint8_t distance = 1);
