@@ -19,6 +19,7 @@ namespace jc::parser {
         {"infix",    TokenKind::Infix},
         {"init",     TokenKind::Init},
         {"loop",     TokenKind::Loop},
+        {"mod",      TokenKind::Mod},
         {"move",     TokenKind::Move},
         {"mut",      TokenKind::Mut},
         {"return",   TokenKind::Return},
