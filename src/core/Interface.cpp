@@ -6,22 +6,18 @@ namespace jc::core {
     void Interface::compile() {
         init();
 
-
+        parse();
     }
 
     void Interface::init() {
         sess = std::make_shared<sess::Session>();
     }
 
-    void Interface::scanSources() {
-        // Hard-coded single file
-        // FIXME
-        const auto & rootFile = common::Config::getInstance().getRootFile();
-    }
-
-    void Interface::buildSourceMap() {
+    // Parsing //
+    void Interface::parse() {
         for (const auto & path : filesToCompile) {
             auto fileId = sess->sourceMap.addSource(path);
+            auto parseSess = std::make_shared<parser::ParseSess>(fileId);
 
             std::fstream file(path);
 
@@ -34,9 +30,17 @@ namespace jc::core {
             std::string data = ss.str();
             file.close();
 
-            auto lexerResult = std::move(lexer.lex(data));
-            filesTokenStreams.emplace_back(std::move(lexerResult.tokens));
+            auto lexerResult = std::move(lexer.lex(parseSess, data));
             sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
+
+            const auto & fileTokens = std::move(lexerResult.tokens);
+
         }
+    }
+
+    void Interface::scanSources() {
+        // Hard-coded single file
+        // FIXME
+        const auto & rootFile = common::Config::getInstance().getRootFile();
     }
 }

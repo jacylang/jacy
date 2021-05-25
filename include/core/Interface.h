@@ -15,6 +15,7 @@
 #include "ast/Linter.h"
 #include "resolve/NameResolver.h"
 #include "common/Config.h"
+#include "ast/Party.h"
 
 namespace jc::core {
     class Interface {
@@ -32,9 +33,6 @@ namespace jc::core {
         std::vector<std::string> filesToCompile;
         void scanSources();
 
-        std::vector<parser::token_list> filesTokenStreams;
-        void buildSourceMap();
-
         // Parsing //
     private:
         parser::parse_sess_ptr parseSess;
@@ -42,6 +40,9 @@ namespace jc::core {
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Linter linter;
+        ast::Party party;
+
+        void parse();
 
     private:
         common::Logger log{"Interface", {}};
