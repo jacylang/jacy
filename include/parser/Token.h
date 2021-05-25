@@ -136,6 +136,7 @@ namespace jc::parser {
         Move,
         Mut,
         Return,
+        Party,
         Pri,
         Pub,
         Static,

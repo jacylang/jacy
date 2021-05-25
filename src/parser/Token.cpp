@@ -25,6 +25,7 @@ namespace jc::parser {
         {"move",     TokenKind::Move},
         {"mut",      TokenKind::Mut},
         {"return",   TokenKind::Return},
+        {"party",    TokenKind::Party},
         {"pri",      TokenKind::Pri},
         {"pub",      TokenKind::Pub},
         {"static",   TokenKind::Static},
