@@ -13,11 +13,11 @@ namespace jc::sess {
         while (sources.find(fileId) != sources.end()) {
             fileId = rand();
         }
-        sources.emplace(fileId, source_t{});
+        sources.emplace(fileId, source_lines{});
         return fileId;
     }
 
-    void SourceMap::setSource(sess_ptr sess, source_t && source) {
+    void SourceMap::setSource(sess_ptr sess, source_lines && source) {
         if (sources.find(sess->fileId) == sources.end()) {
             common::Logger::devPanic(
                 "No source found by fileId",
@@ -29,7 +29,7 @@ namespace jc::sess {
         common::Logger::devDebug("Set source by fileId:", sess->fileId);
     }
 
-    const source_t & SourceMap::getSource(sess_ptr sess) const {
+    const source_lines & SourceMap::getSource(sess_ptr sess) const {
         if (sources.find(sess->fileId) == sources.end()) {
             common::Logger::devPanic("No source found by fileId", sess->fileId, "in `SourceMap::getSource`");
         }

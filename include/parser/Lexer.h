@@ -9,7 +9,7 @@
 namespace jc::parser {
     struct LexerResult {
         token_list tokens;
-        sess::source_t sourceLines;
+        sess::source_lines sourceLines;
     };
 
     // TODO: Suggestions instead of errors
@@ -80,7 +80,7 @@ namespace jc::parser {
         void unexpectedEof();
 
         // Session //
-        sess::source_t sourceLines;
+        sess::source_lines sourceLines;
         std::string line;
     };
 }

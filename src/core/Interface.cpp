@@ -12,16 +12,27 @@ namespace jc::core {
     }
 
     void Interface::scanSources() {
+        // Hard-coded single file
+        // FIXME
         const auto & rootFile = common::Config::getInstance().getRootFile();
-        std::fstream file(rootFile);
+    }
 
-        if (!file.is_open()) {
-            throw common::FileNotFound(rootFile);
+    void Interface::buildSourceMap() {
+        for (const auto & path : filesToCompile) {
+            std::fstream file(path);
+
+            if (!file.is_open()) {
+                throw common::FileNotFound(path);
+            }
+
+            std::stringstream ss;
+            ss << file.rdbuf();
+            std::string data = ss.str();
+            file.close();
+
+            auto lexerResult = std::move(lexer.lex(data));
+
+            filesTokenStreams.emplace_back(std::move(lexerResult.tokens));
         }
-
-        std::stringstream ss;
-        ss << file.rdbuf();
-        std::string source = ss.str();
-        file.close();
     }
 }

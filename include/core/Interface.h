@@ -29,7 +29,11 @@ namespace jc::core {
 
         // Sources //
     private:
+        std::vector<std::string> filesToCompile;
         void scanSources();
+
+        std::vector<parser::token_list> filesTokenStreams;
+        void buildSourceMap();
 
         // Members //
     private:

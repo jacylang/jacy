@@ -14,16 +14,16 @@ namespace jc::sess {
     struct Session;
     using sess_ptr = std::shared_ptr<Session>;
     using file_id_t = uint16_t;
-    using source_t = std::vector<std::string>;
+    using source_lines = std::vector<std::string>;
 
     struct SourceMap {
         SourceMap() = default;
 
-        std::map<file_id_t, source_t> sources;
+        std::map<file_id_t, source_lines> sources;
 
         file_id_t addSource();
-        void setSource(sess_ptr sess, source_t && source);
-        const source_t & getSource(sess_ptr sess) const;
+        void setSource(sess_ptr sess, source_lines && source);
+        const source_lines & getSource(sess_ptr sess) const;
         uint32_t getLinesCount(sess_ptr sess) const;
 
         std::string getLine(sess_ptr sess, size_t index) const;
@@ -32,8 +32,6 @@ namespace jc::sess {
     };
 
     struct Session {
-        explicit Session(file_id_t fileId) : fileId(fileId) {}
-
         SourceMap sourceMap;
     };
 }
