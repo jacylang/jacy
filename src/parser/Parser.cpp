@@ -196,9 +196,9 @@ namespace jc::parser {
         this->sess = sess;
         this->tokens = tokens;
 
-        tree = parseItemList("Unexpected expression on top-level");
+        file->items = parseItemList("Unexpected expression on top-level");
 
-        return {tree, std::move(suggestions)};
+        return {file, std::move(suggestions)};
     }
 
     ///////////

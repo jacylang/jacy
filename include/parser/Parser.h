@@ -5,14 +5,15 @@
 #include <functional>
 
 #include "common/Logger.h"
-#include "Token.h"
-#include "common/Error.h"
+#include "parser/Token.h"
 #include "parser/ParserSugg.h"
 #include "session/Session.h"
 #include "suggest/Suggester.h"
+#include "ast/File.h"
+#include "ast/nodes.h"
+
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
-#include "ast/File.h"
 
 /**
  * # Some notes about parser
@@ -41,12 +42,6 @@
  */
 
 namespace jc::parser {
-    struct ParseSess {
-        explicit ParseSess(sess::file_id_t fileId) : fileId(fileId) {}
-
-        sess::file_id_t fileId;
-    };
-
     // Note: Usage
     //  0b00001111 - `0` are unused
     //  0. --

@@ -519,11 +519,10 @@ namespace jc::parser {
 
     //
 
-    token_list Lexer::lex(sess::sess_ptr sess, const std::string & source) {
+    LexerResult Lexer::lex(std::string source) {
         log.dev("Tokenize...");
 
-        this->source = source;
-        this->sess = sess;
+        this->source = std::move(source);
 
         while (!eof()) {
             tokenLoc = {lexerLine, lexerCol};
@@ -549,11 +548,8 @@ namespace jc::parser {
         // Add last line, cause it ends with `EOF`
         sourceLines.push_back(line);
 
-        sess::SourceMap::getInstance().setSource(sess, std::move(sourceLines));
-
-        return tokens;
+        return std::move(LexerResult{tokens, sourceLines});
     }
-
 
     void Lexer::error(const std::string & msg) {
         throw LexerError(msg);

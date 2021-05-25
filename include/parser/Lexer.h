@@ -7,6 +7,12 @@
 #include "session/SourceMap.h"
 
 namespace jc::parser {
+    struct LexerResult {
+        token_list tokens;
+        sess::source_t sourceLines;
+    };
+
+    // TODO: Suggestions instead of errors
     struct LexerError : common::Error {
         explicit LexerError(const std::string & msg) : Error(msg) {}
     };
@@ -16,12 +22,13 @@ namespace jc::parser {
         Lexer() = default;
         virtual ~Lexer() = default;
 
-        token_list lex(sess::sess_ptr sess, const std::string & source);
+        LexerResult lex(std::string source);
 
     private:
         common::Logger log{"lexer", {}};
 
         std::string source;
+        token_list tokens;
 
         // Lexer current position
         uint64_t index{0};
@@ -39,7 +46,6 @@ namespace jc::parser {
         void addToken(Token && t, span::span_len_t len);
         void addToken(TokenKind kind, const std::string & val);
         void addToken(TokenKind kind, span::span_len_t len);
-        token_list tokens;
 
         // Checkers
         bool eof();
@@ -74,7 +80,6 @@ namespace jc::parser {
         void unexpectedEof();
 
         // Session //
-        sess::sess_ptr sess;
         sess::source_t sourceLines;
         std::string line;
     };
