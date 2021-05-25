@@ -1,0 +1,4 @@
+#ifndef JACY_UTILS_RANDOM_H
+#define JACY_UTILS_RANDOM_H
+
+#endif //JACY_UTILS_RANDOM_H

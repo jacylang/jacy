@@ -19,6 +19,8 @@ namespace jc::core {
 
     void Interface::buildSourceMap() {
         for (const auto & path : filesToCompile) {
+            auto fileId = sess->sourceMap.addSource();
+
             std::fstream file(path);
 
             if (!file.is_open()) {
@@ -31,8 +33,8 @@ namespace jc::core {
             file.close();
 
             auto lexerResult = std::move(lexer.lex(data));
-
             filesTokenStreams.emplace_back(std::move(lexerResult.tokens));
+            sess->sourceMap
         }
     }
 }
