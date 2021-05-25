@@ -4,6 +4,9 @@
 #include "session/Session.h"
 
 namespace jc::parser {
+    struct ParseSess;
+    using parse_sess_ptr = std::shared_ptr<ParseSess>;
+
     struct ParseSess {
         explicit ParseSess(sess::file_id_t fileId) : fileId(fileId) {}
 

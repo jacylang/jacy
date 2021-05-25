@@ -35,15 +35,18 @@ namespace jc::core {
         std::vector<parser::token_list> filesTokenStreams;
         void buildSourceMap();
 
-        // Members //
+        // Parsing //
     private:
-        common::Logger log{"Interface", {}};
-
-        sess::sess_ptr sess;
+        parser::parse_sess_ptr parseSess;
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Linter linter;
+
+    private:
+        common::Logger log{"Interface", {}};
+
+        sess::sess_ptr sess;
         resolve::NameResolver nameResolver;
     };
 }

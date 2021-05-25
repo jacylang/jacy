@@ -4,6 +4,8 @@ namespace jc::core {
     Interface::Interface() = default;
 
     void Interface::compile() {
+        init();
+
 
     }
 
@@ -34,7 +36,7 @@ namespace jc::core {
 
             auto lexerResult = std::move(lexer.lex(data));
             filesTokenStreams.emplace_back(std::move(lexerResult.tokens));
-            sess->sourceMap
+            sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
         }
     }
 }

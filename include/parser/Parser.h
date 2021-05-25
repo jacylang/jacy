@@ -7,7 +7,7 @@
 #include "common/Logger.h"
 #include "parser/Token.h"
 #include "parser/ParserSugg.h"
-#include "session/Session.h"
+#include "parser/ParseSess.h"
 #include "suggest/Suggester.h"
 #include "ast/File.h"
 #include "ast/nodes.h"

@@ -9,8 +9,8 @@
 
 #include "utils/arr.h"
 #include "span/Span.h"
-#include "session/Session.h"
 #include "data_types/Option.h"
+#include "parser/ParseSess.h"
 
 /**
  * WWS means Without whitespace
@@ -21,20 +21,6 @@ namespace jc::parser {
     struct Token;
     using token_list = std::vector<Token>;
     using opt_token = dt::Option<Token>;
-
-    struct Location {
-        uint32_t line;
-        uint32_t col;
-        uint16_t len;
-
-        span::Span span(sess::sess_ptr sess) const {
-            return {line, col, len, sess->fileId};
-        }
-
-        std::string toString() const {
-            return std::to_string(line + 1) + ":" + std::to_string(col + 1) + " L=" + std::to_string(len);
-        }
-    };
 
     enum class TokenKind : uint8_t {
         Eof,
