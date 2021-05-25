@@ -14,18 +14,6 @@ namespace jc::core {
     }
 
     void Jacy::runSource() {
-        // TODO: Multiple files
-        const auto & mainFile = cli.config.getRootFile().at(0);
-        std::fstream file(mainFile);
-
-        if (!file.is_open()) {
-            throw common::FileNotFound(mainFile);
-        }
-
-        std::stringstream ss;
-        ss << file.rdbuf();
-        std::string source = ss.str();
-        file.close();
 
         try {
             runCode(source);
