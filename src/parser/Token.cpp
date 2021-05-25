@@ -38,6 +38,7 @@ namespace jc::parser {
         {"val",      TokenKind::Val},
         {"var",      TokenKind::Var},
         {"when",     TokenKind::When},
+        {"where",    TokenKind::Where},
         {"while",    TokenKind::While},
     };
 

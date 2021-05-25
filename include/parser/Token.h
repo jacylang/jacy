@@ -149,6 +149,7 @@ namespace jc::parser {
         Val,
         Var,
         When,
+        Where,
         While,
 
         None,
