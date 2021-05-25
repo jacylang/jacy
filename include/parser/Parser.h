@@ -6,7 +6,6 @@
 
 #include "common/Logger.h"
 #include "Token.h"
-#include "ast/Party.h"
 #include "common/common.h"
 #include "common/Error.h"
 #include "parser/ParserSugg.h"
@@ -14,6 +13,7 @@
 #include "suggest/Suggester.h"
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
+#include "ast/File.h"
 
 /**
  * # Some notes about parser
@@ -42,17 +42,8 @@
  */
 
 namespace jc::parser {
-    struct ParserError : common::Error {
-        explicit ParserError(const std::string & msg) : Error(msg) {}
-    };
-
-    struct ExpectedError : ParserError {
-        ExpectedError(const std::string & expected, const std::string & given)
-            : ParserError("Expected " + expected + ", " + given + " given") {}
-    };
-
-    struct UnexpectedTokenError : ParserError {
-        explicit UnexpectedTokenError(const std::string & token) : ParserError("Unexpected token " + token) {}
+    struct ParseSess {
+        explicit Session(file_id_t fileId) : fileId(fileId) {}
     };
 
     // Note: Usage
@@ -85,7 +76,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::party_ptr> parse(sess::sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::file_ptr> parse(sess::sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -93,7 +84,7 @@ namespace jc::parser {
         token_list tokens;
         size_t index{0};
 
-        ast::party_ptr party;
+        ast::file_ptr file;
 
         Token peek() const;
         Token advance(uint8_t distance = 1);

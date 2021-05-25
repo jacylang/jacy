@@ -190,7 +190,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<ast::party_ptr> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
+    dt::SuggResult<ast::file_ptr> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
         this->sess = sess;

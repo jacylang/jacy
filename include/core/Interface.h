@@ -24,6 +24,9 @@ namespace jc::core {
 
         void compile();
 
+    private:
+        void init();
+
         // Sources //
     private:
         void scanSources();
@@ -32,6 +35,7 @@ namespace jc::core {
     private:
         common::Logger log{"Interface", {}};
 
+        sess::sess_ptr sess;
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;

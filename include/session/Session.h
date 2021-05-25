@@ -34,7 +34,6 @@ namespace jc::sess {
     struct Session {
         explicit Session(file_id_t fileId) : fileId(fileId) {}
 
-        file_id_t fileId;
         SourceMap sourceMap;
     };
 }

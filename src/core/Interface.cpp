@@ -4,9 +4,11 @@ namespace jc::core {
     Interface::Interface() = default;
 
     void Interface::compile() {
-        scanSources();
 
+    }
 
+    void Interface::init() {
+        sess = std::make_shared<sess::Session>();
     }
 
     void Interface::scanSources() {
