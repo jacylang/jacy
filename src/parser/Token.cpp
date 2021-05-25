@@ -3,6 +3,8 @@
 namespace jc::parser {
     const std::map<std::string, TokenKind> Token::keywords = {
         {"as",       TokenKind::As},
+        {"async",    TokenKind::Async},
+        {"await",    TokenKind::Await},
         {"break",    TokenKind::Break},
         {"const",    TokenKind::Const},
         {"continue", TokenKind::Continue},

@@ -114,6 +114,8 @@ namespace jc::parser {
 
         // Keywords //
         As,
+        Async,
+        Await,
         Break,
         Const,
         Continue,
