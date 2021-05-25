@@ -6,7 +6,7 @@ namespace jc::parser {
             .len = len,
             .line = tokenLoc.line,
             .col = tokenLoc.col,
-            .fileId = sess.fileId,
+            .fileId = parseSess->fileId,
         };
         tokens.emplace_back(t);
     }
@@ -39,10 +39,10 @@ namespace jc::parser {
             if (isNL()) {
                 sourceLines.push_back(line);
                 line = "";
-                lexerLine++;
-                lexerCol = 0;
+                loc.line++;
+                loc.col = 0;
             } else {
-                lexerCol++;
+                loc.col++;
             }
             index++;
         }
@@ -523,13 +523,14 @@ namespace jc::parser {
 
     //
 
-    LexerResult Lexer::lex(std::string source) {
+    LexerResult Lexer::lex(parse_sess_ptr parseSess, std::string source) {
         log.dev("Tokenize...");
 
+        this->parseSess = parseSess;
         this->source = std::move(source);
 
         while (!eof()) {
-            tokenLoc = {lexerLine, lexerCol};
+            tokenLoc = loc;
             if (hidden()) {
                 advance();
             } else if (isNL()) {
@@ -546,7 +547,7 @@ namespace jc::parser {
             }
         }
 
-        tokenLoc = {lexerLine, lexerCol};
+        tokenLoc = loc;
         addToken(TokenKind::Eof, 1);
 
         // Add last line, cause it ends with `EOF`

@@ -4,7 +4,7 @@
 #include "Token.h"
 #include "common/Error.h"
 #include "common/Logger.h"
-#include "session/SourceMap.h"
+#include "parser/ParseSess.h"
 
 namespace jc::parser {
     struct LexerResult {
@@ -22,7 +22,7 @@ namespace jc::parser {
         Lexer() = default;
         virtual ~Lexer() = default;
 
-        LexerResult lex(std::string source);
+        LexerResult lex(parse_sess_ptr parseSess, std::string source);
 
     private:
         common::Logger log{"lexer", {}};
@@ -32,8 +32,7 @@ namespace jc::parser {
 
         // Lexer current position
         uint64_t index{0};
-        uint32_t lexerLine{0};
-        uint32_t lexerCol{0};
+        Location loc;
 
         // Token start position
         Location tokenLoc{};
@@ -79,7 +78,7 @@ namespace jc::parser {
         void unexpectedTokenError();
         void unexpectedEof();
 
-        // Session //
+        parse_sess_ptr parseSess;
         sess::source_lines sourceLines;
         std::string line;
     };
