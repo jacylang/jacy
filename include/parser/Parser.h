@@ -6,7 +6,6 @@
 
 #include "common/Logger.h"
 #include "Token.h"
-#include "common/common.h"
 #include "common/Error.h"
 #include "parser/ParserSugg.h"
 #include "session/Session.h"
@@ -43,7 +42,9 @@
 
 namespace jc::parser {
     struct ParseSess {
-        explicit Session(file_id_t fileId) : fileId(fileId) {}
+        explicit ParseSess(sess::file_id_t fileId) : fileId(fileId) {}
+
+        sess::file_id_t fileId;
     };
 
     // Note: Usage
