@@ -29,6 +29,7 @@ namespace jc::parser {
         {"pub",      TokenKind::Pub},
         {"static",   TokenKind::Static},
         {"struct",   TokenKind::Struct},
+        {"super",    TokenKind::Super},
         {"this",     TokenKind::This},
         {"trait",    TokenKind::Trait},
         {"true",     TokenKind::True},

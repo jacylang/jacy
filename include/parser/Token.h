@@ -140,6 +140,7 @@ namespace jc::parser {
         Pub,
         Static,
         Struct,
+        Super,
         This,
         Trait,
         True,
