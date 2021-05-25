@@ -66,7 +66,7 @@ namespace jc::parser {
         Sub,                        // -
         Mul,                        // *
         Div,                        // /
-        Rem,                        // %
+        Mod,                        // %
         Power,                      // **
         Or,                         // ||
         And,                        // &&
@@ -130,7 +130,7 @@ namespace jc::parser {
         NotIn,
         Infix,
         Loop,
-        Mod,
+        Module,
         Move,
         Mut,
         Return,

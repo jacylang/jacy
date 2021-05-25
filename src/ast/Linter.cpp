@@ -313,7 +313,7 @@ namespace jc::ast {
             case parser::TokenKind::Sub:
             case parser::TokenKind::Mul:
             case parser::TokenKind::Div:
-            case parser::TokenKind::Rem:
+            case parser::TokenKind::Mod:
             case parser::TokenKind::Power:
             case parser::TokenKind::As: {
 
