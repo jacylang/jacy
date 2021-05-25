@@ -2,22 +2,12 @@
 
 namespace jc::sess {
     file_id_t SourceMap::addSource(const std::string & path) {
-        // TODO!: Hash-generated `fileId`
-        const auto & rand = []() {
-            std::random_device dev;
-            std::mt19937 rng(dev());
-            std::uniform_int_distribution<std::mt19937::result_type> range(1, UINT16_MAX);
-            return range(rng);
-        };
-        file_id_t fileId = rand();
-        while (sources.find(fileId) != sources.end()) {
-            fileId = rand();
-        }
+        file_id_t fileId = utils::hash::hash(path);
         sources.emplace(fileId, Source{dt::None, path});
         return fileId;
     }
 
-    void SourceMap::setSource(file_id_t fileId, source_lines && source) {
+    void SourceMap::setSourceLines(file_id_t fileId, source_lines && sourceLines) {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic(
                 "No source found by fileId",
@@ -25,27 +15,27 @@ namespace jc::sess {
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        sources[fileId] = std::move(source);
+        sources[fileId].sourceLines = sourceLines;
         common::Logger::devDebug("Set source by fileId:", fileId);
     }
 
-    const source_lines & SourceMap::getSource(file_id_t fileId) const {
+    const Source & SourceMap::getSource(file_id_t fileId) const {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic("No source found by fileId", fileId, "in `SourceMap::getSource`");
         }
         return sources.at(fileId);
     }
 
-    uint32_t SourceMap::getLinesCount(file_id_t fileId) const {
-        return getSource(fileId).size();
+    size_t SourceMap::getLinesCount(file_id_t fileId) const {
+        return getSource(fileId).sourceLines.unwrap().size();
     }
 
     std::string SourceMap::getLine(file_id_t fileId, size_t index) const {
-        const auto & source = getSource(fileId);
-        if (source.size() <= index) {
+        const auto & sourceLines = getSource(fileId).sourceLines.unwrap();
+        if (sourceLines.size() <= index) {
             common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
-        return source.at(index);
+        return sourceLines.at(index);
     }
 
     std::string SourceMap::sliceBySpan(file_id_t fileId, const span::Span & span) {
@@ -58,13 +48,14 @@ namespace jc::sess {
             common::Logger::devPanic("Got invalid fileId in SourceMap::sliceBySpan: ", span.fileId);
         }
 
-        if (span.line >= sourceIt->second.size()) {
+        const auto & sourceLines = sourceIt->second.sourceLines.unwrap();
+        if (span.line >= sourceLines.size()) {
             common::Logger::devPanic(
                 "Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line),
-                "File lines count:", sourceIt->second.size());
+                "File lines count:", sourceLines.size());
         }
 
-        const auto & line = sourceIt->second.at(span.line);
+        const auto & line = sourceLines.at(span.line);
         return line.substr(span.col, span.len);
     }
 }

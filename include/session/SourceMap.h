@@ -7,9 +7,10 @@
 
 #include "parser/Token.h"
 #include "utils/map.h"
+#include "utils/hash.h"
 
 namespace jc::sess {
-    using file_id_t = uint16_t;
+    using file_id_t = size_t;
     using source_lines = std::vector<std::string>;
 
     struct Source {
@@ -20,16 +21,17 @@ namespace jc::sess {
     struct SourceMap {
         SourceMap() = default;
 
-        std::map<file_id_t, Source> sources;
-
         file_id_t addSource(const std::string & path);
-        void setSource(file_id_t , Source && source);
+        void setSourceLines(file_id_t fileId, source_lines && sourceLines);
         const Source & getSource(file_id_t) const;
-        uint32_t getLinesCount(file_id_t) const;
+        size_t getLinesCount(file_id_t) const;
 
         std::string getLine(file_id_t, size_t index) const;
 
         std::string sliceBySpan(file_id_t, const span::Span & span);
+
+    private:
+        std::map<file_id_t, Source> sources;
     };
 }
 

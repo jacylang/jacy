@@ -19,7 +19,7 @@ namespace jc::core {
 
     void Interface::buildSourceMap() {
         for (const auto & path : filesToCompile) {
-            auto fileId = sess->sourceMap.addSource();
+            auto fileId = sess->sourceMap.addSource(path);
 
             std::fstream file(path);
 
