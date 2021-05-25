@@ -167,8 +167,6 @@ namespace jc::parser {
         bool isAssignOp() const;
         bool isLiteral() const;
 
-        span::Span span(sess::sess_ptr sess) const;
-
         std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);
         static std::string kindToString(const Token & token);
