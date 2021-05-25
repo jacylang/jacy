@@ -1,4 +1,4 @@
-#include "session/SourceMap.h"
+#include "session/Session.h"
 
 namespace jc::sess {
     file_id_t SourceMap::addSource() {

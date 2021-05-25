@@ -10,7 +10,6 @@
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/AstPrinter.h"
-#include "session/SourceMap.h"
 #include "suggest/SuggDumper.h"
 #include "suggest/Suggester.h"
 #include "ast/Linter.h"
