@@ -2,8 +2,12 @@
 
 namespace jc::parser {
     void Lexer::addToken(Token && t, span::span_len_t len) {
-        tokenLoc.len = len;
-        t.loc = tokenLoc;
+        t.span = span::Span {
+            .len = len,
+            .line = tokenLoc.line,
+            .col = tokenLoc.col,
+            .fileId = sess.fileId,
+        };
         tokens.emplace_back(t);
     }
 

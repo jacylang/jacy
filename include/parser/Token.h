@@ -22,6 +22,11 @@ namespace jc::parser {
     using token_list = std::vector<Token>;
     using opt_token = dt::Option<Token>;
 
+    const Location {
+        uint32_t line;
+        uint32_t col;
+    };
+
     enum class TokenKind : uint8_t {
         Eof,
         Nl,
@@ -148,15 +153,14 @@ namespace jc::parser {
         Token(
             TokenKind kind,
             std::string val,
-            const Location & loc
+            const Span & span
         ) : kind(kind),
             val(std::move(val)),
-            loc(loc) {}
+            span(span) {}
 
         TokenKind kind{TokenKind::None};
         std::string val{""};
-
-        Location loc{};
+        span::Span span;
 
         static const std::map<std::string, TokenKind> keywords;
         static const std::map<TokenKind, std::string> tokenKindStrings;
