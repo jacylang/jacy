@@ -31,6 +31,7 @@ namespace jc::parser {
         {"trait",    TokenKind::Trait},
         {"true",     TokenKind::True},
         {"type",     TokenKind::Type},
+        {"unsafe",   TokenKind::Unsafe},
         {"val",      TokenKind::Val},
         {"var",      TokenKind::Var},
         {"when",     TokenKind::When},

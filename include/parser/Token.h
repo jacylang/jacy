@@ -142,6 +142,7 @@ namespace jc::parser {
         Trait,
         True,
         Type,
+        Unsafe,
         Val,
         Var,
         When,
