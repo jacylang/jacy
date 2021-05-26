@@ -8,8 +8,10 @@
 
 namespace jc::span {
     using span_len_t = uint16_t;
+    using file_id_t = size_t;
+
     struct Span {
-        Span(uint32_t line, uint32_t col, span_len_t len, uint16_t fileId)
+        Span(uint32_t line, uint32_t col, span_len_t len, file_id_t fileId)
             : line(line), col(col), len(len), fileId(fileId) {}
 
         span_len_t len; // not in use

@@ -20,11 +20,8 @@ namespace jc::dt {
         Option() : hasValue(false) {}
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
-        Option(nullptr_t) {
-            common::Logger::devPanic("Initialization of `Option` with nullptr");
-        }
 
-        T & unwrap(const std::string & msg = "") const {
+        const T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }

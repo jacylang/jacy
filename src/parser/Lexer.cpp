@@ -2,21 +2,21 @@
 
 namespace jc::parser {
     void Lexer::addToken(Token && t, span::span_len_t len) {
-        t.span = span::Span {
-            .len = len,
-            .line = tokenLoc.line,
-            .col = tokenLoc.col,
-            .fileId = parseSess->fileId,
-        };
+        t.span = span::Span(
+            tokenLoc.line,
+            tokenLoc.col,
+            len,
+            parseSess->fileId
+        );
         tokens.emplace_back(t);
     }
 
     void Lexer::addToken(TokenKind kind, const std::string & val) {
-        addToken(Token(kind, val, tokenLoc), val.size());
+        addToken(Token(kind, val), val.size());
     }
 
     void Lexer::addToken(TokenKind kind, span::span_len_t len) {
-        addToken(Token(kind, "", tokenLoc), len);
+        addToken(Token(kind, ""), len);
     }
 
     char Lexer::peek() {

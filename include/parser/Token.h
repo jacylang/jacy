@@ -22,7 +22,7 @@ namespace jc::parser {
     using token_list = std::vector<Token>;
     using opt_token = dt::Option<Token>;
 
-    const Location {
+    struct Location {
         uint32_t line;
         uint32_t col;
     };
@@ -155,8 +155,7 @@ namespace jc::parser {
         Token() = default;
         Token(
             TokenKind kind,
-            std::string val,
-            const Span & span
+            std::string val
         ) : kind(kind),
             val(std::move(val)),
             span(span) {}

@@ -10,7 +10,6 @@
 #include "utils/hash.h"
 
 namespace jc::sess {
-    using file_id_t = size_t;
     using source_lines = std::vector<std::string>;
 
     struct Source {
