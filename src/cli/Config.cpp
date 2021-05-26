@@ -50,7 +50,7 @@ namespace jc::cli {
         return is(argName) or keyValueArgs.find(argName) != keyValueArgs.end();
     }
 
-    dt::Option<const str_vec&> Config::getValues(const std::string & kvArgName) const {
+    dt::Option<str_vec> Config::getValues(const std::string & kvArgName) const {
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end()) {
             return dt::None;
@@ -58,7 +58,7 @@ namespace jc::cli {
         return found->second;
     }
 
-    dt::Option<const std::string&> Config::getSingleValue(const std::string & kvArgName) const {
+    dt::Option<std::string> Config::getSingleValue(const std::string & kvArgName) const {
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end() or found->second.empty()) {
             return dt::None;

@@ -49,8 +49,8 @@ namespace jc::cli {
         // Check if key-value argument is specified or bool-arg is true
         bool specified(const std::string & argName) const;
 
-        dt::Option<const str_vec&> getValues(const std::string & kvArgName) const;
-        dt::Option<const std::string&> getSingleValue(const std::string & kvArgName) const;
+        dt::Option<str_vec> getValues(const std::string & kvArgName) const;
+        dt::Option<std::string> getSingleValue(const std::string & kvArgName) const;
 
         const std::string & getRootFile() const;
 
