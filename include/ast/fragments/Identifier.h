@@ -18,14 +18,14 @@ namespace jc::ast {
 
         dt::Option<std::string> getValue() const {
             if (token) {
-                return token->val;
+                return token.unwrap().val;
             }
             return dt::None;
         }
 
         std::string unwrapValue() const {
             if (token) {
-                return token->val;
+                return token.unwrap().val;
             }
             common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
         }

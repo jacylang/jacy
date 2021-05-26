@@ -64,19 +64,19 @@ namespace jc::dt {
             return *this;
         }
 
-        const T * operator->() const {
-            if (none()) {
-                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
-            }
-            return &value;
-        }
-
-        T * operator->() {
-            if (none()) {
-                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
-            }
-            return &value;
-        }
+//        const T * operator->() const {
+//            if (none()) {
+//                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
+//            }
+//            return &value;
+//        }
+//
+//        T * operator->() {
+//            if (none()) {
+//                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
+//            }
+//            return &value;
+//        }
 
         const T & operator*() const {
             if (none()) {
