@@ -15,55 +15,89 @@
 namespace jc::utils::fs {
     struct Entry;
     using entry_ptr = std::shared_ptr<Entry>;
+    using entry_list = std::vector<entry_ptr>;
+    namespace std_fs = std::filesystem;
 
     struct Entry {
-        Entry(std::string name, std::vector<entry_ptr> && files)
-            : isDir(true), name(std::move(name)), content(std::move(files)) {}
+        Entry(std_fs::path path, entry_list && files)
+            : dir(true), path(std::move(path)), content(std::move(files)) {}
 
-        Entry(std::string name, std::uintmax_t size, std::string content)
-            : isDir(false), name(std::move(name)), size(size), content(std::move(content)) {}
+        Entry(std_fs::path path, std::uintmax_t size, std::string content)
+            : dir(false), path(std::move(path)), size(size), content(std::move(content)) {}
+
+        bool isDir() const {
+            return dir;
+        }
+
+        std_fs::path getPath() const {
+            return path;
+        }
 
         const std::string & getContent() const {
             return std::get<std::string>(content);
         }
 
-        const std::vector<entry_ptr> & getFiles() const {
-            return std::get<std::vector<entry_ptr>>(content);
+        const entry_list & getEntries() const {
+            return std::get<entry_list>(content);
         }
 
     private:
-        bool isDir;
-        std::string name;
+        bool dir;
+        std_fs::path path;
         dt::Option<std::uintmax_t> size;
-        std::variant<std::vector<entry_ptr>, std::string> content;
+        std::variant<entry_list, std::string> content;
     };
 
-    std::vector<entry_ptr> readDirMap(const std::filesystem::path & path, const std::string & allowedExt = "") {
-        std::vector<entry_ptr> entries;
-        for (const auto & entry : std::filesystem::directory_iterator(path)) {
-            const auto & entryPath = entry.path();
+    /**
+     * @brief Check if path exists relatively to current dir
+     * @param path
+     * @return
+     */
+    bool exists(const std_fs::path & path) {
+        return std_fs::exists(std_fs::relative(path));
+    }
+
+    entry_ptr readfile(const std_fs::path & path) {
+        if (not fs::exists(path)) {
+            common::Logger::devPanic("Called `fs::readfile` with non-existent file");
+        }
+
+        const auto & entry = std_fs::directory_entry(path);
+        std::fstream file(path);
+
+        if (!file.is_open()) {
+            common::Logger::devPanic("File " + path.string() + " not found");
+        }
+
+        std::stringstream ss;
+        ss << file.rdbuf();
+        auto data = ss.str();
+        file.close();
+
+        return std::make_shared<Entry>(path.string(), entry.file_size(), std::move(data));
+    }
+
+    entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt = "") {
+        entry_list entries;
+        for (const auto & entry : std_fs::directory_iterator(path)) {
+            const auto & entryPath = std_fs::relative(entry.path());
             if (entry.is_directory()) {
                 entries.emplace_back(
-                    std::make_shared<Entry>(entryPath.filename().string(), std::move(readDirMap(entryPath)))
+                    std::make_shared<Entry>(entryPath.string(), std::move(readdirRecEntries(entryPath)))
                 );
             } else if (entry.is_regular_file()) {
-                std::fstream file(entryPath);
-
-                if (!file.is_open()) {
-                    common::Logger::devPanic("File " + path.string() + " not found");
+                if (entryPath.extension() != allowedExt) {
+                    continue;
                 }
 
-                std::stringstream ss;
-                ss << file.rdbuf();
-                auto data = ss.str();
-                file.close();
-
-                entries.emplace_back(
-                    std::make_shared<Entry>(entryPath.filename().string(), entry.file_size(), std::move(data))
-                );
+                entries.emplace_back(readfile(entryPath));
             }
         }
         return std::move(entries);
+    }
+
+    entry_ptr readDirRec(const std_fs::path & path, const std::string & allowedExt = "") {
+        return std::make_shared<Entry>(path, readdirRecEntries(path, allowedExt));
     }
 }
 

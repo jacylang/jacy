@@ -16,6 +16,7 @@
 #include "resolve/NameResolver.h"
 #include "common/Config.h"
 #include "ast/Party.h"
+#include "utils/fs.h"
 
 namespace jc::core {
     class Interface {
@@ -28,20 +29,17 @@ namespace jc::core {
     private:
         void init();
 
-        // Sources //
-    private:
-        void scanSources();
-
         // Parsing //
     private:
-        parser::parse_sess_ptr parseSess;
         parser::Lexer lexer;
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Linter linter;
-        ast::Party party;
+        ast::party_ptr party;
 
         void parse();
+        ast::dir_module_ptr parseDir(const utils::fs::entry_ptr & dir, const std::string & ignore = "");
+        ast::file_module_ptr parseFile(const utils::fs::entry_ptr & file);
 
     private:
         common::Logger log{"Interface", {}};

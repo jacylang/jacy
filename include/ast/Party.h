@@ -6,14 +6,54 @@
 
 namespace jc::ast {
     class Party;
-    using party_ptr = std::shared_ptr<Party>;
+    struct Module;
+    struct FileModule;
+    struct DirModule;
+    struct RootModule;
+    using party_ptr = std::unique_ptr<Party>;
+    using module_ptr = std::unique_ptr<Module>;
+    using module_list = std::vector<module_ptr>;
+    using file_module_ptr = std::unique_ptr<FileModule>;
+    using dir_module_ptr = std::unique_ptr<DirModule>;
+    using root_module_ptr = std::unique_ptr<RootModule>;
+
+    struct Module {
+        enum class Kind {
+            File,
+            Dir,
+            Root,
+        } kind;
+
+        explicit Module(Kind kind) : kind(kind) {}
+    };
+
+    struct FileModule : Module {
+        explicit FileModule(file_ptr && file) : file(std::move(file)), Module(Module::Kind::File) {}
+
+        file_ptr file;
+    };
+
+    struct DirModule : Module {
+        explicit DirModule(std::vector<module_ptr> && nestedModules)
+            : nestedModules(std::move(nestedModules)), Module(Module::Kind::Dir) {}
+
+        std::vector<module_ptr> nestedModules;
+    };
+
+    struct RootModule : Module {
+        RootModule(file_module_ptr && file, dir_module_ptr && nestedModules)
+            : file(std::move(file)), nestedModules(std::move(nestedModules)), Module(Module::Kind::Root) {}
+
+        file_module_ptr file;
+        dir_module_ptr nestedModules;
+    };
 
     class Party {
     public:
-        explicit Party(file_list files) : files(std::move(files)) {}
+        explicit Party(root_module_ptr && rootModule) : rootModule(std::move(rootModule)) {}
 
     private:
-        file_list files;
+        root_module_ptr rootModule;
     };
 }
 
