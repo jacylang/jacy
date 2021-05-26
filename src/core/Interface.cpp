@@ -35,12 +35,13 @@ namespace jc::core {
 
             const auto & fileTokens = std::move(lexerResult.tokens);
 
+            // TODO: Build files tree
         }
     }
 
     void Interface::scanSources() {
-        // Hard-coded single file
-        // FIXME
         const auto & rootFile = common::Config::getInstance().getRootFile();
+        std::string rootDirPath = rootFile.substr(0, rootFile.find_last_of("/\\"));
+        
     }
 }
