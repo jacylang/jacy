@@ -23,6 +23,15 @@ namespace jc::utils::fs {
         Entry(std::string name, std::uintmax_t size, std::string content)
             : isDir(false), name(std::move(name)), size(size), content(std::move(content)) {}
 
+        const std::string & getContent() const {
+            return std::get<std::string>(content);
+        }
+
+        const std::vector<entry_ptr> & getFiles() const {
+            return std::get<std::vector<entry_ptr>>(content);
+        }
+
+    private:
         bool isDir;
         std::string name;
         dt::Option<std::uintmax_t> size;
