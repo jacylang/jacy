@@ -75,7 +75,7 @@ namespace jc::parser {
     // Skippers //
     bool Parser::skipNLs(bool optional) {
         if (not peek().is(TokenKind::Nl) and !optional) {
-            suggestErrorMsg("Expected new-line", peek().span(sess));
+            suggestErrorMsg("Expected new-line", peek().span);
         }
 
         bool gotNL = false;
@@ -89,7 +89,7 @@ namespace jc::parser {
     void Parser::skipSemis(bool optional, bool useless) {
         // TODO: Useless semi sugg
         if (!isSemis() and !optional) {
-            suggestErrorMsg("`;` or new-line expected", prev().span(sess));
+            suggestErrorMsg("`;` or new-line expected", prev().span);
             return;
         }
         while (isSemis()) {
@@ -239,7 +239,7 @@ namespace jc::parser {
 
         if (!modifiers.empty()) {
             for (const auto & modif : modifiers) {
-                suggestErrorMsg("Unexpected modifier", modif.span(sess));
+                suggestErrorMsg("Unexpected modifier", modif.span);
             }
         }
 
@@ -264,7 +264,7 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (expr) {
                     // FIXME!: Use RangeSugg
-                    suggestErrorMsg(gotExprSugg, exprToken.span(sess));
+                    suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
                 // If expr is `None` we already made an error in `primary`
             }
@@ -300,14 +300,14 @@ namespace jc::parser {
             typeAnnotated = true;
         } else if (skipOpt(TokenKind::Arrow, true)) {
             suggestErrorMsg(
-                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span(sess)
+                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
             );
         }
 
         const auto & returnTypeToken = peek();
         auto returnType = parseOptType();
         if (typeAnnotated and !returnType) {
-            suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span(sess)));
+            suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
         ast::opt_block_ptr body;
@@ -728,9 +728,9 @@ namespace jc::parser {
         }
 
         if (nonsense) {
-            suggestErrorMsg("Unexpected token " + token.toString(), token.span(sess));
+            suggestErrorMsg("Unexpected token " + token.toString(), token.span);
         } else {
-            suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span(sess));
+            suggestErrorMsg("Unexpected " + construction + " when expression expected", token.span);
         }
 
         advance();
@@ -834,7 +834,7 @@ namespace jc::parser {
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
             auto checkedLhs = errorForNone(
-                lhs, "Unexpected empty left-hand side in assignment", maybeAssignOp.span(sess)
+                lhs, "Unexpected empty left-hand side in assignment", maybeAssignOp.span
             );
 
             advance();
@@ -1048,7 +1048,7 @@ namespace jc::parser {
                 }
                 skip(
                     TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
-                        "Missing closing `]` in array expression", cspan(), "Opening `[` is here", maybeOp.span(sess)
+                        "Missing closing `]` in array expression", cspan(), "Opening `[` is here", maybeOp.span
                     )
                 );
 
@@ -1170,7 +1170,7 @@ namespace jc::parser {
         if (!is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span(sess)
+                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
                 );
             } else {
                 common::Logger::devPanic("parsePathExpr -> !id -> !global");
@@ -1252,7 +1252,7 @@ namespace jc::parser {
                     std::make_shared<ast::SpreadExpr>(
                         maybeSpreadOp,
                         std::move(parseExpr("Expected expression after spread operator `...` in list expression")),
-                        maybeSpreadOp.span(sess).to(cspan())
+                        maybeSpreadOp.span.to(cspan())
                     )
                 );
             } else {
@@ -1317,10 +1317,10 @@ namespace jc::parser {
                             std::make_shared<ast::PathExprSeg>(
                                 std::move(identifier),
                                 typeParams,
-                                exprToken.span(sess).to(cspan())
+                                exprToken.span.to(cspan())
                             )
                         },
-                        exprToken.span(sess).to(cspan())
+                        exprToken.span.to(cspan())
                     );
                 }
             } else {
@@ -1329,7 +1329,7 @@ namespace jc::parser {
 
             namedList.push_back(
                 std::make_shared<ast::NamedElement>(
-                    std::move(name), std::move(value), exprToken.span(sess).to(cspan())
+                    std::move(name), std::move(value), exprToken.span.to(cspan())
                 )
             );
         }
@@ -1358,18 +1358,18 @@ namespace jc::parser {
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenKind::DoubleArrow, true)) {
             if (arrow == BlockArrow::NotAllowed) {
-                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span(sess));
+                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
             } else if (arrow == BlockArrow::Useless) {
-                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span(sess));
+                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span);
             }
             allowOneLine = true;
 
             if (arrow == BlockArrow::Just) {
-                suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span(sess));
+                suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span);
             }
 
         } else if (arrow == BlockArrow::Require) {
-            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span(sess));
+            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span);
             allowOneLine = true;
         } else if (arrow == BlockArrow::Useless) {
             // Allow one-line even if no `=>` given for optional
@@ -1390,7 +1390,7 @@ namespace jc::parser {
         if (brace) {
             // Suggest to remove useless `=>` if brace given in case unambiguous case
             if (maybeDoubleArrow.is(TokenKind::DoubleArrow) and arrow == BlockArrow::Allow) {
-                suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span(sess));
+                suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span);
             }
 
             bool first = true;
@@ -1411,7 +1411,7 @@ namespace jc::parser {
                     "Missing closing `}` at the end of " + construction + " body",
                     cspan(),
                     "opening `{` is here",
-                    maybeBraceToken.span(sess)
+                    maybeBraceToken.span
                 )
             );
             emitVirtualSemi();
@@ -1452,7 +1452,7 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `if` expression");
 
         if (condition->is(ast::ExprKind::Paren)) {
-            suggestWarnMsg("Unnecessary parentheses", maybeParen.span(sess));
+            suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
         }
 
         // Check if user ignored `if` branch using `;` or parse body
@@ -1470,7 +1470,7 @@ namespace jc::parser {
                 // Note: cover case when user writes `if {} else;`
                 suggest(
                     std::make_unique<ParseErrSugg>(
-                        "Ignoring `else` body with `;` is not allowed", maybeSemi.span(sess)
+                        "Ignoring `else` body with `;` is not allowed", maybeSemi.span
                     )
                 );
             }
@@ -1680,10 +1680,10 @@ namespace jc::parser {
                             std::make_shared<ast::PathExprSeg>(
                                 std::move(identifier),
                                 typeParams,
-                                exprToken.span(sess).to(cspan())
+                                exprToken.span.to(cspan())
                             )
                         },
-                        exprToken.span(sess).to(cspan())
+                        exprToken.span.to(cspan())
                     );
                 }
             } else {
@@ -1692,7 +1692,7 @@ namespace jc::parser {
 
             namedList.emplace_back(
                 std::make_shared<ast::NamedElement>(
-                    std::move(name), std::move(value), exprToken.span(sess).to(cspan())
+                    std::move(name), std::move(value), exprToken.span.to(cspan())
                 )
             );
         }
@@ -1758,9 +1758,9 @@ namespace jc::parser {
         skip(
             TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
                 "Missing closing `)` after `func` parameter list",
-                lookup().span(sess),
+                lookup().span,
                 "`func` parameter list starts here",
-                maybeParenToken.span(sess)
+                maybeParenToken.span
             )
         );
 
@@ -1943,7 +1943,7 @@ namespace jc::parser {
         }
         skip(
             TokenKind::RParen, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `)` in tuple type", cspan(), "Opening `(` is here", lParenToken.span(sess)
+                "Missing closing `)` in tuple type", cspan(), "Opening `(` is here", lParenToken.span
             )
         );
 
@@ -2073,7 +2073,7 @@ namespace jc::parser {
         }
         skip(
             TokenKind::RAngle, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
-                "Missing closing `>` in type parameter list", cspan(), "Opening `<` is here", lAngleToken.span(sess)
+                "Missing closing `>` in type parameter list", cspan(), "Opening `<` is here", lAngleToken.span
             )
         );
 
@@ -2101,7 +2101,7 @@ namespace jc::parser {
         if (!is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span(sess)
+                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
                 );
             }
             return dt::None;
@@ -2130,7 +2130,7 @@ namespace jc::parser {
         }
 
         return std::make_shared<ast::TypePath>(
-            global, std::move(segments), maybePathToken.span(sess).to(cspan())
+            global, std::move(segments), maybePathToken.span.to(cspan())
         );
     }
 
@@ -2156,14 +2156,14 @@ namespace jc::parser {
     }
 
     Span Parser::cspan() const {
-        return peek().span(sess);
+        return peek().span;
     }
 
     Span Parser::nspan() const {
         if (eof()) {
             log.devPanic("Called `nspan` after EOF");
         }
-        return lookup().span(sess);
+        return lookup().span;
     }
 
     // DEBUG //
