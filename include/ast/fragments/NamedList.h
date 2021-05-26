@@ -1,7 +1,7 @@
 #ifndef JACY_AST_FRAGMENTS_NAMEDLIST_H
 #define JACY_AST_FRAGMENTS_NAMEDLIST_H
 
-#include "Identifier.h"
+#include "ast/fragments/Identifier.h"
 
 namespace jc::ast {
     struct NamedElement;
@@ -11,11 +11,11 @@ namespace jc::ast {
     using named_list_ptr = std::shared_ptr<NamedList>;
 
     struct NamedElement : Node {
-        NamedElement(dt::Option<id_ptr> name, dt::Option<expr_ptr> value, const Span & span)
+        NamedElement(opt_id_ptr name, opt_expr_ptr value, const Span & span)
             : name(std::move(name)), value(std::move(value)), Node(span) {}
 
-        dt::Option<id_ptr> name;
-        dt::Option<expr_ptr> value;
+        opt_id_ptr name;
+        opt_expr_ptr value;
     };
 
     struct NamedList : Node {

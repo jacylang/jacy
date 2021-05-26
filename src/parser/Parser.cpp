@@ -276,7 +276,7 @@ namespace jc::parser {
         logParse("Enum");
     }
 
-    ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, const parser::token_list && modifiers) {
+    ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers) {
         logParse("Func");
 
         const auto & begin = cspan();
@@ -1328,9 +1328,7 @@ namespace jc::parser {
             }
 
             namedList.push_back(
-                std::make_shared<ast::NamedElement>(
-                    std::move(name), std::move(value), exprToken.span.to(cspan())
-                )
+                std::make_shared<ast::NamedElement>(std::move(name), std::move(value), exprToken.span.to(cspan()))
             );
         }
         skip(
@@ -1339,7 +1337,7 @@ namespace jc::parser {
 
         if (namedList.size() == 1 and not namedList.at(0)->name and namedList.at(0)->value) {
             return std::make_shared<ast::ParenExpr>(
-                namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"), begin.to(cspan())
+                std::move(namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`")), begin.to(cspan())
             );
         }
 

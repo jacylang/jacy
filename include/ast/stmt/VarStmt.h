@@ -2,7 +2,6 @@
 #define JACY_AST_STMT_VARSTMT_H
 
 #include "ast/stmt/Stmt.h"
-#include "common/common.h"
 #include "ast/fragments/Identifier.h"
 #include "ast/fragments/Type.h"
 

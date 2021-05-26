@@ -24,7 +24,7 @@ namespace jc::dt {
             common::Logger::devPanic("Initialization of `Option` with nullptr");
         }
 
-        const T & unwrap(const std::string & msg = "") const {
+        T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
@@ -67,19 +67,19 @@ namespace jc::dt {
             return *this;
         }
 
-//        const T * operator->() const {
-//            if (none()) {
-//                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
-//            }
-//            return &value;
-//        }
+        const T * operator->() const {
+            if (none()) {
+                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
+            }
+            return &value;
+        }
 
-//        T * operator->() {
-//            if (none()) {
-//                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
-//            }
-//            return &value;
-//        }
+        T * operator->() {
+            if (none()) {
+                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
+            }
+            return &value;
+        }
 
         const T & operator*() const {
             if (none()) {

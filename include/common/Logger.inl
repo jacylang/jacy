@@ -31,6 +31,7 @@ std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
 
 std::ostream & operator<<(std::ostream & os, Color color) {
     os << Logger::colors.at(color);
+    return os;
 }
 
 template<class ...Args>

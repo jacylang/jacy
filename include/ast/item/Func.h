@@ -37,7 +37,6 @@ namespace jc::ast {
         opt_block_ptr body;
         opt_expr_ptr oneLineBody;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }
