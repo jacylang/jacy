@@ -8,6 +8,7 @@ namespace jc::parser {
         {"break",    TokenKind::Break},
         {"const",    TokenKind::Const},
         {"continue", TokenKind::Continue},
+        {"do",       TokenKind::Do},
         {"elif",     TokenKind::Elif},
         {"else",     TokenKind::Else},
         {"enum",     TokenKind::Enum},

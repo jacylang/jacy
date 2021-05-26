@@ -110,6 +110,7 @@ namespace jc::parser {
         Break,
         Const,
         Continue,
+        Do,
         Elif,
         Else,
         Enum,
