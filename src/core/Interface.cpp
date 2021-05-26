@@ -16,19 +16,6 @@ namespace jc::core {
     // Parsing //
     void Interface::parse() {
         for (const auto & path : filesToCompile) {
-            auto fileId = sess->sourceMap.addSource(path);
-            auto parseSess = std::make_shared<parser::ParseSess>(fileId);
-
-            std::fstream file(path);
-
-            if (!file.is_open()) {
-                throw common::FileNotFound(path);
-            }
-
-            std::stringstream ss;
-            ss << file.rdbuf();
-            std::string data = ss.str();
-            file.close();
 
             auto lexerResult = std::move(lexer.lex(parseSess, data));
             sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));

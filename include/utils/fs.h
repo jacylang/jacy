@@ -29,13 +29,13 @@ namespace jc::utils::fs {
         std::variant<std::vector<entry_ptr>, std::string> content;
     };
 
-    std::vector<entry_ptr> readdirContents(const std::filesystem::path & path, const std::string & allowedExt = "") {
+    std::vector<entry_ptr> readDirMap(const std::filesystem::path & path, const std::string & allowedExt = "") {
         std::vector<entry_ptr> entries;
         for (const auto & entry : std::filesystem::directory_iterator(path)) {
             const auto & entryPath = entry.path();
             if (entry.is_directory()) {
                 entries.emplace_back(
-                    std::make_shared<Entry>(entryPath.filename().string(), std::move(readdirContents(entryPath)))
+                    std::make_shared<Entry>(entryPath.filename().string(), std::move(readDirMap(entryPath)))
                 );
             } else if (entry.is_regular_file()) {
                 std::fstream file(entryPath);
