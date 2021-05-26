@@ -190,7 +190,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<ast::file_ptr> Parser::parse(sess::sess_ptr sess, const token_list & tokens) {
+    dt::SuggResult<ast::file_ptr> Parser::parse(parse_sess_ptr sess, const token_list & tokens) {
         log.dev("Parse...");
 
         this->sess = sess;
@@ -227,6 +227,7 @@ namespace jc::parser {
                 return parseImpl(std::move(attributes));
             case TokenKind::Trait:
                 return parseTrait(std::move(attributes));
+            default: {}
         }
 
         if (!attributes.empty()) {

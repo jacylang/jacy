@@ -72,7 +72,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::file_ptr> parse(sess::sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::file_ptr> parse(parse_sess_ptr sess, const token_list & tokens);
 
     private:
         common::Logger log{"parser", {}};
@@ -187,7 +187,7 @@ namespace jc::parser {
 
         // Suggestions //
     private:
-        sess::sess_ptr sess;
+        parse_sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
