@@ -1,6 +1,7 @@
 #ifndef JACY_AST_FRAGMENTS_NAMEDLIST_H
 #define JACY_AST_FRAGMENTS_NAMEDLIST_H
 
+#include "ast/expr/Expr.h"
 #include "ast/fragments/Identifier.h"
 
 namespace jc::ast {

@@ -274,6 +274,7 @@ namespace jc::parser {
 
     ast::item_ptr Parser::parseEnumDecl(ast::attr_list && attributes) {
         logParse("Enum");
+        // TODO
     }
 
     ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers) {
