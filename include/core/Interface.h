@@ -18,15 +18,6 @@
 #include "ast/Party.h"
 
 namespace jc::core {
-    struct SourceNode {
-        SourceNode(std::vector<SourceNode> && files) : isDir(true), content(std::move(files)) {}
-        SourceNode(parser::token_list && tokens) : isDir(false), content(std::move(tokens)) {}
-
-        bool isDir;
-        std::string name;
-        std::variant<std::vector<SourceNode>, parser::token_list> content;
-    };
-
     class Interface {
     public:
         Interface();
@@ -39,7 +30,6 @@ namespace jc::core {
 
         // Sources //
     private:
-        SourceNode
         void scanSources();
 
         // Parsing //
