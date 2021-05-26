@@ -43,6 +43,7 @@ namespace jc::parser {
         {"when",     TokenKind::When},
         {"where",    TokenKind::Where},
         {"while",    TokenKind::While},
+        {"yield",    TokenKind::Yield},
     };
 
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {

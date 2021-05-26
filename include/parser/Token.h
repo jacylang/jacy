@@ -145,6 +145,7 @@ namespace jc::parser {
         When,
         Where,
         While,
+        Yield,
 
         None,
     };
