@@ -25,7 +25,9 @@ namespace jc::utils::map {
         if (it != map.end()) {
             std::swap(map[with], it->second);
             map.erase(it);
+            return true;
         }
+        return false;
     }
 
     template<class K, class V>
