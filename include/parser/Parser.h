@@ -118,13 +118,13 @@ namespace jc::parser {
         dt::Option<ast::item_ptr> parseItem();
         ast::item_list parseItemList(const std::string & gotExprSugg);
 
-        ast::item_ptr parseEnumDecl(ast::attr_list attributes);
-        ast::item_ptr parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers);
-        ast::item_ptr parseImpl(ast::attr_list attributes);
-        ast::item_ptr parseStruct(ast::attr_list attributes);
-        ast::item_ptr parseTrait(ast::attr_list attributes);
-        ast::item_ptr parseTypeAlias(ast::attr_list attributes);
-        ast::item_ptr parseMod(ast::attr_list attributes);
+        ast::item_ptr parseEnumDecl(ast::attr_list && attributes);
+        ast::item_ptr parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers);
+        ast::item_ptr parseImpl(ast::attr_list && attributes);
+        ast::item_ptr parseStruct(ast::attr_list && attributes);
+        ast::item_ptr parseTrait(ast::attr_list && attributes);
+        ast::item_ptr parseTypeAlias(ast::attr_list && attributes);
+        ast::item_ptr parseMod(ast::attr_list && attributes);
 
         // Statements //
         ast::stmt_ptr parseStmt();

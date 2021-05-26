@@ -272,11 +272,11 @@ namespace jc::parser {
         return items;
     }
 
-    ast::item_ptr Parser::parseEnumDecl(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseEnumDecl(ast::attr_list && attributes) {
         logParse("Enum");
     }
 
-    ast::item_ptr Parser::parseFuncDecl(ast::attr_list attributes, const parser::token_list & modifiers) {
+    ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, const parser::token_list && modifiers) {
         logParse("Func");
 
         const auto & begin = cspan();
@@ -327,7 +327,7 @@ namespace jc::parser {
         );
     }
 
-    ast::item_ptr Parser::parseImpl(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseImpl(ast::attr_list && attributes) {
         logParse("Impl");
 
         const auto & begin = cspan();
@@ -353,7 +353,7 @@ namespace jc::parser {
         );
     }
 
-    ast::item_ptr Parser::parseStruct(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseStruct(ast::attr_list && attributes) {
         logParse("Struct");
 
         const auto & begin = cspan();
@@ -426,7 +426,7 @@ namespace jc::parser {
         );
     }
 
-    ast::item_ptr Parser::parseTrait(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseTrait(ast::attr_list && attributes) {
         logParse("Trait");
 
         const auto & begin = cspan();
@@ -477,7 +477,7 @@ namespace jc::parser {
         );
     }
 
-    ast::item_ptr Parser::parseTypeAlias(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseTypeAlias(ast::attr_list && attributes) {
         logParse("TypeDecl");
 
         const auto & begin = cspan();
@@ -495,7 +495,7 @@ namespace jc::parser {
         );
     }
 
-    ast::item_ptr Parser::parseMod(ast::attr_list attributes) {
+    ast::item_ptr Parser::parseMod(ast::attr_list && attributes) {
         logParse("Mod");
 
         const auto & begin = cspan();
@@ -1719,7 +1719,7 @@ namespace jc::parser {
             }
         }
 
-        return modifiers;
+        return std::move(modifiers);
     }
 
     ast::func_param_list Parser::parseFuncParamList() {
