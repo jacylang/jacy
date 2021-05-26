@@ -7,6 +7,7 @@ namespace jc::core {
         try {
             cli.applyArgs(argc, argv);
             common::Config::getInstance().applyCliConfig(cli.getConfig());
+            interface.compile();
         } catch (common::Error & e) {
             log.error(e.message);
             return;

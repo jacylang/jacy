@@ -11,13 +11,15 @@ namespace jc::span {
     using file_id_t = size_t;
 
     struct Span {
+        Span() {}
+
         Span(uint32_t line, uint32_t col, span_len_t len, file_id_t fileId)
             : line(line), col(col), len(len), fileId(fileId) {}
 
-        span_len_t len; // not in use
-        uint32_t line;
-        uint32_t col;
-        uint16_t fileId; // TODO: Context
+        span_len_t len{0};
+        uint32_t line{0};
+        uint32_t col{0};
+        file_id_t fileId{0}; // TODO: Context
 
         std::string toString() const {
             return std::to_string(line + 1) + ":" + std::to_string(col + 1);

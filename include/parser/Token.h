@@ -152,7 +152,7 @@ namespace jc::parser {
     };
 
     struct Token {
-        Token() = default;
+        Token() {}
         Token(
             TokenKind kind,
             std::string val
