@@ -1,16 +1,16 @@
 #ifndef JACY_PARSER_PARSESESS_H
 #define JACY_PARSER_PARSESESS_H
 
-#include "session/Session.h"
+#include "span/Span.h"
 
 namespace jc::parser {
     struct ParseSess;
     using parse_sess_ptr = std::shared_ptr<ParseSess>;
 
     struct ParseSess {
-        explicit ParseSess(sess::file_id_t fileId) : fileId(fileId) {}
+        explicit ParseSess(span::file_id_t fileId) : fileId(fileId) {}
 
-        sess::file_id_t fileId;
+        span::file_id_t fileId;
     };
 }
 

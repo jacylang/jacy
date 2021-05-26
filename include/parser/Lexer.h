@@ -5,6 +5,7 @@
 #include "common/Error.h"
 #include "common/Logger.h"
 #include "parser/ParseSess.h"
+#include "session/SourceMap.h"
 
 namespace jc::parser {
     struct LexerResult {

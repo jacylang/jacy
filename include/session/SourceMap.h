@@ -5,9 +5,10 @@
 #include <vector>
 #include <functional>
 
-#include "parser/Token.h"
 #include "utils/map.h"
 #include "utils/hash.h"
+#include "data_types/Option.h"
+#include "span/Span.h"
 
 namespace jc::sess {
     using source_lines = std::vector<std::string>;
