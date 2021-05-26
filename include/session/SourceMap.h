@@ -11,6 +11,7 @@
 
 namespace jc::sess {
     using source_lines = std::vector<std::string>;
+    using file_id_t = size_t;
 
     struct Source {
         dt::Option<source_lines> sourceLines;
