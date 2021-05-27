@@ -280,7 +280,96 @@ namespace jc::parser {
 
     ast::item_ptr Parser::parseEnumDecl(ast::attr_list && attributes) {
         logParse("Enum");
-        // TODO
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Enum, true, "`enum`", "`parseEnumDecl`");
+
+        auto name = parseId("Expected `enum` name", true, true);
+        auto typeParams = parseTypeParams();
+
+        ast::enum_entry_list entries;
+        if (!isHardSemi()) {
+            skip(
+                TokenKind::LBrace,
+                true,
+                true,
+                false,
+                std::make_unique<ParseErrSugg>("To start `enum` body put `{` here or `;` to ignore body", cspan())
+            );
+            if (skipOpt(TokenKind::RBrace)) {
+                return {};
+            }
+
+            bool first = true;
+            while (!eof()) {
+                if (is(TokenKind::RBrace)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenKind::Comma,
+                        true,
+                        true,
+                        false,
+                        std::make_unique<ParseErrSugg>("Expected `,` separator between `enum` entries", cspan())
+                    );
+                }
+
+                if (is(TokenKind::RBrace)) {
+                    break;
+                }
+
+                entries.emplace_back(parseEnumEntry());
+            }
+
+            skip(
+                TokenKind::RBrace,
+                true,
+                false,
+                false,
+                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+        } else if (!eof()) {
+            justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
+        }
+
+        return makeNode<ast::Enum>(std::move(attributes), std::move(entries), begin.to(cspan()));
+    }
+
+    ast::enum_entry_ptr Parser::parseEnumEntry() {
+        const auto & begin = cspan();
+        auto name = parseId("Expected `enum` entry name", true, true);
+
+        if (skipOpt(TokenKind::Assign, true)) {
+            auto discriminant = parseExpr("Expected constant expression after `=`");
+            return makeNode<ast::EnumEntry>(ast::EnumEntryKind::Discriminant, std::move(name), begin.to(cspan()));
+        } else if (skipOpt(TokenKind::LParen, true)) {
+            // TODO
+
+            skip(
+                TokenKind::RParen,
+                true,
+                false,
+                false,
+                std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
+            );
+        } else if (skipOpt(TokenKind::LBrace, true)) {
+            // TODO
+
+            skip(
+                TokenKind::RParen,
+                true,
+                false,
+                false,
+                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+        }
+
+        return makeNode<ast::EnumEntry>(ast::EnumEntryKind::Raw, std::move(name), begin.to(cspan()));
     }
 
     ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers) {
