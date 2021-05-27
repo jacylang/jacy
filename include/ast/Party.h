@@ -59,7 +59,7 @@ namespace jc::ast {
         explicit DirModule(std::vector<module_ptr> && modules)
             : modules(std::move(modules)), Module(Module::Kind::Dir) {}
 
-        const std::vector<module_ptr> getModules() const {
+        const std::vector<module_ptr> & getModules() const {
             return modules;
         }
 
