@@ -9,8 +9,8 @@ namespace jc::ast {
         return {dt::None, std::move(suggestions)};
     }
 
-    void Linter::visit(const File & file) {
-        for (const auto & item : file.items) {
+    void Linter::visit(const FileModule & fileModule) {
+        for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
         }
     }
