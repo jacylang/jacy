@@ -65,12 +65,14 @@ namespace jc::ast {
     struct ConstParam;
 
     struct Party;
+    struct File;
 
     class ConstVisitor {
     public:
         virtual ~ConstVisitor() = default;
 
         virtual void visit(const Party&) = 0;
+        virtual void visit(const File&) = 0;
 
         virtual void visit(const ErrorStmt&) = 0;
         virtual void visit(const ErrorExpr&) = 0;
