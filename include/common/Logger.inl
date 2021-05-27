@@ -79,6 +79,9 @@ void Logger::devDebug(Arg && first, Args && ... other) {
 
 template<class Arg, class ...Args>
 const Logger & Logger::raw(Arg && first, Args && ...other) const {
+    if (!inited) {
+        devPanic("Use of uninitialized logger in", owner);
+    }
     std::cout << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     return *this;
@@ -106,6 +109,10 @@ std::string Logger::format(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const {
+    if (!inited) {
+        devPanic("Use of uninitialized logger in", owner);
+    }
+
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
