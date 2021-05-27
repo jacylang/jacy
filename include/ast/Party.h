@@ -31,23 +31,46 @@ namespace jc::ast {
         FileModule(span::file_id_t fileId, file_ptr && file)
             : fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
 
+        const span::file_id_t getFileId() const {
+            return fileId;
+        }
+
+        const file_ptr & getFile() const {
+            return file;
+        }
+
+    private:
         span::file_id_t fileId;
         file_ptr file;
     };
 
     struct DirModule : Module {
-        explicit DirModule(std::vector<module_ptr> && nestedModules)
-            : nestedModules(std::move(nestedModules)), Module(Module::Kind::Dir) {}
+        explicit DirModule(std::vector<module_ptr> && modules)
+            : modules(std::move(modules)), Module(Module::Kind::Dir) {}
 
-        std::vector<module_ptr> nestedModules;
+        const std::vector<module_ptr> getModules() const {
+            return modules;
+        }
+
+    private:
+        std::vector<module_ptr> modules;
     };
 
     struct RootModule : Module {
-        RootModule(file_module_ptr && file, dir_module_ptr && nestedModules)
-            : file(std::move(file)), nestedModules(std::move(nestedModules)), Module(Module::Kind::Root) {}
+        RootModule(file_module_ptr && rootFile, dir_module_ptr && modules)
+            : rootFile(std::move(rootFile)), modules(std::move(modules)), Module(Module::Kind::Root) {}
 
-        file_module_ptr file;
-        dir_module_ptr nestedModules;
+        const file_module_ptr & getRootFile() const {
+            return rootFile;
+        }
+
+        const dir_module_ptr & getModules() const {
+            return modules;
+        }
+
+    private:
+        file_module_ptr rootFile;
+        dir_module_ptr modules;
     };
 
     class Party {

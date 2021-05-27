@@ -12,7 +12,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const Party & party) {
-        party.getRootModule()->file->file->accept(*this);
+        party.getRootModule()->getRootFile()->getFile()->accept(*this);
 //        for (const auto & nestedModules : party.getRootModule()->nestedModules) {
 //
 //        }
