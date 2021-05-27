@@ -24,7 +24,7 @@ namespace jc::ast {
     public:
         Linter() = default;
 
-        dt::SuggResult<dt::none_t> lint(const ast::item_list & tree);
+        dt::SuggResult<dt::none_t> lint(const ast::Party & party);
 
     private:
         void visit(const Party & party) override;
