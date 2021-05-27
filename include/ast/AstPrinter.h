@@ -18,7 +18,7 @@ namespace jc::ast {
     public:
         AstPrinter() = default;
 
-        void print(const item_list & tree, AstPrinterMode mode = AstPrinterMode::Parsing);
+        void print(const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
 
         void visit(const Party & party) override;
         void visit(const File & file) override;
