@@ -216,7 +216,7 @@ namespace jc::parser {
             return option.unwrap();
         }
 
-        /// Shortcut for `peek().span(sess)`
+        /// Shortcut for `peek().span`
         Span cspan() const;
         Span nspan() const;
 

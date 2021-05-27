@@ -41,9 +41,7 @@ namespace jc::common {
         enum class CompileDepth {
             Full,
 
-            Lexer,
             Parser,
-            Linter,
             NameResolution,
         };
 
