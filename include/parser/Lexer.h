@@ -20,7 +20,7 @@ namespace jc::parser {
 
     class Lexer {
     public:
-        Lexer() = default;
+        Lexer();
         virtual ~Lexer() = default;
 
         LexerResult lex(const parse_sess_ptr & parseSess, std::string source);

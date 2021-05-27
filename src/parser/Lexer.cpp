@@ -1,8 +1,10 @@
 #include "parser/Lexer.h"
 
-#include <utility>
-
 namespace jc::parser {
+    Lexer::Lexer() {
+        log.init({});
+    }
+
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.span = span::Span(
             tokenLoc.line,
