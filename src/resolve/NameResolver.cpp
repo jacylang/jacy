@@ -1,7 +1,9 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_stack> NameResolver::resolve(const ast::item_list & tree) {
+    dt::SuggResult<rib_stack> NameResolver::resolve(const sess::sess_ptr & sess, const ast::item_list & tree) {
+        this->sess = sess;
+
         visitItems(tree);
 
         return {ribStack, std::move(suggestions)};
@@ -479,7 +481,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::suggest(const std::string & msg, ast::node_id nodeId, SuggKind kind, eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, ast::Node::nodeMap.getNodeSpan(nodeId), kind, eid));
+        suggest(std::make_unique<sugg::MsgSugg>(msg, sess->nodeMap.getNodeSpan(nodeId), kind, eid));
     }
 
     void NameResolver::suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid) {
@@ -504,9 +506,9 @@ namespace jc::resolve {
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + name + "' as " + as,
-                ast::Node::nodeMap.getNodeSpan(nodeId),
+                sess->nodeMap.getNodeSpan(nodeId),
                 "Because it is already declared as " + declaredAs + " here",
-                ast::Node::nodeMap.getNodeSpan(declaredHere),
+                sess->nodeMap.getNodeSpan(declaredHere),
                 SuggKind::Error
             )
         );

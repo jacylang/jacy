@@ -16,7 +16,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::Panic) {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<rib_stack> resolve(const ast::item_list & tree);
+        dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::item_list & tree);
 
         // Items //
 //        void visit(ast::Enum & enumDecl) override;
@@ -67,6 +67,9 @@ namespace jc::resolve {
         void visit(ast::ArrayType & arrayType) override;
         void visit(ast::TypePath & typePath) override;
         void visit(ast::UnitType & unitType) override;
+
+    private:
+        sess::sess_ptr sess;
 
         // Extended visitors //
     private:
