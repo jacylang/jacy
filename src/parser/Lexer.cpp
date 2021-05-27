@@ -1,5 +1,7 @@
 #include "parser/Lexer.h"
 
+#include <utility>
+
 namespace jc::parser {
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.span = span::Span(
@@ -8,6 +10,7 @@ namespace jc::parser {
             len,
             parseSess->fileId
         );
+        log.dev("Add token", t.span.toString());
         tokens.emplace_back(t);
     }
 
@@ -523,7 +526,7 @@ namespace jc::parser {
 
     //
 
-    LexerResult Lexer::lex(parse_sess_ptr parseSess, std::string source) {
+    LexerResult Lexer::lex(const parse_sess_ptr & parseSess, std::string source) {
         log.dev("Tokenize...");
 
         this->parseSess = parseSess;

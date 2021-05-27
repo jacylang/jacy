@@ -23,7 +23,7 @@ namespace jc::parser {
         Lexer() = default;
         virtual ~Lexer() = default;
 
-        LexerResult lex(parse_sess_ptr parseSess, std::string source);
+        LexerResult lex(const parse_sess_ptr & parseSess, std::string source);
 
     private:
         common::Logger log{"lexer", {}};
@@ -36,7 +36,7 @@ namespace jc::parser {
         Location loc;
 
         // Token start position
-        Location tokenLoc{};
+        Location tokenLoc;
 
         char peek();
         char lookup(int distance = 1);

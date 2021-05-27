@@ -23,8 +23,8 @@ namespace jc::parser {
     using opt_token = dt::Option<Token>;
 
     struct Location {
-        uint32_t line;
-        uint32_t col;
+        uint32_t line{0};
+        uint32_t col{0};
     };
 
     enum class TokenKind : uint8_t {
