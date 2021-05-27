@@ -1,9 +1,7 @@
 #include "ast/AstPrinter.h"
 
 namespace jc::ast {
-    AstPrinter::AstPrinter() {
-
-    }
+    AstPrinter::AstPrinter() = default;
 
     void AstPrinter::print(const Party & party, AstPrinterMode mode) {
         this->mode = mode;
@@ -610,13 +608,14 @@ namespace jc::ast {
     }
 
     void AstPrinter::printMembers(const item_list & members) {
-        log.raw(" {");
+        log.raw(" {").nl();
         incIndent();
         for (const auto & item : members) {
             item->accept(*this);
             log.nl();
         }
-        log.raw("}");
+        decIndent();
+        log.raw("}").nl();
     }
 
     void AstPrinter::printId(const id_ptr & id) {
