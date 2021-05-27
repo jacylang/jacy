@@ -1,12 +1,16 @@
 #include "core/Interface.h"
 
 namespace jc::core {
-    Interface::Interface() = default;
+    Interface::Interface() : config(Config::getInstance()) {}
 
     void Interface::compile() {
         init();
 
+        // AST Stage //
         parse();
+        // TODO: Print source
+        printAst();
+        lintAst();
     }
 
     void Interface::init() {
@@ -15,7 +19,7 @@ namespace jc::core {
 
     // Parsing //
     void Interface::parse() {
-        const auto & rootFileName = common::Config::getInstance().getRootFile();
+        const auto & rootFileName = Config::getInstance().getRootFile();
         const auto & rootFileEntry = utils::fs::readfile(rootFileName);
         auto rootFile = std::move(parseFile(rootFileEntry));
         auto nestedModules = parseDir(
@@ -57,14 +61,19 @@ namespace jc::core {
             fileId,
             parser.parse(sess, parseSess, fileTokens).unwrap(
                 sess,
-                common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)
+                Config::getInstance().checkPrint(Config::PrintKind::Suggestions)
             )
         );
     }
 
     // Linting & Printing //
     void Interface::printAst() {
-        astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
+        if (config.checkPrint(Config::PrintKind::Ast)) {
+            common::Logger::nl();
+            log.info("Printing AST (`--print ast`)");
+            astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
+            common::Logger::nl();
+        }
     }
 
     void Interface::lintAst() {

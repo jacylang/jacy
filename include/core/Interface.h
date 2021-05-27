@@ -20,6 +20,8 @@
 #include "session/Session.h"
 
 namespace jc::core {
+    using common::Config;
+
     class Interface {
     public:
         Interface();
@@ -29,6 +31,7 @@ namespace jc::core {
 
     private:
         void init();
+        Config & config;
 
         // Parsing //
     private:
