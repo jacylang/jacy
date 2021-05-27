@@ -1,6 +1,8 @@
 #ifndef JACY_SUGGEST_BASESUGGESTER_H
 #define JACY_SUGGEST_BASESUGGESTER_H
 
+#include "session/Session.h"
+
 namespace jc::sugg {
     struct BaseSugg;
     struct MsgSugg;
