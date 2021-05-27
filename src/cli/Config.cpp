@@ -64,7 +64,7 @@ namespace jc::cli {
             return dt::None;
         }
         if (found->second.size() > 1) {
-            common::Logger::devPanic("Unexpected count for key-value cli argument '" + kvArgName + "', more than 1");
+            throw std::logic_error("Unexpected count for key-value cli argument '" + kvArgName + "', more than 1");
         }
         return found->second.at(0);
     }

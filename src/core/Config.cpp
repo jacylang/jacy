@@ -23,7 +23,7 @@ namespace jc::common {
                 } else if (val == "names") {
                     print.insert(PrintKind::Names);
                 } else {
-                    common::Logger::devPanic("Unhandled value for `print` cli argument");
+                    throw std::logic_error("Unhandled value for `print` cli argument");
                 }
             }
         }
