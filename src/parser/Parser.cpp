@@ -2,7 +2,7 @@
 
 namespace jc::parser {
     Parser::Parser() {
-        log.init({});
+
         devMode = common::Config::getInstance().checkDev();
     }
 

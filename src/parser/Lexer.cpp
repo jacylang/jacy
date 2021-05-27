@@ -2,7 +2,7 @@
 
 namespace jc::parser {
     Lexer::Lexer() {
-        log.init({});
+
     }
 
     void Lexer::addToken(Token && t, span::span_len_t len) {

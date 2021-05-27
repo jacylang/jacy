@@ -2,7 +2,7 @@
 
 namespace jc::ast {
     Linter::Linter() {
-        log.init({});
+
     }
 
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {

@@ -2,7 +2,7 @@
 
 namespace jc::cli {
     CLI::CLI() {
-        log.init({});
+
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {

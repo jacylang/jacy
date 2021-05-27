@@ -61,8 +61,6 @@ namespace jc::common {
             if (common::Config::getInstance().checkDev()) {
                 this->config.level = LogLevel::Dev;
             }
-
-            inited = true;
         }
 
         template<class ...Args>
@@ -112,7 +110,6 @@ namespace jc::common {
         static void devDebug(Arg && first, Args && ...other);
 
     private:
-        bool inited{false};
         std::string owner;
         LoggerConfig config;
 

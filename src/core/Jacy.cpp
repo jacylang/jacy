@@ -2,7 +2,7 @@
 
 namespace jc::core {
     Jacy::Jacy() {
-        log.init({});
+
     }
 
     void Jacy::meow(int argc, const char ** argv) {
