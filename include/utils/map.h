@@ -9,7 +9,7 @@ namespace jc::utils::map {
     std::map<K, V> merge(const std::map<K, V> & first, const std::map<K, V> & second) {
         std::map<K, V> result = first;
         for (const auto & pair : second) {
-            result.emplace(pair.first, pair.second);
+            result[pair.first] = pair.second;
         }
         return result;
     }

@@ -35,13 +35,6 @@ namespace jc::common {
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
-        LoggerConfig() {
-            // Force Dev level in case of `dev` argument applied
-            if (common::Config::getInstance().checkDev()) {
-                level = LogLevel::Dev;
-            }
-        }
-
         LogLevel level{LogLevel::Debug};
         bool printOwner{false};
         bool printLevel{true};

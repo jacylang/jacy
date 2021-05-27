@@ -1,5 +1,7 @@
 #include "common/Config.h"
 
+#include <iostream>
+
 namespace jc::common {
     Config::Config() = default;
 
