@@ -4,8 +4,7 @@
 #include <cstdint>
 #include <memory>
 #include <cstddef>
-
-#include "common/Logger.h"
+#include <stdexcept>
 
 namespace jc::dt {
     struct none_t {
@@ -23,7 +22,7 @@ namespace jc::dt {
 
         const T & unwrap(const std::string & msg = "") const {
             if (none()) {
-                common::Logger::devPanic("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
+                throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
             return value;
         }
@@ -66,21 +65,21 @@ namespace jc::dt {
 
         const T * operator->() const {
             if (none()) {
-                common::Logger::devPanic("Called `const T * Option::operator->` a `None` value");
+                throw std::logic_error("Called `const T * Option::operator->` a `None` value");
             }
             return &value;
         }
 
         T * operator->() {
             if (none()) {
-                common::Logger::devPanic("Called `T * Option::operator->` a `None` value");
+                throw std::logic_error("Called `T * Option::operator->` a `None` value");
             }
             return &value;
         }
 
         const T & operator*() const {
             if (none()) {
-                common::Logger::devPanic("Called `const T & Option::operator*` a `None` value");
+                throw std::logic_error("Called `const T & Option::operator*` a `None` value");
             }
             return value;
         }

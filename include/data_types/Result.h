@@ -1,7 +1,8 @@
 #ifndef JACY_DATA_TYPES_RESULT_H
 #define JACY_DATA_TYPES_RESULT_H
 
-#include "common/Logger.h"
+#include <stdexcept>
+#include <string>
 
 namespace jc::dt {
     template<class T, class E>
@@ -12,7 +13,7 @@ namespace jc::dt {
 
         T unwrap(const std::string & msg = "") const {
             if (isErr()) {
-                common::Logger::devPanic(msg.empty() ? "Called `Result::unwrap` on an `Err` value" : msg);
+                throw std::logic_error(msg.empty() ? "Called `Result::unwrap` on an `Err` value" : msg);
             }
             return value;
         }
