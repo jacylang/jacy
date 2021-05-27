@@ -20,6 +20,9 @@ namespace jc::ast {
 
         void print(const item_list & tree, AstPrinterMode mode = AstPrinterMode::Parsing);
 
+        void visit(const Party & party) override;
+        void visit(const File & file) override;
+
         // Errors //
         void visit(const ErrorStmt & errorStmt) override;
         void visit(const ErrorExpr & errorExpr) override;

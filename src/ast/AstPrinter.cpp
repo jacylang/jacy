@@ -13,6 +13,20 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(const Party & party) {
+        party.getRootModule()->getRootFile()->getFile()->accept(*this);
+
+        for (const auto & module : party.getRootModule()->getRootDir()->getModules()) {
+            // TODO
+        }
+    }
+
+    void AstPrinter::visit(const File & file) {
+        for (const auto & item : file.items) {
+            item->accept(*this);
+        }
+    }
+
     void AstPrinter::visit(const ErrorStmt & errorStmt) {
         log.raw("[ERROR STMT]");
     }
