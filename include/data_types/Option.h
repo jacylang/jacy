@@ -44,9 +44,9 @@ namespace jc::dt {
             return hasValue;
         }
 
-        Option<T> & operator=(const T & rawT) {
+        Option<T> & operator=(T && rawT) {
             hasValue = true;
-            value = rawT;
+            value = std::move(rawT);
             return *this;
         }
 

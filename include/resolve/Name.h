@@ -63,6 +63,9 @@ namespace jc::resolve {
                     return "`type` alias";
                 case Kind::Param:
                     return "`func` parameter";
+                default: {
+                    return "[NO REPRESENTATION]";
+                }
             }
         }
 
@@ -115,6 +118,7 @@ namespace jc::resolve {
                 case Usage::Expr: return "expression";
                 case Usage::Lifetime: return "lifetime";
             }
+            return "meow, bitch";
         }
     };
 

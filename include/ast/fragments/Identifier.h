@@ -28,6 +28,7 @@ namespace jc::ast {
                 return token.unwrap().val;
             }
             common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
+            return "meow, bitch";
         }
 
         void setReference(node_id reference) {
