@@ -22,7 +22,7 @@ namespace jc::ast {
 
     class Linter : public ast::ConstVisitor {
     public:
-        Linter() = default;
+        Linter();
 
         dt::SuggResult<dt::none_t> lint(const Party & party);
 

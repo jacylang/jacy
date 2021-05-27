@@ -1,6 +1,10 @@
 #include "ast/Linter.h"
 
 namespace jc::ast {
+    Linter::Linter() {
+        log.init({});
+    }
+
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
         party.getRootModule()->accept(*this);
 
