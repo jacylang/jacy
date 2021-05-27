@@ -25,6 +25,9 @@ namespace jc::ast {
         } kind;
 
         explicit Module(Kind kind) : kind(kind) {}
+
+        virtual void accept(BaseVisitor & visitor) = 0;
+        virtual void accept(ConstVisitor & visitor) const = 0;
     };
 
     struct FileModule : Module {
@@ -39,6 +42,14 @@ namespace jc::ast {
             return file;
         }
 
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*file);
+        }
+
+        void accept(ConstVisitor & visitor) const override {
+            return visitor.visit(*file);
+        }
+
     private:
         span::file_id_t fileId;
         file_ptr file;
@@ -50,6 +61,18 @@ namespace jc::ast {
 
         const std::vector<module_ptr> getModules() const {
             return modules;
+        }
+
+        void accept(BaseVisitor & visitor) override {
+            for (const auto & module : modules) {
+                module->accept(visitor);
+            }
+        }
+
+        void accept(ConstVisitor & visitor) const override {
+            for (const auto & module : modules) {
+                module->accept(visitor);
+            }
         }
 
     private:
@@ -66,6 +89,16 @@ namespace jc::ast {
 
         const dir_module_ptr & getRootDir() const {
             return rootDir;
+        }
+
+        void accept(BaseVisitor & visitor) override {
+            rootFile->accept(visitor);
+            rootDir->accept(visitor);
+        }
+
+        void accept(ConstVisitor & visitor) const override {
+            rootFile->accept(visitor);
+            rootDir->accept(visitor);
         }
 
     private:
