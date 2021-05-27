@@ -32,12 +32,8 @@ namespace jc::common {
         const auto & maybeCompileDepth = cliConfig.getSingleValue("compile-depth");
         if (maybeCompileDepth) {
             const auto & cd = maybeCompileDepth.unwrap();
-            if (cd == "lexer") {
-                compileDepth = CompileDepth::Lexer;
-            } else if (cd == "parser") {
+            if (cd == "parser") {
                 compileDepth = CompileDepth::Parser;
-            } else if (cd == "linter") {
-                compileDepth = CompileDepth::Linter;
             } else if (cd == "name-resolution") {
                 compileDepth = CompileDepth::NameResolution;
             }
