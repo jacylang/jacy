@@ -11,6 +11,13 @@ namespace jc::ast {
         return {dt::None, std::move(suggestions)};
     }
 
+    void Linter::visit(const Party & party) {
+    }
+
+    void Linter::visit(const File & file) {
+
+    }
+
     // Errors //
     void Linter::visit(const ErrorExpr & errorExpr) {
         Logger::devPanic("[ERROR EXPR] On linter stage");

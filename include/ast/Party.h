@@ -28,10 +28,10 @@ namespace jc::ast {
     };
 
     struct FileModule : Module {
-        FileModule(sess::file_id_t fileId, file_ptr && file)
+        FileModule(span::file_id_t fileId, file_ptr && file)
             : fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
 
-        sess::file_id_t fileId;
+        span::file_id_t fileId;
         file_ptr file;
     };
 
@@ -53,6 +53,10 @@ namespace jc::ast {
     class Party {
     public:
         explicit Party(root_module_ptr && rootModule) : rootModule(std::move(rootModule)) {}
+
+        const root_module_ptr & getRootModule() const {
+            return rootModule;
+        }
 
     private:
         root_module_ptr rootModule;
