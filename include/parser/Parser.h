@@ -94,7 +94,6 @@ namespace jc::parser {
         }
 
         parse_sess_ptr parseSess;
-        ast::file_ptr file;
 
         Token peek() const;
         Token advance(uint8_t distance = 1);

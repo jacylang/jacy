@@ -8,8 +8,8 @@ namespace jc::ast {
     using file_ptr = std::shared_ptr<File>;
     using file_list = std::vector<file_ptr>;
 
-    struct File {
-        explicit File(item_list items) : items(std::move(items)) {}
+    struct File : Node {
+        File(item_list items, const Span & span) : items(std::move(items)), Node(span) {}
 
         item_list items;
     };
