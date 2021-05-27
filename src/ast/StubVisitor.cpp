@@ -1,12 +1,8 @@
 #include "ast/StubVisitor.h"
 
 namespace jc::ast {
-    void StubVisitor::visit(ast::Party & party) {
-        visit("party");
-    }
-
-    void StubVisitor::visit(ast::File & file) {
-        visit("file");
+    void StubVisitor::visit(ast::FileModule & fileModule) {
+        visit("fileModule");
     }
 
     void StubVisitor::visit(ast::ErrorStmt & errorStmt) {
