@@ -184,8 +184,8 @@ namespace jc::cli {
 
         // DEBUG
         log.debug("CLI Arguments:\n",
-                  "\tBoolean arguments", config.boolArgs,
-                  "\n\tKey-value arguments: ", config.keyValueArgs,
-                  "\n\tRoot file: ", config.rootFile).nl();
+                  "\tBoolean arguments:", config.boolArgs,
+                  "\n\tKey-value arguments:", config.keyValueArgs,
+                  "\n\tRoot file:", config.rootFile).nl();
     }
 }

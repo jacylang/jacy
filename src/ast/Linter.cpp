@@ -2,8 +2,6 @@
 
 namespace jc::ast {
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
-        log.dev("Lint...");
-
         party.getRootModule()->accept(*this);
 
         return {dt::None, std::move(suggestions)};
