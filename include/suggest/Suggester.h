@@ -9,6 +9,7 @@
 namespace jc::sugg {
     using common::Color;
     using common::Logger;
+    using sess::file_id_t;
 
     class Suggester : public BaseSuggester {
     public:
@@ -23,15 +24,17 @@ namespace jc::sugg {
 
     private:
         sess::sess_ptr sess;
-        const sess::SourceMap & sourceMap;
 
         void pointMsgTo(const std::string & msg, const Span & span);
-        void printPrevLine(size_t index);
-        void printLine(size_t index);
-        void printWithIndent(const std::string & msg);
+        void printPrevLine(file_id_t fileId, size_t index);
+        void printLine(file_id_t fileId, size_t index);
+        void printWithIndent(file_id_t fileId, const std::string & msg);
+        void printWithIndent(const std::string & indent, const std::string & msg);
 
-        std::string indent;
         const uint8_t wrapLen{120};
+        std::map<file_id_t, std::string> filesIndents;
+
+        const std::string & getFileIndent(file_id_t fileId);
     };
 }
 

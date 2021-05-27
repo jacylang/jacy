@@ -1,7 +1,6 @@
 #include "suggest/SuggDumper.h"
 
 namespace jc::sugg {
-
     void SuggDumper::apply(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {

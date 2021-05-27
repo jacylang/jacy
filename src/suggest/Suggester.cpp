@@ -1,15 +1,13 @@
 #include "suggest/Suggester.h"
 
 namespace jc::sugg {
-    Suggester::Suggester() : sourceMap(sess::SourceMap::getInstance()) {}
+    Suggester::Suggester() = default;
 
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
         this->sess = sess;
 
         // Set indent based on max line number, add 3 for " | "
         // So, considering this, max indent that can appear will be 13 white-spaces
-        const auto lastLineNum = sourceMap.getLinesCount(sess);
-        indent = utils::str::repeat(" ", std::to_string(lastLineNum).size() + 3);
 
         bool errorAppeared = false;
         Logger::nl();
@@ -43,13 +41,15 @@ namespace jc::sugg {
     void Suggester::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
         // Note: 6 = "help: "
-        printWithIndent("help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
+        printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
+        const auto & fileId = span.fileId;
+        const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
-        printPrevLine(span.line);
-        printLine(span.line);
+        printPrevLine(fileId, span.line);
+        printLine(fileId, span.line);
 
         const auto & point = span.col;
         const auto & msgLen = msg.size();
@@ -67,14 +67,14 @@ namespace jc::sugg {
             pointLine += utils::str::repeat("^", span.len);
 
             // We don't need to write additional `-` after `^`, so just print it
-            printWithIndent(utils::str::clipStart(pointLine, wrapLen - indent.size() - 7, ""));
+            printWithIndent(fileId, utils::str::clipStart(pointLine, wrapLen - indent.size() - 7, ""));
         } else if (wrapLen > spanMax and wrapLen - spanMax >= realMsgLen) {
             // We can put message after `^--`, because it fits space after span
 
             std::string pointLine = utils::str::repeat(" ", point) + utils::str::repeat("^", span.len);
             pointLine += "---";
             pointLine += msg;
-            printWithIndent(pointLine);
+            printWithIndent(fileId, pointLine);
         } else {
             // Message is too long to print it before or after `^`
             // So we print it on the next line, filling previous with `-` and point to span with `^`
@@ -87,32 +87,47 @@ namespace jc::sugg {
                 formattedMsg = utils::str::hardWrap(msg, wrapLen);
             }
 
-            printWithIndent(utils::str::pointLine(pointLineLen, point, span.len));
-            printWithIndent(formattedMsg);
+            printWithIndent(fileId, utils::str::pointLine(pointLineLen, point, span.len));
+            printWithIndent(fileId, formattedMsg);
         }
     }
 
-    void Suggester::printPrevLine(size_t index) {
+    void Suggester::printPrevLine(file_id_t fileId, size_t index) {
         if (index == 0) {
             return;
         }
 
-        printLine(index - 1);
+        printLine(fileId, index - 1);
     }
 
-    void Suggester::printLine(size_t index) {
-        const auto & line = sourceMap.getLine(sess, index);
+    void Suggester::printLine(file_id_t fileId, size_t index) {
+        const auto & line = sess->sourceMap.getLine(fileId, index);
         // Print indent according to line number
         // FIXME: uint overflow can appear
+        const auto & indent = getFileIndent(fileId);
         Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
         Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
         Logger::nl();
     }
 
-    void Suggester::printWithIndent(const std::string & msg) {
+    void Suggester::printWithIndent(file_id_t fileId, const std::string & msg) {
+        const auto & indent = getFileIndent(fileId);
+        printWithIndent(indent, msg);
+    }
+
+    void Suggester::printWithIndent(const std::string & indent, const std::string & msg) {
         // This is the indent that we've got from line number prefix like "1 | " (here's 4 chars)
         Logger::print(indent);
         Logger::print(utils::str::clipEnd(msg, wrapLen - indent.size(), ""));
         Logger::nl();
+    }
+
+    const std::string & Suggester::getFileIndent(file_id_t fileId) {
+        const auto & found = filesIndents.find(fileId);
+        if (found == filesIndents.end()) {
+            const auto lastLineNum = sess->sourceMap.getLinesCount(fileId);
+            filesIndents[fileId] = utils::str::repeat(" ", std::to_string(lastLineNum).size() + 3);
+        }
+        return filesIndents[fileId];
     }
 }
