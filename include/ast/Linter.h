@@ -24,7 +24,7 @@ namespace jc::ast {
     public:
         Linter() = default;
 
-        dt::SuggResult<dt::none_t> lint(sess::sess_ptr sess, const ast::item_list & tree);
+        dt::SuggResult<dt::none_t> lint(const ast::item_list & tree);
 
     private:
         // Errors //
@@ -107,7 +107,6 @@ namespace jc::ast {
 
         // Suggestions //
     private:
-        sess::sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
         void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);

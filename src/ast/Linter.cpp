@@ -1,10 +1,8 @@
 #include "ast/Linter.h"
 
 namespace jc::ast {
-    dt::SuggResult<dt::none_t> Linter::lint(sess::sess_ptr sess, const ast::item_list & tree) {
+    dt::SuggResult<dt::none_t> Linter::lint(const ast::item_list & tree) {
         log.dev("Lint...");
-
-        this->sess = sess;
 
         for (const auto & stmt : tree) {
             stmt->accept(*this);
@@ -73,7 +71,7 @@ namespace jc::ast {
                     case parser::TokenKind::Move: {
                         suggestErrorMsg(
                             modifier.toString() + " functions can only appear as methods",
-                            modifier.span(sess)
+                            modifier.span
                         );
                         break;
                     }
@@ -183,7 +181,7 @@ namespace jc::ast {
         }
 
         if (varDecl.kind.is(parser::TokenKind::Const) and !varDecl.assignExpr) {
-            suggestErrorMsg("`const` must be initialized immediately", varDecl.kind.span(sess));
+            suggestErrorMsg("`const` must be initialized immediately", varDecl.kind.span);
         }
     }
 
@@ -202,7 +200,7 @@ namespace jc::ast {
         assign.lhs->accept(*this);
         assign.rhs->accept(*this);
 
-        const auto & span = assign.op.span(sess);
+        const auto & span = assign.op.span;
         switch (assign.lhs->kind) {
             case ast::ExprKind::Assign: {
                 suggestErrorMsg("Chained assignment is not allowed", span);
@@ -285,7 +283,7 @@ namespace jc::ast {
             case parser::TokenKind::Id: {
                 suggestErrorMsg(
                     "Custom infix operators feature is reserved, but not implemented",
-                    infix.op.span(sess)
+                    infix.op.span
                 );
                 break;
             }
