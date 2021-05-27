@@ -34,19 +34,24 @@ namespace jc::core {
     private:
         parser::Lexer lexer;
         parser::Parser parser;
-        ast::AstPrinter astPrinter;
-        ast::Linter linter;
-        ast::party_ptr party;
+        dt::Option<ast::party_ptr> party;
 
         void parse();
         ast::dir_module_ptr parseDir(const utils::fs::entry_ptr & dir, const std::string & ignore = "");
         ast::file_module_ptr parseFile(const utils::fs::entry_ptr & file);
 
+        // Linting & Printing //
+    private:
+        ast::AstPrinter astPrinter;
+        ast::Linter linter;
+
+        void printAst();
+        void lintAst();
+
     private:
         common::Logger log{"Interface", {}};
 
         sess::sess_ptr sess;
-        resolve::NameResolver nameResolver;
     };
 }
 

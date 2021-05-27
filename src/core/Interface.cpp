@@ -61,4 +61,13 @@ namespace jc::core {
             )
         );
     }
+
+    // Linting & Printing //
+    void Interface::printAst() {
+        astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
+    }
+
+    void Interface::lintAst() {
+        linter.lint(*party.unwrap());
+    }
 }
