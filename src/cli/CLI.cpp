@@ -4,34 +4,33 @@ namespace jc::cli {
     CLI::CLI() = default;
 
     void CLI::applyArgs(int argc, const char ** argv) {
-        bool inKeyValue = false;
-        std::string currentKey; // Key of current key-value argument
-        std::vector<std::string> values; // Collection of values for current key-value argument
-
-        const auto & collectValues = [&]() {
-            config.keyValueArgs.emplace(currentKey, values);
-            inKeyValue = false;
-        };
+        std::string kvKey; // Key of current key-value argument
 
         str_vec sourceFiles;
-        for (int i = 0; i < argc; ++i) {
+        // Start from 1 to skip bin file path
+        for (int i = 1; i < argc; ++i) {
             const std::string arg(argv[i]);
 
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
-                config.boolArgs.emplace(arg.substr(3), true);
-                collectValues();
+                config.boolArgs.emplace(arg.substr(2), true);
+                kvKey = "";
             } else if (utils::str::startsWith(arg, "-")) {
-                collectValues();
-                currentKey = arg;
-                inKeyValue = true;
-            } else if (inKeyValue) {
-                values.push_back(arg);
+                kvKey = arg.substr(1);
+            } else if (not kvKey.empty()) {
+                config.keyValueArgs[kvKey].emplace_back(arg);
             } else {
+                bool isSourceFile = false;
                 for (const auto & ext : Config::allowedExtensions) {
                     if (utils::str::endsWith(arg, "." + ext)) {
                         sourceFiles.push_back(arg);
+                        isSourceFile = true;
                     }
+                }
+                if (!isSourceFile) {
+                    throw CLIError("Unexpected cli argument '" + arg + "'");
+                } else {
+                    kvKey = "";
                 }
             }
         }
@@ -50,7 +49,7 @@ namespace jc::cli {
 
         for (const auto & arg : config.keyValueArgs) {
             const auto & alias = Config::aliases.find(arg.first);
-            if (utils::map::has(Config::allowedKeyValueArgs, arg.first) and alias == Config::aliases.end()) {
+            if (not utils::map::has(Config::allowedKeyValueArgs, arg.first) and alias == Config::aliases.end()) {
                 throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
             }
             if (arg.second.empty()) {
