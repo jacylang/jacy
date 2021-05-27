@@ -1,7 +1,9 @@
 #include "cli/CLI.h"
 
 namespace jc::cli {
-    CLI::CLI() = default;
+    CLI::CLI() {
+        log.init({});
+    }
 
     void CLI::applyArgs(int argc, const char ** argv) {
         std::string kvKey; // Key of current key-value argument

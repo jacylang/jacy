@@ -1,6 +1,10 @@
 #include "ast/AstPrinter.h"
 
 namespace jc::ast {
+    AstPrinter::AstPrinter() {
+        log.init({});
+    }
+
     void AstPrinter::print(const Party & party, AstPrinterMode mode) {
         this->mode = mode;
 

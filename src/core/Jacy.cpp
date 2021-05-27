@@ -1,7 +1,9 @@
 #include "core/Jacy.h"
 
 namespace jc::core {
-    Jacy::Jacy() = default;
+    Jacy::Jacy() {
+        log.init({});
+    }
 
     void Jacy::meow(int argc, const char ** argv) {
         try {

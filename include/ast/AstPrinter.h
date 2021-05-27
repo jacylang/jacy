@@ -16,7 +16,7 @@ namespace jc::ast {
 
     class AstPrinter : public ConstVisitor {
     public:
-        AstPrinter() = default;
+        AstPrinter();
 
         void print(const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
 

@@ -1,7 +1,9 @@
 #include "core/Interface.h"
 
 namespace jc::core {
-    Interface::Interface() : config(Config::getInstance()) {}
+    Interface::Interface() : config(Config::getInstance()) {
+        log.init({});
+    }
 
     void Interface::compile() {
         init();
