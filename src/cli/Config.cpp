@@ -1,44 +1,44 @@
-#include "cli/Config.h"
+#include "cli/Args.h"
 
 #include <tuple>
 
 namespace jc::cli {
     // Settings //
-    const str_vec Config::allowedExtensions = {
+    const str_vec Args::allowedExtensions = {
         "jc",
     };
 
-    const str_vec Config::allowedBoolArgs = {
+    const str_vec Args::allowedBoolArgs = {
         "dev",
     };
 
-    const std::map<std::string, key_value_arg> Config::allowedKeyValueArgs = {
+    const std::map<std::string, key_value_arg> Args::allowedKeyValueArgs = {
         {"print", {-1, {"tokens", "ast", "sugg", "source", "names", "all"}}},
         {"compile-depth", {1, {"parser", "name-resolution"}}},
     };
 
-    const str_vec Config::anyParamKeyValueArgs = {};
+    const str_vec Args::anyParamKeyValueArgs = {};
 
-    const std::map<std::string, std::string> Config::aliases = {};
+    const std::map<std::string, std::string> Args::aliases = {};
 
-    const std::map<std::string, str_vec> Config::argsDependencies = {
+    const std::map<std::string, str_vec> Args::argsDependencies = {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
     };
 
-    const std::map<std::string, bool> Config::defaultBoolArgs = {
+    const std::map<std::string, bool> Args::defaultBoolArgs = {
         {"dev", false},
     };
 
-    const std::map<std::string, str_vec> Config::defaultKeyValueArgs = {};
+    const std::map<std::string, str_vec> Args::defaultKeyValueArgs = {};
 
 
     // Checkers //
-    bool Config::is(const std::string & argName) const {
+    bool Args::is(const std::string & argName) const {
         // At first we find, because we can get `map::at` error if argName does not exists in boolArgs
         return boolArgs.find(argName) != boolArgs.end() and boolArgs.at(argName);
     }
 
-    bool Config::has(const std::string & key, const std::string & value) const {
+    bool Args::has(const std::string & key, const std::string & value) const {
         const auto & arg = keyValueArgs.find(key);
         if (arg == keyValueArgs.end()) {
             return false;
@@ -46,11 +46,11 @@ namespace jc::cli {
         return std::find(arg->second.begin(), arg->second.end(), value) != arg->second.end();
     }
 
-    bool Config::specified(const std::string & argName) const {
+    bool Args::specified(const std::string & argName) const {
         return is(argName) or keyValueArgs.find(argName) != keyValueArgs.end();
     }
 
-    dt::Option<str_vec> Config::getValues(const std::string & kvArgName) const {
+    dt::Option<str_vec> Args::getValues(const std::string & kvArgName) const {
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end()) {
             return dt::None;
@@ -58,7 +58,7 @@ namespace jc::cli {
         return found->second;
     }
 
-    dt::Option<std::string> Config::getSingleValue(const std::string & kvArgName) const {
+    dt::Option<std::string> Args::getSingleValue(const std::string & kvArgName) const {
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end() or found->second.empty()) {
             return dt::None;
@@ -69,7 +69,7 @@ namespace jc::cli {
         return found->second.at(0);
     }
 
-    const std::string & Config::getRootFile() const {
+    const std::string & Args::getRootFile() const {
         return rootFile;
     }
 }

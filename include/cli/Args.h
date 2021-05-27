@@ -1,5 +1,5 @@
-#ifndef JACY_CONFIG_H
-#define JACY_CONFIG_H
+#ifndef JACY_CLI_ARGS_H
+#define JACY_CLI_ARGS_H
 
 #include <map>
 #include <string>
@@ -13,7 +13,7 @@ namespace jc::cli {
     using str_vec = std::vector<std::string>;
     using key_value_arg = std::pair<int, str_vec>; // Pair of count (-1 means any count) and values expected
 
-    struct Config {
+    struct Args {
         // Allowed extensions for source files
         const static str_vec allowedExtensions;
 
@@ -59,4 +59,4 @@ namespace jc::cli {
     };
 }
 
-#endif // JACY_CONFIG_H
+#endif // JACY_CLI_ARGS_H

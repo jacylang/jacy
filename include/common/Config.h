@@ -3,7 +3,7 @@
 
 #include <set>
 
-#include "cli/Config.h"
+#include "cli/Args.h"
 
 namespace jc::common {
     class Config {
@@ -20,7 +20,7 @@ namespace jc::common {
             return instance;
         }
 
-        void applyCliConfig(const cli::Config & cliConfig);
+        void applyCliConfig(const cli::Args & cliConfig);
 
         // Enums //
         enum class Mode {

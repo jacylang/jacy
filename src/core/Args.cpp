@@ -3,7 +3,7 @@
 namespace jc::common {
     Config::Config() = default;
 
-    void Config::applyCliConfig(const cli::Config & cliConfig) {
+    void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
         // Apply key-value args //

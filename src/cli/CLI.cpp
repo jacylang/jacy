@@ -21,7 +21,7 @@ namespace jc::cli {
                 config.keyValueArgs[kvKey].emplace_back(arg);
             } else {
                 bool isSourceFile = false;
-                for (const auto & ext : Config::allowedExtensions) {
+                for (const auto & ext : Args::allowedExtensions) {
                     if (utils::str::endsWith(arg, "." + ext)) {
                         sourceFiles.push_back(arg);
                         isSourceFile = true;
@@ -37,19 +37,19 @@ namespace jc::cli {
 
         // Check arguments and apply aliases //
         for (auto & arg : config.boolArgs) {
-            const auto & alias = Config::aliases.find(arg.first);
-            if (not utils::arr::has(Config::allowedBoolArgs, arg.first) and alias == Config::aliases.end()) {
+            const auto & alias = Args::aliases.find(arg.first);
+            if (not utils::arr::has(Args::allowedBoolArgs, arg.first) and alias == Args::aliases.end()) {
                 throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
             }
 
-            if (alias != Config::aliases.end()) {
+            if (alias != Args::aliases.end()) {
                 utils::map::rename(config.boolArgs, arg.first, alias->second);
             }
         }
 
         for (const auto & arg : config.keyValueArgs) {
-            const auto & alias = Config::aliases.find(arg.first);
-            if (not utils::map::has(Config::allowedKeyValueArgs, arg.first) and alias == Config::aliases.end()) {
+            const auto & alias = Args::aliases.find(arg.first);
+            if (not utils::map::has(Args::allowedKeyValueArgs, arg.first) and alias == Args::aliases.end()) {
                 throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
             }
             if (arg.second.empty()) {
@@ -57,9 +57,9 @@ namespace jc::cli {
             }
 
             // Check for allowed parameters for key-value argument if it receives specific list
-            if (not utils::arr::has(Config::anyParamKeyValueArgs, arg.first)) {
+            if (not utils::arr::has(Args::anyParamKeyValueArgs, arg.first)) {
                 for (const auto & argParam : arg.second) {
-                    const auto & allowed = Config::allowedKeyValueArgs.at(arg.first).second;
+                    const auto & allowed = Args::allowedKeyValueArgs.at(arg.first).second;
                     if (not utils::arr::has(allowed, argParam)) {
                         throw CLIError(common::Logger::format(
                             "Unknown parameter for argument '", arg.first,
@@ -70,20 +70,20 @@ namespace jc::cli {
             }
 
             // Check for parameters count
-            const auto & allowedCount = Config::allowedKeyValueArgs.at(arg.first).first;
+            const auto & allowedCount = Args::allowedKeyValueArgs.at(arg.first).first;
             if (allowedCount != -1 and allowedCount != arg.second.size()) {
                 throw CLIError(common::Logger::format(
                     "Expected", allowedCount, "count of parameters for argument", arg.first + ",",
                     "got", arg.second.size(), " parameters: ", utils::arr::join(arg.second, " ")
                 ));
             }
-            if (alias != Config::aliases.end()) {
+            if (alias != Args::aliases.end()) {
                 utils::map::rename(config.keyValueArgs, arg.first, alias->second);
             }
         }
 
-        config.boolArgs = utils::map::merge(Config::defaultBoolArgs, config.boolArgs);
-        config.keyValueArgs = utils::map::merge(Config::defaultKeyValueArgs, config.keyValueArgs);
+        config.boolArgs = utils::map::merge(Args::defaultBoolArgs, config.boolArgs);
+        config.keyValueArgs = utils::map::merge(Args::defaultKeyValueArgs, config.keyValueArgs);
 
         // Note: Log arguments before dependency check to make it easier for user to find mistake
         {
@@ -108,7 +108,7 @@ namespace jc::cli {
 
         // Note: Use vector to output multiple arg-dependency errors
         std::vector<std::string> errorDeps;
-        for (const auto & arg : Config::argsDependencies) {
+        for (const auto & arg : Args::argsDependencies) {
             if (config.specified(arg.first)) {
                 for (const auto & dep : arg.second) {
                     if (!config.specified(dep)) {
@@ -123,7 +123,7 @@ namespace jc::cli {
             // Here we check for multiple argument dependency errors and generate an error
             std::string errorMsg;
             for (const auto & errorDep : errorDeps) {
-                const auto & deps = Config::argsDependencies.at(errorDep);
+                const auto & deps = Args::argsDependencies.at(errorDep);
                 errorMsg += utils::arr::join(deps, ", ", {}, {"'", "'"})
                     + " argument" + (deps.size() > 1 ? "s" : "")
                     + " required to be specified for argument '" + errorDep + "'\n";

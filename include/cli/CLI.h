@@ -14,7 +14,7 @@
 #include "utils/arr.h"
 #include "common/Error.h"
 #include "common/Logger.h"
-#include "cli/Config.h"
+#include "cli/Args.h"
 
 namespace jc::cli {
     struct CLIError : common::Error {
@@ -28,14 +28,14 @@ namespace jc::cli {
 
         void applyArgs(int argc, const char ** argv);
 
-        const Config & getConfig() const {
+        const Args & getConfig() const {
             return config;
         }
 
     private:
         common::Logger log{"cli", {}};
 
-        Config config{};
+        Args config{};
     };
 }
 
