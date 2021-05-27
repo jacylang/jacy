@@ -10,7 +10,6 @@
 #include <sstream>
 #include <vector>
 
-#include "dev/DevConfig.h"
 #include "common/Error.h"
 
 namespace jc::common {
@@ -35,13 +34,6 @@ namespace jc::common {
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
-        LoggerConfig() {
-            // NOTE: Force to use `dev` level
-            if (dev::DevConfig::dev) {
-                level = LogLevel::Dev;
-            }
-        }
-
         LogLevel level{LogLevel::Debug};
         bool printOwner{false};
         bool printLevel{true};

@@ -83,50 +83,8 @@ namespace jc::cli {
             }
         }
 
-        // Merge with defaults //
-        if (dev::DevConfig::dev) {
-            config.boolArgs = utils::map::merge(dev::DevConfig::defaultBoolArgs, config.boolArgs);
-            config.keyValueArgs = utils::map::merge(dev::DevConfig::defaultKeyValueArgs, config.keyValueArgs);
-        } else {
-            config.boolArgs = utils::map::merge(Config::defaultBoolArgs, config.boolArgs);
-            config.keyValueArgs = utils::map::merge(Config::defaultKeyValueArgs, config.keyValueArgs);
-        }
-
-        // TODO: Unify, refactor
-//        if (dev::DevConfig::dev) {
-//            // DEBUG: Check that default arguments are allowed too //
-//            for (auto & arg : config.defaultBoolArgs) {
-//                const auto & alias = Config::aliases.find(arg.first);
-//                if (not utils::arr::has(Config::allowedBoolArgs, arg.first) and alias == Config::aliases.end()) {
-//                    throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
-//                }
-//
-//                if (alias != Config::aliases.end()) {
-//                    utils::map::rename(config.boolArgs, arg.first, alias->second);
-//                }
-//            }
-//
-//            for (const auto & arg : config.defaultKeyValueArgs) {
-//                const auto & alias = Config::aliases.find(arg.first);
-//                if (utils::map::has(config.allowedKeyValueArgs, arg.first) and alias == Config::aliases.end()) {
-//                    throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
-//                }
-//                if (arg.second.empty()) {
-//                    throw CLIError(common::Logger::format("Expected value for '", arg.first, "' argument"));
-//                }
-//                // Check for allowed parameters for key-value argument if it receives specific list
-//                if (not utils::arr::has(config.anyParamKeyValueArgs, arg.first)) {
-//                    for (const auto & argParam : arg.second) {
-//                        if (not utils::arr::has(config.allowedKeyValueArgs.at(arg.first).allowed, argParam)) {
-//                            throw CLIError(common::Logger::format("Unknown parameter for argument '", arg.first, "'"));
-//                        }
-//                    }
-//                }
-//                if (alias != Config::aliases.end()) {
-//                    utils::map::rename(config.keyValueArgs, arg.first, alias->second);
-//                }
-//            }
-//        }
+        config.boolArgs = utils::map::merge(Config::defaultBoolArgs, config.boolArgs);
+        config.keyValueArgs = utils::map::merge(Config::defaultKeyValueArgs, config.keyValueArgs);
 
         // Note: Log arguments before dependency check to make it easier for user to find mistake
         {

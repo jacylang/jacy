@@ -11,6 +11,7 @@
 #include "suggest/Suggester.h"
 #include "ast/File.h"
 #include "ast/nodes.h"
+#include "common/Config.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
@@ -221,6 +222,7 @@ namespace jc::parser {
         Span nspan() const;
 
         // DEV //
+        bool devMode{false};
         void logParse(const std::string & entity);
     };
 }

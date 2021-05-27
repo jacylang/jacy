@@ -1,7 +1,9 @@
 #include "parser/Parser.h"
 
 namespace jc::parser {
-    Parser::Parser() = default;
+    Parser::Parser() {
+        devMode = common::Config::getInstance().checkDev();
+    }
 
     Token Parser::peek() const {
         try {
@@ -2159,6 +2161,9 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::logParse(const std::string & entity) {
+        if (not devMode) {
+            return;
+        }
         log.dev("Parse", "`" + entity + "`, peek:", peek().dump());
     }
 }
