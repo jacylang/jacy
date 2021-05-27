@@ -320,7 +320,7 @@ namespace jc::parser {
         ast::opt_expr_ptr oneLineBody;
         std::tie(body, oneLineBody) = parseFuncBody();
 
-        return std::make_shared<ast::Func>(
+        return addNode(std::make_shared<ast::Func>(
             std::move(attributes),
             std::move(modifiers),
             std::move(typeParams),
@@ -330,7 +330,7 @@ namespace jc::parser {
             std::move(body),
             std::move(oneLineBody),
             begin.to(cspan())
-        );
+        ));
     }
 
     ast::item_ptr Parser::parseImpl(ast::attr_list && attributes) {
@@ -349,14 +349,14 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("impl");
 
-        return std::make_shared<ast::Impl>(
+        return addNode(std::make_shared<ast::Impl>(
             std::move(attributes),
             std::move(typeParams),
             std::move(traitTypePath),
             std::move(forType),
             std::move(members),
             begin.to(cspan())
-        );
+        ));
     }
 
     ast::item_ptr Parser::parseStruct(ast::attr_list && attributes) {
@@ -412,7 +412,7 @@ namespace jc::parser {
                 auto type = parseType("Expected type for field after `:`");
 
                 fields.emplace_back(
-                    std::make_shared<ast::Field>(std::move(id), std::move(type), begin.to(cspan()))
+                    addNode(std::make_shared<ast::Field>(std::move(id), std::move(type), begin.to(cspan())))
                 );
             }
 
@@ -427,9 +427,9 @@ namespace jc::parser {
             justSkip(TokenKind::Semi, false, "`;`", "`parseStruct`");
         }
 
-        return std::make_shared<ast::Struct>(
+        return addNode(std::make_shared<ast::Struct>(
             std::move(attributes), std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
-        );
+        ));
     }
 
     ast::item_ptr Parser::parseTrait(ast::attr_list && attributes) {
@@ -473,14 +473,14 @@ namespace jc::parser {
 
         ast::item_list members = parseMembers("trait");
 
-        return std::make_shared<ast::Trait>(
+        return addNode(std::make_shared<ast::Trait>(
             std::move(attributes),
             std::move(name),
             std::move(typeParams),
             std::move(superTraits),
             std::move(members),
             begin.to(cspan())
-        );
+        ));
     }
 
     ast::item_ptr Parser::parseTypeAlias(ast::attr_list && attributes) {
@@ -496,9 +496,9 @@ namespace jc::parser {
         );
         auto type = parseType("Expected type");
 
-        return std::make_shared<ast::TypeAlias>(
+        return addNode(std::make_shared<ast::TypeAlias>(
             std::move(attributes), std::move(name), std::move(type), begin.to(cspan())
-        );
+        ));
     }
 
     ast::item_ptr Parser::parseMod(ast::attr_list && attributes) {
@@ -528,9 +528,9 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
         );
 
-        return std::make_shared<ast::Mod>(
+        return addNode(std::make_shared<ast::Mod>(
             std::move(attributes), std::move(name), std::move(items), begin.to(cspan())
-        );
+        ));
     }
 
     ////////////////
@@ -551,7 +551,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    return std::make_shared<ast::ItemStmt>(std::move(item.unwrap()));
+                    return addNode(std::make_shared<ast::ItemStmt>(item.unwrap()));
                 }
 
                 auto expr = parseOptExpr();

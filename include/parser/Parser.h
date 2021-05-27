@@ -86,9 +86,11 @@ namespace jc::parser {
 
         sess::sess_ptr sess;
 
-        template<class T>
-        T addNode(const T & node) {
-            return sess->nodeMap.addNode(node);
+        template<class T, class ...Args>
+        inline std::shared_ptr<T> makeNode(Args ...args) {
+            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(node);
+            return node;
         }
 
         parse_sess_ptr parseSess;
