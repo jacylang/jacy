@@ -20,13 +20,14 @@ namespace jc::ast {
         Struct,
     };
 
-    class Linter : public ast::ConstVisitor<dt::SuggResult<dt::none_t>> {
+    class Linter : public ast::ConstVisitor {
     public:
         Linter() = default;
 
-        dt::SuggResult<dt::none_t> visit(const ast::Party & party) override;
+        dt::SuggResult<dt::none_t> lint(const ast::Party & party);
 
     private:
+        void visit(const Party & party) override;
         void visit(const File & file) override;
 
         // Errors //

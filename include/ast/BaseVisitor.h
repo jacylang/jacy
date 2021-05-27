@@ -67,13 +67,11 @@ namespace jc::ast {
     struct Party;
     struct File;
 
-    template<class R>
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
 
-        virtual R visit(Party&) = 0;
-
+        virtual void visit(Party&) = 0;
         virtual void visit(File&) = 0;
 
         virtual void visit(ErrorStmt&) = 0;

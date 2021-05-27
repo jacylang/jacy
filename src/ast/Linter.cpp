@@ -1,15 +1,19 @@
 #include "ast/Linter.h"
 
 namespace jc::ast {
-    dt::SuggResult<dt::none_t> Linter::visit(const ast::Party & party) {
+    dt::SuggResult<dt::none_t> Linter::lint(const ast::Party & party) {
         log.dev("Lint...");
 
+        visit(party);
+
+        return {dt::None, std::move(suggestions)};
+    }
+
+    void Linter::visit(const Party & party) {
         party.getRootModule()->getRootFile()->getFile()->accept(*this);
         for (const auto & module : party.getRootModule()->getRootDir()->getModules()) {
             // TODO
         }
-
-        return {dt::None, std::move(suggestions)};
     }
 
     void Linter::visit(const File & file) {

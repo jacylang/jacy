@@ -67,13 +67,11 @@ namespace jc::ast {
     struct Party;
     struct File;
 
-    template<class R>
     class ConstVisitor {
     public:
         virtual ~ConstVisitor() = default;
 
-        virtual R visit(const Party&) = 0;
-
+        virtual void visit(const Party&) = 0;
         virtual void visit(const File&) = 0;
 
         virtual void visit(const ErrorStmt&) = 0;
