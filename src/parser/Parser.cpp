@@ -358,7 +358,7 @@ namespace jc::parser {
                 std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
             );
         } else if (skipOpt(TokenKind::LBrace, true)) {
-            // TODO
+            auto fields = parseStructFields();
 
             skip(
                 TokenKind::RParen,
@@ -366,6 +366,10 @@ namespace jc::parser {
                 false,
                 false,
                 std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+
+            return makeNode<ast::EnumEntry>(
+                ast::EnumEntryKind::Struct, std::move(name), std::move(fields), begin.to(cspan())
             );
         }
 
@@ -469,40 +473,7 @@ namespace jc::parser {
                 std::make_unique<ParseErrSugg>("Expected opening `{` or `;` to ignore body in `struct`", cspan())
             );
 
-            bool first = true;
-            while (!eof()) {
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(
-                        TokenKind::Comma,
-                        true,
-                        true,
-                        false,
-                        std::make_unique<ParseErrSugg>("Missing `,` separator between `struct` fields", cspan())
-                    );
-                }
-
-                const auto & begin = cspan();
-                ast::attr_list attributes = parseAttrList();
-                auto id = parseId("Expected field name", true, true);
-
-                // TODO: Hint field name
-                skip(
-                    TokenKind::Colon, true, true, false, std::make_unique<ParseErrSugg>(
-                        "Missing `:` to annotate field type", cspan()
-                    )
-                );
-
-                // TODO: Hint field type
-                auto type = parseType("Expected type for field after `:`");
-
-                fields.emplace_back(makeNode<ast::Field>(std::move(id), std::move(type), begin.to(cspan())));
-            }
+            fields = parseStructFields();
 
             skip(
                 TokenKind::RBrace,
@@ -518,6 +489,47 @@ namespace jc::parser {
         return makeNode<ast::Struct>(
             std::move(attributes), std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
         );
+    }
+
+    ast::field_list Parser::parseStructFields() {
+        ast::field_list fields;
+
+        bool first = true;
+        while (!eof()) {
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(
+                    TokenKind::Comma,
+                    true,
+                    true,
+                    false,
+                    std::make_unique<ParseErrSugg>("Missing `,` separator between `struct` fields", cspan())
+                );
+            }
+
+            const auto & begin = cspan();
+            ast::attr_list attributes = parseAttrList();
+            auto id = parseId("Expected field name", true, true);
+
+            // TODO: Hint field name
+            skip(
+                TokenKind::Colon, true, true, false, std::make_unique<ParseErrSugg>(
+                    "Missing `:` to annotate field type", cspan()
+                )
+            );
+
+            // TODO: Hint field type
+            auto type = parseType("Expected type for field after `:`");
+
+            fields.emplace_back(makeNode<ast::Field>(std::move(id), std::move(type), begin.to(cspan())));
+        }
+
+        return std::move(fields);
     }
 
     ast::item_ptr Parser::parseTrait(ast::attr_list && attributes) {
