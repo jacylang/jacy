@@ -1,9 +1,7 @@
 #include "parser/Lexer.h"
 
 namespace jc::parser {
-    Lexer::Lexer() {
-
-    }
+    Lexer::Lexer() = default;
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.span = span::Span(
@@ -12,7 +10,6 @@ namespace jc::parser {
             len,
             parseSess->fileId
         );
-        log.dev("Add token", t.span.toString());
         tokens.emplace_back(t);
     }
 
