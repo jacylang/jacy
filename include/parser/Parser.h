@@ -72,7 +72,11 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::file_ptr> parse(parse_sess_ptr sess, const token_list & tokens);
+        dt::SuggResult<ast::file_ptr> parse(
+            const sess::sess_ptr & sess,
+            const parse_sess_ptr & parseSess,
+            const token_list & tokens
+        );
 
     private:
         common::Logger log{"parser", {}};
@@ -80,6 +84,14 @@ namespace jc::parser {
         token_list tokens;
         size_t index{0};
 
+        sess::sess_ptr sess;
+
+        template<class T>
+        T addNode(const T & node) {
+            return sess->nodeMap.addNode(node);
+        }
+
+        parse_sess_ptr parseSess;
         ast::file_ptr file;
 
         Token peek() const;
@@ -187,7 +199,6 @@ namespace jc::parser {
 
         // Suggestions //
     private:
-        parse_sess_ptr sess;
         sugg::sugg_list suggestions;
         void suggest(sugg::sugg_ptr suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);

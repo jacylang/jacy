@@ -8,6 +8,7 @@
 
 #include "common/Logger.h"
 #include "session/SourceMap.h"
+#include "ast/NodeMap.h"
 
 namespace jc::sess {
     struct Session;
@@ -15,6 +16,7 @@ namespace jc::sess {
 
     struct Session {
         SourceMap sourceMap;
+        ast::NodeMap nodeMap;
     };
 }
 

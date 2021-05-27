@@ -190,10 +190,15 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<ast::file_ptr> Parser::parse(parse_sess_ptr sess, const token_list & tokens) {
+    dt::SuggResult<ast::file_ptr> Parser::parse(
+        const sess::sess_ptr & sess,
+        const parse_sess_ptr & parseSess,
+        const token_list & tokens
+    ) {
         log.dev("Parse...");
 
         this->sess = sess;
+        this->parseSess = parseSess;
         this->tokens = tokens;
 
         file = std::make_shared<ast::File>(parseItemList("Unexpected expression on top-level"));
