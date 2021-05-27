@@ -114,7 +114,7 @@ namespace jc::ast {
         void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
         void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
 
-        common::Logger log{"linter", {}};
+        common::Logger log{"linter"};
     };
 }
 

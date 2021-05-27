@@ -26,7 +26,7 @@ namespace jc::parser {
         LexerResult lex(const parse_sess_ptr & parseSess, std::string source);
 
     private:
-        common::Logger log{"lexer", {}};
+        common::Logger log{"lexer"};
 
         std::string source;
         token_list tokens;

@@ -51,8 +51,17 @@ namespace jc::common {
 
     class Logger {
     public:
-        Logger(std::string owner, const LoggerConfig & config) : owner(std::move(owner)), config(config) {}
+        explicit Logger(std::string owner) : owner(std::move(owner)) {}
         virtual ~Logger() = default;
+
+        void init(const LoggerConfig & config) {
+            this->config = config;
+
+            // Force Dev level in case of `dev` argument applied
+            if (common::Config::getInstance().checkDev()) {
+                this->config.level = LogLevel::Dev;
+            }
+        }
 
         template<class ...Args>
         const Logger & debug(Args && ...args) const;

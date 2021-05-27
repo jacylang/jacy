@@ -55,7 +55,7 @@ namespace jc::core {
     private:
 
     private:
-        common::Logger log{"Interface", {}};
+        common::Logger log{"Interface"};
 
         sess::sess_ptr sess;
     };

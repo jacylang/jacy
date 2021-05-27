@@ -80,7 +80,7 @@ namespace jc::parser {
         );
 
     private:
-        common::Logger log{"parser", {}};
+        common::Logger log{"parser"};
 
         token_list tokens;
         size_t index{0};

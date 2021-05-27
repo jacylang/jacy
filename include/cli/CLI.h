@@ -33,7 +33,7 @@ namespace jc::cli {
         }
 
     private:
-        common::Logger log{"cli", {}};
+        common::Logger log{"cli"};
 
         Args config{};
     };

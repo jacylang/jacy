@@ -22,7 +22,7 @@ namespace jc::core {
         void meow(int argc, const char ** argv);
 
     private:
-        common::Logger log{"jacy", {}};
+        common::Logger log{"jacy"};
         cli::CLI cli;
         Interface interface;
     };

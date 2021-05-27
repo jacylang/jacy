@@ -84,7 +84,7 @@ namespace jc::ast {
         void visit(const ConstParam & constParam) override;
 
     private:
-        common::Logger log{"ast_printer", {}};
+        common::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
         void printIndent() const;
