@@ -64,14 +64,13 @@ namespace jc::ast {
     struct Lifetime;
     struct ConstParam;
 
-    struct Party;
-    struct File;
+    struct FileModule;
 
     class ConstVisitor {
     public:
         virtual ~ConstVisitor() = default;
 
-        virtual void visit(const File&) = 0;
+        virtual void visit(const FileModule&) = 0;
 
         virtual void visit(const ErrorStmt&) = 0;
         virtual void visit(const ErrorExpr&) = 0;
