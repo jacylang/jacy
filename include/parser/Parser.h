@@ -130,7 +130,7 @@ namespace jc::parser {
 
         // Items //
         dt::Option<ast::item_ptr> parseItem();
-        ast::item_list parseItemList(const std::string & gotExprSugg);
+        ast::item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
         ast::item_ptr parseEnumDecl(ast::attr_list && attributes);
         ast::item_ptr parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers);

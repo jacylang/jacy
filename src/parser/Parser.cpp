@@ -202,7 +202,7 @@ namespace jc::parser {
         this->tokens = tokens;
 
         auto begin = cspan();
-        auto items = parseItemList("Unexpected expression on top-level");
+        auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
         return {makeNode<ast::File>(std::move(items), begin.to(cspan())), std::move(suggestions)};
     }
@@ -225,7 +225,7 @@ namespace jc::parser {
                 return parseEnumDecl(std::move(attributes));
             case TokenKind::Type:
                 return parseTypeAlias(std::move(attributes));
-            case TokenKind::Mod:
+            case TokenKind::Module:
                 return parseMod(std::move(attributes));
             case TokenKind::Struct:
                 return parseStruct(std::move(attributes));
@@ -252,13 +252,13 @@ namespace jc::parser {
         return dt::None;
     }
 
-    ast::item_list Parser::parseItemList(const std::string & gotExprSugg) {
+    ast::item_list Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
         logParse("ItemList");
 
         ast::item_list items;
         while (!eof()) {
             skipSemis(true);
-            if (eof()) {
+            if (peek().is(stopToken)) {
                 break;
             }
 
@@ -517,7 +517,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected opening `{` for `mod` body", cspan())
         );
 
-        auto items = parseItemList("Unexpected expression in `mod`");
+        auto items = parseItemList("Unexpected expression in `mod`", TokenKind::RBrace);
 
         skip(
             TokenKind::RBrace,
@@ -1797,7 +1797,7 @@ namespace jc::parser {
                 return {};
             }
 
-            members = parseItemList("Unexpected expression in " + construction + " body");
+            members = parseItemList("Unexpected expression in " + construction + " body", TokenKind::RBrace);
 
             if (braceSkipped) {
                 skip(
