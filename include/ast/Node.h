@@ -1,5 +1,5 @@
-#ifndef JACY_NODE_H
-#define JACY_NODE_H
+#ifndef JACY_AST_NODE_H
+#define JACY_AST_NODE_H
 
 #include <memory>
 #include <utility>
@@ -24,4 +24,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_NODE_H
+#endif // JACY_AST_NODE_H
