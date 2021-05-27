@@ -17,6 +17,7 @@
 #include "common/Config.h"
 #include "ast/Party.h"
 #include "utils/fs.h"
+#include "session/Session.h"
 
 namespace jc::core {
     class Interface {

@@ -28,8 +28,10 @@ namespace jc::ast {
     };
 
     struct FileModule : Module {
-        explicit FileModule(file_ptr && file) : file(std::move(file)), Module(Module::Kind::File) {}
+        FileModule(sess::file_id_t fileId, file_ptr && file)
+            : fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
 
+        sess::file_id_t fileId;
         file_ptr file;
     };
 

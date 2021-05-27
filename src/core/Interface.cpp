@@ -53,6 +53,6 @@ namespace jc::core {
 
         const auto & fileTokens = std::move(lexerResult.tokens);
 
-        return std::make_unique<ast::FileModule>(parser.parse(parseSess, fileTokens));
+        return std::make_unique<ast::FileModule>(fileId, parser.parse(parseSess, fileTokens));
     }
 }
