@@ -196,7 +196,7 @@ namespace jc::parser {
         this->sess = sess;
         this->tokens = tokens;
 
-        file->items = parseItemList("Unexpected expression on top-level");
+        file = std::make_shared<ast::File>(parseItemList("Unexpected expression on top-level"));
 
         return {file, std::move(suggestions)};
     }
@@ -269,7 +269,7 @@ namespace jc::parser {
                 // If expr is `None` we already made an error in `primary`
             }
         }
-        return items;
+        return std::move(items);
     }
 
     ast::item_ptr Parser::parseEnumDecl(ast::attr_list && attributes) {

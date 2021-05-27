@@ -106,6 +106,29 @@ namespace jc::ast {
         dir_module_ptr rootDir;
     };
 
+    class NodeMap {
+    public:
+        NodeMap() = default;
+
+        node_ptr addNode(node_ptr node) {
+            if (currentNodeId == NONE_NODE_ID) {
+                common::Logger::devPanic("Nodes count exceeded");
+            }
+            node->id = currentNodeId;
+            nodes.emplace(currentNodeId, node);
+            currentNodeId++;
+            return node;
+        }
+
+        const Node & getNode(node_id nodeId) const;
+        const Span & getNodeSpan(node_id nodeId) const;
+        node_ptr getNodePtr(node_id nodeId) const;
+
+    private:
+        node_id currentNodeId{0};
+        std::map<node_id, node_ptr> nodes;
+    };
+
     class Party {
     public:
         explicit Party(root_module_ptr && rootModule) : rootModule(std::move(rootModule)) {}
@@ -114,8 +137,22 @@ namespace jc::ast {
             return rootModule;
         }
 
+        template<class T>
+        T addNode(T node) {
+            return nodeMap.addNode(node);
+        }
+
+        const Node & getNode(node_id nodeId) const {
+            return nodeMap.getNode(nodeId);
+        }
+
+        node_ptr getNodePtr(node_id nodeId) const {
+            return nodeMap.getNodePtr(nodeId);
+        }
+
     private:
         root_module_ptr rootModule;
+        NodeMap nodeMap;
     };
 }
 

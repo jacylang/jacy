@@ -1,8 +1,6 @@
 #include "ast/Node.h"
 
 namespace jc::ast {
-    NodeMap Node::nodeMap{};
-
     const Node & NodeMap::getNode(node_id nodeId) const {
         return *nodes.at(nodeId);
     }
@@ -11,7 +9,7 @@ namespace jc::ast {
         return getNode(nodeId).span;
     }
 
-    const node_ptr & NodeMap::getNodePtr(node_id nodeId) const {
+    node_ptr NodeMap::getNodePtr(node_id nodeId) const {
         return nodes.at(nodeId);
     }
 }
