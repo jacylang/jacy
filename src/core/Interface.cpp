@@ -8,9 +8,10 @@ namespace jc::core {
 
         // AST Stage //
         parse();
-        // TODO: Print source
         printAst();
         lintAst();
+
+        // Name resolution //
     }
 
     void Interface::init() {
@@ -57,6 +58,9 @@ namespace jc::core {
 
         const auto & fileTokens = std::move(lexerResult.tokens);
 
+        printSource(fileId);
+        printTokens(fileId, fileTokens);
+
         return std::make_unique<ast::FileModule>(
             fileId,
             parser.parse(sess, parseSess, fileTokens).unwrap(
@@ -66,14 +70,42 @@ namespace jc::core {
         );
     }
 
-    // Linting & Printing //
-    void Interface::printAst() {
-        if (config.checkPrint(Config::PrintKind::Ast)) {
-            common::Logger::nl();
-            log.info("Printing AST (`--print ast`)");
-            astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
-            common::Logger::nl();
+    // Debug //
+    void Interface::printSource(span::file_id_t fileId) {
+        if (not config.checkPrint(Config::PrintKind::Source)) {
+            return;
         }
+        const auto & source = sess->sourceMap.getSource(fileId);
+        log.debug("Printing source for file", source.path, "(`--print source`)");
+
+        const auto & sourceLines = source.sourceLines.unwrap();
+        for (size_t i = 0; i < sourceLines.size(); i++) {
+            log.raw(i + 1, "|", sourceLines.at(i));
+        }
+        log.nl();
+    }
+
+    void Interface::printTokens(span::file_id_t fileId, const parser::token_list & tokens) {
+        if (not config.checkPrint(Config::PrintKind::Tokens)) {
+            return;
+        }
+        const auto & filePath = sess->sourceMap.getSource(fileId).path;
+        common::Logger::nl();
+        log.info("Printing tokens for file", filePath, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
+        for (const auto & token : tokens) {
+            log.raw(token.dump(true)).nl();
+        }
+        common::Logger::nl();
+    }
+
+    void Interface::printAst() {
+        if (not config.checkPrint(Config::PrintKind::Ast)) {
+            return;
+        }
+        common::Logger::nl();
+        log.info("Printing AST (`--print ast`)");
+        astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
+        common::Logger::nl();
     }
 
     void Interface::lintAst() {
