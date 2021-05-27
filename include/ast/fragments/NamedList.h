@@ -20,7 +20,7 @@ namespace jc::ast {
     };
 
     struct NamedList : Node {
-        NamedList(named_list elements, const Span & span) : elements(elements), Node(span) {}
+        NamedList(named_list elements, const Span & span) : elements(std::move(elements)), Node(span) {}
 
         named_list elements;
     };

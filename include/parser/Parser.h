@@ -195,6 +195,7 @@ namespace jc::parser {
         ast::tuple_t_el_list parseParenType();
         ast::type_ptr parseArrayType();
         ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Span & span);
+        ast::named_list_ptr parseTupleFields();
 
         // Type fragments //
         ast::opt_type_params parseTypeParams();

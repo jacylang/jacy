@@ -1382,7 +1382,7 @@ namespace jc::parser {
 
             if (first) {
                 first = false;
-            } else { // FIXME: For lambdas
+            } else {
                 skip(
                     TokenKind::Comma,
                     true,
@@ -1393,8 +1393,6 @@ namespace jc::parser {
             }
 
             auto exprToken = peek();
-
-            // FIXME: Add construction name for `Lambda`
 
             ast::opt_id_ptr name = dt::None;
             ast::opt_expr_ptr value = dt::None;
@@ -1914,6 +1912,45 @@ namespace jc::parser {
             justSkip(TokenKind::Semi, false, "`;`", "`parseMembers`");
         }
         return members;
+    }
+
+    ast::named_list_ptr Parser::parseTupleFields() {
+        ast::named_list_ptr tupleFields;
+
+        bool first = true;
+        while (!eof()) {
+            if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(
+                    TokenKind::Comma,
+                    true,
+                    true,
+                    false,
+                    std::make_unique<ParseErrSugg>("Missing `,` delimiter tuple fields", cspan())
+                );
+            }
+
+            if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
+                auto elBegin = cspan();
+                auto name = justParseId("`parseTupleFields`");
+                justSkip(TokenKind::Colon, true, "`:`", "`parseTupleFields`");
+                auto value = parseExpr("Expected tuple field value after `:`");
+                tupleFields->elements.emplace_back(
+                    makeNode<ast::NamedElement>(std::move(name), std::move(value), elBegin.to(cspan()))
+                );
+            } else {
+
+            }
+        }
     }
 
     ///////////
