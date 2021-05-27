@@ -14,11 +14,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Party & party) {
-        party.getRootModule()->getRootFile()->getFile()->accept(*this);
-
-        for (const auto & module : party.getRootModule()->getRootDir()->getModules()) {
-            // TODO
-        }
+        party.getRootModule()->accept(*this);
     }
 
     void AstPrinter::visit(const File & file) {
