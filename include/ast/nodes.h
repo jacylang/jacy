@@ -47,4 +47,6 @@
 
 #include "ast/Node.h"
 
+#include "ast/Party.h"
+
 #endif // JACY_NODES_H

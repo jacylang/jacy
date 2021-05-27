@@ -38,6 +38,10 @@ namespace jc::sess {
         return sourceLines.at(index);
     }
 
+    std::string SourceMap::getFilePath(file_id_t fileId) const {
+        return sources.at(fileId).path;
+    }
+
     std::string SourceMap::sliceBySpan(file_id_t fileId, const span::Span & span) {
         const auto & sourceIt = sources.find(fileId);
         if (sourceIt == sources.end()) {
