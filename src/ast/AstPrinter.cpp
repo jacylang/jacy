@@ -7,10 +7,6 @@ namespace jc::ast {
         party.getRootModule()->accept(*this);
     }
 
-    void AstPrinter::visit(const Party & party) {
-        party.getRootModule()->accept(*this);
-    }
-
     void AstPrinter::visit(const File & file) {
         for (const auto & item : file.items) {
             item->accept(*this);

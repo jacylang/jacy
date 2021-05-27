@@ -71,7 +71,6 @@ namespace jc::ast {
     public:
         virtual ~BaseVisitor() = default;
 
-        virtual void visit(Party&) = 0;
         virtual void visit(File&) = 0;
 
         virtual void visit(ErrorStmt&) = 0;

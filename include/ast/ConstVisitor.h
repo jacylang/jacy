@@ -71,7 +71,6 @@ namespace jc::ast {
     public:
         virtual ~ConstVisitor() = default;
 
-        virtual void visit(const Party&) = 0;
         virtual void visit(const File&) = 0;
 
         virtual void visit(const ErrorStmt&) = 0;
