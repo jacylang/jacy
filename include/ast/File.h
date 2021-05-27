@@ -12,6 +12,14 @@ namespace jc::ast {
         explicit File(item_list items) : items(std::move(items)) {}
 
         item_list items;
+
+        void accept(BaseVisitor & visitor) {
+            return visitor.visit(*this);
+        }
+
+        void accept(ConstVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
     };
 }
 
