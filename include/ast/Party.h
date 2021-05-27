@@ -57,20 +57,20 @@ namespace jc::ast {
     };
 
     struct RootModule : Module {
-        RootModule(file_module_ptr && rootFile, dir_module_ptr && modules)
-            : rootFile(std::move(rootFile)), modules(std::move(modules)), Module(Module::Kind::Root) {}
+        RootModule(file_module_ptr && rootFile, dir_module_ptr && rootDir)
+            : rootFile(std::move(rootFile)), rootDir(std::move(rootDir)), Module(Module::Kind::Root) {}
 
         const file_module_ptr & getRootFile() const {
             return rootFile;
         }
 
-        const dir_module_ptr & getModules() const {
-            return modules;
+        const dir_module_ptr & getRootDir() const {
+            return rootDir;
         }
 
     private:
         file_module_ptr rootFile;
-        dir_module_ptr modules;
+        dir_module_ptr rootDir;
     };
 
     class Party {

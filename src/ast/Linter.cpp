@@ -13,9 +13,9 @@ namespace jc::ast {
 
     void Linter::visit(const Party & party) {
         party.getRootModule()->getRootFile()->getFile()->accept(*this);
-//        for (const auto & nestedModules : party.getRootModule()->nestedModules) {
-//
-//        }
+        for (const auto & module : party.getRootModule()->getDir()) {
+
+        }
     }
 
     void Linter::visit(const File & file) {
