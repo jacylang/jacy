@@ -22,6 +22,8 @@ namespace jc::common {
                     print.insert(PrintKind::Source);
                 } else if (val == "names") {
                     print.insert(PrintKind::Names);
+                } else if (val == "all") {
+                    print.insert(PrintKind::All);
                 } else {
                     throw std::logic_error("Unhandled value for `print` cli argument");
                 }
@@ -49,7 +51,7 @@ namespace jc::common {
     }
 
     bool Config::checkPrint(PrintKind printKind) const {
-        return print.find(printKind) != print.end();
+        return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
     }
 
     bool Config::checkDev() const {

@@ -36,6 +36,8 @@ namespace jc::common {
             Suggestions,
             Source,
             Names,
+
+            All,
         };
 
         enum class CompileDepth {
