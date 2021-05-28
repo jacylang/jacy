@@ -220,9 +220,9 @@ namespace jc::parser {
 
         switch (peek().kind) {
             case TokenKind::Func:
-                return parseFuncDecl(std::move(attributes), std::move(modifiers));
+                return parseFunc(std::move(attributes), std::move(modifiers));
             case TokenKind::Enum:
-                return parseEnumDecl(std::move(attributes));
+                return parseEnum(std::move(attributes));
             case TokenKind::Type:
                 return parseTypeAlias(std::move(attributes));
             case TokenKind::Module:
@@ -278,12 +278,12 @@ namespace jc::parser {
         return std::move(items);
     }
 
-    ast::item_ptr Parser::parseEnumDecl(ast::attr_list && attributes) {
+    ast::item_ptr Parser::parseEnum(ast::attr_list && attributes) {
         logParse("Enum");
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Enum, true, "`enum`", "`parseEnumDecl`");
+        justSkip(TokenKind::Enum, true, "`enum`", "`parseEnum`");
 
         auto name = parseId("Expected `enum` name", true, true);
         auto typeParams = parseTypeParams();
@@ -376,12 +376,12 @@ namespace jc::parser {
         return makeNode<ast::EnumEntry>(ast::EnumEntryKind::Raw, std::move(name), begin.to(cspan()));
     }
 
-    ast::item_ptr Parser::parseFuncDecl(ast::attr_list && attributes, parser::token_list && modifiers) {
+    ast::item_ptr Parser::parseFunc(ast::attr_list && attributes, parser::token_list && modifiers) {
         logParse("Func");
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Func, true, "`func`", "`parseFuncDecl`");
+        justSkip(TokenKind::Func, true, "`func`", "`parseFunc`");
 
         auto typeParams = parseTypeParams();
         auto name = parseId("An identifier expected as a type parameter name", true, true);
@@ -819,12 +819,12 @@ namespace jc::parser {
                 break;
             }
             case TokenKind::Func: {
-                parseFuncDecl({}, {});
+                parseFunc({}, {});
                 construction = "`func` declaration";
                 break;
             }
             case TokenKind::Enum: {
-                parseEnumDecl({});
+                parseEnum({});
                 construction = "`enum` declaration";
                 break;
             }
