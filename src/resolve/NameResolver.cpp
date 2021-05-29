@@ -1,10 +1,10 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_stack> NameResolver::resolve(const sess::sess_ptr & sess, const ast::item_list & tree) {
+    dt::SuggResult<rib_stack> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
-        visitItems(tree);
+        party.getRootModule()->accept(*this);
 
         return {ribStack, std::move(suggestions)};
     }

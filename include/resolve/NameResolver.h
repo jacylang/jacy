@@ -17,7 +17,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::Panic) {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::item_list & tree);
+        dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::Party & party);
 
         void visit(ast::FileModule & fileModule) override;
 
