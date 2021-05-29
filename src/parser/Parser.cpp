@@ -636,9 +636,13 @@ namespace jc::parser {
     }
 
     ast::item_ptr Parser::parseUseDecl(ast::attr_list && attributes) {
+        const auto & begin = cspan();
+
         justSkip(TokenKind::Use, true, "`use`", "`parseUseDecl`");
 
+        auto useTree = parseUseTree();
 
+        return makeNode<ast::UseDecl>(std::move(attributes), std::move(useTree), begin.to(cspan()));
     }
 
     ast::use_tree_ptr Parser::parseUseTree() {
