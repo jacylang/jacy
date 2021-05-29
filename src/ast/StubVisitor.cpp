@@ -66,6 +66,10 @@ namespace jc::ast {
         visit("typeAlias");
     }
 
+    void StubVisitor::visit(UseDecl & useDecl) {
+        visit("useDecl");
+    }
+
     void StubVisitor::visit(VarStmt & varDecl) {
         visit("varDecl");
     }
