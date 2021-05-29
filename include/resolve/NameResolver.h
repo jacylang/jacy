@@ -20,6 +20,7 @@ namespace jc::resolve {
         dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::Party & party);
 
         void visit(ast::FileModule & fileModule) override;
+        void visit(ast::DirModule & dirModule) override;
 
         // Items //
 //        void visit(ast::Enum & enumDecl) override;
@@ -84,6 +85,7 @@ namespace jc::resolve {
     private:
         module_stack moduleStack;
         void enterMod(Module::Kind kind, const std::string & name);
+        void exitMod();
 
         // Ribs //
     private:

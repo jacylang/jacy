@@ -11,6 +11,22 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::FileModule & fileModule) {
         enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
+
+        for (const auto & item : fileModule.getFile()->items) {
+            item->accept(*this);
+        }
+
+        exitMod();
+    }
+
+    void NameResolver::visit(ast::DirModule & dirModule) {
+        enterMod(Module::Kind::Dir, dirModule.getName());
+
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+        }
+
+        exitMod();
     }
 
     void NameResolver::visit(ast::Func & funcDecl) {
@@ -355,6 +371,10 @@ namespace jc::resolve {
     // Modules //
     void NameResolver::enterMod(Module::Kind kind, const std::string & name) {
         moduleStack.emplace_back(std::make_unique<Module>(kind, name));
+    }
+
+    void NameResolver::exitMod() {
+        moduleStack.pop_back();
     }
 
     // Ribs //
