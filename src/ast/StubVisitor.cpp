@@ -5,6 +5,10 @@ namespace jc::ast {
         visit("fileModule");
     }
 
+    void StubVisitor::visit(ast::DirModule & dirModule) {
+        visit("dirModule");
+    }
+
     void StubVisitor::visit(ast::ErrorStmt & errorStmt) {
         Logger::devPanic("[ERROR STMT] In", owner, "at", errorStmt.span.toString());
     }

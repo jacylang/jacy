@@ -19,6 +19,7 @@ namespace jc::ast {
         ~StubVisitor() override = default;
 
         void visit(ast::FileModule & fileModule) override;
+        void visit(ast::DirModule & dirModule) override;
 
         void visit(ast::ErrorStmt & errorStmt) override;
         void visit(ast::ErrorExpr & errorExpr) override;
