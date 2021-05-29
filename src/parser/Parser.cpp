@@ -233,6 +233,8 @@ namespace jc::parser {
                 return parseImpl(std::move(attributes));
             case TokenKind::Trait:
                 return parseTrait(std::move(attributes));
+            case TokenKind::Use:
+                return parseUseDecl(std::move(attributes));
             default: {}
         }
 
@@ -631,6 +633,16 @@ namespace jc::parser {
         return makeNode<ast::Mod>(
             std::move(attributes), std::move(name), std::move(items), begin.to(cspan())
         );
+    }
+
+    ast::item_ptr Parser::parseUseDecl(ast::attr_list && attributes) {
+        justSkip(TokenKind::Use, true, "`use`", "`parseUseDecl`");
+
+
+    }
+
+    ast::use_tree_ptr Parser::parseUseTree() {
+
     }
 
     ////////////////

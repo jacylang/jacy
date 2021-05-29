@@ -44,6 +44,7 @@
 #include "ast/item/Struct.h"
 #include "ast/item/Trait.h"
 #include "ast/item/TypeAlias.h"
+#include "ast/item/UseDecl.h"
 
 #include "ast/Node.h"
 

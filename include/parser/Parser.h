@@ -141,6 +141,9 @@ namespace jc::parser {
         ast::item_ptr parseTrait(ast::attr_list && attributes);
         ast::item_ptr parseTypeAlias(ast::attr_list && attributes);
         ast::item_ptr parseMod(ast::attr_list && attributes);
+        ast::item_ptr parseUseDecl(ast::attr_list && attributes);
+        ast::use_tree_ptr parseUseTree();
+        ast::use_decl_path_ptr parseUseDeclPath();
 
         // Statements //
         ast::stmt_ptr parseStmt();
