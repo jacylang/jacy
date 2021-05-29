@@ -56,7 +56,13 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-//    void NameResolver::visit(ast::Impl & impl) {}
+    void NameResolver::visit(ast::Mod & mod) {
+        enterMod(Module::Kind::Mod, mod.name->getValue().unwrap());
+
+        visitItems(mod.items);
+
+        exitMod();
+    }
 
     void NameResolver::visit(ast::Struct & _struct) {
         uint32_t prevDepth = getDepth();
