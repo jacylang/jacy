@@ -18,8 +18,8 @@ namespace jc::dt {
         SuggResult(const T & value, sugg::sugg_list suggestions)
             : value(value), suggestions(std::move(suggestions)) {}
 
-        T unwrap(sess::sess_ptr sess, bool dump) {
-            if (dump) {
+        T unwrap(sess::sess_ptr sess) {
+            if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 common::Logger::nl();
                 common::Logger::devDebug("Printing suggestions (`--print sugg`)");
                 sugg::SuggDumper suggDumper;

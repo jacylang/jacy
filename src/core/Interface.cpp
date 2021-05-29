@@ -70,10 +70,7 @@ namespace jc::core {
 
         return std::make_unique<ast::FileModule>(
             fileId,
-            parser.parse(sess, parseSess, fileTokens).unwrap(
-                sess,
-                Config::getInstance().checkPrint(Config::PrintKind::Suggestions)
-            )
+            parser.parse(sess, parseSess, fileTokens).unwrap(sess)
         );
     }
 
@@ -117,6 +114,6 @@ namespace jc::core {
 
     // Name resolution //
     void Interface::resolveNames() {
-        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, Config::getInstance().checkPrint(Config::PrintKind::Suggestions));
+        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
     }
 }
