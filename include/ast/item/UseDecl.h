@@ -39,6 +39,14 @@ namespace jc::ast {
             Item(span, std::move(attributes), ItemKind::Use) {}
 
         use_tree_ptr useTree;
+
+        void accept(BaseVisitor & visitor) override {
+            return visitor.visit(*this);
+        }
+
+        void accept(ConstVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
