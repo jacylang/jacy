@@ -17,6 +17,12 @@ namespace jc::ast {
         }
     }
 
+    void Linter::visit(const DirModule & dirModule) {
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+        }
+    }
+
     // Errors //
     void Linter::visit(const ErrorExpr & errorExpr) {
         Logger::devPanic("[ERROR EXPR] On linter stage");

@@ -28,6 +28,7 @@ namespace jc::ast {
 
     private:
         void visit(const FileModule & fileModule) override;
+        void visit(const DirModule & dirModule) override;
 
         // Errors //
         void visit(const ErrorStmt & errorStmt) override;
