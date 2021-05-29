@@ -2,7 +2,7 @@
 
 namespace jc::sess {
     file_id_t SourceMap::addSource(const fs::path & path) {
-        file_id_t fileId = utils::hash::hash(path);
+        file_id_t fileId = utils::hash::hash(path.string());
         sources.emplace(fileId, Source{path, dt::None});
         return fileId;
     }

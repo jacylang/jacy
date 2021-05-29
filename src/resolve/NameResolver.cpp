@@ -10,7 +10,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::FileModule & fileModule) {
-        enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId())->getPath().filename().string());
+        enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
     }
 
     void NameResolver::visit(ast::Func & funcDecl) {

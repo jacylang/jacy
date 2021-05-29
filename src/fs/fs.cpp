@@ -1,6 +1,6 @@
 #include "fs/fs.h"
 
-namespace jc::utils::fs {
+namespace jc::fs {
     bool exists(const std_fs::path & path) {
         return std_fs::exists(std_fs::relative(path));
     }
@@ -22,7 +22,7 @@ namespace jc::utils::fs {
         auto data = ss.str();
         file.close();
 
-        return std::make_shared<Entry>(path.string(), entry.file_size(), std::move(data));
+        return std::make_shared<Entry>(path.string(), std::move(data));
     }
 
     entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {

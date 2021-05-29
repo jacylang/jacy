@@ -41,4 +41,4 @@ namespace jc::sess {
     };
 }
 
-#endif //JACY_SESSION_SOURCEMAP_H
+#endif // JACY_SESSION_SOURCEMAP_H
