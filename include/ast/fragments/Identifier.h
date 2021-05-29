@@ -30,17 +30,6 @@ namespace jc::ast {
             common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
             return "meow, bitch";
         }
-
-        void setReference(node_id reference) {
-            refersTo = reference;
-        }
-
-        opt_node_id getReference() const {
-            return refersTo;
-        }
-
-    private:
-        opt_node_id refersTo;
     };
 }
 

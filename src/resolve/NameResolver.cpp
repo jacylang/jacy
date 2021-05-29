@@ -189,6 +189,8 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::PathExpr & pathExpr) {
         // TODO: global
+
+
     }
 
     void NameResolver::visit(ast::Prefix & prefix) {
