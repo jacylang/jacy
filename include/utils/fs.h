@@ -35,8 +35,8 @@ namespace jc::utils::fs {
         Entry(std_fs::path path, source_lines sourceLines)
             : kind(Kind::File), path(std::move(path)), content(std::move(sourceLines)) {}
 
-        Kind getKind() const {
-            return kind;
+        bool isDir() const {
+            return kind == Kind::Dir;
         }
 
         const std_fs::path & getPath() const {
