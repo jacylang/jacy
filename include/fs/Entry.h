@@ -16,13 +16,11 @@ namespace jc::fs {
     struct Entry;
     using entry_ptr = std::shared_ptr<Entry>;
     using entry_list = std::vector<entry_ptr>;
-    using source_lines = std::vector<std::string>;
     namespace std_fs = std::filesystem;
 
     struct Entry {
         enum class Kind {
             File,
-            Source,
             Dir,
         };
 
@@ -32,9 +30,6 @@ namespace jc::fs {
         Entry(std_fs::path path, std::string content)
             : kind(Kind::File), path(std::move(path)), content(std::move(content)) {}
 
-        Entry(std_fs::path path, source_lines sourceLines)
-            : kind(Kind::File), path(std::move(path)), content(std::move(sourceLines)) {}
-
         bool isDir() const {
             return kind == Kind::Dir;
         }
@@ -43,18 +38,24 @@ namespace jc::fs {
             return path;
         }
 
-        const std::string & getContent() const {
-            return std::get<std::string>(content);
+        const entry_list & getSubModules() const {
+            if (not isDir()) {
+                common::Logger::devPanic("Called `fs::Entry::getSubModules` on non-dir entry");
+            }
+            return std::get<entry_list>(content);
         }
 
-        const entry_list & getEntries() const {
-            return std::get<entry_list>(content);
+        const std::string & getContent() const {
+            if (not isDir()) {
+                common::Logger::devPanic("Called `fs::Entry::getContent` on non-file entry");
+            }
+            return std::get<std::string>(content);
         }
 
     private:
         Kind kind;
         std_fs::path path;
-        std::variant<entry_list, std::string, source_lines> content;
+        std::variant<entry_list, std::string> content;
     };
 }
 

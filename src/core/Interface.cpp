@@ -21,10 +21,10 @@ namespace jc::core {
     // Parsing //
     void Interface::parse() {
         const auto & rootFileName = Config::getInstance().getRootFile();
-        const auto & rootFileEntry = utils::fs::readfile(rootFileName);
+        const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = std::move(parseFile(rootFileEntry));
         auto nestedModules = parseDir(
-            utils::fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
+            fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
         );
         auto rootModule = std::make_unique<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
@@ -32,14 +32,14 @@ namespace jc::core {
         party = std::make_unique<ast::Party>(std::move(rootModule));
     }
 
-    ast::dir_module_ptr Interface::parseDir(const utils::fs::entry_ptr & dir, const std::string & ignore) {
+    ast::dir_module_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
         if (not dir->isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
         const auto & name = dir->getPath().parent_path().filename().string();
         ast::module_list nestedModules;
-        for (const auto & entry : dir->getEntries()) {
+        for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
                 nestedModules.emplace_back(std::move(parseDir(entry)));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
@@ -50,7 +50,7 @@ namespace jc::core {
         return std::make_unique<ast::DirModule>(name, std::move(nestedModules));
     }
 
-    ast::file_module_ptr Interface::parseFile(const utils::fs::entry_ptr & file) {
+    ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.addSource(file->getPath().string());
         const auto parseSess = std::make_shared<parser::ParseSess>(fileId);
 
@@ -77,9 +77,9 @@ namespace jc::core {
             return;
         }
         const auto & source = sess->sourceMap.getSource(fileId);
-        log.debug("Printing source for file", source->getPath(), "(`--print source`)");
+        log.debug("Printing source for file", source.path, "(`--print source`)");
 
-        const auto & sourceLines = source->getContent();
+        const auto & sourceLines = source.sourceLines.unwrap();
         for (size_t i = 0; i < sourceLines.size(); i++) {
             log.raw(i + 1, "|", sourceLines.at(i));
         }
@@ -90,7 +90,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }
-        const auto & filePath = sess->sourceMap.getSource(fileId)->getPath();
+        const auto & filePath = sess->sourceMap.getSource(fileId).path;
         common::Logger::nl();
         log.info("Printing tokens for file", filePath, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {

@@ -1,9 +1,9 @@
 #include "session/SourceMap.h"
 
 namespace jc::sess {
-    file_id_t SourceMap::addSource(const std::string & path) {
+    file_id_t SourceMap::addSource(const fs::path & path) {
         file_id_t fileId = utils::hash::hash(path);
-        sources.emplace(fileId, Source{dt::None, path});
+        sources.emplace(fileId, Source{path, dt::None});
         return fileId;
     }
 
@@ -15,7 +15,7 @@ namespace jc::sess {
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        sources[fileId].sourceLines = sourceLines;
+        sources[fileId] = {};
         common::Logger::devDebug("Set source by fileId:", fileId);
     }
 
@@ -36,10 +36,6 @@ namespace jc::sess {
             common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
         return sourceLines.at(index);
-    }
-
-    std::string SourceMap::getFilePath(file_id_t fileId) const {
-        return sources.at(fileId).path;
     }
 
     std::string SourceMap::sliceBySpan(file_id_t fileId, const span::Span & span) {

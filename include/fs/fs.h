@@ -4,6 +4,8 @@
 #include "fs/Entry.h"
 
 namespace jc::fs {
+    using path = std_fs::path;
+
     /**
      * @brief Check if path exists relatively to current dir
      * @param path
