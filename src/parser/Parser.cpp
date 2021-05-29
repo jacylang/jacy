@@ -1950,6 +1950,10 @@ namespace jc::parser {
                     segments.emplace_back(makeNode<ast::SimplePathSeg>(ast::SimplePathSeg::Kind::Party, cspan()));
                     break;
                 }
+                case TokenKind::Self: {
+                    segments.emplace_back(makeNode<ast::SimplePathSeg>(ast::SimplePathSeg::Kind::Self, cspan()));
+                    break;
+                }
                 case TokenKind::Path: {
                     if (first) {
                         first = false;
