@@ -8,10 +8,12 @@ namespace jc::core {
 
         // AST Stage //
         parse();
-        printAst();
+        printAst(ast::AstPrinterMode::Parsing);
         lintAst();
 
         // Name resolution //
+        resolveNames();
+        printAst(ast::AstPrinterMode::Names);
     }
 
     void Interface::init() {
@@ -30,6 +32,10 @@ namespace jc::core {
         auto rootModule = std::make_unique<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
 
         party = std::make_unique<ast::Party>(std::move(rootModule));
+    }
+
+    void Interface::lintAst() {
+        linter.lint(*party.unwrap());
     }
 
     ast::dir_module_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
@@ -99,17 +105,18 @@ namespace jc::core {
         common::Logger::nl();
     }
 
-    void Interface::printAst() {
+    void Interface::printAst(ast::AstPrinterMode mode) {
         if (not config.checkPrint(Config::PrintKind::Ast)) {
             return;
         }
         common::Logger::nl();
         log.info("Printing AST (`--print ast`)");
-        astPrinter.print(*party.unwrap(), ast::AstPrinterMode::Parsing);
+        astPrinter.print(*party.unwrap(), mode);
         common::Logger::nl();
     }
 
-    void Interface::lintAst() {
-        linter.lint(*party.unwrap());
+    // Name resolution //
+    void Interface::resolveNames() {
+        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, Config::getInstance().checkPrint(Config::PrintKind::Suggestions));
     }
 }

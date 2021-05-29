@@ -49,10 +49,13 @@ namespace jc::core {
         // Debug //
         void printSource(span::file_id_t fileId);
         void printTokens(span::file_id_t fileId, const parser::token_list & tokens);
-        void printAst();
+        void printAst(ast::AstPrinterMode mode);
 
         // Name resolution //
     private:
+        resolve::NameResolver nameResolver;
+
+        void resolveNames();
 
     private:
         common::Logger log{"Interface"};
