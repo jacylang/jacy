@@ -1914,8 +1914,8 @@ namespace jc::parser {
         return members;
     }
 
-    ast::named_list_ptr Parser::parseTupleFields() {
-        ast::named_list_ptr tupleFields;
+    ast::tuple_t_el_list Parser::parseTupleFields() {
+        ast::tuple_t_el_list tupleFields;
 
         bool first = true;
         while (!eof()) {
@@ -1939,18 +1939,23 @@ namespace jc::parser {
                 break;
             }
 
+            auto elBegin = cspan();
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto elBegin = cspan();
                 auto name = justParseId("`parseTupleFields`");
                 justSkip(TokenKind::Colon, true, "`:`", "`parseTupleFields`");
-                auto value = parseExpr("Expected tuple field value after `:`");
-                tupleFields->elements.emplace_back(
-                    makeNode<ast::NamedElement>(std::move(name), std::move(value), elBegin.to(cspan()))
+                auto type = parseType("Expected tuple field type after `:`");
+                tupleFields.emplace_back(
+                    makeNode<ast::TupleTypeElement>(std::move(name), std::move(type), elBegin.to(cspan()))
                 );
             } else {
-
+                auto type = parseType("Expected tuple field type");
+                tupleFields.emplace_back(
+                    makeNode<ast::TupleTypeElement>(dt::None, std::move(type), elBegin.to(cspan()))
+                );
             }
         }
+
+        return tupleFields;
     }
 
     ///////////

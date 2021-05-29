@@ -63,12 +63,19 @@ namespace jc::ast {
         }
     };
 
+    struct TupleTypeElement : Node {
+        TupleTypeElement(opt_id_ptr name, opt_type_ptr type, const Span & span)
+            : name(std::move(name)), type(std::move(type)), Node(span) {}
+
+        opt_id_ptr name;
+        opt_type_ptr type;
+    };
+
     struct TupleType : Type {
         TupleType(tuple_t_el_list elements, const Span & span)
             : elements(std::move(elements)), Type(span, TypeKind::Tuple) {}
 
         tuple_t_el_list elements;
-
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
@@ -79,21 +86,12 @@ namespace jc::ast {
         }
     };
 
-    struct TupleTypeElement : Node {
-        TupleTypeElement(opt_id_ptr name, opt_type_ptr type, const Span & span)
-            : name(std::move(name)), type(std::move(type)), Node(span) {}
-
-        opt_id_ptr name;
-        opt_type_ptr type;
-    };
-
     struct FuncType : Type {
         FuncType(type_list params, type_ptr returnType, const Span & span)
             : params(std::move(params)), returnType(std::move(returnType)), Type(span, TypeKind::Func) {}
 
         type_list params;
         type_ptr returnType;
-
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);

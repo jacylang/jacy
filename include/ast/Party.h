@@ -1,6 +1,8 @@
 #ifndef JACY_AST_PARTY_H
 #define JACY_AST_PARTY_H
 
+#include <utility>
+
 #include "ast/nodes.h"
 #include "ast/File.h"
 
@@ -56,8 +58,12 @@ namespace jc::ast {
     };
 
     struct DirModule : Module {
-        explicit DirModule(std::vector<module_ptr> && modules)
-            : modules(std::move(modules)), Module(Module::Kind::Dir) {}
+        explicit DirModule(std::string name, std::vector<module_ptr> && modules)
+            : name(std::move(name)), modules(std::move(modules)), Module(Module::Kind::Dir) {}
+
+        const std::string & getName() const {
+            return name;
+        }
 
         const std::vector<module_ptr> & getModules() const {
             return modules;
@@ -76,6 +82,7 @@ namespace jc::ast {
         }
 
     private:
+        std::string name;
         std::vector<module_ptr> modules;
     };
 

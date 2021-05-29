@@ -5,6 +5,7 @@
 #include "data_types/SuggResult.h"
 #include "resolve/Name.h"
 #include "utils/arr.h"
+#include "resolve/Module.h"
 
 namespace jc::resolve {
     using common::Logger;
@@ -17,6 +18,8 @@ namespace jc::resolve {
         ~NameResolver() override = default;
 
         dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::item_list & tree);
+
+        void visit(ast::FileModule & fileModule) override;
 
         // Items //
 //        void visit(ast::Enum & enumDecl) override;
@@ -76,6 +79,10 @@ namespace jc::resolve {
         void visitItems(const ast::item_list & members);
         void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
         void visitNamedList(const ast::named_list_ptr & namedList);
+
+        // Modules //
+    private:
+        module_stack moduleStack;
 
         // Ribs //
     private:

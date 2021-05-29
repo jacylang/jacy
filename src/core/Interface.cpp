@@ -37,6 +37,7 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
+        const auto & name = dir->getPath().parent_path().filename().string();
         ast::module_list nestedModules;
         for (const auto & entry : dir->getEntries()) {
             if (entry->isDir()) {
@@ -46,7 +47,7 @@ namespace jc::core {
             }
         }
 
-        return std::make_unique<ast::DirModule>(std::move(nestedModules));
+        return std::make_unique<ast::DirModule>(name, std::move(nestedModules));
     }
 
     ast::file_module_ptr Interface::parseFile(const utils::fs::entry_ptr & file) {
