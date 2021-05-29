@@ -20,7 +20,7 @@ namespace jc::ast {
         Struct,
     };
 
-    class Linter : public ast::ConstVisitor {
+    class Linter : public ConstVisitor {
     public:
         Linter();
 
@@ -37,67 +37,67 @@ namespace jc::ast {
         void visit(const ErrorTypePath & errorTypePath) override;
 
         // Items //
-        void visit(const ast::Enum & enumDecl) override;
-        void visit(const ast::Func & funcDecl) override;
-        void visit(const ast::Impl & impl) override;
-        void visit(const ast::Mod & mod) override;
-        void visit(const ast::Struct & _struct) override;
-        void visit(const ast::Trait & trait) override;
-        void visit(const ast::TypeAlias & typeAlias) override;
+        void visit(const Enum & enumDecl) override;
+        void visit(const Func & funcDecl) override;
+        void visit(const Impl & impl) override;
+        void visit(const Mod & mod) override;
+        void visit(const Struct & _struct) override;
+        void visit(const Trait & trait) override;
+        void visit(const TypeAlias & typeAlias) override;
 
         // Statements //
-        void visit(const ast::ExprStmt & exprStmt) override;
-        void visit(const ast::ForStmt & forStmt) override;
-        void visit(const ast::ItemStmt & itemStmt) override;
-        void visit(const ast::VarStmt & varStmt) override;
-        void visit(const ast::WhileStmt & whileStmt) override;
+        void visit(const ExprStmt & exprStmt) override;
+        void visit(const ForStmt & forStmt) override;
+        void visit(const ItemStmt & itemStmt) override;
+        void visit(const VarStmt & varStmt) override;
+        void visit(const WhileStmt & whileStmt) override;
 
         // Expressions //
-        void visit(const ast::Assignment & assign) override;
-        void visit(const ast::Block & block) override;
-        void visit(const ast::BorrowExpr & borrowExpr) override;
-        void visit(const ast::BreakExpr & breakExpr) override;
-        void visit(const ast::ContinueExpr & continueExpr) override;
-        void visit(const ast::DerefExpr & derefExpr) override;
-        void visit(const ast::IfExpr & ifExpr) override;
-        void visit(const ast::Infix & infix) override;
-        void visit(const ast::Invoke & invoke) override;
-        void visit(const ast::Lambda & lambdaExpr) override;
-        void visit(const ast::ListExpr & listExpr) override;
-        void visit(const ast::LiteralConstant & literalConstant) override;
-        void visit(const ast::LoopExpr & loopExpr) override;
-        void visit(const ast::MemberAccess & memberAccess) override;
-        void visit(const ast::ParenExpr & parenExpr) override;
-        void visit(const ast::PathExpr & pathExpr) override;
-        void visit(const ast::Prefix & prefix) override;
-        void visit(const ast::QuestExpr & questExpr) override;
-        void visit(const ast::ReturnExpr & returnExpr) override;
-        void visit(const ast::SpreadExpr & spreadExpr) override;
-        void visit(const ast::Subscript & subscript) override;
-        void visit(const ast::ThisExpr & thisExpr) override;
-        void visit(const ast::TupleExpr & tupleExpr) override;
-        void visit(const ast::UnitExpr & unitExpr) override;
-        void visit(const ast::WhenExpr & whenExpr) override;
+        void visit(const Assignment & assign) override;
+        void visit(const Block & block) override;
+        void visit(const BorrowExpr & borrowExpr) override;
+        void visit(const BreakExpr & breakExpr) override;
+        void visit(const ContinueExpr & continueExpr) override;
+        void visit(const DerefExpr & derefExpr) override;
+        void visit(const IfExpr & ifExpr) override;
+        void visit(const Infix & infix) override;
+        void visit(const Invoke & invoke) override;
+        void visit(const Lambda & lambdaExpr) override;
+        void visit(const ListExpr & listExpr) override;
+        void visit(const LiteralConstant & literalConstant) override;
+        void visit(const LoopExpr & loopExpr) override;
+        void visit(const MemberAccess & memberAccess) override;
+        void visit(const ParenExpr & parenExpr) override;
+        void visit(const PathExpr & pathExpr) override;
+        void visit(const Prefix & prefix) override;
+        void visit(const QuestExpr & questExpr) override;
+        void visit(const ReturnExpr & returnExpr) override;
+        void visit(const SpreadExpr & spreadExpr) override;
+        void visit(const Subscript & subscript) override;
+        void visit(const ThisExpr & thisExpr) override;
+        void visit(const TupleExpr & tupleExpr) override;
+        void visit(const UnitExpr & unitExpr) override;
+        void visit(const WhenExpr & whenExpr) override;
 
         // Types //
-        void visit(const ast::ParenType & parenType) override;
-        void visit(const ast::TupleType & tupleType) override;
-        void visit(const ast::FuncType & funcType) override;
-        void visit(const ast::SliceType & listType) override;
-        void visit(const ast::ArrayType & arrayType) override;
-        void visit(const ast::TypePath & typePath) override;
-        void visit(const ast::UnitType & unitType) override;
+        void visit(const ParenType & parenType) override;
+        void visit(const TupleType & tupleType) override;
+        void visit(const FuncType & funcType) override;
+        void visit(const SliceType & listType) override;
+        void visit(const ArrayType & arrayType) override;
+        void visit(const TypePath & typePath) override;
+        void visit(const UnitType & unitType) override;
 
         // Type params //
-        void visit(const ast::GenericType & genericType) override;
-        void visit(const ast::Lifetime & lifetime) override;
-        void visit(const ast::ConstParam & constParam) override;
+        void visit(const GenericType & genericType) override;
+        void visit(const Lifetime & lifetime) override;
+        void visit(const ConstParam & constParam) override;
 
     private:
-        void lintNamedList(const ast::named_list_ptr & namedList);
-        void lintTypeParams(const ast::type_param_list & typeParams);
-        void lintMembers(const ast::item_list & members);
-        bool isPlaceExpr(const ast::expr_ptr & expr);
+        void lintNamedList(const named_list_ptr & namedList);
+        void lintTypeParams(const type_param_list & typeParams);
+        void lintMembers(const item_list & members);
+        bool isPlaceExpr(const expr_ptr & expr);
         static void lintId(const id_ptr & id);
 
         // Context //
