@@ -17,6 +17,7 @@ namespace jc::ast {
         Struct,
         Trait,
         TypeAlias,
+        Use,
     };
 
     struct Item : Node {
