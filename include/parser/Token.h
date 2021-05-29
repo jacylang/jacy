@@ -131,6 +131,7 @@ namespace jc::parser {
         Party,
         Pri,
         Pub,
+        Self,
         Static,
         Struct,
         Super,
