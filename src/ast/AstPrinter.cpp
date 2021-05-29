@@ -15,6 +15,13 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(const DirModule & dirModule) {
+        log.raw("---", dirModule.getName());
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+        }
+    }
+
     void AstPrinter::visit(const ErrorStmt & errorStmt) {
         log.raw("[ERROR STMT]");
     }
