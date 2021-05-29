@@ -16,20 +16,30 @@ namespace jc::utils::fs {
     struct Entry;
     using entry_ptr = std::shared_ptr<Entry>;
     using entry_list = std::vector<entry_ptr>;
+    using source_lines = std::vector<std::string>;
     namespace std_fs = std::filesystem;
 
     struct Entry {
+        enum class Kind {
+            File,
+            Source,
+            Dir,
+        };
+
         Entry(std_fs::path path, entry_list && files)
-            : dir(true), path(std::move(path)), content(std::move(files)) {}
+            : kind(Kind::Dir), path(std::move(path)), content(std::move(files)) {}
 
-        Entry(std_fs::path path, std::uintmax_t size, std::string content)
-            : dir(false), path(std::move(path)), size(size), content(std::move(content)) {}
+        Entry(std_fs::path path, std::string content)
+            : kind(Kind::File), path(std::move(path)), content(std::move(content)) {}
 
-        bool isDir() const {
-            return dir;
+        Entry(std_fs::path path, source_lines sourceLines)
+            : kind(Kind::File), path(std::move(path)), content(std::move(sourceLines)) {}
+
+        Kind getKind() const {
+            return kind;
         }
 
-        std_fs::path getPath() const {
+        const std_fs::path & getPath() const {
             return path;
         }
 
@@ -42,10 +52,9 @@ namespace jc::utils::fs {
         }
 
     private:
-        bool dir;
+        Kind kind;
         std_fs::path path;
-        dt::Option<std::uintmax_t> size;
-        std::variant<entry_list, std::string> content;
+        std::variant<entry_list, std::string, source_lines> content;
     };
 
     /**

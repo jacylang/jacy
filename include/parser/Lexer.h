@@ -8,6 +8,8 @@
 #include "session/SourceMap.h"
 
 namespace jc::parser {
+    using source_lines = std::vector<std::string>;
+
     struct LexerResult {
         token_list tokens;
         sess::source_lines sourceLines;
