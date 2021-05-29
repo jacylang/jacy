@@ -70,15 +70,11 @@ namespace jc::ast {
         }
 
         void accept(BaseVisitor & visitor) override {
-            for (const auto & module : modules) {
-                module->accept(visitor);
-            }
+            return visitor.visit(*this);
         }
 
         void accept(ConstVisitor & visitor) const override {
-            for (const auto & module : modules) {
-                module->accept(visitor);
-            }
+            return visitor.visit(*this);
         }
 
     private:
