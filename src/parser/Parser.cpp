@@ -1926,6 +1926,54 @@ namespace jc::parser {
         return members;
     }
 
+    ast::simple_path_ptr Parser::parseSimplePath(const std::string & construction) {
+        bool global = false;
+
+        const auto & begin = cspan();
+
+        std::vector<ast::simple_path_seg_ptr> segments;
+
+        bool first = true;
+        while (!eof()) {
+            const auto & segBegin = cspan();
+            switch (peek().kind) {
+                case TokenKind::Id: {
+                    auto ident = justParseId("`parseSimplePath`");
+                    segments.emplace_back(makeNode<ast::SimplePathSeg>(std::move(ident), cspan().to(cspan())));
+                    break;
+                }
+                case TokenKind::Super: {
+                    segments.emplace_back(makeNode<ast::SimplePathSeg>(ast::SimplePathSeg::Kind::Super, cspan()));
+                    break;
+                }
+                case TokenKind::Party: {
+                    segments.emplace_back(makeNode<ast::SimplePathSeg>(ast::SimplePathSeg::Kind::Party, cspan()));
+                    break;
+                }
+                case TokenKind::Path: {
+                    if (first) {
+                        first = false;
+                        global = true;
+                    } else {
+                        continue;
+                    }
+                }
+                default: {
+                    if (first) {
+                        suggestErrorMsg(
+                            "Expected identifier, `super`, `self` or `party` in " + construction + "path",
+                            cspan()
+                        );
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        return makeNode<ast::SimplePath>(global, std::move(segments), begin.to(cspan()));
+    }
+
     ast::tuple_t_el_list Parser::parseTupleFields() {
         ast::tuple_t_el_list tupleFields;
 

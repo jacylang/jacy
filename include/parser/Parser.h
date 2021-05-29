@@ -191,6 +191,7 @@ namespace jc::parser {
         ast::func_param_list parseFuncParamList();
         ast::func_param_ptr parseFuncParam();
         ast::item_list parseMembers(const std::string & construction);
+        ast::simple_path_ptr parseSimplePath(const std::string & construction);
 
         // Types //
         ast::type_ptr parseType(const std::string & suggMsg);
