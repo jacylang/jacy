@@ -77,9 +77,9 @@ namespace jc::core {
             return;
         }
         const auto & source = sess->sourceMap.getSource(fileId);
-        log.debug("Printing source for file", source.path, "(`--print source`)");
+        log.debug("Printing source for file", source->getPath(), "(`--print source`)");
 
-        const auto & sourceLines = source.sourceLines.unwrap();
+        const auto & sourceLines = source->getContent();
         for (size_t i = 0; i < sourceLines.size(); i++) {
             log.raw(i + 1, "|", sourceLines.at(i));
         }
@@ -90,7 +90,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }
-        const auto & filePath = sess->sourceMap.getSource(fileId).path;
+        const auto & filePath = sess->sourceMap.getSource(fileId)->getPath();
         common::Logger::nl();
         log.info("Printing tokens for file", filePath, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {
