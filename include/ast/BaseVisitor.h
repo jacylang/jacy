@@ -15,6 +15,7 @@ namespace jc::ast {
     struct Struct;
     struct Trait;
     struct TypeAlias;
+    struct UseDecl;
 
     // Statements //
     struct ExprStmt;
@@ -87,6 +88,7 @@ namespace jc::ast {
         virtual void visit(Struct&) = 0;
         virtual void visit(Trait&) = 0;
         virtual void visit(TypeAlias&) = 0;
+        virtual void visit(UseDecl&) = 0;
 
         // Statements //
         virtual void visit(ExprStmt&) = 0;
