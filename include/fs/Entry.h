@@ -1,5 +1,5 @@
-#ifndef JACY_UTILS_FS_H
-#define JACY_UTILS_FS_H
+#ifndef JACY_FS_ENTRY_H
+#define JACY_FS_ENTRY_H
 
 #include <filesystem>
 #include <utility>
@@ -12,7 +12,7 @@
 #include "data_types/Option.h"
 #include "common/Logger.h"
 
-namespace jc::utils::fs {
+namespace jc::fs {
     struct Entry;
     using entry_ptr = std::shared_ptr<Entry>;
     using entry_list = std::vector<entry_ptr>;
@@ -56,19 +56,6 @@ namespace jc::utils::fs {
         std_fs::path path;
         std::variant<entry_list, std::string, source_lines> content;
     };
-
-    /**
-     * @brief Check if path exists relatively to current dir
-     * @param path
-     * @return
-     */
-    bool exists(const std_fs::path & path);
-
-    entry_ptr readfile(const std_fs::path & path);
-
-    entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt = "");
-
-    entry_ptr readDirRec(const std_fs::path & path, const std::string & allowedExt = "");
 }
 
-#endif // JACY_UTILS_HASH_H
+#endif // JACY_FS_ENTRY_H

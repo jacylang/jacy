@@ -16,7 +16,7 @@
 #include "resolve/NameResolver.h"
 #include "common/Config.h"
 #include "ast/Party.h"
-#include "utils/fs.h"
+#include "fs/fs.h"
 #include "session/Session.h"
 
 namespace jc::core {
