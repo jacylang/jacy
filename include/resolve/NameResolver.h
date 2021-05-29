@@ -83,6 +83,7 @@ namespace jc::resolve {
         // Modules //
     private:
         module_stack moduleStack;
+        void enterMod(Module::Kind kind, const std::string & name);
 
         // Ribs //
     private:

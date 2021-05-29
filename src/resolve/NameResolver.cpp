@@ -9,6 +9,10 @@ namespace jc::resolve {
         return {ribStack, std::move(suggestions)};
     }
 
+    void NameResolver::visit(ast::FileModule & fileModule) {
+//        enterMod(Module::Kind::File, sess->sourceMap.);
+    }
+
     void NameResolver::visit(ast::Func & funcDecl) {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl.typeParams);
@@ -346,6 +350,11 @@ namespace jc::resolve {
                 el->value.unwrap()->accept(*this);
             }
         }
+    }
+
+    // Modules //
+    void NameResolver::enterMod(Module::Kind kind, const std::string & name) {
+        moduleStack.emplace_back(std::make_unique<Module>(kind, name));
     }
 
     // Ribs //
