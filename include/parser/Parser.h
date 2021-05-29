@@ -143,6 +143,7 @@ namespace jc::parser {
         ast::item_ptr parseMod(ast::attr_list && attributes);
         ast::item_ptr parseUseDecl(ast::attr_list && attributes);
         ast::use_tree_ptr parseUseTree();
+
         // Statements //
         ast::stmt_ptr parseStmt();
         ast::stmt_ptr parseForStmt();
@@ -190,6 +191,7 @@ namespace jc::parser {
         ast::func_param_ptr parseFuncParam();
         ast::item_list parseMembers(const std::string & construction);
         ast::simple_path_ptr parseSimplePath(const std::string & construction);
+        dt::Option<ast::simple_path_ptr> parseOptSimplePath();
 
         // Types //
         ast::type_ptr parseType(const std::string & suggMsg);

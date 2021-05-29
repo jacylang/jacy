@@ -1931,6 +1931,19 @@ namespace jc::parser {
     }
 
     ast::simple_path_ptr Parser::parseSimplePath(const std::string & construction) {
+        auto simplePath = parseOptSimplePath();
+
+        if (!simplePath) {
+            suggestErrorMsg(
+                "Expected identifier, `super`, `self` or `party` in " + construction + "path",
+                cspan()
+            );
+        }
+
+        return
+    }
+
+    dt::Option<ast::simple_path_ptr> Parser::parseOptSimplePath() {
         bool global = false;
 
         const auto & begin = cspan();
@@ -1942,7 +1955,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
             switch (peek().kind) {
                 case TokenKind::Id: {
-                    auto ident = justParseId("`parseSimplePath`");
+                    auto ident = justParseId("`parseOptSimplePath`");
                     segments.emplace_back(makeNode<ast::SimplePathSeg>(std::move(ident), cspan().to(cspan())));
                     break;
                 }
@@ -1968,10 +1981,7 @@ namespace jc::parser {
                 }
                 default: {
                     if (first) {
-                        suggestErrorMsg(
-                            "Expected identifier, `super`, `self` or `party` in " + construction + "path",
-                            cspan()
-                        );
+                        return dt::None;
                     } else {
                         break;
                     }
