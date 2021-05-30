@@ -29,6 +29,14 @@ namespace jc::ast {
 
     struct ErrorNode : Node {
         explicit ErrorNode(const Span & span) : Node(span) {}
+
+        void accept(BaseVisitor & visitor) {
+            return visitor.visit(*this);
+        }
+
+        void accept(ConstVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
     };
 
     // NOTE: Since there's no generic constraints, `ParseResult` MUST only be used with T = `shared_ptr<{any node}>`
@@ -38,14 +46,14 @@ namespace jc::ast {
 
     public:
         ParseResult() : inited(false) {}
-        ParseResult(const T & value) : value(value), hasErr(false), inited(true) {}
-        ParseResult(const E & error) : error(error), hasErr(true), inited(true) {}
-        ParseResult(T && value) : value(std::move(value)), hasErr(false), inited(true) {}
-        ParseResult(E && error) : error(std::move(error)), hasErr(true), inited(true) {}
+        ParseResult(const T & value) : value(value), hasErr(false) {}
+        ParseResult(const E & error) : error(error), hasErr(true) {}
+        ParseResult(T && value) : value(std::move(value)), hasErr(false) {}
+        ParseResult(E && error) : error(std::move(error)), hasErr(true) {}
         ParseResult(const ParseResult<T> & other)
-            : value(other.value), error(other.error), hasErr(other.hasErr), inited(true) {}
+            : value(other.value), error(other.error), hasErr(other.hasErr) {}
         ParseResult(ParseResult<T> && other)
-            : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr), inited(true) {}
+            : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr) {}
 
         T && unwrap(const std::string & msg = "") const {
             if (isErr()) {
@@ -58,37 +66,32 @@ namespace jc::ast {
             return hasErr;
         }
 
+        ParseResult<T> & operator=(const ParseResult<T> & other) {
+            hasErr = other.hasErr;
+            value = other.value;
+            error = other.error;
+            return *this;
+        }
+
         ParseResult<T> & operator=(const T & rawT) {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
             hasErr = false;
             value = rawT;
             return *this;
         }
 
         ParseResult<T> & operator=(const E & rawE) {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
             hasErr = true;
             error = rawE;
             return *this;
         }
 
         ParseResult<T> & operator=(T && rawT) {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
             hasErr = false;
             value = std::move(rawT);
             return *this;
         }
 
         ParseResult<T> & operator=(E && rawE) {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
             hasErr = true;
             error = std::move(rawE);
             return *this;
@@ -129,9 +132,9 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (hasErr) {
-                return visitor.visit(*error);
+                return error->accept(visitor);
             } else {
-                return visitor.visit(*value);
+                return value->accept(visitor);
             }
         }
 
@@ -140,16 +143,16 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (hasErr) {
-                return visitor.visit(*error);
+                return error->accept(visitor);
             } else {
-                return visitor.visit(*value);
+                return value->accept(visitor);
             }
         }
 
     protected:
         T value;
         E error;
-        bool inited;
+        bool inited{true};
         bool hasErr;
     };
 

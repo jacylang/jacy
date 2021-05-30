@@ -1631,7 +1631,7 @@ namespace jc::parser {
         const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
-        if (not condition.isErr() and condition.unwrap()->is(ExprKind::Paren)) {
+        if (not condition.isErr() and (*condition)->is(ExprKind::Paren)) {
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
         }
 
