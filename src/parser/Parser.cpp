@@ -1631,7 +1631,7 @@ namespace jc::parser {
         const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
-        if (not condition.isErr() and (*condition)->is(ExprKind::Paren)) {
+        if (not condition.isErr() and condition.unwrap()->is(ExprKind::Paren)) {
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
         }
 
@@ -2275,7 +2275,7 @@ namespace jc::parser {
             if (tupleEl->name) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
-                suggestErrorMsg("Cannot declare function type with named parameter", (*tupleEl->name.unwrap())->span);
+                suggestErrorMsg("Cannot declare function type with named parameter", tupleEl->name.unwrap()->span);
             }
             if (not tupleEl->type) {
                 common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");

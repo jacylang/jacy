@@ -83,7 +83,7 @@ namespace jc::ast {
         log.raw("(");
         for (size_t i = 0; i < funcDecl.params.size(); ++i) {
             const auto & param = funcDecl.params.at(i);
-            log.raw(param->name);
+            printId(param->name);
 
             log.raw(": ");
             param->type.accept(*this);

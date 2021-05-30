@@ -55,11 +55,18 @@ namespace jc::ast {
         ParseResult(ParseResult<T> && other)
             : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr) {}
 
-        T && unwrap(const std::string & msg = "") const {
+        T & unwrap(const std::string & msg = "") {
             if (isErr()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` value" : msg);
             }
-            return std::move(value);
+            return value;
+        }
+
+        const T & unwrap(const std::string & msg = "") const {
+            if (isErr()) {
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` value" : msg);
+            }
+            return value;
         }
 
         bool isErr() const {
@@ -115,6 +122,16 @@ namespace jc::ast {
                 throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` value");
             }
             return value;
+        }
+
+        T & operator*() {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
+            if (isErr()) {
+                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
+            }
+            return *value;
         }
 
         const T & operator*() const {
