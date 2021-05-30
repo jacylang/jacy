@@ -14,7 +14,9 @@ namespace jc::common {
         const auto & printVals = cliConfig.getValues("print");
         if (printVals) {
             for (const auto & val : printVals.unwrap()) {
-                if (val == "ast") {
+                if (val == "dir-tree") {
+                    print.insert(PrintKind::DirTree);
+                } else if (val == "ast") {
                     print.insert(PrintKind::Ast);
                 } else if (val == "tokens") {
                     print.insert(PrintKind::Tokens);
