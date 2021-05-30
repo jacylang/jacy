@@ -37,14 +37,15 @@ namespace jc::ast {
         using E = std::shared_ptr<ErrorNode>;
 
     public:
-        ParseResult(const T & value) : value(value), hasErr(false) {}
-        ParseResult(const E & error) : error(error), hasErr(true) {}
-        ParseResult(T && value) : value(std::move(value)), hasErr(false) {}
-        ParseResult(E && error) : error(std::move(error)), hasErr(true) {}
+        ParseResult() : inited(false) {}
+        ParseResult(const T & value) : value(value), hasErr(false), inited(true) {}
+        ParseResult(const E & error) : error(error), hasErr(true), inited(true) {}
+        ParseResult(T && value) : value(std::move(value)), hasErr(false), inited(true) {}
+        ParseResult(E && error) : error(std::move(error)), hasErr(true), inited(true) {}
         ParseResult(const ParseResult<T> & other)
-            : value(other.value), error(other.error), hasErr(other.hasErr) {}
+            : value(other.value), error(other.error), hasErr(other.hasErr), inited(true) {}
         ParseResult(ParseResult<T> && other)
-            : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr) {}
+            : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr), inited(true) {}
 
         T && unwrap(const std::string & msg = "") const {
             if (isErr()) {
@@ -121,6 +122,7 @@ namespace jc::ast {
     protected:
         T value;
         E error;
+        bool inited;
         bool hasErr;
     };
 
