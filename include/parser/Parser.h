@@ -94,6 +94,12 @@ namespace jc::parser {
             return node;
         }
 
+        inline std::shared_ptr<ast::ErrorNode> makeErrorNode(const Span & span) {
+            auto errorNode = std::make_shared<ast::ErrorNode>(span);
+            sess->nodeMap.addNode(errorNode);
+            return errorNode;
+        }
+
         parse_sess_ptr parseSess;
 
         Token peek() const;
@@ -190,7 +196,7 @@ namespace jc::parser {
         ast::func_param_list parseFuncParamList();
         ast::func_param_ptr parseFuncParam();
         ast::item_list parseMembers(const std::string & construction);
-        ast::simple_path_ptr parseSimplePath(const std::string & construction);
+        ast::ParseResult<ast::simple_path_ptr> parseSimplePath(const std::string & construction);
         dt::Option<ast::simple_path_ptr> parseOptSimplePath();
 
         // Types //

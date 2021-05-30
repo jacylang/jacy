@@ -1930,7 +1930,7 @@ namespace jc::parser {
         return members;
     }
 
-    ast::simple_path_ptr Parser::parseSimplePath(const std::string & construction) {
+    ast::ParseResult<ast::simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
         auto simplePath = parseOptSimplePath();
 
         if (!simplePath) {
