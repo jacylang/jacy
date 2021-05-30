@@ -2,6 +2,8 @@
 #define JACY_BASEVISITOR_H
 
 namespace jc::ast {
+    struct ErrorNode;
+
     // Items //
     struct Enum;
     struct Func;
@@ -66,6 +68,8 @@ namespace jc::ast {
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
+
+        virtual void visit(ErrorNode&) = 0;
 
         virtual void visit(FileModule&) = 0;
         virtual void visit(DirModule&) = 0;
