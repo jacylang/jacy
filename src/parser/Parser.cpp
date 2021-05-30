@@ -220,21 +220,21 @@ namespace jc::parser {
 
         switch (peek().kind) {
             case TokenKind::Func:
-                return parseFunc(std::move(attributes), std::move(modifiers));
+                return parseFunc(std::move(modifiers));
             case TokenKind::Enum:
-                return parseEnum(std::move(attributes));
+                return parseEnum();
             case TokenKind::Type:
-                return parseTypeAlias(std::move(attributes));
+                return parseTypeAlias();
             case TokenKind::Module:
-                return parseMod(std::move(attributes));
+                return parseMod();
             case TokenKind::Struct:
-                return parseStruct(std::move(attributes));
+                return parseStruct();
             case TokenKind::Impl:
-                return parseImpl(std::move(attributes));
+                return parseImpl();
             case TokenKind::Trait:
-                return parseTrait(std::move(attributes));
+                return parseTrait();
             case TokenKind::Use:
-                return parseUseDecl(std::move(attributes));
+                return parseUseDecl();
             default: {}
         }
 
@@ -280,7 +280,7 @@ namespace jc::parser {
         return std::move(items);
     }
 
-    item_ptr Parser::parseEnum(attr_list && attributes) {
+    item_ptr Parser::parseEnum() {
         logParse("Enum");
 
         const auto & begin = cspan();
@@ -339,7 +339,7 @@ namespace jc::parser {
             justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
         }
 
-        return makeNode<Enum>(std::move(attributes), std::move(entries), begin.to(cspan()));
+        return makeNode<Enum>(std::move(entries), begin.to(cspan()));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {
@@ -378,7 +378,7 @@ namespace jc::parser {
         return makeNode<EnumEntry>(EnumEntryKind::Raw, std::move(name), begin.to(cspan()));
     }
 
-    item_ptr Parser::parseFunc(attr_list && attributes, parser::token_list && modifiers) {
+    item_ptr Parser::parseFunc(parser::token_list && modifiers) {
         logParse("Func");
 
         const auto & begin = cspan();
@@ -415,7 +415,6 @@ namespace jc::parser {
         auto [body, oneLineBody] = parseFuncBody();
 
         return makeNode<Func>(
-            std::move(attributes),
             std::move(modifiers),
             std::move(typeParams),
             std::move(name),
@@ -427,7 +426,7 @@ namespace jc::parser {
         );
     }
 
-    item_ptr Parser::parseImpl(attr_list && attributes) {
+    item_ptr Parser::parseImpl() {
         logParse("Impl");
 
         const auto & begin = cspan();
@@ -444,7 +443,6 @@ namespace jc::parser {
         item_list members = parseMembers("impl");
 
         return makeNode<Impl>(
-            std::move(attributes),
             std::move(typeParams),
             std::move(traitTypePath),
             std::move(forType),
@@ -453,7 +451,7 @@ namespace jc::parser {
         );
     }
 
-    item_ptr Parser::parseStruct(attr_list && attributes) {
+    item_ptr Parser::parseStruct() {
         logParse("Struct");
 
         const auto & begin = cspan();
@@ -487,7 +485,7 @@ namespace jc::parser {
         }
 
         return makeNode<Struct>(
-            std::move(attributes), std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
+            std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
         );
     }
 
@@ -532,7 +530,7 @@ namespace jc::parser {
         return std::move(fields);
     }
 
-    item_ptr Parser::parseTrait(attr_list && attributes) {
+    item_ptr Parser::parseTrait() {
         logParse("Trait");
 
         const auto & begin = cspan();
@@ -574,7 +572,6 @@ namespace jc::parser {
         item_list members = parseMembers("trait");
 
         return makeNode<Trait>(
-            std::move(attributes),
             std::move(name),
             std::move(typeParams),
             std::move(superTraits),
@@ -583,7 +580,7 @@ namespace jc::parser {
         );
     }
 
-    item_ptr Parser::parseTypeAlias(attr_list && attributes) {
+    item_ptr Parser::parseTypeAlias() {
         logParse("TypeDecl");
 
         const auto & begin = cspan();
@@ -597,11 +594,11 @@ namespace jc::parser {
         auto type = parseType("Expected type");
 
         return makeNode<TypeAlias>(
-            std::move(attributes), std::move(name), std::move(type), begin.to(cspan())
+            std::move(name), std::move(type), begin.to(cspan())
         );
     }
 
-    item_ptr Parser::parseMod(attr_list && attributes) {
+    item_ptr Parser::parseMod() {
         logParse("Mod");
 
         const auto & begin = cspan();
@@ -629,18 +626,18 @@ namespace jc::parser {
         );
 
         return makeNode<Mod>(
-            std::move(attributes), std::move(name), std::move(items), begin.to(cspan())
+            std::move(name), std::move(items), begin.to(cspan())
         );
     }
 
-    item_ptr Parser::parseUseDecl(attr_list && attributes) {
+    item_ptr Parser::parseUseDecl() {
         const auto & begin = cspan();
 
         justSkip(TokenKind::Use, true, "`use`", "`parseUseDecl`");
 
         auto useTree = parseUseTree();
 
-        return makeNode<UseDecl>(std::move(attributes), std::move(useTree), begin.to(cspan()));
+        return makeNode<UseDecl>(std::move(useTree), begin.to(cspan()));
     }
 
     use_tree_ptr Parser::parseUseTree() {
@@ -900,32 +897,32 @@ namespace jc::parser {
                 break;
             }
             case TokenKind::Type: {
-                parseTypeAlias({});
+                parseTypeAlias();
                 construction = "`type` alias";
                 break;
             }
             case TokenKind::Struct: {
-                parseStruct({});
+                parseStruct();
                 construction = "`struct` declaration";
                 break;
             }
             case TokenKind::Impl: {
-                parseImpl({});
+                parseImpl();
                 construction = "implementation";
                 break;
             }
             case TokenKind::Trait: {
-                parseTrait({});
+                parseTrait();
                 construction = "`trait` declaration";
                 break;
             }
             case TokenKind::Func: {
-                parseFunc({}, {});
+                parseFunc({});
                 construction = "`func` declaration";
                 break;
             }
             case TokenKind::Enum: {
-                parseEnum({});
+                parseEnum();
                 construction = "`enum` declaration";
                 break;
             }
