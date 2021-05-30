@@ -9,6 +9,10 @@ namespace jc::ast {
         party.getRootModule()->accept(*this);
     }
 
+    void AstPrinter::visit(const ErrorNode & errorNode) {
+        log.raw("[ERROR]");
+    }
+
     void AstPrinter::visit(const FileModule & fileModule) {
         for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
