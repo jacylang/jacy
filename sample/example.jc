@@ -3,7 +3,3 @@ mod a {
 
     }
 }
-
-func main {
-
-}

@@ -74,6 +74,7 @@ namespace jc::resolve {
         void visit(ast::UnitType & unitType) override;
 
     private:
+        common::Logger log{"NameResolver"};
         sess::sess_ptr sess;
 
         // Extended visitors //

@@ -391,7 +391,11 @@ namespace jc::resolve {
     }
 
     rib_ptr NameResolver::curRib() const {
-        return ribStack.at(depth);
+        try {
+            return ribStack.at(depth);
+        } catch (std::exception & e) {
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds");
+        }
     }
 
     opt_rib NameResolver::ribAt(size_t d) const {
