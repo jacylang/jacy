@@ -48,7 +48,7 @@ namespace jc::ast {
     void AstPrinter::visit(const ExprStmt & exprStmt) {
         printIndent();
 
-        exprStmt.expr->accept(*this);
+        exprStmt.expr.accept(*this);
     }
 
     void AstPrinter::visit(const ForStmt & forStmt) {
@@ -58,7 +58,7 @@ namespace jc::ast {
         // TODO: Update when `for` will have patterns
         printId(forStmt.forEntity);
         log.raw(" in ");
-        forStmt.inExpr->accept(*this);
+        forStmt.inExpr.accept(*this);
         forStmt.body->accept(*this);
     }
 

@@ -7,6 +7,8 @@
 
 #include "parser/Token.h"
 #include "data_types/Result.h"
+#include "ast/BaseVisitor.h"
+#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Node;
@@ -17,7 +19,23 @@ namespace jc::ast {
     using opt_node_id = dt::Option<ast::node_id>;
 
     template<class T>
-    using ParseResult = dt::Result<T, std::shared_ptr<ErrorNode>>;
+    struct ParseResult : dt::Result<T, std::shared_ptr<ErrorNode>> {
+        void accept(BaseVisitor & visitor) {
+            if (this->hasErr) {
+                return visitor.visit(this->error);
+            } else {
+                return visitor.visit(this->value);
+            }
+        }
+
+        void accept(ConstVisitor & visitor) const {
+            if (this->hasErr) {
+                return visitor.visit(this->error);
+            } else {
+                return visitor.visit(this->value);
+            }
+        }
+    };
 
     template<class T>
     using PR = ParseResult<T>;

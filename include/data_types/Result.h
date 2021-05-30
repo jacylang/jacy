@@ -38,7 +38,7 @@ namespace jc::dt {
             return *this;
         }
 
-    private:
+    protected:
         T value;
         E error;
         bool hasErr;
