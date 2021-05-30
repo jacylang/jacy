@@ -58,9 +58,11 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Mod & mod) {
         enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
+        enterNormalRib();
 
         visitItems(mod.items);
 
+        exitRib();
         exitMod();
     }
 
