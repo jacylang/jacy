@@ -1,7 +1,9 @@
 #include "ast/AstPrinter.h"
 
 namespace jc::ast {
-    AstPrinter::AstPrinter() = default;
+    AstPrinter::AstPrinter() {
+        log.getConfig().printOwner = false;
+    }
 
     void AstPrinter::print(const Party & party, AstPrinterMode mode) {
         this->mode = mode;
@@ -14,16 +16,18 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {
-        log.dev("---", fileModule.getName()).nl();
+        log.raw("--- file", fileModule.getName()).nl();
         for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
+            log.nl();
         }
     }
 
     void AstPrinter::visit(const DirModule & dirModule) {
-        log.dev("---", dirModule.getName()).nl();
+        log.raw("--- dir", dirModule.getName()).nl();
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
+            log.nl();
         }
     }
 
