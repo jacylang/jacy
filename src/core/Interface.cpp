@@ -28,11 +28,14 @@ namespace jc::core {
     }
 
     void Interface::init() {
+        log.dev("Intitialization...");
         sess = std::make_shared<sess::Session>();
     }
 
     // Parsing //
     void Interface::parse() {
+        log.dev("Parsing...");
+
         const auto & rootFileName = Config::getInstance().getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = std::move(parseFile(rootFileEntry));
@@ -46,6 +49,8 @@ namespace jc::core {
     }
 
     void Interface::lintAst() {
+        log.dev("Linting...");
+
         linter.lint(*party.unwrap());
     }
 
@@ -132,6 +137,8 @@ namespace jc::core {
 
     // Name resolution //
     void Interface::resolveNames() {
+        log.dev("Resolving names...");
+
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
     }
 
