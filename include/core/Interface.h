@@ -61,6 +61,12 @@ namespace jc::core {
         common::Logger log{"Interface"};
 
         sess::sess_ptr sess;
+
+        // Suggestions //
+    private:
+        sugg::sugg_list suggestions;
+        void collectSuggestions(sugg::sugg_list && additional);
+        void checkSuggestions();
     };
 }
 

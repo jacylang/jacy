@@ -6,14 +6,19 @@ namespace jc::core {
     void Interface::compile() {
         init();
 
+        // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
+        //  , thus we use it before suggestions check
+
         // AST Stage //
         parse();
         printAst(ast::AstPrinterMode::Parsing);
+        checkSuggestions();
         lintAst();
 
         // Name resolution //
         resolveNames();
         printAst(ast::AstPrinterMode::Names);
+        checkSuggestions();
     }
 
     void Interface::init() {
@@ -68,9 +73,13 @@ namespace jc::core {
         printSource(fileId);
         printTokens(fileId, fileTokens);
 
+        auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, fileTokens).extract();
+
+        collectSuggestions(std::move(parserSuggestions));
+
         return std::make_unique<ast::FileModule>(
             fileId,
-            parser.parse(sess, parseSess, fileTokens).unwrap(sess)
+            std::move(parsedFile)
         );
     }
 
@@ -115,5 +124,18 @@ namespace jc::core {
     // Name resolution //
     void Interface::resolveNames() {
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
+    }
+
+    // Suggestions //
+    void Interface::collectSuggestions(sugg::sugg_list && additional) {
+        suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
+    }
+
+    void Interface::checkSuggestions() {
+        if (suggestions.empty()) {
+            return;
+        }
+        // Use `none_t` as stub
+        dt::SuggResult<dt::none_t>::check(sess, suggestions);
     }
 }
