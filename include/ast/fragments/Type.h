@@ -12,7 +12,6 @@ namespace jc::ast {
     struct TupleTypeElement;
     struct TypePathSegment;
     struct TypePath;
-    using type_ptr = std::shared_ptr<Type>;
     using type_list = std::vector<type_ptr>;
     using tuple_t_el_ptr = std::shared_ptr<TupleTypeElement>;
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
@@ -38,10 +37,6 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) = 0;
         virtual void accept(ConstVisitor & visitor) const = 0;
-
-        static inline type_ptr asBase(type_ptr type) {
-            return std::static_pointer_cast<Type>(type);
-        }
     };
 
     struct ParenType : Type {
@@ -141,8 +136,6 @@ namespace jc::ast {
     };
 
     struct TypePath : Type {
-        explicit TypePath(const Span & span) : Type(span, TypeKind::ErrorTypePath) {}
-
         TypePath(bool global, id_t_list segments, const Span & span)
             : global(global), segments(std::move(segments)), Type(span, TypeKind::Path) {}
 

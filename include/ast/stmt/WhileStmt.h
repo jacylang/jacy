@@ -13,7 +13,6 @@ namespace jc::ast {
         expr_ptr condition;
         block_ptr body;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }

@@ -11,7 +11,6 @@ namespace jc::ast {
         expr_ptr lhs;
         expr_list indices;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }

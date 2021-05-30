@@ -11,7 +11,6 @@ namespace jc::ast {
         parser::Token token;
         expr_ptr expr;
 
-
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
         }

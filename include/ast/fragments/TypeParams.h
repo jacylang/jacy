@@ -8,7 +8,8 @@ namespace jc::ast {
     struct TypeParam;
     using type_param_list = std::vector<std::shared_ptr<TypeParam>>;
     using opt_type_params = dt::Option<type_param_list>;
-    using type_ptr = std::shared_ptr<Type>;
+    using pure_type_ptr = std::shared_ptr<Type>;
+    using type_ptr = PR<pure_type_ptr>;
     using opt_type_ptr = dt::Option<type_ptr>;
 
     enum class TypeParamKind {

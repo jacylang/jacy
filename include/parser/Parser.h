@@ -95,6 +95,27 @@ namespace jc::parser {
             return node;
         }
 
+        template<class T, class ...Args>
+        inline pure_expr_ptr makeExpr(Args ...args) {
+            auto expr = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(expr);
+            return expr;
+        }
+
+        template<class T, class ...Args>
+        inline pure_stmt_ptr makeStmt(Args ...args) {
+            auto stmt = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(stmt);
+            return stmt;
+        }
+
+        template<class T, class ...Args>
+        inline pure_type_ptr makeType(Args ...args) {
+            auto type = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(type);
+            return type;
+        }
+
         inline std::shared_ptr<ErrorNode> makeErrorNode(const Span & span) {
             auto errorNode = std::make_shared<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
@@ -152,15 +173,15 @@ namespace jc::parser {
         use_tree_ptr parseUseTree();
 
         // Statements //
-        PR<stmt_ptr> parseStmt();
-        stmt_ptr parseForStmt();
-        stmt_ptr parseVarStmt();
-        stmt_ptr parseWhileStmt();
+        stmt_ptr parseStmt();
+        pure_stmt_ptr parseForStmt();
+        pure_stmt_ptr parseVarStmt();
+        pure_stmt_ptr parseWhileStmt();
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
-        PR<expr_ptr> parseExpr(const std::string & suggMsg);
-        expr_ptr parseLambda();
+        expr_ptr parseExpr(const std::string & suggMsg);
+        pure_expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
 
@@ -223,7 +244,7 @@ namespace jc::parser {
         void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
 
         template<class T>
-        T errorForNone(dt::Option<T> option, const std::string & suggMsg, const Span & span) {
+        T errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
             if (option.none()) {
                 suggestErrorMsg(suggMsg, span);
                 return option.getValueUnsafe();

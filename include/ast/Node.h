@@ -17,7 +17,7 @@ namespace jc::ast {
     using opt_node_id = dt::Option<ast::node_id>;
 
     template<class T>
-    using ParseResult = dt::Result<std::shared_ptr<ErrorNode>, T>;
+    using ParseResult = dt::Result<T, std::shared_ptr<ErrorNode>>;
 
     template<class T>
     using PR = ParseResult<T>;
@@ -34,6 +34,21 @@ namespace jc::ast {
     struct ErrorNode : Node {
         explicit ErrorNode(const Span & span) : Node(span) {}
     };
+
+    template<class T>
+    inline ParseResult<T> Err(std::shared_ptr<ErrorNode> && err) {
+        return ParseResult<T>(err);
+    }
+
+    template<class T>
+    inline ParseResult<T> Ok(T && ok) {
+        return ParseResult<T>(ok);
+    }
+
+    template<class T>
+    inline dt::Option<T> Some(T && some) {
+        return dt::Option<T>(some);
+    }
 }
 
 #endif // JACY_AST_NODE_H

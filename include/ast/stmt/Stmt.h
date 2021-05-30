@@ -9,7 +9,8 @@
 
 namespace jc::ast {
     struct Stmt;
-    using stmt_ptr = std::shared_ptr<Stmt>;
+    using pure_stmt_ptr = std::shared_ptr<Stmt>;
+    using stmt_ptr = PR<pure_stmt_ptr>;
     using opt_stmt_ptr = dt::Option<stmt_ptr>;
     using stmt_list = std::vector<stmt_ptr>;
 
