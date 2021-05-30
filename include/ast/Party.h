@@ -33,8 +33,8 @@ namespace jc::ast {
     };
 
     struct FileModule : Module {
-        FileModule(span::file_id_t fileId, file_ptr && file)
-            : fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
+        FileModule(const std::string & name, span::file_id_t fileId, file_ptr && file)
+            : name(name), fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
 
         const span::file_id_t getFileId() const {
             return fileId;
@@ -42,6 +42,10 @@ namespace jc::ast {
 
         const file_ptr & getFile() const {
             return file;
+        }
+
+        const std::string & getName() const {
+            return name;
         }
 
         void accept(BaseVisitor & visitor) override {
@@ -53,6 +57,7 @@ namespace jc::ast {
         }
 
     private:
+        std::string name;
         span::file_id_t fileId;
         file_ptr file;
     };

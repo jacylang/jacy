@@ -14,6 +14,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {
+        log.dev("---", fileModule.getName()).nl();
         for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
         }
