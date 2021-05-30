@@ -80,6 +80,7 @@ namespace jc::core {
         collectSuggestions(std::move(parserSuggestions));
 
         return std::make_unique<ast::FileModule>(
+            file->getPath().filename().string(),
             fileId,
             std::move(parsedFile)
         );
