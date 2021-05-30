@@ -12,7 +12,7 @@ namespace jc::ast {
 
         ForStmt(
             id_ptr forEntity,
-            expr_ptr inExpr,
+            pr_expr inExpr,
             block_ptr body,
             const Span & span
         ) : forEntity(std::move(forEntity)),
@@ -21,7 +21,7 @@ namespace jc::ast {
             Stmt(span, StmtKind::For) {}
 
         id_ptr forEntity;
-        expr_ptr inExpr;
+        pr_expr inExpr;
         block_ptr body;
 
 

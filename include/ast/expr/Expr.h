@@ -11,6 +11,7 @@ namespace jc::ast {
     using expr_ptr = std::shared_ptr<Expr>;
     using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
+    using pr_expr = PR<expr_ptr>;
 
     enum class ExprKind {
         Assign,
