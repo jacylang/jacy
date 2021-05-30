@@ -29,9 +29,6 @@ namespace jc::ast {
         Array,
         Path,
         Unit,
-
-        Error,
-        ErrorTypePath,
     };
 
     struct Type : Node {
@@ -164,32 +161,6 @@ namespace jc::ast {
 
     struct UnitType : Type {
         explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
-
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct ErrorType : Type {
-        explicit ErrorType(const Span & span) : Type(span, TypeKind::Error) {}
-
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct ErrorTypePath : TypePath {
-        explicit ErrorTypePath(const Span & span) : TypePath(span) {}
 
 
         void accept(BaseVisitor & visitor) override {
