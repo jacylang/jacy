@@ -169,7 +169,7 @@ namespace jc::ast {
     void Linter::visit(const UseDecl & useDecl) {
         // TODO: lint attributes
 
-
+        lintUseTree(useDecl.useTree);
     }
 
     void Linter::visit(const VarStmt & varDecl) {
