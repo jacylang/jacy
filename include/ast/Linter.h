@@ -27,6 +27,8 @@ namespace jc::ast {
         dt::SuggResult<dt::none_t> lint(const Party & party);
 
     private:
+        void visit(const ErrorNode & errorNode) override;
+
         void visit(const FileModule & fileModule) override;
         void visit(const DirModule & dirModule) override;
 
