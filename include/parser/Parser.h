@@ -157,7 +157,7 @@ namespace jc::parser {
     private:
 
         // Items //
-        dt::Option<item_ptr> parseItem();
+        dt::Option<item_ptr> parseOptItem();
         item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
         item_ptr parseEnum(attr_list && attributes);

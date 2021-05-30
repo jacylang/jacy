@@ -210,7 +210,7 @@ namespace jc::parser {
     ///////////
     // Items //
     ///////////
-    dt::Option<item_ptr> Parser::parseItem() {
+    dt::Option<item_ptr> Parser::parseOptItem() {
         logParse("Item");
 
         const auto & begin = cspan();
@@ -264,7 +264,7 @@ namespace jc::parser {
                 break;
             }
 
-            auto item = parseItem();
+            auto item = parseOptItem();
             if (item) {
                 items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
             } else {
@@ -754,7 +754,7 @@ namespace jc::parser {
                 return parseForStmt();
             }
             default: {
-                auto item = parseItem();
+                auto item = parseOptItem();
                 if (item) {
                     return makeStmt<ItemStmt>(item.unwrap());
                 }
