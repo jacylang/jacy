@@ -37,6 +37,7 @@ namespace jc::core {
     private:
         parser::Lexer lexer;
         parser::Parser parser;
+        ast::DirTreePrinter dirTreePrinter;
         ast::AstPrinter astPrinter;
         ast::Linter linter;
         dt::Option<ast::party_ptr> party;
@@ -48,10 +49,6 @@ namespace jc::core {
 
         // Debug //
         void printDirTree();
-        void printDirTreeEntry(const ast::DirModule & dirModule);
-        void printDirTreeEntry(const ast::FileModule & fileModule);
-        uint32_t dirTreeIndent{0};
-
         void printSource(span::file_id_t fileId);
         void printTokens(span::file_id_t fileId, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);

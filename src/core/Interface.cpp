@@ -105,9 +105,7 @@ namespace jc::core {
             return;
         }
         log.debug("Printing directory tree (`--print dir-tree`)");
-        log.raw(".");
-        printDirTreeEntry(*party.unwrap()->getRootModule()->getRootFile());
-        printDirTreeEntry(*party.unwrap()->getRootModule()->getRootDir());
+        party.unwrap()->getRootModule()->accept(dirTreePrinter);
     }
 
     void Interface::printDirTreeEntry(const ast::DirModule & dirModule) {
