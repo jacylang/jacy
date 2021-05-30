@@ -47,6 +47,11 @@ namespace jc::core {
         ast::file_module_ptr parseFile(const fs::entry_ptr & file);
 
         // Debug //
+        void printDirTree();
+        void printDirTreeEntry(const ast::DirModule & dirModule);
+        void printDirTreeEntry(const ast::FileModule & fileModule);
+        uint32_t dirTreeIndent{0};
+
         void printSource(span::file_id_t fileId);
         void printTokens(span::file_id_t fileId, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);

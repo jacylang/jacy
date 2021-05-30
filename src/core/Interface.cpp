@@ -100,6 +100,23 @@ namespace jc::core {
     }
 
     // Debug //
+    void Interface::printDirTree() {
+        if (not config.checkPrint(common::Config::PrintKind::DirTree)) {
+            return;
+        }
+        log.debug("Printing directory tree (`--print dir-tree`)");
+        log.raw(".");
+        printDirTreeEntry(*party.unwrap()->getRootModule()->getRootFile());
+        printDirTreeEntry(*party.unwrap()->getRootModule()->getRootDir());
+    }
+
+    void Interface::printDirTreeEntry(const ast::DirModule & dirModule) {
+        log.raw("| - ", dirModule.getName());
+        for (const auto & module : dirModule.getModules()) {
+            printDirTreeEntry(module);
+        }
+    }
+
     void Interface::printSource(span::file_id_t fileId) {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
