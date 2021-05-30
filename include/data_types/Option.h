@@ -66,21 +66,21 @@ namespace jc::dt {
 
         const T * operator->() const {
             if (none()) {
-                throw std::logic_error("Called `const T * Option::operator->` a `None` value");
+                throw std::logic_error("Called `const T * Option::operator->` on a `None` value");
             }
             return &value;
         }
 
         T * operator->() {
             if (none()) {
-                throw std::logic_error("Called `T * Option::operator->` a `None` value");
+                throw std::logic_error("Called `T * Option::operator->` on a `None` value");
             }
             return &value;
         }
 
         const T & operator*() const {
             if (none()) {
-                throw std::logic_error("Called `const T & Option::operator*` a `None` value");
+                throw std::logic_error("Called `const T & Option::operator*` on a `None` value");
             }
             return value;
         }

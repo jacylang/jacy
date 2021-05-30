@@ -31,6 +31,7 @@ namespace jc::ast {
         explicit ErrorNode(const Span & span) : Node(span) {}
     };
 
+    // NOTE: Since there's no generic constraints, `ParseResult` MUST only be used with T = `shared_ptr<{any node}>`
     template<class T>
     class ParseResult {
         using E = std::shared_ptr<ErrorNode>;
@@ -78,6 +79,27 @@ namespace jc::ast {
             hasErr = true;
             error = std::move(rawE);
             return *this;
+        }
+
+        const T & operator->() const {
+            if (isErr()) {
+                throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` value");
+            }
+            return &value;
+        }
+
+        T & operator->() {
+            if (isErr()) {
+                throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` value");
+            }
+            return &value;
+        }
+
+        const T & operator*() const {
+            if (isErr()) {
+                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
+            }
+            return value;
         }
 
         void accept(BaseVisitor & visitor) {
