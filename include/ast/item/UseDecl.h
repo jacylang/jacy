@@ -19,8 +19,12 @@ namespace jc::ast {
             Rebind,
         } kind;
 
+        // Just a path
+        UseTree(PR<simple_path_ptr> && path, const Span & span)
+            : path(std::move(path)), kind(Kind::Raw), Node(span) {}
+
         // `*`
-        UseTree(dt::Option<PR<simple_path_ptr>> && path, const Span & span)
+        UseTree(dt::Option<PR<simple_path_ptr>> && path, bool _, const Span & span)
             : path(std::move(path)), kind(Kind::All), Node(span) {}
 
         // `as ...`

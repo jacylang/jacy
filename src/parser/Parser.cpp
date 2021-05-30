@@ -647,7 +647,71 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto maybePath = parseOptSimplePath();
 
-        if (skipOpt(TokenKind::As, true)) {
+        if (skipOpt(TokenKind::Path)) {
+            dt::Option<PR<simple_path_ptr>> checkedPath;
+
+            if (maybePath) {
+                skip(
+                    TokenKind::Path,
+                    false,
+                    false,
+                    true,
+                    std::make_unique<ParseErrSugg>(
+                        "Expected `::` after path in `use` declaration",
+                        cspan()
+                    )
+                );
+                checkedPath = maybePath;
+            }
+
+            // `*` case
+            if (skipOpt(TokenKind::Mul)) {
+                return makeNode<UseTree>(std::move(checkedPath), true, begin.to(cspan()));
+            }
+
+            if (skipOpt(TokenKind::LBrace, true)) {
+                // `{...}` case
+                std::vector<use_tree_ptr> specifics;
+
+                bool first = true;
+                while (!eof()) {
+                    if (is(TokenKind::RBrace)) {
+                        break;
+                    }
+
+                    if (first) {
+                        first = false;
+                    } else {
+                        skip(
+                            TokenKind::Comma,
+                            true,
+                            true,
+                            true,
+                            std::make_unique<ParseErrSugg>("Expected `,` delimiter between `use` specifics", cspan())
+                        );
+                    }
+
+                    if (is(TokenKind::RBrace)) {
+                        break;
+                    }
+
+                    specifics.emplace_back(parseUseTree());
+                }
+                skip(
+                    TokenKind::RBrace,
+                    true,
+                    false,
+                    false,
+                    std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+                );
+
+                return makeNode<UseTree>(std::move(checkedPath), std::move(specifics), begin.to(cspan()));
+            }
+
+            suggestErrorMsg("Expected `*` or `{`", begin);
+        }
+
+        if (maybePath and skipOpt(TokenKind::As, true)) {
             // `as ...` case
 
             if (!maybePath) {
@@ -665,67 +729,11 @@ namespace jc::parser {
             return makeNode<UseTree>(std::move(checkedPath.unwrap()), std::move(as), begin.to(cspan()));
         }
 
-        dt::Option<PR<simple_path_ptr>> checkedPath;
-
         if (maybePath) {
-            skip(
-                TokenKind::Path,
-                false,
-                false,
-                true,
-                std::make_unique<ParseErrSugg>(
-                    "Expected `::` after path in `use` declaration",
-                    cspan()
-                )
-            );
-            checkedPath = maybePath;
+            return makeNode<UseTree>(std::move(maybePath.unwrap()), begin.to(cspan()));
         }
 
-        // `*` case
-        if (skipOpt(TokenKind::Mul)) {
-            return makeNode<UseTree>(std::move(checkedPath), begin.to(cspan()));
-        }
-
-        if (skipOpt(TokenKind::LBrace, true)) {
-            // `{...}` case
-            std::vector<use_tree_ptr> specifics;
-
-            bool first = true;
-            while (!eof()) {
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(
-                        TokenKind::Comma,
-                        true,
-                        true,
-                        true,
-                        std::make_unique<ParseErrSugg>("Expected `,` delimiter between `use` specifics", cspan())
-                    );
-                }
-
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                specifics.emplace_back(parseUseTree());
-            }
-            skip(
-                TokenKind::RBrace,
-                true,
-                false,
-                false,
-                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
-            );
-
-            return makeNode<UseTree>(std::move(checkedPath), std::move(specifics), begin.to(cspan()));
-        }
-
-        suggestErrorMsg("Invalid beginning of `use` path", begin);
+        suggestErrorMsg("Path expected in `use` declaration", cspan());
     }
 
     ////////////////
