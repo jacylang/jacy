@@ -100,7 +100,6 @@ namespace jc::parser {
     bool Parser::skip(
         TokenKind kind, bool skipLeftNLs, bool skipRightNLs, bool recoverUnexpected, sugg::sugg_ptr suggestion
     ) {
-        // FIXME: TODO Virtual semi recovery
         bool skippedLeftNLs;
         if (skipLeftNLs) {
             skippedLeftNLs = skipNLs(true);
