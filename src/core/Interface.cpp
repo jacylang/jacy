@@ -4,21 +4,26 @@ namespace jc::core {
     Interface::Interface() : config(Config::getInstance()) {}
 
     void Interface::compile() {
-        init();
+        try {
+            init();
 
-        // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
-        //  thus we use it before suggestions check
+            // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
+            //  thus we use it before suggestions check
 
-        // AST Stage //
-        parse();
-        printAst(ast::AstPrinterMode::Parsing);
-        checkSuggestions();
-        lintAst();
+            // AST Stage //
+            parse();
+            printAst(ast::AstPrinterMode::Parsing);
+            checkSuggestions();
+            lintAst();
 
-        // Name resolution //
-        resolveNames();
-        printAst(ast::AstPrinterMode::Names);
-        checkSuggestions();
+            // Name resolution //
+            resolveNames();
+            printAst(ast::AstPrinterMode::Names);
+            checkSuggestions();
+        } catch (std::exception & e) {
+            log.dev("Something went wrong:", e.what());
+            log.dev("Suggestions:");
+        }
     }
 
     void Interface::init() {

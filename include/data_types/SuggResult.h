@@ -28,14 +28,18 @@ namespace jc::dt {
         }
 
         static void check(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
+            dump(sess, suggestions);
+            sugg::Suggester suggester;
+            suggester.apply(sess, suggestions);
+        }
+
+        static void dump(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 common::Logger::nl();
                 common::Logger::devDebug("Printing suggestions (`--print sugg`)");
                 sugg::SuggDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }
-            sugg::Suggester suggester;
-            suggester.apply(sess, suggestions);
         }
 
     private:
