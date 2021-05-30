@@ -676,7 +676,7 @@ namespace jc::parser {
                     return makeErrorNode(begin.to(cspan()));
                 }
 
-                auto exprStmt = makeNode<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
+                auto exprStmt = makeStmt<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
                 skipSemis(false);
                 return std::static_pointer_cast<Stmt>(exprStmt);
             }

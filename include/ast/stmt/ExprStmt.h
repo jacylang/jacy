@@ -6,10 +6,9 @@
 
 namespace jc::ast {
     struct ExprStmt : Stmt {
-        ExprStmt(expr_ptr expr) : expr(std::move(expr)), Stmt(expr->span, StmtKind::Expr) {}
+        ExprStmt(expr_ptr expr, const Span & span) : expr(std::move(expr)), Stmt(span, StmtKind::Expr) {}
 
         expr_ptr expr;
-
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);
