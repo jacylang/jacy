@@ -1161,13 +1161,13 @@ namespace jc::parser {
                     )
                 );
 
-                lhs = makeNode<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan()));
+                lhs = makeExpr<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan()));
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
-                lhs = makeNode<Invoke>(
+                lhs = makeExpr<Invoke>(
                     std::move(lhs), std::move(parseNamedList("function call")), begin.to(cspan())
                 );
 
@@ -1515,11 +1515,13 @@ namespace jc::parser {
             );
             emitVirtualSemi();
         } else if (allowOneLine) {
+            const auto & stmtBegin = cspan();
             auto exprStmt = makeStmt<ExprStmt>(
-                std::move(parseExpr("Expected expression in one-line block in " + construction))
+                std::move(parseExpr("Expected expression in one-line block in " + construction)),
+                stmtBegin.to(cspan())
             );
             // Note: Don't require semis for one-line body
-            stmts.push_back(exprStmt);
+            stmts.emplace_back(std::move(exprStmt));
         } else {
             std::string suggMsg = "Likely you meant to put `{}`";
             if (arrow == BlockArrow::Allow) {
@@ -1573,7 +1575,7 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makeStmt<ExprStmt>(std::move(parseIfExpr(true))));
+            elif.push_back(makeStmt<ExprStmt>(std::move(parseIfExpr(true)), elifBegin.to(cspan())));
             elseBranch = makeNode<Block>(std::move(elif), elifBegin.to(cspan()));
         }
 

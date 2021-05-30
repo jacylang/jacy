@@ -10,7 +10,7 @@ namespace jc::ast {
         VarStmt(
             const parser::Token & kind,
             id_ptr name,
-            type_ptr type,
+            opt_type_ptr type,
             opt_expr_ptr assignExpr,
             const Span & span
         ) : kind(kind),
@@ -21,7 +21,7 @@ namespace jc::ast {
 
         parser::Token kind;
         id_ptr name;
-        type_ptr type;
+        opt_type_ptr type;
         opt_expr_ptr assignExpr;
 
         void accept(BaseVisitor & visitor) override {

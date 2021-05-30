@@ -12,6 +12,8 @@ namespace jc::dt {
         Result(const E & error) : error(error), hasErr(true) {}
         Result(T && value) : value(std::move(value)), hasErr(false) {}
         Result(E && error) : error(std::move(error)), hasErr(true) {}
+        Result(const Result<T, E> & other)
+            : value(other.value), error(other.error), hasErr(other.hasErr) {}
         Result(Result<T, E> && other)
             : value(std::move(other.value)), error(std::move(other.error)), hasErr(other.hasErr) {}
 
@@ -24,6 +26,18 @@ namespace jc::dt {
 
         bool isErr() const {
             return hasErr;
+        }
+
+        Result<T, E> & operator=(const T & rawT) {
+            hasErr = false;
+            value = rawT;
+            return *this;
+        }
+
+        Result<T, E> & operator=(const E & rawE) {
+            hasErr = true;
+            error = rawE;
+            return *this;
         }
 
         Result<T, E> & operator=(T && rawT) {

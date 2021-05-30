@@ -81,13 +81,12 @@ namespace jc::ast {
             const auto & param = funcDecl.params.at(i);
             log.raw(param->name);
 
-            if (param->type) {
-                log.raw(": ");
-                param->type->accept(*this);
-            }
+            log.raw(": ");
+            param->type.accept(*this);
+
             if (param->defaultValue) {
                 log.raw(" = ");
-                param->defaultValue.unwrap()->accept(*this);
+                param->defaultValue.unwrap().accept(*this);
             }
             if (i < funcDecl.params.size() - 1) {
                 log.raw(", ");
@@ -97,14 +96,14 @@ namespace jc::ast {
 
         if (funcDecl.returnType) {
             log.raw(": ");
-            funcDecl.returnType.unwrap()->accept(*this);
+            funcDecl.returnType.unwrap().accept(*this);
         }
 
         if (funcDecl.oneLineBody) {
             log.raw(" = ");
             // For one-line block increment indent to make it prettier
             incIndent();
-            funcDecl.oneLineBody.unwrap()->accept(*this);
+            funcDecl.oneLineBody.unwrap().accept(*this);
             decIndent();
         } else {
             log.raw(" ");
@@ -118,9 +117,9 @@ namespace jc::ast {
         log.raw("impl");
         print(impl.typeParams);
         log.raw(" ");
-        impl.traitTypePath->accept(*this);
+        impl.traitTypePath.accept(*this);
         log.raw(" for ");
-        impl.forType->accept(*this);
+        impl.forType.accept(*this);
         printMembers(impl.members);
     }
 
@@ -143,7 +142,7 @@ namespace jc::ast {
             const auto & field = _struct.fields.at(i);
             printId(field->name);
             log.raw(": ");
-            field->type->accept(*this);
+            field->type.accept(*this);
 
             if (i < _struct.fields.size() - 1) {
                 log.raw(", ");
@@ -177,7 +176,7 @@ namespace jc::ast {
         log.raw("type ");
         printId(typeAlias.name);
         log.raw(" = ");
-        typeAlias.type->accept(*this);
+        typeAlias.type.accept(*this);
     }
 
     void AstPrinter::visit(const VarStmt & varDecl) {
