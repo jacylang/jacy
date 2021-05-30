@@ -2295,16 +2295,16 @@ namespace jc::parser {
         return typeParams;
     }
 
-    type_path_ptr Parser::parseTypePath(const std::string & suggMsg) {
+    ParseResult<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
         logParse("TypePath");
 
         auto begin = cspan();
         auto pathType = parseOptTypePath();
         if (!pathType) {
             suggestErrorMsg(suggMsg, cspan());
+            return makeErrorNode(begin.to(cspan()));
         }
-        // FIXME: Replace `getValueUnsafe` with unwrap + error node
-        return makeNode<ErrorTypePath>(begin.to(cspan()));
+        return pathType.unwrap();
     }
 
     opt_type_path_ptr Parser::parseOptTypePath() {

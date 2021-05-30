@@ -210,7 +210,7 @@ namespace jc::parser {
 
         // Type fragments //
         opt_type_params parseTypeParams();
-        type_path_ptr parseTypePath(const std::string & suggMsg);
+        ParseResult<type_path_ptr> parseTypePath(const std::string & suggMsg);
         opt_type_path_ptr parseOptTypePath();
 
         // Suggestions //
