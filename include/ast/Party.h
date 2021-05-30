@@ -22,13 +22,8 @@ namespace jc::ast {
 
     /// Debug visitor only for `FileModule` and `DirModule`
     struct DirTreePrinter {
-        void visit(const FileModule & fileModule) {
-
-        }
-
-        void visit(const DirModule & dirModule) {
-
-        }
+        void visit(const FileModule & fileModule);
+        void visit(const DirModule & dirModule);
 
     private:
         uint32_t indent{0};
@@ -45,6 +40,7 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) = 0;
         virtual void accept(ConstVisitor & visitor) const = 0;
+        virtual void accept(DirTreeVisitor & visitor) const = 0;
     };
 
     struct FileModule : Module {
@@ -71,7 +67,7 @@ namespace jc::ast {
             return visitor.visit(*this);
         }
 
-        void accept(DirTreePrinter & visitor) const {
+        void accept(DirTreePrinter & visitor) const override {
             visitor.visit(*this);
         }
 
@@ -101,7 +97,7 @@ namespace jc::ast {
             return visitor.visit(*this);
         }
 
-        void accept(DirTreePrinter & visitor) const {
+        void accept(DirTreePrinter & visitor) const override {
             visitor.visit(*this);
         }
 
@@ -132,7 +128,7 @@ namespace jc::ast {
             rootDir->accept(visitor);
         }
 
-        void accept(DirTreePrinter & visitor) const {
+        void accept(DirTreePrinter & visitor) const override {
             rootFile->accept(visitor);
             rootDir->accept(visitor);
         }
