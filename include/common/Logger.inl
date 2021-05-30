@@ -72,7 +72,7 @@ void Logger::devPanic(Arg && first, Args && ...other) {
 
 template<class Arg, class... Args>
 void Logger::devDebug(Arg && first, Args && ... other) {
-    std::cout << levelColors.at(LogLevel::Debug) << "[DEV DEBUG]: " << Color::Reset << std::forward<Arg>(first);
+    std::cout << levelColors.at(LogLevel::Dev) << "[DEV]: " << Color::Reset << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     Logger::nl();
 }
@@ -113,10 +113,6 @@ const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const
 
     const auto & dev = level == LogLevel::Dev;
 
-    if (config.printOwner or dev) {
-        std::cout << owner << " ";
-    }
-
     if (config.printLevel or dev) {
         if (config.colorize or dev) {
             std::cout << colors.at(levelColors.at(level));
@@ -125,6 +121,10 @@ const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const
         if (config.colorize or dev) {
             std::cout << Color::Reset;
         }
+    }
+
+    if (config.printOwner or dev) {
+        std::cout << "(" << owner << ") ";
     }
 
     std::cout << std::forward<Arg>(first);
