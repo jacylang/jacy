@@ -648,7 +648,7 @@ namespace jc::parser {
         auto maybePath = parseOptSimplePath();
 
         if (skipOpt(TokenKind::Path)) {
-            dt::Option<PR<simple_path_ptr>> checkedPath;
+            dt::Option<simple_path_ptr> checkedPath;
 
             if (maybePath) {
                 skip(
@@ -661,7 +661,7 @@ namespace jc::parser {
                         cspan()
                     )
                 );
-                checkedPath = maybePath;
+                checkedPath = std::move(maybePath);
             }
 
             // `*` case
@@ -718,9 +718,8 @@ namespace jc::parser {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
-            dt::Option<PR<simple_path_ptr>> checkedPath;
             if (checkedPath) {
-                checkedPath = maybePath;
+                checkedPath = std::move(maybePath);
             } else {
                 checkedPath = makeErrorNode(begin);
             }

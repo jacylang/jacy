@@ -20,11 +20,11 @@ namespace jc::dt {
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
 
-        T && unwrap(const std::string & msg = "") const {
+        const T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
-            return std::move(value);
+            return value;
         }
 
         const T & getValueUnsafe() const {
@@ -50,10 +50,11 @@ namespace jc::dt {
         }
 
         template<class U>
-        Option<T> & operator=(const Option<U> & other) {
-            hasValue = other.hasValue;
-            if (other.hasValue) {
-                value = other.value;
+        Option<T> & operator=(Option<U> && other) {
+            if (other.none()) {
+                hasValue = false;
+            } else {
+                value = std::move(other.getValueUnsafe());
             }
             return *this;
         }

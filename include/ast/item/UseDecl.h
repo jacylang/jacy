@@ -19,24 +19,37 @@ namespace jc::ast {
             Rebind,
         } kind;
 
-        // Just a path
-        UseTree(PR<simple_path_ptr> && path, const Span & span)
-            : path(std::move(path)), kind(Kind::Raw), Node(span) {}
+        UseTree(Kind kind, const Span & span) : Node(span) {}
+    };
 
-        // `*`
-        UseTree(dt::Option<PR<simple_path_ptr>> && path, bool _, const Span & span)
-            : path(std::move(path)), kind(Kind::All), Node(span) {}
+    struct UseTreeRaw : UseTree {
+        UseTreeRaw(simple_path_ptr && path, const Span & span)
+            : path(std::move(path)), UseTree(Kind::Raw, span) {}
 
-        // `as ...`
-        UseTree(PR<simple_path_ptr> && path, id_ptr && as, const Span & span)
-            : path(std::move(path)), kind(Kind::Rebind), Node(span) {}
+        simple_path_ptr path;
+    };
 
-        // `{...}`
-        UseTree(dt::Option<PR<simple_path_ptr>> && path, use_tree_list && specifics, const Span & span)
-            : path(std::move(path)), body(std::move(specifics)), kind(Kind::Specific), Node(span) {}
+    struct UseTreeSpecific : UseTree {
+        UseTreeSpecific(dt::Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
+            : path(std::move(path)), body(std::move(specifics)), UseTree(Kind::Specific, span) {}
 
-        dt::Option<PR<simple_path_ptr>> path;
-        std::variant<id_ptr, use_tree_list> body;
+        dt::Option<simple_path_ptr> path;
+        use_tree_list body;
+    };
+
+    struct UseTreeRebind : UseTree {
+        UseTreeRebind(simple_path_ptr && path, id_ptr && as, const Span & span)
+            : path(std::move(path)), as(std::move(as)), UseTree(Kind::Rebind, span) {}
+
+        simple_path_ptr path;
+        id_ptr as;
+    };
+
+    struct UseTreeAll : UseTree {
+        UseTreeAll(dt::Option<simple_path_ptr> && path, const Span & span)
+            : path(std::move(path)), UseTree(Kind::All, span) {}
+
+        dt::Option<simple_path_ptr> path;
     };
 
     struct UseDecl : Item {
