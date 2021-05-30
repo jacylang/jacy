@@ -7,28 +7,17 @@
 
 namespace jc::ast {
     struct Identifier;
-    using id_ptr = std::shared_ptr<Identifier>;
+    using id_ptr = PR<std::shared_ptr<Identifier>>;
     using opt_id_ptr = dt::Option<id_ptr>;
 
     struct Identifier : Node {
-        explicit Identifier(parser::opt_token token, const Span & span)
+        explicit Identifier(parser::Token token, const Span & span)
             : token(token), Node(span) {}
 
-        parser::opt_token token;
+        parser::Token token;
 
         dt::Option<std::string> getValue() const {
-            if (token) {
-                return token.unwrap().val;
-            }
-            return dt::None;
-        }
-
-        std::string unwrapValue() const {
-            if (token) {
-                return token.unwrap().val;
-            }
-            common::Logger::devPanic("Called `Identifier::unwrapValue` on [ERROR ID]");
-            return "meow, bitch";
+            return token.val;
         }
     };
 }
