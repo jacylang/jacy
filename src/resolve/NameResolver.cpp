@@ -44,7 +44,7 @@ namespace jc::resolve {
 
         enterNormalRib(); // -> (params rib)
         for (const auto & param : funcDecl.params) {
-            declare(param->name->unwrapValue(), Name::Kind::Param, param->id);
+            declare(param->name, Name::Kind::Param, param->id);
         }
 
         if (funcDecl.oneLineBody) {

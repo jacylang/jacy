@@ -566,8 +566,8 @@ namespace jc::ast {
     }
 
     void Linter::lintId(const id_ptr & id) {
-        if (!id->getValue()) {
-            Logger::devPanic("[ERROR ID] On Linter stage at", id->span.toString());
+        if (id.isErr()) {
+            common::Logger::devPanic("[ERROR] identifier on linter stage");
         }
     }
 
