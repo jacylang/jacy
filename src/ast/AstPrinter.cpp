@@ -183,6 +183,13 @@ namespace jc::ast {
         typeAlias.type.accept(*this);
     }
 
+    void AstPrinter::visit(const UseDecl & useDecl) {
+        printIndent();
+
+        log.raw("use ");
+
+    }
+
     void AstPrinter::visit(const VarStmt & varDecl) {
         printIndent();
 
@@ -618,6 +625,60 @@ namespace jc::ast {
             log.raw(value.unwrap());
         } else {
             log.raw("[ERROR ID]");
+        }
+    }
+
+    void AstPrinter::printUseTree(const use_tree_ptr & useTree) {
+        if (useTree->path) {
+            printSimplePath(useTree->path->unwrap());
+        }
+        switch (useTree->kind) {
+            case UseTree::Kind::All: {
+                log.raw("*");
+                break;
+            }
+            case UseTree::Kind::Specific: {
+                log.raw("{");
+                for (const auto & specific : std::get<use_tree_list>(useTree->body)) {
+                    printUseTree(specific);
+                    log.raw(",\n");
+                }
+            }
+            case UseTree::Kind::Rebind: {
+                log.raw(" as ");
+                printId(std::get<id_ptr>(useTree->body));
+            }
+            default: {}
+        }
+    }
+
+    void AstPrinter::printSimplePath(const simple_path_ptr & simplePath) {
+        if (simplePath->global) {
+            log.raw("::");
+        }
+
+        for (size_t i = 0; i < simplePath->segments.size(); i++) {
+            const auto & seg = simplePath->segments.at(i);
+            switch (seg->kind) {
+                case SimplePathSeg::Kind::Super: {
+                    log.raw("super");
+                    break;
+                }
+                case SimplePathSeg::Kind::Self: {
+                    log.raw("self");
+                    break;
+                }
+                case SimplePathSeg::Kind::Party: {
+                    log.raw("party");
+                    break;
+                }
+                case SimplePathSeg::Kind::Ident: {
+                    printId(seg->ident.unwrap());
+                }
+            }
+            if (i < simplePath->segments.size() - 1) {
+                log.raw(", ");
+            }
         }
     }
 

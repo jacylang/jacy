@@ -13,6 +13,7 @@ namespace jc::ast {
 
     struct UseTree : Node {
         enum class Kind {
+            Raw,
             All,
             Specific,
             Rebind,
@@ -28,10 +29,10 @@ namespace jc::ast {
 
         // `{...}`
         UseTree(dt::Option<PR<simple_path_ptr>> && path, use_tree_list && specifics, const Span & span)
-            : path(std::move(path)), kind(Kind::Specific), Node(span) {}
+            : path(std::move(path)), body(std::move(specifics)), kind(Kind::Specific), Node(span) {}
 
         dt::Option<PR<simple_path_ptr>> path;
-        std::variant<id_ptr, use_tree_ptr> body;
+        std::variant<id_ptr, use_tree_list> body;
     };
 
     struct UseDecl : Item {

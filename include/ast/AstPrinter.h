@@ -33,6 +33,7 @@ namespace jc::ast {
         void visit(const Struct & _struct) override;
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
+        void visit(const UseDecl & useDecl) override;
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
@@ -93,6 +94,8 @@ namespace jc::ast {
         void print(TypePathSegment & idType);
         void printMembers(const item_list & members);
         void printId(const id_ptr & maybeId);
+        void printUseTree(const use_tree_ptr & useTree);
+        void printSimplePath(const simple_path_ptr & simplePath);
 
         const std::string indentChar = "  ";
         void incIndent();
