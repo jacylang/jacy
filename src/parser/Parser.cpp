@@ -652,7 +652,7 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    stmt_ptr Parser::parseStmt() {
+    ParseResult<stmt_ptr> Parser::parseStmt() {
         logParse("Stmt");
 
         const auto & begin = cspan();
@@ -667,7 +667,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    return makeNode<ItemStmt>(item.unwrap());
+                    return Stmt::as<Stmt>(makeNode<ItemStmt>(item.unwrap()));
                 }
 
                 auto expr = parseOptExpr();
@@ -675,7 +675,7 @@ namespace jc::parser {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
                     advance();
-                    return makeNode<ErrorStmt>(begin.to(cspan()));
+                    return makeErrorNode(begin.to(cspan()));
                 }
 
                 auto exprStmt = makeNode<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"));
@@ -860,7 +860,7 @@ namespace jc::parser {
         return dt::None;
     }
 
-    expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    ParseResult<expr_ptr> Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
@@ -870,7 +870,7 @@ namespace jc::parser {
         if (expr) {
             return expr.unwrap("parseExpr -> expr");
         }
-        return makeNode<ErrorExpr>(begin.to(cspan()));
+        return makeErrorNode(begin.to(cspan()));
     }
 
     expr_ptr Parser::parseLambda() {

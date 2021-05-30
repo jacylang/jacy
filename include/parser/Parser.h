@@ -152,14 +152,14 @@ namespace jc::parser {
         use_tree_ptr parseUseTree();
 
         // Statements //
-        stmt_ptr parseStmt();
+        ParseResult<stmt_ptr> parseStmt();
         stmt_ptr parseForStmt();
         stmt_ptr parseVarStmt();
         stmt_ptr parseWhileStmt();
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
-        expr_ptr parseExpr(const std::string & suggMsg);
+        ParseResult<expr_ptr> parseExpr(const std::string & suggMsg);
         expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
