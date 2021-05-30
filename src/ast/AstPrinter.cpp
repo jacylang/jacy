@@ -20,7 +20,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const DirModule & dirModule) {
-        log.raw("---", dirModule.getName());
+        log.dev("---", dirModule.getName()).nl();
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
         }

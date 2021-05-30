@@ -217,22 +217,38 @@ namespace jc::parser {
         dt::Option<item_ptr> maybeItem;
 
         switch (peek().kind) {
-            case TokenKind::Func:
+            case TokenKind::Func: {
                 maybeItem = parseFunc(std::move(modifiers));
-            case TokenKind::Enum:
+                break;
+            }
+            case TokenKind::Enum: {
                 maybeItem = parseEnum();
-            case TokenKind::Type:
+                break;
+            }
+            case TokenKind::Type: {
                 maybeItem = parseTypeAlias();
-            case TokenKind::Module:
+                break;
+            }
+            case TokenKind::Module: {
                 maybeItem = parseMod();
-            case TokenKind::Struct:
+                break;
+            }
+            case TokenKind::Struct: {
                 maybeItem = parseStruct();
-            case TokenKind::Impl:
+                break;
+            }
+            case TokenKind::Impl: {
                 maybeItem = parseImpl();
-            case TokenKind::Trait:
+                break;
+            }
+            case TokenKind::Trait: {
                 maybeItem = parseTrait();
-            case TokenKind::Use:
+                break;
+            }
+            case TokenKind::Use: {
                 maybeItem = parseUseDecl();
+                break;
+            }
             default: {}
         }
 
