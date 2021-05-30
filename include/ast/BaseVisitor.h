@@ -2,11 +2,6 @@
 #define JACY_BASEVISITOR_H
 
 namespace jc::ast {
-    struct ErrorStmt;
-    struct ErrorExpr;
-    struct ErrorType;
-    struct ErrorTypePath;
-
     // Items //
     struct Enum;
     struct Func;
@@ -74,11 +69,6 @@ namespace jc::ast {
 
         virtual void visit(FileModule&) = 0;
         virtual void visit(DirModule&) = 0;
-
-        virtual void visit(ErrorStmt&) = 0;
-        virtual void visit(ErrorExpr&) = 0;
-        virtual void visit(ErrorType&) = 0;
-        virtual void visit(ErrorTypePath&) = 0;
 
         // Items //
         virtual void visit(Enum&) = 0;
