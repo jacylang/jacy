@@ -23,6 +23,7 @@ namespace jc::core {
         } catch (std::exception & e) {
             log.dev("Something went wrong:", e.what());
             log.dev("Suggestions:");
+            dt::SuggResult<dt::none_t>::dump(sess, suggestions);
         }
     }
 
