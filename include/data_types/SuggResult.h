@@ -24,6 +24,11 @@ namespace jc::dt {
         }
 
         T unwrap(sess::sess_ptr sess) {
+            check(sess, suggestions);
+            return value;
+        }
+
+        static void check(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 common::Logger::nl();
                 common::Logger::devDebug("Printing suggestions (`--print sugg`)");
@@ -32,7 +37,6 @@ namespace jc::dt {
             }
             sugg::Suggester suggester;
             suggester.apply(sess, suggestions);
-            return value;
         }
 
     private:
