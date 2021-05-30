@@ -57,7 +57,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Mod & mod) {
-        enterMod(Module::Kind::Mod, mod.name->getValue().unwrap());
+        enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
 
         visitItems(mod.items);
 
@@ -68,11 +68,11 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
-        auto structRib = std::make_shared<StructRib>(_struct.name->id);
+        auto structRib = std::make_shared<StructRib>(_struct.name.unwrap()->id);
         enterRib(structRib); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
-            structRib->fields.emplace(field->name->unwrapValue(), field->id);
+            structRib->fields.emplace(field->name.unwrap()->getValue(), field->id);
         }
 
         liftToDepth(prevDepth);
@@ -80,7 +80,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
         enterNormalRib();
-        declare(varStmt.name->unwrapValue(), Name::Kind::Local, varStmt.id);
+        declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
     // Statements //
@@ -291,27 +291,27 @@ namespace jc::resolve {
             Name::Kind kind;
             switch (member->kind) {
                 case ast::ItemKind::Func: {
-                    name = std::static_pointer_cast<ast::Func>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Func>(member)->name.unwrap()->getValue();
                     kind = Name::Kind::Func;
                     break;
                 }
                 case ast::ItemKind::Enum: {
-                    name = std::static_pointer_cast<ast::Enum>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Enum>(member)->name.unwrap()->getValue();
                     kind = Name::Kind::Enum;
                     break;
                 }
                 case ast::ItemKind::Struct: {
-                    name = std::static_pointer_cast<ast::Struct>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Struct>(member)->name.unwrap()->getValue();
                     kind = Name::Kind::Struct;
                     break;
                 }
                 case ast::ItemKind::TypeAlias: {
-                    name = std::static_pointer_cast<ast::TypeAlias>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::TypeAlias>(member)->name.unwrap()->getValue();
                     kind = Name::Kind::TypeAlias;
                     break;
                 }
                 case ast::ItemKind::Trait: {
-                    name = std::static_pointer_cast<ast::Trait>(member)->name->unwrapValue();
+                    name = std::static_pointer_cast<ast::Trait>(member)->name.unwrap()->getValue();
                     kind = Name::Kind::Trait;
                     break;
                 }
@@ -339,7 +339,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 declare(
-                    std::static_pointer_cast<ast::GenericType>(typeParam)->name->unwrapValue(),
+                    std::static_pointer_cast<ast::GenericType>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::TypeParam,
                     typeParam->id
                 );
@@ -349,7 +349,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
                 declare(
-                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name->unwrapValue(),
+                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::Lifetime,
                     typeParam->id
                 );
@@ -359,7 +359,7 @@ namespace jc::resolve {
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(
-                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name->unwrapValue(),
+                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::ConstParam,
                     typeParam->id
                 );
@@ -509,7 +509,7 @@ namespace jc::resolve {
 //        if (!idNode) {
 //            common::Logger::devPanic("Called `getNameByNodeId` with non-Identifier nameNodeId");
 //        }
-//        return idNode->unwrapValue();
+//        return idNode.unwrap()->getValue();
 //    }
 
     // Suggestions //
