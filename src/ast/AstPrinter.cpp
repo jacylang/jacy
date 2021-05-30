@@ -627,7 +627,13 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printUseTree(const use_tree_ptr & useTree) {
+    void AstPrinter::printUseTree(const use_tree_ptr & maybeUseTree) {
+        if (maybeUseTree.isErr()) {
+            log.raw("[ERROR]");
+            return;
+        }
+
+        const auto & useTree = maybeUseTree.unwrap();
         switch (useTree->kind) {
             case UseTree::Kind::All: {
                 const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
