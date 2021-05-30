@@ -18,6 +18,8 @@ namespace jc::ast {
         StubVisitor(std::string owner, StubVisitorMode mode) : owner(std::move(owner)), mode(mode) {}
         ~StubVisitor() override = default;
 
+        void visit(ErrorNode & errorNode) override;
+
         void visit(FileModule & fileModule) override;
         void visit(DirModule & dirModule) override;
 

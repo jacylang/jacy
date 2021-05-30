@@ -1,6 +1,10 @@
 #include "ast/StubVisitor.h"
 
 namespace jc::ast {
+    void StubVisitor::visit(ErrorNode & errorNode) {
+        common::Logger::devPanic("[ERROR] node in", owner, "at", errorNode.span.toString());
+    }
+
     void StubVisitor::visit(FileModule & fileModule) {
         visit("fileModule");
     }
