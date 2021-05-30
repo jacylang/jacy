@@ -663,12 +663,12 @@ namespace jc::parser {
 
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
-                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan()));
+                return std::static_pointer_cast<UseTree>(makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())));
             }
 
             if (skipOpt(TokenKind::LBrace, true)) {
                 // `{...}` case
-                std::vector<use_tree_ptr> specifics;
+                use_tree_list specifics;
 
                 bool first = true;
                 while (!eof()) {
@@ -702,7 +702,9 @@ namespace jc::parser {
                     std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
                 );
 
-                return makeNode<UseTreeSpecific>(std::move(maybePath), std::move(specifics), begin.to(cspan()));
+                return std::static_pointer_cast<UseTree>(
+                    makeNode<UseTreeSpecific>(std::move(maybePath), std::move(specifics), begin.to(cspan()))
+                );
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
@@ -716,11 +718,15 @@ namespace jc::parser {
             }
 
             auto as = parseId("Expected identifier after `as`", true, true);
-            return makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()));
+            return std::static_pointer_cast<UseTree>(
+                makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
+            );
         }
 
         if (maybePath) {
-            return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()));
+            return std::static_pointer_cast<UseTree>(
+                makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()))
+            );
         }
 
         if (is(TokenKind::As)) {
@@ -728,6 +734,8 @@ namespace jc::parser {
         }
 
         suggestErrorMsg("Path expected in `use` declaration", cspan());
+
+        return makeErrorNode(begin.to(cspan()));
     }
 
     ////////////////

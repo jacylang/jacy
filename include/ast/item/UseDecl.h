@@ -8,7 +8,7 @@
 
 namespace jc::ast {
     struct UseTree;
-    using use_tree_ptr = std::shared_ptr<UseTree>;
+    using use_tree_ptr = PR<std::shared_ptr<UseTree>>;
     using use_tree_list = std::vector<use_tree_ptr>;
 
     struct UseTree : Node {
