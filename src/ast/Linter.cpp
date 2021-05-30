@@ -316,8 +316,8 @@ namespace jc::ast {
             case parser::TokenKind::Power:
             case parser::TokenKind::As: {
 
-            }
                 break;
+            }
             default: {
                 Logger::devPanic("Unexpected token used as infix operator:", infix.op.toString());
             }
@@ -572,29 +572,32 @@ namespace jc::ast {
     }
 
     void Linter::lintUseTree(const use_tree_ptr & useTree) {
-        if (useTree->path) {
-            lintSimplePath(useTree->path->unwrap());
-        } else if (useTree->kind == UseTree::Kind::Raw or useTree->kind == UseTree::Kind::Rebind) {
-            common::Logger::devPanic("Unexpected `UseTree` type of `Raw` or `Rebind` with no path");
-        }
-
         switch (useTree->kind) {
             case UseTree::Kind::All: {
-                log.raw("*");
+                const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
+                if (all->path) {
+                    lintSimplePath(all->path.unwrap());
+                }
                 break;
             }
             case UseTree::Kind::Specific: {
-                log.raw("{");
-                for (const auto & specific : std::get<use_tree_list>(useTree->body)) {
+                const auto & specific = std::static_pointer_cast<UseTreeSpecific>(useTree);
+                if (specific->path) {
+                    lintSimplePath(specific->path.unwrap());
+                }
+                for (const auto & specific : specific->specifics) {
                     lintUseTree(specific);
-                    log.raw(",\n");
                 }
             }
             case UseTree::Kind::Rebind: {
-                log.raw(" as ");
-                lintId(std::get<id_ptr>(useTree->body));
+                const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
+                lintSimplePath(rebind->path);
+                lintId(rebind->as);
             }
-            default: {}
+            case UseTree::Kind::Raw: {
+                const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
+                lintSimplePath(raw->path);
+            }
         }
     }
 
