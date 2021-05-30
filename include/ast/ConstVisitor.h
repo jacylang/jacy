@@ -2,6 +2,8 @@
 #define JACY_AST_CONSTVISITOR_H
 
 namespace jc::ast {
+    struct ErrorNode;
+
     // Items //
     struct Enum;
     struct Func;
@@ -66,6 +68,8 @@ namespace jc::ast {
     class ConstVisitor {
     public:
         virtual ~ConstVisitor() = default;
+
+        virtual void visit(const ErrorNode&) = 0;
 
         virtual void visit(const FileModule&) = 0;
         virtual void visit(const DirModule&) = 0;

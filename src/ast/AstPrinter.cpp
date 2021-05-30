@@ -194,7 +194,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("while ");
-        whileStmt.condition->accept(*this);
+        whileStmt.condition.accept(*this);
         log.raw(" ");
         whileStmt.body->accept(*this);
     }
@@ -205,9 +205,9 @@ namespace jc::ast {
     void AstPrinter::visit(const Assignment & assignment) {
         printIndent();
 
-        assignment.lhs->accept(*this);
+        assignment.lhs.accept(*this);
         log.raw(" = ");
-        assignment.rhs->accept(*this);
+        assignment.rhs.accept(*this);
     }
 
     void AstPrinter::visit(const Block & block) {
@@ -219,7 +219,7 @@ namespace jc::ast {
         log.raw("{").nl();
         incIndent();
         for (const auto & stmt : block.stmts) {
-            stmt->accept(*this);
+            stmt.accept(*this);
             log.nl();
         }
         decIndent();
@@ -238,13 +238,13 @@ namespace jc::ast {
             log.raw("mut");
         }
         log.raw(" ");
-        borrowExpr.expr->accept(*this);
+        borrowExpr.expr.accept(*this);
     }
 
     void AstPrinter::visit(const BreakExpr & breakExpr) {
         log.raw("break ");
         if (breakExpr.expr) {
-            breakExpr.expr.unwrap()->accept(*this);
+            breakExpr.expr.unwrap().accept(*this);
         }
     }
 
@@ -254,12 +254,12 @@ namespace jc::ast {
 
     void AstPrinter::visit(const DerefExpr & derefExpr) {
         log.raw("&");
-        derefExpr.expr->accept(*this);
+        derefExpr.expr.accept(*this);
     }
 
     void AstPrinter::visit(const IfExpr & ifExpr) {
         log.raw("if ");
-        ifExpr.condition->accept(*this);
+        ifExpr.condition.accept(*this);
         log.raw(" ");
         if (ifExpr.ifBranch) {
             ifExpr.ifBranch.unwrap()->accept(*this);
@@ -275,7 +275,7 @@ namespace jc::ast {
             log.raw("(");
         }
 
-        infix.lhs->accept(*this);
+        infix.lhs.accept(*this);
         log.raw(" ");
         if (infix.op.kind == parser::TokenKind::Id) {
             log.raw(infix.op.val);
@@ -283,7 +283,7 @@ namespace jc::ast {
             log.raw(infix.op.kindToString());
         }
         log.raw(" ");
-        infix.rhs->accept(*this);
+        infix.rhs.accept(*this);
 
         if (precedenceDebug) {
             log.raw(")");
@@ -291,7 +291,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Invoke & invoke) {
-        invoke.lhs->accept(*this);
+        invoke.lhs.accept(*this);
         log.raw("(");
         print(*invoke.args);
         log.raw(")");
@@ -304,7 +304,7 @@ namespace jc::ast {
             printId(param->name);
             if (param->type) {
                 log.raw(": ");
-                param->type.unwrap()->accept(*this);
+                param->type.unwrap().accept(*this);
             }
             if (i < lambdaExpr.params.size() - 1) {
                 log.raw(", ");
@@ -314,17 +314,17 @@ namespace jc::ast {
 
         if (lambdaExpr.returnType) {
             log.raw(" -> ");
-            lambdaExpr.returnType.unwrap()->accept(*this);
+            lambdaExpr.returnType.unwrap().accept(*this);
             log.raw(" ");
         }
 
-        lambdaExpr.body->accept(*this);
+        lambdaExpr.body.accept(*this);
     }
 
     void AstPrinter::visit(const ListExpr & listExpr) {
         log.raw("[");
         for (const auto & el : listExpr.elements) {
-            el->accept(*this);
+            el.accept(*this);
         }
         log.raw("]");
     }

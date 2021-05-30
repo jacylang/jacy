@@ -82,17 +82,17 @@ namespace jc::ast {
 
         void accept(BaseVisitor & visitor) {
             if (hasErr) {
-                return visitor.visit(error);
+                return visitor.visit(*error);
             } else {
-                return visitor.visit(value);
+                return visitor.visit(*value);
             }
         }
 
         void accept(ConstVisitor & visitor) const {
             if (hasErr) {
-                return visitor.visit(error);
+                return visitor.visit(*error);
             } else {
-                return visitor.visit(value);
+                return visitor.visit(*value);
             }
         }
 
