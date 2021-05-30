@@ -46,7 +46,7 @@ namespace jc::fs {
         }
 
         const std::string & getContent() const {
-            if (not isDir()) {
+            if (isDir()) {
                 common::Logger::devPanic("Called `fs::Entry::getContent` on non-file entry");
             }
             return std::get<std::string>(content);

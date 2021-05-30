@@ -7,7 +7,7 @@ namespace jc::core {
         init();
 
         // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
-        //  , thus we use it before suggestions check
+        //  thus we use it before suggestions check
 
         // AST Stage //
         parse();
