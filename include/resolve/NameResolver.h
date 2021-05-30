@@ -107,7 +107,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        void resolveId(ast::Identifier & id, Name::Usage usage);
+//        void resolveId(ast::Identifier & id, Name::Usage usage);
         void resolvePath(bool global, const ast::id_t_list & segments);
 //        std::string getNameByNodeId(node_id nameNodeId);
 

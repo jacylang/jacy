@@ -442,48 +442,48 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void NameResolver::resolveId(ast::Identifier & id, Name::Usage usage) {
-        // TODO: Add allowed resolutions:
-        //  When we resolve type name, we should suggest an error if it is a function or something else
-
-        const auto & name = id.unwrapValue();
-
-        dt::Option<name_ptr> nearestResolution;
-        opt_node_id resolved;
-
-        auto curDepth = depth;
-        dt::Option<rib_ptr> maybeRib = curRib();
-        while (maybeRib) {
-            auto checkRib = maybeRib.unwrap();
-            const auto & found = checkRib->names.find(name);
-            if (found != checkRib->names.end()) {
-                // Save nearest name we found
-                nearestResolution = found->second;
-                if (found->second->isUsableAs(usage)) {
-                    // If name, we found is of allowed kind we use it
-                    resolved = found->second->nodeId;
-                    break;
-                }
-            }
-            curDepth--;
-            maybeRib = ribAt(curDepth);
-        }
-
-        if (resolved) {
-            id.setReference(resolved.unwrap());
-            return;
-        }
-
-        if (nearestResolution) {
-            suggestErrorMsg(
-                "Cannot find suitable item for '" + name + "', nearest item is a " +
-                nearestResolution.unwrap()->kindStr() + " that cannot be used as " + Name::usageToString(usage),
-                id.id
-            );
-        } else {
-            suggestErrorMsg("Cannot find name '" + name + "'", id.id);
-        }
-    }
+//    void NameResolver::resolveId(ast::Identifier & id, Name::Usage usage) {
+//        // TODO: Add allowed resolutions:
+//        //  When we resolve type name, we should suggest an error if it is a function or something else
+//
+//        const auto & name = id.getValue();
+//
+//        dt::Option<name_ptr> nearestResolution;
+//        opt_node_id resolved;
+//
+//        auto curDepth = depth;
+//        dt::Option<rib_ptr> maybeRib = curRib();
+//        while (maybeRib) {
+//            auto checkRib = maybeRib.unwrap();
+//            constna auto & found = checkRib->names.find(name);
+//            if (found != checkRib->names.end()) {
+//                // Save nearest name we found
+//                nearestResolution = found->second;
+//                if (found->second->isUsableAs(usage)) {
+//                    // If name, we found is of allowed kind we use it
+//                    resolved = found->second->nodeId;
+//                    break;
+//                }
+//            }
+//            curDepth--;
+//            maybeRib = ribAt(curDepth);
+//        }
+//
+//        if (resolved) {
+//            id.setReference(resolved.unwrap());
+//            return;
+//        }
+//
+//        if (nearestResolution) {
+//            suggestErrorMsg(
+//                "Cannot find suitable item for '" + name + "', nearest item is a " +
+//                nearestResolution.unwrap()->kindStr() + " that cannot be used as " + Name::usageToString(usage),
+//                id.id
+//            );
+//        } else {
+//            suggestErrorMsg("Cannot find name '" + name + "'", id.id);
+//        }
+//    }
 
     void NameResolver::resolvePath(bool global, const ast::id_t_list & segments) {
         if (global) {

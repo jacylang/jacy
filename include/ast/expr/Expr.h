@@ -58,7 +58,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        static std::shared_ptr<T> as(expr_ptr expr) {
+        static std::shared_ptr<T> as(pure_expr_ptr expr) {
             return std::static_pointer_cast<T>(expr);
         }
 
