@@ -17,7 +17,7 @@ namespace jc::ast {
     using opt_node_id = dt::Option<ast::node_id>;
 
     template<class T>
-    using ParseResult = dt::Result<std::shared_ptr<ErrorNode>, std::shared_ptr<T>>;
+    using ParseResult = dt::Result<std::shared_ptr<ErrorNode>, T>;
 
     const node_id NONE_NODE_ID = UINT32_MAX;
 

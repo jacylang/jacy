@@ -1931,6 +1931,8 @@ namespace jc::parser {
     }
 
     ast::ParseResult<ast::simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
+        const auto & begin = cspan();
+
         auto simplePath = parseOptSimplePath();
 
         if (!simplePath) {
@@ -1938,9 +1940,10 @@ namespace jc::parser {
                 "Expected identifier, `super`, `self` or `party` in " + construction + "path",
                 cspan()
             );
+            return makeErrorNode(begin.to(cspan()));
         }
 
-        return
+        return simplePath.unwrap();
     }
 
     dt::Option<ast::simple_path_ptr> Parser::parseOptSimplePath() {
