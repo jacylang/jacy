@@ -8,8 +8,8 @@ namespace jc::dt {
     template<class T, class E>
     class Result {
     public:
-        Result(const T & value) : value(value) {}
-        Result(const E & error) : error(error) {}
+        explicit Result(const T & value) : value(value), hasErr(false) {}
+        explicit Result(const E & error) : error(error), hasErr(true) {}
 
         T unwrap(const std::string & msg = "") const {
             if (isErr()) {
