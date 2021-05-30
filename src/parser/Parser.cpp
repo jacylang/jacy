@@ -648,8 +648,6 @@ namespace jc::parser {
         auto maybePath = parseOptSimplePath();
 
         if (skipOpt(TokenKind::Path)) {
-            dt::Option<simple_path_ptr> checkedPath;
-
             if (maybePath) {
                 skip(
                     TokenKind::Path,
@@ -661,12 +659,11 @@ namespace jc::parser {
                         cspan()
                     )
                 );
-                checkedPath = std::move(maybePath);
             }
 
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
-                return makeNode<UseTree>(std::move(checkedPath), true, begin.to(cspan()));
+                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan()));
             }
 
             if (skipOpt(TokenKind::LBrace, true)) {
@@ -705,10 +702,10 @@ namespace jc::parser {
                     std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
                 );
 
-                return makeNode<UseTree>(std::move(checkedPath), std::move(specifics), begin.to(cspan()));
+                return makeNode<UseTreeSpecific>(std::move(maybePath), std::move(specifics), begin.to(cspan()));
             }
 
-            suggestErrorMsg("Expected `*` or `{`", begin);
+            suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
         }
 
         if (maybePath and skipOpt(TokenKind::As, true)) {
@@ -718,18 +715,12 @@ namespace jc::parser {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
-            if (checkedPath) {
-                checkedPath = std::move(maybePath);
-            } else {
-                checkedPath = makeErrorNode(begin);
-            }
-
             auto as = parseId("Expected identifier after `as`", true, true);
-            return makeNode<UseTree>(std::move(checkedPath.unwrap()), std::move(as), begin.to(cspan()));
+            return makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()));
         }
 
         if (maybePath) {
-            return makeNode<UseTree>(std::move(maybePath.unwrap()), begin.to(cspan()));
+            return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()));
         }
 
         suggestErrorMsg("Path expected in `use` declaration", cspan());
