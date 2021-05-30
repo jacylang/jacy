@@ -95,25 +95,25 @@ namespace jc::resolve {
 
     // Expressions //
     void NameResolver::visit(ast::Assignment & assign) {
-        assign.lhs->accept(*this);
-        assign.rhs->accept(*this);
+        assign.lhs.accept(*this);
+        assign.rhs.accept(*this);
     }
 
     void NameResolver::visit(ast::Block & block) {
         enterNormalRib(); // -> block rib
         for (const auto & stmt : block.stmts) {
-            stmt->accept(*this);
+            stmt.accept(*this);
         }
         exitRib(); // <- block rib
     }
 
     void NameResolver::visit(ast::BorrowExpr & borrowExpr) {
-        borrowExpr.expr->accept(*this);
+        borrowExpr.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::BreakExpr & breakExpr) {
         if (breakExpr.expr) {
-            breakExpr.expr.unwrap()->accept(*this);
+            breakExpr.expr.unwrap().accept(*this);
         }
     }
 
@@ -121,11 +121,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::DerefExpr & derefExpr) {
-        derefExpr.expr->accept(*this);
+        derefExpr.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::IfExpr & ifExpr) {
-        ifExpr.condition->accept(*this);
+        ifExpr.condition.accept(*this);
         if (ifExpr.ifBranch) {
             ifExpr.ifBranch.unwrap()->accept(*this);
         }
@@ -135,12 +135,12 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Infix & infix) {
-        infix.lhs->accept(*this);
-        infix.rhs->accept(*this);
+        infix.lhs.accept(*this);
+        infix.rhs.accept(*this);
     }
 
     void NameResolver::visit(ast::Invoke & invoke) {
-        invoke.lhs->accept(*this);
+        invoke.lhs.accept(*this);
         visitNamedList(invoke.args);
     }
 
@@ -150,22 +150,22 @@ namespace jc::resolve {
         for (const auto & param : lambdaExpr.params) {
             // TODO: Param name
             if (param->type) {
-                param->type.unwrap()->accept(*this);
+                param->type.unwrap().accept(*this);
             }
         }
 
         if (lambdaExpr.returnType) {
-            lambdaExpr.returnType.unwrap()->accept(*this);
+            lambdaExpr.returnType.unwrap().accept(*this);
         }
 
-        lambdaExpr.body->accept(*this);
+        lambdaExpr.body.accept(*this);
 
         exitRib(); // <- (lambda params)
     }
 
     void NameResolver::visit(ast::ListExpr & listExpr) {
         for (const auto & el : listExpr.elements) {
-            el->accept(*this);
+            el.accept(*this);
         }
     }
 
@@ -177,14 +177,14 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::MemberAccess & memberAccess) {
-        memberAccess.lhs->accept(*this);
+        memberAccess.lhs.accept(*this);
         // Note: As far as lhs is unknown expression, we cannot check fields on this stage.
         //  At first we need to infer the type of lhs, and then type-check it whereas it is a structure
         //  and has certain field
     }
 
     void NameResolver::visit(ast::ParenExpr & parenExpr) {
-        parenExpr.expr->accept(*this);
+        parenExpr.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::PathExpr & pathExpr) {
@@ -194,28 +194,28 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Prefix & prefix) {
-        prefix.rhs->accept(*this);
+        prefix.rhs.accept(*this);
     }
 
     void NameResolver::visit(ast::QuestExpr & questExpr) {
-        questExpr.expr->accept(*this);
+        questExpr.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::ReturnExpr & returnExpr) {
         if (returnExpr.expr) {
-            returnExpr.expr.unwrap()->accept(*this);
+            returnExpr.expr.unwrap().accept(*this);
         }
     }
 
     void NameResolver::visit(ast::SpreadExpr & spreadExpr) {
-        spreadExpr.expr->accept(*this);
+        spreadExpr.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::Subscript & subscript) {
-        subscript.lhs->accept(*this);
+        subscript.lhs.accept(*this);
 
         for (const auto & index : subscript.indices) {
-            index->accept(*this);
+            index.accept(*this);
         }
     }
 
@@ -231,12 +231,12 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::WhenExpr & whenExpr) {
-        whenExpr.subject->accept(*this);
+        whenExpr.subject.accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
             enterNormalRib(); // -> (when entry)
             for (const auto & cond : entry->conditions) {
-                cond->accept(*this);
+                cond.accept(*this);
             }
             entry->body->accept(*this);
             exitRib(); // <- (when entry)
@@ -245,31 +245,31 @@ namespace jc::resolve {
 
     // Types //
     void NameResolver::visit(ast::ParenType & parenType) {
-        parenType.type->accept(*this);
+        parenType.type.accept(*this);
     }
 
     void NameResolver::visit(ast::TupleType & tupleType) {
         for (const auto & el : tupleType.elements) {
             if (el->type) {
-                el->type.unwrap()->accept(*this);
+                el->type.unwrap().accept(*this);
             }
         }
     }
 
     void NameResolver::visit(ast::FuncType & funcType) {
         for (const auto & param : funcType.params) {
-            param->accept(*this);
+            param.accept(*this);
         }
-        funcType.returnType->accept(*this);
+        funcType.returnType.accept(*this);
     }
 
     void NameResolver::visit(ast::SliceType & listType) {
-        listType.type->accept(*this);
+        listType.type.accept(*this);
     }
 
     void NameResolver::visit(ast::ArrayType & arrayType) {
-        arrayType.type->accept(*this);
-        arrayType.sizeExpr->accept(*this);
+        arrayType.type.accept(*this);
+        arrayType.sizeExpr.accept(*this);
     }
 
     void NameResolver::visit(ast::TypePath & typePath) {
@@ -371,7 +371,7 @@ namespace jc::resolve {
         for (const auto & el : namedList->elements) {
             // Note: We don't visit element `name`, because it is immaterial on name-resolution stage
             if (el->value) {
-                el->value.unwrap()->accept(*this);
+                el->value.unwrap().accept(*this);
             }
         }
     }

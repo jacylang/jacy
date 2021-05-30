@@ -104,7 +104,7 @@ namespace jc::ast {
             if (isErr()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` value");
             }
-            return &value;
+            return value;
         }
 
         T * operator->() {
@@ -114,7 +114,7 @@ namespace jc::ast {
             if (isErr()) {
                 throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` value");
             }
-            return &value;
+            return value;
         }
 
         const T & operator*() const {
@@ -124,10 +124,21 @@ namespace jc::ast {
             if (isErr()) {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
             }
-            return value;
+            return *value;
         }
 
         void accept(BaseVisitor & visitor) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
+            if (hasErr) {
+                return error->accept(visitor);
+            } else {
+                return value->accept(visitor);
+            }
+        }
+
+        void accept(BaseVisitor & visitor) const {
             if (not inited) {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
