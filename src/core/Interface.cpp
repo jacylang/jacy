@@ -132,7 +132,13 @@ namespace jc::core {
             return;
         }
         common::Logger::nl();
-        log.info("Printing AST (`--print ast`)");
+        std::string modeStr;
+        if (mode == ast::AstPrinterMode::Parsing) {
+            modeStr = "parsing";
+        } else if (mode == ast::AstPrinterMode::Names) {
+            modeStr = "name resolution";
+        }
+        log.info("Printing AST after", modeStr, " (`--print ast`)");
         astPrinter.print(*party.unwrap(), mode);
         common::Logger::nl();
     }
