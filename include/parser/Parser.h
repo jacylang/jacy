@@ -54,6 +54,7 @@ namespace jc::parser {
     //  6. Skip optional left NLs?
     //  7. Skip optional right NLs?
     using prec_parser_flags = uint8_t;
+    using namespace ast;
 
     struct PrecParser {
         const prec_parser_flags flags;
@@ -73,7 +74,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<ast::file_ptr> parse(
+        dt::SuggResult<file_ptr> parse(
             const sess::sess_ptr & sess,
             const parse_sess_ptr & parseSess,
             const token_list & tokens
@@ -94,8 +95,8 @@ namespace jc::parser {
             return node;
         }
 
-        inline std::shared_ptr<ast::ErrorNode> makeErrorNode(const Span & span) {
-            auto errorNode = std::make_shared<ast::ErrorNode>(span);
+        inline std::shared_ptr<ErrorNode> makeErrorNode(const Span & span) {
+            auto errorNode = std::make_shared<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
             return errorNode;
         }
@@ -135,82 +136,82 @@ namespace jc::parser {
     private:
 
         // Items //
-        dt::Option<ast::item_ptr> parseItem();
-        ast::item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
+        dt::Option<item_ptr> parseItem();
+        item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
-        ast::item_ptr parseEnum(ast::attr_list && attributes);
-        ast::enum_entry_ptr parseEnumEntry();
-        ast::item_ptr parseFunc(ast::attr_list && attributes, parser::token_list && modifiers);
-        ast::item_ptr parseImpl(ast::attr_list && attributes);
-        ast::item_ptr parseStruct(ast::attr_list && attributes);
-        ast::field_list parseStructFields();
-        ast::item_ptr parseTrait(ast::attr_list && attributes);
-        ast::item_ptr parseTypeAlias(ast::attr_list && attributes);
-        ast::item_ptr parseMod(ast::attr_list && attributes);
-        ast::item_ptr parseUseDecl(ast::attr_list && attributes);
-        ast::use_tree_ptr parseUseTree();
+        item_ptr parseEnum(attr_list && attributes);
+        enum_entry_ptr parseEnumEntry();
+        item_ptr parseFunc(attr_list && attributes, parser::token_list && modifiers);
+        item_ptr parseImpl(attr_list && attributes);
+        item_ptr parseStruct(attr_list && attributes);
+        field_list parseStructFields();
+        item_ptr parseTrait(attr_list && attributes);
+        item_ptr parseTypeAlias(attr_list && attributes);
+        item_ptr parseMod(attr_list && attributes);
+        item_ptr parseUseDecl(attr_list && attributes);
+        use_tree_ptr parseUseTree();
 
         // Statements //
-        ast::stmt_ptr parseStmt();
-        ast::stmt_ptr parseForStmt();
-        ast::stmt_ptr parseVarStmt();
-        ast::stmt_ptr parseWhileStmt();
+        stmt_ptr parseStmt();
+        stmt_ptr parseForStmt();
+        stmt_ptr parseVarStmt();
+        stmt_ptr parseWhileStmt();
 
         // Expressions //
-        ast::opt_expr_ptr parseOptExpr();
-        ast::expr_ptr parseExpr(const std::string & suggMsg);
-        ast::expr_ptr parseLambda();
-        ast::opt_expr_ptr assignment();
-        ast::opt_expr_ptr precParse(uint8_t index);
+        opt_expr_ptr parseOptExpr();
+        expr_ptr parseExpr(const std::string & suggMsg);
+        expr_ptr parseLambda();
+        opt_expr_ptr assignment();
+        opt_expr_ptr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
 
-        ast::opt_expr_ptr prefix();
-        ast::opt_expr_ptr quest();
-        ast::opt_expr_ptr call();
-        ast::opt_expr_ptr memberAccess();
-        ast::opt_expr_ptr primary();
+        opt_expr_ptr prefix();
+        opt_expr_ptr quest();
+        opt_expr_ptr call();
+        opt_expr_ptr memberAccess();
+        opt_expr_ptr primary();
 
         // Atomic expressions //
-        ast::id_ptr justParseId(const std::string & panicIn);
-        ast::id_ptr parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
-        ast::expr_ptr parsePathExpr();
-        ast::expr_ptr parseLiteral();
-        ast::expr_ptr parseListExpr();
-        ast::expr_ptr parseTupleOrParenExpr();
+        id_ptr justParseId(const std::string & panicIn);
+        id_ptr parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
+        expr_ptr parsePathExpr();
+        expr_ptr parseLiteral();
+        expr_ptr parseListExpr();
+        expr_ptr parseTupleOrParenExpr();
 
-        ast::block_ptr parseBlock(const std::string & construction, BlockArrow);
+        block_ptr parseBlock(const std::string & construction, BlockArrow);
 
         // Control-flow expressions //
-        ast::expr_ptr parseIfExpr(bool isElif = false);
-        ast::expr_ptr parseLoopExpr();
-        ast::expr_ptr parseWhenExpr();
-        ast::when_entry_ptr parseWhenEntry();
+        expr_ptr parseIfExpr(bool isElif = false);
+        expr_ptr parseLoopExpr();
+        expr_ptr parseWhenExpr();
+        when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        std::tuple<ast::opt_block_ptr, ast::opt_expr_ptr> parseFuncBody();
-        ast::attr_list parseAttrList();
-        dt::Option<ast::attr_ptr> parseAttr();
-        ast::named_list_ptr parseNamedList(const std::string & construction);
+        std::tuple<opt_block_ptr, opt_expr_ptr> parseFuncBody();
+        attr_list parseAttrList();
+        dt::Option<attr_ptr> parseAttr();
+        named_list_ptr parseNamedList(const std::string & construction);
         parser::token_list parseModifiers();
-        ast::func_param_list parseFuncParamList();
-        ast::func_param_ptr parseFuncParam();
-        ast::item_list parseMembers(const std::string & construction);
-        ast::ParseResult<ast::simple_path_ptr> parseSimplePath(const std::string & construction);
-        dt::Option<ast::simple_path_ptr> parseOptSimplePath();
+        func_param_list parseFuncParamList();
+        func_param_ptr parseFuncParam();
+        item_list parseMembers(const std::string & construction);
+        ParseResult<simple_path_ptr> parseSimplePath(const std::string & construction);
+        dt::Option<simple_path_ptr> parseOptSimplePath();
 
         // Types //
-        ast::type_ptr parseType(const std::string & suggMsg);
-        ast::opt_type_ptr parseOptType();
-        ast::tuple_t_el_list parseParenType();
-        ast::type_ptr parseArrayType();
-        ast::type_ptr parseFuncType(ast::tuple_t_el_list paramTypes, const Span & span);
-        ast::tuple_t_el_list parseTupleFields();
+        type_ptr parseType(const std::string & suggMsg);
+        opt_type_ptr parseOptType();
+        tuple_t_el_list parseParenType();
+        type_ptr parseArrayType();
+        type_ptr parseFuncType(tuple_t_el_list paramTypes, const Span & span);
+        tuple_t_el_list parseTupleFields();
 
         // Type fragments //
-        ast::opt_type_params parseTypeParams();
-        ast::type_path_ptr parseTypePath(const std::string & suggMsg);
-        ast::opt_type_path_ptr parseOptTypePath();
+        opt_type_params parseTypeParams();
+        type_path_ptr parseTypePath(const std::string & suggMsg);
+        opt_type_path_ptr parseOptTypePath();
 
         // Suggestions //
     private:
