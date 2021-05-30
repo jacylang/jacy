@@ -94,7 +94,7 @@ namespace jc::ast {
             return *this;
         }
 
-        const T & operator->() const {
+        const T * operator->() const {
             if (not inited) {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
@@ -104,7 +104,7 @@ namespace jc::ast {
             return &value;
         }
 
-        T & operator->() {
+        T * operator->() {
             if (not inited) {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
