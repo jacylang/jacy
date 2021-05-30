@@ -20,7 +20,7 @@ namespace jc::dt {
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
 
-        const T & unwrap(const std::string & msg = "") const {
+        T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }

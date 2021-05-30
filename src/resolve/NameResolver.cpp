@@ -35,11 +35,11 @@ namespace jc::resolve {
 
         enterNormalRib(); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
-            param->type->accept(*this);
+            param->type.accept(*this);
         }
 
         if (funcDecl.returnType) {
-            funcDecl.returnType.unwrap()->accept(*this);
+            funcDecl.returnType.unwrap().accept(*this);
         }
 
         enterNormalRib(); // -> (params rib)
@@ -48,7 +48,7 @@ namespace jc::resolve {
         }
 
         if (funcDecl.oneLineBody) {
-            funcDecl.oneLineBody.unwrap()->accept(*this);
+            funcDecl.oneLineBody.unwrap().accept(*this);
         } else {
             funcDecl.body.unwrap()->accept(*this);
         }
@@ -85,11 +85,11 @@ namespace jc::resolve {
 
     // Statements //
     void NameResolver::visit(ast::ExprStmt & exprStmt) {
-        exprStmt.expr->accept(*this);
+        exprStmt.expr.accept(*this);
     }
 
     void NameResolver::visit(ast::WhileStmt & whileStmt) {
-        whileStmt.condition->accept(*this);
+        whileStmt.condition.accept(*this);
         visit(*whileStmt.body);
     }
 
