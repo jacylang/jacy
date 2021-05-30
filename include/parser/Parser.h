@@ -159,7 +159,7 @@ namespace jc::parser {
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
-        PR<expr_ptr> parseExpr(const std::string & suggMsg);
+        expr_ptr parseExpr(const std::string & suggMsg);
         expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);

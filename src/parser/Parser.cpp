@@ -860,7 +860,7 @@ namespace jc::parser {
         return dt::None;
     }
 
-    PR<expr_ptr> Parser::parseExpr(const std::string & suggMsg) {
+    expr_ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
