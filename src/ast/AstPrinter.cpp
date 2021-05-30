@@ -620,11 +620,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::printId(const id_ptr & id) {
-        const auto & value = id->getValue();
-        if (value) {
-            log.raw(value.unwrap());
+        if (id.isErr()) {
+            log.raw("[ERROR]");
         } else {
-            log.raw("[ERROR ID]");
+            log.raw(id.unwrap()->getValue());
         }
     }
 
