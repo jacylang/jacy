@@ -68,11 +68,13 @@ namespace jc::core {
         auto lexerResult = std::move(lexer.lex(parseSess, file->getContent()));
         sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
 
+        log.dev("Tokenize file", file->getPath());
         const auto & fileTokens = std::move(lexerResult.tokens);
 
         printSource(fileId);
         printTokens(fileId, fileTokens);
 
+        log.dev("Parse file", file->getPath());
         auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, fileTokens).extract();
 
         collectSuggestions(std::move(parserSuggestions));
@@ -89,9 +91,9 @@ namespace jc::core {
             return;
         }
         const auto & source = sess->sourceMap.getSource(fileId);
-        log.debug("Printing source for file", source.path, "(`--print source`)");
+        log.debug("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
 
-        const auto & sourceLines = source.sourceLines.unwrap();
+        const auto & sourceLines = source.sourceLines.unwrap("Interface::printSource");
         for (size_t i = 0; i < sourceLines.size(); i++) {
             log.raw(i + 1, "|", sourceLines.at(i));
         }

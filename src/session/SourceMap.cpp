@@ -3,7 +3,8 @@
 namespace jc::sess {
     file_id_t SourceMap::addSource(const fs::path & path) {
         file_id_t fileId = utils::hash::hash(path.string());
-        sources.emplace(fileId, Source{path, dt::None});
+        common::Logger::devDebug("Add source", path, "with fileId", fileId);
+        sources.emplace(fileId, Source(path));
         return fileId;
     }
 
@@ -15,8 +16,8 @@ namespace jc::sess {
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        sources[fileId] = {};
-        common::Logger::devDebug("Set source by fileId:", fileId);
+        sources.at(fileId).sourceLines = std::move(sourceLines);
+        common::Logger::devDebug("Set source lines for file", sources.at(fileId).path, "by fileId:", fileId);
     }
 
     const Source & SourceMap::getSource(file_id_t fileId) const {

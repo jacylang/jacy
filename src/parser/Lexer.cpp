@@ -526,8 +526,6 @@ namespace jc::parser {
     //
 
     LexerResult Lexer::lex(const parse_sess_ptr & parseSess, std::string source) {
-        log.dev("Tokenize...");
-
         this->parseSess = parseSess;
         this->source = std::move(source);
 

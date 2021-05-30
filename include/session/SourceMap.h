@@ -16,6 +16,8 @@ namespace jc::sess {
     using source_lines = std::vector<std::string>;
 
     struct Source {
+        Source(const fs::path & path) : path(path), sourceLines(dt::None) {}
+
         fs::path path;
         dt::Option<source_lines> sourceLines;
 

@@ -194,8 +194,6 @@ namespace jc::parser {
         const parse_sess_ptr & parseSess,
         const token_list & tokens
     ) {
-        log.dev("Parse...");
-
         this->sess = sess;
         this->parseSess = parseSess;
         this->tokens = tokens;
