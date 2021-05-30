@@ -9,7 +9,7 @@ namespace jc::ast {
         Impl(
             attr_list attributes,
             opt_type_params typeParams,
-            type_path_ptr traitTypePath,
+            ParseResult<type_path_ptr> traitTypePath,
             type_ptr forType,
             item_list members,
             const Span & span
@@ -20,7 +20,7 @@ namespace jc::ast {
             Item(span, std::move(attributes), ItemKind::Impl) {}
 
         opt_type_params typeParams;
-        type_path_ptr traitTypePath;
+        ParseResult<type_path_ptr> traitTypePath;
         type_ptr forType;
         item_list members;
 
