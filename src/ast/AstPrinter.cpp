@@ -22,22 +22,6 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::visit(const ErrorStmt & errorStmt) {
-        log.raw("[ERROR STMT]");
-    }
-
-    void AstPrinter::visit(const ErrorExpr & errorExpr) {
-        log.raw("[ERROR EXPR]");
-    }
-
-    void AstPrinter::visit(const ErrorType & errorType) {
-        log.raw("[ERROR TYPE]");
-    }
-
-    void AstPrinter::visit(const ErrorTypePath & errorTypePath) {
-        log.raw("[ERROR TYPEPATH]");
-    }
-
     ////////////////
     // Statements //
     ////////////////
