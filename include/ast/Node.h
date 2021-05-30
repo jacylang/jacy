@@ -19,6 +19,9 @@ namespace jc::ast {
     template<class T>
     using ParseResult = dt::Result<std::shared_ptr<ErrorNode>, T>;
 
+    template<class T>
+    using PR = ParseResult<T>;
+
     const node_id NONE_NODE_ID = UINT32_MAX;
 
     struct Node {
