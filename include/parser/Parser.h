@@ -152,14 +152,14 @@ namespace jc::parser {
         use_tree_ptr parseUseTree();
 
         // Statements //
-        ParseResult<stmt_ptr> parseStmt();
+        PR<stmt_ptr> parseStmt();
         stmt_ptr parseForStmt();
         stmt_ptr parseVarStmt();
         stmt_ptr parseWhileStmt();
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
-        ParseResult<expr_ptr> parseExpr(const std::string & suggMsg);
+        PR<expr_ptr> parseExpr(const std::string & suggMsg);
         expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
@@ -197,7 +197,7 @@ namespace jc::parser {
         func_param_list parseFuncParamList();
         func_param_ptr parseFuncParam();
         item_list parseMembers(const std::string & construction);
-        ParseResult<simple_path_ptr> parseSimplePath(const std::string & construction);
+        PR<simple_path_ptr> parseSimplePath(const std::string & construction);
         dt::Option<simple_path_ptr> parseOptSimplePath();
 
         // Types //
@@ -210,7 +210,7 @@ namespace jc::parser {
 
         // Type fragments //
         opt_type_params parseTypeParams();
-        ParseResult<type_path_ptr> parseTypePath(const std::string & suggMsg);
+        PR<type_path_ptr> parseTypePath(const std::string & suggMsg);
         opt_type_path_ptr parseOptTypePath();
 
         // Suggestions //

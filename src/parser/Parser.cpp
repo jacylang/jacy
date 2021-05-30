@@ -652,7 +652,7 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    ParseResult<stmt_ptr> Parser::parseStmt() {
+    PR<stmt_ptr> Parser::parseStmt() {
         logParse("Stmt");
 
         const auto & begin = cspan();
@@ -860,7 +860,7 @@ namespace jc::parser {
         return dt::None;
     }
 
-    ParseResult<expr_ptr> Parser::parseExpr(const std::string & suggMsg) {
+    PR<expr_ptr> Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
@@ -1930,7 +1930,7 @@ namespace jc::parser {
         return members;
     }
 
-    ParseResult<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
+    PR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
         const auto & begin = cspan();
 
         auto simplePath = parseOptSimplePath();
@@ -2295,7 +2295,7 @@ namespace jc::parser {
         return typeParams;
     }
 
-    ParseResult<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
+    PR<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
         logParse("TypePath");
 
         auto begin = cspan();
