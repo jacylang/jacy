@@ -723,6 +723,10 @@ namespace jc::parser {
             return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()));
         }
 
+        if (is(TokenKind::As)) {
+            suggestErrorMsg("Please, specify path before `as` rebinding", cspan());
+        }
+
         suggestErrorMsg("Path expected in `use` declaration", cspan());
     }
 

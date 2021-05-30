@@ -629,26 +629,36 @@ namespace jc::ast {
     }
 
     void AstPrinter::printUseTree(const use_tree_ptr & useTree) {
-        if (useTree->path) {
-            printSimplePath(useTree->path->unwrap());
-        }
         switch (useTree->kind) {
             case UseTree::Kind::All: {
+                const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
+                if (all->path) {
+                    printSimplePath(all->path.unwrap());
+                }
                 log.raw("*");
                 break;
             }
             case UseTree::Kind::Specific: {
                 log.raw("{");
-                for (const auto & specific : std::get<use_tree_list>(useTree->body)) {
+                const auto & specific = std::static_pointer_cast<UseTreeSpecific>(useTree);
+                if (specific->path) {
+                    printSimplePath(specific->path.unwrap());
+                }
+                for (const auto & specific : specific->specifics) {
                     printUseTree(specific);
                     log.raw(",\n");
                 }
             }
             case UseTree::Kind::Rebind: {
                 log.raw(" as ");
-                printId(std::get<id_ptr>(useTree->body));
+                const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
+                printSimplePath(rebind->path);
+                printId(rebind->as);
             }
-            default: {}
+            case UseTree::Kind::Raw: {
+                const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
+                printSimplePath(raw->path);
+            }
         }
     }
 

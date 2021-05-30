@@ -31,10 +31,10 @@ namespace jc::ast {
 
     struct UseTreeSpecific : UseTree {
         UseTreeSpecific(dt::Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
-            : path(std::move(path)), body(std::move(specifics)), UseTree(Kind::Specific, span) {}
+            : path(std::move(path)), specifics(std::move(specifics)), UseTree(Kind::Specific, span) {}
 
         dt::Option<simple_path_ptr> path;
-        use_tree_list body;
+        use_tree_list specifics;
     };
 
     struct UseTreeRebind : UseTree {
