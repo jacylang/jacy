@@ -59,30 +59,45 @@ namespace jc::ast {
         }
 
         ParseResult<T> & operator=(const T & rawT) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             hasErr = false;
             value = rawT;
             return *this;
         }
 
         ParseResult<T> & operator=(const E & rawE) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             hasErr = true;
             error = rawE;
             return *this;
         }
 
         ParseResult<T> & operator=(T && rawT) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             hasErr = false;
             value = std::move(rawT);
             return *this;
         }
 
         ParseResult<T> & operator=(E && rawE) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             hasErr = true;
             error = std::move(rawE);
             return *this;
         }
 
         const T & operator->() const {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             if (isErr()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` value");
             }
@@ -90,6 +105,9 @@ namespace jc::ast {
         }
 
         T & operator->() {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             if (isErr()) {
                 throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` value");
             }
@@ -97,6 +115,9 @@ namespace jc::ast {
         }
 
         const T & operator*() const {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             if (isErr()) {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
             }
@@ -104,6 +125,9 @@ namespace jc::ast {
         }
 
         void accept(BaseVisitor & visitor) {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             if (hasErr) {
                 return visitor.visit(*error);
             } else {
@@ -112,6 +136,9 @@ namespace jc::ast {
         }
 
         void accept(ConstVisitor & visitor) const {
+            if (not inited) {
+                common::Logger::devPanic("Use of uninitialized ParseResult");
+            }
             if (hasErr) {
                 return visitor.visit(*error);
             } else {
