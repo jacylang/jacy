@@ -152,7 +152,7 @@ namespace jc::parser {
         use_tree_ptr parseUseTree();
 
         // Statements //
-        PR<stmt_ptr> parseStmt();
+        stmt_ptr parseStmt();
         stmt_ptr parseForStmt();
         stmt_ptr parseVarStmt();
         stmt_ptr parseWhileStmt();

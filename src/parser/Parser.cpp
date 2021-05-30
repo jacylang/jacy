@@ -652,7 +652,7 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    PR<stmt_ptr> Parser::parseStmt() {
+    stmt_ptr Parser::parseStmt() {
         logParse("Stmt");
 
         const auto & begin = cspan();
@@ -667,7 +667,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    return Stmt::as<Stmt>(makeNode<ItemStmt>(item.unwrap()));
+                    return makeNode<ItemStmt>(item.unwrap());
                 }
 
                 auto expr = parseOptExpr();
@@ -930,7 +930,7 @@ namespace jc::parser {
         }
 
         opt_type_ptr returnType;
-        expr_ptr body;
+        opt_expr_ptr body;
         if (skipOpt(TokenKind::Arrow, true)) {
             returnType = parseType("Expected lambda return type after `->`");
             body = parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed);
@@ -939,7 +939,7 @@ namespace jc::parser {
         }
 
         return makeNode<Lambda>(
-            std::move(params), std::move(returnType), std::move(body), begin.to(cspan())
+            std::move(params), std::move(returnType), std::move(body.unwrap()), begin.to(cspan())
         );
     }
 
