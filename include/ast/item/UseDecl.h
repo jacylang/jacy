@@ -19,14 +19,18 @@ namespace jc::ast {
         } kind;
 
         // `*`
-        explicit UseTree(const Span & span) : kind(Kind::All), Node(span) {}
+        UseTree(dt::Option<PR<simple_path_ptr>> && path, const Span & span)
+            : path(std::move(path)), kind(Kind::All), Node(span) {}
 
         // `as ...`
-        UseTree(id_ptr && as, const Span & span) : kind(Kind::Rebind), Node(span) {}
+        UseTree(PR<simple_path_ptr> && path, id_ptr && as, const Span & span)
+            : path(std::move(path)), kind(Kind::Rebind), Node(span) {}
 
         // `{...}`
-        UseTree(use_tree_list && specifics, const Span & span) : kind(Kind::Specific), Node(span) {}
+        UseTree(dt::Option<PR<simple_path_ptr>> && path, use_tree_list && specifics, const Span & span)
+            : path(std::move(path)), kind(Kind::Specific), Node(span) {}
 
+        dt::Option<PR<simple_path_ptr>> path;
         std::variant<id_ptr, use_tree_ptr> body;
     };
 

@@ -644,7 +644,88 @@ namespace jc::parser {
     }
 
     use_tree_ptr Parser::parseUseTree() {
+        const auto & begin = cspan();
+        auto maybePath = parseOptSimplePath();
 
+        if (skipOpt(TokenKind::As, true)) {
+            // `as ...` case
+
+            if (!maybePath) {
+                suggestErrorMsg("Expected path before `as`", begin);
+            }
+
+            dt::Option<PR<simple_path_ptr>> checkedPath;
+            if (checkedPath) {
+                checkedPath = maybePath;
+            } else {
+                checkedPath = makeErrorNode(begin);
+            }
+
+            auto as = parseId("Expected identifier after `as`", true, true);
+            return makeNode<UseTree>(std::move(checkedPath.unwrap()), std::move(as), begin.to(cspan()));
+        }
+
+        dt::Option<PR<simple_path_ptr>> checkedPath;
+
+        if (maybePath) {
+            skip(
+                TokenKind::Path,
+                false,
+                false,
+                true,
+                std::make_unique<ParseErrSugg>(
+                    "Expected `::` after path in `use` declaration",
+                    cspan()
+                )
+            );
+            checkedPath = maybePath;
+        }
+
+        // `*` case
+        if (skipOpt(TokenKind::Mul)) {
+            return makeNode<UseTree>(std::move(checkedPath), begin.to(cspan()));
+        }
+
+        if (skipOpt(TokenKind::LBrace, true)) {
+            // `{...}` case
+            std::vector<use_tree_ptr> specifics;
+
+            bool first = true;
+            while (!eof()) {
+                if (is(TokenKind::RBrace)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(
+                        TokenKind::Comma,
+                        true,
+                        true,
+                        true,
+                        std::make_unique<ParseErrSugg>("Expected `,` delimiter between `use` specifics", cspan())
+                    );
+                }
+
+                if (is(TokenKind::RBrace)) {
+                    break;
+                }
+
+                specifics.emplace_back(parseUseTree());
+            }
+            skip(
+                TokenKind::RBrace,
+                true,
+                false,
+                false,
+                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            );
+
+            return makeNode<UseTree>(std::move(checkedPath), std::move(specifics), begin.to(cspan()));
+        }
+
+        suggestErrorMsg("Invalid beginning of `use` path", begin);
     }
 
     ////////////////
@@ -1928,7 +2009,7 @@ namespace jc::parser {
 
         if (!simplePath) {
             suggestErrorMsg(
-                "Expected identifier, `super`, `self` or `party` in " + construction + "path",
+                "Expected identifier, `super`, `self` or `party` in " + construction + " path",
                 cspan()
             );
             return makeErrorNode(begin.to(cspan()));
