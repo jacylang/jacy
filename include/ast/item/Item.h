@@ -21,11 +21,15 @@ namespace jc::ast {
     };
 
     struct Item : Node {
-        Item(const Span & span, attr_list attributes, ItemKind kind)
-            : kind(kind), attributes(std::move(attributes)), Node(span) {}
+        Item(const Span & span, ItemKind kind)
+            : kind(kind), Node(span) {}
 
         attr_list attributes;
         ItemKind kind;
+
+        void setAttributes(attr_list && attributes) {
+            this->attributes = std::move(attributes);
+        }
 
         virtual void accept(BaseVisitor & visitor) = 0;
         virtual void accept(ConstVisitor & visitor) const = 0;

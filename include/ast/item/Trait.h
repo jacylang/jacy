@@ -7,7 +7,6 @@
 namespace jc::ast {
     struct Trait : Item {
         Trait(
-            attr_list attributes,
             id_ptr name,
             opt_type_params typeParams,
             type_path_list superTraits,
@@ -17,7 +16,7 @@ namespace jc::ast {
             typeParams(std::move(typeParams)),
             superTraits(std::move(superTraits)),
             members(std::move(members)),
-            Item(span, std::move(attributes), ItemKind::Trait) {}
+            Item(span, ItemKind::Trait) {}
 
         id_ptr name;
         opt_type_params typeParams;

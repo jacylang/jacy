@@ -11,7 +11,6 @@
 namespace jc::ast {
     struct Func : Item {
         Func(
-            attr_list attributes,
             parser::token_list modifiers,
             opt_type_params typeParams,
             id_ptr name,
@@ -27,7 +26,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)),
             oneLineBody(std::move(oneLineBody)),
-            Item(span, std::move(attributes), ItemKind::Func) {}
+            Item(span, ItemKind::Func) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;

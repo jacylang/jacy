@@ -8,7 +8,6 @@
 namespace jc::ast {
     struct Struct : Item {
         Struct(
-            attr_list attributes,
             id_ptr name,
             opt_type_params typeParams,
             field_list fields,
@@ -16,7 +15,7 @@ namespace jc::ast {
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
             fields(std::move(fields)),
-            Item(span, std::move(attributes), ItemKind::Struct) {}
+            Item(span, ItemKind::Struct) {}
 
         id_ptr name;
         opt_type_params typeParams;

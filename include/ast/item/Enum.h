@@ -39,8 +39,8 @@ namespace jc::ast {
     };
 
     struct Enum : Item {
-        Enum(attr_list attributes, enum_entry_list entries, const Span & span)
-            : entries(std::move(entries)), Item(span, std::move(attributes), ItemKind::Enum) {}
+        Enum(enum_entry_list entries, const Span & span)
+            : entries(std::move(entries)), Item(span, ItemKind::Enum) {}
 
         id_ptr name;
         enum_entry_list entries;

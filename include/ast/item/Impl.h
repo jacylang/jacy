@@ -7,7 +7,6 @@
 namespace jc::ast {
     struct Impl : Item {
         Impl(
-            attr_list attributes,
             opt_type_params typeParams,
             PR<type_path_ptr> traitTypePath,
             type_ptr forType,
@@ -17,7 +16,7 @@ namespace jc::ast {
             traitTypePath(std::move(traitTypePath)),
             forType(std::move(forType)),
             members(std::move(members)),
-            Item(span, std::move(attributes), ItemKind::Impl) {}
+            Item(span, ItemKind::Impl) {}
 
         opt_type_params typeParams;
         PR<type_path_ptr> traitTypePath;

@@ -8,13 +8,12 @@
 namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
-            attr_list attributes,
             id_ptr name,
             type_ptr type,
             const Span & span
         ) : name(std::move(name)),
             type(std::move(type)),
-            Item(span, std::move(attributes), ItemKind::TypeAlias) {}
+            Item(span, ItemKind::TypeAlias) {}
 
         id_ptr name;
         type_ptr type;

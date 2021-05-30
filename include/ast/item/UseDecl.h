@@ -54,11 +54,10 @@ namespace jc::ast {
 
     struct UseDecl : Item {
         UseDecl(
-            attr_list && attributes,
             use_tree_ptr && useTree,
             const Span & span
         ) : useTree(std::move(useTree)),
-            Item(span, std::move(attributes), ItemKind::Use) {}
+            Item(span, ItemKind::Use) {}
 
         use_tree_ptr useTree;
 
