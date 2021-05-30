@@ -153,5 +153,6 @@ namespace jc::core {
         }
         // Use `none_t` as stub
         dt::SuggResult<dt::none_t>::check(sess, suggestions);
+        suggestions.clear();
     }
 }
