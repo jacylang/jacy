@@ -19,8 +19,6 @@ namespace jc::ast {
         Var,
         While,
         Item,
-
-        Error,
     };
 
     struct Stmt : Node {
@@ -39,19 +37,6 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) = 0;
         virtual void accept(ConstVisitor & visitor) const = 0;
-    };
-
-    struct ErrorStmt : Stmt {
-        explicit ErrorStmt(const Span & span) : Stmt(span, StmtKind::Error) {}
-
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
     };
 }
 
