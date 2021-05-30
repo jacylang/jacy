@@ -13,22 +13,6 @@ namespace jc::ast {
         visit("dirModule");
     }
 
-    void StubVisitor::visit(ErrorStmt & errorStmt) {
-        Logger::devPanic("[ERROR STMT] In", owner, "at", errorStmt.span.toString());
-    }
-
-    void StubVisitor::visit(ErrorExpr & errorExpr) {
-        Logger::devPanic("[ERROR EXPR] In", owner, "at", errorExpr.span.toString());
-    }
-
-    void StubVisitor::visit(ErrorType & errorType) {
-        Logger::devPanic("[ERROR TYPE] In", owner, "at", errorType.span.toString());
-    }
-
-    void StubVisitor::visit(ErrorTypePath & errorTypePath) {
-        Logger::devPanic("[ERROR TYPEPATH] In", owner, "at", errorTypePath.span.toString());
-    }
-
     // Statements //
     void StubVisitor::visit(Enum & enumDecl) {
         visit("enumDecl");
