@@ -396,7 +396,7 @@ namespace jc::resolve {
         try {
             return ribStack.at(depth);
         } catch (std::exception & e) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds");
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds:", depth);
         }
     }
 
@@ -417,7 +417,7 @@ namespace jc::resolve {
 
     void NameResolver::enterRib(const rib_ptr & nestedRib) {
         ribStack.push_back(nestedRib);
-        depth++;
+        depth = ribStack.size() - 1;
     }
 
     void NameResolver::exitRib() {
