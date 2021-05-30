@@ -571,7 +571,13 @@ namespace jc::ast {
         }
     }
 
-    void Linter::lintUseTree(const use_tree_ptr & useTree) {
+    void Linter::lintUseTree(const use_tree_ptr & maybeUseTree) {
+        if (maybeUseTree.isErr()) {
+            common::Logger::devPanic("Unexpected [ERROR] UseTree on linter stage");
+            return;
+        }
+
+        const auto & useTree = maybeUseTree.unwrap();
         switch (useTree->kind) {
             case UseTree::Kind::All: {
                 const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
