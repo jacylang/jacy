@@ -166,6 +166,12 @@ namespace jc::ast {
         typeAlias.type.accept(*this);
     }
 
+    void Linter::visit(const UseDecl & useDecl) {
+        // TODO: lint attributes
+
+
+    }
+
     void Linter::visit(const VarStmt & varDecl) {
         lintId(varDecl.name);
 
@@ -563,6 +569,37 @@ namespace jc::ast {
         if (!id->getValue()) {
             Logger::devPanic("[ERROR ID] On Linter stage at", id->span.toString());
         }
+    }
+
+    void Linter::lintUseTree(const use_tree_ptr & useTree) {
+        if (useTree->path) {
+            lintSimplePath(useTree->path->unwrap());
+        } else if (useTree->kind == UseTree::Kind::Raw or useTree->kind == UseTree::Kind::Rebind) {
+            common::Logger::devPanic("Unexpected `UseTree` type of `Raw` or `Rebind` with no path");
+        }
+
+        switch (useTree->kind) {
+            case UseTree::Kind::All: {
+                log.raw("*");
+                break;
+            }
+            case UseTree::Kind::Specific: {
+                log.raw("{");
+                for (const auto & specific : std::get<use_tree_list>(useTree->body)) {
+                    lintUseTree(specific);
+                    log.raw(",\n");
+                }
+            }
+            case UseTree::Kind::Rebind: {
+                log.raw(" as ");
+                lintId(std::get<id_ptr>(useTree->body));
+            }
+            default: {}
+        }
+    }
+
+    void Linter::lintSimplePath(const simple_path_ptr & simplePath) {
+        // TODO: MEOW?
     }
 
     // Context //

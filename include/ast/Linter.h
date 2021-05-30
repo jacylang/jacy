@@ -40,6 +40,7 @@ namespace jc::ast {
         void visit(const Struct & _struct) override;
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
+        void visit(const UseDecl & useDecl) override;
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
@@ -95,6 +96,8 @@ namespace jc::ast {
         void lintMembers(const item_list & members);
         bool isPlaceExpr(const expr_ptr & expr);
         static void lintId(const id_ptr & id);
+        void lintUseTree(const use_tree_ptr & useTree);
+        void lintSimplePath(const simple_path_ptr & simplePath);
 
         // Context //
     private:
