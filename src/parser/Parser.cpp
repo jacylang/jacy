@@ -652,7 +652,7 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    stmt_ptr Parser::parseStmt() {
+    PR<stmt_ptr> Parser::parseStmt() {
         logParse("Stmt");
 
         const auto & begin = cspan();
@@ -667,7 +667,7 @@ namespace jc::parser {
             default: {
                 auto item = parseItem();
                 if (item) {
-                    return makeNode<ItemStmt>(item.unwrap());
+                    return Stmt::as<Stmt>(makeNode<ItemStmt>(item.unwrap()));
                 }
 
                 auto expr = parseOptExpr();
@@ -860,7 +860,7 @@ namespace jc::parser {
         return dt::None;
     }
 
-    expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    PR<expr_ptr> Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
