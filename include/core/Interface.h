@@ -74,6 +74,7 @@ namespace jc::core {
 
         // Benchmarks //
     private:
+        using milli_ratio = std::ratio<1, 1000>;
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
         enum class BenchmarkKind {

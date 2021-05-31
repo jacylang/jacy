@@ -197,7 +197,8 @@ namespace jc::core {
     void Interface::printFinalBench() {
         common::Logger::print(
             "Full compilation done in",
-            std::chrono::duration<double>(bench() - finalBenchStart).count()
+            std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
+            "ms"
         );
     }
 
@@ -227,14 +228,17 @@ namespace jc::core {
             }
         }
         auto end = bench();
-        benchmarks.emplace(formatted, std::chrono::duration<double>(end - lastBench.unwrap()).count());
+        benchmarks.emplace(
+            formatted,
+            std::chrono::duration<double, milli_ratio>(end - lastBench.unwrap()).count()
+        );
         lastBench = dt::None;
     }
 
     void Interface::printBenchmarks() noexcept {
         if (eachStageBenchmarks) {
             for (const auto & it : benchmarks) {
-                common::Logger::print(it.first, "done in", it.second);
+                common::Logger::print(it.first, "done in", it.second, "ms");
                 common::Logger::nl();
             }
         }
