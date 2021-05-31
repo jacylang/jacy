@@ -120,8 +120,7 @@ namespace jc::ast {
         }
 
         void accept(DirTreePrinter & visitor) const override {
-            rootFile->accept(visitor);
-            rootDir->accept(visitor);
+            visitor.visit(*this);
         }
 
     private:
