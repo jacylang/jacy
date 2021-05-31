@@ -147,7 +147,7 @@ namespace jc::core {
         } else if (mode == ast::AstPrinterMode::Names) {
             modeStr = "name resolution";
         }
-        log.info("Printing AST after", modeStr, " (`--print ast`)");
+        log.info("Printing AST after", modeStr, "(`--print ast`)");
         astPrinter.print(*party.unwrap(), mode);
         common::Logger::nl();
     }
