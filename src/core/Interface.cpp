@@ -42,6 +42,7 @@ namespace jc::core {
         const auto & rootFileName = Config::getInstance().getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = std::move(parseFile(rootFileEntry));
+        log.dev("Project directory:", rootFileEntry->getPath().parent_path());
         auto nestedModules = parseDir(
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
@@ -62,7 +63,7 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
-        const auto & name = dir->getPath().parent_path().filename().string();
+        const auto & name = dir->getPath().filename().string();
         ast::module_list nestedModules;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
