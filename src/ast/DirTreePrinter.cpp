@@ -5,7 +5,7 @@ namespace jc::ast {
     void DirTreePrinter::visit(const RootModule & rootModule) {
         common::Logger::print(".");
         common::Logger::nl();
-        common::Logger::print("|--");
+        common::Logger::print("|-- ");
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }
