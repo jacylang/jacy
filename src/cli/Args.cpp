@@ -13,6 +13,7 @@ namespace jc::cli {
     const std::map<std::string, key_value_arg> Args::allowedKeyValueArgs = {
         {"print", {-1, {"dir-tree", "tokens", "ast", "sugg", "source", "names", "all"}}},
         {"compile-depth", {1, {"parser", "name-resolution"}}},
+        {"benchmark", {1, {"each-stage", "final"}}},
     };
 
     const str_vec Args::anyParamKeyValueArgs = {};
@@ -27,7 +28,9 @@ namespace jc::cli {
         {"dev", false},
     };
 
-    const std::map<std::string, str_vec> Args::defaultKeyValueArgs = {};
+    const std::map<std::string, str_vec> Args::defaultKeyValueArgs = {
+        {"benchmark", {"final"}},
+    };
 
 
     // Checkers //
