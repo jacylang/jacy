@@ -76,6 +76,10 @@ namespace jc::core {
     private:
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
+        enum class BenchmarkKind {
+            Lexing,
+            Parsing,
+        };
         bench_t finalBenchStart;
         std::map<std::string, double> benchmarks;
         dt::Option<bench_t> lastBench;
@@ -83,7 +87,7 @@ namespace jc::core {
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
-        void endBench(const std::string & name);
+        void endBench(const std::string & name, BenchmarkKind kind);
         void printBenchmarks();
     };
 }

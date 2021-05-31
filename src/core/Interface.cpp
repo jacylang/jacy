@@ -86,7 +86,9 @@ namespace jc::core {
         const auto fileId = sess->sourceMap.addSource(file->getPath().string());
         const auto parseSess = std::make_shared<parser::ParseSess>(fileId);
 
+//        beginBench();
         auto lexerResult = std::move(lexer.lex(parseSess, file->getContent()));
+//        endBench(file->getPath().string());
         sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
 
         log.dev("Tokenize file", file->getPath());
@@ -199,7 +201,7 @@ namespace jc::core {
         lastBench = bench();
     }
 
-    void Interface::endBench(const std::string & name) {
+    void Interface::endBench(const std::string & name, BenchmarkKind kind) {
         if (not eachStageBenchmarks) {
             return;
         }
@@ -213,7 +215,7 @@ namespace jc::core {
 
     void Interface::printBenchmarks() {
         for (const auto & it : benchmarks) {
-            common::Logger::print(it.first, it.second);
+            common::Logger::print(it.first, "done in", it.second);
         }
     }
 }
