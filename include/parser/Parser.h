@@ -11,7 +11,7 @@
 #include "suggest/Suggester.h"
 #include "ast/File.h"
 #include "ast/nodes.h"
-#include "common/Config.h"
+#include "common/Args.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"

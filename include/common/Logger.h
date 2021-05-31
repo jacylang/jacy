@@ -11,7 +11,7 @@
 #include <vector>
 
 #include "common/Error.h"
-#include "common/Config.h"
+#include "common/Args.h"
 
 namespace jc::common {
     enum class Color {
