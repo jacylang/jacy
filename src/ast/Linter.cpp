@@ -315,7 +315,6 @@ namespace jc::ast {
             case parser::TokenKind::Mod:
             case parser::TokenKind::Power:
             case parser::TokenKind::As: {
-
                 break;
             }
             default: {
