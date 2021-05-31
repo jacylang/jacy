@@ -14,7 +14,7 @@
 #include "suggest/Suggester.h"
 #include "ast/Linter.h"
 #include "resolve/NameResolver.h"
-#include "common/Args.h"
+#include "common/Config.h"
 #include "ast/Party.h"
 #include "fs/fs.h"
 #include "session/Session.h"

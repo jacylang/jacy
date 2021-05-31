@@ -11,7 +11,7 @@
 #include "utils/str.h"
 #include "core/Interface.h"
 #include "cli/CLI.h"
-#include "common/Args.h"
+#include "common/Config.h"
 
 namespace jc::core {
     class Jacy {
