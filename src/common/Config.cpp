@@ -42,6 +42,21 @@ namespace jc::common {
                 compileDepth = CompileDepth::Parser;
             } else if (cd == "name-resolution") {
                 compileDepth = CompileDepth::NameResolution;
+            } else {
+                throw std::logic_error("Unhandled value for `compile-depth` cli argument");
+            }
+        }
+
+        // `benchmark`
+        const auto & maybeBenchmark = cliConfig.getSingleValue("compile-depth");
+        if (maybeBenchmark) {
+            const auto & bmk = maybeBenchmark.unwrap();
+            if (bmk == "final") {
+                benchmark = Benchmark::Final;
+            } else if (bmk == "each-stage") {
+                benchmark = Benchmark::EachStage;
+            } else {
+                throw std::logic_error("Unhandled value for `benchmark` cli argument");
             }
         }
 
@@ -56,6 +71,10 @@ namespace jc::common {
 
     bool Config::checkPrint(PrintKind printKind) const {
         return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
+    }
+
+    bool Config::checkBenchmark(Benchmark benchmark) const {
+        return this->benchmark == benchmark;
     }
 
     bool Config::checkDev() const {

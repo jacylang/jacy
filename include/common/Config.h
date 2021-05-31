@@ -48,9 +48,15 @@ namespace jc::common {
             NameResolution,
         };
 
+        enum class Benchmark {
+            Final,
+            EachStage,
+        };
+
         // Checkers //
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
+        bool checkBenchmark(Benchmark benchmark) const;
         bool checkDev() const;
         const std::string & getRootFile() const;
 
@@ -60,6 +66,7 @@ namespace jc::common {
         // Key-value args //
         Mode mode{Mode::Source};
         std::set<PrintKind> print;
+        Benchmark benchmark;
         CompileDepth compileDepth{CompileDepth::Full};
 
         // Bool args //

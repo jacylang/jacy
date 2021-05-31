@@ -89,6 +89,7 @@ namespace jc::cli {
 
         // Note: Log arguments before dependency check to make it easier for user to find mistake
         {
+            // Debug //
             using utils::arr::join;
             using utils::map::keys;
             std::string keyValueArgsStr;
