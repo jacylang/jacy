@@ -87,26 +87,6 @@ namespace jc::cli {
         config.boolArgs = utils::map::merge(Args::defaultBoolArgs, config.boolArgs);
         config.keyValueArgs = utils::map::merge(Args::defaultKeyValueArgs, config.keyValueArgs);
 
-        // Note: Log arguments before dependency check to make it easier for user to find mistake
-        {
-            // Debug //
-            using utils::arr::join;
-            using utils::map::keys;
-            std::string keyValueArgsStr;
-            for (auto it = config.keyValueArgs.begin(); it != config.keyValueArgs.end(); it++) {
-                keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
-                if (it != std::prev(config.keyValueArgs.end())) {
-                    keyValueArgsStr += " ";
-                }
-            }
-
-            log.colorized(
-                common::Color::Magenta,
-                "Run jacy " + config.rootFile + " ",
-                join(keys(config.boolArgs), " ", {}, {"--"}),
-                keyValueArgsStr);
-        }
-
         // Check for dependencies //
 
         // Note: Use vector to output multiple arg-dependency errors
@@ -142,8 +122,27 @@ namespace jc::cli {
 
         config.rootFile = sourceFiles.at(0);
 
-        // DEBUG
-        log.debug("CLI Arguments:\n",
+        // Note: Log arguments before dependency check to make it easier for user to find mistake
+        {
+            // Debug //
+            using utils::arr::join;
+            using utils::map::keys;
+            std::string keyValueArgsStr;
+            for (auto it = config.keyValueArgs.begin(); it != config.keyValueArgs.end(); it++) {
+                keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
+                if (it != std::prev(config.keyValueArgs.end())) {
+                    keyValueArgsStr += " ";
+                }
+            }
+
+            log.colorized(
+                common::Color::Magenta,
+                "Run jacy " + config.rootFile + " ",
+                join(keys(config.boolArgs), " ", {}, {"--"}),
+                keyValueArgsStr);
+        }
+
+        log.dev("CLI Arguments:\n",
                   "\tBoolean arguments:", config.boolArgs,
                   "\n\tKey-value arguments:", config.keyValueArgs,
                   "\n\tRoot file:", config.rootFile).nl();
