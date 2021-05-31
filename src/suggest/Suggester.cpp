@@ -4,6 +4,11 @@ namespace jc::sugg {
     Suggester::Suggester() = default;
 
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
+        if (suggestions.empty()) {
+            common::Logger::devDebug("No suggestions");
+            return;
+        }
+
         this->sess = sess;
 
         // Set indent based on max line number, add 3 for " | "

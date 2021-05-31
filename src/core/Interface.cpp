@@ -105,7 +105,7 @@ namespace jc::core {
         if (not config.checkPrint(common::Config::PrintKind::DirTree)) {
             return;
         }
-        log.debug("Printing directory tree (`--print dir-tree`)");
+        log.info("Printing directory tree (`--print dir-tree`)");
         party.unwrap()->getRootModule()->accept(dirTreePrinter);
     }
 
@@ -114,7 +114,7 @@ namespace jc::core {
             return;
         }
         const auto & source = sess->sourceMap.getSource(fileId);
-        log.debug("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
+        log.info("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
 
         const auto & sourceLines = source.sourceLines.unwrap("Interface::printSource");
         for (size_t i = 0; i < sourceLines.size(); i++) {
