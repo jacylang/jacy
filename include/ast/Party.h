@@ -5,6 +5,7 @@
 
 #include "ast/nodes.h"
 #include "ast/File.h"
+#include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
     class Party;
@@ -19,16 +20,6 @@ namespace jc::ast {
     using dir_module_ptr = std::unique_ptr<DirModule>;
     using root_module_ptr = std::unique_ptr<RootModule>;
 
-
-    /// Debug visitor only for `FileModule` and `DirModule`
-    struct DirTreePrinter {
-        void visit(const FileModule & fileModule);
-        void visit(const DirModule & dirModule);
-
-    private:
-        uint32_t indent{0};
-    };
-
     struct Module {
         enum class Kind {
             File,
@@ -40,7 +31,7 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) = 0;
         virtual void accept(ConstVisitor & visitor) const = 0;
-        virtual void accept(DirTreeVisitor & visitor) const = 0;
+        virtual void accept(DirTreePrinter & visitor) const = 0;
     };
 
     struct FileModule : Module {

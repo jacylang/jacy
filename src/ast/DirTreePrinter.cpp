@@ -1,3 +1,4 @@
+#include "ast/DirTreePrinter.h"
 #include "ast/Party.h"
 
 namespace jc::ast {

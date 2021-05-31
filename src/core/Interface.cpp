@@ -14,6 +14,7 @@ namespace jc::core {
 
             // AST Stage //
             parse();
+            printDirTree();
             printAst(ast::AstPrinterMode::Parsing);
             checkSuggestions();
             lintAst();
@@ -30,7 +31,7 @@ namespace jc::core {
     }
 
     void Interface::init() {
-        log.dev("Intitialization...");
+        log.dev("Initialization...");
         sess = std::make_shared<sess::Session>();
     }
 
@@ -106,13 +107,6 @@ namespace jc::core {
         }
         log.debug("Printing directory tree (`--print dir-tree`)");
         party.unwrap()->getRootModule()->accept(dirTreePrinter);
-    }
-
-    void Interface::printDirTreeEntry(const ast::DirModule & dirModule) {
-        log.raw("| - ", dirModule.getName());
-        for (const auto & module : dirModule.getModules()) {
-            printDirTreeEntry(module);
-        }
     }
 
     void Interface::printSource(span::file_id_t fileId) {
