@@ -76,10 +76,15 @@ namespace jc::core {
     private:
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
-        std::map<std::string, std::chrono::duration<double>> benchmarks;
+        bench_t finalBenchStart;
+        std::map<std::string, double> benchmarks;
         dt::Option<bench_t> lastBench;
+        bool eachStageBenchmarks;
+        void beginFinalBench();
+        void printFinalBench();
         void beginBench();
         void endBench(const std::string & name);
+        void printBenchmarks();
     };
 }
 

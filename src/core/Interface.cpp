@@ -3,10 +3,14 @@
 // Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
 
 namespace jc::core {
-    Interface::Interface() : config(Config::getInstance()) {}
+    Interface::Interface() : config(Config::getInstance()) {
+        eachStageBenchmarks = Config::getInstance().checkBenchmark(Config::Benchmark::EachStage);
+    }
 
     void Interface::compile() {
         try {
+            beginFinalBench();
+
             init();
 
             // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
@@ -23,6 +27,8 @@ namespace jc::core {
             resolveNames();
             printAst(ast::AstPrinterMode::Names);
             checkSuggestions();
+
+            printFinalBench();
         } catch (std::exception & e) {
             log.dev("Something went wrong:", e.what());
             log.dev("Some debug info:");
@@ -175,16 +181,39 @@ namespace jc::core {
     }
 
     // Benchmarks //
+    void Interface::beginFinalBench() {
+        finalBenchStart = bench();
+    }
+
+    void Interface::printFinalBench() {
+        common::Logger::print(
+            "Full compilation process done in",
+            std::chrono::duration<double>(bench() - finalBenchStart).count()
+        );
+    }
+
     void Interface::beginBench() {
+        if (not eachStageBenchmarks) {
+            return;
+        }
         lastBench = bench();
     }
 
     void Interface::endBench(const std::string & name) {
+        if (not eachStageBenchmarks) {
+            return;
+        }
         if (not lastBench) {
             common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
         }
         auto end = bench();
         benchmarks.emplace(name, std::chrono::duration<double>(end - lastBench.unwrap()).count());
         lastBench = dt::None;
+    }
+
+    void Interface::printBenchmarks() {
+        for (const auto & it : benchmarks) {
+            common::Logger::print(it.first, it.second);
+        }
     }
 }
