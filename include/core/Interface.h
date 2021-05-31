@@ -22,6 +22,8 @@
 namespace jc::core {
     using common::Config;
 
+    const auto bench = std::chrono::high_resolution_clock::now;
+
     class Interface {
     public:
         Interface();
@@ -69,6 +71,15 @@ namespace jc::core {
         sugg::sugg_list suggestions;
         void collectSuggestions(sugg::sugg_list && additional);
         void checkSuggestions();
+
+        // Benchmarks //
+    private:
+        using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
+
+        std::map<std::string, std::chrono::duration<double>> benchmarks;
+        dt::Option<bench_t> lastBench;
+        void beginBench();
+        void endBench(const std::string & name);
     };
 }
 

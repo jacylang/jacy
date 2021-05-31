@@ -173,4 +173,18 @@ namespace jc::core {
         dt::SuggResult<dt::none_t>::check(sess, suggestions);
         suggestions.clear();
     }
+
+    // Benchmarks //
+    void Interface::beginBench() {
+        lastBench = bench();
+    }
+
+    void Interface::endBench(const std::string & name) {
+        if (not lastBench) {
+            common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
+        }
+        auto end = bench();
+        benchmarks.emplace(name, std::chrono::duration<double>(end - lastBench.unwrap()).count());
+        lastBench = dt::None;
+    }
 }
