@@ -388,7 +388,21 @@ namespace jc::ast {
 
     void Linter::visit(const PathExpr & pathExpr) {
         for (const auto & seg : pathExpr.segments) {
-            lintId(seg->name);
+            switch (seg->kind) {
+                case PathExprSeg::Kind::Super: {
+                    break;
+                }
+                case PathExprSeg::Kind::Self: {
+                    break;
+                }
+                case PathExprSeg::Kind::Party: {
+                    break;
+                }
+                case PathExprSeg::Kind::Ident: {
+                    lintId(seg->ident.unwrap());
+                    break;
+                }
+            }
             if (seg->typeParams) {
                 lintTypeParams(seg->typeParams.unwrap());
             }
