@@ -28,6 +28,9 @@ namespace jc::core {
             printAst(ast::AstPrinterMode::Names);
             checkSuggestions();
 
+            if (config.checkDev()) {
+                printBenchmarks();
+            }
             printFinalBench();
         } catch (std::exception & e) {
             log.dev("Something went wrong:", e.what());
@@ -192,7 +195,7 @@ namespace jc::core {
 
     void Interface::printFinalBench() {
         common::Logger::print(
-            "Full compilation process done in",
+            "Full compilation done in",
             std::chrono::duration<double>(bench() - finalBenchStart).count()
         );
     }
