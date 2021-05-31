@@ -48,7 +48,7 @@ namespace jc::common {
         }
 
         // `benchmark`
-        const auto & maybeBenchmark = cliConfig.getSingleValue("compile-depth");
+        const auto & maybeBenchmark = cliConfig.getSingleValue("benchmark");
         if (maybeBenchmark) {
             const auto & bmk = maybeBenchmark.unwrap();
             if (bmk == "final") {
