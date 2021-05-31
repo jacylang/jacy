@@ -387,15 +387,22 @@ namespace jc::ast {
     }
 
     void Linter::visit(const PathExpr & pathExpr) {
-        for (const auto & seg : pathExpr.segments) {
+        for (size_t i = 0; i < pathExpr.segments.size(); i++) {
+            const auto & seg = pathExpr.segments.at(i);
             switch (seg->kind) {
                 case PathExprSeg::Kind::Super: {
                     break;
                 }
                 case PathExprSeg::Kind::Self: {
+                    if (i != 0) {
+                        suggestErrorMsg("`self` can only be used at start of the path", seg->span);
+                    }
                     break;
                 }
                 case PathExprSeg::Kind::Party: {
+                    if (i != 0) {
+                        suggestErrorMsg("`party` can only be used at start of the path", seg->span);
+                    }
                     break;
                 }
                 case PathExprSeg::Kind::Ident: {
