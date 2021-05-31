@@ -86,9 +86,9 @@ namespace jc::core {
         const auto fileId = sess->sourceMap.addSource(file->getPath().string());
         const auto parseSess = std::make_shared<parser::ParseSess>(fileId);
 
-//        beginBench();
+        beginBench();
         auto lexerResult = std::move(lexer.lex(parseSess, file->getContent()));
-//        endBench(file->getPath().string());
+        endBench(file->getPath().string(), BenchmarkKind::Lexing);
         sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
 
         log.dev("Tokenize file", file->getPath());
@@ -98,7 +98,10 @@ namespace jc::core {
         printTokens(fileId, fileTokens);
 
         log.dev("Parse file", file->getPath());
+
+        beginBench();
         auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, fileTokens).extract();
+        endBench(file->getPath().string(), BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -208,8 +211,19 @@ namespace jc::core {
         if (not lastBench) {
             common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
         }
+        std::string formatted = name + " ";
+        switch (kind) {
+            case BenchmarkKind::Lexing: {
+                formatted += "lexing";
+                break;
+            }
+            case BenchmarkKind::Parsing: {
+                formatted += "parsing";
+                break;
+            }
+        }
         auto end = bench();
-        benchmarks.emplace(name, std::chrono::duration<double>(end - lastBench.unwrap()).count());
+        benchmarks.emplace(formatted, std::chrono::duration<double>(end - lastBench.unwrap()).count());
         lastBench = dt::None;
     }
 
