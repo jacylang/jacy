@@ -4,7 +4,7 @@
 
 namespace jc::core {
     Interface::Interface() : config(Config::getInstance()) {
-        eachStageBenchmarks = Config::getInstance().checkBenchmark(Config::Benchmark::EachStage);
+        eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
     }
 
     void Interface::compile() {
@@ -28,14 +28,15 @@ namespace jc::core {
             printAst(ast::AstPrinterMode::Names);
             checkSuggestions();
 
-            if (config.checkDev()) {
-                printBenchmarks();
-            }
+            printBenchmarks();
             printFinalBench();
         } catch (std::exception & e) {
             log.dev("Something went wrong:", e.what());
             log.dev("Some debug info:");
-            dt::SuggResult<dt::none_t>::dump(sess, suggestions);
+            if (config.checkDev()) {
+                dt::SuggResult<dt::none_t>::dump(sess, suggestions);
+                printBenchmarks();
+            }
         }
     }
 
@@ -48,7 +49,7 @@ namespace jc::core {
     void Interface::parse() {
         log.dev("Parsing...");
 
-        const auto & rootFileName = Config::getInstance().getRootFile();
+        const auto & rootFileName = config.getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = std::move(parseFile(rootFileEntry));
         log.dev("Project directory:", rootFileEntry->getPath().parent_path());
@@ -117,7 +118,7 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree() {
-        if (not config.checkPrint(common::Config::PrintKind::DirTree)) {
+        if (not config.checkPrint(Config::PrintKind::DirTree)) {
             return;
         }
         log.info("Printing directory tree (`--print dir-tree`)");
@@ -230,9 +231,11 @@ namespace jc::core {
         lastBench = dt::None;
     }
 
-    void Interface::printBenchmarks() {
-        for (const auto & it : benchmarks) {
-            common::Logger::print(it.first, "done in", it.second);
+    void Interface::printBenchmarks() noexcept {
+        if (eachStageBenchmarks) {
+            for (const auto & it : benchmarks) {
+                common::Logger::print(it.first, "done in", it.second);
+            }
         }
     }
 }

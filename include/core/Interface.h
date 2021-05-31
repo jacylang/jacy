@@ -88,7 +88,7 @@ namespace jc::core {
         void printFinalBench();
         void beginBench();
         void endBench(const std::string & name, BenchmarkKind kind);
-        void printBenchmarks();
+        void printBenchmarks() noexcept;
     };
 }
 
