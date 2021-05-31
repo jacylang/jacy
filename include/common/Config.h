@@ -66,7 +66,7 @@ namespace jc::common {
         // Key-value args //
         Mode mode{Mode::Source};
         std::set<PrintKind> print;
-        Benchmark benchmark;
+        Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
 
         // Bool args //

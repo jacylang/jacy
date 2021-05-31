@@ -3,11 +3,11 @@
 // Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
 
 namespace jc::core {
-    Interface::Interface() : config(Config::getInstance()) {
-        eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
-    }
+    Interface::Interface() : config(Config::getInstance()) {}
 
     void Interface::compile() {
+        eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
+
         try {
             beginFinalBench();
 
@@ -235,6 +235,7 @@ namespace jc::core {
         if (eachStageBenchmarks) {
             for (const auto & it : benchmarks) {
                 common::Logger::print(it.first, "done in", it.second);
+                common::Logger::nl();
             }
         }
     }

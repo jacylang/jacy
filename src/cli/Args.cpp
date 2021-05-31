@@ -52,6 +52,10 @@ namespace jc::cli {
     }
 
     dt::Option<str_vec> Args::getValues(const std::string & kvArgName) const {
+        // FIXME: Strange dev-only check
+        if (allowedKeyValueArgs.find(kvArgName) == allowedKeyValueArgs.end()) {
+            throw std::logic_error("Called `Args::getSingleValue` with unknown key-value argument `" + kvArgName + "`");
+        }
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end()) {
             return dt::None;
@@ -60,6 +64,10 @@ namespace jc::cli {
     }
 
     dt::Option<std::string> Args::getSingleValue(const std::string & kvArgName) const {
+        // FIXME: Strange dev-only check
+        if (allowedKeyValueArgs.find(kvArgName) == allowedKeyValueArgs.end()) {
+            throw std::logic_error("Called `Args::getSingleValue` with unknown key-value argument `" + kvArgName + "`");
+        }
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end() or found->second.empty()) {
             return dt::None;
