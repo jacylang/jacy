@@ -24,7 +24,7 @@ namespace jc::ast {
         PathExprSeg(Kind kind, opt_type_params typeParams, const Span & span)
             : ident(dt::None), kind(kind), typeParams(std::move(typeParams)), Node(span) {}
 
-        dt::Option<id_ptr> ident;
+        opt_id_ptr ident;
         opt_type_params typeParams;
     };
 

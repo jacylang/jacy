@@ -1393,7 +1393,33 @@ namespace jc::parser {
         path_expr_list segments;
         while (!eof()) {
             const auto & segmentBegin = cspan();
-            auto name = parseId("Identifier in path", true, true);
+
+            opt_id_ptr ident;
+            PathExprSeg::Kind kind;
+            switch (peek().kind) {
+                case TokenKind::Super: {
+                    kind = ast::PathExprSeg::Kind::Super;
+                    break;
+                }
+                case TokenKind::Self: {
+                    kind = ast::PathExprSeg::Kind::Self;
+                    break;
+                }
+                case TokenKind::Party: {
+                    kind = ast::PathExprSeg::Kind::Party;
+                    break;
+                }
+                case TokenKind::Id: {
+                    kind = ast::PathExprSeg::Kind::Ident;
+                    ident = justParseId("`parsePathExpr`");
+                    break;
+                }
+                default: {
+                    suggestErrorMsg("Expected identifier `super`, `self` or `party` in path", cspan());
+                    advance();
+                    continue;
+                }
+            }
 
             opt_type_params typeParams;
             bool pathMaybeGeneric = false;
@@ -1403,9 +1429,15 @@ namespace jc::parser {
                 pathMaybeGeneric = !typeParams;
             }
 
-            segments.push_back(
-                makeNode<PathExprSeg>(std::move(name), std::move(typeParams), segmentBegin.to(cspan()))
-            );
+            if (kind == ast::PathExprSeg::Kind::Ident) {
+                segments.push_back(
+                    makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(typeParams), segmentBegin.to(cspan()))
+                );
+            } else {
+                segments.push_back(
+                    makeNode<PathExprSeg>(kind, std::move(typeParams), segmentBegin.to(cspan()))
+                );
+            }
 
             if (pathMaybeGeneric or skipOpt(TokenKind::Path)) {
                 continue;
