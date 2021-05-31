@@ -2,6 +2,14 @@
 #include "ast/Party.h"
 
 namespace jc::ast {
+    void DirTreePrinter::visit(const RootModule & rootModule) {
+        common::Logger::print(".");
+        common::Logger::nl();
+        common::Logger::print("|--");
+        rootModule.getRootFile()->accept(*this);
+        rootModule.getRootDir()->accept(*this);
+    }
+
     void DirTreePrinter::visit(const DirModule & dirModule) {
         printIndent();
         common::Logger::print("|--", dirModule.getName() + "/");
@@ -15,7 +23,6 @@ namespace jc::ast {
 
             const auto & module = dirModule.getModules().at(i);
             module->accept(*this);
-            common::Logger::nl();
         }
         indent--;
         printIndent();
@@ -23,6 +30,7 @@ namespace jc::ast {
 
     void DirTreePrinter::visit(const FileModule & fileModule) {
         common::Logger::print(fileModule.getName());
+        common::Logger::nl();
     }
 
     void DirTreePrinter::printIndent() {
