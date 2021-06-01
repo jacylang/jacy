@@ -126,10 +126,9 @@ namespace jc::resolve {
 
     struct Rib {
         enum class Kind {
-            Normal,
-            Item,
-            Struct,
-            Mod,
+            Lifetime,
+            Type,
+            Local,
         } kind;
 
         std::map<std::string, name_ptr> names;
@@ -139,27 +138,6 @@ namespace jc::resolve {
         decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
 
         explicit Rib(Kind kind) : kind(kind) {}
-    };
-
-    struct ModRib : Rib {
-        ModRib(const std::string & name, const span::Span & span)
-            : name(name), span(span), Rib(Kind::Mod) {}
-
-        std::string name;
-        span::Span span;
-    };
-
-    struct ItemRib : Rib {
-        explicit ItemRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Item) {}
-
-        node_id nameNodeId;
-    };
-
-    struct StructRib : Rib {
-        explicit StructRib(node_id nameNodeId) : nameNodeId(nameNodeId), Rib(Kind::Struct) {}
-
-        node_id nameNodeId;
-        std::map<std::string, node_id> fields; // {fieldName: Field node}
     };
 }
 
