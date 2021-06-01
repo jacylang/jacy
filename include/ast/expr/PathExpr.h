@@ -42,20 +42,6 @@ namespace jc::ast {
         void accept(ConstVisitor & visitor) const override {
             return visitor.visit(*this);
         }
-
-        void setReference(node_id reference) {
-            if (refersTo) {
-                common::Logger::devPanic("Called `PathExpr::setReference` on node that already has reference");
-            }
-            refersTo = reference;
-        }
-
-        opt_node_id getReference() const {
-            return refersTo;
-        }
-
-    private:
-        opt_node_id refersTo;
     };
 }
 
