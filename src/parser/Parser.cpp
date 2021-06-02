@@ -2022,7 +2022,7 @@ namespace jc::parser {
             )
         );
 
-        auto type = parseType("Expected type");
+        auto type = parseType(colonSkipped ? "Expected type" : "");
         opt_expr_ptr defaultValue;
         if (peek().isAssignOp()) {
             advance();
