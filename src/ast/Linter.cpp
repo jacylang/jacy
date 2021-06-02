@@ -83,14 +83,8 @@ namespace jc::ast {
 
         lintId(func.name);
 
-        std::map<std::string, size_t> dupls;
         for (const auto & param : func.params) {
             lintId(param->name);
-            const auto & name = param->name.unwrap()->getValue();
-            if (dupls.find(name) != dupls.end()) {
-                suggestErrorMsg("Duplicate parameter name '"+ name +"'", param->name.unwrap()->span);
-            }
-
             param->type.accept(*this);
             if (param->defaultValue) {
                 param->defaultValue.unwrap().accept(*this);

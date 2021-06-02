@@ -1,5 +1,5 @@
 mod a {
-    func asd(a, a) {
+    func asd(a: i32, a: i32) {
 
     }
 }
