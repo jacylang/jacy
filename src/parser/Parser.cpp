@@ -2011,9 +2011,14 @@ namespace jc::parser {
 
         auto name = parseId("Expected function parameter", true, true);
 
-        skip(
-            TokenKind::Colon, true, true, true, std::make_unique<ParseErrSugg>(
-                "`func` parameters without type are not allowed, please put `:` here and specify type", cspan()
+        const auto colonSkipped = skip(
+            TokenKind::Colon,
+            true,
+            true,
+            true,
+            std::make_unique<ParseErrSugg>(
+                "`func` parameters without type are not allowed, please put `:` here and specify type",
+                cspan()
             )
         );
 
@@ -2178,8 +2183,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         auto type = parseOptType();
-        if (!type) {
-            suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+        if (not type) {
+            if (not suggMsg.empty()) {
+                suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+            }
             return makeErrorNode(begin.to(cspan()));
         }
         return type.unwrap("`parseType` -> `type`");
