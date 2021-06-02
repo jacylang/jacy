@@ -94,11 +94,9 @@ namespace jc::resolve {
         rib_stack ribStack;
         uint32_t depth{0};
         uint32_t getDepth() const;
-        rib_ptr curRib() const;
+        const rib_ptr & curRib() const;
         opt_rib ribAt(size_t ribDepth) const;
-        void enterNormalRib();
-        void enterItemRib(node_id nameNodeId);
-        void enterRib(const rib_ptr & nestedRib);
+        void enterRib(Rib::Kind kind);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
@@ -108,9 +106,6 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-//        void resolveId(ast::Identifier & id, Name::Usage usage);
-        void resolvePath(bool global, const ast::id_t_list & segments);
-//        std::string getNameByNodeId(node_id nameNodeId);
 
         // Suggestions //
     private:

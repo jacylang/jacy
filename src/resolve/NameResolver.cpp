@@ -33,7 +33,7 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(funcDecl.typeParams);
 
-        enterNormalRib(); // -> (signature rib)
+        enterRib(Rib::Kind::Type); // -> (signature rib)
         for (const auto & param : funcDecl.params) {
             param->type.accept(*this);
         }
@@ -42,7 +42,7 @@ namespace jc::resolve {
             funcDecl.returnType.unwrap().accept(*this);
         }
 
-        enterNormalRib(); // -> (params rib)
+        enterRib(Rib::Kind::Local); // -> (params rib)
         for (const auto & param : funcDecl.params) {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->id);
         }
@@ -58,7 +58,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Mod & mod) {
         enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
-        enterNormalRib();
+        enterRib(Rib::Kind::Local);
 
         visitItems(mod.items);
 
@@ -70,18 +70,16 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
-        auto structRib = std::make_shared<StructRib>(_struct.name.unwrap()->id);
-        enterRib(structRib); // -> (item rib)
+        enterRib(Rib::Kind::Local); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
-            structRib->fields.emplace(field->name.unwrap()->getValue(), field->id);
         }
 
         liftToDepth(prevDepth);
     }
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
-        enterNormalRib();
+        enterRib(Rib::Kind::Local);
         declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
@@ -102,7 +100,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Block & block) {
-        enterNormalRib(); // -> block rib
+        enterRib(Rib::Kind::Local); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt.accept(*this);
         }
@@ -147,7 +145,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Lambda & lambdaExpr) {
-        enterNormalRib(); // -> (lambda params)
+        enterRib(Rib::Kind::Local); // -> (lambda params)
 
         for (const auto & param : lambdaExpr.params) {
             // TODO: Param name
@@ -236,7 +234,7 @@ namespace jc::resolve {
         whenExpr.subject.accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
-            enterNormalRib(); // -> (when entry)
+            enterRib(Rib::Kind::Local); // -> (when entry)
             for (const auto & cond : entry->conditions) {
                 cond.accept(*this);
             }
@@ -284,7 +282,7 @@ namespace jc::resolve {
 
     // Extended visitors //
     void NameResolver::visitItems(const ast::item_list & members) {
-        enterNormalRib(); // -> (members)
+        enterRib(Rib::Kind::Local); // -> (members)
 
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
@@ -337,7 +335,7 @@ namespace jc::resolve {
             return;
         }
         const auto & typeParams = maybeTypeParams.unwrap();
-        enterNormalRib(); // -> (type rib)
+        enterRib(Rib::Kind::Type); // -> (type rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 declare(
@@ -347,7 +345,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterNormalRib(); // -> (lifetime rib)
+        enterRib(Rib::Kind::Lifetime); // -> (lifetime rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
                 declare(
@@ -357,7 +355,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterNormalRib(); // -> (const rib)
+        enterRib(Rib::Kind::Local); // -> (const rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(
@@ -392,7 +390,7 @@ namespace jc::resolve {
         return depth;
     }
 
-    rib_ptr NameResolver::curRib() const {
+    const rib_ptr & NameResolver::curRib() const {
         try {
             return ribStack.at(depth);
         } catch (std::exception & e) {
@@ -407,16 +405,8 @@ namespace jc::resolve {
         return ribStack.at(d);
     }
 
-    void NameResolver::enterNormalRib() {
-        enterRib(std::make_shared<Rib>(Rib::Kind::Normal));
-    }
-
-    void NameResolver::enterItemRib(node_id nameNodeId) {
-        enterRib(std::make_shared<ItemRib>(nameNodeId));
-    }
-
-    void NameResolver::enterRib(const rib_ptr & nestedRib) {
-        ribStack.push_back(nestedRib);
+    void NameResolver::enterRib(Rib::Kind kind) {
+        ribStack.push_back(std::make_unique<Rib>(kind));
         depth = ribStack.size() - 1;
     }
 
@@ -448,75 +438,6 @@ namespace jc::resolve {
     }
 
     // Resolution //
-//    void NameResolver::resolveId(ast::Identifier & id, Name::Usage usage) {
-//        // TODO: Add allowed resolutions:
-//        //  When we resolve type name, we should suggest an error if it is a function or something else
-//
-//        const auto & name = id.getValue();
-//
-//        dt::Option<name_ptr> nearestResolution;
-//        opt_node_id resolved;
-//
-//        auto curDepth = depth;
-//        dt::Option<rib_ptr> maybeRib = curRib();
-//        while (maybeRib) {
-//            auto checkRib = maybeRib.unwrap();
-//            constna auto & found = checkRib->names.find(name);
-//            if (found != checkRib->names.end()) {
-//                // Save nearest name we found
-//                nearestResolution = found->second;
-//                if (found->second->isUsableAs(usage)) {
-//                    // If name, we found is of allowed kind we use it
-//                    resolved = found->second->nodeId;
-//                    break;
-//                }
-//            }
-//            curDepth--;
-//            maybeRib = ribAt(curDepth);
-//        }
-//
-//        if (resolved) {
-//            id.setReference(resolved.unwrap());
-//            return;
-//        }
-//
-//        if (nearestResolution) {
-//            suggestErrorMsg(
-//                "Cannot find suitable item for '" + name + "', nearest item is a " +
-//                nearestResolution.unwrap()->kindStr() + " that cannot be used as " + Name::usageToString(usage),
-//                id.id
-//            );
-//        } else {
-//            suggestErrorMsg("Cannot find name '" + name + "'", id.id);
-//        }
-//    }
-
-    void NameResolver::resolvePath(bool global, const ast::id_t_list & segments) {
-        if (global) {
-            common::Logger::notImplemented("Global path resolution");
-        }
-
-        if (segments.empty()) {
-            common::Logger::devPanic("Called `resolvePath` with 0 size segments");
-        }
-
-        auto curDepth = getDepth();
-        size_t segmentIndex = 0;
-        opt_rib maybeRib = ribAt(curDepth);
-        while (maybeRib) {
-            const auto & segment = segments.at(segmentIndex);
-            const auto & checkRib = maybeRib.unwrap();
-
-        }
-    }
-
-//    std::string NameResolver::getNameByNodeId(node_id nameNodeId) {
-//        const auto & idNode = std::dynamic_pointer_cast<ast::Identifier>(ast::Node::nodeMap.getNodePtr(nameNodeId));
-//        if (!idNode) {
-//            common::Logger::devPanic("Called `getNameByNodeId` with non-Identifier nameNodeId");
-//        }
-//        return idNode.unwrap()->getValue();
-//    }
 
     // Suggestions //
     void NameResolver::suggest(sugg::sugg_ptr suggestion) {

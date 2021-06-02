@@ -131,6 +131,7 @@ namespace jc::resolve {
             Local,
         } kind;
 
+        // TODO: Use `Ident{node_id, string}` instead of string as key
         std::map<std::string, name_ptr> names;
 
         /// Declare new name.
