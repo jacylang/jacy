@@ -77,7 +77,7 @@ namespace jc::core {
         ast::module_list nestedModules;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
-                nestedModules.emplace_back(std::move(parseDir(entry)));
+                nestedModules.emplace_back(parseDir(entry));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
                 nestedModules.emplace_back(parseFile(entry));
             }
@@ -96,7 +96,7 @@ namespace jc::core {
         sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
 
         log.dev("Tokenize file", file->getPath());
-        const auto & fileTokens = std::move(lexerResult.tokens);
+        auto fileTokens = std::move(lexerResult.tokens);
 
         printSource(fileId);
         printTokens(fileId, fileTokens);

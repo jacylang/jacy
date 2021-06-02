@@ -22,7 +22,7 @@ namespace jc::fs {
         auto data = ss.str();
         file.close();
 
-        return std::make_shared<Entry>(path.string(), std::move(data));
+        return std::make_shared<Entry>(path, std::move(data));
     }
 
     entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
@@ -31,7 +31,7 @@ namespace jc::fs {
             const auto & entryPath = std_fs::relative(entry.path());
             if (entry.is_directory()) {
                 entries.emplace_back(
-                    std::make_shared<Entry>(entryPath.string(), std::move(readdirRecEntries(entryPath)))
+                    std::make_shared<Entry>(entryPath, std::move(readdirRecEntries(entryPath)))
                 );
             } else if (entry.is_regular_file()) {
                 if (entryPath.extension() != allowedExt) {

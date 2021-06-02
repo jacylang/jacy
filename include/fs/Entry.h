@@ -24,17 +24,17 @@ namespace jc::fs {
             Dir,
         };
 
-        Entry(std_fs::path path, entry_list && files)
-            : kind(Kind::Dir), path(std::move(path)), content(std::move(files)) {}
+        Entry(const std_fs::path & path, entry_list && files)
+            : kind(Kind::Dir), path(path), content(std::move(files)) {}
 
-        Entry(std_fs::path path, std::string content)
-            : kind(Kind::File), path(std::move(path)), content(std::move(content)) {}
+        Entry(const std_fs::path & path, std::string && content)
+            : kind(Kind::File), path(path), content(std::move(content)) {}
 
         bool isDir() const {
             return kind == Kind::Dir;
         }
 
-        const std_fs::path & getPath() const {
+        auto getPath() const {
             return path;
         }
 
