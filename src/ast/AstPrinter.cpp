@@ -76,18 +76,18 @@ namespace jc::ast {
         itemStmt.item->accept(*this);
     }
 
-    void AstPrinter::visit(const Func & funcDecl) {
+    void AstPrinter::visit(const Func & func) {
         printIndent();
 
-        printModifiers(funcDecl.modifiers);
+        printModifiers(func.modifiers);
         log.raw("func");
-        print(funcDecl.typeParams);
+        print(func.typeParams);
         log.raw(" ");
-        printId(funcDecl.name);
+        printId(func.name);
 
         log.raw("(");
-        for (size_t i = 0; i < funcDecl.params.size(); ++i) {
-            const auto & param = funcDecl.params.at(i);
+        for (size_t i = 0; i < func.params.size(); ++i) {
+            const auto & param = func.params.at(i);
             printId(param->name);
 
             log.raw(": ");
@@ -97,26 +97,26 @@ namespace jc::ast {
                 log.raw(" = ");
                 param->defaultValue.unwrap().accept(*this);
             }
-            if (i < funcDecl.params.size() - 1) {
+            if (i < func.params.size() - 1) {
                 log.raw(", ");
             }
         }
         log.raw(")");
 
-        if (funcDecl.returnType) {
+        if (func.returnType) {
             log.raw(": ");
-            funcDecl.returnType.unwrap().accept(*this);
+            func.returnType.unwrap().accept(*this);
         }
 
-        if (funcDecl.oneLineBody) {
+        if (func.oneLineBody) {
             log.raw(" = ");
             // For one-line block increment indent to make it prettier
             incIndent();
-            funcDecl.oneLineBody.unwrap().accept(*this);
+            func.oneLineBody.unwrap().accept(*this);
             decIndent();
         } else {
             log.raw(" ");
-            funcDecl.body.unwrap()->accept(*this);
+            func.body.unwrap()->accept(*this);
         }
     }
 

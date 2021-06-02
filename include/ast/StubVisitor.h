@@ -25,7 +25,7 @@ namespace jc::ast {
 
         // Items //
         void visit(Enum & enumDecl) override;
-        void visit(Func & funcDecl) override;
+        void visit(Func & func) override;
         void visit(Impl & impl) override;
         void visit(Mod & mod) override;
         void visit(Struct & _struct) override;

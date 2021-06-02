@@ -29,28 +29,28 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void NameResolver::visit(ast::Func & funcDecl) {
+    void NameResolver::visit(ast::Func & func) {
         uint32_t prevDepth = getDepth();
-        visitTypeParams(funcDecl.typeParams);
+        visitTypeParams(func.typeParams);
 
         enterRib(Rib::Kind::Type); // -> (signature rib)
-        for (const auto & param : funcDecl.params) {
+        for (const auto & param : func.params) {
             param->type.accept(*this);
         }
 
-        if (funcDecl.returnType) {
-            funcDecl.returnType.unwrap().accept(*this);
+        if (func.returnType) {
+            func.returnType.unwrap().accept(*this);
         }
 
         enterRib(Rib::Kind::Local); // -> (params rib)
-        for (const auto & param : funcDecl.params) {
+        for (const auto & param : func.params) {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->id);
         }
 
-        if (funcDecl.oneLineBody) {
-            funcDecl.oneLineBody.unwrap().accept(*this);
+        if (func.oneLineBody) {
+            func.oneLineBody.unwrap().accept(*this);
         } else {
-            funcDecl.body.unwrap()->accept(*this);
+            func.body.unwrap()->accept(*this);
         }
 
         liftToDepth(prevDepth);

@@ -57,10 +57,10 @@ namespace jc::ast {
         itemStmt.item->accept(*this);
     }
 
-    void Linter::visit(const Func & funcDecl) {
+    void Linter::visit(const Func & func) {
         // TODO: lint attributes
 
-        for (const auto & modifier : funcDecl.modifiers) {
+        for (const auto & modifier : func.modifiers) {
             if (!isInside(LinterContext::Struct)) {
                 switch (modifier.kind) {
                     case parser::TokenKind::Static:
@@ -77,14 +77,14 @@ namespace jc::ast {
             }
         }
 
-        if (funcDecl.typeParams) {
-            lintTypeParams(funcDecl.typeParams.unwrap());
+        if (func.typeParams) {
+            lintTypeParams(func.typeParams.unwrap());
         }
 
-        lintId(funcDecl.name);
+        lintId(func.name);
 
         std::map<std::string, size_t> dupls;
-        for (const auto & param : funcDecl.params) {
+        for (const auto & param : func.params) {
             lintId(param->name);
             const auto & name = param->name.unwrap()->getValue();
             if (dupls.find(name) != dupls.end()) {
@@ -97,15 +97,15 @@ namespace jc::ast {
             }
         }
 
-        if (funcDecl.returnType) {
-            funcDecl.returnType.unwrap().accept(*this);
+        if (func.returnType) {
+            func.returnType.unwrap().accept(*this);
         }
 
         pushContext(LinterContext::Func);
-        if (funcDecl.body) {
-            funcDecl.body.unwrap()->accept(*this);
-        } else if (funcDecl.oneLineBody) {
-            funcDecl.oneLineBody.unwrap().accept(*this);
+        if (func.body) {
+            func.body.unwrap()->accept(*this);
+        } else if (func.oneLineBody) {
+            func.oneLineBody.unwrap().accept(*this);
         } else {
             Logger::devPanic("Linter: Func hasn't either one-line either raw body");
         }
