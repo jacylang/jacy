@@ -44,7 +44,7 @@ namespace jc::resolve {
 
         enterRib(Rib::Kind::Local); // -> (params rib)
         for (const auto & param : func.params) {
-            declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->id);
+            declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
 
         if (func.oneLineBody) {
