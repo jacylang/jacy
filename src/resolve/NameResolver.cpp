@@ -73,6 +73,7 @@ namespace jc::resolve {
         enterRib(Rib::Kind::Local); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
+            field->type.accept(*this);
         }
 
         liftToDepth(prevDepth);
