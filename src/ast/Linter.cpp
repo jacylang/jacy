@@ -450,6 +450,28 @@ namespace jc::ast {
         spreadExpr.expr.accept(*this);
     }
 
+    void Linter::visit(const StructExpr & structExpr) {
+        structExpr.path->accept(*this);
+
+        for (const auto & field : structExpr.fields) {
+            switch (field->kind) {
+                case StructExprField::Kind::Raw: {
+                    lintId(field->name.unwrap());
+                    field->expr->accept(*this);
+                    break;
+                }
+                case StructExprField::Kind::Shortcut: {
+                    lintId(field->name.unwrap());
+                    break;
+                }
+                case StructExprField::Kind::Base: {
+                    field->expr->accept(*this);
+                    break;
+                }
+            }
+        }
+    }
+
     void Linter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
         for (const auto & index : subscript.indices) {
