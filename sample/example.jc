@@ -1,6 +1,6 @@
 func main {
     path::to::struct {
-        asd,
+        123,
         field: 1 + 1,
         ...base,
     }

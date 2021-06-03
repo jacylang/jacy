@@ -1680,6 +1680,7 @@ namespace jc::parser {
         }
 
         suggestErrorMsg("Expected struct field", cspan());
+        advance();
 
         return makeErrorNode(cspan());
     }
