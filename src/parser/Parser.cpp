@@ -1429,11 +1429,10 @@ namespace jc::parser {
             }
 
             opt_type_params typeParams;
-            bool pathOrLAngle = false;
+            bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path, true)) {
-                pathOrLAngle = true;
                 typeParams = parseOptTypeParams();
-                pathOrLAngle = !typeParams;
+                pathNotGeneric = !typeParams;
             }
 
             if (kind == ast::PathExprSeg::Kind::Ident) {
@@ -1446,7 +1445,7 @@ namespace jc::parser {
                 );
             }
 
-            if (pathOrLAngle or skipOpt(TokenKind::Path)) {
+            if (pathNotGeneric or skipOpt(TokenKind::Path)) {
                 continue;
             }
             break;
