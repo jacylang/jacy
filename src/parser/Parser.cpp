@@ -1321,8 +1321,10 @@ namespace jc::parser {
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             auto pathExpr = parsePathExpr();
-            if (pathExpr and is(TokenKind::LBrace)) {
-                return parseStructExpr(std::move(Expr::as<PathExpr>(pathExpr.unwrap())));
+            if (is(TokenKind::LBrace)) {
+                if (pathExpr.isErr()) {
+//                    return parseStructExpr(makeErrorNode(pathExpr));
+                }
             }
             return pathExpr;
         }

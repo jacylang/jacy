@@ -77,6 +77,16 @@ namespace jc::ast {
             return !hasErr;
         }
 
+        const Span & span() const {
+            if (not inited) {
+                throw std::logic_error("Called `ParseResult::span` on an `Err` value");
+            }
+            if (isErr()) {
+                return error->span;
+            }
+            return value->span;
+        }
+
         ParseResult<T> & operator=(const ParseResult<T> & other) {
             hasErr = other.hasErr;
             value = other.value;
