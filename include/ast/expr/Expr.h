@@ -35,6 +35,7 @@ namespace jc::ast {
         Quest,
         Return,
         Spread,
+        Struct,
         Subscript,
         Super,
         This,
