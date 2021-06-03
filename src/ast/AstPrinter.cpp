@@ -729,8 +729,10 @@ namespace jc::ast {
         if (fields.size() > 1) {
             log.nl();
         }
+        incIndent();
         for (size_t i = 0; i < fields.size(); i++) {
             const auto & maybeField = fields.at(i);
+            printIndent();
             if (maybeField.isErr()) {
                 log.raw("[ERROR]");
                 continue;
@@ -760,6 +762,8 @@ namespace jc::ast {
         if (fields.size() > 1) {
             log.nl();
         }
+        decIndent();
+        printIndent();
         log.raw("}");
     }
 

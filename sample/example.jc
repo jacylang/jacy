@@ -1,5 +1,5 @@
 func main {
-    path::to::struct {
+    path::to {
         shortcut,
         field: 1 + 1,
         ...base,
