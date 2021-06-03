@@ -172,7 +172,7 @@ namespace jc::parser {
         bool is(TokenKind kind) const;
         bool isAssignOp() const;
         bool isLiteral() const;
-        bool isKw(TokenKind kind) const; // Note: Use only for errors, not for general use
+        bool isKw() const; // Note: Use only for errors, not for general use
 
         std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);

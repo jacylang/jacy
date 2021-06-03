@@ -162,7 +162,7 @@ namespace jc::parser {
         return utils::arr::has(literals, kind);
     }
 
-    bool Token::isKw(TokenKind kind) const {
+    bool Token::isKw() const {
         for (const auto & kw : keywords) {
             if (kw.second == kind) {
                 return true;

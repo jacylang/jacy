@@ -1425,6 +1425,13 @@ namespace jc::parser {
                     const auto & errorToken = peek();
                     // TODO: Dynamic message for first or following segments (self and party can be only first)
                     suggestErrorMsg("Expected identifier, `super`, `self` or `party` in path", cspan());
+
+                    // We eat error token only if user used keyword in path
+                    // In other cases it could be beginning of another expression and we would break everything
+                    log.dev("Error token:", errorToken.toString());
+                    if (not errorToken.isKw()) {
+                        break;
+                    }
                     advance();
                 }
             }
