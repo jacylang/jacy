@@ -1401,7 +1401,6 @@ namespace jc::parser {
         while (!eof()) {
             const auto & segmentBegin = cspan();
 
-            bool isErrorName = false;
             opt_id_ptr ident;
             PathExprSeg::Kind kind = PathExprSeg::Kind::Error;
             switch (peek().kind) {
@@ -1426,7 +1425,6 @@ namespace jc::parser {
                     // TODO: Dynamic message for first or following segments (self and party can be only first)
                     suggestErrorMsg("Expected identifier, `super`, `self` or `party` in path", cspan());
                     advance();
-                    isErrorName = true;
                 }
             }
 
@@ -1441,7 +1439,7 @@ namespace jc::parser {
                 segments.push_back(
                     makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(typeParams), segmentBegin.to(cspan()))
                 );
-            } else if (isErrorName) {
+            } else if (kind == PathExprSeg::Kind::Error) {
                 segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
             } else {
                 segments.push_back(

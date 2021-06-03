@@ -397,7 +397,7 @@ namespace jc::ast {
                     break;
                 }
                 default: {
-                    log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`")
+                    log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
                 }
             }
             print(seg->typeParams, true);
