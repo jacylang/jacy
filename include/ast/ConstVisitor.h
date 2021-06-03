@@ -42,6 +42,7 @@ namespace jc::ast {
     struct QuestExpr;
     struct ReturnExpr;
     struct SpreadExpr;
+    struct StructExpr;
     struct Subscript;
     struct ThisExpr;
     struct TupleExpr;
@@ -112,6 +113,7 @@ namespace jc::ast {
         virtual void visit(const QuestExpr&) = 0;
         virtual void visit(const ReturnExpr&) = 0;
         virtual void visit(const SpreadExpr&) = 0;
+        virtual void visit(const StructExpr&) = 0;
         virtual void visit(const Subscript&) = 0;
         virtual void visit(const ThisExpr&) = 0;
         virtual void visit(const TupleExpr&) = 0;

@@ -22,6 +22,7 @@
 #include "ast/expr/QuestExpr.h"
 #include "ast/expr/ReturnExpr.h"
 #include "ast/expr/SpreadExpr.h"
+#include "ast/expr/StructExpr.h"
 #include "ast/expr/Subscript.h"
 #include "ast/expr/ThisExpr.h"
 #include "ast/expr/TupleExpr.h"
