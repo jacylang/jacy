@@ -73,6 +73,10 @@ namespace jc::ast {
             return hasErr;
         }
 
+        operator bool() const {
+            return !hasErr;
+        }
+
         ParseResult<T> & operator=(const ParseResult<T> & other) {
             hasErr = other.hasErr;
             value = other.value;
