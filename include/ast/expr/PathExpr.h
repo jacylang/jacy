@@ -9,7 +9,7 @@ namespace jc::ast {
     struct PathExpr;
     struct PathExprSeg;
     using path_expr_ptr = PR<std::shared_ptr<PathExpr>>;
-    using path_expr_seg_ptr = std::shared_ptr<PathExprSeg>;
+    using path_expr_seg_ptr = PR<std::shared_ptr<PathExprSeg>>;
     using path_expr_seg_list = std::vector<path_expr_seg_ptr>;
 
     struct PathExprSeg : Node {
@@ -18,12 +18,7 @@ namespace jc::ast {
             Self,
             Party,
             Ident,
-
-            Error,
         } kind;
-
-        PathExprSeg(opt_type_params && typeParams, const Span & span)
-            : kind(Kind::Error), typeParams(std::move(typeParams)), Node(span) {}
 
         PathExprSeg(id_ptr ident, opt_type_params typeParams, const Span & span)
             : ident(std::move(ident)), kind(Kind::Ident), typeParams(std::move(typeParams)), Node(span) {}
