@@ -24,15 +24,6 @@ namespace jc::cli {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
     };
 
-    const std::map<std::string, bool> Args::defaultBoolArgs = {
-        {"dev", false},
-    };
-
-    const std::map<std::string, str_vec> Args::defaultKeyValueArgs = {
-        {"benchmark", {"final"}},
-    };
-
-
     // Checkers //
     bool Args::is(const std::string & argName) const {
         // At first we find, because we can get `map::at` error if argName does not exists in boolArgs
