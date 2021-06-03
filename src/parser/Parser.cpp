@@ -1403,7 +1403,7 @@ namespace jc::parser {
 
             bool isErrorName = false;
             opt_id_ptr ident;
-            PathExprSeg::Kind kind;
+            PathExprSeg::Kind kind = PathExprSeg::Kind::Error;
             switch (peek().kind) {
                 case TokenKind::Super: {
                     kind = ast::PathExprSeg::Kind::Super;

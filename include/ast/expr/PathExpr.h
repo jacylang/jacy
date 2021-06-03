@@ -18,6 +18,8 @@ namespace jc::ast {
             Self,
             Party,
             Ident,
+
+            Error,
         } kind;
 
         PathExprSeg(id_ptr ident, opt_type_params typeParams, const Span & span)
