@@ -206,31 +206,30 @@ namespace jc::ast {
         switch (assign.lhs.unwrap()->kind) {
             case ExprKind::Assign: {
                 suggestErrorMsg("Chained assignment is not allowed", span);
-            }
                 break;
+            }
             case ExprKind::Id: {
                 // Note: Checks for `id = expr` go here...
-            }
                 break;
+            }
             case ExprKind::Paren: {
                 // Note: Checks for `(expr) = expr` go here...
-            }
                 break;
+            }
             case ExprKind::Path: {
                 // Note: Checks for `path::to::something = expr` go here...
-            }
                 break;
+            }
             case ExprKind::Subscript: {
                 // Note: Checks for `expr[expr, ...] = expr` go here...
-            }
                 break;
+            }
             case ExprKind::Tuple: {
                 // Note: Checks for `(a, b, c) = expr` go here..
                 // Note: This is destructuring, it won't appear in first version
-            }
                 break;
-            default: {
             }
+            default:;
         }
 
         if (!isPlaceExpr(assign.lhs)) {
@@ -638,15 +637,18 @@ namespace jc::ast {
                 for (const auto & specific : specific->specifics) {
                     lintUseTree(specific);
                 }
+                break;
             }
             case UseTree::Kind::Rebind: {
                 const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
                 lintSimplePath(rebind->path);
                 lintId(rebind->as);
+                break;
             }
             case UseTree::Kind::Raw: {
                 const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
                 lintSimplePath(raw->path);
+                break;
             }
         }
     }
