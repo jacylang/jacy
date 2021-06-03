@@ -7,8 +7,8 @@
 
 namespace jc::ast {
     struct PathExprSeg;
-    using path_expr_ptr = std::shared_ptr<PathExprSeg>;
-    using path_expr_list = std::vector<path_expr_ptr>;
+    using path_expr_seg_ptr = std::shared_ptr<PathExprSeg>;
+    using path_expr_seg_list = std::vector<path_expr_seg_ptr>;
 
     struct PathExprSeg : Node {
         const enum class Kind {
@@ -29,11 +29,11 @@ namespace jc::ast {
     };
 
     struct PathExpr : Expr {
-        PathExpr(bool global, path_expr_list segments, const Span & span)
+        PathExpr(bool global, path_expr_seg_list && segments, const Span & span)
             : global(global), segments(std::move(segments)), Expr(span, ExprKind::Path) {}
 
         bool global;
-        path_expr_list segments;
+        path_expr_seg_list segments;
 
         void accept(BaseVisitor & visitor) override {
             return visitor.visit(*this);

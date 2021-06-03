@@ -63,6 +63,7 @@ namespace jc::ast {
         void visit(const QuestExpr & questExpr) override;
         void visit(const ReturnExpr & returnExpr) override;
         void visit(const SpreadExpr & spreadExpr) override;
+        void visit(const StructExpr & structExpr) override;
         void visit(const Subscript & subscript) override;
         void visit(const ThisExpr & thisExpr) override;
         void visit(const TupleExpr & tupleExpr) override;

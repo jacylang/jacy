@@ -421,6 +421,10 @@ namespace jc::ast {
         spreadExpr.expr.accept(*this);
     }
 
+    void AstPrinter::visit(const StructExpr & structExpr) {
+
+    }
+
     void AstPrinter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
         for (size_t i = 0; i < subscript.indices.size(); ++i) {

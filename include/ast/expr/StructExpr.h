@@ -33,14 +33,14 @@ namespace jc::ast {
 
     struct StructExpr : Expr {
         StructExpr(
-            path_expr_ptr && path,
+            path_expr_seg_ptr && path,
             struct_expr_field_list && fields,
             const Span & span
         ) : path(std::move(path)),
             fields(std::move(fields)),
             Expr(span, ExprKind::Struct) { }
 
-        path_expr_ptr path;
+        path_expr_seg_ptr path;
         struct_expr_field_list fields;
     };
 }

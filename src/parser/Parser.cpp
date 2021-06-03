@@ -1390,7 +1390,7 @@ namespace jc::parser {
             }
         }
 
-        path_expr_list segments;
+        path_expr_seg_list segments;
         while (!eof()) {
             const auto & segmentBegin = cspan();
 
@@ -1554,7 +1554,7 @@ namespace jc::parser {
                     auto typeParams = parseTypeParams();
                     value = makeExpr<PathExpr>(
                         false,
-                        path_expr_list{
+                        path_expr_seg_list{
                             makeNode<PathExprSeg>(
                                 std::move(identifier),
                                 typeParams,
@@ -1913,7 +1913,7 @@ namespace jc::parser {
                     auto typeParams = parseTypeParams();
                     value = makeExpr<PathExpr>(
                         false,
-                        path_expr_list{
+                        path_expr_seg_list{
                             makeNode<PathExprSeg>(
                                 std::move(identifier),
                                 typeParams,
