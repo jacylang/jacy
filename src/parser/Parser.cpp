@@ -1592,6 +1592,7 @@ namespace jc::parser {
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
         logParse("StructExpr");
 
+        const auto & begin = cspan();
         justSkip(TokenKind::LBrace, true, "`{`", "`parseStructExpr`");
 
         struct_expr_field_list fields;
@@ -1618,11 +1619,20 @@ namespace jc::parser {
                 break;
             }
 
-//            fields.emplace_back(parseStructExprField());
+            fields.emplace_back(parseStructExprField());
         }
+        skip(
+            TokenKind::RBrace,
+            true,
+            false,
+            false,
+            std::make_unique<ParseErrSugg>("Missing closing `}`", cspan())
+        );
+
+        return makeExpr<StructExpr>(std::move(path), std::move(fields), begin.to(cspan()));
     }
 
-    PR<struct_expr_field_ptr> Parser::parseStructExprField() {
+    struct_expr_field_ptr Parser::parseStructExprField() {
         logParse("StructExprField");
 
         const auto & begin = cspan();
