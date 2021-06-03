@@ -84,10 +84,6 @@ namespace jc::cli {
             }
         }
 
-        // FIXME: TODO: REMOVE DEFAULTS
-        config.boolArgs = utils::map::merge(Args::defaultBoolArgs, config.boolArgs);
-        config.keyValueArgs = utils::map::merge(Args::defaultKeyValueArgs, config.keyValueArgs);
-
         // Check for dependencies //
 
         // Note: Use vector to output multiple arg-dependency errors

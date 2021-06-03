@@ -26,10 +26,6 @@ namespace jc::cli {
         // Key-value arguments that receive any non-specific parameters
         const static str_vec anyParamKeyValueArgs;
 
-        // Default values for arguments //
-        const static std::map<std::string, bool> defaultBoolArgs;
-        const static std::map<std::string, str_vec> defaultKeyValueArgs;
-
         // Aliases (used as for boolean arguments, as for key-value arguments)
         const static std::map<std::string, std::string> aliases;
 
