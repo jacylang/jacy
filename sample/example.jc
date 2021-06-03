@@ -1,6 +1,6 @@
 func main {
-    path::to::struct:: {
-        shortcut,
+    path::to::struct {
+        asd,
         field: 1 + 1,
         ...base,
     }

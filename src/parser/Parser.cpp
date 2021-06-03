@@ -1401,6 +1401,7 @@ namespace jc::parser {
         while (!eof()) {
             const auto & segmentBegin = cspan();
 
+            bool isUnrecoverableError = false;
             opt_id_ptr ident;
             PathExprSeg::Kind kind = PathExprSeg::Kind::Error;
             switch (peek().kind) {
@@ -1430,9 +1431,10 @@ namespace jc::parser {
                     // In other cases it could be beginning of another expression and we would break everything
                     log.dev("Error token:", errorToken.toString());
                     if (not errorToken.isKw()) {
-                        break;
+                        isUnrecoverableError = true;
+                    } else {
+                        advance();
                     }
-                    advance();
                 }
             }
 
@@ -1449,6 +1451,9 @@ namespace jc::parser {
                 );
             } else if (kind == PathExprSeg::Kind::Error) {
                 segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
+                if (isUnrecoverableError) {
+                    break;
+                }
             } else {
                 segments.push_back(
                     makeNode<PathExprSeg>(kind, std::move(typeParams), segmentBegin.to(cspan()))

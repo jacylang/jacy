@@ -375,7 +375,7 @@ namespace jc::ast {
         for (size_t i = 0; i < pathExpr.segments.size(); i++) {
             const auto & maybeSeg = pathExpr.segments.at(i);
             if (maybeSeg.isErr()) {
-                log.raw("error");
+                log.raw("[ERROR]");
                 continue;
             }
             const auto & seg = maybeSeg.unwrap();
@@ -742,7 +742,7 @@ namespace jc::ast {
             const auto & maybeField = fields.at(i);
             printIndent();
             if (maybeField.isErr()) {
-                log.raw("[ERROR]");
+                log.raw("[ERROR],").nl();
                 continue;
             }
             const auto & field = maybeField.unwrap();
