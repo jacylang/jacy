@@ -1323,10 +1323,11 @@ namespace jc::parser {
             auto pathExpr = parsePathExpr();
             if (is(TokenKind::LBrace)) {
                 if (pathExpr.isErr()) {
-//                    return parseStructExpr(makeErrorNode(pathExpr));
+                    return parseStructExpr(makeErrorNode(pathExpr.span()));
                 }
+                return parseStructExpr(std::move(pathExpr.unwrap()));
             }
-            return pathExpr;
+            return Expr::asBase(pathExpr);
         }
 
         if (is(TokenKind::If)) {
@@ -1379,7 +1380,7 @@ namespace jc::parser {
         return makeErrorNode(span);
     }
 
-    expr_ptr Parser::parsePathExpr() {
+    path_expr_ptr Parser::parsePathExpr() {
         logParse("PathExpr");
 
         const auto & begin = cspan();
@@ -1451,7 +1452,7 @@ namespace jc::parser {
             break;
         }
 
-        return makeExpr<PathExpr>(global, std::move(segments), begin.to(cspan()));
+        return Expr::as<PathExpr>(makeExpr<PathExpr>(global, std::move(segments), begin.to(cspan())));
     }
 
     expr_ptr Parser::parseLiteral() {
