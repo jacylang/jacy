@@ -308,7 +308,7 @@ namespace jc::parser {
         justSkip(TokenKind::Enum, true, "`enum`", "`parseEnum`");
 
         auto name = parseId("Expected `enum` name", true, true);
-        auto typeParams = parseTypeParams();
+        auto typeParams = parseOptTypeParams();
 
         enum_entry_list entries;
         if (!isHardSemi()) {
@@ -405,7 +405,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Func, true, "`func`", "`parseFunc`");
 
-        auto typeParams = parseTypeParams();
+        auto typeParams = parseOptTypeParams();
         auto name = parseId("An identifier expected as a type parameter name", true, true);
 
         const auto & maybeParenToken = peek();
@@ -453,7 +453,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Impl, true, "`impl`", "`parseImpl`");
 
-        auto typeParams = parseTypeParams();
+        auto typeParams = parseOptTypeParams();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
         skip(TokenKind::For, true, true, true, std::make_unique<ParseErrSugg>("Missing `for`", cspan()));
@@ -479,7 +479,7 @@ namespace jc::parser {
         justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
 
         auto name = parseId("Expected struct name", true, true);
-        auto typeParams = parseTypeParams();
+        auto typeParams = parseOptTypeParams();
 
         field_list fields;
         if (!isHardSemi()) {
@@ -558,7 +558,7 @@ namespace jc::parser {
         justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
 
         auto name = parseId("Missing `trait` name", true, true);
-        auto typeParams = parseTypeParams();
+        auto typeParams = parseOptTypeParams();
 
         type_path_list superTraits;
         if (skipOpt(TokenKind::Colon, true)) {
@@ -1429,11 +1429,11 @@ namespace jc::parser {
             }
 
             opt_type_params typeParams;
-            bool pathMaybeGeneric = false;
+            bool pathOrLAngle = false;
             if (skipOpt(TokenKind::Path, true)) {
-                pathMaybeGeneric = true;
-                typeParams = parseTypeParams();
-                pathMaybeGeneric = !typeParams;
+                pathOrLAngle = true;
+                typeParams = parseOptTypeParams();
+                pathOrLAngle = !typeParams;
             }
 
             if (kind == ast::PathExprSeg::Kind::Ident) {
@@ -1446,7 +1446,7 @@ namespace jc::parser {
                 );
             }
 
-            if (pathMaybeGeneric or skipOpt(TokenKind::Path)) {
+            if (pathOrLAngle or skipOpt(TokenKind::Path)) {
                 continue;
             }
             break;
@@ -1558,7 +1558,7 @@ namespace jc::parser {
                 } else {
                     // Recover path expression
                     // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto typeParams = parseTypeParams();
+                    auto typeParams = parseOptTypeParams();
                     value = makeExpr<PathExpr>(
                         false,
                         path_expr_seg_list{
@@ -1991,7 +1991,7 @@ namespace jc::parser {
                 } else {
                     // Recover path expression
                     // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto typeParams = parseTypeParams();
+                    auto typeParams = parseOptTypeParams();
                     value = makeExpr<PathExpr>(
                         false,
                         path_expr_seg_list{
@@ -2436,7 +2436,7 @@ namespace jc::parser {
         return makeType<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
-    opt_type_params Parser::parseTypeParams() {
+    opt_type_params Parser::parseOptTypeParams() {
         logParse("TypeParams");
 
         if (!is(TokenKind::LAngle)) {
@@ -2444,7 +2444,7 @@ namespace jc::parser {
         }
 
         const auto & lAngleToken = peek();
-        justSkip(TokenKind::LAngle, true, "`<`", "`parseTypeParams`");
+        justSkip(TokenKind::LAngle, true, "`<`", "`parseOptTypeParams`");
 
         const auto & begin = cspan();
         type_param_list typeParams;
@@ -2475,7 +2475,7 @@ namespace jc::parser {
                     makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
                 );
             } else if (is(TokenKind::Id)) {
-                auto name = justParseId("`parseTypeParams`");
+                auto name = justParseId("`parseOptTypeParams`");
                 opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
@@ -2544,7 +2544,7 @@ namespace jc::parser {
         while (!eof()) {
             const auto & segBegin = cspan();
             auto name = parseId("Type expected", true, true);
-            auto typeParams = parseTypeParams();
+            auto typeParams = parseOptTypeParams();
 
             segments.push_back(
                 makeNode<TypePathSegment>(
