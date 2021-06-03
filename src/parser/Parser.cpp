@@ -1187,20 +1187,20 @@ namespace jc::parser {
                 logParse("Borrow");
 
                 bool mut = skipOpt(TokenKind::Mut, true);
-                return Expr::asBase(
+                return Expr::pureAsBase(
                     makeNode<BorrowExpr>(op.is(TokenKind::And), mut, std::move(rhs), begin.to(cspan()))
                 );
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
 
-                return Expr::asBase(
+                return Expr::pureAsBase(
                     makeNode<DerefExpr>(std::move(rhs), begin.to(cspan()))
                 );
             }
 
             logParse("Prefix");
 
-            return Expr::asBase(
+            return Expr::pureAsBase(
                 makeNode<Prefix>(op, std::move(rhs), begin.to(cspan()))
             );
         }
@@ -1219,7 +1219,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Quest)) {
             logParse("Quest");
 
-            return Expr::asBase(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())));
+            return Expr::pureAsBase(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())));
         }
 
         return lhs;
@@ -1301,7 +1301,7 @@ namespace jc::parser {
 
             auto name = parseId("Expected field name", true, true);
 
-            lhs = Expr::asBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
+            lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
             begin = cspan();
         }
 
@@ -1343,7 +1343,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Expr::asBase(
+            return Expr::pureAsBase(
                 parseBlock("Block expression", BlockArrow::Just)
             );
         }

@@ -63,9 +63,17 @@ namespace jc::ast {
             return std::static_pointer_cast<T>(expr);
         }
 
-        template<class T>
-        static expr_ptr asBase(T && expr) {
+        template<class T = pure_expr_ptr>
+        static expr_ptr pureAsBase(T && expr) {
             return std::static_pointer_cast<Expr>(expr);
+        }
+
+        template<typename T = expr_ptr>
+        static expr_ptr asBase(T && expr) {
+            if (expr.isErr()) {
+                return expr.asErr();
+            }
+            return std::static_pointer_cast<Expr>(expr.asValue());
         }
 
         virtual void accept(BaseVisitor & visitor) = 0;

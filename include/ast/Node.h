@@ -57,14 +57,14 @@ namespace jc::ast {
 
         T & unwrap(const std::string & msg = "") {
             if (isErr()) {
-                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` value" : msg);
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
             return value;
         }
 
         const T & unwrap(const std::string & msg = "") const {
             if (isErr()) {
-                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` value" : msg);
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
             return value;
         }
@@ -79,12 +79,26 @@ namespace jc::ast {
 
         const Span & span() const {
             if (not inited) {
-                throw std::logic_error("Called `ParseResult::span` on an `Err` value");
+                throw std::logic_error("Called `ParseResult::span` on an `Err` ParseResult");
             }
             if (isErr()) {
                 return error->span;
             }
             return value->span;
+        }
+
+        E & asErr() {
+            if (not isErr()) {
+                throw std::logic_error("Called `ParseResult::asErr` on an non-error ParseResult");
+            }
+            return error;
+        }
+
+        T & asValue() {
+            if (isErr()) {
+                throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
+            }
+            return value;
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
@@ -123,7 +137,7 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (isErr()) {
-                throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` value");
+                throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` ParseResult");
             }
             return value;
         }
@@ -133,7 +147,7 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (isErr()) {
-                throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` value");
+                throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` ParseResult");
             }
             return value;
         }
@@ -143,7 +157,7 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (isErr()) {
-                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
+                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
             }
             return *value;
         }
@@ -153,7 +167,7 @@ namespace jc::ast {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
             if (isErr()) {
-                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` value");
+                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
             }
             return *value;
         }

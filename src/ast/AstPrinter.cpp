@@ -422,7 +422,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const StructExpr & structExpr) {
-        structExpr.path->accept(*this);
+        structExpr.path.accept(*this);
         printStructExprFields(structExpr.fields);
     }
 
