@@ -6,7 +6,9 @@
 #include "ast/fragments/TypeParams.h"
 
 namespace jc::ast {
+    struct PathExpr;
     struct PathExprSeg;
+    using path_expr_ptr = std::shared_ptr<PathExpr>;
     using path_expr_seg_ptr = std::shared_ptr<PathExprSeg>;
     using path_expr_seg_list = std::vector<path_expr_seg_ptr>;
 

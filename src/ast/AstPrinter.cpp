@@ -422,7 +422,39 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const StructExpr & structExpr) {
+        structExpr.path->accept(*this);
 
+        log.raw(" {");
+        if (structExpr.fields.size() > 1) {
+            log.nl();
+        }
+        for (size_t i = 0; i < structExpr.fields.size(); i++) {
+            const auto & field = structExpr.fields.at(i);
+            switch (field->kind) {
+                case StructExprField::Kind::Raw: {
+                    printId(field->name.unwrap());
+                    log.raw(": ");
+                    field->expr->accept(*this);
+                    break;
+                }
+                case StructExprField::Kind::Shortcut: {
+                    printId(field->name.unwrap());
+                    break;
+                }
+                case StructExprField::Kind::Base: {
+                    log.raw("...");
+                    field->expr->accept(*this);
+                    break;
+                }
+            }
+            if (i < structExpr.fields.size() - 1) {
+                log.raw(",").nl();
+            }
+        }
+        if (structExpr.fields.size() > 1) {
+            log.nl();
+        }
+        log.raw("}");
     }
 
     void AstPrinter::visit(const Subscript & subscript) {
