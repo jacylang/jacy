@@ -1,5 +1,7 @@
-mod a {
-    func asd(a: i32, a: i32) {
-
+func main {
+    path::to::struct {
+        shortcut,
+        field: 1 + 1,
+        ...base,
     }
 }
