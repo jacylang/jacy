@@ -147,6 +147,10 @@ namespace jc::ast {
         visit("spreadExpr");
     }
 
+    void StubVisitor::visit(StructExpr & structExpr) {
+        visit("structExpr");
+    }
+
     void StubVisitor::visit(Subscript & subscript) {
         visit("subscript");
     }
