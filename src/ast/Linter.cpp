@@ -453,7 +453,8 @@ namespace jc::ast {
     void Linter::visit(const StructExpr & structExpr) {
         structExpr.path->accept(*this);
 
-        for (const auto & field : structExpr.fields) {
+        for (const auto & maybeField : structExpr.fields) {
+            const auto & field = maybeField.unwrap("[ERROR] field in StructExpr on Linter stage");
             switch (field->kind) {
                 case StructExprField::Kind::Raw: {
                     lintId(field->name.unwrap());
