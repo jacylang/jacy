@@ -373,26 +373,31 @@ namespace jc::ast {
             log.raw("::");
         }
         for (size_t i = 0; i < pathExpr.segments.size(); i++) {
-            const auto & segment = pathExpr.segments.at(i);
-            switch (segment->kind) {
+            const auto & maybeSeg = pathExpr.segments.at(i);
+            if (maybeSeg.isErr()) {
+                log.raw("error");
+                continue;
+            }
+            const auto & seg = maybeSeg.unwrap();
+            switch (seg->kind) {
                 case PathExprSeg::Kind::Super: {
-                    log.raw("super").nl();
+                    log.raw("super");
                     break;
                 }
                 case PathExprSeg::Kind::Self: {
-                    log.raw("self").nl();
+                    log.raw("self");
                     break;
                 }
                 case PathExprSeg::Kind::Party: {
-                    log.raw("party").nl();
+                    log.raw("party");
                     break;
                 }
                 case PathExprSeg::Kind::Ident: {
-                    printId(segment->ident.unwrap());
+                    printId(seg->ident.unwrap());
                     break;
                 }
             }
-            print(segment->typeParams, true);
+            print(seg->typeParams, true);
             if (i < pathExpr.segments.size() - 1) {
                 log.raw("::");
             }
