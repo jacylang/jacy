@@ -1589,6 +1589,70 @@ namespace jc::parser {
         );
     }
 
+    expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
+        logParse("StructExpr");
+
+        justSkip(TokenKind::LBrace, true, "`{`", "`parseStructExpr`");
+
+        struct_expr_field_list fields;
+        bool first = true;
+        while (!eof()) {
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(
+                    TokenKind::Comma,
+                    true,
+                    true,
+                    false,
+                    std::make_unique<ParseErrSugg>("Missing `,` delimiter between struct literal fields", cspan())
+                );
+            }
+
+            // Note: Allow trailing comma
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
+//            fields.emplace_back(parseStructExprField());
+        }
+    }
+
+    PR<struct_expr_field_ptr> Parser::parseStructExprField() {
+        logParse("StructExprField");
+
+        const auto & begin = cspan();
+
+        // `field: expr` or `field` cases
+        if (is(TokenKind::Id)) {
+            auto name = justParseId("`parseStructExprField`");
+            if (skipOpt(TokenKind::Colon, true)) {
+                // `field: expr` case
+                auto expr = parseExpr("Expression expected after `:` in struct field");
+                return makeNode<StructExprField>(std::move(name), std::move(expr), begin.to(cspan()));
+            }
+            // `field` case (shortcut)
+            return makeNode<StructExprField>(std::move(name), begin.to(cspan()));
+        }
+
+        // `...expr` case
+        // Note: We parse `...exp` case even it always must go last, because this can be just a mistake
+        //  and we want pretty error like "...expr must go last", but not error like "Unexpected token `...`".
+        //  So this case is handled by Linter
+        if (skipOpt(TokenKind::Spread, true)) {
+            auto expr = parseExpr("Expression expected after `...`");
+            return makeNode<StructExprField>(std::move(expr), begin.to(cspan()));
+        }
+
+        suggestErrorMsg("Expected struct field", cspan());
+
+        return makeErrorNode(cspan());
+    }
+
     block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
         logParse("Block:" + construction);
 
