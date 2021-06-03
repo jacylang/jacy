@@ -387,7 +387,7 @@ namespace jc::ast {
 
     void Linter::visit(const PathExpr & pathExpr) {
         for (size_t i = 0; i < pathExpr.segments.size(); i++) {
-            const auto & seg = pathExpr.segments.at(i);
+            const auto & seg = pathExpr.segments.at(i).unwrap("[ERROR] PathExprSeg on Linter stage");
             switch (seg->kind) {
                 case PathExprSeg::Kind::Super: {
                     break;
