@@ -1422,6 +1422,7 @@ namespace jc::parser {
                     break;
                 }
                 default: {
+                    const auto & errorToken = peek();
                     // TODO: Dynamic message for first or following segments (self and party can be only first)
                     suggestErrorMsg("Expected identifier, `super`, `self` or `party` in path", cspan());
                     advance();

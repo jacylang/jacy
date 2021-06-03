@@ -158,8 +158,7 @@ namespace jc::parser {
             TokenKind kind,
             std::string val
         ) : kind(kind),
-            val(std::move(val)),
-            span(span) {}
+            val(std::move(val)) {}
 
         TokenKind kind{TokenKind::None};
         std::string val{""};
