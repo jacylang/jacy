@@ -408,6 +408,9 @@ namespace jc::ast {
                     lintId(seg->ident.unwrap());
                     break;
                 }
+                default: {
+                    log.devPanic("Unexpected `PathExprSeg::Kind` in `Linter`");
+                }
             }
             if (seg->typeParams) {
                 lintTypeParams(seg->typeParams.unwrap());

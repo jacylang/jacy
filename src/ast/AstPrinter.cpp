@@ -396,6 +396,9 @@ namespace jc::ast {
                     printId(seg->ident.unwrap());
                     break;
                 }
+                default: {
+                    log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`")
+                }
             }
             print(seg->typeParams, true);
             if (i < pathExpr.segments.size() - 1) {
