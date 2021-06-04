@@ -659,6 +659,8 @@ namespace jc::parser {
 
         auto useTree = parseUseTree();
 
+        skipSemis(false);
+
         return makeNode<UseDecl>(std::move(useTree), begin.to(cspan()));
     }
 
@@ -669,18 +671,18 @@ namespace jc::parser {
         auto maybePath = parseOptSimplePath();
 
         if (skipOpt(TokenKind::Path)) {
-            if (maybePath) {
-                skip(
-                    TokenKind::Path,
-                    false,
-                    false,
-                    true,
-                    std::make_unique<ParseErrSugg>(
-                        "Expected `::` after path in `use` declaration",
-                        cspan()
-                    )
-                );
-            }
+//            if (maybePath) {
+//                skip(
+//                    TokenKind::Path,
+//                    false,
+//                    false,
+//                    true,
+//                    std::make_unique<ParseErrSugg>(
+//                        "Expected `::` after path in `use` declaration",
+//                        cspan()
+//                    )
+//                );
+//            }
 
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
@@ -728,7 +730,14 @@ namespace jc::parser {
                 );
             }
 
+            if (maybePath) {
+                return std::static_pointer_cast<UseTree>(
+                    makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()))
+                );
+            }
+
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
+            advance();
         }
 
         if (maybePath and skipOpt(TokenKind::As, true)) {
@@ -755,6 +764,7 @@ namespace jc::parser {
         }
 
         suggestErrorMsg("Path expected in `use` declaration", cspan());
+        advance();
 
         return makeErrorNode(begin.to(cspan()));
     }
@@ -2183,49 +2193,39 @@ namespace jc::parser {
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
-        bool global = false;
+        logParse("[opt] SimplePath");
 
         const auto & begin = cspan();
 
-        std::vector<simple_path_seg_ptr> segments;
-
         bool first = true;
+        bool global = false;
+        std::vector<simple_path_seg_ptr> segments;
         while (!eof()) {
+            logParse("SimplePathSeg");
             const auto & segBegin = cspan();
-            switch (peek().kind) {
-                case TokenKind::Id: {
-                    auto ident = justParseId("`parseOptSimplePath`");
-                    segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
-                    break;
+
+            if (is(TokenKind::Id)) {
+                auto ident = justParseId("`parseOptSimplePath`");
+                segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
+            } else if (skipOpt(TokenKind::Super)) {
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, segBegin));
+            } else if (skipOpt(TokenKind::Party)) {
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, segBegin));
+            } else if (skipOpt(TokenKind::Self)) {
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, segBegin));
+            } else if (first) {
+                if (global) {
+                    suggestErrorMsg("Unexpected token `::`", begin);
                 }
-                case TokenKind::Super: {
-                    segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, cspan()));
-                    break;
+                return dt::None;
+            } else if (skipOpt(TokenKind::Path)) {
+                if (first) {
+                    first = false;
+                    global = true;
                 }
-                case TokenKind::Party: {
-                    segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, cspan()));
-                    break;
-                }
-                case TokenKind::Self: {
-                    segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, cspan()));
-                    break;
-                }
-                case TokenKind::Path: {
-                    if (first) {
-                        first = false;
-                        global = true;
-                    } else {
-                        continue;
-                    }
-                }
-                default: {
-                    if (first) {
-                        return dt::None;
-                    } else {
-                        break;
-                    }
-                }
+                continue;
             }
+            break;
         }
 
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
