@@ -30,6 +30,8 @@ namespace jc::resolve {
         void visit(ast::Struct & _struct) override;
 //        void visit(ast::Trait & trait) override;
 //        void visit(ast::TypeAlias & typeAlias) override;
+        void visit(ast::UseDecl & useDecl) override;
+        void resolveUseTree(const ast::use_tree_ptr & useTree);
 
         // Statements //
         void visit(ast::ExprStmt & exprStmt) override;

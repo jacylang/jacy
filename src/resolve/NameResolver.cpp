@@ -79,14 +79,29 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-    void NameResolver::visit(ast::VarStmt & varStmt) {
-        enterRib(Rib::Kind::Local);
-        declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
+    void NameResolver::visit(ast::UseDecl & useDecl) {
+        resolveUseTree(useDecl.useTree);
+    }
+
+    void NameResolver::resolveUseTree(const ast::use_tree_ptr & maybeUseTree) {
+        const auto & useTree = maybeUseTree.unwrap();
+        switch (useTree->kind) {
+            case ast::UseTree::Kind::Raw: {
+                const auto & raw = std::static_pointer_cast<ast::UseTreeRaw>(useTree);
+
+                break;
+            }
+        }
     }
 
     // Statements //
     void NameResolver::visit(ast::ExprStmt & exprStmt) {
         exprStmt.expr.accept(*this);
+    }
+
+    void NameResolver::visit(ast::VarStmt & varStmt) {
+        enterRib(Rib::Kind::Local);
+        declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
     void NameResolver::visit(ast::WhileStmt & whileStmt) {

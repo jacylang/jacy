@@ -12,8 +12,8 @@ namespace jc::ast {
     using use_tree_list = std::vector<use_tree_ptr>;
 
     struct UseTree : Node {
-        enum class Kind : uint8_t {
-            Raw = 0,
+        enum class Kind {
+            Raw,
             All,
             Specific,
             Rebind,
