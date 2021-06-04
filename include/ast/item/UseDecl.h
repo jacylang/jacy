@@ -12,14 +12,14 @@ namespace jc::ast {
     using use_tree_list = std::vector<use_tree_ptr>;
 
     struct UseTree : Node {
-        enum class Kind {
-            Raw,
+        enum class Kind : uint8_t {
+            Raw = 0,
             All,
             Specific,
             Rebind,
         } kind;
 
-        UseTree(Kind kind, const Span & span) : Node(span) {}
+        UseTree(Kind kind, const Span & span) : kind(kind), Node(span) {}
     };
 
     struct UseTreeRaw : UseTree {

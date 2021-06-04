@@ -192,7 +192,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("use ");
-
+        printUseTree(useDecl.useTree);
     }
 
     void AstPrinter::visit(const VarStmt & varDecl) {
@@ -688,16 +688,19 @@ namespace jc::ast {
                     printUseTree(specific);
                     log.raw(",\n");
                 }
+                break;
             }
             case UseTree::Kind::Rebind: {
                 log.raw(" as ");
                 const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
                 printSimplePath(rebind->path);
                 printId(rebind->as);
+                break;
             }
             case UseTree::Kind::Raw: {
                 const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
                 printSimplePath(raw->path);
+                break;
             }
         }
     }
@@ -724,10 +727,11 @@ namespace jc::ast {
                 }
                 case SimplePathSeg::Kind::Ident: {
                     printId(seg->ident.unwrap());
+                    break;
                 }
             }
             if (i < simplePath->segments.size() - 1) {
-                log.raw(", ");
+                log.raw("::");
             }
         }
     }
