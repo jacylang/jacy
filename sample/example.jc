@@ -1,7 +1,5 @@
+use std::io;
+
 func main {
-    path::to::struct {
-        123,
-        field: 1 + 1,
-        ...base,
-    }
+
 }

@@ -212,6 +212,25 @@ namespace jc::resolve {
         spreadExpr.expr.accept(*this);
     }
 
+    void NameResolver::visit(ast::StructExpr & structExpr) {
+        structExpr.path.accept(*this);
+
+        for (const auto & maybeField : structExpr.fields) {
+            const auto & field = maybeField.unwrap();
+            switch (field->kind) {
+                case ast::StructExprField::Kind::Raw: {
+                    field->expr->accept(*this);
+                    break;
+                }
+                case ast::StructExprField::Kind::Base: {
+                    field->expr->accept(*this);
+                    break;
+                }
+                default:;
+            }
+        }
+    }
+
     void NameResolver::visit(ast::Subscript & subscript) {
         subscript.lhs.accept(*this);
 

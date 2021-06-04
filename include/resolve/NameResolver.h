@@ -58,6 +58,7 @@ namespace jc::resolve {
         void visit(ast::QuestExpr & questExpr) override;
         void visit(ast::ReturnExpr & returnExpr) override;
         void visit(ast::SpreadExpr & spreadExpr) override;
+        void visit(ast::StructExpr & structExpr) override;
         void visit(ast::Subscript & subscript) override;
         void visit(ast::ThisExpr & thisExpr) override;
         void visit(ast::TupleExpr & tupleExpr) override;
