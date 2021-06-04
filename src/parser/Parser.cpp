@@ -208,7 +208,7 @@ namespace jc::parser {
     // Items //
     ///////////
     dt::Option<item_ptr> Parser::parseOptItem() {
-        logParse("Item");
+        logParse("[opt] Item");
 
         const auto & begin = cspan();
 
@@ -651,6 +651,8 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseUseDecl() {
+        logParse("UseDecl");
+
         const auto & begin = cspan();
 
         justSkip(TokenKind::Use, true, "`use`", "`parseUseDecl`");
@@ -661,6 +663,8 @@ namespace jc::parser {
     }
 
     use_tree_ptr Parser::parseUseTree() {
+        logParse("UseTree");
+
         const auto & begin = cspan();
         auto maybePath = parseOptSimplePath();
 
