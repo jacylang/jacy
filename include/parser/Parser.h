@@ -132,6 +132,7 @@ namespace jc::parser {
         // Checkers //
         bool eof() const;
         bool is(TokenKind kind) const;
+        bool is(const std::vector<TokenKind> & kinds) const;
         bool isNL();
         bool isSemis();
         bool isHardSemi();

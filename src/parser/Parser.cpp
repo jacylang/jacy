@@ -45,6 +45,15 @@ namespace jc::parser {
         return peek().is(kind);
     }
 
+    bool Parser::is(const std::vector<TokenKind> & kinds) const {
+        for (const auto & kind : kinds) {
+            if (peek().is(kind)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     bool Parser::isNL() {
         return peek().is(TokenKind::Nl);
     }
@@ -2195,14 +2204,20 @@ namespace jc::parser {
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
         logParse("[opt] SimplePath");
 
+        if (not is(TokenKind::Path) and not is())
+
         const auto & begin = cspan();
 
         bool first = true;
-        bool global = false;
+        bool global = skipOpt();
         std::vector<simple_path_seg_ptr> segments;
         while (!eof()) {
             logParse("SimplePathSeg");
             const auto & segBegin = cspan();
+
+            if (not lookup().is(TokenKind::Path)) {
+                break;
+            }
 
             if (is(TokenKind::Id)) {
                 auto ident = justParseId("`parseOptSimplePath`");
@@ -2213,19 +2228,7 @@ namespace jc::parser {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, segBegin));
             } else if (skipOpt(TokenKind::Self)) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, segBegin));
-            } else if (first) {
-                if (global) {
-                    suggestErrorMsg("Unexpected token `::`", begin);
-                }
-                return dt::None;
-            } else if (skipOpt(TokenKind::Path)) {
-                if (first) {
-                    first = false;
-                    global = true;
-                }
-                continue;
             }
-            break;
         }
 
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
