@@ -1443,7 +1443,7 @@ namespace jc::parser {
                 }
                 case TokenKind::Id: {
                     kind = ast::PathExprSeg::Kind::Ident;
-                    ident = justParseId("`parsePathExpr`");
+                    ident = justParseId("`parsePathExpr`", false);
                     break;
                 }
                 default: {
@@ -1589,7 +1589,7 @@ namespace jc::parser {
             skipNLs(true);
 
             if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseTupleOrParenExpr`");
+                auto identifier = justParseId("`parseTupleOrParenExpr`", true);
                 if (skipOpt(TokenKind::Colon)) {
                     name = identifier;
                     value = parseExpr("Expected value after `:` in tuple");
@@ -1684,7 +1684,7 @@ namespace jc::parser {
 
         // `field: expr` or `field` cases
         if (is(TokenKind::Id)) {
-            auto name = justParseId("`parseStructExprField`");
+            auto name = justParseId("`parseStructExprField`", true);
             if (skipOpt(TokenKind::Colon, true)) {
                 // `field: expr` case
                 auto expr = parseExpr("Expression expected after `:` in struct field");
@@ -2023,7 +2023,7 @@ namespace jc::parser {
             opt_expr_ptr value = dt::None;
 
             if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseNamedList`");
+                auto identifier = justParseId("`parseNamedList`", true);
                 if (skipOpt(TokenKind::Colon)) {
                     name = identifier;
                     value = parseExpr("Expected value after `:`");
@@ -2219,7 +2219,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             if (is(TokenKind::Id)) {
-                auto ident = justParseId("`parseOptSimplePath`");
+                auto ident = justParseId("`parseOptSimplePath`", false);
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
             } else if (skipOpt(TokenKind::Super)) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, segBegin));
@@ -2273,7 +2273,7 @@ namespace jc::parser {
 
             auto elBegin = cspan();
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto name = justParseId("`parseTupleFields`");
+                auto name = justParseId("`parseTupleFields`", true);
                 justSkip(TokenKind::Colon, true, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
@@ -2371,7 +2371,7 @@ namespace jc::parser {
             const auto & elBegin = cspan();
             opt_id_ptr name;
             if (is(TokenKind::Id)) {
-                name = justParseId("`parenType`");
+                name = justParseId("`parenType`", true);
                 skipNLs(true);
             }
 
@@ -2509,7 +2509,7 @@ namespace jc::parser {
                     makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
                 );
             } else if (is(TokenKind::Id)) {
-                auto name = justParseId("`parseOptTypeParams`");
+                auto name = justParseId("`parseOptTypeParams`", true);
                 opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
