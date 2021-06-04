@@ -109,6 +109,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
+        void resolveSimplePath(const ast::simple_path_ptr & simplePath);
 
         // Suggestions //
     private:

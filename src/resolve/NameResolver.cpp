@@ -84,14 +84,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::resolveUseTree(const ast::use_tree_ptr & maybeUseTree) {
-        const auto & useTree = maybeUseTree.unwrap();
-        switch (useTree->kind) {
-            case ast::UseTree::Kind::Raw: {
-                const auto & raw = std::static_pointer_cast<ast::UseTreeRaw>(useTree);
-
-                break;
-            }
-        }
+        // TODO: Everything goes harder
     }
 
     // Statements //
@@ -473,6 +466,9 @@ namespace jc::resolve {
     }
 
     // Resolution //
+    void NameResolver::resolveSimplePath(const ast::simple_path_ptr & simplePath) {
+        // TODO
+    }
 
     // Suggestions //
     void NameResolver::suggest(sugg::sugg_ptr suggestion) {
