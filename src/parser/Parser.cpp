@@ -1383,12 +1383,12 @@ namespace jc::parser {
         return dt::None;
     }
 
-    id_ptr Parser::justParseId(const std::string & panicIn) {
+    id_ptr Parser::justParseId(const std::string & panicIn, bool skipRightNLs) {
         logParse("[just] id");
 
         const auto & begin = cspan();
         auto token = peek();
-        justSkip(TokenKind::Id, false, "[identifier]", "`" + panicIn + "`");
+        justSkip(TokenKind::Id, skipRightNLs, "[identifier]", "`" + panicIn + "`");
         return makeNode<Identifier>(token, begin.to(cspan()));
     }
 
