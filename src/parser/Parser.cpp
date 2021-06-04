@@ -286,7 +286,10 @@ namespace jc::parser {
 
         item_list items;
         while (!eof()) {
-            skipSemi(true);
+            while (isSemis()) {
+                // Skip optional semis
+                advance();
+            }
             if (peek().is(stopToken)) {
                 break;
             }
@@ -1385,7 +1388,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         auto token = peek();
-        justSkip(TokenKind::Id, true, "[identifier]", "`" + panicIn + "`");
+        justSkip(TokenKind::Id, false, "[identifier]", "`" + panicIn + "`");
         return makeNode<Identifier>(token, begin.to(cspan()));
     }
 
