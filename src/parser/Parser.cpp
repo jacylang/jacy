@@ -2217,10 +2217,6 @@ namespace jc::parser {
             logParse("SimplePathSeg");
             const auto & segBegin = cspan();
 
-            if (not lookup().is(TokenKind::Path)) {
-                break;
-            }
-
             if (is(TokenKind::Id)) {
                 auto ident = justParseId("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
@@ -2231,6 +2227,12 @@ namespace jc::parser {
             } else if (skipOpt(TokenKind::Self)) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, segBegin));
             }
+
+            if (not is(TokenKind::Path)) {
+                break;
+            }
+
+            justSkip(TokenKind::Path, false, "`::`", "`parseOptSimplePath`");
         }
 
         if (segments.empty()) {
