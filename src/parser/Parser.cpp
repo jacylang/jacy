@@ -2204,12 +2204,14 @@ namespace jc::parser {
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
         logParse("[opt] SimplePath");
 
-        if (not is(TokenKind::Path) and not is())
+        if (not is({TokenKind::Path, TokenKind::Id, TokenKind::Super, TokenKind::Party, TokenKind::Self})) {
+            return dt::None;
+        }
 
         const auto & begin = cspan();
 
         bool first = true;
-        bool global = skipOpt();
+        bool global = skipOpt(TokenKind::Path);
         std::vector<simple_path_seg_ptr> segments;
         while (!eof()) {
             logParse("SimplePathSeg");
@@ -2229,6 +2231,13 @@ namespace jc::parser {
             } else if (skipOpt(TokenKind::Self)) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, segBegin));
             }
+        }
+
+        if (segments.empty()) {
+            if (global) {
+                suggestErrorMsg("Expected path after `::`", begin);
+            }
+            return dt::None;
         }
 
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
