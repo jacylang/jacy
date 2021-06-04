@@ -95,15 +95,13 @@ namespace jc::parser {
         return gotNL;
     }
 
-    void Parser::skipSemis(bool optional, bool useless) {
+    void Parser::skipSemi(bool optional, bool useless) {
         // TODO: Useless semi sugg
         if (!isSemis() and !optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span);
             return;
         }
-        while (isSemis()) {
-            advance();
-        }
+        advance();
     }
 
     bool Parser::skip(
@@ -288,7 +286,7 @@ namespace jc::parser {
 
         item_list items;
         while (!eof()) {
-            skipSemis(true);
+            skipSemi(true);
             if (peek().is(stopToken)) {
                 break;
             }
@@ -668,7 +666,7 @@ namespace jc::parser {
 
         auto useTree = parseUseTree();
 
-        skipSemis(false);
+        skipSemi(false);
 
         return makeNode<UseDecl>(std::move(useTree), begin.to(cspan()));
     }
@@ -808,7 +806,7 @@ namespace jc::parser {
                 }
 
                 auto exprStmt = makeStmt<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
-                skipSemis(false);
+                skipSemi(false);
                 return std::static_pointer_cast<Stmt>(exprStmt);
             }
         }

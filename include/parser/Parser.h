@@ -142,7 +142,7 @@ namespace jc::parser {
 
         // Skippers //
         bool skipNLs(bool optional = false);
-        void skipSemis(bool optional, bool useless = false);
+        void skipSemi(bool optional, bool useless = false);
         bool skip(
             TokenKind kind,
             bool skipLeftNLs,
