@@ -390,4 +390,9 @@ namespace jc::ast {
         }
     }
 
+    // Fragments //
+    void StubVisitor::visit(const Attribute & attr) {
+        attr.name.accept(*this);
+        visitEach(attr.params);
+    }
 }

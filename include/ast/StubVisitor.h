@@ -96,6 +96,9 @@ namespace jc::ast {
         virtual void visit(const Lifetime & lifetime) override;
         virtual void visit(const ConstParam & constParam) override;
 
+        // Fragments //
+        virtual void visit(const Attribute & attr) override;
+
     private:
         template<class T>
         void visitEach(const std::vector<T> & entities) {
