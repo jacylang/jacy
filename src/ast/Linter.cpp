@@ -545,13 +545,18 @@ namespace jc::ast {
         }
 
         // FIXME: Add check for one-element tuple type, etc.
-        for (const auto & el : els) {
-            if (el->name) {
-                el->name.unwrap().accept(*this);
+        lintEach(tupleType.elements);
+    }
+
+    void Linter::visit(const TupleTypeEl & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
+        }
+        if (el.type) {
+            if (el.name) {
+                log.raw(": ");
             }
-            if (el->type) {
-                el->type.unwrap().accept(*this);
-            }
+            el.type.unwrap().accept(*this);
         }
     }
 
