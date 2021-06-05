@@ -353,8 +353,6 @@ namespace jc::ast {
     void Linter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
         lintEach(invoke.args);
-
-        // TODO
     }
 
     void Linter::visit(const Lambda & lambdaExpr) {
@@ -483,23 +481,23 @@ namespace jc::ast {
 
     void Linter::visit(const StructExpr & structExpr) {
         structExpr.path.accept(*this);
+        lintEach(structExpr.fields);
+    }
 
-        for (const auto & maybeField : structExpr.fields) {
-            const auto & field = maybeField.unwrap("[ERROR] field in StructExpr on Linter stage");
-            switch (field->kind) {
-                case StructExprField::Kind::Raw: {
-                    field->name.unwrap().accept(*this);
-                    field->expr->accept(*this);
-                    break;
-                }
-                case StructExprField::Kind::Shortcut: {
-                    field->name.unwrap().accept(*this);
-                    break;
-                }
-                case StructExprField::Kind::Base: {
-                    field->expr->accept(*this);
-                    break;
-                }
+    void Linter::visit(const StructExprField & field) {
+        switch (field.kind) {
+            case StructExprField::Kind::Raw: {
+                field.name.unwrap().accept(*this);
+                field.expr->accept(*this);
+                break;
+            }
+            case StructExprField::Kind::Shortcut: {
+                field.name.unwrap().accept(*this);
+                break;
+            }
+            case StructExprField::Kind::Base: {
+                field.expr->accept(*this);
+                break;
             }
         }
     }
