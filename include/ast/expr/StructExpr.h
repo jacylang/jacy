@@ -29,6 +29,10 @@ namespace jc::ast {
 
         opt_id_ptr name;
         opt_expr_ptr expr;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct StructExpr : Expr {
