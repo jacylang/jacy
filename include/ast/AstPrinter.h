@@ -87,7 +87,7 @@ namespace jc::ast {
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
         void printIndent() const;
-        void printAttributes(const attr_list & attributes);
+        void printAttributes(const attr_list_ptr & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
         void printNamedList(NamedList & namedList);

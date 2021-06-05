@@ -584,7 +584,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printAttributes(const ast::attr_list & attributes) {
+    void AstPrinter::printAttributes(const ast::attr_list_ptr & attributes) {
         for (const auto & attr : attributes) {
             log.raw("@");
             printId(attr->name);

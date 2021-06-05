@@ -23,10 +23,10 @@ namespace jc::ast {
         Item(const Span & span, ItemKind kind)
             : kind(kind), Node(span) {}
 
-        attr_list attributes;
+        attr_list_ptr attributes;
         ItemKind kind;
 
-        void setAttributes(attr_list && attributes) {
+        void setAttributes(attr_list_ptr && attributes) {
             this->attributes = std::move(attributes);
         }
 

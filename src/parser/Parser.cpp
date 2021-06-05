@@ -219,7 +219,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        attr_list attributes = parseAttrList();
+        attr_list_ptr attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
         dt::Option<item_ptr> maybeItem;
 
@@ -541,7 +541,7 @@ namespace jc::parser {
             }
 
             const auto & begin = cspan();
-            attr_list attributes = parseAttrList();
+            attr_list_ptr attributes = parseAttrList();
             auto id = parseId("Expected field name", true, true);
 
             // TODO: Hint field name
@@ -1969,10 +1969,10 @@ namespace jc::parser {
         return {std::move(body), std::move(oneLineBody)};
     }
 
-    attr_list Parser::parseAttrList() {
+    attr_list_ptr Parser::parseAttrList() {
         logParse("AttrList");
 
-        attr_list attributes;
+        attr_list_ptr attributes;
         while (auto attr = parseAttr()) {
             attributes.push_back(attr.unwrap());
         }
