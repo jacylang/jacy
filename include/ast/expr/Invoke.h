@@ -5,11 +5,11 @@
 
 namespace jc::ast {
     struct Invoke : Expr {
-        Invoke(expr_ptr lhs, named_list_ptr args, const Span & span)
+        Invoke(expr_ptr lhs, named_list args, const Span & span)
             : lhs(std::move(lhs)), args(std::move(args)), Expr(span, ExprKind::Invoke) {}
 
         expr_ptr lhs;
-        named_list_ptr args;
+        named_list args;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

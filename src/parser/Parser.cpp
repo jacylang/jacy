@@ -1299,9 +1299,7 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
-                lhs = makeExpr<Invoke>(
-                    std::move(lhs), std::move(parseNamedList("function call")), begin.to(cspan())
-                );
+                lhs = makeExpr<Invoke>(std::move(lhs), std::move(parseNamedList("function call")), begin.to(cspan()));
 
                 begin = cspan();
             } else {
@@ -1627,11 +1625,7 @@ namespace jc::parser {
             );
         }
 
-        return makeExpr<TupleExpr>(
-            makeNode<NamedList>(
-                std::move(namedList), begin.to(cspan())
-            ), begin.to(cspan())
-        );
+        return makeExpr<TupleExpr>(std::move(namedList), begin.to(cspan()));
     }
 
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
@@ -1993,7 +1987,7 @@ namespace jc::parser {
         return makeNode<Attribute>(std::move(name), std::move(params), begin.to(cspan()));
     }
 
-    named_list_ptr Parser::parseNamedList(const std::string & construction) {
+    named_list Parser::parseNamedList(const std::string & construction) {
         logParse("NamedList:" + construction);
 
         const auto & begin = cspan();
@@ -2061,7 +2055,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected closing `)` in " + construction, cspan())
         );
 
-        return makeNode<NamedList>(std::move(namedList), begin.to(cspan()));
+        return std::move(namedList);
     }
 
     parser::token_list Parser::parseModifiers() {
