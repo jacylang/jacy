@@ -28,6 +28,7 @@ namespace jc::ast {
 
     private:
         void visit(const ErrorNode & errorNode) override;
+        void visit(const File & file) override;
 
         void visit(const FileModule & fileModule) override;
         void visit(const DirModule & dirModule) override;
@@ -99,6 +100,13 @@ namespace jc::ast {
         static void lintId(const id_ptr & id);
         void lintUseTree(const use_tree_ptr & useTree);
         void lintSimplePath(const simple_path_ptr & simplePath);
+
+        template<class T>
+        void lintEach(const std::vector<T> & entities) {
+            for (const auto & entity : entities) {
+                entity.accept(*this);
+            }
+        }
 
         // Context //
     private:

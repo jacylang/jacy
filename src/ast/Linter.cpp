@@ -13,6 +13,10 @@ namespace jc::ast {
         common::Logger::devPanic("Unexpected [ERROR] node on Linter stage");
     }
 
+    void Linter::visit(const File & file) {
+        lintEach(file.items);
+    }
+
     void Linter::visit(const FileModule & fileModule) {
         for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
