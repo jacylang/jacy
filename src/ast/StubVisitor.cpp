@@ -1,219 +1,219 @@
 #include "ast/StubVisitor.h"
 
 namespace jc::ast {
-    void StubVisitor::visit(ErrorNode & errorNode) {
+    void StubVisitor::visit(const ErrorNode & errorNode) {
         common::Logger::devPanic("[ERROR] node in", owner, "at", errorNode.span.toString());
     }
 
-    void StubVisitor::visit(FileModule & fileModule) {
+    void StubVisitor::visit(const FileModule & fileModule) {
         visit("fileModule");
     }
 
-    void StubVisitor::visit(DirModule & dirModule) {
+    void StubVisitor::visit(const DirModule & dirModule) {
         visit("dirModule");
     }
 
     // Statements //
-    void StubVisitor::visit(Enum & enumDecl) {
+    void StubVisitor::visit(const Enum & enumDecl) {
         visit("enumDecl");
     }
 
-    void StubVisitor::visit(ExprStmt & exprStmt) {
+    void StubVisitor::visit(const ExprStmt & exprStmt) {
         visit("exprStmt");
     }
 
-    void StubVisitor::visit(ForStmt & forStmt) {
+    void StubVisitor::visit(const ForStmt & forStmt) {
         visit("forStmt");
     }
 
-    void StubVisitor::visit(ItemStmt & itemStmt) {
+    void StubVisitor::visit(const ItemStmt & itemStmt) {
         visit("itemStmt");
     }
 
-    void StubVisitor::visit(Func & func) {
+    void StubVisitor::visit(const Func & func) {
         visit("func");
     }
 
-    void StubVisitor::visit(Impl & impl) {
+    void StubVisitor::visit(const Impl & impl) {
         visit("impl");
     }
 
-    void StubVisitor::visit(Mod & mod) {
+    void StubVisitor::visit(const Mod & mod) {
         visit("mod");
     }
 
-    void StubVisitor::visit(Struct & _struct) {
+    void StubVisitor::visit(const Struct & _struct) {
         visit("_struct");
     }
 
-    void StubVisitor::visit(Trait & trait) {
+    void StubVisitor::visit(const Trait & trait) {
         visit("trait");
     }
 
-    void StubVisitor::visit(TypeAlias & typeAlias) {
+    void StubVisitor::visit(const TypeAlias & typeAlias) {
         visit("typeAlias");
     }
 
-    void StubVisitor::visit(UseDecl & useDecl) {
+    void StubVisitor::visit(const UseDecl & useDecl) {
         visit("useDecl");
     }
 
-    void StubVisitor::visit(VarStmt & varDecl) {
+    void StubVisitor::visit(const VarStmt & varDecl) {
         visit("varDecl");
     }
 
-    void StubVisitor::visit(WhileStmt & whileStmt) {
+    void StubVisitor::visit(const WhileStmt & whileStmt) {
         visit("whileStmt");
     }
 
     // Expressions //
-    void StubVisitor::visit(Assignment & assign) {
+    void StubVisitor::visit(const Assignment & assign) {
         visit("assign");
     }
 
-    void StubVisitor::visit(Block & block) {
+    void StubVisitor::visit(const Block & block) {
         visit("block");
     }
 
-    void StubVisitor::visit(BorrowExpr & borrowExpr) {
+    void StubVisitor::visit(const BorrowExpr & borrowExpr) {
         visit("borrowExpr");
     }
 
-    void StubVisitor::visit(BreakExpr & breakExpr) {
+    void StubVisitor::visit(const BreakExpr & breakExpr) {
         visit("breakExpr");
     }
 
-    void StubVisitor::visit(ContinueExpr & continueExpr) {
+    void StubVisitor::visit(const ContinueExpr & continueExpr) {
         visit("continueExpr");
     }
 
-    void StubVisitor::visit(DerefExpr & derefExpr) {
+    void StubVisitor::visit(const DerefExpr & derefExpr) {
         visit("derefExpr");
     }
 
-    void StubVisitor::visit(IfExpr & ifExpr) {
+    void StubVisitor::visit(const IfExpr & ifExpr) {
         visit("ifExpr");
     }
 
-    void StubVisitor::visit(Infix & infix) {
+    void StubVisitor::visit(const Infix & infix) {
         visit("infix");
     }
 
-    void StubVisitor::visit(Invoke & invoke) {
+    void StubVisitor::visit(const Invoke & invoke) {
         visit("invoke");
     }
 
-    void StubVisitor::visit(Lambda & lambdaExpr) {
+    void StubVisitor::visit(const Lambda & lambdaExpr) {
         visit("lambdaExpr");
     }
 
-    void StubVisitor::visit(ListExpr & listExpr) {
+    void StubVisitor::visit(const ListExpr & listExpr) {
         visit("listExpr");
     }
 
-    void StubVisitor::visit(LiteralConstant & literalConstant) {
+    void StubVisitor::visit(const LiteralConstant & literalConstant) {
         visit("literalConstant");
     }
 
-    void StubVisitor::visit(LoopExpr & loopExpr) {
+    void StubVisitor::visit(const LoopExpr & loopExpr) {
         visit("loopExpr");
     }
 
-    void StubVisitor::visit(MemberAccess & memberAccess) {
+    void StubVisitor::visit(const MemberAccess & memberAccess) {
         visit("memberAccess");
     }
 
-    void StubVisitor::visit(ParenExpr & parenExpr) {
+    void StubVisitor::visit(const ParenExpr & parenExpr) {
         visit("parenExpr");
     }
 
-    void StubVisitor::visit(PathExpr & pathExpr) {
+    void StubVisitor::visit(const PathExpr & pathExpr) {
         visit("pathExpr");
     }
 
-    void StubVisitor::visit(Prefix & prefix) {
+    void StubVisitor::visit(const Prefix & prefix) {
         visit("prefix");
     }
 
-    void StubVisitor::visit(QuestExpr & questExpr) {
+    void StubVisitor::visit(const QuestExpr & questExpr) {
         visit("questExpr");
     }
 
-    void StubVisitor::visit(ReturnExpr & returnExpr) {
+    void StubVisitor::visit(const ReturnExpr & returnExpr) {
         visit("returnExpr");
     }
 
-    void StubVisitor::visit(SpreadExpr & spreadExpr) {
+    void StubVisitor::visit(const SpreadExpr & spreadExpr) {
         visit("spreadExpr");
     }
 
-    void StubVisitor::visit(StructExpr & structExpr) {
+    void StubVisitor::visit(const StructExpr & structExpr) {
         visit("structExpr");
     }
 
-    void StubVisitor::visit(Subscript & subscript) {
+    void StubVisitor::visit(const Subscript & subscript) {
         visit("subscript");
     }
 
-    void StubVisitor::visit(ThisExpr & thisExpr) {
+    void StubVisitor::visit(const ThisExpr & thisExpr) {
         visit("thisExpr");
     }
 
-    void StubVisitor::visit(TupleExpr & tupleExpr) {
+    void StubVisitor::visit(const TupleExpr & tupleExpr) {
         visit("tupleExpr");
     }
 
-    void StubVisitor::visit(UnitExpr & unitExpr) {
+    void StubVisitor::visit(const UnitExpr & unitExpr) {
         visit("unitExpr");
     }
 
-    void StubVisitor::visit(WhenExpr & whenExpr) {
+    void StubVisitor::visit(const WhenExpr & whenExpr) {
         visit("whenExpr");
     }
 
     // Types //
-    void StubVisitor::visit(ParenType & parenType) {
+    void StubVisitor::visit(const ParenType & parenType) {
         visit("parenType");
     }
 
-    void StubVisitor::visit(TupleType & tupleType) {
+    void StubVisitor::visit(const TupleType & tupleType) {
         visit("tupleType");
     }
 
-    void StubVisitor::visit(FuncType & funcType) {
+    void StubVisitor::visit(const FuncType & funcType) {
         visit("funcType");
     }
 
-    void StubVisitor::visit(SliceType & listType) {
+    void StubVisitor::visit(const SliceType & listType) {
         visit("listType");
     }
 
-    void StubVisitor::visit(ArrayType & arrayType) {
+    void StubVisitor::visit(const ArrayType & arrayType) {
         visit("arrayType");
     }
 
-    void StubVisitor::visit(TypePath & typePath) {
+    void StubVisitor::visit(const TypePath & typePath) {
         visit("typePath");
     }
 
-    void StubVisitor::visit(UnitType & unitType) {
+    void StubVisitor::visit(const UnitType & unitType) {
         visit("unitType");
     }
 
     // Type params //
-    void StubVisitor::visit(GenericType & genericType) {
+    void StubVisitor::visit(const GenericType & genericType) {
         visit("genericType");
     }
 
-    void StubVisitor::visit(Lifetime & lifetime) {
+    void StubVisitor::visit(const Lifetime & lifetime) {
         visit("lifetime");
     }
 
-    void StubVisitor::visit(ConstParam & constParam) {
+    void StubVisitor::visit(const ConstParam & constParam) {
         visit("constParam");
     }
 
-    void StubVisitor::visit(const std::string & construction) {
+    void StubVisitor::visit(const std::const string & construction) {
         if (mode == StubVisitorMode::NotImplemented) {
             Logger::devPanic(owner + " visit:" + construction + " not implemented");
         }
