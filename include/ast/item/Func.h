@@ -5,10 +5,33 @@
 #include "ast/fragments/Identifier.h"
 #include "ast/fragments/TypeParams.h"
 #include "ast/fragments/Attribute.h"
-#include "ast/fragments/FuncParam.h"
 #include "ast/expr/Block.h"
 
 namespace jc::ast {
+    struct FuncParam;
+    using func_param_ptr = std::shared_ptr<FuncParam>;
+    using func_param_list = std::vector<func_param_ptr>;
+
+    struct FuncParam : Node {
+        FuncParam(
+            id_ptr name,
+            type_ptr type,
+            opt_expr_ptr defaultValue,
+            const Span & span
+        ) : name(std::move(name)),
+            type(std::move(type)),
+            defaultValue(std::move(defaultValue)),
+            Node(span) {}
+
+        id_ptr name;
+        type_ptr type;
+        opt_expr_ptr defaultValue;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
     struct Func : Item {
         Func(
             parser::token_list modifiers,
