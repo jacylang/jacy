@@ -620,6 +620,15 @@ namespace jc::ast {
 
     void Linter::visit(const Identifier & id) {}
 
+    void Linter::visit(const NamedElement & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
+        }
+        if (el.value) {
+            el.value.unwrap().accept(*this);
+        }
+    }
+
     // Helpers //
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();

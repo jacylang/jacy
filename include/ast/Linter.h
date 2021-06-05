@@ -105,6 +105,7 @@ namespace jc::ast {
         // Fragments //
         void visit(const Attribute & attr) override;
         void visit(const Identifier & id) override;
+        void visit(const NamedElement & el) override;
 
         // Helpers //
     private:
