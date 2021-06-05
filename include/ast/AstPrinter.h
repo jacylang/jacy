@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "ast/ConstVisitor.h"
+#include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
 #include "common/Logger.h"
 
@@ -14,7 +14,7 @@ namespace jc::ast {
         Names, // Print tree after name resolution
     };
 
-    class AstPrinter : public ConstVisitor {
+    class AstPrinter : public BaseVisitor {
     public:
         AstPrinter();
 

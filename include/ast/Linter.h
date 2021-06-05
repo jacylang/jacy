@@ -2,7 +2,7 @@
 #define JACY_AST_LINTER_H
 
 #include "common/Logger.h"
-#include "ast/ConstVisitor.h"
+#include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
 #include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
@@ -20,7 +20,7 @@ namespace jc::ast {
         Struct,
     };
 
-    class Linter : public ConstVisitor {
+    class Linter : public BaseVisitor {
     public:
         Linter();
 
