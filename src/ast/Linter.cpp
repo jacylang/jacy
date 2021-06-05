@@ -618,6 +618,8 @@ namespace jc::ast {
         lintEach(attr.params);
     }
 
+    void Linter::visit(const Identifier & id) {}
+
     // Helpers //
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
