@@ -27,7 +27,7 @@ namespace jc::ast {
         EnumEntry(EnumEntryKind kind, id_ptr name, expr_ptr discriminant, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(discriminant)), Node(span) {}
 
-        EnumEntry(EnumEntryKind kind, id_ptr name, named_list_ptr tupleFields, const Span & span)
+        EnumEntry(EnumEntryKind kind, id_ptr name, named_list tupleFields, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(tupleFields)), Node(span) {}
 
         EnumEntry(EnumEntryKind kind, id_ptr name, field_list fields, const Span & span)
@@ -35,7 +35,11 @@ namespace jc::ast {
 
         EnumEntryKind kind;
         id_ptr name;
-        std::variant<std::monostate, expr_ptr, named_list_ptr, field_list> body;
+        std::variant<std::monostate, expr_ptr, named_list, field_list> body;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct Enum : Item {
@@ -44,7 +48,6 @@ namespace jc::ast {
 
         id_ptr name;
         enum_entry_list entries;
-
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
