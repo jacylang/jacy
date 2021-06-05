@@ -117,7 +117,7 @@ namespace jc::ast {
         impl.forType.accept(*this);
 
         pushContext(LinterContext::Struct);
-        lintMembers(impl.members);
+        lintEach(impl.members);
         popContext();
     }
 
@@ -125,7 +125,7 @@ namespace jc::ast {
         // TODO: lint attributes
 
         mod.name.accept(*this);
-        lintMembers(mod.items);
+        lintEach(mod.items);
     }
 
     void Linter::visit(const Struct & _struct) {
@@ -156,7 +156,7 @@ namespace jc::ast {
         }
 
         pushContext(LinterContext::Struct);
-        lintMembers(trait.members);
+        lintEach(trait.members);
         popContext();
     }
 
@@ -594,12 +594,6 @@ namespace jc::ast {
     void Linter::lintTypeParams(const type_param_list & typeParams) {
         for (const auto & typeParam : typeParams) {
             typeParam->accept(*this);
-        }
-    }
-
-    void Linter::lintMembers(const item_list & members) {
-        for (const auto & member : members) {
-            member->accept(*this);
         }
     }
 
