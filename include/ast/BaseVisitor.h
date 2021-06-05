@@ -41,6 +41,7 @@ namespace jc::ast {
     struct Infix;
     struct Invoke;
     struct Lambda;
+    struct LambdaParam;
     struct ListExpr;
     struct LiteralConstant;
     struct LoopExpr;
@@ -125,6 +126,7 @@ namespace jc::ast {
         virtual void visit(const Infix&) = 0;
         virtual void visit(const Invoke&) = 0;
         virtual void visit(const Lambda&) = 0;
+        virtual void visit(const LambdaParam&) = 0;
         virtual void visit(const ListExpr&) = 0;
         virtual void visit(const LiteralConstant&) = 0;
         virtual void visit(const LoopExpr&) = 0;
