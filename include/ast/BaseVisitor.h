@@ -13,6 +13,7 @@ namespace jc::ast {
     struct Enum;
     struct EnumEntry;
     struct Func;
+    struct FuncParam;
     struct Impl;
     struct Mod;
     struct Struct;
@@ -82,7 +83,6 @@ namespace jc::ast {
     // Fragments //
     struct Attribute;
     struct Field;
-    struct FuncParam;
     struct Identifier;
     struct NamedElement;
     struct SimplePath;
@@ -102,6 +102,7 @@ namespace jc::ast {
         virtual void visit(const Enum&) = 0;
         virtual void visit(const EnumEntry&) = 0;
         virtual void visit(const Func&) = 0;
+        virtual void visit(const FuncParam&) = 0;
         virtual void visit(const Impl&) = 0;
         virtual void visit(const Mod&) = 0;
         virtual void visit(const Struct&) = 0;
@@ -171,7 +172,6 @@ namespace jc::ast {
         // Fragments //
         virtual void visit(const Attribute&) = 0;
         virtual void visit(const Field&) = 0;
-        virtual void visit(const FuncParam&) = 0;
         virtual void visit(const Identifier&) = 0;
         virtual void visit(const NamedElement&) = 0;
         virtual void visit(const SimplePath&) = 0;
