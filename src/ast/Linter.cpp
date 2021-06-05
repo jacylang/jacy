@@ -465,6 +465,29 @@ namespace jc::ast {
         }
     }
 
+    void Linter::visit(const PathExprSeg & seg) {
+        switch (seg.kind) {
+            case PathExprSeg::Kind::Super:
+            case PathExprSeg::Kind::Self:
+            case PathExprSeg::Kind::Party: {
+                if (seg.ident) {
+                    log.devPanic("`ident` exists in non-Ident `PathExprSeg`");
+                }
+                break;
+            }
+            case PathExprSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default: {
+                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
+            }
+        }
+        if (seg.typeParams) {
+            lintEach(seg.typeParams.unwrap());
+        }
+    }
+
     void Linter::visit(const Prefix & prefix) {
         switch (prefix.op.kind) {
             case parser::TokenKind::Not:
@@ -659,7 +682,7 @@ namespace jc::ast {
             case SimplePathSeg::Kind::Self:
             case SimplePathSeg::Kind::Party: {
                 if (seg.ident) {
-                    common::Logger::devPanic("`ident` exists in non-Ident `SimplePathSeg`");
+                    log.devPanic("`ident` exists in non-Ident `SimplePathSeg`");
                 }
                 break;
             }
