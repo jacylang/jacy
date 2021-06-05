@@ -610,6 +610,10 @@ namespace jc::ast {
         log.nl();
     }
 
+    void AstPrinter::visit(const Identifier & id) {
+        log.raw(id.getValue());
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);
@@ -695,14 +699,6 @@ namespace jc::ast {
         }
         decIndent();
         log.raw("}").nl();
-    }
-
-    void AstPrinter::printId(const id_ptr & id) {
-        if (id.isErr()) {
-            log.raw("[ERROR]");
-        } else {
-            log.raw(id.unwrap()->getValue());
-        }
     }
 
     void AstPrinter::printSimplePath(const simple_path_ptr & simplePath) {

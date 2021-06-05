@@ -96,6 +96,7 @@ namespace jc::ast {
 
         // Fragments //
         void visit(const Attribute & attr) override;
+        void visit(const Identifier & id) override;
 
     private:
         common::Logger log{"ast_printer"};
@@ -109,7 +110,6 @@ namespace jc::ast {
         void print(const type_list & typeList);
         void print(TypePathSeg & idType);
         void printMembers(const item_list & members);
-        void printId(const id_ptr & maybeId);
         void printSimplePath(const simple_path_ptr & simplePath);
         void printStructExprFields(const struct_expr_field_list & fields);
 
