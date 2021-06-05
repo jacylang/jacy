@@ -97,8 +97,6 @@ namespace jc::ast {
         virtual void visit(const ConstParam & constParam) override;
 
     private:
-        virtual void visit(const std::string & construction);
-
         template<class T>
         void visitEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {

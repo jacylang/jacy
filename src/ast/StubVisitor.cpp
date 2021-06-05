@@ -390,15 +390,4 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const std::string & construction) {
-        if (mode == StubVisitorMode::NotImplemented) {
-            Logger::devPanic(owner + " visit:" + construction + " not implemented");
-        }
-        if (mode == StubVisitorMode::ImplementPromise) {
-            Logger::devDebug(owner + " visit:" + construction + " is not still implemented");
-        }
-        if (mode == StubVisitorMode::Panic) {
-            Logger::devPanic(owner + " visit:" + construction + " must never be called");
-        }
-    }
 }
