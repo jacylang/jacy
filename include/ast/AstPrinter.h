@@ -145,9 +145,11 @@ namespace jc::ast {
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
-            log.raw(" {").nl();
+            log.raw(" {");
             if (chop) {
                 log.nl();
+            } else {
+                log.raw(" ");
             }
             incIndent();
             for (size_t i = 0; i < elements.size(); i++) {
@@ -162,7 +164,10 @@ namespace jc::ast {
             decIndent();
             if (chop) {
                 log.nl();
+            } else {
+                log.raw(" ");
             }
+            printIndent();
             log.raw("}");
         }
 
