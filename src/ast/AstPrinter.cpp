@@ -64,7 +64,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Struct: {
-                printFieldList(std::get<struct_field_list>(enumEntry.body));
+                printBodyLike(std::get<struct_field_list>(enumEntry.body));
                 break;
             }
         }
@@ -160,6 +160,12 @@ namespace jc::ast {
         log.raw(" ");
 
         printDelim(_struct.fields, "{", "}", ",\n");
+    }
+
+    void AstPrinter::visit(const StructField & field) {
+        field.name.accept(*this);
+        log.raw(": ");
+        field.type.accept(*this);
     }
 
     void AstPrinter::visit(const Trait & trait) {
@@ -604,12 +610,6 @@ namespace jc::ast {
         log.nl();
     }
 
-    void AstPrinter::visit(const StructField & field) {
-        field.name.accept(*this);
-        log.raw(": ");
-        field.type.accept(*this);
-    }
-
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);
@@ -776,30 +776,6 @@ namespace jc::ast {
         }
         decIndent();
         printIndent();
-        log.raw("}");
-    }
-
-    void AstPrinter::printFieldList(const struct_field_list & fields) {
-        log.raw(" {");
-        if (fields.size() > 1) {
-            log.nl();
-            incIndent();
-        }
-        for (size_t i = 0; i < fields.size(); i++) {
-            printIndent();
-            const auto & field = fields.at(i);
-            printId(field->name);
-            log.raw(": ");
-            field->type.accept(*this);
-
-            if (i < fields.size() - 1) {
-                log.raw(", ");
-            }
-        }
-        if (fields.size() > 1) {
-            decIndent();
-            log.nl();
-        }
         log.raw("}");
     }
 

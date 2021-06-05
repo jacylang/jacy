@@ -6,7 +6,7 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
-#include "ast/fragments/StructField.h"
+#include "ast/item/Struct.h"
 
 namespace jc::ast {
     struct EnumEntry;
