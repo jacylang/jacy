@@ -100,6 +100,33 @@ namespace jc::ast {
         void printStructExprFields(const struct_expr_field_list & fields);
         void printFieldList(const field_list & fields);
 
+        // Helpers //
+    private:
+        template<class T>
+        void printDelim(
+            const std::vector<T> & entities,
+            const std::string & begin = "",
+            const std::string & end = "",
+            const std::string & delim = ",",
+            bool chop = false // Print each element on new line if there's more than 1
+        ) {
+            if (not begin.empty()) {
+                log.raw(begin);
+            }
+            if (chop and entities.size() > 1) {
+                log.nl();
+            }
+            for (size_t i = 0; i < entities.size(); i++) {
+                entities.at(i).accept(*this);
+                if (i < entities.size() - 1) {
+                    log.raw(delim + " ");
+                }
+            }
+            if (chop and not end.empty()) {
+                log.raw(end);
+            }
+        }
+
         const std::string indentChar = "  ";
         void incIndent();
         void decIndent();
