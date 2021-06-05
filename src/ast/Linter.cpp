@@ -580,8 +580,8 @@ namespace jc::ast {
     }
 
     // Linters //
-    void Linter::lintNamedList(const named_list_ptr & namedList) {
-        for (const auto & el : namedList->elements) {
+    void Linter::lintNamedList(const named_list & namedList) {
+        for (const auto & el : namedList) {
             if (el->name) {
                 lintId(el->name.unwrap());
             }
