@@ -263,23 +263,24 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Prefix & prefix) {
-
+        prefix.rhs.accept(*this);
     }
 
     void StubVisitor::visit(const QuestExpr & questExpr) {
-        visit("questExpr");
+        questExpr.expr.accept(*this);
     }
 
     void StubVisitor::visit(const ReturnExpr & returnExpr) {
-        visit("returnExpr");
+        returnExpr.expr->accept(*this);
     }
 
     void StubVisitor::visit(const SpreadExpr & spreadExpr) {
-        visit("spreadExpr");
+        spreadExpr.expr.accept(*this);
     }
 
     void StubVisitor::visit(const StructExpr & structExpr) {
-        visit("structExpr");
+        structExpr.path.accept(*this);
+        visitEach(structExpr.fields);
     }
 
     void StubVisitor::visit(const Subscript & subscript) {
