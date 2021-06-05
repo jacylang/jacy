@@ -29,10 +29,10 @@ namespace jc::ast {
 
     struct GenericType : TypeParam {
         GenericType(id_ptr name, opt_type_ptr type, const Span & span)
-            : name(std::move(name)), type(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
+            : name(std::move(name)), boundType(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
 
         id_ptr name;
-        opt_type_ptr type;
+        opt_type_ptr boundType;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

@@ -542,9 +542,9 @@ namespace jc::ast {
     // Generics //
     void AstPrinter::visit(const GenericType & genericType) {
         genericType.name.accept(*this);
-        if (genericType.type) {
+        if (genericType.boundType) {
             log.raw(": ");
-            genericType.type.unwrap().accept(*this);
+            genericType.boundType.unwrap().accept(*this);
         }
     }
 
