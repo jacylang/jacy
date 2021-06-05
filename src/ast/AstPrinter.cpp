@@ -634,6 +634,27 @@ namespace jc::ast {
         printDelim(path.segments, "", "", "::");
     }
 
+    void AstPrinter::visit(const SimplePathSeg & seg) {
+        switch (seg.kind) {
+            case SimplePathSeg::Kind::Super: {
+                log.raw("super");
+                break;
+            }
+            case SimplePathSeg::Kind::Self: {
+                log.raw("self");
+                break;
+            }
+            case SimplePathSeg::Kind::Party: {
+                log.raw("party");
+                break;
+            }
+            case SimplePathSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+        }
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);

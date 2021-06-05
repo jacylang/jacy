@@ -99,6 +99,7 @@ namespace jc::ast {
         void visit(const Identifier & id) override;
         void visit(const NamedElement & el) override;
         void visit(const SimplePath & path) override;
+        void visit(const SimplePathSeg & seg) override;
 
     private:
         common::Logger log{"ast_printer"};
