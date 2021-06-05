@@ -170,7 +170,29 @@ namespace jc::ast {
     void Linter::visit(const UseDecl & useDecl) {
         // TODO: lint attributes
 
-        lintUseTree(useDecl.useTree);
+        useDecl.useTree.accept(*this);
+    }
+
+    void Linter::visit(const UseTreeRaw & useTree) {
+        useTree.path->accept(*this);
+    }
+
+    void Linter::visit(const UseTreeSpecific & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
+        lintEach(useTree.specifics);
+    }
+
+    void Linter::visit(const UseTreeRebind & useTree) {
+        useTree.path->accept(*this);
+        useTree.as.accept(*this);
+    }
+
+    void Linter::visit(const UseTreeAll & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
     }
 
     void Linter::visit(const VarStmt & varDecl) {

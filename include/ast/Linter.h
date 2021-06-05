@@ -42,6 +42,10 @@ namespace jc::ast {
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
         void visit(const UseDecl & useDecl) override;
+        void visit(const UseTreeRaw & useTree) override;
+        void visit(const UseTreeSpecific & useTree) override;
+        void visit(const UseTreeRebind & useTree) override;
+        void visit(const UseTreeAll & useTree) override;
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
