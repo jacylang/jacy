@@ -10,7 +10,7 @@ namespace jc::ast {
         Struct(
             id_ptr name,
             opt_type_params typeParams,
-            field_list_ptr fields,
+            field_list fields,
             const Span & span
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
@@ -19,7 +19,7 @@ namespace jc::ast {
 
         id_ptr name;
         opt_type_params typeParams;
-        field_list_ptr fields;
+        field_list fields;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

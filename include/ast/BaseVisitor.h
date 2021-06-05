@@ -69,6 +69,8 @@ namespace jc::ast {
     // Fragments //
     struct Attribute;
     struct AttrList;
+    struct Field;
+    struct FieldList;
 
     class BaseVisitor {
     public:
