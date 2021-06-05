@@ -60,6 +60,7 @@ namespace jc::ast {
     struct SliceType;
     struct ArrayType;
     struct TypePath;
+    struct TypePathSegment;
     struct UnitType;
 
     // Type params //
@@ -138,6 +139,7 @@ namespace jc::ast {
         virtual void visit(const SliceType&) = 0;
         virtual void visit(const ArrayType&) = 0;
         virtual void visit(const TypePath&) = 0;
+        virtual void visit(const TypePathSegment&) = 0;
         virtual void visit(const UnitType&) = 0;
 
         // Type params //
