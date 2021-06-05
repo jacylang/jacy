@@ -81,10 +81,10 @@ namespace jc::ast {
             lintTypeParams(func.typeParams.unwrap());
         }
 
-        lintId(func.name);
+        func.name.accept(*this);
 
         for (const auto & param : func.params) {
-            lintId(param->name);
+            param->name.accept(*this);
             param->type.accept(*this);
             if (param->defaultValue) {
                 param->defaultValue.unwrap().accept(*this);
@@ -124,14 +124,14 @@ namespace jc::ast {
     void Linter::visit(const Mod & mod) {
         // TODO: lint attributes
 
-        lintId(mod.name);
+        mod.name.accept(*this);
         lintMembers(mod.items);
     }
 
     void Linter::visit(const Struct & _struct) {
         // TODO: lint attributes
 
-        lintId(_struct.name);
+        _struct.name.accept(*this);
 
         if (_struct.typeParams) {
             lintTypeParams(_struct.typeParams.unwrap());
@@ -145,7 +145,7 @@ namespace jc::ast {
     void Linter::visit(const Trait & trait) {
         // TODO: lint attributes
 
-        lintId(trait.name);
+        trait.name.accept(*this);
 
         if (trait.typeParams) {
             lintTypeParams(trait.typeParams.unwrap());
@@ -163,7 +163,7 @@ namespace jc::ast {
     void Linter::visit(const TypeAlias & typeAlias) {
         // TODO: lint attributes
 
-        lintId(typeAlias.name);
+        typeAlias.name.accept(*this);
         typeAlias.type.accept(*this);
     }
 
@@ -174,7 +174,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const VarStmt & varDecl) {
-        lintId(varDecl.name);
+        varDecl.name.accept(*this);
 
         varDecl.type->accept(*this);
 
@@ -332,7 +332,7 @@ namespace jc::ast {
 
     void Linter::visit(const Lambda & lambdaExpr) {
         for (const auto & param : lambdaExpr.params) {
-            lintId(param->name);
+            param->name.accept(*this);
             if (param->type) {
                 param->type.unwrap().accept(*this);
             }
@@ -365,7 +365,7 @@ namespace jc::ast {
 
     void Linter::visit(const MemberAccess & memberAccess) {
         memberAccess.lhs.accept(*this);
-        lintId(memberAccess.field);
+        memberAccess.field.accept(*this);
     }
 
     void Linter::visit(const ParenExpr & parenExpr) {
@@ -405,7 +405,7 @@ namespace jc::ast {
                     break;
                 }
                 case PathExprSeg::Kind::Ident: {
-                    lintId(seg->ident.unwrap());
+                    seg->ident.unwrap().accept(*this);
                     break;
                 }
                 default: {
@@ -459,12 +459,12 @@ namespace jc::ast {
             const auto & field = maybeField.unwrap("[ERROR] field in StructExpr on Linter stage");
             switch (field->kind) {
                 case StructExprField::Kind::Raw: {
-                    lintId(field->name.unwrap());
+                    field->name.unwrap().accept(*this);
                     field->expr->accept(*this);
                     break;
                 }
                 case StructExprField::Kind::Shortcut: {
-                    lintId(field->name.unwrap());
+                    field->name.unwrap().accept(*this);
                     break;
                 }
                 case StructExprField::Kind::Base: {
@@ -522,7 +522,7 @@ namespace jc::ast {
         // FIXME: Add check for one-element tuple type, etc.
         for (const auto & el : els) {
             if (el->name) {
-                lintId(el->name.unwrap());
+                el->name.unwrap().accept(*this);
             }
             if (el->type) {
                 el->type.unwrap().accept(*this);
@@ -548,7 +548,7 @@ namespace jc::ast {
 
     void Linter::visit(const TypePath & typePath) {
         for (const auto & seg : typePath.segments) {
-            lintId(seg->name);
+            seg->name.accept(*this);
             if (seg->typeParams) {
                 lintTypeParams(seg->typeParams.unwrap());
             }
@@ -561,18 +561,18 @@ namespace jc::ast {
 
     // Type params //
     void Linter::visit(const GenericType & genericType) {
-        lintId(genericType.name);
+        genericType.name.accept(*this);
         if (genericType.type) {
             genericType.type.unwrap().accept(*this);
         }
     }
 
     void Linter::visit(const Lifetime & lifetime) {
-        lintId(lifetime.name);
+        lifetime.name.accept(*this);
     }
 
     void Linter::visit(const ConstParam & constParam) {
-        lintId(constParam.name);
+        constParam.name.accept(*this);
         constParam.type.accept(*this);
         if (constParam.defaultValue) {
             constParam.defaultValue.unwrap().accept(*this);
@@ -583,7 +583,7 @@ namespace jc::ast {
     void Linter::lintNamedList(const named_list & namedList) {
         for (const auto & el : namedList) {
             if (el->name) {
-                lintId(el->name.unwrap());
+                el->name.unwrap().accept(*this);
             }
             if (el->value) {
                 el->value.unwrap().accept(*this);
@@ -639,7 +639,7 @@ namespace jc::ast {
             case UseTree::Kind::Rebind: {
                 const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
                 lintSimplePath(rebind->path);
-                lintId(rebind->as);
+                rebind->as.accept(*this);
                 break;
             }
             case UseTree::Kind::Raw: {
