@@ -4,7 +4,6 @@
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
 #include "data_types/Option.h"
-#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Expr;
@@ -76,8 +75,7 @@ namespace jc::ast {
             return std::static_pointer_cast<Expr>(expr.asValue());
         }
 
-        virtual void accept(BaseVisitor & visitor) = 0;
-        virtual void accept(ConstVisitor & visitor) const = 0;
+        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
 

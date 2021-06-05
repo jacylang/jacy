@@ -29,8 +29,7 @@ namespace jc::ast {
 
         explicit Module(Kind kind) : kind(kind) {}
 
-        virtual void accept(BaseVisitor & visitor) = 0;
-        virtual void accept(ConstVisitor & visitor) const = 0;
+        virtual void accept(BaseVisitor & visitor) const = 0;
         virtual void accept(DirTreePrinter & visitor) const = 0;
     };
 
@@ -101,12 +100,7 @@ namespace jc::ast {
             return rootDir;
         }
 
-        void accept(BaseVisitor & visitor) override {
-            rootFile->accept(visitor);
-            rootDir->accept(visitor);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             rootFile->accept(visitor);
             rootDir->accept(visitor);
         }

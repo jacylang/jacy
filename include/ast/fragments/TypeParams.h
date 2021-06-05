@@ -24,8 +24,7 @@ namespace jc::ast {
 
         TypeParamKind kind;
 
-        virtual void accept(BaseVisitor & visitor) = 0;
-        virtual void accept(ConstVisitor & visitor) const = 0;
+        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct GenericType : TypeParam {
