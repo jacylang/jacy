@@ -23,6 +23,10 @@ namespace jc::ast {
         SimplePathSeg(Kind kind, const Span & span) : kind(kind), Node(span) {}
 
         dt::Option<id_ptr> ident;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct SimplePath : Node {
@@ -36,6 +40,10 @@ namespace jc::ast {
 
         bool global;
         std::vector<simple_path_seg_ptr> segments;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
