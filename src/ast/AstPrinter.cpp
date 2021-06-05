@@ -49,26 +49,30 @@ namespace jc::ast {
         incIndent();
 
         for (const auto & entry : enumDecl.entries) {
-            printId(entry->name);
-            switch (entry->kind) {
-                case EnumEntryKind::Raw: break;
-                case EnumEntryKind::Discriminant: {
-                    log.raw(" = ");
-                    std::get<expr_ptr>(entry->body);
-                    break;
-                }
-                case EnumEntryKind::Tuple: {
-                    printNamedList(std::get<named_list>(entry->body));
-                    break;
-                }
-                case EnumEntryKind::Struct: {
-                    printFieldList(std::get<field_list>(entry->body));
-                    break;
-                }
-            }
+            entry->accept(*this);
         }
 
         decIndent();
+    }
+
+    void AstPrinter::visit(const EnumEntry & enumEntry) {
+        printId(enumEntry.name);
+        switch (enumEntry.kind) {
+            case EnumEntryKind::Raw: break;
+            case EnumEntryKind::Discriminant: {
+                log.raw(" = ");
+                std::get<expr_ptr>(enumEntry.body);
+                break;
+            }
+            case EnumEntryKind::Tuple: {
+                printNamedList(std::get<named_list>(enumEntry.body));
+                break;
+            }
+            case EnumEntryKind::Struct: {
+                printFieldList(std::get<field_list>(enumEntry.body));
+                break;
+            }
+        }
     }
 
     void AstPrinter::visit(const ExprStmt & exprStmt) {
