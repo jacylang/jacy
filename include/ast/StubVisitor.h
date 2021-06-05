@@ -98,6 +98,8 @@ namespace jc::ast {
 
         // Fragments //
         virtual void visit(const Attribute & attr) override;
+        virtual void visit(const Identifier & id) override;
+        virtual void visit(const NamedElement & el) override;
 
     private:
         template<class T>

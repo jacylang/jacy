@@ -395,4 +395,15 @@ namespace jc::ast {
         attr.name.accept(*this);
         visitEach(attr.params);
     }
+
+    void StubVisitor::visit(const Identifier & id) {}
+
+    void StubVisitor::visit(const NamedElement & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
+        }
+        if (el.value) {
+            el.value.unwrap().accept(*this);
+        }
+    }
 }
