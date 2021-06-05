@@ -55,6 +55,7 @@ namespace jc::ast {
     // Types //
     struct ParenType;
     struct TupleType;
+    struct TupleTypeElement;
     struct FuncType;
     struct SliceType;
     struct ArrayType;
@@ -132,6 +133,7 @@ namespace jc::ast {
         // Types //
         virtual void visit(const ParenType&) = 0;
         virtual void visit(const TupleType&) = 0;
+        virtual void visit(const TupleTypeElement&) = 0;
         virtual void visit(const FuncType&) = 0;
         virtual void visit(const SliceType&) = 0;
         virtual void visit(const ArrayType&) = 0;

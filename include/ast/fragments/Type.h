@@ -55,6 +55,10 @@ namespace jc::ast {
 
         opt_id_ptr name;
         opt_type_ptr type;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct TupleType : Type {
