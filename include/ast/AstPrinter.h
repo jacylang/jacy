@@ -77,6 +77,7 @@ namespace jc::ast {
         void visit(const UnitExpr & unitExpr) override;
         void visit(const WhenExpr & whenExpr) override;
 
+        // Types //
         void visit(const ParenType & parenType) override;
         void visit(const TupleType & tupleType) override;
         void visit(const TupleTypeEl & el) override;
@@ -87,9 +88,13 @@ namespace jc::ast {
         void visit(const TypePathSeg & seg) override;
         void visit(const UnitType & unitType) override;
 
+        // Generics //
         void visit(const GenericType & genericType) override;
         void visit(const Lifetime & lifetime) override;
         void visit(const ConstParam & constParam) override;
+
+        // Fragments //
+        void visit(const Attribute & attr) override;
 
     private:
         common::Logger log{"ast_printer"};

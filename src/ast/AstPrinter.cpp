@@ -588,6 +588,11 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(const Lifetime & lifetime) {
+        log.raw("`");
+        printId(lifetime.name);
+    }
+
     void AstPrinter::visit(const ConstParam & constParam) {
         log.raw("const");
         printId(constParam.name);
@@ -599,9 +604,11 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::visit(const Lifetime & lifetime) {
-        log.raw("`");
-        printId(lifetime.name);
+    void AstPrinter::visit(const Attribute & attr) {
+        log.raw("@");
+        printId(attr.name);
+        printDelim(attr.params, "(", ")");
+        log.nl();
     }
 
     void AstPrinter::printIndent() const {
