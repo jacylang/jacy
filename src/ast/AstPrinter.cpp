@@ -532,9 +532,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
-        log.raw("(");
-        print(funcType.params);
-        log.raw(") -> ");
+        printDelim(funcType.params, "(", ")", ",");
+        log.raw(" -> ");
         funcType.returnType.accept(*this);
     }
 
@@ -684,15 +683,6 @@ namespace jc::ast {
             }
         }
         log.raw(">");
-    }
-
-    void AstPrinter::print(const ast::type_list & typeList) {
-        for (size_t i = 0; i < typeList.size(); i++) {
-            typeList.at(i).accept(*this);
-            if (i < typeList.size() - 1) {
-                log.raw(", ");
-            }
-        }
     }
 
     void AstPrinter::printStructExprFields(const struct_expr_field_list & fields) {
