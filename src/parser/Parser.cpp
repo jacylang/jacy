@@ -491,7 +491,7 @@ namespace jc::parser {
         auto name = parseId("Expected struct name", true, true);
         auto typeParams = parseOptTypeParams();
 
-        field_list fields;
+        field_list_ptr fields;
         if (!isHardSemi()) {
             skip(
                 TokenKind::LBrace,
@@ -519,8 +519,8 @@ namespace jc::parser {
         );
     }
 
-    field_list Parser::parseStructFields() {
-        field_list fields;
+    field_list_ptr Parser::parseStructFields() {
+        field_list_ptr fields;
 
         bool first = true;
         while (!eof()) {

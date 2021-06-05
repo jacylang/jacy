@@ -98,7 +98,7 @@ namespace jc::ast {
         void printUseTree(const use_tree_ptr & useTree);
         void printSimplePath(const simple_path_ptr & simplePath);
         void printStructExprFields(const struct_expr_field_list & fields);
-        void printFieldList(const field_list & fields);
+        void printFieldList(const field_list_ptr & fields);
 
         const std::string indentChar = "  ";
         void incIndent();

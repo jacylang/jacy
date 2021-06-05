@@ -7,8 +7,9 @@
 
 namespace jc::ast {
     struct Field;
+    struct FieldList;
     using field_ptr = std::shared_ptr<Field>;
-    using field_list = std::vector<field_ptr>;
+    using field_list_ptr = std::shared_ptr<FieldList>;
 
     struct Field : Node {
         Field(
@@ -21,6 +22,21 @@ namespace jc::ast {
 
         id_ptr name;
         type_ptr type;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
+    struct FieldList : Node {
+        FieldList(std::vector<field_ptr> && fields, const Span & span)
+            : fields(std::move(fields)), Node(span) {}
+
+        std::vector<field_ptr> fields;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 

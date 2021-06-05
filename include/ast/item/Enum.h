@@ -30,12 +30,12 @@ namespace jc::ast {
         EnumEntry(EnumEntryKind kind, id_ptr name, named_list_ptr tupleFields, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(tupleFields)), Node(span) {}
 
-        EnumEntry(EnumEntryKind kind, id_ptr name, field_list fields, const Span & span)
+        EnumEntry(EnumEntryKind kind, id_ptr name, field_list_ptr fields, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(fields)), Node(span) {}
 
         EnumEntryKind kind;
         id_ptr name;
-        std::variant<std::monostate, expr_ptr, named_list_ptr, field_list> body;
+        std::variant<std::monostate, expr_ptr, named_list_ptr, field_list_ptr> body;
     };
 
     struct Enum : Item {
