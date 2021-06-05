@@ -24,7 +24,7 @@ namespace jc::ast {
         explicit Node(const Span & span) : span(span) {}
 
         node_id id{NONE_NODE_ID};
-        Span span;
+        const Span span;
     };
 
     struct ErrorNode : Node {

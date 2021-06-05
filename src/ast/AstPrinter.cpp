@@ -52,7 +52,7 @@ namespace jc::ast {
                     break;
                 }
                 case EnumEntryKind::Tuple: {
-                    print(*std::get<named_list_ptr>(entry->body));
+                    printNamedList(*std::get<named_list_ptr>(entry->body));
                     break;
                 }
                 case EnumEntryKind::Struct: {
@@ -92,7 +92,7 @@ namespace jc::ast {
 
         printModifiers(func.modifiers);
         log.raw("func");
-        print(func.typeParams);
+        printTypeParams(func.typeParams);
         log.raw(" ");
         printId(func.name);
 
@@ -135,7 +135,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("impl");
-        print(impl.typeParams);
+        printTypeParams(impl.typeParams);
         log.raw(" ");
         impl.traitTypePath.accept(*this);
         log.raw(" for ");
@@ -175,7 +175,7 @@ namespace jc::ast {
 
         log.raw("trait ");
         printId(trait.name);
-        print(trait.typeParams);
+        printTypeParams(trait.typeParams);
 
         if (!trait.superTraits.empty()) {
             log.raw(" : ");
@@ -320,7 +320,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
         log.raw("(");
-        print(*invoke.args);
+        printNamedList(*invoke.args);
         log.raw(")");
     }
 
@@ -411,7 +411,7 @@ namespace jc::ast {
                     log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
                 }
             }
-            print(seg->typeParams, true);
+            printTypeParams(seg->typeParams, true);
             if (i < pathExpr.segments.size() - 1) {
                 log.raw("::");
             }
@@ -461,7 +461,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
         log.raw("(");
-        print(*tupleExpr.elements);
+        printNamedList(*tupleExpr.elements);
         log.raw(")");
     }
 
@@ -584,12 +584,12 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::print(const ast::attr_list & attributes) {
+    void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
             log.raw("@");
             printId(attr->name);
             log.raw("(");
-            print(*attr->params);
+            printNamedList(*attr->params);
             log.raw(")").nl();
         }
     }
@@ -600,7 +600,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::print(const ast::opt_type_params & optTypeParams, bool pathPrefix) {
+    void AstPrinter::printTypeParams(const ast::opt_type_params & optTypeParams, bool pathPrefix) {
         if (!optTypeParams) {
             return;
         }
@@ -622,7 +622,7 @@ namespace jc::ast {
         log.raw(">");
     }
 
-    void AstPrinter::print(ast::NamedList & namedList) {
+    void AstPrinter::printNamedList(ast::NamedList & namedList) {
         for (size_t i = 0; i < namedList.elements.size(); i++) {
             const auto & namedEl = namedList.elements.at(i);
             if (namedEl->name) {
@@ -651,7 +651,7 @@ namespace jc::ast {
 
     void AstPrinter::print(TypePathSegment & idType) {
         printId(idType.name);
-        print(idType.typeParams);
+        printTypeParams(idType.typeParams);
     }
 
     void AstPrinter::printMembers(const item_list & members) {
