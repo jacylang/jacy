@@ -18,15 +18,11 @@ namespace jc::ast {
     }
 
     void Linter::visit(const FileModule & fileModule) {
-        for (const auto & item : fileModule.getFile()->items) {
-            item->accept(*this);
-        }
+        fileModule.getFile()->accept(*this);
     }
 
     void Linter::visit(const DirModule & dirModule) {
-        for (const auto & module : dirModule.getModules()) {
-            module->accept(*this);
-        }
+        lintEach(dirModule.getModules());
     }
 
     ////////////////
@@ -47,7 +43,7 @@ namespace jc::ast {
 
     void Linter::visit(const ForStmt & forStmt) {
         // TODO: Update when for will have patterns
-        lintId(forStmt.forEntity);
+        forStmt.forEntity.accept(*this);
 
         forStmt.inExpr.accept(*this);
 
@@ -613,12 +609,6 @@ namespace jc::ast {
             return isPlaceExpr(Expr::as<ParenExpr>(expr)->expr);
         }
         return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
-    }
-
-    void Linter::lintId(const id_ptr & id) {
-        if (id.isErr()) {
-            common::Logger::devPanic("[ERROR] identifier on linter stage");
-        }
     }
 
     void Linter::lintUseTree(const use_tree_ptr & maybeUseTree) {

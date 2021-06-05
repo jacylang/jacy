@@ -97,7 +97,6 @@ namespace jc::ast {
         void lintTypeParams(const type_param_list & typeParams);
         void lintMembers(const item_list & members);
         bool isPlaceExpr(const expr_ptr & expr);
-        static void lintId(const id_ptr & id);
         void lintUseTree(const use_tree_ptr & useTree);
         void lintSimplePath(const simple_path_ptr & simplePath);
 
