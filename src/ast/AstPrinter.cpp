@@ -141,7 +141,7 @@ namespace jc::ast {
         impl.traitTypePath.accept(*this);
         log.raw(" for ");
         impl.forType.accept(*this);
-        printMembers(impl.members);
+        printBodyLike(impl.members, "\n");
     }
 
     void AstPrinter::visit(const Mod & mod) {
@@ -149,7 +149,7 @@ namespace jc::ast {
 
         log.raw("mod ");
         mod.name.accept(*this);
-        printMembers(mod.items);
+        printBodyLike(mod.items, "\n");
     }
 
     void AstPrinter::visit(const Struct & _struct) {
@@ -185,7 +185,7 @@ namespace jc::ast {
                 log.raw(", ");
             }
         }
-        printMembers(trait.members);
+        printBodyLike(trait.members, "\n");
     }
 
     void AstPrinter::visit(const TypeAlias & typeAlias) {
@@ -693,17 +693,6 @@ namespace jc::ast {
                 log.raw(", ");
             }
         }
-    }
-
-    void AstPrinter::printMembers(const item_list & members) {
-        log.raw(" {").nl();
-        incIndent();
-        for (const auto & item : members) {
-            item->accept(*this);
-            log.nl();
-        }
-        decIndent();
-        log.raw("}").nl();
     }
 
     void AstPrinter::printStructExprFields(const struct_expr_field_list & fields) {

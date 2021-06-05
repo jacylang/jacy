@@ -110,7 +110,6 @@ namespace jc::ast {
         void printModifiers(const parser::token_list & modifiers);
         void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
         void print(const type_list & typeList);
-        void printMembers(const item_list & members);
         void printStructExprFields(const struct_expr_field_list & fields);
 
         // Helpers //
