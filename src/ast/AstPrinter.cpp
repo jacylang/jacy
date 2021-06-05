@@ -499,23 +499,13 @@ namespace jc::ast {
     void AstPrinter::visit(const WhenExpr & whenExpr) {
         log.raw("when ");
         whenExpr.subject.accept(*this);
+        printBodyLike(whenExpr.entries, ",\n");
+    }
 
-        log.raw("{");
-        incIndent();
-
-        for (const auto & entry : whenExpr.entries) {
-            for (size_t i = 0; i < entry->conditions.size(); ++i) {
-                const auto & cond = entry->conditions.at(i);
-                cond.accept(*this);
-                if (i < entry->conditions.size() - 1) {
-                    log.raw(", ");
-                }
-            }
-            log.raw(" => ");
-        }
-
-        decIndent();
-        log.raw("}");
+    void AstPrinter::visit(const WhenEntry & entry) {
+        printDelim(entry.conditions, "", "", ",");
+        log.raw(" => ");
+        entry.body->accept(*this);
     }
 
     void AstPrinter::visit(const ParenType & parenType) {
