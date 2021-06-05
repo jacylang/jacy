@@ -30,6 +30,7 @@ namespace jc::ast {
         void visit(const Enum & enumDecl) override;
         void visit(const EnumEntry & enumEntry) override;
         void visit(const Func & func) override;
+        void visit(const FuncParam & funcParam) override;
         void visit(const Impl & impl) override;
         void visit(const Mod & mod) override;
         void visit(const Struct & _struct) override;

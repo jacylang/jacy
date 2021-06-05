@@ -101,23 +101,7 @@ namespace jc::ast {
         log.raw(" ");
         printId(func.name);
 
-        log.raw("(");
-        for (size_t i = 0; i < func.params.size(); ++i) {
-            const auto & param = func.params.at(i);
-            printId(param->name);
-
-            log.raw(": ");
-            param->type.accept(*this);
-
-            if (param->defaultValue) {
-                log.raw(" = ");
-                param->defaultValue.unwrap().accept(*this);
-            }
-            if (i < func.params.size() - 1) {
-                log.raw(", ");
-            }
-        }
-        log.raw(")");
+        printDelim(func.params, "(", ")", ",");
 
         if (func.returnType) {
             log.raw(": ");
@@ -133,6 +117,18 @@ namespace jc::ast {
         } else {
             log.raw(" ");
             func.body.unwrap()->accept(*this);
+        }
+    }
+
+    void AstPrinter::visit(const FuncParam & funcParam) {
+        funcParam.name.accept(*this);
+
+        log.raw(": ");
+        funcParam.type.accept(*this);
+
+        if (funcParam.defaultValue) {
+            log.raw(" = ");
+            funcParam.defaultValue.unwrap().accept(*this);
         }
     }
 
