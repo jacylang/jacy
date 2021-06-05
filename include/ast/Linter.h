@@ -102,6 +102,10 @@ namespace jc::ast {
         void visit(const Lifetime & lifetime) override;
         void visit(const ConstParam & constParam) override;
 
+        // Fragments //
+        void visit(const Attribute & attr) override;
+
+        // Helpers //
     private:
         bool isPlaceExpr(const expr_ptr & expr);
         void lintUseTree(const use_tree_ptr & useTree);

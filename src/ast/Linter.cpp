@@ -612,7 +612,13 @@ namespace jc::ast {
         }
     }
 
-    // Linters //
+    // Fragments //
+    void Linter::visit(const Attribute & attr) {
+        attr.name.accept(*this);
+        lintEach(attr.params);
+    }
+
+    // Helpers //
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
