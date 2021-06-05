@@ -129,6 +129,23 @@ namespace jc::ast {
             }
         }
 
+        template<class T>
+        void printBodyLike(
+            const std::vector<T> & elements,
+            const std::string & delim = ","
+        ) {
+            log.raw("{");
+            if (elements.size() > 1) {
+                log.nl();
+            }
+            for (size_t i = 0; i < elements.size(); i++) {
+                elements.at(i).accept(*this);
+                if (i < elements.size() - 1) {
+                    log.raw(delim + " ");
+                }
+            }
+        }
+
         const std::string indentChar = "  ";
         void incIndent();
         void decIndent();

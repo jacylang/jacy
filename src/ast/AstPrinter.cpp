@@ -47,12 +47,9 @@ namespace jc::ast {
 
         log.raw(" {").nl();
         incIndent();
-
-        for (const auto & entry : enumDecl.entries) {
-            entry->accept(*this);
-        }
-
+        printBodyLike(enumDecl.entries, ",\n");
         decIndent();
+        log.raw("}").nl();
     }
 
     void AstPrinter::visit(const EnumEntry & enumEntry) {
