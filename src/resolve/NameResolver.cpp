@@ -42,7 +42,7 @@ namespace jc::resolve {
             func.returnType.unwrap().accept(*this);
         }
 
-        enterRib(Rib::Kind::Local); // -> (params rib)
+        enterRib(Rib::Kind::Value); // -> (params rib)
         for (const auto & param : func.params) {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
@@ -58,7 +58,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(ast::Mod & mod) {
         enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
-        enterRib(Rib::Kind::Local);
+        enterRib(Rib::Kind::Value);
 
         visitItems(mod.items);
 
@@ -70,7 +70,7 @@ namespace jc::resolve {
         uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
-        enterRib(Rib::Kind::Local); // -> (item rib)
+        enterRib(Rib::Kind::Value); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
@@ -93,7 +93,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::VarStmt & varStmt) {
-        enterRib(Rib::Kind::Local);
+        enterRib(Rib::Kind::Value);
         declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
@@ -109,7 +109,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Block & block) {
-        enterRib(Rib::Kind::Local); // -> block rib
+        enterRib(Rib::Kind::Value); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt.accept(*this);
         }
@@ -154,7 +154,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(ast::Lambda & lambdaExpr) {
-        enterRib(Rib::Kind::Local); // -> (lambda params)
+        enterRib(Rib::Kind::Value); // -> (lambda params)
 
         for (const auto & param : lambdaExpr.params) {
             // TODO: Param name
@@ -262,7 +262,7 @@ namespace jc::resolve {
         whenExpr.subject.accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
-            enterRib(Rib::Kind::Local); // -> (when entry)
+            enterRib(Rib::Kind::Value); // -> (when entry)
             for (const auto & cond : entry->conditions) {
                 cond.accept(*this);
             }
@@ -310,7 +310,7 @@ namespace jc::resolve {
 
     // Extended visitors //
     void NameResolver::visitItems(const ast::item_list & members) {
-        enterRib(Rib::Kind::Local); // -> (members)
+        enterRib(Rib::Kind::Value); // -> (members)
 
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
@@ -383,7 +383,7 @@ namespace jc::resolve {
                 );
             }
         }
-        enterRib(Rib::Kind::Local); // -> (const rib)
+        enterRib(Rib::Kind::Value); // -> (const rib)
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
                 declare(

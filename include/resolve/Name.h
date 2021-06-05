@@ -128,7 +128,7 @@ namespace jc::resolve {
         enum class Kind {
             Lifetime,
             Type,
-            Local,
+            Value,
         } kind;
 
         // TODO: Use `Ident{node_id, string}` instead of string as key
