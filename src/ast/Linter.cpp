@@ -101,13 +101,7 @@ namespace jc::ast {
 
         func.name.accept(*this);
 
-        for (const auto & param : func.params) {
-            param->name.accept(*this);
-            param->type.accept(*this);
-            if (param->defaultValue) {
-                param->defaultValue.unwrap().accept(*this);
-            }
-        }
+        lintEach(func.params);
 
         if (func.returnType) {
             func.returnType.unwrap().accept(*this);
@@ -122,6 +116,14 @@ namespace jc::ast {
             Logger::devPanic("Linter: Func hasn't either one-line either raw body");
         }
         popContext();
+    }
+
+    void Linter::visit(const FuncParam & funcParam) {
+        funcParam.name.accept(*this);
+        funcParam.type.accept(*this);
+        if (funcParam.defaultValue) {
+            funcParam.defaultValue.unwrap().accept(*this);
+        }
     }
 
     void Linter::visit(const Impl & impl) {
