@@ -230,28 +230,27 @@ namespace jc::ast {
         visitEach(listExpr.elements);
     }
 
-    void StubVisitor::visit(const LiteralConstant & literalConstant) {
-        visit("literalConstant");
-    }
+    void StubVisitor::visit(const LiteralConstant & literalConstant) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
-        visit("loopExpr");
+        loopExpr.body->accept(*this);
     }
 
     void StubVisitor::visit(const MemberAccess & memberAccess) {
-        visit("memberAccess");
+        memberAccess.lhs.accept(*this);
+        memberAccess.field.accept(*this);
     }
 
     void StubVisitor::visit(const ParenExpr & parenExpr) {
-        visit("parenExpr");
+        parenExpr.expr.accept(*this);
     }
 
     void StubVisitor::visit(const PathExpr & pathExpr) {
-        visit("pathExpr");
+        visitEach(pathExpr.segments);
     }
 
     void StubVisitor::visit(const Prefix & prefix) {
-        visit("prefix");
+
     }
 
     void StubVisitor::visit(const QuestExpr & questExpr) {
