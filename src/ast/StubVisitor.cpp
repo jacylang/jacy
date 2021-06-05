@@ -283,6 +283,24 @@ namespace jc::ast {
         visitEach(structExpr.fields);
     }
 
+    void StubVisitor::visit(const StructExprField & field) {
+        switch (field.kind) {
+            case StructExprField::Kind::Raw: {
+                field.name.unwrap().accept(*this);
+                field.expr->accept(*this);
+                break;
+            }
+            case StructExprField::Kind::Shortcut: {
+                field.name.unwrap().accept(*this);
+                break;
+            }
+            case StructExprField::Kind::Base: {
+                field.expr->accept(*this);
+                break;
+            }
+        }
+    }
+
     void StubVisitor::visit(const Subscript & subscript) {
         visit("subscript");
     }
