@@ -210,11 +210,17 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Lambda & lambdaExpr) {
-        visit("lambdaExpr");
+        visitEach(lambdaExpr.params);
+
+        if (lambdaExpr.returnType) {
+            lambdaExpr.returnType.unwrap().accept(*this);
+        }
+
+        lambdaExpr.body.accept(*this);
     }
 
     void StubVisitor::visit(const ListExpr & listExpr) {
-        visit("listExpr");
+        visitEach(listExpr.elements);
     }
 
     void StubVisitor::visit(const LiteralConstant & literalConstant) {
