@@ -92,7 +92,7 @@ namespace jc::ast {
         void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
         void printNamedList(NamedList & namedList);
         void print(const type_list & typeList);
-        void print(TypePathSegment & idType);
+        void print(TypePathSeg & idType);
         void printMembers(const item_list & members);
         void printId(const id_ptr & maybeId);
         void printUseTree(const use_tree_ptr & useTree);

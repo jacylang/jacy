@@ -2581,7 +2581,7 @@ namespace jc::parser {
             auto typeParams = parseOptTypeParams();
 
             segments.push_back(
-                makeNode<TypePathSegment>(
+                makeNode<TypePathSeg>(
                     std::move(name), std::move(typeParams), segBegin.to(cspan())
                 )
             );

@@ -649,7 +649,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::print(TypePathSegment & idType) {
+    void AstPrinter::print(TypePathSeg & idType) {
         printId(idType.name);
         printTypeParams(idType.typeParams);
     }
