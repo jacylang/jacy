@@ -60,7 +60,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                printNamedList(std::get<named_list>(enumEntry.body));
+                printDelim(std::get<named_list>(enumEntry.body), "(", ")", ",");
                 break;
             }
             case EnumEntryKind::Struct: {
@@ -205,7 +205,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeRaw & useTree) {
-        printSimplePath(useTree.path);
+        useTree.path->accept(*this);
     }
 
     void AstPrinter::visit(const UseTreeSpecific & useTree) {
@@ -341,9 +341,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
-        log.raw("(");
-        printNamedList(invoke.args);
-        log.raw(")");
+        printDelim(invoke.args, "(", ")", ",");
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
@@ -482,9 +480,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
-        log.raw("(");
-        printNamedList(tupleExpr.elements);
-        log.raw(")");
+        printDelim(tupleExpr.elements, "(", ")", ",");
     }
 
     void AstPrinter::visit(const UnitExpr & unitExpr) {
@@ -560,12 +556,7 @@ namespace jc::ast {
         if (typePath.global) {
             log.raw("::");
         }
-        for (size_t i = 0; i < typePath.segments.size(); i++) {
-            print(*typePath.segments.at(i));
-            if (i < typePath.segments.size() - 1) {
-                log.raw("::");
-            }
-        }
+        printDelim(typePath.segments, "", "", "::");
     }
 
     void AstPrinter::visit(const TypePathSeg & seg) {
@@ -663,11 +654,7 @@ namespace jc::ast {
 
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
-            log.raw("@");
-            attr->name.accept(*this);
-            log.raw("(");
-            printNamedList(attr->params);
-            log.raw(")").nl();
+            attr->accept(*this);
         }
     }
 
@@ -699,24 +686,6 @@ namespace jc::ast {
         log.raw(">");
     }
 
-    void AstPrinter::printNamedList(const named_list & namedList) {
-        for (size_t i = 0; i < namedList.size(); i++) {
-            const auto & namedEl = namedList.at(i);
-            if (namedEl->name) {
-                namedEl->name.unwrap().accept(*this);
-                if (namedEl->value) {
-                    log.raw(": ");
-                }
-            }
-            if (namedEl->value) {
-                namedEl->value.unwrap().accept(*this);
-            }
-            if (i < namedList.size() - 1) {
-                log.raw(", ");
-            }
-        }
-    }
-
     void AstPrinter::print(const ast::type_list & typeList) {
         for (size_t i = 0; i < typeList.size(); i++) {
             typeList.at(i).accept(*this);
@@ -724,11 +693,6 @@ namespace jc::ast {
                 log.raw(", ");
             }
         }
-    }
-
-    void AstPrinter::print(TypePathSeg & idType) {
-        idType.name.accept(*this);
-        printTypeParams(idType.typeParams);
     }
 
     void AstPrinter::printMembers(const item_list & members) {
@@ -740,37 +704,6 @@ namespace jc::ast {
         }
         decIndent();
         log.raw("}").nl();
-    }
-
-    void AstPrinter::printSimplePath(const simple_path_ptr & simplePath) {
-        if (simplePath->global) {
-            log.raw("::");
-        }
-
-        for (size_t i = 0; i < simplePath->segments.size(); i++) {
-            const auto & seg = simplePath->segments.at(i);
-            switch (seg->kind) {
-                case SimplePathSeg::Kind::Super: {
-                    log.raw("super");
-                    break;
-                }
-                case SimplePathSeg::Kind::Self: {
-                    log.raw("self");
-                    break;
-                }
-                case SimplePathSeg::Kind::Party: {
-                    log.raw("party");
-                    break;
-                }
-                case SimplePathSeg::Kind::Ident: {
-                    seg->ident.unwrap().accept(*this);
-                    break;
-                }
-            }
-            if (i < simplePath->segments.size() - 1) {
-                log.raw("::");
-            }
-        }
     }
 
     void AstPrinter::printStructExprFields(const struct_expr_field_list & fields) {
