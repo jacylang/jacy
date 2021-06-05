@@ -176,7 +176,7 @@ namespace jc::ast {
         const std::string indentChar = "  ";
         void incIndent();
         void decIndent();
-        uint64_t indent{0};
+        uint16_t indent{0};
 
         // DEBUG //
         bool precedenceDebug = false;

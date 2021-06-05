@@ -23,18 +23,12 @@ namespace jc::ast {
 
     void AstPrinter::visit(const FileModule & fileModule) {
         log.raw("--- file", fileModule.getName()).nl();
-        for (const auto & item : fileModule.getFile()->items) {
-            item->accept(*this);
-            log.nl();
-        }
+        printDelim(fileModule.getFile()->items, "", "", "\n");
     }
 
     void AstPrinter::visit(const DirModule & dirModule) {
         log.raw("--- dir", dirModule.getName()).nl();
-        for (const auto & module : dirModule.getModules()) {
-            module->accept(*this);
-            log.nl();
-        }
+        printDelim(dirModule.getModules(), "", "", "\n");
     }
 
     ////////////////
@@ -45,9 +39,7 @@ namespace jc::ast {
 
         enumDecl.name.accept(*this);
 
-        log.raw(" {").nl();
         printBodyLike(enumDecl.entries, ",\n");
-        log.raw("}").nl();
     }
 
     void AstPrinter::visit(const EnumEntry & enumEntry) {
@@ -674,14 +666,7 @@ namespace jc::ast {
             log.raw("::");
         }
 
-        log.raw("<");
-        for (size_t i = 0; i < typeParams.size(); i++) {
-            typeParams.at(i)->accept(*this);
-            if (i < typeParams.size() - 1) {
-                log.raw(", ");
-            }
-        }
-        log.raw(">");
+        printDelim(typeParams, "<", ">", ",");
     }
 
     void AstPrinter::incIndent() {
