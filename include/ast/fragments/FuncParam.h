@@ -23,6 +23,10 @@ namespace jc::ast {
         id_ptr name;
         type_ptr type;
         opt_expr_ptr defaultValue;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
