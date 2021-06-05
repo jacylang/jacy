@@ -249,6 +249,19 @@ namespace jc::ast {
         visitEach(pathExpr.segments);
     }
 
+    void StubVisitor::visit(const PathExprSeg & seg) {
+        switch (seg.kind) {
+            case PathExprSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default:;
+        }
+        if (seg.typeParams) {
+            visitEach(seg.typeParams.unwrap());
+        }
+    }
+
     void StubVisitor::visit(const Prefix & prefix) {
 
     }

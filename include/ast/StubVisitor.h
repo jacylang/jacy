@@ -66,6 +66,7 @@ namespace jc::ast {
         virtual void visit(const MemberAccess & memberAccess) override;
         virtual void visit(const ParenExpr & parenExpr) override;
         virtual void visit(const PathExpr & pathExpr) override;
+        virtual void visit(const PathExprSeg & seg) override;
         virtual void visit(const Prefix & prefix) override;
         virtual void visit(const QuestExpr & questExpr) override;
         virtual void visit(const ReturnExpr & returnExpr) override;
