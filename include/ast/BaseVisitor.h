@@ -68,7 +68,6 @@ namespace jc::ast {
 
     // Fragments //
     struct Attribute;
-    struct AttrList;
     struct Field;
 
     class BaseVisitor {
@@ -141,7 +140,6 @@ namespace jc::ast {
 
         // Fragments //
         virtual void visit(const Attribute&) = 0;
-        virtual void visit(const AttrList&) = 0;
         virtual void visit(const Field&) = 0;
     };
 }
