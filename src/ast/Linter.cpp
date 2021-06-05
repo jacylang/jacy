@@ -325,7 +325,7 @@ namespace jc::ast {
 
     void Linter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
-        lintNamedList(invoke.args);
+        lintEach(invoke.args);
 
         // TODO
     }
@@ -487,7 +487,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const TupleExpr & tupleExpr) {
-        lintNamedList(tupleExpr.elements);
+        lintEach(tupleExpr.elements);
     }
 
     void Linter::visit(const UnitExpr & unitExpr) {
@@ -580,17 +580,6 @@ namespace jc::ast {
     }
 
     // Linters //
-    void Linter::lintNamedList(const named_list & namedList) {
-        for (const auto & el : namedList) {
-            if (el->name) {
-                el->name.unwrap().accept(*this);
-            }
-            if (el->value) {
-                el->value.unwrap().accept(*this);
-            }
-        }
-    }
-
     void Linter::lintTypeParams(const type_param_list & typeParams) {
         for (const auto & typeParam : typeParams) {
             typeParam->accept(*this);
