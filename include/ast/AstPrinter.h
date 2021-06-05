@@ -134,16 +134,19 @@ namespace jc::ast {
             const std::vector<T> & elements,
             const std::string & delim = ","
         ) {
-            log.raw("{");
+            log.raw(" {").nl();
             if (elements.size() > 1) {
                 log.nl();
             }
+            incIndent();
             for (size_t i = 0; i < elements.size(); i++) {
                 elements.at(i).accept(*this);
                 if (i < elements.size() - 1) {
                     log.raw(delim + " ");
                 }
             }
+            decIndent();
+            log.raw("}");
         }
 
         const std::string indentChar = "  ";

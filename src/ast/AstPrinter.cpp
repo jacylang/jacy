@@ -46,9 +46,7 @@ namespace jc::ast {
         printId(enumDecl.name);
 
         log.raw(" {").nl();
-        incIndent();
         printBodyLike(enumDecl.entries, ",\n");
-        decIndent();
         log.raw("}").nl();
     }
 
