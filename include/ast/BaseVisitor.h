@@ -4,6 +4,9 @@
 namespace jc::ast {
     struct ErrorNode;
 
+    struct FileModule;
+    struct DirModule;
+
     // Items //
     struct Enum;
     struct Func;
@@ -63,8 +66,9 @@ namespace jc::ast {
     struct Lifetime;
     struct ConstParam;
 
-    struct FileModule;
-    struct DirModule;
+    // Fragments //
+    struct Attribute;
+    struct AttrList;
 
     class BaseVisitor {
     public:
@@ -133,6 +137,10 @@ namespace jc::ast {
         virtual void visit(const GenericType&) = 0;
         virtual void visit(const Lifetime&) = 0;
         virtual void visit(const ConstParam&) = 0;
+
+        // Fragments //
+        virtual void visit(const Attribute&) = 0;
+        virtual void visit(const AttrList&) = 0;
     };
 }
 
