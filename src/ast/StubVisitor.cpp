@@ -411,5 +411,13 @@ namespace jc::ast {
         visitEach(path.segments);
     }
 
-
+    void StubVisitor::visit(const SimplePathSeg & seg) {
+        switch (seg.kind) {
+            case SimplePathSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default:;
+        }
+    }
 }

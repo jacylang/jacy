@@ -101,6 +101,7 @@ namespace jc::ast {
         virtual void visit(const Identifier & id) override;
         virtual void visit(const NamedElement & el) override;
         virtual void visit(const SimplePath & path) override;
+        virtual void visit(const SimplePathSeg & seg) override;
 
     private:
         template<class T>
