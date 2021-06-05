@@ -18,72 +18,72 @@ namespace jc::ast {
         StubVisitor(std::string owner, StubVisitorMode mode) : owner(std::move(owner)), mode(mode) {}
         ~StubVisitor() override = default;
 
-        void visit(const ErrorNode & errorNode) override;
+        virtual void visit(const ErrorNode & errorNode) override;
 
-        void visit(const FileModule & fileModule) override;
-        void visit(const DirModule & dirModule) override;
+        virtual void visit(const FileModule & fileModule) override;
+        virtual void visit(const DirModule & dirModule) override;
 
         // Items //
-        void visit(const Enum & enumDecl) override;
-        void visit(const Func & func) override;
-        void visit(const Impl & impl) override;
-        void visit(const Mod & mod) override;
-        void visit(const Struct & _struct) override;
-        void visit(const Trait & trait) override;
-        void visit(const TypeAlias & typeAlias) override;
-        void visit(const UseDecl & useDecl) override;
+        virtual void visit(const Enum & enumDecl) override;
+        virtual void visit(const Func & func) override;
+        virtual void visit(const Impl & impl) override;
+        virtual void visit(const Mod & mod) override;
+        virtual void visit(const Struct & _struct) override;
+        virtual void visit(const Trait & trait) override;
+        virtual void visit(const TypeAlias & typeAlias) override;
+        virtual void visit(const UseDecl & useDecl) override;
 
         // Statements //
-        void visit(const ExprStmt & exprStmt) override;
-        void visit(const ForStmt & forStmt) override;
-        void visit(const ItemStmt & itemStmt) override;
-        void visit(const VarStmt & varStmt) override;
-        void visit(const WhileStmt & whileStmt) override;
+        virtual void visit(const ExprStmt & exprStmt) override;
+        virtual void visit(const ForStmt & forStmt) override;
+        virtual void visit(const ItemStmt & itemStmt) override;
+        virtual void visit(const VarStmt & varStmt) override;
+        virtual void visit(const WhileStmt & whileStmt) override;
 
         // Expressions //
-        void visit(const Assignment & assign) override;
-        void visit(const Block & block) override;
-        void visit(const BorrowExpr & borrowExpr) override;
-        void visit(const BreakExpr & breakExpr) override;
-        void visit(const ContinueExpr & continueExpr) override;
-        void visit(const DerefExpr & derefExpr) override;
-        void visit(const IfExpr & ifExpr) override;
-        void visit(const Infix & infix) override;
-        void visit(const Invoke & invoke) override;
-        void visit(const Lambda & lambdaExpr) override;
-        void visit(const ListExpr & listExpr) override;
-        void visit(const LiteralConstant & literalConstant) override;
-        void visit(const LoopExpr & loopExpr) override;
-        void visit(const MemberAccess & memberAccess) override;
-        void visit(const ParenExpr & parenExpr) override;
-        void visit(const PathExpr & pathExpr) override;
-        void visit(const Prefix & prefix) override;
-        void visit(const QuestExpr & questExpr) override;
-        void visit(const ReturnExpr & returnExpr) override;
-        void visit(const SpreadExpr & spreadExpr) override;
-        void visit(const StructExpr & structExpr) override;
-        void visit(const Subscript & subscript) override;
-        void visit(const ThisExpr & thisExpr) override;
-        void visit(const TupleExpr & tupleExpr) override;
-        void visit(const UnitExpr & unitExpr) override;
-        void visit(const WhenExpr & whenExpr) override;
+        virtual void visit(const Assignment & assign) override;
+        virtual void visit(const Block & block) override;
+        virtual void visit(const BorrowExpr & borrowExpr) override;
+        virtual void visit(const BreakExpr & breakExpr) override;
+        virtual void visit(const ContinueExpr & continueExpr) override;
+        virtual void visit(const DerefExpr & derefExpr) override;
+        virtual void visit(const IfExpr & ifExpr) override;
+        virtual void visit(const Infix & infix) override;
+        virtual void visit(const Invoke & invoke) override;
+        virtual void visit(const Lambda & lambdaExpr) override;
+        virtual void visit(const ListExpr & listExpr) override;
+        virtual void visit(const LiteralConstant & literalConstant) override;
+        virtual void visit(const LoopExpr & loopExpr) override;
+        virtual void visit(const MemberAccess & memberAccess) override;
+        virtual void visit(const ParenExpr & parenExpr) override;
+        virtual void visit(const PathExpr & pathExpr) override;
+        virtual void visit(const Prefix & prefix) override;
+        virtual void visit(const QuestExpr & questExpr) override;
+        virtual void visit(const ReturnExpr & returnExpr) override;
+        virtual void visit(const SpreadExpr & spreadExpr) override;
+        virtual void visit(const StructExpr & structExpr) override;
+        virtual void visit(const Subscript & subscript) override;
+        virtual void visit(const ThisExpr & thisExpr) override;
+        virtual void visit(const TupleExpr & tupleExpr) override;
+        virtual void visit(const UnitExpr & unitExpr) override;
+        virtual void visit(const WhenExpr & whenExpr) override;
 
         // Types //
-        void visit(const ParenType & parenType) override;
-        void visit(const TupleType & tupleType) override;
-        void visit(const FuncType & funcType) override;
-        void visit(const SliceType & listType) override;
-        void visit(const ArrayType & arrayType) override;
-        void visit(const TypePath & typePath) override;
-        void visit(const UnitType & unitType) override;
+        virtual void visit(const ParenType & parenType) override;
+        virtual void visit(const TupleType & tupleType) override;
+        virtual void visit(const FuncType & funcType) override;
+        virtual void visit(const SliceType & listType) override;
+        virtual void visit(const ArrayType & arrayType) override;
+        virtual void visit(const TypePath & typePath) override;
+        virtual void visit(const UnitType & unitType) override;
 
         // Type params //
-        void visit(const GenericType & genericType) override;
-        void visit(const Lifetime & lifetime) override;
-        void visit(const ConstParam & constParam) override;
+        virtual void visit(const GenericType & genericType) override;
+        virtual void visit(const Lifetime & lifetime) override;
+        virtual void visit(const ConstParam & constParam) override;
 
     private:
-        void visit(const std::string & construction);
+        virtual void visit(const std::string & construction);
 
         const std::string owner;
         StubVisitorMode mode;
