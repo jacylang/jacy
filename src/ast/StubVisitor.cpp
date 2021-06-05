@@ -360,6 +360,14 @@ namespace jc::ast {
         visitEach(typePath.segments);
     }
 
+    void StubVisitor::visit(const TypePathSeg & seg) {
+        seg.name.accept(*this);
+
+        if (seg.typeParams) {
+            visitEach(seg.typeParams.unwrap());
+        }
+    }
+
     void StubVisitor::visit(const UnitType & unitType) {}
 
     // Type params //

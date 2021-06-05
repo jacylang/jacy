@@ -88,6 +88,7 @@ namespace jc::ast {
         virtual void visit(const SliceType & listType) override;
         virtual void visit(const ArrayType & arrayType) override;
         virtual void visit(const TypePath & typePath) override;
+        virtual void visit(const TypePathSeg & seg) override;
         virtual void visit(const UnitType & unitType) override;
 
         // Type params //
