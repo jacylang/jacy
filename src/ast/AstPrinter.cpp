@@ -16,14 +16,12 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const File & file) {
-        for (const auto item : file.items) {
-            item->accept(*this);
-        }
+        printDelim(file.items, "", "", "\n");
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {
         log.raw("--- file", fileModule.getName()).nl();
-        printDelim(fileModule.getFile()->items, "", "", "\n");
+        fileModule.getFile()->accept(*this);
     }
 
     void AstPrinter::visit(const DirModule & dirModule) {
@@ -171,12 +169,7 @@ namespace jc::ast {
             log.raw(" : ");
         }
 
-        for (size_t i = 0; i < trait.superTraits.size(); i++) {
-            trait.superTraits.at(i)->accept(*this);
-            if (i < trait.superTraits.size() - 1) {
-                log.raw(", ");
-            }
-        }
+        printDelim(trait.superTraits, "", "", ",");
         printBodyLike(trait.members, "\n");
     }
 
@@ -256,17 +249,7 @@ namespace jc::ast {
             log.raw("{}");
             return;
         }
-
-        log.raw("{").nl();
-        incIndent();
-        for (const auto & stmt : block.stmts) {
-            stmt.accept(*this);
-            log.nl();
-        }
-        decIndent();
-        // Closing brace must go on the "super"-indent
-        printIndent();
-        log.raw("}");
+        printBodyLike(block.stmts, "\n");
     }
 
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
@@ -409,7 +392,7 @@ namespace jc::ast {
                 break;
             }
             case PathExprSeg::Kind::Ident: {
-                seg->ident.unwrap().accept(*this);
+                seg.ident.unwrap().accept(*this);
                 break;
             }
             default: {
@@ -468,12 +451,9 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
-        for (size_t i = 0; i < subscript.indices.size(); ++i) {
-            subscript.indices.at(i).accept(*this);
-            if (i < subscript.indices.size() - 1) {
-                log.raw(", ");
-            }
-        }
+        log.raw("[");
+        printDelim(subscript.indices, "", "", ",");
+        log.raw("]");
     }
 
     void AstPrinter::visit(const ThisExpr & thisExpr) {
