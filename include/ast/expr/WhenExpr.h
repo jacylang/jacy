@@ -21,6 +21,10 @@ namespace jc::ast {
         // TODO: Complex prefix conditions like `in lhs`
         expr_list conditions;
         block_ptr body;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct WhenExpr : Expr {
