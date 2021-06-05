@@ -113,7 +113,6 @@ namespace jc::ast {
     private:
         bool isPlaceExpr(const expr_ptr & expr);
         void lintUseTree(const use_tree_ptr & useTree);
-        void lintSimplePath(const simple_path_ptr & simplePath);
 
         template<class T>
         void lintEach(const std::vector<T> & entities) {

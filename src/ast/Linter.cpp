@@ -698,10 +698,6 @@ namespace jc::ast {
         }
     }
 
-    void Linter::lintSimplePath(const simple_path_ptr & simplePath) {
-        // TODO: MEOW?
-    }
-
     // Context //
     bool Linter::isInside(LinterContext ctx) {
         if (ctxStack.empty()) {
