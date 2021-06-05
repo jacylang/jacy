@@ -8,7 +8,6 @@
 #include "parser/Token.h"
 #include "data_types/Result.h"
 #include "ast/BaseVisitor.h"
-#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Node;
@@ -31,10 +30,6 @@ namespace jc::ast {
         explicit ErrorNode(const Span & span) : Node(span) {}
 
         void accept(BaseVisitor & visitor) {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
@@ -172,29 +167,7 @@ namespace jc::ast {
             return *value;
         }
 
-        void accept(BaseVisitor & visitor) {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
-            if (hasErr) {
-                return error->accept(visitor);
-            } else {
-                return value->accept(visitor);
-            }
-        }
-
         void accept(BaseVisitor & visitor) const {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
-            if (hasErr) {
-                return error->accept(visitor);
-            } else {
-                return value->accept(visitor);
-            }
-        }
-
-        void accept(ConstVisitor & visitor) const {
             if (not inited) {
                 common::Logger::devPanic("Use of uninitialized ParseResult");
             }
