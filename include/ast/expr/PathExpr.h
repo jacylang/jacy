@@ -39,11 +39,7 @@ namespace jc::ast {
         bool global;
         path_expr_seg_list segments;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

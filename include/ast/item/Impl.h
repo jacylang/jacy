@@ -23,11 +23,8 @@ namespace jc::ast {
         type_ptr forType;
         item_list members;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
 
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

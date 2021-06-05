@@ -2,7 +2,6 @@
 #define JACY_AST_ITEM_ITEM_H
 
 #include "ast/fragments/Attribute.h"
-#include "ast/ConstVisitor.h"
 
 namespace jc::ast {
     struct Item;
@@ -31,8 +30,7 @@ namespace jc::ast {
             this->attributes = std::move(attributes);
         }
 
-        virtual void accept(BaseVisitor & visitor) = 0;
-        virtual void accept(ConstVisitor & visitor) const = 0;
+        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
 

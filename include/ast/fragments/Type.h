@@ -45,12 +45,7 @@ namespace jc::ast {
 
         type_ptr type;
 
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -69,11 +64,7 @@ namespace jc::ast {
 
         tuple_t_el_list elements;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -85,11 +76,7 @@ namespace jc::ast {
         type_list params;
         type_ptr returnType;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -100,12 +87,7 @@ namespace jc::ast {
 
         type_ptr type;
 
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -117,12 +99,7 @@ namespace jc::ast {
         type_ptr type;
         expr_ptr sizeExpr;
 
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -142,12 +119,7 @@ namespace jc::ast {
         bool global{};
         id_t_list segments{};
 
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
@@ -155,12 +127,7 @@ namespace jc::ast {
     struct UnitType : Type {
         explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
 
-
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

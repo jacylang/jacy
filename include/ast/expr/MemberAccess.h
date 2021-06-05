@@ -17,11 +17,7 @@ namespace jc::ast {
         expr_ptr lhs;
         id_ptr field;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };

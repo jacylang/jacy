@@ -43,11 +43,7 @@ namespace jc::ast {
         path_expr_ptr path;
         struct_expr_field_list fields;
 
-        void accept(BaseVisitor & visitor) override {
-            return visitor.visit(*this);
-        }
-
-        void accept(ConstVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
