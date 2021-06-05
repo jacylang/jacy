@@ -629,6 +629,10 @@ namespace jc::ast {
         }
     }
 
+    void Linter::visit(const SimplePath & path) {
+        lintEach(path.segments);
+    }
+
     // Helpers //
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
