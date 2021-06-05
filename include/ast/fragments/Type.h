@@ -9,11 +9,11 @@
 
 namespace jc::ast {
     struct Type;
-    struct TupleTypeElement;
+    struct TupleTypeEl;
     struct TypePathSegment;
     struct TypePath;
     using type_list = std::vector<type_ptr>;
-    using tuple_t_el_ptr = std::shared_ptr<TupleTypeElement>;
+    using tuple_t_el_ptr = std::shared_ptr<TupleTypeEl>;
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
     using id_t_list = std::vector<std::shared_ptr<TypePathSegment>>;
     using type_path_ptr = std::shared_ptr<TypePath>;
@@ -49,8 +49,8 @@ namespace jc::ast {
         }
     };
 
-    struct TupleTypeElement : Node {
-        TupleTypeElement(opt_id_ptr name, opt_type_ptr type, const Span & span)
+    struct TupleTypeEl : Node {
+        TupleTypeEl(opt_id_ptr name, opt_type_ptr type, const Span & span)
             : name(std::move(name)), type(std::move(type)), Node(span) {}
 
         opt_id_ptr name;
@@ -113,6 +113,10 @@ namespace jc::ast {
 
         id_ptr name;
         opt_type_params typeParams;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct TypePath : Type {

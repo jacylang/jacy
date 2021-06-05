@@ -2277,12 +2277,12 @@ namespace jc::parser {
                 justSkip(TokenKind::Colon, true, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeElement>(std::move(name), std::move(type), elBegin.to(cspan()))
+                    makeNode<TupleTypeEl>(std::move(name), std::move(type), elBegin.to(cspan()))
                 );
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeElement>(dt::None, std::move(type), elBegin.to(cspan()))
+                    makeNode<TupleTypeEl>(dt::None, std::move(type), elBegin.to(cspan()))
                 );
             }
         }
@@ -2397,7 +2397,7 @@ namespace jc::parser {
             }
 
             tupleElements.push_back(
-                makeNode<TupleTypeElement>(
+                makeNode<TupleTypeEl>(
                     std::move(name), std::move(type), elBegin.to(
                         cspan()
                     )
