@@ -358,12 +358,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const Lambda & lambdaExpr) {
-        for (const auto & param : lambdaExpr.params) {
-            param->name.accept(*this);
-            if (param->type) {
-                param->type.unwrap().accept(*this);
-            }
-        }
+        lintEach(lambdaExpr.params);
 
         if (lambdaExpr.returnType) {
             lambdaExpr.returnType.unwrap().accept(*this);
@@ -372,6 +367,13 @@ namespace jc::ast {
         pushContext(LinterContext::Func);
         lambdaExpr.body.accept(*this);
         popContext();
+    }
+
+    void Linter::visit(const LambdaParam & param) {
+        param.name.accept(*this);
+        if (param.type) {
+            param.type.unwrap().accept(*this);
+        }
     }
 
     void Linter::visit(const ListExpr & listExpr) {
