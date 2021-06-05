@@ -39,6 +39,7 @@ namespace jc::ast {
         void visit(const Impl & impl) override;
         void visit(const Mod & mod) override;
         void visit(const Struct & _struct) override;
+        void visit(const StructField & field) override;
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
         void visit(const UseDecl & useDecl) override;

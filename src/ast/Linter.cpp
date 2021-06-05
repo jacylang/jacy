@@ -142,6 +142,11 @@ namespace jc::ast {
         popContext();
     }
 
+    void Linter::visit(const StructField & field) {
+        field.name.accept(*this);
+        field.type.accept(*this);
+    }
+
     void Linter::visit(const Trait & trait) {
         // TODO: lint attributes
 
