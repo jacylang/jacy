@@ -30,11 +30,29 @@ namespace jc::ast {
     ////////////////
     void Linter::visit(const Enum & enumDecl) {
         // TODO: lint attributes
-
-        Logger::notImplemented("Linter::visit enumDecl");
+        lintEach(enumDecl.entries);
 
         pushContext(LinterContext::Struct);
         popContext();
+    }
+
+    void Linter::visit(const EnumEntry & enumEntry) {
+        enumEntry.name.accept(*this);
+        switch (enumEntry.kind) {
+            case EnumEntryKind::Raw: break;
+            case EnumEntryKind::Discriminant: {
+                std::get<expr_ptr>(enumEntry.body).accept(*this);
+                break;
+            }
+            case EnumEntryKind::Tuple: {
+                lintEach(std::get<named_list>(enumEntry.body));
+                break;
+            }
+            case EnumEntryKind::Struct: {
+                lintEach(std::get<struct_field_list>(enumEntry.body));
+                break;
+            }
+        }
     }
 
     void Linter::visit(const ExprStmt & exprStmt) {
