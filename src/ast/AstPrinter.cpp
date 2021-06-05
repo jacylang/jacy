@@ -159,16 +159,7 @@ namespace jc::ast {
         printId(_struct.name);
         log.raw(" ");
 
-        for (size_t i = 0; i < _struct.fields.size(); i++) {
-            const auto & field = _struct.fields.at(i);
-            printId(field->name);
-            log.raw(": ");
-            field->type.accept(*this);
-
-            if (i < _struct.fields.size() - 1) {
-                log.raw(", ");
-            }
-        }
+        printDelim(_struct.fields, "{", "}", ",\n");
     }
 
     void AstPrinter::visit(const Trait & trait) {
@@ -580,6 +571,7 @@ namespace jc::ast {
         log.raw("()");
     }
 
+    // Generics //
     void AstPrinter::visit(const GenericType & genericType) {
         printId(genericType.name);
         if (genericType.type) {
@@ -604,11 +596,18 @@ namespace jc::ast {
         }
     }
 
+    // Fragments //
     void AstPrinter::visit(const Attribute & attr) {
         log.raw("@");
         printId(attr.name);
         printDelim(attr.params, "(", ")");
         log.nl();
+    }
+
+    void AstPrinter::visit(const Field & field) {
+        field.name.accept(*this);
+        log.raw(": ");
+        field.type.accept(*this);
     }
 
     void AstPrinter::printIndent() const {
