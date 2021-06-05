@@ -97,6 +97,7 @@ namespace jc::ast {
         // Fragments //
         void visit(const Attribute & attr) override;
         void visit(const Identifier & id) override;
+        void visit(const NamedElement & el) override;
 
     private:
         common::Logger log{"ast_printer"};

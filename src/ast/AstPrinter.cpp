@@ -614,6 +614,18 @@ namespace jc::ast {
         log.raw(id.getValue());
     }
 
+    void AstPrinter::visit(const NamedElement & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
+            if (el.value) {
+                log.raw(": ");
+            }
+        }
+        if (el.value) {
+            el.value.unwrap().accept(*this);
+        }
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);
