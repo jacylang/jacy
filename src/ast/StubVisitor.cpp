@@ -287,7 +287,7 @@ namespace jc::ast {
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
                 field.name.unwrap().accept(*this);
-                field.expr->accept(*this);
+                field.expr.unwrap().accept(*this);
                 break;
             }
             case StructExprField::Kind::Shortcut: {
@@ -295,7 +295,7 @@ namespace jc::ast {
                 break;
             }
             case StructExprField::Kind::Base: {
-                field.expr->accept(*this);
+                field.expr.unwrap().accept(*this);
                 break;
             }
         }
@@ -317,6 +317,11 @@ namespace jc::ast {
     void StubVisitor::visit(const WhenExpr & whenExpr) {
         whenExpr.subject.accept(*this);
         visitEach(whenExpr.entries);
+    }
+
+    void StubVisitor::visit(const WhenEntry & entry) {
+        visitEach(entry.conditions);
+        entry.body->accept(*this);
     }
 
     // Types //
