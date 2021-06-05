@@ -118,7 +118,7 @@ namespace jc::ast {
     private:
         template<typename T>
         void printDelim(
-            const std::vector<T> & entities,
+            const T & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
@@ -127,12 +127,12 @@ namespace jc::ast {
             if (not begin.empty()) {
                 log.raw(begin);
             }
-            if (chop and entities.size() > 1) {
+            if (chop and elements.size() > 1) {
                 log.nl();
             }
-            for (size_t i = 0; i < entities.size(); i++) {
-                entities.at(i)->accept(*this);
-                if (i < entities.size() - 1) {
+            for (size_t i = 0; i < elements.size(); i++) {
+                elements.at(i)->accept(*this);
+                if (i < elements.size() - 1) {
                     log.raw(delim + " ");
                 }
             }
@@ -143,7 +143,7 @@ namespace jc::ast {
 
         template<typename T>
         void printBodyLike(
-            const std::vector<T> & elements,
+            const T & elements,
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
