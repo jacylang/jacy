@@ -213,14 +213,14 @@ namespace jc::ast {
         log.raw("*");
     }
 
-    void AstPrinter::visit(const VarStmt & varDecl) {
+    void AstPrinter::visit(const VarStmt & varStmt) {
         printIndent();
 
-        log.raw(varDecl.kind.kindToString(), "");
-        varDecl.name.accept(*this);
-        if (varDecl.type) {
+        log.raw(varStmt.kind.kindToString(), "");
+        varStmt.name.accept(*this);
+        if (varStmt.type) {
             log.raw(": ");
-            varDecl.type.unwrap().accept(*this);
+            varStmt.type.unwrap().accept(*this);
         }
     }
 
