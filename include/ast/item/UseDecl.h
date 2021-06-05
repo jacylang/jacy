@@ -20,6 +20,8 @@ namespace jc::ast {
         } kind;
 
         UseTree(Kind kind, const Span & span) : kind(kind), Node(span) {}
+
+        virtual void accept(BaseVisitor & visitor) const override = 0;
     };
 
     struct UseTreeRaw : UseTree {
@@ -27,6 +29,10 @@ namespace jc::ast {
             : path(std::move(path)), UseTree(Kind::Raw, span) {}
 
         simple_path_ptr path;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UseTreeSpecific : UseTree {
@@ -35,6 +41,10 @@ namespace jc::ast {
 
         dt::Option<simple_path_ptr> path;
         use_tree_list specifics;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UseTreeRebind : UseTree {
@@ -43,6 +53,10 @@ namespace jc::ast {
 
         simple_path_ptr path;
         id_ptr as;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UseTreeAll : UseTree {
@@ -50,6 +64,10 @@ namespace jc::ast {
             : path(std::move(path)), UseTree(Kind::All, span) {}
 
         dt::Option<simple_path_ptr> path;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UseDecl : Item {

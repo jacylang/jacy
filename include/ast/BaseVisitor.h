@@ -18,6 +18,10 @@ namespace jc::ast {
     struct Trait;
     struct TypeAlias;
     struct UseDecl;
+    struct UseTreeRaw;
+    struct UseTreeSpecific;
+    struct UseTreeRebind;
+    struct UseTreeAll;
 
     // Statements //
     struct ExprStmt;
@@ -98,6 +102,10 @@ namespace jc::ast {
         virtual void visit(const Trait&) = 0;
         virtual void visit(const TypeAlias&) = 0;
         virtual void visit(const UseDecl&) = 0;
+        virtual void visit(const UseTreeRaw&) = 0;
+        virtual void visit(const UseTreeSpecific&) = 0;
+        virtual void visit(const UseTreeRebind&) = 0;
+        virtual void visit(const UseTreeAll&) = 0;
 
         // Statements //
         virtual void visit(const ExprStmt&) = 0;
