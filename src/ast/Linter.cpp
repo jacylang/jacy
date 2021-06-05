@@ -433,36 +433,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const PathExpr & pathExpr) {
-        for (size_t i = 0; i < pathExpr.segments.size(); i++) {
-            const auto & seg = pathExpr.segments.at(i).unwrap("[ERROR] PathExprSeg on Linter stage");
-            switch (seg->kind) {
-                case PathExprSeg::Kind::Super: {
-                    break;
-                }
-                case PathExprSeg::Kind::Self: {
-                    if (i != 0) {
-                        suggestErrorMsg("`self` can only be used at start of the path", seg->span);
-                    }
-                    break;
-                }
-                case PathExprSeg::Kind::Party: {
-                    if (i != 0) {
-                        suggestErrorMsg("`party` can only be used at start of the path", seg->span);
-                    }
-                    break;
-                }
-                case PathExprSeg::Kind::Ident: {
-                    seg->ident.unwrap().accept(*this);
-                    break;
-                }
-                default: {
-                    log.devPanic("Unexpected `PathExprSeg::Kind` in `Linter`");
-                }
-            }
-            if (seg->typeParams) {
-                lintEach(seg->typeParams.unwrap());
-            }
-        }
+        lintEach(pathExpr.segments);
     }
 
     void Linter::visit(const PathExprSeg & seg) {
