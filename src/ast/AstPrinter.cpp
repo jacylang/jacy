@@ -571,6 +571,11 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(const TypePathSeg & seg) {
+        seg.name.accept(*this);
+        printTypeParams(seg.typeParams);
+    }
+
     void AstPrinter::visit(const UnitType & unitType) {
         log.raw("()");
     }
