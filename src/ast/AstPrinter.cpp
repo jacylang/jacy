@@ -43,7 +43,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Enum & enumDecl) {
         printIndent();
 
-        printId(enumDecl.name);
+        enumDecl.name.accept(*this);
 
         log.raw(" {").nl();
         printBodyLike(enumDecl.entries, ",\n");
@@ -51,7 +51,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const EnumEntry & enumEntry) {
-        printId(enumEntry.name);
+        enumEntry.name.accept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
@@ -81,7 +81,7 @@ namespace jc::ast {
 
         log.raw("for ");
         // TODO: Update when `for` will have patterns
-        printId(forStmt.forEntity);
+        forStmt.forEntity.accept(*this);
         log.raw(" in ");
         forStmt.inExpr.accept(*this);
         forStmt.body->accept(*this);
@@ -99,7 +99,7 @@ namespace jc::ast {
         log.raw("func");
         printTypeParams(func.typeParams);
         log.raw(" ");
-        printId(func.name);
+        func.name.accept(*this);
 
         printDelim(func.params, "(", ")", ",");
 
@@ -148,7 +148,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("mod ");
-        printId(mod.name);
+        mod.name.accept(*this);
         printMembers(mod.items);
     }
 
@@ -156,7 +156,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("struct ");
-        printId(_struct.name);
+        _struct.name.accept(*this);
         log.raw(" ");
 
         printDelim(_struct.fields, "{", "}", ",\n");
@@ -172,7 +172,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("trait ");
-        printId(trait.name);
+        trait.name.accept(*this);
         printTypeParams(trait.typeParams);
 
         if (!trait.superTraits.empty()) {
@@ -192,7 +192,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw("type ");
-        printId(typeAlias.name);
+        typeAlias.name.accept(*this);
         log.raw(" = ");
         typeAlias.type.accept(*this);
     }
@@ -232,7 +232,7 @@ namespace jc::ast {
         printIndent();
 
         log.raw(varDecl.kind.kindToString(), "");
-        printId(varDecl.name);
+        varDecl.name.accept(*this);
         if (varDecl.type) {
             log.raw(": ");
             varDecl.type->accept(*this);
@@ -350,7 +350,7 @@ namespace jc::ast {
         log.raw("|");
         for (size_t i = 0; i < lambdaExpr.params.size(); i++) {
             const auto & param = lambdaExpr.params.at(i);
-            printId(param->name);
+            param->name.accept(*this);
             if (param->type) {
                 log.raw(": ");
                 param->type.unwrap().accept(*this);
@@ -390,7 +390,7 @@ namespace jc::ast {
     void AstPrinter::visit(const MemberAccess & memberAccess) {
         memberAccess.lhs.accept(*this);
         log.raw(".");
-        printId(memberAccess.field);
+        memberAccess.field.accept(*this);
     }
 
     void AstPrinter::visit(const ParenExpr & parenExpr) {
@@ -426,7 +426,7 @@ namespace jc::ast {
                     break;
                 }
                 case PathExprSeg::Kind::Ident: {
-                    printId(seg->ident.unwrap());
+                    seg->ident.unwrap().accept(*this);
                     break;
                 }
                 default: {
@@ -579,7 +579,7 @@ namespace jc::ast {
 
     // Generics //
     void AstPrinter::visit(const GenericType & genericType) {
-        printId(genericType.name);
+        genericType.name.accept(*this);
         if (genericType.type) {
             log.raw(": ");
             genericType.type.unwrap().accept(*this);
@@ -588,12 +588,12 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Lifetime & lifetime) {
         log.raw("`");
-        printId(lifetime.name);
+        lifetime.name.accept(*this);
     }
 
     void AstPrinter::visit(const ConstParam & constParam) {
         log.raw("const");
-        printId(constParam.name);
+        constParam.name.accept(*this);
         log.raw(": ");
         constParam.type.accept(*this);
         if (constParam.defaultValue) {
@@ -605,7 +605,7 @@ namespace jc::ast {
     // Fragments //
     void AstPrinter::visit(const Attribute & attr) {
         log.raw("@");
-        printId(attr.name);
+        attr.name.accept(*this);
         printDelim(attr.params, "(", ")");
         log.nl();
     }
@@ -623,7 +623,7 @@ namespace jc::ast {
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
             log.raw("@");
-            printId(attr->name);
+            attr->name.accept(*this);
             log.raw("(");
             printNamedList(attr->params);
             log.raw(")").nl();
@@ -662,7 +662,7 @@ namespace jc::ast {
         for (size_t i = 0; i < namedList.size(); i++) {
             const auto & namedEl = namedList.at(i);
             if (namedEl->name) {
-                printId(namedEl->name.unwrap());
+                namedEl->name.unwrap().accept(*this);
                 if (namedEl->value) {
                     log.raw(": ");
                 }
@@ -686,7 +686,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::print(TypePathSeg & idType) {
-        printId(idType.name);
+        idType.name.accept(*this);
         printTypeParams(idType.typeParams);
     }
 
@@ -722,7 +722,7 @@ namespace jc::ast {
                     break;
                 }
                 case SimplePathSeg::Kind::Ident: {
-                    printId(seg->ident.unwrap());
+                    seg->ident.unwrap().accept(*this);
                     break;
                 }
             }
@@ -748,13 +748,13 @@ namespace jc::ast {
             const auto & field = maybeField.unwrap();
             switch (field->kind) {
                 case StructExprField::Kind::Raw: {
-                    printId(field->name.unwrap());
+                    field->name.unwrap().accept(*this);
                     log.raw(": ");
                     field->expr->accept(*this);
                     break;
                 }
                 case StructExprField::Kind::Shortcut: {
-                    printId(field->name.unwrap());
+                    field->name.unwrap().accept(*this);
                     break;
                 }
                 case StructExprField::Kind::Base: {
