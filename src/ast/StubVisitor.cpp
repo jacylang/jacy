@@ -213,7 +213,7 @@ namespace jc::ast {
         visit("constParam");
     }
 
-    void StubVisitor::visit(const std::const string & construction) {
+    void StubVisitor::visit(const std::string & construction) {
         if (mode == StubVisitorMode::NotImplemented) {
             Logger::devPanic(owner + " visit:" + construction + " not implemented");
         }

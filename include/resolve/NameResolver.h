@@ -19,62 +19,62 @@ namespace jc::resolve {
 
         dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::Party & party);
 
-        void visit(ast::FileModule & fileModule) override;
-        void visit(ast::DirModule & dirModule) override;
+        void visit(const ast::FileModule & fileModule) override;
+        void visit(const ast::DirModule & dirModule) override;
 
         // Items //
-//        void visit(ast::Enum & enumDecl) override;
-        void visit(ast::Func & func) override;
-//        void visit(ast::Impl & impl) override;
-        void visit(ast::Mod & mod) override;
-        void visit(ast::Struct & _struct) override;
-//        void visit(ast::Trait & trait) override;
-//        void visit(ast::TypeAlias & typeAlias) override;
-        void visit(ast::UseDecl & useDecl) override;
+//        void visit(const ast::Enum & enumDecl) override;
+        void visit(const ast::Func & func) override;
+//        void visit(const ast::Impl & impl) override;
+        void visit(const ast::Mod & mod) override;
+        void visit(const ast::Struct & _struct) override;
+//        void visit(const ast::Trait & trait) override;
+//        void visit(const ast::TypeAlias & typeAlias) override;
+        void visit(const ast::UseDecl & useDecl) override;
         void resolveUseTree(const ast::use_tree_ptr & useTree);
 
         // Statements //
-        void visit(ast::ExprStmt & exprStmt) override;
-//        void visit(ast::ForStmt & forStmt) override;
-        void visit(ast::VarStmt & varStmt) override;
-        void visit(ast::WhileStmt & whileStmt) override;
+        void visit(const ast::ExprStmt & exprStmt) override;
+//        void visit(const ast::ForStmt & forStmt) override;
+        void visit(const ast::VarStmt & varStmt) override;
+        void visit(const ast::WhileStmt & whileStmt) override;
 
         // Expressions //
-        void visit(ast::Assignment & assign) override;
-        void visit(ast::Block & block) override;
-        void visit(ast::BorrowExpr & borrowExpr) override;
-        void visit(ast::BreakExpr & breakExpr) override;
-        void visit(ast::ContinueExpr & continueExpr) override;
-        void visit(ast::DerefExpr & derefExpr) override;
-        void visit(ast::IfExpr & ifExpr) override;
-        void visit(ast::Infix & infix) override;
-        void visit(ast::Invoke & invoke) override;
-        void visit(ast::Lambda & lambdaExpr) override;
-        void visit(ast::ListExpr & listExpr) override;
-        void visit(ast::LiteralConstant & literalConstant) override;
-        void visit(ast::LoopExpr & loopExpr) override;
-        void visit(ast::MemberAccess & memberAccess) override;
-        void visit(ast::ParenExpr & parenExpr) override;
-        void visit(ast::PathExpr & pathExpr) override;
-        void visit(ast::Prefix & prefix) override;
-        void visit(ast::QuestExpr & questExpr) override;
-        void visit(ast::ReturnExpr & returnExpr) override;
-        void visit(ast::SpreadExpr & spreadExpr) override;
-        void visit(ast::StructExpr & structExpr) override;
-        void visit(ast::Subscript & subscript) override;
-        void visit(ast::ThisExpr & thisExpr) override;
-        void visit(ast::TupleExpr & tupleExpr) override;
-        void visit(ast::UnitExpr & unitExpr) override;
-        void visit(ast::WhenExpr & whenExpr) override;
+        void visit(const ast::Assignment & assign) override;
+        void visit(const ast::Block & block) override;
+        void visit(const ast::BorrowExpr & borrowExpr) override;
+        void visit(const ast::BreakExpr & breakExpr) override;
+        void visit(const ast::ContinueExpr & continueExpr) override;
+        void visit(const ast::DerefExpr & derefExpr) override;
+        void visit(const ast::IfExpr & ifExpr) override;
+        void visit(const ast::Infix & infix) override;
+        void visit(const ast::Invoke & invoke) override;
+        void visit(const ast::Lambda & lambdaExpr) override;
+        void visit(const ast::ListExpr & listExpr) override;
+        void visit(const ast::LiteralConstant & literalConstant) override;
+        void visit(const ast::LoopExpr & loopExpr) override;
+        void visit(const ast::MemberAccess & memberAccess) override;
+        void visit(const ast::ParenExpr & parenExpr) override;
+        void visit(const ast::PathExpr & pathExpr) override;
+        void visit(const ast::Prefix & prefix) override;
+        void visit(const ast::QuestExpr & questExpr) override;
+        void visit(const ast::ReturnExpr & returnExpr) override;
+        void visit(const ast::SpreadExpr & spreadExpr) override;
+        void visit(const ast::StructExpr & structExpr) override;
+        void visit(const ast::Subscript & subscript) override;
+        void visit(const ast::ThisExpr & thisExpr) override;
+        void visit(const ast::TupleExpr & tupleExpr) override;
+        void visit(const ast::UnitExpr & unitExpr) override;
+        void visit(const ast::WhenExpr & whenExpr) override;
 
         // Types //
-        void visit(ast::ParenType & parenType) override;
-        void visit(ast::TupleType & tupleType) override;
-        void visit(ast::FuncType & funcType) override;
-        void visit(ast::SliceType & listType) override;
-        void visit(ast::ArrayType & arrayType) override;
-        void visit(ast::TypePath & typePath) override;
-        void visit(ast::UnitType & unitType) override;
+        void visit(const ast::ParenType & parenType) override;
+        void visit(const ast::TupleType & tupleType) override;
+        void visit(const ast::FuncType & funcType) override;
+        void visit(const ast::SliceType & listType) override;
+        void visit(const ast::ArrayType & arrayType) override;
+        void visit(const ast::TypePath & typePath) override;
+        void visit(const ast::UnitType & unitType) override;
 
     private:
         common::Logger log{"NameResolver"};

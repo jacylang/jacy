@@ -83,7 +83,7 @@ namespace jc::ast {
         void visit(const ConstParam & constParam) override;
 
     private:
-        void visit(const std::const string & construction);
+        void visit(const std::string & construction);
 
         const std::string owner;
         StubVisitorMode mode;

@@ -9,7 +9,7 @@ namespace jc::resolve {
         return {ribStack, std::move(suggestions)};
     }
 
-    void NameResolver::visit(ast::FileModule & fileModule) {
+    void NameResolver::visit(const ast::FileModule & fileModule) {
         enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
 
         for (const auto & item : fileModule.getFile()->items) {
@@ -19,7 +19,7 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void NameResolver::visit(ast::DirModule & dirModule) {
+    void NameResolver::visit(const ast::DirModule & dirModule) {
         enterMod(Module::Kind::Dir, dirModule.getName());
 
         for (const auto & module : dirModule.getModules()) {
@@ -29,7 +29,7 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void NameResolver::visit(ast::Func & func) {
+    void NameResolver::visit(const ast::Func & func) {
         uint32_t prevDepth = getDepth();
         visitTypeParams(func.typeParams);
 
@@ -56,7 +56,7 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-    void NameResolver::visit(ast::Mod & mod) {
+    void NameResolver::visit(const ast::Mod & mod) {
         enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
         enterRib(Rib::Kind::Value);
 
@@ -66,7 +66,7 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void NameResolver::visit(ast::Struct & _struct) {
+    void NameResolver::visit(const ast::Struct & _struct) {
         uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
@@ -79,7 +79,7 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-    void NameResolver::visit(ast::UseDecl & useDecl) {
+    void NameResolver::visit(const ast::UseDecl & useDecl) {
         resolveUseTree(useDecl.useTree);
     }
 
@@ -88,27 +88,27 @@ namespace jc::resolve {
     }
 
     // Statements //
-    void NameResolver::visit(ast::ExprStmt & exprStmt) {
+    void NameResolver::visit(const ast::ExprStmt & exprStmt) {
         exprStmt.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::VarStmt & varStmt) {
+    void NameResolver::visit(const ast::VarStmt & varStmt) {
         enterRib(Rib::Kind::Value);
         declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
-    void NameResolver::visit(ast::WhileStmt & whileStmt) {
+    void NameResolver::visit(const ast::WhileStmt & whileStmt) {
         whileStmt.condition.accept(*this);
         visit(*whileStmt.body);
     }
 
     // Expressions //
-    void NameResolver::visit(ast::Assignment & assign) {
+    void NameResolver::visit(const ast::Assignment & assign) {
         assign.lhs.accept(*this);
         assign.rhs.accept(*this);
     }
 
-    void NameResolver::visit(ast::Block & block) {
+    void NameResolver::visit(const ast::Block & block) {
         enterRib(Rib::Kind::Value); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt.accept(*this);
@@ -116,24 +116,24 @@ namespace jc::resolve {
         exitRib(); // <- block rib
     }
 
-    void NameResolver::visit(ast::BorrowExpr & borrowExpr) {
+    void NameResolver::visit(const ast::BorrowExpr & borrowExpr) {
         borrowExpr.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::BreakExpr & breakExpr) {
+    void NameResolver::visit(const ast::BreakExpr & breakExpr) {
         if (breakExpr.expr) {
             breakExpr.expr.unwrap().accept(*this);
         }
     }
 
-    void NameResolver::visit(ast::ContinueExpr & continueExpr) {
+    void NameResolver::visit(const ast::ContinueExpr & continueExpr) {
     }
 
-    void NameResolver::visit(ast::DerefExpr & derefExpr) {
+    void NameResolver::visit(const ast::DerefExpr & derefExpr) {
         derefExpr.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::IfExpr & ifExpr) {
+    void NameResolver::visit(const ast::IfExpr & ifExpr) {
         ifExpr.condition.accept(*this);
         if (ifExpr.ifBranch) {
             ifExpr.ifBranch.unwrap()->accept(*this);
@@ -143,17 +143,17 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::Infix & infix) {
+    void NameResolver::visit(const ast::Infix & infix) {
         infix.lhs.accept(*this);
         infix.rhs.accept(*this);
     }
 
-    void NameResolver::visit(ast::Invoke & invoke) {
+    void NameResolver::visit(const ast::Invoke & invoke) {
         invoke.lhs.accept(*this);
         visitNamedList(invoke.args);
     }
 
-    void NameResolver::visit(ast::Lambda & lambdaExpr) {
+    void NameResolver::visit(const ast::Lambda & lambdaExpr) {
         enterRib(Rib::Kind::Value); // -> (lambda params)
 
         for (const auto & param : lambdaExpr.params) {
@@ -172,55 +172,55 @@ namespace jc::resolve {
         exitRib(); // <- (lambda params)
     }
 
-    void NameResolver::visit(ast::ListExpr & listExpr) {
+    void NameResolver::visit(const ast::ListExpr & listExpr) {
         for (const auto & el : listExpr.elements) {
             el.accept(*this);
         }
     }
 
-    void NameResolver::visit(ast::LiteralConstant & literalConstant) {
+    void NameResolver::visit(const ast::LiteralConstant & literalConstant) {
     }
 
-    void NameResolver::visit(ast::LoopExpr & loopExpr) {
+    void NameResolver::visit(const ast::LoopExpr & loopExpr) {
         visit(*loopExpr.body);
     }
 
-    void NameResolver::visit(ast::MemberAccess & memberAccess) {
+    void NameResolver::visit(const ast::MemberAccess & memberAccess) {
         memberAccess.lhs.accept(*this);
         // Note: As far as lhs is unknown expression, we cannot check fields on this stage.
         //  At first we need to infer the type of lhs, and then type-check it whereas it is a structure
         //  and has certain field
     }
 
-    void NameResolver::visit(ast::ParenExpr & parenExpr) {
+    void NameResolver::visit(const ast::ParenExpr & parenExpr) {
         parenExpr.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::PathExpr & pathExpr) {
+    void NameResolver::visit(const ast::PathExpr & pathExpr) {
         // TODO: global
 
 
     }
 
-    void NameResolver::visit(ast::Prefix & prefix) {
+    void NameResolver::visit(const ast::Prefix & prefix) {
         prefix.rhs.accept(*this);
     }
 
-    void NameResolver::visit(ast::QuestExpr & questExpr) {
+    void NameResolver::visit(const ast::QuestExpr & questExpr) {
         questExpr.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::ReturnExpr & returnExpr) {
+    void NameResolver::visit(const ast::ReturnExpr & returnExpr) {
         if (returnExpr.expr) {
             returnExpr.expr.unwrap().accept(*this);
         }
     }
 
-    void NameResolver::visit(ast::SpreadExpr & spreadExpr) {
+    void NameResolver::visit(const ast::SpreadExpr & spreadExpr) {
         spreadExpr.expr.accept(*this);
     }
 
-    void NameResolver::visit(ast::StructExpr & structExpr) {
+    void NameResolver::visit(const ast::StructExpr & structExpr) {
         structExpr.path.accept(*this);
 
         for (const auto & maybeField : structExpr.fields) {
@@ -239,7 +239,7 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::Subscript & subscript) {
+    void NameResolver::visit(const ast::Subscript & subscript) {
         subscript.lhs.accept(*this);
 
         for (const auto & index : subscript.indices) {
@@ -247,18 +247,18 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::ThisExpr & thisExpr) {
+    void NameResolver::visit(const ast::ThisExpr & thisExpr) {
     }
 
-    void NameResolver::visit(ast::TupleExpr & tupleExpr) {
+    void NameResolver::visit(const ast::TupleExpr & tupleExpr) {
         visitNamedList(tupleExpr.elements);
     }
 
-    void NameResolver::visit(ast::UnitExpr & unitExpr) {
+    void NameResolver::visit(const ast::UnitExpr & unitExpr) {
         // TODO MEOW?
     }
 
-    void NameResolver::visit(ast::WhenExpr & whenExpr) {
+    void NameResolver::visit(const ast::WhenExpr & whenExpr) {
         whenExpr.subject.accept(*this);
 
         for (const auto & entry : whenExpr.entries) {
@@ -272,11 +272,11 @@ namespace jc::resolve {
     }
 
     // Types //
-    void NameResolver::visit(ast::ParenType & parenType) {
+    void NameResolver::visit(const ast::ParenType & parenType) {
         parenType.type.accept(*this);
     }
 
-    void NameResolver::visit(ast::TupleType & tupleType) {
+    void NameResolver::visit(const ast::TupleType & tupleType) {
         for (const auto & el : tupleType.elements) {
             if (el->type) {
                 el->type.unwrap().accept(*this);
@@ -284,27 +284,27 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(ast::FuncType & funcType) {
+    void NameResolver::visit(const ast::FuncType & funcType) {
         for (const auto & param : funcType.params) {
             param.accept(*this);
         }
         funcType.returnType.accept(*this);
     }
 
-    void NameResolver::visit(ast::SliceType & listType) {
+    void NameResolver::visit(const ast::SliceType & listType) {
         listType.type.accept(*this);
     }
 
-    void NameResolver::visit(ast::ArrayType & arrayType) {
+    void NameResolver::visit(const ast::ArrayType & arrayType) {
         arrayType.type.accept(*this);
         arrayType.sizeExpr.accept(*this);
     }
 
-    void NameResolver::visit(ast::TypePath & typePath) {
+    void NameResolver::visit(const ast::TypePath & typePath) {
         // TODO: !!!
     }
 
-    void NameResolver::visit(ast::UnitType & unitType) {
+    void NameResolver::visit(const ast::UnitType & unitType) {
         // TODO: MEOW?
     }
 
