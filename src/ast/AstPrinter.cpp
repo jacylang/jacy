@@ -626,6 +626,14 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::visit(const SimplePath & path) {
+        if (path.global) {
+            log.raw("::");
+        }
+
+        printDelim(path.segments, "", "", "::");
+    }
+
     void AstPrinter::printIndent() const {
         for (int i = 0; i < indent; i++) {
             log.raw(indentChar);
