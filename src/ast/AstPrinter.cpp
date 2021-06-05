@@ -15,6 +15,12 @@ namespace jc::ast {
         log.raw("[ERROR]");
     }
 
+    void AstPrinter::visit(const File & file) {
+        for (const auto item : file.items) {
+            item->accept(*this);
+        }
+    }
+
     void AstPrinter::visit(const FileModule & fileModule) {
         log.raw("--- file", fileModule.getName()).nl();
         for (const auto & item : fileModule.getFile()->items) {
