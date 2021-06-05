@@ -523,14 +523,12 @@ namespace jc::ast {
 
     void Linter::visit(const WhenExpr & whenExpr) {
         whenExpr.subject.accept(*this);
+        lintEach(whenExpr.entries);
+    }
 
-        for (const auto & entry : whenExpr.entries) {
-            for (const auto & condition : entry->conditions) {
-                // FIXME: Patterns in the future
-                condition.accept(*this);
-            }
-            entry->body->accept(*this);
-        }
+    void Linter::visit(const WhenEntry & entry) {
+        lintEach(entry.conditions);
+        entry.body->accept(*this);
     }
 
     ///////////
