@@ -37,21 +37,32 @@ namespace jc::ast {
     void AstPrinter::visit(const Enum & enumDecl) {
         printIndent();
 
-        log.notImplemented("AstPrinter:enumDecl");
+        printId(enumDecl.name);
 
-        //        log.raw("enum ");
-        //        enumDecl.id->accept(*this);
-        //
-        //        for (const auto & enumEntry : enumDecl->entries) {
-        //            enumEntry.id->accept(*this);
-        //            if (enumEntry->value) {
-        //                log.raw(" = ");
-        //                enumEntry.value->accept(*this);
-        //            }
-        //            log.raw(",").nl();
-        //        }
-        //
-        //        print(enumDecl->body);
+        log.raw(" {").nl();
+        incIndent();
+
+        for (const auto & entry : enumDecl.entries) {
+            printId(entry->name);
+            switch (entry->kind) {
+                case EnumEntryKind::Raw: break;
+                case EnumEntryKind::Discriminant: {
+                    log.raw(" = ");
+                    std::get<expr_ptr>(entry->body);
+                    break;
+                }
+                case EnumEntryKind::Tuple: {
+                    print(*std::get<named_list_ptr>(entry->body));
+                    break;
+                }
+                case EnumEntryKind::Struct: {
+                    printFieldList(std::get<field_list>(entry->body));
+                    break;
+                }
+            }
+        }
+
+        decIndent();
     }
 
     void AstPrinter::visit(const ExprStmt & exprStmt) {
@@ -776,6 +787,30 @@ namespace jc::ast {
         }
         decIndent();
         printIndent();
+        log.raw("}");
+    }
+
+    void AstPrinter::printFieldList(const field_list & fields) {
+        log.raw(" {");
+        if (fields.size() > 1) {
+            log.nl();
+            incIndent();
+        }
+        for (size_t i = 0; i < fields.size(); i++) {
+            printIndent();
+            const auto & field = fields.at(i);
+            printId(field->name);
+            log.raw(": ");
+            field->type.accept(*this);
+
+            if (i < fields.size() - 1) {
+                log.raw(", ");
+            }
+        }
+        if (fields.size() > 1) {
+            decIndent();
+            log.nl();
+        }
         log.raw("}");
     }
 

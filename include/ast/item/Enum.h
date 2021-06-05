@@ -14,10 +14,10 @@ namespace jc::ast {
     using enum_entry_list = std::vector<enum_entry_ptr>;
 
     enum class EnumEntryKind {
-        Raw,
-        Discriminant,
-        Tuple,
-        Struct,
+        Raw, // `A`
+        Discriminant, // `A = const expr`
+        Tuple, // `A(a, b, c...)`
+        Struct, // `A {a, b, c...}`
     };
 
     struct EnumEntry : Node {
