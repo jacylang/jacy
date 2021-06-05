@@ -37,6 +37,10 @@ namespace jc::ast {
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
         void visit(const UseDecl & useDecl) override;
+        void visit(const UseTreeRaw & useTree) override;
+        void visit(const UseTreeSpecific & useTree) override;
+        void visit(const UseTreeRebind & useTree) override;
+        void visit(const UseTreeAll & useTree) override;
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
@@ -98,7 +102,6 @@ namespace jc::ast {
         void print(TypePathSeg & idType);
         void printMembers(const item_list & members);
         void printId(const id_ptr & maybeId);
-        void printUseTree(const use_tree_ptr & useTree);
         void printSimplePath(const simple_path_ptr & simplePath);
         void printStructExprFields(const struct_expr_field_list & fields);
         void printFieldList(const field_list & fields);

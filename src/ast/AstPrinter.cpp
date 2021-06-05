@@ -204,7 +204,31 @@ namespace jc::ast {
         printIndent();
 
         log.raw("use ");
-        printUseTree(useDecl.useTree);
+        useDecl.useTree.accept(*this);
+    }
+
+    void AstPrinter::visit(const UseTreeRaw & useTree) {
+        printSimplePath(useTree.path);
+    }
+
+    void AstPrinter::visit(const UseTreeSpecific & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
+        printDelim(useTree.specifics, "{", "}");
+    }
+
+    void AstPrinter::visit(const UseTreeRebind & useTree) {
+        useTree.path->accept(*this);
+        log.raw(" as ");
+        useTree.as.accept(*this);
+    }
+
+    void AstPrinter::visit(const UseTreeAll & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
+        log.raw("*");
     }
 
     void AstPrinter::visit(const VarStmt & varDecl) {
@@ -671,49 +695,6 @@ namespace jc::ast {
             log.raw("[ERROR]");
         } else {
             log.raw(id.unwrap()->getValue());
-        }
-    }
-
-    void AstPrinter::printUseTree(const use_tree_ptr & maybeUseTree) {
-        if (maybeUseTree.isErr()) {
-            log.raw("[ERROR]");
-            return;
-        }
-
-        const auto & useTree = maybeUseTree.unwrap();
-        switch (useTree->kind) {
-            case UseTree::Kind::All: {
-                const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
-                if (all->path) {
-                    printSimplePath(all->path.unwrap());
-                }
-                log.raw("*");
-                break;
-            }
-            case UseTree::Kind::Specific: {
-                log.raw("{");
-                const auto & specific = std::static_pointer_cast<UseTreeSpecific>(useTree);
-                if (specific->path) {
-                    printSimplePath(specific->path.unwrap());
-                }
-                for (const auto & specific : specific->specifics) {
-                    printUseTree(specific);
-                    log.raw(",\n");
-                }
-                break;
-            }
-            case UseTree::Kind::Rebind: {
-                log.raw(" as ");
-                const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
-                printSimplePath(rebind->path);
-                printId(rebind->as);
-                break;
-            }
-            case UseTree::Kind::Raw: {
-                const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
-                printSimplePath(raw->path);
-                break;
-            }
         }
     }
 
