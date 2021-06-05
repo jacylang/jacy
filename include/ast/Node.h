@@ -24,6 +24,8 @@ namespace jc::ast {
 
         node_id id{NONE_NODE_ID};
         const Span span;
+
+        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct ErrorNode : Node {
