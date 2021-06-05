@@ -103,6 +103,11 @@ namespace jc::ast {
         visitEach(_struct.fields);
     }
 
+    void StubVisitor::visit(const StructField & field) {
+        field.name.accept(*this);
+        field.type.accept(*this);
+    }
+
     void StubVisitor::visit(const Trait & trait) {
 
     }
