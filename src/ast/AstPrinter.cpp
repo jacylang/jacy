@@ -345,27 +345,23 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
-        log.raw("|");
-        for (size_t i = 0; i < lambdaExpr.params.size(); i++) {
-            const auto & param = lambdaExpr.params.at(i);
-            param->name.accept(*this);
-            if (param->type) {
-                log.raw(": ");
-                param->type.unwrap().accept(*this);
-            }
-            if (i < lambdaExpr.params.size() - 1) {
-                log.raw(", ");
-            }
-        }
-        log.raw("| ");
+        printDelim(lambdaExpr.params, "|", "|", ",");
 
         if (lambdaExpr.returnType) {
             log.raw(" -> ");
             lambdaExpr.returnType.unwrap().accept(*this);
-            log.raw(" ");
         }
 
+        log.raw(" ");
         lambdaExpr.body.accept(*this);
+    }
+
+    void AstPrinter::visit(const LambdaParam & param) {
+        param.name.accept(*this);
+        if (param.type) {
+            log.raw(": ");
+            param.type.unwrap().accept(*this);
+        }
     }
 
     void AstPrinter::visit(const ListExpr & listExpr) {
