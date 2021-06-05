@@ -16,7 +16,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const File & file) {
-        printDelim(file.items, "", "", "\n");
+        printDelim<item_ptr>(file.items, "", "", "\n");
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {
@@ -26,7 +26,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const DirModule & dirModule) {
         log.raw("--- dir", dirModule.getName()).nl();
-        printDelim(dirModule.getModules(), "", "", "\n");
+        printDelim<module_ptr>(dirModule.getModules(), "", "", "\n");
     }
 
     ////////////////
@@ -50,7 +50,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                printDelim(std::get<named_list>(enumEntry.body), "(", ")", ",");
+                printDelim<named_el_ptr>(std::get<named_list>(enumEntry.body), "(", ")", ",");
                 break;
             }
             case EnumEntryKind::Struct: {
@@ -91,7 +91,7 @@ namespace jc::ast {
         log.raw(" ");
         func.name.accept(*this);
 
-        printDelim(func.params, "(", ")", ",");
+        printDelim<func_param_ptr>(func.params, "(", ")", ",");
 
         if (func.returnType) {
             log.raw(": ");
@@ -149,7 +149,7 @@ namespace jc::ast {
         _struct.name.accept(*this);
         log.raw(" ");
 
-        printDelim(_struct.fields, "{", "}", ",\n");
+        printDelim<struct_field_ptr>(_struct.fields, "{", "}", ",\n");
     }
 
     void AstPrinter::visit(const StructField & field) {
@@ -169,7 +169,7 @@ namespace jc::ast {
             log.raw(" : ");
         }
 
-        printDelim(trait.superTraits, "", "", ",");
+        printDelim<type_path_ptr>(trait.superTraits, "", "", ",");
         printBodyLike(trait.members, "\n");
     }
 
@@ -197,7 +197,7 @@ namespace jc::ast {
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
         }
-        printDelim(useTree.specifics, "{", "}");
+        printDelim<use_tree_ptr>(useTree.specifics, "{", "}");
     }
 
     void AstPrinter::visit(const UseTreeRebind & useTree) {
@@ -249,7 +249,7 @@ namespace jc::ast {
             log.raw("{}");
             return;
         }
-        printBodyLike(block.stmts, "\n");
+        printBodyLike<stmt_ptr>(block.stmts, "\n");
     }
 
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
@@ -316,11 +316,11 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
-        printDelim(invoke.args, "(", ")", ",");
+        printDelim<named_el_ptr>(invoke.args, "(", ")", ",");
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
-        printDelim(lambdaExpr.params, "|", "|", ",");
+        printDelim<std::shared_ptr<LambdaParam>>(lambdaExpr.params, "|", "|", ",");
 
         if (lambdaExpr.returnType) {
             log.raw(" -> ");
@@ -374,7 +374,7 @@ namespace jc::ast {
         if (pathExpr.global) {
             log.raw("::");
         }
-        printDelim(pathExpr.segments, "", "", "::");
+        printDelim<path_expr_seg_ptr>(pathExpr.segments, "", "", "::");
     }
 
     void AstPrinter::visit(const PathExprSeg & seg) {
@@ -426,7 +426,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const StructExpr & structExpr) {
         structExpr.path.accept(*this);
-        printBodyLike(structExpr.fields, ",\n");
+        printBodyLike<struct_expr_field_ptr>(structExpr.fields, ",\n");
     }
 
     void AstPrinter::visit(const StructExprField & field) {
@@ -452,7 +452,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
         log.raw("[");
-        printDelim(subscript.indices, "", "", ",");
+        printDelim<expr_ptr>(subscript.indices, "", "", ",");
         log.raw("]");
     }
 
@@ -461,7 +461,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
-        printDelim(tupleExpr.elements, "(", ")", ",");
+        printDelim<named_el_ptr>(tupleExpr.elements, "(", ")", ",");
     }
 
     void AstPrinter::visit(const UnitExpr & unitExpr) {
@@ -471,11 +471,11 @@ namespace jc::ast {
     void AstPrinter::visit(const WhenExpr & whenExpr) {
         log.raw("when ");
         whenExpr.subject.accept(*this);
-        printBodyLike(whenExpr.entries, ",\n");
+        printBodyLike<when_entry_ptr>(whenExpr.entries, ",\n");
     }
 
     void AstPrinter::visit(const WhenEntry & entry) {
-        printDelim(entry.conditions, "", "", ",");
+        printDelim<expr_ptr>(entry.conditions, "", "", ",");
         log.raw(" => ");
         entry.body->accept(*this);
     }
@@ -488,7 +488,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
-        printDelim(tupleType.elements, "(", ")", ",");
+        printDelim<tuple_t_el_ptr>(tupleType.elements, "(", ")", ",");
     }
 
     void AstPrinter::visit(const TupleTypeEl & el) {
@@ -504,7 +504,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
-        printDelim(funcType.params, "(", ")", ",");
+        printDelim<type_ptr>(funcType.params, "(", ")", ",");
         log.raw(" -> ");
         funcType.returnType.accept(*this);
     }
@@ -527,7 +527,7 @@ namespace jc::ast {
         if (typePath.global) {
             log.raw("::");
         }
-        printDelim(typePath.segments, "", "", "::");
+        printDelim<std::shared_ptr<TypePathSeg>>(typePath.segments, "", "", "::");
     }
 
     void AstPrinter::visit(const TypePathSeg & seg) {
@@ -568,7 +568,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Attribute & attr) {
         log.raw("@");
         attr.name.accept(*this);
-        printDelim(attr.params, "(", ")");
+        printDelim<named_el_ptr>(attr.params, "(", ")");
         log.nl();
     }
 
@@ -593,7 +593,7 @@ namespace jc::ast {
             log.raw("::");
         }
 
-        printDelim(path.segments, "", "", "::");
+        printDelim<simple_path_seg_ptr>(path.segments, "", "", "::");
     }
 
     void AstPrinter::visit(const SimplePathSeg & seg) {
@@ -647,7 +647,7 @@ namespace jc::ast {
             log.raw("::");
         }
 
-        printDelim(typeParams, "<", ">", ",");
+        printDelim<std::shared_ptr<TypeParam>>(typeParams, "<", ">", ",");
     }
 
     void AstPrinter::incIndent() {

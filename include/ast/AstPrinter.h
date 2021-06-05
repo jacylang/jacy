@@ -116,9 +116,9 @@ namespace jc::ast {
 
         // Helpers //
     private:
-        template<template<class> class C, class T>
+        template<typename T>
         void printDelim(
-            const std::vector<C<T>> & entities,
+            const std::vector<T> & entities,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
@@ -141,9 +141,9 @@ namespace jc::ast {
             }
         }
 
-        template<template<class> class C, class T>
+        template<typename T>
         void printBodyLike(
-            const std::vector<C<T>> & elements,
+            const std::vector<T> & elements,
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
