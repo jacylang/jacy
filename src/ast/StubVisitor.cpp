@@ -128,8 +128,31 @@ namespace jc::ast {
         useDecl.useTree.accept(*this);
     }
 
+    void StubVisitor::visit(const UseTreeRaw & useTree) {
+        useTree.path->accept(*this);
+    }
+
+    void StubVisitor::visit(const UseTreeSpecific & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
+        visitEach(useTree.specifics);
+    }
+
+    void StubVisitor::visit(const UseTreeRebind & useTree) {
+        useTree.path->accept(*this);
+        useTree.as.accept(*this);
+    }
+
+    void StubVisitor::visit(const UseTreeAll & useTree) {
+        if (useTree.path) {
+            useTree.path.unwrap()->accept(*this);
+        }
+    }
+
+    // Statements //
     void StubVisitor::visit(const VarStmt & varDecl) {
-        visit("varDecl");
+//        vars
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
