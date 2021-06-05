@@ -372,7 +372,10 @@ namespace jc::ast {
 
     // Type params //
     void StubVisitor::visit(const GenericType & genericType) {
-        visit("genericType");
+        genericType.name.accept(*this);
+        if (genericType.type) {
+            genericType.type.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const Lifetime & lifetime) {
