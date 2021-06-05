@@ -78,7 +78,7 @@ namespace jc::ast {
         }
 
         if (func.typeParams) {
-            lintTypeParams(func.typeParams.unwrap());
+            lintEach(func.typeParams.unwrap());
         }
 
         func.name.accept(*this);
@@ -110,7 +110,7 @@ namespace jc::ast {
         // TODO: lint attributes
 
         if (impl.typeParams) {
-            lintTypeParams(impl.typeParams.unwrap());
+            lintEach(impl.typeParams.unwrap());
         }
 
         impl.traitTypePath.accept(*this);
@@ -134,7 +134,7 @@ namespace jc::ast {
         _struct.name.accept(*this);
 
         if (_struct.typeParams) {
-            lintTypeParams(_struct.typeParams.unwrap());
+            lintEach(_struct.typeParams.unwrap());
         }
 
         pushContext(LinterContext::Struct);
@@ -148,7 +148,7 @@ namespace jc::ast {
         trait.name.accept(*this);
 
         if (trait.typeParams) {
-            lintTypeParams(trait.typeParams.unwrap());
+            lintEach(trait.typeParams.unwrap());
         }
 
         for (const auto & superTrait : trait.superTraits) {
@@ -413,7 +413,7 @@ namespace jc::ast {
                 }
             }
             if (seg->typeParams) {
-                lintTypeParams(seg->typeParams.unwrap());
+                lintEach(seg->typeParams.unwrap());
             }
         }
     }
@@ -550,7 +550,7 @@ namespace jc::ast {
         for (const auto & seg : typePath.segments) {
             seg->name.accept(*this);
             if (seg->typeParams) {
-                lintTypeParams(seg->typeParams.unwrap());
+                lintEach(seg->typeParams.unwrap());
             }
         }
     }
@@ -580,12 +580,6 @@ namespace jc::ast {
     }
 
     // Linters //
-    void Linter::lintTypeParams(const type_param_list & typeParams) {
-        for (const auto & typeParam : typeParams) {
-            typeParam->accept(*this);
-        }
-    }
-
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {

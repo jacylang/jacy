@@ -93,7 +93,6 @@ namespace jc::ast {
         void visit(const ConstParam & constParam) override;
 
     private:
-        void lintTypeParams(const type_param_list & typeParams);
         bool isPlaceExpr(const expr_ptr & expr);
         void lintUseTree(const use_tree_ptr & useTree);
         void lintSimplePath(const simple_path_ptr & simplePath);
