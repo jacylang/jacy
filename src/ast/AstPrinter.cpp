@@ -705,49 +705,6 @@ namespace jc::ast {
         log.raw(">");
     }
 
-    void AstPrinter::printStructExprFields(const struct_expr_field_list & fields) {
-        log.raw(" {");
-        if (fields.size() > 1) {
-            log.nl();
-        }
-        incIndent();
-        for (size_t i = 0; i < fields.size(); i++) {
-            const auto & maybeField = fields.at(i);
-            printIndent();
-            if (maybeField.isErr()) {
-                log.raw("[ERROR],").nl();
-                continue;
-            }
-            const auto & field = maybeField.unwrap();
-            switch (field->kind) {
-                case StructExprField::Kind::Raw: {
-                    field->name.unwrap().accept(*this);
-                    log.raw(": ");
-                    field->expr->accept(*this);
-                    break;
-                }
-                case StructExprField::Kind::Shortcut: {
-                    field->name.unwrap().accept(*this);
-                    break;
-                }
-                case StructExprField::Kind::Base: {
-                    log.raw("...");
-                    field->expr->accept(*this);
-                    break;
-                }
-            }
-            if (i < fields.size() - 1) {
-                log.raw(",").nl();
-            }
-        }
-        if (fields.size() > 1) {
-            log.nl();
-        }
-        decIndent();
-        printIndent();
-        log.raw("}");
-    }
-
     void AstPrinter::incIndent() {
         ++indent;
     }
