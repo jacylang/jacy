@@ -109,15 +109,23 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Trait & trait) {
+        trait.name.accept(*this);
 
+        if (trait.typeParams) {
+            visitEach(trait.typeParams.unwrap());
+        }
+
+        visitEach(trait.superTraits);
+        visitEach(trait.members);
     }
 
     void StubVisitor::visit(const TypeAlias & typeAlias) {
-        visit("typeAlias");
+        typeAlias.name.accept(*this);
+        typeAlias.type.accept(*this);
     }
 
     void StubVisitor::visit(const UseDecl & useDecl) {
-        visit("useDecl");
+        useDecl.useTree.accept(*this);
     }
 
     void StubVisitor::visit(const VarStmt & varDecl) {
