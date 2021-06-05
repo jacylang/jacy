@@ -491,7 +491,7 @@ namespace jc::parser {
         auto name = parseId("Expected struct name", true, true);
         auto typeParams = parseOptTypeParams();
 
-        field_list fields;
+        struct_field_list fields;
         if (!isHardSemi()) {
             skip(
                 TokenKind::LBrace,
@@ -519,8 +519,8 @@ namespace jc::parser {
         );
     }
 
-    field_list Parser::parseStructFields() {
-        field_list fields;
+    struct_field_list Parser::parseStructFields() {
+        struct_field_list fields;
 
         bool first = true;
         while (!eof()) {
@@ -554,7 +554,7 @@ namespace jc::parser {
             // TODO: Hint field type
             auto type = parseType("Expected type for field after `:`");
 
-            fields.emplace_back(makeNode<Field>(std::move(id), std::move(type), begin.to(cspan())));
+            fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), begin.to(cspan())));
         }
 
         return std::move(fields);

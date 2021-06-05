@@ -6,7 +6,7 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
-#include "ast/fragments/Field.h"
+#include "ast/fragments/StructField.h"
 
 namespace jc::ast {
     struct EnumEntry;
@@ -30,12 +30,12 @@ namespace jc::ast {
         EnumEntry(EnumEntryKind kind, id_ptr name, named_list tupleFields, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(tupleFields)), Node(span) {}
 
-        EnumEntry(EnumEntryKind kind, id_ptr name, field_list fields, const Span & span)
+        EnumEntry(EnumEntryKind kind, id_ptr name, struct_field_list fields, const Span & span)
             : kind(kind), name(std::move(name)), body(std::move(fields)), Node(span) {}
 
         EnumEntryKind kind;
         id_ptr name;
-        std::variant<std::monostate, expr_ptr, named_list, field_list> body;
+        std::variant<std::monostate, expr_ptr, named_list, struct_field_list> body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

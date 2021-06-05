@@ -17,6 +17,7 @@ namespace jc::ast {
     struct Impl;
     struct Mod;
     struct Struct;
+    struct StructField;
     struct Trait;
     struct TypeAlias;
     struct UseDecl;
@@ -82,7 +83,6 @@ namespace jc::ast {
 
     // Fragments //
     struct Attribute;
-    struct Field;
     struct Identifier;
     struct NamedElement;
     struct SimplePath;
@@ -106,6 +106,7 @@ namespace jc::ast {
         virtual void visit(const Impl&) = 0;
         virtual void visit(const Mod&) = 0;
         virtual void visit(const Struct&) = 0;
+        virtual void visit(const StructField&) = 0;
         virtual void visit(const Trait&) = 0;
         virtual void visit(const TypeAlias&) = 0;
         virtual void visit(const UseDecl&) = 0;
@@ -171,7 +172,6 @@ namespace jc::ast {
 
         // Fragments //
         virtual void visit(const Attribute&) = 0;
-        virtual void visit(const Field&) = 0;
         virtual void visit(const Identifier&) = 0;
         virtual void visit(const NamedElement&) = 0;
         virtual void visit(const SimplePath&) = 0;

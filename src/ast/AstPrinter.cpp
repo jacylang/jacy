@@ -64,7 +64,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Struct: {
-                printFieldList(std::get<field_list>(enumEntry.body));
+                printFieldList(std::get<struct_field_list>(enumEntry.body));
                 break;
             }
         }
@@ -604,7 +604,7 @@ namespace jc::ast {
         log.nl();
     }
 
-    void AstPrinter::visit(const Field & field) {
+    void AstPrinter::visit(const StructField & field) {
         field.name.accept(*this);
         log.raw(": ");
         field.type.accept(*this);
@@ -779,7 +779,7 @@ namespace jc::ast {
         log.raw("}");
     }
 
-    void AstPrinter::printFieldList(const field_list & fields) {
+    void AstPrinter::printFieldList(const struct_field_list & fields) {
         log.raw(" {");
         if (fields.size() > 1) {
             log.nl();

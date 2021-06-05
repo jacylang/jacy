@@ -3,14 +3,34 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/TypeParams.h"
-#include "ast/fragments/Field.h"
 
 namespace jc::ast {
+    struct StructField;
+    using struct_field_ptr = std::shared_ptr<StructField>;
+    using struct_field_list = std::vector<struct_field_ptr>;
+
+    struct StructField : Node {
+        StructField(
+            id_ptr name,
+            type_ptr type,
+            const Span & span
+        ) : name(std::move(name)),
+            type(std::move(type)),
+            Node(span) {}
+
+        id_ptr name;
+        type_ptr type;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
     struct Struct : Item {
         Struct(
             id_ptr name,
             opt_type_params typeParams,
-            field_list fields,
+            struct_field_list fields,
             const Span & span
         ) : name(std::move(name)),
             typeParams(std::move(typeParams)),
@@ -19,7 +39,7 @@ namespace jc::ast {
 
         id_ptr name;
         opt_type_params typeParams;
-        field_list fields;
+        struct_field_list fields;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
