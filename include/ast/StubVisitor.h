@@ -104,10 +104,10 @@ namespace jc::ast {
         virtual void visit(const SimplePathSeg & seg) override;
 
     private:
-        template<class T>
-        void visitEach(const std::vector<T> & entities) {
+        template<typename T>
+        void visitEach(const T & entities) {
             for (const auto & entity : entities) {
-                entity.accept(*this);
+                entity->accept(*this);
             }
         }
 
