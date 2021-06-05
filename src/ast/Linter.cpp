@@ -659,45 +659,6 @@ namespace jc::ast {
         return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }
 
-    void Linter::lintUseTree(const use_tree_ptr & maybeUseTree) {
-        if (maybeUseTree.isErr()) {
-            common::Logger::devPanic("Unexpected [ERROR] UseTree on linter stage");
-            return;
-        }
-
-        const auto & useTree = maybeUseTree.unwrap();
-        switch (useTree->kind) {
-            case UseTree::Kind::All: {
-                const auto & all = std::static_pointer_cast<UseTreeAll>(useTree);
-                if (all->path) {
-                    lintSimplePath(all->path.unwrap());
-                }
-                break;
-            }
-            case UseTree::Kind::Specific: {
-                const auto & specific = std::static_pointer_cast<UseTreeSpecific>(useTree);
-                if (specific->path) {
-                    lintSimplePath(specific->path.unwrap());
-                }
-                for (const auto & specific : specific->specifics) {
-                    lintUseTree(specific);
-                }
-                break;
-            }
-            case UseTree::Kind::Rebind: {
-                const auto & rebind = std::static_pointer_cast<UseTreeRebind>(useTree);
-                lintSimplePath(rebind->path);
-                rebind->as.accept(*this);
-                break;
-            }
-            case UseTree::Kind::Raw: {
-                const auto & raw = std::static_pointer_cast<UseTreeRaw>(useTree);
-                lintSimplePath(raw->path);
-                break;
-            }
-        }
-    }
-
     // Context //
     bool Linter::isInside(LinterContext ctx) {
         if (ctxStack.empty()) {
