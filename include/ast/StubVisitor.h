@@ -19,13 +19,16 @@ namespace jc::ast {
         ~StubVisitor() override = default;
 
         virtual void visit(const ErrorNode & errorNode) override;
+        virtual void visit(const File & file) override;
 
         virtual void visit(const FileModule & fileModule) override;
         virtual void visit(const DirModule & dirModule) override;
 
         // Items //
         virtual void visit(const Enum & enumDecl) override;
+        virtual void visit(const EnumEntry & enumEntry) override;
         virtual void visit(const Func & func) override;
+        virtual void visit(const FuncParam & funcParam) override;
         virtual void visit(const Impl & impl) override;
         virtual void visit(const Mod & mod) override;
         virtual void visit(const Struct & _struct) override;
@@ -84,6 +87,13 @@ namespace jc::ast {
 
     private:
         virtual void visit(const std::string & construction);
+
+        template<class T>
+        void visitEach(const std::vector<T> & entities) {
+            for (const auto & entity : entities) {
+                entity.accept(*this);
+            }
+        }
 
         const std::string owner;
         StubVisitorMode mode;

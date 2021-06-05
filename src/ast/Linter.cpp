@@ -391,9 +391,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const ListExpr & listExpr) {
-        for (const auto & el : listExpr.elements) {
-            el.accept(*this);
-        }
+        lintEach(listExpr.elements);
     }
 
     void Linter::visit(const LiteralConstant & literalConstant) {

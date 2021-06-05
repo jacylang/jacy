@@ -5,49 +5,106 @@ namespace jc::ast {
         common::Logger::devPanic("[ERROR] node in", owner, "at", errorNode.span.toString());
     }
 
-    void StubVisitor::visit(const FileModule & fileModule) {
-        visit("fileModule");
+    void StubVisitor::visit(const File & file) {
+        visitEach(file.items);
     }
 
+    void StubVisitor::visit(const FileModule & fileModule) {
+        fileModule.getFile()->accept(*this);
+    }
+
+
     void StubVisitor::visit(const DirModule & dirModule) {
-        visit("dirModule");
+        visitEach(dirModule.getModules());
     }
 
     // Statements //
     void StubVisitor::visit(const Enum & enumDecl) {
-        visit("enumDecl");
+        enumDecl.name.accept(*this);
+        visitEach(enumDecl.entries);
+    }
+
+    void StubVisitor::visit(const EnumEntry & enumEntry) {
+        enumEntry.name.accept(*this);
+        switch (enumEntry.kind) {
+            case EnumEntryKind::Raw: break;
+            case EnumEntryKind::Discriminant: {
+                std::get<expr_ptr>(enumEntry.body).accept(*this);
+                break;
+            }
+            case EnumEntryKind::Tuple: {
+                visitEach(std::get<named_list>(enumEntry.body));
+                break;
+            }
+            case EnumEntryKind::Struct: {
+                visitEach(std::get<struct_field_list>(enumEntry.body));
+                break;
+            }
+        }
     }
 
     void StubVisitor::visit(const ExprStmt & exprStmt) {
-        visit("exprStmt");
+        exprStmt.expr.accept(*this);
     }
 
     void StubVisitor::visit(const ForStmt & forStmt) {
-        visit("forStmt");
+        forStmt.forEntity.accept(*this);
+        forStmt.inExpr.accept(*this);
+        forStmt.body->accept(*this);
     }
 
     void StubVisitor::visit(const ItemStmt & itemStmt) {
-        visit("itemStmt");
+        itemStmt.item->accept(*this);
     }
 
     void StubVisitor::visit(const Func & func) {
-        visit("func");
+        if (func.typeParams) {
+            visitEach(func.typeParams.unwrap());
+        }
+        func.name.accept(*this);
+
+        visitEach(func.params);
+
+        if (func.returnType) {
+            func.returnType.unwrap().accept(*this);
+        }
+
+        if (func.oneLineBody) {
+            func.oneLineBody.unwrap().accept(*this);
+        } else {
+            func.body.unwrap()->accept(*this);
+        }
+    }
+
+    void StubVisitor::visit(const FuncParam & funcParam) {
+        funcParam.name.accept(*this);
+        funcParam.type.accept(*this);
+        if (funcParam.defaultValue) {
+            funcParam.defaultValue.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const Impl & impl) {
-        visit("impl");
+        if (impl.typeParams) {
+            visitEach(impl.typeParams.unwrap());
+        }
+        impl.traitTypePath.accept(*this);
+        impl.forType.accept(*this);
+        visitEach(impl.members);
     }
 
     void StubVisitor::visit(const Mod & mod) {
-        visit("mod");
+        mod.name.accept(*this);
+        visitEach(mod.items);
     }
 
     void StubVisitor::visit(const Struct & _struct) {
-        visit("_struct");
+        _struct.name.accept(*this);
+        visitEach(_struct.fields);
     }
 
     void StubVisitor::visit(const Trait & trait) {
-        visit("trait");
+
     }
 
     void StubVisitor::visit(const TypeAlias & typeAlias) {
