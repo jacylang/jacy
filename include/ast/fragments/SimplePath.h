@@ -1,5 +1,5 @@
-#ifndef JACY_AST_FRAGMENTS_PATH_H
-#define JACY_AST_FRAGMENTS_PATH_H
+#ifndef JACY_AST_FRAGMENTS_SIMPLEPATH_H
+#define JACY_AST_FRAGMENTS_SIMPLEPATH_H
 
 #include "ast/Node.h"
 #include "ast/fragments/Identifier.h"
@@ -47,4 +47,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_FRAGMENTS_PATH_H
+#endif // JACY_AST_FRAGMENTS_SIMPLEPATH_H

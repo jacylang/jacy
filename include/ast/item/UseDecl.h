@@ -4,7 +4,7 @@
 #include <variant>
 
 #include "ast/item/Item.h"
-#include "ast/fragments/Path.h"
+#include "ast/fragments/SimplePath.h"
 
 namespace jc::ast {
     struct UseTree;
