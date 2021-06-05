@@ -30,6 +30,10 @@ namespace jc::ast {
 
         opt_id_ptr ident;
         opt_type_params typeParams;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct PathExpr : Expr {
