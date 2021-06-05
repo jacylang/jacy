@@ -523,23 +523,19 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
-        log.raw("(");
-        for (size_t i = 0; i < tupleType.elements.size(); i++) {
-            const auto & el = tupleType.elements.at(i);
-            if (el->name) {
-                printId(el->name.unwrap());
-            }
-            if (el->type) {
-                if (el->name) {
-                    log.raw(": ");
-                }
-                el->type.unwrap().accept(*this);
-            }
-            if (i < tupleType.elements.size() - 1) {
-                log.raw(", ");
-            }
+        printDelim(tupleType.elements, "(", ")", ",");
+    }
+
+    void AstPrinter::visit(const TupleTypeEl & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
         }
-        log.raw(")");
+        if (el.type) {
+            if (el.name) {
+                log.raw(": ");
+            }
+            el.type.unwrap().accept(*this);
+        }
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
