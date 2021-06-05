@@ -52,7 +52,7 @@ namespace jc::ast {
                     break;
                 }
                 case EnumEntryKind::Tuple: {
-                    printNamedList(*std::get<named_list_ptr>(entry->body));
+                    printNamedList(std::get<named_list>(entry->body));
                     break;
                 }
                 case EnumEntryKind::Struct: {
@@ -320,7 +320,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
         log.raw("(");
-        printNamedList(*invoke.args);
+        printNamedList(invoke.args);
         log.raw(")");
     }
 
@@ -461,7 +461,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
         log.raw("(");
-        printNamedList(*tupleExpr.elements);
+        printNamedList(tupleExpr.elements);
         log.raw(")");
     }
 
@@ -589,7 +589,7 @@ namespace jc::ast {
             log.raw("@");
             printId(attr->name);
             log.raw("(");
-            printNamedList(*attr->params);
+            printNamedList(attr->params);
             log.raw(")").nl();
         }
     }
@@ -622,9 +622,9 @@ namespace jc::ast {
         log.raw(">");
     }
 
-    void AstPrinter::printNamedList(ast::NamedList & namedList) {
-        for (size_t i = 0; i < namedList.elements.size(); i++) {
-            const auto & namedEl = namedList.elements.at(i);
+    void AstPrinter::printNamedList(const named_list & namedList) {
+        for (size_t i = 0; i < namedList.size(); i++) {
+            const auto & namedEl = namedList.at(i);
             if (namedEl->name) {
                 printId(namedEl->name.unwrap());
                 if (namedEl->value) {
@@ -634,7 +634,7 @@ namespace jc::ast {
             if (namedEl->value) {
                 namedEl->value.unwrap().accept(*this);
             }
-            if (i < namedList.elements.size() - 1) {
+            if (i < namedList.size() - 1) {
                 log.raw(", ");
             }
         }
