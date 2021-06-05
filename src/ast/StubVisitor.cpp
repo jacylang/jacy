@@ -302,28 +302,26 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Subscript & subscript) {
-        visit("subscript");
+        subscript.lhs.accept(*this);
+        visitEach(subscript.indices);
     }
 
-    void StubVisitor::visit(const ThisExpr & thisExpr) {
-        visit("thisExpr");
-    }
+    void StubVisitor::visit(const ThisExpr & thisExpr) {}
 
     void StubVisitor::visit(const TupleExpr & tupleExpr) {
-        visit("tupleExpr");
+        visitEach(tupleExpr.elements);
     }
 
-    void StubVisitor::visit(const UnitExpr & unitExpr) {
-        visit("unitExpr");
-    }
+    void StubVisitor::visit(const UnitExpr & unitExpr) {}
 
     void StubVisitor::visit(const WhenExpr & whenExpr) {
-        visit("whenExpr");
+        whenExpr.subject.accept(*this);
+        visitEach(whenExpr.entries);
     }
 
     // Types //
     void StubVisitor::visit(const ParenType & parenType) {
-        visit("parenType");
+
     }
 
     void StubVisitor::visit(const TupleType & tupleType) {
