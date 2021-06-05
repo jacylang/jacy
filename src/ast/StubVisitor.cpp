@@ -219,6 +219,13 @@ namespace jc::ast {
         lambdaExpr.body.accept(*this);
     }
 
+    void StubVisitor::visit(const LambdaParam & param) {
+        param.name.accept(*this);
+        if (param.type) {
+            param.type.unwrap().accept(*this);
+        }
+    }
+
     void StubVisitor::visit(const ListExpr & listExpr) {
         visitEach(listExpr.elements);
     }
