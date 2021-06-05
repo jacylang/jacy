@@ -395,8 +395,8 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visitNamedList(const ast::named_list_ptr & namedList) {
-        for (const auto & el : namedList->elements) {
+    void NameResolver::visitNamedList(const ast::named_list & namedList) {
+        for (const auto & el : namedList) {
             // Note: We don't visit element `name`, because it is immaterial on name-resolution stage
             if (el->value) {
                 el->value.unwrap().accept(*this);

@@ -84,7 +84,7 @@ namespace jc::resolve {
     private:
         void visitItems(const ast::item_list & members);
         void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
-        void visitNamedList(const ast::named_list_ptr & namedList);
+        void visitNamedList(const ast::named_list & namedList);
 
         // Modules //
     private:
