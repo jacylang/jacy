@@ -399,39 +399,32 @@ namespace jc::ast {
         if (pathExpr.global) {
             log.raw("::");
         }
-        for (size_t i = 0; i < pathExpr.segments.size(); i++) {
-            const auto & maybeSeg = pathExpr.segments.at(i);
-            if (maybeSeg.isErr()) {
-                log.raw("[ERROR]");
-                continue;
+        printDelim(pathExpr.segments, "", "", "::");
+    }
+
+    void AstPrinter::visit(const PathExprSeg & seg) {
+        switch (seg.kind) {
+            case PathExprSeg::Kind::Super: {
+                log.raw("super");
+                break;
             }
-            const auto & seg = maybeSeg.unwrap();
-            switch (seg->kind) {
-                case PathExprSeg::Kind::Super: {
-                    log.raw("super");
-                    break;
-                }
-                case PathExprSeg::Kind::Self: {
-                    log.raw("self");
-                    break;
-                }
-                case PathExprSeg::Kind::Party: {
-                    log.raw("party");
-                    break;
-                }
-                case PathExprSeg::Kind::Ident: {
-                    seg->ident.unwrap().accept(*this);
-                    break;
-                }
-                default: {
-                    log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
-                }
+            case PathExprSeg::Kind::Self: {
+                log.raw("self");
+                break;
             }
-            printTypeParams(seg->typeParams, true);
-            if (i < pathExpr.segments.size() - 1) {
-                log.raw("::");
+            case PathExprSeg::Kind::Party: {
+                log.raw("party");
+                break;
+            }
+            case PathExprSeg::Kind::Ident: {
+                seg->ident.unwrap().accept(*this);
+                break;
+            }
+            default: {
+                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
             }
         }
+        printTypeParams(seg.typeParams, true);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
