@@ -176,9 +176,7 @@ namespace jc::ast {
             lintEach(trait.typeParams.unwrap());
         }
 
-        for (const auto & superTrait : trait.superTraits) {
-            superTrait->accept(*this);
-        }
+        lintEach(trait.superTraits);
 
         pushContext(LinterContext::Struct);
         lintEach(trait.members);
@@ -285,9 +283,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const Block & block) {
-        for (const auto & stmt : block.stmts) {
-            stmt.accept(*this);
-        }
+        lintEach(block.stmts);
     }
 
     void Linter::visit(const BorrowExpr & borrowExpr) {
@@ -518,9 +514,7 @@ namespace jc::ast {
 
     void Linter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
-        for (const auto & index : subscript.indices) {
-            index.accept(*this);
-        }
+        lintEach(subscript.indices);
     }
 
     void Linter::visit(const ThisExpr & thisExpr) {
@@ -575,9 +569,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const FuncType & funcType) {
-        for (const auto & param : funcType.params) {
-            param.accept(*this);
-        }
+        lintEach(funcType.params);
         funcType.returnType.accept(*this);
     }
 
