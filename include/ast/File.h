@@ -12,6 +12,10 @@ namespace jc::ast {
         File(item_list items, const Span & span) : items(std::move(items)), Node(span) {}
 
         item_list items;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 

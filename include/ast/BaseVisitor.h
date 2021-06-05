@@ -4,6 +4,8 @@
 namespace jc::ast {
     struct ErrorNode;
 
+    struct File;
+
     struct FileModule;
     struct DirModule;
 
@@ -82,6 +84,7 @@ namespace jc::ast {
         virtual ~BaseVisitor() = default;
 
         virtual void visit(const ErrorNode&) = 0;
+        virtual void visit(const File&) = 0;
 
         virtual void visit(const FileModule&) = 0;
         virtual void visit(const DirModule&) = 0;
