@@ -577,11 +577,14 @@ namespace jc::ast {
     }
 
     void Linter::visit(const TypePath & typePath) {
-        for (const auto & seg : typePath.segments) {
-            seg->name.accept(*this);
-            if (seg->typeParams) {
-                lintEach(seg->typeParams.unwrap());
-            }
+        lintEach(typePath.segments);
+    }
+
+    void Linter::visit(const TypePathSeg & seg) {
+        seg.name.accept(*this);
+
+        if (seg.typeParams) {
+            lintEach(seg.typeParams.unwrap());
         }
     }
 
