@@ -83,6 +83,7 @@ namespace jc::ast {
         // Types //
         virtual void visit(const ParenType & parenType) override;
         virtual void visit(const TupleType & tupleType) override;
+        virtual void visit(const TupleTypeEl & el) override;
         virtual void visit(const FuncType & funcType) override;
         virtual void visit(const SliceType & listType) override;
         virtual void visit(const ArrayType & arrayType) override;

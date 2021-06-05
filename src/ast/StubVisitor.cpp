@@ -333,6 +333,15 @@ namespace jc::ast {
         visitEach(tupleType.elements);
     }
 
+    void StubVisitor::visit(const TupleTypeEl & el) {
+        if (el.name) {
+            el.name.unwrap().accept(*this);
+        }
+        if (el.type) {
+            el.type.unwrap().accept(*this);
+        }
+    }
+
     void StubVisitor::visit(const FuncType & funcType) {
         visitEach(funcType.params);
         funcType.returnType.accept(*this);
