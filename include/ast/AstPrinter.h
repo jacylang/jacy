@@ -116,9 +116,9 @@ namespace jc::ast {
 
         // Helpers //
     private:
-        template<class T>
+        template<template<class> class C, class T>
         void printDelim(
-            const std::vector<T> & entities,
+            const std::vector<C<T>> & entities,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
@@ -131,7 +131,7 @@ namespace jc::ast {
                 log.nl();
             }
             for (size_t i = 0; i < entities.size(); i++) {
-                entities.at(i).accept(*this);
+                entities.at(i)->accept(*this);
                 if (i < entities.size() - 1) {
                     log.raw(delim + " ");
                 }
@@ -141,9 +141,9 @@ namespace jc::ast {
             }
         }
 
-        template<class T>
+        template<template<class> class C, class T>
         void printBodyLike(
-            const std::vector<T> & elements,
+            const std::vector<C<T>> & elements,
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
@@ -158,7 +158,7 @@ namespace jc::ast {
                 if (chop) {
                     printIndent();
                 }
-                elements.at(i).accept(*this);
+                elements.at(i)->accept(*this);
                 if (i < elements.size() - 1) {
                     log.raw(delim + " ");
                 }
