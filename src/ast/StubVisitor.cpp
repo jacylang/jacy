@@ -406,4 +406,10 @@ namespace jc::ast {
             el.value.unwrap().accept(*this);
         }
     }
+
+    void StubVisitor::visit(const SimplePath & path) {
+        visitEach(path.segments);
+    }
+
+
 }
