@@ -71,6 +71,7 @@ namespace jc::ast {
     struct Field;
     struct FuncParam;
     struct Identifier;
+    struct NamedElement;
 
     class BaseVisitor {
     public:
@@ -145,6 +146,7 @@ namespace jc::ast {
         virtual void visit(const Field&) = 0;
         virtual void visit(const FuncParam&) = 0;
         virtual void visit(const Identifier&) = 0;
+        virtual void visit(const NamedElement&) = 0;
     };
 }
 
