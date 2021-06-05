@@ -220,7 +220,7 @@ namespace jc::ast {
         varDecl.name.accept(*this);
         if (varDecl.type) {
             log.raw(": ");
-            varDecl.type->accept(*this);
+            varDecl.type.unwrap().accept(*this);
         }
     }
 

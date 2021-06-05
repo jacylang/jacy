@@ -151,49 +151,62 @@ namespace jc::ast {
     }
 
     // Statements //
-    void StubVisitor::visit(const VarStmt & varDecl) {
-//        vars
+    void StubVisitor::visit(const VarStmt & varStmt) {
+        varStmt.name.accept(*this);
+        if (varStmt.type) {
+            varStmt.type.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
-        visit("whileStmt");
+        whileStmt.condition.accept(*this);
+        whileStmt.body->accept(*this);
     }
 
     // Expressions //
     void StubVisitor::visit(const Assignment & assign) {
-        visit("assign");
+        assign.lhs.accept(*this);
+        assign.rhs.accept(*this);
     }
 
     void StubVisitor::visit(const Block & block) {
-        visit("block");
+        visitEach(block.stmts);
     }
 
     void StubVisitor::visit(const BorrowExpr & borrowExpr) {
-        visit("borrowExpr");
+        borrowExpr.expr.accept(*this);
     }
 
     void StubVisitor::visit(const BreakExpr & breakExpr) {
-        visit("breakExpr");
+        if (breakExpr.expr) {
+            breakExpr.expr.unwrap().accept(*this);
+        }
     }
 
-    void StubVisitor::visit(const ContinueExpr & continueExpr) {
-        visit("continueExpr");
-    }
+    void StubVisitor::visit(const ContinueExpr & continueExpr) {}
 
     void StubVisitor::visit(const DerefExpr & derefExpr) {
-        visit("derefExpr");
+        derefExpr.expr.accept(*this);
     }
 
     void StubVisitor::visit(const IfExpr & ifExpr) {
-        visit("ifExpr");
+        ifExpr.condition.accept(*this);
+        if (ifExpr.ifBranch) {
+            ifExpr.ifBranch.unwrap()->accept(*this);
+        }
+        if (ifExpr.elseBranch) {
+            ifExpr.elseBranch.unwrap()->accept(*this);
+        }
     }
 
     void StubVisitor::visit(const Infix & infix) {
-        visit("infix");
+        infix.lhs.accept(*this);
+        infix.rhs.accept(*this);
     }
 
     void StubVisitor::visit(const Invoke & invoke) {
-        visit("invoke");
+        invoke.lhs.accept(*this);
+        visitEach(invoke.args);
     }
 
     void StubVisitor::visit(const Lambda & lambdaExpr) {
