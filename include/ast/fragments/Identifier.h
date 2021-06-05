@@ -19,6 +19,10 @@ namespace jc::ast {
         std::string getValue() const {
             return token.val;
         }
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
