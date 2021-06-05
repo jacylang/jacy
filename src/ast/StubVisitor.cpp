@@ -379,11 +379,15 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Lifetime & lifetime) {
-        visit("lifetime");
+        lifetime.name.accept(*this);
     }
 
     void StubVisitor::visit(const ConstParam & constParam) {
-        visit("constParam");
+        constParam.name.accept(*this);
+        constParam.type.accept(*this);
+        if (constParam.defaultValue) {
+            constParam.defaultValue.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const std::string & construction) {
