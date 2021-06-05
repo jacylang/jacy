@@ -480,6 +480,7 @@ namespace jc::ast {
         entry.body->accept(*this);
     }
 
+    // Types //
     void AstPrinter::visit(const ParenType & parenType) {
         log.raw("(");
         parenType.type.accept(*this);

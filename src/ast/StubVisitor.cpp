@@ -321,32 +321,32 @@ namespace jc::ast {
 
     // Types //
     void StubVisitor::visit(const ParenType & parenType) {
-
+        parenType.type.accept(*this);
     }
 
     void StubVisitor::visit(const TupleType & tupleType) {
-        visit("tupleType");
+        visitEach(tupleType.elements);
     }
 
     void StubVisitor::visit(const FuncType & funcType) {
-        visit("funcType");
+        visitEach(funcType.params);
+        funcType.returnType.accept(*this);
     }
 
     void StubVisitor::visit(const SliceType & listType) {
-        visit("listType");
+        listType.type.accept(*this);
     }
 
     void StubVisitor::visit(const ArrayType & arrayType) {
-        visit("arrayType");
+        arrayType.type.accept(*this);
+        arrayType.sizeExpr.accept(*this);
     }
 
     void StubVisitor::visit(const TypePath & typePath) {
-        visit("typePath");
+        visitEach(typePath.segments);
     }
 
-    void StubVisitor::visit(const UnitType & unitType) {
-        visit("unitType");
-    }
+    void StubVisitor::visit(const UnitType & unitType) {}
 
     // Type params //
     void StubVisitor::visit(const GenericType & genericType) {
