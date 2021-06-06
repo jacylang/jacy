@@ -124,7 +124,7 @@ namespace jc::resolve {
         }
     };
 
-    using decl_result = dt::Option<std::tuple<Name::Kind, node_id>>;
+    using decl_result = dt::Option<name_ptr>;
 
     struct Rib {
         enum class Kind {

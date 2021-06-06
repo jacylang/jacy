@@ -8,7 +8,7 @@ namespace jc::resolve {
             ns.emplace(name, std::make_shared<Name>(kind, nodeId));
             return dt::None;
         }
-        return std::tuple<Name::Kind, ast::node_id>{found->second->kind, found->second->nodeId};
+        return found->second;
     }
 
     ns_map & Rib::getNSForName(Name::Kind kind) {

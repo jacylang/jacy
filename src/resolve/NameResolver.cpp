@@ -263,15 +263,15 @@ namespace jc::resolve {
 
     // Declarations //
     void NameResolver::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
-        const auto & redefined = curRib()->declare(name, kind, nodeId);
+        const auto & redecl = curRib()->declare(name, kind, nodeId);
 
-        if (redefined) {
+        if (redecl) {
             suggestCannotRedeclare(
                 name,
                 Name::kindStr(kind),
-                redefined->second->kindStr(),
+                redecl.unwrap()->kindStr(),
                 nodeId,
-                redefined->second->nodeId
+                redecl.unwrap()->nodeId
             );
         }
     }
