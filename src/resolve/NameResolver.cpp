@@ -78,69 +78,18 @@ namespace jc::resolve {
     }
 
     // Statements //
-    void NameResolver::visit(const ast::ExprStmt & exprStmt) {
-        exprStmt.expr.accept(*this);
-    }
-
     void NameResolver::visit(const ast::VarStmt & varStmt) {
         enterRib(Rib::Kind::Value);
         declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }
 
-    void NameResolver::visit(const ast::WhileStmt & whileStmt) {
-        whileStmt.condition.accept(*this);
-        visit(*whileStmt.body);
-    }
-
     // Expressions //
-    void NameResolver::visit(const ast::Assignment & assign) {
-        assign.lhs.accept(*this);
-        assign.rhs.accept(*this);
-    }
-
     void NameResolver::visit(const ast::Block & block) {
         enterRib(Rib::Kind::Value); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt.accept(*this);
         }
         exitRib(); // <- block rib
-    }
-
-    void NameResolver::visit(const ast::BorrowExpr & borrowExpr) {
-        borrowExpr.expr.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::BreakExpr & breakExpr) {
-        if (breakExpr.expr) {
-            breakExpr.expr.unwrap().accept(*this);
-        }
-    }
-
-    void NameResolver::visit(const ast::ContinueExpr & continueExpr) {
-    }
-
-    void NameResolver::visit(const ast::DerefExpr & derefExpr) {
-        derefExpr.expr.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::IfExpr & ifExpr) {
-        ifExpr.condition.accept(*this);
-        if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap()->accept(*this);
-        }
-        if (ifExpr.elseBranch) {
-            ifExpr.elseBranch.unwrap()->accept(*this);
-        }
-    }
-
-    void NameResolver::visit(const ast::Infix & infix) {
-        infix.lhs.accept(*this);
-        infix.rhs.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::Invoke & invoke) {
-        invoke.lhs.accept(*this);
-        visitNamedList(invoke.args);
     }
 
     void NameResolver::visit(const ast::Lambda & lambdaExpr) {
@@ -162,140 +111,15 @@ namespace jc::resolve {
         exitRib(); // <- (lambda params)
     }
 
-    void NameResolver::visit(const ast::ListExpr & listExpr) {
-        for (const auto & el : listExpr.elements) {
-            el.accept(*this);
-        }
-    }
-
-    void NameResolver::visit(const ast::LiteralConstant & literalConstant) {
-    }
-
-    void NameResolver::visit(const ast::LoopExpr & loopExpr) {
-        visit(*loopExpr.body);
-    }
-
-    void NameResolver::visit(const ast::MemberAccess & memberAccess) {
-        memberAccess.lhs.accept(*this);
-        // Note: As far as lhs is unknown expression, we cannot check fields on this stage.
-        //  At first we need to infer the type of lhs, and then type-check it whereas it is a structure
-        //  and has certain field
-    }
-
-    void NameResolver::visit(const ast::ParenExpr & parenExpr) {
-        parenExpr.expr.accept(*this);
-    }
-
     void NameResolver::visit(const ast::PathExpr & pathExpr) {
         // TODO: global
 
 
     }
 
-    void NameResolver::visit(const ast::Prefix & prefix) {
-        prefix.rhs.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::QuestExpr & questExpr) {
-        questExpr.expr.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::ReturnExpr & returnExpr) {
-        if (returnExpr.expr) {
-            returnExpr.expr.unwrap().accept(*this);
-        }
-    }
-
-    void NameResolver::visit(const ast::SpreadExpr & spreadExpr) {
-        spreadExpr.expr.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::StructExpr & structExpr) {
-        structExpr.path.accept(*this);
-
-        for (const auto & maybeField : structExpr.fields) {
-            const auto & field = maybeField.unwrap();
-            switch (field->kind) {
-                case ast::StructExprField::Kind::Raw: {
-                    field->expr->accept(*this);
-                    break;
-                }
-                case ast::StructExprField::Kind::Base: {
-                    field->expr->accept(*this);
-                    break;
-                }
-                default:;
-            }
-        }
-    }
-
-    void NameResolver::visit(const ast::Subscript & subscript) {
-        subscript.lhs.accept(*this);
-
-        for (const auto & index : subscript.indices) {
-            index.accept(*this);
-        }
-    }
-
-    void NameResolver::visit(const ast::ThisExpr & thisExpr) {
-    }
-
-    void NameResolver::visit(const ast::TupleExpr & tupleExpr) {
-        visitNamedList(tupleExpr.elements);
-    }
-
-    void NameResolver::visit(const ast::UnitExpr & unitExpr) {
-        // TODO MEOW?
-    }
-
-    void NameResolver::visit(const ast::WhenExpr & whenExpr) {
-        whenExpr.subject.accept(*this);
-
-        for (const auto & entry : whenExpr.entries) {
-            enterRib(Rib::Kind::Value); // -> (when entry)
-            for (const auto & cond : entry->conditions) {
-                cond.accept(*this);
-            }
-            entry->body->accept(*this);
-            exitRib(); // <- (when entry)
-        }
-    }
-
     // Types //
-    void NameResolver::visit(const ast::ParenType & parenType) {
-        parenType.type.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::TupleType & tupleType) {
-        for (const auto & el : tupleType.elements) {
-            if (el->type) {
-                el->type.unwrap().accept(*this);
-            }
-        }
-    }
-
-    void NameResolver::visit(const ast::FuncType & funcType) {
-        for (const auto & param : funcType.params) {
-            param.accept(*this);
-        }
-        funcType.returnType.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::SliceType & listType) {
-        listType.type.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::ArrayType & arrayType) {
-        arrayType.type.accept(*this);
-        arrayType.sizeExpr.accept(*this);
-    }
-
     void NameResolver::visit(const ast::TypePath & typePath) {
         // TODO: !!!
-    }
-
-    void NameResolver::visit(const ast::UnitType & unitType) {
-        // TODO: MEOW?
     }
 
     // Extended visitors //

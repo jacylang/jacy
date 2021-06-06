@@ -34,47 +34,16 @@ namespace jc::resolve {
         void resolveUseTree(const ast::use_tree_ptr & useTree);
 
         // Statements //
-        void visit(const ast::ExprStmt & exprStmt) override;
 //        void visit(const ast::ForStmt & forStmt) override;
         void visit(const ast::VarStmt & varStmt) override;
-        void visit(const ast::WhileStmt & whileStmt) override;
 
         // Expressions //
-        void visit(const ast::Assignment & assign) override;
         void visit(const ast::Block & block) override;
-        void visit(const ast::BorrowExpr & borrowExpr) override;
-        void visit(const ast::BreakExpr & breakExpr) override;
-        void visit(const ast::ContinueExpr & continueExpr) override;
-        void visit(const ast::DerefExpr & derefExpr) override;
-        void visit(const ast::IfExpr & ifExpr) override;
-        void visit(const ast::Infix & infix) override;
-        void visit(const ast::Invoke & invoke) override;
         void visit(const ast::Lambda & lambdaExpr) override;
-        void visit(const ast::ListExpr & listExpr) override;
-        void visit(const ast::LiteralConstant & literalConstant) override;
-        void visit(const ast::LoopExpr & loopExpr) override;
-        void visit(const ast::MemberAccess & memberAccess) override;
-        void visit(const ast::ParenExpr & parenExpr) override;
         void visit(const ast::PathExpr & pathExpr) override;
-        void visit(const ast::Prefix & prefix) override;
-        void visit(const ast::QuestExpr & questExpr) override;
-        void visit(const ast::ReturnExpr & returnExpr) override;
-        void visit(const ast::SpreadExpr & spreadExpr) override;
-        void visit(const ast::StructExpr & structExpr) override;
-        void visit(const ast::Subscript & subscript) override;
-        void visit(const ast::ThisExpr & thisExpr) override;
-        void visit(const ast::TupleExpr & tupleExpr) override;
-        void visit(const ast::UnitExpr & unitExpr) override;
-        void visit(const ast::WhenExpr & whenExpr) override;
 
         // Types //
-        void visit(const ast::ParenType & parenType) override;
-        void visit(const ast::TupleType & tupleType) override;
-        void visit(const ast::FuncType & funcType) override;
-        void visit(const ast::SliceType & listType) override;
-        void visit(const ast::ArrayType & arrayType) override;
         void visit(const ast::TypePath & typePath) override;
-        void visit(const ast::UnitType & unitType) override;
 
     private:
         common::Logger log{"NameResolver"};
