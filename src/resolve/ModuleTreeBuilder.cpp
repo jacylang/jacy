@@ -1,13 +1,13 @@
-#include "resolve/ScopeTreeBuilder.h"
+#include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    void ScopeTreeBuilder::visit(const ast::Mod & mod) {
+    void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         enterScope(mod.name.unwrap()->getValue());
         visitEach(mod.items);
         exitScope();
     }
 
-    void ScopeTreeBuilder::visit(const ast::Trait & trait) {
+    void ModuleTreeBuilder::visit(const ast::Trait & trait) {
         enterScope(trait.name.unwrap()->getValue());
         visitEach(trait.members);
         exitScope();
@@ -22,7 +22,7 @@ namespace jc::resolve {
 //    }
 
     // Scopes //
-    void ScopeTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
+    void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
         auto & map = scope->getNS(ns);
         if (utils::map::has(map, name)) {
             // TODO: Suggestions
@@ -32,8 +32,8 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ScopeTreeBuilder::enterScope(const dt::Option<std::string> & name) {
-        auto child = new Scope(scope);
+    void ModuleTreeBuilder::enterScope(const dt::Option<std::string> & name) {
+        auto child = new Module(scope);
         if (name) {
             // TODO: Check for redeclaration
             scope->children.emplace(name.unwrap(), child);
@@ -41,7 +41,7 @@ namespace jc::resolve {
         scope = child;
     }
 
-    void ScopeTreeBuilder::exitScope() {
+    void ModuleTreeBuilder::exitScope() {
         scope = std::move(scope->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope"));
     }
 }
