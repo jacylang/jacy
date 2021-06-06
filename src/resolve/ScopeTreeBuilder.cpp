@@ -7,6 +7,7 @@ namespace jc::resolve {
         exitScope();
     }
 
+
     // Helpers //
     void ScopeTreeBuilder::visitItems(const ast::item_list & items) {
         for (const auto & item : items) {
@@ -54,8 +55,13 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ScopeTreeBuilder::enterScope() {
-        scope = std::make_unique<Scope>(std::move(scope));
+    void ScopeTreeBuilder::enterScope(const dt::Option<std::string> & name) {
+        auto child = new Scope(scope);
+        if (name) {
+            // TODO: Check for redeclaration
+            scope->children.emplace(name.unwrap(), child);
+        }
+        scope = child;
     }
 
     void ScopeTreeBuilder::exitScope() {

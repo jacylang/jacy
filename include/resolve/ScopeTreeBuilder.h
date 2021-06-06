@@ -7,27 +7,24 @@ namespace jc::resolve {
     struct Scope;
     using ast::node_id;
     using ns_map = std::map<std::string, node_id>;
-    using scope_ptr = std::unique_ptr<Scope>;
 
     enum class Namespace {
         Value,
         Type,
-        Lifetime,
     };
 
     struct Scope {
-        Scope(scope_ptr && parent) : parent(std::move(parent)) {}
+        Scope(Scope * parent) : parent(parent) {}
 
-        dt::Option<scope_ptr> parent;
+        dt::Option<Scope*> parent;
+        std::map<std::string, Scope*> children;
         ns_map valueNS;
         ns_map typeNS;
-        ns_map lifetimeNS;
 
         ns_map & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
-                case Namespace::Lifetime: return lifetimeNS;
             }
         }
     };
@@ -47,10 +44,10 @@ namespace jc::resolve {
 
         // Scopes //
     private:
-        scope_ptr scope;
+        Scope * scope;
         void declare(Namespace ns, const std::string & name, node_id nodeId);
 
-        void enterScope();
+        void enterScope(const dt::Option<std::string> & name = dt::None);
         void exitScope();
     };
 }
