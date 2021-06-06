@@ -3,13 +3,17 @@
 namespace jc::resolve {
     void ScopeTreeBuilder::visit(const ast::Mod & mod) {
         enterScope(mod.name.unwrap()->getValue());
-        visitItems(mod.items);
+        visitEach(mod.items);
         exitScope();
     }
 
     void ScopeTreeBuilder::visit(const ast::Trait & trait) {
         enterScope(trait.name.unwrap()->getValue());
+        visitEach(trait.members);
+        exitScope();
     }
+
+
 
 //    void ScopeTreeBuilder::visit(const ast::Struct & _struct) {
 //        enterScope(_struct.name.unwrap()->getValue());
