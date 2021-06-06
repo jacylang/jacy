@@ -13,6 +13,8 @@ namespace jc::resolve {
         Type,
     };
 
+    /// Module
+    /// Represents any that can
     struct Module {
         Module(Module * parent) : parent(parent) {}
 
@@ -33,6 +35,8 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
+        void visit(const ast::FileModule & fileModule) override;
+        void visit(const ast::DirModule & dirModule) override;
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Trait & trait) override;
 
@@ -43,13 +47,13 @@ namespace jc::resolve {
     private:
         common::Logger log{"ScopeTreeBuilder"};
 
-        // Scopes //
+        // Modules //
     private:
-        Module * scope;
+        Module * mod;
         void declare(Namespace ns, const std::string & name, node_id nodeId);
 
-        void enterScope(const dt::Option<std::string> & name = dt::None);
-        void exitScope();
+        void enterMod(const dt::Option<std::string> & name = dt::None);
+        void exitMod();
     };
 }
 

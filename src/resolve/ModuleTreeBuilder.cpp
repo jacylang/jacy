@@ -1,29 +1,43 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
+    void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
+        enterMod(fileModule.getName());
+        fileModule.getFile()->accept(*this);
+        exitMod();
+    }
+
+    void ModuleTreeBuilder::visit(const ast::DirModule & dirModule) {
+        enterMod(dirModule.getName());
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+        }
+        exitMod();
+    }
+
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterScope(mod.name.unwrap()->getValue());
+        enterMod(mod.name.unwrap()->getValue());
         visitEach(mod.items);
-        exitScope();
+        exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterScope(trait.name.unwrap()->getValue());
+        enterMod(trait.name.unwrap()->getValue());
         visitEach(trait.members);
-        exitScope();
+        exitMod();
     }
 
 
 
 //    void ScopeTreeBuilder::visit(const ast::Struct & _struct) {
-//        enterScope(_struct.name.unwrap()->getValue());
+//        enterModule(_struct.name.unwrap()->getValue());
 //        // TODO: Update for associated items in the future
-//        exitScope();
+//        exitMod();
 //    }
 
-    // Scopes //
+    // Modules //
     void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
-        auto & map = scope->getNS(ns);
+        auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
             // TODO: Suggestions
             log.error(name + "has been already declared in this scope");
@@ -32,16 +46,16 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ModuleTreeBuilder::enterScope(const dt::Option<std::string> & name) {
-        auto child = new Module(scope);
+    void ModuleTreeBuilder::enterMod(const dt::Option<std::string> & name) {
+        auto child = new Module(mod);
         if (name) {
             // TODO: Check for redeclaration
-            scope->children.emplace(name.unwrap(), child);
+            mod->children.emplace(name.unwrap(), child);
         }
-        scope = child;
+        mod = child;
     }
 
-    void ModuleTreeBuilder::exitScope() {
-        scope = std::move(scope->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope"));
+    void ModuleTreeBuilder::exitMod() {
+        mod = std::move(mod->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope"));
     }
 }
