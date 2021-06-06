@@ -1,9 +1,11 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    void ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
+    dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
         party.getRootModule()->accept(*this);
         sess->modTreeRoot = mod;
+
+        return {dt::None, std::move(extractSuggestions())};
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {

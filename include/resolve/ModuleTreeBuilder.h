@@ -3,13 +3,17 @@
 
 #include "ast/StubVisitor.h"
 #include "session/Session.h"
+#include "suggest/SuggInterface.h"
+
+#include "data_types/Option.h"
+#include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    class ModuleTreeBuilder : public ast::StubVisitor {
+    class ModuleTreeBuilder : public ast::StubVisitor, public sugg::SuggInterface {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        void build(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> build(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::RootModule & rootModule) override;
         void visit(const ast::FileModule & fileModule) override;
