@@ -59,7 +59,6 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        // Note: Order matters -- we use virtual semi first
         return useVirtualSemi() or is(TokenKind::Semi) or isNL();
     }
 
@@ -97,7 +96,8 @@ namespace jc::parser {
 
     void Parser::skipSemi(bool optional, bool useless) {
         // TODO: Useless semi sugg
-        if (!isSemis() and !optional) {
+        // Note: Order matters -- we use virtual semi first
+        if (not useVirtualSemi() and not isSemis() and !optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span);
             return;
         }
@@ -286,10 +286,7 @@ namespace jc::parser {
 
         item_list items;
         while (!eof()) {
-            while (isSemis()) {
-                // Skip optional semis
-                advance();
-            }
+            skipNLs(true);
             if (peek().is(stopToken)) {
                 break;
             }
@@ -364,7 +361,7 @@ namespace jc::parser {
                 true,
                 false,
                 false,
-                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+                std::make_unique<ParseErrSugg>("Expected closing `}` in `enum`", cspan())
             );
         } else if (!eof()) {
             justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
@@ -653,7 +650,7 @@ namespace jc::parser {
             true,
             true,
             false,
-            std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+            std::make_unique<ParseErrSugg>("Expected closing `}` in `mod`", cspan())
         );
 
         return makeItem<Mod>(std::move(name), std::move(items), begin.to(cspan()));
@@ -731,7 +728,7 @@ namespace jc::parser {
                     true,
                     false,
                     false,
-                    std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+                    std::make_unique<ParseErrSugg>("Expected closing `}` in `use`", cspan())
                 );
 
                 return std::static_pointer_cast<UseTree>(
@@ -1759,7 +1756,11 @@ namespace jc::parser {
                 stmts.push_back(parseStmt());
             }
             skip(
-                TokenKind::RBrace, true, true, false, std::make_unique<ParseErrSpanLinkSugg>(
+                TokenKind::RBrace,
+                true,
+                true,
+                false,
+                std::make_unique<ParseErrSpanLinkSugg>(
                     "Missing closing `}` at the end of " + construction + " body",
                     cspan(),
                     "opening `{` is here",
