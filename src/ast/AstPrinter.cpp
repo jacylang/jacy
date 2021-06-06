@@ -82,7 +82,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
         // TODO: Print attributes
-        itemStmt.item->accept(*this);
+        itemStmt.item.accept(*this);
     }
 
     void AstPrinter::visit(const Func & func) {
