@@ -14,6 +14,7 @@ namespace jc::resolve {
     using opt_rib = dt::Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
+    using ns_map = std::map<std::string, name_ptr>;
 
     struct Name {
         enum class Kind {
