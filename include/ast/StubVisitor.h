@@ -105,9 +105,16 @@ namespace jc::ast {
 
     private:
         template<typename T>
-        void visitEach(const T & entities) {
+        void visitEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
                 entity->accept(*this);
+            }
+        }
+
+        template<typename T>
+        void visitEach(const std::vector<PR<T>> & entities) {
+            for (const auto & entity : entities) {
+                entity.accept(*this);
             }
         }
 
