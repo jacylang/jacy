@@ -11,13 +11,12 @@ namespace jc::resolve {
         log.raw("{");
         log.nl();
         indent++;
-        for (auto it = module->children.begin(); it != module->children.end(); it++) {
-            print(it->second);
-            if (it != std::prev(module->children.end())) {
-                log.nl();
-            }
+        for (const auto & child : module.children) {
+            print(child);
         }
+        printIndent();
         log.raw("values:", module->valueNS).nl();
+        printIndent();
         log.raw("types:", module->typeNS).nl();
         indent--;
         log.nl();
