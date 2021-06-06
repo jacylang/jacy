@@ -1,6 +1,15 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
+    // ModulePrinter //
+    ModulePrinter::ModulePrinter() {
+        log.getConfig().printOwner = false;
+    }
+
+    void ModulePrinter::print(Module * module) {
+    }
+
+    // ModuleTreeBuilder //
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
         enterMod(fileModule.getName());
         fileModule.getFile()->accept(*this);
@@ -27,8 +36,6 @@ namespace jc::resolve {
         exitMod();
     }
 
-
-
 //    void ScopeTreeBuilder::visit(const ast::Struct & _struct) {
 //        enterModule(_struct.name.unwrap()->getValue());
 //        // TODO: Update for associated items in the future
@@ -39,7 +46,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
-            // TODO: Suggestions
+            // TODO!!!: Suggestions
             log.error(name + "has been already declared in this scope");
             return;
         }

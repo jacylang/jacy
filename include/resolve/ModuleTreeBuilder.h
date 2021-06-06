@@ -31,6 +31,17 @@ namespace jc::resolve {
         }
     };
 
+    struct ModulePrinter {
+        ModulePrinter();
+
+        void print(Module * module);
+
+    private:
+        common::Logger log{"ModulePrinter"};
+
+        uint32_t indent{0};
+    };
+
     class ModuleTreeBuilder : public ast::StubVisitor {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
