@@ -172,7 +172,7 @@ namespace jc::core {
     void Interface::resolveNames() {
         log.dev("Resolving names...");
 
-        resolve::ModNode * rootMod = moduleTreeBuilder.build(*party.unwrap());
+        const auto & rootMod = moduleTreeBuilder.build(*party.unwrap());
         modulePrinter.print(rootMod);
 //        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
     }

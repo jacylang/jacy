@@ -6,7 +6,7 @@ namespace jc::resolve {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(ModNode * module) {
+    void ModulePrinter::print(mod_node_ptr module) {
         printIndent();
         log.raw(module->name, "{");
         log.nl();
@@ -25,14 +25,14 @@ namespace jc::resolve {
     }
 
     // ModuleTreeBuilder //
-    ModNode * ModuleTreeBuilder::build(const ast::Party & party) {
+    mod_node_ptr ModuleTreeBuilder::build(const ast::Party & party) {
         party.getRootModule()->accept(*this);
 
         return mod;
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        enterMod("");
+        mod = std::make_shared<ModNode>("", dt::None);
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }
@@ -71,13 +71,13 @@ namespace jc::resolve {
 
     // Modules //
     void ModuleTreeBuilder::enterMod(const std::string & name) {
-        auto child = new ModNode(name, mod);
+        auto child = std::make_shared<ModNode>(name, mod);
         // TODO: Check for redeclaration
-        mod->children.emplace_back(child);
+        mod->children.push_back(child);
         mod = child;
     }
 
     void ModuleTreeBuilder::exitMod() {
-        mod = std::move(mod->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope"));
+        mod = mod->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope");
     }
 }
