@@ -35,7 +35,7 @@ namespace jc::resolve {
         mod_node_ptr mod;
         void declare(Namespace ns, const std::string & name, node_id nodeId);
 
-        void enterMod(const std::string & name);
+        void enterMod(const std::string & name, const dt::Option<span::Span> & nameSpan);
         void exitMod();
     };
 }

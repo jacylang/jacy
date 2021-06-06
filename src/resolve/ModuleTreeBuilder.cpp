@@ -15,13 +15,14 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
-        enterMod(fileModule.getName());
+        // This is actually impossible to redeclare file, filesystem does not allow it
+        enterMod(fileModule.getName(), dt::None);
         fileModule.getFile()->accept(*this);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::DirModule & dirModule) {
-        enterMod(dirModule.getName());
+        enterMod(dirModule.getName(), dt::None);
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
         }
@@ -33,7 +34,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterMod(mod.name.unwrap()->getValue());
+        enterMod(mod.name.unwrap()->getValue(), mod.name.unwrap()->span);
         visitEach(mod.items);
         exitMod();
     }
@@ -44,7 +45,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterMod(trait.name.unwrap()->getValue());
+        enterMod(trait.name.unwrap()->getValue(), trait.name.unwrap()->span);
         visitEach(trait.members);
         exitMod();
     }
@@ -65,11 +66,15 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ModuleTreeBuilder::enterMod(const std::string & name) {
+    void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<span::Span> & nameSpan) {
         if (utils::map::has(mod->children, name)) {
-            // TODO!!!: Suggestions
-            log.error("'" + name + "' `mod` has been already declared in this scope");
-            return;
+            if (not nameSpan) {
+                log.devPanic(
+                    "This is impossible to enter module which is file/dir and which has been already declared"
+                );
+            } else {
+                suggestErrorMsg("'" + name + "' `mod` has been already declared", nameSpan.unwrap());
+            }
         }
         auto child = std::make_shared<ModNode>(mod);
         // TODO: Check for redeclaration
