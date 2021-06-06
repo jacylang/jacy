@@ -67,6 +67,10 @@ namespace jc::resolve {
         exitMod();
     }
 
+    void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
+        declare(Namespace::Value, _struct.name.unwrap()->getValue(), _struct.id);
+    }
+
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
         enterMod(trait.name.unwrap()->getValue());
         visitEach(trait.members);
