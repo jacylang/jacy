@@ -14,8 +14,8 @@ namespace jc::resolve {
         for (size_t i = 0; i < module->children.size(); i++) {
             const auto & child = module->children.at(i);
             print(child);
-            log.raw(child->valueNS).nl();
-            log.raw(child->typeNS).nl();
+            log.raw("values:", child->valueNS).nl();
+            log.raw("types:", child->typeNS).nl();
             if (i < module->children.size() - 1) {
                 log.nl();
             }
@@ -27,6 +27,7 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printIndent() {
+        log.raw(utils::str::repeat("  ", indent));
     }
 
     // ModuleTreeBuilder //
