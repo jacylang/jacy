@@ -118,7 +118,7 @@ namespace jc::ast {
     private:
         template<class T>
         void printDelim(
-            const std::vector<std::shared_ptr<T>> & elements,
+            const std::vector<T> & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
@@ -143,7 +143,7 @@ namespace jc::ast {
 
         template<class T>
         void printBodyLike(
-            const std::vector<std::shared_ptr<T>> & elements,
+            const std::vector<T> & elements,
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
@@ -175,7 +175,7 @@ namespace jc::ast {
 
         template<class T>
         void printDelim(
-            const std::vector<PR<std::shared_ptr<T>>> & elements,
+            const std::vector<PR<T>> & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
@@ -200,7 +200,7 @@ namespace jc::ast {
 
         template<class T>
         void printBodyLike(
-            const std::vector<PR<std::shared_ptr<T>>> & elements,
+            const std::vector<PR<T>> & elements,
             const std::string & delim = ","
         ) {
             bool chop = elements.size() > 1;
