@@ -7,19 +7,20 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::print(mod_node_ptr module) {
-        printIndent();
         log.raw("{");
         log.nl();
         indent++;
-        for (const auto & child : module.children) {
-            print(child);
+        for (const auto & child : module->children) {
+            printIndent();
+            log.raw(child.first + " ");
+            print(child.second);
+            log.nl();
         }
         printIndent();
-        log.raw("values:", module->valueNS).nl();
+        log.raw("[values]:", module->valueNS).nl();
         printIndent();
-        log.raw("types:", module->typeNS).nl();
+        log.raw("[types]:", module->typeNS).nl();
         indent--;
-        log.nl();
         printIndent();
         log.raw("}");
     }
