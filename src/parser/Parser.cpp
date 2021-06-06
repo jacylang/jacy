@@ -796,7 +796,7 @@ namespace jc::parser {
             default: {
                 auto item = parseOptItem();
                 if (item) {
-                    return makeStmt<ItemStmt>(item.unwrap());
+                    return makeStmt<ItemStmt>(item.unwrap(), begin.to(cspan()));
                 }
 
                 auto expr = parseOptExpr();

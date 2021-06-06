@@ -6,10 +6,10 @@
 
 namespace jc::ast {
     struct ItemStmt : Stmt {
-        explicit ItemStmt(item_ptr item) : item(std::move(item)), Stmt(item->span, StmtKind::Item) {}
+        explicit ItemStmt(item_ptr item, const Span & span)
+            : item(std::move(item)), Stmt(span, StmtKind::Item) {}
 
         item_ptr item;
-
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
