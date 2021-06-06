@@ -7,12 +7,18 @@ namespace jc::sugg {
     class SuggInterface {
         SuggInterface() = default;
 
+        sugg::sugg_list extract() const;
+
         // Suggestions //
-    private:
-        sugg::sugg_list suggestions;
-        void suggest(sugg::sugg_ptr suggestion);
+    protected:
+        void suggest(sugg::sugg_ptr && suggestion);
+        void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
         void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
+        void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
+
+    private:
+        sugg::sugg_list suggestions;
     };
 }
 
