@@ -7,6 +7,7 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::print(Module * module) {
+
     }
 
     // ModuleTreeBuilder //
@@ -53,12 +54,10 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ModuleTreeBuilder::enterMod(const dt::Option<std::string> & name) {
-        auto child = new Module(mod);
-        if (name) {
-            // TODO: Check for redeclaration
-            mod->children.emplace(name.unwrap(), child);
-        }
+    void ModuleTreeBuilder::enterMod(const std::string & name) {
+        auto child = new Module(name, mod);
+        // TODO: Check for redeclaration
+        mod->children.emplace_back(child);
         mod = child;
     }
 

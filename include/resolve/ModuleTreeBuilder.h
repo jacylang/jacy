@@ -16,10 +16,11 @@ namespace jc::resolve {
     /// Module
     /// Represents any that can
     struct Module {
-        Module(Module * parent) : parent(parent) {}
+        Module(const std::string & name, Module * parent) : name(name), parent(parent) {}
 
+        std::string name;
         dt::Option<Module*> parent;
-        std::map<std::string, Module*> children;
+        std::vector<Module*> children;
         ns_map valueNS;
         ns_map typeNS;
 
@@ -63,7 +64,7 @@ namespace jc::resolve {
         Module * mod;
         void declare(Namespace ns, const std::string & name, node_id nodeId);
 
-        void enterMod(const dt::Option<std::string> & name = dt::None);
+        void enterMod(const std::string & name);
         void exitMod();
     };
 }
