@@ -31,6 +31,8 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
+        Module * build(const ast::Party & party);
+
         void visit(const ast::FileModule & fileModule) override;
         void visit(const ast::DirModule & dirModule) override;
         void visit(const ast::Mod & mod) override;

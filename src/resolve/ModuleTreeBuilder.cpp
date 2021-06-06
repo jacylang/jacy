@@ -25,6 +25,12 @@ namespace jc::resolve {
     }
 
     // ModuleTreeBuilder //
+    Module * ModuleTreeBuilder::build(const ast::Party & party) {
+        party.getRootModule()->accept(*this);
+
+        return mod;
+    }
+
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
         enterMod(fileModule.getName());
         fileModule.getFile()->accept(*this);

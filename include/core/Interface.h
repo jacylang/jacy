@@ -14,6 +14,7 @@
 #include "suggest/Suggester.h"
 #include "ast/Linter.h"
 #include "resolve/NameResolver.h"
+#include "resolve/ModuleTreeBuilder.h"
 #include "common/Config.h"
 #include "ast/Party.h"
 #include "fs/fs.h"
@@ -57,6 +58,8 @@ namespace jc::core {
 
         // Name resolution //
     private:
+        resolve::ModuleTreeBuilder moduleTreeBuilder;
+        resolve::ModulePrinter modulePrinter;
         resolve::NameResolver nameResolver;
 
         void resolveNames();
