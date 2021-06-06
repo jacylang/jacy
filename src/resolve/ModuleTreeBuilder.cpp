@@ -7,7 +7,21 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::print(Module * module) {
+        printIndent();
+        log.raw(module->name, "{");
+        log.nl();
+        indent++;
+        for (const auto & child : module->children) {
+            print(child);
+        }
+        indent--;
+        log.nl();
+        printIndent();
+        log.raw("}");
+    }
 
+    void ModulePrinter::printIndent() {
+        log.raw(utils::str::repeat("  ", indent));
     }
 
     // ModuleTreeBuilder //

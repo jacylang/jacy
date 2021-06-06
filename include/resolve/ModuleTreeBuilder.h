@@ -40,6 +40,7 @@ namespace jc::resolve {
     private:
         common::Logger log{"ModulePrinter"};
 
+        void printIndent();
         uint32_t indent{0};
     };
 
