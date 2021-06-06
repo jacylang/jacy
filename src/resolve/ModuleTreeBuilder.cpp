@@ -8,18 +8,17 @@ namespace jc::resolve {
 
     void ModulePrinter::print(mod_node_ptr module) {
         printIndent();
-        log.raw(module->name, "{");
+        log.raw("{");
         log.nl();
         indent++;
-        for (size_t i = 0; i < module->children.size(); i++) {
-            const auto & child = module->children.at(i);
-            print(child);
-            log.raw("values:", child->valueNS).nl();
-            log.raw("types:", child->typeNS).nl();
-            if (i < module->children.size() - 1) {
+        for (auto it = module->children.begin(); it != module->children.end(); it++) {
+            print(it->second);
+            if (it != std::prev(module->children.end())) {
                 log.nl();
             }
         }
+        log.raw("values:", module->valueNS).nl();
+        log.raw("types:", module->typeNS).nl();
         indent--;
         log.nl();
         printIndent();
@@ -38,7 +37,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<ModNode>("", dt::None);
+        mod = std::make_shared<ModNode>(dt::None);
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }
@@ -95,9 +94,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name) {
-        auto child = std::make_shared<ModNode>(name, mod);
+        auto child = std::make_shared<ModNode>(mod);
         // TODO: Check for redeclaration
-        mod->children.push_back(child);
+        mod->children.emplace(name, child);
         mod = child;
     }
 

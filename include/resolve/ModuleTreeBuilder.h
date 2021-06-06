@@ -12,25 +12,22 @@ namespace jc::resolve {
     enum class Namespace {
         Value,
         Type,
-        Mod,
     };
 
     struct ModNode {
-        ModNode(const std::string & name, dt::Option<mod_node_ptr> parent) : name(name), parent(parent) {}
+        ModNode(dt::Option<mod_node_ptr> parent) : parent(parent) {}
 
-        std::string name;
         dt::Option<mod_node_ptr> parent;
-        std::vector<mod_node_ptr> children;
+        std::map<std::string, mod_node_ptr> children;
 
         ns_map valueNS;
         ns_map typeNS;
-        ns_map modNS;
 
         ns_map & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
-                case Namespace::Mod: return modNS;
+                default:;
             }
         }
     };
