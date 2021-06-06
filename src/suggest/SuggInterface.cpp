@@ -1,7 +1,7 @@
 #include "suggest/SuggInterface.h"
 
 namespace jc::sugg {
-    sugg::sugg_list SuggInterface::extractSuggestions() const {
+    sugg::sugg_list SuggInterface::extractSuggestions() {
         return std::move(suggestions);
     }
 

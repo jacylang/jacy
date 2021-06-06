@@ -8,7 +8,7 @@ namespace jc::sugg {
     public:
         SuggInterface() = default;
 
-        sugg::sugg_list extractSuggestions() const;
+        sugg::sugg_list extractSuggestions();
 
     protected:
         void suggest(sugg::sugg_ptr && suggestion);
