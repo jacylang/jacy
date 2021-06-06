@@ -162,15 +162,15 @@ namespace jc::ast {
             printDelim(elements, " {", "}", delim, 0);
         }
 
-        template<class T>
+        template<template<class> class C, class T>
         void printDelim(
-            const std::vector<PR<T>> & elements,
+            const std::vector<C<T>> & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
-            printDelim(elements, begin, end, delim);
+            printDelim<C>(elements, begin, end, delim, chopTH);
         }
 
         template<class T>
