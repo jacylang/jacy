@@ -8,8 +8,7 @@ namespace jc::resolve {
 
     void ModulePrinter::print(mod_node_ptr module) {
         printIndent();
-        log.raw(module->name);
-        log.raw("{");
+        log.raw(module->name, "{");
         log.nl();
         indent++;
         for (size_t i = 0; i < module->children.size(); i++) {
@@ -75,6 +74,16 @@ namespace jc::resolve {
 //    }
 
     // Modules //
+    void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
+        auto & map = mod->getNS(ns);
+        if (utils::map::has(map, name)) {
+            // TODO!!!: Suggestions
+            log.error(name + "has been already declared in this scope");
+            return;
+        }
+        map[name] = nodeId;
+    }
+
     void ModuleTreeBuilder::enterMod(const std::string & name) {
         auto child = std::make_shared<ModNode>(name, mod);
         // TODO: Check for redeclaration

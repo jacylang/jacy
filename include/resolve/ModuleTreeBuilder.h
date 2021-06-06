@@ -6,7 +6,13 @@
 namespace jc::resolve {
     struct ModNode;
     using ast::node_id;
+    using ns_map = std::map<std::string, node_id>;
     using mod_node_ptr = std::shared_ptr<ModNode>;
+
+    enum class Namespace {
+        Value,
+        Type,
+    };
 
     struct ModNode {
         ModNode(const std::string & name, dt::Option<mod_node_ptr> parent) : name(name), parent(parent) {}
@@ -14,6 +20,16 @@ namespace jc::resolve {
         std::string name;
         dt::Option<mod_node_ptr> parent;
         std::vector<mod_node_ptr> children;
+
+        ns_map valueNS;
+        ns_map typeNS;
+
+        ns_map & getNS(Namespace ns) {
+            switch (ns) {
+                case Namespace::Value: return valueNS;
+                case Namespace::Type: return typeNS;
+            }
+        }
     };
 
     struct ModulePrinter {
@@ -48,6 +64,7 @@ namespace jc::resolve {
         // Modules //
     private:
         mod_node_ptr mod;
+        void declare(Namespace ns, const std::string & name, node_id nodeId);
 
         void enterMod(const std::string & name);
         void exitMod();
