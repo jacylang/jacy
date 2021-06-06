@@ -6,30 +6,13 @@
 namespace jc::resolve {
     struct Module;
     using ast::node_id;
-    using ns_map = std::map<std::string, node_id>;
 
-    enum class Namespace {
-        Value,
-        Type,
-    };
-
-    /// Module
-    /// Represents any that can
     struct Module {
         Module(const std::string & name, Module * parent) : name(name), parent(parent) {}
 
         std::string name;
         dt::Option<Module*> parent;
         std::vector<Module*> children;
-        ns_map valueNS;
-        ns_map typeNS;
-
-        ns_map & getNS(Namespace ns) {
-            switch (ns) {
-                case Namespace::Value: return valueNS;
-                case Namespace::Type: return typeNS;
-            }
-        }
     };
 
     struct ModulePrinter {
@@ -55,15 +38,12 @@ namespace jc::resolve {
 
 //        void visit(const ast::Struct & _struct) override;
 
-
-
     private:
         common::Logger log{"ScopeTreeBuilder"};
 
         // Modules //
     private:
         Module * mod;
-        void declare(Namespace ns, const std::string & name, node_id nodeId);
 
         void enterMod(const std::string & name);
         void exitMod();
