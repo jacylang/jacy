@@ -5,7 +5,6 @@
 #include "data_types/SuggResult.h"
 #include "resolve/Name.h"
 #include "utils/arr.h"
-#include "resolve/Module.h"
 
 namespace jc::resolve {
     using common::Logger;
@@ -85,12 +84,6 @@ namespace jc::resolve {
         void visitItems(const ast::item_list & members);
         void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
         void visitNamedList(const ast::named_list & namedList);
-
-        // Modules //
-    private:
-        module_stack moduleStack;
-        void enterMod(Module::Kind kind, const std::string & name);
-        void exitMod();
 
         // Ribs //
     private:
