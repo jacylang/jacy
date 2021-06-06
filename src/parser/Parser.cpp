@@ -208,7 +208,7 @@ namespace jc::parser {
         auto begin = cspan();
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {makeNode<File>(std::move(items), begin.to(cspan())), std::move(suggestions)};
+        return {makeNode<File>(std::move(items), begin.to(cspan())), extractSuggestions()};
     }
 
     ///////////
@@ -2593,27 +2593,6 @@ namespace jc::parser {
         return makeNode<TypePath>(
             global, std::move(segments), maybePathToken.span.to(cspan())
         );
-    }
-
-    // Suggestions //
-    void Parser::suggest(sugg::sugg_ptr suggestion) {
-        suggestions.emplace_back(std::move(suggestion));
-    }
-
-    void Parser::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, kind, eid));
-    }
-
-    void Parser::suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid) {
-        suggest(msg, span, SuggKind::Error, eid);
-    }
-
-    void Parser::suggestWarnMsg(const std::string & msg, const Span & span, eid_t eid) {
-        suggest(msg, span, SuggKind::Warn, eid);
-    }
-
-    void Parser::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
-        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
     }
 
     Span Parser::cspan() const {

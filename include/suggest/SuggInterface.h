@@ -5,11 +5,11 @@
 
 namespace jc::sugg {
     class SuggInterface {
+    public:
         SuggInterface() = default;
 
-        sugg::sugg_list extract() const;
+        sugg::sugg_list extractSuggestions() const;
 
-        // Suggestions //
     protected:
         void suggest(sugg::sugg_ptr && suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);

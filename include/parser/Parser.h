@@ -12,9 +12,11 @@
 #include "ast/File.h"
 #include "ast/nodes.h"
 #include "common/Config.h"
+#include "suggest/SuggInterface.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
+
 
 /**
  * # Some notes about parser
@@ -69,7 +71,7 @@ namespace jc::parser {
         Useless, // `=>` is useless (unambiguous case)
     };
 
-    class Parser {
+    class Parser : public sugg::SuggInterface {
     public:
         Parser();
         virtual ~Parser() = default;
@@ -243,15 +245,6 @@ namespace jc::parser {
         opt_type_params parseOptTypeParams();
         PR<type_path_ptr> parseTypePath(const std::string & suggMsg);
         opt_type_path_ptr parseOptTypePath();
-
-        // Suggestions //
-    private:
-        sugg::sugg_list suggestions;
-        void suggest(sugg::sugg_ptr suggestion);
-        void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
-        void suggestErrorMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
-        void suggestWarnMsg(const std::string & msg, const Span & span, eid_t eid = sugg::NoneEID);
-        void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
 
         template<class T>
         T errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
