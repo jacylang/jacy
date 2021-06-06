@@ -58,7 +58,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ItemStmt & itemStmt) {
-        itemStmt.item->accept(*this);
+        itemStmt.item.accept(*this);
     }
 
     void StubVisitor::visit(const Func & func) {

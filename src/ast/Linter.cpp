@@ -79,7 +79,7 @@ namespace jc::ast {
 
     void Linter::visit(const ItemStmt & itemStmt) {
         // TODO: Lint attributes
-        itemStmt.item->accept(*this);
+        itemStmt.item.accept(*this);
     }
 
     void Linter::visit(const Func & func) {
