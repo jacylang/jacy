@@ -136,27 +136,7 @@ namespace jc::ast {
             if (isErr()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` ParseResult");
             }
-            return value;
-        }
-
-        T * operator->() {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
-            if (isErr()) {
-                throw std::logic_error("Called `T * ParseResult::operator->` on an `Err` ParseResult");
-            }
-            return value;
-        }
-
-        T & operator*() {
-            if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
-            }
-            if (isErr()) {
-                throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
-            }
-            return *value;
+            return &value;
         }
 
         const T & operator*() const {
