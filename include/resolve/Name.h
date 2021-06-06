@@ -14,7 +14,7 @@ namespace jc::resolve {
     using opt_rib = dt::Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
-    
+
     struct Name {
         enum class Kind {
             Const,
@@ -138,6 +138,8 @@ namespace jc::resolve {
         /// Declare new name.
         /// Returns kind and node_id of node that was already declared if it was
         decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
+
+        ns_map & getNSForName(Name::Kind kind);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

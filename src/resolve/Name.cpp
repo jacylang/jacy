@@ -9,4 +9,26 @@ namespace jc::resolve {
         }
         return std::tuple<Name::Kind, ast::node_id>{found->second->kind, found->second->nodeId};
     }
+
+    ns_map & Rib::getNSForName(Name::Kind kind) {
+        switch (kind) {
+            case Name::Kind::Const:
+            case Name::Kind::Param:
+            case Name::Kind::Local:
+            case Name::Kind::ConstParam:
+            case Name::Kind::Func: {
+                return valueNS;
+            }
+            case Name::Kind::Enum:
+            case Name::Kind::Struct:
+            case Name::Kind::Trait:
+            case Name::Kind::TypeAlias:
+            case Name::Kind::TypeParam: {
+                return typeNS;
+            }
+            case Name::Kind::Lifetime: {
+                return lifetimeNS;
+            }
+        }
+    }
 }
