@@ -13,7 +13,7 @@ namespace jc::resolve {
         enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
 
         for (const auto & item : fileModule.getFile()->items) {
-            item->accept(*this);
+            item.accept(*this);
         }
 
         exitMod();
@@ -314,7 +314,8 @@ namespace jc::resolve {
 
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
-        for (const auto & member : members) {
+        for (const auto & maybeMember : members) {
+            const auto & member = maybeMember.unwrap();
             std::string name;
             Name::Kind kind;
             switch (member->kind) {
@@ -351,7 +352,7 @@ namespace jc::resolve {
         // Then we resolve the signatures and bodies
         // This is done here -- in NameResolver
         for (const auto & member : members) {
-            member->accept(*this);
+            member.accept(*this);
         }
 
         exitRib(); // <- (members)
