@@ -2,6 +2,7 @@
 #define JACY_RESOLVE_NAME_H
 
 #include "ast/Node.h"
+#include "resolve/Module.h"
 
 namespace jc::resolve {
     using ast::node_id;
@@ -126,13 +127,13 @@ namespace jc::resolve {
 
     struct Rib {
         enum class Kind {
-            Lifetime,
-            Type,
-            Value,
+            Raw,
         } kind;
 
         // TODO: Use `Ident{node_id, string}` instead of string as key
-        std::map<std::string, name_ptr> names;
+        ns_map typeNS;
+        ns_map valueNS;
+        ns_map lifetimeNS;
 
         /// Declare new name.
         /// Returns kind and node_id of node that was already declared if it was

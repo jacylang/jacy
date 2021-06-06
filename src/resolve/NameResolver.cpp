@@ -3,6 +3,7 @@
 namespace jc::resolve {
     dt::SuggResult<rib_stack> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
+        rootMod = sess->modTreeRoot.unwrap();
 
         party.getRootModule()->accept(*this);
 

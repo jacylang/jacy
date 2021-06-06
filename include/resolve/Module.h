@@ -12,6 +12,7 @@ namespace jc::resolve {
     enum class Namespace {
         Value,
         Type,
+        Lifetime, // Not used by `ModNode`
     };
 
     struct ModNode {

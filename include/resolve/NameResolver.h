@@ -66,6 +66,10 @@ namespace jc::resolve {
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
+        // Modules //
+    private:
+        mod_node_ptr rootMod;
+
         // Declarations //
     private:
         void declare(const std::string & name, Name::Kind kind, node_id nodeId);
