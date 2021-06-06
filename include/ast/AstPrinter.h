@@ -122,12 +122,13 @@ namespace jc::ast {
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
-            bool chop = false // Print each element on new line if there's more than 1
+            uint8_t chopTH = 5
         ) {
+            const auto chop = elements.size() > chopTH;
             if (not begin.empty()) {
                 log.raw(begin);
             }
-            if (chop and elements.size() > 1) {
+            if (chop) {
                 log.nl();
             }
             for (size_t i = 0; i < elements.size(); i++) {
@@ -136,7 +137,10 @@ namespace jc::ast {
                     log.raw(delim + " ");
                 }
             }
-            if (chop and not end.empty()) {
+            if (chop) {
+                log.nl();
+            }
+            if (not end.empty()) {
                 log.raw(end);
             }
         }
