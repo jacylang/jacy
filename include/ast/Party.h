@@ -101,8 +101,7 @@ namespace jc::ast {
         }
 
         void accept(BaseVisitor & visitor) const override {
-            rootFile->accept(visitor);
-            rootDir->accept(visitor);
+            visitor.visit(*this);
         }
 
         void accept(DirTreePrinter & visitor) const override {
