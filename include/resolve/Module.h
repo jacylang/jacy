@@ -4,11 +4,11 @@
 #include "ast/Party.h"
 
 namespace jc::resolve {
-    struct ModNode;
-    using module_ptr = std::unique_ptr<ModNode>;
+    struct Module;
+    using module_ptr = std::unique_ptr<Module>;
     using module_stack = std::vector<module_ptr>;
 
-    struct ModNode {
+    struct Module {
         enum class Kind {
             Dir,
             File,
@@ -17,7 +17,7 @@ namespace jc::resolve {
 
         std::string name;
 
-        ModNode(Kind kind, const std::string & name) : kind(kind), name(name) {}
+        Module(Kind kind, const std::string & name) : kind(kind), name(name) {}
     };
 }
 

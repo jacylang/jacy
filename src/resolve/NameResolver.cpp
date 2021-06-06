@@ -10,7 +10,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
-        enterMod(ModNode::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
+        enterMod(Module::Kind::File, sess->sourceMap.getSource(fileModule.getFileId()).filename());
 
         for (const auto & item : fileModule.getFile()->items) {
             item->accept(*this);
@@ -20,7 +20,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::DirModule & dirModule) {
-        enterMod(ModNode::Kind::Dir, dirModule.getName());
+        enterMod(Module::Kind::Dir, dirModule.getName());
 
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
@@ -57,7 +57,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterMod(ModNode::Kind::Mod, mod.name.unwrap()->getValue());
+        enterMod(Module::Kind::Mod, mod.name.unwrap()->getValue());
         enterRib(Rib::Kind::Value);
 
         visitItems(mod.items);
@@ -404,8 +404,8 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void NameResolver::enterMod(ModNode::Kind kind, const std::string & name) {
-        moduleStack.emplace_back(std::make_unique<ModNode>(kind, name));
+    void NameResolver::enterMod(Module::Kind kind, const std::string & name) {
+        moduleStack.emplace_back(std::make_unique<Module>(kind, name));
     }
 
     void NameResolver::exitMod() {
