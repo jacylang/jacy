@@ -20,6 +20,11 @@ namespace jc::ast {
         log.nl();
     }
 
+    void AstPrinter::visit(const RootModule & rootModule) {
+        rootModule.getRootFile()->accept(*this);
+        rootModule.getRootDir()->accept(*this);
+    }
+
     void AstPrinter::visit(const FileModule & fileModule) {
         log.raw("--- file", fileModule.getName()).nl();
         fileModule.getFile()->accept(*this);
