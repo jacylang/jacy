@@ -27,7 +27,6 @@ namespace jc::resolve {
             switch (ns) {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
-                default:;
             }
         }
     };

@@ -5,6 +5,10 @@ mod a {
         }
     }
 
+    mod b {
+        func aa() {}
+    }
+
     func foo() {
         
     }

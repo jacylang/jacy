@@ -57,13 +57,18 @@ namespace jc::resolve {
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
             // TODO!!!: Suggestions
-            log.error(name + "has been already declared in this scope");
+            log.error("'" + name + "' has been already declared in this scope");
             return;
         }
         map[name] = nodeId;
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name) {
+        if (utils::map::has(mod->children, name)) {
+            // TODO!!!: Suggestions
+            log.error("'" + name + "' `mod` has been already declared in this scope");
+            return;
+        }
         auto child = std::make_shared<ModNode>(mod);
         // TODO: Check for redeclaration
         mod->children.emplace(name, child);
