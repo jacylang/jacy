@@ -42,8 +42,6 @@ namespace jc::ast {
     // Statements //
     ////////////////
     void AstPrinter::visit(const Enum & enumDecl) {
-        printIndent();
-
         enumDecl.name.accept(*this);
 
         printBodyLike(enumDecl.entries, ",\n");
@@ -70,14 +68,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ExprStmt & exprStmt) {
-        printIndent();
-
         exprStmt.expr.accept(*this);
     }
 
     void AstPrinter::visit(const ForStmt & forStmt) {
-        printIndent();
-
         log.raw("for ");
         // TODO: Update when `for` will have patterns
         forStmt.forEntity.accept(*this);
@@ -92,8 +86,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Func & func) {
-        printIndent();
-
         printModifiers(func.modifiers);
         log.raw("func");
         printTypeParams(func.typeParams);
@@ -132,8 +124,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Impl & impl) {
-        printIndent();
-
         log.raw("impl");
         printTypeParams(impl.typeParams);
         log.raw(" ");
@@ -144,16 +134,12 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Mod & mod) {
-        printIndent();
-
         log.raw("mod ");
         mod.name.accept(*this);
         printBodyLike(mod.items, "\n");
     }
 
     void AstPrinter::visit(const Struct & _struct) {
-        printIndent();
-
         log.raw("struct ");
         _struct.name.accept(*this);
         log.raw(" ");
@@ -168,8 +154,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Trait & trait) {
-        printIndent();
-
         log.raw("trait ");
         trait.name.accept(*this);
         printTypeParams(trait.typeParams);
@@ -183,8 +167,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypeAlias & typeAlias) {
-        printIndent();
-
         log.raw("type ");
         typeAlias.name.accept(*this);
         log.raw(" = ");
@@ -192,8 +174,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseDecl & useDecl) {
-        printIndent();
-
         log.raw("use ");
         useDecl.useTree.accept(*this);
     }
@@ -223,8 +203,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const VarStmt & varStmt) {
-        printIndent();
-
         log.raw(varStmt.kind.kindToString(), "");
         varStmt.name.accept(*this);
         if (varStmt.type) {
@@ -234,8 +212,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const WhileStmt & whileStmt) {
-        printIndent();
-
         log.raw("while ");
         whileStmt.condition.accept(*this);
         log.raw(" ");
@@ -246,8 +222,6 @@ namespace jc::ast {
     // Expressions //
     /////////////////
     void AstPrinter::visit(const Assignment & assignment) {
-        printIndent();
-
         assignment.lhs.accept(*this);
         log.raw(" = ");
         assignment.rhs.accept(*this);
