@@ -154,6 +154,21 @@ namespace jc::ast {
             }
         }
 
+        template<typename T>
+        void printDelim(
+            const std::vector<PR<T>> & elements,
+            const std::string & begin = "",
+            const std::string & end = "",
+            const std::string & delim = ",",
+            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
+        ) {
+            std::vector<T> unwrappedEls;
+            for (const auto & el : elements) {
+                unwrappedEls.emplace_back(el.unwrap());
+            }
+            printDelim(unwrappedEls, begin, end, delim, chopTH);
+        }
+
         template<class T>
         void printBodyLike(
             const std::vector<T> & elements,
@@ -162,23 +177,16 @@ namespace jc::ast {
             printDelim(elements, " {", "}", delim, 0);
         }
 
-        template<template<class> class C, class T>
-        void printDelim(
-            const std::vector<C<T>> & elements,
-            const std::string & begin = "",
-            const std::string & end = "",
-            const std::string & delim = ",",
-            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
-        ) {
-            printDelim<C>(elements, begin, end, delim, chopTH);
-        }
-
         template<class T>
         void printBodyLike(
             const std::vector<PR<T>> & elements,
             const std::string & delim = ","
         ) {
-            printBodyLike(elements, delim);
+            std::vector<T> unwrappedEls;
+            for (const auto & el : elements) {
+                unwrappedEls.emplace_back(el.unwrap());
+            }
+            printBodyLike(unwrappedEls, delim);
         }
 
         const std::string indentChar = "  ";
