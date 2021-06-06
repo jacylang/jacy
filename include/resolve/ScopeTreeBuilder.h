@@ -6,7 +6,7 @@
 namespace jc::resolve {
     class ScopeTreeBuilder : public ast::StubVisitor {
     public:
-        ScopeTreeBuilder() = default;
+        ScopeTreeBuilder() : StubVisitor() {}
     };
 }
 

@@ -17,6 +17,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const File & file) {
         printDelim(file.items, "", "", "\n");
+        log.nl();
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {

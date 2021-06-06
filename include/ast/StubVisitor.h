@@ -6,16 +6,9 @@
 namespace jc::ast {
     using common::Logger;
 
-    enum class StubVisitorMode {
-        NotImplemented,         // DEV ONLY: Panics if something not implemented
-        ImplementPromise,       // DEV ONLY: Logs message, but does not panic
-        Panic,                  // Non-implemented visitors must never be called
-        Stub,                   // Implementation of any visitor is optional
-    };
-
     class StubVisitor : public BaseVisitor {
     public:
-        StubVisitor(std::string owner, StubVisitorMode mode) : owner(std::move(owner)), mode(mode) {}
+        StubVisitor(std::string owner) : owner(std::move(owner)) {}
         ~StubVisitor() override = default;
 
         virtual void visit(const ErrorNode & errorNode) override;
@@ -119,7 +112,6 @@ namespace jc::ast {
         }
 
         const std::string owner;
-        StubVisitorMode mode;
     };
 }
 
