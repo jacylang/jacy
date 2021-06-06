@@ -1,39 +1,9 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    // ModulePrinter //
-    ModulePrinter::ModulePrinter() {
-        log.getConfig().printOwner = false;
-    }
-
-    void ModulePrinter::print(mod_node_ptr module) {
-        log.raw("{");
-        log.nl();
-        indent++;
-        for (const auto & child : module->children) {
-            printIndent();
-            log.raw(child.first + " ");
-            print(child.second);
-            log.nl();
-        }
-        printIndent();
-        log.raw("[values]:", module->valueNS).nl();
-        printIndent();
-        log.raw("[types]:", module->typeNS).nl();
-        indent--;
-        printIndent();
-        log.raw("}");
-    }
-
-    void ModulePrinter::printIndent() {
-        log.raw(utils::str::repeat("  ", indent));
-    }
-
-    // ModuleTreeBuilder //
-    mod_node_ptr ModuleTreeBuilder::build(const ast::Party & party) {
+    void ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
         party.getRootModule()->accept(*this);
-
-        return mod;
+        sess->modTreeRoot = mod;
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {

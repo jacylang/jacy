@@ -9,6 +9,7 @@
 #include "common/Logger.h"
 #include "session/SourceMap.h"
 #include "ast/NodeMap.h"
+#include "resolve/Module.h"
 
 namespace jc::sess {
     struct Session;
@@ -17,6 +18,7 @@ namespace jc::sess {
     struct Session {
         SourceMap sourceMap;
         ast::NodeMap nodeMap;
+        resolve::mod_node_ptr modTreeRoot;
     };
 }
 
