@@ -4,21 +4,21 @@
 #include "ast/StubVisitor.h"
 
 namespace jc::resolve {
-    struct Module;
+    struct ModNode;
     using ast::node_id;
 
-    struct Module {
-        Module(const std::string & name, Module * parent) : name(name), parent(parent) {}
+    struct ModNode {
+        ModNode(const std::string & name, ModNode * parent) : name(name), parent(parent) {}
 
         std::string name;
-        dt::Option<Module*> parent;
-        std::vector<Module*> children;
+        dt::Option<ModNode*> parent;
+        std::vector<ModNode*> children;
     };
 
     struct ModulePrinter {
         ModulePrinter();
 
-        void print(Module * module);
+        void print(ModNode * module);
 
     private:
         common::Logger log{"ModulePrinter"};
@@ -31,8 +31,9 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        Module * build(const ast::Party & party);
+        ModNode * build(const ast::Party & party);
 
+        void visit(const ast::RootModule & rootModule) override;
         void visit(const ast::FileModule & fileModule) override;
         void visit(const ast::DirModule & dirModule) override;
         void visit(const ast::Mod & mod) override;
@@ -45,7 +46,7 @@ namespace jc::resolve {
 
         // Modules //
     private:
-        Module * mod;
+        ModNode * mod;
 
         void enterMod(const std::string & name);
         void exitMod();

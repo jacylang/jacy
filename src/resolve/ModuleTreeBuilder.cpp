@@ -6,7 +6,7 @@ namespace jc::resolve {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(Module * module) {
+    void ModulePrinter::print(ModNode * module) {
         printIndent();
         log.raw(module->name, "{");
         log.nl();
@@ -25,10 +25,16 @@ namespace jc::resolve {
     }
 
     // ModuleTreeBuilder //
-    Module * ModuleTreeBuilder::build(const ast::Party & party) {
+    ModNode * ModuleTreeBuilder::build(const ast::Party & party) {
         party.getRootModule()->accept(*this);
 
         return mod;
+    }
+
+    void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
+        enterMod("");
+        rootModule.getRootFile()->accept(*this);
+        rootModule.getRootDir()->accept(*this);
     }
 
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
@@ -65,7 +71,7 @@ namespace jc::resolve {
 
     // Modules //
     void ModuleTreeBuilder::enterMod(const std::string & name) {
-        auto child = new Module(name, mod);
+        auto child = new ModNode(name, mod);
         // TODO: Check for redeclaration
         mod->children.emplace_back(child);
         mod = child;
