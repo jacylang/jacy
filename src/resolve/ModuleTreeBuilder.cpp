@@ -30,7 +30,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        declare(Namespace::Value, func.name.unwrap()->getValue(), func.id);
+        declare(Namespace::Value, func.name, func.id);
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        declare(Namespace::Value, _struct.name.unwrap()->getValue(), _struct.id);
+        declare(Namespace::Value, _struct.name, _struct.id);
         StubVisitor::visit(_struct);
     }
 
@@ -51,21 +51,21 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        declare(Namespace::Type, typeAlias.name.unwrap()->getValue(), typeAlias.id);
+        declare(Namespace::Type, typeAlias.name, typeAlias.id);
         typeAlias.type.accept(*this);
     }
 
     // Modules //
-    void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
+    void ModuleTreeBuilder::declare(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
+        const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
-            // TODO!!!: Suggestions
-            log.error("'" + name + "' has been already declared in this scope");
-            return;
+            suggestErrorMsg("'" + name + "' `mod` has been already declared", ident.unwrap()->span);
         }
         map[name] = nodeId;
     }
 
+    /// Optional for filesystem modules (file/dir does not have span)
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<span::Span> & nameSpan) {
         if (utils::map::has(mod->children, name)) {
             if (not nameSpan) {
