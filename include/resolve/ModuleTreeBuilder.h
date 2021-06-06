@@ -12,6 +12,7 @@ namespace jc::resolve {
     enum class Namespace {
         Value,
         Type,
+        Mod,
     };
 
     struct ModNode {
@@ -23,11 +24,13 @@ namespace jc::resolve {
 
         ns_map valueNS;
         ns_map typeNS;
+        ns_map modNS;
 
         ns_map & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
+                case Namespace::Mod: return modNS;
             }
         }
     };
@@ -58,6 +61,7 @@ namespace jc::resolve {
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Struct & _struct) override;
         void visit(const ast::Trait & trait) override;
+        void visit(const ast::TypeAlias & typeAlias) override;
 
 //        void visit(const ast::Struct & _struct) override;
 

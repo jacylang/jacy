@@ -69,6 +69,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
         declare(Namespace::Value, _struct.name.unwrap()->getValue(), _struct.id);
+        StubVisitor::visit(_struct);
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
@@ -77,11 +78,10 @@ namespace jc::resolve {
         exitMod();
     }
 
-//    void ScopeTreeBuilder::visit(const ast::Struct & _struct) {
-//        enterModule(_struct.name.unwrap()->getValue());
-//        // TODO: Update for associated items in the future
-//        exitMod();
-//    }
+    void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
+        declare(Namespace::Type, typeAlias.name.unwrap()->getValue(), typeAlias.id);
+        typeAlias.type.accept(*this);
+    }
 
     // Modules //
     void ModuleTreeBuilder::declare(Namespace ns, const std::string & name, node_id nodeId) {
