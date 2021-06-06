@@ -34,13 +34,14 @@ namespace jc::resolve {
         ScopeTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
         void visit(const ast::Mod & mod) override;
+        void visit(const ast::Trait & trait) override;
+
+//        void visit(const ast::Struct & _struct) override;
+
+
 
     private:
         common::Logger log{"ScopeTreeBuilder"};
-
-        // Helpers //
-    private:
-        void visitItems(const ast::item_list & items);
 
         // Scopes //
     private:

@@ -16,7 +16,6 @@ namespace jc::ast {
         id_ptr name;
         item_list items;
 
-
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
