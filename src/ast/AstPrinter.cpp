@@ -16,8 +16,11 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const File & file) {
-        printDelim(file.items, "", "", "\n");
-        log.nl();
+        // We don't use `printBodyLike` to avoid increasing indent on top-level
+        for (const auto & item : file.items) {
+            item.accept(*this);
+            log.nl();
+        }
     }
 
     void AstPrinter::visit(const RootModule & rootModule) {
@@ -57,7 +60,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                printDelim(std::get<named_list>(enumEntry.body), "(", ")", ",");
+                printDelim(std::get<named_list>(enumEntry.body), "(", ")");
                 break;
             }
             case EnumEntryKind::Struct: {
@@ -92,7 +95,7 @@ namespace jc::ast {
         log.raw(" ");
         func.name.accept(*this);
 
-        printDelim(func.params, "(", ")", ",");
+        printDelim(func.params, "(", ")");
 
         if (func.returnType) {
             log.raw(": ");
@@ -102,9 +105,7 @@ namespace jc::ast {
         if (func.oneLineBody) {
             log.raw(" = ");
             // For one-line block increment indent to make it prettier
-            incIndent();
             func.oneLineBody.unwrap().accept(*this);
-            decIndent();
         } else {
             log.raw(" ");
             func.body.unwrap()->accept(*this);
@@ -162,7 +163,7 @@ namespace jc::ast {
             log.raw(" : ");
         }
 
-        printDelim(trait.superTraits, "", "", ",");
+        printDelim(trait.superTraits);
         printBodyLike(trait.members, "\n");
     }
 
@@ -299,11 +300,11 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
-        printDelim(invoke.args, "(", ")", ",");
+        printDelim(invoke.args, "(", ")");
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
-        printDelim(lambdaExpr.params, "|", "|", ",");
+        printDelim(lambdaExpr.params, "|", "|");
 
         if (lambdaExpr.returnType) {
             log.raw(" -> ");
@@ -435,7 +436,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
         log.raw("[");
-        printDelim(subscript.indices, "", "", ",");
+        printDelim(subscript.indices);
         log.raw("]");
     }
 
@@ -444,7 +445,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
-        printDelim(tupleExpr.elements, "(", ")", ",");
+        printDelim(tupleExpr.elements, "(", ")");
     }
 
     void AstPrinter::visit(const UnitExpr & unitExpr) {
@@ -458,7 +459,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const WhenEntry & entry) {
-        printDelim(entry.conditions, "", "", ",");
+        printDelim(entry.conditions);
         log.raw(" => ");
         entry.body->accept(*this);
     }
@@ -471,7 +472,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
-        printDelim(tupleType.elements, "(", ")", ",");
+        printDelim(tupleType.elements, "(", ")");
     }
 
     void AstPrinter::visit(const TupleTypeEl & el) {
@@ -487,7 +488,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
-        printDelim(funcType.params, "(", ")", ",");
+        printDelim(funcType.params, "(", ")");
         log.raw(" -> ");
         funcType.returnType.accept(*this);
     }
@@ -630,7 +631,7 @@ namespace jc::ast {
             log.raw("::");
         }
 
-        printDelim(typeParams, "<", ">", ",");
+        printDelim(typeParams, "<", ">");
     }
 
     void AstPrinter::incIndent() {

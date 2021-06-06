@@ -124,7 +124,7 @@ namespace jc::ast {
             const std::vector<T> & elements,
             const std::string & begin = "",
             const std::string & end = "",
-            const std::string & delim = ",",
+            const std::string & delim = ", ",
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
             const auto chop = elements.size() > chopTH;
@@ -136,12 +136,10 @@ namespace jc::ast {
             }
             incIndent();
             for (size_t i = 0; i < elements.size(); i++) {
-                if (chop) {
-                    printIndent();
-                }
+                printIndent();
                 elements.at(i)->accept(*this);
                 if (i < elements.size() - 1) {
-                    log.raw(delim + " ");
+                    log.raw(delim);
                 }
             }
             decIndent();
