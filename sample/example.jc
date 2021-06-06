@@ -1,3 +1,15 @@
+mod a {
+    mod b {
+        mod c {
+
+        }
+    }
+
+    func foo() {
+        
+    }
+}
+
 func main {
 
 }

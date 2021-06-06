@@ -260,9 +260,9 @@ namespace jc::parser {
         }
 
         if (maybeItem) {
-            auto item = maybeItem.unwrap();
+            auto item = maybeItem.unwrap().unwrap();
             item->setAttributes(std::move(attributes));
-            return item;
+            return Some(Ok(std::move(item)));
         }
 
         if (!attributes.empty()) {
@@ -304,6 +304,7 @@ namespace jc::parser {
                     // FIXME!: Use RangeSugg
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
+                items.emplace_back(makeErrorNode(exprToken.span));
                 // If expr is `None` we already made an error in `primary`
             }
         }
@@ -369,7 +370,7 @@ namespace jc::parser {
             justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
         }
 
-        return makeNode<Enum>(std::move(entries), begin.to(cspan()));
+        return makeItem<Enum>(std::move(entries), begin.to(cspan()));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {
@@ -444,7 +445,7 @@ namespace jc::parser {
 
         auto [body, oneLineBody] = parseFuncBody();
 
-        return makeNode<Func>(
+        return makeItem<Func>(
             std::move(modifiers),
             std::move(typeParams),
             std::move(name),
@@ -472,7 +473,7 @@ namespace jc::parser {
 
         item_list members = parseMembers("impl");
 
-        return makeNode<Impl>(
+        return makeItem<Impl>(
             std::move(typeParams),
             std::move(traitTypePath),
             std::move(forType),
@@ -514,7 +515,7 @@ namespace jc::parser {
             justSkip(TokenKind::Semi, false, "`;`", "`parseStruct`");
         }
 
-        return makeNode<Struct>(
+        return makeItem<Struct>(
             std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
         );
     }
@@ -601,7 +602,7 @@ namespace jc::parser {
 
         item_list members = parseMembers("trait");
 
-        return makeNode<Trait>(
+        return makeItem<Trait>(
             std::move(name),
             std::move(typeParams),
             std::move(superTraits),
@@ -623,7 +624,7 @@ namespace jc::parser {
         );
         auto type = parseType("Expected type");
 
-        return makeNode<TypeAlias>(
+        return makeItem<TypeAlias>(
             std::move(name), std::move(type), begin.to(cspan())
         );
     }
@@ -655,9 +656,7 @@ namespace jc::parser {
             std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
         );
 
-        return makeNode<Mod>(
-            std::move(name), std::move(items), begin.to(cspan())
-        );
+        return makeItem<Mod>(std::move(name), std::move(items), begin.to(cspan()));
     }
 
     item_ptr Parser::parseUseDecl() {
@@ -671,7 +670,7 @@ namespace jc::parser {
 
         skipSemi(false);
 
-        return makeNode<UseDecl>(std::move(useTree), begin.to(cspan()));
+        return makeItem<UseDecl>(std::move(useTree), begin.to(cspan()));
     }
 
     use_tree_ptr Parser::parseUseTree() {

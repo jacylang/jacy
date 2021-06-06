@@ -5,7 +5,8 @@
 
 namespace jc::ast {
     struct Item;
-    using item_ptr = std::shared_ptr<Item>;
+    using pure_item_ptr = std::shared_ptr<Item>;
+    using item_ptr = PR<pure_item_ptr>;
     using item_list = std::vector<item_ptr>;
 
     enum class ItemKind {
