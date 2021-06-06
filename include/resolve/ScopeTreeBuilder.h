@@ -41,6 +41,12 @@ namespace jc::resolve {
     private:
         common::Logger log{"ScopeTreeBuilder"};
 
+        // Helpers //
+    private:
+        void visitItems(const ast::item_list & items);
+
+        // Scopes //
+    private:
         scope_ptr scope;
         void declare(Namespace ns, const std::string & name, node_id nodeId);
 

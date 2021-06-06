@@ -96,7 +96,7 @@ namespace jc::ast {
         virtual void visit(const SimplePath & path) override;
         virtual void visit(const SimplePathSeg & seg) override;
 
-    private:
+    protected:
         template<typename T>
         void visitEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
@@ -111,6 +111,7 @@ namespace jc::ast {
             }
         }
 
+    private:
         const std::string owner;
     };
 }

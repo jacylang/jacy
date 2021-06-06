@@ -343,8 +343,7 @@ namespace jc::resolve {
                     kind = Name::Kind::Trait;
                     break;
                 }
-                default:
-                    continue;
+                default: continue;
             }
             declare(name, kind, member->id);
         }
