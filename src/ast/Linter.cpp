@@ -22,7 +22,9 @@ namespace jc::ast {
     }
 
     void Linter::visit(const DirModule & dirModule) {
-        lintEach(dirModule.getModules());
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+        }
     }
 
     ////////////////
