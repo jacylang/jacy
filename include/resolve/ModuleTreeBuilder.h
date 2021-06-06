@@ -53,6 +53,8 @@ namespace jc::resolve {
         void visit(const ast::RootModule & rootModule) override;
         void visit(const ast::FileModule & fileModule) override;
         void visit(const ast::DirModule & dirModule) override;
+
+        void visit(const ast::Func & func) override;
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Trait & trait) override;
 
