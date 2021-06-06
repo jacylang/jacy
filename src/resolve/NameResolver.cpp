@@ -6,7 +6,7 @@ namespace jc::resolve {
 
         party.getRootModule()->accept(*this);
 
-        return {ribStack, std::move(suggestions)};
+        return {ribStack, std::move(extractSuggestions())};
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
@@ -452,26 +452,6 @@ namespace jc::resolve {
     }
 
     // Suggestions //
-    void NameResolver::suggest(sugg::sugg_ptr suggestion) {
-        suggestions.emplace_back(std::move(suggestion));
-    }
-
-    void NameResolver::suggest(const std::string & msg, ast::node_id nodeId, SuggKind kind, eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, sess->nodeMap.getNodeSpan(nodeId), kind, eid));
-    }
-
-    void NameResolver::suggestErrorMsg(const std::string & msg, ast::node_id nodeId, eid_t eid) {
-        suggest(msg, nodeId, SuggKind::Error, eid);
-    }
-
-    void NameResolver::suggestWarnMsg(const std::string & msg, ast::node_id nodeId, eid_t eid) {
-        suggest(msg, nodeId, SuggKind::Warn, eid);
-    }
-
-    void NameResolver::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
-        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
-    }
-
     void NameResolver::suggestCannotRedeclare(
         const std::string & name,
         const std::string & as,
