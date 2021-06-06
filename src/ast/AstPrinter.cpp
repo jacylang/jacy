@@ -26,7 +26,10 @@ namespace jc::ast {
 
     void AstPrinter::visit(const DirModule & dirModule) {
         log.raw("--- dir", dirModule.getName()).nl();
-        printDelim(dirModule.getModules(), "", "", "\n");
+        for (const auto & module : dirModule.getModules()) {
+            module->accept(*this);
+            log.nl();
+        }
     }
 
     ////////////////

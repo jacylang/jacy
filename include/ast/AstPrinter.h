@@ -173,6 +173,63 @@ namespace jc::ast {
             log.raw("}");
         }
 
+        template<class T>
+        void printDelim(
+            const std::vector<PR<std::shared_ptr<T>>> & elements,
+            const std::string & begin = "",
+            const std::string & end = "",
+            const std::string & delim = ",",
+            bool chop = false // Print each element on new line if there's more than 1
+        ) {
+            if (not begin.empty()) {
+                log.raw(begin);
+            }
+            if (chop and elements.size() > 1) {
+                log.nl();
+            }
+            for (size_t i = 0; i < elements.size(); i++) {
+                elements.at(i).accept(*this);
+                if (i < elements.size() - 1) {
+                    log.raw(delim + " ");
+                }
+            }
+            if (chop and not end.empty()) {
+                log.raw(end);
+            }
+        }
+
+        template<class T>
+        void printBodyLike(
+            const std::vector<PR<std::shared_ptr<T>>> & elements,
+            const std::string & delim = ","
+        ) {
+            bool chop = elements.size() > 1;
+            log.raw(" {");
+            if (chop) {
+                log.nl();
+            } else {
+                log.raw(" ");
+            }
+            incIndent();
+            for (size_t i = 0; i < elements.size(); i++) {
+                if (chop) {
+                    printIndent();
+                }
+                elements.at(i).accept(*this);
+                if (i < elements.size() - 1) {
+                    log.raw(delim + " ");
+                }
+            }
+            decIndent();
+            if (chop) {
+                log.nl();
+            } else {
+                log.raw(" ");
+            }
+            printIndent();
+            log.raw("}");
+        }
+
         const std::string indentChar = "  ";
         void incIndent();
         void decIndent();
