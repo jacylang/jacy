@@ -116,13 +116,15 @@ namespace jc::ast {
 
         // Helpers //
     private:
+        static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
+
         template<class T>
         void printDelim(
             const std::vector<T> & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
-            uint8_t chopTH = 5
+            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
             const auto chop = elements.size() > chopTH;
             if (not begin.empty()) {
@@ -156,31 +158,7 @@ namespace jc::ast {
             const std::vector<T> & elements,
             const std::string & delim = ","
         ) {
-            bool chop = elements.size() > 1;
-            log.raw(" {");
-            if (chop) {
-                log.nl();
-            } else {
-                log.raw(" ");
-            }
-            incIndent();
-            for (size_t i = 0; i < elements.size(); i++) {
-                if (chop) {
-                    printIndent();
-                }
-                elements.at(i)->accept(*this);
-                if (i < elements.size() - 1) {
-                    log.raw(delim + " ");
-                }
-            }
-            decIndent();
-            if (chop) {
-                log.nl();
-            } else {
-                log.raw(" ");
-            }
-            printIndent();
-            log.raw("}");
+            printDelim(elements, " {", "}", delim, 0);
         }
 
         template<class T>
@@ -189,23 +167,9 @@ namespace jc::ast {
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
-            bool chop = false // Print each element on new line if there's more than 1
+            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
-            if (not begin.empty()) {
-                log.raw(begin);
-            }
-            if (chop and elements.size() > 1) {
-                log.nl();
-            }
-            for (size_t i = 0; i < elements.size(); i++) {
-                elements.at(i).accept(*this);
-                if (i < elements.size() - 1) {
-                    log.raw(delim + " ");
-                }
-            }
-            if (chop and not end.empty()) {
-                log.raw(end);
-            }
+            printDelim(elements, begin, end, delim);
         }
 
         template<class T>
@@ -213,31 +177,7 @@ namespace jc::ast {
             const std::vector<PR<T>> & elements,
             const std::string & delim = ","
         ) {
-            bool chop = elements.size() > 1;
-            log.raw(" {");
-            if (chop) {
-                log.nl();
-            } else {
-                log.raw(" ");
-            }
-            incIndent();
-            for (size_t i = 0; i < elements.size(); i++) {
-                if (chop) {
-                    printIndent();
-                }
-                elements.at(i).accept(*this);
-                if (i < elements.size() - 1) {
-                    log.raw(delim + " ");
-                }
-            }
-            decIndent();
-            if (chop) {
-                log.nl();
-            } else {
-                log.raw(" ");
-            }
-            printIndent();
-            log.raw("}");
+            printBodyLike(elements, delim);
         }
 
         const std::string indentChar = "  ";
