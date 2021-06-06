@@ -6,6 +6,7 @@
 #include "ast/nodes.h"
 #include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
+#include "suggest/SuggInterface.h"
 
 namespace jc::ast {
     using common::Logger;
@@ -20,7 +21,7 @@ namespace jc::ast {
         Struct,
     };
 
-    class Linter : public BaseVisitor {
+    class Linter : public BaseVisitor, public sugg::SuggInterface {
     public:
         Linter();
 
@@ -138,13 +139,6 @@ namespace jc::ast {
         bool isDeepInside(LinterContext ctx);
         void pushContext(LinterContext ctx);
         void popContext();
-
-        // Suggestions //
-    private:
-        sugg::sugg_list suggestions;
-        void suggest(sugg::sugg_ptr suggestion);
-        void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
-        void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
 
         common::Logger log{"linter"};
     };

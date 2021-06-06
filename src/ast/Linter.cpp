@@ -6,7 +6,7 @@ namespace jc::ast {
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
         party.getRootModule()->accept(*this);
 
-        return {dt::None, std::move(suggestions)};
+        return {dt::None, std::move(extractSuggestions())};
     }
 
     void Linter::visit(const ErrorNode & errorNode) {
@@ -693,18 +693,5 @@ namespace jc::ast {
 
     void Linter::popContext() {
         ctxStack.pop_back();
-    }
-
-    // Suggestions //
-    void Linter::suggest(sugg::sugg_ptr suggestion) {
-        suggestions.push_back(std::move(suggestion));
-    }
-
-    void Linter::suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Error, eid));
-    }
-
-    void Linter::suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Warn, eid));
     }
 }
