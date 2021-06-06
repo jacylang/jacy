@@ -14,7 +14,7 @@ namespace jc::resolve {
 
     class NameResolver : public ast::StubVisitor {
     public:
-        NameResolver() : StubVisitor("NameResolver", ast::StubVisitorMode::Panic) {}
+        NameResolver() : StubVisitor("NameResolver") {}
         ~NameResolver() override = default;
 
         dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::Party & party);
