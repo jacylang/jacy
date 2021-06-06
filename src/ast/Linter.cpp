@@ -17,6 +17,11 @@ namespace jc::ast {
         lintEach(file.items);
     }
 
+    void Linter::visit(const RootModule & rootModule) {
+        rootModule.getRootFile()->accept(*this);
+        rootModule.getRootDir()->accept(*this);
+    }
+
     void Linter::visit(const FileModule & fileModule) {
         fileModule.getFile()->accept(*this);
     }
