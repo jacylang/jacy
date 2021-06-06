@@ -8,11 +8,16 @@ namespace jc::resolve {
 
     void ModulePrinter::print(mod_node_ptr module) {
         printIndent();
-        log.raw(module->name, "{");
+        log.raw(module->name);
+        log.raw("{");
         log.nl();
         indent++;
-        for (const auto & child : module->children) {
+        for (size_t i = 0; i < module->children.size(); i++) {
+            const auto & child = module->children.at(i);
             print(child);
+            if (i < module->children.size() - 1) {
+                log.nl();
+            }
         }
         indent--;
         log.nl();
