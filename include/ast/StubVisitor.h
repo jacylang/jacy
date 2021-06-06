@@ -14,6 +14,7 @@ namespace jc::ast {
         virtual void visit(const ErrorNode & errorNode) override;
         virtual void visit(const File & file) override;
 
+        virtual void visit(const RootModule & rootModule) override;
         virtual void visit(const FileModule & fileModule) override;
         virtual void visit(const DirModule & dirModule) override;
 
