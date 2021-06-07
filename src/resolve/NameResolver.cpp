@@ -1,13 +1,13 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<rib_stack> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
+    dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
         rootMod = sess->modTreeRoot.unwrap();
 
         party.getRootModule()->accept(*this);
 
-        return {ribStack, std::move(extractSuggestions())};
+        return {dt::None, std::move(extractSuggestions())};
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {

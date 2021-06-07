@@ -6,6 +6,7 @@
 #include "resolve/Name.h"
 #include "utils/arr.h"
 #include "suggest/SuggInterface.h"
+#include "resolve/ResStorage.h"
 
 namespace jc::resolve {
     using common::Logger;
@@ -17,7 +18,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver") {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<rib_stack> resolve(const sess::sess_ptr & sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> resolve(const sess::sess_ptr & sess, const ast::Party & party);
 
         void visit(const ast::FileModule & fileModule) override;
         void visit(const ast::DirModule & dirModule) override;
