@@ -173,8 +173,8 @@ namespace jc::core {
         log.dev("Resolving names...");
 
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess);
-        modulePrinter.print(sess->modTreeRoot);
-//        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
+        modulePrinter.print(sess->modTreeRoot.unwrap());
+        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
     }
 
     // Suggestions //
