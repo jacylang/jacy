@@ -10,6 +10,7 @@
 #include "session/SourceMap.h"
 #include "ast/NodeMap.h"
 #include "resolve/Module.h"
+#include "resolve/ResStorage.h"
 
 namespace jc::sess {
     struct Session;
@@ -19,6 +20,7 @@ namespace jc::sess {
         SourceMap sourceMap;
         ast::NodeMap nodeMap;
         dt::Option<resolve::mod_node_ptr> modTreeRoot;
+        resolve::ResStorage resStorage;
     };
 }
 
