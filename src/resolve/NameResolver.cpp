@@ -7,7 +7,7 @@ namespace jc::resolve {
 
         party.getRootModule()->accept(*this);
 
-        return {dt::None, std::move(extractSuggestions())};
+        return {dt::None, extractSuggestions()};
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
