@@ -16,7 +16,8 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O0")
 
 add_compile_options(
     -Wall
-    -Werror
+#   Uncomment this line when want to suffer a little bit
+#    -Werror
     -pedantic
     -pedantic-errors
     -Wextra
@@ -25,14 +26,18 @@ add_compile_options(
     -Wcast-qual
     -Wconversion
     -Wctor-dtor-privacy
+    -Weffc++
     -Wenum-compare
     -Wfloat-equal
     -Wnon-virtual-dtor
     -Wold-style-cast
     -Woverloaded-virtual
     -Wredundant-decls
+    -Wshadow
     -Wsign-conversion
     -Wsign-promo
+    -Wstrict-aliasing
+    -ansi
     -Wunreachable-code
     -Wunused
     -Wunused-parameter
