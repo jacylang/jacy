@@ -71,6 +71,12 @@ namespace jc::parser {
         Useless, // `=>` is useless (unambiguous case)
     };
 
+    enum class Recovery {
+        None,
+        Once,
+        Any,
+    };
+
     class Parser : public sugg::SuggInterface {
     public:
         Parser();
@@ -156,7 +162,7 @@ namespace jc::parser {
             TokenKind kind,
             bool skipLeftNLs,
             bool skipRightNLs,
-            bool recoverUnexpected,
+            Recovery recovery,
             sugg::sugg_ptr suggestion
         );
         void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);

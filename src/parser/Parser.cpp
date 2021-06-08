@@ -105,7 +105,7 @@ namespace jc::parser {
     }
 
     bool Parser::skip(
-        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, bool recoverUnexpected, sugg::sugg_ptr suggestion
+        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, Recovery recovery, sugg::sugg_ptr suggestion
     ) {
         bool skippedLeftNLs;
         if (skipLeftNLs) {
