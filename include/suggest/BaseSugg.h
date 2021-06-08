@@ -85,23 +85,6 @@ namespace jc::sugg {
         }
     };
 
-    struct RangeSugg : SpanLinkSugg {
-        RangeSugg(
-            std::string msg,
-            const Span & from,
-            const Span & to,
-            SuggKind kind,
-            eid_t eid = NoneEID
-        ) : SpanLinkSugg(to, from, kind, eid),
-            msg(std::move(msg)) {}
-
-        const std::string msg;
-
-        void accept(BaseSuggester & suggester) override {
-            return suggester.visit(this);
-        }
-    };
-
     struct HelpSugg : BaseSugg {
         HelpSugg(
             std::string helpMsg,
