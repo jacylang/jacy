@@ -157,7 +157,7 @@ namespace jc::parser {
                 }
                 suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
                 suggestHelp(
-                    "Remove " + peek().toString(),
+                    "Remove " + Token::listKindToString(errorTokens),
                     std::make_unique<ParseErrSugg>("Unexpected " + peek().toString(), cspan())
                 );
             }
