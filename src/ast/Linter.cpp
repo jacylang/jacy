@@ -9,7 +9,7 @@ namespace jc::ast {
         return {dt::None, extractSuggestions()};
     }
 
-    void Linter::visit(const ErrorNode & errorNode) {
+    void Linter::visit(const ErrorNode&) {
         common::Logger::devPanic("Unexpected [ERROR] node on Linter stage");
     }
 
@@ -401,7 +401,7 @@ namespace jc::ast {
         lintEach(listExpr.elements);
     }
 
-    void Linter::visit(const LiteralConstant & literalConstant) {
+    void Linter::visit(const LiteralConstant&) {
         // What's here?
     }
 
@@ -522,7 +522,7 @@ namespace jc::ast {
         lintEach(subscript.indices);
     }
 
-    void Linter::visit(const ThisExpr & thisExpr) {
+    void Linter::visit(const ThisExpr&) {
         // A??
     }
 
@@ -530,7 +530,7 @@ namespace jc::ast {
         lintEach(tupleExpr.elements);
     }
 
-    void Linter::visit(const UnitExpr & unitExpr) {
+    void Linter::visit(const UnitExpr&) {
         // Meow
     }
 
@@ -599,7 +599,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const UnitType & unitType) {
+    void Linter::visit(const UnitType&) {
         // Meow...
     }
 
@@ -629,7 +629,7 @@ namespace jc::ast {
         lintEach(attr.params);
     }
 
-    void Linter::visit(const Identifier & id) {}
+    void Linter::visit(const Identifier&) {}
 
     void Linter::visit(const NamedElement & el) {
         if (el.name) {
