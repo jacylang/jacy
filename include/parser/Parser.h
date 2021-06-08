@@ -167,7 +167,6 @@ namespace jc::parser {
         );
         void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenKind kind, bool skipRightNLs = false);
-        dt::Option<Token> recoverOnce(TokenKind kind, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls);
 
         // Parsers //
     private:

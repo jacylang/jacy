@@ -189,30 +189,6 @@ namespace jc::parser {
         return dt::None;
     }
 
-    dt::Option<Token> Parser::recoverOnce(
-        TokenKind kind, const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls
-    ) {
-        if (skipLeftNLs) {
-            skipNLs(true);
-        }
-        dt::Option<Token> maybeToken;
-        if (is(kind)) {
-            maybeToken = peek();
-            advance();
-        } else {
-            // Recover once
-            auto next = lookup();
-            auto recovered = skip(kind, false, false, true, std::make_unique<ParseErrSugg>(suggMsg, cspan()));
-            if (recovered) {
-                maybeToken = next;
-            }
-        }
-        if (maybeToken and skipRightNls) {
-            skipNLs(true);
-        }
-        return maybeToken;
-    }
-
     // Parsers //
     dt::SuggResult<file_ptr> Parser::parse(
         const sess::sess_ptr & sess,
