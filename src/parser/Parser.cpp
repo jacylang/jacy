@@ -978,6 +978,7 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (!expr) {
+            suggestErrorMsg(suggMsg, begin);
             return makeErrorNode(begin.to(cspan()));
         }
         return expr.unwrap("parseExpr -> expr");
@@ -1772,7 +1773,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseIfExpr(bool isElif) {
-        logParse("IfExpr:elif=" + std::to_string(isElif));
+        logParse("IfExpr");
 
         const auto & begin = cspan();
 
