@@ -243,7 +243,7 @@ namespace jc::parser {
         }
 
         if (withSpan) {
-            str += " at " + span.toString();
+            str += " at " + span.toString() + ", len=" + std::to_string(span.len);
         }
 
         return str;
