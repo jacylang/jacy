@@ -100,7 +100,7 @@ template<class Arg, class ...Args>
 std::string Logger::format(Arg && first, Args && ...other) {
     std::stringstream ss;
     ss << first;
-    ((ss << other), ...);
+    ((ss << ' ' << other), ...);
     return ss.str();
 }
 
