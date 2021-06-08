@@ -41,7 +41,7 @@ namespace jc::fs {
                 entries.emplace_back(readfile(entryPath));
             }
         }
-        return std::move(entries);
+        return entries;
     }
 
     entry_ptr readDirRec(const std_fs::path & path, const std::string & allowedExt) {
