@@ -108,12 +108,12 @@ namespace jc::parser {
         TokenKind kind, bool skipLeftNLs, bool skipRightNLs, const std::string & expected, Recovery recovery
     ) {
         // FIXME: Add param for virtual semi emitting
-        //            if (skipLeftNLs) {
-        //                // We have't found specific token, but skipped NLs which are semis
-        //                emitVirtualSemi();
-        //            }
+        // bool skippedLeftNLs;
+        // if (skipLeftNLs) {
+        //     // We have't found specific token, but skipped NLs which are semis
+        //     emitVirtualSemi();
+        // }
 
-        bool skippedLeftNLs;
         if (skipLeftNLs) {
             skippedLeftNLs = skipNLs(true);
         }
