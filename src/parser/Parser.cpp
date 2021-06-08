@@ -1971,8 +1971,6 @@ namespace jc::parser {
     named_list Parser::parseNamedList(const std::string & construction) {
         logParse("NamedList:" + construction);
 
-        const auto & begin = cspan();
-
         justSkip(TokenKind::LParen, true, "`(`", "`parseNamedList`");
 
         named_list namedList;
@@ -2313,9 +2311,6 @@ namespace jc::parser {
     tuple_t_el_list Parser::parseParenType() {
         logParse("ParenType");
 
-        const auto & begin = cspan();
-
-        const auto & lParenToken = peek();
         justSkip(TokenKind::LParen, true, "`(`", "`parseParenType`");
 
         if (skipOpt(TokenKind::RParen)) {
