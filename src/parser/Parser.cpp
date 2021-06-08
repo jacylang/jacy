@@ -123,7 +123,7 @@ namespace jc::parser {
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
-                    "Remove " + peek().toString(),
+                    "Remove '" + peek().toString() + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected token " + peek().kindToString(),
                         cspan()
@@ -149,13 +149,12 @@ namespace jc::parser {
                         break;
                     }
                 }
-                log.dev("Found:", found.unwrap().toString());
                 const auto & errorTokensStr = Token::listKindToString(errorTokens);
                 suggestHelp(
-                    "Remove " + errorTokensStr,
+                    "Remove '" + errorTokensStr + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected tokens " + errorTokensStr,
-                        begin.to(cspan())
+                        begin.to(errorTokens.rbegin()->span)
                     )
                 );
             }
