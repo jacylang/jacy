@@ -231,6 +231,7 @@ namespace jc::parser {
             case TokenKind::Id: {
                 str += ":'" + val + "'";
             }
+            default:;
         }
 
         if (withSpan) {

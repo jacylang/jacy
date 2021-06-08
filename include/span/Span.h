@@ -7,7 +7,8 @@
 #include "common/Logger.h"
 
 namespace jc::span {
-    using span_len_t = uint16_t;
+    // Use uint16_t for span_len_t, but there will be some conversion warnings because we get size of token as string
+    using span_len_t = uint64_t;
     using file_id_t = size_t;
 
     struct Span {
