@@ -11,9 +11,9 @@ namespace jc::ast {
             id_ptr name,
             type_ptr type,
             const Span & span
-        ) : name(std::move(name)),
-            type(std::move(type)),
-            Item(span, ItemKind::TypeAlias) {}
+        ) : Item(span, ItemKind::TypeAlias),
+            name(std::move(name)),
+            type(std::move(type)) {}
 
         id_ptr name;
         type_ptr type;

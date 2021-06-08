@@ -19,7 +19,7 @@ namespace jc::ast {
             Rebind,
         } kind;
 
-        UseTree(Kind kind, const Span & span) : kind(kind), Node(span) {}
+        UseTree(Kind kind, const Span & span) : Node(span), kind(kind) {}
 
         virtual void accept(BaseVisitor & visitor) const override = 0;
     };
@@ -37,7 +37,7 @@ namespace jc::ast {
 
     struct UseTreeSpecific : UseTree {
         UseTreeSpecific(dt::Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
-            : path(std::move(path)), specifics(std::move(specifics)), UseTree(Kind::Specific, span) {}
+            : UseTree(Kind::Specific, span), path(std::move(path)), specifics(std::move(specifics)) {}
 
         dt::Option<simple_path_ptr> path;
         use_tree_list specifics;
@@ -49,7 +49,7 @@ namespace jc::ast {
 
     struct UseTreeRebind : UseTree {
         UseTreeRebind(simple_path_ptr && path, id_ptr && as, const Span & span)
-            : path(std::move(path)), as(std::move(as)), UseTree(Kind::Rebind, span) {}
+            : UseTree(Kind::Rebind, span), path(std::move(path)), as(std::move(as)) {}
 
         simple_path_ptr path;
         id_ptr as;
@@ -61,7 +61,7 @@ namespace jc::ast {
 
     struct UseTreeAll : UseTree {
         UseTreeAll(dt::Option<simple_path_ptr> && path, const Span & span)
-            : path(std::move(path)), UseTree(Kind::All, span) {}
+            : UseTree(Kind::All, span), path(std::move(path)) {}
 
         dt::Option<simple_path_ptr> path;
 
@@ -74,8 +74,8 @@ namespace jc::ast {
         UseDecl(
             use_tree_ptr && useTree,
             const Span & span
-        ) : useTree(std::move(useTree)),
-            Item(span, ItemKind::Use) {}
+        ) : Item(span, ItemKind::Use),
+            useTree(std::move(useTree)) {}
 
         use_tree_ptr useTree;
 

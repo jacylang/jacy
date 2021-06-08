@@ -9,9 +9,9 @@ namespace jc::ast {
             id_ptr name,
             item_list items,
             const Span & span
-        ) : name(std::move(name)),
-            items(std::move(items)),
-            Item(span, ItemKind::Mod) {}
+        ) : Item(span, ItemKind::Mod),
+            name(std::move(name)),
+            items(std::move(items)) {}
 
         id_ptr name;
         item_list items;

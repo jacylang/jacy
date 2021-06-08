@@ -12,11 +12,11 @@ namespace jc::ast {
             type_path_list superTraits,
             item_list members,
             const Span & span
-        ) : name(std::move(name)),
+        ) : Item(span, ItemKind::Trait),
+            name(std::move(name)),
             typeParams(std::move(typeParams)),
             superTraits(std::move(superTraits)),
-            members(std::move(members)),
-            Item(span, ItemKind::Trait) {}
+            members(std::move(members)) {}
 
         id_ptr name;
         opt_type_params typeParams;

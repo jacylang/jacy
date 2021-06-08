@@ -19,8 +19,8 @@ namespace jc::ast {
             Ident,
         } kind;
 
-        SimplePathSeg(id_ptr && ident, const Span & span) : ident(ident), kind(Kind::Ident), Node(span) {}
-        SimplePathSeg(Kind kind, const Span & span) : kind(kind), Node(span) {}
+        SimplePathSeg(id_ptr && ident, const Span & span) : Node(span), ident(ident), kind(Kind::Ident) {}
+        SimplePathSeg(Kind kind, const Span & span) : Node(span), kind(kind) {}
 
         dt::Option<id_ptr> ident;
 
@@ -34,9 +34,9 @@ namespace jc::ast {
             bool global,
             std::vector<simple_path_seg_ptr> && segments,
             const Span & span
-        ) : global(global),
-            segments(std::move(segments)),
-            Node(span) {}
+        ) : Node(span),
+            global(global),
+            segments(std::move(segments)) {}
 
         bool global;
         std::vector<simple_path_seg_ptr> segments;
