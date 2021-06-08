@@ -9,7 +9,7 @@ namespace jc::ast {
     using file_list = std::vector<file_ptr>;
 
     struct File : Node {
-        File(item_list items, const Span & span) : items(std::move(items)), Node(span) {}
+        File(item_list items, const Span & span) : Node(span), items(std::move(items)) {}
 
         item_list items;
 
