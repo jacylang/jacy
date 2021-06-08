@@ -158,7 +158,7 @@ namespace jc::parser {
         // Skippers //
         bool skipNLs(bool optional = false);
         void skipSemi(bool optional, bool useless = false);
-        bool skip(
+        dt::Option<Token> skip(
             TokenKind kind,
             bool skipLeftNLs,
             bool skipRightNLs,
@@ -166,7 +166,7 @@ namespace jc::parser {
             const std::string & expected
         );
         void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
-        dt::Option<Token> skipOpt(TokenKind kind, bool skipRightNLs = false);
+        opt_token skipOpt(TokenKind kind, bool skipRightNLs = false);
 
         // Parsers //
     private:

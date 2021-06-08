@@ -104,7 +104,7 @@ namespace jc::parser {
         advance();
     }
 
-    bool Parser::skip(
+    opt_token Parser::skip(
         TokenKind kind, bool skipLeftNLs, bool skipRightNLs, Recovery recovery, const std::string & expected
     ) {
         // FIXME: Add param for virtual semi emitting
@@ -118,6 +118,7 @@ namespace jc::parser {
             skippedLeftNLs = skipNLs(true);
         }
 
+        opt_token found;
         if (not peek().is(kind)) {
             if (recovery == Recovery::None or recovery == Recovery::Once) {
                 log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
@@ -128,30 +129,31 @@ namespace jc::parser {
                     )
                 );
 
-                if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
-                    // If next token is what we need we produce an error for skipped one anyway, but return `true`
-                    advance(2);
-                    return true;
-                }
-
-                // For `Recovery::None` we just produce an error and return `false`
                 advance();
-                return false;
-            }
 
-            // Recovery::Any
-            const auto & begin = cspan();
-            bool found = false;
-            while (not eof()) {
-                advance();
-                if (peek().is(kind)) {
-                    found = true;
-                    break;
+                if (recovery == Recovery::Once and not eof() and is(kind)) {
+                    // If next token is what we need we produce an error for skipped one anyway
+                    found = peek();
+                    advance();
+                } else {
+                    // For `Recovery::None` we just produce an error
+                    found = dt::None;
                 }
+            } else if (recovery == Recovery::Any) {
+                // Recovery::Any
+                const auto & begin = cspan();
+                while (not eof()) {
+                    advance();
+                    if (is(kind)) {
+                        found = peek();
+                        advance();
+                        break;
+                    }
+                }
+                suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
             }
-
-            suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
-            return found;
+        } else {
+            found = peek();
         }
 
         advance();
@@ -160,7 +162,7 @@ namespace jc::parser {
             skipNLs(true);
         }
 
-        return true;
+        return found;
     }
 
     void Parser::justSkip(
