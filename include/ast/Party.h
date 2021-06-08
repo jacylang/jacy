@@ -28,6 +28,7 @@ namespace jc::ast {
         } kind;
 
         explicit Module(Kind kind) : kind(kind) {}
+        virtual ~Module() = default;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
         virtual void accept(DirTreePrinter & visitor) const = 0;
@@ -35,9 +36,9 @@ namespace jc::ast {
 
     struct FileModule : Module {
         FileModule(const std::string & name, span::file_id_t fileId, file_ptr && file)
-            : name(name), fileId(fileId), file(std::move(file)), Module(Module::Kind::File) {}
+            : Module(Module::Kind::File), name(name), fileId(fileId), file(std::move(file)) {}
 
-        const span::file_id_t getFileId() const {
+        span::file_id_t getFileId() const {
             return fileId;
         }
 
@@ -65,7 +66,7 @@ namespace jc::ast {
 
     struct DirModule : Module {
         explicit DirModule(std::string name, std::vector<module_ptr> && modules)
-            : name(std::move(name)), modules(std::move(modules)), Module(Module::Kind::Dir) {}
+            : Module(Module::Kind::Dir), name(std::move(name)), modules(std::move(modules)) {}
 
         const std::string & getName() const {
             return name;
@@ -90,7 +91,7 @@ namespace jc::ast {
 
     struct RootModule : Module {
         RootModule(file_module_ptr && rootFile, dir_module_ptr && rootDir)
-            : rootFile(std::move(rootFile)), rootDir(std::move(rootDir)), Module(Module::Kind::Root) {}
+            : Module(Module::Kind::Root), rootFile(std::move(rootFile)), rootDir(std::move(rootDir)) {}
 
         const file_module_ptr & getRootFile() const {
             return rootFile;
