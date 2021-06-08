@@ -19,8 +19,8 @@ namespace jc::ast {
     };
 
     struct TypeParam : Node {
-        explicit TypeParam(TypeParamKind kind, const Span & span)
-            : kind(kind), Node(span) {}
+        explicit TypeParam(TypeParamKind kind, const Span & span) : Node(span), kind(kind) {}
+        virtual ~TypeParam() = default;
 
         TypeParamKind kind;
 
@@ -28,8 +28,13 @@ namespace jc::ast {
     };
 
     struct GenericType : TypeParam {
-        GenericType(id_ptr name, opt_type_ptr type, const Span & span)
-            : name(std::move(name)), boundType(std::move(type)), TypeParam(TypeParamKind::Type, span) {}
+        GenericType(
+            id_ptr name,
+            opt_type_ptr type,
+            const Span & span
+        ) : TypeParam(TypeParamKind::Type, span),
+            name(std::move(name)),
+            boundType(std::move(type)) {}
 
         id_ptr name;
         opt_type_ptr boundType;
@@ -41,7 +46,8 @@ namespace jc::ast {
 
     struct Lifetime : TypeParam {
         Lifetime(id_ptr name, const Span & span)
-            : name(std::move(name)), TypeParam(TypeParamKind::Lifetime, span) {}
+            : TypeParam(TypeParamKind::Lifetime, span),
+              name(std::move(name)) {}
 
         id_ptr name;
 
@@ -56,10 +62,10 @@ namespace jc::ast {
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
-        ) : name(std::move(name)),
+        ) : TypeParam(TypeParamKind::Const, span),
+            name(std::move(name)),
             type(std::move(type)),
-            defaultValue(std::move(defaultValue)),
-            TypeParam(TypeParamKind::Const, span) {}
+            defaultValue(std::move(defaultValue)) {}
 
         id_ptr name;
         type_ptr type;
