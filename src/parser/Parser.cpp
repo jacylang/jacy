@@ -2437,10 +2437,8 @@ namespace jc::parser {
             return dt::None;
         }
 
-        const auto & lAngleToken = peek();
         justSkip(TokenKind::LAngle, true, "`<`", "`parseOptTypeParams`");
 
-        const auto & begin = cspan();
         type_param_list typeParams;
 
         bool first = true;
