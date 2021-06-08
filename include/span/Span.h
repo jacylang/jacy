@@ -14,7 +14,7 @@ namespace jc::span {
         Span() = default;
 
         Span(uint32_t line, uint32_t col, span_len_t len, file_id_t fileId)
-            : line(line), col(col), len(len), fileId(fileId) {}
+            : len(len), line(line), col(col), fileId(fileId) {}
 
         span_len_t len{0};
         uint32_t line{0};
