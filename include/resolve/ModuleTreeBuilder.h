@@ -28,6 +28,9 @@ namespace jc::resolve {
 //        void visit(const ast::Struct & _struct) override;
 
     private:
+        using ast::StubVisitor::visit;
+
+    private:
         common::Logger log{"ScopeTreeBuilder"};
 
         // Modules //

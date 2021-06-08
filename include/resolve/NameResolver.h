@@ -47,6 +47,9 @@ namespace jc::resolve {
         void visit(const ast::TypePath & typePath) override;
 
     private:
+        using ast::StubVisitor::visit;
+
+    private:
         common::Logger log{"NameResolver"};
         sess::sess_ptr sess;
 

@@ -15,21 +15,21 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O0")
 
 add_compile_options(
-    -Wall
-    -Wextra
-    -Wpedantic
-    -Wcast-align
-    -Wcast-qual
-    -Wconversion
-    -Wctor-dtor-privacy
-    -Wenum-compare
-    -Wfloat-equal
-    -Wnon-virtual-dtor
-    -Wold-style-cast
+#    -Wall
+#    -Wextra
+#    -Wpedantic
+#    -Wcast-align
+#    -Wcast-qual
+#    -Wconversion
+#    -Wctor-dtor-privacy
+#    -Wenum-compare
+#    -Wfloat-equal
+#    -Wnon-virtual-dtor
+#    -Wold-style-cast
     -Woverloaded-virtual
-    -Wredundant-decls
-    -Wsign-conversion
-    -Wsign-promo
+#    -Wredundant-decls
+#    -Wsign-conversion
+#    -Wsign-promo
 )
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
