@@ -15,15 +15,14 @@ namespace jc::ast {
             expr_ptr inExpr,
             block_ptr body,
             const Span & span
-        ) : forEntity(std::move(forEntity)),
+        ) : Stmt(span, StmtKind::For),
+            forEntity(std::move(forEntity)),
             inExpr(std::move(inExpr)),
-            body(std::move(body)),
-            Stmt(span, StmtKind::For) {}
+            body(std::move(body)) {}
 
         id_ptr forEntity;
         expr_ptr inExpr;
         block_ptr body;
-
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
