@@ -65,6 +65,11 @@ The syntax:
 'let' pattern (':' type)? ('=' expr)?
 ```
 
+Anyway, I'm able to add `var` keyword and just use it as alias for `let
+mut`. In this way we are not able to use pattern, just only an
+identifier, so we also lose ability of destructuring. I think it does
+not worth it, let's stay with `let` and `let mut`.
+
 #### Blocks
 
 Before control-flow chapter I have to establish rules about blocks,
@@ -288,6 +293,7 @@ forLoop: 'for' pattern 'in' expression block
 ```
 
 Examples:
+
 ```clike
 // In C++ we write
 for (int i = 0; i < something; i++) {
@@ -309,4 +315,123 @@ for x in &vec {
     // ...
 }
 ```
+
+### Compile-time evaluation
+
+One thing I appreciate much is an ability of compile-time evaluation
+(CTE - compile-time evaluat(-ion)/(-ed) further) Unlike Zig there's no
+hardly separate syntax like `comptime`, etc., as far as we don't base
+something else (like type parameters in Zig) on CTE, we only use for
+computations.
+
+There are some terms we need to establish:
+- `const` keyword in context of CTE
+- CTE context
+- CTE functions
+- CTE expressions
+
+#### `const` keyword
+
+In CTE `const` used to declare, obviously, a constant which will be
+evaluated at compile-time and which usages will be inlined.
+
+I wanna note that `const` is a synonym for compile-time evaluable
+expression, so further I'll use it in this context.
+
+`const` must be immediately assigned when declared. Syntax:
+
+```g4
+'const' IDENT '=' expr
+```
+
+After `'='` goes an expression which MUST also be CTE, but not exactly
+another `const`.
+
+The difference between `let` and `const` is that `const` is an item,
+whereas `let` is a statement. As being an item `const` can be placed
+mostly on any level, including top level:
+
+```clike
+const a = 10
+
+trait MyTrait {
+    const traitConst = 1010
+}
+
+func main() {
+    const b = 123
+}
+```
+
+#### CTE Context
+
+In some places we cannot put run-time computed expressions, e.g. when we
+declare fixed-sized array `[T; getSize()]`, `getSize()` function must be
+CTE.
+
+Here's the list of all (I hope) this kind of places (`N` is `const` and
+`ctFunc()` is CTE function):
+- Array types `[T; N]`
+- Fill-array generator `[0; N]` (generate array of `N` zeros)
+- When we set default value for `const` parameter like `<const N: usize
+  = ctFunc()>`
+- Enum discriminant `enum MyEnum { Kind = N }`
+- `static` items initializers
+
+#### CTE functions
+
+CTE context is just a block which compiler able to evaluate at
+compile-time. This is always a function, and there are two ways to say
+that function is CTE context:
+- It is marked with `const` modifier
+- It is possible to infer that function can be CTE
+
+We mark function as CTE so:
+
+```clike
+const func foo() {}
+```
+
+Then compiler will check that all computations performed inside this
+function `'foo'` are CTE, if not, it gives an error.
+
+##### `const` inference
+
+Another approach is more complex for the compiler but simple for user:
+If we declare a function and use it in CTE context when compiler goes to
+this function and checks that it's CTE function. Anyway, if we use this
+function in run-time context it won't be inlined and evaluated at
+compile-time. Example:
+
+```
+// Just a simple function that returns `1`
+func foo = 1
+
+const func myConstFunc {
+    const a = foo()
+}
+
+func myRawFunc {
+    let a = foo()
+}
+```
+
+After `const` expansion this code will look (structurally) like that:
+
+```
+func foo() = 1
+
+const func myConstFunc() {
+    const a = 1
+}
+
+func myRawFunc() {
+    let a = foo()
+}
+```
+
+As you can see in `myRawFunc` `foo` is still a function call, because
+`foo` is not `const func`. Whereas in `myConstFunc` value returned by
+`foo` was inlined.
+
 
