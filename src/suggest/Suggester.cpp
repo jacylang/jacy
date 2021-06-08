@@ -39,10 +39,6 @@ namespace jc::sugg {
         pointMsgTo(sugg->linkMsg, sugg->link);
     }
 
-    void Suggester::visit(RangeSugg * sugg) {
-        Logger::devPanic("Not implemented: `RangeSugg` suggestion");
-    }
-
     void Suggester::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
         // Note: 6 = "help: "

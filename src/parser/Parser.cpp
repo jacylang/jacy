@@ -294,7 +294,7 @@ namespace jc::parser {
                 const auto & exprToken = peek();
                 auto expr = parseOptExpr();
                 if (expr) {
-                    // FIXME!: Use RangeSugg
+                    // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
                 items.emplace_back(makeErrorNode(exprToken.span));

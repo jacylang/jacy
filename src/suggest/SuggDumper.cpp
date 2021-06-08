@@ -33,11 +33,6 @@ namespace jc::sugg {
         postfix(sugg);
     }
 
-    void SuggDumper::visit(RangeSugg * sugg) {
-        printMsg(sugg->msg);
-        Logger::print(" from", sugg->span.toString(), "to", sugg->link.toString());
-    }
-
     void SuggDumper::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
         Logger::nl();

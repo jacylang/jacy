@@ -7,7 +7,6 @@ namespace jc::sugg {
     struct BaseSugg;
     struct MsgSugg;
     struct MsgSpanLinkSugg;
-    struct RangeSugg;
     struct HelpSugg;
 
     using sugg_ptr = std::unique_ptr<BaseSugg>;
@@ -21,7 +20,6 @@ namespace jc::sugg {
 
         virtual void visit(MsgSugg * msgSugg) = 0;
         virtual void visit(MsgSpanLinkSugg * msgSpanLinkSugg) = 0;
-        virtual void visit(RangeSugg * rangeSugg) = 0;
         virtual void visit(HelpSugg * helpSugg) = 0;
     };
 }
