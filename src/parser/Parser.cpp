@@ -121,18 +121,20 @@ namespace jc::parser {
 
         opt_token found;
         if (not peek().is(kind)) {
-            if (recovery == Recovery::None or recovery == Recovery::Once) {
-                log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
+            if (recovery != Recovery::Any) {
                 suggestErrorMsg("Expected " + expected + " got unexpected token " + peek().kindToString(), cspan());
                 suggestHelp(
                     "Remove " + peek().toString(), std::make_unique<ParseErrSugg>(
                         "Unexpected " + peek().toString(), cspan()
                     )
                 );
+            }
 
+            if (recovery == Recovery::None or recovery == Recovery::Once) {
                 advance();
 
                 if (recovery == Recovery::Once and not eof() and is(kind)) {
+                    log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
                     // If next token is what we need we produce an error for skipped one anyway
                     found = peek();
                     advance();
