@@ -105,35 +105,53 @@ namespace jc::parser {
     }
 
     bool Parser::skip(
-        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, Recovery recovery, sugg::sugg_ptr suggestion
+        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, Recovery recovery, const std::string & expected
     ) {
+        // FIXME: Add param for virtual semi emitting
+        //            if (skipLeftNLs) {
+        //                // We have't found specific token, but skipped NLs which are semis
+        //                emitVirtualSemi();
+        //            }
+
         bool skippedLeftNLs;
         if (skipLeftNLs) {
             skippedLeftNLs = skipNLs(true);
         }
 
         if (not peek().is(kind)) {
-            // Recover only once
-            if (recoverUnexpected and !eof() and lookup().is(kind)) {
+            if (recovery == Recovery::None or recovery == Recovery::Once) {
                 log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
+                suggestErrorMsg("Expected " + expected + " got unexpected token " + peek().kindToString(), cspan());
                 suggestHelp(
                     "Remove " + peek().toString(), std::make_unique<ParseErrSugg>(
                         "Unexpected " + peek().toString(), cspan()
                     )
                 );
-                advance(2);
-                return true;
+
+                if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
+                    // If next token is what we need we produce an error for skipped one anyway, but return `true`
+                    advance(2);
+                    return true;
+                }
+
+                // For `Recovery::None` we just produce an error and return `false`
+                advance();
+                return false;
             }
 
-            // FIXME: Add param for virtual semi emitting
-            //            if (skipLeftNLs) {
-            //                // We have't found specific token, but skipped NLs which are semis
-            //                emitVirtualSemi();
-            //            }
+            // Recovery::Any
+            const auto & begin = cspan();
+            bool found = false;
+            while (not eof()) {
+                advance();
+                if (peek().is(kind)) {
+                    found = true;
+                    break;
+                }
+            }
 
-            suggest(std::move(suggestion));
-
-            return false;
+            suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
+            return found;
         }
 
         advance();

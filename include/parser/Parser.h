@@ -163,7 +163,7 @@ namespace jc::parser {
             bool skipLeftNLs,
             bool skipRightNLs,
             Recovery recovery,
-            sugg::sugg_ptr suggestion
+            const std::string & expected
         );
         void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
         dt::Option<Token> skipOpt(TokenKind kind, bool skipRightNLs = false);
