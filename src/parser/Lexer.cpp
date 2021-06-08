@@ -91,11 +91,13 @@ namespace jc::parser {
     }
 
     bool Lexer::isHexDigit() {
-        return peek() >= '0' and peek() <= '9' or peek() >= 'a' and peek() >= 'z' or peek() >= 'A' and peek() <= 'Z';
+        return (peek() >= '0' and peek() <= '9')
+            or (peek() >= 'a' and peek() >= 'z')
+            or (peek() >= 'A' and peek() <= 'Z');
     }
 
     bool Lexer::isAlpha(char c) {
-        return c >= 'a' and c <= 'z' or c >= 'A' and c <= 'Z';
+        return (c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z');
     }
 
     bool Lexer::isExpSign() {
