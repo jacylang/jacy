@@ -119,7 +119,7 @@ namespace jc::parser {
             skipNLs(true);
         }
 
-        opt_token found;
+        opt_token found{dt::None};
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
@@ -131,15 +131,11 @@ namespace jc::parser {
                 );
             }
 
-            if (recovery == Recovery::None or recovery == Recovery::Once) {
+            if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
                     // If next token is what we need we produce an error for skipped one anyway
-                    advance();
-                    found = peek();
-                } else {
-                    // For `Recovery::None` we just produce an error
-                    found = dt::None;
+                    found = advance();
                 }
             } else if (recovery == Recovery::Any) {
                 // Recovery::Any
