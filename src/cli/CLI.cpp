@@ -73,7 +73,7 @@ namespace jc::cli {
 
             // Check for parameters count
             const auto & allowedCount = Args::allowedKeyValueArgs.at(arg.first).first;
-            if (allowedCount != -1 and allowedCount != arg.second.size()) {
+            if (allowedCount and allowedCount.unwrap() != arg.second.size()) {
                 throw CLIError(common::Logger::format(
                     "Expected", allowedCount, "count of parameters for argument", arg.first + ",",
                     "got", arg.second.size(), " parameters: ", utils::arr::join(arg.second, " ")

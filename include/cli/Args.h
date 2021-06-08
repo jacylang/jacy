@@ -11,7 +11,8 @@
 
 namespace jc::cli {
     using str_vec = std::vector<std::string>;
-    using key_value_arg = std::pair<int, str_vec>; // Pair of count (-1 means any count) and values expected
+    // Pair of count (None means any count) and values expected
+    using key_value_arg = std::pair<dt::Option<size_t>, str_vec>;
 
     struct Args {
         // Allowed extensions for source files
