@@ -320,8 +320,8 @@ namespace jc::parser {
                 TokenKind::LBrace,
                 true,
                 true,
-                false,
-                std::make_unique<ParseErrSugg>("To start `enum` body put `{` here or `;` to ignore body", cspan())
+                Recovery::Once,
+                "`{` to start `enum` body here or `;` to ignore it"
             );
             if (skipOpt(TokenKind::RBrace)) {
                 return {};
@@ -340,8 +340,8 @@ namespace jc::parser {
                         TokenKind::Comma,
                         true,
                         true,
-                        false,
-                        std::make_unique<ParseErrSugg>("Expected `,` separator between `enum` entries", cspan())
+                        Recovery::None,
+                        "`,` separator between `enum` entries"
                     );
                 }
 
@@ -356,8 +356,8 @@ namespace jc::parser {
                 TokenKind::RBrace,
                 true,
                 false,
-                false,
-                std::make_unique<ParseErrSugg>("Expected closing `}` in `enum`", cspan())
+                Recovery::None,
+                "closing `}` at the end of `enum` body"
             );
         } else if (!eof()) {
             justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
