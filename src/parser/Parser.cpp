@@ -1381,7 +1381,7 @@ namespace jc::parser {
 
         // Note: We don't make `span.to(span)`, because then we could capture white-spaces
         const auto & span = cspan();
-        auto maybeIdToken = recoverOnce(TokenKind::Id, suggMsg, skipLeftNLs, skipRightNls);
+        auto maybeIdToken = skip(TokenKind::Id, skipLeftNLs, skipRightNls, suggMsg, Recovery::Any);
         if (maybeIdToken) {
             return makeNode<Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
         }
