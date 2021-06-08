@@ -28,10 +28,10 @@ namespace jc::ast {
             opt_type_ptr returnType,
             expr_ptr body,
             const Span & span
-        ) : params(std::move(params)),
+        ) : Expr(span, ExprKind::Lambda),
+            params(std::move(params)),
             returnType(std::move(returnType)),
-            body(std::move(body)),
-            Expr(span, ExprKind::Lambda) {}
+            body(std::move(body)) {}
 
         lambda_param_list params;
         opt_type_ptr returnType;
