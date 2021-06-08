@@ -6,7 +6,7 @@ namespace jc::ast {
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
         party.getRootModule()->accept(*this);
 
-        return {dt::None, std::move(extractSuggestions())};
+        return {dt::None, extractSuggestions()};
     }
 
     void Linter::visit(const ErrorNode & errorNode) {
