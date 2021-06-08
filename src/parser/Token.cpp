@@ -194,6 +194,14 @@ namespace jc::parser {
         return kindToString(*this);
     }
 
+    std::string Token::listKindToString(const token_list & tokens) {
+        std::string str;
+        for (const auto & token : tokens) {
+            str += token.kindToString();
+        }
+        return str;
+    }
+
     std::string Token::toString(bool prettyQuotes) const {
         std::string str;
         if (prettyQuotes) {

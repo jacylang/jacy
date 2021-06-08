@@ -145,7 +145,9 @@ namespace jc::parser {
             } else if (recovery == Recovery::Any) {
                 // Recovery::Any
                 const auto & begin = cspan();
+                token_list errorTokens;
                 while (not eof()) {
+                    errorTokens.emplace_back(peek());
                     advance();
                     if (is(kind)) {
                         found = peek();
@@ -154,6 +156,10 @@ namespace jc::parser {
                     }
                 }
                 suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
+                suggestHelp(
+                    "Remove " + peek().toString(),
+                    std::make_unique<ParseErrSugg>("Unexpected " + peek().toString(), cspan())
+                );
             }
         } else {
             found = peek();

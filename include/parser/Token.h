@@ -179,6 +179,8 @@ namespace jc::parser {
         static std::string kindToString(const Token & token);
         std::string kindToString() const;
 
+        static std::string listKindToString(const token_list & tokens) const;
+
         // Debug //
         std::string dump(bool withLoc = false) const;
     };
