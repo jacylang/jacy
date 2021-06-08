@@ -45,6 +45,7 @@ namespace jc::ast {
 
     struct Expr : Node {
         Expr(const Span & span, ExprKind kind) : Node(span), kind(kind) {}
+        virtual ~Expr() = default;
 
         ExprKind kind;
 
