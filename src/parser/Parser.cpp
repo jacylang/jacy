@@ -302,7 +302,7 @@ namespace jc::parser {
                 // If expr is `None` we already made an error in `primary`
             }
         }
-        return std::move(items);
+        return items;
     }
 
     item_ptr Parser::parseEnum() {
@@ -547,7 +547,7 @@ namespace jc::parser {
             fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), begin.to(cspan())));
         }
 
-        return std::move(fields);
+        return(field);
     }
 
     item_ptr Parser::parseTrait() {
@@ -900,7 +900,7 @@ namespace jc::parser {
         auto expr = assignment();
 
         if (expr) {
-            return std::move(expr);
+            return expr;
         }
 
         // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
@@ -1286,7 +1286,7 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
-                lhs = makeExpr<Invoke>(std::move(lhs), std::move(parseNamedList("function call")), begin.to(cspan()));
+                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
 
                 begin = cspan();
             } else {
@@ -1523,7 +1523,7 @@ namespace jc::parser {
                 elements.push_back(
                     makeExpr<SpreadExpr>(
                         maybeSpreadOp,
-                        std::move(parseExpr("Expected expression after spread operator `...` in list expression")),
+                        parseExpr("Expected expression after spread operator `...` in list expression"),
                         maybeSpreadOp.span.to(cspan())
                     )
                 );
@@ -1755,7 +1755,7 @@ namespace jc::parser {
         } else if (allowOneLine) {
             const auto & stmtBegin = cspan();
             auto exprStmt = makeStmt<ExprStmt>(
-                std::move(parseExpr("Expected expression in one-line block in " + construction)),
+                parseExpr("Expected expression in one-line block in " + construction),
                 stmtBegin.to(cspan())
             );
             // Note: Don't require semis for one-line body
@@ -1813,7 +1813,7 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makeStmt<ExprStmt>(std::move(parseIfExpr(true)), elifBegin.to(cspan())));
+            elif.push_back(makeStmt<ExprStmt>(parseIfExpr(true), elifBegin.to(cspan())));
             elseBranch = makeNode<Block>(std::move(elif), elifBegin.to(cspan()));
         }
 
@@ -2036,7 +2036,7 @@ namespace jc::parser {
             "Expected closing `)` in " + construction
         );
 
-        return std::move(namedList);
+        return namedList;
     }
 
     parser::token_list Parser::parseModifiers() {
@@ -2051,7 +2051,7 @@ namespace jc::parser {
             }
         }
 
-        return std::move(modifiers);
+        return modifiers;
     }
 
     func_param_list Parser::parseFuncParamList() {
