@@ -668,19 +668,6 @@ namespace jc::parser {
         auto maybePath = parseOptSimplePath();
 
         if (skipOpt(TokenKind::Path)) {
-//            if (maybePath) {
-//                skip(
-//                    TokenKind::Path,
-//                    false,
-//                    false,
-//                    true,
-//                    std::make_unique<ParseErrSugg>(
-//                        "Expected `::` after path in `use` declaration",
-//                        cspan()
-//                    )
-//                );
-//            }
-
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
                 return std::static_pointer_cast<UseTree>(makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())));
