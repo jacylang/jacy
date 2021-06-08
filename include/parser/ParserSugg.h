@@ -19,7 +19,7 @@ namespace jc::parser {
     /// @brief Error-hard-coded message suggestion for parsing errors
     struct ParseErrSugg : sugg::MsgSugg {
         ParseErrSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
-            : msg(msg), MsgSugg(msg, span, SuggKind::Error, eid) {}
+            : MsgSugg(msg, span, SuggKind::Error, eid), msg(msg) {}
 
         const std::string msg;
     };
