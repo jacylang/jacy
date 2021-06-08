@@ -41,8 +41,8 @@ namespace jc::parser {
         Location tokenLoc;
 
         char peek();
-        char lookup(int distance = 1);
-        char advance(int distance = 1);
+        char lookup(uint8_t distance = 1);
+        char advance(uint8_t distance = 1);
         char forward();
 
         void addToken(Token && t, span::span_len_t len);

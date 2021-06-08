@@ -28,14 +28,14 @@ namespace jc::parser {
         return source.at(index);
     }
 
-    char Lexer::lookup(int distance) {
+    char Lexer::lookup(uint8_t distance) {
         if (index + distance >= source.size()) {
             return 0;
         }
         return source.at(index + distance);
     }
 
-    char Lexer::advance(int distance) {
+    char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
             line += peek();
             if (isNL()) {
