@@ -12,7 +12,7 @@ namespace jc::ast {
 
     struct Block : Expr {
         Block(stmt_list stmts, const Span & span)
-            : stmts(std::move(stmts)), Expr(span, ExprKind::Block) {}
+            : Expr(span, ExprKind::Block), stmts(std::move(stmts)) {}
 
         stmt_list stmts;
 
