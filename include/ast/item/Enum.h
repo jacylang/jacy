@@ -22,16 +22,16 @@ namespace jc::ast {
 
     struct EnumEntry : Node {
         EnumEntry(EnumEntryKind kind, id_ptr name, const Span & span)
-            : kind(kind), name(std::move(name)), body(std::monostate{}), Node(span) {}
+            : Node(span), kind(kind), name(std::move(name)), body(std::monostate{}) {}
 
         EnumEntry(EnumEntryKind kind, id_ptr name, expr_ptr discriminant, const Span & span)
-            : kind(kind), name(std::move(name)), body(std::move(discriminant)), Node(span) {}
+            : Node(span), kind(kind), name(std::move(name)), body(std::move(discriminant)) {}
 
         EnumEntry(EnumEntryKind kind, id_ptr name, named_list tupleFields, const Span & span)
-            : kind(kind), name(std::move(name)), body(std::move(tupleFields)), Node(span) {}
+            : Node(span), kind(kind), name(std::move(name)), body(std::move(tupleFields)) {}
 
         EnumEntry(EnumEntryKind kind, id_ptr name, struct_field_list fields, const Span & span)
-            : kind(kind), name(std::move(name)), body(std::move(fields)), Node(span) {}
+            : Node(span), kind(kind), name(std::move(name)), body(std::move(fields)) {}
 
         EnumEntryKind kind;
         id_ptr name;
@@ -44,7 +44,7 @@ namespace jc::ast {
 
     struct Enum : Item {
         Enum(enum_entry_list entries, const Span & span)
-            : entries(std::move(entries)), Item(span, ItemKind::Enum) {}
+            : Item(span, ItemKind::Enum), entries(std::move(entries)) {}
 
         id_ptr name;
         enum_entry_list entries;

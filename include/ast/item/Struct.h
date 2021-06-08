@@ -14,9 +14,9 @@ namespace jc::ast {
             id_ptr name,
             type_ptr type,
             const Span & span
-        ) : name(std::move(name)),
-            type(std::move(type)),
-            Node(span) {}
+        ) : Node(span),
+            name(std::move(name)),
+            type(std::move(type)) {}
 
         id_ptr name;
         type_ptr type;
@@ -32,10 +32,10 @@ namespace jc::ast {
             opt_type_params typeParams,
             struct_field_list fields,
             const Span & span
-        ) : name(std::move(name)),
+        ) : Item(span, ItemKind::Struct),
+            name(std::move(name)),
             typeParams(std::move(typeParams)),
-            fields(std::move(fields)),
-            Item(span, ItemKind::Struct) {}
+            fields(std::move(fields)) {}
 
         id_ptr name;
         opt_type_params typeParams;

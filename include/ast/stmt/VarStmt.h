@@ -13,11 +13,11 @@ namespace jc::ast {
             opt_type_ptr type,
             opt_expr_ptr assignExpr,
             const Span & span
-        ) : kind(kind),
+        ) : Stmt(span, StmtKind::Var),
+            kind(kind),
             name(std::move(name)),
             type(std::move(type)),
-            assignExpr(std::move(assignExpr)),
-            Stmt(span, StmtKind::Var) {}
+            assignExpr(std::move(assignExpr)) {}
 
         parser::Token kind;
         id_ptr name;

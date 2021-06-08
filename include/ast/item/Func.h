@@ -18,10 +18,10 @@ namespace jc::ast {
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
-        ) : name(std::move(name)),
+        ) : Node(span),
+            name(std::move(name)),
             type(std::move(type)),
-            defaultValue(std::move(defaultValue)),
-            Node(span) {}
+            defaultValue(std::move(defaultValue)) {}
 
         id_ptr name;
         type_ptr type;
@@ -42,14 +42,14 @@ namespace jc::ast {
             opt_block_ptr body,
             opt_expr_ptr oneLineBody,
             const Span & span
-        ) : modifiers(std::move(modifiers)),
+        ) : Item(span, ItemKind::Func),
+            modifiers(std::move(modifiers)),
             typeParams(std::move(typeParams)),
             name(std::move(name)),
             params(std::move(params)),
             returnType(std::move(returnType)),
             body(std::move(body)),
-            oneLineBody(std::move(oneLineBody)),
-            Item(span, ItemKind::Func) {}
+            oneLineBody(std::move(oneLineBody)) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;
@@ -58,7 +58,6 @@ namespace jc::ast {
         opt_type_ptr returnType;
         opt_block_ptr body;
         opt_expr_ptr oneLineBody;
-
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

@@ -21,8 +21,7 @@ namespace jc::ast {
     };
 
     struct Item : Node {
-        Item(const Span & span, ItemKind kind)
-            : kind(kind), Node(span) {}
+        Item(const Span & span, ItemKind kind) : Node(span), kind(kind) {}
 
         attr_list attributes;
         ItemKind kind;

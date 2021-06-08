@@ -12,11 +12,11 @@ namespace jc::ast {
             type_ptr forType,
             item_list members,
             const Span & span
-        ) : typeParams(std::move(typeParams)),
+        ) : Item(span, ItemKind::Impl),
+            typeParams(std::move(typeParams)),
             traitTypePath(std::move(traitTypePath)),
             forType(std::move(forType)),
-            members(std::move(members)),
-            Item(span, ItemKind::Impl) {}
+            members(std::move(members)) {}
 
         opt_type_params typeParams;
         PR<type_path_ptr> traitTypePath;
