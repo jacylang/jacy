@@ -122,10 +122,11 @@ namespace jc::parser {
         opt_token found;
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
-                suggestErrorMsg("Expected " + expected + " got unexpected token " + peek().kindToString(), cspan());
                 suggestHelp(
-                    "Remove " + peek().toString(), std::make_unique<ParseErrSugg>(
-                        "Unexpected " + peek().toString(), cspan()
+                    "Remove " + peek().toString(),
+                    std::make_unique<ParseErrSugg>(
+                        "Expected " + expected + " got unexpected token " + peek().kindToString(),
+                        cspan()
                     )
                 );
             }
@@ -155,10 +156,14 @@ namespace jc::parser {
                         break;
                     }
                 }
-                suggestErrorMsg("Expected " + expected + " got unexpected tokens", begin.to(cspan()));
+                log.dev("Found:", found.unwrap().toString());
+                const auto & errorTokensStr = Token::listKindToString(errorTokens);
                 suggestHelp(
-                    "Remove " + Token::listKindToString(errorTokens),
-                    std::make_unique<ParseErrSugg>("Unexpected " + peek().toString(), cspan())
+                    "Remove " + errorTokensStr,
+                    std::make_unique<ParseErrSugg>(
+                        "Expected " + expected + " got unexpected tokens" + errorTokensStr,
+                        begin.to(cspan())
+                    )
                 );
             }
         } else {
