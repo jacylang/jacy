@@ -16,6 +16,9 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O0")
 
 add_compile_options(
     -Wall
+    -Werror
+    -pedantic
+    -pedantic-errors
     -Wextra
     -Wpedantic
     -Wcast-align
@@ -30,6 +33,11 @@ add_compile_options(
     -Wredundant-decls
     -Wsign-conversion
     -Wsign-promo
+    -Wunreachable-code
+    -Wunused
+    -Wunused-parameter
+    -Wvariadic-macros
+    -Wwrite-strings
 )
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
