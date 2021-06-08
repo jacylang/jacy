@@ -380,8 +380,8 @@ namespace jc::parser {
                 TokenKind::RParen,
                 true,
                 false,
-                false,
-                std::make_unique<ParseErrSugg>("Expected closing `)`", cspan())
+                Recovery::None,
+                "closing `)`"
             );
         } else if (skipOpt(TokenKind::LBrace, true)) {
             auto fields = parseStructFields();
@@ -390,8 +390,8 @@ namespace jc::parser {
                 TokenKind::RParen,
                 true,
                 false,
-                false,
-                std::make_unique<ParseErrSugg>("Expected closing `}`", cspan())
+                Recovery::None,
+                "Expected closing `}`"
             );
 
             return makeNode<EnumEntry>(
