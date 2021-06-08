@@ -11,7 +11,7 @@ namespace jc::ast {
         party.getRootModule()->accept(*this);
     }
 
-    void AstPrinter::visit(const ErrorNode & errorNode) {
+    void AstPrinter::visit(const ErrorNode&) {
         log.raw("[ERROR]");
     }
 
@@ -256,7 +256,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::visit(const ContinueExpr & continueExpr) {
+    void AstPrinter::visit(const ContinueExpr&) {
         log.raw("continue");
     }
 
@@ -440,7 +440,7 @@ namespace jc::ast {
         log.raw("]");
     }
 
-    void AstPrinter::visit(const ThisExpr & thisExpr) {
+    void AstPrinter::visit(const ThisExpr&) {
         log.raw("this");
     }
 
@@ -448,7 +448,7 @@ namespace jc::ast {
         printDelim(tupleExpr.elements, "(", ")");
     }
 
-    void AstPrinter::visit(const UnitExpr & unitExpr) {
+    void AstPrinter::visit(const UnitExpr&) {
         log.raw("()");
     }
 
@@ -519,7 +519,7 @@ namespace jc::ast {
         printTypeParams(seg.typeParams);
     }
 
-    void AstPrinter::visit(const UnitType & unitType) {
+    void AstPrinter::visit(const UnitType&) {
         log.raw("()");
     }
 
