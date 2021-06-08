@@ -547,7 +547,7 @@ namespace jc::parser {
             fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), begin.to(cspan())));
         }
 
-        return(field);
+        return field;
     }
 
     item_ptr Parser::parseTrait() {
@@ -2180,7 +2180,6 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        bool first = true;
         bool global = skipOpt(TokenKind::Path);
         std::vector<simple_path_seg_ptr> segments;
         while (!eof()) {
