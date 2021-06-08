@@ -12,7 +12,7 @@ namespace jc::ast {
 
     struct Attribute : Node {
         Attribute(id_ptr name, named_list params, const Span & span)
-            : name(std::move(name)), params(std::move(params)), Node(span) {}
+            : Node(span), name(std::move(name)), params(std::move(params)) {}
 
         id_ptr name;
         named_list params;
