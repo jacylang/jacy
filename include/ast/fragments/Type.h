@@ -32,6 +32,7 @@ namespace jc::ast {
 
     struct Type : Node {
         Type(const Span & span, TypeKind kind) : Node(span), kind(kind) {}
+        virtual ~Type() = default;
 
         TypeKind kind;
 
@@ -39,8 +40,7 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(type_ptr type, const Span & span)
-            : type(std::move(type)), Type(span, TypeKind::Paren) {}
+        ParenType(type_ptr type, const Span & span) : Type(span, TypeKind::Paren), type(std::move(type)) {}
 
         type_ptr type;
 
@@ -51,7 +51,9 @@ namespace jc::ast {
 
     struct TupleTypeEl : Node {
         TupleTypeEl(opt_id_ptr name, opt_type_ptr type, const Span & span)
-            : name(std::move(name)), type(std::move(type)), Node(span) {}
+            : Node(span),
+              name(std::move(name)),
+              type(std::move(type)) {}
 
         opt_id_ptr name;
         opt_type_ptr type;
@@ -63,7 +65,7 @@ namespace jc::ast {
 
     struct TupleType : Type {
         TupleType(tuple_t_el_list elements, const Span & span)
-            : elements(std::move(elements)), Type(span, TypeKind::Tuple) {}
+            : Type(span, TypeKind::Tuple), elements(std::move(elements)) {}
 
         tuple_t_el_list elements;
 
@@ -73,8 +75,13 @@ namespace jc::ast {
     };
 
     struct FuncType : Type {
-        FuncType(type_list params, type_ptr returnType, const Span & span)
-            : params(std::move(params)), returnType(std::move(returnType)), Type(span, TypeKind::Func) {}
+        FuncType(
+            type_list params,
+            type_ptr returnType,
+            const Span & span
+        ) : Type(span, TypeKind::Func),
+            params(std::move(params)),
+            returnType(std::move(returnType)) {}
 
         type_list params;
         type_ptr returnType;
@@ -86,7 +93,7 @@ namespace jc::ast {
 
     struct SliceType : Type {
         SliceType(type_ptr type, const Span & span)
-            : type(std::move(type)), Type(span, TypeKind::Slice) {}
+            : Type(span, TypeKind::Slice), type(std::move(type)) {}
 
         type_ptr type;
 
@@ -97,7 +104,9 @@ namespace jc::ast {
 
     struct ArrayType : Type {
         ArrayType(type_ptr type, expr_ptr sizeExpr, const Span & span)
-            : type(std::move(type)), sizeExpr(std::move(sizeExpr)), Type(span, TypeKind::Array) {}
+            : Type(span, TypeKind::Array),
+              type(std::move(type)),
+              sizeExpr(std::move(sizeExpr)) {}
 
         type_ptr type;
         expr_ptr sizeExpr;
@@ -109,7 +118,7 @@ namespace jc::ast {
 
     struct TypePathSeg : Node {
         TypePathSeg(id_ptr name, opt_type_params typeParams, const Span & span)
-            : name(std::move(name)), typeParams(std::move(typeParams)), Node(span) {}
+            : Node(span), name(std::move(name)), typeParams(std::move(typeParams)) {}
 
         id_ptr name;
         opt_type_params typeParams;
@@ -121,7 +130,7 @@ namespace jc::ast {
 
     struct TypePath : Type {
         TypePath(bool global, id_t_list segments, const Span & span)
-            : global(global), segments(std::move(segments)), Type(span, TypeKind::Path) {}
+            : Type(span, TypeKind::Path), global(global), segments(std::move(segments)) {}
 
         bool global{};
         id_t_list segments{};

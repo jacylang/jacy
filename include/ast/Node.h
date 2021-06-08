@@ -21,6 +21,7 @@ namespace jc::ast {
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}
+        virtual ~Node() = default;
 
         node_id id{NONE_NODE_ID};
         const Span span;
