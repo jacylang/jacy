@@ -105,7 +105,7 @@ namespace jc::parser {
     }
 
     opt_token Parser::skip(
-        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, Recovery recovery, const std::string & expected
+        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, const std::string & expected, Recovery recovery
     ) {
         // FIXME: Add param for virtual semi emitting
         //            if (skipLeftNLs) {
