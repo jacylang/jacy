@@ -26,14 +26,16 @@ add_compile_options(
     -Wcast-qual
     -Wconversion
     -Wctor-dtor-privacy
-    -Weffc++
+#   Stupid thing that just warns mostly about things that are right
+#    -Weffc++
     -Wenum-compare
     -Wfloat-equal
     -Wnon-virtual-dtor
     -Wold-style-cast
     -Woverloaded-virtual
     -Wredundant-decls
-    -Wshadow
+#    I always shadow names of fields in constructors, so... meow
+#    -Wshadow
     -Wsign-conversion
     -Wsign-promo
     -Wstrict-aliasing

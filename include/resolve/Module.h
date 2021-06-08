@@ -19,7 +19,7 @@ namespace jc::resolve {
         ModNode(dt::Option<mod_node_ptr> parent) : parent(parent) {}
 
         dt::Option<mod_node_ptr> parent;
-        std::map<std::string, mod_node_ptr> children;
+        std::map<std::string, mod_node_ptr> children{};
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
