@@ -22,11 +22,23 @@ namespace jc::ast {
             Error,
         } kind;
 
-        PathExprSeg(id_ptr ident, opt_type_params typeParams, const Span & span)
-            : ident(std::move(ident)), kind(Kind::Ident), typeParams(std::move(typeParams)), Node(span) {}
+        PathExprSeg(
+            id_ptr ident,
+            opt_type_params typeParams,
+            const Span & span
+        ) : Node(span),
+            kind(Kind::Ident),
+            ident(std::move(ident)),
+            typeParams(std::move(typeParams)) {}
 
-        PathExprSeg(Kind kind, opt_type_params typeParams, const Span & span)
-            : ident(dt::None), kind(kind), typeParams(std::move(typeParams)), Node(span) {}
+        PathExprSeg(
+            Kind kind,
+            opt_type_params typeParams,
+            const Span & span
+        ) : Node(span),
+            kind(kind),
+            ident(dt::None),
+            typeParams(std::move(typeParams)) {}
 
         opt_id_ptr ident;
         opt_type_params typeParams;
@@ -38,7 +50,7 @@ namespace jc::ast {
 
     struct PathExpr : Expr {
         PathExpr(bool global, path_expr_seg_list && segments, const Span & span)
-            : global(global), segments(std::move(segments)), Expr(span, ExprKind::Path) {}
+            : Expr(span, ExprKind::Path), global(global), segments(std::move(segments)) {}
 
         bool global;
         path_expr_seg_list segments;
