@@ -103,6 +103,6 @@ namespace jc::utils::str {
     }
 
     std::string trim(const std::string & str, char remove) {
-        return trimStart(trimEnd(str));
+        return trimStart(trimEnd(str, remove), remove);
     }
 }
