@@ -187,7 +187,7 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const ContinueExpr & continueExpr) {}
+    void StubVisitor::visit(const ContinueExpr&) {}
 
     void StubVisitor::visit(const DerefExpr & derefExpr) {
         derefExpr.expr.accept(*this);
@@ -234,7 +234,7 @@ namespace jc::ast {
         visitEach(listExpr.elements);
     }
 
-    void StubVisitor::visit(const LiteralConstant & literalConstant) {}
+    void StubVisitor::visit(const LiteralConstant&) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
         loopExpr.body->accept(*this);
@@ -310,13 +310,13 @@ namespace jc::ast {
         visitEach(subscript.indices);
     }
 
-    void StubVisitor::visit(const ThisExpr & thisExpr) {}
+    void StubVisitor::visit(const ThisExpr&) {}
 
     void StubVisitor::visit(const TupleExpr & tupleExpr) {
         visitEach(tupleExpr.elements);
     }
 
-    void StubVisitor::visit(const UnitExpr & unitExpr) {}
+    void StubVisitor::visit(const UnitExpr&) {}
 
     void StubVisitor::visit(const WhenExpr & whenExpr) {
         whenExpr.subject.accept(*this);
@@ -372,7 +372,7 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const UnitType & unitType) {}
+    void StubVisitor::visit(const UnitType&) {}
 
     // Type params //
     void StubVisitor::visit(const GenericType & genericType) {
@@ -400,7 +400,7 @@ namespace jc::ast {
         visitEach(attr.params);
     }
 
-    void StubVisitor::visit(const Identifier & id) {}
+    void StubVisitor::visit(const Identifier&) {}
 
     void StubVisitor::visit(const NamedElement & el) {
         if (el.name) {
