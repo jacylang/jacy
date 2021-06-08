@@ -132,13 +132,11 @@ namespace jc::parser {
             }
 
             if (recovery == Recovery::None or recovery == Recovery::Once) {
-                advance();
-
-                if (recovery == Recovery::Once and not eof() and is(kind)) {
+                if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
                     // If next token is what we need we produce an error for skipped one anyway
-                    found = peek();
                     advance();
+                    found = peek();
                 } else {
                     // For `Recovery::None` we just produce an error
                     found = dt::None;
@@ -152,7 +150,6 @@ namespace jc::parser {
                     advance();
                     if (is(kind)) {
                         found = peek();
-                        advance();
                         break;
                     }
                 }
@@ -161,7 +158,7 @@ namespace jc::parser {
                 suggestHelp(
                     "Remove " + errorTokensStr,
                     std::make_unique<ParseErrSugg>(
-                        "Expected " + expected + " got unexpected tokens" + errorTokensStr,
+                        "Expected " + expected + " got unexpected tokens " + errorTokensStr,
                         begin.to(cspan())
                     )
                 );
@@ -1380,7 +1377,8 @@ namespace jc::parser {
     id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
         logParse("Identifier");
 
-        // Note: We don't make `span.to(span)`, because then we could capture white-spaces
+        // Note: We don't make `span.to(span)`,
+        //  because then we could capture white-spaces and of course ident is just a one token
         const auto & span = cspan();
         auto maybeIdToken = skip(TokenKind::Id, skipLeftNLs, skipRightNls, suggMsg, Recovery::Any);
         if (maybeIdToken) {
