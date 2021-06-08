@@ -14,9 +14,9 @@ namespace jc::ast {
             expr_list conditions,
             block_ptr body,
             const Span & span
-        ) : conditions(std::move(conditions)),
-            body(std::move(body)),
-            Node(span) {}
+        ) : Node(span),
+            conditions(std::move(conditions)),
+            body(std::move(body)) {}
 
         // TODO: Complex prefix conditions like `in lhs`
         expr_list conditions;
@@ -32,9 +32,9 @@ namespace jc::ast {
             expr_ptr subject,
             when_entry_list entries,
             const Span & span
-        ) : subject(std::move(subject)),
-            entries(std::move(entries)),
-            Expr(span, ExprKind::When) {}
+        ) : Expr(span, ExprKind::When),
+            subject(std::move(subject)),
+            entries(std::move(entries)) {}
 
         expr_ptr subject;
         when_entry_list entries;
