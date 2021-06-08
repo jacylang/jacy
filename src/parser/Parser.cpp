@@ -115,7 +115,8 @@ namespace jc::parser {
         // }
 
         if (skipLeftNLs) {
-            skippedLeftNLs = skipNLs(true);
+//            skippedLeftNLs = skipNLs(true);
+            skipNLs(true);
         }
 
         opt_token found;
