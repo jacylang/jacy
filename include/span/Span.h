@@ -30,6 +30,8 @@ namespace jc::span {
             if (end.fileId != fileId) {
                 common::Logger::devPanic("Called `Span::to` with spans from different files");
             }
+            // FIXME: Here may be problems with different lines
+            // FIXME: This does not work
             return Span(line, col, len + end.len, fileId);
         }
     };
