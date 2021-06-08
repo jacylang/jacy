@@ -27,6 +27,7 @@ namespace jc::sugg {
      * Does not contain any useful information except `eid`
      */
     struct BaseSugg {
+        virtual ~BaseSugg() = default;
         virtual SuggKind getKind() const = 0;
         virtual void accept(BaseSuggester & suggester) = 0;
     };
@@ -48,7 +49,7 @@ namespace jc::sugg {
 
     struct MsgSugg : SpanSugg {
         MsgSugg(std::string msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : msg(std::move(msg)), SpanSugg(span, kind, eid) {}
+            : SpanSugg(span, kind, eid), msg(std::move(msg)) {}
 
         const std::string msg;
 
@@ -59,7 +60,7 @@ namespace jc::sugg {
 
     struct SpanLinkSugg : SpanSugg {
         SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : link(link), SpanSugg(span, kind, eid) {}
+            : SpanSugg(span, kind, eid), link(link) {}
 
         Span link;
     };
@@ -72,9 +73,9 @@ namespace jc::sugg {
             const Span & link,
             SuggKind kind,
             eid_t eid = NoneEID
-        ) : spanMsg(std::move(spanMsg)),
-            linkMsg(std::move(linkMsg)),
-            SpanLinkSugg(link, span, kind, eid) {}
+        ) : SpanLinkSugg(link, span, kind, eid),
+            spanMsg(std::move(spanMsg)),
+            linkMsg(std::move(linkMsg)) {}
 
         const std::string spanMsg;
         const std::string linkMsg;
@@ -91,8 +92,8 @@ namespace jc::sugg {
             const Span & to,
             SuggKind kind,
             eid_t eid = NoneEID
-        ) : msg(std::move(msg)),
-            SpanLinkSugg(to, from, kind, eid) {}
+        ) : SpanLinkSugg(to, from, kind, eid),
+            msg(std::move(msg)) {}
 
         const std::string msg;
 
