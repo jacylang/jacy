@@ -94,7 +94,7 @@ namespace jc::parser {
         return gotNL;
     }
 
-    void Parser::skipSemi(bool optional, bool useless) {
+    void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
         // Note: Order matters -- we use virtual semi first
         if (not useVirtualSemi() and not isSemis() and !optional) {
@@ -213,8 +213,6 @@ namespace jc::parser {
     ///////////
     dt::Option<item_ptr> Parser::parseOptItem() {
         logParse("[opt] Item");
-
-        const auto & begin = cspan();
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
