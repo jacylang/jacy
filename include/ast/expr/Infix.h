@@ -9,7 +9,7 @@ namespace jc::ast {
 
     struct Infix : Expr {
         Infix(expr_ptr lhs, const parser::Token & op, expr_ptr rhs, const Span & span)
-            : lhs(std::move(lhs)), op(op), rhs(std::move(rhs)), Expr(span, ExprKind::Infix) {}
+            : Expr(span, ExprKind::Infix), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
 
         expr_ptr lhs;
         parser::Token op;
