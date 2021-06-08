@@ -12,7 +12,7 @@ namespace jc::ast {
 
     struct Identifier : Node {
         explicit Identifier(parser::Token token, const Span & span)
-            : token(token), Node(span) {}
+            : Node(span), token(token) {}
 
         parser::Token token;
 
