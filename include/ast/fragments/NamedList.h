@@ -11,7 +11,7 @@ namespace jc::ast {
 
     struct NamedElement : Node {
         NamedElement(opt_id_ptr name, opt_expr_ptr value, const Span & span)
-            : name(std::move(name)), value(std::move(value)), Node(span) {}
+            : Node(span), name(std::move(name)), value(std::move(value)) {}
 
         opt_id_ptr name;
         opt_expr_ptr value;
