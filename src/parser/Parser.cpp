@@ -547,7 +547,7 @@ namespace jc::parser {
             fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), begin.to(cspan())));
         }
 
-        return field;
+        return fields;
     }
 
     item_ptr Parser::parseTrait() {
@@ -1088,7 +1088,8 @@ namespace jc::parser {
             return prefix();
         } else if (index > precTable.size()) {
             common::Logger::devPanic(
-                "`precParse` with index > precTable.size, index =", (int)index, "precTable.size =", precTable.size()
+                "`precParse` with index > precTable.size, index =", static_cast<int>(index),
+                "precTable.size =", precTable.size()
             );
         }
 
