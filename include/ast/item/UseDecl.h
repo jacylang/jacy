@@ -26,7 +26,7 @@ namespace jc::ast {
 
     struct UseTreeRaw : UseTree {
         UseTreeRaw(simple_path_ptr && path, const Span & span)
-            : path(std::move(path)), UseTree(Kind::Raw, span) {}
+            : UseTree(Kind::Raw, span), path(std::move(path)) {}
 
         simple_path_ptr path;
 
