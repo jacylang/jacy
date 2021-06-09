@@ -20,6 +20,7 @@ namespace jc::cli {
     void CLI::applyArgs(int argc, const char ** argv) {
         const auto & args = prepareArgs(argc, argv);
 
+        str_vec unexpectedArgs;
         str_vec sourceFiles;
         for (size_t argIndex = 0; argIndex < args.size(); argIndex++) {
             const auto & arg = args.at(argIndex);
@@ -53,9 +54,13 @@ namespace jc::cli {
                     }
                 }
                 if (!isSourceFile) {
-                    throw CLIError("Unexpected cli argument '" + arg + "'");
+                    unexpectedArgs.emplace_back(arg);
                 }
             }
+        }
+
+        if (not unexpectedArgs.empty()) {
+            throw CLIError("Unexpected cli argument '" + common::Logger::format(unexpectedArgs) + "'");
         }
 
         // Check arguments and apply aliases //
