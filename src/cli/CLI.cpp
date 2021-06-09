@@ -32,7 +32,7 @@ namespace jc::cli {
                 if (argIndex >= args.size() - 1 or args.at(argIndex + 1) != "=") {
                     throw CLIError("Expected `=` after key-value argument '" + arg + "'");
                 }
-                argIndex++; // Skip `=`
+                argIndex += 2; // Skip argument and `=`
                 str_vec params;
                 for (size_t paramIndex = argIndex; paramIndex < args.size(); paramIndex++) {
                     const auto & param = args.at(paramIndex);
