@@ -29,13 +29,13 @@ namespace jc::cli {
         void applyArgs(int argc, const char ** argv);
 
         const Args & getConfig() const {
-            return config;
+            return argsStorage;
         }
 
     private:
         common::Logger log{"cli"};
 
-        Args config{};
+        Args argsStorage{};
 
         str_vec prepareArgs(int argc, const char ** argv);
     };

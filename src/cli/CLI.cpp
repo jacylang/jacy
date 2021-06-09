@@ -26,7 +26,7 @@ namespace jc::cli {
             const auto & arg = args.at(argIndex);
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
-                config.boolArgs.emplace(arg.substr(2), true);
+                argsStorage.boolArgs.emplace(arg.substr(2), true);
             } else if (utils::str::startsWith(arg, "-")) {
                 const auto & kvArg = arg.substr(1);
                 if (argIndex >= args.size() - 1 or args.at(argIndex + 1) != "=") {
@@ -44,7 +44,7 @@ namespace jc::cli {
                 if (params.empty()) {
                     throw CLIError("Expected parameter after `=` for key-value argument '" + arg + "'");
                 }
-                config.keyValueArgs[kvArg] = params;
+                argsStorage.keyValueArgs[kvArg] = params;
             } else {
                 bool isSourceFile = false;
                 for (const auto & ext : Args::allowedExtensions) {
@@ -59,23 +59,43 @@ namespace jc::cli {
             }
         }
 
+        // Note: Log arguments before dependency check to make it easier for user to find mistake
+        {
+            // Debug //
+            using utils::arr::join;
+            using utils::map::keys;
+            std::string keyValueArgsStr;
+            for (auto it = argsStorage.keyValueArgs.begin(); it != argsStorage.keyValueArgs.end(); it++) {
+                keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
+                if (it != std::prev(argsStorage.keyValueArgs.end())) {
+                    keyValueArgsStr += " ";
+                }
+            }
+
+            log.colorized(
+                common::Color::Magenta,
+                "Run jacy " + argsStorage.rootFile + " ",
+                join(keys(argsStorage.boolArgs), " ", {}, {"--"}),
+                keyValueArgsStr);
+        }
+
         if (not unexpectedArgs.empty()) {
             throw CLIError("Unexpected cli argument '" + common::Logger::format(unexpectedArgs) + "'");
         }
 
         // Check arguments and apply aliases //
-        for (auto & arg : config.boolArgs) {
+        for (auto & arg : argsStorage.boolArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::arr::has(Args::allowedBoolArgs, arg.first) and alias == Args::aliases.end()) {
                 throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
             }
 
             if (alias != Args::aliases.end()) {
-                utils::map::rename(config.boolArgs, arg.first, alias->second);
+                utils::map::rename(argsStorage.boolArgs, arg.first, alias->second);
             }
         }
 
-        for (const auto & arg : config.keyValueArgs) {
+        for (const auto & arg : argsStorage.keyValueArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::map::has(Args::allowedKeyValueArgs, arg.first) and alias == Args::aliases.end()) {
                 throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
@@ -106,7 +126,7 @@ namespace jc::cli {
                 ));
             }
             if (alias != Args::aliases.end()) {
-                utils::map::rename(config.keyValueArgs, arg.first, alias->second);
+                utils::map::rename(argsStorage.keyValueArgs, arg.first, alias->second);
             }
         }
 
@@ -115,9 +135,9 @@ namespace jc::cli {
         // Note: Use vector to output multiple arg-dependency errors
         std::vector<std::string> errorDeps;
         for (const auto & arg : Args::argsDependencies) {
-            if (config.specified(arg.first)) {
+            if (argsStorage.specified(arg.first)) {
                 for (const auto & dep : arg.second) {
-                    if (!config.specified(dep)) {
+                    if (!argsStorage.specified(dep)) {
                         errorDeps.push_back(arg.first);
                         break; // We found at least one missing dependency, so break
                     }
@@ -143,31 +163,11 @@ namespace jc::cli {
             throw CLIError("REPL Mode is not implemented, please, specify root file");
         }
 
-        config.rootFile = sourceFiles.at(0);
-
-        // Note: Log arguments before dependency check to make it easier for user to find mistake
-        {
-            // Debug //
-            using utils::arr::join;
-            using utils::map::keys;
-            std::string keyValueArgsStr;
-            for (auto it = config.keyValueArgs.begin(); it != config.keyValueArgs.end(); it++) {
-                keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
-                if (it != std::prev(config.keyValueArgs.end())) {
-                    keyValueArgsStr += " ";
-                }
-            }
-
-            log.colorized(
-                common::Color::Magenta,
-                "Run jacy " + config.rootFile + " ",
-                join(keys(config.boolArgs), " ", {}, {"--"}),
-                keyValueArgsStr);
-        }
+        argsStorage.rootFile = sourceFiles.at(0);
 
         log.dev("CLI Arguments:\n",
-                  "\tBoolean arguments:", config.boolArgs,
-                  "\n\tKey-value arguments:", config.keyValueArgs,
-                  "\n\tRoot file:", config.rootFile).nl();
+                  "\tBoolean arguments:", argsStorage.boolArgs,
+                  "\n\tKey-value arguments:", argsStorage.keyValueArgs,
+                  "\n\tRoot file:", argsStorage.rootFile).nl();
     }
 }
