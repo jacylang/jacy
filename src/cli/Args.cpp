@@ -2,6 +2,8 @@
 
 namespace jc::cli {
     // Settings //
+    const std::string Args::delimiters{"=,"};
+
     const str_vec Args::allowedExtensions = {
         "jc",
     };
