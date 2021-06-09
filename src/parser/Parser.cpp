@@ -1369,13 +1369,13 @@ namespace jc::parser {
         return makeNode<Identifier>(token, begin.to(cspan()));
     }
 
-    id_ptr Parser::parseId(const std::string & suggMsg, bool skipLeftNLs, bool skipRightNls) {
+    id_ptr Parser::parseId(const std::string & expected, bool skipLeftNLs, bool skipRightNls) {
         logParse("Identifier");
 
         // Note: We don't make `span.to(span)`,
         //  because then we could capture white-spaces and of course ident is just a one token
         const auto & span = cspan();
-        auto maybeIdToken = skip(TokenKind::Id, skipLeftNLs, skipRightNls, suggMsg, Recovery::Any);
+        auto maybeIdToken = skip(TokenKind::Id, skipLeftNLs, skipRightNls, expected, Recovery::Any);
         if (maybeIdToken) {
             return makeNode<Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
         }
