@@ -7,6 +7,8 @@
 #include "common/Logger.h"
 
 namespace jc::utils::str {
+    using str_vec = std::vector<std::string>;
+
     bool startsWith(const std::string & str, const std::string & prefix);
     bool endsWith(const std::string & str, const std::string & suffix);
     std::string repeat(const std::string & rep, size_t count);
@@ -19,6 +21,7 @@ namespace jc::utils::str {
     std::string trimStart(const std::string & str, char remove = ' ');
     std::string trimEnd(const std::string & str, char remove = ' ');
     std::string trim(const std::string & str, char remove = ' ');
+    str_vec split(const std::string & str, const std::string & delimiters, bool ignoreEmpty = false);
 }
 
 #endif // JACY_STR_H

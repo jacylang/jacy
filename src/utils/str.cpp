@@ -105,4 +105,19 @@ namespace jc::utils::str {
     std::string trim(const std::string & str, char remove) {
         return trimStart(trimEnd(str, remove), remove);
     }
+
+    str_vec split(const std::string & str, const std::string & delimiters, bool ignoreEmpty) {
+        str_vec result;
+        std::string lastVal;
+        size_t begin;
+        size_t loc = 0;
+        while ((begin = str.find_first_not_of(delimiters, loc)) != std::string::npos) {
+            loc = str.find_first_of(delimiters, begin + 1);
+            const auto & part = str.substr(begin, loc - begin);
+            if (not ignoreEmpty or not part.empty()) {
+                result.emplace_back(part);
+            }
+        }
+        return result;
+    }
 }

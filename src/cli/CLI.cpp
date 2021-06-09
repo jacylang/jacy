@@ -10,7 +10,9 @@ namespace jc::cli {
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; i++) {
             const std::string arg(argv[i]);
+            for (const auto & part : utils::str::split(arg, "=,")) {
 
+            }
         }
     }
 
