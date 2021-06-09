@@ -37,6 +37,7 @@ namespace jc::cli {
                 for (size_t paramIndex = argIndex; paramIndex < args.size(); paramIndex++) {
                     const auto & param = args.at(paramIndex);
                     params.emplace_back(param);
+                    argIndex = paramIndex;
                     if (paramIndex < args.size() - 1 and args.at(paramIndex + 1) != ",") {
                         break;
                     }
@@ -72,7 +73,7 @@ namespace jc::cli {
                 }
             }
 
-            log.dev(
+            log.colorized(
                 common::Color::Magenta,
                 "Run jacy " + argsStorage.rootFile + " ",
                 join(keys(argsStorage.boolArgs), " ", {}, {"--"}),
