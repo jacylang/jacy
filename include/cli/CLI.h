@@ -36,6 +36,8 @@ namespace jc::cli {
         common::Logger log{"cli"};
 
         Args config{};
+
+        str_vec prepareArgs(int argc, const char ** argv);
     };
 }
 

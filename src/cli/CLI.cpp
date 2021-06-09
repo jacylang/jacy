@@ -5,9 +5,17 @@ namespace jc::cli {
 
     }
 
+    str_vec CLI::prepareArgs(int argc, const char ** argv) {
+        str_vec args;
+        // Start from 1 to skip bin file path
+        for (int i = 1; i < argc; i++) {
+            const std::string arg(argv[i]);
+
+        }
+    }
+
     void CLI::applyArgs(int argc, const char ** argv) {
         str_vec sourceFiles;
-        // Start from 1 to skip bin file path
         for (int i = 1; i < argc; ++i) {
             const std::string arg(argv[i]);
 
@@ -15,8 +23,8 @@ namespace jc::cli {
                 // Boolean arg
                 config.boolArgs.emplace(arg.substr(2), true);
             } else if (utils::str::startsWith(arg, "-")) {
-                const auto & kvArg = arg.substr(1);
-                config.keyValueArgs[kvKey].emplace_back(arg);
+//                const auto & kvArg = arg.substr(1);
+//                config.keyValueArgs[kvArg].emplace_back(arg);
             } else {
                 bool isSourceFile = false;
                 for (const auto & ext : Args::allowedExtensions) {
