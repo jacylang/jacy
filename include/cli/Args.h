@@ -15,6 +15,8 @@ namespace jc::cli {
     using key_value_arg = std::pair<dt::Option<size_t>, str_vec>;
 
     struct Args {
+        const static std::string delimiters;
+
         // Allowed extensions for source files
         const static str_vec allowedExtensions;
 
