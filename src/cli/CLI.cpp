@@ -42,7 +42,7 @@ namespace jc::cli {
                     }
                 }
                 if (params.empty()) {
-                    throw CLIError("Expected parameter after `=` for key-value argument '" + arg + "'");
+                    throw CLIError("Expected parameters after `=` for key-value argument '" + arg + "'");
                 }
                 argsStorage.keyValueArgs[kvArg] = params;
             } else {
@@ -72,15 +72,17 @@ namespace jc::cli {
                 }
             }
 
-            log.colorized(
+            log.dev(
                 common::Color::Magenta,
                 "Run jacy " + argsStorage.rootFile + " ",
                 join(keys(argsStorage.boolArgs), " ", {}, {"--"}),
-                keyValueArgsStr);
+                keyValueArgsStr,
+                common::Color::Reset
+            );
         }
 
         if (not unexpectedArgs.empty()) {
-            throw CLIError("Unexpected cli argument '" + common::Logger::format(unexpectedArgs) + "'");
+            throw CLIError("Unexpected cli arguments: '" + common::Logger::format(unexpectedArgs) + "'");
         }
 
         // Check arguments and apply aliases //
