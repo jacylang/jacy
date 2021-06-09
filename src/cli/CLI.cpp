@@ -6,8 +6,6 @@ namespace jc::cli {
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {
-        std::string kvKey; // Key of current key-value argument
-
         str_vec sourceFiles;
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; ++i) {
@@ -16,10 +14,8 @@ namespace jc::cli {
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
                 config.boolArgs.emplace(arg.substr(2), true);
-                kvKey = "";
             } else if (utils::str::startsWith(arg, "-")) {
-                kvKey = arg.substr(1);
-            } else if (not kvKey.empty()) {
+                const auto & kvArg = arg.substr(1);
                 config.keyValueArgs[kvKey].emplace_back(arg);
             } else {
                 bool isSourceFile = false;
@@ -31,8 +27,6 @@ namespace jc::cli {
                 }
                 if (!isSourceFile) {
                     throw CLIError("Unexpected cli argument '" + arg + "'");
-                } else {
-                    kvKey = "";
                 }
             }
         }
