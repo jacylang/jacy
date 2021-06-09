@@ -10,7 +10,7 @@ namespace jc::cli {
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; i++) {
             const std::string arg(argv[i]);
-            for (const auto & part : utils::str::split(arg, Args::delimiters)) {
+            for (const auto & part : utils::str::splitKeep(arg, Args::delimiters)) {
                 args.emplace_back(part);
             }
         }
@@ -21,13 +21,29 @@ namespace jc::cli {
         const auto & args = prepareArgs(argc, argv);
 
         str_vec sourceFiles;
-        for (const auto & arg : args) {
+        for (size_t argIndex = 0; argIndex < args.size(); argIndex++) {
+            const auto & arg = args.at(argIndex);
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
                 config.boolArgs.emplace(arg.substr(2), true);
             } else if (utils::str::startsWith(arg, "-")) {
-//                const auto & kvArg = arg.substr(1);
-//                config.keyValueArgs[kvArg].emplace_back(arg);
+                const auto & kvArg = arg.substr(1);
+                if (args[argIndex + 1] != "=") {
+                    throw CLIError("Expected `=` after key-value argument '" + arg + "'");
+                }
+                argIndex++;
+                str_vec params;
+                for (size_t paramIndex = argIndex; paramIndex < args.size(); paramIndex++) {
+                    const auto & param = args.at(paramIndex);
+                    params.emplace_back(param);
+                    if (paramIndex < args.size() - 1 and args.at(paramIndex + 1) != ",") {
+                        break;
+                    }
+                }
+                if (params.empty()) {
+                    throw CLIError("Expected parameter after `=` for key-value argument '" + arg + "'");
+                }
+                config.keyValueArgs[kvArg] = params;
             } else {
                 bool isSourceFile = false;
                 for (const auto & ext : Args::allowedExtensions) {
