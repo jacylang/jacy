@@ -372,7 +372,7 @@ CTE.
 Here's the list of all (I hope) this kind of places (`N` is `const` and
 `ctFunc()` is CTE function):
 - Array types `[T; N]`
-- Fill-array generator `[0; N]` (generate array of `N` zeros)
+- Fill-array generator `[0; N]` (generate an array of `N` zeros)
 - When we set default value for `const` parameter like `<const N: usize
   = ctFunc()>`
 - Enum discriminant `enum MyEnum { Kind = N }`
@@ -380,9 +380,7 @@ Here's the list of all (I hope) this kind of places (`N` is `const` and
 
 #### CTE functions
 
-CTE context is just a block which compiler able to evaluate at
-compile-time. This is always a function, and there are two ways to say
-that function is CTE context:
+Function is CTE if:
 - It is marked with `const` modifier
 - It is possible to infer that function can be CTE
 
@@ -394,6 +392,10 @@ const func foo() {}
 
 Then compiler will check that all computations performed inside this
 function `'foo'` are CTE, if not, it gives an error.
+
+In other way the result of the function won't be inlined in usage
+places, but it is possible to use function that wasn't qualified as
+`const` in CTE context. More about that below.
 
 ##### `const` inference
 
@@ -431,7 +433,9 @@ func myRawFunc() {
 ```
 
 As you can see in `myRawFunc` `foo` is still a function call, because
-`foo` is not `const func`. Whereas in `myConstFunc` value returned by
-`foo` was inlined.
+`foo` used in non-`const` context. Whereas in `myConstFunc` value returned by
+`foo` was inlined as we declared `a` as `const`.
+`const` qualifier does not mean that everything inside it will be inlined, you still can declare `let` or use `if` inside of it.
+`const` just mean compiler will check function for constness and tell you if it's not.
 
 
