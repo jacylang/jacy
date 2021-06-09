@@ -315,7 +315,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Enum, true, "`enum`", "`parseEnum`");
 
-        auto name = parseId("Expected `enum` name", true, true);
+        auto name = parseId("`enum` name", true, true);
         auto typeParams = parseOptTypeParams();
 
         enum_entry_list entries;
@@ -370,7 +370,7 @@ namespace jc::parser {
 
     enum_entry_ptr Parser::parseEnumEntry() {
         const auto & begin = cspan();
-        auto name = parseId("Expected `enum` entry name", true, true);
+        auto name = parseId("`enum` entry name", true, true);
 
         if (skipOpt(TokenKind::Assign, true)) {
             auto discriminant = parseExpr("Expected constant expression after `=`");
@@ -410,7 +410,7 @@ namespace jc::parser {
         justSkip(TokenKind::Func, true, "`func`", "`parseFunc`");
 
         auto typeParams = parseOptTypeParams();
-        auto name = parseId("An identifier expected as a type parameter name", true, true);
+        auto name = parseId("`func` name", true, true);
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenKind::LParen);
@@ -482,7 +482,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
 
-        auto name = parseId("Expected struct name", true, true);
+        auto name = parseId("`struct` name", true, true);
         auto typeParams = parseOptTypeParams();
 
         struct_field_list fields;
@@ -534,7 +534,7 @@ namespace jc::parser {
 
             const auto & begin = cspan();
             attr_list attributes = parseAttrList();
-            auto id = parseId("Expected field name", true, true);
+            auto id = parseId("field name", true, true);
 
             // TODO: Hint field name
             skip(
@@ -560,7 +560,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
 
-        auto name = parseId("Missing `trait` name", true, true);
+        auto name = parseId("`trait` name", true, true);
         auto typeParams = parseOptTypeParams();
 
         type_path_list superTraits;
@@ -609,7 +609,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Type, true, "`type`", "`parseTypeAlias`");
 
-        auto name = parseId("An identifier expected as a type name", true, true);
+        auto name = parseId("`type` name", true, true);
         skip(
             TokenKind::Assign,
             true,
@@ -630,7 +630,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Module, true, "`mod`", "`parseMod`");
 
-        auto name = parseId("Expected `mod` name", true, true);
+        auto name = parseId("`mod` name", true, true);
 
         skip(
             TokenKind::LBrace,
@@ -734,7 +734,7 @@ namespace jc::parser {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
-            auto as = parseId("Expected identifier after `as`", true, true);
+            auto as = parseId("binding name after `as`", true, true);
             return std::static_pointer_cast<UseTree>(
                 makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
             );
@@ -799,8 +799,8 @@ namespace jc::parser {
 
         justSkip(TokenKind::For, true, "`for`", "`parseForStmt`");
 
-        // TODO: Destructuring
-        auto forEntity = parseId("Expected `for` entity in `for` loop", true, true);
+        // TODO: Patterns
+        auto forEntity = parseId("`for` entity", true, true);
 
         skip(
             TokenKind::In,
@@ -830,7 +830,7 @@ namespace jc::parser {
         advance();
 
         // TODO: Destructuring
-        auto name = parseId("An identifier expected as a `" + peek().kindToString() + "` name", true, true);
+        auto name = parseId("`" + peek().kindToString() + "` name", true, true);
 
         dt::Option<type_ptr> type;
         if (skipOpt(TokenKind::Colon)) {
@@ -1010,7 +1010,7 @@ namespace jc::parser {
                 }
 
                 const auto & paramBegin = cspan();
-                auto name = parseId("Expected lambda parameter name", true, true);
+                auto name = parseId("lambda parameter name", true, true);
                 opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon, true)) {
                     type = parseType("Expected lambda parameter type after `:`");
@@ -1300,7 +1300,7 @@ namespace jc::parser {
         while (skipOpt(TokenKind::Dot, true)) {
             logParse("MemberAccess");
 
-            auto name = parseId("Expected field name", true, true);
+            auto name = parseId("field name", true, true);
 
             lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
             begin = cspan();
@@ -1955,7 +1955,7 @@ namespace jc::parser {
             return dt::None;
         }
 
-        auto name = parseId("Expected attribute name", true, true);
+        auto name = parseId("attribute name", true, true);
         auto params = parseNamedList("attribute");
 
         return makeNode<Attribute>(std::move(name), std::move(params), begin.to(cspan()));
@@ -2092,7 +2092,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        auto name = parseId("Expected function parameter", true, true);
+        auto name = parseId("`func` parameter name", true, true);
 
         const auto colonSkipped = skip(
             TokenKind::Colon,
@@ -2454,7 +2454,7 @@ namespace jc::parser {
             const auto & typeParamBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick)) {
-                auto name = parseId("Expected lifetime identifier", false, false);
+                auto name = parseId("lifetime parameter name", false, false);
                 typeParams.push_back(
                     makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
                 );
@@ -2468,7 +2468,7 @@ namespace jc::parser {
                     makeNode<GenericType>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
                 );
             } else if (skipOpt(TokenKind::Const, true)) {
-                auto name = parseId("Expected `const` generic name", true, true);
+                auto name = parseId("`const` parameter name", true, true);
                 skip(
                     TokenKind::Colon,
                     true,
@@ -2530,7 +2530,7 @@ namespace jc::parser {
         id_t_list segments;
         while (!eof()) {
             const auto & segBegin = cspan();
-            auto name = parseId("Type expected", true, true);
+            auto name = parseId("identifier in type path", true, true);
             auto typeParams = parseOptTypeParams();
 
             segments.push_back(
