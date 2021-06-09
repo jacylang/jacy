@@ -22,6 +22,7 @@ namespace jc::utils::str {
     std::string trimEnd(const std::string & str, char remove = ' ');
     std::string trim(const std::string & str, char remove = ' ');
     str_vec split(const std::string & str, const std::string & delimiters);
+    str_vec splitKeep(const std::string & str, const std::string & delimiters);
 }
 
 #endif // JACY_STR_H

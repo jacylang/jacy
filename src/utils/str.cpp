@@ -117,4 +117,19 @@ namespace jc::utils::str {
         }
         return result;
     }
+
+    str_vec splitKeep(const std::string & str, const std::string & delimiters) {
+        str_vec result;
+        size_t begin;
+        size_t pos = 0;
+        while ((begin = str.find_first_not_of(delimiters, pos)) != std::string::npos) {
+            pos = str.find_first_of(delimiters, begin + 1);
+            const auto & part = str.substr(begin, pos - begin);
+            result.emplace_back(part);
+            if (pos < str.size() - 1) {
+                result.emplace_back(str.substr(pos, 1));
+            }
+        }
+        return result;
+    }
 }
