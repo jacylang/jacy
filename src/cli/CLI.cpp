@@ -28,10 +28,10 @@ namespace jc::cli {
                 config.boolArgs.emplace(arg.substr(2), true);
             } else if (utils::str::startsWith(arg, "-")) {
                 const auto & kvArg = arg.substr(1);
-                if (args[argIndex + 1] != "=") {
+                if (argIndex >= args.size() - 1 or args.at(argIndex + 1) != "=") {
                     throw CLIError("Expected `=` after key-value argument '" + arg + "'");
                 }
-                argIndex++;
+                argIndex++; // Skip `=`
                 str_vec params;
                 for (size_t paramIndex = argIndex; paramIndex < args.size(); paramIndex++) {
                     const auto & param = args.at(paramIndex);
