@@ -18,10 +18,10 @@ namespace jc::cli {
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {
-        str_vec sourceFiles;
-        for (int i = 1; i < argc; ++i) {
-            const std::string arg(argv[i]);
+        const auto & args = prepareArgs(argc, argv);
 
+        str_vec sourceFiles;
+        for (const auto & arg : args) {
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
                 config.boolArgs.emplace(arg.substr(2), true);
