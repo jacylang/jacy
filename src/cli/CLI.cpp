@@ -64,8 +64,8 @@ namespace jc::cli {
                     const auto & allowed = Args::allowedKeyValueArgs.at(arg.first).second;
                     if (not utils::arr::has(allowed, argParam)) {
                         throw CLIError(common::Logger::format(
-                            "Unknown parameter for argument '", arg.first,
-                            "'. Try one of this: ", utils::arr::join(allowed)
+                            "Unknown parameter '"+ argParam +"' for argument '"+ arg.first +"'.",
+                            "Try one of this:", utils::arr::join(allowed)
                         ));
                     }
                 }
