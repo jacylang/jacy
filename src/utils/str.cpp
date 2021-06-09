@@ -108,12 +108,11 @@ namespace jc::utils::str {
 
     str_vec split(const std::string & str, const std::string & delimiters) {
         str_vec result;
-        std::string lastVal;
         size_t begin;
-        size_t loc = 0;
-        while ((begin = str.find_first_not_of(delimiters, loc)) != std::string::npos) {
-            loc = str.find_first_of(delimiters, begin + 1);
-            const auto & part = str.substr(begin, loc - begin);
+        size_t pos = 0;
+        while ((begin = str.find_first_not_of(delimiters, pos)) != std::string::npos) {
+            pos = str.find_first_of(delimiters, begin + 1);
+            const auto & part = str.substr(begin, pos - begin);
             result.emplace_back(part);
         }
         return result;
