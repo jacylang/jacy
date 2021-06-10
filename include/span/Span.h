@@ -3,27 +3,36 @@
 
 #include <cstdint>
 #include <iostream>
+#include <algorithm>
 
 #include "common/Logger.h"
 
 namespace jc::span {
-    // Use uint16_t for span_len_t, but there will be some conversion warnings because we get size of token as string
-    using span_len_t = uint64_t;
+    using span_pos_t = uint32_t;
+    using span_len_t = uint16_t;
     using file_id_t = size_t;
 
     struct Span {
         Span() = default;
+        Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
+            pos = lowBound;
+            len = static_cast<span_len_t>(highBound - lowBound);
+            this->fileId = fileId;
+        }
 
-        Span(uint32_t line, uint32_t col, span_len_t len, file_id_t fileId)
-            : len(len), line(line), col(col), fileId(fileId) {}
+        Span(span_pos_t pos, span_len_t len, file_id_t fileId)
+            : pos(pos), len(len), fileId(fileId) {}
 
+        span_pos_t pos{0};
         span_len_t len{0};
-        uint32_t line{0};
-        uint32_t col{0};
         file_id_t fileId{0}; // TODO: Context
 
         std::string toString() const {
-            return std::to_string(line + 1) + ":" + std::to_string(col + 1);
+            return std::to_string(pos) + "; len = " + std::to_string(len);
+        }
+
+        span_pos_t getHighBound() const {
+            return pos + len;
         }
 
         Span to(const Span & end) const {
@@ -32,7 +41,7 @@ namespace jc::span {
             }
             // FIXME: Here may be problems with different lines
             // FIXME: This does not work
-            return Span(line, col, len + end.len, fileId);
+            return Span(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);
         }
     };
 }

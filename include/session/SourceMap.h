@@ -37,7 +37,7 @@ namespace jc::sess {
 
         std::string getLine(file_id_t fileId, size_t index) const;
 
-//        std::string sliceBySpan(file_id_t, const span::Span & span);
+        std::string sliceBySpan(file_id_t, const span::Span & span);
 
     private:
         std::map<file_id_t, SourceFile> sources;

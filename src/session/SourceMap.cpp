@@ -8,7 +8,7 @@ namespace jc::sess {
         return fileId;
     }
 
-    void SourceMap::setSourceLines(file_id_t fileId, std::string && src) {
+    void SourceMap::setSrc(file_id_t fileId, std::string && src) {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic(
                 "No source found by fileId",
@@ -44,24 +44,24 @@ namespace jc::sess {
         return line;
     }
 
-//    std::string SourceMap::sliceBySpan(file_id_t fileId, const span::Span & span) {
-//        const auto & sourceIt = sources.find(fileId);
-//        if (sourceIt == sources.end()) {
-//            // FIXME: Remove
-//            for (const auto & id : utils::map::keys(sources)) {
-//                common::Logger::devDebug("got fileId:", id);
-//            }
-//            common::Logger::devPanic("Got invalid fileId in SourceMap::sliceBySpan: ", span.fileId);
-//        }
-//
-//        const auto & sourceLines = sourceIt->second.src.unwrap();
-//        if (span.line >= sourceLines.size()) {
-//            common::Logger::devPanic(
-//                "Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line),
-//                "File lines count:", sourceLines.size());
-//        }
-//
-//        const auto & line = sourceLines.at(span.line);
-//        return line.substr(span.col, span.len);
-//    }
+    std::string SourceMap::sliceBySpan(file_id_t fileId, const span::Span & span) {
+        const auto & sourceIt = sources.find(fileId);
+        if (sourceIt == sources.end()) {
+            // FIXME: Remove
+            for (const auto & id : utils::map::keys(sources)) {
+                common::Logger::devDebug("got fileId:", id);
+            }
+            common::Logger::devPanic("Got invalid fileId in SourceMap::sliceBySpan: ", span.fileId);
+        }
+
+        const auto & sourceLines = sourceIt->second.src.unwrap();
+        if (span.line >= sourceLines.size()) {
+            common::Logger::devPanic(
+                "Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line),
+                "File lines count:", sourceLines.size());
+        }
+
+        const auto & line = sourceLines.at(span.line);
+        return line.substr(span.col, span.len);
+    }
 }
