@@ -13,13 +13,14 @@
 
 namespace jc::sess {
     using file_id_t = size_t;
-    using source_lines = std::vector<std::string>;
+    using line_pos_t = uint32_t;
 
-    struct Source {
-        Source(const fs::path & path) : path(path), sourceLines(dt::None) {}
+    struct SourceFile {
+        SourceFile(const fs::path & path) : path(path), src(dt::None) {}
 
         fs::path path;
-        dt::Option<source_lines> sourceLines;
+        dt::Option<std::string> src;
+        std::vector<line_pos_t> lines;
 
         std::string filename() const {
             return path.filename().string();
@@ -30,16 +31,16 @@ namespace jc::sess {
         SourceMap() = default;
 
         file_id_t addSource(const fs::path & path);
-        void setSourceLines(file_id_t fileId, source_lines && source);
-        const Source & getSource(file_id_t) const;
+        void setSrc(file_id_t fileId, std::string && src);
+        const SourceFile & getSource(file_id_t) const;
         size_t getLinesCount(file_id_t) const;
 
         std::string getLine(file_id_t fileId, size_t index) const;
 
-        std::string sliceBySpan(file_id_t, const span::Span & span);
+//        std::string sliceBySpan(file_id_t, const span::Span & span);
 
     private:
-        std::map<file_id_t, Source> sources;
+        std::map<file_id_t, SourceFile> sources;
     };
 }
 

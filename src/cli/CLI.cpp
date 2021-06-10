@@ -1,9 +1,7 @@
 #include "cli/CLI.h"
 
 namespace jc::cli {
-    CLI::CLI() {
-
-    }
+    CLI::CLI() {}
 
     str_vec CLI::prepareArgs(int argc, const char ** argv) {
         str_vec args;
