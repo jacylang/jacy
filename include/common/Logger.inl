@@ -121,7 +121,7 @@ const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const
 
     if (config.printLevel or dev) {
         if (config.colorize or dev) {
-            std::cout << unixColors.at(levelColors.at(level));
+            std::cout << levelColors.at(level);
         }
         std::cout << levelNames.at(level) << ": ";
         if (config.colorize or dev) {
