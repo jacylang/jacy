@@ -27,7 +27,7 @@ namespace jc::core {
 //
 //        if (cli.config.has("print", "source")) {
 //            log.debug("Printing source (`--print source`)");
-//            const auto & sourceLines = sourceMap.getSource(sess);
+//            const auto & sourceLines = sourceMap.getSourceFile(sess);
 //            for (size_t i = 0; i < sourceLines.size(); i++) {
 //                log.raw(i + 1, "|", sourceLines.at(i));
 //            }

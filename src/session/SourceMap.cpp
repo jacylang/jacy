@@ -20,19 +20,19 @@ namespace jc::sess {
         common::Logger::devDebug("Set source lines for file", sources.at(fileId).path, "by fileId:", fileId);
     }
 
-    const SourceFile & SourceMap::getSource(file_id_t fileId) const {
+    const SourceFile & SourceMap::getSourceFile(file_id_t fileId) const {
         if (sources.find(fileId) == sources.end()) {
-            common::Logger::devPanic("No source found by fileId", fileId, "in `SourceMap::getSource`");
+            common::Logger::devPanic("No source found by fileId", fileId, "in `SourceMap::getSourceFile`");
         }
         return sources.at(fileId);
     }
 
     size_t SourceMap::getLinesCount(file_id_t fileId) const {
-        return getSource(fileId).lines.size();
+        return getSourceFile(fileId).lines.size();
     }
 
     std::string SourceMap::getLine(file_id_t fileId, size_t index) const {
-        const auto & sf = getSource(fileId);
+        const auto & sf = getSourceFile(fileId);
         if (sf.lines.size() <= index) {
             common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }

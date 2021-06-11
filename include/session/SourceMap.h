@@ -32,7 +32,7 @@ namespace jc::sess {
 
         file_id_t addSource(const fs::path & path);
         void setSrc(file_id_t fileId, std::string && src);
-        const SourceFile & getSource(file_id_t) const;
+        const SourceFile & getSourceFile(file_id_t fileId) const;
         size_t getLinesCount(file_id_t) const;
 
         std::string getLine(file_id_t fileId, size_t index) const;

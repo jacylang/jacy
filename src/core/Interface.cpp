@@ -129,7 +129,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
         }
-        const auto & source = sess->sourceMap.getSource(fileId);
+        const auto & source = sess->sourceMap.getSourceFile(fileId);
         log.info("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
 
         const auto & sourceLines = source.src.unwrap("Interface::printSource");
@@ -143,7 +143,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }
-        const auto & filePath = sess->sourceMap.getSource(fileId).path;
+        const auto & filePath = sess->sourceMap.getSourceFile(fileId).path;
         common::Logger::nl();
         log.info("Printing tokens for file", filePath, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {

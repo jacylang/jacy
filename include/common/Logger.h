@@ -19,11 +19,11 @@
 #define WIN
 #else
 #error "Unknown platform"
-#endif
+#endif // OS definitions
 
 #ifdef WIN
 #include <windows.h>
-#endif
+#endif // WIN
 
 namespace jc::common {
     // Note: Discriminants are Window only (!)

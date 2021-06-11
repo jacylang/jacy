@@ -49,8 +49,8 @@ namespace jc::sugg {
         const auto & fileId = span.fileId;
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
-        printPrevLine(fileId, span.line);
-        printLine(fileId, span.line);
+//        printPrevLine(fileId, span.line);
+        printLine(fileId, span);
 
         const auto & point = span.col;
         const auto & msgLen = msg.size();
@@ -93,15 +93,10 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::printPrevLine(file_id_t fileId, size_t index) {
-        if (index == 0) {
-            return;
-        }
+    void Suggester::printLine(file_id_t fileId, const Span & span) {
+        const auto & src = sess->sourceMap.getSourceFile(fileId).src;
 
-        printLine(fileId, index - 1);
-    }
 
-    void Suggester::printLine(file_id_t fileId, size_t index) {
         const auto & line = sess->sourceMap.getLine(fileId, index);
         // Print indent according to line number
         // FIXME: uint overflow can appear

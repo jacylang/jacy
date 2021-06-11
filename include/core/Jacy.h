@@ -13,6 +13,10 @@
 #include "cli/CLI.h"
 #include "common/Config.h"
 
+// Thank u, MinGW...
+// AAAAAAAAAAAAAAAAAAAAAAAAA
+#undef interface
+
 namespace jc::core {
     class Jacy {
     public:

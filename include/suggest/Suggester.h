@@ -25,8 +25,7 @@ namespace jc::sugg {
         sess::sess_ptr sess;
 
         void pointMsgTo(const std::string & msg, const Span & span);
-        void printPrevLine(file_id_t fileId, size_t index);
-        void printLine(file_id_t fileId, size_t index);
+        void printLine(file_id_t fileId, const Span & span);
         void printWithIndent(file_id_t fileId, const std::string & msg);
         void printWithIndent(const std::string & indent, const std::string & msg);
 
