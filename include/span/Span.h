@@ -14,13 +14,13 @@ namespace jc::span {
 
     struct Span {
         Span() = default;
-        Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
+        explicit Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
             pos = lowBound;
             len = static_cast<span_len_t>(highBound - lowBound);
             this->fileId = fileId;
         }
 
-        Span(span_pos_t pos, span_len_t len, file_id_t fileId)
+        explicit Span(span_pos_t pos, span_len_t len, file_id_t fileId)
             : pos(pos), len(len), fileId(fileId) {}
 
         span_pos_t pos{0};

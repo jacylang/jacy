@@ -10,11 +10,6 @@
 namespace jc::parser {
     using source_lines = std::vector<std::string>;
 
-    struct LexerResult {
-        token_list tokens;
-        sess::source_lines sourceLines;
-    };
-
     // TODO: Suggestions instead of errors
     struct LexerError : common::Error {
         explicit LexerError(const std::string & msg) : Error(msg) {}
@@ -25,7 +20,7 @@ namespace jc::parser {
         Lexer();
         virtual ~Lexer() = default;
 
-        LexerResult lex(const parse_sess_ptr & parseSess, std::string source);
+        token_list lex(const parse_sess_ptr & parseSess, std::string source);
 
     private:
         common::Logger log{"lexer"};
@@ -82,8 +77,6 @@ namespace jc::parser {
         void unexpectedEof();
 
         parse_sess_ptr parseSess;
-        sess::source_lines sourceLines;
-        std::string line;
     };
 }
 

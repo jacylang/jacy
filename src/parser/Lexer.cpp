@@ -6,7 +6,6 @@ namespace jc::parser {
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.span = span::Span(
             tokenLoc.line,
-            tokenLoc.col,
             len,
             parseSess->fileId
         );
@@ -14,7 +13,7 @@ namespace jc::parser {
     }
 
     void Lexer::addToken(TokenKind kind, const std::string & val) {
-        addToken(Token(kind, val), val.size());
+        addToken(Token(kind, val), static_cast<span::span_len_t>(val.size()));
     }
 
     void Lexer::addToken(TokenKind kind, span::span_len_t len) {
@@ -37,10 +36,7 @@ namespace jc::parser {
 
     char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
-            line += peek();
             if (isNL()) {
-                sourceLines.push_back(line);
-                line = "";
                 loc.line++;
                 loc.col = 0;
             } else {
@@ -527,7 +523,7 @@ namespace jc::parser {
 
     //
 
-    LexerResult Lexer::lex(const parse_sess_ptr & parseSess, std::string source) {
+    token_list Lexer::lex(const parse_sess_ptr & parseSess, std::string source) {
         this->parseSess = parseSess;
         this->source = std::move(source);
 
@@ -552,10 +548,7 @@ namespace jc::parser {
         tokenLoc = loc;
         addToken(TokenKind::Eof, 1);
 
-        // Add last line, cause it ends with `EOF`
-        sourceLines.push_back(line);
-
-        return std::move(LexerResult{tokens, sourceLines});
+        return std::move(tokens);
     }
 
     void Lexer::error(const std::string & msg) {

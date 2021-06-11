@@ -54,14 +54,7 @@ namespace jc::sess {
             common::Logger::devPanic("Got invalid fileId in SourceMap::sliceBySpan: ", span.fileId);
         }
 
-        const auto & sourceLines = sourceIt->second.src.unwrap();
-        if (span.line >= sourceLines.size()) {
-            common::Logger::devPanic(
-                "Too large span line in SourceMap::sliceBySpan: " + std::to_string(span.line),
-                "File lines count:", sourceLines.size());
-        }
-
-        const auto & line = sourceLines.at(span.line);
-        return line.substr(span.col, span.len);
+        const auto & src = sourceIt->second.src;
+        return src->substr(span.pos, span.len);
     }
 }

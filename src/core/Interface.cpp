@@ -88,15 +88,15 @@ namespace jc::core {
 
     ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.addSource(file->getPath().string());
+        sess->sourceMap.setSrc(fileId, std::move(file->extractContent()));
         const auto parseSess = std::make_shared<parser::ParseSess>(fileId);
 
         beginBench();
-        auto lexerResult = std::move(lexer.lex(parseSess, file->getContent()));
+        auto lexerResult = lexer.lex(parseSess, file->extractContent());
         endBench(file->getPath().string(), BenchmarkKind::Lexing);
-        sess->sourceMap.setSourceLines(fileId, std::move(lexerResult.sourceLines));
 
         log.dev("Tokenize file", file->getPath());
-        auto fileTokens = std::move(lexerResult.tokens);
+        auto fileTokens = std::move(std::move(lexerResult));
 
         printSource(fileId);
         printTokens(fileId, fileTokens);
@@ -132,7 +132,7 @@ namespace jc::core {
         const auto & source = sess->sourceMap.getSource(fileId);
         log.info("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
 
-        const auto & sourceLines = source.sourceLines.unwrap("Interface::printSource");
+        const auto & sourceLines = source.src.unwrap("Interface::printSource");
         for (size_t i = 0; i < sourceLines.size(); i++) {
             log.raw(i + 1, "|", sourceLines.at(i));
         }
