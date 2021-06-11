@@ -1,5 +1,5 @@
-#ifndef JACY_LOGGER_H
-#define JACY_LOGGER_H
+#ifndef JACY_COMMON_LOGGER_H
+#define JACY_COMMON_LOGGER_H
 
 #include <cstdint>
 #include <iostream>
@@ -13,17 +13,44 @@
 #include "common/Error.h"
 #include "common/Config.h"
 
+#if defined(__unix__) || defined(__unix) || defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+#define UNIX
+#elif defined(WIN32) || defined(_WIN32) || defined(_WIN64)
+#define WIN
+#else
+#error "Unknown platform"
+#endif
+
+#ifdef WIN
+#include <windows.h>
+#endif
+
 namespace jc::common {
-    enum class Color {
-        Red,
-        Green,
-        Blue,
-        Yellow,
-        Magenta,
-        Cyan,
-        Reset,
+    // Note: Discriminants are Window only (!)
+    enum class Color : uint8_t {
+        Black           = 0,
+        DarkBlue        = 1,
+        DarkGreen       = 2,
+        LightBlue       = 3,
+        DarkRed         = 4,
+        Magenta         = 5,
+        Orange          = 6, // Actually, may looks like brown
+        LightGray       = 7,
+        Gray            = 8,
+        Blue            = 9,
+        Green           = 10,
+        Cyan            = 11,
+        Red             = 12,
+        Pink            = 13,
+        Yellow          = 14,
+        White           = 15,
+        Reset,          // Linux-only
     };
 
+    // TODO: Background colors
+}
+
+namespace jc::common {
     // LogLevel //
     enum class LogLevel : uint8_t {
         Dev, // Forces everything to be printed and prefix message with '[DEV]'
@@ -52,7 +79,8 @@ namespace jc::common {
     class Logger {
     public:
         explicit Logger(std::string owner, const LoggerConfig & config = {})
-            : owner(std::move(owner)), config(config) {}
+                : owner(std::move(owner)), config(config) {}
+
         virtual ~Logger() = default;
 
         template<class ...Args>
@@ -76,7 +104,7 @@ namespace jc::common {
         template<class Arg, class ...Args>
         void colorized(Color color, Arg && first, Args && ...other);
 
-        static inline void nl()  {
+        static inline void nl() {
             std::cout << std::endl;
         }
 
@@ -109,14 +137,15 @@ namespace jc::common {
         const Logger & log(LogLevel level, Arg && first, Args && ...other) const;
 
     public:
-        static const std::map<Color, std::string> colors;
+        static const std::map<Color, std::string> unixColors;
 
     private:
         static const std::map<LogLevel, std::string> levelNames;
         static const std::map<LogLevel, Color> levelColors;
     };
 
-    #include "common/Logger.inl"
+#include "common/Logger.inl"
+
 }
 
-#endif // JACY_LOGGER_H
+#endif // JACY_COMMON_LOGGER_H

@@ -30,7 +30,13 @@ std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
 }
 
 std::ostream & operator<<(std::ostream & os, Color color) {
-    os << Logger::colors.at(color);
+#if defined(WIN)
+    static const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    const auto colorNum = static_cast<uint8_t>(color);
+    SetConsoleTextAttribute(handle, colorNum);
+#elif defined(UNIX)
+    os << "\033[" << Logger::unixColors.at(color) << "m";
+#endif
     return os;
 }
 
@@ -86,7 +92,7 @@ const Logger & Logger::raw(Arg && first, Args && ...other) const {
 
 template<class Arg, class ...Args>
 void Logger::colorized(Color color, Arg && first, Args && ...other) {
-    std::cout << colors.at(color); // Not putting it to `raw`, because it will be prefixed with white-space
+    std::cout << unixColors.at(color); // Not putting it to `raw`, because it will be prefixed with white-space
     raw(first, other..., Color::Reset).nl();
 }
 
@@ -115,7 +121,7 @@ const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const
 
     if (config.printLevel or dev) {
         if (config.colorize or dev) {
-            std::cout << colors.at(levelColors.at(level));
+            std::cout << unixColors.at(levelColors.at(level));
         }
         std::cout << levelNames.at(level) << ": ";
         if (config.colorize or dev) {
