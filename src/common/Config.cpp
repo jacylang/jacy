@@ -29,7 +29,7 @@ namespace jc::common {
                 } else if (val == "all") {
                     print.insert(PrintKind::All);
                 } else {
-                    throw std::logic_error("Unhandled value for `print` cli argument");
+                    throw std::logic_error("[Config] Unhandled value for `print` cli argument");
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace jc::common {
             } else if (cd == "name-resolution") {
                 compileDepth = CompileDepth::NameResolution;
             } else {
-                throw std::logic_error("Unhandled value for `compile-depth` cli argument");
+                throw std::logic_error("[Config] Unhandled value for `compile-depth` cli argument");
             }
         }
 
@@ -56,7 +56,7 @@ namespace jc::common {
             } else if (bmk == "each-stage") {
                 benchmark = Benchmark::EachStage;
             } else {
-                throw std::logic_error("Unhandled value for `benchmark` cli argument");
+                throw std::logic_error("[Config] Unhandled value for `benchmark` cli argument");
             }
         }
 
@@ -74,7 +74,7 @@ namespace jc::common {
             } else if (ll == "error") {
                 logLevel = LogLevel::Error;
             } else {
-                throw std::logic_error("Unhandled value for `log-level` cli argument");
+                throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
             }
         }
 
