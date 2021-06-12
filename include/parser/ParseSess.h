@@ -10,6 +10,7 @@ namespace jc::parser {
     using line_pos_t = uint32_t;
 
     struct SourceFile {
+        SourceFile() {} // Default constructor to support `None`
         SourceFile(const fs::path & path) : path(path), src(dt::None) {}
 
         fs::path path;

@@ -24,7 +24,7 @@ namespace jc::sess {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic("No source found by fileId", fileId, "in `SourceMap::getSourceFile`");
         }
-        return sources.at(fileId).unwrap();
+        return sources.at(fileId).unwrap("SourceMap::getSourceFile");
     }
 
     size_t SourceMap::getLinesCount(file_id_t fileId) {
@@ -40,7 +40,7 @@ namespace jc::sess {
         if (index < sf.lines.size() - 1){
             sf.lines.at(index + 1);
         }
-        const auto & line = sf.src.unwrap().substr(sf.lines.at(index), end);
+        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.lines.at(index), end);
         return line;
     }
 
