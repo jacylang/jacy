@@ -43,9 +43,9 @@ namespace jc::sess {
         }
         size_t end = sf.linesIndices.size();
         if (index < sf.linesIndices.size() - 1){
-            sf.linesIndices.at(index + 1);
+            end = sf.linesIndices.at(index + 1);
         }
-        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.linesIndices.at(index), end);
+        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.linesIndices.at(index), end - 1);
         return line;
     }
 
