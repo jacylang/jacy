@@ -19,7 +19,7 @@ namespace jc::sess {
         SourceMap() = default;
 
         file_id_t addSource(const fs::path & path);
-        void setSrc(file_id_t fileId, SourceFile && sourceFile);
+        void setSourceFile(file_id_t fileId, SourceFile && sourceFile);
         SourceFile & getSourceFile(file_id_t fileId);
         size_t getLinesCount(file_id_t);
 

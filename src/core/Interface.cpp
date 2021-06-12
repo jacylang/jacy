@@ -108,7 +108,7 @@ namespace jc::core {
 
         collectSuggestions(std::move(parserSuggestions));
 
-        sess->sourceMap.setSrc(fileId, std::move(parseSess->sourceFile));
+        sess->sourceMap.setSourceFile(fileId, std::move(parseSess->sourceFile));
 
         return std::make_unique<ast::FileModule>(
             file->getPath().filename().string(),

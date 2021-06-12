@@ -8,7 +8,7 @@ namespace jc::sess {
         return fileId;
     }
 
-    void SourceMap::setSrc(file_id_t fileId, SourceFile && sourceFile) {
+    void SourceMap::setSourceFile(file_id_t fileId, SourceFile && sourceFile) {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic(
                 "No source found by fileId",
