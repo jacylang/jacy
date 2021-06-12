@@ -151,7 +151,6 @@ namespace jc::core {
             }
             log.raw(i + 1, "|", line).nl();
         }
-        log.nl();
     }
 
     void Interface::printTokens(const fs::path & path, const parser::token_list & tokens) {
