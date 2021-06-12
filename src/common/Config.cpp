@@ -166,7 +166,7 @@ namespace jc::common {
         }
 
         const auto addLogLevel = [&](const std::string & owner) {
-            const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? owner : owner + "-log-level";
+            const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? "log-level" : owner + "-log-level";
             switch (loggerLevels.at(owner)) {
                 case LogLevel::Dev: res[fieldName].emplace_back("dev"); break;
                 case LogLevel::Debug: res[fieldName].emplace_back("debug"); break;
