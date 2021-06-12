@@ -53,9 +53,9 @@ namespace jc::common {
             EachStage,
         };
 
-        // Must be the same as `Logger::LogLevel`, anyway `Config` MUST NOT depend on `Logger`
+        // General for `Config` and `Logger`
         enum class LogLevel : uint8_t {
-            Dev,
+            Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
             Debug,
             Info,
             Warn,

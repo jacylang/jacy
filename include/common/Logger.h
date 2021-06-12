@@ -59,15 +59,6 @@ namespace jc::common {
 }
 
 namespace jc::common {
-    // LogLevel //
-    enum class LogLevel : uint8_t {
-        Dev, // Forces everything to be printed and prefix message with '[DEV]'
-        Debug,
-        Info,
-        Warn,
-        Error,
-    };
-
     enum class TitleKind {
         Line,
         Block,
@@ -75,7 +66,9 @@ namespace jc::common {
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
-        LogLevel level;
+        LoggerConfig(Config::LogLevel logLevel) : level(logLevel) {}
+
+        Config::LogLevel level;
         bool printOwner{false};
         bool printLevel{true};
         bool colorize{true};
@@ -91,8 +84,7 @@ namespace jc::common {
 
     class Logger {
     public:
-        explicit Logger(std::string owner, const LoggerConfig & config)
-                : owner(std::move(owner)), config(Config::getInstance().) {}
+        explicit Logger(std::string owner) : owner(std::move(owner)), config(Config::getInstance().getLogLevel()) {}
 
         virtual ~Logger() = default;
 
