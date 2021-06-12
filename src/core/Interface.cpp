@@ -87,7 +87,7 @@ namespace jc::core {
     }
 
     ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
-        const auto fileId = sess->sourceMap.addSource(file->getPath());
+        const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
             parser::SourceFile(file->getPath(), file->extractContent())

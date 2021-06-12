@@ -18,9 +18,9 @@ namespace jc::core {
 
 
 //    void Jacy::runCode(const std::string & code) {
-//         TODO: Maybe put addSource to Session constructor
+//         TODO: Maybe put registerSource to Session constructor
 //        auto & sourceMap = sess::SourceMap::getInstance();
-//        sess::file_id_t fileId = sourceMap.addSource();
+//        sess::file_id_t fileId = sourceMap.registerSource();
 //        const auto & sess = std::make_shared<sess::Session>(fileId);
 //
 //        const auto & tokens = lexer.lex(sess, code);

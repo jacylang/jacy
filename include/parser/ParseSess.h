@@ -23,8 +23,9 @@ namespace jc::parser {
     };
 
     struct ParseSess {
-        explicit ParseSess(span::file_id_t fileId, SourceFile && sourceFile)
-            : fileId(fileId), sourceFile(std::move(sourceFile)) {}
+        template<class ...Args>
+        ParseSess(span::file_id_t fileId, Args && ...args)
+            : fileId(fileId), sourceFile(SourceFile(args...)) {}
 
         span::file_id_t fileId;
         SourceFile sourceFile;

@@ -18,7 +18,7 @@ namespace jc::sess {
     struct SourceMap {
         SourceMap() = default;
 
-        file_id_t addSource(const fs::path & path);
+        file_id_t registerSource(const fs::path & path);
         void setSourceFile(parser::parse_sess_ptr && parseSess);
         SourceFile & getSourceFile(file_id_t fileId);
         size_t getLinesCount(file_id_t);
