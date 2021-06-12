@@ -89,6 +89,10 @@ namespace jc::common {
         return static_cast<uint8_t>(this->logLevel) <= static_cast<uint8_t>(logLevel);
     }
 
+    Config::LogLevel Config::getLogLevel() const {
+        return logLevel;
+    }
+
     const std::string & Config::getRootFile() const {
         return rootFile;
     }
