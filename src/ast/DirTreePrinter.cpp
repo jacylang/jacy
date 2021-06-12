@@ -8,7 +8,6 @@ namespace jc::ast {
         common::Logger::print("|-- ");
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
-        common::Logger::nl();
     }
 
     void DirTreePrinter::visit(const DirModule & dirModule) {
