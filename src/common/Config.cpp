@@ -109,7 +109,10 @@ namespace jc::common {
     }
 
     bool Config::checkLogLevel(LogLevel logLevel, const std::string & owner) const {
-        return static_cast<uint8_t>(this->loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
+        if (owner != GLOBAL_LOG_LEVEL_NAME and loggerLevels.find(owner) == loggerLevels.end()) {
+            return static_cast<uint8_t>(loggerLevels.at(GLOBAL_LOG_LEVEL_NAME)) <= static_cast<uint8_t>(logLevel);
+        }
+        return static_cast<uint8_t>(loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
     }
 
     Config::LogLevel Config::getGlobalLogLevel() const {
