@@ -13,7 +13,14 @@
 #include "common/Error.h"
 #include "common/Config.h"
 
-#if defined(__unix__) || defined(__unix) || defined(__linux__) || defined(__APPLE__) || defined(__MACH__)
+#if defined(__unix__) \
+    || defined(__unix) \
+    || defined(__linux__) \
+    || defined(__APPLE__) \
+    || defined(__MACH__) \
+    || defined(__MINGW32__) \
+    || defined(__MINGW64__) \
+    || defined(__GNUC__)
 #define UNIX
 #elif defined(WIN32) || defined(_WIN32) || defined(_WIN64)
 #define WIN
