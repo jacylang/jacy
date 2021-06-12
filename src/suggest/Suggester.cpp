@@ -52,7 +52,7 @@ namespace jc::sugg {
 //        printPrevLine(fileId, span.line);
         printLine(fileId, span);
 
-        const auto & point = span.col;
+        const auto & point = span.pos; //nonononon
         const auto & msgLen = msg.size();
 
         // Note: We add 4 because we want to put 4 additional `---^` or `^---` for readability
@@ -102,8 +102,8 @@ namespace jc::sugg {
         // Print indent according to line number
         // FIXME: uint overflow can appear
         const auto & indent = getFileIndent(fileId);
-        Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
-        Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
+        //Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
+        //Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
         Logger::nl();
     }
 

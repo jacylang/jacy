@@ -35,7 +35,7 @@ std::ostream & operator<<(std::ostream & os, Color color) {
     const auto colorNum = static_cast<uint8_t>(color);
     SetConsoleTextAttribute(handle, colorNum);
 #elif defined(UNIX)
-    os << "\033[" << Logger::unixColors.at(color) << "m";
+    os << "\x1b[" << Logger::unixColors.at(color) << "m";
 #endif
     return os;
 }
@@ -92,7 +92,7 @@ const Logger & Logger::raw(Arg && first, Args && ...other) const {
 
 template<class Arg, class ...Args>
 void Logger::colorized(Color color, Arg && first, Args && ...other) {
-    std::cout << unixColors.at(color); // Not putting it to `raw`, because it will be prefixed with white-space
+    std::cout << "\x1b[" <<unixColors.at(color) << 'm'; // Not putting it to `raw`, because it will be prefixed with white-space
     raw(first, other..., Color::Reset).nl();
 }
 
