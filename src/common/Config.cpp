@@ -80,6 +80,11 @@ namespace jc::common {
 
         // Apply bool args //
         dev = cliConfig.is("dev");
+
+        if (dev and not maybeLogLevel) {
+            // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
+            logLevel = LogLevel::Dev;
+        }
     }
 
     // Checkers //
