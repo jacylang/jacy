@@ -37,7 +37,7 @@ namespace jc::parser {
     char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
             if (isNL()) {
-                linesIndices.emplace_back(index);
+                linesIndices.emplace_back(index + 1);
                 loc.line++;
                 loc.col = 0;
             } else {
