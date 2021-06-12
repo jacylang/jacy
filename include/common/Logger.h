@@ -87,7 +87,7 @@ namespace jc::common {
         explicit Logger(std::string owner)
             : config(Config::getInstance()),
               owner(std::move(owner)),
-              loggerConfig(config.getGlobalLogLevel()) {}
+              loggerConfig(config.getLogLevel()) {}
 
         virtual ~Logger() = default;
 

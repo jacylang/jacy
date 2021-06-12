@@ -67,7 +67,7 @@ namespace jc::common {
         bool checkDev() const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
-        LogLevel getGlobalLogLevel() const;
+        LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         const std::string & getRootFile() const;
 
     private:

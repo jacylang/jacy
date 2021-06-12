@@ -115,8 +115,11 @@ namespace jc::common {
         return static_cast<uint8_t>(loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
     }
 
-    Config::LogLevel Config::getGlobalLogLevel() const {
-        return loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
+    Config::LogLevel Config::getLogLevel(const std::string & owner) const {
+        if (loggerLevels.find(owner) == loggerLevels.end()) {
+            return loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
+        }
+        return loggerLevels.at(owner);
     }
 
     const std::string & Config::getRootFile() const {
