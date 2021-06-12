@@ -103,7 +103,7 @@ namespace jc::core {
         log.dev("Tokenize file", file->getPath());
 
         printSource(parseSess);
-        printTokens(fileId, tokens);
+        printTokens(file->getPath(), tokens);
 
         log.dev("Parse file", file->getPath());
 
@@ -151,13 +151,12 @@ namespace jc::core {
         log.nl();
     }
 
-    void Interface::printTokens(span::file_id_t fileId, const parser::token_list & tokens) {
+    void Interface::printTokens(const fs::path & path, const parser::token_list & tokens) {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }
-        const auto & filePath = sess->sourceMap.getSourceFile(fileId).path;
         common::Logger::nl();
-        log.info("Printing tokens for file", filePath, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
+        log.info("Printing tokens for file", path, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }

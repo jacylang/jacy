@@ -53,7 +53,7 @@ namespace jc::core {
         // Debug //
         void printDirTree();
         void printSource(const parser::parse_sess_ptr & parseSess);
-        void printTokens(span::file_id_t fileId, const parser::token_list & tokens);
+        void printTokens(const fs::path & path, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);
 
         // Name resolution //
