@@ -136,8 +136,7 @@ std::string Logger::format(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...other) const {
-    if (not common::Config::getInstance().checkDev()
-    and static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
+    if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
 
