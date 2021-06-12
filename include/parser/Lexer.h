@@ -29,12 +29,10 @@ namespace jc::parser {
         token_list tokens;
 
         // Lexer current position
+        uint32_t tokenStartIndex{0};
         uint32_t index{0};
         Location loc;
         std::vector<uint32_t> linesIndices;
-
-        // Token start position
-        Location tokenLoc;
 
         char peek();
         char lookup(uint8_t distance = 1);
