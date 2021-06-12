@@ -8,16 +8,21 @@ namespace jc::sess {
         return fileId;
     }
 
-    void SourceMap::setSourceFile(file_id_t fileId, SourceFile && sourceFile) {
-        if (sources.find(fileId) == sources.end()) {
+    void SourceMap::setSourceFile(parser::parse_sess_ptr && parseSess) {
+        if (sources.find(parseSess->fileId) == sources.end()) {
             common::Logger::devPanic(
                 "No source found by fileId",
-                fileId,
+                parseSess->fileId,
                 "in SourceMap::setSource, existent files:",
                 utils::map::keys(sources));
         }
-        sources[fileId] = std::move(sourceFile);
-        common::Logger::devDebug("Set source lines for file", sourceFile.path, "by fileId:", fileId);
+        common::Logger::devDebug(
+            "Set source lines for file",
+            parseSess->sourceFile.path,
+            "by fileId:",
+            parseSess->fileId
+        );
+        sources[parseSess->fileId] = std::move(parseSess->sourceFile);
     }
 
     SourceFile & SourceMap::getSourceFile(file_id_t fileId) {

@@ -88,7 +88,7 @@ namespace jc::core {
 
     ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.addSource(file->getPath());
-        const auto parseSess = std::make_shared<parser::ParseSess>(
+        auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
             parser::SourceFile(file->getPath(), file->extractContent())
         );
@@ -111,7 +111,7 @@ namespace jc::core {
 
         collectSuggestions(std::move(parserSuggestions));
 
-        sess->sourceMap.setSourceFile(fileId, std::move(parseSess->sourceFile));
+        sess->sourceMap.setSourceFile(std::move(parseSess));
 
         return std::make_unique<ast::FileModule>(
             file->getPath().filename().string(),
