@@ -82,7 +82,7 @@ namespace jc::common {
     }
 
     bool Config::checkCompileDepth(CompileDepth compileDepth) const {
-        return static_cast<uint8_t>(this->compileDepth) >= static_cast<uint8_t>(compileDepth);
+        return static_cast<uint8_t>(this->compileDepth) <= static_cast<uint8_t>(compileDepth);
     }
 
     const std::string & Config::getRootFile() const {
