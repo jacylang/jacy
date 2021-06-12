@@ -41,11 +41,11 @@ namespace jc::common {
             All,
         };
 
-        enum class CompileDepth {
-            Full,
-
+        // Note: Order matters (!), we compare discriminants
+        enum class CompileDepth : uint8_t {
             Parser,
             NameResolution,
+            Full,
         };
 
         enum class Benchmark {
@@ -58,6 +58,7 @@ namespace jc::common {
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(Benchmark benchmark) const;
         bool checkDev() const;
+        bool checkCompileDepth(CompileDepth compileDepth) const;
         const std::string & getRootFile() const;
 
     private:
