@@ -31,6 +31,7 @@ namespace jc::parser {
         // Lexer current position
         uint64_t index{0};
         Location loc;
+        std::vector<uint32_t> linesIndices;
 
         // Token start position
         Location tokenLoc;

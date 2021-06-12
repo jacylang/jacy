@@ -37,6 +37,7 @@ namespace jc::parser {
     char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
             if (isNL()) {
+                linesIndices.emplace_back(index + 1);
                 loc.line++;
                 loc.col = 0;
             } else {
@@ -526,6 +527,10 @@ namespace jc::parser {
     token_list Lexer::lex(const parse_sess_ptr & parseSess, std::string source) {
         this->parseSess = parseSess;
         this->source = std::move(source);
+
+        if (source.size() > 0) {
+            linesIndices.emplace_back(index);
+        }
 
         while (!eof()) {
             tokenLoc = loc;
