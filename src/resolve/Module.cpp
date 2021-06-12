@@ -23,7 +23,6 @@ namespace jc::resolve {
         indent--;
         printIndent();
         log.raw("}");
-        common::Logger::nl();
     }
 
     void ModulePrinter::printIndent() {

@@ -189,6 +189,7 @@ namespace jc::core {
 
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess);
         modulePrinter.print(sess->modTreeRoot.unwrap());
+        common::Logger::nl();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
     }
 
