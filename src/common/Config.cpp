@@ -139,9 +139,6 @@ namespace jc::common {
             case Mode::Source: res["mode"].emplace_back("Source"); break;
         }
 
-        if (print.empty()) {
-            res["print"].emplace_back("[none]");
-        }
         for (const auto & printKind : print) {
             switch (printKind) {
                 case PrintKind::DirTree: res["print"].emplace_back("dir-tree"); break;
