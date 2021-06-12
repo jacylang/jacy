@@ -129,12 +129,18 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
         }
-        const auto & source = sess->sourceMap.getSourceFile(fileId);
-        log.info("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
+        const auto & sourceFile = sess->sourceMap.getSourceFile(fileId);
+        log.info("Printing source for file", sourceFile.path, "by fileId", fileId, "(`--print source`)");
 
-        const auto & src = source.src.unwrap("Interface::printSource");
-        for (size_t i = 0; i < src.size(); i++) {
-            log.raw(i + 1, "|", src.at(i));
+        const auto & src = sourceFile.src.unwrap("Interface::printSource");
+        for (size_t i = 0; i < sourceFile.lines.size(); i++) {
+            std::string line;
+            if (i < sourceFile.lines.size() - 1) {
+                line = src.substr(sourceFile.lines.at(i), sourceFile.lines.at(i + 1));
+            } else {
+                line = src.substr(sourceFile.lines.at(i));
+            }
+            log.raw(i + 1, "|", line);
         }
         log.nl();
     }
