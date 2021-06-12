@@ -19,11 +19,13 @@ std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
 template<class K, class V>
 std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
     os << "{";
-    for (auto it = map.begin(); it != map.end(); it++) {
-        os << it->first << ": " << it->second;
-        if (it != std::prev(map.end())) {
+    size_t i = 0;
+    for (const auto & el : map) {
+        os << el.first << ": " << el.second;
+        if (i != map.size()) {
             os << ", ";
         }
+        i++;
     }
     os << "}";
     return os;
