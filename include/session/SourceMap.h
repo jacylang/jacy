@@ -19,19 +19,19 @@ namespace jc::sess {
         SourceMap() = default;
 
         file_id_t addSource(const fs::path & path);
-        void setSrc(file_id_t fileId, std::string && src);
-        const SourceFile & getSourceFile(file_id_t fileId) const;
-        size_t getLinesCount(file_id_t) const;
+        void setSrc(file_id_t fileId, SourceFile && sourceFile);
+        SourceFile & getSourceFile(file_id_t fileId);
+        size_t getLinesCount(file_id_t);
 
-        std::string getLine(file_id_t fileId, size_t index) const;
+        std::string getLine(file_id_t fileId, size_t index);
 
         // As far as Span can capture multiple lines, we return all we found
-        std::vector<size_t> getLinesIndices(const span::Span & span) const;
+        std::vector<size_t> getLinesIndices(const span::Span & span);
 
-        std::string sliceBySpan(file_id_t, const span::Span & span);
+        std::string sliceBySpan(const span::Span & span);
 
     private:
-        std::map<file_id_t, SourceFile> sources;
+        std::map<file_id_t, dt::Option<SourceFile>> sources;
     };
 }
 
