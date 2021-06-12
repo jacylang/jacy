@@ -1,20 +1,20 @@
 #include "common/Logger.h"
 
 namespace jc::common {
-    const std::map<LogLevel, std::string> Logger::levelNames = {
-        {LogLevel::Debug, "debug"},
-        {LogLevel::Info,  "info"},
-        {LogLevel::Warn,  "warn"},
-        {LogLevel::Error, "error"},
-        {LogLevel::Dev,   "[DEV]"}
+    const std::map<Config::LogLevel, std::string> Logger::levelNames = {
+        {Config::LogLevel::Debug, "debug"},
+        {Config::LogLevel::Info,  "info"},
+        {Config::LogLevel::Warn,  "warn"},
+        {Config::LogLevel::Error, "error"},
+        {Config::LogLevel::Dev,   "[DEV]"}
     };
 
-    const std::map<LogLevel, Color> Logger::levelColors = {
-        {LogLevel::Debug, Color::Blue},
-        {LogLevel::Info,  Color::DarkGreen},
-        {LogLevel::Warn,  Color::Yellow},
-        {LogLevel::Error, Color::Red},
-        {LogLevel::Dev,   Color::Magenta},
+    const std::map<Config::LogLevel, Color> Logger::levelColors = {
+        {Config::LogLevel::Debug, Color::Blue},
+        {Config::LogLevel::Info,  Color::DarkGreen},
+        {Config::LogLevel::Warn,  Color::Yellow},
+        {Config::LogLevel::Error, Color::Red},
+        {Config::LogLevel::Dev,   Color::Magenta},
     };
 
     const std::map<Color, std::string> Logger::unixColors = {
