@@ -17,7 +17,6 @@ namespace jc::core {
             //  thus we use it before suggestions check
 
             // AST Stage //
-            log.printTitle("Parsing");
             parse();
             printDirTree();
             printAst(ast::AstPrinterMode::Parsing);
@@ -25,7 +24,6 @@ namespace jc::core {
             lintAst();
 
             // Name resolution //
-            log.printTitle("Name resolution");
             resolveNames();
             printAst(ast::AstPrinterMode::Names);
             checkSuggestions();
@@ -49,7 +47,7 @@ namespace jc::core {
 
     // Parsing //
     void Interface::parse() {
-        log.dev("Parsing...");
+        log.printTitleDev("Parsing");
 
         const auto & rootFileName = config.getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
@@ -65,7 +63,7 @@ namespace jc::core {
     }
 
     void Interface::lintAst() {
-        log.dev("Linting...");
+        log.printTitleDev("Linting AST");
 
         linter.lint(*party.unwrap());
     }
@@ -185,7 +183,7 @@ namespace jc::core {
 
     // Name resolution //
     void Interface::resolveNames() {
-        log.dev("Resolving names...");
+        log.printTitleDev("Name resolution");
 
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess);
         modulePrinter.print(sess->modTreeRoot.unwrap());

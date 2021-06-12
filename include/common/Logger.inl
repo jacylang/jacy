@@ -97,7 +97,11 @@ void Logger::colorized(Color color, Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-void Logger::printTitle(Arg && first, Args && ...other) {
+void Logger::printTitleDev(Arg && first, Args && ...other) {
+    if (config.level != LogLevel::Dev) {
+        return;
+    }
+
     std::stringstream ss;
     ss << std::forward<Arg>(first);
     ((ss << ' ' << std::forward<Args>(other)), ...);
@@ -105,7 +109,7 @@ void Logger::printTitle(Arg && first, Args && ...other) {
     const auto & title = ss.str();
     if (title.size() > wrapLen + 2) {
         // FIXME: Yeah, wtf? WE PANIC INSIDE LOGGER!!!
-        devPanic("Too long message in `Logger::printTitle`");
+        devPanic("Too long message in `Logger::printTitleDev`");
     }
     std::string indent = utils::str::repeat("=", (wrapLen - title.size()) / 2 - 1);
 
