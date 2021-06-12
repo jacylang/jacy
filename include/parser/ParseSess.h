@@ -2,15 +2,31 @@
 #define JACY_PARSER_PARSESESS_H
 
 #include "span/Span.h"
+#include "fs/fs.h"
 
 namespace jc::parser {
     struct ParseSess;
     using parse_sess_ptr = std::shared_ptr<ParseSess>;
+    using line_pos_t = uint32_t;
+
+    struct SourceFile {
+        SourceFile(const fs::path & path) : path(path), src(dt::None) {}
+
+        fs::path path;
+        dt::Option<std::string> src;
+        std::vector<line_pos_t> lines;
+
+        std::string filename() const {
+            return path.filename().string();
+        }
+    };
 
     struct ParseSess {
-        explicit ParseSess(span::file_id_t fileId) : fileId(fileId) {}
+        explicit ParseSess(span::file_id_t fileId, SourceFile && sourceFile)
+            : fileId(fileId), sourceFile(std::move(sourceFile)) {}
 
         span::file_id_t fileId;
+        SourceFile sourceFile;
     };
 }
 

@@ -7,25 +7,13 @@
 
 #include "utils/map.h"
 #include "utils/hash.h"
-#include "fs/fs.h"
 #include "data_types/Option.h"
 #include "span/Span.h"
+#include "parser/ParseSess.h"
 
 namespace jc::sess {
     using file_id_t = size_t;
-    using line_pos_t = uint32_t;
-
-    struct SourceFile {
-        SourceFile(const fs::path & path) : path(path), src(dt::None) {}
-
-        fs::path path;
-        dt::Option<std::string> src;
-        std::vector<line_pos_t> lines;
-
-        std::string filename() const {
-            return path.filename().string();
-        }
-    };
+    using parser::SourceFile;
 
     struct SourceMap {
         SourceMap() = default;
