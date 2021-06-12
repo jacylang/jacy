@@ -159,14 +159,21 @@ namespace jc::common {
             case Benchmark::EachStage: res["benchmark"].emplace_back("each-stage"); break;
         }
 
-        res["log-level"] = {};
-        switch (loggerLevels) {
-            case LogLevel::Dev: res["log-level"].emplace_back("dev"); break;
-            case LogLevel::Debug: res["log-level"].emplace_back("debug"); break;
-            case LogLevel::Info: res["log-level"].emplace_back("info"); break;
-            case LogLevel::Warn: res["log-level"].emplace_back("warn"); break;
-            case LogLevel::Error: res["log-level"].emplace_back("error"); break;
-        }
+        const auto addLogLevel = [&](const std::string & owner) {
+            const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? owner : owner + "-log-level";
+            switch (loggerLevels.at(owner)) {
+                case LogLevel::Dev: res[fieldName].emplace_back("dev"); break;
+                case LogLevel::Debug: res[fieldName].emplace_back("debug"); break;
+                case LogLevel::Info: res[fieldName].emplace_back("info"); break;
+                case LogLevel::Warn: res[fieldName].emplace_back("warn"); break;
+                case LogLevel::Error: res[fieldName].emplace_back("error"); break;
+            }
+        };
+
+        addLogLevel(GLOBAL_LOG_LEVEL_NAME);
+        addLogLevel("lexer");
+        addLogLevel("parser");
+        addLogLevel("name-resolver");
 
         return res;
     }
