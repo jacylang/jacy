@@ -145,9 +145,9 @@ namespace jc::core {
             const auto & pos = sourceFile.lines.at(i);
             if (i < sourceFile.lines.size() - 1) {
                 // Note: Line starts at its real beginning, whereas the end captures NL, so we do `- 1`
-                line = src.substr(pos, sourceFile.lines.at(i + 1) - pos - 1);
+                line = src.substr(pos, sourceFile.lines.at(i + 1) - pos);
             } else {
-                line = src.substr(pos, src.size() - pos - 1);
+                line = src.substr(pos, src.size() - pos);
             }
             log.raw(i + 1, "|", line).nl();
         }
