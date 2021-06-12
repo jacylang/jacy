@@ -29,8 +29,6 @@ namespace jc::common {
         };
 
         enum class PrintKind {
-            None,
-
             DirTree,
             Ast,
             Tokens,
