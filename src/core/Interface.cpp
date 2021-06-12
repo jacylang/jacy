@@ -97,7 +97,7 @@ namespace jc::core {
         log.dev("Tokenize file", file->getPath());
         auto fileTokens = std::move(std::move(lexerResult));
 
-        printSource(fileId);
+        printSource(parseSess);
         printTokens(fileId, fileTokens);
 
         log.dev("Parse file", file->getPath());
@@ -126,12 +126,12 @@ namespace jc::core {
         party.unwrap()->getRootModule()->accept(dirTreePrinter);
     }
 
-    void Interface::printSource(span::file_id_t fileId) {
+    void Interface::printSource(const parser::parse_sess_ptr & parseSess) {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
         }
-        const auto & sourceFile = sess->sourceMap.getSourceFile(fileId);
-        log.info("Printing source for file", sourceFile.path, "by fileId", fileId, "(`--print source`)");
+        const auto & sourceFile = parseSess->sourceFile;
+        log.info("Printing source for file", sourceFile.path, "by fileId", parseSess->fileId, "(`--print source`)");
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
         for (size_t i = 0; i < sourceFile.lines.size(); i++) {
