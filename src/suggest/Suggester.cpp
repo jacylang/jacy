@@ -52,6 +52,8 @@ namespace jc::sugg {
         const auto & lines = sess->sourceMap.getLinesIndices(span);
         // Note: Now only use first line of Span
         // TODO!!!: Improve with vertical highlighting
+        common::Logger::devDebug("Lines:", lines);
+
         const auto & line = lines.at(0);
         printPrevLine(fileId, line);
         printLine(fileId, line);

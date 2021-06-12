@@ -553,6 +553,8 @@ namespace jc::parser {
         tokenLoc = loc;
         addToken(TokenKind::Eof, 1);
 
+        parseSess->sourceFile.lines = std::move(linesIndices);
+
         return std::move(tokens);
     }
 

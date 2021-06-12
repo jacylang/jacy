@@ -137,6 +137,7 @@ namespace jc::core {
         }
         const auto & sourceFile = parseSess->sourceFile;
         log.info("Printing source for file", sourceFile.path, "by fileId", parseSess->fileId, "(`--print source`)");
+        log.dev("Source lines indices:", sourceFile.lines);
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
         for (size_t i = 0; i < sourceFile.lines.size(); i++) {
