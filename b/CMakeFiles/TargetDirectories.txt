@@ -1,3 +1,0 @@
-/home/trimsky/JacyMy/Jacy/b/CMakeFiles/rebuild_cache.dir
-/home/trimsky/JacyMy/Jacy/b/CMakeFiles/edit_cache.dir
-/home/trimsky/JacyMy/Jacy/b/CMakeFiles/Jacy.dir
