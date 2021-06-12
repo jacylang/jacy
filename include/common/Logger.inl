@@ -78,7 +78,7 @@ void Logger::devPanic(Arg && first, Args && ...other) {
 
 template<class Arg, class... Args>
 void Logger::devDebug(Arg && first, Args && ... other) {
-    if (not Config::getInstance().checkDev()) {
+    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
     }
     std::cout << levelColors.at(Config::LogLevel::Dev) << "[DEV]: " << Color::Reset << std::forward<Arg>(first);
@@ -101,7 +101,7 @@ void Logger::colorized(Color color, Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 void Logger::printTitleDev(Arg && first, Args && ...other) {
-    if (not Config::getInstance().checkDev()) {
+    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
     }
 
