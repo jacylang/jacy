@@ -91,7 +91,7 @@ namespace jc::common {
 
         // Debug //
     public:
-        std::map<std::string, std::vector<std::string>> getOptionsMap() const;
+        std::unordered_map<std::string, std::vector<std::string>> getOptionsMap() const;
     };
 }
 

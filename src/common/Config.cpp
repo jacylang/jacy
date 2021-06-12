@@ -135,7 +135,7 @@ namespace jc::common {
     }
 
     // Debug //
-    std::map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
+    std::unordered_map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
         std::map<std::string, std::vector<std::string>> res;
 
         // Key-value args //
