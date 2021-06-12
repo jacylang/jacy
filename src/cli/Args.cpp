@@ -16,6 +16,7 @@ namespace jc::cli {
         {"print", {dt::None, {"dir-tree", "tokens", "ast", "sugg", "source", "names", "all"}}},
         {"compile-depth", {1, {"parser", "name-resolution"}}},
         {"benchmark", {1, {"each-stage", "final"}}},
+        {"log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
     };
 
     const str_vec Args::anyParamKeyValueArgs = {};
