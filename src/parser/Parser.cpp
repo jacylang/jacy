@@ -153,7 +153,7 @@ namespace jc::parser {
                 suggestHelp(
                     "Remove '" + errorTokensStr + "'",
                     std::make_unique<ParseErrSugg>(
-                        "Expected " + expected + " got unexpected tokens " + errorTokensStr,
+                        "Expected " + expected + " got unexpected tokens '" + errorTokensStr + "'",
                         begin.to(errorTokens.rbegin()->span)
                     )
                 );
