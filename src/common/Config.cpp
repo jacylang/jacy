@@ -60,6 +60,24 @@ namespace jc::common {
             }
         }
 
+        const auto & maybeLogLevel = cliConfig.getSingleValue("log-level");
+        if (maybeLogLevel) {
+            const auto & ll = maybeLogLevel.unwrap();
+            if (ll == "dev") {
+                logLevel = LogLevel::Dev;
+            } else if (ll == "debug") {
+                logLevel = LogLevel::Debug;
+            } else if (ll == "info") {
+                logLevel = LogLevel::Info;
+            } else if (ll == "warn") {
+                logLevel = LogLevel::Warn;
+            } else if (ll == "error") {
+                logLevel = LogLevel::Error;
+            } else {
+                throw std::logic_error("Unhandled value for `log-level` cli argument");
+            }
+        }
+
         // Apply bool args //
         dev = cliConfig.is("dev");
     }
