@@ -17,6 +17,9 @@ namespace jc::cli {
         {"compile-depth", {1, {"parser", "name-resolution"}}},
         {"benchmark", {1, {"each-stage", "final"}}},
         {"log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
+        {"lexer-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
+        {"parser-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
+        {"name-resolver-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
     };
 
     const str_vec Args::anyParamKeyValueArgs = {};
