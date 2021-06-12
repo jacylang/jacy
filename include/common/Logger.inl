@@ -136,23 +136,23 @@ std::string Logger::format(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...other) const {
-    if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
+    if (static_cast<uint8_t>(level) < static_cast<uint8_t>(loggerConfig.level)) {
         return *this;
     }
 
     const auto & dev = level == Config::LogLevel::Dev;
 
-    if (config.printLevel or dev) {
-        if (config.colorize or dev) {
+    if (loggerConfig.printLevel or dev) {
+        if (loggerConfig.colorize or dev) {
             std::cout << levelColors.at(level);
         }
         std::cout << levelNames.at(level) << ": ";
-        if (config.colorize or dev) {
+        if (loggerConfig.colorize or dev) {
             std::cout << Color::Reset;
         }
     }
 
-    if (config.printOwner or dev) {
+    if (loggerConfig.printOwner or dev) {
         std::cout << "(" << owner << ") ";
     }
 

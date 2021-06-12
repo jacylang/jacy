@@ -84,7 +84,10 @@ namespace jc::common {
 
     class Logger {
     public:
-        explicit Logger(std::string owner) : owner(std::move(owner)), config(Config::getInstance().getLogLevel()) {}
+        explicit Logger(std::string owner)
+            : config(Config::getInstance()),
+              owner(std::move(owner)),
+              loggerConfig(config.getLogLevel()) {}
 
         virtual ~Logger() = default;
 
@@ -124,7 +127,7 @@ namespace jc::common {
         static std::string format(Arg && first, Args && ...other);
 
         LoggerConfig & getConfig() {
-            return config;
+            return loggerConfig;
         }
 
         // DEBUG //
@@ -139,8 +142,9 @@ namespace jc::common {
         static void devDebug(Arg && first, Args && ...other);
 
     private:
+        Config & config;
         std::string owner;
-        LoggerConfig config;
+        LoggerConfig loggerConfig;
 
         const static uint8_t wrapLen{120};
 
