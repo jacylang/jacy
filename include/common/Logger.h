@@ -119,7 +119,7 @@ namespace jc::common {
 
         /// Prints text as title, used only for one-line messages which are not long
         template<class Arg, class ...Args>
-        void printTitleDev(Arg && first, Args && ...other);
+        static void printTitleDev(Arg && first, Args && ...other);
 
         static inline void nl() {
             std::cout << std::endl;
