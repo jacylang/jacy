@@ -167,5 +167,7 @@ namespace jc::common {
             case LogLevel::Warn: str += "warn"; break;
             case LogLevel::Error: str += "error"; break;
         }
+
+        return str;
     }
 }
