@@ -121,56 +121,53 @@ namespace jc::common {
     }
 
     // Debug //
-    std::string Config::getOptionsString() const {
-        std::string str;
+    std::map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
+        std::map<std::string, std::vector<std::string>> res;
 
-        str += "mode: ";
+        res["mode"] = {};
         switch (mode) {
-            case Mode::Repl: str += "REPL"; break;
-            case Mode::Source: str += "Source"; break;
+            case Mode::Repl: res["mode"].emplace_back("REPL"); break;
+            case Mode::Source: res["mode"].emplace_back("Source"); break;
         }
 
-        str += "\nprint: ";
+        res["print"] = {};
         if (print.empty()) {
-            str += "[none]";
+            res["print"].emplace_back("[none]");
         }
-        for (auto it = print.begin(); it != print.end(); it++) {
-            switch (*it) {
-                case PrintKind::DirTree: str += "dir-tree"; break;
-                case PrintKind::Ast: str += "ast"; break;
-                case PrintKind::Tokens: str += "tokens"; break;
-                case PrintKind::Suggestions: str += "suggestions"; break;
-                case PrintKind::Source: str += "source"; break;
-                case PrintKind::Names: str += "names"; break;
-                case PrintKind::All: str += "all"; break;
-            }
-            if (it != std::prev(print.end())) {
-                str += ", ";
+        for (const auto & printKind : print) {
+            switch (printKind) {
+                case PrintKind::DirTree: res["print"].emplace_back("dir-tree"); break;
+                case PrintKind::Ast: res["print"].emplace_back("ast"); break;
+                case PrintKind::Tokens: res["print"].emplace_back("token"); break;
+                case PrintKind::Suggestions: res["print"].emplace_back("suggestions"); break;
+                case PrintKind::Source: res["print"].emplace_back("source"); break;
+                case PrintKind::Names: res["print"].emplace_back("names"); break;
+                case PrintKind::All: res["print"].emplace_back("all"); break;
             }
         }
 
-        str += "\ncompile-depth: ";
+        res["compile-depth"] = {};
         switch (compileDepth) {
-            case CompileDepth::Parser: str += "parser"; break;
-            case CompileDepth::NameResolution: str += "name-resolution"; break;
-            case CompileDepth::Full: str += "full"; break;
+            case CompileDepth::Parser: res["compile-depth"].emplace_back("parser"); break;
+            case CompileDepth::NameResolution: res["compile-depth"].emplace_back("name-resolution"); break;
+            case CompileDepth::Full: res["compile-depth"].emplace_back("full"); break;
         }
 
-        str += "\nbenchmark: ";
+        res["benchmark"] = {};
         switch (benchmark) {
-            case Benchmark::Final: str += "final"; break;
-            case Benchmark::EachStage: str += "each-stage"; break;
+            case Benchmark::Final: res["benchmark"].emplace_back("final"); break;
+            case Benchmark::EachStage: res["benchmark"].emplace_back("each-stage"); break;
         }
 
-        str += "\nlog-level: ";
+        res["log-level"] = {};
         switch (logLevel) {
-            case LogLevel::Dev: str += "dev"; break;
-            case LogLevel::Debug: str += "debug"; break;
-            case LogLevel::Info: str += "info"; break;
-            case LogLevel::Warn: str += "warn"; break;
-            case LogLevel::Error: str += "error"; break;
+            case LogLevel::Dev: res["log-level"].emplace_back("dev"); break;
+            case LogLevel::Debug: res["log-level"].emplace_back("debug"); break;
+            case LogLevel::Info: res["log-level"].emplace_back("info"); break;
+            case LogLevel::Warn: res["log-level"].emplace_back("warn"); break;
+            case LogLevel::Error: res["log-level"].emplace_back("error"); break;
         }
 
-        return str;
+        return res;
     }
 }

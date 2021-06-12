@@ -85,7 +85,7 @@ namespace jc::common {
 
         // Debug //
     public:
-        std::string getOptionsString() const;
+        std::map<std::string, std::vector<std::string>> getOptionsMap() const;
     };
 }
 
