@@ -58,11 +58,28 @@ namespace jc::cli {
             }
         }
 
+        if (sourceFiles.empty()) {
+            throw CLIError("Root file is not specified");
+        }
+
+        if (sourceFiles.size() > 1) {
+            throw CLIError("Multiple input files are not allowed");
+        }
+
+        argsStorage.rootFile = sourceFiles.at(0);
+
         // Note: Log arguments before dependency check to make it easier for user to find mistake
         {
             // Debug //
             using utils::arr::join;
             using utils::map::keys;
+            std::string boolArgsStr;
+            for (const auto & boolArg : argsStorage.boolArgs) {
+                if (boolArg.second) {
+                    boolArgsStr += "--" + boolArg.first + " ";
+                }
+            }
+
             std::string keyValueArgsStr;
             for (auto it = argsStorage.keyValueArgs.begin(); it != argsStorage.keyValueArgs.end(); it++) {
                 keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
@@ -73,10 +90,9 @@ namespace jc::cli {
 
             log.colorized(
                 common::Color::Magenta,
-                "Run jacy " + argsStorage.rootFile + " ",
-                join(keys(argsStorage.boolArgs), " ", {}, {"--"}),
-                keyValueArgsStr,
-                common::Color::Reset
+                "Run jacy " + argsStorage.rootFile,
+                boolArgsStr,
+                keyValueArgsStr
             );
         }
 
@@ -157,14 +173,6 @@ namespace jc::cli {
             }
             throw CLIError(errorMsg);
         }
-
-        if (sourceFiles.size() > 1) {
-            throw CLIError("Multiple root files not allowed");
-        } else if (sourceFiles.empty()) {
-            throw CLIError("REPL Mode is not implemented, please, specify root file");
-        }
-
-        argsStorage.rootFile = sourceFiles.at(0);
 
         log.dev("CLI Arguments:\n",
                   "\tBoolean arguments:", argsStorage.boolArgs,
