@@ -51,7 +51,7 @@ namespace jc::core {
 
         const auto & rootFileName = config.getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
-        auto rootFile = std::move(parseFile(rootFileEntry));
+        auto rootFile = parseFile(rootFileEntry);
         log.dev("Project directory:", rootFileEntry->getPath().parent_path());
         auto nestedModules = parseDir(
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
@@ -132,9 +132,9 @@ namespace jc::core {
         const auto & source = sess->sourceMap.getSourceFile(fileId);
         log.info("Printing source for file", source.path, "by fileId", fileId, "(`--print source`)");
 
-        const auto & sourceLines = source.src.unwrap("Interface::printSource");
-        for (size_t i = 0; i < sourceLines.size(); i++) {
-            log.raw(i + 1, "|", sourceLines.at(i));
+        const auto & src = source.src.unwrap("Interface::printSource");
+        for (size_t i = 0; i < src.size(); i++) {
+            log.raw(i + 1, "|", src.at(i));
         }
         log.nl();
     }
