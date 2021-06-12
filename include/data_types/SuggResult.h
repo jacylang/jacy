@@ -36,7 +36,6 @@ namespace jc::dt {
         static void dump(sess::sess_ptr sess, const sugg::sugg_list & suggestions) noexcept {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 if (suggestions.empty()) {
-                    common::Logger::devDebug("No suggestions");
                     return;
                 }
                 common::Logger::nl();
