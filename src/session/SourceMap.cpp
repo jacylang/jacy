@@ -57,4 +57,19 @@ namespace jc::sess {
         const auto & src = sourceIt->second.src;
         return src->substr(span.pos, span.len);
     }
+
+    std::vector<size_t> SourceMap::getLinesIndices(const span::Span & span) const {
+        std::vector<size_t> indices;
+        const auto begin = span.pos;
+        const auto end = span.pos + span.len;
+        for (const auto & lineIndex : getSourceFile(span.fileId).lines) {
+            if (begin >= lineIndex) {
+                indices.emplace_back(lineIndex);
+            }
+            if (end >= lineIndex) {
+                break;
+            }
+        }
+        return indices;
+    }
 }

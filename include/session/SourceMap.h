@@ -37,6 +37,9 @@ namespace jc::sess {
 
         std::string getLine(file_id_t fileId, size_t index) const;
 
+        // As far as Span can capture multiple lines, we return all we found
+        std::vector<size_t> getLinesIndices(const span::Span & span) const;
+
         std::string sliceBySpan(file_id_t, const span::Span & span);
 
     private:
