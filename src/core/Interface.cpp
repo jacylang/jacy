@@ -90,23 +90,25 @@ namespace jc::core {
         const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
-            parser::SourceFile(file->getPath(), file->extractContent())
+            parser::SourceFile(
+                file->getPath(),
+                file->extractContent()
+            )
         );
 
         beginBench();
-        auto lexerResult = lexer.lex(parseSess);
+        auto tokens = lexer.lex(parseSess);
         endBench(file->getPath().string(), BenchmarkKind::Lexing);
 
         log.dev("Tokenize file", file->getPath());
-        auto fileTokens = std::move(std::move(lexerResult));
 
         printSource(parseSess);
-        printTokens(fileId, fileTokens);
+        printTokens(fileId, tokens);
 
         log.dev("Parse file", file->getPath());
 
         beginBench();
-        auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, fileTokens).extract();
+        auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
         endBench(file->getPath().string(), BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
