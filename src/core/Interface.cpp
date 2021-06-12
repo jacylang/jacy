@@ -88,8 +88,7 @@ namespace jc::core {
 
     ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.addSource(file->getPath());
-        sess->sourceMap.setSrc(fileId, std::move(file->extractContent()));
-        const auto parseSess = std::make_shared<parser::ParseSess>(fileId);
+        const auto parseSess = std::make_shared<parser::ParseSess>(fileId, parser::SourceFile(file->getPath()));
 
         beginBench();
         auto lexerResult = lexer.lex(parseSess, file->extractContent());
@@ -108,6 +107,8 @@ namespace jc::core {
         endBench(file->getPath().string(), BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
+
+        sess->sourceMap.setSrc(fileId, std::move(parseSess->sourceFile));
 
         return std::make_unique<ast::FileModule>(
             file->getPath().filename().string(),
