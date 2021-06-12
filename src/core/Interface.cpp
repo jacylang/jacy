@@ -8,6 +8,8 @@ namespace jc::core {
     void Interface::compile() {
         eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
 
+        log.dev("Config options:\n", config.getOptionsString());
+
         try {
             beginFinalBench();
 

@@ -77,13 +77,17 @@ namespace jc::common {
 
         // Key-value args //
         Mode mode{Mode::Source};
-        std::set<PrintKind> print;
+        std::set<PrintKind> print{};
         Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
         LogLevel logLevel{LogLevel::Info};
 
         // Bool args //
         bool dev{false};
+
+        // Debug //
+    public:
+        std::string getOptionsString() const;
     };
 }
 

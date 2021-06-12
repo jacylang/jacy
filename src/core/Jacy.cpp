@@ -1,9 +1,7 @@
 #include "core/Jacy.h"
 
 namespace jc::core {
-    Jacy::Jacy() {
-
-    }
+    Jacy::Jacy() {}
 
     void Jacy::meow(int argc, const char ** argv) {
         try {
