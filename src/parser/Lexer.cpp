@@ -528,6 +528,7 @@ namespace jc::parser {
         this->parseSess = parseSess;
         this->source = parseSess->sourceFile.src.unwrap();
 
+        // Note: If source is empty there're actually no lines
         if (source.size() > 0) {
             linesIndices.emplace_back(index);
         }
