@@ -84,7 +84,7 @@ namespace jc::common {
         constexpr static auto GLOBAL_LOG_LEVEL_NAME = "global";
         constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
         // Pairs of `owner - LogLevel`
-        std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
+        std::unordered_map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
 
         // Bool args //
         bool dev{false};
