@@ -68,21 +68,22 @@ namespace jc::cli {
 
         argsStorage.rootFile = sourceFiles.at(0);
 
-        // Note: Log arguments before dependency check to make it easier for user to find mistake
+        // Note: Log arguments before error checks to make it easier to find mistakes
         {
             // Debug //
             using utils::arr::join;
             using utils::map::keys;
             std::string boolArgsStr;
-            for (const auto & boolArg : argsStorage.boolArgs) {
-                if (boolArg.second) {
-                    boolArgsStr += "--" + boolArg.first + " ";
+            for (auto it = argsStorage.boolArgs.begin(); it != argsStorage.boolArgs.end(); it++) {
+                boolArgsStr += "--" + it->first + "=" + (it->second ? "1" : "0");
+                if (it != std::prev(argsStorage.boolArgs.end())) {
+                    boolArgsStr += " ";
                 }
             }
 
             std::string keyValueArgsStr;
             for (auto it = argsStorage.keyValueArgs.begin(); it != argsStorage.keyValueArgs.end(); it++) {
-                keyValueArgsStr += "-" + it->first + " " + join(it->second, " ");
+                keyValueArgsStr += "-" + it->first + "=" + join(it->second, ", ");
                 if (it != std::prev(argsStorage.keyValueArgs.end())) {
                     keyValueArgsStr += " ";
                 }
