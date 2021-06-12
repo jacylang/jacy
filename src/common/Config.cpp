@@ -131,6 +131,9 @@ namespace jc::common {
         }
 
         str += "\nprint: ";
+        if (print.empty()) {
+            str += "[none]";
+        }
         for (auto it = print.begin(); it != print.end(); it++) {
             switch (*it) {
                 case PrintKind::DirTree: str += "dir-tree"; break;
