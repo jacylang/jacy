@@ -80,7 +80,7 @@ namespace jc::common {
         std::set<PrintKind> print;
         Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
-        LogLevel logLevel;
+        LogLevel logLevel{LogLevel::Info};
 
         // Bool args //
         bool dev{false};
