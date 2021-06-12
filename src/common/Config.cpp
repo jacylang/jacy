@@ -85,6 +85,10 @@ namespace jc::common {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
             loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
         }
+
+        loggerLevels["lexer"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
+        loggerLevels["parser"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
+        loggerLevels["name-resolver"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
     }
 
     // Checkers //
@@ -169,6 +173,9 @@ namespace jc::common {
                 case LogLevel::Info: res[fieldName].emplace_back("info"); break;
                 case LogLevel::Warn: res[fieldName].emplace_back("warn"); break;
                 case LogLevel::Error: res[fieldName].emplace_back("error"); break;
+                case LogLevel::Unknown: {
+                    throw std::logic_error("[Config] `Unknown` log-level found in `Config::getOptionsMap`");
+                }
             }
         };
 

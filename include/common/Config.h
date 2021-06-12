@@ -58,6 +58,8 @@ namespace jc::common {
             Info,
             Warn,
             Error,
+
+            Unknown,
         };
 
         // Checkers //
@@ -80,6 +82,7 @@ namespace jc::common {
         CompileDepth compileDepth{CompileDepth::Full};
 
         constexpr static auto GLOBAL_LOG_LEVEL_NAME = "global";
+        // Pairs of `owner - LogLevel`
         std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, LogLevel::Info}};
 
         // Bool args //
