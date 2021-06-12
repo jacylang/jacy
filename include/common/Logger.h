@@ -145,14 +145,14 @@ namespace jc::common {
         const static uint8_t wrapLen{120};
 
         template<class Arg, class ...Args>
-        const Logger & log(LogLevel level, Arg && first, Args && ...other) const;
+        const Logger & log(Config::LogLevel level, Arg && first, Args && ...other) const;
 
     public:
         static const std::map<Color, std::string> unixColors;
 
     private:
-        static const std::map<LogLevel, std::string> levelNames;
-        static const std::map<LogLevel, Color> levelColors;
+        static const std::map<Config::LogLevel, std::string> levelNames;
+        static const std::map<Config::LogLevel, Color> levelColors;
     };
 
 #include "common/Logger.inl"

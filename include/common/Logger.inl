@@ -42,32 +42,32 @@ std::ostream & operator<<(std::ostream & os, Color color) {
 
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
-    return log(LogLevel::Debug, args...);
+    return log(Config::LogLevel::Debug, args...);
 }
 
 template<class ...Args>
 const Logger & Logger::info(Args && ...args) const {
-    return log(LogLevel::Info, args...);
+    return log(Config::LogLevel::Info, args...);
 }
 
 template<class ...Args>
 const Logger & Logger::warn(Args && ...args) const {
-    return log(LogLevel::Warn, args...);
+    return log(Config::LogLevel::Warn, args...);
 }
 
 template<class ...Args>
 const Logger & Logger::error(Args && ...args) const {
-    return log(LogLevel::Error, args...);
+    return log(Config::LogLevel::Error, args...);
 }
 
 template<class ...Args>
 const Logger & Logger::dev(Args && ...args) const {
-    return log(LogLevel::Dev, args...);
+    return log(Config::LogLevel::Dev, args...);
 }
 
 template<class Arg, class ...Args>
 void Logger::devPanic(Arg && first, Args && ...other) {
-    std::cout << levelColors.at(LogLevel::Error);
+    std::cout << levelColors.at(Config::LogLevel::Error);
     std::cout << "[DEV PANIC]: " << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     std::cout << Color::Reset;
@@ -81,7 +81,7 @@ void Logger::devDebug(Arg && first, Args && ... other) {
     if (not Config::getInstance().checkDev()) {
         return;
     }
-    std::cout << levelColors.at(LogLevel::Dev) << "[DEV]: " << Color::Reset << std::forward<Arg>(first);
+    std::cout << levelColors.at(Config::LogLevel::Dev) << "[DEV]: " << Color::Reset << std::forward<Arg>(first);
     ((std::cout << ' ' << std::forward<Args>(other)), ...);
     Logger::nl();
 }
@@ -135,13 +135,13 @@ std::string Logger::format(Arg && first, Args && ...other) {
 }
 
 template<class Arg, class ...Args>
-const Logger & Logger::log(LogLevel level, Arg && first, Args && ...other) const {
+const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...other) const {
     if (not common::Config::getInstance().checkDev()
     and static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
 
-    const auto & dev = level == LogLevel::Dev;
+    const auto & dev = level == Config::LogLevel::Dev;
 
     if (config.printLevel or dev) {
         if (config.colorize or dev) {
