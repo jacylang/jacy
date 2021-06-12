@@ -75,7 +75,7 @@ namespace jc::common {
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
-        LogLevel level{LogLevel::Debug};
+        LogLevel level;
         bool printOwner{false};
         bool printLevel{true};
         bool colorize{true};
@@ -91,8 +91,8 @@ namespace jc::common {
 
     class Logger {
     public:
-        explicit Logger(std::string owner, const LoggerConfig & config = {})
-                : owner(std::move(owner)), config(config) {}
+        explicit Logger(std::string owner, const LoggerConfig & config)
+                : owner(std::move(owner)), config(Config::getInstance().) {}
 
         virtual ~Logger() = default;
 

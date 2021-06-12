@@ -53,12 +53,23 @@ namespace jc::common {
             EachStage,
         };
 
+        // Must be the same as `Logger::LogLevel`, anyway `Config` MUST NOT depend on `Logger`
+        enum class LogLevel : uint8_t {
+            Dev,
+            Debug,
+            Info,
+            Warn,
+            Error,
+        };
+
         // Checkers //
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(Benchmark benchmark) const;
         bool checkDev() const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
+        bool checkLogLevel(LogLevel logLevel) const;
+        bool getLogLevel() const;
         const std::string & getRootFile() const;
 
     private:
@@ -69,6 +80,7 @@ namespace jc::common {
         std::set<PrintKind> print;
         Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
+        LogLevel logLevel;
 
         // Bool args //
         bool dev{false};
