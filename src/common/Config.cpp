@@ -134,6 +134,7 @@ namespace jc::common {
     std::map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
         std::map<std::string, std::vector<std::string>> res;
 
+        // Key-value args //
         switch (mode) {
             case Mode::Repl: res["mode"].emplace_back("REPL"); break;
             case Mode::Source: res["mode"].emplace_back("Source"); break;
@@ -180,6 +181,9 @@ namespace jc::common {
         addLogLevel("lexer");
         addLogLevel("parser");
         addLogLevel("name-resolver");
+
+        // Bool args //
+        res["dev"] = {checkDev() ? "yes" : "no"};
 
         return res;
     }
