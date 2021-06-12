@@ -114,9 +114,10 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
         // FIXME: Yeah, wtf? WE PANIC INSIDE LOGGER!!!
         devPanic("Too long message in `Logger::printTitleDev`");
     }
-    std::string indent = utils::str::repeat("=", (wrapLen - title.size()) / 2 - 1);
+    const auto indentSize = (wrapLen - title.size()) / 2 - 1;
+    std::string indent = utils::str::repeat("=", indentSize);
 
-    std::cout << indent << " " << title << " " << indent << std::endl;
+    std::cout << indent << (indentSize % 2 == 1 ? "= " : " ") << title << " " << indent << std::endl;
 }
 
 template<class Arg, class ...Args>
