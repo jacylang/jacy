@@ -104,7 +104,7 @@ namespace jc::cli {
         for (auto & arg : argsStorage.boolArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::arr::has(Args::allowedBoolArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
+                throw CLIError(common::Logger::format("Unknown argument '"+ arg.first +"'"));
             }
 
             if (alias != Args::aliases.end()) {
@@ -115,10 +115,10 @@ namespace jc::cli {
         for (const auto & arg : argsStorage.keyValueArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::map::has(Args::allowedKeyValueArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown argument '", arg.first, "'"));
+                throw CLIError(common::Logger::format("Unknown argument '"+ arg.first +"'"));
             }
             if (arg.second.empty()) {
-                throw CLIError(common::Logger::format("Expected value for '", arg.first, "' argument"));
+                throw CLIError(common::Logger::format("Expected value for '"+ arg.first +"' argument"));
             }
 
             // Check for allowed parameters for key-value argument if it receives specific list
