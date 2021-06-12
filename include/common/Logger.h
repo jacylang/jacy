@@ -78,6 +78,9 @@ namespace jc::common {
     template<class K, class V>
     inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map);
 
+    template<class K, class V>
+    inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
+
     inline std::ostream & operator<<(std::ostream & os, Color color);
 
     class Logger {

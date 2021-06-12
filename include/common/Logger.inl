@@ -29,6 +29,19 @@ std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
     return os;
 }
 
+template<class K, class V>
+inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map) {
+    os << "{";
+    for (auto it = map.begin(); it != map.end(); it++) {
+        os << it->first << ": " << it->second;
+        if (it != std::prev(map.end())) {
+            os << ", ";
+        }
+    }
+    os << "}";
+    return os;
+}
+
 std::ostream & operator<<(std::ostream & os, Color color) {
 #if defined(WIN)
     static const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
