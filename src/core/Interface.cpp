@@ -31,11 +31,13 @@ namespace jc::core {
             printBenchmarks();
             printFinalBench();
         } catch (std::exception & e) {
-            log.dev("Something went wrong:", e.what());
-            log.dev("Some debug info:");
             if (config.checkDev()) {
+                log.dev("Something went wrong:", e.what());
+                log.dev("Here is some debug info:");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions);
                 printBenchmarks();
+            } else {
+                throw e;
             }
         }
     }
