@@ -17,6 +17,7 @@ namespace jc::core {
             //  thus we use it before suggestions check
 
             // AST Stage //
+            log.printTitle("Parsing");
             parse();
             printDirTree();
             printAst(ast::AstPrinterMode::Parsing);
@@ -24,6 +25,7 @@ namespace jc::core {
             lintAst();
 
             // Name resolution //
+            log.printTitle("Name resolution");
             resolveNames();
             printAst(ast::AstPrinterMode::Names);
             checkSuggestions();

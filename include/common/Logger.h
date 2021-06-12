@@ -12,6 +12,7 @@
 
 #include "common/Error.h"
 #include "common/Config.h"
+#include "utils/str.h"
 
 #if defined(__unix__) \
     || defined(__unix) \
@@ -67,6 +68,11 @@ namespace jc::common {
         Error,
     };
 
+    enum class TitleKind {
+        Line,
+        Block,
+    };
+
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
         LogLevel level{LogLevel::Debug};
@@ -111,6 +117,10 @@ namespace jc::common {
         template<class Arg, class ...Args>
         void colorized(Color color, Arg && first, Args && ...other);
 
+        /// Prints text as title, used only for one-line messages which are not long
+        template<class Arg, class ...Args>
+        void printTitle(Arg && first, Args && ...other);
+
         static inline void nl() {
             std::cout << std::endl;
         }
@@ -139,6 +149,8 @@ namespace jc::common {
     private:
         std::string owner;
         LoggerConfig config;
+
+        const static uint8_t wrapLen{120};
 
         template<class Arg, class ...Args>
         const Logger & log(LogLevel level, Arg && first, Args && ...other) const;
