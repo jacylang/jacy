@@ -33,19 +33,19 @@ namespace jc::sess {
     }
 
     size_t SourceMap::getLinesCount(file_id_t fileId) {
-        return getSourceFile(fileId).lines.size();
+        return getSourceFile(fileId).linesIndices.size();
     }
 
     std::string SourceMap::getLine(file_id_t fileId, size_t index) {
         const auto & sf = getSourceFile(fileId);
-        if (sf.lines.size() <= index) {
+        if (sf.linesIndices.size() <= index) {
             common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
-        size_t end = sf.lines.size();
-        if (index < sf.lines.size() - 1){
-            sf.lines.at(index + 1);
+        size_t end = sf.linesIndices.size();
+        if (index < sf.linesIndices.size() - 1){
+            sf.linesIndices.at(index + 1);
         }
-        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.lines.at(index), end);
+        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.linesIndices.at(index), end);
         return line;
     }
 
@@ -58,7 +58,7 @@ namespace jc::sess {
         std::vector<size_t> indices;
         const auto begin = span.pos;
         const auto end = span.pos + span.len;
-        for (const auto & lineIndex : getSourceFile(span.fileId).lines) {
+        for (const auto & lineIndex : getSourceFile(span.fileId).linesIndices) {
             if (begin >= lineIndex) {
                 indices.emplace_back(lineIndex);
             }

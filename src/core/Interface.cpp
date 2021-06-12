@@ -137,15 +137,15 @@ namespace jc::core {
         }
         const auto & sourceFile = parseSess->sourceFile;
         log.info("Printing source for file", sourceFile.path, "by fileId", parseSess->fileId, "(`--print source`)");
-        log.dev("Source lines indices:", sourceFile.lines);
+        log.dev("Source lines indices:", sourceFile.linesIndices);
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
-        for (size_t i = 0; i < sourceFile.lines.size(); i++) {
+        for (size_t i = 0; i < sourceFile.linesIndices.size(); i++) {
             std::string line;
-            const auto & pos = sourceFile.lines.at(i);
-            if (i < sourceFile.lines.size() - 1) {
-                line = src.substr(pos, sourceFile.lines.at(i + 1) - pos - 1);
+            const auto & pos = sourceFile.linesIndices.at(i);
+            if (i < sourceFile.linesIndices.size() - 1) {
+                line = src.substr(pos, sourceFile.linesIndices.at(i + 1) - pos - 1);
             } else {
                 line = src.substr(pos, src.size() - pos - 1);
             }

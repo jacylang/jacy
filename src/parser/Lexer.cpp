@@ -5,7 +5,7 @@ namespace jc::parser {
 
     void Lexer::addToken(Token && t, span::span_len_t len) {
         t.span = span::Span(
-            tokenLoc.line,
+            index,
             len,
             parseSess->fileId
         );
@@ -554,7 +554,7 @@ namespace jc::parser {
         tokenLoc = loc;
         addToken(TokenKind::Eof, 1);
 
-        parseSess->sourceFile.lines = std::move(linesIndices);
+        parseSess->sourceFile.linesIndices = std::move(linesIndices);
 
         return std::move(tokens);
     }

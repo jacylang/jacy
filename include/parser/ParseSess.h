@@ -15,7 +15,7 @@ namespace jc::parser {
 
         fs::path path;
         dt::Option<std::string> src;
-        std::vector<line_pos_t> lines;
+        std::vector<line_pos_t> linesIndices;
 
         std::string filename() const {
             return path.filename().string();

@@ -29,7 +29,7 @@ namespace jc::parser {
         token_list tokens;
 
         // Lexer current position
-        uint64_t index{0};
+        uint32_t index{0};
         Location loc;
         std::vector<uint32_t> linesIndices;
 
