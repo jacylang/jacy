@@ -81,6 +81,8 @@ namespace jc::common {
                 } else {
                     throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
                 }
+            } else if (not isGlobal) {
+                loggerLevels[owner] = DEFAULT_LOG_LEVEL;
             }
         }
 
@@ -91,10 +93,6 @@ namespace jc::common {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
             loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
         }
-
-        loggerLevels["lexer"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
-        loggerLevels["parser"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
-        loggerLevels["name-resolver"] = loggerLevels[GLOBAL_LOG_LEVEL_NAME];
     }
 
     // Checkers //
