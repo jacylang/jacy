@@ -69,7 +69,7 @@ namespace jc::common {
         bool checkDev() const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel) const;
-        bool getLogLevel() const;
+        LogLevel getLogLevel() const;
         const std::string & getRootFile() const;
 
     private:
