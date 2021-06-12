@@ -16,17 +16,7 @@ namespace jc::core {
             // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
             //  thus we use it before suggestions check
 
-            // AST Stage //
-            parse();
-            printDirTree();
-            printAst(ast::AstPrinterMode::Parsing);
-            checkSuggestions();
-            lintAst();
-
-            // Name resolution //
-            resolveNames();
-            printAst(ast::AstPrinterMode::Names);
-            checkSuggestions();
+            workflow();
 
             printBenchmarks();
             printFinalBench();
@@ -47,7 +37,23 @@ namespace jc::core {
         sess = std::make_shared<sess::Session>();
     }
 
+    void Interface::workflow() {
+        parse();
+        if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
+            log.info("Stop after parsing due to `-compile-depth=parser`");
+            return;
+        }
+
+        resolveNames();
+        if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
+            log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
+            return;
+        }
+    }
+
+    /////////////
     // Parsing //
+    /////////////
     void Interface::parse() {
         log.printTitleDev("Parsing");
 
@@ -62,6 +68,11 @@ namespace jc::core {
         auto rootModule = std::make_unique<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
 
         party = std::make_unique<ast::Party>(std::move(rootModule));
+
+        printDirTree();
+        printAst(ast::AstPrinterMode::Parsing);
+        checkSuggestions();
+        lintAst();
     }
 
     void Interface::lintAst() {
@@ -183,7 +194,9 @@ namespace jc::core {
         common::Logger::nl();
     }
 
+    /////////////////////
     // Name resolution //
+    /////////////////////
     void Interface::resolveNames() {
         log.printTitleDev("Name resolution");
 
@@ -191,6 +204,9 @@ namespace jc::core {
         modulePrinter.print(sess->modTreeRoot.unwrap());
         common::Logger::nl();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
+
+        printAst(ast::AstPrinterMode::Names);
+        checkSuggestions();
     }
 
     // Suggestions //

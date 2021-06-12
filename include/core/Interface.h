@@ -34,6 +34,7 @@ namespace jc::core {
 
     private:
         void init();
+        void workflow();
         Config & config;
 
         // Parsing //
