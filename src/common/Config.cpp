@@ -124,13 +124,11 @@ namespace jc::common {
     std::map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
         std::map<std::string, std::vector<std::string>> res;
 
-        res["mode"] = {};
         switch (mode) {
             case Mode::Repl: res["mode"].emplace_back("REPL"); break;
             case Mode::Source: res["mode"].emplace_back("Source"); break;
         }
 
-        res["print"] = {};
         if (print.empty()) {
             res["print"].emplace_back("[none]");
         }
@@ -146,14 +144,12 @@ namespace jc::common {
             }
         }
 
-        res["compile-depth"] = {};
         switch (compileDepth) {
             case CompileDepth::Parser: res["compile-depth"].emplace_back("parser"); break;
             case CompileDepth::NameResolution: res["compile-depth"].emplace_back("name-resolution"); break;
             case CompileDepth::Full: res["compile-depth"].emplace_back("full"); break;
         }
 
-        res["benchmark"] = {};
         switch (benchmark) {
             case Benchmark::Final: res["benchmark"].emplace_back("final"); break;
             case Benchmark::EachStage: res["benchmark"].emplace_back("each-stage"); break;
