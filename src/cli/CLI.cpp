@@ -70,7 +70,6 @@ namespace jc::cli {
 
         // Note: Log arguments before error checks to make it easier to find mistakes
         {
-            // Debug //
             using utils::arr::join;
             using utils::map::keys;
             std::string boolArgsStr;

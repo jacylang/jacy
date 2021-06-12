@@ -28,7 +28,6 @@ namespace jc::core {
     private:
         common::Logger log{"jacy"};
         cli::CLI cli;
-        Interface interface;
     };
 }
 
