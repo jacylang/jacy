@@ -66,8 +66,8 @@ namespace jc::common {
         bool checkBenchmark(Benchmark benchmark) const;
         bool checkDev() const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
-        bool checkLogLevel(LogLevel logLevel) const;
-        LogLevel getLogLevel() const;
+        bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        LogLevel getGlobalLogLevel() const;
         const std::string & getRootFile() const;
 
     private:
@@ -78,7 +78,9 @@ namespace jc::common {
         std::set<PrintKind> print{};
         Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
-        LogLevel logLevel{LogLevel::Info};
+
+        constexpr static auto GLOBAL_LOG_LEVEL_NAME = "global";
+        std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, LogLevel::Info}};
 
         // Bool args //
         bool dev{false};

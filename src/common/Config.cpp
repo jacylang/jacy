@@ -64,15 +64,15 @@ namespace jc::common {
         if (maybeLogLevel) {
             const auto & ll = maybeLogLevel.unwrap();
             if (ll == "dev") {
-                logLevel = LogLevel::Dev;
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
             } else if (ll == "debug") {
-                logLevel = LogLevel::Debug;
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Debug;
             } else if (ll == "info") {
-                logLevel = LogLevel::Info;
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Info;
             } else if (ll == "warn") {
-                logLevel = LogLevel::Warn;
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Warn;
             } else if (ll == "error") {
-                logLevel = LogLevel::Error;
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Error;
             } else {
                 throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
             }
@@ -83,7 +83,7 @@ namespace jc::common {
 
         if (dev and not maybeLogLevel) {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
-            logLevel = LogLevel::Dev;
+            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
         }
     }
 
@@ -108,12 +108,12 @@ namespace jc::common {
         return static_cast<uint8_t>(this->compileDepth) <= static_cast<uint8_t>(compileDepth);
     }
 
-    bool Config::checkLogLevel(LogLevel logLevel) const {
-        return static_cast<uint8_t>(this->logLevel) <= static_cast<uint8_t>(logLevel);
+    bool Config::checkLogLevel(LogLevel logLevel, const std::string & owner) const {
+        return static_cast<uint8_t>(this->loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
     }
 
-    Config::LogLevel Config::getLogLevel() const {
-        return logLevel;
+    Config::LogLevel Config::getGlobalLogLevel() const {
+        return loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
     }
 
     const std::string & Config::getRootFile() const {
@@ -160,7 +160,7 @@ namespace jc::common {
         }
 
         res["log-level"] = {};
-        switch (logLevel) {
+        switch (loggerLevels) {
             case LogLevel::Dev: res["log-level"].emplace_back("dev"); break;
             case LogLevel::Debug: res["log-level"].emplace_back("debug"); break;
             case LogLevel::Info: res["log-level"].emplace_back("info"); break;
