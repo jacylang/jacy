@@ -524,9 +524,9 @@ namespace jc::parser {
 
     //
 
-    token_list Lexer::lex(const parse_sess_ptr & parseSess, const std::string & source) {
+    token_list Lexer::lex(const parse_sess_ptr & parseSess) {
         this->parseSess = parseSess;
-        this->source = source;
+        this->source = parseSess->sourceFile.src.unwrap();
 
         if (source.size() > 0) {
             linesIndices.emplace_back(index);

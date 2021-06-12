@@ -20,7 +20,7 @@ namespace jc::parser {
         Lexer();
         virtual ~Lexer() = default;
 
-        token_list lex(const parse_sess_ptr & parseSess, const std::string & source);
+        token_list lex(const parse_sess_ptr & parseSess);
 
     private:
         common::Logger log{"lexer"};

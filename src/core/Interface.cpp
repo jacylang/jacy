@@ -88,10 +88,13 @@ namespace jc::core {
 
     ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.addSource(file->getPath());
-        const auto parseSess = std::make_shared<parser::ParseSess>(fileId, parser::SourceFile(file->getPath()));
+        const auto parseSess = std::make_shared<parser::ParseSess>(
+            fileId,
+            parser::SourceFile(file->getPath(), file->extractContent())
+        );
 
         beginBench();
-        auto lexerResult = lexer.lex(parseSess, file->extractContent());
+        auto lexerResult = lexer.lex(parseSess);
         endBench(file->getPath().string(), BenchmarkKind::Lexing);
 
         log.dev("Tokenize file", file->getPath());

@@ -11,7 +11,7 @@ namespace jc::parser {
 
     struct SourceFile {
         SourceFile() {} // Default constructor to support `None`
-        SourceFile(const fs::path & path) : path(path), src(dt::None) {}
+        SourceFile(const fs::path & path, std::string && src) : path(path), src(std::move(src)) {}
 
         fs::path path;
         dt::Option<std::string> src;
