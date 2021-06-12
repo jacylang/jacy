@@ -60,28 +60,34 @@ namespace jc::common {
             }
         }
 
-        const auto & maybeLogLevel = cliConfig.getSingleValue("log-level");
-        if (maybeLogLevel) {
-            const auto & ll = maybeLogLevel.unwrap();
-            if (ll == "dev") {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
-            } else if (ll == "debug") {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Debug;
-            } else if (ll == "info") {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Info;
-            } else if (ll == "warn") {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Warn;
-            } else if (ll == "error") {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Error;
-            } else {
-                throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
+        bool globalLogLevelAppeared = false;
+        for (const auto & owner : std::vector<std::string>{GLOBAL_LOG_LEVEL_NAME, "lexer", "parser", "name-resolver"}) {
+            const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
+            const auto & argName = isGlobal ? "log-level" : owner + "-log-level";
+            const auto & maybeLogLevel = cliConfig.getSingleValue(argName);
+            globalLogLevelAppeared = isGlobal and maybeLogLevel;
+            if (maybeLogLevel) {
+                const auto & ll = maybeLogLevel.unwrap();
+                if (ll == "dev") {
+                    loggerLevels[owner] = LogLevel::Dev;
+                } else if (ll == "debug") {
+                    loggerLevels[owner] = LogLevel::Debug;
+                } else if (ll == "info") {
+                    loggerLevels[owner] = LogLevel::Info;
+                } else if (ll == "warn") {
+                    loggerLevels[owner] = LogLevel::Warn;
+                } else if (ll == "error") {
+                    loggerLevels[owner] = LogLevel::Error;
+                } else {
+                    throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
+                }
             }
         }
 
         // Apply bool args //
         dev = cliConfig.is("dev");
 
-        if (dev and not maybeLogLevel) {
+        if (dev and not globalLogLevelAppeared) {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
             loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
         }
