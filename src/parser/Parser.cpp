@@ -1278,7 +1278,7 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
-                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function cal"), begin.to(cspan()));
+                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
 
                 begin = cspan();
             } else {
