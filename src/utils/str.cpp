@@ -38,13 +38,13 @@ namespace jc::utils::str {
         return str + repeat(std::wstring(1, ch), pad);
     }
 
-    std::string pointLine(size_t lineLen, size_t pos, size_t spanLen) {
+    std::wstring pointLine(size_t lineLen, size_t pos, size_t spanLen) {
         size_t targetLen = pos + spanLen <= lineLen ? lineLen - pos - spanLen : 0;
-        std::string str = pos > 0 ? padStart("", pos, '-') : "";
+        std::wstring str = pos > 0 ? padStart(L"", pos, '-') : L"";
         for (size_t i = 0; i < spanLen; i++) {
-            str += "^";
+            str += L"^";
         }
-        str += padEnd("", targetLen, '-');
+        str += padEnd(L"", targetLen, L'—');
         return str;
     }
 
