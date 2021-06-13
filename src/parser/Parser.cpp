@@ -2570,6 +2570,6 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        log.dev("Parse", "`" + entity + "`, peek:", peek().dump());
+        log.dev("Parse", "`" + entity + "`, peek:", peek().dump(true));
     }
 }
