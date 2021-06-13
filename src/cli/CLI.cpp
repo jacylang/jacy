@@ -38,15 +38,20 @@ namespace jc::cli {
                 argsStorage.boolArgs.emplace(argName, true);
                 if (argIndex < args.size() - 1 and args.at(argIndex + 1) == "=") {
                     argIndex += 2; // Skip arg and `=`
-                    const auto boolValue = parseBool(args.at(argIndex + 1));
-                    if (boolValue) {
+                    if (argIndex == args.size()) {
+                        throw CLIError(
+                            "Expected boolean parameter after `=` for bool CLI argument '"
+                            + arg + "', for example 'yes' or 'no'"
+                        );
+                    }
+                    const auto boolValue = parseBool(args.at(argIndex));
+                    if (not boolValue.none()) {
                         argsStorage.boolArgs[argName] = boolValue.unwrap();
                     } else {
                         throw CLIError(
-                            "Expected boolean parameter for bool CLI argument '" + arg + "', for example 'no' or 'yes'"
+                            "Expected boolean parameter for bool CLI argument '" + arg + "', for example 'yes' or 'no'"
                         );
                     }
-                    argIndex++;
                 }
             } else if (utils::str::startsWith(arg, "-")) {
                 const auto & kvArg = arg.substr(1);
