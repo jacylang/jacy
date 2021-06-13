@@ -1784,6 +1784,8 @@ namespace jc::parser {
 
             bool first = true;
             while (!eof()) {
+                skipNLs(true);
+
                 if (is(TokenKind::RBrace)) {
                     break;
                 }

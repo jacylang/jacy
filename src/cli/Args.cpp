@@ -21,15 +21,16 @@ namespace jc::cli {
         {"lexer-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"parser-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"name-resolver-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
+        {"parser-extra-debug", {1, {"0", "1", "2", "no", "entities", "all"}}},
     };
 
+    // Key-value args that can receive any parameters
     const str_vec Args::anyParamKeyValueArgs = {};
 
     const std::map<std::string, std::string> Args::aliases = {};
 
     const std::map<std::string, str_vec> Args::argsDependencies = {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
-        {"parser-extra-debug", {"dev"}},
     };
 
     const str_vec Args::boolArgTrueValues = {
