@@ -18,7 +18,9 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-        //        log.dev("Advance");
+        if (extraDebugAll) {
+            log.dev("Advance");
+        }
         index += distance;
         return peek();
     }
@@ -2660,7 +2662,7 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::enterEntity(const std::string & entity) {
-        if (not extraDebug) {
+        if (not extraDebugEntities) {
             return;
         }
         entitiesEntries.emplace_back(entity);
@@ -2668,7 +2670,7 @@ namespace jc::parser {
     }
 
     void Parser::exitEntity() {
-        if (not extraDebug) {
+        if (not extraDebugEntities) {
             return;
         }
         if (entitiesEntries.empty()) {
@@ -2683,7 +2685,7 @@ namespace jc::parser {
     }
 
     void Parser::logParse(const std::string & entity) {
-        if (not extraDebug) {
+        if (not extraDebugEntities) {
             return;
         }
         const auto & depth = std::to_string(entitiesEntries.size());
