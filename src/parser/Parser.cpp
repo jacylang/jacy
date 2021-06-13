@@ -1268,12 +1268,9 @@ namespace jc::parser {
     }
 
     dt::Option<expr_ptr> Parser::call() {
-        enterEntity("postfix");
-
         auto maybeLhs = memberAccess();
 
         if (!maybeLhs) {
-            exitEntity();
             return dt::None;
         }
 
@@ -1314,12 +1311,14 @@ namespace jc::parser {
                     "Missing closing `]` in array expression"
                 );
 
+                exitEntity();
                 lhs = makeExpr<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan()));
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
                 enterEntity("Invoke");
 
+                exitEntity();
                 lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
 
                 begin = cspan();
@@ -1344,6 +1343,7 @@ namespace jc::parser {
 
             auto name = parseId("field name", true, true);
 
+            exitEntity();
             lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
             begin = cspan();
         }
@@ -1352,8 +1352,6 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::primary() {
-        enterEntity("primary");
-
         if (eof()) {
             common::Logger::devPanic("Called parse `primary` on `EOF`");
         }
