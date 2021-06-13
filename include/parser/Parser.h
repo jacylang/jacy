@@ -265,7 +265,6 @@ namespace jc::parser {
         Span nspan() const;
 
         // DEV //
-        bool devMode{false};
         void logParse(const std::string & entity);
     };
 }
