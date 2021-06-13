@@ -2577,7 +2577,7 @@ namespace jc::parser {
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
                 common::Logger::wrapLen - msg.size() - 1,
-                3,
+                1,
                 '-'
             )
         );
