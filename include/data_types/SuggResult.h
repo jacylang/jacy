@@ -22,12 +22,16 @@ namespace jc::dt {
             return {std::move(value), std::move(suggestions)};
         }
 
-        T unwrap(sess::sess_ptr sess) {
+        T unwrap(sess::sess_ptr sess, const std::string & stageName = "") {
             check(sess, suggestions);
             return value;
         }
 
-        static void check(sess::sess_ptr sess, const sugg::sugg_list & suggestions) {
+        static void check(
+            sess::sess_ptr sess,
+            const sugg::sugg_list & suggestions,
+            const std::string & stageName = ""
+        ) {
             dump(sess, suggestions);
             sugg::Suggester suggester;
             suggester.apply(sess, suggestions);

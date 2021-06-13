@@ -216,7 +216,7 @@ namespace jc::core {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
     }
 
-    void Interface::checkSuggestions() {
+    void Interface::checkSuggestions(const std::string & stageName) {
         if (suggestions.empty()) {
             return;
         }
