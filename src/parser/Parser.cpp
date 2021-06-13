@@ -99,7 +99,7 @@ namespace jc::parser {
         bool gotNL = false;
         while (isNL()) {
             if (extraDebugAll) {
-                log.dev("Skip", optional ? "optional" : "required", "nls | got", peek().toString(true));
+                log.dev("Skip", optional ? "optional" : "required", "NLs | got", peek().toString(true));
             }
             gotNL = true;
             advance();
@@ -1780,7 +1780,6 @@ namespace jc::parser {
             if (arrow == BlockArrow::Just) {
                 suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span);
             }
-
         } else if (arrow == BlockArrow::Require) {
             suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span);
             allowOneLine = true;
@@ -1826,7 +1825,6 @@ namespace jc::parser {
                 true,
                 "Missing closing `}` at the end of " + construction + " body"
             );
-            emitVirtualSemi();
         } else if (allowOneLine) {
             const auto & stmtBegin = cspan();
             auto exprStmt = makeStmt<ExprStmt>(
