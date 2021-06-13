@@ -119,6 +119,7 @@ Example usage:
 
 ###### Explicit Boolean argument value
 What if you want to set bool-arg to `false`?
+Let's imagine that `--dev` is set by default (it is not anyway).
 There is pretty same syntax for bool-args as for key-value args:
 ```
 --dev=no
