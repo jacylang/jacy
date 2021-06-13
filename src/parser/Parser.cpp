@@ -2656,7 +2656,7 @@ namespace jc::parser {
 
     // DEBUG //
     void Parser::enterEntity(const std::string & entity) {
-        if (not common::Config::getInstance().checkDev()) {
+        if (not extraDebug) {
             return;
         }
         entitiesEntries.emplace_back(entity);
@@ -2664,7 +2664,7 @@ namespace jc::parser {
     }
 
     void Parser::exitEntity() {
-        if (not common::Config::getInstance().checkDev()) {
+        if (not extraDebug) {
             return;
         }
         if (entitiesEntries.empty()) {
@@ -2679,7 +2679,7 @@ namespace jc::parser {
     }
 
     void Parser::logParse(const std::string & entity) {
-        if (not common::Config::getInstance().checkDev()) {
+        if (not extraDebug) {
             return;
         }
         const auto & depth = std::to_string(entitiesEntries.size());
