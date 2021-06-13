@@ -110,14 +110,17 @@ Example usage:
 - `-benchmark` - (1 parameter) - controls benchmarks printing kind
   - `final` - only one benchmark for the whole compilation process
   - `each-stage` - benches each stage of compilation process
+- `-parser-extra-debug` (depends on `dev`) - enables additional debug logs in
+ parser
+  - `no` - (default) - No extra debug info
+  - `entities` - Prints what syntax entities parser enters and leave
+  - `all` - Prints `entities` and also special much info about skipping, etc.
 
 ###### Boolean arguments
 
 - `--dev` - enables dev mode: all logs will be printed including
   `dev`-level logs and new logs will be added. Generally just produces
   more debug info everywhere.
-- `--parser-extra-debug` (depends on `dev`) - enables additional debug logs in
- parser
 
 ###### Explicit Boolean argument value
 What if you want to set bool-arg to `false`?
