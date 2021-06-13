@@ -266,7 +266,8 @@ namespace jc::parser {
 
         // DEV //
     private:
-        bool extraDebug{false};
+        bool extraDebugEntities{false};
+        bool extraDebugAll{false};
         std::vector<std::string> entitiesEntries;
         void enterEntity(const std::string & entity);
         void exitEntity();
