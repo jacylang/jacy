@@ -147,7 +147,7 @@ namespace jc::parser {
         }
 
         if (peek() == '.') {
-            if (!isDigit(lookup())) {
+            if (not isDigit(lookup())) {
                 addToken(TokenKind::DecLiteral, num);
                 return;
             }
@@ -206,7 +206,7 @@ namespace jc::parser {
     void Lexer::lexId() {
         std::string id(1, forward());
 
-        while (!eof() and isIdPart()) {
+        while (not eof() and isIdPart()) {
             id += forward();
         }
 
@@ -226,7 +226,7 @@ namespace jc::parser {
         const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
         // TODO: String templates
-        while (!eof() and peek() != quote) {
+        while (not eof() and peek() != quote) {
             str += forward();
         }
 
@@ -298,14 +298,14 @@ namespace jc::parser {
             } break;
             case '/': {
                 if (lookup() == '/') {
-                    while (!eof()) {
+                    while (not eof()) {
                         advance();
                         if (isNL()) {
                             break;
                         }
                     }
                 } else if (lookup() == '*') {
-                    while (!eof()) {
+                    while (not eof()) {
                         advance();
                         if (peek() == '*' and lookup() == '/') {
                             break;
@@ -504,7 +504,7 @@ namespace jc::parser {
                 advance();
             } break;
             case '@': {
-                if (!hidden()) {
+                if (not hidden()) {
                     addToken(TokenKind::At_WWS, 1);
                     advance();
                 } else {
@@ -533,7 +533,7 @@ namespace jc::parser {
             linesIndices.emplace_back(index);
         }
 
-        while (!eof()) {
+        while (not eof()) {
             tokenStartIndex = index;
             if (hidden()) {
                 advance();
