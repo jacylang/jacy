@@ -2,6 +2,7 @@
 
 namespace jc::ast {
     const Node & NodeMap::getNode(node_id nodeId) const {
+        // TODO: Return None if not found or panic?
         return *nodes.at(nodeId);
     }
 

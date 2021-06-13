@@ -647,6 +647,11 @@ namespace jc::ast {
 
     // Names mode //
     void AstPrinter::printName(node_id nodeId) {
-//        const auto & resolved = sess->resStorage.getRes()
+        const auto & resolved = sess->resStorage.getRes(nodeId);
+        if (not resolved) {
+            log.raw("[[Unresolved]]");
+        } else {
+            log.raw("[[", sess->nodeMap.getNode(resolved).span.toString(), "]]");
+        }
     }
 }
