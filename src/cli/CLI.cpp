@@ -45,7 +45,7 @@ namespace jc::cli {
                             "', for example 'yes' or 'no'"
                         );
                     }
-                    const auto boolValue = parseBool(args.at(argIndex));
+                    const auto boolValue = parseBool(utils::str::toLower(args.at(argIndex)));
                     if (not boolValue.none()) {
                         argsStorage.boolArgs[argName] = boolValue.unwrap();
                     } else {
