@@ -39,6 +39,7 @@ namespace jc::cli {
         Args argsStorage{};
 
         str_vec prepareArgs(int argc, const char ** argv);
+        dt::Option<bool> parseBool(const std::string & val);
     };
 }
 

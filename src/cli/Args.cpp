@@ -30,6 +30,22 @@ namespace jc::cli {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
     };
 
+    const str_vec Args::boolArgTrueValues = {
+        "yes",
+        "y",
+        "Y",
+        "true",
+        "1",
+    };
+
+    const str_vec Args::boolArgFalseValues = {
+        "no",
+        "n",
+        "N",
+        "false",
+        "0",
+    };
+
     // Checkers //
     bool Args::is(const std::string & argName) const {
         // At first we find, because we can get `map::at` error if argName does not exists in boolArgs

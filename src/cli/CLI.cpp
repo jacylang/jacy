@@ -24,7 +24,20 @@ namespace jc::cli {
             const auto & arg = args.at(argIndex);
             if (utils::str::startsWith(arg, "--")) {
                 // Boolean arg
-                argsStorage.boolArgs.emplace(arg.substr(2), true);
+                const auto & argName = arg.substr(2);
+                argsStorage.boolArgs.emplace(argName, true);
+                if (argIndex < args.size() - 1 and args.at(argIndex + 1) == "=") {
+                    argIndex += 2; // Skip arg and `=`
+                    const auto boolValue = parseBool(args.at(argIndex + 1));
+                    if (boolValue) {
+                        argsStorage.boolArgs[argName] = boolValue.unwrap();
+                    } else {
+                        throw CLIError(
+                            "Expected boolean parameter for bool CLI argument '" + arg + "', for example 'no' or 'yes'"
+                        );
+                    }
+                    argIndex++;
+                }
             } else if (utils::str::startsWith(arg, "-")) {
                 const auto & kvArg = arg.substr(1);
                 if (argIndex >= args.size() - 1 or args.at(argIndex + 1) != "=") {
