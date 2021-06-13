@@ -64,7 +64,7 @@ namespace jc::common {
 
         enum class ParserExtraDebug : uint8_t {
             No,
-            Entities,
+            Entries,
             All,
         };
 

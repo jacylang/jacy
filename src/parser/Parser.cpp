@@ -4,7 +4,7 @@ namespace jc::parser {
     using common::Config;
 
     Parser::Parser() {
-        extraDebugEntities = Config::getInstance().checkParserExtraDebug(Config::ParserExtraDebug::Entities);
+        extraDebugEntities = Config::getInstance().checkParserExtraDebug(Config::ParserExtraDebug::Entries);
         extraDebugAll = Config::getInstance().checkParserExtraDebug(Config::ParserExtraDebug::All);
     }
 

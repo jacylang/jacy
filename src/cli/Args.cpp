@@ -20,7 +20,7 @@ namespace jc::cli {
         {"lexer-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"parser-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"name-resolver-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
-        {"parser-extra-debug", {1, {"0", "1", "2", "no", "entities", "all"}}},
+        {"parser-extra-debug", {1, {"0", "1", "2", "no", "entries", "all"}}},
     };
 
     // Key-value args that can receive any parameters

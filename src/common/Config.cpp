@@ -66,8 +66,8 @@ namespace jc::common {
             const auto & ped = maybeParserExtraDebug.unwrap();
             if (ped == "no" or ped == "0") {
                 parserExtraDebug = ParserExtraDebug::No;
-            } else if (ped == "entities" or ped == "1") {
-                parserExtraDebug = ParserExtraDebug::Entities;
+            } else if (ped == "entries" or ped == "1") {
+                parserExtraDebug = ParserExtraDebug::Entries;
             } else if (ped == "all" or ped == "2") {
                 parserExtraDebug = ParserExtraDebug::All;
             } else {
