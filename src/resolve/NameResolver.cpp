@@ -7,6 +7,8 @@ namespace jc::resolve {
 
         party.getRootModule()->accept(*this);
 
+        sess->resStorage = std::move(resStorage);
+
         return {dt::None, extractSuggestions()};
     }
 
