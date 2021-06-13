@@ -11,10 +11,14 @@ namespace jc::ast {
     using block_list = std::vector<block_ptr>;
 
     struct Block : Expr {
+        Block(expr_ptr expr, const Span & span)
+            : Expr(span, ExprKind::Block), oneLine(std::move(expr)) {}
+
         Block(stmt_list stmts, const Span & span)
             : Expr(span, ExprKind::Block), stmts(std::move(stmts)) {}
 
-        stmt_list stmts;
+        opt_expr_ptr oneLine;
+        dt::Option<stmt_list> stmts;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
