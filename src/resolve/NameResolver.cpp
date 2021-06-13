@@ -249,7 +249,8 @@ namespace jc::resolve {
             common::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
         }
 
-        for (size_t i = prevDepth; i < depth; i++) {
+        const auto curDepth = depth;
+        for (size_t i = prevDepth; i < curDepth; i++) {
             exitRib();
         }
     }
