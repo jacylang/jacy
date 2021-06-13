@@ -22,7 +22,7 @@ namespace jc::utils::str {
         return str;
     }
 
-    std::string padStart(const std::string & str, size_t targetLen, wchar_t ch) {
+    std::string padStart(const std::string & str, size_t targetLen, char ch) {
         if (targetLen <= str.size()) {
             return str;
         }
@@ -30,7 +30,7 @@ namespace jc::utils::str {
         return repeat(std::string(1, ch), pad) + str;
     }
 
-    std::string padEnd(const std::string & str, size_t targetLen, wchar_t ch) {
+    std::string padEnd(const std::string & str, size_t targetLen, char ch) {
         if (targetLen <= str.size()) {
             return str;
         }
@@ -44,7 +44,7 @@ namespace jc::utils::str {
         for (size_t i = 0; i < spanLen; i++) {
             str += "^";
         }
-        str += padEnd("", targetLen, L'—');
+        str += padEnd("", targetLen, '-');
         return str;
     }
 
@@ -80,7 +80,7 @@ namespace jc::utils::str {
         for (const auto & ch : str) {
             res += ch;
             if (counter + 1 == wrapLen) {
-                res += L'\n';
+                res += '\n';
             }
         }
         return res;

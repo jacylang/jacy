@@ -2570,6 +2570,7 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
+        // FIXME: Allow text overflow in `padStart`
         const auto & msg = "Parse `" + entity + "`";
         log.dev(msg, utils::str::padStart(" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size() - 1, '-'));
     }
