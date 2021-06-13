@@ -48,7 +48,7 @@ namespace jc::utils::str {
         return str;
     }
 
-    std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix) {
+    std::wstring clipEnd(const std::wstring & str, size_t targetLen, const std::wstring & suffix) {
         if (targetLen >= str.size()) {
             return str;
         }
