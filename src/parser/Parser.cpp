@@ -2572,6 +2572,14 @@ namespace jc::parser {
         }
         // FIXME: Allow text overflow in `padStart`
         const auto & msg = "Parse `" + entity + "`";
-        log.dev(msg, utils::str::padStart(" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size() - 1, '-'));
+        log.dev(
+            msg,
+            utils::str::padStartOverflow(
+                " peek: " + peek().dump(true),
+                common::Logger::wrapLen - msg.size() - 1,
+                3,
+                '-'
+            )
+        );
     }
 }

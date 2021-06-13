@@ -30,7 +30,7 @@ namespace jc::utils::str {
         return repeat(std::string(1, ch), pad) + str;
     }
 
-    std::string padStartOverflow(const std::string & str, size_t minSpaceSize, size_t targetLen, char ch) {
+    std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
         if (targetLen <= str.size()) {
             return repeat(std::string(1, ch), minSpaceSize) + str;
         }
