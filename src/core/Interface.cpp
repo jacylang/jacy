@@ -26,7 +26,7 @@ namespace jc::core {
             if (config.checkDev()) {
                 log.dev("Something went wrong:", e.what());
                 log.dev("Here is some debug info:");
-                dt::SuggResult<dt::none_t>::dump(sess, suggestions);
+                dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions generated");
                 printBenchmarks();
             } else {
                 throw e;

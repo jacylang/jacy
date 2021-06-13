@@ -41,9 +41,16 @@ namespace jc::dt {
             suggester.apply(sess, suggestions);
         }
 
-        static void dump(sess::sess_ptr sess, const sugg::sugg_list & suggestions) noexcept {
+        static void dump(
+            sess::sess_ptr sess,
+            const sugg::sugg_list & suggestions,
+            const std::string & emptyMessage = ""
+        ) noexcept {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 if (suggestions.empty()) {
+                    if (not emptyMessage.empty()) {
+                        common::Logger::devDebug(emptyMessage);
+                    }
                     return;
                 }
                 common::Logger::nl();
