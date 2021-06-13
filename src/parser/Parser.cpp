@@ -208,7 +208,7 @@ namespace jc::parser {
         this->tokens = tokens;
 
         auto begin = cspan();
-        auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
+        auto items = parseItemList("Unexpected expression on top-leve", TokenKind::Eof);
 
         return {makeNode<File>(std::move(items), begin.to(cspan())), extractSuggestions()};
     }
@@ -451,7 +451,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseImpl() {
-        logParse("Impl");
+        logParse("Imp");
 
         const auto & begin = cspan();
 
@@ -464,7 +464,7 @@ namespace jc::parser {
 
         auto forType = parseType("Missing type");
 
-        item_list members = parseMembers("impl");
+        item_list members = parseMembers("imp");
 
         return makeItem<Impl>(
             std::move(typeParams),
@@ -603,7 +603,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseTypeAlias() {
-        logParse("TypeDecl");
+        logParse("TypeDec");
 
         const auto & begin = cspan();
 
@@ -653,7 +653,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseUseDecl() {
-        logParse("UseDecl");
+        logParse("UseDec");
 
         const auto & begin = cspan();
 
@@ -1259,7 +1259,7 @@ namespace jc::parser {
                             TokenKind::Comma,
                             true,
                             true,
-                            "Missing `,` separator in subscript operator call"
+                            "Missing `,` separator in subscript operator cal"
                         );
                     }
 
@@ -1278,7 +1278,7 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 logParse("Invoke");
 
-                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
+                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function cal"), begin.to(cspan()));
 
                 begin = cspan();
             } else {
@@ -1395,7 +1395,7 @@ namespace jc::parser {
                     "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
                 );
             } else {
-                common::Logger::devPanic("parsePathExpr -> !id -> !global");
+                common::Logger::devPanic("parsePathExpr -> !id -> !globa");
             }
         }
 
@@ -1472,7 +1472,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseLiteral() {
-        logParse("literal");
+        logParse("litera");
 
         const auto & begin = cspan();
         if (!peek().isLiteral()) {
@@ -1554,7 +1554,7 @@ namespace jc::parser {
                     TokenKind::Comma,
                     true,
                     true,
-                    "Missing `,` separator in tuple literal"
+                    "Missing `,` separator in tuple litera"
                 );
             }
 
@@ -2069,7 +2069,7 @@ namespace jc::parser {
                     TokenKind::Comma,
                     true,
                     true,
-                    "Missing `,` separator in tuple literal"
+                    "Missing `,` separator in tuple litera"
                 );
             }
 
@@ -2566,11 +2566,11 @@ namespace jc::parser {
     }
 
     // DEBUG //
-    void Parser::logParse(const std::wstring & entity) {
+    void Parser::logParse(const std::string & entity) {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        const auto & msg = L"Parse `" + entity + L"` ";
-        log.dev(msg, utils::str::padStart(L" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size(), L'—'));
+        const auto & msg = "Parse `" + entity + "` ";
+        log.dev(msg, utils::str::padStart(" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size(), '-'));
     }
 }
