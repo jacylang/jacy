@@ -17,7 +17,7 @@ namespace jc::utils::str {
     std::wstring clipStart(const std::wstring & str, size_t targetLen, const std::wstring & prefix = L"...");
     std::wstring hardWrap(const std::wstring & str, uint8_t wrapLen);
     std::wstring trimStart(const std::wstring & str, char remove = ' ');
-    std::string trimEnd(const std::string & str, char remove = ' ');
+    std::wstring trimEnd(const std::wstring & str, char remove = ' ');
     std::string trim(const std::string & str, char remove = ' ');
     str_vec split(const std::string & str, const std::string & delimiters);
     str_vec splitKeep(const std::string & str, const std::string & delimiters);

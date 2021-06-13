@@ -94,8 +94,8 @@ namespace jc::utils::str {
         return res;
     }
 
-    std::string trimEnd(const std::string & str, char remove) {
-        std::string res = str;
+    std::wstring trimEnd(const std::wstring & str, char remove) {
+        std::wstring res = str;
         res.erase(std::find_if(res.rbegin(), res.rend(), [&](char ch) {
             return ch != remove;
         }).base(), res.end());
