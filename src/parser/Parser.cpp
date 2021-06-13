@@ -217,7 +217,7 @@ namespace jc::parser {
     // Items //
     ///////////
     dt::Option<item_ptr> Parser::parseOptItem() {
-        logParse("[opt] Item");
+        enterEntity("[opt] Item");
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
@@ -282,7 +282,7 @@ namespace jc::parser {
     }
 
     item_list Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
-        logParse("ItemList");
+        enterEntity("ItemList");
 
         item_list items;
         while (!eof()) {
@@ -309,7 +309,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseEnum() {
-        logParse("Enum");
+        enterEntity("Enum");
 
         const auto & begin = cspan();
 
@@ -403,7 +403,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseFunc(parser::token_list && modifiers) {
-        logParse("Func");
+        enterEntity("Func");
 
         const auto & begin = cspan();
 
@@ -451,7 +451,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseImpl() {
-        logParse("Impl");
+        enterEntity("Impl");
 
         const auto & begin = cspan();
 
@@ -476,7 +476,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseStruct() {
-        logParse("Struct");
+        enterEntity("Struct");
 
         const auto & begin = cspan();
 
@@ -554,7 +554,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseTrait() {
-        logParse("Trait");
+        enterEntity("Trait");
 
         const auto & begin = cspan();
 
@@ -603,7 +603,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseTypeAlias() {
-        logParse("TypeDecl");
+        enterEntity("TypeDecl");
 
         const auto & begin = cspan();
 
@@ -624,7 +624,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseMod() {
-        logParse("Mod");
+        enterEntity("Mod");
 
         const auto & begin = cspan();
 
@@ -653,7 +653,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseUseDecl() {
-        logParse("UseDecl");
+        enterEntity("UseDecl");
 
         const auto & begin = cspan();
 
@@ -667,7 +667,7 @@ namespace jc::parser {
     }
 
     use_tree_ptr Parser::parseUseTree() {
-        logParse("UseTree");
+        enterEntity("UseTree");
 
         const auto & begin = cspan();
         auto maybePath = parseOptSimplePath();
@@ -760,7 +760,7 @@ namespace jc::parser {
     // Statements //
     ////////////////
     stmt_ptr Parser::parseStmt() {
-        logParse("Stmt");
+        enterEntity("Stmt");
 
         const auto & begin = cspan();
 
@@ -793,7 +793,7 @@ namespace jc::parser {
     }
 
     pure_stmt_ptr Parser::parseForStmt() {
-        logParse("ForStmt");
+        enterEntity("ForStmt");
 
         const auto & begin = cspan();
 
@@ -819,7 +819,7 @@ namespace jc::parser {
     }
 
     pure_stmt_ptr Parser::parseVarStmt() {
-        logParse("VarStmt:" + peek().toString());
+        enterEntity("VarStmt:" + peek().toString());
 
         if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
             common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
@@ -848,7 +848,7 @@ namespace jc::parser {
     }
 
     pure_stmt_ptr Parser::parseWhileStmt() {
-        logParse("WhileStmt");
+        enterEntity("WhileStmt");
         const auto & begin = cspan();
 
         justSkip(TokenKind::While, true, "`while`", "`parseWhileStmt`");
@@ -865,18 +865,18 @@ namespace jc::parser {
     // Expressions //
     /////////////////
     opt_expr_ptr Parser::parseOptExpr() {
-        logParse("[opt] Expr");
+        enterEntity("[opt] Expr");
 
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return)) {
-            logParse("ReturnExpr");
+            enterEntity("ReturnExpr");
 
             auto expr = assignment();
             return Ok(makeExpr<ReturnExpr>(std::move(expr), begin.to(cspan())));
         }
 
         if (skipOpt(TokenKind::Break)) {
-            logParse("BreakExpr");
+            enterEntity("BreakExpr");
 
             auto expr = assignment();
             log.dev("Break expr none:", expr.none());
@@ -964,7 +964,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("Expr");
+        enterEntity("Expr");
 
         const auto & begin = cspan();
         auto expr = parseOptExpr();
@@ -977,7 +977,7 @@ namespace jc::parser {
     }
 
     pure_expr_ptr Parser::parseLambda() {
-        logParse("Lambda:" + peek().toString());
+        enterEntity("Lambda:" + peek().toString());
 
         const auto & begin = cspan();
 
@@ -1045,7 +1045,7 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::assignment() {
-        logParse("Assignment");
+        enterEntity("Assignment");
 
         const auto & begin = cspan();
         auto lhs = precParse(0);
@@ -1073,7 +1073,7 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::precParse(uint8_t index) {
-        //        logParse("precParse:" + std::to_string(index));
+        //        enterEntity("precParse:" + std::to_string(index));
 
         if (precTable.size() == index) {
             return prefix();
@@ -1129,7 +1129,7 @@ namespace jc::parser {
             auto lhs = maybeLhs.unwrap("precParse -> maybeLhs");
 
             auto op = maybeOp.unwrap("precParse -> maybeOp");
-            logParse("precParse -> " + op.kindToString());
+            enterEntity("precParse -> " + op.kindToString());
 
             justSkip(op.kind, skipRightNLs, op.toString(), "`precParse`");
 
@@ -1185,21 +1185,21 @@ namespace jc::parser {
             }
             auto rhs = maybeRhs.unwrap();
             if (op.is(TokenKind::BitAnd) or op.is(TokenKind::And)) {
-                logParse("Borrow");
+                enterEntity("Borrow");
 
                 bool mut = skipOpt(TokenKind::Mut, true);
                 return Expr::pureAsBase(
                     makeNode<BorrowExpr>(op.is(TokenKind::And), mut, std::move(rhs), begin.to(cspan()))
                 );
             } else if (op.is(TokenKind::Mul)) {
-                logParse("Deref");
+                enterEntity("Deref");
 
                 return Expr::pureAsBase(
                     makeNode<DerefExpr>(std::move(rhs), begin.to(cspan()))
                 );
             }
 
-            logParse("Prefix");
+            enterEntity("Prefix");
 
             return Expr::pureAsBase(
                 makeNode<Prefix>(op, std::move(rhs), begin.to(cspan()))
@@ -1218,7 +1218,7 @@ namespace jc::parser {
         }
 
         if (skipOpt(TokenKind::Quest)) {
-            logParse("Quest");
+            enterEntity("Quest");
 
             return Expr::pureAsBase(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())));
         }
@@ -1227,7 +1227,7 @@ namespace jc::parser {
     }
 
     dt::Option<expr_ptr> Parser::call() {
-        logParse("postfix");
+        enterEntity("postfix");
 
         auto maybeLhs = memberAccess();
 
@@ -1241,7 +1241,7 @@ namespace jc::parser {
         while (!eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenKind::LBracket)) {
-                logParse("Subscript");
+                enterEntity("Subscript");
 
                 expr_list indices;
 
@@ -1276,7 +1276,7 @@ namespace jc::parser {
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
-                logParse("Invoke");
+                enterEntity("Invoke");
 
                 lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
 
@@ -1298,7 +1298,7 @@ namespace jc::parser {
 
         auto begin = cspan();
         while (skipOpt(TokenKind::Dot, true)) {
-            logParse("MemberAccess");
+            enterEntity("MemberAccess");
 
             auto name = parseId("field name", true, true);
 
@@ -1310,7 +1310,7 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::primary() {
-        logParse("primary");
+        enterEntity("primary");
 
         if (eof()) {
             common::Logger::devPanic("Called parse `primary` on `EOF`");
@@ -1361,7 +1361,7 @@ namespace jc::parser {
     }
 
     id_ptr Parser::justParseId(const std::string & panicIn, bool skipRightNLs) {
-        logParse("[just] id");
+        enterEntity("[just] id");
 
         const auto & begin = cspan();
         auto token = peek();
@@ -1370,7 +1370,7 @@ namespace jc::parser {
     }
 
     id_ptr Parser::parseId(const std::string & expected, bool skipLeftNLs, bool skipRightNls) {
-        logParse("Identifier");
+        enterEntity("Identifier");
 
         // Note: We don't make `span.to(span)`,
         //  because then we could capture white-spaces and of course ident is just a one token
@@ -1383,7 +1383,7 @@ namespace jc::parser {
     }
 
     path_expr_ptr Parser::parsePathExpr() {
-        logParse("PathExpr");
+        enterEntity("PathExpr");
 
         const auto & begin = cspan();
         const auto & maybePathToken = peek();
@@ -1472,7 +1472,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseLiteral() {
-        logParse("literal");
+        enterEntity("literal");
 
         const auto & begin = cspan();
         if (!peek().isLiteral()) {
@@ -1484,7 +1484,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseListExpr() {
-        logParse("ListExpr");
+        enterEntity("ListExpr");
 
         const auto & begin = cspan();
 
@@ -1529,7 +1529,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseTupleOrParenExpr() {
-        logParse("TupleOrParenExpr");
+        enterEntity("TupleOrParenExpr");
 
         const auto & begin = cspan();
 
@@ -1610,7 +1610,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
-        logParse("StructExpr");
+        enterEntity("StructExpr");
 
         const auto & begin = cspan();
         justSkip(TokenKind::LBrace, true, "`{`", "`parseStructExpr`");
@@ -1651,7 +1651,7 @@ namespace jc::parser {
     }
 
     struct_expr_field_ptr Parser::parseStructExprField() {
-        logParse("StructExprField");
+        enterEntity("StructExprField");
 
         const auto & begin = cspan();
 
@@ -1683,7 +1683,7 @@ namespace jc::parser {
     }
 
     block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
-        logParse("Block:" + construction);
+        enterEntity("Block:" + construction);
 
         const auto & begin = cspan();
         bool allowOneLine = false;
@@ -1766,7 +1766,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseIfExpr(bool isElif) {
-        logParse("IfExpr");
+        enterEntity("IfExpr");
 
         const auto & begin = cspan();
 
@@ -1816,7 +1816,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseLoopExpr() {
-        logParse("LoopExpr");
+        enterEntity("LoopExpr");
 
         const auto & begin = cspan();
 
@@ -1828,7 +1828,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseWhenExpr() {
-        logParse("WhenExpr");
+        enterEntity("WhenExpr");
 
         const auto & begin = cspan();
 
@@ -1881,7 +1881,7 @@ namespace jc::parser {
     }
 
     when_entry_ptr Parser::parseWhenEntry() {
-        logParse("WhenEntry");
+        enterEntity("WhenEntry");
 
         const auto & begin = cspan();
 
@@ -1923,7 +1923,7 @@ namespace jc::parser {
     }
 
     std::tuple<opt_block_ptr, opt_expr_ptr> Parser::parseFuncBody() {
-        logParse("funcBody");
+        enterEntity("funcBody");
 
         opt_block_ptr body;
         opt_expr_ptr oneLineBody;
@@ -1938,7 +1938,7 @@ namespace jc::parser {
     }
 
     attr_list Parser::parseAttrList() {
-        logParse("AttrList");
+        enterEntity("AttrList");
 
         attr_list attributes;
         while (auto attr = parseAttr()) {
@@ -1948,7 +1948,7 @@ namespace jc::parser {
     }
 
     dt::Option<attr_ptr> Parser::parseAttr() {
-        logParse("Attribute");
+        enterEntity("Attribute");
 
         const auto & begin = cspan();
         if (!skipOpt(TokenKind::At_WWS)) {
@@ -1962,7 +1962,7 @@ namespace jc::parser {
     }
 
     named_list Parser::parseNamedList(const std::string & construction) {
-        logParse("NamedList:" + construction);
+        enterEntity("NamedList:" + construction);
 
         justSkip(TokenKind::LParen, true, "`(`", "`parseNamedList`");
 
@@ -2046,7 +2046,7 @@ namespace jc::parser {
     }
 
     func_param_list Parser::parseFuncParamList() {
-        logParse("FuncParams");
+        enterEntity("FuncParams");
 
         const auto maybeParenToken = peek();
         if (!skipOpt(TokenKind::LParen, true)) {
@@ -2088,7 +2088,7 @@ namespace jc::parser {
     }
 
     func_param_ptr Parser::parseFuncParam() {
-        logParse("FuncParams");
+        enterEntity("FuncParams");
 
         const auto & begin = cspan();
 
@@ -2115,7 +2115,7 @@ namespace jc::parser {
     }
 
     item_list Parser::parseMembers(const std::string & construction) {
-        logParse("Members:" + construction);
+        enterEntity("Members:" + construction);
 
         item_list members;
         if (!isHardSemi()) {
@@ -2163,7 +2163,7 @@ namespace jc::parser {
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
-        logParse("[opt] SimplePath");
+        enterEntity("[opt] SimplePath");
 
         if (not is({TokenKind::Path, TokenKind::Id, TokenKind::Super, TokenKind::Party, TokenKind::Self})) {
             return dt::None;
@@ -2174,7 +2174,7 @@ namespace jc::parser {
         bool global = skipOpt(TokenKind::Path);
         std::vector<simple_path_seg_ptr> segments;
         while (!eof()) {
-            logParse("SimplePathSeg");
+            enterEntity("SimplePathSeg");
             const auto & segBegin = cspan();
 
             if (is(TokenKind::Id)) {
@@ -2252,7 +2252,7 @@ namespace jc::parser {
     // Types //
     ///////////
     type_ptr Parser::parseType(const std::string & suggMsg) {
-        logParse("Type");
+        enterEntity("Type");
 
         const auto & begin = cspan();
         auto type = parseOptType();
@@ -2266,7 +2266,7 @@ namespace jc::parser {
     }
 
     opt_type_ptr Parser::parseOptType() {
-        logParse("[opt] Type");
+        enterEntity("[opt] Type");
 
         // Array type
         if (is(TokenKind::LBracket)) {
@@ -2302,7 +2302,7 @@ namespace jc::parser {
     }
 
     tuple_t_el_list Parser::parseParenType() {
-        logParse("ParenType");
+        enterEntity("ParenType");
 
         justSkip(TokenKind::LParen, true, "`(`", "`parseParenType`");
 
@@ -2370,7 +2370,7 @@ namespace jc::parser {
     }
 
     type_ptr Parser::parseArrayType() {
-        logParse("SliceType");
+        enterEntity("SliceType");
 
         const auto & begin = cspan();
         justSkip(TokenKind::LBracket, true, "`LBracket`", "`parseArrayType`");
@@ -2400,7 +2400,7 @@ namespace jc::parser {
     }
 
     type_ptr Parser::parseFuncType(tuple_t_el_list tupleElements, const Span & span) {
-        logParse("FuncType");
+        enterEntity("FuncType");
 
         type_list params;
         for (const auto & tupleEl : tupleElements) {
@@ -2424,7 +2424,7 @@ namespace jc::parser {
     }
 
     opt_type_params Parser::parseOptTypeParams() {
-        logParse("TypeParams");
+        enterEntity("TypeParams");
 
         if (!is(TokenKind::LAngle)) {
             return dt::None;
@@ -2501,7 +2501,7 @@ namespace jc::parser {
     }
 
     PR<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
-        logParse("TypePath");
+        enterEntity("TypePath");
 
         auto begin = cspan();
         auto pathType = parseOptTypePath();
@@ -2513,7 +2513,7 @@ namespace jc::parser {
     }
 
     opt_type_path_ptr Parser::parseOptTypePath() {
-        logParse("[opt] TypePath");
+        enterEntity("[opt] TypePath");
 
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenKind::Path, true);
@@ -2571,7 +2571,7 @@ namespace jc::parser {
             return;
         }
         entitiesEntries.emplace_back(entity);
-        logParse(entity);
+        enterEntity(entity);
     }
 
     void Parser::exitEntity() {
