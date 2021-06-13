@@ -74,13 +74,13 @@ namespace jc::utils::str {
         return prefix + str.substr(str.size() - targetLen + prefix.size());
     }
 
-    std::string hardWrap(const std::string & str, uint8_t wrapLen) {
-        std::string res;
+    std::wstring hardWrap(const std::wstring & str, uint8_t wrapLen) {
+        std::wstring res;
         uint8_t counter = 0;
         for (const auto & ch : str) {
             res += ch;
             if (counter + 1 == wrapLen) {
-                res += "\n";
+                res += L'\n';
             }
         }
         return res;
