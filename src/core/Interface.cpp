@@ -208,7 +208,6 @@ namespace jc::core {
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
 
         printAst(ast::AstPrinterMode::Names);
-        checkSuggestions(); // TODO: remove
     }
 
     // Suggestions //
