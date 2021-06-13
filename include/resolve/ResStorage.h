@@ -7,6 +7,7 @@
 
 namespace jc::resolve {
     using ast::node_id;
+    using ast::opt_node_id;
 
     /// ResStorage
     /// @brief Collection of {path: node} names resolutions
@@ -14,8 +15,12 @@ namespace jc::resolve {
     public:
         ResStorage() = default;
 
-        node_id getRes(node_id name) const {
-            return resolutions.at(name);
+        opt_node_id getRes(node_id name) const {
+            const auto & found = resolutions.find(name);
+            if (found != resolutions.end()) {
+                return found->second;
+            }
+            return dt::None;
         }
 
         void setRes(node_id name, node_id res) {

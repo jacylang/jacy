@@ -647,6 +647,6 @@ namespace jc::ast {
 
     // Names mode //
     void AstPrinter::printName(node_id nodeId) {
-//        const auto & resolved = sess
+//        const auto & resolved = sess->resStorage.getRes()
     }
 }
