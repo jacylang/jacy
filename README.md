@@ -143,7 +143,6 @@ Also, they're case insensitive (alpha-values of course):
 | Y | N |
 | True | False |
 | On | Off |
-```
 
 #### Basics
 
