@@ -208,7 +208,9 @@ namespace jc::parser {
         this->tokens = tokens;
 
         auto begin = cspan();
+        enterEntity("top-level");
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
+        exitEntity("top-level");
 
         return {makeNode<File>(std::move(items), begin.to(cspan())), extractSuggestions()};
     }
@@ -2586,6 +2588,7 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
+        entitiesEntries.emplace_back(entity);
         log.dev("Enter [" + entity + "]");
     }
 
@@ -2593,6 +2596,7 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        log.dev("Exit [" + entity + "]");
+        log.dev("Exit [" + *entitiesEntries.end() + "]");
+        entitiesEntries.pop_back();
     }
 }
