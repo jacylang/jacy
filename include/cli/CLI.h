@@ -33,6 +33,7 @@ namespace jc::cli {
         }
 
     private:
+        // Note: This logger cannot be configure via cli
         common::Logger log{"cli"};
 
         Args argsStorage{};
