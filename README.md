@@ -48,7 +48,7 @@ aspects of PL.
 
 CLI tool needs improvements, anyway it works and here's the syntax:
 
-```bash
+```
 ./jc (.exe for windows) [source files] --boolean-argument -key-value-argument=param1, param2, ..., paramN 
 ```
 
@@ -67,7 +67,7 @@ Also arguments have constraints:
 
 Example usage:
 
-```bash
+```
 ./bin example.jc -print=ast
 ```
 
@@ -119,12 +119,12 @@ Example usage:
   
 What if you want to set bool-arg to `false`?
 There is pretty same syntax for bool-args as for key-value args:
-```bash
+```
 --dev=no
 ```
 
 There're bunch of allowed bool values:
-```bash
+```
 # Truthy / Falsy
 yes / no
 y / n
@@ -134,7 +134,7 @@ on / off
 ```
 
 Also, they're case insensitive (alpha-values of course):
-```bash
+```
 Yes / No
 Y / N
 True / False
