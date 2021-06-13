@@ -273,7 +273,11 @@ namespace jc::parser {
         void exitEntity();
         void logEntry(bool enter, const std::string & entity);
         void logParse(const std::string & entity);
-        void devLogWithIndent(const std::string & msg);
+
+        template<class ...Args>
+        void devLogWithIndent(Args && ...args) {
+            log.dev(common::Indent(entitiesEntries.size()), args...);
+        }
     };
 }
 

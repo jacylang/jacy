@@ -2649,6 +2649,7 @@ namespace jc::parser {
     }
 
     void Parser::logParse(const std::string & entity) {
+        using common::Indent;
         using common::Color;
         if (not extraDebugEntities) {
             return;
@@ -2656,6 +2657,7 @@ namespace jc::parser {
         const auto & depthStr = std::to_string(entitiesEntries.size());
         const auto & msg = "["+ depthStr +"] Parse `" + entity + "`";
         log.dev(
+            Indent(entitiesEntries.size()),
             Color::Pink,
             msg,
             Color::Reset,
@@ -2666,10 +2668,5 @@ namespace jc::parser {
                 '-'
             )
         );
-    }
-
-    void Parser::devLogWithIndent(const std::string & msg) {
-        using common::Indent;
-        log.dev(Indent(entitiesEntries.size()), msg);
     }
 }
