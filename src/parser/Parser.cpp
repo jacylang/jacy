@@ -2034,12 +2034,12 @@ namespace jc::parser {
     }
 
     dt::Option<attr_ptr> Parser::parseAttr() {
-        enterEntity("Attribute");
-
         const auto & begin = cspan();
         if (not skipOpt(TokenKind::At_WWS)) {
             return dt::None;
         }
+
+        enterEntity("Attribute");
 
         auto name = parseId("attribute name", true, true);
         auto params = parseNamedList("attribute");
