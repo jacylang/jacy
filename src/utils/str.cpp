@@ -133,10 +133,10 @@ namespace jc::utils::str {
         return result;
     }
 
-    std::string toLower(const std::string & str) {
-        std::string res;
+    std::wstring toLower(const std::string & str) {
+        std::wstring res;
         res.resize(str.size());
-        std::transform(str.begin(), str.end(), res.begin(), ::tolower);
+        std::transform(str.begin(), str.end(), res.begin(), ::towlower);
         return res;
     }
 }
