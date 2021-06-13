@@ -2571,6 +2571,6 @@ namespace jc::parser {
             return;
         }
         const auto & msg = "Parse `" + entity + "` ";
-        log.dev(msg, utils::str::padStart("peek: " + peek().dump(true), 120 - msg.size()));
+        log.dev(msg, utils::str::padStart(" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size(), '-'));
     }
 }

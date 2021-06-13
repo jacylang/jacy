@@ -141,11 +141,11 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static void devDebug(Arg && first, Args && ...other);
 
+        constexpr static uint8_t wrapLen{120};
+
     private:
         std::string owner;
         LoggerConfig config;
-
-        const static uint8_t wrapLen{120};
 
         template<class Arg, class ...Args>
         const Logger & log(Config::LogLevel level, Arg && first, Args && ...other) const;
