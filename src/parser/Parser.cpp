@@ -73,7 +73,7 @@ namespace jc::parser {
 
     void Parser::emitVirtualSemi() {
         if (extraDebugAll) {
-            log.dev("Emit virtual semi | got", peek().toString(true));
+            devLogWithIndent("Emit virtual semi | got", peek().toString(true));
         }
         // Used when we skipped NLs and haven't found something we want,
         // It's used to make parser return-free
@@ -82,7 +82,7 @@ namespace jc::parser {
 
     bool Parser::useVirtualSemi() {
         if (extraDebugAll) {
-            log.dev("Use virtual semi | got", peek().toString(true));
+            devLogWithIndent("Use virtual semi | got", peek().toString(true));
         }
         if (virtualSemi) {
             virtualSemi = false;
@@ -100,7 +100,7 @@ namespace jc::parser {
         bool gotNL = false;
         while (isNL()) {
             if (extraDebugAll) {
-                log.dev("Skip", optional ? "optional" : "required", "NLs | got", peek().toString(true));
+                devLogWithIndent("Skip", optional ? "optional" : "required", "NLs | got", peek().toString(true));
             }
             gotNL = true;
             advance();
@@ -116,7 +116,7 @@ namespace jc::parser {
             return;
         }
         if (extraDebugAll) {
-            log.dev("Skip", optional ? "optional" : "required", "semi | got:", peek().toString(true));
+            devLogWithIndent("Skip", optional ? "optional" : "required", "semi | got:", peek().toString(true));
         }
         advance();
     }
@@ -151,7 +151,7 @@ namespace jc::parser {
             if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     if (extraDebugAll) {
-                        log.dev("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
+                        devLogWithIndent("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
                     }
                     // If next token is what we need we produce an error for skipped one anyway
                     found = advance();
@@ -181,7 +181,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                log.dev("Skip", Token::kindToString(kind), "| got", peek().toString(true));
+                devLogWithIndent("Skip", Token::kindToString(kind), "| got", peek().toString(true));
             }
         }
 
@@ -212,7 +212,7 @@ namespace jc::parser {
         auto last = dt::Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                log.dev("Skip optional", Token::kindToString(kind), "| got", peek().toString(true));
+                devLogWithIndent("Skip optional", Token::kindToString(kind), "| got", peek().toString(true));
             }
             advance();
             if (skipRightNLs) {
