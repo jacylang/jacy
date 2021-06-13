@@ -85,7 +85,7 @@ namespace jc::common {
 
     class Logger {
     public:
-        explicit Logger(std::string owner) : owner(std::move(owner)) {
+        explicit Logger(const std::string & owner) : owner(std::move(owner)) {
             config.level = Config::getInstance().getLogLevel(owner);
         }
 
