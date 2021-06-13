@@ -137,12 +137,15 @@ namespace jc::resolve {
         ns_map lifetimeNS;
 
         /// Declare new name.
-        /// Returns kind and node_id of node that was already declared if it was
+        /// Returns `Name` that was already declared if it was
         decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
-        decl_result resolve(const std::string & name, Namespace ns);
+
+        /// Resolve name in rib namespace
+        /// Returns `None` if no `Name` found
+        decl_result resolve(const std::string & name, Namespace nsKind);
 
         ns_map & getNSForName(Name::Kind kind);
-        ns_map & getNS(Namespace ns);
+        ns_map & getNS(Namespace nsKind);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

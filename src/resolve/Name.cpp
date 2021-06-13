@@ -11,13 +11,13 @@ namespace jc::resolve {
         return found->second;
     }
 
-    decl_result Rib::resolve(const std::string & name, Namespace ns) {
-
-        switch () {
-
-        }
+    decl_result Rib::resolve(const std::string & name, Namespace nsKind) {
+        auto & ns = getNS(nsKind);
         const auto & found = ns.find(name);
-
+        if (found == ns.end()) {
+            return dt::None;
+        }
+        return found->second;
     }
 
     ns_map & Rib::getNSForName(Name::Kind kind) {
@@ -42,8 +42,8 @@ namespace jc::resolve {
         }
     }
 
-    ns_map & Rib::getNS(Namespace ns) {
-        switch (ns) {
+    ns_map & Rib::getNS(Namespace nsKind) {
+        switch (nsKind) {
             case Namespace::Value: return valueNS;
             case Namespace::Type: return typeNS;
             case Namespace::Lifetime: return lifetimeNS;
