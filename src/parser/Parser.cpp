@@ -19,7 +19,7 @@ namespace jc::parser {
 
     Token Parser::advance(uint8_t distance) {
         if (extraDebugAll) {
-            log.dev("Advance");
+            log.dev("Advance:", static_cast<int>(distance));
         }
         index += distance;
         return peek();
@@ -89,7 +89,7 @@ namespace jc::parser {
 
     // Skippers //
     bool Parser::skipNLs(bool optional) {
-        if (not peek().is(TokenKind::Nl) and !optional) {
+        if (not peek().is(TokenKind::Nl) and not optional) {
             suggestErrorMsg("Expected new-line", peek().span);
         }
 
@@ -104,7 +104,7 @@ namespace jc::parser {
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
         // Note: Order matters -- we use virtual semi first
-        if (not useVirtualSemi() and not isSemis() and !optional) {
+        if (not useVirtualSemi() and not isSemis() and not optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span);
             return;
         }
@@ -274,14 +274,14 @@ namespace jc::parser {
             return Some(Ok(std::move(item)));
         }
 
-        if (!attributes.empty()) {
+        if (not attributes.empty()) {
             for (const auto & attr : attributes) {
                 // FIXME: Span from Location
                 suggestErrorMsg("Unexpected attribute", attr->span);
             }
         }
 
-        if (!modifiers.empty()) {
+        if (not modifiers.empty()) {
             for (const auto & modif : modifiers) {
                 suggestErrorMsg("Unexpected modifier", modif.span);
             }
@@ -294,7 +294,7 @@ namespace jc::parser {
         enterEntity("ItemList");
 
         item_list items;
-        while (!eof()) {
+        while (not eof()) {
             skipNLs(true);
             if (peek().is(stopToken)) {
                 break;
@@ -330,7 +330,7 @@ namespace jc::parser {
         auto typeParams = parseOptTypeParams();
 
         enum_entry_list entries;
-        if (!isHardSemi()) {
+        if (not isHardSemi()) {
             skip(
                 TokenKind::LBrace,
                 true,
@@ -343,7 +343,7 @@ namespace jc::parser {
             }
 
             bool first = true;
-            while (!eof()) {
+            while (not eof()) {
                 if (is(TokenKind::RBrace)) {
                     break;
                 }
@@ -372,7 +372,7 @@ namespace jc::parser {
                 false,
                 "closing `}` at the end of `enum` body"
             );
-        } else if (!eof()) {
+        } else if (not eof()) {
             justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
         }
 
@@ -445,7 +445,7 @@ namespace jc::parser {
 
         const auto & returnTypeToken = peek();
         auto returnType = parseOptType();
-        if (typeAnnotated and !returnType) {
+        if (typeAnnotated and not returnType) {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
@@ -503,7 +503,7 @@ namespace jc::parser {
         auto typeParams = parseOptTypeParams();
 
         struct_field_list fields;
-        if (!isHardSemi()) {
+        if (not isHardSemi()) {
             skip(
                 TokenKind::LBrace,
                 true,
@@ -520,7 +520,7 @@ namespace jc::parser {
                 true,
                 "Expected closing `}` in `struct`"
             );
-        } else if (!eof()) {
+        } else if (not eof()) {
             justSkip(TokenKind::Semi, false, "`;`", "`parseStruct`");
         }
 
@@ -535,7 +535,7 @@ namespace jc::parser {
         struct_field_list fields;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RBrace)) {
                 break;
             }
@@ -585,7 +585,7 @@ namespace jc::parser {
         type_path_list superTraits;
         if (skipOpt(TokenKind::Colon, true)) {
             bool first = true;
-            while (!eof()) {
+            while (not eof()) {
                 if (is(TokenKind::LBrace) or is(TokenKind::Semi)) {
                     break;
                 }
@@ -602,7 +602,7 @@ namespace jc::parser {
                 }
 
                 auto superTrait = parseOptTypePath();
-                if (!superTrait) {
+                if (not superTrait) {
                     suggestErrorMsg("Expected super-trait identifier", cspan());
                 } else {
                     superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
@@ -711,7 +711,7 @@ namespace jc::parser {
                 use_tree_list specifics;
 
                 bool first = true;
-                while (!eof()) {
+                while (not eof()) {
                     if (is(TokenKind::RBrace)) {
                         break;
                     }
@@ -761,7 +761,7 @@ namespace jc::parser {
         if (maybePath and skipOpt(TokenKind::As, true)) {
             // `as ...` case
 
-            if (!maybePath) {
+            if (not maybePath) {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
@@ -813,7 +813,7 @@ namespace jc::parser {
                 }
 
                 auto expr = parseOptExpr();
-                if (!expr) {
+                if (not expr) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
                     advance();
@@ -858,7 +858,7 @@ namespace jc::parser {
     pure_stmt_ptr Parser::parseVarStmt() {
         enterEntity("VarStmt:" + peek().toString());
 
-        if (!is(TokenKind::Var) and !is(TokenKind::Val) and !is(TokenKind::Const)) {
+        if (not is(TokenKind::Var) and not is(TokenKind::Val) and not is(TokenKind::Const)) {
             common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
         }
 
@@ -1015,7 +1015,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto expr = parseOptExpr();
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        if (!expr) {
+        if (not expr) {
             suggestErrorMsg(suggMsg, begin);
             return makeErrorNode(begin.to(cspan()));
         }
@@ -1037,7 +1037,7 @@ namespace jc::parser {
         lambda_param_list params;
         if (expectParams) {
             bool first = true;
-            while (!eof()) {
+            while (not eof()) {
                 skipNLs(true);
 
                 if (is(TokenKind::BitOr)) {
@@ -1096,7 +1096,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
-        if (!lhs) {
+        if (not lhs) {
             return dt::None;
         }
 
@@ -1140,7 +1140,7 @@ namespace jc::parser {
 
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
-        while (!eof()) {
+        while (not eof()) {
             bool skippedLeftNls = false;
             if (skipLeftNLs) {
                 skippedLeftNls = skipNLs(true);
@@ -1156,18 +1156,18 @@ namespace jc::parser {
 
             // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
 
-            if (!maybeOp) {
+            if (not maybeOp) {
                 if (skippedLeftNls) {
                     // Recover NL semis
                     emitVirtualSemi();
                 }
 
                 if (maybeLhs) {
-                    return maybeLhs.unwrap("`precParse` -> !maybeOp -> `single`");
+                    return maybeLhs.unwrap("`precParse` -> not maybeOp -> `single`");
                 }
             }
 
-            if (!maybeLhs) {
+            if (not maybeLhs) {
                 // TODO: Prefix range operators
                 // Left-hand side is none, and there's no range operator
                 return dt::None; // FIXME: CHECK FOR PREFIX
@@ -1181,7 +1181,7 @@ namespace jc::parser {
             justSkip(op.kind, skipRightNLs, op.toString(), "`precParse`");
 
             auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
-            if (!maybeRhs) {
+            if (not maybeRhs) {
                 // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
                 // and `precParse` already generated error suggestion
                 continue;
@@ -1190,7 +1190,7 @@ namespace jc::parser {
             maybeLhs = makeExpr<Infix>(
                 std::move(lhs), op, std::move(rhs), begin.to(cspan())
             );
-            if (!multiple) {
+            if (not multiple) {
                 break;
             }
             begin = cspan();
@@ -1232,7 +1232,7 @@ namespace jc::parser {
         ) {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
-            if (!maybeRhs) {
+            if (not maybeRhs) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
                 return quest(); // FIXME: CHECK!!!
             }
@@ -1266,7 +1266,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto lhs = call();
 
-        if (!lhs) {
+        if (not lhs) {
             return dt::None;
         }
 
@@ -1282,14 +1282,14 @@ namespace jc::parser {
     dt::Option<expr_ptr> Parser::call() {
         auto maybeLhs = memberAccess();
 
-        if (!maybeLhs) {
+        if (not maybeLhs) {
             return dt::None;
         }
 
         auto begin = cspan();
         auto lhs = maybeLhs.unwrap();
 
-        while (!eof()) {
+        while (not eof()) {
             auto maybeOp = peek();
             if (skipOpt(TokenKind::LBracket)) {
                 enterEntity("Subscript");
@@ -1297,7 +1297,7 @@ namespace jc::parser {
                 expr_list indices;
 
                 bool first = true;
-                while (!eof()) {
+                while (not eof()) {
                     skipNLs(true);
                     if (is(TokenKind::RBracket)) {
                         break;
@@ -1347,7 +1347,7 @@ namespace jc::parser {
     opt_expr_ptr Parser::memberAccess() {
         auto lhs = primary();
 
-        if (!lhs) {
+        if (not lhs) {
             return dt::None;
         }
 
@@ -1442,18 +1442,18 @@ namespace jc::parser {
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenKind::Path, true);
 
-        if (!is(TokenKind::Id)) {
+        if (not is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
                     "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
                 );
             } else {
-                common::Logger::devPanic("parsePathExpr -> !id -> !global");
+                common::Logger::devPanic("parsePathExpr -> not id -> not global");
             }
         }
 
         path_expr_seg_list segments;
-        while (!eof()) {
+        while (not eof()) {
             const auto & segmentBegin = cspan();
 
             bool isUnrecoverableError = false;
@@ -1497,7 +1497,7 @@ namespace jc::parser {
             bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path, true)) {
                 typeParams = parseOptTypeParams();
-                pathNotGeneric = !typeParams;
+                pathNotGeneric = not typeParams;
             }
 
             if (kind == PathExprSeg::Kind::Ident) {
@@ -1529,7 +1529,7 @@ namespace jc::parser {
         logParse("literal");
 
         const auto & begin = cspan();
-        if (!peek().isLiteral()) {
+        if (not peek().isLiteral()) {
             common::Logger::devPanic("Expected literal in `parseLiteral`");
         }
         auto token = peek();
@@ -1547,7 +1547,7 @@ namespace jc::parser {
         expr_list elements;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             skipNLs(true);
 
             if (first) {
@@ -1599,7 +1599,7 @@ namespace jc::parser {
 
         named_list namedList;
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
             }
@@ -1676,7 +1676,7 @@ namespace jc::parser {
 
         struct_expr_field_list fields;
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RBrace)) {
                 break;
             }
@@ -1788,7 +1788,7 @@ namespace jc::parser {
             }
 
             bool first = true;
-            while (!eof()) {
+            while (not eof()) {
                 skipNLs(true);
 
                 if (is(TokenKind::RBrace)) {
@@ -1852,7 +1852,7 @@ namespace jc::parser {
         opt_block_ptr ifBranch = dt::None;
         opt_block_ptr elseBranch = dt::None;
 
-        if (!skipOpt(TokenKind::Semi)) {
+        if (not skipOpt(TokenKind::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`
             ifBranch = parseBlock("if", BlockArrow::Allow);
         }
@@ -1919,7 +1919,7 @@ namespace jc::parser {
 
         when_entry_list entries;
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (first) {
                 first = false;
             } else {
@@ -1957,7 +1957,7 @@ namespace jc::parser {
         expr_list conditions;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (first) {
                 first = false;
             } else {
@@ -2024,7 +2024,7 @@ namespace jc::parser {
         enterEntity("Attribute");
 
         const auto & begin = cspan();
-        if (!skipOpt(TokenKind::At_WWS)) {
+        if (not skipOpt(TokenKind::At_WWS)) {
             return dt::None;
         }
 
@@ -2043,7 +2043,7 @@ namespace jc::parser {
         named_list namedList;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
             }
@@ -2108,7 +2108,7 @@ namespace jc::parser {
     parser::token_list Parser::parseModifiers() {
         parser::token_list modifiers;
 
-        while (!eof()) {
+        while (not eof()) {
             const auto & modifier = peek();
             if (skipOpt(TokenKind::Move, true) or skipOpt(TokenKind::Mut, true) or skipOpt(TokenKind::Static, true)) {
                 logParse("Modifier:'"+ modifier.kindToString() +"'");
@@ -2125,14 +2125,14 @@ namespace jc::parser {
         enterEntity("FuncParams");
 
         const auto maybeParenToken = peek();
-        if (!skipOpt(TokenKind::LParen, true)) {
+        if (not skipOpt(TokenKind::LParen, true)) {
             exitEntity();
             return {};
         }
 
         func_param_list params;
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             skipNLs(true);
 
             if (is(TokenKind::RParen)) {
@@ -2198,7 +2198,7 @@ namespace jc::parser {
         logParse("Members:" + construction);
 
         item_list members;
-        if (!isHardSemi()) {
+        if (not isHardSemi()) {
             auto braceSkipped = skip(
                 TokenKind::LBrace,
                 true,
@@ -2219,7 +2219,7 @@ namespace jc::parser {
                     "Expected closing `}`"
                 );
             }
-        } else if (!eof()) {
+        } else if (not eof()) {
             // Here we already know, that current token is `;` or `EOF`, so skip semi to ignore block
             justSkip(TokenKind::Semi, false, "`;`", "`parseMembers`");
         }
@@ -2233,7 +2233,7 @@ namespace jc::parser {
 
         auto simplePath = parseOptSimplePath();
 
-        if (!simplePath) {
+        if (not simplePath) {
             suggestErrorMsg(
                 "Expected identifier, `super`, `self` or `party` in " + construction + " path",
                 cspan()
@@ -2256,7 +2256,7 @@ namespace jc::parser {
 
         bool global = skipOpt(TokenKind::Path);
         std::vector<simple_path_seg_ptr> segments;
-        while (!eof()) {
+        while (not eof()) {
             logParse("SimplePathSeg:'" + peek().kindToString() + "'");
             const auto & segBegin = cspan();
 
@@ -2296,7 +2296,7 @@ namespace jc::parser {
         tuple_t_el_list tupleFields;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
             }
@@ -2375,7 +2375,7 @@ namespace jc::parser {
             } else {
                 if (tupleElements.empty()) {
                     return Ok(makeType<UnitType>(begin.to(cspan())));
-                } else if (tupleElements.size() == 1 and !tupleElements.at(0)->name and tupleElements.at(0)->type) {
+                } else if (tupleElements.size() == 1 and not tupleElements.at(0)->name and tupleElements.at(0)->type) {
                     return Ok(
                         makeType<ParenType>(
                             std::move(tupleElements.at(0)->type.unwrap()), begin.to(cspan())
@@ -2407,7 +2407,7 @@ namespace jc::parser {
 
         size_t elIndex = 0;
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
             }
@@ -2517,7 +2517,7 @@ namespace jc::parser {
     }
 
     opt_type_params Parser::parseOptTypeParams() {
-        if (!is(TokenKind::LAngle)) {
+        if (not is(TokenKind::LAngle)) {
             return dt::None;
         }
 
@@ -2528,7 +2528,7 @@ namespace jc::parser {
         type_param_list typeParams;
 
         bool first = true;
-        while (!eof()) {
+        while (not eof()) {
             if (is(TokenKind::RAngle)) {
                 break;
             }
@@ -2599,7 +2599,7 @@ namespace jc::parser {
 
         auto begin = cspan();
         auto pathType = parseOptTypePath();
-        if (!pathType) {
+        if (not pathType) {
             suggestErrorMsg(suggMsg, cspan());
             return makeErrorNode(begin.to(cspan()));
         }
@@ -2610,7 +2610,7 @@ namespace jc::parser {
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenKind::Path, true);
 
-        if (!is(TokenKind::Id)) {
+        if (not is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
                     "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
@@ -2622,7 +2622,7 @@ namespace jc::parser {
         enterEntity("[opt] TypePath");
 
         id_t_list segments;
-        while (!eof()) {
+        while (not eof()) {
             const auto & segBegin = cspan();
             auto name = parseId("identifier in type path", true, true);
             auto typeParams = parseOptTypeParams();
