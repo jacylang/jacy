@@ -5,23 +5,23 @@
 #include <algorithm>
 
 namespace jc::utils::str {
-    using wstr_vec = std::vector<std::wstring>;
+    using str_vec = std::vector<std::string>;
 
     bool startsWith(const std::string & str, const std::string & prefix);
     bool endsWith(const std::string & str, const std::string & suffix);
-    std::wstring repeat(const std::wstring & rep, size_t count);
-    std::wstring padStart(const std::wstring & str, size_t targetLen, wchar_t ch = L' ');
-    std::wstring padEnd(const std::wstring & str, size_t targetLen, wchar_t ch = L' ');
-    std::wstring pointLine(size_t lineLen, size_t pos, size_t spanLen);
-    std::wstring clipEnd(const std::wstring & str, size_t targetLen, const std::wstring & suffix = L"...");
-    std::wstring clipStart(const std::wstring & str, size_t targetLen, const std::wstring & prefix = L"...");
-    std::wstring hardWrap(const std::wstring & str, uint8_t wrapLen);
-    std::wstring trimStart(const std::wstring & str, char remove = ' ');
-    std::wstring trimEnd(const std::wstring & str, char remove = ' ');
-    std::wstring trim(const std::wstring & str, char remove = ' ');
-    wstr_vec split(const std::wstring & str, const std::wstring & delimiters);
-    wstr_vec splitKeep(const std::wstring & str, const std::wstring & delimiters);
-    std::wstring toLower(const std::wstring & str);
+    std::string repeat(const std::string & rep, size_t count);
+    std::string padStart(const std::string & str, size_t targetLen, wchar_t ch = L' ');
+    std::string padEnd(const std::string & str, size_t targetLen, wchar_t ch = L' ');
+    std::string pointLine(size_t lineLen, size_t pos, size_t spanLen);
+    std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix = "...");
+    std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");
+    std::string hardWrap(const std::string & str, uint8_t wrapLen);
+    std::string trimStart(const std::string & str, char remove = ' ');
+    std::string trimEnd(const std::string & str, char remove = ' ');
+    std::string trim(const std::string & str, char remove = ' ');
+    str_vec split(const std::string & str, const std::string & delimiters);
+    str_vec splitKeep(const std::string & str, const std::string & delimiters);
+    std::string toLower(const std::string & str);
 }
 
 #endif // JACY_STR_H
