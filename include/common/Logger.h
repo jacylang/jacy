@@ -64,6 +64,10 @@ namespace jc::common {
         Block,
     };
 
+    struct Indent {
+        uint32_t inner;
+    };
+
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
         Config::LogLevel level{Config::LogLevel::Unknown};
