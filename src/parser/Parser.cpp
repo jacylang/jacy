@@ -1,7 +1,9 @@
 #include "parser/Parser.h"
 
 namespace jc::parser {
-    Parser::Parser() = default;
+    Parser::Parser() {
+        extraDebug = common::Config::getInstance().checkParserExtraDebug();
+    }
 
     Token Parser::peek() const {
         try {

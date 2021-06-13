@@ -265,6 +265,8 @@ namespace jc::parser {
         Span nspan() const;
 
         // DEV //
+    private:
+        bool extraDebug{false};
         std::vector<std::string> entitiesEntries;
         void enterEntity(const std::string & entity);
         void exitEntity();
