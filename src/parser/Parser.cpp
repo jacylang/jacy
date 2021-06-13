@@ -2624,8 +2624,8 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
-        logEntry(false, entitiesEntries.at(entitiesEntries.size() - 1));
         entitiesEntries.pop_back();
+        logEntry(false, entitiesEntries.at(entitiesEntries.size() - 1));
     }
 
     void Parser::logEntry(bool enter, const std::string & entity) {
