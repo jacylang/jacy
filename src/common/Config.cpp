@@ -88,6 +88,7 @@ namespace jc::common {
 
         // Apply bool args //
         dev = cliConfig.is("dev");
+        parserExtraDebug = cliConfig.is("parser-extra-debug");
 
         if (dev and not globalLogLevelAppeared) {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
