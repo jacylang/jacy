@@ -65,9 +65,9 @@ namespace jc::common {
     };
 
     struct Indent {
-        Indent(uint32_t indent) : inner(indent) {}
+        Indent(uint64_t indent) : inner(indent) {}
 
-        const uint32_t inner;
+        const uint64_t inner;
         constexpr static auto indentString = "  ";
     };
 

@@ -2631,9 +2631,13 @@ namespace jc::parser {
     }
 
     void Parser::logEntry(bool enter, const std::string & entity) {
+        using common::Color;
+        using common::Indent;
         const auto & depth = std::to_string(entitiesEntries.size());
         const auto & msg = "["+ depth +"] "+ (enter ? "Enter" : "Exit") +" `" + entity + "`";
         log.dev(
+            Indent(entitiesEntries.size()),
+            (enter ? Color::DarkGreen : Color::DarkRed),
             msg,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
@@ -2645,13 +2649,18 @@ namespace jc::parser {
     }
 
     void Parser::logParse(const std::string & entity) {
+        using common::Color;
+        using common::Indent;
         if (not extraDebugEntities) {
             return;
         }
-        const auto & depth = std::to_string(entitiesEntries.size());
-        const auto & msg = "["+ depth +"] Parse `" + entity + "`";
+        const auto & depthStr = std::to_string(entitiesEntries.size());
+        const auto & msg = "["+ depthStr +"] Parse `" + entity + "`";
         log.dev(
+            Indent(entitiesEntries.size()),
+            Color::Pink,
             msg,
+            Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
                 common::Logger::wrapLen - msg.size() - 1,
