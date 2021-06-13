@@ -136,13 +136,14 @@ namespace jc::common {
         return static_cast<uint8_t>(loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
     }
 
+    bool Config::checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const {
+        // Note: Check if current `parser-extra-debug` includes or bigger than requested
+        return static_cast<uint8_t>(this->parserExtraDebug) >= static_cast<uint8_t>(parserExtraDebug);
+    }
+
     // Bool args //
     bool Config::checkDev() const {
         return dev;
-    }
-
-    bool Config::checkParserExtraDebug() const {
-        return parserExtraDebug;
     }
 
     Config::LogLevel Config::getLogLevel(const std::string & owner) const {

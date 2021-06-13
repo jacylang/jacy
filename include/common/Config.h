@@ -76,10 +76,10 @@ namespace jc::common {
         bool checkBenchmark(Benchmark benchmark) const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
 
         // Bool args //
         bool checkDev() const;
-        bool checkParserExtraDebug() const;
 
     public:
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
