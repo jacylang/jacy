@@ -202,13 +202,13 @@ namespace jc::core {
     void Interface::resolveNames() {
         log.printTitleDev("Name resolution");
 
-        moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess);
+        moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
         modulePrinter.print(sess->modTreeRoot.unwrap());
         common::Logger::nl();
-        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess);
+        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
 
         printAst(ast::AstPrinterMode::Names);
-        checkSuggestions();
+        checkSuggestions(); // TODO: remove
     }
 
     // Suggestions //
@@ -221,7 +221,7 @@ namespace jc::core {
             return;
         }
         // Use `none_t` as stub
-        dt::SuggResult<dt::none_t>::check(sess, suggestions);
+        dt::SuggResult<dt::none_t>::check(sess, suggestions, stageName);
         suggestions.clear();
     }
 
