@@ -54,7 +54,7 @@ namespace jc::ast {
     void StubVisitor::visit(const ForStmt & forStmt) {
         forStmt.forEntity.accept(*this);
         forStmt.inExpr.accept(*this);
-        forStmt.body->accept(*this);
+        forStmt.body.accept(*this);
     }
 
     void StubVisitor::visit(const ItemStmt & itemStmt) {
@@ -76,7 +76,7 @@ namespace jc::ast {
         if (func.oneLineBody) {
             func.oneLineBody.unwrap().accept(*this);
         } else {
-            func.body.unwrap()->accept(*this);
+            func.body.unwrap().accept(*this);
         }
     }
 
@@ -164,7 +164,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
         whileStmt.condition.accept(*this);
-        whileStmt.body->accept(*this);
+        whileStmt.body.accept(*this);
     }
 
     // Expressions //
@@ -174,7 +174,11 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Block & block) {
-        visitEach(block.stmts);
+        if (block.blockKind == BlockKind::OneLine) {
+            block.oneLine.unwrap().accept(*this);
+        } else {
+            visitEach(block.stmts.unwrap());
+        }
     }
 
     void StubVisitor::visit(const BorrowExpr & borrowExpr) {
@@ -196,10 +200,10 @@ namespace jc::ast {
     void StubVisitor::visit(const IfExpr & ifExpr) {
         ifExpr.condition.accept(*this);
         if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap()->accept(*this);
+            ifExpr.ifBranch.unwrap().accept(*this);
         }
         if (ifExpr.elseBranch) {
-            ifExpr.elseBranch.unwrap()->accept(*this);
+            ifExpr.elseBranch.unwrap().accept(*this);
         }
     }
 
@@ -237,7 +241,7 @@ namespace jc::ast {
     void StubVisitor::visit(const LiteralConstant&) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
-        loopExpr.body->accept(*this);
+        loopExpr.body.accept(*this);
     }
 
     void StubVisitor::visit(const MemberAccess & memberAccess) {
@@ -325,7 +329,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const WhenEntry & entry) {
         visitEach(entry.conditions);
-        entry.body->accept(*this);
+        entry.body.accept(*this);
     }
 
     // Types //
