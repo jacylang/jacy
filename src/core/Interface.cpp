@@ -192,7 +192,7 @@ namespace jc::core {
             modeStr = "name resolution";
         }
         log.info("Printing AST after", modeStr, "(`--print ast`)");
-        astPrinter.print(*party.unwrap(), mode);
+        astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
 
