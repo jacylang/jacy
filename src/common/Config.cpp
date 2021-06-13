@@ -60,6 +60,22 @@ namespace jc::common {
             }
         }
 
+        // `parser-extra-debug`
+        const auto & maybeParserExtraDebug = cliConfig.getSingleValue("parser-extra-debug");
+        if (maybeParserExtraDebug) {
+            const auto & ped = maybeParserExtraDebug.unwrap();
+            if (ped == "no") {
+                parserExtraDebug = ParserExtraDebug::No;
+            } else if (ped == "entities") {
+                parserExtraDebug = ParserExtraDebug::Entities;
+            } else if (ped == "all") {
+                parserExtraDebug = ParserExtraDebug::All;
+            } else {
+                throw std::logic_error("[Config] Unhandled value for `parser-extra-debug` cli argument");
+            }
+        }
+
+        // `log-level` and `*-log-level`
         bool globalLogLevelAppeared = false;
         for (const auto & owner : std::vector<std::string>{GLOBAL_LOG_LEVEL_NAME, "lexer", "parser", "name-resolver"}) {
             const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
@@ -88,7 +104,6 @@ namespace jc::common {
 
         // Apply bool args //
         dev = cliConfig.is("dev");
-        parserExtraDebug = cliConfig.is("parser-extra-debug");
 
         if (dev and not globalLogLevelAppeared) {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`

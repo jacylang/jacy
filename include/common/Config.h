@@ -62,6 +62,12 @@ namespace jc::common {
             Unknown,
         };
 
+        enum class ParserExtraDebug : uint8_t {
+            No,
+            Entities,
+            All,
+        };
+
         // Checkers //
     public:
         // Key-value args //
@@ -87,6 +93,7 @@ namespace jc::common {
         std::set<PrintKind> print{};
         Benchmark benchmark{Benchmark::Final};
         CompileDepth compileDepth{CompileDepth::Full};
+        ParserExtraDebug parserExtraDebug{ParserExtraDebug::No};
 
         constexpr static auto GLOBAL_LOG_LEVEL_NAME = "global";
         constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
@@ -95,7 +102,6 @@ namespace jc::common {
 
         // Bool args //
         bool dev{false};
-        bool parserExtraDebug{false};
 
         // Debug //
     public:
