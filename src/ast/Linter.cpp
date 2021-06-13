@@ -290,7 +290,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const Block & block) {
-        if (block.oneLine) {
+        if (block.blockKind == BlockKind::OneLine) {
             block.oneLine.unwrap().accept(*this);
         } else {
             lintEach(block.stmts.unwrap());

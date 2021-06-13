@@ -81,7 +81,7 @@ namespace jc::ast {
         forStmt.forEntity.accept(*this);
         log.raw(" in ");
         forStmt.inExpr.accept(*this);
-        forStmt.body->accept(*this);
+        forStmt.body.accept(*this);
     }
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
@@ -111,7 +111,7 @@ namespace jc::ast {
             func.oneLineBody.unwrap().accept(*this);
         } else {
             log.raw(" ");
-            func.body.unwrap()->accept(*this);
+            func.body.unwrap().accept(*this);
         }
     }
 
@@ -219,7 +219,7 @@ namespace jc::ast {
         log.raw("while ");
         whileStmt.condition.accept(*this);
         log.raw(" ");
-        whileStmt.body->accept(*this);
+        whileStmt.body.accept(*this);
     }
 
     /////////////////
@@ -232,11 +232,15 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Block & block) {
-        if (block.stmts.empty()) {
+        if (block.blockKind == BlockKind::OneLine) {
+            block.oneLine.unwrap().accept(*this);
+            return;
+        }
+        if (block.stmts.unwrap().empty()) {
             log.raw("{}");
             return;
         }
-        printBodyLike(block.stmts, "\n");
+        printBodyLike(block.stmts.unwrap(), "\n");
     }
 
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
@@ -273,11 +277,11 @@ namespace jc::ast {
         ifExpr.condition.accept(*this);
         log.raw(" ");
         if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap()->accept(*this);
+            ifExpr.ifBranch.unwrap().accept(*this);
         }
         if (ifExpr.elseBranch) {
             log.raw(" else ");
-            ifExpr.elseBranch.unwrap()->accept(*this);
+            ifExpr.elseBranch.unwrap().accept(*this);
         }
     }
 
@@ -340,7 +344,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const LoopExpr & loopExpr) {
         log.raw("loop ");
-        loopExpr.body->accept(*this);
+        loopExpr.body.accept(*this);
     }
 
     void AstPrinter::visit(const MemberAccess & memberAccess) {
@@ -464,7 +468,7 @@ namespace jc::ast {
     void AstPrinter::visit(const WhenEntry & entry) {
         printDelim(entry.conditions);
         log.raw(" => ");
-        entry.body->accept(*this);
+        entry.body.accept(*this);
     }
 
     // Types //
