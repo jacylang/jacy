@@ -65,7 +65,10 @@ namespace jc::common {
     };
 
     struct Indent {
-        uint32_t inner;
+        Indent(uint32_t indent) : inner(indent) {}
+
+        const uint32_t inner;
+        constexpr static auto indentString = "  ";
     };
 
     // TODO!: map for config with collection of allowed args and constexpr check
@@ -86,6 +89,8 @@ namespace jc::common {
     inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
 
     inline std::ostream & operator<<(std::ostream & os, Color color);
+
+    inline std::ostream & operator<<(std::ostream & os, Indent indent);
 
     class Logger {
     public:
