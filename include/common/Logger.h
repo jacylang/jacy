@@ -165,10 +165,12 @@ namespace jc::common {
             return true;
         }
 
+        template<class T = Indent>
         static inline constexpr bool addWs(Indent&&) {
             return false;
         }
 
+        template<class T = Color>
         static inline constexpr bool addWs(Color&&) {
             return false;
         }
@@ -177,7 +179,7 @@ namespace jc::common {
         void log(Arg && single) const {
             std::cout << single;
             if (addWs(single)) {
-                std::cout << ' ';
+                std::cout << "S";
             }
         }
 
