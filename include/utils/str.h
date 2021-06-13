@@ -11,7 +11,7 @@ namespace jc::utils::str {
     bool endsWith(const std::string & str, const std::string & suffix);
     std::wstring repeat(const std::wstring & rep, size_t count);
     std::wstring padStart(const std::wstring & str, size_t targetLen, wchar_t ch = ' ');
-    std::string padEnd(const std::string & str, size_t targetLen, char ch);
+    std::wstring padEnd(const std::wstring & str, size_t targetLen, wchar_t ch);
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen);
     std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix = "...");
     std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");

@@ -30,12 +30,12 @@ namespace jc::utils::str {
         return repeat(std::wstring(1, ch), pad) + str;
     }
 
-    std::string padEnd(const std::string & str, size_t targetLen, char ch) {
+    std::wstring padEnd(const std::wstring & str, size_t targetLen, wchar_t ch) {
         if (targetLen <= str.size()) {
             return str;
         }
         size_t pad = targetLen - str.size();
-        return str + repeat(std::string(1, ch), pad);
+        return str + repeat(std::wstring(1, ch), pad);
     }
 
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen) {
