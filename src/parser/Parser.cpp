@@ -1835,7 +1835,8 @@ namespace jc::parser {
                 // Suggest putting `=>` only if construction allows
                 suggMsg += " or write one one-line body with `=>`";
             }
-            suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+            suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
+            return makeErrorNode(begin.to(cspan()));
         }
 
         exitEntity();
