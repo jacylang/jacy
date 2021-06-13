@@ -206,7 +206,7 @@ namespace jc::cli {
             for (const auto & errorDep : errorDeps) {
                 const auto & deps = Args::argsDependencies.at(errorDep);
                 errorMsg += utils::arr::join(deps, ", ", {}, {"'", "'"}) + " argument" + (deps.size() > 1 ? "s" : "") +
-                            " required to be specified for argument '" + errorDep + "'\n";
+                            " required to be enabled for argument '" + errorDep + "'\n";
             }
             throw CLIError(errorMsg);
         }
