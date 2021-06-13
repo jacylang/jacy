@@ -266,6 +266,8 @@ namespace jc::parser {
 
         // DEV //
         void logParse(const std::string & entity);
+        void enterEntity(const std::string & entity);
+        void exitEntity(const std::string & entity);
     };
 }
 
