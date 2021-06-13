@@ -11,11 +11,11 @@ namespace jc::utils::str {
             and 0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
     }
 
-    std::string repeat(const std::string & rep, size_t count) {
+    std::wstring repeat(const std::wstring & rep, size_t count) {
         if (count == 0) {
-            return "";
+            return L"";
         }
-        std::string str;
+        std::wstring str;
         for (size_t i = 0; i < count; i++) {
             str += rep;
         }
