@@ -2571,7 +2571,7 @@ namespace jc::parser {
             return;
         }
         entitiesEntries.emplace_back(entity);
-        enterEntity(entity);
+        logParse(entity);
     }
 
     void Parser::exitEntity() {
