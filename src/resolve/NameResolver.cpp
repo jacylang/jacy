@@ -200,15 +200,6 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visitNamedList(const ast::named_list & namedList) {
-        for (const auto & el : namedList) {
-            // Note: We don't visit element `name`, because it is immaterial on name-resolution stage
-            if (el->value) {
-                el->value.unwrap().accept(*this);
-            }
-        }
-    }
-
     // Ribs //
     uint32_t NameResolver::getDepth() const {
         return depth;
@@ -249,6 +240,7 @@ namespace jc::resolve {
             common::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
         }
 
+        // Note: Save depth when we started, because it will be changed in `exitRib`
         const auto curDepth = depth;
         for (size_t i = prevDepth; i < curDepth; i++) {
             exitRib();

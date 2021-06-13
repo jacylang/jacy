@@ -57,7 +57,6 @@ namespace jc::resolve {
     private:
         void visitItems(const ast::item_list & members);
         void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
-        void visitNamedList(const ast::named_list & namedList);
 
         // Ribs //
     private:
