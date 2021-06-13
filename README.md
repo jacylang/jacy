@@ -116,7 +116,8 @@ Example usage:
 - `--dev` - enables dev mode: all logs will be printed including
   `dev`-level logs and new logs will be added. Generally just produces
   more debug info everywhere.
-  
+
+###### Explicit Boolean argument value
 What if you want to set bool-arg to `false`?
 There is pretty same syntax for bool-args as for key-value args:
 ```
