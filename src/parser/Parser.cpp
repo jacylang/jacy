@@ -2656,7 +2656,7 @@ namespace jc::parser {
         const auto & msg = "["+ depthStr +"] Parse `" + entity + "`";
         log.dev(
             Indent(entitiesEntries.size()),
-            Color::Pink,
+            Color::Orange,
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
