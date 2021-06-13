@@ -208,7 +208,7 @@ namespace jc::parser {
         this->tokens = tokens;
 
         auto begin = cspan();
-        auto items = parseItemList("Unexpected expression on top-leve", TokenKind::Eof);
+        auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
         return {makeNode<File>(std::move(items), begin.to(cspan())), extractSuggestions()};
     }
@@ -451,7 +451,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseImpl() {
-        logParse("Imp");
+        logParse("Impl");
 
         const auto & begin = cspan();
 
@@ -464,7 +464,7 @@ namespace jc::parser {
 
         auto forType = parseType("Missing type");
 
-        item_list members = parseMembers("imp");
+        item_list members = parseMembers("impl");
 
         return makeItem<Impl>(
             std::move(typeParams),
@@ -603,7 +603,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseTypeAlias() {
-        logParse("TypeDec");
+        logParse("TypeDecl");
 
         const auto & begin = cspan();
 
@@ -653,7 +653,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseUseDecl() {
-        logParse("UseDec");
+        logParse("UseDecl");
 
         const auto & begin = cspan();
 
@@ -1259,7 +1259,7 @@ namespace jc::parser {
                             TokenKind::Comma,
                             true,
                             true,
-                            "Missing `,` separator in subscript operator cal"
+                            "Missing `,` separator in subscript operator call"
                         );
                     }
 
@@ -1395,7 +1395,7 @@ namespace jc::parser {
                     "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
                 );
             } else {
-                common::Logger::devPanic("parsePathExpr -> !id -> !globa");
+                common::Logger::devPanic("parsePathExpr -> !id -> !global");
             }
         }
 
@@ -1472,7 +1472,7 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseLiteral() {
-        logParse("litera");
+        logParse("literal");
 
         const auto & begin = cspan();
         if (!peek().isLiteral()) {
@@ -1554,7 +1554,7 @@ namespace jc::parser {
                     TokenKind::Comma,
                     true,
                     true,
-                    "Missing `,` separator in tuple litera"
+                    "Missing `,` separator in tuple literal"
                 );
             }
 
@@ -2069,7 +2069,7 @@ namespace jc::parser {
                     TokenKind::Comma,
                     true,
                     true,
-                    "Missing `,` separator in tuple litera"
+                    "Missing `,` separator in tuple literal"
                 );
             }
 
