@@ -64,11 +64,11 @@ namespace jc::common {
         const auto & maybeParserExtraDebug = cliConfig.getSingleValue("parser-extra-debug");
         if (maybeParserExtraDebug) {
             const auto & ped = maybeParserExtraDebug.unwrap();
-            if (ped == "no") {
+            if (ped == "no" or ped == "0") {
                 parserExtraDebug = ParserExtraDebug::No;
-            } else if (ped == "entities") {
+            } else if (ped == "entities" or ped == "1") {
                 parserExtraDebug = ParserExtraDebug::Entities;
-            } else if (ped == "all") {
+            } else if (ped == "all" or ped == "2") {
                 parserExtraDebug = ParserExtraDebug::All;
             } else {
                 throw std::logic_error("[Config] Unhandled value for `parser-extra-debug` cli argument");
