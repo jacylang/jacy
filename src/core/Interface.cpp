@@ -80,7 +80,7 @@ namespace jc::core {
     void Interface::lintAst() {
         log.printTitleDev("Linting AST");
 
-        linter.lint(*party.unwrap()).unwrap(sess);
+        linter.lint(*party.unwrap()).unwrap(sess, "linting");
     }
 
     ast::dir_module_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
