@@ -24,10 +24,6 @@ namespace jc::core {
         ~Jacy() = default;
 
         void meow(int argc, const char ** argv);
-
-    private:
-        common::Logger log{"jacy"};
-        cli::CLI cli;
     };
 }
 
