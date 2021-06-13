@@ -2662,7 +2662,7 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
-        log.dev("Exit [" + entitiesEntries.at(entitiesEntries.size() - 1) + "]");
+        log.dev("Exit `" + entitiesEntries.at(entitiesEntries.size() - 1) + "`");
         entitiesEntries.pop_back();
     }
 
