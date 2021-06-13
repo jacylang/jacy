@@ -126,21 +126,23 @@ There is pretty same syntax for bool-args as for key-value args:
 ```
 
 There's a bunch of allowed bool values:
-```
-# Truthy / Falsy
-yes / no
-y / n
-true / false
-1 / 0
-on / off
-```
+
+| Truthy | False |
+| ------ | ----- |
+| yes | no |
+| y | n |
+| true | false |
+| 1 | 0 |
+| on | off |
 
 Also, they're case insensitive (alpha-values of course):
-```
-Yes / No
-Y / N
-True / False
-On / Off
+
+|     |     |
+| --- | --- |
+| Yes | No |
+| Y | N |
+| True | False |
+| On | Off |
 ```
 
 #### Basics
