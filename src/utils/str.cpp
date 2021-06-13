@@ -86,8 +86,8 @@ namespace jc::utils::str {
         return res;
     }
 
-    std::string trimStart(const std::string & str, char remove) {
-        std::string res = str;
+    std::wstring trimStart(const std::wstring & str, char remove) {
+        std::wstring res = str;
         res.erase(res.begin(), std::find_if(res.begin(), res.end(), [&](char ch) {
             return ch != remove;
         }));
