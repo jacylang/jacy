@@ -15,6 +15,7 @@ namespace jc::resolve {
         Lifetime, // Not used by `ModNode`
     };
 
+    // FIXME: Rename back to `Module`
     struct ModNode {
         ModNode(dt::Option<mod_node_ptr> parent) : parent(parent) {}
 

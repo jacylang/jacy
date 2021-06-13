@@ -112,7 +112,11 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::PathExpr & pathExpr) {
         // TODO: global
 
-
+//        if (pathExpr.segments.size() == 1) {
+//            // Simplest case, we just got an identifier
+//
+//            resStorage.setRes(pathExpr.id, )
+//        }
     }
 
     // Types //

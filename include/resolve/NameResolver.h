@@ -79,6 +79,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
+        ResStorage resStorage;
         void resolveSimplePath(const ast::simple_path_ptr & simplePath);
 
         // Suggestions //

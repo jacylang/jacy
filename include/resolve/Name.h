@@ -139,8 +139,10 @@ namespace jc::resolve {
         /// Declare new name.
         /// Returns kind and node_id of node that was already declared if it was
         decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
+        decl_result resolve(const std::string & name, Namespace ns);
 
         ns_map & getNSForName(Name::Kind kind);
+        ns_map & getNS(Namespace ns);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };
