@@ -49,14 +49,11 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Mod & mod) {
         enterRib();
-
         visitItems(mod.items);
-
         exitRib();
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
-        uint32_t prevDepth = getDepth();
         visitTypeParams(_struct.typeParams);
 
         enterRib(); // -> (item rib)
@@ -65,7 +62,7 @@ namespace jc::resolve {
             field->type.accept(*this);
         }
 
-        liftToDepth(prevDepth);
+        exitRib();
     }
 
     void NameResolver::visit(const ast::UseDecl & useDecl) {
@@ -84,11 +81,13 @@ namespace jc::resolve {
 
     // Expressions //
     void NameResolver::visit(const ast::Block & block) {
+        const auto prevDepth = getDepth();
         enterRib(); // -> block rib
         for (const auto & stmt : block.stmts) {
             stmt.accept(*this);
         }
-        exitRib(); // <- block rib
+
+        liftToDepth(prevDepth);
     }
 
     void NameResolver::visit(const ast::Lambda & lambdaExpr) {
@@ -123,8 +122,6 @@ namespace jc::resolve {
 
     // Extended visitors //
     void NameResolver::visitItems(const ast::item_list & members) {
-        enterRib(); // -> (members)
-
         // At first we need to forward all declarations.
         // This is the work for ItemResolver.
         for (const auto & maybeMember : members) {
@@ -167,8 +164,6 @@ namespace jc::resolve {
         for (const auto & member : members) {
             member.accept(*this);
         }
-
-        exitRib(); // <- (members)
     }
 
     void NameResolver::visitTypeParams(const ast::opt_type_params & maybeTypeParams) {
@@ -236,7 +231,10 @@ namespace jc::resolve {
 
     void NameResolver::enterRib(Rib::Kind kind) {
         ribStack.push_back(std::make_unique<Rib>(kind));
-        depth = ribStack.size() - 1;
+        if (depth == UINT32_MAX) {
+            Logger::devPanic("Maximum ribStack depth limit exceeded");
+        }
+        depth = static_cast<uint32_t>(ribStack.size() - 1);
     }
 
     void NameResolver::exitRib() {

@@ -144,7 +144,7 @@ Also, they're case insensitive (alpha-values of course):
 | True | False |
 | On | Off |
 
-#### Basics
+### Basics
 
 ##### Variables
 
