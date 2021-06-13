@@ -179,7 +179,7 @@ namespace jc::common {
         void log(Arg && single) const {
             std::cout << single;
             if (addWs(single)) {
-                std::cout << "S";
+                std::cout << ' ';
             }
         }
 
