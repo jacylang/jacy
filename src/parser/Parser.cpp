@@ -1098,7 +1098,9 @@ namespace jc::parser {
         opt_expr_ptr body;
         if (skipOpt(TokenKind::Arrow, true)) {
             returnType = parseType("Expected lambda return type after `->`");
-            body = Some(parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed));
+            body = Expr::asBase(
+                parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed)
+            );
         } else {
             body = parseExpr("Expected lambda body");
         }
@@ -1415,9 +1417,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Expr::pureAsBase(
-                parseBlock("Block expression", BlockArrow::Just)
-            );
+            return Expr::asBase(parseBlock("Block expression", BlockArrow::Just));
         }
 
         if (is(TokenKind::When)) {
