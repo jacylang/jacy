@@ -2570,6 +2570,7 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        log.dev("Parse", "`" + entity + "`, peek:", peek().dump(true));
+        const auto & msg = "Parse `" + entity + "` ";
+        log.dev(msg, utils::str::padStart("peek: " + peek().dump(true), 120 - msg.size()));
     }
 }
