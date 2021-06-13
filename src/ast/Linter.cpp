@@ -566,10 +566,6 @@ namespace jc::ast {
             el.name.unwrap().accept(*this);
         }
         if (el.type) {
-            if (el.name) {
-                // FIXME!: REMOVE
-                log.raw(": ");
-            }
             el.type.unwrap().accept(*this);
         }
     }
