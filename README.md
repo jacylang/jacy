@@ -75,7 +75,8 @@ Example usage:
 
 ###### Key-value arguments
 
-- `-print` - debug argument that allows to print representations of some
+- `-print` - (any count of parameters) - debug argument that allows to print
+ representations of some
   structures on different compilation stages:
   - `all` - prints everything described below
   - `dir-tree` - prints directory tree where root file is placed, so we
@@ -87,14 +88,26 @@ Example usage:
     AST as tree)
   - `sugg` - prints generated suggestions after each compilation stage
     (if it generates any)
-  - `names` - [not working] - prints AST with markers (connections to
+  - `names` - (not working) - prints AST with markers (connections to
     names) after name resolution
-- `-compile-depth` - controls how deep will compilation process go by
-  workflow (each next argument implicitly includes all previous
-  arguments):
+- `-log-level` - (1 parameter) - Global log level
+  - `dev` - Prints all logs and adds dev-logs
+  - `debug`
+  - `info` - (Default)
+  - `warn` - (Don't confuse with warnings in context of suggestions)
+  - `error`
+- `-lexer-log-level` - (1 parameter) - Lexer log level
+  - (Same parameters as in `-log-level`)
+- `-parser-log-level` - (1 parameter) - Parser log level
+  - (Same parameters as in `-log-level`)
+- `-name-resolver-log-level` - (1 parameter) - NameResolver log level
+  - (Same parameters as in `-log-level`)
+- `-compile-depth` - (1 parameter, depends on `dev`) - controls how deep will
+  compilation process go by workflow (each next argument implicitly includes
+  all previous arguments):
   - `parser` - stops after parsing files
   - `name-resolution` - stops after name resolution
-- `-benchmark` - controls benchmarks printing kind
+- `-benchmark` - (1 parameter) - controls benchmarks printing kind
   - `final` - only one benchmark for the whole compilation process
   - `each-stage` - benches each stage of compilation process
 
