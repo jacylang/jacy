@@ -18,9 +18,6 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
-        if (extraDebugAll) {
-            log.dev("Advance:", static_cast<int>(distance));
-        }
         index += distance;
         return peek();
     }
@@ -74,12 +71,18 @@ namespace jc::parser {
     }
 
     void Parser::emitVirtualSemi() {
+        if (extraDebugAll) {
+            log.dev("Emit virtual semi at", peek().toString(true));
+        }
         // Used when we skipped NLs and haven't found something we want,
         // It's used to make parser return-free
         virtualSemi = true;
     }
 
     bool Parser::useVirtualSemi() {
+        if (extraDebugAll) {
+            log.dev("Use virtual semi at", peek().toString(true));
+        }
         if (virtualSemi) {
             virtualSemi = false;
             return true;
@@ -89,6 +92,9 @@ namespace jc::parser {
 
     // Skippers //
     bool Parser::skipNLs(bool optional) {
+        if (extraDebugAll) {
+            log.dev("Skip", optional ? "optional" : "required", "nls; got", peek().toString(true));
+        }
         if (not peek().is(TokenKind::Nl) and not optional) {
             suggestErrorMsg("Expected new-line", peek().span);
         }
@@ -102,6 +108,9 @@ namespace jc::parser {
     }
 
     void Parser::skipSemi(bool optional, bool) {
+        if (extraDebugAll) {
+            log.dev("Skip", optional ? "optional" : "required", "semi; got:", peek().toString(true));
+        }
         // TODO: Useless semi sugg
         // Note: Order matters -- we use virtual semi first
         if (not useVirtualSemi() and not isSemis() and not optional) {
@@ -114,6 +123,9 @@ namespace jc::parser {
     opt_token Parser::skip(
         TokenKind kind, bool skipLeftNLs, bool skipRightNLs, const std::string & expected, Recovery recovery
     ) {
+        if (extraDebugAll) {
+            log.dev("Skip", Token::kindToString(kind), "; got", peek().toString(true));
+        }
         // FIXME: Add param for virtual semi emitting
         // bool skippedLeftNLs;
         // if (skipLeftNLs) {
@@ -181,6 +193,9 @@ namespace jc::parser {
     void Parser::justSkip(
         TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn
     ) {
+        if (extraDebugAll) {
+            log.dev("Just skip", Token::kindToString(kind), "; got", peek().toString(true));
+        }
         if (not peek().is(kind)) {
             common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
         }
@@ -193,6 +208,9 @@ namespace jc::parser {
     }
 
     dt::Option<Token> Parser::skipOpt(TokenKind kind, bool skipRightNLs) {
+        if (extraDebugAll) {
+            log.dev("Skip optional", Token::kindToString(kind), "; got", peek().toString(true));
+        }
         auto last = dt::Option<Token>(peek());
         if (peek().is(kind)) {
             advance();
