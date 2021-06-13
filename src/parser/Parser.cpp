@@ -180,7 +180,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                log.dev("Skip", Token::kindToString(kind), " | got", peek().toString(true));
+                log.dev("Skip", Token::kindToString(kind), "| got", peek().toString(true));
             }
         }
 
@@ -211,7 +211,7 @@ namespace jc::parser {
         auto last = dt::Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                log.dev("Skip optional", Token::kindToString(kind), " | got", peek().toString(true));
+                log.dev("Skip optional", Token::kindToString(kind), "| got", peek().toString(true));
             }
             advance();
             if (skipRightNLs) {
