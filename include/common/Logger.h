@@ -169,6 +169,10 @@ namespace jc::common {
             return false;
         }
 
+        static inline constexpr bool addWs(Color&&) {
+            return false;
+        }
+
         template<class Arg>
         void log(Arg && single) const {
             std::cout << single;
