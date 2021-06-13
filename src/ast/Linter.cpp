@@ -73,7 +73,7 @@ namespace jc::ast {
         forStmt.inExpr.accept(*this);
 
         pushContext(LinterContext::Loop);
-        forStmt.body->accept(*this);
+        forStmt.body.accept(*this);
         popContext();
     }
 
@@ -116,7 +116,7 @@ namespace jc::ast {
 
         pushContext(LinterContext::Func);
         if (func.body) {
-            func.body.unwrap()->accept(*this);
+            func.body.unwrap().accept(*this);
         } else if (func.oneLineBody) {
             func.oneLineBody.unwrap().accept(*this);
         } else {
@@ -243,7 +243,7 @@ namespace jc::ast {
         whileStmt.condition.accept(*this);
 
         pushContext(LinterContext::Loop);
-        whileStmt.body->accept(*this);
+        whileStmt.body.accept(*this);
         popContext();
     }
 
@@ -290,7 +290,11 @@ namespace jc::ast {
     }
 
     void Linter::visit(const Block & block) {
-        lintEach(block.stmts);
+        if (block.oneLine) {
+            block.oneLine.unwrap().accept(*this);
+        } else {
+            lintEach(block.stmts.unwrap());
+        }
     }
 
     void Linter::visit(const BorrowExpr & borrowExpr) {
@@ -321,11 +325,11 @@ namespace jc::ast {
         ifExpr.condition.accept(*this);
 
         if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap()->accept(*this);
+            ifExpr.ifBranch.unwrap().accept(*this);
         }
 
         if (ifExpr.elseBranch) {
-            ifExpr.elseBranch.unwrap()->accept(*this);
+            ifExpr.elseBranch.unwrap().accept(*this);
         }
     }
 
@@ -407,7 +411,7 @@ namespace jc::ast {
 
     void Linter::visit(const LoopExpr & loopExpr) {
         pushContext(LinterContext::Loop);
-        loopExpr.body->accept(*this);
+        loopExpr.body.accept(*this);
         popContext();
     }
 
@@ -541,7 +545,7 @@ namespace jc::ast {
 
     void Linter::visit(const WhenEntry & entry) {
         lintEach(entry.conditions);
-        entry.body->accept(*this);
+        entry.body.accept(*this);
     }
 
     ///////////
