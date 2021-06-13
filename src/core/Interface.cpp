@@ -73,7 +73,7 @@ namespace jc::core {
 
         printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
-        checkSuggestions();
+        checkSuggestions("parsing");
         lintAst();
     }
 

@@ -32,6 +32,10 @@ namespace jc::dt {
             const sugg::sugg_list & suggestions,
             const std::string & stageName = ""
         ) {
+            if (suggestions.empty()) {
+                common::Logger::devDebug("No suggestions after", stageName);
+                return;
+            }
             dump(sess, suggestions);
             sugg::Suggester suggester;
             suggester.apply(sess, suggestions);
