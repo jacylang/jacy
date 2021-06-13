@@ -10,6 +10,7 @@ namespace jc::cli {
 
     const str_vec Args::allowedBoolArgs = {
         "dev",
+        "parser-extra-debug",
     };
 
     const std::map<std::string, key_value_arg> Args::allowedKeyValueArgs = {
