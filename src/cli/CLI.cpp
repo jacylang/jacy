@@ -50,7 +50,8 @@ namespace jc::cli {
                         argsStorage.boolArgs[argName] = boolValue.unwrap();
                     } else {
                         throw CLIError(
-                            "Expected boolean parameter for bool CLI argument '" + arg + "', for example 'yes' or 'no'"
+                            "Invalid boolean parameter for bool CLI argument '" + arg +
+                            "', expected for example 'yes' or 'no'"
                         );
                     }
                 }
