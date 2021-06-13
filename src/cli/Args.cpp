@@ -36,6 +36,7 @@ namespace jc::cli {
         "Y",
         "true",
         "1",
+        "on",
     };
 
     const str_vec Args::boolArgFalseValues = {
@@ -44,6 +45,7 @@ namespace jc::cli {
         "N",
         "false",
         "0",
+        "off",
     };
 
     // Checkers //
