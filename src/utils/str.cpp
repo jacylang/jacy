@@ -132,4 +132,12 @@ namespace jc::utils::str {
         }
         return result;
     }
+
+    std::string toLower(const std::string & str) {
+        std::string res;
+        std::transform(str.begin(), str.end(), res.begin(), [](const auto ch) {
+            return std::tolower(ch);
+        });
+        return res;
+    }
 }

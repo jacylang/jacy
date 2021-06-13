@@ -21,6 +21,7 @@ namespace jc::utils::str {
     std::string trim(const std::string & str, char remove = ' ');
     str_vec split(const std::string & str, const std::string & delimiters);
     str_vec splitKeep(const std::string & str, const std::string & delimiters);
+    std::string toLower(const std::string & str);
 }
 
 #endif // JACY_STR_H
