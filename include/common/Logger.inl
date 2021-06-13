@@ -160,19 +160,17 @@ const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...othe
         return *this;
     }
 
-    const auto & dev = level == Config::LogLevel::Dev;
-
-    if (config.printLevel or dev) {
-        if (config.colorize or dev) {
+    if (config.printLevel) {
+        if (config.colorize) {
             std::cout << levelColors.at(level);
         }
         std::cout << levelNames.at(level) << ": ";
-        if (config.colorize or dev) {
+        if (config.colorize) {
             std::cout << Color::Reset;
         }
     }
 
-    if (config.printOwner or dev) {
+    if (config.printOwner) {
         std::cout << "(" << owner << ") ";
     }
 
