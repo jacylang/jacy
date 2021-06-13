@@ -110,13 +110,9 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::PathExpr & pathExpr) {
-        // TODO: global
-
-//        if (pathExpr.segments.size() == 1) {
-//            // Simplest case, we just got an identifier
-//
-//            resStorage.setRes(pathExpr.id, )
-//        }
+        // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
+        //  For example, `StructExpr` must call `resolvePathExpr` itself, but not visit its path
+        resolvePathExpr(pathExpr);
     }
 
     // Types //
@@ -269,6 +265,16 @@ namespace jc::resolve {
     // Resolution //
     void NameResolver::resolveSimplePath(const ast::simple_path_ptr & simplePath) {
         // TODO
+    }
+
+    void NameResolver::resolvePathExpr(const ast::PathExpr & pathExpr) {
+        // TODO: global
+
+        //        if (pathExpr.segments.size() == 1) {
+        //            // Simplest case, we just got an identifier
+        //
+        //            resStorage.setRes(pathExpr.id, )
+        //        }
     }
 
     // Suggestions //

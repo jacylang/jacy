@@ -81,6 +81,7 @@ namespace jc::resolve {
     private:
         ResStorage resStorage;
         void resolveSimplePath(const ast::simple_path_ptr & simplePath);
+        void resolvePathExpr(const ast::PathExpr & pathExpr);
 
         // Suggestions //
     private:

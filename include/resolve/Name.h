@@ -131,7 +131,7 @@ namespace jc::resolve {
             Raw,
         } kind;
 
-        // TODO: Use `Ident{node_id, string}` instead of string as key
+        // TODO: Maybe use `Ident{node_id, string}` instead of string as key, to disambiguate
         ns_map typeNS;
         ns_map valueNS;
         ns_map lifetimeNS;
