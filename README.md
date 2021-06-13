@@ -125,7 +125,7 @@ There is pretty same syntax for bool-args as for key-value args:
 --dev=no
 ```
 
-There're bunch of allowed bool values:
+There's a bunch of allowed bool values:
 ```
 # Truthy / Falsy
 yes / no
