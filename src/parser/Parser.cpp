@@ -2668,10 +2668,10 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
+        const auto & depth = std::to_string(entitiesEntries.size());
         log.dev(
-            "Exit",
-            "`" + entitiesEntries.at(entitiesEntries.size() - 1) + "`;",
-            "depth [" + std::to_string(entitiesEntries.size()) + "]"
+            "[" + depth + "]",
+            "Exit `" + entitiesEntries.at(entitiesEntries.size() - 1) + "`"
         );
         entitiesEntries.pop_back();
     }
@@ -2680,7 +2680,8 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        const auto & msg = "Parse `" + entity + "`; depth [" + std::to_string(entitiesEntries.size()) + "]";
+        const auto & depth = std::to_string(entitiesEntries.size());
+        const auto & msg = "["+ depth +"] Parse `" + entity + "`";
         log.dev(
             msg,
             utils::str::padStartOverflow(
