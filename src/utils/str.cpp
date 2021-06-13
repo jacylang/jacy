@@ -22,12 +22,12 @@ namespace jc::utils::str {
         return str;
     }
 
-    std::string padStart(const std::string & str, size_t targetLen, char ch) {
+    std::wstring padStart(const std::wstring & str, size_t targetLen, wchar_t ch) {
         if (targetLen <= str.size()) {
             return str;
         }
         size_t pad = targetLen - str.size();
-        return repeat(std::string(1, ch), pad) + str;
+        return repeat(std::wstring(1, ch), pad) + str;
     }
 
     std::string padEnd(const std::string & str, size_t targetLen, char ch) {
