@@ -112,7 +112,7 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::PathExpr & pathExpr) {
         // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
         //  For example, `StructExpr` must call `resolvePathExpr` itself, but not visit its path
-        resolvePathExpr(pathExpr);
+        resolvePathExpr(Namespace::Value, pathExpr);
     }
 
     // Types //
