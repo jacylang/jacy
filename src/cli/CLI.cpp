@@ -1,7 +1,8 @@
 #include "cli/CLI.h"
 
 namespace jc::cli {
-    CLI::CLI() {}
+    CLI::CLI() {
+    }
 
     str_vec CLI::prepareArgs(int argc, const char ** argv) {
         str_vec args;
@@ -40,8 +41,8 @@ namespace jc::cli {
                     argIndex += 2; // Skip arg and `=`
                     if (argIndex == args.size()) {
                         throw CLIError(
-                            "Expected boolean parameter after `=` for bool CLI argument '"
-                            + arg + "', for example 'yes' or 'no'"
+                            "Expected boolean parameter after `=` for bool CLI argument '" + arg +
+                            "', for example 'yes' or 'no'"
                         );
                     }
                     const auto boolValue = parseBool(args.at(argIndex));
@@ -117,10 +118,7 @@ namespace jc::cli {
             }
 
             log.colorized(
-                common::Color::Magenta,
-                "Run jacy " + argsStorage.rootFile,
-                boolArgsStr,
-                keyValueArgsStr
+                common::Color::Magenta, "Run jacy " + argsStorage.rootFile, boolArgsStr, keyValueArgsStr
             );
         }
 
@@ -132,7 +130,7 @@ namespace jc::cli {
         for (auto & arg : argsStorage.boolArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::arr::has(Args::allowedBoolArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown argument '"+ arg.first +"'"));
+                throw CLIError(common::Logger::format("Unknown argument '" + arg.first + "'"));
             }
 
             if (alias != Args::aliases.end()) {
@@ -143,10 +141,10 @@ namespace jc::cli {
         for (const auto & arg : argsStorage.keyValueArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::map::has(Args::allowedKeyValueArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown argument '"+ arg.first +"'"));
+                throw CLIError(common::Logger::format("Unknown argument '" + arg.first + "'"));
             }
             if (arg.second.empty()) {
-                throw CLIError(common::Logger::format("Expected value for '"+ arg.first +"' argument"));
+                throw CLIError(common::Logger::format("Expected value for '" + arg.first + "' argument"));
             }
 
             // Check for allowed parameters for key-value argument if it receives specific list
@@ -154,10 +152,13 @@ namespace jc::cli {
                 for (const auto & argParam : arg.second) {
                     const auto & allowed = Args::allowedKeyValueArgs.at(arg.first).second;
                     if (not utils::arr::has(allowed, argParam)) {
-                        throw CLIError(common::Logger::format(
-                            "Unknown parameter '"+ argParam +"' for argument '"+ arg.first +"'.",
-                            "Try one of this:", utils::arr::join(allowed)
-                        ));
+                        throw CLIError(
+                            common::Logger::format(
+                                "Unknown parameter '" + argParam + "' for argument '" + arg.first + "'.",
+                                "Try one of this:",
+                                utils::arr::join(allowed)
+                            )
+                        );
                     }
                 }
             }
@@ -165,10 +166,18 @@ namespace jc::cli {
             // Check for parameters count
             const auto & allowedCount = Args::allowedKeyValueArgs.at(arg.first).first;
             if (allowedCount and allowedCount.unwrap() != arg.second.size()) {
-                throw CLIError(common::Logger::format(
-                    "Expected", allowedCount.unwrap(), "count of parameters for argument", arg.first + ",",
-                    "got", arg.second.size(), " parameters: ", utils::arr::join(arg.second, " ")
-                ));
+                throw CLIError(
+                    common::Logger::format(
+                        "Expected",
+                        allowedCount.unwrap(),
+                        "count of parameters for argument",
+                        arg.first + ",",
+                        "got",
+                        arg.second.size(),
+                        " parameters: ",
+                        utils::arr::join(arg.second, " ")
+                    )
+                );
             }
             if (alias != Args::aliases.end()) {
                 utils::map::rename(argsStorage.keyValueArgs, arg.first, alias->second);
@@ -195,16 +204,20 @@ namespace jc::cli {
             std::string errorMsg;
             for (const auto & errorDep : errorDeps) {
                 const auto & deps = Args::argsDependencies.at(errorDep);
-                errorMsg += utils::arr::join(deps, ", ", {}, {"'", "'"})
-                    + " argument" + (deps.size() > 1 ? "s" : "")
-                    + " required to be specified for argument '" + errorDep + "'\n";
+                errorMsg += utils::arr::join(deps, ", ", {}, {"'", "'"}) + " argument" + (deps.size() > 1 ? "s" : "") +
+                            " required to be specified for argument '" + errorDep + "'\n";
             }
             throw CLIError(errorMsg);
         }
 
-        log.dev("CLI Arguments:\n",
-                  "\tBoolean arguments:", argsStorage.boolArgs,
-                  "\n\tKey-value arguments:", argsStorage.keyValueArgs,
-                  "\n\tRoot file:", argsStorage.rootFile).nl();
+        log.dev(
+            "CLI Arguments:\n",
+            "\tBoolean arguments:",
+            argsStorage.boolArgs,
+            "\n\tKey-value arguments:",
+            argsStorage.keyValueArgs,
+            "\n\tRoot file:",
+            argsStorage.rootFile
+        ).nl();
     }
 }
