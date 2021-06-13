@@ -127,8 +127,8 @@ There is pretty same syntax for bool-args as for key-value args:
 
 There's a bunch of allowed bool values:
 
-| Truthy | Falsy |
-| ------ | ----- |
+| (Truthy) | (Falsy) |
+| -------- | ------- |
 | yes | no |
 | y | n |
 | true | false |
@@ -137,7 +137,7 @@ There's a bunch of allowed bool values:
 
 Also, they're case insensitive (alpha-values of course):
 
-|     |     |
+| (Truthy) | (Falsy) |
 | --- | --- |
 | Yes | No |
 | Y | N |
