@@ -1086,8 +1086,6 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::assignment() {
-        logParse("Assignment");
-
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
@@ -1110,6 +1108,7 @@ namespace jc::parser {
                 std::move(checkedLhs), maybeAssignOp, std::move(rhs), begin.to(cspan())
             ));
         }
+
         return lhs;
     }
 
@@ -1217,8 +1216,14 @@ namespace jc::parser {
     opt_expr_ptr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
-        if (skipOpt(TokenKind::Not, true) or skipOpt(TokenKind::Sub, true) or skipOpt(TokenKind::BitAnd, true) or
-            skipOpt(TokenKind::And, true) or skipOpt(TokenKind::Mul, true)) {
+        if (
+            skipOpt(TokenKind::Not, true) or
+            skipOpt(TokenKind::Sub, true) or
+            skipOpt(TokenKind::BitAnd, true) or
+            skipOpt(TokenKind::And, true) or
+            skipOpt(TokenKind::Mul, true)
+        ) {
+            logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (!maybeRhs) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
@@ -1318,8 +1323,10 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 enterEntity("Invoke");
 
+                auto args = parseNamedList("function call");
+
                 exitEntity();
-                lhs = makeExpr<Invoke>(std::move(lhs), parseNamedList("function call"), begin.to(cspan()));
+                lhs = makeExpr<Invoke>(std::move(lhs), std::move(args), begin.to(cspan()));
 
                 begin = cspan();
             } else {
@@ -1339,11 +1346,10 @@ namespace jc::parser {
 
         auto begin = cspan();
         while (skipOpt(TokenKind::Dot, true)) {
-            enterEntity("MemberAccess");
+            logParse("MemberAccess");
 
             auto name = parseId("field name", true, true);
 
-            exitEntity();
             lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
             begin = cspan();
         }
