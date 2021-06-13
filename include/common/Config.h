@@ -63,12 +63,19 @@ namespace jc::common {
         };
 
         // Checkers //
+    public:
+        // Key-value args //
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(Benchmark benchmark) const;
-        bool checkDev() const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+
+        // Bool args //
+        bool checkDev() const;
+        bool checkParserExtraDebug() const;
+
+    public:
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         const std::string & getRootFile() const;
 
@@ -88,6 +95,7 @@ namespace jc::common {
 
         // Bool args //
         bool dev{false};
+        bool parserExtraDebug{false};
 
         // Debug //
     public:

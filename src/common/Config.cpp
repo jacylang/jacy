@@ -96,20 +96,17 @@ namespace jc::common {
     }
 
     // Checkers //
+
+    // Key-value args //
     bool Config::checkMode(Mode mode) const {
         return this->mode == mode;
     }
-
     bool Config::checkPrint(PrintKind printKind) const {
         return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
     }
 
     bool Config::checkBenchmark(Benchmark benchmark) const {
         return this->benchmark == benchmark;
-    }
-
-    bool Config::checkDev() const {
-        return dev;
     }
 
     bool Config::checkCompileDepth(CompileDepth compileDepth) const {
@@ -121,6 +118,15 @@ namespace jc::common {
             return static_cast<uint8_t>(loggerLevels.at(GLOBAL_LOG_LEVEL_NAME)) <= static_cast<uint8_t>(logLevel);
         }
         return static_cast<uint8_t>(loggerLevels.at(owner)) <= static_cast<uint8_t>(logLevel);
+    }
+
+    // Bool args //
+    bool Config::checkDev() const {
+        return dev;
+    }
+
+    bool Config::checkParserExtraDebug() const {
+        return parserExtraDebug;
     }
 
     Config::LogLevel Config::getLogLevel(const std::string & owner) const {
