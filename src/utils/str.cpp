@@ -118,7 +118,7 @@ namespace jc::utils::str {
         return result;
     }
 
-    wstr_vec splitKeep(const std::string & str, const std::string & delimiters) {
+    wstr_vec splitKeep(const std::wstring & str, const std::wstring & delimiters) {
         wstr_vec result;
         size_t begin;
         size_t pos = 0;

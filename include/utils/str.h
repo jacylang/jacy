@@ -20,7 +20,7 @@ namespace jc::utils::str {
     std::wstring trimEnd(const std::wstring & str, char remove = ' ');
     std::wstring trim(const std::wstring & str, char remove = ' ');
     wstr_vec split(const std::wstring & str, const std::wstring & delimiters);
-    wstr_vec splitKeep(const std::string & str, const std::string & delimiters);
+    wstr_vec splitKeep(const std::wstring & str, const std::wstring & delimiters);
     std::string toLower(const std::string & str);
 }
 
