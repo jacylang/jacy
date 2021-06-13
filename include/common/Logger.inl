@@ -174,9 +174,8 @@ const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...othe
         std::cout << "(" << owner << ") ";
     }
 
-    std::cout << std::forward<Arg>(first);
-
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+    log(first);
+    log(other...);
 
     nl();
 

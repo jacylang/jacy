@@ -59,6 +59,7 @@ namespace jc::common {
 }
 
 namespace jc::common {
+    // TODO
     enum class TitleKind {
         Line,
         Block,
@@ -150,7 +151,7 @@ namespace jc::common {
         template<class Arg, class ...Args>
         static void devDebug(Arg && first, Args && ...other);
 
-        constexpr static uint8_t wrapLen{120};
+        static constexpr uint8_t wrapLen{120};
 
     private:
         std::string owner;
@@ -158,6 +159,70 @@ namespace jc::common {
 
         template<class Arg, class ...Args>
         const Logger & log(Config::LogLevel level, Arg && first, Args && ...other) const;
+
+        template<class T>
+        static inline constexpr bool addWs(T&&) {
+            return true;
+        }
+
+        static inline constexpr bool addWs(Indent&&) {
+            return false;
+        }
+
+        template<class Arg>
+        void log(Arg && single) const {
+            std::cout << single;
+            if (addWs(single)) {
+                std::cout << ' ';
+            }
+        }
+
+        template<class ...Args>
+        void log(Args && ...args) const {
+            (log(std::forward<Args>(args)), ...);
+        }
+
+//        template<class First, class ...Rest>
+//        struct Log {
+//            using Next = Log<Rest...>;
+//            static constexpr const size_t size = 1 + Next::size;
+//
+//            template<class C>
+//            static inline constexpr C forEach(C cb, First && first, Rest && ...rest) {
+//                cb(std::forward<First>(first));
+//                Next::forEach(cb, std::forward<Rest>...);
+//                return cb;
+//            }
+//
+//            template<class C>
+//            inline constexpr C operator()(C cb, First && first, Rest && ...rest) const {
+//                return forEach(cb, std::forward<First>(first), std::forward<Rest>(rest)...);
+//            }
+//        };
+//
+//        template<class First>
+//        struct Log<First> {
+//            static constexpr const std::size_t size = 1;
+//
+//            template<class C>
+//            inline static constexpr C forEach(C cb, First && first) {
+//                cb(std::forward<First>(first));
+//                return cb;
+//            }
+//
+//            template<class C>
+//            inline constexpr C operator()(C cb, First && first) const {
+//                return forEach(cb, std::forward<First>(first));
+//            }
+//        };
+//
+//        template<>
+//        struct Log<Indent> {
+//            template<class C>
+//            inline constexpr C operator()(C cb, Indent && indent) const {
+//                return forEach(cb, std::forward<Indent>)
+//            }
+//        };
 
     public:
         static const std::map<Color, std::string> unixColors;
