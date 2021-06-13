@@ -1766,7 +1766,6 @@ namespace jc::parser {
             allowOneLine = true;
         }
 
-        const auto & maybeBraceToken = peek();
         bool brace = false;
         if (arrow == BlockArrow::Just) {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
