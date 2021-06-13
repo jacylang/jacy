@@ -15,6 +15,16 @@ namespace jc::cli {
         return args;
     }
 
+    dt::Option<bool> CLI::parseBool(const std::string & val) {
+        if (utils::arr::has(Args::boolArgTrueValues, val)) {
+            return true;
+        }
+        if (utils::arr::has(Args::boolArgFalseValues, val)) {
+            return false;
+        }
+        return dt::None;
+    }
+
     void CLI::applyArgs(int argc, const char ** argv) {
         const auto & args = prepareArgs(argc, argv);
 
