@@ -33,7 +33,6 @@ namespace jc::cli {
     const str_vec Args::boolArgTrueValues = {
         "yes",
         "y",
-        "Y",
         "true",
         "1",
         "on",
@@ -42,7 +41,6 @@ namespace jc::cli {
     const str_vec Args::boolArgFalseValues = {
         "no",
         "n",
-        "N",
         "false",
         "0",
         "off",
