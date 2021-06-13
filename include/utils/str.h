@@ -13,6 +13,7 @@ namespace jc::utils::str {
     std::string padStart(const std::string & str, size_t targetLen, char ch = ' ');
     std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch = ' ');
     std::string padEnd(const std::string & str, size_t targetLen, char ch = ' ');
+    std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch = ' ');
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen);
     std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix = "...");
     std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");

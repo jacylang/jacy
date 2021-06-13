@@ -46,6 +46,14 @@ namespace jc::utils::str {
         return str + repeat(std::string(1, ch), pad);
     }
 
+    std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
+        if (targetLen <= str.size()) {
+            return str + repeat(std::string(1, ch), minSpaceSize);
+        }
+        size_t pad = targetLen - str.size();
+        return str + repeat(std::string(1, ch), pad);
+    }
+
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen) {
         size_t targetLen = pos + spanLen <= lineLen ? lineLen - pos - spanLen : 0;
         std::string str = pos > 0 ? padStart("", pos, '-') : "";
