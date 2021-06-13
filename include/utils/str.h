@@ -14,7 +14,7 @@ namespace jc::utils::str {
     std::wstring padEnd(const std::wstring & str, size_t targetLen, wchar_t ch = L' ');
     std::wstring pointLine(size_t lineLen, size_t pos, size_t spanLen);
     std::wstring clipEnd(const std::wstring & str, size_t targetLen, const std::wstring & suffix = L"...");
-    std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");
+    std::wstring clipStart(const std::wstring & str, size_t targetLen, const std::wstring & prefix = L"...");
     std::string hardWrap(const std::string & str, uint8_t wrapLen);
     std::string trimStart(const std::string & str, char remove = ' ');
     std::string trimEnd(const std::string & str, char remove = ' ');

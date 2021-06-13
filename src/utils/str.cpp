@@ -61,7 +61,7 @@ namespace jc::utils::str {
         return str.substr(0, targetLen - suffix.size()) + suffix;
     }
 
-    std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix) {
+    std::wstring clipStart(const std::wstring & str, size_t targetLen, const std::wstring & prefix) {
         if (targetLen >= str.size()) {
             return str;
         }
