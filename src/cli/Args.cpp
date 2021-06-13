@@ -29,6 +29,7 @@ namespace jc::cli {
 
     const std::map<std::string, str_vec> Args::argsDependencies = {
         {"compile-depth", {"dev"}}, // Allow compilation depth set only if 'dev' is set
+        {"parser-extra-debug", {"dev"}},
     };
 
     const str_vec Args::boolArgTrueValues = {
