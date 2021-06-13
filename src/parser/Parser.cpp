@@ -955,6 +955,8 @@ namespace jc::parser {
             return expr;
         }
 
+        return dt::None;
+
         // FIXME: Move to `parseExpr`
 //
 //        // We cannot just call `parseStmt`, because it can start infinite recursion `parseStmt -> parseExpr`,
@@ -1023,8 +1025,6 @@ namespace jc::parser {
 //        }
 //
 //        advance();
-
-        return dt::None;
     }
 
     expr_ptr Parser::parseExpr(const std::string & suggMsg) {
@@ -2679,7 +2679,7 @@ namespace jc::parser {
             return;
         }
         entitiesEntries.emplace_back(entity);
-        logParse(entity);
+        logEntry(true, entity);
     }
 
     void Parser::exitEntity() {
@@ -2689,12 +2689,22 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
-        const auto & depth = std::to_string(entitiesEntries.size());
-        log.dev(
-            "[" + depth + "]",
-            "Exit `" + entitiesEntries.at(entitiesEntries.size() - 1) + "`"
-        );
         entitiesEntries.pop_back();
+        logEntry(false, entitiesEntries.at(entitiesEntries.size() - 1));
+    }
+
+    void Parser::logEntry(bool enter, const std::string & entity) {
+        const auto & depth = std::to_string(entitiesEntries.size());
+        const auto & msg = "["+ depth +"] "+ (enter ? "Enter" : "Exit") +" `" + entity + "`";
+        log.dev(
+            msg,
+            utils::str::padStartOverflow(
+                " peek: " + peek().dump(true),
+                common::Logger::wrapLen - msg.size() - 1,
+                1,
+                '-'
+            )
+        );
     }
 
     void Parser::logParse(const std::string & entity) {

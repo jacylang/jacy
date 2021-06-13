@@ -271,6 +271,7 @@ namespace jc::parser {
         std::vector<std::string> entitiesEntries;
         void enterEntity(const std::string & entity);
         void exitEntity();
+        void logEntry(bool enter, const std::string & entity);
         void logParse(const std::string & entity);
     };
 }
