@@ -265,11 +265,10 @@ namespace jc::parser {
         Span nspan() const;
 
         // DEV //
-        void logParse(const std::string & entity);
-
         std::vector<std::string> entitiesEntries;
         void enterEntity(const std::string & entity);
-        void exitEntity(const std::string & entity);
+        void exitEntity();
+        void logParse(const std::string & entity);
     };
 }
 
