@@ -1826,13 +1826,9 @@ namespace jc::parser {
                 "Missing closing `}` at the end of " + construction + " body"
             );
         } else if (allowOneLine) {
-            const auto & stmtBegin = cspan();
-            auto exprStmt = makeStmt<ExprStmt>(
-                parseExpr("Expected expression in one-line block in " + construction),
-                stmtBegin.to(cspan())
-            );
+            auto expr = parseExpr("Expected expression in one-line block in " + construction);
             // Note: Don't require semis for one-line body
-            stmts.emplace_back(std::move(exprStmt));
+            return makeNode<Block>(std::move(expr), begin.to(cspan()));
         } else {
             std::string suggMsg = "Likely you meant to put `{}`";
             if (arrow == BlockArrow::Allow) {

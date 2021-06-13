@@ -10,13 +10,23 @@ namespace jc::ast {
     using opt_block_ptr = dt::Option<block_ptr>;
     using block_list = std::vector<block_ptr>;
 
+    enum class BlockKind {
+        OneLine,
+        Raw,
+    };
+
     struct Block : Expr {
-        Block(expr_ptr expr, const Span & span)
-            : Expr(span, ExprKind::Block), oneLine(std::move(expr)) {}
+        Block(expr_ptr && expr, const Span & span)
+            : Expr(span, ExprKind::Block),
+              blockKind(BlockKind::OneLine),
+              oneLine(std::move(expr)) {}
 
-        Block(stmt_list stmts, const Span & span)
-            : Expr(span, ExprKind::Block), stmts(std::move(stmts)) {}
+        Block(stmt_list && stmts, const Span & span)
+            : Expr(span, ExprKind::Block),
+              blockKind(BlockKind::Raw),
+              stmts(std::move(stmts)) {}
 
+        BlockKind blockKind;
         opt_expr_ptr oneLine;
         dt::Option<stmt_list> stmts;
 
