@@ -2022,14 +2022,12 @@ namespace jc::parser {
     }
 
     attr_list Parser::parseAttrList() {
-        enterEntity("AttrList");
 
         attr_list attributes;
         while (auto attr = parseAttr()) {
             attributes.push_back(attr.unwrap());
         }
 
-        exitEntity();
         return attributes;
     }
 
