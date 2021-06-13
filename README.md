@@ -113,8 +113,8 @@ Example usage:
 - `-parser-extra-debug` (depends on `dev`) - enables additional debug logs in
  parser
   - `no` - (default) - No extra debug info
-  - `entities` - Prints what syntax entities parser enters and leave
-  - `all` - Prints `entities` and also special much info about skipping, etc.
+  - `entries` - Prints what syntax syntax units parser enters and leave
+  - `all` - Prints `entries` and also special much info about skipping, etc.
 
 ###### Boolean arguments
 
