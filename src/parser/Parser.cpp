@@ -2637,6 +2637,7 @@ namespace jc::parser {
             Indent(entitiesEntries.size()),
             (enter ? Color::DarkGreen : Color::DarkRed),
             msg,
+            Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
                 common::Logger::wrapLen - msg.size() - 1,
