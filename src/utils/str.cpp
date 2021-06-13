@@ -102,7 +102,7 @@ namespace jc::utils::str {
         return res;
     }
 
-    std::string trim(const std::string & str, char remove) {
+    std::wstring trim(const std::wstring & str, char remove) {
         return trimStart(trimEnd(str, remove), remove);
     }
 
