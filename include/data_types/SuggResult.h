@@ -23,7 +23,7 @@ namespace jc::dt {
         }
 
         T unwrap(sess::sess_ptr sess, const std::string & stageName = "") {
-            check(sess, suggestions);
+            check(sess, suggestions, stageName);
             return value;
         }
 
@@ -33,7 +33,7 @@ namespace jc::dt {
             const std::string & stageName = ""
         ) {
             if (suggestions.empty()) {
-                common::Logger::devDebug("No suggestions after", stageName);
+                common::Logger::devDebug("No suggestions", (stageName.empty() ? "" : "after " + stageName));
                 return;
             }
             dump(sess, suggestions);
