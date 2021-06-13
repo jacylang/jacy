@@ -160,17 +160,17 @@ namespace jc::common {
         template<class Arg, class ...Args>
         const Logger & log(Config::LogLevel level, Arg && first, Args && ...other) const;
 
-        template<class T>
+        template<typename T>
         static inline constexpr bool addWs(T&&) {
             return true;
         }
 
-        template<class T = Indent>
+        template<typename T = Indent>
         static inline constexpr bool addWs(Indent&&) {
             return false;
         }
 
-        template<class T = Color>
+        template<typename T = Color>
         static inline constexpr bool addWs(Color&&) {
             return false;
         }
