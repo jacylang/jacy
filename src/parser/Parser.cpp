@@ -2566,11 +2566,11 @@ namespace jc::parser {
     }
 
     // DEBUG //
-    void Parser::logParse(const std::string & entity) {
+    void Parser::logParse(const std::wstring & entity) {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        const auto & msg = "Parse `" + entity + "` ";
-        log.dev(msg, utils::str::padStart(" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size(), '-'));
+        const auto & msg = L"Parse `" + entity + L"` ";
+        log.dev(msg, utils::str::padStart(L" peek: " + peek().dump(true), common::Logger::wrapLen - msg.size(), L'—'));
     }
 }
