@@ -5,7 +5,7 @@
 #include <algorithm>
 
 namespace jc::utils::str {
-    using str_vec = std::vector<std::string>;
+    using wstr_vec = std::vector<std::wstring>;
 
     bool startsWith(const std::string & str, const std::string & prefix);
     bool endsWith(const std::string & str, const std::string & suffix);
@@ -19,8 +19,8 @@ namespace jc::utils::str {
     std::wstring trimStart(const std::wstring & str, char remove = ' ');
     std::wstring trimEnd(const std::wstring & str, char remove = ' ');
     std::wstring trim(const std::wstring & str, char remove = ' ');
-    str_vec split(const std::string & str, const std::string & delimiters);
-    str_vec splitKeep(const std::string & str, const std::string & delimiters);
+    wstr_vec split(const std::wstring & str, const std::wstring & delimiters);
+    wstr_vec splitKeep(const std::string & str, const std::string & delimiters);
     std::string toLower(const std::string & str);
 }
 
