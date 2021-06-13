@@ -165,12 +165,10 @@ namespace jc::common {
             return true;
         }
 
-        template<typename T = Indent>
         static inline constexpr bool addWs(Indent&&) {
             return false;
         }
 
-        template<typename T = Color>
         static inline constexpr bool addWs(Color&&) {
             return false;
         }
