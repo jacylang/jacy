@@ -267,14 +267,25 @@ namespace jc::resolve {
         // TODO
     }
 
-    void NameResolver::resolvePathExpr(const ast::PathExpr & pathExpr) {
+    void NameResolver::resolvePathExpr(Namespace ns, const ast::PathExpr & pathExpr) {
         // TODO: global
 
-        //        if (pathExpr.segments.size() == 1) {
-        //            // Simplest case, we just got an identifier
-        //
-        //            resStorage.setRes(pathExpr.id, )
-        //        }
+        if (pathExpr.segments.size() == 1) {
+            // Simplest case, we just got an identifier
+
+            // TODO!!!: Keyword segments: self, super, etc.
+            // FIXME
+            const auto & seg = pathExpr.segments.at(0).unwrap();
+            if (seg->ident) {
+                const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
+                const auto & resolved = curRib()->resolve(identStr, ns);
+                if (not resolved) {
+                    suggestErrorMsg(identStr + " is not defined", pathExpr.span);
+                } else {
+                    resStorage.setRes(pathExpr.id, resolved.unwrap()->nodeId);
+                }
+            }
+        }
     }
 
     // Suggestions //
