@@ -5,7 +5,8 @@ namespace jc::ast {
         log.getConfig().printOwner = false;
     }
 
-    void AstPrinter::print(const Party & party, AstPrinterMode mode) {
+    void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
+        this->sess = sess;
         this->mode = mode;
 
         party.getRootModule()->accept(*this);
@@ -642,5 +643,10 @@ namespace jc::ast {
 
     void AstPrinter::decIndent() {
         --indent;
+    }
+
+    // Names mode //
+    void AstPrinter::printName(node_id nodeId) {
+//        const auto & resolved = sess
     }
 }

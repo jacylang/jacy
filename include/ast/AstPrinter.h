@@ -7,6 +7,7 @@
 #include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
 #include "common/Logger.h"
+#include "session/Session.h"
 
 namespace jc::ast {
     enum class AstPrinterMode {
@@ -18,7 +19,7 @@ namespace jc::ast {
     public:
         AstPrinter();
 
-        void print(const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
+        void print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
 
         void visit(const ErrorNode & errorNode) override;
         void visit(const File & file) override;
@@ -107,6 +108,7 @@ namespace jc::ast {
         void visit(const SimplePathSeg & seg) override;
 
     private:
+        sess::sess_ptr sess;
         common::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
@@ -192,6 +194,11 @@ namespace jc::ast {
         void decIndent();
         uint16_t indent{0};
 
+        // Names mode //
+    private:
+        void printName(node_id nodeId);
+
+    private:
         // DEBUG //
         bool precedenceDebug = false;
     };
