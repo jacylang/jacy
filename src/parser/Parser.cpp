@@ -2659,6 +2659,9 @@ namespace jc::parser {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
+        if (entitiesEntries.empty()) {
+            log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
+        }
         log.dev("Exit [" + *entitiesEntries.end() + "]");
         entitiesEntries.pop_back();
     }
