@@ -1169,7 +1169,7 @@ namespace jc::parser {
         {0b1011, {TokenKind::In,     TokenKind::NotIn}},
         {0b1011, {TokenKind::NullCoalesce}},
         {0b1011, {TokenKind::Shl,    TokenKind::Shr}},
-        {0b1011, {TokenKind::Id}},
+        {0b1000, {TokenKind::Id}}, // TODO: Think if we can skip right NLs
         {0b1011, {TokenKind::Range,  TokenKind::RangeEQ}},
         {0b1011, {TokenKind::Add,    TokenKind::Sub}},
         {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
