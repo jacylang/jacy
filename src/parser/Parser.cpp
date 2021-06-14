@@ -2644,13 +2644,14 @@ namespace jc::parser {
         using common::Color;
         using common::Indent;
         const auto & msg = std::string(enter ? "-> Enter" : "<- Exit") +" `" + entity + "`";
+        const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
             (enter ? Color::DarkGreen : Color::DarkRed),
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
-                common::Logger::wrapLen - msg.size() - 1,
+                common::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
             )
@@ -2664,13 +2665,14 @@ namespace jc::parser {
             return;
         }
         const auto & msg = "-- Parse `" + entity + "`";
+        const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
             Color::Orange,
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
-                common::Logger::wrapLen - msg.size() - 1,
+                common::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
             )
