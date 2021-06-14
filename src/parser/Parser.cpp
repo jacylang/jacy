@@ -2644,8 +2644,7 @@ namespace jc::parser {
         using common::Color;
         using common::Indent;
         const auto & msg = std::string(enter ? "-> Enter" : "<- Exit") +" `" + entity + "`";
-        log.dev(
-            Indent(entitiesEntries.size()),
+        devLogWithIndent(
             (enter ? Color::DarkGreen : Color::DarkRed),
             msg,
             Color::Reset,
@@ -2665,8 +2664,7 @@ namespace jc::parser {
             return;
         }
         const auto & msg = "-- Parse `" + entity + "`";
-        log.dev(
-            Indent(entitiesEntries.size()),
+        devLogWithIndent(
             Color::Orange,
             msg,
             Color::Reset,
