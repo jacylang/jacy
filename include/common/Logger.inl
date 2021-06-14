@@ -52,7 +52,7 @@ std::ostream & operator<<(std::ostream & os, Color color) {
     return os;
 }
 
-inline std::ostream & operator<<(std::ostream & os, Indent indent) {
+inline std::ostream & operator<<(std::ostream & os, const Indent & indent) {
     return os << utils::str::repeat(Indent::indentString, indent.inner);
 }
 
@@ -151,29 +151,15 @@ std::string Logger::format(Args && ...args) {
     return ss.str();
 }
 
-template<class First, class ...Rest>
-const Logger & Logger::log(Config::LogLevel level, First && first, Rest && ...rest) const {
+template<class ...Rest>
+const Logger & Logger::log(Config::LogLevel level, Rest && ...rest) const {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
 
     printInfo(level);
-    out(std::cout, std::forward<First>(first), std::forward<Rest>(rest)...);
+    out(std::cout, std::forward<Rest>(rest)...);
     nl();
 
     return *this;
 }
-
-template<class First>
-const Logger & Logger::log(Config::LogLevel level, First && first) const {
-    if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
-        return *this;
-    }
-
-    printInfo(level);
-    out(std::cout, std::forward<First>(first));
-    nl();
-
-    return *this;
-}
-

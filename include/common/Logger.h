@@ -91,7 +91,7 @@ namespace jc::common {
 
     inline std::ostream & operator<<(std::ostream & os, Color color);
 
-    inline std::ostream & operator<<(std::ostream & os, Indent indent);
+    inline std::ostream & operator<<(std::ostream & os, const Indent & indent);
 
     class Logger {
     public:
@@ -157,11 +157,8 @@ namespace jc::common {
         std::string owner;
         LoggerConfig config;
 
-        template<class First, class ...Rest>
-        const Logger & log(Config::LogLevel level, First && first, Rest && ...rest) const;
-
-        template<class Arg>
-        const Logger & log(Config::LogLevel level, Arg && first) const;
+        template<class ...Rest>
+        const Logger & log(Config::LogLevel level, Rest && ...rest) const;
 
         // Overload's //
     private:
@@ -174,14 +171,6 @@ namespace jc::common {
         template<class T>
         static inline os & out(os & s, T && t) {
             return s << t;
-        }
-
-        static inline os & out(os & s, Indent && indent) {
-            return s << indent;
-        }
-
-        static inline os & out(os & s, Color color) {
-            return s << color;
         }
 
         template<class T>
@@ -201,7 +190,7 @@ namespace jc::common {
         static inline os & out(os & s, Left && left, Rest && ...rest) {
             out(s, std::forward<Left>(left));
             if (addWs(std::forward<Left>(left))) {
-                std::cout << ' ';
+                s << ' ';
             }
             return out(s, std::forward<Rest>(rest)...);
         }
