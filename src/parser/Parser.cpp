@@ -1077,7 +1077,9 @@ namespace jc::parser {
     }
 
     opt_expr_ptr Parser::precParse(uint8_t index) {
-        //        logParse("precParse:" + std::to_string(index));
+        if (extraDebugAll) {
+            logParse("precParse:" + std::to_string(index));
+        }
 
         if (precTable.size() == index) {
             return prefix();
@@ -1094,6 +1096,17 @@ namespace jc::parser {
         const auto rightAssoc = (flags >> 2) & 1;
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
+
+        if (extraDebugAll) {
+            log.dev(
+                "precParse:" + std::to_string(index),
+                "settings:",
+                "multiple:", multiple,
+                "rightAssoc:", rightAssoc,
+                "skipLeftNLs:", skipLeftNLs,
+                "skipRightNLs:", skipRightNLs
+            );
+        }
 
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
