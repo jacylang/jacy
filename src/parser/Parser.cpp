@@ -111,7 +111,10 @@ namespace jc::parser {
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
         // Note: Order matters -- we use virtual semi first
-        if (not useVirtualSemi() and not isSemis() and not optional) {
+        if (useVirtualSemi()) {
+            return;
+        }
+        if (not isSemis() and not optional) {
             suggestErrorMsg("`;` or new-line expected", prev().span);
             return;
         }
