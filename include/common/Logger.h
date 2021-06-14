@@ -173,7 +173,7 @@ namespace jc::common {
 
         template<class T>
         static inline os & out(os & s, T && t) {
-            return s << t << ' ';
+            return s << t;
         }
 
         static inline os & out(os & s, Indent && indent) {
@@ -187,6 +187,7 @@ namespace jc::common {
         template<class Left, class ...Rest>
         static inline os & out(os & s, Left && left, Rest && ...rest) {
             out(s, std::forward<Left>(left));
+            std::cout << ' ';
             return out(s, std::forward<Rest>(rest)...);
         }
 
