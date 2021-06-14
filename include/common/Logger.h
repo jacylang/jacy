@@ -52,7 +52,7 @@ namespace jc::common {
         Pink            = 13,
         Yellow          = 14,
         White           = 15,
-        Reset,          // Linux-only
+        Reset,
     };
 
     // TODO: Background colors
@@ -157,76 +157,57 @@ namespace jc::common {
         std::string owner;
         LoggerConfig config;
 
-        template<class Arg, class ...Args>
-        const Logger & log(Config::LogLevel level, Arg && first, Args && ...other) const;
-
-        template<typename T>
-        static inline constexpr bool addWs(T&&) {
-            return true;
-        }
-
-        static inline constexpr bool addWs(Indent&&) {
-            return false;
-        }
-
-        static inline constexpr bool addWs(Color&&) {
-            return false;
-        }
+        template<class First, class ...Rest>
+        const Logger & log(Config::LogLevel level, First && first, Rest && ...rest) const;
 
         template<class Arg>
-        void log(Arg && single) const {
-            std::cout << single;
-            if (addWs(single)) {
-                std::cout << ' ';
+        const Logger & log(Config::LogLevel level, Arg && first) const;
+
+        void out(Indent && indent) const {
+            std::cout << indent;
+        }
+
+        void out(Color && color) const {
+            std::cout << color;
+        }
+
+        template<class T>
+        void out(T && t) const {
+            std::cout << t << ' ';
+        }
+
+        template<class First, class ...Rest>
+        void out(First && first, Rest && ...rest) const {
+            out(std::forward<First>(first));
+            out(std::forward<Rest>(rest)...);
+        }
+
+        template<class First, class ...Rest>
+        void logHelper(First && first, Rest && ...rest) const {
+            out(std::forward<First>(first));
+            out(std::forward<Rest>(rest)...);
+        }
+
+        template<class First>
+        void logHelper(First && first) const {
+            out(std::forward<First>(first));
+        }
+
+        void printInfo(Config::LogLevel level) const {
+            if (config.printLevel) {
+                if (config.colorize) {
+                    std::cout << levelColors.at(level);
+                }
+                std::cout << levelNames.at(level) << ": ";
+                if (config.colorize) {
+                    std::cout << Color::Reset;
+                }
+            }
+
+            if (config.printOwner) {
+                std::cout << "(" << owner << ") ";
             }
         }
-
-        template<class ...Args>
-        void log(Args && ...args) const {
-            (log(std::forward<Args>(args)), ...);
-        }
-
-//        template<class First, class ...Rest>
-//        struct Log {
-//            using Next = Log<Rest...>;
-//            static constexpr const size_t size = 1 + Next::size;
-//
-//            template<class C>
-//            static inline constexpr C forEach(C cb, First && first, Rest && ...rest) {
-//                cb(std::forward<First>(first));
-//                Next::forEach(cb, std::forward<Rest>...);
-//                return cb;
-//            }
-//
-//            template<class C>
-//            inline constexpr C operator()(C cb, First && first, Rest && ...rest) const {
-//                return forEach(cb, std::forward<First>(first), std::forward<Rest>(rest)...);
-//            }
-//        };
-//
-//        template<class First>
-//        struct Log<First> {
-//            static constexpr const std::size_t size = 1;
-//
-//            template<class C>
-//            inline static constexpr C forEach(C cb, First && first) {
-//                cb(std::forward<First>(first));
-//                return cb;
-//            }
-//
-//            template<class C>
-//            inline constexpr C operator()(C cb, First && first) const {
-//                return forEach(cb, std::forward<First>(first));
-//            }
-//        };
-//
-//        template<>
-//        struct Log<Indent> {
-//            template<class C>
-//            inline constexpr C operator()(C cb, Indent && indent) const {
-//                return forEach(cb, std::forward<Indent>)
-//            }
-//        };
 
     public:
         static const std::map<Color, std::string> unixColors;

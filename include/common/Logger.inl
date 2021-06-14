@@ -62,27 +62,27 @@ inline std::ostream & operator<<(std::ostream & os, Indent indent) {
 
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
-    return log(Config::LogLevel::Debug, args...);
+    return log(Config::LogLevel::Debug, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::info(Args && ...args) const {
-    return log(Config::LogLevel::Info, args...);
+    return log(Config::LogLevel::Info, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::warn(Args && ...args) const {
-    return log(Config::LogLevel::Warn, args...);
+    return log(Config::LogLevel::Warn, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::error(Args && ...args) const {
-    return log(Config::LogLevel::Error, args...);
+    return log(Config::LogLevel::Error, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::dev(Args && ...args) const {
-    return log(Config::LogLevel::Dev, args...);
+    return log(Config::LogLevel::Dev, std::forward<Args>(args)...);
 }
 
 template<class Arg, class ...Args>
@@ -154,30 +154,30 @@ std::string Logger::format(Arg && first, Args && ...other) {
     return ss.str();
 }
 
-template<class Arg, class ...Args>
-const Logger & Logger::log(Config::LogLevel level, Arg && first, Args && ...other) const {
+template<class First, class ...Rest>
+const Logger & Logger::log(Config::LogLevel level, First && first, Rest && ...rest) const {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }
 
-    if (config.printLevel) {
-        if (config.colorize) {
-            std::cout << levelColors.at(level);
-        }
-        std::cout << levelNames.at(level) << ": ";
-        if (config.colorize) {
-            std::cout << Color::Reset;
-        }
-    }
-
-    if (config.printOwner) {
-        std::cout << "(" << owner << ") ";
-    }
-
-    log(first);
-    log(other...);
-
+    printInfo(level);
+    logHelper(std::forward<First>(first));
+    logHelper(std::forward<Rest>(rest)...);
     nl();
 
     return *this;
 }
+
+template<class First>
+const Logger & Logger::log(Config::LogLevel level, First && first) const {
+    if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
+        return *this;
+    }
+
+    printInfo(level);
+    logHelper(std::forward<First>(first));
+    nl();
+
+    return *this;
+}
+
