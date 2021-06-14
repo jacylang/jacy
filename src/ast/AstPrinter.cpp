@@ -608,12 +608,6 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printIndent() const {
-        for (int i = 0; i < indent; i++) {
-            log.raw(indentChar);
-        }
-    }
-
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
             attr->accept(*this);
@@ -639,6 +633,11 @@ namespace jc::ast {
         }
 
         printDelim(typeParams, "<", ">");
+    }
+
+    // Indentation //
+    void AstPrinter::printIndent() const {
+        log.raw(common::Indent(indent));
     }
 
     void AstPrinter::incIndent() {

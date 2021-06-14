@@ -112,7 +112,6 @@ namespace jc::ast {
         common::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
-        void printIndent() const;
         void printAttributes(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
@@ -189,7 +188,9 @@ namespace jc::ast {
             printBodyLike(unwrappedEls, delim);
         }
 
-        const std::string indentChar = "  ";
+        // Indentation //
+    private:
+        void printIndent() const;
         void incIndent();
         void decIndent();
         uint16_t indent{0};

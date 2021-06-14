@@ -112,10 +112,9 @@ void Logger::devDebug(Arg && first, Args && ...other) {
     nl();
 }
 
-template<class Arg, class ...Args>
-const Logger & Logger::raw(Arg && first, Args && ...other) const {
-    std::cout << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+template<class ...Rest>
+const Logger & Logger::raw(Rest && ...rest) const {
+    out(std::cout, std::forward<Rest>(rest)...);
     return *this;
 }
 
