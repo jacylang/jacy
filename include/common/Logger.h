@@ -116,40 +116,40 @@ namespace jc::common {
         template<class ...Args>
         const Logger & dev(Args && ...args) const;
 
-        template<class ...Rest>
-        const Logger & raw(Rest && ...other) const;
+        template<class ...Args>
+        const Logger & raw(Args && ...other) const;
 
-        template<class Arg, class ...Args>
-        static void colorized(Color color, Arg && first, Args && ...other);
+        template<class ...Args>
+        static void colorized(Color color, Args && ...args);
 
         /// Prints text as title, used only for one-line messages which are not long
-        template<class Arg, class ...Args>
-        static void printTitleDev(Arg && first, Args && ...other);
+        template<class ...Args>
+        static void printTitleDev(Args && ...args);
 
         static inline void nl() {
             std::cout << std::endl;
         }
 
-        template<class Arg, class ...Args>
-        static void print(Arg && first, Args && ...other);
+        template<class ...Args>
+        static void print(Args && ...args);
 
-        template<class Arg, class ...Args>
-        static std::string format(Arg && first, Args && ...other);
+        template<class ...Args>
+        static std::string format(Args && ...args);
 
         LoggerConfig & getConfig() {
             return config;
         }
 
-        // DEBUG //
-        template<class Arg, class ...Args>
-        static void devPanic(Arg && first, Args && ...other);
+        // DEV //
+        template<class ...Args>
+        static void devPanic(Args && ...args);
 
         static void notImplemented(const std::string & what) {
             Logger::devPanic("Not implemented error: `" + what + "`");
         }
 
-        template<class Arg, class ...Args>
-        static void devDebug(Arg && first, Args && ...other);
+        template<class ...Args>
+        static void devDebug(Args && ...args);
 
         static constexpr uint8_t wrapLen{120};
 

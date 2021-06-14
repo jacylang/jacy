@@ -81,14 +81,13 @@ const Logger & Logger::dev(Args && ...args) const {
     return log(Config::LogLevel::Dev, std::forward<Args>(args)...);
 }
 
-template<class Arg, class ...Args>
-void Logger::devPanic(Arg && first, Args && ...other) {
+template<class ...Args>
+void Logger::devPanic(Args && ...args) {
     out(
         std::cout,
         levelColors.at(Config::LogLevel::Error),
         "[DEV PANIC]:",
-        std::forward<Arg>(first),
-        std::forward<Args>(other)...,
+        std::forward<Args>(args)...,
         Color::Reset
     );
     nl();
@@ -96,8 +95,8 @@ void Logger::devPanic(Arg && first, Args && ...other) {
     throw common::Error("Stop after dev panic!");
 }
 
-template<class Arg, class... Args>
-void Logger::devDebug(Arg && first, Args && ...other) {
+template<class... Args>
+void Logger::devDebug(Args && ...args) {
     if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
     }
@@ -106,31 +105,30 @@ void Logger::devDebug(Arg && first, Args && ...other) {
         levelColors.at(Config::LogLevel::Dev),
         "[DEV]:",
         Color::Reset,
-        std::forward<Arg>(first),
-        std::forward<Args>(other)...
+        std::forward<Args>(args)...
     );
     nl();
 }
 
-template<class ...Rest>
-const Logger & Logger::raw(Rest && ...rest) const {
-    out(std::cout, std::forward<Rest>(rest)...);
+template<class ...Args>
+const Logger & Logger::raw(Args && ...args) const {
+    out(std::cout, std::forward<Args>(args)...);
     return *this;
 }
 
-template<class Arg, class ...Args>
-void Logger::colorized(Color color, Arg && first, Args && ...other) {
-    out(std::cout, color, first, other..., Color::Reset);
+template<class ...Args>
+void Logger::colorized(Color color, Args && ...other) {
+    out(std::cout, color, other..., Color::Reset);
     nl();
 }
 
-template<class Arg, class ...Args>
-void Logger::printTitleDev(Arg && first, Args && ...other) {
+template<class ...Args>
+void Logger::printTitleDev(Args && ...args) {
     if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
     }
 
-    const auto & title = format(std::forward<Arg>(first), std::forward<Args>(other)...);
+    const auto & title = format(std::forward<Args>(args)...);
     if (title.size() > wrapLen + 2) {
         // FIXME: Yeah, wtf? WE PANIC INSIDE LOGGER!!!
         devPanic("Too long message in `Logger::printTitleDev`");
@@ -141,16 +139,15 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
     std::cout << indent << (indentSize % 2 == 1 ? "= " : " ") << title << " " << indent << std::endl;
 }
 
-template<class Arg, class ...Args>
-void Logger::print(Arg && first, Args && ...other)  {
-    std::cout << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+template<class ...Args>
+void Logger::print(Args && ...args)  {
+    out(std::cout, args..., Color::Reset);
 }
 
-template<class Arg, class ...Args>
-std::string Logger::format(Arg && first, Args && ...other) {
+template<class ...Args>
+std::string Logger::format(Args && ...args) {
     std::stringstream ss;
-    out(ss, std::forward<Arg>(first), std::forward<Args>(other)...);
+    out(ss, std::forward<Args>(args)...);
     return ss.str();
 }
 
