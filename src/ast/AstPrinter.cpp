@@ -110,7 +110,6 @@ namespace jc::ast {
             // For one-line block increment indent to make it prettier
             func.oneLineBody.unwrap().accept(*this);
         } else {
-            log.raw(" ");
             func.body.unwrap().accept(*this);
         }
     }
