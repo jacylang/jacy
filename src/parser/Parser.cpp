@@ -2625,8 +2625,8 @@ namespace jc::parser {
         if (not extraDebugEntities) {
             return;
         }
-        entitiesEntries.push_back(entity);
         logEntry(true, entity);
+        entitiesEntries.push_back(entity);
     }
 
     void Parser::exitEntity() {
@@ -2636,14 +2636,15 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
-        logEntry(false, entitiesEntries.at(entitiesEntries.size() - 1));
+        const auto entry = entitiesEntries.at(entitiesEntries.size() - 1);
         entitiesEntries.pop_back();
+        logEntry(false, entry);
     }
 
     void Parser::logEntry(bool enter, const std::string & entity) {
         using common::Color;
         using common::Indent;
-        const auto & msg = std::string(enter ? "-> Enter" : "<- Exit") +" `" + entity + "`";
+        const auto & msg = std::string(enter ? "> Enter" : "< Exit") +" `" + entity + "`";
         const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
             (enter ? Color::DarkGreen : Color::DarkRed),
@@ -2664,7 +2665,7 @@ namespace jc::parser {
         if (not extraDebugEntities) {
             return;
         }
-        const auto & msg = "-- Parse `" + entity + "`";
+        const auto & msg = "- Parse `" + entity + "`";
         const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
             Color::Orange,

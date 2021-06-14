@@ -143,7 +143,8 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 void Logger::print(Arg && first, Args && ...other)  {
-    out(std::cout, std::forward<Arg>(first), std::forward<Args>(other)...);
+    out(std::cout, std::forward<Arg>(first));
+    out(std::cout, std::forward<Args>(other)...);
 }
 
 template<class Arg, class ...Args>
