@@ -95,7 +95,7 @@ void Logger::devPanic(Args && ...args) {
     throw common::Error("Stop after dev panic!");
 }
 
-template<class... Args>
+template<class ...Args>
 void Logger::devDebug(Args && ...args) {
     if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
@@ -117,8 +117,8 @@ const Logger & Logger::raw(Args && ...args) const {
 }
 
 template<class ...Args>
-void Logger::colorized(Color color, Args && ...other) {
-    out(std::cout, color, other..., Color::Reset);
+void Logger::colorized(Color color, Args && ...args) {
+    out(std::cout, std::forward<Color>(color), std::forward<Args>(args)..., Color::Reset);
     nl();
 }
 
@@ -141,7 +141,7 @@ void Logger::printTitleDev(Args && ...args) {
 
 template<class ...Args>
 void Logger::print(Args && ...args)  {
-    out(std::cout, args..., Color::Reset);
+    out(std::cout, std::forward<Args>(args)..., Color::Reset);
 }
 
 template<class ...Args>

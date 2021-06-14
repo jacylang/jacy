@@ -184,10 +184,25 @@ namespace jc::common {
             return s << color;
         }
 
+        template<class T>
+        static inline bool addWs(T&&) {
+            return true;
+        }
+
+        static inline bool addWs(Indent&&) {
+            return false;
+        }
+
+        static inline bool addWs(Color) {
+            return false;
+        }
+
         template<class Left, class ...Rest>
         static inline os & out(os & s, Left && left, Rest && ...rest) {
             out(s, std::forward<Left>(left));
-            std::cout << ' ';
+            if (addWs(std::forward<Left>(left))) {
+                std::cout << ' ';
+            }
             return out(s, std::forward<Rest>(rest)...);
         }
 
