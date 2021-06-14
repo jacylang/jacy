@@ -34,6 +34,6 @@ namespace jc::ast {
     }
 
     void DirTreePrinter::printIndent() {
-        common::Logger::print(utils::str::repeat(" ", indent));
+        common::Logger::print(common::Indent(indent));
     }
 }
