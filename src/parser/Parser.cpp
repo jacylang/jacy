@@ -201,6 +201,10 @@ namespace jc::parser {
             common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
         }
 
+        if (extraDebugAll) {
+            devLogWithIndent("[just] Skip", Token::kindToString(kind), "| got", peek().toString(true));
+        }
+
         advance();
 
         if (skipRightNLs) {
