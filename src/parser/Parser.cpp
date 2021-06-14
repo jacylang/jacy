@@ -243,7 +243,7 @@ namespace jc::parser {
     // Items //
     ///////////
     dt::Option<item_ptr> Parser::parseOptItem() {
-        enterEntity("[opt] Item");
+        logParse("[opt] Item");
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
@@ -284,8 +284,6 @@ namespace jc::parser {
             }
             default: {}
         }
-
-        exitEntity();
 
         if (maybeItem) {
             auto item = maybeItem.unwrap().unwrap();
@@ -930,6 +928,8 @@ namespace jc::parser {
     // Expressions //
     /////////////////
     opt_expr_ptr Parser::parseOptExpr() {
+        logParse("[opt] Expr");
+
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return)) {
             enterEntity("ReturnExpr");
@@ -2193,11 +2193,13 @@ namespace jc::parser {
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
+        logParse("[opt] SimplePath");
+
         if (not is({TokenKind::Path, TokenKind::Id, TokenKind::Super, TokenKind::Party, TokenKind::Self})) {
             return dt::None;
         }
 
-        enterEntity("[opt] SimplePath");
+        enterEntity("SimplePath");
 
         const auto & begin = cspan();
 
@@ -2301,6 +2303,8 @@ namespace jc::parser {
     }
 
     opt_type_ptr Parser::parseOptType() {
+        logParse("[opt] Type");
+
         // Array type
         if (is(TokenKind::LBracket)) {
             return parseArrayType();
@@ -2462,6 +2466,8 @@ namespace jc::parser {
     }
 
     opt_type_params Parser::parseOptTypeParams() {
+        logParse("[opt] TypeParams");
+
         if (not is(TokenKind::LAngle)) {
             return dt::None;
         }
@@ -2554,6 +2560,8 @@ namespace jc::parser {
     }
 
     opt_type_path_ptr Parser::parseOptTypePath() {
+        logParse("[opt] TypePath");
+
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenKind::Path, true);
 
@@ -2566,7 +2574,7 @@ namespace jc::parser {
             return dt::None;
         }
 
-        enterEntity("[opt] TypePath");
+        enterEntity("TypePath");
 
         id_t_list segments;
         while (not eof()) {
@@ -2613,8 +2621,8 @@ namespace jc::parser {
         if (not extraDebugEntities) {
             return;
         }
+        entitiesEntries.push_back(entity);
         logEntry(true, entity);
-        entitiesEntries.emplace_back(entity);
     }
 
     void Parser::exitEntity() {
@@ -2624,8 +2632,8 @@ namespace jc::parser {
         if (entitiesEntries.empty()) {
             log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
-        entitiesEntries.pop_back();
         logEntry(false, entitiesEntries.at(entitiesEntries.size() - 1));
+        entitiesEntries.pop_back();
     }
 
     void Parser::logEntry(bool enter, const std::string & entity) {
