@@ -86,7 +86,7 @@ void Logger::devPanic(Arg && first, Args && ...other) {
     out(
         std::cout,
         levelColors.at(Config::LogLevel::Error),
-        "[DEV PANIC]: ",
+        "[DEV PANIC]:",
         std::forward<Arg>(first),
         std::forward<Args>(other)...,
         Color::Reset
@@ -104,7 +104,7 @@ void Logger::devDebug(Arg && first, Args && ...other) {
     out(
         std::cout,
         levelColors.at(Config::LogLevel::Dev),
-        "[DEV]: ",
+        "[DEV]:",
         Color::Reset,
         std::forward<Arg>(first),
         std::forward<Args>(other)...
