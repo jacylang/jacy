@@ -12,8 +12,7 @@ std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
             os << ", ";
         }
     }
-    os << "]";
-    return os;
+    return os << "]";
 }
 
 template<class K, class V>
@@ -25,8 +24,7 @@ std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
             os << ", ";
         }
     }
-    os << "}";
-    return os;
+    return os << "}";
 }
 
 template<class K, class V>
@@ -40,8 +38,7 @@ inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, 
         }
         i++;
     }
-    os << "}";
-    return os;
+    return os << "}";
 }
 
 std::ostream & operator<<(std::ostream & os, Color color) {
@@ -56,8 +53,7 @@ std::ostream & operator<<(std::ostream & os, Color color) {
 }
 
 inline std::ostream & operator<<(std::ostream & os, Indent indent) {
-    std::cout << utils::str::repeat(Indent::indentString, indent.inner);
-    return os;
+    return os << utils::str::repeat(Indent::indentString, indent.inner);
 }
 
 template<class ...Args>
@@ -87,36 +83,45 @@ const Logger & Logger::dev(Args && ...args) const {
 
 template<class Arg, class ...Args>
 void Logger::devPanic(Arg && first, Args && ...other) {
-    std::cout << levelColors.at(Config::LogLevel::Error);
-    std::cout << "[DEV PANIC]: " << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
-    std::cout << Color::Reset;
-    Logger::nl();
+    out(
+        std::cout,
+        levelColors.at(Config::LogLevel::Error),
+        "[DEV PANIC]: ",
+        std::forward<Arg>(first),
+        std::forward<Args>(other)...,
+        Color::Reset
+    );
+    nl();
 
     throw common::Error("Stop after dev panic!");
 }
 
 template<class Arg, class... Args>
-void Logger::devDebug(Arg && first, Args && ... other) {
+void Logger::devDebug(Arg && first, Args && ...other) {
     if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
         return;
     }
-    std::cout << levelColors.at(Config::LogLevel::Dev) << "[DEV]: " << Color::Reset << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
-    Logger::nl();
+    out(
+        std::cout,
+        levelColors.at(Config::LogLevel::Dev),
+        "[DEV]: ",
+        Color::Reset,
+        std::forward<Arg>(first),
+        std::forward<Args>(other)...
+    );
+    nl();
 }
 
 template<class Arg, class ...Args>
 const Logger & Logger::raw(Arg && first, Args && ...other) const {
-    std::cout << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+    out(std::cout, std::forward<Arg>(first), std::forward<Args>(other)...);
     return *this;
 }
 
 template<class Arg, class ...Args>
 void Logger::colorized(Color color, Arg && first, Args && ...other) {
-    std::cout << color; // Not putting it to `raw`, because it will be prefixed with white-space
-    raw(first, other..., Color::Reset).nl();
+    out(std::cout, color, first, other..., Color::Reset);
+    nl();
 }
 
 template<class Arg, class ...Args>
@@ -125,11 +130,7 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
         return;
     }
 
-    std::stringstream ss;
-    ss << std::forward<Arg>(first);
-    ((ss << ' ' << std::forward<Args>(other)), ...);
-
-    const auto & title = ss.str();
+    const auto & title = format(std::forward<Arg>(first), std::forward<Args>(other)...);
     if (title.size() > wrapLen + 2) {
         // FIXME: Yeah, wtf? WE PANIC INSIDE LOGGER!!!
         devPanic("Too long message in `Logger::printTitleDev`");
@@ -142,15 +143,13 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 void Logger::print(Arg && first, Args && ...other)  {
-    std::cout << std::forward<Arg>(first);
-    ((std::cout << ' ' << std::forward<Args>(other)), ...);
+    out(std::cout, std::forward<Arg>(first), std::forward<Args>(other)...);
 }
 
 template<class Arg, class ...Args>
 std::string Logger::format(Arg && first, Args && ...other) {
     std::stringstream ss;
-    ss << first;
-    ((ss << ' ' << other), ...);
+    out(ss, std::forward<Arg>(first), std::forward<Args>(other)...);
     return ss.str();
 }
 
@@ -161,8 +160,7 @@ const Logger & Logger::log(Config::LogLevel level, First && first, Rest && ...re
     }
 
     printInfo(level);
-    logHelper(std::forward<First>(first));
-    logHelper(std::forward<Rest>(rest)...);
+    out(std::cout, std::forward<First>(first), std::forward<Rest>(rest)...);
     nl();
 
     return *this;
@@ -175,7 +173,7 @@ const Logger & Logger::log(Config::LogLevel level, First && first) const {
     }
 
     printInfo(level);
-    logHelper(std::forward<First>(first));
+    out(std::cout, std::forward<First>(first));
     nl();
 
     return *this;

@@ -275,7 +275,7 @@ namespace jc::parser {
         void logParse(const std::string & entity);
 
         template<class ...Args>
-        void devLogWithIndent(Args && ...args) {
+        void devLogWithIndent(Args && ...args) const {
             const auto indent = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
             log.dev(common::Indent(indent), args...);
         }

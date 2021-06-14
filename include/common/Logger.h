@@ -120,7 +120,7 @@ namespace jc::common {
         const Logger & raw(Arg && first, Args && ...other) const;
 
         template<class Arg, class ...Args>
-        void colorized(Color color, Arg && first, Args && ...other);
+        static void colorized(Color color, Arg && first, Args && ...other);
 
         /// Prints text as title, used only for one-line messages which are not long
         template<class Arg, class ...Args>
@@ -163,44 +163,41 @@ namespace jc::common {
         template<class Arg>
         const Logger & log(Config::LogLevel level, Arg && first) const;
 
-        void out(Indent && indent) const {
-            std::cout << indent;
-        }
+        // Overload's //
+    private:
+        using os = std::ostream;
 
-        void out(Color && color) const {
-            std::cout << color;
+        static inline os & out(os & s) {
+            return s;
         }
 
         template<class T>
-        void out(T && t) const {
-            std::cout << t << ' ';
+        static inline os & out(os & s, T && t) {
+            return s << t << ' ';
         }
 
-        template<class First, class ...Rest>
-        void out(First && first, Rest && ...rest) const {
-            out(std::forward<First>(first));
-            out(std::forward<Rest>(rest)...);
+        static inline os & out(os & s, Indent && indent) {
+            return s << indent;
         }
 
-        template<class First, class ...Rest>
-        void logHelper(First && first, Rest && ...rest) const {
-            out(std::forward<First>(first));
-            out(std::forward<Rest>(rest)...);
+        static inline os & out(os & s, Color color) {
+            return s << color;
         }
 
-        template<class First>
-        void logHelper(First && first) const {
-            out(std::forward<First>(first));
+        template<class Left, class ...Rest>
+        static inline os & out(os & s, Left && left, Rest && ...rest) {
+            out(s, std::forward<Left>(left));
+            return out(s, std::forward<Rest>(rest)...);
         }
 
         void printInfo(Config::LogLevel level) const {
             if (config.printLevel) {
                 if (config.colorize) {
-                    std::cout << levelColors.at(level);
+                    out(std::cout, levelColors.at(level));
                 }
                 std::cout << levelNames.at(level) << ": ";
                 if (config.colorize) {
-                    std::cout << Color::Reset;
+                    out(std::cout, Color::Reset);
                 }
             }
 
