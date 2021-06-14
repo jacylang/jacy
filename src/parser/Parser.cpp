@@ -1097,17 +1097,6 @@ namespace jc::parser {
         const auto skipLeftNLs = (flags >> 1) & 1;
         const auto skipRightNLs = flags & 1;
 
-        if (extraDebugAll) {
-            log.dev(
-                "precParse:" + std::to_string(index),
-                "settings:",
-                "multiple:", multiple,
-                "rightAssoc:", rightAssoc,
-                "skipLeftNLs:", skipLeftNLs,
-                "skipRightNLs:", skipRightNLs
-            );
-        }
-
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
@@ -1182,7 +1171,7 @@ namespace jc::parser {
         {0b1011, {TokenKind::In,     TokenKind::NotIn}},
         {0b1011, {TokenKind::NullCoalesce}},
         {0b1011, {TokenKind::Shl,    TokenKind::Shr}},
-        {0b1000, {TokenKind::Id}}, // TODO: Think if we can skip right NLs
+//        {0b1000, {TokenKind::Id}}, // TODO: Think if we can skip right NLs
         {0b1011, {TokenKind::Range,  TokenKind::RangeEQ}},
         {0b1011, {TokenKind::Add,    TokenKind::Sub}},
         {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
