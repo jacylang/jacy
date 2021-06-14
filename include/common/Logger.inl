@@ -114,7 +114,8 @@ void Logger::devDebug(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 const Logger & Logger::raw(Arg && first, Args && ...other) const {
-    out(std::cout, std::forward<Arg>(first), std::forward<Args>(other)...);
+    std::cout << std::forward<Arg>(first);
+    ((std::cout << ' ' << std::forward<Args>(other)), ...);
     return *this;
 }
 
@@ -143,8 +144,8 @@ void Logger::printTitleDev(Arg && first, Args && ...other) {
 
 template<class Arg, class ...Args>
 void Logger::print(Arg && first, Args && ...other)  {
-    out(std::cout, std::forward<Arg>(first));
-    out(std::cout, std::forward<Args>(other)...);
+    std::cout << std::forward<Arg>(first);
+    ((std::cout << ' ' << std::forward<Args>(other)), ...);
 }
 
 template<class Arg, class ...Args>
