@@ -579,13 +579,30 @@ but in lambda parameters `name: type`.
 **#2**
 - Use `record {name: expression}`
 
-**#3** This is the most complex way, but it likely will allow us to save
-all preferred syntaxes. We improve parsing of expressions enclosed into
-`()` and save everything inside `()` into some stack. Then if we see
-that there's a `->` after `)` -- it is a lambda, otherwise -- it is a
+Why this is a bad solution:
+- We reserve new keyword for mostly
+
+**#3**
+
+This is the most complex way, but it likely will allow us to save all
+preferred syntaxes. We improve parsing of expressions enclosed into `()`
+and save everything inside `()` into some stack. Then if we see that
+there's a `->` after `)` -- it is a lambda, otherwise -- it is a
 named-tuple. As knowing that, we can parse tokens inside `()`
 considering `something` in `(name: something)` to be either an
 expression either type.
+
+Example:
+
+```
+let a = (name: 123)
+let b = (param: i32) -> param + 1
+```
+
+When we parse `a`'s and `b`'s assigned expressions we see `(`, then
+collect all tokens until we find `)` and if we found `->` after `)` --
+we parse these tokens as lambda parameters (`b` case), if there isn't
+`->` after `)` -- we parse tokens as named-tuple (`a` case).
 
 **#4**
 - Do not have structurally typed records at all
