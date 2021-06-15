@@ -75,9 +75,9 @@ Example usage:
 
 ###### Key-value arguments
 
-- `-print` - (any count of parameters) - debug argument that allows to print
- representations of some
-  structures on different compilation stages:
+- `-print` - (any count of parameters) - debug argument that allows to
+  print representations of some structures on different compilation
+  stages:
   - `all` - prints everything described below
   - `dir-tree` - prints directory tree where root file is placed, so we
     can check which files will be compiled
@@ -102,19 +102,20 @@ Example usage:
   - (Same parameters as in `-log-level`)
 - `-name-resolver-log-level` - (1 parameter) - NameResolver log level
   - (Same parameters as in `-log-level`)
-- `-compile-depth` - (1 parameter, depends on `dev`) - controls how deep will
-  compilation process go by workflow (each next argument implicitly includes
-  all previous arguments):
+- `-compile-depth` - (1 parameter, depends on `dev`) - controls how deep
+  will compilation process go by workflow (each next argument implicitly
+  includes all previous arguments):
   - `parser` - stops after parsing files
   - `name-resolution` - stops after name resolution
 - `-benchmark` - (1 parameter) - controls benchmarks printing kind
   - `final` - only one benchmark for the whole compilation process
   - `each-stage` - benches each stage of compilation process
-- `-parser-extra-debug` (depends on `dev`) - enables additional debug logs in
- parser
+- `-parser-extra-debug` (depends on `dev`) - enables additional debug
+  logs in parser
   - `no` - (default) - No extra debug info
   - `entries` - Prints what syntax syntax units parser enters and leave
-  - `all` - Prints `entries` and also special much info about skipping, etc.
+  - `all` - Prints `entries` and also special much info about skipping,
+    etc.
 
 ###### Boolean arguments
 
@@ -123,9 +124,11 @@ Example usage:
   more debug info everywhere.
 
 ###### Explicit Boolean argument value
-What if you want to set bool-arg to `false`?
-Let's imagine that `--dev` is set by default (it is not anyway).
-There is pretty same syntax for bool-args as for key-value args:
+
+What if you want to set bool-arg to `false`? Let's imagine that `--dev`
+is set by default (it is not anyway). There is pretty same syntax for
+bool-args as for key-value args:
+
 ```
 --dev=no
 ```
@@ -133,21 +136,21 @@ There is pretty same syntax for bool-args as for key-value args:
 There's a bunch of allowed bool values:
 
 | (Truthy) | (Falsy) |
-| -------- | ------- |
-| yes | no |
-| y | n |
-| true | false |
-| 1 | 0 |
-| on | off |
+|:---------|:--------|
+| yes      | no      |
+| y        | n       |
+| true     | false   |
+| 1        | 0       |
+| on       | off     |
 
 Also, they're case insensitive (alpha-values of course):
 
 | (Truthy) | (Falsy) |
-| --- | --- |
-| Yes | No |
-| Y | N |
-| True | False |
-| On | Off |
+|:---------|:--------|
+| Yes      | No      |
+| Y        | N       |
+| True     | False   |
+| On       | Off     |
 
 ### Basics
 
@@ -543,4 +546,72 @@ qualifier does not mean that everything inside it will be inlined, you
 still can declare `let` or use `if` inside of it. `const` just means the
 compiler will check function for constness and tell you if it's not.
 
+### Structual typing / Nominal typing
+
+I wanna both:
+- Structurally typed records (aka `record` or named-tuple)
+- Nominally typed records (aka `struct`)
+- Structurally typed tuples (raw tuples)
+- Nominally typed tuples (aka rustish tuple-structs)
+
+#### Problems
+
+##### Structurally typed records
+
+I consider using `()` for tuples and `{}` for structs. Anyway, there are
+some problems, as far as we've got block-expression. `{}` can be either
+a block-expression, either struct literal. This is why struct-literal is
+always nominal: `path::to::Struct {...}`.
+
+Why not use `()` and use named-tuples for structurally typed records? -
+I want to change syntax of lambda functions (which now use `|params...|
+expression` syntax) to `(params...) -> expression`. As far as lambda
+parameters can have type annotation we cannot disambiguate named-tuple
+and lambda parameters, because in named-tuple we have `name: expression`
+but in lambda parameters `name: type`.
+
+###### Solutions
+
+**#1** I don't like this one anyway:
+- Use `|params...| expression` syntax for lambda functions
+- Use `(name: expression)` syntax for named-tuples
+
+**#2**
+- Use `record {name: expression}`
+
+Why this is a bad solution:
+- We reserve new keyword for mostly
+
+**#3**
+
+This is the most complex way, but it likely will allow us to save all
+preferred syntaxes. We improve parsing of expressions enclosed into `()`
+and save everything inside `()` into some stack. Then if we see that
+there's a `->` after `)` -- it is a lambda, otherwise -- it is a
+named-tuple. As knowing that, we can parse tokens inside `()`
+considering `something` in `(name: something)` to be either an
+expression either type.
+
+Example:
+
+```
+let a = (name: 123)
+let b = (param: i32) -> param + 1
+```
+
+When we parse `a`'s and `b`'s assigned expressions we see `(`, then
+collect all tokens until we find `)` and if we found `->` after `)` --
+we parse these tokens as lambda parameters (`b` case), if there isn't
+`->` after `)` -- we parse tokens as named-tuple (`a` case).
+
+**#4**
+- Do not have structurally typed records at all
+
+> I think this solution wins, why?
+> - We won't have additional confusing syntax
+> - We don't implement something we would rarely use (tuples are more
+>   convenient than named-tuples in most cases)
+> - Structurally typed records are not really useful (we cannot add
+>   implementations for them, so in every complex case we would prefer
+>   `struct`)
 
