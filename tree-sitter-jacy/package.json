@@ -1,0 +1,25 @@
+{
+  "name": "tree-sitter-jacy",
+  "version": "1.0.0",
+  "description": "Tree-Sitter grammar for Jacy",
+  "main": "grammar.js",
+  "scripts": {
+    "gen": "tree-sitter generate",
+    "parse": "tree-sitter parse",
+    "parse-sample": "tree-sitter parse ./example.jc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hazer-hazer/Jacy.git"
+  },
+  "keywords": [
+    "tree-sitter",
+    "jacy"
+  ],
+  "author": "hazer-hazer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hazer-hazer/Jacy/issues"
+  },
+  "homepage": "https://github.com/hazer-hazer/Jacy#readme"
+}
