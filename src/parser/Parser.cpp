@@ -425,12 +425,12 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Impl, true, "`impl`", "`parseImpl`");
+        justSkip(TokenKind::Impl, "`impl`", "`parseImpl`");
 
         auto typeParams = parseOptTypeParams();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
-        skip(TokenKind::For, true, true, "Missing `for`", Recovery::Any);
+        skip(TokenKind::For, "Missing `for`", Recovery::Any);
 
         auto forType = parseType("Missing type");
 
