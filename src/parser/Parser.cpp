@@ -64,18 +64,11 @@ namespace jc::parser {
     }
 
     // Skippers //
-    void Parser::skipSemi(bool optional, bool) {
+    void Parser::skipSemi() {
         // TODO: Useless semi sugg
-        // Note: Order matters -- we use virtual semi first
-        if (useVirtualSemi()) {
+        if (not isSemis()) {
+            suggestErrorMsg("Missing `;`", prev().span);
             return;
-        }
-        if (not isSemis() and not optional) {
-            suggestErrorMsg("`;` or new-line expected", prev().span);
-            return;
-        }
-        if (extraDebugAll) {
-            devLogWithIndent("Skip", optional ? "optional" : "required", "semi | got:", peek().toString(true));
         }
         advance();
     }

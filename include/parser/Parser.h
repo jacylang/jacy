@@ -151,7 +151,7 @@ namespace jc::parser {
         bool isSemis();
 
         // Skippers //
-        void skipSemi(bool optional, bool useless = false);
+        void skipSemi();
         dt::Option<Token> skip(
             TokenKind kind,
             const std::string & expected,
