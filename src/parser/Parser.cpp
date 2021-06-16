@@ -602,7 +602,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Use, true, "`use`", "`parseUseDecl`");
+        justSkip(TokenKind::Use, "`use`", "`parseUseDecl`");
 
         auto useTree = parseUseTree();
 
