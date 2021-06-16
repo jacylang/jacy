@@ -927,8 +927,8 @@ namespace jc::parser {
 
         const auto & parser = precTable.at(index);
         const auto flags = parser.flags;
-        const auto multiple = (flags >> 3) & 1;
-        const auto rightAssoc = (flags >> 2) & 1;
+        const auto multiple = (flags >> 1) & 1;
+        const auto rightAssoc = flags & 1;
 
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
@@ -982,24 +982,24 @@ namespace jc::parser {
     }
 
     const std::vector<PrecParser> Parser::precTable = {
-        {0b1011, {TokenKind::Pipe}},
-        {0b1011, {TokenKind::Or}},
-        {0b1011, {TokenKind::And}},
-        {0b1011, {TokenKind::BitOr}},
-        {0b1011, {TokenKind::Xor}},
-        {0b1011, {TokenKind::BitAnd}},
-        {0b1011, {TokenKind::Eq,     TokenKind::NotEq,  TokenKind::RefEq, TokenKind::RefNotEq}},
-        {0b1011, {TokenKind::LAngle, TokenKind::RAngle, TokenKind::LE,    TokenKind::GE}},
-        {0b1011, {TokenKind::Spaceship}},
-        {0b1011, {TokenKind::In,     TokenKind::NotIn}},
-        {0b1011, {TokenKind::NullCoalesce}},
-        {0b1011, {TokenKind::Shl,    TokenKind::Shr}},
-//        {0b1000, {TokenKind::Id}}, // TODO: Think if we can skip right NLs
-        {0b1011, {TokenKind::Range,  TokenKind::RangeEQ}},
-        {0b1011, {TokenKind::Add,    TokenKind::Sub}},
-        {0b1011, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
-        {0b0111, {TokenKind::Power}}, // Note: Right-assoc
-        {0b1011, {TokenKind::As}},
+        {0b11, {TokenKind::Pipe}},
+        {0b11, {TokenKind::Or}},
+        {0b11, {TokenKind::And}},
+        {0b11, {TokenKind::BitOr}},
+        {0b11, {TokenKind::Xor}},
+        {0b11, {TokenKind::BitAnd}},
+        {0b11, {TokenKind::Eq,     TokenKind::NotEq,  TokenKind::RefEq, TokenKind::RefNotEq}},
+        {0b11, {TokenKind::LAngle, TokenKind::RAngle, TokenKind::LE,    TokenKind::GE}},
+        {0b11, {TokenKind::Spaceship}},
+        {0b11, {TokenKind::In,     TokenKind::NotIn}},
+        {0b11, {TokenKind::NullCoalesce}},
+        {0b11, {TokenKind::Shl,    TokenKind::Shr}},
+//        {0b00, {TokenKind::Id}},
+        {0b11, {TokenKind::Range,  TokenKind::RangeEQ}},
+        {0b11, {TokenKind::Add,    TokenKind::Sub}},
+        {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
+        {0b11, {TokenKind::Power}}, // Note: Right-assoc
+        {0b11, {TokenKind::As}},
     };
 
     opt_expr_ptr Parser::prefix() {

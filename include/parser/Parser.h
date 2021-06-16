@@ -46,15 +46,15 @@
 
 namespace jc::parser {
     // Note: Usage
-    //  0b00001111 - `0` are unused
+    //  0b00000011 - `0` are unused
     //  0. --
     //  1. --
     //  2. --
     //  3. --
-    //  4. Multiple?
-    //  5. Right-assoc?
-    //  6. Skip optional left NLs?
-    //  7. Skip optional right NLs?
+    //  4. --
+    //  5. --
+    //  6. Multiple?
+    //  7. Right-assoc?
     using prec_parser_flags = uint8_t;
     using namespace ast;
 
