@@ -775,7 +775,7 @@ namespace jc::parser {
         advance();
 
         // TODO: Destructuring
-        auto name = parseId("`" + peek().kindToString() + "` name", true, true);
+        auto name = parseId("`" + peek().kindToString() + "` name");
 
         dt::Option<type_ptr> type;
         if (skipOpt(TokenKind::Colon)) {
@@ -783,7 +783,7 @@ namespace jc::parser {
         }
 
         opt_expr_ptr assignExpr;
-        if (skipOpt(TokenKind::Assign, true)) {
+        if (skipOpt(TokenKind::Assign)) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
 
