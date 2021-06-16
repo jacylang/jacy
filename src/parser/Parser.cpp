@@ -60,7 +60,7 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        return useVirtualSemi() or is(TokenKind::Semi);
+        return is(TokenKind::Semi);
     }
 
     // Skippers //
