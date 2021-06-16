@@ -1123,10 +1123,10 @@ namespace jc::parser {
         }
 
         auto begin = cspan();
-        while (skipOpt(TokenKind::Dot, true)) {
+        while (skipOpt(TokenKind::Dot)) {
             logParse("MemberAccess");
 
-            auto name = parseId("field name", true, true);
+            auto name = parseId("field name");
 
             lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
             begin = cspan();
