@@ -700,7 +700,7 @@ namespace jc::parser {
                 }
 
                 auto exprStmt = makeStmt<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
-                skipSemi(false);
+                skipSemi();
                 return std::static_pointer_cast<Stmt>(exprStmt);
             }
         }
