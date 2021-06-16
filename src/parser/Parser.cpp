@@ -575,7 +575,7 @@ namespace jc::parser {
 
         auto useTree = parseUseTree();
 
-        skipSemi(false);
+        skipSemi();
 
         exitEntity();
 
