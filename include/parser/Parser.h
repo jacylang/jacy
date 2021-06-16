@@ -151,8 +151,6 @@ namespace jc::parser {
         bool isSemis();
         bool isHardSemi();
         void emitVirtualSemi();
-        bool useVirtualSemi();
-        bool virtualSemi{false};
 
         // Skippers //
         void skipSemi(bool optional, bool useless = false);

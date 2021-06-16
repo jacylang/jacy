@@ -76,17 +76,6 @@ namespace jc::parser {
         virtualSemi = true;
     }
 
-    bool Parser::useVirtualSemi() {
-        if (extraDebugAll) {
-            devLogWithIndent("Use virtual semi | got", peek().toString(true));
-        }
-        if (virtualSemi) {
-            virtualSemi = false;
-            return true;
-        }
-        return false;
-    }
-
     // Skippers //
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
