@@ -2263,7 +2263,7 @@ namespace jc::parser {
         logParse("[opt] TypePath");
 
         const auto & maybePathToken = peek();
-        bool global = skipOpt(TokenKind::Path, true);
+        bool global = skipOpt(TokenKind::Path);
 
         if (not is(TokenKind::Id)) {
             if (global) {
@@ -2279,7 +2279,7 @@ namespace jc::parser {
         id_t_list segments;
         while (not eof()) {
             const auto & segBegin = cspan();
-            auto name = parseId("identifier in type path", true, true);
+            auto name = parseId("identifier in type path");
             auto typeParams = parseOptTypeParams();
 
             segments.push_back(
