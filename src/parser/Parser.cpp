@@ -452,31 +452,24 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Struct, true, "`struct`", "`parseStruct`");
+        justSkip(TokenKind::Struct, "`struct`", "`parseStruct`");
 
-        auto name = parseId("`struct` name", true, true);
+        auto name = parseId("`struct` name");
         auto typeParams = parseOptTypeParams();
 
         struct_field_list fields;
         if (not isHardSemi()) {
             skip(
                 TokenKind::LBrace,
-                true,
-                true,
                 "Expected opening `{` or `;` to ignore body in `struct`",
                 Recovery::Once
             );
 
             fields = parseStructFields();
 
-            skip(
-                TokenKind::RBrace,
-                true,
-                true,
-                "Expected closing `}` in `struct`"
-            );
+            skip(TokenKind::RBrace, "Expected closing `}` in `struct`");
         } else if (not eof()) {
-            justSkip(TokenKind::Semi, false, "`;`", "`parseStruct`");
+            justSkip(TokenKind::Semi, "`;`", "`parseStruct`");
         }
 
         exitEntity();
