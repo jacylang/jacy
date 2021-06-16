@@ -1631,7 +1631,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::When, true, "`when`", "`parseWhenExpr`");
+        justSkip(TokenKind::When, "`when`", "`parseWhenExpr`");
 
         auto subject = parseExpr("Expected subject expression in `when` expression");
 
@@ -1643,8 +1643,6 @@ namespace jc::parser {
 
         skip(
             TokenKind::LBrace,
-            true,
-            true,
             "To start `when` body put `{` here or `;` to ignore body",
             Recovery::Once
         );
@@ -1657,8 +1655,6 @@ namespace jc::parser {
             } else {
                 skip(
                     TokenKind::Comma,
-                    true,
-                    true,
                     "Missing `,` delimiter between `when` entries"
                 );
             }
@@ -1670,12 +1666,7 @@ namespace jc::parser {
             entries.push_back(parseWhenEntry());
         }
 
-        skip(
-            TokenKind::RBrace,
-            true,
-            true,
-            "Missing closing `}` at the end of `when` body"
-        );
+        skip(TokenKind::RBrace, "Missing closing `}` at the end of `when` body");
 
         exitEntity();
 
