@@ -134,18 +134,20 @@ namespace jc::ast {
             }
             if (chop) {
                 log.nl();
+                incIndent();
             }
-            incIndent();
             for (size_t i = 0; i < elements.size(); i++) {
-                printIndent();
+                if (chop) {
+                    printIndent();
+                }
                 elements.at(i)->accept(*this);
                 if (i < elements.size() - 1) {
                     log.raw(delim);
                 }
             }
-            decIndent();
             if (chop) {
                 log.nl();
+                decIndent();
                 printIndent();
             }
             if (not end.empty()) {
