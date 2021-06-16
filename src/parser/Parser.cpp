@@ -1991,12 +1991,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` delimiter tuple fields"
-                );
+                skip(TokenKind::Comma, "Missing `,` delimiter tuple fields");
             }
 
             if (is(TokenKind::RParen)) {
@@ -2005,8 +2000,8 @@ namespace jc::parser {
 
             auto elBegin = cspan();
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto name = justParseId("`parseTupleFields`", true);
-                justSkip(TokenKind::Colon, true, "`:`", "`parseTupleFields`");
+                auto name = justParseId("`parseTupleFields`");
+                justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
                     makeNode<TupleTypeEl>(std::move(name), std::move(type), elBegin.to(cspan()))
