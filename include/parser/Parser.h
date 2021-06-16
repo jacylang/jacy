@@ -206,7 +206,7 @@ namespace jc::parser {
 
         // Atomic expressions //
         id_ptr justParseId(const std::string & panicIn);
-        id_ptr parseId(const std::string & expected, bool skipLeftNLs, bool skipRightNls);
+        id_ptr parseId(const std::string & expected);
         path_expr_ptr parsePathExpr();
         expr_ptr parseLiteral();
         expr_ptr parseListExpr();
