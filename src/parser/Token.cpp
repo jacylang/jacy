@@ -50,7 +50,6 @@ namespace jc::parser {
 
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {
         {TokenKind::Eof,                "EOF"},
-        {TokenKind::Nl,                 "NL"},
         {TokenKind::DecLiteral,         "DecLiteral"},
         {TokenKind::BinLiteral,         "BinLiteral"},
         {TokenKind::OctLiteral,         "OctLiteral"},
