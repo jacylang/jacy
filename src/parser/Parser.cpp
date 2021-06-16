@@ -1209,7 +1209,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         const auto & maybePathToken = peek();
-        bool global = skipOpt(TokenKind::Path, true);
+        bool global = skipOpt(TokenKind::Path);
 
         if (not is(TokenKind::Id)) {
             if (global) {
@@ -1243,7 +1243,7 @@ namespace jc::parser {
                 }
                 case TokenKind::Id: {
                     kind = ast::PathExprSeg::Kind::Ident;
-                    ident = justParseId("`parsePathExpr`", false);
+                    ident = justParseId("`parsePathExpr`");
                     break;
                 }
                 default: {
@@ -1263,7 +1263,7 @@ namespace jc::parser {
 
             opt_type_params typeParams;
             bool pathNotGeneric = false;
-            if (skipOpt(TokenKind::Path, true)) {
+            if (skipOpt(TokenKind::Path)) {
                 typeParams = parseOptTypeParams();
                 pathNotGeneric = not typeParams;
             }
