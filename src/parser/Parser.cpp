@@ -1347,7 +1347,7 @@ namespace jc::parser {
     expr_ptr Parser::parseTupleOrParenExpr() {
         const auto & begin = cspan();
 
-        justSkip(TokenKind::LParen, true, "`(`", "`parseTupleOrParenExpr`");
+        justSkip(TokenKind::LParen, "`(`", "`parseTupleOrParenExpr`");
 
         // Empty tuple //
         if (skipOpt(TokenKind::RParen)) {
@@ -1367,22 +1367,16 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator in tuple literal"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
             }
 
             auto exprToken = peek();
 
             opt_id_ptr name = dt::None;
             opt_expr_ptr value = dt::None;
-            skipNLs(true);
 
             if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseTupleOrParenExpr`", true);
+                auto identifier = justParseId("`parseTupleOrParenExpr`");
                 if (skipOpt(TokenKind::Colon)) {
                     name = identifier;
                     value = parseExpr("Expected value after `:` in tuple");
@@ -1410,12 +1404,7 @@ namespace jc::parser {
                 makeNode<NamedElement>(std::move(name), std::move(value), exprToken.span.to(cspan()))
             );
         }
-        skip(
-            TokenKind::RParen,
-            true,
-            false,
-            "Expected closing `)`"
-        );
+        skip(TokenKind::RParen, "Expected closing `)`");
 
         if (namedList.size() == 1 and not namedList.at(0)->name and namedList.at(0)->value) {
             exitEntity();
