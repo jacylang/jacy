@@ -2052,7 +2052,7 @@ namespace jc::parser {
         if (is(TokenKind::LParen)) {
             auto tupleElements = parseParenType();
 
-            if (skipOpt(TokenKind::Arrow, true)) {
+            if (skipOpt(TokenKind::Arrow)) {
                 return parseFuncType(std::move(tupleElements), begin);
             } else {
                 if (tupleElements.empty()) {
