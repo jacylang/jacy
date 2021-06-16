@@ -73,6 +73,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const ExprStmt & exprStmt) {
         exprStmt.expr.accept(*this);
+        log.raw(";");
     }
 
     void AstPrinter::visit(const ForStmt & forStmt) {
