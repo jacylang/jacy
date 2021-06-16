@@ -1684,12 +1684,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` delimiter between patterns"
-                );
+                skip(TokenKind::Comma, "Missing `,` delimiter between patterns");
             }
 
             // Check also for closing brace to not going to bottom of file (checkout please)
@@ -1703,8 +1698,6 @@ namespace jc::parser {
 
         skip(
             TokenKind::DoubleArrow,
-            true,
-            true,
             "Expected `=>` after `when` entry conditions",
             Recovery::Once
         );
