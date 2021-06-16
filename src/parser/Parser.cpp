@@ -1828,7 +1828,7 @@ namespace jc::parser {
 
     func_param_list Parser::parseFuncParamList() {
         const auto maybeParenToken = peek();
-        if (not skipOpt(TokenKind::LParen, true)) {
+        if (not skipOpt(TokenKind::LParen)) {
             return {};
         }
 
@@ -1837,8 +1837,6 @@ namespace jc::parser {
         func_param_list params;
         bool first = true;
         while (not eof()) {
-            skipNLs(true);
-
             if (is(TokenKind::RParen)) {
                 break;
             }
@@ -1846,24 +1844,14 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator in tuple literal"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
             }
 
             auto param = parseFuncParam();
 
             params.push_back(param);
         }
-        skip(
-            TokenKind::RParen,
-            true,
-            true,
-            "Missing closing `)` after `func` parameter list"
-        );
+        skip(TokenKind::RParen, "Missing closing `)` after `func` parameter list");
 
         exitEntity();
 
