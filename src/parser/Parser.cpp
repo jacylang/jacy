@@ -1714,7 +1714,7 @@ namespace jc::parser {
         opt_block_ptr body;
         opt_expr_ptr oneLineBody;
 
-        if (skipOpt(TokenKind::Assign, true)) {
+        if (skipOpt(TokenKind::Assign)) {
             oneLineBody = parseExpr("Expression expected for one-line `func` body");
         } else {
             body = parseBlock("func", BlockArrow::NotAllowed);
