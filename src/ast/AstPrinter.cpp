@@ -637,7 +637,7 @@ namespace jc::ast {
 
     // Indentation //
     void AstPrinter::printIndent() const {
-        log.raw(common::Indent(indent));
+        log.raw(common::Indent<4>(indent));
     }
 
     void AstPrinter::incIndent() {
