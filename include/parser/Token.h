@@ -29,7 +29,6 @@ namespace jc::parser {
 
     enum class TokenKind : uint8_t {
         Eof,
-        Nl,
         DecLiteral,
         BinLiteral,
         OctLiteral,
