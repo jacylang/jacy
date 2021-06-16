@@ -862,18 +862,16 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         bool expectParams = false;
-        if (skipOpt(TokenKind::BitOr, true)) {
+        if (skipOpt(TokenKind::BitOr)) {
             expectParams = true;
         } else {
-            justSkip(TokenKind::Or, true, "`||`", "`parseLambda`");
+            justSkip(TokenKind::Or, "`||`", "`parseLambda`");
         }
 
         lambda_param_list params;
         if (expectParams) {
             bool first = true;
             while (not eof()) {
-                skipNLs(true);
-
                 if (is(TokenKind::BitOr)) {
                     break;
                 }
@@ -881,18 +879,13 @@ namespace jc::parser {
                 if (first) {
                     first = false;
                 } else {
-                    skip(
-                        TokenKind::Comma,
-                        true,
-                        true,
-                        "Missing `,` separator between lambda parameters"
-                    );
+                    skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
                 }
 
                 const auto & paramBegin = cspan();
-                auto name = parseId("lambda parameter name", true, true);
+                auto name = parseId("lambda parameter name");
                 opt_type_ptr type;
-                if (skipOpt(TokenKind::Colon, true)) {
+                if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
 
@@ -902,17 +895,12 @@ namespace jc::parser {
                     )
                 );
             }
-            skip(
-                TokenKind::BitOr,
-                true,
-                true,
-                "Missing closing `|` at the end of lambda parameters"
-            );
+            skip(TokenKind::BitOr, "Missing closing `|` at the end of lambda parameters");
         }
 
         opt_type_ptr returnType;
         opt_expr_ptr body;
-        if (skipOpt(TokenKind::Arrow, true)) {
+        if (skipOpt(TokenKind::Arrow)) {
             returnType = parseType("Expected lambda return type after `->`");
             body = Expr::asBase(
                 parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed)
