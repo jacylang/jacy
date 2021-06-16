@@ -52,10 +52,6 @@ std::ostream & operator<<(std::ostream & os, Color color) {
     return os;
 }
 
-inline std::ostream & operator<<(std::ostream & os, const Indent & indent) {
-    return os << utils::str::repeat(Indent::indentString, indent.inner);
-}
-
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
     return log(Config::LogLevel::Debug, std::forward<Args>(args)...);

@@ -65,11 +65,15 @@ namespace jc::common {
         Block,
     };
 
+    template<uint8_t S = 2>
     struct Indent {
-        Indent(uint64_t indent) : inner(indent) {}
+        Indent(size_t inner) : inner(inner) {}
 
-        const uint64_t inner;
-        constexpr static auto indentString = "  ";
+        size_t inner;
+
+        friend std::ostream & operator<<(std::ostream & os, const Indent<S> & indent) {
+            return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
+        }
     };
 
     // TODO!: map for config with collection of allowed args and constexpr check
@@ -90,8 +94,6 @@ namespace jc::common {
     inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
 
     inline std::ostream & operator<<(std::ostream & os, Color color);
-
-    inline std::ostream & operator<<(std::ostream & os, const Indent & indent);
 
     class Logger {
     public:
@@ -178,7 +180,8 @@ namespace jc::common {
             return true;
         }
 
-        static inline bool addWs(Indent&&) {
+        template<uint8_t S>
+        static inline bool addWs(Indent<S>&&) {
             return false;
         }
 
