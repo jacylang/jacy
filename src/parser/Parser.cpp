@@ -171,16 +171,13 @@ namespace jc::parser {
         advance();
     }
 
-    dt::Option<Token> Parser::skipOpt(TokenKind kind, bool skipRightNLs) {
+    dt::Option<Token> Parser::skipOpt(TokenKind kind) {
         auto last = dt::Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
                 devLogWithIndent("Skip optional", Token::kindToString(kind), "| got", peek().toString(true));
             }
             advance();
-            if (skipRightNLs) {
-                skipNLs(true);
-            }
             return last;
         }
         return dt::None;
