@@ -345,30 +345,20 @@ namespace jc::parser {
         enterEntity("EnumEntry");
 
         const auto & begin = cspan();
-        auto name = parseId("`enum` entry name", true, true);
+        auto name = parseId("`enum` entry name");
 
-        if (skipOpt(TokenKind::Assign, true)) {
+        if (skipOpt(TokenKind::Assign)) {
             auto discriminant = parseExpr("Expected constant expression after `=`");
             exitEntity();
             return makeNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), begin.to(cspan()));
-        } else if (skipOpt(TokenKind::LParen, true)) {
+        } else if (skipOpt(TokenKind::LParen)) {
             // TODO
 
-            skip(
-                TokenKind::RParen,
-                true,
-                false,
-                "closing `)`"
-            );
-        } else if (skipOpt(TokenKind::LBrace, true)) {
+            skip(TokenKind::RParen, "closing `)`");
+        } else if (skipOpt(TokenKind::LBrace)) {
             auto fields = parseStructFields();
 
-            skip(
-                TokenKind::RParen,
-                true,
-                false,
-                "Expected closing `}`"
-            );
+            skip(TokenKind::RParen, "Expected closing `}`");
 
             exitEntity();
             return makeNode<EnumEntry>(
