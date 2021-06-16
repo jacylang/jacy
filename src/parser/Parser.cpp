@@ -1491,7 +1491,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
-        if (skipOpt(TokenKind::DoubleArrow, true)) {
+        if (skipOpt(TokenKind::DoubleArrow)) {
             if (arrow == BlockArrow::NotAllowed) {
                 suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
             } else if (arrow == BlockArrow::Useless) {
@@ -1513,10 +1513,10 @@ namespace jc::parser {
         bool brace = false;
         if (arrow == BlockArrow::Just) {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
-            justSkip(TokenKind::LBrace, true, "`{`", "`parseBlock:Just`");
+            justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
             brace = true;
         } else {
-            brace = skipOpt(TokenKind::LBrace, true);
+            brace = skipOpt(TokenKind::LBrace);
         }
 
         stmt_list stmts;
@@ -1528,8 +1528,6 @@ namespace jc::parser {
 
             bool first = true;
             while (not eof()) {
-                skipNLs(true);
-
                 if (is(TokenKind::RBrace)) {
                     break;
                 }
@@ -1541,12 +1539,7 @@ namespace jc::parser {
 
                 stmts.push_back(parseStmt());
             }
-            skip(
-                TokenKind::RBrace,
-                true,
-                true,
-                "Missing closing `}` at the end of " + construction + " body"
-            );
+            skip(TokenKind::RBrace, "Missing closing `}` at the end of " + construction + " body");
         } else if (allowOneLine) {
             auto expr = parseExpr("Expected expression in one-line block in " + construction);
             // Note: Don't require semis for one-line body
