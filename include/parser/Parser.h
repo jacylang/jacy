@@ -161,7 +161,7 @@ namespace jc::parser {
             const std::string & expected,
             Recovery recovery = Recovery::None
         );
-        void justSkip(TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn);
+        void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
         opt_token skipOpt(TokenKind kind, bool skipRightNLs = false);
 
         // Parsers //

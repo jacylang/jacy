@@ -159,9 +159,7 @@ namespace jc::parser {
         return found;
     }
 
-    void Parser::justSkip(
-        TokenKind kind, bool skipRightNLs, const std::string & expected, const std::string & panicIn
-    ) {
+    void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
         if (not peek().is(kind)) {
             common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
         }
@@ -171,10 +169,6 @@ namespace jc::parser {
         }
 
         advance();
-
-        if (skipRightNLs) {
-            skipNLs(true);
-        }
     }
 
     dt::Option<Token> Parser::skipOpt(TokenKind kind, bool skipRightNLs) {
