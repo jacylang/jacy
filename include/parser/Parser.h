@@ -158,8 +158,6 @@ namespace jc::parser {
         void skipSemi(bool optional, bool useless = false);
         dt::Option<Token> skip(
             TokenKind kind,
-            bool skipLeftNLs,
-            bool skipRightNLs,
             const std::string & expected,
             Recovery recovery = Recovery::None
         );

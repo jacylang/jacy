@@ -104,21 +104,7 @@ namespace jc::parser {
         advance();
     }
 
-    opt_token Parser::skip(
-        TokenKind kind, bool skipLeftNLs, bool skipRightNLs, const std::string & expected, Recovery recovery
-    ) {
-        // FIXME: Add param for virtual semi emitting
-        // bool skippedLeftNLs;
-        // if (skipLeftNLs) {
-        //     // We have't found specific token, but skipped NLs which are semis
-        //     emitVirtualSemi();
-        // }
-
-        if (skipLeftNLs) {
-//            skippedLeftNLs = skipNLs(true);
-            skipNLs(true);
-        }
-
+    opt_token Parser::skip(TokenKind kind, const std::string & expected, Recovery recovery) {
         opt_token found{dt::None};
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
@@ -169,10 +155,6 @@ namespace jc::parser {
         }
 
         advance();
-
-        if (skipRightNLs) {
-            skipNLs(true);
-        }
 
         return found;
     }
