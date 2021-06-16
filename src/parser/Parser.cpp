@@ -1863,12 +1863,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        auto name = parseId("`func` parameter name", true, true);
+        auto name = parseId("`func` parameter name");
 
         const auto colonSkipped = skip(
             TokenKind::Colon,
-            true,
-            true,
             "`func` parameters without type are not allowed, please put `:` here and specify type",
             Recovery::Once
         );
@@ -1877,7 +1875,6 @@ namespace jc::parser {
         opt_expr_ptr defaultValue;
         if (peek().isAssignOp()) {
             advance();
-            skipNLs(true);
             defaultValue = parseExpr("Expression expected as default value of function parameter");
         }
 
