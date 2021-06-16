@@ -564,15 +564,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Type, true, "`type`", "`parseTypeAlias`");
+        justSkip(TokenKind::Type, "`type`", "`parseTypeAlias`");
 
-        auto name = parseId("`type` name", true, true);
-        skip(
-            TokenKind::Assign,
-            true,
-            true,
-            "Expected `=` in type alias"
-        );
+        auto name = parseId("`type` name");
+        skip(TokenKind::Assign, "Expected `=` in type alias");
         auto type = parseType("Expected type");
 
         exitEntity();
