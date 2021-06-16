@@ -2186,7 +2186,7 @@ namespace jc::parser {
 
         enterEntity("TypeParams");
 
-        justSkip(TokenKind::LAngle, true, "`<`", "`parseOptTypeParams`");
+        justSkip(TokenKind::LAngle, "`<`", "`parseOptTypeParams`");
 
         type_param_list typeParams;
 
@@ -2199,23 +2199,18 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator between type parameters"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator between type parameters");
             }
 
             const auto & typeParamBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick)) {
-                auto name = parseId("lifetime parameter name", false, false);
+                auto name = parseId("lifetime parameter name");
                 typeParams.push_back(
                     makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
                 );
             } else if (is(TokenKind::Id)) {
-                auto name = justParseId("`parseOptTypeParams`", true);
+                auto name = justParseId("`parseOptTypeParams`");
                 opt_type_ptr type;
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
@@ -2223,12 +2218,10 @@ namespace jc::parser {
                 typeParams.push_back(
                     makeNode<GenericType>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
                 );
-            } else if (skipOpt(TokenKind::Const, true)) {
-                auto name = parseId("`const` parameter name", true, true);
+            } else if (skipOpt(TokenKind::Const)) {
+                auto name = parseId("`const` parameter name");
                 skip(
                     TokenKind::Colon,
-                    true,
-                    true,
                     "Expected `:` to annotate `const` generic type",
                     Recovery::Once
                 );
@@ -2246,12 +2239,7 @@ namespace jc::parser {
                 suggestErrorMsg("Expected type parameter", typeParamBegin);
             }
         }
-        skip(
-            TokenKind::RAngle,
-            true,
-            true,
-            "Missing closing `>` in type parameter list"
-        );
+        skip(TokenKind::RAngle, "Missing closing `>` in type parameter list");
 
         exitEntity();
 
