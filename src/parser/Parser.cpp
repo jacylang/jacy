@@ -931,7 +931,6 @@ namespace jc::parser {
             );
 
             advance();
-            skipNLs(true);
 
             auto rhs = parseExpr("Expected expression in assignment");
 
