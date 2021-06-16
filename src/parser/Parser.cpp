@@ -275,7 +275,7 @@ namespace jc::parser {
         auto typeParams = parseOptTypeParams();
 
         enum_entry_list entries;
-        if (not isHardSemi()) {
+        if (not isSemis()) {
             skip(TokenKind::LBrace, "`{` to start `enum` body here or `;` to ignore it", Recovery::Once);
 
             bool first = true;
@@ -427,7 +427,7 @@ namespace jc::parser {
         auto typeParams = parseOptTypeParams();
 
         struct_field_list fields;
-        if (not isHardSemi()) {
+        if (not isSemis()) {
             skip(
                 TokenKind::LBrace,
                 "Expected opening `{` or `;` to ignore body in `struct`",
