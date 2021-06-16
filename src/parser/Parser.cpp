@@ -375,10 +375,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Func, true, "`func`", "`parseFunc`");
+        justSkip(TokenKind::Func, "`func`", "`parseFunc`");
 
         auto typeParams = parseOptTypeParams();
-        auto name = parseId("`func` name", true, true);
+        auto name = parseId("`func` name");
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenKind::LParen);
@@ -390,9 +390,9 @@ namespace jc::parser {
 
         bool typeAnnotated = false;
         const auto & maybeColonToken = peek();
-        if (skipOpt(TokenKind::Colon, true)) {
+        if (skipOpt(TokenKind::Colon)) {
             typeAnnotated = true;
-        } else if (skipOpt(TokenKind::Arrow, true)) {
+        } else if (skipOpt(TokenKind::Arrow)) {
             suggestErrorMsg(
                 "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
             );
