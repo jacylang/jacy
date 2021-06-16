@@ -798,7 +798,7 @@ namespace jc::parser {
         enterEntity("WhileStmt");
         const auto & begin = cspan();
 
-        justSkip(TokenKind::While, true, "`while`", "`parseWhileStmt`");
+        justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", BlockArrow::Allow);
