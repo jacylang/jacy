@@ -59,10 +59,6 @@ namespace jc::parser {
         return false;
     }
 
-    bool Parser::isNL() {
-        return peek().is(TokenKind::Nl);
-    }
-
     bool Parser::isSemis() {
         return useVirtualSemi() or is(TokenKind::Semi) or isNL();
     }
