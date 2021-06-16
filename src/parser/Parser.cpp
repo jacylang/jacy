@@ -1617,7 +1617,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Loop, true, "`loop`", "`parseLoopExpr`");
+        justSkip(TokenKind::Loop, "`loop`", "`parseLoopExpr`");
 
         auto body = parseBlock("loop", BlockArrow::Allow);
 
