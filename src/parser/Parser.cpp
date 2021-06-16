@@ -67,15 +67,6 @@ namespace jc::parser {
         return is(TokenKind::Semi) or eof();
     }
 
-    void Parser::emitVirtualSemi() {
-        if (extraDebugAll) {
-            devLogWithIndent("Emit virtual semi | got", peek().toString(true));
-        }
-        // Used when we skipped NLs and haven't found something we want,
-        // It's used to make parser return-free
-        virtualSemi = true;
-    }
-
     // Skippers //
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
