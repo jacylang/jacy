@@ -74,13 +74,22 @@ module.exports = grammar({
         /////////////////
         _expr: $ => choice(
             $._literal,
+            $.ident,
             $.lambda,
             $.block_expr,
             $.unit_expr,
+            $.tuple,
+            $.paren_expr,
         ),
 
         _literal: $ => choice(
             $.number,
+        ),
+
+        paren_expr: $ => seq(
+            '(',
+            $._expr,
+            ')',
         ),
 
         // Control-flow body //
@@ -101,7 +110,9 @@ module.exports = grammar({
         // Tuple //
         tuple: $ => seq(
             '(',
-            delim1(',', $._expr),
+            seq($._expr, ','),
+            repeat(seq($._expr, ',')),
+            optional($._expr),
             ')',
         ),
 
