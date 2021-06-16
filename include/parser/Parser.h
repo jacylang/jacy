@@ -149,8 +149,6 @@ namespace jc::parser {
         bool is(TokenKind kind) const;
         bool is(const std::vector<TokenKind> & kinds) const;
         bool isSemis();
-        bool isHardSemi();
-        void emitVirtualSemi();
 
         // Skippers //
         void skipSemi(bool optional, bool useless = false);

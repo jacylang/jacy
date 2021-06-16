@@ -63,10 +63,6 @@ namespace jc::parser {
         return useVirtualSemi() or is(TokenKind::Semi);
     }
 
-    bool Parser::isHardSemi() {
-        return is(TokenKind::Semi) or eof();
-    }
-
     // Skippers //
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
