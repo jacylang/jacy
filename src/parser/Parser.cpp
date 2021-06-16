@@ -1006,11 +1006,11 @@ namespace jc::parser {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
-            skipOpt(TokenKind::Not, true) or
-            skipOpt(TokenKind::Sub, true) or
-            skipOpt(TokenKind::BitAnd, true) or
-            skipOpt(TokenKind::And, true) or
-            skipOpt(TokenKind::Mul, true)
+            skipOpt(TokenKind::Not) or
+            skipOpt(TokenKind::Sub) or
+            skipOpt(TokenKind::BitAnd) or
+            skipOpt(TokenKind::And) or
+            skipOpt(TokenKind::Mul)
         ) {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
@@ -1022,7 +1022,7 @@ namespace jc::parser {
             if (op.is(TokenKind::BitAnd) or op.is(TokenKind::And)) {
                 logParse("Borrow");
 
-                bool mut = skipOpt(TokenKind::Mut, true);
+                bool mut = skipOpt(TokenKind::Mut);
                 return Expr::pureAsBase(
                     makeNode<BorrowExpr>(op.is(TokenKind::And), mut, std::move(rhs), begin.to(cspan()))
                 );
