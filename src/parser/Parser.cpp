@@ -1742,7 +1742,7 @@ namespace jc::parser {
 
         enterEntity("Attribute");
 
-        auto name = parseId("attribute name", true, true);
+        auto name = parseId("attribute name");
         auto params = parseNamedList("attribute");
 
         exitEntity();
@@ -1752,7 +1752,7 @@ namespace jc::parser {
     named_list Parser::parseNamedList(const std::string & construction) {
         enterEntity("NamedList:" + construction);
 
-        justSkip(TokenKind::LParen, true, "`(`", "`parseNamedList`");
+        justSkip(TokenKind::LParen, "`(`", "`parseNamedList`");
 
         named_list namedList;
 
@@ -1765,12 +1765,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator between arguments in " + construction
-                );
+                skip(TokenKind::Comma, "Missing `,` separator between arguments in " + construction);
             }
 
             const auto & exprToken = peek();
@@ -1778,7 +1773,7 @@ namespace jc::parser {
             opt_expr_ptr value = dt::None;
 
             if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseNamedList`", true);
+                auto identifier = justParseId("`parseNamedList`");
                 if (skipOpt(TokenKind::Colon)) {
                     name = identifier;
                     value = parseExpr("Expected value after `:`");
@@ -1808,12 +1803,7 @@ namespace jc::parser {
                 )
             );
         }
-        skip(
-            TokenKind::RParen,
-            true,
-            false,
-            "Expected closing `)` in " + construction
-        );
+        skip(TokenKind::RParen, "Expected closing `)` in " + construction);
 
         exitEntity();
 
