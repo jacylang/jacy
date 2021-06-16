@@ -493,25 +493,15 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator between `struct` fields"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator between `struct` fields");
             }
 
             const auto & begin = cspan();
             attr_list attributes = parseAttrList();
-            auto id = parseId("field name", true, true);
+            auto id = parseId("field name");
 
             // TODO: Hint field name
-            skip(
-                TokenKind::Colon,
-                true,
-                true,
-                "Missing `:` to annotate field type"
-            );
+            skip(TokenKind::Colon, "Missing `:` to annotate field type");
 
             // TODO: Hint field type
             auto type = parseType("Expected type for field after `:`");
