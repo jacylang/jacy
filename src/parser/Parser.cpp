@@ -626,7 +626,7 @@ namespace jc::parser {
                 return std::static_pointer_cast<UseTree>(makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())));
             }
 
-            if (skipOpt(TokenKind::LBrace, true)) {
+            if (skipOpt(TokenKind::LBrace)) {
                 // `{...}` case
                 use_tree_list specifics;
 
@@ -639,12 +639,7 @@ namespace jc::parser {
                     if (first) {
                         first = false;
                     } else {
-                        skip(
-                            TokenKind::Comma,
-                            true,
-                            true,
-                            "Expected `,` delimiter between `use` specifics"
-                        );
+                        skip(TokenKind::Comma, "Expected `,` delimiter between `use` specifics");
                     }
 
                     if (is(TokenKind::RBrace)) {
@@ -653,12 +648,7 @@ namespace jc::parser {
 
                     specifics.emplace_back(parseUseTree());
                 }
-                skip(
-                    TokenKind::RBrace,
-                    true,
-                    false,
-                    "Expected closing `}` in `use`"
-                );
+                skip(TokenKind::RBrace, "Expected closing `}` in `use`");
 
                 exitEntity();
 
@@ -678,14 +668,14 @@ namespace jc::parser {
             advance();
         }
 
-        if (maybePath and skipOpt(TokenKind::As, true)) {
+        if (maybePath and skipOpt(TokenKind::As)) {
             // `as ...` case
 
             if (not maybePath) {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
-            auto as = parseId("binding name after `as`", true, true);
+            auto as = parseId("binding name after `as`");
             exitEntity();
             return std::static_pointer_cast<UseTree>(
                 makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
