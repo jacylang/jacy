@@ -2074,7 +2074,7 @@ namespace jc::parser {
     tuple_t_el_list Parser::parseParenType() {
         enterEntity("ParenType");
 
-        justSkip(TokenKind::LParen, true, "`(`", "`parseParenType`");
+        justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
 
         if (skipOpt(TokenKind::RParen)) {
             exitEntity();
@@ -2097,8 +2097,7 @@ namespace jc::parser {
             const auto & elBegin = cspan();
             opt_id_ptr name;
             if (is(TokenKind::Id)) {
-                name = justParseId("`parenType`", true);
-                skipNLs(true);
+                name = justParseId("`parenType`");
             }
 
             opt_type_ptr type;
@@ -2113,12 +2112,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator in tuple type"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator in tuple type");
             }
 
             tupleElements.push_back(
@@ -2130,12 +2124,7 @@ namespace jc::parser {
             );
             elIndex++;
         }
-        skip(
-            TokenKind::RParen,
-            true,
-            true,
-            "Missing closing `)` in tuple type"
-        );
+        skip(TokenKind::RParen, "Missing closing `)` in tuple type");
 
         exitEntity();
         return tupleElements;
