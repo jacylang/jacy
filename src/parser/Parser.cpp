@@ -1310,23 +1310,16 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::LBracket, true, "`[`", "`parseListExpr`");
+        justSkip(TokenKind::LBracket, "`[`", "`parseListExpr`");
 
         expr_list elements;
 
         bool first = true;
         while (not eof()) {
-            skipNLs(true);
-
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` separator in list expression"
-                );
+                skip(TokenKind::Comma, "Missing `,` separator in list expression");
             }
 
             if (skipOpt(TokenKind::RBracket)) {
