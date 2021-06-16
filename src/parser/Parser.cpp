@@ -582,26 +582,15 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Module, true, "`mod`", "`parseMod`");
+        justSkip(TokenKind::Module, "`mod`", "`parseMod`");
 
-        auto name = parseId("`mod` name", true, true);
+        auto name = parseId("`mod` name");
 
-        skip(
-            TokenKind::LBrace,
-            true,
-            true,
-            "Expected opening `{` for `mod` body",
-            Recovery::Once
-        );
+        skip(TokenKind::LBrace, "Expected opening `{` for `mod` body", Recovery::Once);
 
         auto items = parseItemList("Unexpected expression in `mod`", TokenKind::RBrace);
 
-        skip(
-            TokenKind::RBrace,
-            true,
-            true,
-            "Expected closing `}` in `mod`"
-        );
+        skip(TokenKind::RBrace, "Expected closing `}` in `mod`");
 
         exitEntity();
 
