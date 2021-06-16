@@ -1566,9 +1566,9 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         if (isElif) {
-            justSkip(TokenKind::Elif, true, "`elif`", "`parseIfExpr`");
+            justSkip(TokenKind::Elif, "`elif`", "`parseIfExpr`");
         } else {
-            justSkip(TokenKind::If, true, "`if`", "`parseIfExpr`");
+            justSkip(TokenKind::If, "`if`", "`parseIfExpr`");
         }
 
         const auto & maybeParen = peek();
@@ -1587,7 +1587,7 @@ namespace jc::parser {
             ifBranch = parseBlock("if", BlockArrow::Allow);
         }
 
-        if (skipOpt(TokenKind::Else, true)) {
+        if (skipOpt(TokenKind::Else)) {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi)) {
                 // Note: cover case when user writes `if {} else;`
