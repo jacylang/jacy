@@ -960,17 +960,10 @@ namespace jc::parser {
         const auto flags = parser.flags;
         const auto multiple = (flags >> 3) & 1;
         const auto rightAssoc = (flags >> 2) & 1;
-        const auto skipLeftNLs = (flags >> 1) & 1;
-        const auto skipRightNLs = flags & 1;
 
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
-            bool skippedLeftNls = false;
-            if (skipLeftNLs) {
-                skippedLeftNls = skipNLs(true);
-            }
-
             dt::Option<Token> maybeOp;
             for (const auto & op : parser.ops) {
                 if (is(op)) {
@@ -982,11 +975,6 @@ namespace jc::parser {
             // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
 
             if (not maybeOp) {
-                if (skippedLeftNls) {
-                    // Recover NL semis
-                    emitVirtualSemi();
-                }
-
                 if (maybeLhs) {
                     return maybeLhs.unwrap("`precParse` -> not maybeOp -> `single`");
                 }
@@ -1003,7 +991,7 @@ namespace jc::parser {
             auto op = maybeOp.unwrap("precParse -> maybeOp");
             logParse("precParse -> " + op.kindToString());
 
-            justSkip(op.kind, skipRightNLs, op.toString(), "`precParse`");
+            justSkip(op.kind, op.toString(), "`precParse`");
 
             auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
             if (not maybeRhs) {
