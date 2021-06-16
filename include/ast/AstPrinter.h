@@ -181,11 +181,7 @@ namespace jc::ast {
             const std::vector<PR<T>> & elements,
             const std::string & delim = ","
         ) {
-            std::vector<T> unwrappedEls;
-            for (const auto & el : elements) {
-                unwrappedEls.emplace_back(el.unwrap());
-            }
-            printBodyLike(unwrappedEls, delim);
+            printDelim(elements, " {", "}", delim, 0);
         }
 
         // Indentation //

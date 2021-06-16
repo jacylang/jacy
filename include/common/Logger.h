@@ -180,8 +180,7 @@ namespace jc::common {
             return true;
         }
 
-        template<uint8_t S>
-        static inline bool addWs(Indent<S>&&) {
+        static inline bool addWs(Indent<>&&) {
             return false;
         }
 
