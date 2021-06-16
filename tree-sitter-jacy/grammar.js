@@ -1,17 +1,10 @@
 const delim1 = (del, rule) => seq(rule, repeat(seq(del, rule)))
 const delim = (del, rule) => optional(delim1(del, rule))
 const trail_comma = optional(',')
-const semi = choice(';', '\n')
-const opt_nls = repeat('\n')
-// const opt_r_nls = rule => seq(opt_nls, rule)
-const either_hard_semi = rule => choice(';', rule)
+const either_semi = rule => choice(';', rule)
 
 module.exports = grammar({
     name: 'Jacy',
-
-    extras: $ => [
-        '\n',
-    ],
 
     rules: {
         source_file: $ => repeat($._item),
@@ -50,7 +43,7 @@ module.exports = grammar({
             field('type', optional($._type_anno))
         ),
 
-        _func_body: $ => either_hard_semi(choice(
+        _func_body: $ => either_semi(choice(
             seq('=', $._expr),
             $.block_expr,
         )),
@@ -73,7 +66,7 @@ module.exports = grammar({
                 '=',
                 field('value', $._expr)
             )),
-            semi,
+            ';',
         ),
 
         /////////////////
@@ -96,10 +89,7 @@ module.exports = grammar({
             $.block_expr,
         ),
 
-        block_expr: $ => seq(
-            '{', opt_nls,
-            $._statement,
-            opt_nls, '}'),
+        block_expr: $ => seq('{', repeat($._statement), '}'),
 
         // Lambda //
         lambda: $ => seq(
