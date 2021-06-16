@@ -64,7 +64,7 @@ namespace jc::parser {
     }
 
     bool Lexer::hidden(char c) {
-        return c == '\t' || c == ' ' || c == '\r';
+        return c == '\t' or c == ' ' or c == '\r';
     }
 
     bool Lexer::isNL() {
@@ -106,15 +106,15 @@ namespace jc::parser {
     }
 
     bool Lexer::isIdFirst(char c) {
-        return isAlpha(c) || isDigit(c);
+        return isAlpha(c) or isDigit(c);
     }
 
     bool Lexer::isIdPart() {
-        return isIdFirst() || isDigit();
+        return isIdFirst() or isDigit();
     }
 
     bool Lexer::isQuote() {
-        return peek() == '\'' || peek() == '"';
+        return peek() == '\'' or peek() == '"';
     }
 
     // Lexers //
