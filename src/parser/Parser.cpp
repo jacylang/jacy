@@ -1948,7 +1948,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             if (is(TokenKind::Id)) {
-                auto ident = justParseId("`parseOptSimplePath`", false);
+                auto ident = justParseId("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
             } else if (skipOpt(TokenKind::Super)) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, segBegin));
@@ -1962,7 +1962,7 @@ namespace jc::parser {
                 break;
             }
 
-            justSkip(TokenKind::Path, false, "`::`", "`parseOptSimplePath`");
+            justSkip(TokenKind::Path, "`::`", "`parseOptSimplePath`");
         }
 
         if (segments.empty()) {
