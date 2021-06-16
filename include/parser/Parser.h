@@ -155,7 +155,6 @@ namespace jc::parser {
         bool virtualSemi{false};
 
         // Skippers //
-        bool skipNLs(bool optional = false);
         void skipSemi(bool optional, bool useless = false);
         dt::Option<Token> skip(
             TokenKind kind,

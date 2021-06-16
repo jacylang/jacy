@@ -60,7 +60,7 @@ namespace jc::parser {
     }
 
     bool Parser::isSemis() {
-        return useVirtualSemi() or is(TokenKind::Semi) or isNL();
+        return useVirtualSemi() or is(TokenKind::Semi);
     }
 
     bool Parser::isHardSemi() {
@@ -88,22 +88,6 @@ namespace jc::parser {
     }
 
     // Skippers //
-    bool Parser::skipNLs(bool optional) {
-        if (not peek().is(TokenKind::Nl) and not optional) {
-            suggestErrorMsg("Expected new-line", peek().span);
-        }
-
-        bool gotNL = false;
-        while (isNL()) {
-            if (extraDebugAll) {
-                devLogWithIndent("Skip", optional ? "optional" : "required", "NLs | got", peek().toString(true));
-            }
-            gotNL = true;
-            advance();
-        }
-        return gotNL;
-    }
-
     void Parser::skipSemi(bool optional, bool) {
         // TODO: Useless semi sugg
         // Note: Order matters -- we use virtual semi first
