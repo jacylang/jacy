@@ -1889,11 +1889,9 @@ namespace jc::parser {
         logParse("Members:" + construction);
 
         item_list members;
-        if (not isHardSemi()) {
+        if (not isSemis()) {
             auto braceSkipped = skip(
                 TokenKind::LBrace,
-                true,
-                true,
                 "To start `" + construction + "` body put `{` here or `;` to ignore body"
             );
             if (skipOpt(TokenKind::RBrace)) {
@@ -1903,16 +1901,11 @@ namespace jc::parser {
             members = parseItemList("Unexpected expression in " + construction + " body", TokenKind::RBrace);
 
             if (braceSkipped) {
-                skip(
-                    TokenKind::RBrace,
-                    true,
-                    true,
-                    "Expected closing `}`"
-                );
+                skip(TokenKind::RBrace, "Expected closing `}`");
             }
         } else if (not eof()) {
             // Here we already know, that current token is `;` or `EOF`, so skip semi to ignore block
-            justSkip(TokenKind::Semi, false, "`;`", "`parseMembers`");
+            justSkip(TokenKind::Semi, "`;`", "`parseMembers`");
         }
         return members;
     }
