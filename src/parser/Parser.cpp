@@ -518,13 +518,13 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Trait, true, "`trait`", "`parseTrait`");
+        justSkip(TokenKind::Trait, "`trait`", "`parseTrait`");
 
-        auto name = parseId("`trait` name", true, true);
+        auto name = parseId("`trait` name");
         auto typeParams = parseOptTypeParams();
 
         type_path_list superTraits;
-        if (skipOpt(TokenKind::Colon, true)) {
+        if (skipOpt(TokenKind::Colon)) {
             bool first = true;
             while (not eof()) {
                 if (is(TokenKind::LBrace) or is(TokenKind::Semi)) {
@@ -534,12 +534,7 @@ namespace jc::parser {
                 if (first) {
                     first = false;
                 } else {
-                    skip(
-                        TokenKind::Comma,
-                        true,
-                        true,
-                        "Missing `,` separator"
-                    );
+                    skip(TokenKind::Comma, "Missing `,` separator");
                 }
 
                 auto superTrait = parseOptTypePath();
