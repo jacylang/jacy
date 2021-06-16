@@ -2134,29 +2134,19 @@ namespace jc::parser {
         enterEntity("SliceType");
 
         const auto & begin = cspan();
-        justSkip(TokenKind::LBracket, true, "`LBracket`", "`parseArrayType`");
+        justSkip(TokenKind::LBracket, "`LBracket`", "`parseArrayType`");
         auto type = parseType("Expected type");
 
-        if (skipOpt(TokenKind::Semi, true)) {
+        if (skipOpt(TokenKind::Semi)) {
             auto sizeExpr = parseExpr("Expected constant size expression in array type");
-            skip(
-                TokenKind::RBracket,
-                true,
-                true,
-                "Missing closing `]` in array type"
-            );
+            skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
             return makeType<ArrayType>(
                 std::move(type), std::move(sizeExpr), begin.to(cspan())
             );
         }
 
-        skip(
-            TokenKind::RBracket,
-            true,
-            true,
-            "Missing closing `]` in slice type"
-        );
+        skip(TokenKind::RBracket, "Missing closing `]` in slice type");
 
         exitEntity();
         return makeType<SliceType>(std::move(type), begin.to(cspan()));
