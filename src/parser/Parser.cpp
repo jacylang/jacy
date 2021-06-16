@@ -742,15 +742,13 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::For, true, "`for`", "`parseForStmt`");
+        justSkip(TokenKind::For, "`for`", "`parseForStmt`");
 
         // TODO: Patterns
-        auto forEntity = parseId("`for` entity", true, true);
+        auto forEntity = parseId("`for` entity");
 
         skip(
             TokenKind::In,
-            true,
-            true,
             "Missing `in` in `for` loop, put it here",
             Recovery::Once
         );
