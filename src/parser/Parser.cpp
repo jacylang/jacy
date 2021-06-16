@@ -1080,7 +1080,6 @@ namespace jc::parser {
 
                 bool first = true;
                 while (not eof()) {
-                    skipNLs(true);
                     if (is(TokenKind::RBracket)) {
                         break;
                     }
@@ -1088,22 +1087,12 @@ namespace jc::parser {
                     if (first) {
                         first = false;
                     } else {
-                        skip(
-                            TokenKind::Comma,
-                            true,
-                            true,
-                            "Missing `,` separator in subscript operator call"
-                        );
+                        skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
                     }
 
                     indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
                 }
-                skip(
-                    TokenKind::RParen,
-                    true,
-                    true,
-                    "Missing closing `]` in array expression"
-                );
+                skip(TokenKind::RParen, "Missing closing `]` in array expression");
 
                 exitEntity();
                 lhs = makeExpr<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan()));
