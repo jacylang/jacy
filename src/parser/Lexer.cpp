@@ -60,7 +60,7 @@ namespace jc::parser {
     }
 
     bool Lexer::hidden() {
-        return hidden(peek());
+        return hidden(peek()) or isNL();
     }
 
     bool Lexer::hidden(char c) {
@@ -536,9 +536,6 @@ namespace jc::parser {
         while (not eof()) {
             tokenStartIndex = index;
             if (hidden()) {
-                advance();
-            } else if (isNL()) {
-                addToken(TokenKind::Nl, 1);
                 advance();
             } else if (isDigit()) {
                 lexNumber();
