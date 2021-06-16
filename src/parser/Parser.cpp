@@ -1421,7 +1421,7 @@ namespace jc::parser {
         enterEntity("StructExpr");
 
         const auto & begin = cspan();
-        justSkip(TokenKind::LBrace, true, "`{`", "`parseStructExpr`");
+        justSkip(TokenKind::LBrace, "`{`", "`parseStructExpr`");
 
         struct_expr_field_list fields;
         bool first = true;
@@ -1433,12 +1433,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(
-                    TokenKind::Comma,
-                    true,
-                    true,
-                    "Missing `,` delimiter between struct literal fields"
-                );
+                skip(TokenKind::Comma, "Missing `,` delimiter between struct literal fields");
             }
 
             // Note: Allow trailing comma
@@ -1448,12 +1443,7 @@ namespace jc::parser {
 
             fields.emplace_back(parseStructExprField());
         }
-        skip(
-            TokenKind::RBrace,
-            true,
-            false,
-            "Missing closing `}`"
-        );
+        skip(TokenKind::RBrace, "Missing closing `}`");
 
         exitEntity();
         return makeExpr<StructExpr>(std::move(path), std::move(fields), begin.to(cspan()));
