@@ -1456,8 +1456,8 @@ namespace jc::parser {
 
         // `field: expr` or `field` cases
         if (is(TokenKind::Id)) {
-            auto name = justParseId("`parseStructExprField`", true);
-            if (skipOpt(TokenKind::Colon, true)) {
+            auto name = justParseId("`parseStructExprField`");
+            if (skipOpt(TokenKind::Colon)) {
                 // `field: expr` case
                 auto expr = parseExpr("Expression expected after `:` in struct field");
                 exitEntity();
@@ -1472,7 +1472,7 @@ namespace jc::parser {
         // Note: We parse `...exp` case even it always must go last, because this can be just a mistake
         //  and we want pretty error like "...expr must go last", but not error like "Unexpected token `...`".
         //  So this case is handled by Linter
-        if (skipOpt(TokenKind::Spread, true)) {
+        if (skipOpt(TokenKind::Spread)) {
             auto expr = parseExpr("Expression expected after `...`");
             exitEntity();
             return makeNode<StructExprField>(std::move(expr), begin.to(cspan()));
