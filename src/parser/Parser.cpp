@@ -272,7 +272,6 @@ namespace jc::parser {
 
         item_list items;
         while (not eof()) {
-            skipNLs(true);
             if (peek().is(stopToken)) {
                 break;
             }
