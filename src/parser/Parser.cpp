@@ -300,20 +300,14 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Enum, true, "`enum`", "`parseEnum`");
+        justSkip(TokenKind::Enum, "`enum`", "`parseEnum`");
 
-        auto name = parseId("`enum` name", true, true);
+        auto name = parseId("`enum` name");
         auto typeParams = parseOptTypeParams();
 
         enum_entry_list entries;
         if (not isHardSemi()) {
-            skip(
-                TokenKind::LBrace,
-                true,
-                true,
-                "`{` to start `enum` body here or `;` to ignore it",
-                Recovery::Once
-            );
+            skip(TokenKind::LBrace, "`{` to start `enum` body here or `;` to ignore it", Recovery::Once);
 
             bool first = true;
             while (not eof()) {
@@ -326,8 +320,6 @@ namespace jc::parser {
                 } else {
                     skip(
                         TokenKind::Comma,
-                        true,
-                        true,
                         "`,` separator between `enum` entries"
                     );
                 }
@@ -339,14 +331,9 @@ namespace jc::parser {
                 entries.emplace_back(parseEnumEntry());
             }
 
-            skip(
-                TokenKind::RBrace,
-                true,
-                false,
-                "closing `}` at the end of `enum` body"
-            );
+            skip(TokenKind::RBrace, "closing `}` at the end of `enum` body");
         } else if (not eof()) {
-            justSkip(TokenKind::Semi, false, "`;`", "`parseEnum`");
+            justSkip(TokenKind::Semi, "`;`", "`parseEnum`");
         }
 
         exitEntity();
