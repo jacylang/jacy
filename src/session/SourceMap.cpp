@@ -64,13 +64,13 @@ namespace jc::sess {
         const auto & fileSize = getSourceFile(span.fileId).src.unwrap().size();
         const auto & linesIndices = getSourceFile(span.fileId).linesIndices;
         for (size_t i = 0; i < linesIndices.size(); i++) {
-            const auto & linePos = linesIndices.at(i);
-            const auto & nextLineIndex = i < linesIndices.size() - 1 ? linesIndices.at(i + 1) : fileSize;
-            if (begin >= linePos and begin <= nextLineIndex) {
-                lines.emplace_back(Line{i, linePos});
-            }
-            if (begin <= linePos) {
+            auto linePos = linesIndices.at(i);
+            auto nextLineIndex = i < linesIndices.size() - 1 ? linesIndices.at(i + 1) : fileSize;
+            if (begin < linePos) {
                 break;
+            }
+            if (begin >= linePos and begin < nextLineIndex) {
+                lines.emplace_back(Line{i, linePos});
             }
         }
         return lines;
