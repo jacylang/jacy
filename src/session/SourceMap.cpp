@@ -41,11 +41,13 @@ namespace jc::sess {
         if (sf.linesIndices.size() <= index) {
             common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
-        size_t end = sf.linesIndices.size();
+        size_t begin = sf.linesIndices.at(index);
+        size_t end = sf.src.unwrap().size();
         if (index < sf.linesIndices.size() - 1){
             end = sf.linesIndices.at(index + 1);
         }
-        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.linesIndices.at(index), end - 1);
+        // Note: Not end - begin + 1 to cut until NL
+        const auto & line = sf.src.unwrap("SourceMap::getLine").substr(sf.linesIndices.at(index), end - begin);
         return line;
     }
 
