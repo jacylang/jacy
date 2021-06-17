@@ -56,22 +56,23 @@ namespace jc::sess {
         return src->substr(span.pos, span.len);
     }
 
-    std::vector<size_t> SourceMap::getLinesIndices(const span::Span & span) {
-        std::vector<size_t> indices;
+    std::vector<Line> SourceMap::getLines(const span::Span & span) {
+        // TODO: End-inclusive collection of lines
+        std::vector<Line> lines;
         const auto begin = span.pos;
         const auto end = span.pos + span.len;
         const auto & fileSize = getSourceFile(span.fileId).src.unwrap().size();
         const auto & linesIndices = getSourceFile(span.fileId).linesIndices;
         for (size_t i = 0; i < linesIndices.size(); i++) {
-            const auto & lineIndex = linesIndices.at(i);
+            const auto & linePos = linesIndices.at(i);
             const auto & nextLineIndex = i < linesIndices.size() - 1 ? linesIndices.at(i + 1) : fileSize;
-            if (begin >= lineIndex and begin <= nextLineIndex) {
-                indices.emplace_back(i);
+            if (begin >= linePos and begin <= nextLineIndex) {
+                lines.emplace_back(Line{i, linePos});
             }
-            if (begin <= lineIndex) {
+            if (begin <= linePos) {
                 break;
             }
         }
-        return indices;
+        return lines;
     }
 }

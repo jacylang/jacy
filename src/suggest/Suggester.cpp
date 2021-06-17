@@ -49,7 +49,7 @@ namespace jc::sugg {
         const auto & fileId = span.fileId;
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
-        const auto & lines = sess->sourceMap.getLinesIndices(span);
+        const auto & lines = sess->sourceMap.getLines(span);
         // Note: Now only use first line of Span
         // TODO!!!: Improve with vertical highlighting
         const auto & lineIndex = lines.at(0);
@@ -61,7 +61,7 @@ namespace jc::sugg {
             common::Logger::devPanic("`span.pos < lineIndex` in `Suggester::pointMsgTo`");
         }
 
-        const auto & point = span.pos - line.size();
+        const auto & point = span.pos - line - line.size();
         const auto & msgLen = msg.size();
 
         // Note: We add 4 because we want to put 4 additional `---^` or `^---` for readability

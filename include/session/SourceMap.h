@@ -15,6 +15,11 @@ namespace jc::sess {
     using file_id_t = size_t;
     using parser::SourceFile;
 
+    struct Line {
+        size_t index;
+        span::span_pos_t pos;
+    };
+
     struct SourceMap {
         SourceMap() = default;
 
@@ -26,7 +31,7 @@ namespace jc::sess {
         std::string getLine(file_id_t fileId, size_t index);
 
         // As far as Span can capture multiple lines, we return all we found
-        std::vector<size_t> getLinesIndices(const span::Span & span);
+        std::vector<Line> getLines(const span::Span & span);
 
         std::string sliceBySpan(const span::Span & span);
 
