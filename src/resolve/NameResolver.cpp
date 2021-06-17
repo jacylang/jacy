@@ -299,6 +299,7 @@ namespace jc::resolve {
     }
 
     opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
+        // AGENDA: Implement `names` parameter for cli arg `-print`
         rib_ptr rib = curRib();
         uint32_t curDepth = depth;
         while (curDepth != 0) {
