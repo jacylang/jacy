@@ -6,6 +6,10 @@ const either_semi = rule => choice(';', rule)
 module.exports = grammar({
     name: 'Jacy',
 
+    conflicts: $ => [
+        [$._expr, $._param],
+    ],
+
     rules: {
         source_file: $ => repeat($._item),
 
@@ -102,9 +106,12 @@ module.exports = grammar({
 
         // Lambda //
         lambda: $ => seq(
-            $._func_param_list,
+            field('params', choice(
+                $.ident,
+                $._func_param_list,
+            )),
             '->',
-            $._expr,
+            field('body', $._expr),
         ),
 
         // Tuple //
