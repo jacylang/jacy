@@ -287,14 +287,28 @@ namespace jc::resolve {
             const auto & seg = pathExpr.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                const auto & resolved = curRib()->resolve(identStr, ns);
+                const auto & resolved = resolve(ns, identStr);
                 if (not resolved) {
                     suggestErrorMsg(identStr + " is not defined", pathExpr.span);
                 } else {
-                    resStorage.setRes(pathExpr.id, resolved.unwrap()->nodeId);
+                    // Set resolution
+                    resStorage.setRes(pathExpr.id, resolved.unwrap());
                 }
             }
         }
+    }
+
+    opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
+        rib_ptr rib = curRib();
+        uint32_t curDepth = depth;
+        while (curDepth != 0) {
+            auto resolved = rib->resolve(name, ns);
+            if (resolved) {
+                return resolved.unwrap()->nodeId;
+            }
+            curDepth--;
+        }
+        return dt::None;
     }
 
     // Suggestions //
