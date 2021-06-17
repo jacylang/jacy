@@ -15,6 +15,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O0")
 
 add_compile_options(
+        # WARNINGS #
         -Wall
     #   Uncomment this line when want to suffer a little bit
     #    -Werror
@@ -45,6 +46,9 @@ add_compile_options(
         -Wunused-parameter
         -Wvariadic-macros
         -Wwrite-strings
+
+        #
+        -ftime-report
 )
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Release")

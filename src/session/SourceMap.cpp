@@ -58,11 +58,15 @@ namespace jc::sess {
         std::vector<size_t> indices;
         const auto begin = span.pos;
         const auto end = span.pos + span.len;
-        for (const auto & lineIndex : getSourceFile(span.fileId).linesIndices) {
-            if (begin >= lineIndex) {
-                indices.emplace_back(lineIndex);
+        const auto & fileSize = getSourceFile(span.fileId).src.unwrap().size();
+        const auto & linesIndices = getSourceFile(span.fileId).linesIndices;
+        for (size_t i = 0; i < linesIndices.size(); i++) {
+            const auto & lineIndex = linesIndices.at(i);
+            const auto & nextLineIndex = i < linesIndices.size() - 1 ? linesIndices.at(i + 1) : fileSize;
+            if (begin >= lineIndex and begin <= nextLineIndex) {
+                indices.emplace_back(i);
             }
-            if (end >= lineIndex) {
+            if (begin <= lineIndex) {
                 break;
             }
         }
