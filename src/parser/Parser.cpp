@@ -1290,7 +1290,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return Expr::as<PathExpr>(makeExpr<PathExpr>(global, std::move(segments), begin.to(cspan())));
+        return Expr::as<PathExpr>(makeExpr<PathExpr>(global, std::move(segments), begin.to(prev().span)));
     }
 
     expr_ptr Parser::parseLiteral() {
