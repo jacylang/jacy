@@ -48,7 +48,7 @@ add_compile_options(
         -Wwrite-strings
 
         #
-        -ftime-report
+#        -ftime-report
 )
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Release")

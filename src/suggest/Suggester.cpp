@@ -52,9 +52,8 @@ namespace jc::sugg {
         const auto & lines = sess->sourceMap.getLinesIndices(span);
         // Note: Now only use first line of Span
         // TODO!!!: Improve with vertical highlighting
-        common::Logger::devDebug("lines:", lines);
-
         const auto & lineIndex = lines.at(0);
+        const auto & line = sess->sourceMap.getLine(span.fileId, lineIndex);
         printPrevLine(fileId, lineIndex);
         printLine(fileId, lineIndex);
 
@@ -62,7 +61,7 @@ namespace jc::sugg {
             common::Logger::devPanic("`span.pos < lineIndex` in `Suggester::pointMsgTo`");
         }
 
-        const auto & point = span.pos - lineIndex;
+        const auto & point = span.pos - line.size();
         const auto & msgLen = msg.size();
 
         // Note: We add 4 because we want to put 4 additional `---^` or `^---` for readability
