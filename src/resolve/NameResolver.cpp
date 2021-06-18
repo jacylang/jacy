@@ -355,6 +355,6 @@ namespace jc::resolve {
         log.raw(indent + 1, "values:", rib->valueNS).nl();
         log.raw(indent + 1, "lifetimes:", rib->lifetimeNS).nl();
         printRib(index + 1);
-        log.raw(indent, "}");
+        log.raw(indent, "}").nl();
     }
 }
