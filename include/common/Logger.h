@@ -78,6 +78,10 @@ namespace jc::common {
         Indent<S> operator+(size_t add) {
             return Indent<S>(inner + add);
         }
+
+        Indent<S> operator-(size_t sub) {
+            return Indent<S>(inner - sub);
+        }
     };
 
     // TODO!: map for config with collection of allowed args and constexpr check
