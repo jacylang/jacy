@@ -103,7 +103,7 @@ namespace jc::common {
 
     inline std::ostream & operator<<(std::ostream & os, Color color);
 
-    inline std::ostream & operator<<(std::ostream & os, const dt::none_t & none);
+    inline std::ostream & operator<<(std::ostream & os, const dt::none_t&);
 
     class Logger {
     public:
@@ -198,7 +198,7 @@ namespace jc::common {
             return false;
         }
 
-        static inline bool addWs(dt::none_t && none) {
+        static inline bool addWs(dt::none_t&&) {
             return false;
         }
 
