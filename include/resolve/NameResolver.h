@@ -55,7 +55,7 @@ namespace jc::resolve {
 
         // Extended visitors //
     private:
-        void visitItems(const ast::item_list & members);
+        void visitItems(const ast::item_list & items);
         void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
 
         // Ribs //
