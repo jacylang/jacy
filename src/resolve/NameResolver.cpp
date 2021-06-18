@@ -240,7 +240,7 @@ namespace jc::resolve {
         if (depth == UINT32_MAX) {
             Logger::devPanic("Maximum ribStack depth limit exceeded");
         }
-        depth = static_cast<uint32_t>(ribStack.size() - 1);
+        depth = static_cast<uint32_t>(ribStack.size());
     }
 
     void NameResolver::exitRib() {
