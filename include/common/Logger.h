@@ -196,6 +196,10 @@ namespace jc::common {
             return false;
         }
 
+        static inline bool addWs(dt::none_t && none) {
+            return false;
+        }
+
         template<class Left, class ...Rest>
         static inline os & out(os & s, Left && left, Rest && ...rest) {
             out(s, std::forward<Left>(left));
