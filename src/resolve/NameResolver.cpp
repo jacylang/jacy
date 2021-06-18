@@ -17,13 +17,17 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
+        enterRib();
         visitItems(fileModule.getFile()->items);
+        exitRib();
     }
 
     void NameResolver::visit(const ast::DirModule & dirModule) {
+        enterRib();
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
         }
+        exitRib();
     }
 
     void NameResolver::visit(const ast::Func & func) {
