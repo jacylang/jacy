@@ -186,19 +186,19 @@ namespace jc::common {
         }
 
         template<class T>
-        static inline bool addWs(T&&) {
+        static inline constexpr bool addWs(T&&) {
             return true;
         }
 
-        static inline bool addWs(Indent<>&&) {
+        static inline constexpr bool addWs(Indent<>&&) {
             return false;
         }
 
-        static inline bool addWs(Color) {
+        static inline constexpr bool addWs(Color) {
             return false;
         }
 
-        static inline bool addWs(dt::none_t&&) {
+        static inline constexpr bool addWs(const dt::none_t&) {
             return false;
         }
 
@@ -206,7 +206,7 @@ namespace jc::common {
         static inline os & out(os & s, Left && left, Rest && ...rest) {
             out(s, std::forward<Left>(left));
             if (addWs(std::forward<Left>(left))) {
-                s << ' ';
+                s << 's';
             }
             return out(s, std::forward<Rest>(rest)...);
         }
