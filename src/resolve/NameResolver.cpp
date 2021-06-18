@@ -346,11 +346,11 @@ namespace jc::resolve {
         }
         const auto & rib = ribStack.at(index);
         const auto & indent = common::Indent<1>(index);
-        log.raw("{").nl();
-        log.raw(indent, "types:", rib->typeNS).nl();
-        log.raw(indent, "values:", rib->valueNS).nl();
-        log.raw(indent, "lifetimes:", rib->lifetimeNS).nl();
+        log.raw(indent, "{").nl();
+        log.raw(indent + 1, "types:", rib->typeNS).nl();
+        log.raw(indent + 1, "values:", rib->valueNS).nl();
+        log.raw(indent + 1, "lifetimes:", rib->lifetimeNS).nl();
         printRib(index + 1);
-        log.raw("}");
+        log.raw(indent, "}");
     }
 }

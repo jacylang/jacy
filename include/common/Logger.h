@@ -75,11 +75,11 @@ namespace jc::common {
             return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
         }
 
-        Indent<S> operator+(size_t add) {
+        Indent<S> operator+(size_t add) const {
             return Indent<S>(inner + add);
         }
 
-        Indent<S> operator-(size_t sub) {
+        Indent<S> operator-(size_t sub) const {
             return Indent<S>(inner - sub);
         }
     };
