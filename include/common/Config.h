@@ -35,6 +35,7 @@ namespace jc::common {
             Suggestions,
             Source,
             Names,
+            Ribs,
 
             All,
         };

@@ -26,6 +26,8 @@ namespace jc::common {
                     print.insert(PrintKind::Source);
                 } else if (val == "names") {
                     print.insert(PrintKind::Names);
+                } else if (val == "ribs") {
+                    print.insert(PrintKind::Ribs);
                 } else if (val == "all") {
                     print.insert(PrintKind::All);
                 } else {
