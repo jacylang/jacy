@@ -17,9 +17,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
-        for (const auto & item : fileModule.getFile()->items) {
-            item.accept(*this);
-        }
+        visitItems(fileModule.getFile()->items);
     }
 
     void NameResolver::visit(const ast::DirModule & dirModule) {
