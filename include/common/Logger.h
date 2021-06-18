@@ -103,6 +103,8 @@ namespace jc::common {
 
     inline std::ostream & operator<<(std::ostream & os, Color color);
 
+    inline std::ostream & operator<<(std::ostream & os, const dt::none_t & none);
+
     class Logger {
     public:
         explicit Logger(const std::string & owner) : owner(std::move(owner)) {

@@ -52,6 +52,10 @@ std::ostream & operator<<(std::ostream & os, Color color) {
     return os;
 }
 
+inline std::ostream & operator<<(std::ostream & os, const dt::none_t & none) {
+    return os;
+}
+
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
     return log(Config::LogLevel::Debug, std::forward<Args>(args)...);
