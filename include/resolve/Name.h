@@ -129,7 +129,7 @@ namespace jc::resolve {
 
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const name_ptr & name) {
-            return os << name->kindsStrings.at(name->kind) << " " << name->nodeId;
+            return os << name->kindsStrings.at(name->kind) << ":" << name->nodeId;
         }
     };
 

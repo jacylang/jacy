@@ -338,8 +338,20 @@ namespace jc::resolve {
     // Debug //
     void NameResolver::printRibs() {
         log.info("Printing ribs (`-print=ribs`)");
-        for (const auto & rib : ribStack) {
+        printRib(0);
+    }
 
+    void NameResolver::printRib(size_t index) {
+        if (index == ribStack.size()) {
+            return;
         }
+        const auto & rib = ribStack.at(index);
+        const auto & indent = common::Indent<1>(index);
+        log.raw(indent, "{").nl();
+        log.raw(indent, "types:", rib->typeNS);
+        log.raw(indent, "values:", rib->valueNS);
+        log.raw(indent, "lifetimes:", rib->lifetimeNS);
+        printRib(index + 1);
+        log.raw(indent, "}");
     }
 }
