@@ -278,6 +278,7 @@ namespace jc::resolve {
     // Resolution //
     void NameResolver::resolveSimplePath(const ast::simple_path_ptr & simplePath) {
         // TODO
+        // Simple-dimple LOL
     }
 
     void NameResolver::resolvePathExpr(Namespace ns, const ast::PathExpr & pathExpr) {
