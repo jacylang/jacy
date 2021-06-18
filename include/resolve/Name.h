@@ -1,6 +1,8 @@
 #ifndef JACY_RESOLVE_NAME_H
 #define JACY_RESOLVE_NAME_H
 
+#include <map>
+
 #include "ast/Node.h"
 #include "resolve/Module.h"
 
@@ -36,6 +38,8 @@ namespace jc::resolve {
             Expr,
             Lifetime,
         };
+
+        const static std::map<Kind, const std::string> kindsStrings;
 
         node_id nodeId; // Syntax-unit nodeId
 

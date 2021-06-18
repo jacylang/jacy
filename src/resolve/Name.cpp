@@ -1,6 +1,20 @@
 #include "resolve/Name.h"
 
 namespace jc::resolve {
+    const std::map<Name::Kind, const std::string> Name::kindsStrings = {
+        {Name::Kind::Const, "Const"},
+        {Name::Kind::Struct, "Struct"},
+        {Name::Kind::Trait, "Trait"},
+        {Name::Kind::Local, "Local"},
+        {Name::Kind::TypeParam, "TypeParam"},
+        {Name::Kind::Lifetime, "Lifetime"},
+        {Name::Kind::ConstParam, "ConstParam"},
+        {Name::Kind::Func, "Func"},
+        {Name::Kind::Enum, "Enum"},
+        {Name::Kind::TypeAlias, "TypeAlias"},
+        {Name::Kind::Param, "Param"},
+    };
+
     decl_result Rib::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
         auto & ns = getNSForName(kind);
         const auto & found = ns.find(name);

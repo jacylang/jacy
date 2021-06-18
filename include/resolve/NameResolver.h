@@ -93,6 +93,10 @@ namespace jc::resolve {
             node_id nodeId,
             node_id declaredHere
         );
+
+        // Debug //
+    private:
+        void printRibs();
     };
 }
 

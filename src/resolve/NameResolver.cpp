@@ -9,6 +9,10 @@ namespace jc::resolve {
 
         sess->resStorage = std::move(resStorage);
 
+        if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs)) {
+            printRibs();
+        }
+
         return {dt::None, extractSuggestions()};
     }
 
@@ -329,5 +333,13 @@ namespace jc::resolve {
                 SuggKind::Error
             )
         );
+    }
+
+    // Debug //
+    void NameResolver::printRibs() {
+        log.info("Printing ribs (`-print=ribs`)");
+        for (const auto & rib : ribStack) {
+
+        }
     }
 }
