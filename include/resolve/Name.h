@@ -126,6 +126,11 @@ namespace jc::resolve {
             }
             return "meow, bitch";
         }
+
+        // Debug //
+        friend std::ostream & operator<<(std::ostream & os, const name_ptr & name) {
+            return os << name->kindsStrings.at(name->kind) << " " << name->nodeId;
+        }
     };
 
     using decl_result = dt::Option<name_ptr>;

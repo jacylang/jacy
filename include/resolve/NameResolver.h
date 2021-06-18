@@ -97,6 +97,7 @@ namespace jc::resolve {
         // Debug //
     private:
         void printRibs();
+        void printNs(const ns_map & ns);
     };
 }
 
