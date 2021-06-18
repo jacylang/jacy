@@ -74,6 +74,10 @@ namespace jc::common {
         friend std::ostream & operator<<(std::ostream & os, const Indent<S> & indent) {
             return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
         }
+
+        Indent<S> operator+(size_t add) {
+            return Indent<S>(inner + add);
+        }
     };
 
     // TODO!: map for config with collection of allowed args and constexpr check
