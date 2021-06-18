@@ -303,7 +303,6 @@ namespace jc::resolve {
     }
 
     opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
-        // AGENDA: Implement `names` parameter for cli arg `-print`
         rib_ptr rib = curRib();
         uint32_t curDepth = depth;
         while (curDepth != 0) {
@@ -347,11 +346,11 @@ namespace jc::resolve {
         }
         const auto & rib = ribStack.at(index);
         const auto & indent = common::Indent<1>(index);
-        log.raw(indent, "{").nl();
-        log.raw(indent, "types:", rib->typeNS);
-        log.raw(indent, "values:", rib->valueNS);
-        log.raw(indent, "lifetimes:", rib->lifetimeNS);
+        log.raw("{").nl();
+        log.raw(indent, "types:", rib->typeNS).nl();
+        log.raw(indent, "values:", rib->valueNS).nl();
+        log.raw(indent, "lifetimes:", rib->lifetimeNS).nl();
         printRib(index + 1);
-        log.raw(indent, "}");
+        log.raw("}");
     }
 }
