@@ -5,6 +5,7 @@ namespace jc::resolve {
         this->sess = sess;
         rootMod = sess->modTreeRoot.unwrap();
 
+        enterRib();
         party.getRootModule()->accept(*this);
 
         sess->resStorage = std::move(resStorage);
