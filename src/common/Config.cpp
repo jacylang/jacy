@@ -46,7 +46,7 @@ namespace jc::common {
     };
 
     const std::vector<std::string> Config::loggerOwners = {
-        GLOBAL_LOG_LEVEL_NAME, "lexer", "parser", "name-resolver"
+        "lexer", "parser", "name-resolver"
     };
 
     void Config::applyCliConfig(const cli::Args & cliConfig) {
@@ -88,9 +88,6 @@ namespace jc::common {
 
         // `*-log-level`
         for (const auto & owner : loggerOwners) {
-            if (owner == GLOBAL_LOG_LEVEL_NAME) {
-                continue;
-            }
             const auto & argName = owner + "-log-level";
             cliConfig.getSingleValue(argName).then([&](const auto & value) {
                 loggerLevels[owner] = logLevelKinds.at(value);
