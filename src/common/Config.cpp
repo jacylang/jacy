@@ -12,7 +12,7 @@ namespace jc::common {
         {"sugg",     Config::PrintKind::Suggestions},
         {"source",   Config::PrintKind::Source},
         {"mod-tree", Config::PrintKind::ModTree},
-        {"names",    Config::PrintKind::Names},
+        {"names",    Config::PrintKind::AstNames},
         {"ribs",     Config::PrintKind::Ribs},
         {"all",      Config::PrintKind::All},
     };
@@ -175,7 +175,7 @@ namespace jc::common {
                 case PrintKind::Source:
                     res["print"].emplace_back("source");
                     break;
-                case PrintKind::Names:
+                case PrintKind::AstNames:
                     res["print"].emplace_back("names");
                     break;
                 case PrintKind::All:

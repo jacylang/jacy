@@ -38,7 +38,7 @@ namespace jc::common {
             Suggestions,
             Source,
             ModTree,
-            Names,
+            AstNames,
             Ribs,
 
             All,

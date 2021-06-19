@@ -182,7 +182,7 @@ namespace jc::core {
 
     void Interface::printAst(ast::AstPrinterMode mode) {
         if ((mode == ast::AstPrinterMode::Parsing and not config.checkPrint(Config::PrintKind::Ast))
-        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(common::Config::PrintKind::Names))
+        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(common::Config::PrintKind::AstNames))
         ) {
             return;
         }
