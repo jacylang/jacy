@@ -68,25 +68,19 @@ namespace jc::common {
         });
 
         // `compile-depth`
-        const auto & maybeCompileDepth = cliConfig.getSingleValue("compile-depth");
-        if (maybeCompileDepth) {
-            const auto & cd = maybeCompileDepth.unwrap();
-            compileDepth = compileDepthKinds.at(cd);
-        }
+        cliConfig.getSingleValue("compile-depth").whenSome([&](const auto & value) {
+            compileDepth = compileDepthKinds.at(value);
+        });
 
         // `benchmark`
-        const auto & maybeBenchmark = cliConfig.getSingleValue("benchmark");
-        if (maybeBenchmark) {
-            const auto & bmk = maybeBenchmark.unwrap();
-            benchmark = benchmarkKinds.at(bmk);
-        }
+        cliConfig.getSingleValue("benchmark").whenSome([&](const auto & value) {
+            benchmark = benchmarkKinds.at(value);
+        });
 
         // `parser-extra-debug`
-        const auto & maybeParserExtraDebug = cliConfig.getSingleValue("parser-extra-debug");
-        if (maybeParserExtraDebug) {
-            const auto & ped = maybeParserExtraDebug.unwrap();
-            parserExtraDebug = parserExtraDebugKinds.at(ped);
-        }
+        cliConfig.getSingleValue("parser-extra-debug").whenSome([&](const auto & value) {
+            parserExtraDebug = parserExtraDebugKinds.at(value);
+        });
 
         // `log-level` and `*-log-level`
         for (const auto & owner : loggerOwners) {
