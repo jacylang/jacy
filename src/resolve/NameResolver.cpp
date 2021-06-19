@@ -172,6 +172,7 @@ namespace jc::resolve {
                 }
                 default: continue;
             }
+            log.dev("Declare '", name, "' of kind ", Name::kindStr(kind));
             declare(name, kind, item->id);
         }
 
@@ -307,15 +308,13 @@ namespace jc::resolve {
     }
 
     opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
-        rib_ptr rib = curRib();
         uint32_t curDepth = depth;
         while (true) {
+            const auto & rib = ribAt(curDepth).unwrap();
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
-                log.dev("Resolved on depth ", curDepth);
                 return resolved.unwrap()->nodeId;
             }
-            log.dev("Not resolved on depth ", curDepth);
             if (curDepth == 0) {
                 break;
             }
