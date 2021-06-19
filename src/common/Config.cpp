@@ -58,13 +58,7 @@ namespace jc::common {
         const auto & maybeCompileDepth = cliConfig.getSingleValue("compile-depth");
         if (maybeCompileDepth) {
             const auto & cd = maybeCompileDepth.unwrap();
-            if (cd == "parser") {
-                compileDepth = CompileDepth::Parser;
-            } else if (cd == "name-resolution") {
-                compileDepth = CompileDepth::NameResolution;
-            } else {
-                throw std::logic_error("[Config] Unhandled value for `compile-depth` cli argument");
-            }
+            compileDepth = compileDepthKinds.at(cd);
         }
 
         // `benchmark`
