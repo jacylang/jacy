@@ -7,49 +7,46 @@ namespace jc::common {
 
     key_value_arg_map<Config::PrintKind> Config::printKinds = {
         {"dir-tree", Config::PrintKind::DirTree},
-        {"ast", Config::PrintKind::Ast},
-        {"tokens", Config::PrintKind::Tokens},
-        {"sugg", Config::PrintKind::Suggestions},
-        {"source", Config::PrintKind::Source},
+        {"ast",      Config::PrintKind::Ast},
+        {"tokens",   Config::PrintKind::Tokens},
+        {"sugg",     Config::PrintKind::Suggestions},
+        {"source",   Config::PrintKind::Source},
         {"mod-tree", Config::PrintKind::ModTree},
-        {"names", Config::PrintKind::Names},
-        {"ribs", Config::PrintKind::Ribs},
-        {"all", Config::PrintKind::All},
+        {"names",    Config::PrintKind::Names},
+        {"ribs",     Config::PrintKind::Ribs},
+        {"all",      Config::PrintKind::All},
     };
 
     key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
-        {"parser", Config::CompileDepth::Parser},
+        {"parser",          Config::CompileDepth::Parser},
         {"name-resolution", Config::CompileDepth::NameResolution},
     };
 
     key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
         {"each-stage", Config::Benchmark::EachStage},
-        {"final", Config::Benchmark::Final},
+        {"final",      Config::Benchmark::Final},
     };
 
     key_value_arg_map<Config::LogLevel> Config::logLevelKinds = {
-        {"dev", Config::LogLevel::Dev},
+        {"dev",   Config::LogLevel::Dev},
         {"debug", Config::LogLevel::Debug},
-        {"info", Config::LogLevel::Info},
-        {"warn", Config::LogLevel::Warn},
+        {"info",  Config::LogLevel::Info},
+        {"warn",  Config::LogLevel::Warn},
         {"error", Config::LogLevel::Error},
     };
 
     key_value_arg_map<Config::ParserExtraDebug> Config::parserExtraDebugKinds = {
-        {"no", Config::ParserExtraDebug::No},
+        {"no",      Config::ParserExtraDebug::No},
         {"entries", Config::ParserExtraDebug::Entries},
-        {"all", Config::ParserExtraDebug::All},
+        {"all",     Config::ParserExtraDebug::All},
 
-        {"0", Config::ParserExtraDebug::No},
-        {"1", Config::ParserExtraDebug::Entries},
-        {"2", Config::ParserExtraDebug::All},
+        {"0",       Config::ParserExtraDebug::No},
+        {"1",       Config::ParserExtraDebug::Entries},
+        {"2",       Config::ParserExtraDebug::All},
     };
 
     const std::vector<std::string> Config::loggerOwners = {
-        GLOBAL_LOG_LEVEL_NAME,
-        "lexer",
-        "parser",
-        "name-resolver"
+        GLOBAL_LOG_LEVEL_NAME, "lexer", "parser", "name-resolver"
     };
 
     void Config::applyCliConfig(const cli::Args & cliConfig) {
@@ -70,32 +67,26 @@ namespace jc::common {
         );
 
         // `compile-depth`
-        cliConfig.getSingleValue("compile-depth").then(
-            [&](const auto & value) {
-                compileDepth = compileDepthKinds.at(value);
-            }
-        );
+        cliConfig.getSingleValue("compile-depth").then([&](const auto & value) {
+            compileDepth = compileDepthKinds.at(value);
+        });
 
         // `benchmark`
-        cliConfig.getSingleValue("benchmark").then(
-            [&](const auto & value) {
-                benchmark = benchmarkKinds.at(value);
-            }
-        );
+        cliConfig.getSingleValue("benchmark").then([&](const auto & value) {
+            benchmark = benchmarkKinds.at(value);
+        });
 
         // `parser-extra-debug`
-        cliConfig.getSingleValue("parser-extra-debug").then(
-            [&](const auto & value) {
-                parserExtraDebug = parserExtraDebugKinds.at(value);
-            }
-        );
+        cliConfig.getSingleValue("parser-extra-debug").then([&](const auto & value) {
+            parserExtraDebug = parserExtraDebugKinds.at(value);
+        });
 
         // `log-level`
-        cliConfig.getSingleValue("log-level").then(
-            [&](const auto & value) {
-                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
-            }
-        );
+        cliConfig.getSingleValue("log-level").then([&](const auto & value) {
+            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
+        }).otherwise([&]() {
+            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = dev ? LogLevel::Dev : DEFAULT_LOG_LEVEL;
+        });
 
         // `*-log-level`
         for (const auto & owner : loggerOwners) {
@@ -103,22 +94,22 @@ namespace jc::common {
                 continue;
             }
             const auto & argName = owner + "-log-level";
-            cliConfig.getSingleValue(argName).then(
-                [&](const auto & value) {
-                    loggerLevels[owner] = logLevelKinds.at(value);
-                }
-            );
+            cliConfig.getSingleValue(argName).then([&](const auto & value) {
+                loggerLevels[owner] = logLevelKinds.at(value);
+            }).otherwise([&]() {
+                loggerLevels[owner] = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
+            });
         }
 
-//        for (auto & owner : loggerLevels) {
-//            if (owner.second == LogLevel::Unknown) {
-//                if (dev) {
-//
-//                } else {
-//                    owner.second = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
-//                }
-//            }
-//        }
+        //        for (auto & owner : loggerLevels) {
+        //            if (owner.second == LogLevel::Unknown) {
+        //                if (dev) {
+        //
+        //                } else {
+        //                    owner.second = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
+        //                }
+        //            }
+        //        }
     }
 
     // Checkers //
@@ -174,41 +165,79 @@ namespace jc::common {
 
         // Key-value args //
         switch (mode) {
-            case Mode::Repl: res["mode"].emplace_back("REPL"); break;
-            case Mode::Source: res["mode"].emplace_back("Source"); break;
+            case Mode::Repl:
+                res["mode"].emplace_back("REPL");
+                break;
+            case Mode::Source:
+                res["mode"].emplace_back("Source");
+                break;
         }
 
         for (const auto & printKind : print) {
             switch (printKind) {
-                case PrintKind::DirTree: res["print"].emplace_back("dir-tree"); break;
-                case PrintKind::Ast: res["print"].emplace_back("ast"); break;
-                case PrintKind::Tokens: res["print"].emplace_back("token"); break;
-                case PrintKind::Suggestions: res["print"].emplace_back("suggestions"); break;
-                case PrintKind::Source: res["print"].emplace_back("source"); break;
-                case PrintKind::Names: res["print"].emplace_back("names"); break;
-                case PrintKind::All: res["print"].emplace_back("all"); break;
+                case PrintKind::DirTree:
+                    res["print"].emplace_back("dir-tree");
+                    break;
+                case PrintKind::Ast:
+                    res["print"].emplace_back("ast");
+                    break;
+                case PrintKind::Tokens:
+                    res["print"].emplace_back("token");
+                    break;
+                case PrintKind::Suggestions:
+                    res["print"].emplace_back("suggestions");
+                    break;
+                case PrintKind::Source:
+                    res["print"].emplace_back("source");
+                    break;
+                case PrintKind::Names:
+                    res["print"].emplace_back("names");
+                    break;
+                case PrintKind::All:
+                    res["print"].emplace_back("all");
+                    break;
             }
         }
 
         switch (compileDepth) {
-            case CompileDepth::Parser: res["compile-depth"].emplace_back("parser"); break;
-            case CompileDepth::NameResolution: res["compile-depth"].emplace_back("name-resolution"); break;
-            case CompileDepth::Full: res["compile-depth"].emplace_back("full"); break;
+            case CompileDepth::Parser:
+                res["compile-depth"].emplace_back("parser");
+                break;
+            case CompileDepth::NameResolution:
+                res["compile-depth"].emplace_back("name-resolution");
+                break;
+            case CompileDepth::Full:
+                res["compile-depth"].emplace_back("full");
+                break;
         }
 
         switch (benchmark) {
-            case Benchmark::Final: res["benchmark"].emplace_back("final"); break;
-            case Benchmark::EachStage: res["benchmark"].emplace_back("each-stage"); break;
+            case Benchmark::Final:
+                res["benchmark"].emplace_back("final");
+                break;
+            case Benchmark::EachStage:
+                res["benchmark"].emplace_back("each-stage");
+                break;
         }
 
         const auto addLogLevel = [&](const std::string & owner) {
             const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? "log-level" : owner + "-log-level";
             switch (loggerLevels.at(owner)) {
-                case LogLevel::Dev: res[fieldName].emplace_back("dev"); break;
-                case LogLevel::Debug: res[fieldName].emplace_back("debug"); break;
-                case LogLevel::Info: res[fieldName].emplace_back("info"); break;
-                case LogLevel::Warn: res[fieldName].emplace_back("warn"); break;
-                case LogLevel::Error: res[fieldName].emplace_back("error"); break;
+                case LogLevel::Dev:
+                    res[fieldName].emplace_back("dev");
+                    break;
+                case LogLevel::Debug:
+                    res[fieldName].emplace_back("debug");
+                    break;
+                case LogLevel::Info:
+                    res[fieldName].emplace_back("info");
+                    break;
+                case LogLevel::Warn:
+                    res[fieldName].emplace_back("warn");
+                    break;
+                case LogLevel::Error:
+                    res[fieldName].emplace_back("error");
+                    break;
                 case LogLevel::Unknown: {
                     throw std::logic_error("[Config] `Unknown` log-level found in `Config::getOptionsMap`");
                 }
