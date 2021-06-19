@@ -5,6 +5,7 @@
 #include <memory>
 #include <cstddef>
 #include <stdexcept>
+#include <functional>
 
 namespace jc::dt {
     struct none_t {
@@ -32,6 +33,14 @@ namespace jc::dt {
                 throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
             return value;
+        }
+
+        template<class U>
+        Option<U> then(const std::function<Option<U>(const Option<T>&)> & f) {
+            if (none()) {
+                return None;
+            }
+            return f(*this);
         }
 
         const T & getValueUnsafe() const {
