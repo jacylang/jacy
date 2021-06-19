@@ -45,6 +45,13 @@ namespace jc::common {
         {"2", Config::ParserExtraDebug::All},
     };
 
+    const std::vector<std::string> Config::loggerOwners = {
+        GLOBAL_LOG_LEVEL_NAME,
+        "lexer",
+        "parser",
+        "name-resolver"
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
@@ -81,7 +88,7 @@ namespace jc::common {
 
         // `log-level` and `*-log-level`
         bool globalLogLevelAppeared = false;
-        for (const auto & owner : std::vector<std::string>{GLOBAL_LOG_LEVEL_NAME, "lexer", "parser", "name-resolver"}) {
+        for (const auto & owner : loggerOwners) {
             const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
             const auto & argName = isGlobal ? "log-level" : owner + "-log-level";
             const auto & maybeLogLevel = cliConfig.getSingleValue(argName);

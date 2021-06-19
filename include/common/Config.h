@@ -110,9 +110,10 @@ namespace jc::common {
         CompileDepth compileDepth{CompileDepth::Full};
         ParserExtraDebug parserExtraDebug{ParserExtraDebug::No};
 
-        constexpr static auto GLOBAL_LOG_LEVEL_NAME = "global";
+        constexpr const static auto GLOBAL_LOG_LEVEL_NAME = "global";
         constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
-//        const static std::vector<const std::string>
+        const static std::vector<std::string> loggerOwners;
+
         // Pairs of `owner - LogLevel`
         std::unordered_map<std::string, LogLevel> loggerLevels;
 
