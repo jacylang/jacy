@@ -35,7 +35,7 @@ namespace jc::dt {
             return value;
         }
 
-        void whenSome(const std::function<void(const T&)> & f) {
+        void then(const std::function<void(const T&)> & f) {
             if (not none()) {
                 f(unwrap());
             }

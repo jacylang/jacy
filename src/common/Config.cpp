@@ -61,31 +61,41 @@ namespace jc::common {
         // Apply key-value args //
 
         // `print`
-        cliConfig.getValues("print").whenSome([&](const auto & values) {
-            for (const auto & val : values) {
-                print.insert(printKinds.at(val));
+        cliConfig.getValues("print").then(
+            [&](const auto & values) {
+                for (const auto & val : values) {
+                    print.insert(printKinds.at(val));
+                }
             }
-        });
+        );
 
         // `compile-depth`
-        cliConfig.getSingleValue("compile-depth").whenSome([&](const auto & value) {
-            compileDepth = compileDepthKinds.at(value);
-        });
+        cliConfig.getSingleValue("compile-depth").then(
+            [&](const auto & value) {
+                compileDepth = compileDepthKinds.at(value);
+            }
+        );
 
         // `benchmark`
-        cliConfig.getSingleValue("benchmark").whenSome([&](const auto & value) {
-            benchmark = benchmarkKinds.at(value);
-        });
+        cliConfig.getSingleValue("benchmark").then(
+            [&](const auto & value) {
+                benchmark = benchmarkKinds.at(value);
+            }
+        );
 
         // `parser-extra-debug`
-        cliConfig.getSingleValue("parser-extra-debug").whenSome([&](const auto & value) {
-            parserExtraDebug = parserExtraDebugKinds.at(value);
-        });
+        cliConfig.getSingleValue("parser-extra-debug").then(
+            [&](const auto & value) {
+                parserExtraDebug = parserExtraDebugKinds.at(value);
+            }
+        );
 
         // `log-level`
-        cliConfig.getSingleValue("log-level").whenSome([&](const auto & value) {
-            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
-        });
+        cliConfig.getSingleValue("log-level").then(
+            [&](const auto & value) {
+                loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
+            }
+        );
 
         // `*-log-level`
         for (const auto & owner : loggerOwners) {
@@ -93,9 +103,11 @@ namespace jc::common {
                 continue;
             }
             const auto & argName = owner + "-log-level";
-            cliConfig.getSingleValue(argName).whenSome([&](const auto & value) {
-                loggerLevels[owner] = logLevelKinds.at(value);
-            });
+            cliConfig.getSingleValue(argName).then(
+                [&](const auto & value) {
+                    loggerLevels[owner] = logLevelKinds.at(value);
+                }
+            );
         }
 
 //        for (auto & owner : loggerLevels) {
