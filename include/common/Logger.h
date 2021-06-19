@@ -34,7 +34,7 @@
 #endif // WIN
 
 namespace jc::common {
-    // Note: Discriminants are Window only (!)
+    // Note: Discriminants are Windows only (!)
     enum class Color : uint8_t {
         Black           = 0,
         DarkBlue        = 1,
