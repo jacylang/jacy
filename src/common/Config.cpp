@@ -50,27 +50,7 @@ namespace jc::common {
         const auto & printVals = cliConfig.getValues("print");
         if (printVals) {
             for (const auto & val : printVals.unwrap()) {
-                if (val == "dir-tree") {
-                    print.insert(PrintKind::DirTree);
-                } else if (val == "ast") {
-                    print.insert(PrintKind::Ast);
-                } else if (val == "tokens") {
-                    print.insert(PrintKind::Tokens);
-                } else if (val == "sugg") {
-                    print.insert(PrintKind::Suggestions);
-                } else if (val == "source") {
-                    print.insert(PrintKind::Source);
-                } else if (val == "mod-tree") {
-                    print.insert(PrintKind::ModTree);
-                } else if (val == "names") {
-                    print.insert(PrintKind::Names);
-                } else if (val == "ribs") {
-                    print.insert(PrintKind::Ribs);
-                } else if (val == "all") {
-                    print.insert(PrintKind::All);
-                } else {
-                    throw std::logic_error("[Config] Unhandled value for `print` cli argument");
-                }
+                print.insert(printKinds.at(val));
             }
         }
 
