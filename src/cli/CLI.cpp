@@ -119,7 +119,7 @@ namespace jc::cli {
             }
 
             log.colorized(
-                common::Color::Magenta, "Run jacy " + argsStorage.rootFile, boolArgsStr, keyValueArgsStr
+                common::Color::Magenta, "Run jacy " + argsStorage.rootFile, ' ', boolArgsStr, ' ', keyValueArgsStr
             );
         }
 
@@ -131,7 +131,7 @@ namespace jc::cli {
         for (auto & arg : argsStorage.boolArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::arr::has(Args::allowedBoolArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown boolean argument '" + arg.first + "'"));
+                throw CLIError("Unknown boolean argument '" + arg.first + "'");
             }
 
             if (alias != Args::aliases.end()) {
@@ -142,10 +142,10 @@ namespace jc::cli {
         for (const auto & arg : argsStorage.keyValueArgs) {
             const auto & alias = Args::aliases.find(arg.first);
             if (not utils::map::has(Args::allowedKeyValueArgs, arg.first) and alias == Args::aliases.end()) {
-                throw CLIError(common::Logger::format("Unknown key-value argument '" + arg.first + "'"));
+                throw CLIError("Unknown key-value argument '" + arg.first + "'");
             }
             if (arg.second.empty()) {
-                throw CLIError(common::Logger::format("Expected value for '" + arg.first + "' argument"));
+                throw CLIError("Expected value for '" + arg.first + "' argument");
             }
 
             // Check for allowed parameters for key-value argument if it receives specific list
@@ -155,8 +155,8 @@ namespace jc::cli {
                     if (not utils::arr::has(allowed, argParam)) {
                         throw CLIError(
                             common::Logger::format(
-                                "Unknown parameter '" + argParam + "' for argument '" + arg.first + "'.",
-                                "Try one of this:",
+                                "Unknown parameter '" + argParam + "' for argument '" + arg.first + "'. ",
+                                "Try one of this: ",
                                 utils::arr::join(allowed)
                             )
                         );
@@ -169,11 +169,11 @@ namespace jc::cli {
             if (allowedCount and allowedCount.unwrap() != arg.second.size()) {
                 throw CLIError(
                     common::Logger::format(
-                        "Expected",
+                        "Expected ",
                         allowedCount.unwrap(),
-                        "count of parameters for argument",
-                        arg.first + ",",
-                        "got",
+                        " count of parameters for argument ",
+                        arg.first + ", ",
+                        "got ",
                         arg.second.size(),
                         " parameters: ",
                         utils::arr::join(arg.second, " ")
@@ -213,11 +213,11 @@ namespace jc::cli {
 
         log.dev(
             "CLI Arguments:\n",
-            "\tBoolean arguments:",
+            "\tBoolean arguments: ",
             argsStorage.boolArgs,
-            "\n\tKey-value arguments:",
+            "\n\tKey-value arguments: ",
             argsStorage.keyValueArgs,
-            "\n\tRoot file:",
+            "\n\tRoot file: ",
             argsStorage.rootFile
         ).nl();
     }
