@@ -309,10 +309,13 @@ namespace jc::resolve {
     opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
         rib_ptr rib = curRib();
         uint32_t curDepth = depth;
-        while (curDepth != 0) {
+        while (true) {
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
                 return resolved.unwrap()->nodeId;
+            }
+            if (curDepth == 0) {
+                break;
             }
             curDepth--;
         }
