@@ -6,6 +6,9 @@
 #include "cli/Args.h"
 
 namespace jc::common {
+    template<class T>
+    using key_value_arg_map = const std::map<const std::string, const T>;
+
     class Config {
     public:
         Config();
@@ -22,7 +25,7 @@ namespace jc::common {
 
         void applyCliConfig(const cli::Args & cliConfig);
 
-        // Enums //
+        // Key-value args variants //
         enum class Mode {
             Repl,
             Source,
@@ -41,6 +44,8 @@ namespace jc::common {
             All,
         };
 
+        static key_value_arg_map<PrintKind> printKinds;
+
         // Note: Order matters (!), we compare discriminants
         enum class CompileDepth : uint8_t {
             Parser,
@@ -48,10 +53,14 @@ namespace jc::common {
             Full,
         };
 
+        static key_value_arg_map<CompileDepth> compileDepthKinds;
+
         enum class Benchmark {
             Final,
             EachStage,
         };
+
+        static key_value_arg_map<Benchmark> benchmarkKinds;
 
         // General for `Config` and `Logger`
         enum class LogLevel : uint8_t {
@@ -64,11 +73,15 @@ namespace jc::common {
             Unknown,
         };
 
+        static key_value_arg_map<LogLevel> logLevelKinds;
+
         enum class ParserExtraDebug : uint8_t {
             No,
             Entries,
             All,
         };
+
+        static key_value_arg_map<ParserExtraDebug> parserExtraDebugKinds;
 
         // Checkers //
     public:

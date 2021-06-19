@@ -5,6 +5,18 @@
 namespace jc::common {
     Config::Config() = default;
 
+    key_value_arg_map<Config::PrintKind> Config::printKinds = {
+        {"dir-tree", Config::PrintKind::DirTree},
+        {"ast", Config::PrintKind::Ast},
+        {"tokens", Config::PrintKind::Tokens},
+        {"sugg", Config::PrintKind::Suggestions},
+        {"source", Config::PrintKind::Source},
+        {"mod-tree", Config::PrintKind::ModTree},
+        {"names", Config::PrintKind::Names},
+        {"ribs", Config::PrintKind::Ribs},
+        {"all", Config::PrintKind::All},
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
@@ -121,6 +133,7 @@ namespace jc::common {
     bool Config::checkMode(Mode mode) const {
         return this->mode == mode;
     }
+
     bool Config::checkPrint(PrintKind printKind) const {
         return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
     }
