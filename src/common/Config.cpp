@@ -39,6 +39,10 @@ namespace jc::common {
         {"no", Config::ParserExtraDebug::No},
         {"entries", Config::ParserExtraDebug::Entries},
         {"all", Config::ParserExtraDebug::All},
+
+        {"0", Config::ParserExtraDebug::No},
+        {"1", Config::ParserExtraDebug::Entries},
+        {"2", Config::ParserExtraDebug::All},
     };
 
     void Config::applyCliConfig(const cli::Args & cliConfig) {
