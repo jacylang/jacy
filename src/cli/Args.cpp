@@ -13,7 +13,19 @@ namespace jc::cli {
     };
 
     const std::map<std::string, key_value_arg> Args::allowedKeyValueArgs = {
-        {"print", {dt::None, {"dir-tree", "tokens", "ast", "sugg", "source", "mod-tree", "names", "ribs", "all"}}},
+        {"print", {
+            dt::None, {
+                "dir-tree",
+                "tokens",
+                "ast",
+                "sugg",
+                "source",
+                "mod-tree",
+                "ast-names",
+                "ribs",
+                "all"
+            }
+        }},
         {"compile-depth", {1, {"parser", "name-resolution"}}},
         {"benchmark", {1, {"each-stage", "final"}}},
         {"log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
