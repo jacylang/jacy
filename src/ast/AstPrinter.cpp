@@ -654,6 +654,13 @@ namespace jc::ast {
     }
 
     // Names mode //
+    void AstPrinter::beginDef(node_id nodeId) {
+        if (mode != AstPrinterMode::Names) {
+            return;
+        }
+        log.raw(getNameColor(nodeId));
+    }
+
     void AstPrinter::beginName(node_id nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
@@ -667,6 +674,9 @@ namespace jc::ast {
     }
 
     void AstPrinter::endName() {
+        if (mode != AstPrinterMode::Names) {
+            return;
+        }
         log.raw(Color::Reset);
     }
 
