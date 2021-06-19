@@ -665,8 +665,8 @@ namespace jc::ast {
         }
     }
 
-    common::Color AstPrinter::getNameColor(const std::string & name) {
-        const auto & found = namesColors.find(name);
+    common::Color AstPrinter::getNameColor(node_id nodeId) {
+        const auto & found = namesColors.find(nodeId);
         if (found == namesColors.end()) {
             // Assign color for name if not found
 

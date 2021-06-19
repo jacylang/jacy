@@ -212,10 +212,10 @@ namespace jc::ast {
             Color::Pink,
             Color::Yellow,
         };
-        std::map<std::string, Color> namesColors;
+        std::map<node_id, Color> namesColors;
         Color lastColor;
         void printName(node_id nodeId);
-        Color getNameColor(const std::string & name);
+        Color getNameColor(node_id nodeId);
 
     private:
         // DEBUG //
