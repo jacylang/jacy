@@ -22,6 +22,11 @@ namespace jc::common {
         {"name-resolution", Config::CompileDepth::NameResolution},
     };
 
+    key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
+        {"each-stage", Config::Benchmark::EachStage},
+        {"final", Config::Benchmark::Final},
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
