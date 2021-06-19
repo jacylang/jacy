@@ -24,6 +24,8 @@ namespace jc::common {
                     print.insert(PrintKind::Suggestions);
                 } else if (val == "source") {
                     print.insert(PrintKind::Source);
+                } else if (val == "mod-tree") {
+                    print.insert(PrintKind::ModTree);
                 } else if (val == "names") {
                     print.insert(PrintKind::Names);
                 } else if (val == "ribs") {
