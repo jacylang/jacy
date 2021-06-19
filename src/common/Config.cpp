@@ -89,15 +89,13 @@ namespace jc::common {
 
         // `*-log-level`
         for (const auto & owner : loggerOwners) {
-            const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
-            const auto & argName = isGlobal ? "log-level" : owner + "-log-level";
-            const auto & maybeLogLevel = cliConfig.getSingleValue(argName);
-            if (maybeLogLevel) {
-                const auto & ll = maybeLogLevel.unwrap();
-                loggerLevels[owner] = logLevelKinds.at(ll);
-            } else if (not isGlobal) {
-                loggerLevels[owner] = LogLevel::Unknown;
+            if (owner == GLOBAL_LOG_LEVEL_NAME) {
+                continue;
             }
+            const auto & argName = owner + "-log-level";
+            cliConfig.getSingleValue(argName).whenSome([&](const auto & value) {
+                loggerLevels[owner] = logLevelKinds.at(value);
+            });
         }
 
 //        for (auto & owner : loggerLevels) {
