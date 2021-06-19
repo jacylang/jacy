@@ -195,6 +195,11 @@ namespace jc::ast {
         void decIndent();
         uint16_t indent{0};
 
+        // NodeMap mode //
+    private:
+        bool printAstNodeMap{false};
+        void printNodeId(node_ptr node);
+
         // Names mode //
     private:
         const std::vector<Color> allowedNamesColors = {
