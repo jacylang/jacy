@@ -3,7 +3,7 @@
 namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
-        lastColor = allowedNamesColors.at(0);
+        lastColor = allowedNamesColors.size();
     }
 
     void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
@@ -678,14 +678,14 @@ namespace jc::ast {
         if (found == namesColors.end()) {
             // Assign color for name if not found
 
-            if (lastColor == allowedNamesColors.at(allowedNamesColors.size() - 1)) {
+            if (lastColor >= allowedNamesColors.size() - 1) {
                 // If we used last allowed color then repeat from the beginning
-                lastColor = allowedNamesColors.at(0);
+                lastColor = 0;
             } else {
                 // Use next allowed color
-                lastColor = allowedNamesColors.at(static_cast<uint8_t>(lastColor) + 1);
+                lastColor++;
             }
-            return lastColor;
+            return allowedNamesColors.at(lastColor);
         }
         return found->second;
     }

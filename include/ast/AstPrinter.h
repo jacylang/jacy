@@ -213,7 +213,7 @@ namespace jc::ast {
             Color::Yellow,
         };
         std::map<node_id, Color> namesColors;
-        Color lastColor;
+        uint8_t lastColor;
         void beginName(node_id nodeId);
         void endName();
         Color getNameColor(node_id nodeId);
