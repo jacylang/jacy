@@ -82,7 +82,12 @@ namespace jc::common {
             parserExtraDebug = parserExtraDebugKinds.at(value);
         });
 
-        // `log-level` and `*-log-level`
+        // `log-level`
+        cliConfig.getSingleValue("log-level").whenSome([&](const auto & value) {
+            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
+        });
+
+        // `*-log-level`
         for (const auto & owner : loggerOwners) {
             const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
             const auto & argName = isGlobal ? "log-level" : owner + "-log-level";
