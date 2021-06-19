@@ -8,7 +8,7 @@ namespace jc::core {
     void Interface::compile() {
         eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
 
-        log.dev("Config options:", config.getOptionsMap());
+        log.dev("Config options: ", config.getOptionsMap());
 
         try {
             beginFinalBench();
@@ -24,8 +24,8 @@ namespace jc::core {
             printFinalBench();
         } catch (std::exception & e) {
             if (config.checkDev()) {
-                log.dev("Something went wrong:", e.what());
-                log.dev("Here is some debug info:");
+                log.dev("Something went wrong: ", e.what());
+                log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions generated");
                 printBenchmarks();
             } else {
@@ -62,7 +62,7 @@ namespace jc::core {
         const auto & rootFileName = config.getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = parseFile(rootFileEntry);
-        log.dev("Project directory:", rootFileEntry->getPath().parent_path());
+        log.dev("Project directory: ", rootFileEntry->getPath().parent_path());
         auto nestedModules = parseDir(
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
@@ -115,12 +115,12 @@ namespace jc::core {
         auto tokens = lexer.lex(parseSess);
         endBench(file->getPath().string(), BenchmarkKind::Lexing);
 
-        log.dev("Tokenize file", file->getPath());
+        log.dev("Tokenize file [", file->getPath(), "]");
 
         printSource(parseSess);
         printTokens(file->getPath(), tokens);
 
-        log.dev("Parse file", file->getPath());
+        log.dev("Parse file [", file->getPath(), "]");
 
         beginBench();
         auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
@@ -151,8 +151,8 @@ namespace jc::core {
             return;
         }
         const auto & sourceFile = parseSess->sourceFile;
-        log.info("Printing source for file", sourceFile.path, "by fileId", parseSess->fileId, "(`--print source`)");
-        log.dev("Source lines indices:", sourceFile.linesIndices);
+        log.info("Printing source for file [", sourceFile.path, "] by fileId ", parseSess->fileId, " (`--print source`)");
+        log.dev("Source lines indices: ", sourceFile.linesIndices);
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
@@ -164,7 +164,7 @@ namespace jc::core {
             } else {
                 line = src.substr(pos, src.size() - pos - 1);
             }
-            log.raw(i + 1, "|", line).nl();
+            log.raw(i + 1, " | ", line).nl();
         }
     }
 
@@ -173,7 +173,7 @@ namespace jc::core {
             return;
         }
         common::Logger::nl();
-        log.info("Printing tokens for file", path, "(`--print tokens`) [ Count of tokens:", tokens.size(), "]");
+        log.info("Printing tokens for file [", path, "] (`--print tokens`) [Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
@@ -191,7 +191,7 @@ namespace jc::core {
         } else if (mode == ast::AstPrinterMode::Names) {
             modeStr = "name resolution";
         }
-        log.info("Printing AST after", modeStr, "(`--print ast`)");
+        log.info("Printing AST after [", modeStr, "] (`--print ast`)");
         astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
@@ -231,7 +231,7 @@ namespace jc::core {
 
     void Interface::printFinalBench() {
         common::Logger::print(
-            "Full compilation done in",
+            "Full compilation done in ",
             std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
             "ms"
         );
@@ -273,7 +273,7 @@ namespace jc::core {
     void Interface::printBenchmarks() noexcept {
         if (eachStageBenchmarks) {
             for (const auto & it : benchmarks) {
-                common::Logger::print(it.first, "done in", it.second, "ms");
+                common::Logger::print(it.first, " done in ", it.second, "ms");
                 common::Logger::nl();
             }
         }
