@@ -22,6 +22,7 @@ namespace jc::cli {
                 "source",
                 "mod-tree",
                 "ast-names",
+                "ast-node-map",
                 "ribs",
                 "all"
             }
