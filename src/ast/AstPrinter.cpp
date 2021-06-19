@@ -3,7 +3,7 @@
 namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
-
+        lastColor = allowedNamesColors.at(0);
     }
 
     void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
