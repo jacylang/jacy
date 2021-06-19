@@ -100,16 +100,6 @@ namespace jc::common {
                 loggerLevels[owner] = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
             });
         }
-
-        //        for (auto & owner : loggerLevels) {
-        //            if (owner.second == LogLevel::Unknown) {
-        //                if (dev) {
-        //
-        //                } else {
-        //                    owner.second = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
-        //                }
-        //            }
-        //        }
     }
 
     // Checkers //
