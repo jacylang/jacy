@@ -34,6 +34,7 @@ namespace jc::common {
             Tokens,
             Suggestions,
             Source,
+            ModTree,
             Names,
             Ribs,
 
