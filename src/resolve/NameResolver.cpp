@@ -297,7 +297,7 @@ namespace jc::resolve {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
                 const auto & resolved = resolve(ns, identStr);
                 if (not resolved) {
-                    suggestErrorMsg(identStr + " is not defined", pathExpr.span);
+                    suggestErrorMsg("'" + identStr + "' is not defined", pathExpr.span);
                 } else {
                     // Set resolution
                     resStorage.setRes(pathExpr.id, resolved.unwrap());
@@ -312,8 +312,10 @@ namespace jc::resolve {
         while (true) {
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
+                log.dev("Resolved on depth ", curDepth);
                 return resolved.unwrap()->nodeId;
             }
+            log.dev("Not resolved on depth ", curDepth);
             if (curDepth == 0) {
                 break;
             }
