@@ -54,7 +54,7 @@ namespace jc::dt {
                     return;
                 }
                 common::Logger::nl();
-                common::Logger::devDebug("Printing suggestions (`--print sugg`)");
+                common::Logger::devDebug("Printing suggestions (`-print=sugg`)");
                 sugg::SuggDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }

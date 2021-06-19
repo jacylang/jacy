@@ -142,7 +142,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::DirTree)) {
             return;
         }
-        log.info("Printing directory tree (`--print dir-tree`)");
+        log.info("Printing directory tree (`-print=dir-tree`)");
         party.unwrap()->getRootModule()->accept(dirTreePrinter);
     }
 
@@ -173,7 +173,7 @@ namespace jc::core {
             return;
         }
         common::Logger::nl();
-        log.info("Printing tokens for file [", path, "] (`--print tokens`) [Count of tokens:", tokens.size(), "]");
+        log.info("Printing tokens for file [", path, "] (`-print=tokens`) [Count of tokens:", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
@@ -191,7 +191,7 @@ namespace jc::core {
         } else if (mode == ast::AstPrinterMode::Names) {
             modeStr = "name resolution";
         }
-        log.info("Printing AST after [", modeStr, "] (`--print ast`)");
+        log.info("Printing AST after [", modeStr, "] (`-print=ast`)");
         astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
