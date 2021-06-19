@@ -36,7 +36,7 @@ namespace jc::sugg {
     void SuggDumper::visit(HelpSugg * helpSugg) {
         helpSugg->sugg->accept(*this);
         Logger::nl();
-        Logger::print("help:", "\"" + helpSugg->helpMsg + "\"");
+        Logger::print("help: \"" + helpSugg->helpMsg + "\"");
     }
 
     void SuggDumper::prefix(SpanSugg * sugg) {
