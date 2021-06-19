@@ -3,7 +3,7 @@
 namespace jc::sess {
     file_id_t SourceMap::registerSource(const fs::path & path) {
         file_id_t fileId = utils::hash::hash(path.string());
-        common::Logger::devDebug("Add source", path, "with fileId", fileId);
+        common::Logger::devDebug("Add source [", path, "] with fileId [", fileId, "]");
         sources.emplace(fileId, dt::None);
         return fileId;
     }
@@ -11,23 +11,24 @@ namespace jc::sess {
     void SourceMap::setSourceFile(parser::parse_sess_ptr && parseSess) {
         if (sources.find(parseSess->fileId) == sources.end()) {
             common::Logger::devPanic(
-                "No source found by fileId",
+                "No source found by fileId [",
                 parseSess->fileId,
-                "in SourceMap::setSource, existent files:",
+                "] in SourceMap::setSource, existent files: ",
                 utils::map::keys(sources));
         }
         common::Logger::devDebug(
-            "Set source lines for file",
+            "Set source lines for file [",
             parseSess->sourceFile.path,
-            "by fileId:",
-            parseSess->fileId
+            "] by fileId [",
+            parseSess->fileId,
+            "]"
         );
         sources[parseSess->fileId] = std::move(parseSess->sourceFile);
     }
 
     SourceFile & SourceMap::getSourceFile(file_id_t fileId) {
         if (sources.find(fileId) == sources.end()) {
-            common::Logger::devPanic("No source found by fileId", fileId, "in `SourceMap::getSourceFile`");
+            common::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
         }
         return sources.at(fileId).unwrap("SourceMap::getSourceFile");
     }

@@ -17,9 +17,9 @@ namespace jc::resolve {
             log.nl();
         }
         printIndent();
-        log.raw("[values]:", module->valueNS).nl();
+        log.raw("[values]: ", module->valueNS).nl();
         printIndent();
-        log.raw("[types]:", module->typeNS).nl();
+        log.raw("[types]: ", module->typeNS).nl();
         indent--;
         printIndent();
         log.raw("}");

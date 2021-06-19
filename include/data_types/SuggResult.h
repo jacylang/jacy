@@ -33,7 +33,7 @@ namespace jc::dt {
             const std::string & stageName = ""
         ) {
             if (suggestions.empty()) {
-                common::Logger::devDebug("No suggestions", (stageName.empty() ? "" : "after " + stageName));
+                common::Logger::devDebug("No suggestions", (stageName.empty() ? "" : " after " + stageName));
                 return;
             }
             dump(sess, suggestions);
