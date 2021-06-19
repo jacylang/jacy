@@ -48,6 +48,8 @@ namespace jc::ast {
     // Statements //
     ////////////////
     void AstPrinter::visit(const Enum & enumDecl) {
+        printNodeId(enumDecl);
+
         enumDecl.name.accept(*this);
 
         printBodyLike(enumDecl.entries, ",\n");
@@ -658,11 +660,11 @@ namespace jc::ast {
     }
 
     // NodeMap mode //
-    void AstPrinter::printNodeId(node_ptr node) {
+    void AstPrinter::printNodeId(const Node & node) const {
         if (not printAstNodeMap) {
             return;
         }
-        log.raw("[[", node->id, "]]");
+        log.raw("[[", node.id, "]]");
     }
 
     // Names mode //
