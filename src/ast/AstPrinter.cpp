@@ -439,8 +439,6 @@ namespace jc::ast {
     void AstPrinter::visit(const PathExpr & pathExpr) {
         printNodeId(pathExpr);
 
-        // TODO: `Names` mode
-
         colorizeName(pathExpr.id);
 
         if (pathExpr.global) {
@@ -793,7 +791,7 @@ namespace jc::ast {
 
     // NodeMap mode //
     void AstPrinter::printNodeId(const Node & node) const {
-        if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
+        if (not printAstNodeMap) {
             return;
         }
         log.raw(Color::LightGray, "[", node.id, "]", Color::Reset);
@@ -804,7 +802,7 @@ namespace jc::ast {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(nodeId), "[[", nodeId, "]]");
+        log.raw(getNameColor(nodeId));
     }
 
     void AstPrinter::colorizeName(node_id nodeId) {
@@ -813,9 +811,9 @@ namespace jc::ast {
         }
         const auto & resolved = sess->resStorage.getRes(nodeId);
         if (not resolved) {
-            log.raw(Color::Black);
+            log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
         } else {
-            log.raw(getNameColor(resolved), "[[", resolved, "]]");
+            log.raw(getNameColor(resolved.unwrap()));
         }
     }
 
@@ -841,7 +839,8 @@ namespace jc::ast {
                 // Use next allowed color
                 lastColor++;
             }
-            return allowedNamesColors.at(lastColor);
+            namesColors[nodeId] = allowedNamesColors.at(lastColor);
+            return namesColors[nodeId];
         }
         return found->second;
     }
