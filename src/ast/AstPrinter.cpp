@@ -56,6 +56,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const EnumEntry & enumEntry) {
+        printNodeId(enumEntry);
+
         enumEntry.name.accept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
@@ -76,11 +78,15 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ExprStmt & exprStmt) {
+        printNodeId(exprStmt);
+
         exprStmt.expr.accept(*this);
         log.raw(";");
     }
 
     void AstPrinter::visit(const ForStmt & forStmt) {
+        printNodeId(forStmt);
+
         log.raw("for ");
         // TODO: Update when `for` will have patterns
         forStmt.forEntity.accept(*this);
@@ -90,6 +96,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
+        printNodeId(itemStmt);
+
         if (itemStmt.item) {
             printAttributes(itemStmt.item.unwrap()->attributes);
         }
@@ -97,6 +105,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Func & func) {
+        printNodeId(func);
+
         printModifiers(func.modifiers);
         log.raw("func");
         printTypeParams(func.typeParams);
@@ -123,6 +133,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncParam & funcParam) {
+        printNodeId(funcParam);
+
         funcParam.name.accept(*this);
 
         log.raw(": ");
@@ -135,6 +147,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Impl & impl) {
+        printNodeId(impl);
+
         log.raw("impl");
         printTypeParams(impl.typeParams);
         log.raw(" ");
@@ -145,12 +159,16 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Mod & mod) {
+        printNodeId(mod);
+
         log.raw("mod ");
         mod.name.accept(*this);
         printBodyLike(mod.items, "\n");
     }
 
     void AstPrinter::visit(const Struct & _struct) {
+        printNodeId(_struct);
+
         log.raw("struct ");
         _struct.name.accept(*this);
         log.raw(" ");
@@ -159,12 +177,16 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const StructField & field) {
+        printNodeId(field);
+
         field.name.accept(*this);
         log.raw(": ");
         field.type.accept(*this);
     }
 
     void AstPrinter::visit(const Trait & trait) {
+        printNodeId(trait);
+
         log.raw("trait ");
         trait.name.accept(*this);
         printTypeParams(trait.typeParams);
@@ -178,6 +200,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypeAlias & typeAlias) {
+        printNodeId(typeAlias);
+
         log.raw("type ");
         typeAlias.name.accept(*this);
         log.raw(" = ");
@@ -185,15 +209,21 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseDecl & useDecl) {
+        printNodeId(useDecl);
+
         log.raw("use ");
         useDecl.useTree.accept(*this);
     }
 
     void AstPrinter::visit(const UseTreeRaw & useTree) {
+        printNodeId(useTree);
+
         useTree.path->accept(*this);
     }
 
     void AstPrinter::visit(const UseTreeSpecific & useTree) {
+        printNodeId(useTree);
+
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
         }
@@ -201,12 +231,16 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeRebind & useTree) {
+        printNodeId(useTree);
+
         useTree.path->accept(*this);
         log.raw(" as ");
         useTree.as.accept(*this);
     }
 
     void AstPrinter::visit(const UseTreeAll & useTree) {
+        printNodeId(useTree);
+
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
         }
@@ -214,6 +248,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const VarStmt & varStmt) {
+        printNodeId(varStmt);
+
         log.raw(varStmt.kind.kindToString(), "");
         varStmt.name.accept(*this);
         if (varStmt.type) {
@@ -223,6 +259,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const WhileStmt & whileStmt) {
+        printNodeId(whileStmt);
+
         log.raw("while ");
         whileStmt.condition.accept(*this);
         log.raw(" ");
@@ -233,12 +271,16 @@ namespace jc::ast {
     // Expressions //
     /////////////////
     void AstPrinter::visit(const Assignment & assignment) {
+        printNodeId(assignment);
+
         assignment.lhs.accept(*this);
         log.raw(" = ");
         assignment.rhs.accept(*this);
     }
 
     void AstPrinter::visit(const Block & block) {
+        printNodeId(block);
+
         if (block.blockKind == BlockKind::OneLine) {
             block.oneLine.unwrap().accept(*this);
             return;
@@ -251,6 +293,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
+        printNodeId(borrowExpr);
+
         if (borrowExpr.twin) {
             log.raw("&&");
         } else {
@@ -264,22 +308,30 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const BreakExpr & breakExpr) {
+        printNodeId(breakExpr);
+
         log.raw("break ");
         if (breakExpr.expr) {
             breakExpr.expr.unwrap().accept(*this);
         }
     }
 
-    void AstPrinter::visit(const ContinueExpr&) {
+    void AstPrinter::visit(const ContinueExpr & continueExpr) {
+        printNodeId(continueExpr);
+
         log.raw("continue");
     }
 
     void AstPrinter::visit(const DerefExpr & derefExpr) {
+        printNodeId(derefExpr);
+
         log.raw("&");
         derefExpr.expr.accept(*this);
     }
 
     void AstPrinter::visit(const IfExpr & ifExpr) {
+        printNodeId(ifExpr);
+
         log.raw("if ");
         ifExpr.condition.accept(*this);
         log.raw(" ");
@@ -293,6 +345,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Infix & infix) {
+        printNodeId(infix);
+
         if (precedenceDebug) {
             log.raw("(");
         }
@@ -313,11 +367,15 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Invoke & invoke) {
+        printNodeId(invoke);
+
         invoke.lhs.accept(*this);
         printDelim(invoke.args, "(", ")");
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
+        printNodeId(lambdaExpr);
+
         printDelim(lambdaExpr.params, "|", "|");
 
         if (lambdaExpr.returnType) {
@@ -330,6 +388,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const LambdaParam & param) {
+        printNodeId(param);
+
         param.name.accept(*this);
         if (param.type) {
             log.raw(": ");
@@ -338,6 +398,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ListExpr & listExpr) {
+        printNodeId(listExpr);
+
         log.raw("[");
         for (const auto & el : listExpr.elements) {
             el.accept(*this);
@@ -346,27 +408,37 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const LiteralConstant & literalConstant) {
+        printNodeId(literalConstant);
+
         log.raw(literalConstant.token.val);
     }
 
     void AstPrinter::visit(const LoopExpr & loopExpr) {
+        printNodeId(loopExpr);
+
         log.raw("loop ");
         loopExpr.body.accept(*this);
     }
 
     void AstPrinter::visit(const MemberAccess & memberAccess) {
+        printNodeId(memberAccess);
+
         memberAccess.lhs.accept(*this);
         log.raw(".");
         memberAccess.field.accept(*this);
     }
 
     void AstPrinter::visit(const ParenExpr & parenExpr) {
+        printNodeId(parenExpr);
+
         log.raw("(");
         parenExpr.expr.accept(*this);
         log.raw(")");
     }
 
     void AstPrinter::visit(const PathExpr & pathExpr) {
+        printNodeId(pathExpr);
+
         // TODO: `Names` mode
 
         colorizeName(pathExpr.id);
@@ -380,6 +452,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathExprSeg & seg) {
+        printNodeId(seg);
+
         switch (seg.kind) {
             case PathExprSeg::Kind::Super: {
                 log.raw("super");
@@ -405,16 +479,22 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
+        printNodeId(prefix);
+
         log.raw(prefix.op.kindToString());
         prefix.rhs.accept(*this);
     }
 
     void AstPrinter::visit(const QuestExpr & questExpr) {
+        printNodeId(questExpr);
+
         questExpr.expr.accept(*this);
         log.raw("?");
     }
 
     void AstPrinter::visit(const ReturnExpr & returnExpr) {
+        printNodeId(returnExpr);
+
         log.raw("return ");
         if (returnExpr.expr) {
             returnExpr.expr.unwrap().accept(*this);
@@ -422,16 +502,22 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const SpreadExpr & spreadExpr) {
+        printNodeId(spreadExpr);
+
         log.raw(spreadExpr.token.kindToString());
         spreadExpr.expr.accept(*this);
     }
 
     void AstPrinter::visit(const StructExpr & structExpr) {
+        printNodeId(structExpr);
+
         structExpr.path.accept(*this);
         printBodyLike(structExpr.fields, ",\n");
     }
 
     void AstPrinter::visit(const StructExprField & field) {
+        printNodeId(field);
+
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
                 field.name.unwrap().accept(*this);
@@ -452,31 +538,43 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Subscript & subscript) {
+        printNodeId(subscript);
+
         subscript.lhs.accept(*this);
         log.raw("[");
         printDelim(subscript.indices);
         log.raw("]");
     }
 
-    void AstPrinter::visit(const ThisExpr&) {
+    void AstPrinter::visit(const ThisExpr & thisExpr) {
+        printNodeId(thisExpr);
+
         log.raw("this");
     }
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
+        printNodeId(tupleExpr);
+
         printDelim(tupleExpr.elements, "(", ")");
     }
 
-    void AstPrinter::visit(const UnitExpr&) {
+    void AstPrinter::visit(const UnitExpr & unit) {
+        printNodeId(unit);
+
         log.raw("()");
     }
 
     void AstPrinter::visit(const WhenExpr & whenExpr) {
+        printNodeId(whenExpr);
+
         log.raw("when ");
         whenExpr.subject.accept(*this);
         printBodyLike(whenExpr.entries, ",\n");
     }
 
     void AstPrinter::visit(const WhenEntry & entry) {
+        printNodeId(entry);
+
         printDelim(entry.conditions);
         log.raw(" => ");
         entry.body.accept(*this);
@@ -484,16 +582,22 @@ namespace jc::ast {
 
     // Types //
     void AstPrinter::visit(const ParenType & parenType) {
+        printNodeId(parenType);
+
         log.raw("(");
         parenType.type.accept(*this);
         log.raw(")");
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
+        printNodeId(tupleType);
+
         printDelim(tupleType.elements, "(", ")");
     }
 
     void AstPrinter::visit(const TupleTypeEl & el) {
+        printNodeId(el);
+
         if (el.name) {
             el.name.unwrap().accept(*this);
         }
@@ -506,18 +610,24 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
+        printNodeId(funcType);
+
         printDelim(funcType.params, "(", ")");
         log.raw(" -> ");
         funcType.returnType.accept(*this);
     }
 
     void AstPrinter::visit(const SliceType & listType) {
+        printNodeId(listType);
+
         log.raw("[");
         listType.type.accept(*this);
         log.raw("]");
     }
 
     void AstPrinter::visit(const ArrayType & arrayType) {
+        printNodeId(arrayType);
+
         log.raw("[");
         arrayType.type.accept(*this);
         log.raw("; ");
@@ -526,6 +636,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypePath & typePath) {
+        printNodeId(typePath);
+
         if (typePath.global) {
             log.raw("::");
         }
@@ -533,16 +645,22 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypePathSeg & seg) {
+        printNodeId(seg);
+
         seg.name.accept(*this);
         printTypeParams(seg.typeParams);
     }
 
-    void AstPrinter::visit(const UnitType&) {
+    void AstPrinter::visit(const UnitType & unitType) {
+        printNodeId(unitType);
+
         log.raw("()");
     }
 
     // Generics //
     void AstPrinter::visit(const GenericType & genericType) {
+        printNodeId(genericType);
+
         genericType.name.accept(*this);
         if (genericType.boundType) {
             log.raw(": ");
@@ -551,11 +669,15 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Lifetime & lifetime) {
+        printNodeId(lifetime);
+
         log.raw("`");
         lifetime.name.accept(*this);
     }
 
     void AstPrinter::visit(const ConstParam & constParam) {
+        printNodeId(constParam);
+
         log.raw("const");
         constParam.name.accept(*this);
         log.raw(": ");
@@ -568,6 +690,8 @@ namespace jc::ast {
 
     // Fragments //
     void AstPrinter::visit(const Attribute & attr) {
+        printNodeId(attr);
+
         log.raw("@");
         attr.name.accept(*this);
         printDelim(attr.params, "(", ")");
@@ -575,10 +699,14 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Identifier & id) {
+        printNodeId(id);
+
         log.raw(id.getValue());
     }
 
     void AstPrinter::visit(const NamedElement & el) {
+        printNodeId(el);
+
         if (el.name) {
             el.name.unwrap().accept(*this);
             if (el.value) {
@@ -591,6 +719,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const SimplePath & path) {
+        printNodeId(path);
+
         if (path.global) {
             log.raw("::");
         }
@@ -599,6 +729,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const SimplePathSeg & seg) {
+        printNodeId(seg);
+
         switch (seg.kind) {
             case SimplePathSeg::Kind::Super: {
                 log.raw("super");
