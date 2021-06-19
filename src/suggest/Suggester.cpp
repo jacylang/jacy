@@ -115,7 +115,7 @@ namespace jc::sugg {
         // FIXME: uint overflow can appear
         const auto & indent = getFileIndent(fileId);
         Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
-        Logger::print(index + 1, "|", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
+        Logger::print(index + 1, " | ", utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size()));
         Logger::nl();
     }
 
@@ -125,7 +125,7 @@ namespace jc::sugg {
     }
 
     void Suggester::printWithIndent(const std::string & indent, const std::string & msg) {
-        // This is the indent that we've got from line number prefix like "1 | " (here's 4 chars)
+        // This is the indent that we've got from line number prefix like "1 | " (here're 4 chars)
         Logger::print(indent);
         Logger::print(utils::str::clipEnd(msg, wrapLen - indent.size(), ""));
         Logger::nl();
