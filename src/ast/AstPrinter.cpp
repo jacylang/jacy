@@ -363,13 +363,14 @@ namespace jc::ast {
     void AstPrinter::visit(const PathExpr & pathExpr) {
         // TODO: `Names` mode
 
+        beginName(pathExpr.id);
+
         if (pathExpr.global) {
             log.raw("::");
         }
         printDelim(pathExpr.segments, "", "", "::");
 
-        // Note: `Names` mode
-        printName(pathExpr.id);
+        endName();
     }
 
     void AstPrinter::visit(const PathExprSeg & seg) {
