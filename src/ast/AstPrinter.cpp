@@ -793,7 +793,7 @@ namespace jc::ast {
 
     // NodeMap mode //
     void AstPrinter::printNodeId(const Node & node) const {
-        if (not printAstNodeMap) {
+        if (not printAstNodeMap and mode == AstPrinterMode::Parsing) {
             return;
         }
         log.raw("[[", node.id, "]]");
