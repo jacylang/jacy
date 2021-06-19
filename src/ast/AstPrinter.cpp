@@ -30,12 +30,12 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FileModule & fileModule) {
-        log.raw("--- file", fileModule.getName()).nl();
+        log.raw("--- file ", fileModule.getName()).nl();
         fileModule.getFile()->accept(*this);
     }
 
     void AstPrinter::visit(const DirModule & dirModule) {
-        log.raw("--- dir", dirModule.getName()).nl();
+        log.raw("--- dir ", dirModule.getName()).nl();
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
             log.nl();
