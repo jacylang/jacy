@@ -804,7 +804,7 @@ namespace jc::ast {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(nodeId));
+        log.raw(getNameColor(nodeId), "[[", nodeId, "]]");
     }
 
     void AstPrinter::colorizeName(node_id nodeId) {
@@ -815,7 +815,7 @@ namespace jc::ast {
         if (not resolved) {
             log.raw(Color::Black);
         } else {
-            log.raw(getNameColor(resolved));
+            log.raw(getNameColor(resolved), "[[", resolved, "]]");
         }
     }
 
