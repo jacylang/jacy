@@ -181,17 +181,22 @@ namespace jc::core {
     }
 
     void Interface::printAst(ast::AstPrinterMode mode) {
-        if (not config.checkPrint(Config::PrintKind::Ast)) {
+        if ((mode == ast::AstPrinterMode::Parsing and not config.checkPrint(Config::PrintKind::Ast))
+        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(common::Config::PrintKind::Names))
+        ) {
             return;
         }
         common::Logger::nl();
         std::string modeStr;
+        std::string cliParam;
         if (mode == ast::AstPrinterMode::Parsing) {
             modeStr = "parsing";
+            cliParam = "ast";
         } else if (mode == ast::AstPrinterMode::Names) {
             modeStr = "name resolution";
+            cliParam = "names";
         }
-        log.info("Printing AST after [", modeStr, "] (`-print=ast`)");
+        log.info("Printing AST after [", modeStr, "] (`-print=", cliParam, "`)");
         astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
