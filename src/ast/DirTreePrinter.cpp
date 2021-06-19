@@ -12,7 +12,7 @@ namespace jc::ast {
 
     void DirTreePrinter::visit(const DirModule & dirModule) {
         printIndent();
-        common::Logger::print("|--", dirModule.getName() + "/");
+        common::Logger::print("|-- ", dirModule.getName() + "/");
         common::Logger::nl();
         indent++;
         for (size_t i = 0; i < dirModule.getModules().size(); i++) {
