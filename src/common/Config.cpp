@@ -55,6 +55,9 @@ namespace jc::common {
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
+        // Apply bool args //
+        dev = cliConfig.is("dev");
+
         // Apply key-value args //
 
         // `print`
@@ -87,12 +90,10 @@ namespace jc::common {
         }
 
         // `log-level` and `*-log-level`
-        bool globalLogLevelAppeared = false;
         for (const auto & owner : loggerOwners) {
             const auto isGlobal = owner == GLOBAL_LOG_LEVEL_NAME;
             const auto & argName = isGlobal ? "log-level" : owner + "-log-level";
             const auto & maybeLogLevel = cliConfig.getSingleValue(argName);
-            globalLogLevelAppeared = isGlobal and maybeLogLevel;
             if (maybeLogLevel) {
                 const auto & ll = maybeLogLevel.unwrap();
                 loggerLevels[owner] = logLevelKinds.at(ll);
@@ -101,22 +102,9 @@ namespace jc::common {
             }
         }
 
-        // Apply bool args //
-        dev = cliConfig.is("dev");
-
-        if (dev and not globalLogLevelAppeared) {
-            // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
-            for (const auto & owner : loggerLevels) {
-                if (owner.second == LogLevel::Unknown) {
-                    loggerLevels[owner.first] = LogLevel::Dev;
-                }
-            }
-        } else {
-            // If global log-level not provided then we set all unknowns to default
-            for (const auto & owner : loggerLevels) {
-                if (owner.second == LogLevel::Unknown) {
-                    loggerLevels[owner.first] = LogLevel::Dev;
-                }
+        for (auto & owner : loggerLevels) {
+            if (owner.second == LogLevel::Unknown) {
+                owner.second = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
             }
         }
     }

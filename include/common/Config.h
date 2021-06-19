@@ -115,7 +115,7 @@ namespace jc::common {
         const static std::vector<std::string> loggerOwners;
 
         // Pairs of `owner - LogLevel`
-        std::unordered_map<std::string, LogLevel> loggerLevels;
+        std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
 
         // Bool args //
         bool dev{false};
