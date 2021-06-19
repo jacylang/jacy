@@ -41,6 +41,7 @@ namespace jc::common {
             AstNames,
             AstNodeMap,
             Ribs,
+            Resolutions,
 
             All,
         };
