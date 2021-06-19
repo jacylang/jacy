@@ -366,6 +366,9 @@ namespace jc::ast {
             log.raw("::");
         }
         printDelim(pathExpr.segments, "", "", "::");
+
+        // Note: `Names` mode
+        printName(pathExpr.id);
     }
 
     void AstPrinter::visit(const PathExprSeg & seg) {
