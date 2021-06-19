@@ -63,25 +63,25 @@ namespace jc::sugg {
         const auto & point = span.pos - line.pos;
         const auto & msgLen = msg.size();
 
-        // Note: We add 4 because we want to put 4 additional `---^` or `^---` for readability
+        // Note: We add 4 because we want to put 4 additional ` --^` or `^-- ` for readability
         const auto & realMsgLen = msgLen + 4;
         const auto & spanMax = point + span.len; // The max point of span
 
         if (realMsgLen <= point) {
-            // We can put message before `---^`
+            // We can put message before ` --^`
 
             // Here we put our message before `^` and fill empty space with `-`
             std::string pointLine = utils::str::padStart(msg, point - 3, ' ');
-            pointLine += "---";
+            pointLine += " --";
             pointLine += utils::str::repeat("^", span.len);
 
             // We don't need to write additional `-` after `^`, so just print it
             printWithIndent(fileId, utils::str::clipStart(pointLine, wrapLen - indent.size() - 7, ""));
         } else if (wrapLen > spanMax and wrapLen - spanMax >= realMsgLen) {
-            // We can put message after `^--`, because it fits space after span
+            // We can put message after `^-- `, because it fits space after span
 
             std::string pointLine = utils::str::repeat(" ", point) + utils::str::repeat("^", span.len);
-            pointLine += "---";
+            pointLine += "-- ";
             pointLine += msg;
             printWithIndent(fileId, pointLine);
         } else {
