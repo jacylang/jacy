@@ -35,12 +35,10 @@ namespace jc::dt {
             return value;
         }
 
-        template<class U>
-        Option<U> then(const std::function<Option<U>(const Option<T>&)> & f) {
-            if (none()) {
-                return None;
+        void whenSome(const std::function<void(const Option<T>&)> & f) {
+            if (not none()) {
+                f(*this);
             }
-            return f(*this);
         }
 
         const T & getValueUnsafe() const {
