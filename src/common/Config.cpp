@@ -88,19 +88,7 @@ namespace jc::common {
             globalLogLevelAppeared = isGlobal and maybeLogLevel;
             if (maybeLogLevel) {
                 const auto & ll = maybeLogLevel.unwrap();
-                if (ll == "dev") {
-                    loggerLevels[owner] = LogLevel::Dev;
-                } else if (ll == "debug") {
-                    loggerLevels[owner] = LogLevel::Debug;
-                } else if (ll == "info") {
-                    loggerLevels[owner] = LogLevel::Info;
-                } else if (ll == "warn") {
-                    loggerLevels[owner] = LogLevel::Warn;
-                } else if (ll == "error") {
-                    loggerLevels[owner] = LogLevel::Error;
-                } else {
-                    throw std::logic_error("[Config] Unhandled value for `log-level` cli argument");
-                }
+                loggerLevels[owner] = logLevelKinds.at(ll);
             } else if (not isGlobal) {
                 loggerLevels[owner] = DEFAULT_LOG_LEVEL;
             }
