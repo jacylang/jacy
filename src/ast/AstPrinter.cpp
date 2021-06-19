@@ -3,7 +3,7 @@
 namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
-        lastColor = allowedNamesColors.size();
+        lastColor = static_cast<uint8_t>(allowedNamesColors.size());
     }
 
     void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
@@ -98,7 +98,10 @@ namespace jc::ast {
         log.raw("func");
         printTypeParams(func.typeParams);
         log.raw(" ");
+
+        colorizeDef(func.id);
         func.name.accept(*this);
+        resetNameColor();
 
         printDelim(func.params, "(", ")");
 
