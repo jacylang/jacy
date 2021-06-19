@@ -27,6 +27,10 @@ namespace jc::resolve {
             resolutions.emplace(name, res);
         }
 
+        const std::map<node_id, node_id> getResolutions() const {
+            return resolutions;
+        }
+
     private:
         std::map<node_id, node_id> resolutions;
     };
