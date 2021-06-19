@@ -58,13 +58,11 @@ namespace jc::common {
         // Apply key-value args //
 
         // `print`
-        cliConfig.getValues("print").then(
-            [&](const auto & values) {
-                for (const auto & val : values) {
-                    print.insert(printKinds.at(val));
-                }
+        cliConfig.getValues("print").then([&](const auto & values) {
+            for (const auto & val : values) {
+                print.insert(printKinds.at(val));
             }
-        );
+        });
 
         // `compile-depth`
         cliConfig.getSingleValue("compile-depth").then([&](const auto & value) {
