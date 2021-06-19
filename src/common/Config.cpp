@@ -17,6 +17,11 @@ namespace jc::common {
         {"all", Config::PrintKind::All},
     };
 
+    key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
+        {"parser", Config::CompileDepth::Parser},
+        {"name-resolution", Config::CompileDepth::NameResolution},
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
