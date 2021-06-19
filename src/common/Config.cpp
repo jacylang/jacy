@@ -6,15 +6,15 @@ namespace jc::common {
     Config::Config() = default;
 
     key_value_arg_map<Config::PrintKind> Config::printKinds = {
-        {"dir-tree", Config::PrintKind::DirTree},
-        {"ast",      Config::PrintKind::Ast},
-        {"tokens",   Config::PrintKind::Tokens},
-        {"sugg",     Config::PrintKind::Suggestions},
-        {"source",   Config::PrintKind::Source},
-        {"mod-tree", Config::PrintKind::ModTree},
-        {"names",    Config::PrintKind::AstNames},
-        {"ribs",     Config::PrintKind::Ribs},
-        {"all",      Config::PrintKind::All},
+        {"dir-tree",  Config::PrintKind::DirTree},
+        {"ast",       Config::PrintKind::Ast},
+        {"tokens",    Config::PrintKind::Tokens},
+        {"sugg",      Config::PrintKind::Suggestions},
+        {"source",    Config::PrintKind::Source},
+        {"mod-tree",  Config::PrintKind::ModTree},
+        {"ast-names", Config::PrintKind::AstNames},
+        {"ribs",      Config::PrintKind::Ribs},
+        {"all",       Config::PrintKind::All},
     };
 
     key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
