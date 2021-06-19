@@ -65,13 +65,7 @@ namespace jc::common {
         const auto & maybeBenchmark = cliConfig.getSingleValue("benchmark");
         if (maybeBenchmark) {
             const auto & bmk = maybeBenchmark.unwrap();
-            if (bmk == "final") {
-                benchmark = Benchmark::Final;
-            } else if (bmk == "each-stage") {
-                benchmark = Benchmark::EachStage;
-            } else {
-                throw std::logic_error("[Config] Unhandled value for `benchmark` cli argument");
-            }
+            benchmark = benchmarkKinds.at(bmk);
         }
 
         // `parser-extra-debug`
