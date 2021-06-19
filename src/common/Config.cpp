@@ -90,7 +90,7 @@ namespace jc::common {
                 const auto & ll = maybeLogLevel.unwrap();
                 loggerLevels[owner] = logLevelKinds.at(ll);
             } else if (not isGlobal) {
-                loggerLevels[owner] = DEFAULT_LOG_LEVEL;
+                loggerLevels[owner] = LogLevel::Unknown;
             }
         }
 
@@ -99,7 +99,18 @@ namespace jc::common {
 
         if (dev and not globalLogLevelAppeared) {
             // If no `log-level` argument applied and we are in the dev mode, we set it to `Dev`
-            loggerLevels[GLOBAL_LOG_LEVEL_NAME] = LogLevel::Dev;
+            for (const auto & owner : loggerLevels) {
+                if (owner.second == LogLevel::Unknown) {
+                    loggerLevels[owner.first] = LogLevel::Dev;
+                }
+            }
+        } else {
+            // If global log-level not provided then we set all unknowns to default
+            for (const auto & owner : loggerLevels) {
+                if (owner.second == LogLevel::Unknown) {
+                    loggerLevels[owner.first] = LogLevel::Dev;
+                }
+            }
         }
     }
 
