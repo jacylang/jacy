@@ -27,6 +27,14 @@ namespace jc::common {
         {"final", Config::Benchmark::Final},
     };
 
+    key_value_arg_map<Config::LogLevel> Config::logLevelKinds = {
+        {"dev", Config::LogLevel::Dev},
+        {"debug", Config::LogLevel::Debug},
+        {"info", Config::LogLevel::Info},
+        {"warn", Config::LogLevel::Warn},
+        {"error", Config::LogLevel::Error},
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
