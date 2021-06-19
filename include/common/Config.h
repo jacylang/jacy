@@ -39,6 +39,7 @@ namespace jc::common {
             Source,
             ModTree,
             AstNames,
+            AstNodeMap,
             Ribs,
 
             All,
