@@ -35,10 +35,11 @@ namespace jc::dt {
             return value;
         }
 
-        void then(const std::function<void(const T&)> & f) {
+        Option<T> & then(const std::function<void(const T&)> & f) {
             if (not none()) {
                 f(unwrap());
             }
+            return *this;
         }
 
         const T & getValueUnsafe() const {
