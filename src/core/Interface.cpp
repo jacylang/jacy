@@ -203,8 +203,13 @@ namespace jc::core {
         log.printTitleDev("Name resolution");
 
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
-        modulePrinter.print(sess->modTreeRoot.unwrap());
-        common::Logger::nl();
+
+        if (config.checkPrint(Config::PrintKind::ModTree)) {
+            log.info("Printing module tree (`-print=mod-tree`)");
+            modulePrinter.print(sess->modTreeRoot.unwrap());
+            common::Logger::nl();
+        }
+
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
 
         printAst(ast::AstPrinterMode::Names);
