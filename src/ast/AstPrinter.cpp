@@ -3,6 +3,7 @@
 namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
+
     }
 
     void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
@@ -653,6 +654,9 @@ namespace jc::ast {
 
     // Names mode //
     void AstPrinter::printName(node_id nodeId) {
+        if (mode != AstPrinterMode::Names) {
+            return;
+        }
         const auto & resolved = sess->resStorage.getRes(nodeId);
         if (not resolved) {
             log.raw("[[Unresolved]]");
