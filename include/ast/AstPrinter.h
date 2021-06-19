@@ -195,6 +195,7 @@ namespace jc::ast {
 
         // Names mode //
     private:
+        std::map<std::string, common::Color> namesColors;
         void printName(node_id nodeId);
 
     private:
