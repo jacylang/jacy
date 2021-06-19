@@ -42,6 +42,13 @@ namespace jc::dt {
             return *this;
         }
 
+        Option<T> & otherwise(const std::function<void()> & f) {
+            if (none()) {
+                f();
+            }
+            return *this;
+        }
+
         const T & getValueUnsafe() const {
             return value;
         }
