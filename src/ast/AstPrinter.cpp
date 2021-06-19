@@ -664,4 +664,21 @@ namespace jc::ast {
             log.raw("[[", sess->nodeMap.getNode(resolved).span.toString(), "]]");
         }
     }
+
+    common::Color AstPrinter::getNameColor(const std::string & name) {
+        const auto & found = namesColors.find(name);
+        if (found == namesColors.end()) {
+            // Assign color for name if not found
+
+            if (lastColor == allowedNamesColors.at(allowedNamesColors.size() - 1)) {
+                // If we used last allowed color then repeat from the beginning
+                lastColor = allowedNamesColors.at(0);
+            } else {
+                // Use next allowed color
+                lastColor = allowedNamesColors.at(static_cast<uint8_t>(lastColor) + 1);
+            }
+            return lastColor;
+        }
+        return found->second;
+    }
 }

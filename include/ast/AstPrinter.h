@@ -10,6 +10,8 @@
 #include "session/Session.h"
 
 namespace jc::ast {
+    using Color = common::Color;
+
     enum class AstPrinterMode {
         Parsing, // Print tree after parsing
         Names, // Print tree after name resolution
@@ -195,8 +197,25 @@ namespace jc::ast {
 
         // Names mode //
     private:
-        std::map<std::string, common::Color> namesColors;
+        const std::vector<Color> allowedNamesColors = {
+            Color::DarkBlue,
+            Color::DarkGreen,
+            Color::LightBlue,
+            Color::DarkRed,
+            Color::Magenta,
+            Color::Orange,
+            Color::Gray,
+            Color::Blue,
+            Color::Green,
+            Color::Cyan,
+            Color::Red,
+            Color::Pink,
+            Color::Yellow,
+        };
+        std::map<std::string, Color> namesColors;
+        Color lastColor;
         void printName(node_id nodeId);
+        Color getNameColor(const std::string & name);
 
     private:
         // DEBUG //
