@@ -51,6 +51,7 @@ namespace jc::sugg {
     }
 
     void SuggDumper::postfix(SpanSugg * sugg) {
+        // FIXME: Cleanup
         Logger::print(sugg->eid != NoneEID ? " [EID=" + std::to_string(sugg->eid) + "]" : "");
     }
 
@@ -59,6 +60,6 @@ namespace jc::sugg {
     }
 
     void SuggDumper::printSpan(const Span & span) {
-        Logger::print(" at", span.toString());
+        Logger::print(" at ", span.toString());
     }
 }
