@@ -35,6 +35,12 @@ namespace jc::common {
         {"error", Config::LogLevel::Error},
     };
 
+    key_value_arg_map<Config::ParserExtraDebug> Config::parserExtraDebugKinds = {
+        {"no", Config::ParserExtraDebug::No},
+        {"entries", Config::ParserExtraDebug::Entries},
+        {"all", Config::ParserExtraDebug::All},
+    };
+
     void Config::applyCliConfig(const cli::Args & cliConfig) {
         rootFile = cliConfig.getRootFile();
 
