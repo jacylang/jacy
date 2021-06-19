@@ -61,7 +61,7 @@ namespace jc::common {
         // Apply key-value args //
 
         // `print`
-        cliConfig.getValues("print").then([&](const auto & values) {
+        cliConfig.getValues("print").whenSome([&](const auto & values) {
             for (const auto & val : values) {
                 print.insert(printKinds.at(val));
             }

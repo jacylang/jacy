@@ -35,9 +35,9 @@ namespace jc::dt {
             return value;
         }
 
-        void whenSome(const std::function<void(const Option<T>&)> & f) {
+        void whenSome(const std::function<void(const T&)> & f) {
             if (not none()) {
-                f(*this);
+                f(unwrap());
             }
         }
 
