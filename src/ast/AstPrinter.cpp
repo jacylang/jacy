@@ -653,19 +653,26 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::printName(node_id nodeId) {
+    void AstPrinter::beginName(node_id nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
         const auto & resolved = sess->resStorage.getRes(nodeId);
         if (not resolved) {
-            log.raw("[[Unresolved]]");
+            log.raw(Color::Black);
         } else {
-            log.raw("[[", sess->nodeMap.getNode(resolved).span.toString(), "]]");
+            log.raw(getNameColor(resolved));
         }
     }
 
+    void AstPrinter::endName() {
+        log.raw(Color::Reset);
+    }
+
     common::Color AstPrinter::getNameColor(node_id nodeId) {
+        // Note: Functionality is common for name declaration and name usage,
+        //  because AstPrinter does not do forward declarations
+
         const auto & found = namesColors.find(nodeId);
         if (found == namesColors.end()) {
             // Assign color for name if not found

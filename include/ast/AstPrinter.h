@@ -214,7 +214,8 @@ namespace jc::ast {
         };
         std::map<node_id, Color> namesColors;
         Color lastColor;
-        void printName(node_id nodeId);
+        void beginName(node_id nodeId);
+        void endName();
         Color getNameColor(node_id nodeId);
 
     private:
