@@ -217,6 +217,11 @@ namespace jc::core {
 
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
 
+        if (config.checkPrint(common::Config::PrintKind::Resolutions)) {
+            log.info("Printing resolutions (`-print=resolutions`)");
+            log.raw(sess->resStorage.getResolutions());
+        }
+
         printAst(ast::AstPrinterMode::Names);
     }
 
