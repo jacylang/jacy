@@ -363,14 +363,14 @@ namespace jc::ast {
     void AstPrinter::visit(const PathExpr & pathExpr) {
         // TODO: `Names` mode
 
-        beginName(pathExpr.id);
+        colorizeName(pathExpr.id);
 
         if (pathExpr.global) {
             log.raw("::");
         }
         printDelim(pathExpr.segments, "", "", "::");
 
-        endName();
+        resetNameColor();
     }
 
     void AstPrinter::visit(const PathExprSeg & seg) {
@@ -654,14 +654,14 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::beginDef(node_id nodeId) {
+    void AstPrinter::colorizeDef(node_id nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
         log.raw(getNameColor(nodeId));
     }
 
-    void AstPrinter::beginName(node_id nodeId) {
+    void AstPrinter::colorizeName(node_id nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
@@ -673,7 +673,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::endName() {
+    void AstPrinter::resetNameColor() {
         if (mode != AstPrinterMode::Names) {
             return;
         }
