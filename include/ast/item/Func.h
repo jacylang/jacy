@@ -40,7 +40,6 @@ namespace jc::ast {
             func_param_list params,
             opt_type_ptr returnType,
             opt_block_ptr body,
-            opt_expr_ptr oneLineBody,
             const Span & span
         ) : Item(span, ItemKind::Func),
             modifiers(std::move(modifiers)),
@@ -48,8 +47,7 @@ namespace jc::ast {
             name(std::move(name)),
             params(std::move(params)),
             returnType(std::move(returnType)),
-            body(std::move(body)),
-            oneLineBody(std::move(oneLineBody)) {}
+            body(std::move(body)) {}
 
         parser::token_list modifiers;
         opt_type_params typeParams;
@@ -57,7 +55,6 @@ namespace jc::ast {
         func_param_list params;
         opt_type_ptr returnType;
         opt_block_ptr body;
-        opt_expr_ptr oneLineBody;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
