@@ -155,12 +155,12 @@ namespace jc::ast {
     }
 
     // Statements //
-    void StubVisitor::visit(const LetStmt & varStmt) {
-        varStmt.pat->accept(*this);
-        if (varStmt.type) {
-            varStmt.type.unwrap().accept(*this);
+    void StubVisitor::visit(const LetStmt & letStmt) {
+        letStmt.pat->accept(*this);
+        if (letStmt.type) {
+            letStmt.type.unwrap().accept(*this);
         }
-        varStmt.assignExpr->accept(*this);
+        letStmt.assignExpr->accept(*this);
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {

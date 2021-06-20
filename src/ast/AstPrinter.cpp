@@ -247,14 +247,14 @@ namespace jc::ast {
         log.raw("*");
     }
 
-    void AstPrinter::visit(const LetStmt & varStmt) {
-        printNodeId(varStmt);
+    void AstPrinter::visit(const LetStmt & letStmt) {
+        printNodeId(letStmt);
 
-        log.raw(varStmt.kind.kindToString(), "");
-        varStmt.pat->accept(*this);
-        if (varStmt.type) {
+        log.raw(letStmt.kind.kindToString(), "");
+        letStmt.pat->accept(*this);
+        if (letStmt.type) {
             log.raw(": ");
-            varStmt.type.unwrap().accept(*this);
+            letStmt.type.unwrap().accept(*this);
         }
     }
 

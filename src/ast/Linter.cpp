@@ -225,17 +225,17 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const LetStmt & varStmt) {
-        varStmt.pat->accept(*this);
+    void Linter::visit(const LetStmt & letStmt) {
+        letStmt.pat->accept(*this);
 
-        varStmt.type->accept(*this);
+        letStmt.type->accept(*this);
 
-        if (varStmt.assignExpr) {
-            varStmt.assignExpr.unwrap().accept(*this);
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
         }
 
-        if (varStmt.kind.is(parser::TokenKind::Const) and !varStmt.assignExpr) {
-            suggestErrorMsg("`const` must be initialized immediately", varStmt.kind.span);
+        if (letStmt.kind.is(parser::TokenKind::Const) and !letStmt.assignExpr) {
+            suggestErrorMsg("`const` must be initialized immediately", letStmt.kind.span);
         }
     }
 
