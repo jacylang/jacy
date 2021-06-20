@@ -89,6 +89,9 @@ namespace jc::ast {
     struct SimplePath;
     struct SimplePathSeg;
 
+    // Patterns //
+    struct LiteralPattern;
+
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
@@ -178,6 +181,9 @@ namespace jc::ast {
         virtual void visit(const NamedElement&) = 0;
         virtual void visit(const SimplePath&) = 0;
         virtual void visit(const SimplePathSeg&) = 0;
+
+        // Patterns //
+        virtual void visit(const LiteralPattern&) = 0;
     };
 }
 

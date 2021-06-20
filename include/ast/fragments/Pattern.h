@@ -28,6 +28,10 @@ namespace jc::ast {
 
         bool neg;
         parser::Token literal;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct IdentPattern : Pattern {
