@@ -18,7 +18,6 @@ namespace jc::ast {
             type(std::move(type)),
             assignExpr(std::move(assignExpr)) {}
 
-        parser::Token kind;
         id_pat_ptr pat;
         opt_type_ptr type;
         opt_expr_ptr assignExpr;

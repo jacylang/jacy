@@ -127,7 +127,7 @@ namespace jc::ast {
             if (func.body.unwrap() and func.body.unwrap().unwrap()->blockKind == BlockKind::OneLine) {
                 log.raw(" = ");
             }
-            func.body->accept(*this);
+            func.body.unwrap().accept(*this);
         } else {
             log.raw(";");
         }
