@@ -252,7 +252,11 @@ namespace jc::ast {
         printNodeId(letStmt);
 
         log.raw("let ");
+
+        colorizeName(letStmt.pat->name);
         letStmt.pat->accept(*this);
+        resetNameColor();
+
         if (letStmt.type) {
             log.raw(": ");
             letStmt.type.unwrap().accept(*this);
