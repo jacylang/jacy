@@ -42,6 +42,10 @@ namespace jc::ast {
         bool ref;
         bool mut;
         id_ptr name;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     // TODO: Wildcard pattern

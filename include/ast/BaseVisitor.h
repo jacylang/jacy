@@ -91,6 +91,7 @@ namespace jc::ast {
 
     // Patterns //
     struct LiteralPattern;
+    struct IdentPattern;
 
     class BaseVisitor {
     public:
@@ -184,6 +185,7 @@ namespace jc::ast {
 
         // Patterns //
         virtual void visit(const LiteralPattern&) = 0;
+        virtual void visit(const IdentPattern&) = 0;
     };
 }
 
