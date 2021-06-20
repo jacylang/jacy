@@ -7,7 +7,7 @@
 namespace jc::ast {
     enum class PatternKind {
         Literal,
-
+        Ident,
     };
 
     struct Pattern : Node {
@@ -24,6 +24,15 @@ namespace jc::ast {
         parser::Token literal;
     };
 
+    struct IdentPattern : Pattern {
+        // TODO: Binding after binding syntax will be established
+        IdentPattern(bool ref, bool mut, id_ptr name, const Span & span)
+            : Pattern(PatternKind::Ident, span), ref(ref), mut(mut), name(std::move(name)) {}
+
+        bool ref;
+        bool mut;
+        id_ptr name;
+    };
 }
 
 #endif // JACY_AST_FRAGMENTS_PATTERN_H
