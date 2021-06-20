@@ -757,7 +757,7 @@ namespace jc::ast {
             log.raw("-");
         }
 
-        log.raw(pat.token.val);
+        log.raw(pat.literal.val);
     }
 
     void AstPrinter::visit(const IdentPattern & pat) {
@@ -769,7 +769,7 @@ namespace jc::ast {
             log.raw("mut ");
         }
 
-        pat.name->accept(*this);
+        pat.name.accept(*this);
     }
 
     void AstPrinter::visit(const SpreadPattern & pat) {

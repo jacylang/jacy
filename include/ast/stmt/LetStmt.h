@@ -4,6 +4,7 @@
 #include "ast/stmt/Stmt.h"
 #include "ast/fragments/Identifier.h"
 #include "ast/fragments/Type.h"
+#include "ast/fragments/Pattern.h"
 
 namespace jc::ast {
     struct LetStmt : Stmt {
