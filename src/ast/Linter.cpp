@@ -665,7 +665,9 @@ namespace jc::ast {
     // Patterns //
     void Linter::visit(const LiteralPattern & pat) {}
 
-    void Linter::visit(const IdentPattern & pat) {}
+    void Linter::visit(const IdentPattern & pat) {
+        pat.name.accept(*this);
+    }
 
     void Linter::visit(const SpreadPattern & pat) {}
 
