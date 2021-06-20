@@ -5,7 +5,7 @@ namespace jc::resolve {
         party.getRootModule()->accept(*this);
         sess->modTreeRoot = mod;
 
-        return {dt::None, std::move(extractSuggestions())};
+        return {dt::None, extractSuggestions()};
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
