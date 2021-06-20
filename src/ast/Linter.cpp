@@ -226,7 +226,7 @@ namespace jc::ast {
     }
 
     void Linter::visit(const LetStmt & varStmt) {
-        varStmt.name.accept(*this);
+        varStmt.pat->accept(*this);
 
         varStmt.type->accept(*this);
 
