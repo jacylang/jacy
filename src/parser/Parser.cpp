@@ -742,7 +742,6 @@ namespace jc::parser {
 
         justSkip(TokenKind::Let, "`let`", "`parseLetStmt`");
 
-        // TODO: Destructuring
         auto pat = parseIdentPat();
 
         dt::Option<type_ptr> type;
@@ -758,7 +757,7 @@ namespace jc::parser {
         exitEntity();
 
         return makeStmt<LetStmt>(
-            std::move(pat), std::move(type.unwrap()), std::move(assignExpr), begin.to(cspan())
+            std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan())
         );
     }
 

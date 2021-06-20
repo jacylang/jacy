@@ -1,20 +1,3 @@
-func meow() {
-
-}
-
-func foo {
-    meow();
-}
-
-func bar {
-    foo();
-    baz();
-}
-
-func baz {
-    foo();
-}
-
 func main {
-    bar();
+    let a = 123;
 }
