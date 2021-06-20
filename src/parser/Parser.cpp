@@ -2310,11 +2310,12 @@ namespace jc::parser {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
+        bool ref = skipOpt(TokenKind::Ref);
         bool mut = skipOpt(TokenKind::Mut);
 
         auto id = parseId("Missing identifier");
 
-        return makeNode<IdentPattern>(false, mut, std::move(id), begin.to(id.span()));
+        return makeNode<IdentPattern>(ref, mut, std::move(id), begin.to(id.span()));
     }
 
 
