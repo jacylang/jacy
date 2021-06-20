@@ -755,6 +755,8 @@ namespace jc::parser {
 
         exitEntity();
 
+        skipSemi();
+
         return makeStmt<LetStmt>(
             std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan())
         );
