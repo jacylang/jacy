@@ -264,6 +264,8 @@ namespace jc::resolve {
 
     // Declarations //
     void NameResolver::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
+        log.dev("Declare '", name, "' as ", Name::kindStr(kind));
+
         const auto & redecl = curRib()->declare(name, kind, nodeId);
 
         if (redecl) {

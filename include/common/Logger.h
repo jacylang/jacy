@@ -87,7 +87,7 @@ namespace jc::common {
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
         Config::LogLevel level{Config::LogLevel::Unknown};
-        bool printOwner{false};
+        bool printOwner{true};
         bool printLevel{true};
         bool colorize{true};
     };
