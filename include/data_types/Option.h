@@ -35,6 +35,11 @@ namespace jc::dt {
             return value;
         }
 
+        T && take() {
+            hasValue = false;
+            return std::move(value);
+        }
+
         Option<T> & then(const std::function<void(const T&)> & f) {
             if (not none()) {
                 f(unwrap());
