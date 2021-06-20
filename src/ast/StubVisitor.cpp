@@ -428,4 +428,11 @@ namespace jc::ast {
             default:;
         }
     }
+
+    // Patterns //
+    void StubVisitor::visit(const LiteralPattern & pat) {}
+
+    void StubVisitor::visit(const IdentPattern & pat) {}
+
+    void StubVisitor::visit(const SpreadPattern & pat) {}
 }

@@ -97,6 +97,11 @@ namespace jc::ast {
         virtual void visit(const SimplePath & path) override;
         virtual void visit(const SimplePathSeg & seg) override;
 
+        // Patterns //
+        virtual void visit(const LiteralPattern & pat) override;
+        virtual void visit(const IdentPattern & pat) override;
+        virtual void visit(const SpreadPattern & pat) override;
+
     protected:
         template<typename T>
         void visitEach(const std::vector<T> & entities) {
