@@ -8,7 +8,7 @@ namespace jc::resolve {
         enterRib();
         party.getRootModule()->accept(*this);
 
-        log.dev("Rib depth after name resolution: ", currentDepth);
+        log.dev("Rib depth after name resolution: ", getDepth());
 
         sess->resStorage = std::move(resStorage);
 
@@ -34,7 +34,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        uint32_t prevDepth = getDepth();
+        auto prevDepth = getDepth();
         visitTypeParams(func.typeParams);
 
         for (const auto & param : func.params) {
@@ -217,41 +217,40 @@ namespace jc::resolve {
     }
 
     // Ribs //
-    uint32_t NameResolver::getDepth() const {
-        return currentDepth;
+    size_t NameResolver::getDepth() const {
+        return ribStack.size();
     }
 
     const rib_ptr & NameResolver::curRib() const {
         try {
-            return ribStack.at(currentDepth);
+            return ribStack.at(getDepth());
         } catch (std::exception & e) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds:", currentDepth);
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds:", getDepth());
         }
     }
 
     void NameResolver::enterRib(Rib::Kind kind) {
-        ribStack.push_back(std::make_unique<Rib>(kind));
-        if (currentDepth == UINT32_MAX) {
+        if (getDepth() == UINT32_MAX) {
             Logger::devPanic("Maximum ribStack depth limit exceeded");
         }
-        currentDepth = static_cast<uint32_t>(ribStack.size() - 1);
+        ribStack.push_back(std::make_unique<Rib>(kind));
     }
 
     void NameResolver::exitRib() {
-        if (currentDepth == 0) {
+        if (getDepth() == 0) {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
-        currentDepth--;
+        ribStack.pop_back();
     }
 
     void NameResolver::liftToDepth(size_t prevDepth) {
-        if (prevDepth > currentDepth) {
+        if (prevDepth > getDepth()) {
             common::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
         }
 
         // Note: Save depth when we started, because it will be changed in `exitRib`
-        const auto curDepth = currentDepth;
-        for (size_t i = prevDepth; i < curDepth; i++) {
+        const auto depth = getDepth();
+        for (size_t i = prevDepth; i < depth; i++) {
             exitRib();
         }
     }
@@ -304,17 +303,17 @@ namespace jc::resolve {
     }
 
     opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
-        uint32_t curDepth = currentDepth;
+        auto depth = getDepth();
         while (true) {
-            const auto & rib = ribAt(curDepth).unwrap();
+            const auto & rib = ribStack.at(depth);
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
                 return resolved.unwrap()->nodeId;
             }
-            if (curDepth == 0) {
+            if (depth == 0) {
                 break;
             }
-            curDepth--;
+            depth--;
         }
         return dt::None;
     }
