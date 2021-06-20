@@ -224,14 +224,12 @@ namespace jc::ast {
     void Linter::visit(const LetStmt & letStmt) {
         letStmt.pat->accept(*this);
 
-        letStmt.type->accept(*this);
+        if (letStmt.type) {
+            letStmt.type.unwrap().accept(*this);
+        }
 
         if (letStmt.assignExpr) {
             letStmt.assignExpr.unwrap().accept(*this);
-        }
-
-        if (letStmt.kind.is(parser::TokenKind::Const) and !letStmt.assignExpr) {
-            suggestErrorMsg("`const` must be initialized immediately", letStmt.kind.span);
         }
     }
 
