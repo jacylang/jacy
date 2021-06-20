@@ -128,7 +128,7 @@ namespace jc::resolve {
         // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
         //  For example, `StructExpr` must call `resolvePathExpr` itself, but not visit its path
         //  Every Node that uses `PathExpr` not as "always from value namespace" must resolve path itself!
-        resolvePathExpr(ModuleNamespace::Item, pathExpr);
+        resolvePathExpr(RibNamespace::Value, pathExpr);
     }
 
     // Types //
@@ -278,7 +278,7 @@ namespace jc::resolve {
         // Simple-dimple LOL
     }
 
-    void NameResolver::resolvePathExpr(ModuleNamespace ns, const ast::PathExpr & pathExpr) {
+    void NameResolver::resolvePathExpr(RibNamespace ns, const ast::PathExpr & pathExpr) {
         // TODO: global
 
         if (pathExpr.segments.size() == 1) {
@@ -302,7 +302,7 @@ namespace jc::resolve {
         }
     }
 
-    opt_node_id NameResolver::resolve(ModuleNamespace ns, const std::string & name) {
+    opt_node_id NameResolver::resolve(RibNamespace ns, const std::string & name) {
         auto depth = getDepth();
         while (true) {
             const auto & rib = ribStack.at(depth);
