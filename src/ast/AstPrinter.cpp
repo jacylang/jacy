@@ -285,13 +285,16 @@ namespace jc::ast {
         printNodeId(block);
 
         if (block.blockKind == BlockKind::OneLine) {
+            log.dev("One line");
             block.oneLine.unwrap().accept(*this);
             return;
         }
         if (block.stmts.unwrap().empty()) {
+            log.dev("Raw empty");
             log.raw("{}");
             return;
         }
+        log.dev("Raw empty");
         printBodyLike(block.stmts.unwrap(), "\n");
     }
 

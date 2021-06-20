@@ -85,14 +85,14 @@ namespace jc::ast {
             return value->span;
         }
 
-        E & asErr() {
+        const E & asErr() const {
             if (not isErr()) {
                 throw std::logic_error("Called `ParseResult::asErr` on an non-error ParseResult");
             }
             return error;
         }
 
-        T & asValue() {
+        const T & asValue() const {
             if (isErr()) {
                 throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
             }

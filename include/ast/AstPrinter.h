@@ -128,12 +128,13 @@ namespace jc::ast {
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 
         template<class T>
-        void printDelim(
+        void basePrintDelim(
             const std::vector<T> & elements,
-            const std::string & begin = "",
-            const std::string & end = "",
-            const std::string & delim = ", ",
-            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
+            const std::string & begin,
+            const std::string & end,
+            const std::string & delim,
+            uint8_t chopTH,
+            const std::function<void(const T&)> & cb
         ) {
             const auto chop = elements.size() > chopTH;
             if (not begin.empty()) {
@@ -147,7 +148,7 @@ namespace jc::ast {
                 if (chop) {
                     printIndent();
                 }
-                elements.at(i)->accept(*this);
+                cb(elements.at(i));
                 if (i < elements.size() - 1) {
                     log.raw(delim);
                 }
@@ -162,6 +163,19 @@ namespace jc::ast {
             }
         }
 
+        template<class T>
+        void printDelim(
+            const std::vector<T> & elements,
+            const std::string & begin = "",
+            const std::string & end = "",
+            const std::string & delim = ", ",
+            uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
+        ) {
+            basePrintDelim<T>(elements, begin, end, delim, chopTH, [&](const T & el) -> void {
+                el->accept(*this);
+            });
+        }
+
         template<typename T>
         void printDelim(
             const std::vector<PR<T>> & elements,
@@ -170,11 +184,9 @@ namespace jc::ast {
             const std::string & delim = ",",
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
-            std::vector<T> unwrappedEls;
-            for (const auto & el : elements) {
-                unwrappedEls.emplace_back(el.unwrap());
-            }
-            printDelim(unwrappedEls, begin, end, delim, chopTH);
+            basePrintDelim<PR<T>>(elements, begin, end, delim, chopTH, [&](const PR<T> & el) {
+                el.accept(*this);
+            });
         }
 
         template<class T>
