@@ -61,7 +61,7 @@ namespace jc::resolve {
         // Ribs //
     private:
         rib_stack ribStack;
-        uint32_t depth{0};
+        uint32_t currentDepth{0};
         uint32_t getDepth() const;
         const rib_ptr & curRib() const;
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
