@@ -251,11 +251,13 @@ namespace jc::ast {
     void AstPrinter::visit(const LetStmt & letStmt) {
         printNodeId(letStmt);
 
-        log.raw(letStmt.kind.kindToString(), "");
         letStmt.pat->accept(*this);
         if (letStmt.type) {
             log.raw(": ");
             letStmt.type.unwrap().accept(*this);
+        }
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
         }
     }
 
