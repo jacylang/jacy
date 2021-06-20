@@ -251,6 +251,7 @@ namespace jc::ast {
     void AstPrinter::visit(const LetStmt & letStmt) {
         printNodeId(letStmt);
 
+        log.raw("let ");
         letStmt.pat->accept(*this);
         if (letStmt.type) {
             log.raw(": ");
