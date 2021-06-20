@@ -735,7 +735,7 @@ namespace jc::parser {
     }
 
     pure_stmt_ptr Parser::parseLetStmt() {
-        enterEntity("LetStmt:" + peek().toString());
+        enterEntity("LetStmt");
 
         const auto & begin = cspan();
 
