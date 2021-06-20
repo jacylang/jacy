@@ -64,7 +64,6 @@ namespace jc::resolve {
         uint32_t depth{0};
         uint32_t getDepth() const;
         const rib_ptr & curRib() const;
-        opt_rib ribAt(size_t ribDepth) const;
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);

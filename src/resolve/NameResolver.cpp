@@ -229,13 +229,6 @@ namespace jc::resolve {
         }
     }
 
-    opt_rib NameResolver::ribAt(size_t d) const {
-        if (d >= ribStack.size()) {
-            return dt::None;
-        }
-        return ribStack.at(d);
-    }
-
     void NameResolver::enterRib(Rib::Kind kind) {
         ribStack.push_back(std::make_unique<Rib>(kind));
         if (depth == UINT32_MAX) {
