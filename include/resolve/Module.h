@@ -18,6 +18,7 @@ namespace jc::resolve {
         Module(dt::Option<module_ptr> parent) : parent(parent) {}
 
         dt::Option<module_ptr> parent;
+        // FIXME: Replace string with `node_id` of node whose module it is
         std::map<std::string, module_ptr> children{};
 
         mod_ns_map valueNS;
