@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_VARSTMT_H
-#define JACY_AST_STMT_VARSTMT_H
+#ifndef JACY_AST_STMT_LETSTMT_H
+#define JACY_AST_STMT_LETSTMT_H
 
 #include "ast/stmt/Stmt.h"
 #include "ast/fragments/Identifier.h"
@@ -8,13 +8,11 @@
 namespace jc::ast {
     struct LetStmt : Stmt {
         LetStmt(
-            const parser::Token & kind,
             id_ptr name,
             opt_type_ptr type,
             opt_expr_ptr assignExpr,
             const Span & span
         ) : Stmt(span, StmtKind::Var),
-            kind(kind),
             name(std::move(name)),
             type(std::move(type)),
             assignExpr(std::move(assignExpr)) {}
@@ -31,4 +29,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_VARSTMT_H
+#endif // JACY_AST_STMT_LETSTMT_H
