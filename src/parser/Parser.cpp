@@ -696,7 +696,7 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (not expr) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
-                    suggest(std::make_unique<ParseErrSugg>("Unexpected token", cspan()));
+                    suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
                     advance();
                     return makeErrorNode(begin.to(cspan()));
                 }
