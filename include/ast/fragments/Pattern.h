@@ -18,6 +18,8 @@ namespace jc::ast {
         Pattern(PatternKind kind, const Span & span) : Node(span), kind(kind) {}
 
         PatternKind kind;
+
+        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct LiteralPattern : Pattern {
