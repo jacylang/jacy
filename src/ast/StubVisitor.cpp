@@ -73,11 +73,7 @@ namespace jc::ast {
             func.returnType.unwrap().accept(*this);
         }
 
-        if (func.oneLineBody) {
-            func.oneLineBody.unwrap().accept(*this);
-        } else {
-            func.body.unwrap().accept(*this);
-        }
+        func.body->accept(*this);
     }
 
     void StubVisitor::visit(const FuncParam & funcParam) {
