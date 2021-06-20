@@ -83,7 +83,7 @@ namespace jc::resolve {
     }
 
     // Statements //
-    void NameResolver::visit(const ast::VarStmt & varStmt) {
+    void NameResolver::visit(const ast::LetStmt & varStmt) {
         enterRib();
         declare(varStmt.name.unwrap()->getValue(), Name::Kind::Local, varStmt.id);
     }

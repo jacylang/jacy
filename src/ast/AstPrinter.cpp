@@ -247,7 +247,7 @@ namespace jc::ast {
         log.raw("*");
     }
 
-    void AstPrinter::visit(const VarStmt & varStmt) {
+    void AstPrinter::visit(const LetStmt & varStmt) {
         printNodeId(varStmt);
 
         log.raw(varStmt.kind.kindToString(), "");

@@ -31,7 +31,7 @@ namespace jc::ast {
     struct ExprStmt;
     struct ForStmt;
     struct ItemStmt;
-    struct VarStmt;
+    struct LetStmt;
     struct WhileStmt;
 
     // Expressions //
@@ -121,7 +121,7 @@ namespace jc::ast {
         virtual void visit(const ExprStmt&) = 0;
         virtual void visit(const ForStmt&) = 0;
         virtual void visit(const ItemStmt&) = 0;
-        virtual void visit(const VarStmt&) = 0;
+        virtual void visit(const LetStmt&) = 0;
         virtual void visit(const WhileStmt&) = 0;
 
         // Expressions //

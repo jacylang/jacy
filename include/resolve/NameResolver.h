@@ -36,7 +36,7 @@ namespace jc::resolve {
 
         // Statements //
 //        void visit(const ast::ForStmt & forStmt) override;
-        void visit(const ast::VarStmt & varStmt) override;
+        void visit(const ast::LetStmt & varStmt) override;
 
         // Expressions //
         void visit(const ast::Block & block) override;

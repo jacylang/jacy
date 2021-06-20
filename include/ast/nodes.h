@@ -33,7 +33,7 @@
 #include "ast/stmt/ExprStmt.h"
 #include "ast/stmt/ForStmt.h"
 #include "ast/stmt/ItemStmt.h"
-#include "ast/stmt/VarStmt.h"
+#include "ast/stmt/LetStmt.h"
 #include "ast/stmt/WhileStmt.h"
 
 // Items //

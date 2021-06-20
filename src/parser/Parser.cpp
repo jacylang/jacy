@@ -758,7 +758,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeStmt<VarStmt>(
+        return makeStmt<LetStmt>(
             std::move(kind), std::move(name), std::move(type.unwrap()), std::move(assignExpr), begin.to(cspan())
         );
     }

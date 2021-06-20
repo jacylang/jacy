@@ -155,7 +155,7 @@ namespace jc::ast {
     }
 
     // Statements //
-    void StubVisitor::visit(const VarStmt & varStmt) {
+    void StubVisitor::visit(const LetStmt & varStmt) {
         varStmt.name.accept(*this);
         if (varStmt.type) {
             varStmt.type.unwrap().accept(*this);

@@ -6,8 +6,8 @@
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
-    struct VarStmt : Stmt {
-        VarStmt(
+    struct LetStmt : Stmt {
+        LetStmt(
             const parser::Token & kind,
             id_ptr name,
             opt_type_ptr type,
