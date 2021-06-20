@@ -256,7 +256,7 @@ namespace jc::ast {
 
         log.raw("let ");
 
-        colorizeDef(letStmt.pat->name);
+        colorizeDef(letStmt.id);
         letStmt.pat->accept(*this);
         resetNameColor();
 
