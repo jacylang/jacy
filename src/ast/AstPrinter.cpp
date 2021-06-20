@@ -47,6 +47,36 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
+    void AstPrinter::visit(const ExprStmt & exprStmt) {
+        printNodeId(exprStmt);
+
+        exprStmt.expr.accept(*this);
+        log.raw(";");
+    }
+
+    void AstPrinter::visit(const ForStmt & forStmt) {
+        printNodeId(forStmt);
+
+        log.raw("for ");
+        // TODO: Update when `for` will have patterns
+        forStmt.forEntity.accept(*this);
+        log.raw(" in ");
+        forStmt.inExpr.accept(*this);
+        forStmt.body.accept(*this);
+    }
+
+    void AstPrinter::visit(const ItemStmt & itemStmt) {
+        printNodeId(itemStmt);
+
+        if (itemStmt.item) {
+            printAttributes(itemStmt.item.unwrap()->attributes);
+        }
+        itemStmt.item.accept(*this);
+    }
+
+    ///////////
+    // Items //
+    ///////////
     void AstPrinter::visit(const Enum & enumDecl) {
         printNodeId(enumDecl);
 
@@ -75,33 +105,6 @@ namespace jc::ast {
                 break;
             }
         }
-    }
-
-    void AstPrinter::visit(const ExprStmt & exprStmt) {
-        printNodeId(exprStmt);
-
-        exprStmt.expr.accept(*this);
-        log.raw(";");
-    }
-
-    void AstPrinter::visit(const ForStmt & forStmt) {
-        printNodeId(forStmt);
-
-        log.raw("for ");
-        // TODO: Update when `for` will have patterns
-        forStmt.forEntity.accept(*this);
-        log.raw(" in ");
-        forStmt.inExpr.accept(*this);
-        forStmt.body.accept(*this);
-    }
-
-    void AstPrinter::visit(const ItemStmt & itemStmt) {
-        printNodeId(itemStmt);
-
-        if (itemStmt.item) {
-            printAttributes(itemStmt.item.unwrap()->attributes);
-        }
-        itemStmt.item.accept(*this);
     }
 
     void AstPrinter::visit(const Func & func) {
