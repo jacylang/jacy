@@ -203,13 +203,8 @@ namespace jc::ast {
         // Names mode //
     private:
         const std::vector<Color> allowedNamesColors = {
-            Color::DarkBlue,
-            Color::DarkGreen,
-            Color::LightBlue,
-            Color::DarkRed,
             Color::Magenta,
             Color::Orange,
-            Color::Gray,
             Color::Blue,
             Color::Green,
             Color::Cyan,
