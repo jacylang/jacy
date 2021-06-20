@@ -8,6 +8,7 @@ namespace jc::ast {
     enum class PatternKind {
         Literal,
         Ident,
+        Spread,
     };
 
     struct Pattern : Node {
@@ -33,6 +34,24 @@ namespace jc::ast {
         bool mut;
         id_ptr name;
     };
+
+    // TODO: Wildcard pattern
+
+    struct SpreadPattern : Pattern {
+        SpreadPattern(const Span & span) : Pattern(PatternKind::Spread, span) {}
+    };
+
+    // TODO: Range patterns
+
+    // TODO: Ref pattern
+
+    // TODO: Struct pattern
+
+    // TODO: Tuple pattern
+
+    // TODO: Slice pattern
+
+    // TODO: Path pattern
 }
 
 #endif // JACY_AST_FRAGMENTS_PATTERN_H
