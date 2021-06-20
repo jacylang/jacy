@@ -85,7 +85,7 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        declare(letStmt.name.unwrap()->getValue(), Name::Kind::Local, letStmt.id);
+        declare(letStmt.pat->name.unwrap()->getValue(), Name::Kind::Local, letStmt.id);
     }
 
     // Expressions //
