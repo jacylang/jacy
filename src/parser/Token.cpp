@@ -29,6 +29,7 @@ namespace jc::parser {
         {"party",       TokenKind::Party},
         {"pri",         TokenKind::Pri},
         {"pub",         TokenKind::Pub},
+        {"ref",         TokenKind::Ref},
         {"self",        TokenKind::Self},
         {"static",      TokenKind::Static},
         {"struct",      TokenKind::Struct},
