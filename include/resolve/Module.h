@@ -4,10 +4,10 @@
 #include "ast/Party.h"
 
 namespace jc::resolve {
-    struct ModNode;
+    struct Module;
     using ast::node_id;
     using mod_ns_map = std::map<std::string, node_id>;
-    using mod_node_ptr = std::shared_ptr<ModNode>;
+    using mod_node_ptr = std::shared_ptr<Module>;
 
     enum class Namespace {
         Value,
@@ -15,9 +15,8 @@ namespace jc::resolve {
         Lifetime, // Not used by `ModNode`
     };
 
-    // FIXME: Rename back to `Module`
-    struct ModNode {
-        ModNode(dt::Option<mod_node_ptr> parent) : parent(parent) {}
+    struct Module {
+        Module(dt::Option<mod_node_ptr> parent) : parent(parent) {}
 
         dt::Option<mod_node_ptr> parent;
         std::map<std::string, mod_node_ptr> children{};

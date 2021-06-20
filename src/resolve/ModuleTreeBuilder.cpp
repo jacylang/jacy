@@ -9,7 +9,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<ModNode>(dt::None);
+        mod = std::make_shared<Module>(dt::None);
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }
@@ -76,7 +76,7 @@ namespace jc::resolve {
                 suggestErrorMsg("'" + name + "' `mod` has been already declared", nameSpan.unwrap());
             }
         }
-        auto child = std::make_shared<ModNode>(mod);
+        auto child = std::make_shared<Module>(mod);
         // TODO: Check for redeclaration
         mod->children.emplace(name, child);
         mod = child;

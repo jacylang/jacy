@@ -8,6 +8,8 @@ namespace jc::resolve {
         enterRib();
         party.getRootModule()->accept(*this);
 
+        log.dev("Rib depth after name resolution: ", depth);
+
         sess->resStorage = std::move(resStorage);
 
         if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs)) {
