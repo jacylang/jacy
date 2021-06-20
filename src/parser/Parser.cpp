@@ -1711,6 +1711,7 @@ namespace jc::parser {
         logParse("FuncBody");
 
         if (isSemis()) {
+            advance();
             return dt::None;
         }
 

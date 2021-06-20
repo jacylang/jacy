@@ -1,5 +1,5 @@
-func main {
-    let a = 123;
+func main() {
+    func foo;
 
-    a();
+    let foo = 123;
 }
