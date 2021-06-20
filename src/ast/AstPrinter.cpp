@@ -749,6 +749,34 @@ namespace jc::ast {
         }
     }
 
+    // Patterns //
+    void AstPrinter::visit(const LiteralPattern & pat) {
+        printNodeId(pat);
+
+        if (pat.neg) {
+            log.raw("-");
+        }
+
+        log.raw(pat.token.val);
+    }
+
+    void AstPrinter::visit(const IdentPattern & pat) {
+        if (pat.ref) {
+            log.raw("ref ");
+        }
+
+        if (pat.mut) {
+            log.raw("mut ");
+        }
+
+        pat.name->accept(*this);
+    }
+
+    void AstPrinter::visit(const SpreadPattern & pat) {
+        log.raw("...");
+    }
+
+    // Helpers //
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
             attr->accept(*this);

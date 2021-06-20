@@ -109,17 +109,22 @@ namespace jc::ast {
         void visit(const SimplePath & path) override;
         void visit(const SimplePathSeg & seg) override;
 
+        // Patterns //
+        void visit(const LiteralPattern & pat) override;
+        void visit(const IdentPattern & pat) override;
+        void visit(const SpreadPattern & pat) override;
+
     private:
         sess::sess_ptr sess;
         common::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
+        // Helpers //
+    private:
         void printAttributes(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
 
-        // Helpers //
-    private:
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 
         template<class T>
