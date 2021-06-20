@@ -662,6 +662,13 @@ namespace jc::ast {
         }
     }
 
+    // Patterns //
+    void Linter::visit(const LiteralPattern & pat) {}
+
+    void Linter::visit(const IdentPattern & pat) {}
+
+    void Linter::visit(const SpreadPattern & pat) {}
+
     // Helpers //
     bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
