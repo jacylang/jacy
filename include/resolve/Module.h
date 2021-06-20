@@ -9,10 +9,9 @@ namespace jc::resolve {
     using mod_ns_map = std::map<std::string, node_id>;
     using mod_node_ptr = std::shared_ptr<Module>;
 
-    enum class Namespace {
+    enum class ModuleNamespace {
         Value,
         Type,
-        Lifetime, // Not used by `ModNode`
     };
 
     struct Module {
@@ -24,10 +23,10 @@ namespace jc::resolve {
         mod_ns_map valueNS;
         mod_ns_map typeNS;
 
-        mod_ns_map & getNS(Namespace ns) {
+        mod_ns_map & getNS(ModuleNamespace ns) {
             switch (ns) {
-                case Namespace::Value: return valueNS;
-                case Namespace::Type: return typeNS;
+                case ModuleNamespace::Value: return valueNS;
+                case ModuleNamespace::Type: return typeNS;
                 default: {
                     common::Logger::devPanic("Invalid `ModNode` namespace specified");
                 }

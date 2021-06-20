@@ -151,10 +151,10 @@ namespace jc::resolve {
 
         /// Resolve name in rib namespace
         /// Returns `None` if no `Name` found
-        decl_result resolve(const std::string & name, Namespace nsKind);
+        decl_result resolve(const std::string & name, ModuleNamespace nsKind);
 
         ns_map & getNSForName(Name::Kind kind);
-        ns_map & getNS(Namespace nsKind);
+        ns_map & getNS(ModuleNamespace nsKind);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

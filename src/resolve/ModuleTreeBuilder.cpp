@@ -30,7 +30,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        declare(Namespace::Value, func.name, func.id);
+        declare(ModuleNamespace::Value, func.name, func.id);
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        declare(Namespace::Value, _struct.name, _struct.id);
+        declare(ModuleNamespace::Value, _struct.name, _struct.id);
         StubVisitor::visit(_struct);
     }
 
@@ -51,12 +51,12 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        declare(Namespace::Type, typeAlias.name, typeAlias.id);
+        declare(ModuleNamespace::Type, typeAlias.name, typeAlias.id);
         typeAlias.type.accept(*this);
     }
 
     // Modules //
-    void ModuleTreeBuilder::declare(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
+    void ModuleTreeBuilder::declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId) {
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
