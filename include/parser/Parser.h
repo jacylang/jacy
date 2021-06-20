@@ -219,7 +219,7 @@ namespace jc::parser {
         when_entry_ptr parseWhenEntry();
 
         // Fragments //
-        std::tuple<opt_block_ptr, opt_expr_ptr> parseFuncBody();
+        opt_block_ptr parseFuncBody();
         attr_list parseAttrList();
         dt::Option<attr_ptr> parseAttr();
         named_list parseNamedList(const std::string & construction);

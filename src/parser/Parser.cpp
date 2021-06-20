@@ -1706,21 +1706,19 @@ namespace jc::parser {
         return makeNode<WhenEntry>(std::move(conditions), std::move(body), begin.to(cspan()));
     }
 
-    std::tuple<opt_block_ptr, opt_expr_ptr> Parser::parseFuncBody() {
-        enterEntity("funcBody");
+    opt_block_ptr Parser::parseFuncBody() {
+        logParse("FuncBody");
 
-        opt_block_ptr body;
-        opt_expr_ptr oneLineBody;
-
-        if (skipOpt(TokenKind::Assign)) {
-            oneLineBody = parseExpr("Expression expected for one-line `func` body");
-        } else {
-            body = parseBlock("func", BlockArrow::NotAllowed);
+        if (isSemis()) {
+            return dt::None;
         }
 
-        exitEntity();
+        if (skipOpt(TokenKind::Assign)) {
+            auto expr = parseExpr("Missing expression after `=`");
+            return Ok(makeNode<Block>(std::move(expr), expr.span()));
+        }
 
-        return {std::move(body), std::move(oneLineBody)};
+        return parseBlock("func", BlockArrow::NotAllowed);
     }
 
     attr_list Parser::parseAttrList() {
