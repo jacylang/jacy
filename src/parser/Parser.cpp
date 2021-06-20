@@ -685,6 +685,9 @@ namespace jc::parser {
             case TokenKind::For: {
                 return parseForStmt();
             }
+            case TokenKind::Let: {
+                return parseLetStmt();
+            }
             default: {
                 auto item = parseOptItem();
                 if (item) {
