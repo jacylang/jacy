@@ -20,14 +20,14 @@ namespace jc::ast {
     using dir_module_ptr = std::unique_ptr<DirModule>;
     using root_module_ptr = std::unique_ptr<RootModule>;
 
-    struct Module {
+    struct Module : Node {
         enum class Kind {
             File,
             Dir,
             Root,
         } kind;
 
-        explicit Module(Kind kind) : kind(kind) {}
+        explicit Module(Kind kind) : Node({}), kind(kind) {}
         virtual ~Module() = default;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
