@@ -47,9 +47,7 @@ namespace jc::resolve {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
 
-        if (func.oneLineBody) {
-            func.oneLineBody.unwrap().accept(*this);
-        } else {
+        if (func.body) {
             func.body.unwrap().accept(*this);
         }
 
