@@ -58,7 +58,7 @@ namespace jc::resolve {
 
     ns_map & Rib::getNS(ModuleNamespace nsKind) {
         switch (nsKind) {
-            case ModuleNamespace::Value: return valueNS;
+            case ModuleNamespace::Item: return valueNS;
             case ModuleNamespace::Type: return typeNS;
             case ModuleNamespace::Lifetime: return lifetimeNS;
         }

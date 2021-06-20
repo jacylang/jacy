@@ -30,7 +30,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        declare(ModuleNamespace::Value, func.name, func.id);
+        declare(ModuleNamespace::Item, func.name, func.id);
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        declare(ModuleNamespace::Value, _struct.name, _struct.id);
+        declare(ModuleNamespace::Item, _struct.name, _struct.id);
         StubVisitor::visit(_struct);
     }
 

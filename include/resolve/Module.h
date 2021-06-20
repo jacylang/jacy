@@ -10,7 +10,7 @@ namespace jc::resolve {
     using mod_node_ptr = std::shared_ptr<Module>;
 
     enum class ModuleNamespace {
-        Value,
+        Item,
         Type,
     };
 
@@ -25,7 +25,7 @@ namespace jc::resolve {
 
         mod_ns_map & getNS(ModuleNamespace ns) {
             switch (ns) {
-                case ModuleNamespace::Value: return valueNS;
+                case ModuleNamespace::Item: return valueNS;
                 case ModuleNamespace::Type: return typeNS;
                 default: {
                     common::Logger::devPanic("Invalid `ModNode` namespace specified");
