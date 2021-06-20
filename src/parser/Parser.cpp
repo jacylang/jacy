@@ -373,7 +373,7 @@ namespace jc::parser {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
-        auto [body, oneLineBody] = parseFuncBody();
+        auto body = parseFuncBody();
 
         exitEntity();
 
@@ -384,7 +384,6 @@ namespace jc::parser {
             std::move(params),
             std::move(returnType),
             std::move(body),
-            std::move(oneLineBody),
             begin.to(cspan())
         );
     }
