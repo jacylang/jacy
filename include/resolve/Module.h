@@ -18,8 +18,21 @@ namespace jc::resolve {
         Module(dt::Option<module_ptr> parent) : parent(parent) {}
 
         dt::Option<module_ptr> parent;
-        // FIXME: Replace string with `node_id` of node whose module it is
-        std::map<std::string, module_ptr> children{};
+
+        /// {node id of any node which behaves as module -> submodule}
+        /// List of possible node types which child node_id can point to:
+        /// - `mod`
+        /// - `struct`
+        /// - `trait`
+        ///
+        /// Also, these nodes are anonymous modules, which are not presented in `childrenNames` but exist in `children`
+        /// - Block expression (`{}`), func body, lambda body
+        ///
+        /// Note: It is important note that `impl` is not presented anywhere
+        ///  as far as it does not name anything -- it uses some name
+        std::map<node_id, module_ptr> children{};
+
+        std::map<std::string, node_id> childrenNames;
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;

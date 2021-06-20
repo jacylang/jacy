@@ -65,20 +65,26 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    /// Optional for filesystem modules (file/dir does not have span)
-    void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<span::Span> & nameSpan) {
-        if (utils::map::has(mod->children, name)) {
+    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
+    void ModuleTreeBuilder::enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan) {
+        if (utils::map::has(mod->childrenNames, name)) {
             if (not nameSpan) {
                 log.devPanic(
                     "This is impossible to enter module which is file/dir and which has been already declared"
                 );
             } else {
-                suggestErrorMsg("'" + name + "' `mod` has been already declared", nameSpan.unwrap());
+                suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
             }
+        } else {
+            // Add module name
+            mod->childrenNames.emplace(name, nodeId);
+        }
+        if (utils::map::has(mod->children, nodeId)) {
+            log.devPanic("Tried to declare module with same node_id twice");
         }
         auto child = std::make_shared<Module>(mod);
-        // TODO: Check for redeclaration
-        mod->children.emplace(name, child);
+        // Add node_id -> module binding
+        mod->children.emplace(nodeId, child);
         mod = child;
     }
 
