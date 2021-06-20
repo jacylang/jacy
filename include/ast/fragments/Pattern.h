@@ -5,6 +5,9 @@
 #include "ast/fragments/Identifier.h"
 
 namespace jc::ast {
+    struct Pattern;
+    using pattern_ptr = std::shared_ptr<Pattern>;
+
     enum class PatternKind {
         Literal,
         Ident,
