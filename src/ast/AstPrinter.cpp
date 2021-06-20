@@ -251,7 +251,7 @@ namespace jc::ast {
         printNodeId(varStmt);
 
         log.raw(varStmt.kind.kindToString(), "");
-        varStmt.name.accept(*this);
+        varStmt.pat->accept(*this);
         if (varStmt.type) {
             log.raw(": ");
             varStmt.type.unwrap().accept(*this);
