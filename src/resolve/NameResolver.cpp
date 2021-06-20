@@ -170,7 +170,6 @@ namespace jc::resolve {
                 }
                 default: continue;
             }
-            log.dev("Declare '", name, "' of kind ", Name::kindStr(kind));
             declare(name, kind, item->id);
         }
 
@@ -298,8 +297,10 @@ namespace jc::resolve {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
                 const auto & resolved = resolve(ns, identStr);
                 if (not resolved) {
+                    log.dev("Failed to resolve '", identStr, "' [", pathExpr.id, "]");
                     suggestErrorMsg("'" + identStr + "' is not defined", pathExpr.span);
                 } else {
+                    log.dev("Resolved '", identStr, "' [", pathExpr.id, "] as node with id [", resolved, "]");
                     // Set resolution
                     resStorage.setRes(pathExpr.id, resolved.unwrap());
                 }
