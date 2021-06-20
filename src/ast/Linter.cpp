@@ -116,11 +116,7 @@ namespace jc::ast {
 
         pushContext(LinterContext::Func);
         if (func.body) {
-            func.body.unwrap().accept(*this);
-        } else if (func.oneLineBody) {
-            func.oneLineBody.unwrap().accept(*this);
-        } else {
-            Logger::devPanic("Linter: Func hasn't either one-line either raw body");
+            func.body->accept(*this);
         }
         popContext();
     }
