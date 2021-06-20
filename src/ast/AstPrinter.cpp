@@ -123,12 +123,13 @@ namespace jc::ast {
             func.returnType.unwrap().accept(*this);
         }
 
-        if (func.oneLineBody) {
-            log.raw(" = ");
-            // For one-line block increment indent to make it prettier
-            func.oneLineBody.unwrap().accept(*this);
+        if (func.body) {
+            if (func.body.unwrap() and func.body.unwrap().unwrap()->blockKind == BlockKind::OneLine) {
+                log.raw(" = ");
+            }
+            func.body->accept(*this);
         } else {
-            func.body.unwrap().accept(*this);
+            log.raw(";");
         }
     }
 
