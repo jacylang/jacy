@@ -4,7 +4,6 @@
 #include <map>
 
 #include "ast/Node.h"
-#include "resolve/Module.h"
 
 namespace jc::resolve {
     using ast::node_id;
@@ -17,6 +16,12 @@ namespace jc::resolve {
     using rib_stack = std::vector<rib_ptr>;
     using name_ptr = std::shared_ptr<Name>;
     using ns_map = std::map<std::string, name_ptr>;
+
+    enum class RibNamespace {
+        Value,
+        Type,
+        Lifetime,
+    };
 
     struct Name {
         enum class Kind {
@@ -151,10 +156,10 @@ namespace jc::resolve {
 
         /// Resolve name in rib namespace
         /// Returns `None` if no `Name` found
-        decl_result resolve(const std::string & name, ModuleNamespace nsKind);
+        decl_result resolve(const std::string & name, RibNamespace nsKind);
 
         ns_map & getNSForName(Name::Kind kind);
-        ns_map & getNS(ModuleNamespace nsKind);
+        ns_map & getNS(RibNamespace nsKind);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };
