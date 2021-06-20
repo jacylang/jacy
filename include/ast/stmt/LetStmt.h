@@ -9,17 +9,17 @@
 namespace jc::ast {
     struct LetStmt : Stmt {
         LetStmt(
-            id_ptr name,
+            id_pat_ptr pat,
             opt_type_ptr type,
             opt_expr_ptr assignExpr,
             const Span & span
         ) : Stmt(span, StmtKind::Var),
-            name(std::move(name)),
+            pat(std::move(pat)),
             type(std::move(type)),
             assignExpr(std::move(assignExpr)) {}
 
         parser::Token kind;
-        id_ptr name;
+        id_pat_ptr pat;
         opt_type_ptr type;
         opt_expr_ptr assignExpr;
 
