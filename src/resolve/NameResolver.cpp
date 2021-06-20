@@ -222,11 +222,11 @@ namespace jc::resolve {
     }
 
     const rib_ptr & NameResolver::curRib() const {
-        try {
-            return ribStack.at(getDepth());
-        } catch (std::exception & e) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds:", getDepth());
+        const auto depth = getDepth();
+        if (depth == 0) {
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", getDepth());
         }
+        return ribStack.at(getDepth() - 1);
     }
 
     void NameResolver::enterRib(Rib::Kind kind) {
