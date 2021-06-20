@@ -732,19 +732,15 @@ namespace jc::parser {
         );
     }
 
-    pure_stmt_ptr Parser::parseVarStmt() {
-        enterEntity("VarStmt:" + peek().toString());
-
-        if (not is(TokenKind::Var) and not is(TokenKind::Val) and not is(TokenKind::Const)) {
-            common::Logger::devPanic("Expected `var`/`val`/`const` in `parseVarStmt");
-        }
+    pure_stmt_ptr Parser::parseLetStmt() {
+        enterEntity("LetStmt:" + peek().toString());
 
         const auto & begin = cspan();
-        auto kind = peek();
-        advance();
+
+        justSkip(TokenKind::Let, "`let`", "`parseLetStmt`");
 
         // TODO: Destructuring
-        auto name = parseId("`" + peek().kindToString() + "` name");
+        auto pat = parseIdentPat();
 
         dt::Option<type_ptr> type;
         if (skipOpt(TokenKind::Colon)) {
@@ -759,7 +755,7 @@ namespace jc::parser {
         exitEntity();
 
         return makeStmt<LetStmt>(
-            std::move(kind), std::move(name), std::move(type.unwrap()), std::move(assignExpr), begin.to(cspan())
+            std::move(pat), std::move(type.unwrap()), std::move(assignExpr), begin.to(cspan())
         );
     }
 

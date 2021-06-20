@@ -182,7 +182,7 @@ namespace jc::parser {
         // Statements //
         stmt_ptr parseStmt();
         pure_stmt_ptr parseForStmt();
-        pure_stmt_ptr parseVarStmt();
+        pure_stmt_ptr parseLetStmt();
         pure_stmt_ptr parseWhileStmt();
 
         // Expressions //
