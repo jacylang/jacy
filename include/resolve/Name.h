@@ -9,7 +9,7 @@
 namespace jc::resolve {
     using ast::node_id;
     using ast::opt_node_id;
-    
+
     struct Name;
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;

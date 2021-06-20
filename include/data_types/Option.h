@@ -35,7 +35,10 @@ namespace jc::dt {
             return value;
         }
 
-        T && take() {
+        T && take(const std::string & msg = "") {
+            if (none()) {
+                throw std::logic_error("Called `Option::take` on a `None` value" + (msg.empty() ? "" : ": " + msg));
+            }
             hasValue = false;
             return std::move(value);
         }
