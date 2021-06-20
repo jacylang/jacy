@@ -2305,6 +2305,19 @@ namespace jc::parser {
         );
     }
 
+    // Patterns //
+    id_pat_ptr Parser::parseIdentPat() {
+        logParse("IdentPattern");
+
+        const auto & begin = cspan();
+        bool mut = skipOpt(TokenKind::Mut);
+
+        auto id = parseId("Missing identifier");
+
+        return makeNode<IdentPattern>(false, mut, std::move(id), begin.to(id.span()));
+    }
+
+
     Span Parser::cspan() const {
         return peek().span;
     }

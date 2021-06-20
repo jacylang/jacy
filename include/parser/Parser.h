@@ -243,6 +243,9 @@ namespace jc::parser {
         PR<type_path_ptr> parseTypePath(const std::string & suggMsg);
         opt_type_path_ptr parseOptTypePath();
 
+        // Patterns //
+        id_pat_ptr parseIdentPat();
+
         template<class T>
         T errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
             if (option.none()) {
