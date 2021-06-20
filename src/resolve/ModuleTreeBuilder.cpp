@@ -16,6 +16,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
         // This is actually impossible to redeclare file, filesystem does not allow it
+        // AGENDA: Updates for `ast::Module` as `Node`
         enterMod(fileModule.getName(), dt::None);
         fileModule.getFile()->accept(*this);
         exitMod();
