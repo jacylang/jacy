@@ -258,8 +258,10 @@ namespace jc::ast {
             letStmt.type.unwrap().accept(*this);
         }
         if (letStmt.assignExpr) {
+            log.raw(" = ");
             letStmt.assignExpr.unwrap().accept(*this);
         }
+        log.raw(";");
     }
 
     void AstPrinter::visit(const WhileStmt & whileStmt) {
