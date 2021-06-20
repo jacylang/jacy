@@ -11,14 +11,14 @@ namespace jc::ast {
     };
 
     struct Pattern : Node {
-        Pattern(PatternKind kind, const Span & span) : kind(kind), Node(span) {}
+        Pattern(PatternKind kind, const Span & span) : Node(span), kind(kind) {}
 
         PatternKind kind;
     };
 
     struct LiteralPattern : Pattern {
         LiteralPattern(bool neg, const parser::Token & literal, const Span & span)
-            : neg(neg), literal(literal), Pattern(PatternKind::Literal, span) {}
+            : Pattern(PatternKind::Literal, span), neg(neg), literal(literal) {}
 
         bool neg;
         parser::Token literal;
