@@ -63,4 +63,8 @@ namespace jc::resolve {
             case ModuleNamespace::Lifetime: return lifetimeNS;
         }
     }
+
+    void Rib::bindMod(module_ptr && module) {
+        boundModule = std::move(module);
+    }
 }

@@ -4,6 +4,7 @@
 #include <map>
 
 #include "ast/Node.h"
+#include "resolve/Module.h"
 
 namespace jc::resolve {
     using ast::node_id;
@@ -149,6 +150,7 @@ namespace jc::resolve {
         ns_map typeNS;
         ns_map valueNS;
         ns_map lifetimeNS;
+        module_ptr boundModule;
 
         /// Declare new name.
         /// Returns `Name` that was already declared if it was
@@ -160,6 +162,8 @@ namespace jc::resolve {
 
         ns_map & getNSForName(Name::Kind kind);
         ns_map & getNS(RibNamespace nsKind);
+
+        void bindMod(module_ptr && module);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

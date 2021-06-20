@@ -7,7 +7,7 @@ namespace jc::resolve {
     struct Module;
     using ast::node_id;
     using mod_ns_map = std::map<std::string, node_id>;
-    using mod_node_ptr = std::shared_ptr<Module>;
+    using module_ptr = std::shared_ptr<Module>;
 
     enum class ModuleNamespace {
         Item,
@@ -15,10 +15,10 @@ namespace jc::resolve {
     };
 
     struct Module {
-        Module(dt::Option<mod_node_ptr> parent) : parent(parent) {}
+        Module(dt::Option<module_ptr> parent) : parent(parent) {}
 
-        dt::Option<mod_node_ptr> parent;
-        std::map<std::string, mod_node_ptr> children{};
+        dt::Option<module_ptr> parent;
+        std::map<std::string, module_ptr> children{};
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
@@ -37,7 +37,7 @@ namespace jc::resolve {
     struct ModulePrinter {
         ModulePrinter();
 
-        void print(mod_node_ptr module);
+        void print(module_ptr module);
 
     private:
         common::Logger log{"ModulePrinter"};

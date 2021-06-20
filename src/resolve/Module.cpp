@@ -6,7 +6,7 @@ namespace jc::resolve {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(mod_node_ptr module) {
+    void ModulePrinter::print(module_ptr module) {
         log.raw("{");
         log.nl();
         indent++;
