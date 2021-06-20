@@ -427,9 +427,11 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void StubVisitor::visit(const LiteralPattern & pat) {}
+    void StubVisitor::visit(const LiteralPattern&) {}
 
-    void StubVisitor::visit(const IdentPattern & pat) {}
+    void StubVisitor::visit(const IdentPattern & pat) {
+        pat.name.accept(*this);
+    }
 
-    void StubVisitor::visit(const SpreadPattern & pat) {}
+    void StubVisitor::visit(const SpreadPattern&) {}
 }
