@@ -35,7 +35,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Func & func) {
         auto prevDepth = getDepth();
-        visitTypeParams(func.typeParams);
+        declareTypeParams(func.typeParams);
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -63,7 +63,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
-        visitTypeParams(_struct.typeParams);
+        declareTypeParams(_struct.typeParams);
 
         // FIXME: Remove rib??
         enterRib(); // -> (item rib)
@@ -137,7 +137,7 @@ namespace jc::resolve {
         // TODO: !!!
     }
 
-    void NameResolver::visitTypeParams(const ast::opt_type_params & maybeTypeParams) {
+    void NameResolver::declareTypeParams(const ast::opt_type_params & maybeTypeParams) {
         if (!maybeTypeParams) {
             return;
         }

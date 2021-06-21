@@ -53,9 +53,8 @@ namespace jc::resolve {
         common::Logger log{"NameResolver"};
         sess::sess_ptr sess;
 
-        // Extended visitors //
     private:
-        void visitTypeParams(const ast::opt_type_params & maybeTypeParams);
+        void declareTypeParams(const ast::opt_type_params & maybeTypeParams);
 
         // Ribs //
     private:
