@@ -91,6 +91,6 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::exitMod() {
-        mod = mod->parent.unwrap("[ScopeTreeBuilder]: Tried to exit global scope");
+        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
     }
 }
