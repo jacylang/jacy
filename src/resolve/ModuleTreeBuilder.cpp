@@ -16,14 +16,13 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
         // This is actually impossible to redeclare file, filesystem does not allow it
-        // AGENDA: Updates for `ast::Module` as `Node`
-        enterMod(fileModule.getName(), dt::None);
+        enterMod(fileModule.getName(), fileModule.id, dt::None);
         fileModule.getFile()->accept(*this);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::DirModule & dirModule) {
-        enterMod(dirModule.getName(), dt::None);
+        enterMod(dirModule.getName(), dirModule.id, dt::None);
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
         }
@@ -35,7 +34,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterMod(mod.name.unwrap()->getValue(), mod.name.unwrap()->span);
+        enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
         visitEach(mod.items);
         exitMod();
     }
@@ -46,7 +45,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterMod(trait.name.unwrap()->getValue(), trait.name.unwrap()->span);
+        enterMod(trait.name.unwrap()->getValue(), trait.id, trait.name.unwrap()->span);
         visitEach(trait.members);
         exitMod();
     }
