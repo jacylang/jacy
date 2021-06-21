@@ -38,7 +38,7 @@ namespace jc::resolve {
         module_ptr mod;
         void declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId);
 
-        void enterMod(node_id nodeId, const ast::opt_id_ptr & ident);
+        void enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan);
         void exitMod();
     };
 }
