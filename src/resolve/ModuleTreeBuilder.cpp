@@ -38,6 +38,10 @@ namespace jc::resolve {
         declare(ModuleNamespace::Item, func.name, func.id);
         StubVisitor::visit(func);
     }
+//
+//    void ModuleTreeBuilder::visit(const ast::Impl & impl) {
+//        enterMod()
+//    }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         declare(ModuleNamespace::Item, mod.name, mod.id);
@@ -73,13 +77,19 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
-    void ModuleTreeBuilder::enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan) {
+    void ModuleTreeBuilder::enterAnonMod(node_id nodeId) {
         if (utils::map::has(mod->children, nodeId)) {
             log.devPanic("Tried to declare module with same node_id twice");
         }
 
         auto child = std::make_shared<Module>(mod);
+        // Add node_id -> module binding only if it wasn't redeclared
+        mod->children.emplace(nodeId, child);
+        mod = child;
+    }
+
+    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
+    void ModuleTreeBuilder::enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan) {
         if (utils::map::has(mod->childrenNames, name)) {
             if (not nameSpan) {
                 log.devPanic(
@@ -89,13 +99,11 @@ namespace jc::resolve {
                 suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
             }
         } else {
-            // Add node_id -> module binding only if it wasn't redeclared
-            mod->children.emplace(nodeId, child);
-
             // Add module name as offset of child in `children`
             mod->childrenNames.emplace(name, mod->children.size() - 1);
         }
-        mod = child;
+
+        enterAnonMod(nodeId);
     }
 
     void ModuleTreeBuilder::exitMod() {

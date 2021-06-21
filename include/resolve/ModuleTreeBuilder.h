@@ -21,6 +21,7 @@ namespace jc::resolve {
 
         void visit(const ast::Enum & _enum) override;
         void visit(const ast::Func & func) override;
+//        void visit(const ast::Impl & impl) override;
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Struct & _struct) override;
         void visit(const ast::Trait & trait) override;
@@ -39,6 +40,7 @@ namespace jc::resolve {
         module_ptr mod;
         void declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId);
 
+        void enterAnonMod(node_id nodeId);
         void enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan);
         void exitMod();
     };
