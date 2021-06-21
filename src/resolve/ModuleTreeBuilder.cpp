@@ -34,6 +34,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
+        declare(ModuleNamespace::Item, mod.name, mod.id);
         enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
         visitEach(mod.items);
         exitMod();
@@ -45,6 +46,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
+        declare(ModuleNamespace::Item, trait.name, trait.id);
         enterMod(trait.name.unwrap()->getValue(), trait.id, trait.name.unwrap()->span);
         visitEach(trait.members);
         exitMod();
