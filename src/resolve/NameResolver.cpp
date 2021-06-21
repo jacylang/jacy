@@ -34,7 +34,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        auto prevDepth = getDepth();
+        enterRib(); // -> (type params + params) rib
         declareTypeParams(func.typeParams);
 
         for (const auto & param : func.params) {
@@ -53,7 +53,7 @@ namespace jc::resolve {
             func.body.unwrap().accept(*this);
         }
 
-        liftToDepth(prevDepth);
+        exitRib(); // <- (type params + params) rib
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
