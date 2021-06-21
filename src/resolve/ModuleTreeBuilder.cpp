@@ -31,7 +31,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
         declare(ModuleNamespace::Item, _enum.name, _enum.id);
-        StubVisitor::visit(_enum);
+        // Don't visit enum entries, as far as there's no assoc items, etc.
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
