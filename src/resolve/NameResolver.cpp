@@ -136,52 +136,6 @@ namespace jc::resolve {
         // TODO: !!!
     }
 
-    // Extended visitors //
-    void NameResolver::visitItems(const ast::item_list & items) {
-        // At first we need to forward all declarations.
-        // This is the work for ItemResolver.
-        for (const auto & maybeItem : items) {
-            const auto & item = maybeItem.unwrap();
-            std::string name;
-            Name::Kind kind;
-            switch (item->kind) {
-                case ast::ItemKind::Func: {
-                    name = std::static_pointer_cast<ast::Func>(item)->name.unwrap()->getValue();
-                    kind = Name::Kind::Func;
-                    break;
-                }
-                case ast::ItemKind::Enum: {
-                    name = std::static_pointer_cast<ast::Enum>(item)->name.unwrap()->getValue();
-                    kind = Name::Kind::Enum;
-                    break;
-                }
-                case ast::ItemKind::Struct: {
-                    name = std::static_pointer_cast<ast::Struct>(item)->name.unwrap()->getValue();
-                    kind = Name::Kind::Struct;
-                    break;
-                }
-                case ast::ItemKind::TypeAlias: {
-                    name = std::static_pointer_cast<ast::TypeAlias>(item)->name.unwrap()->getValue();
-                    kind = Name::Kind::TypeAlias;
-                    break;
-                }
-                case ast::ItemKind::Trait: {
-                    name = std::static_pointer_cast<ast::Trait>(item)->name.unwrap()->getValue();
-                    kind = Name::Kind::Trait;
-                    break;
-                }
-                default: continue;
-            }
-            declare(name, kind, item->id);
-        }
-
-        // Then we resolve the signatures and bodies
-        // This is done here -- in NameResolver
-        for (const auto & item : items) {
-            item.accept(*this);
-        }
-    }
-
     void NameResolver::visitTypeParams(const ast::opt_type_params & maybeTypeParams) {
         if (!maybeTypeParams) {
             return;
