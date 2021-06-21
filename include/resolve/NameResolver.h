@@ -63,7 +63,7 @@ namespace jc::resolve {
         size_t getDepth() const;
         const rib_ptr & curRib() const;
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
-        void enterModuleRib(Rib::Kind kind = Rib::Kind::Raw);
+        void enterModuleRib(node_id nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 

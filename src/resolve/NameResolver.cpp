@@ -190,9 +190,9 @@ namespace jc::resolve {
         ribStack.push_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModuleRib(Rib::Kind kind) {
+    void NameResolver::enterModuleRib(node_id nodeId, Rib::Kind kind) {
         enterRib(kind);
-
+        currentModule = currentModule->children.at(nodeId);
     }
 
     void NameResolver::exitRib() {
