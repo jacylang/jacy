@@ -192,6 +192,7 @@ namespace jc::resolve {
 
     void NameResolver::enterModuleRib(Rib::Kind kind) {
         enterRib(kind);
+
     }
 
     void NameResolver::exitRib() {

@@ -15,8 +15,9 @@ namespace jc::resolve {
     };
 
     struct Module {
-        Module(dt::Option<module_ptr> parent) : parent(parent) {}
+        Module(const dt::Option<std::string> & name, dt::Option<module_ptr> parent) : name(name), parent(parent) {}
 
+        dt::Option<std::string> name;
         dt::Option<module_ptr> parent;
 
         /// {node id of any node which behaves as module -> submodule}
