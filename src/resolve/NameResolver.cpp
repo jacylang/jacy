@@ -34,17 +34,21 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterRib(); // -> (type params + params) rib
+        enterRib(); // -> (type params) rib
         declareTypeParams(func.typeParams);
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
+            if (param->defaultValue) {
+                param->defaultValue.unwrap().accept(*this);
+            }
         }
 
         if (func.returnType) {
             func.returnType.unwrap().accept(*this);
         }
 
+        enterRib(); // -> (params) rib
         for (const auto & param : func.params) {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
@@ -53,7 +57,9 @@ namespace jc::resolve {
             func.body.unwrap().accept(*this);
         }
 
-        exitRib(); // <- (type params + params) rib
+        exitRib(); // <- (params) rib
+
+        exitRib(); // <- (type params) rib
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
