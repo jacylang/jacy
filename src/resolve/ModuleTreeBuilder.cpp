@@ -30,9 +30,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        enterMod(dt::None, func.id, dt::None);
-        StubVisitor::visit(func);
-        exitMod();
+        // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
+        func.body->accept(*this);
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
