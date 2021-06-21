@@ -38,10 +38,12 @@ namespace jc::resolve {
         declare(ModuleNamespace::Item, func.name, func.id);
         StubVisitor::visit(func);
     }
-//
-//    void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-//        enterMod()
-//    }
+
+    void ModuleTreeBuilder::visit(const ast::Impl & impl) {
+        enterAnonMod(impl.id);
+        visitEach(impl.members);
+        exitMod();
+    }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         declare(ModuleNamespace::Item, mod.name, mod.id);
