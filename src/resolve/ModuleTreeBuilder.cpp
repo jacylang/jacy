@@ -34,7 +34,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        enterMod(dt::None, impl.id);
+        enterMod(dt::None, impl.id, dt::None);
         visitEach(impl.members);
         exitMod();
     }
