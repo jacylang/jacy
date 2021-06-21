@@ -48,7 +48,9 @@ namespace jc::resolve {
             func.returnType.unwrap().accept(*this);
         }
 
+        // Note: Function parameter names can conflict
         enterRib(); // -> (params) rib
+
         for (const auto & param : func.params) {
             declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
