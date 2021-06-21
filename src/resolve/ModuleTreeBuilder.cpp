@@ -66,6 +66,16 @@ namespace jc::resolve {
         typeAlias.type.accept(*this);
     }
 
+    void ModuleTreeBuilder::visit(const ast::Block & block) {
+        if (block.blockKind == ast::BlockKind::OneLine) {
+            block.oneLine.unwrap().accept(*this);
+        } else {
+            enterMod(dt::None, block.id, dt::None);
+            visitEach(block.stmts.unwrap());
+            exitMod();
+        }
+    }
+
     // Modules //
     void ModuleTreeBuilder::declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId) {
         const auto & name = ident.unwrap()->getValue();

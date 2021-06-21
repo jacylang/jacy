@@ -26,6 +26,8 @@ namespace jc::resolve {
         void visit(const ast::Trait & trait) override;
         void visit(const ast::TypeAlias & typeAlias) override;
 
+        void visit(const ast::Block & block) override;
+
     private:
         using ast::StubVisitor::visit;
 
