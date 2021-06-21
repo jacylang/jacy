@@ -20,13 +20,13 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
-        enterRib();
+        enterModuleRib(fileModule.id);
         visitEach(fileModule.getFile()->items);
         exitRib();
     }
 
     void NameResolver::visit(const ast::DirModule & dirModule) {
-        enterRib();
+        enterModuleRib(dirModule.id);
         for (const auto & module : dirModule.getModules()) {
             module->accept(*this);
         }
@@ -57,7 +57,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterRib();
+        enterModuleRib(mod.id);
         visitEach(mod.items);
         exitRib();
     }
@@ -65,6 +65,7 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Struct & _struct) {
         visitTypeParams(_struct.typeParams);
 
+        // FIXME: Remove rib??
         enterRib(); // -> (item rib)
 
         for (const auto & field : _struct.fields) {
@@ -97,7 +98,7 @@ namespace jc::resolve {
         }
 
         const auto prevDepth = getDepth();
-        enterRib(); // -> block rib
+        enterModuleRib(block.id); // -> block rib
         for (const auto & stmt : block.stmts.unwrap()) {
             stmt.accept(*this);
         }
@@ -140,6 +141,7 @@ namespace jc::resolve {
         if (!maybeTypeParams) {
             return;
         }
+        // FIXME: USE ONE LOOP!!!
         const auto & typeParams = maybeTypeParams.unwrap();
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
