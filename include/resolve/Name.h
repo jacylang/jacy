@@ -150,7 +150,7 @@ namespace jc::resolve {
         ns_map typeNS;
         ns_map valueNS;
         ns_map lifetimeNS;
-        module_ptr boundModule;
+        dt::Option<module_ptr> boundModule{dt::None};
 
         /// Declare new name.
         /// Returns `Name` that was already declared if it was
@@ -163,7 +163,7 @@ namespace jc::resolve {
         ns_map & getNSForName(Name::Kind kind);
         ns_map & getNS(RibNamespace nsKind);
 
-        void bindMod(module_ptr && module);
+        void bindMod(module_ptr module);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

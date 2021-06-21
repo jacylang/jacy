@@ -73,6 +73,7 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Struct & _struct) {
         declareTypeParams(_struct.typeParams);
 
+        // FIXME: Forward declare struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
         }
@@ -196,13 +197,17 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModuleRib(node_id nodeId, Rib::Kind kind) {
+        lastModule = lastModule->children.at(nodeId);
         enterRib(kind);
-        currentModule = currentModule->children.at(nodeId);
+        curRib()->bindMod(lastModule);
     }
 
     void NameResolver::exitRib() {
         if (getDepth() == 0) {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
+        }
+        if (curRib()->boundModule) {
+            lastModule = lastModule->parent.unwrap("Tried to exit top-level module");
         }
         ribStack.pop_back();
     }

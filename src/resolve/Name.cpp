@@ -64,7 +64,7 @@ namespace jc::resolve {
         }
     }
 
-    void Rib::bindMod(module_ptr && module) {
+    void Rib::bindMod(module_ptr module) {
         boundModule = std::move(module);
     }
 }

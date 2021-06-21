@@ -69,7 +69,7 @@ namespace jc::resolve {
         // Modules //
     private:
         module_ptr rootModule;
-        module_ptr currentModule;
+        module_ptr lastModule;
 
         // Declarations //
     private:
