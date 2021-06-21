@@ -14,11 +14,11 @@ namespace jc::ast {
     struct DirModule;
     struct RootModule;
     using party_ptr = std::unique_ptr<Party>;
-    using module_ptr = std::unique_ptr<Module>;
+    using module_ptr = std::shared_ptr<Module>;
     using module_list = std::vector<module_ptr>;
-    using file_module_ptr = std::unique_ptr<FileModule>;
-    using dir_module_ptr = std::unique_ptr<DirModule>;
-    using root_module_ptr = std::unique_ptr<RootModule>;
+    using file_module_ptr = std::shared_ptr<FileModule>;
+    using dir_module_ptr = std::shared_ptr<DirModule>;
+    using root_module_ptr = std::shared_ptr<RootModule>;
 
     struct Module : Node {
         enum class Kind {
