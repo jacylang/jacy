@@ -49,9 +49,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
         declare(ModuleNamespace::Item, _struct.name, _struct.id);
-        enterMod(_struct.name.unwrap()->getValue(), _struct.id, _struct.name.unwrap()->span);
-        StubVisitor::visit(_struct);
-        exitMod();
+        // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
@@ -68,6 +66,8 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Block & block) {
         if (block.blockKind == ast::BlockKind::OneLine) {
+            // Note: One line block does not open module,
+            //  anyway it can contain another Block which could be a multi-line
             block.oneLine.unwrap().accept(*this);
         } else {
             enterMod(dt::None, block.id, dt::None);
