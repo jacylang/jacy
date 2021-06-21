@@ -30,7 +30,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
+        enterMod(dt::None, func.id, dt::None);
         StubVisitor::visit(func);
+        exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
