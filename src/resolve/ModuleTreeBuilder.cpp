@@ -54,6 +54,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
         declare(ModuleNamespace::Item, _struct.name, _struct.id);
+        enterMod(_struct.name.unwrap()->getValue(), _struct.id, _struct.name.unwrap()->span);
         StubVisitor::visit(_struct);
     }
 
