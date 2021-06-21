@@ -73,14 +73,9 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Struct & _struct) {
         declareTypeParams(_struct.typeParams);
 
-        // FIXME: Remove rib??
-        enterRib(); // -> (item rib)
-
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
         }
-
-        exitRib();
     }
 
     void NameResolver::visit(const ast::UseDecl & useDecl) {
