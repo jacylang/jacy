@@ -21,7 +21,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
         enterRib();
-        visitItems(fileModule.getFile()->items);
+        visitEach(fileModule.getFile()->items);
         exitRib();
     }
 
@@ -58,7 +58,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Mod & mod) {
         enterRib();
-        visitItems(mod.items);
+        visitEach(mod.items);
         exitRib();
     }
 
