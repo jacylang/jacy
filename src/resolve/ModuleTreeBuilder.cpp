@@ -9,7 +9,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<Module>(dt::None);
+        mod = std::make_shared<Module>(dt::None, dt::None);
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }
@@ -81,33 +81,37 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    void ModuleTreeBuilder::enterAnonMod(node_id nodeId) {
+    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
+    void ModuleTreeBuilder::enterMod(
+        const dt::Option<std::string> & maybeName,
+        node_id nodeId,
+        const dt::Option<span::Span> & nameSpan
+    ) {
         if (utils::map::has(mod->children, nodeId)) {
             log.devPanic("Tried to declare module with same node_id twice");
         }
 
-        auto child = std::make_shared<Module>(mod);
+        auto child = std::make_shared<Module>(maybeName, mod);
+
+        if (maybeName) {
+            const auto & name = maybeName.unwrap();
+            if (utils::map::has(mod->childrenNames, name)) {
+                if (not nameSpan) {
+                    log.devPanic(
+                        "This is impossible to enter module which is file/dir and which has been already declared"
+                    );
+                } else {
+                    suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
+                }
+            } else {
+                // Add module name as offset of child in `children`
+                mod->childrenNames.emplace(name, mod->children.size() - 1);
+            }
+        }
+
         // Add node_id -> module binding only if it wasn't redeclared
         mod->children.emplace(nodeId, child);
         mod = child;
-    }
-
-    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
-    void ModuleTreeBuilder::enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan) {
-        if (utils::map::has(mod->childrenNames, name)) {
-            if (not nameSpan) {
-                log.devPanic(
-                    "This is impossible to enter module which is file/dir and which has been already declared"
-                );
-            } else {
-                suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
-            }
-        } else {
-            // Add module name as offset of child in `children`
-            mod->childrenNames.emplace(name, mod->children.size() - 1);
-        }
-
-        enterAnonMod(nodeId);
     }
 
     void ModuleTreeBuilder::exitMod() {

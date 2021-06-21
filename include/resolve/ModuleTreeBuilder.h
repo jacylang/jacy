@@ -38,8 +38,11 @@ namespace jc::resolve {
         module_ptr mod;
         void declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId);
 
-        void enterAnonMod(node_id nodeId);
-        void enterMod(const std::string & name, node_id nodeId, const dt::Option<span::Span> & nameSpan);
+        void enterMod(
+            const dt::Option<std::string> & maybeName,
+            node_id nodeId,
+            const dt::Option<span::Span> & nameSpan
+        );
         void exitMod();
     };
 }
