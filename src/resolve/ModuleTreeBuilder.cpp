@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        enterAnonMod(impl.id);
+        enterMod(dt::None, impl.id);
         visitEach(impl.members);
         exitMod();
     }
@@ -81,35 +81,29 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
-    void ModuleTreeBuilder::enterMod(
-        const dt::Option<std::string> & maybeName,
-        node_id nodeId,
-        const dt::Option<span::Span> & nameSpan
-    ) {
+    void ModuleTreeBuilder::enterMod(node_id nodeId, const ast::opt_id_ptr & ident) {
         if (utils::map::has(mod->children, nodeId)) {
             log.devPanic("Tried to declare module with same node_id twice");
         }
 
-        auto child = std::make_shared<Module>(maybeName, mod);
+        module_ptr child;
+        if (ident) {
+            // Create named module
+            const auto & name = ident.unwrap().unwrap()->getValue();
+            child = std::make_shared<Module>(name, mod);
 
-        if (maybeName) {
-            const auto & name = maybeName.unwrap();
             if (utils::map::has(mod->childrenNames, name)) {
-                if (not nameSpan) {
-                    log.devPanic(
-                        "This is impossible to enter module which is file/dir and which has been already declared"
-                    );
-                } else {
-                    suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
-                }
+                suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap().unwrap()->span);
             } else {
                 // Add module name as offset of child in `children`
                 mod->childrenNames.emplace(name, mod->children.size() - 1);
             }
+        } else {
+            // Create anonymous module
+            child = std::make_shared<Module>(dt::None, mod);
         }
 
-        // Add node_id -> module binding only if it wasn't redeclared
+        // Add node_id -> module binding
         mod->children.emplace(nodeId, child);
         mod = child;
     }
