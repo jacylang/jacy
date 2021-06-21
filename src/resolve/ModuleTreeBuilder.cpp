@@ -29,12 +29,14 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void ModuleTreeBuilder::visit(const ast::Func & func) {
-        declare(ModuleNamespace::Item, func.name, func.id);
-    }
-
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
         declare(ModuleNamespace::Item, _enum.name, _enum.id);
+        StubVisitor::visit(_enum);
+    }
+
+    void ModuleTreeBuilder::visit(const ast::Func & func) {
+        declare(ModuleNamespace::Item, func.name, func.id);
+        StubVisitor::visit(func);
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
