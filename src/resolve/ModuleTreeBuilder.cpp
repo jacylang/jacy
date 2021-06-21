@@ -33,6 +33,10 @@ namespace jc::resolve {
         declare(ModuleNamespace::Item, func.name, func.id);
     }
 
+    void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
+        declare(ModuleNamespace::Item, _enum.name, _enum.id);
+    }
+
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         declare(ModuleNamespace::Item, mod.name, mod.id);
         enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
