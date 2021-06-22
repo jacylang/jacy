@@ -47,6 +47,15 @@ namespace jc::utils::map {
         }
         return values;
     }
+
+    template<class K, class V>
+    std::map<V, K> reverse(const std::map<K, V> & map) {
+        std::map<V, K> reversed;
+        for (const auto & pair : map) {
+            reversed.emplace(pair.second, pair.first);
+        }
+        return reversed;
+    }
 }
 
 #endif // JACY_MAP_H
