@@ -144,6 +144,7 @@ namespace jc::resolve {
     struct Rib {
         enum class Kind {
             Raw,
+            Root,
         } kind;
 
         // TODO: Maybe use `Ident{node_id, string}` instead of string as key, to disambiguate

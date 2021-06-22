@@ -3,9 +3,7 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
-        rootModule = sess->modTreeRoot.take();
 
-        enterModuleRib(party.getRootModule()->id);
         party.getRootModule()->accept(*this);
 
         log.dev("Rib depth after name resolution: ", getDepth());
@@ -17,6 +15,16 @@ namespace jc::resolve {
         }
 
         return {dt::None, extractSuggestions()};
+    }
+
+    void NameResolver::visit(const ast::RootModule & rootModule) {
+        moduleTreeRoot = sess->modTreeRoot.take();
+        currentModule = moduleTreeRoot;
+        enterRib(Rib::Kind::Root);
+        curRib()->bindMod(currentModule);
+
+        rootModule.getRootFile()->accept(*this);
+        rootModule.getRootDir()->accept(*this);
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
@@ -197,9 +205,9 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModuleRib(node_id nodeId, Rib::Kind kind) {
-        lastModule = lastModule->children.at(nodeId);
+        currentModule = currentModule->children.at(nodeId);
         enterRib(kind);
-        curRib()->bindMod(lastModule);
+        curRib()->bindMod(currentModule);
     }
 
     void NameResolver::exitRib() {
@@ -207,7 +215,7 @@ namespace jc::resolve {
             Logger::devPanic("NameResolver: Tried to exit top-level rib");
         }
         if (curRib()->boundModule) {
-            lastModule = lastModule->parent.unwrap("Tried to exit top-level module");
+            currentModule = currentModule->parent.unwrap("Tried to exit top-level module");
         }
         ribStack.pop_back();
     }
