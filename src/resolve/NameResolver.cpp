@@ -10,9 +10,7 @@ namespace jc::resolve {
 
         sess->resStorage = std::move(resStorage);
 
-        if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs)) {
-            printRibs();
-        }
+        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
         return {dt::None, extractSuggestions()};
     }
@@ -217,6 +215,7 @@ namespace jc::resolve {
         if (curRib()->boundModule) {
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");
         }
+        printRib();
         ribStack.pop_back();
     }
 
@@ -315,22 +314,16 @@ namespace jc::resolve {
     }
 
     // Debug //
-    void NameResolver::printRibs() {
-        log.info("Printing ribs (`-print=ribs`)");
-        printRib(0);
-    }
-
-    void NameResolver::printRib(size_t index) {
-        if (index == ribStack.size()) {
+    void NameResolver::printRib() {
+        if (not printRibsFlag or ribStack.empty()) {
             return;
         }
-        const auto & rib = ribStack.at(index);
-        const auto & indent = common::Indent<1>(index);
-        log.raw(indent, "{ [", index, "]").nl();
-        log.raw(indent + 1, "types: ", rib->typeNS).nl();
-        log.raw(indent + 1, "values: ", rib->valueNS).nl();
-        log.raw(indent + 1, "lifetimes: ", rib->lifetimeNS).nl();
-        printRib(index + 1);
-        log.raw(indent, "[", index, "] }").nl();
+        log.info("Printing rib (`-print=ribs`) at depth [", getDepth(), "]");
+        const auto & rib = curRib();
+        log.raw("{").nl();
+        log.raw("types: ", rib->typeNS).nl();
+        log.raw("values: ", rib->valueNS).nl();
+        log.raw("lifetimes: ", rib->lifetimeNS).nl();
+        log.raw("}").nl();
     }
 }

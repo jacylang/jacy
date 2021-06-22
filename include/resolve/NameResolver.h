@@ -95,8 +95,8 @@ namespace jc::resolve {
 
         // Debug //
     private:
-        void printRibs();
-        void printRib(size_t index);
+        bool printRibsFlag{false};
+        void printRib();
     };
 }
 
