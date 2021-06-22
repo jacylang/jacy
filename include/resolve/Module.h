@@ -33,9 +33,6 @@ namespace jc::resolve {
         ///  as far as it does not name anything -- it uses some name
         std::map<node_id, module_ptr> children{};
 
-        /// name -> offset in `children` for named modules
-        std::map<std::string, size_t> childrenNames;
-
         mod_ns_map valueNS;
         mod_ns_map typeNS;
 
