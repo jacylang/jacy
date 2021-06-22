@@ -23,6 +23,9 @@ namespace jc::resolve {
 
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
+
+        // Don't exit root rib, just print it
+        printRib();
     }
 
     void NameResolver::visit(const ast::FileModule & fileModule) {
@@ -210,7 +213,7 @@ namespace jc::resolve {
 
     void NameResolver::exitRib() {
         if (getDepth() == 0) {
-            Logger::devPanic("NameResolver: Tried to exit top-level rib");
+            Logger::devPanic("NameResolver: Tried to exit from empty rib stack");
         }
         if (curRib()->boundModule) {
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");

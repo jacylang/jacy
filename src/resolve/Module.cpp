@@ -12,7 +12,7 @@ namespace jc::resolve {
         indent++;
         for (const auto & child : module->children) {
             printIndent();
-            log.raw(child.first + " ");
+            log.raw("[", child.first, "] ");
             print(child.second);
             log.nl();
         }
