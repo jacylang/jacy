@@ -116,7 +116,7 @@ namespace jc::ast {
 
     class Party {
     public:
-        explicit Party(root_module_ptr && rootModule) : rootModule(std::move(rootModule)) {}
+        explicit Party(root_module_ptr rootModule) : rootModule(rootModule) {}
 
         const root_module_ptr & getRootModule() const {
             return rootModule;

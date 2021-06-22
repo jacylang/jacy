@@ -32,6 +32,7 @@ namespace jc::resolve {
         using ast::StubVisitor::visit;
 
     private:
+        sess::sess_ptr sess;
         common::Logger log{"ScopeTreeBuilder"};
 
         // Modules //

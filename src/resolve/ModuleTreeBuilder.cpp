@@ -2,14 +2,15 @@
 
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
+        this->sess = sess;
         party.getRootModule()->accept(*this);
-        sess->modTreeRoot = mod;
 
         return {dt::None, extractSuggestions()};
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
         mod = std::make_shared<Module>(dt::None, dt::None);
+        sess->modTreeRoot = mod;
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
     }

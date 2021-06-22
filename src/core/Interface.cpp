@@ -68,9 +68,10 @@ namespace jc::core {
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
         );
-        auto rootModule = std::make_unique<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
+        auto rootModule = std::make_shared<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
+        sess->nodeMap.addNode(rootModule);
 
-        party = std::make_unique<ast::Party>(std::move(rootModule));
+        party = std::make_unique<ast::Party>(rootModule);
 
         printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
