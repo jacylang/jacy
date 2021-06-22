@@ -4,6 +4,8 @@
 #include <map>
 #include <vector>
 
+#include "data_types/Option.h"
+
 namespace jc::utils::map {
     template<class K, class V>
     std::map<K, V> merge(const std::map<K, V> & first, const std::map<K, V> & second) {
@@ -55,6 +57,15 @@ namespace jc::utils::map {
             reversed.emplace(pair.second, pair.first);
         }
         return reversed;
+    }
+
+    template<class K, class V>
+    dt::Option<V> getOpt(const std::map<K, V> & map, const K & key) {
+        const auto & found = map.find(key);
+        if (found == map.end()) {
+            return dt::None;
+        }
+        return found->second;
     }
 }
 
