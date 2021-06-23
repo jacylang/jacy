@@ -82,7 +82,7 @@ namespace jc::resolve {
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
-            suggestErrorMsg("'" + name + "' `mod` has been already declared", ident.unwrap()->span);
+            suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
         map[name] = nodeId;
     }

@@ -23,8 +23,9 @@ namespace jc::resolve {
             return defs.at(defId);
         }
 
-        def_id define(Def && def) {
-            defs.emplace_back(std::move(def));
+        template<class ...Args>
+        def_id define(Args ...args) {
+            defs.emplace_back(Def(args...));
             return defs.size() - 1;
         }
 
