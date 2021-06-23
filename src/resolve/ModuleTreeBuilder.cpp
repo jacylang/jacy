@@ -9,7 +9,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<Module>(dt::None, dt::None);
+        mod = std::make_shared<Module>(dt::None);
         sess->modTreeRoot = mod;
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
@@ -42,26 +42,26 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        declare(ModuleNamespace::Item, mod.name, mod.id);
+        declare(Namespace::Item, mod.name, mod.id);
         enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
         visitEach(mod.items);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        declare(ModuleNamespace::Item, _struct.name, _struct.id);
+        declare(Namespace::Item, _struct.name, _struct.id);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        declare(ModuleNamespace::Item, trait.name, trait.id);
+        declare(Namespace::Item, trait.name, trait.id);
         enterMod(trait.name.unwrap()->getValue(), trait.id, trait.name.unwrap()->span);
         visitEach(trait.members);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        declare(ModuleNamespace::Type, typeAlias.name, typeAlias.id);
+        declare(Namespace::Type, typeAlias.name, typeAlias.id);
         typeAlias.type.accept(*this);
     }
 
@@ -78,7 +78,7 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void ModuleTreeBuilder::declare(ModuleNamespace ns, const ast::id_ptr & ident, node_id nodeId) {
+    void ModuleTreeBuilder::declare(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {

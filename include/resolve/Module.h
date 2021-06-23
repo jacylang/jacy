@@ -2,6 +2,7 @@
 #define JACY_RESOLVE_MODULESTACK_H
 
 #include "ast/Party.h"
+#include "resolve/Definition.h"
 
 namespace jc::resolve {
     struct Module;
@@ -9,15 +10,23 @@ namespace jc::resolve {
     using mod_ns_map = std::map<std::string, node_id>;
     using module_ptr = std::shared_ptr<Module>;
 
-    enum class ModuleNamespace {
+    enum class Namespace {
         Item,
         Type,
     };
 
-    struct Module {
-        Module(const dt::Option<std::string> & name, dt::Option<module_ptr> parent) : name(name), parent(parent) {}
+    enum class ModuleKind {
+        Root,
+        Block,
+        Def,
+    };
 
-        dt::Option<std::string> name;
+    struct Module {
+        Module(ModuleKind kind, dt::Option<module_ptr> parent) : kind(kind), parent(parent) {}
+        Module(def_id defId, dt::Option<module_ptr> parent) : kind(ModuleKind::Def), defId(defId), parent(parent) {}
+
+        ModuleKind kind;
+        dt::Option<def_id> defId;
         dt::Option<module_ptr> parent;
 
         /// {node id of any node which behaves as module -> submodule}
@@ -36,10 +45,10 @@ namespace jc::resolve {
         mod_ns_map valueNS;
         mod_ns_map typeNS;
 
-        mod_ns_map & getNS(ModuleNamespace ns) {
+        mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
-                case ModuleNamespace::Item: return valueNS;
-                case ModuleNamespace::Type: return typeNS;
+                case Namespace::Item: return valueNS;
+                case Namespace::Type: return typeNS;
                 default: {
                     common::Logger::devPanic("Invalid `ModNode` namespace specified");
                 }
