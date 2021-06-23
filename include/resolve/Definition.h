@@ -14,6 +14,10 @@ namespace jc::resolve {
 
         const span::Span span;
     };
+
+    struct DefStorage {
+        std::vector<Def> defs;
+    };
 }
 
 #endif // JACY_RESOLVE_DEFINITION_H

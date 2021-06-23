@@ -9,7 +9,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<Module>(dt::None);
+        mod = std::make_shared<Module>(ModuleKind::Root, dt::None);
         sess->modTreeRoot = mod;
         rootModule.getRootFile()->accept(*this);
         rootModule.getRootDir()->accept(*this);
