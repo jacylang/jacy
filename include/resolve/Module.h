@@ -8,7 +8,6 @@ namespace jc::resolve {
     struct Module;
     using ast::node_id;
     using mod_ns_map = std::map<std::string, node_id>;
-    using module_ptr = std::shared_ptr<Module>;
 
     enum class Namespace {
         Item,
@@ -28,19 +27,6 @@ namespace jc::resolve {
         ModuleKind kind;
         dt::Option<def_id> defId;
         dt::Option<module_ptr> parent;
-
-        /// {node id of any node which behaves as module -> submodule}
-        /// List of possible node types which child node_id can point to:
-        /// - `mod`
-        /// - `struct`
-        /// - `trait`
-        ///
-        /// Also, these nodes are anonymous modules, which are not presented in `childrenNames` but exist in `children`
-        /// - Block expression (`{}`), func body, lambda body
-        ///
-        /// Note: It is important note that `impl` is not presented anywhere
-        ///  as far as it does not name anything -- it uses some name
-        std::map<node_id, module_ptr> children{};
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
