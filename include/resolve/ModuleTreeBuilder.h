@@ -40,8 +40,8 @@ namespace jc::resolve {
         module_ptr mod;
         void define(Namespace ns, const ast::id_ptr & ident, node_id nodeId);
 
-//        void enterMod(node_id nodeId);
-//        void exitMod();
+        void enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId);
+        void exitMod();
     };
 }
 

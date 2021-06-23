@@ -25,8 +25,8 @@ namespace jc::resolve {
         Module(def_id defId, dt::Option<module_ptr> parent) : kind(ModuleKind::Def), defId(defId), parent(parent) {}
 
         ModuleKind kind;
-        dt::Option<def_id> defId;
-        dt::Option<module_ptr> parent;
+        dt::Option<def_id> defId{dt::None};
+        dt::Option<module_ptr> parent{dt::None};
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;

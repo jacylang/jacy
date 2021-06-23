@@ -87,7 +87,18 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
+    void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
+        if (utils::map::has(mod->typeNS, name)) {
+            if (not nameSpan) {
+                log.devPanic("Module without name span redeclaration");
+            }
+            suggestErrorMsg("'" + name + "' has been already declared in this scope", nameSpan.unwrap());
+        } else {
+            mod->typeNS.emplace(name, defId);
+        }
 
+        mod = std::make_shared<Module>(defId, mod);
+    }
 
 //    void ModuleTreeBuilder::exitMod() {
 //        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");

@@ -13,6 +13,14 @@ namespace jc::resolve {
         enum class Kind {
             Mod,
             Func,
+            Const,
+            Struct,
+            Trait,
+            TypeParam,
+            Lifetime,
+            ConstParam,
+            Enum,
+            TypeAlias,
         };
 
         const span::Span span;
