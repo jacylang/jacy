@@ -9,8 +9,15 @@ namespace jc::ast {
     using file_list = std::vector<file_ptr>;
 
     struct File : Node {
-        File(item_list items, const Span & span) : Node(span), items(std::move(items)) {}
+        File(
+            span::file_id_t fileId,
+            item_list items,
+            const Span & span
+        ) : Node(span),
+            fileId(fileId),
+            items(std::move(items)) {}
 
+        span::file_id_t fileId;
         item_list items;
 
         void accept(BaseVisitor & visitor) const override {

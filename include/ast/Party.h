@@ -20,50 +20,6 @@ namespace jc::ast {
     using dir_module_ptr = std::shared_ptr<DirModule>;
     using root_module_ptr = std::shared_ptr<RootModule>;
 
-    struct Module : Node {
-        enum class Kind {
-            File,
-            Dir,
-            Root,
-        } kind;
-
-        explicit Module(Kind kind) : Node({}), kind(kind) {}
-        virtual ~Module() = default;
-
-        virtual void accept(BaseVisitor & visitor) const = 0;
-        virtual void accept(DirTreePrinter & visitor) const = 0;
-    };
-
-    struct FileModule : Module {
-        FileModule(const std::string & name, span::file_id_t fileId, file_ptr && file)
-            : Module(Module::Kind::File), name(name), fileId(fileId), file(std::move(file)) {}
-
-        span::file_id_t getFileId() const {
-            return fileId;
-        }
-
-        const file_ptr & getFile() const {
-            return file;
-        }
-
-        const std::string & getName() const {
-            return name;
-        }
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-
-        void accept(DirTreePrinter & visitor) const override {
-            visitor.visit(*this);
-        }
-
-    private:
-        std::string name;
-        span::file_id_t fileId;
-        file_ptr file;
-    };
-
     struct DirModule : Module {
         explicit DirModule(std::string name, std::vector<module_ptr> && modules)
             : Module(Module::Kind::Dir), name(std::move(name)), modules(std::move(modules)) {}
