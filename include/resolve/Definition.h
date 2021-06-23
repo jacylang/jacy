@@ -19,6 +19,16 @@ namespace jc::resolve {
     };
 
     struct DefStorage {
+        const Def & getDef(def_id defId) const {
+            return defs.at(defId);
+        }
+
+        def_id define(Def && def) {
+            defs.emplace_back(std::move(def));
+            return defs.size() - 1;
+        }
+
+    private:
         std::vector<Def> defs;
     };
 }
