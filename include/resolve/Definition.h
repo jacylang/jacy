@@ -20,7 +20,6 @@ namespace jc::resolve {
 
     struct DefStorage {
         std::vector<Def> defs;
-        std::map<ast::node_id, module_ptr> anonBlocks;
     };
 }
 

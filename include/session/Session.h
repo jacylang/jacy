@@ -20,6 +20,7 @@ namespace jc::sess {
         SourceMap sourceMap;
         ast::NodeMap nodeMap;
         dt::Option<resolve::module_ptr> modTreeRoot;
+        resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
     };
 }
