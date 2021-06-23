@@ -17,7 +17,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
         // This is actually impossible to redeclare file, filesystem does not allow it
-        enterMod(fileModule.getName(), fileModule.id, dt::None);
+        enterMod(fileModule.getName(), dt::None, sess->defStorage.define());
         fileModule.getFile()->accept(*this);
         exitMod();
     }
@@ -100,7 +100,7 @@ namespace jc::resolve {
         mod = std::make_shared<Module>(defId, mod);
     }
 
-//    void ModuleTreeBuilder::exitMod() {
-//        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
-//    }
+    void ModuleTreeBuilder::exitMod() {
+        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
+    }
 }

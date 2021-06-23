@@ -9,20 +9,26 @@ namespace jc::resolve {
     using module_ptr = std::shared_ptr<Module>;
     using def_id = size_t;
 
-    struct Def {
-        enum class Kind {
-            Mod,
-            Func,
-            Const,
-            Struct,
-            Trait,
-            TypeParam,
-            Lifetime,
-            ConstParam,
-            Enum,
-            TypeAlias,
-        };
+    enum class DefKind {
+        File,
+        Dir,
 
+        Mod,
+        Func,
+        Const,
+        Struct,
+        Trait,
+        TypeParam,
+        Lifetime,
+        ConstParam,
+        Enum,
+        TypeAlias,
+    };
+
+    struct Def {
+        Def(DefKind kind, const span::Span & span) : kind(kind), span(span) {}
+
+        DefKind kind;
         const span::Span span;
     };
 
