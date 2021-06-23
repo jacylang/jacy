@@ -42,26 +42,26 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        declare(Namespace::Item, mod.name, mod.id);
+        define(Namespace::Item, mod.name, mod.id);
         enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
         visitEach(mod.items);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        declare(Namespace::Item, _struct.name, _struct.id);
+        define(Namespace::Item, _struct.name, _struct.id);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        declare(Namespace::Item, trait.name, trait.id);
+        define(Namespace::Item, trait.name, trait.id);
         enterMod(trait.name.unwrap()->getValue(), trait.id, trait.name.unwrap()->span);
         visitEach(trait.members);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        declare(Namespace::Type, typeAlias.name, typeAlias.id);
+        define(Namespace::Type, typeAlias.name, typeAlias.id);
         typeAlias.type.accept(*this);
     }
 
@@ -78,7 +78,7 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void ModuleTreeBuilder::declare(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
+    void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
@@ -87,39 +87,9 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
-    /// `nameSpan` is optional for filesystem modules (file/dir do not have span)
-    void ModuleTreeBuilder::enterMod(
-        const dt::Option<std::string> & optName,
-        node_id nodeId,
-        const dt::Option<span::Span> & nameSpan
-    ) {
-        if (utils::map::has(mod->children, nodeId)) {
-            log.devPanic("Tried to declare module with same node_id twice");
-        }
 
-        auto child = std::make_shared<Module>(optName, mod);
-        if (optName) {
-            const auto & name = optName.unwrap();
-            if (utils::map::has(mod->childrenNames, name)) {
-                if (not nameSpan) {
-                    log.devPanic(
-                        "This is impossible to enter module which is file/dir and which has been already declared"
-                    );
-                } else {
-                    suggestErrorMsg("'" + name + "' has been already declared", nameSpan.unwrap());
-                }
-            } else {
-                // Add module name as offset of child in `children`
-                mod->childrenNames.emplace(name, mod->children.size() - 1);
-            }
-        }
 
-        // Add node_id -> module binding only if it wasn't redeclared
-        mod->children.emplace(nodeId, child);
-        mod = child;
-    }
-
-    void ModuleTreeBuilder::exitMod() {
-        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
-    }
+//    void ModuleTreeBuilder::exitMod() {
+//        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
+//    }
 }
