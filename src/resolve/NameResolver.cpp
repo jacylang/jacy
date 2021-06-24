@@ -15,32 +15,14 @@ namespace jc::resolve {
         return {dt::None, extractSuggestions()};
     }
 
-    void NameResolver::visit(const ast::RootModule & rootModule) {
-        moduleTreeRoot = sess->modTreeRoot.take();
-        currentModule = moduleTreeRoot;
-        enterRib(Rib::Kind::Root);
-        curRib()->bindMod(currentModule);
+    void NameResolver::visit(const ast::Dir & dir) {
 
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
-
-        // Don't exit root rib, just print it
-        printRib();
     }
 
-    void NameResolver::visit(const ast::FileModule & fileModule) {
-        enterModuleRib(fileModule.id);
-        visitEach(fileModule.getFile()->items);
-        exitRib();
+    void NameResolver::visit(const ast::File & file) {
+
     }
 
-    void NameResolver::visit(const ast::DirModule & dirModule) {
-        enterModuleRib(dirModule.id);
-        for (const auto & module : dirModule.getModules()) {
-            module->accept(*this);
-        }
-        exitRib();
-    }
 
     void NameResolver::visit(const ast::Func & func) {
         enterRib(); // -> (type params) rib
