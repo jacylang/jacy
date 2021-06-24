@@ -21,7 +21,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const File & file) {
         // We don't use `printBodyLike` to avoid increasing indent on top-level
-        log.raw("--- file ", file.name).nl();
+        log.raw("--- file ", sess->sourceMap.getSourceFile(file.fileId).filename()).nl();
         for (const auto & item : file.items) {
             item.accept(*this);
             log.nl();
