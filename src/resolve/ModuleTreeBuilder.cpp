@@ -3,28 +3,29 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
         this->sess = sess;
-        party.getRootModule()->accept(*this);
+
+        // Enter root module
+        mod = std::make_unique<Module>(ModuleKind::Root, dt::None);
 
         return {dt::None, extractSuggestions()};
     }
 
-    void ModuleTreeBuilder::visit(const ast::RootModule & rootModule) {
-        mod = std::make_shared<Module>(ModuleKind::Root, dt::None);
-        sess->modTreeRoot = mod;
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
-    }
-
-    void ModuleTreeBuilder::visit(const ast::FileModule & fileModule) {
+    void ModuleTreeBuilder::visit(const ast::File & file) {
         // This is actually impossible to redeclare file, filesystem does not allow it
-        enterMod(fileModule.getName(), dt::None, sess->defStorage.define());
-        fileModule.getFile()->accept(*this);
+        enterMod(
+            sess->sourceMap.getSourceFile(file.id).filename(),
+            dt::None,
+            sess->defStorage.define(DefKind::File, file.span)
+        );
+
+        visitEach(file.items);
+
         exitMod();
     }
 
-    void ModuleTreeBuilder::visit(const ast::DirModule & dirModule) {
-        enterMod(dirModule.getName(), dirModule.id, dt::None);
-        for (const auto & module : dirModule.getModules()) {
+    void ModuleTreeBuilder::visit(const ast::Dir & dir) {
+        enterMod(dir.name, dt::None, dir.id);
+        for (const auto & module : dir.modules) {
             module->accept(*this);
         }
         exitMod();

@@ -10,6 +10,7 @@ namespace jc::resolve {
     using def_id = size_t;
 
     enum class DefKind {
+        Root,
         File,
         Dir,
 

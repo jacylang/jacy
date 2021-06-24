@@ -30,6 +30,7 @@ namespace jc::resolve {
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
+        std::map<node_id, module_ptr> anonBlocks;
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
