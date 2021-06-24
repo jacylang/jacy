@@ -3,7 +3,7 @@
 
 #include "common/Logger.h"
 #include "ast/BaseVisitor.h"
-#include "ast/nodes.h"
+#include "ast/Party.h"
 #include "suggest/BaseSugg.h"
 #include "data_types/SuggResult.h"
 #include "suggest/SuggInterface.h"
@@ -30,10 +30,7 @@ namespace jc::ast {
     private:
         void visit(const ErrorNode & errorNode) override;
         void visit(const File & file) override;
-
-        void visit(const RootModule & rootModule) override;
-        void visit(const FileModule & fileModule) override;
-        void visit(const DirModule & dirModule) override;
+        void visit(const Dir & dir) override;
 
         // Items //
         void visit(const Enum & enumDecl) override;

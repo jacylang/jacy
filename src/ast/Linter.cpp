@@ -4,7 +4,8 @@ namespace jc::ast {
     Linter::Linter() = default;
 
     dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
-        party.getRootModule()->accept(*this);
+        party.getRootFile()->accept(*this);
+        party.getRootDir()->accept(*this);
 
         return {dt::None, extractSuggestions()};
     }
@@ -17,19 +18,8 @@ namespace jc::ast {
         lintEach(file.items);
     }
 
-    void Linter::visit(const RootModule & rootModule) {
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
-    }
-
-    void Linter::visit(const FileModule & fileModule) {
-        fileModule.getFile()->accept(*this);
-    }
-
-    void Linter::visit(const DirModule & dirModule) {
-        for (const auto & module : dirModule.getModules()) {
-            module->accept(*this);
-        }
+    void Linter::visit(const Dir & dir) {
+        lintEach(dir.modules);
     }
 
     ////////////////
