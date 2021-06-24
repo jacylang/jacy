@@ -4,6 +4,9 @@
 #include "ast/Node.h"
 
 namespace jc::ast {
+    struct Dir;
+    using dir_ptr = std::shared_ptr<Dir>;
+
     struct Dir : Node {
         Dir(
             const std::string & name,

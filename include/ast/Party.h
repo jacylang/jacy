@@ -9,52 +9,24 @@
 
 namespace jc::ast {
     class Party;
-    struct Module;
-    struct FileModule;
-    struct DirModule;
-    struct RootModule;
     using party_ptr = std::unique_ptr<Party>;
-    using module_ptr = std::shared_ptr<Module>;
-    using module_list = std::vector<module_ptr>;
-    using file_module_ptr = std::shared_ptr<FileModule>;
-    using dir_module_ptr = std::shared_ptr<DirModule>;
-    using root_module_ptr = std::shared_ptr<RootModule>;
-
-    struct RootModule : Module {
-        RootModule(file_module_ptr && rootFile, dir_module_ptr && rootDir)
-            : Module(Module::Kind::Root), rootFile(std::move(rootFile)), rootDir(std::move(rootDir)) {}
-
-        const file_module_ptr & getRootFile() const {
-            return rootFile;
-        }
-
-        const dir_module_ptr & getRootDir() const {
-            return rootDir;
-        }
-
-        void accept(BaseVisitor & visitor) const override {
-            visitor.visit(*this);
-        }
-
-        void accept(DirTreePrinter & visitor) const override {
-            visitor.visit(*this);
-        }
-
-    private:
-        file_module_ptr rootFile;
-        dir_module_ptr rootDir;
-    };
 
     class Party {
     public:
-        explicit Party(root_module_ptr rootModule) : rootModule(rootModule) {}
+        explicit Party(file_ptr && rootFile, dir_ptr && rootDir)
+            : rootFile(std::move(rootFile)), rootDir(std::move(rootDir)) {}
 
-        const root_module_ptr & getRootModule() const {
-            return rootModule;
+        const file_ptr & getRootFile() const {
+            return rootFile;
+        }
+
+        const dir_ptr & getRootDir() const {
+            return rootDir;
         }
 
     private:
-        root_module_ptr rootModule;
+        file_ptr rootFile;
+        dir_ptr rootDir;
     };
 }
 

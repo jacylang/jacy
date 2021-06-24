@@ -6,7 +6,6 @@
 namespace jc::ast {
     struct File;
     using file_ptr = std::shared_ptr<File>;
-    using file_list = std::vector<file_ptr>;
 
     struct File : Node {
         File(
