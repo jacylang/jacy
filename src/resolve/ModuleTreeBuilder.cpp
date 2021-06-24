@@ -85,7 +85,7 @@ namespace jc::resolve {
         if (utils::map::has(map, name)) {
             suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
-        map[name] = nodeId;
+        map.emplace(name, nodeId);
     }
 
     void ModuleTreeBuilder::enterAnonMod(node_id nodeId, def_id defId) {
