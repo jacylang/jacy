@@ -2,34 +2,33 @@
 #include "ast/Party.h"
 
 namespace jc::ast {
-    void DirTreePrinter::visit(const RootModule & rootModule) {
-        common::Logger::print(".");
-        common::Logger::nl();
-        common::Logger::print("|-- ");
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
+    void DirTreePrinter::print(sess::sess_ptr sess, const Party & party) {
+        this->sess = sess;
+
+        party.getRootFile()->accept(*this);
+        party.getRootDir()->accept(*this);
     }
 
-    void DirTreePrinter::visit(const DirModule & dirModule) {
+    void DirTreePrinter::visit(const Dir & dir) {
         printIndent();
-        common::Logger::print("|-- ", dirModule.getName() + "/");
+        common::Logger::print("|-- ", dir.name + "/");
         common::Logger::nl();
         indent++;
-        for (size_t i = 0; i < dirModule.getModules().size(); i++) {
+        for (size_t i = 0; i < dir.modules.size(); i++) {
             printIndent();
-            if (i < dirModule.getModules().size() - 1) {
+            if (i < dir.modules.size() - 1) {
                 common::Logger::print("|-- ");
             }
 
-            const auto & module = dirModule.getModules().at(i);
+            const auto & module = dir.modules.at(i);
             module->accept(*this);
         }
         indent--;
         printIndent();
     }
 
-    void DirTreePrinter::visit(const FileModule & fileModule) {
-        common::Logger::print(fileModule.getName());
+    void DirTreePrinter::visit(const File & file) {
+        common::Logger::print(sess->sourceMap.getSourceFile(file.fileId).filename());
         common::Logger::nl();
     }
 

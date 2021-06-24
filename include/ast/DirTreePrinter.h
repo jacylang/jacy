@@ -4,19 +4,22 @@
 #include <string>
 #include "common/Logger.h"
 #include "utils/str.h"
+#include "session/Session.h"
 
 namespace jc::ast {
-    struct FileModule;
-    struct DirModule;
-    struct RootModule;
+    struct Party;
+    struct File;
+    struct Dir;
 
     /// Debug visitor only for `FileModule` and `DirModule`
     struct DirTreePrinter {
-        void visit(const RootModule & rootModule);
-        void visit(const DirModule & dirModule);
-        void visit(const FileModule & fileModule);
+        void print(sess::sess_ptr sess, const Party & party);
+        void visit(const Dir & dir);
+        void visit(const File & file);
 
     private:
+        sess::sess_ptr sess;
+
         void printIndent();
         uint32_t indent{0};
     };
