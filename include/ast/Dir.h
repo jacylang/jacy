@@ -2,6 +2,7 @@
 #define JACY_INCLUDE_AST_DIR_H
 
 #include "ast/Node.h"
+#include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
     struct Dir;
@@ -19,6 +20,10 @@ namespace jc::ast {
         node_list modules;
 
         void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+
+        void accept(DirTreePrinter & visitor) const {
             return visitor.visit(*this);
         }
     };

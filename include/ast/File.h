@@ -2,6 +2,7 @@
 #define JACY_AST_FILE_H
 
 #include "ast/item/Item.h"
+#include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
     struct File;
@@ -19,6 +20,10 @@ namespace jc::ast {
         item_list items;
 
         void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+
+        void accept(DirTreePrinter & visitor) const {
             return visitor.visit(*this);
         }
     };
