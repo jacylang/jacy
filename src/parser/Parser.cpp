@@ -162,10 +162,9 @@ namespace jc::parser {
         this->parseSess = parseSess;
         this->tokens = tokens;
 
-        auto begin = cspan();
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {makeNode<File>(std::move(items), begin.to(cspan())), extractSuggestions()};
+        return {makeNode<File>(parseSess->fileId, std::move(items)), extractSuggestions()};
     }
 
     ///////////

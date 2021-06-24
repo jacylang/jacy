@@ -10,9 +10,8 @@ namespace jc::ast {
     struct File : Node {
         File(
             span::file_id_t fileId,
-            item_list items,
-            const Span & span
-        ) : Node(span),
+            item_list items
+        ) : Node(Span{fileId}),
             fileId(fileId),
             items(std::move(items)) {}
 

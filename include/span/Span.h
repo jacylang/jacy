@@ -14,6 +14,9 @@ namespace jc::span {
 
     struct Span {
         Span() = default;
+
+        /// Constructor for file span (points to start)
+        explicit Span(file_id_t fileId) : fileId(fileId) {}
         explicit Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
             pos = lowBound;
             len = static_cast<span_len_t>(highBound - lowBound);
