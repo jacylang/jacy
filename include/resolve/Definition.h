@@ -24,6 +24,7 @@ namespace jc::resolve {
         ConstParam,
         Enum,
         TypeAlias,
+        Impl,
     };
 
     struct Def {

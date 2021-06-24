@@ -37,7 +37,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        enterMod(dt::None, impl.id, dt::None);
+        enterAnonMod(impl.id, sess->defStorage.define(DefKind::Impl, impl.span));
         visitEach(impl.members);
         exitMod();
     }
