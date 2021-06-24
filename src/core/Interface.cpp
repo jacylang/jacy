@@ -134,14 +134,9 @@ namespace jc::core {
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto fileModule = std::make_shared<ast::File>(
-            fileId,
-            std::move(parsedFile)
-        );
+        sess->nodeMap.addNode(parsedFile);
 
-        sess->nodeMap.addNode(fileModule);
-
-        return fileModule;
+        return parsedFile;
     }
 
     // Debug //
