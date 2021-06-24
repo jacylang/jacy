@@ -1,7 +1,7 @@
 #ifndef JACY_AST_STUBVISITOR_H
 #define JACY_AST_STUBVISITOR_H
 
-#include "ast/nodes.h"
+#include "ast/Party.h"
 
 namespace jc::ast {
     using common::Logger;
@@ -13,10 +13,7 @@ namespace jc::ast {
 
         virtual void visit(const ErrorNode & errorNode) override;
         virtual void visit(const File & file) override;
-
-        virtual void visit(const RootModule & rootModule) override;
-        virtual void visit(const FileModule & fileModule) override;
-        virtual void visit(const DirModule & dirModule) override;
+        virtual void visit(const Dir & dir) override;
 
         // Items //
         virtual void visit(const Enum & enumDecl) override;

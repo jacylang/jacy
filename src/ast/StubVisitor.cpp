@@ -9,17 +9,8 @@ namespace jc::ast {
         visitEach(file.items);
     }
 
-    void StubVisitor::visit(const RootModule & rootModule) {
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
-    }
-
-    void StubVisitor::visit(const FileModule & fileModule) {
-        fileModule.getFile()->accept(*this);
-    }
-
-    void StubVisitor::visit(const DirModule & dirModule) {
-        visitEach(dirModule.getModules());
+    void StubVisitor::visit(const Dir & dir) {
+        visitEach(dir.modules);
     }
 
     // Statements //
