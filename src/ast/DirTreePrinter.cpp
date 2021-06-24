@@ -1,5 +1,6 @@
 #include "ast/DirTreePrinter.h"
 #include "ast/Party.h"
+#include "session/Session.h"
 
 namespace jc::ast {
     void DirTreePrinter::print(sess::sess_ptr sess, const Party & party) {

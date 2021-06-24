@@ -145,7 +145,7 @@ namespace jc::core {
             return;
         }
         log.info("Printing directory tree (`-print=dir-tree`)");
-        party.unwrap()->getRootModule()->accept(dirTreePrinter);
+        dirTreePrinter.print(sess, *party.unwrap());
     }
 
     void Interface::printSource(const parser::parse_sess_ptr & parseSess) {

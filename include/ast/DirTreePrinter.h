@@ -8,11 +8,11 @@
 
 namespace jc::sess {
     struct Session;
-    using sess_ptr = std::unique_ptr<Session>;
+    using sess_ptr = std::shared_ptr<Session>;
 }
 
 namespace jc::ast {
-    struct Party;
+    class Party;
     struct File;
     struct Dir;
 

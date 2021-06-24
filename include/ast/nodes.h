@@ -49,7 +49,4 @@
 
 #include "ast/Node.h"
 
-#include "ast/Dir.h"
-#include "ast/File.h"
-
 #endif // JACY_NODES_H
