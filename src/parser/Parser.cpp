@@ -1469,7 +1469,7 @@ namespace jc::parser {
         // `...expr` case
         // Note: We parse `...exp` case even it always must go last, because this can be just a mistake
         //  and we want pretty error like "...expr must go last", but not error like "Unexpected token `...`".
-        //  So this case is handled by Linter
+        //  So this case is handled by Validator
         if (skipOpt(TokenKind::Spread)) {
             auto expr = parseExpr("Expression expected after `...`");
             exitEntity();

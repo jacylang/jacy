@@ -1,39 +1,39 @@
-#include "ast/Linter.h"
+#include "ast/Validator.h"
 
 namespace jc::ast {
-    Linter::Linter() = default;
+    Validator::Validator() = default;
 
-    dt::SuggResult<dt::none_t> Linter::lint(const Party & party) {
+    dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
         return {dt::None, extractSuggestions()};
     }
 
-    void Linter::visit(const ErrorNode&) {
-        common::Logger::devPanic("Unexpected [ERROR] node on Linter stage");
+    void Validator::visit(const ErrorNode&) {
+        common::Logger::devPanic("Unexpected [ERROR] node on ast validation stage");
     }
 
-    void Linter::visit(const File & file) {
+    void Validator::visit(const File & file) {
         lintEach(file.items);
     }
 
-    void Linter::visit(const Dir & dir) {
+    void Validator::visit(const Dir & dir) {
         lintEach(dir.modules);
     }
 
     ////////////////
     // Statements //
     ////////////////
-    void Linter::visit(const Enum & enumDecl) {
+    void Validator::visit(const Enum & enumDecl) {
         // TODO: lint attributes
         lintEach(enumDecl.entries);
 
-        pushContext(LinterContext::Struct);
+        pushContext(ValidatorCtx::Struct);
         popContext();
     }
 
-    void Linter::visit(const EnumEntry & enumEntry) {
+    void Validator::visit(const EnumEntry & enumEntry) {
         enumEntry.name.accept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
@@ -52,31 +52,31 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const ExprStmt & exprStmt) {
+    void Validator::visit(const ExprStmt & exprStmt) {
         exprStmt.expr.accept(*this);
     }
 
-    void Linter::visit(const ForStmt & forStmt) {
+    void Validator::visit(const ForStmt & forStmt) {
         // TODO: Update when for will have patterns
         forStmt.forEntity.accept(*this);
 
         forStmt.inExpr.accept(*this);
 
-        pushContext(LinterContext::Loop);
+        pushContext(ValidatorCtx::Loop);
         forStmt.body.accept(*this);
         popContext();
     }
 
-    void Linter::visit(const ItemStmt & itemStmt) {
+    void Validator::visit(const ItemStmt & itemStmt) {
         // TODO: Lint attributes
         itemStmt.item.accept(*this);
     }
 
-    void Linter::visit(const Func & func) {
+    void Validator::visit(const Func & func) {
         // TODO: lint attributes
 
         for (const auto & modifier : func.modifiers) {
-            if (!isInside(LinterContext::Struct)) {
+            if (!isInside(ValidatorCtx::Struct)) {
                 switch (modifier.kind) {
                     case parser::TokenKind::Static:
                     case parser::TokenKind::Mut:
@@ -104,14 +104,14 @@ namespace jc::ast {
             func.returnType.unwrap().accept(*this);
         }
 
-        pushContext(LinterContext::Func);
+        pushContext(ValidatorCtx::Func);
         if (func.body) {
             func.body->accept(*this);
         }
         popContext();
     }
 
-    void Linter::visit(const FuncParam & funcParam) {
+    void Validator::visit(const FuncParam & funcParam) {
         funcParam.name.accept(*this);
         funcParam.type.accept(*this);
         if (funcParam.defaultValue) {
@@ -119,7 +119,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Impl & impl) {
+    void Validator::visit(const Impl & impl) {
         // TODO: lint attributes
 
         if (impl.typeParams) {
@@ -129,19 +129,19 @@ namespace jc::ast {
         impl.traitTypePath.accept(*this);
         impl.forType.accept(*this);
 
-        pushContext(LinterContext::Struct);
+        pushContext(ValidatorCtx::Struct);
         lintEach(impl.members);
         popContext();
     }
 
-    void Linter::visit(const Mod & mod) {
+    void Validator::visit(const Mod & mod) {
         // TODO: lint attributes
 
         mod.name.accept(*this);
         lintEach(mod.items);
     }
 
-    void Linter::visit(const Struct & _struct) {
+    void Validator::visit(const Struct & _struct) {
         // TODO: lint attributes
 
         _struct.name.accept(*this);
@@ -150,17 +150,17 @@ namespace jc::ast {
             lintEach(_struct.typeParams.unwrap());
         }
 
-        pushContext(LinterContext::Struct);
+        pushContext(ValidatorCtx::Struct);
         // FIXME: Lint fields
         popContext();
     }
 
-    void Linter::visit(const StructField & field) {
+    void Validator::visit(const StructField & field) {
         field.name.accept(*this);
         field.type.accept(*this);
     }
 
-    void Linter::visit(const Trait & trait) {
+    void Validator::visit(const Trait & trait) {
         // TODO: lint attributes
 
         trait.name.accept(*this);
@@ -171,47 +171,47 @@ namespace jc::ast {
 
         lintEach(trait.superTraits);
 
-        pushContext(LinterContext::Struct);
+        pushContext(ValidatorCtx::Struct);
         lintEach(trait.members);
         popContext();
     }
 
-    void Linter::visit(const TypeAlias & typeAlias) {
+    void Validator::visit(const TypeAlias & typeAlias) {
         // TODO: lint attributes
 
         typeAlias.name.accept(*this);
         typeAlias.type.accept(*this);
     }
 
-    void Linter::visit(const UseDecl & useDecl) {
+    void Validator::visit(const UseDecl & useDecl) {
         // TODO: lint attributes
 
         useDecl.useTree.accept(*this);
     }
 
-    void Linter::visit(const UseTreeRaw & useTree) {
+    void Validator::visit(const UseTreeRaw & useTree) {
         useTree.path->accept(*this);
     }
 
-    void Linter::visit(const UseTreeSpecific & useTree) {
+    void Validator::visit(const UseTreeSpecific & useTree) {
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
         }
         lintEach(useTree.specifics);
     }
 
-    void Linter::visit(const UseTreeRebind & useTree) {
+    void Validator::visit(const UseTreeRebind & useTree) {
         useTree.path->accept(*this);
         useTree.as.accept(*this);
     }
 
-    void Linter::visit(const UseTreeAll & useTree) {
+    void Validator::visit(const UseTreeAll & useTree) {
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
         }
     }
 
-    void Linter::visit(const LetStmt & letStmt) {
+    void Validator::visit(const LetStmt & letStmt) {
         letStmt.pat->accept(*this);
 
         if (letStmt.type) {
@@ -223,10 +223,10 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const WhileStmt & whileStmt) {
+    void Validator::visit(const WhileStmt & whileStmt) {
         whileStmt.condition.accept(*this);
 
-        pushContext(LinterContext::Loop);
+        pushContext(ValidatorCtx::Loop);
         whileStmt.body.accept(*this);
         popContext();
     }
@@ -234,7 +234,7 @@ namespace jc::ast {
     /////////////////
     // Expressions //
     /////////////////
-    void Linter::visit(const Assignment & assign) {
+    void Validator::visit(const Assignment & assign) {
         assign.lhs.accept(*this);
         assign.rhs.accept(*this);
 
@@ -273,7 +273,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Block & block) {
+    void Validator::visit(const Block & block) {
         if (block.blockKind == BlockKind::OneLine) {
             block.oneLine.unwrap().accept(*this);
         } else {
@@ -281,31 +281,31 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const BorrowExpr & borrowExpr) {
+    void Validator::visit(const BorrowExpr & borrowExpr) {
         borrowExpr.expr.accept(*this);
     }
 
-    void Linter::visit(const BreakExpr & breakExpr) {
+    void Validator::visit(const BreakExpr & breakExpr) {
         if (breakExpr.expr) {
             breakExpr.expr.unwrap().accept(*this);
         }
 
-        if (not isDeepInside(LinterContext::Loop)) {
+        if (not isDeepInside(ValidatorCtx::Loop)) {
             suggestErrorMsg("`break` outside of loop", breakExpr.span);
         }
     }
 
-    void Linter::visit(const ContinueExpr & continueExpr) {
-        if (not isDeepInside(LinterContext::Loop)) {
+    void Validator::visit(const ContinueExpr & continueExpr) {
+        if (not isDeepInside(ValidatorCtx::Loop)) {
             suggestErrorMsg("`continue` outside of loop", continueExpr.span);
         }
     }
 
-    void Linter::visit(const DerefExpr & derefExpr) {
+    void Validator::visit(const DerefExpr & derefExpr) {
         derefExpr.expr.accept(*this);
     }
 
-    void Linter::visit(const IfExpr & ifExpr) {
+    void Validator::visit(const IfExpr & ifExpr) {
         ifExpr.condition.accept(*this);
 
         if (ifExpr.ifBranch) {
@@ -317,7 +317,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Infix & infix) {
+    void Validator::visit(const Infix & infix) {
         switch (infix.op.kind) {
             case parser::TokenKind::Id: {
                 suggestErrorMsg(
@@ -361,50 +361,50 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Invoke & invoke) {
+    void Validator::visit(const Invoke & invoke) {
         invoke.lhs.accept(*this);
         lintEach(invoke.args);
     }
 
-    void Linter::visit(const Lambda & lambdaExpr) {
+    void Validator::visit(const Lambda & lambdaExpr) {
         lintEach(lambdaExpr.params);
 
         if (lambdaExpr.returnType) {
             lambdaExpr.returnType.unwrap().accept(*this);
         }
 
-        pushContext(LinterContext::Func);
+        pushContext(ValidatorCtx::Func);
         lambdaExpr.body.accept(*this);
         popContext();
     }
 
-    void Linter::visit(const LambdaParam & param) {
+    void Validator::visit(const LambdaParam & param) {
         param.name.accept(*this);
         if (param.type) {
             param.type.unwrap().accept(*this);
         }
     }
 
-    void Linter::visit(const ListExpr & listExpr) {
+    void Validator::visit(const ListExpr & listExpr) {
         lintEach(listExpr.elements);
     }
 
-    void Linter::visit(const LiteralConstant&) {
+    void Validator::visit(const LiteralConstant&) {
         // What's here?
     }
 
-    void Linter::visit(const LoopExpr & loopExpr) {
-        pushContext(LinterContext::Loop);
+    void Validator::visit(const LoopExpr & loopExpr) {
+        pushContext(ValidatorCtx::Loop);
         loopExpr.body.accept(*this);
         popContext();
     }
 
-    void Linter::visit(const MemberAccess & memberAccess) {
+    void Validator::visit(const MemberAccess & memberAccess) {
         memberAccess.lhs.accept(*this);
         memberAccess.field.accept(*this);
     }
 
-    void Linter::visit(const ParenExpr & parenExpr) {
+    void Validator::visit(const ParenExpr & parenExpr) {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
@@ -421,11 +421,11 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const PathExpr & pathExpr) {
+    void Validator::visit(const PathExpr & pathExpr) {
         lintEach(pathExpr.segments);
     }
 
-    void Linter::visit(const PathExprSeg & seg) {
+    void Validator::visit(const PathExprSeg & seg) {
         switch (seg.kind) {
             case PathExprSeg::Kind::Super:
             case PathExprSeg::Kind::Self:
@@ -448,7 +448,7 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Prefix & prefix) {
+    void Validator::visit(const Prefix & prefix) {
         switch (prefix.op.kind) {
             case parser::TokenKind::Not:
             case parser::TokenKind::Sub: {
@@ -462,32 +462,32 @@ namespace jc::ast {
         prefix.rhs.accept(*this);
     }
 
-    void Linter::visit(const QuestExpr & questExpr) {
+    void Validator::visit(const QuestExpr & questExpr) {
         questExpr.expr.accept(*this);
     }
 
-    void Linter::visit(const ReturnExpr & returnExpr) {
+    void Validator::visit(const ReturnExpr & returnExpr) {
         if (returnExpr.expr) {
             returnExpr.expr.unwrap().accept(*this);
         }
 
-        if (not isDeepInside(LinterContext::Func)) {
+        if (not isDeepInside(ValidatorCtx::Func)) {
             suggestErrorMsg("`return` outside of function", returnExpr.span);
         }
     }
 
-    void Linter::visit(const SpreadExpr & spreadExpr) {
+    void Validator::visit(const SpreadExpr & spreadExpr) {
         // TODO: Context check? Where we allow spread?
 
         spreadExpr.expr.accept(*this);
     }
 
-    void Linter::visit(const StructExpr & structExpr) {
+    void Validator::visit(const StructExpr & structExpr) {
         structExpr.path.accept(*this);
         lintEach(structExpr.fields);
     }
 
-    void Linter::visit(const StructExprField & field) {
+    void Validator::visit(const StructExprField & field) {
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
                 field.name.unwrap().accept(*this);
@@ -505,29 +505,29 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const Subscript & subscript) {
+    void Validator::visit(const Subscript & subscript) {
         subscript.lhs.accept(*this);
         lintEach(subscript.indices);
     }
 
-    void Linter::visit(const ThisExpr&) {
+    void Validator::visit(const ThisExpr&) {
         // A??
     }
 
-    void Linter::visit(const TupleExpr & tupleExpr) {
+    void Validator::visit(const TupleExpr & tupleExpr) {
         lintEach(tupleExpr.elements);
     }
 
-    void Linter::visit(const UnitExpr&) {
+    void Validator::visit(const UnitExpr&) {
         // Meow
     }
 
-    void Linter::visit(const WhenExpr & whenExpr) {
+    void Validator::visit(const WhenExpr & whenExpr) {
         whenExpr.subject.accept(*this);
         lintEach(whenExpr.entries);
     }
 
-    void Linter::visit(const WhenEntry & entry) {
+    void Validator::visit(const WhenEntry & entry) {
         lintEach(entry.conditions);
         entry.body.accept(*this);
     }
@@ -535,11 +535,11 @@ namespace jc::ast {
     ///////////
     // Types //
     ///////////
-    void Linter::visit(const ParenType & parenType) {
+    void Validator::visit(const ParenType & parenType) {
         parenType.accept(*this);
     }
 
-    void Linter::visit(const TupleType & tupleType) {
+    void Validator::visit(const TupleType & tupleType) {
         const auto & els = tupleType.elements;
         if (els.size() == 1 and els.at(0)->name and els.at(0)->type) {
             suggestErrorMsg("Cannot declare single-element named tuple type", tupleType.span);
@@ -549,7 +549,7 @@ namespace jc::ast {
         lintEach(tupleType.elements);
     }
 
-    void Linter::visit(const TupleTypeEl & el) {
+    void Validator::visit(const TupleTypeEl & el) {
         if (el.name) {
             el.name.unwrap().accept(*this);
         }
@@ -558,25 +558,25 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const FuncType & funcType) {
+    void Validator::visit(const FuncType & funcType) {
         lintEach(funcType.params);
         funcType.returnType.accept(*this);
     }
 
-    void Linter::visit(const SliceType & listType) {
+    void Validator::visit(const SliceType & listType) {
         listType.type.accept(*this);
     }
 
-    void Linter::visit(const ArrayType & arrayType) {
+    void Validator::visit(const ArrayType & arrayType) {
         arrayType.type.accept(*this);
         arrayType.sizeExpr.accept(*this);
     }
 
-    void Linter::visit(const TypePath & typePath) {
+    void Validator::visit(const TypePath & typePath) {
         lintEach(typePath.segments);
     }
 
-    void Linter::visit(const TypePathSeg & seg) {
+    void Validator::visit(const TypePathSeg & seg) {
         seg.name.accept(*this);
 
         if (seg.typeParams) {
@@ -584,23 +584,23 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const UnitType&) {
+    void Validator::visit(const UnitType&) {
         // Meow...
     }
 
     // Type params //
-    void Linter::visit(const GenericType & genericType) {
+    void Validator::visit(const GenericType & genericType) {
         genericType.name.accept(*this);
         if (genericType.boundType) {
             genericType.boundType.unwrap().accept(*this);
         }
     }
 
-    void Linter::visit(const Lifetime & lifetime) {
+    void Validator::visit(const Lifetime & lifetime) {
         lifetime.name.accept(*this);
     }
 
-    void Linter::visit(const ConstParam & constParam) {
+    void Validator::visit(const ConstParam & constParam) {
         constParam.name.accept(*this);
         constParam.type.accept(*this);
         if (constParam.defaultValue) {
@@ -609,14 +609,14 @@ namespace jc::ast {
     }
 
     // Fragments //
-    void Linter::visit(const Attribute & attr) {
+    void Validator::visit(const Attribute & attr) {
         attr.name.accept(*this);
         lintEach(attr.params);
     }
 
-    void Linter::visit(const Identifier&) {}
+    void Validator::visit(const Identifier&) {}
 
-    void Linter::visit(const NamedElement & el) {
+    void Validator::visit(const NamedElement & el) {
         if (el.name) {
             el.name.unwrap().accept(*this);
         }
@@ -625,11 +625,11 @@ namespace jc::ast {
         }
     }
 
-    void Linter::visit(const SimplePath & path) {
+    void Validator::visit(const SimplePath & path) {
         lintEach(path.segments);
     }
 
-    void Linter::visit(const SimplePathSeg & seg) {
+    void Validator::visit(const SimplePathSeg & seg) {
         switch (seg.kind) {
             case SimplePathSeg::Kind::Super:
             case SimplePathSeg::Kind::Self:
@@ -647,16 +647,16 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void Linter::visit(const LiteralPattern & pat) {}
+    void Validator::visit(const LiteralPattern & pat) {}
 
-    void Linter::visit(const IdentPattern & pat) {
+    void Validator::visit(const IdentPattern & pat) {
         pat.name.accept(*this);
     }
 
-    void Linter::visit(const SpreadPattern & pat) {}
+    void Validator::visit(const SpreadPattern & pat) {}
 
     // Helpers //
-    bool Linter::isPlaceExpr(const expr_ptr & maybeExpr) {
+    bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
             return isPlaceExpr(Expr::as<ParenExpr>(expr)->expr);
@@ -665,14 +665,14 @@ namespace jc::ast {
     }
 
     // Context //
-    bool Linter::isInside(LinterContext ctx) {
+    bool Validator::isInside(ValidatorCtx ctx) {
         if (ctxStack.empty()) {
-            Logger::devPanic("Called `Linter::isInside` on empty context stack");
+            Logger::devPanic("Called `Validator::isInside` on empty context stack");
         }
         return ctxStack.back() == ctx;
     }
 
-    bool Linter::isDeepInside(LinterContext ctx) {
+    bool Validator::isDeepInside(ValidatorCtx ctx) {
         for (auto rit = ctxStack.rbegin(); rit != ctxStack.rend(); rit++) {
             if (*rit == ctx) {
                 return true;
@@ -681,11 +681,11 @@ namespace jc::ast {
         return false;
     }
 
-    void Linter::pushContext(LinterContext ctx) {
+    void Validator::pushContext(ValidatorCtx ctx) {
         ctxStack.push_back(ctx);
     }
 
-    void Linter::popContext() {
+    void Validator::popContext() {
         ctxStack.pop_back();
     }
 }

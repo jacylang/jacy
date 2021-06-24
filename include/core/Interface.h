@@ -12,7 +12,7 @@
 #include "ast/AstPrinter.h"
 #include "suggest/SuggDumper.h"
 #include "suggest/Suggester.h"
-#include "ast/Linter.h"
+#include "ast/Validator.h"
 #include "resolve/NameResolver.h"
 #include "resolve/ModuleTreeBuilder.h"
 #include "common/Config.h"
@@ -43,7 +43,7 @@ namespace jc::core {
         parser::Parser parser;
         ast::DirTreePrinter dirTreePrinter;
         ast::AstPrinter astPrinter;
-        ast::Linter linter;
+        ast::Validator astValidator;
         dt::Option<ast::party_ptr> party;
 
         void parse();

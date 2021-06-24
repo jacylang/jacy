@@ -1,5 +1,5 @@
-#ifndef JACY_AST_LINTER_H
-#define JACY_AST_LINTER_H
+#ifndef JACY_AST_VALIDATOR_H
+#define JACY_AST_VALIDATOR_H
 
 #include "common/Logger.h"
 #include "ast/BaseVisitor.h"
@@ -11,19 +11,19 @@
 namespace jc::ast {
     using common::Logger;
 
-    /// LinterContext - collection of contexts for linting that only needed for context-dependent constructions,
+    /// ValidatorCtx - collection of contexts for validation that only needed for context-dependent constructions,
     /// for example, `break` can appear only inside loop-like context, but `if` does not bring any kind of this
     /// dependency.
     /// Note: These are not actual `Func`, `Loop` and `Struct` nodes.
-    enum class LinterContext {
+    enum class ValidatorCtx {
         Func,
         Loop,
         Struct,
     };
 
-    class Linter : public BaseVisitor, public sugg::SuggInterface {
+    class Validator : public BaseVisitor, public sugg::SuggInterface {
     public:
-        Linter();
+        Validator();
 
         dt::SuggResult<dt::none_t> lint(const Party & party);
 
@@ -137,14 +137,14 @@ namespace jc::ast {
 
         // Context //
     private:
-        std::vector<LinterContext> ctxStack;
-        bool isInside(LinterContext ctx);
-        bool isDeepInside(LinterContext ctx);
-        void pushContext(LinterContext ctx);
+        std::vector<ValidatorCtx> ctxStack;
+        bool isInside(ValidatorCtx ctx);
+        bool isDeepInside(ValidatorCtx ctx);
+        void pushContext(ValidatorCtx ctx);
         void popContext();
 
-        common::Logger log{"linter"};
+        common::Logger log{"ast-validator"};
     };
 }
 
-#endif //JACY_AST_LINTER_H
+#endif // JACY_AST_VALIDATOR_H
