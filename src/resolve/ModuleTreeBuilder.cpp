@@ -88,6 +88,13 @@ namespace jc::resolve {
         map[name] = nodeId;
     }
 
+    void ModuleTreeBuilder::enterAnonMod(node_id nodeId, def_id defId) {
+        if (utils::map::has(mod->anonBlocks, nodeId)) {
+            log.devPanic("Tried to redeclare anonymous block");
+        }
+        mod = std::make_shared<Module>(defId, mod);
+    }
+
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
         if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
