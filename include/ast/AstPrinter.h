@@ -25,10 +25,7 @@ namespace jc::ast {
 
         void visit(const ErrorNode & errorNode) override;
         void visit(const File & file) override;
-
-        void visit(const RootModule & rootModule) override;
-        void visit(const FileModule & fileModule) override;
-        void visit(const DirModule & dirModule) override;
+        void visit(const Dir & dir) override;
 
         // Items //
         void visit(const Enum & enumDecl) override;

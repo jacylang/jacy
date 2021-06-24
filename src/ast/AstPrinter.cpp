@@ -11,7 +11,8 @@ namespace jc::ast {
         this->sess = sess;
         this->mode = mode;
 
-        party.getRootModule()->accept(*this);
+        party.getRootFile()->accept(*this);
+        party.getRootDir()->accept(*this);
     }
 
     void AstPrinter::visit(const ErrorNode&) {
@@ -20,25 +21,16 @@ namespace jc::ast {
 
     void AstPrinter::visit(const File & file) {
         // We don't use `printBodyLike` to avoid increasing indent on top-level
+        log.raw("--- file ", file.name).nl();
         for (const auto & item : file.items) {
             item.accept(*this);
             log.nl();
         }
     }
 
-    void AstPrinter::visit(const RootModule & rootModule) {
-        rootModule.getRootFile()->accept(*this);
-        rootModule.getRootDir()->accept(*this);
-    }
-
-    void AstPrinter::visit(const FileModule & fileModule) {
-        log.raw("--- file ", fileModule.getName()).nl();
-        fileModule.getFile()->accept(*this);
-    }
-
-    void AstPrinter::visit(const DirModule & dirModule) {
-        log.raw("--- dir ", dirModule.getName()).nl();
-        for (const auto & module : dirModule.getModules()) {
+    void AstPrinter::visit(const Dir & dir) {
+        log.raw("--- dir ", dir.name).nl();
+        for (const auto & module : dir.modules) {
             module->accept(*this);
             log.nl();
         }
