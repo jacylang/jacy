@@ -5,10 +5,7 @@ namespace jc::ast {
     struct ErrorNode;
 
     struct File;
-
-    struct RootModule;
-    struct FileModule;
-    struct DirModule;
+    struct Dir;
 
     // Items //
     struct Enum;
@@ -100,10 +97,7 @@ namespace jc::ast {
 
         virtual void visit(const ErrorNode&) = 0;
         virtual void visit(const File&) = 0;
-
-        virtual void visit(const RootModule&) = 0;
-        virtual void visit(const FileModule&) = 0;
-        virtual void visit(const DirModule&) = 0;
+        virtual void visit(const Dir&) = 0;
 
         // Items //
         virtual void visit(const Enum&) = 0;

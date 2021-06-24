@@ -17,6 +17,10 @@ namespace jc::ast {
 
         std::string name;
         node_list modules;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
