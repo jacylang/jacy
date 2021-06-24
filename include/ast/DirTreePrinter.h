@@ -2,9 +2,14 @@
 #define JACY_DIRTREEVISITOR_H
 
 #include <string>
+
 #include "common/Logger.h"
 #include "utils/str.h"
-#include "session/Session.h"
+
+namespace jc::sess {
+    struct Session;
+    using sess_ptr = std::unique_ptr<Session>;
+}
 
 namespace jc::ast {
     struct Party;
