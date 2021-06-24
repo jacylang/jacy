@@ -25,7 +25,7 @@ namespace jc::span {
 
         span_pos_t pos{0};
         span_len_t len{0};
-        file_id_t fileId{0}; // TODO: Context
+        file_id_t fileId{0};
 
         std::string toString() const {
             return std::to_string(pos) + "; len = " + std::to_string(len);
