@@ -48,8 +48,8 @@ namespace jc::core {
 
         void parse();
         void lintAst();
-        ast::dir_module_ptr parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
-        ast::file_module_ptr parseFile(const fs::entry_ptr & file);
+        ast::dir_ptr parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
+        ast::file_ptr parseFile(const fs::entry_ptr & file);
 
         // Debug //
         void printDirTree();

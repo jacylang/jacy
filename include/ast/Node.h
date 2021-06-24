@@ -14,6 +14,7 @@ namespace jc::ast {
     struct ErrorNode;
     using span::Span;
     using node_ptr = std::shared_ptr<Node>;
+    using node_list = std::vector<node_ptr>;
     using node_id = uint32_t;
     using opt_node_id = dt::Option<ast::node_id>;
 

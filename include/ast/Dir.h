@@ -10,13 +10,13 @@ namespace jc::ast {
     struct Dir : Node {
         Dir(
             const std::string & name,
-            std::vector<node_ptr> && modules
+            node_list && modules
         ) : Node(Span{}),
             name(name),
             modules(std::move(modules)) {}
 
         std::string name;
-        std::vector<node_ptr> modules;
+        node_list modules;
     };
 }
 

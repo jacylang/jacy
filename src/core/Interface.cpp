@@ -64,14 +64,12 @@ namespace jc::core {
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = parseFile(rootFileEntry);
         log.dev("Project directory: ", rootFileEntry->getPath().parent_path());
-        auto nestedModules = parseDir(
+        auto rootDir = parseDir(
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
         );
-        auto rootModule = std::make_shared<ast::RootModule>(std::move(rootFile), std::move(nestedModules));
-        sess->nodeMap.addNode(rootModule);
 
-        party = std::make_unique<ast::Party>(rootModule);
+        party = std::make_unique<ast::Party>(std::move(rootFile), std::move(rootDir));
 
         printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
@@ -85,29 +83,29 @@ namespace jc::core {
         linter.lint(*party.unwrap()).unwrap(sess, "linting");
     }
 
-    ast::dir_module_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
+    ast::dir_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
         if (not dir->isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
         const auto & name = dir->getPath().filename().string();
-        ast::module_list nestedModules;
+        ast::node_list nestedEntries;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
-                nestedModules.emplace_back(parseDir(entry));
+                nestedEntries.emplace_back(parseDir(entry));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
-                nestedModules.emplace_back(parseFile(entry));
+                nestedEntries.emplace_back(parseFile(entry));
             }
         }
 
-        auto dirModule = std::make_shared<ast::DirModule>(name, std::move(nestedModules));
+        auto dirModule = std::make_shared<ast::Dir>(name, std::move(nestedEntries));
 
         sess->nodeMap.addNode(dirModule);
 
         return dirModule;
     }
 
-    ast::file_module_ptr Interface::parseFile(const fs::entry_ptr & file) {
+    ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
@@ -136,8 +134,7 @@ namespace jc::core {
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto fileModule = std::make_shared<ast::FileModule>(
-            file->getPath().filename().string(),
+        auto fileModule = std::make_shared<ast::File>(
             fileId,
             std::move(parsedFile)
         );
