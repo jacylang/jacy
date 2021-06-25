@@ -204,6 +204,7 @@ namespace jc::ast {
         typeAlias.name.accept(*this);
         log.raw(" = ");
         typeAlias.type.accept(*this);
+        log.raw(";");
     }
 
     void AstPrinter::visit(const UseDecl & useDecl) {
