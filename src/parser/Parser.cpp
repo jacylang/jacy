@@ -528,7 +528,7 @@ namespace jc::parser {
     }
 
     item_ptr Parser::parseTypeAlias() {
-        enterEntity("TypeDecl");
+        enterEntity("TypeAlias");
 
         const auto & begin = cspan();
 
