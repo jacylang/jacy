@@ -1158,7 +1158,7 @@ namespace jc::parser {
         if (is(TokenKind::Self)) {
             const auto & span = cspan();
             advance();
-            return Expr::asBase(makeExpr<SelfExpr>(span));
+            return Expr::pureAsBase(makeExpr<SelfExpr>(span));
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
@@ -1169,7 +1169,7 @@ namespace jc::parser {
                 }
                 return parseStructExpr(std::move(pathExpr.unwrap()));
             }
-            return Expr::pureAsBase(pathExpr);
+            return Expr::asBase(pathExpr);
         }
 
         if (is(TokenKind::If)) {
