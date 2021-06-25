@@ -44,7 +44,6 @@ namespace jc::ast {
         using E = std::shared_ptr<ErrorNode>;
 
     public:
-        ParseResult() : inited(false) {}
         ParseResult(const T & value) : value(value), hasErr(false) {}
         ParseResult(const E & error) : error(error), hasErr(true) {}
         ParseResult(T && value) : value(std::move(value)), hasErr(false) {}
@@ -77,9 +76,6 @@ namespace jc::ast {
         }
 
         const Span & span() const {
-            if (not inited) {
-                throw std::logic_error("Called `ParseResult::span` on an `Err` ParseResult");
-            }
             if (isErr()) {
                 return error->span;
             }
@@ -132,9 +128,6 @@ namespace jc::ast {
         }
 
         const T * operator->() const {
-            if (not inited) {
-                common::Logger::devPanic("`ParseResult::operator->` use of uninitialized PR");
-            }
             if (isErr()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` ParseResult");
             }
@@ -142,9 +135,6 @@ namespace jc::ast {
         }
 
         const T & operator*() const {
-            if (not inited) {
-                common::Logger::devPanic("`ParseResult::operator*` use of uninitialized PR");
-            }
             if (isErr()) {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
             }
@@ -152,9 +142,6 @@ namespace jc::ast {
         }
 
         void accept(BaseVisitor & visitor) const {
-            if (not inited) {
-                common::Logger::devPanic("`ParseResult::accept` use of uninitialized PR");
-            }
             if (hasErr) {
                 return error->accept(visitor);
             } else {
@@ -165,7 +152,6 @@ namespace jc::ast {
     protected:
         T value;
         E error;
-        bool inited{true};
         bool hasErr;
     };
 
