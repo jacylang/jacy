@@ -27,8 +27,8 @@ namespace jc::ast {
               stmts(std::move(stmts)) {}
 
         BlockKind blockKind;
-        opt_expr_ptr oneLine;
-        dt::Option<stmt_list> stmts;
+        opt_expr_ptr oneLine{dt::None};
+        dt::Option<stmt_list> stmts{dt::None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
