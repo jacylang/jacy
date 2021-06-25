@@ -145,6 +145,7 @@ namespace jc::resolve {
         enum class Kind {
             Raw,
             Root,
+            Mod,
         } kind;
 
         // TODO: Maybe use `Ident{node_id, string}` instead of string as key, to disambiguate

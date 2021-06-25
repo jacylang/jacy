@@ -5,18 +5,18 @@ namespace jc::resolve {
         this->sess = sess;
         printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
+        enterRootRib();
+
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
         log.dev("Rib depth after name resolution: ", getDepth());
 
         sess->resStorage = std::move(resStorage);
-
         return {dt::None, extractSuggestions()};
     }
 
     void NameResolver::visit(const ast::Dir & dir) {
-
     }
 
     void NameResolver::visit(const ast::File & file) {
