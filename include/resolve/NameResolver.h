@@ -64,6 +64,7 @@ namespace jc::resolve {
         void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
         void enterNamedMod(const std::string & name, Rib::Kind kind = Rib::Kind::Raw);
+        void enterAnonMod(node_id nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 

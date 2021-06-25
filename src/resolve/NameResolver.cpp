@@ -197,6 +197,12 @@ namespace jc::resolve {
         curRib()->bindMod(currentModule);
     }
 
+    void NameResolver::enterAnonMod(node_id nodeId, Rib::Kind kind) {
+        currentModule = currentModule->anonBlocks.at(nodeId);
+        enterRib(kind);
+        curRib()->bindMod(currentModule);
+    }
+
     void NameResolver::exitRib() {
         if (getDepth() == 0) {
             Logger::devPanic("NameResolver: Tried to exit from empty rib stack");
