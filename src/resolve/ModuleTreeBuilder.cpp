@@ -37,7 +37,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        enterAnonMod(impl.id, sess->defStorage.define(DefKind::Impl, impl.span));
+        enterAnonMod(impl.id);
+        // Set definition of `impl` block
+        mod->defId = sess->defStorage.define(DefKind::Impl, impl.span);
         visitEach(impl.members);
         exitMod();
     }
