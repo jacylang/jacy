@@ -10,6 +10,7 @@ namespace jc::parser {
     using line_pos_t = uint32_t;
 
     struct SourceFile {
+        SourceFile() {}
         SourceFile(const fs::path & path, std::string && src) : path(path), src(std::move(src)) {}
 
         fs::path path;
