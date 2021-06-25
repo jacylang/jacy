@@ -2221,7 +2221,7 @@ namespace jc::parser {
                 );
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptTypeParams`");
-                opt_type_ptr type;
+                opt_type_ptr type{dt::None};
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
@@ -2236,7 +2236,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                opt_expr_ptr defaultValue;
+                opt_expr_ptr defaultValue{dt::None};
                 if (skipOpt(TokenKind::Assign)) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
