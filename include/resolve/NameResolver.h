@@ -68,6 +68,12 @@ namespace jc::resolve {
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
+        // Modules //
+    private:
+        /// Last met module
+        /// We need to store it because some ribs do not bind modules
+        module_ptr currentModule;
+
         // Declarations //
     private:
         void declare(const std::string & name, Name::Kind kind, node_id nodeId);
