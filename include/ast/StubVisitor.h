@@ -65,7 +65,7 @@ namespace jc::ast {
         virtual void visit(const StructExpr & structExpr) override;
         virtual void visit(const StructExprField & field) override;
         virtual void visit(const Subscript & subscript) override;
-        virtual void visit(const SelfExpr & thisExpr) override;
+        virtual void visit(const SelfExpr & selfExpr) override;
         virtual void visit(const TupleExpr & tupleExpr) override;
         virtual void visit(const UnitExpr & unitExpr) override;
         virtual void visit(const WhenExpr & whenExpr) override;
