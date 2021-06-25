@@ -405,9 +405,10 @@ namespace jc::parser {
         auto typeParams = parseOptTypeParams();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
-        skip(TokenKind::For, "Missing `for`", Recovery::Any);
-
-        auto forType = parseType("Missing type");
+        opt_type_ptr forType;
+        if (skipOpt(TokenKind::For)) {
+            forType = parseType("Missing type");
+        }
 
         item_list members = parseMembers("impl");
 

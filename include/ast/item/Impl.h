@@ -9,7 +9,7 @@ namespace jc::ast {
         Impl(
             opt_type_params typeParams,
             PR<type_path_ptr> traitTypePath,
-            type_ptr forType,
+            opt_type_ptr forType,
             item_list members,
             const Span & span
         ) : Item(span, ItemKind::Impl),
@@ -20,7 +20,7 @@ namespace jc::ast {
 
         opt_type_params typeParams;
         PR<type_path_ptr> traitTypePath;
-        type_ptr forType;
+        opt_type_ptr forType;
         item_list members;
 
 
