@@ -127,7 +127,10 @@ namespace jc::ast {
         }
 
         impl.traitTypePath.accept(*this);
-        impl.forType.accept(*this);
+
+        if (impl.forType) {
+            impl.forType.unwrap().accept(*this);
+        }
 
         pushContext(ValidatorCtx::Struct);
         lintEach(impl.members);
