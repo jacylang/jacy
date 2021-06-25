@@ -22,10 +22,6 @@ mod mood {
             foo(self.field);
         }
     }
-
-    impl Trait for Struct {
-        func baz: Type = if let Enum::Variant(value) {value} else {0};
-    }
 }
 
 func main {

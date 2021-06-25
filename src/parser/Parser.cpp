@@ -89,7 +89,7 @@ namespace jc::parser {
             if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     if (extraDebugAll) {
-                        devLogWithIndent("Recovered", Token::kindToString(kind), "| Unexpected:", peek().kindToString());
+                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().kindToString());
                     }
                     // If next token is what we need we produce an error for skipped one anyway
                     found = advance();
@@ -119,7 +119,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                devLogWithIndent("Skip", Token::kindToString(kind), "| got", peek().toString(true));
+                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peek().toString(true));
             }
         }
 
@@ -130,11 +130,11 @@ namespace jc::parser {
 
     void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
         if (not peek().is(kind)) {
-            common::Logger::devPanic("[bug] Expected ", expected, "in", panicIn);
+            common::Logger::devPanic("[bug] Expected ", expected, " in ", panicIn);
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip", Token::kindToString(kind), "| got", peek().toString(true));
+            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peek().toString(true));
         }
 
         advance();
@@ -144,7 +144,7 @@ namespace jc::parser {
         auto last = dt::Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional", Token::kindToString(kind), "| got", peek().toString(true));
+                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek().toString(true));
             }
             advance();
             return last;
