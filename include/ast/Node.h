@@ -133,7 +133,7 @@ namespace jc::ast {
 
         const T * operator->() const {
             if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
+                common::Logger::devPanic("`ParseResult::operator->` use of uninitialized PR");
             }
             if (isErr()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` ParseResult");
@@ -143,7 +143,7 @@ namespace jc::ast {
 
         const T & operator*() const {
             if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
+                common::Logger::devPanic("`ParseResult::operator*` use of uninitialized PR");
             }
             if (isErr()) {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
@@ -153,7 +153,7 @@ namespace jc::ast {
 
         void accept(BaseVisitor & visitor) const {
             if (not inited) {
-                common::Logger::devPanic("Use of uninitialized ParseResult");
+                common::Logger::devPanic("`ParseResult::accept` use of uninitialized PR");
             }
             if (hasErr) {
                 return error->accept(visitor);
