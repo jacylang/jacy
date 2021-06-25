@@ -27,7 +27,7 @@ mod mood {
 func main {
     use mood::Struct;
 
-    let s: Struct = {field: 100};
+    let s: Struct = Struct {field: 100};
 
     s.baz();
 }

@@ -69,7 +69,7 @@ namespace jc::ast {
         }
 
         bool isErr() const {
-            return state.index() == 1;
+            return state.index() != 0;
         }
 
         operator bool() const {
