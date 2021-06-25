@@ -56,7 +56,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterModuleRib(mod.id);
+        enterNamedMod(mod.id);
         visitEach(mod.items);
         exitRib();
     }
@@ -93,7 +93,7 @@ namespace jc::resolve {
         }
 
         const auto prevDepth = getDepth();
-        enterModuleRib(block.id); // -> block rib
+        enterNamedMod(block.id); // -> block rib
         for (const auto & stmt : block.stmts.unwrap()) {
             stmt.accept(*this);
         }
@@ -191,8 +191,8 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModuleRib(node_id nodeId, Rib::Kind kind) {
-        currentModule = currentModule->children.at(nodeId);
+    void NameResolver::enterNamedMod(const std::string & name, Rib::Kind kind) {
+        currentModule = currentModule->children.at(name);
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
