@@ -14,7 +14,16 @@ namespace jc::ast {
             lhs(std::move(lhs)),
             field(std::move(field)) {}
 
-        expr_ptr lhs;
+        MemberAccess(
+            parser::Token self,
+            id_ptr field,
+            const Span & span
+        ) : Expr(span, ExprKind::MemberAccess),
+            self(self),
+            field(std::move(field)) {}
+
+        dt::Option<parser::Token> self{dt::None};
+        opt_expr_ptr lhs{dt::None};
         id_ptr field;
 
         void accept(BaseVisitor & visitor) const override {
