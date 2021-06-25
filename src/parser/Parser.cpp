@@ -253,6 +253,7 @@ namespace jc::parser {
                 if (expr) {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
+                } else {
                     advance();
                 }
                 items.emplace_back(makeErrorNode(exprToken.span));
