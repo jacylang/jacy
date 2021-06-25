@@ -864,7 +864,7 @@ namespace jc::parser {
 
                 const auto & paramBegin = cspan();
                 auto name = parseId("lambda parameter name");
-                opt_type_ptr type;
+                opt_type_ptr type{dt::None};
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
