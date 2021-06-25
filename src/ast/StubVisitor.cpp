@@ -82,7 +82,9 @@ namespace jc::ast {
             visitEach(impl.typeParams.unwrap());
         }
         impl.traitTypePath.accept(*this);
-        impl.forType.accept(*this);
+        if (impl.forType) {
+            impl.forType.unwrap().accept(*this);
+        }
         visitEach(impl.members);
     }
 
