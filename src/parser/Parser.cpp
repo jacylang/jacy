@@ -171,7 +171,7 @@ namespace jc::parser {
     // Items //
     ///////////
     dt::Option<item_ptr> Parser::parseOptItem() {
-        logParse("[opt] Item");
+        logParseExtra("[opt] Item");
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
@@ -783,7 +783,7 @@ namespace jc::parser {
     // Expressions //
     /////////////////
     opt_expr_ptr Parser::parseOptExpr() {
-        logParse("[opt] Expr");
+        logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return)) {
@@ -1930,7 +1930,7 @@ namespace jc::parser {
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
-        logParse("[opt] SimplePath");
+        logParseExtra("[opt] SimplePath");
 
         if (not is({TokenKind::Path, TokenKind::Id, TokenKind::Super, TokenKind::Party, TokenKind::Self})) {
             return dt::None;
@@ -2035,7 +2035,7 @@ namespace jc::parser {
     }
 
     opt_type_ptr Parser::parseOptType() {
-        logParse("[opt] Type");
+        logParseExtra("[opt] Type");
 
         // Array type
         if (is(TokenKind::LBracket)) {
@@ -2177,7 +2177,7 @@ namespace jc::parser {
     }
 
     opt_type_params Parser::parseOptTypeParams() {
-        logParse("[opt] TypeParams");
+        logParseExtra("[opt] TypeParams");
 
         if (not is(TokenKind::LAngle)) {
             return dt::None;
@@ -2259,7 +2259,7 @@ namespace jc::parser {
     }
 
     opt_type_path_ptr Parser::parseOptTypePath() {
-        logParse("[opt] TypePath");
+        logParseExtra("[opt] TypePath");
 
         const auto & maybePathToken = peek();
         bool global = skipOpt(TokenKind::Path);
