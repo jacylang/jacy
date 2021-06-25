@@ -175,7 +175,7 @@ namespace jc::parser {
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
-        dt::Option<item_ptr> maybeItem;
+        dt::Option<item_ptr> maybeItem{dt::None};
 
         switch (peek().kind) {
             case TokenKind::Func: {
