@@ -44,6 +44,7 @@ namespace jc::ast {
         using E = std::shared_ptr<ErrorNode>;
 
     public:
+        ParseResult() : state(std::monostate{}) {}
         ParseResult(const T & value) : state(value) {}
         ParseResult(const E & error) : state(error) {}
         ParseResult(T && value) : state(std::move(value)) {}
@@ -144,7 +145,7 @@ namespace jc::ast {
         }
 
     protected:
-        std::variant<T, E> state;
+        std::variant<T, E, std::monostate> state;
     };
 
     template<class T>
