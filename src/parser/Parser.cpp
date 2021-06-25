@@ -1169,7 +1169,7 @@ namespace jc::parser {
                 }
                 return parseStructExpr(std::move(pathExpr.unwrap()));
             }
-            return Expr::asBase(pathExpr);
+            return Expr::pureAsBase(pathExpr);
         }
 
         if (is(TokenKind::If)) {
