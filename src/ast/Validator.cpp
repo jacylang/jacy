@@ -42,7 +42,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                lintEach(std::get<named_list>(enumEntry.body));
+                lintEach(std::get<tuple_t_el_list>(enumEntry.body));
                 break;
             }
             case EnumEntryKind::Struct: {
