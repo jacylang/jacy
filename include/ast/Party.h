@@ -42,12 +42,11 @@ namespace jc::ast {
         }
     };
 
-    struct File : Node {
+    struct File : FsModule {
         File(
             span::file_id_t fileId,
             item_list items
-        ) : Node(Span{fileId}),
-            fileId(fileId),
+        ) : fileId(fileId),
             items(std::move(items)) {}
 
         span::file_id_t fileId;

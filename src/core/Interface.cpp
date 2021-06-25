@@ -89,7 +89,7 @@ namespace jc::core {
         }
 
         const auto & name = dir->getPath().filename().string();
-        ast::node_list nestedEntries;
+        std::vector<ast::fs_module_ptr> nestedEntries;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
                 nestedEntries.emplace_back(parseDir(entry));
