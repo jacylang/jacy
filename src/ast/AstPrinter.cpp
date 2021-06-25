@@ -72,6 +72,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Enum & enumDecl) {
         printNodeId(enumDecl);
 
+        log.raw("enum ");
         enumDecl.name.accept(*this);
 
         printBodyLike(enumDecl.entries, ",\n");
