@@ -17,6 +17,9 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Dir & dir) {
+        enterNamedMod(dir.name);
+        visitEach(dir.modules);
+        exitRib();
     }
 
     void NameResolver::visit(const ast::File & file) {
