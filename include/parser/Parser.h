@@ -9,7 +9,6 @@
 #include "parser/ParserSugg.h"
 #include "parser/ParseSess.h"
 #include "suggest/Suggester.h"
-#include "ast/File.h"
 #include "ast/nodes.h"
 #include "common/Config.h"
 #include "suggest/SuggInterface.h"
