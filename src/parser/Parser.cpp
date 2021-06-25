@@ -471,6 +471,10 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator between `struct` fields");
             }
 
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
             const auto & begin = cspan();
             attr_list attributes = parseAttrList();
             auto id = parseId("field name");
