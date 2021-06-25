@@ -27,7 +27,7 @@ namespace jc::ast {
         EnumEntry(EnumEntryKind kind, id_ptr name, expr_ptr discriminant, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(discriminant)) {}
 
-        EnumEntry(EnumEntryKind kind, id_ptr name, named_list tupleFields, const Span & span)
+        EnumEntry(EnumEntryKind kind, id_ptr name, tuple_t_el_list tupleFields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(tupleFields)) {}
 
         EnumEntry(EnumEntryKind kind, id_ptr name, struct_field_list fields, const Span & span)
@@ -35,7 +35,7 @@ namespace jc::ast {
 
         EnumEntryKind kind;
         id_ptr name;
-        std::variant<std::monostate, expr_ptr, named_list, struct_field_list> body;
+        std::variant<std::monostate, expr_ptr, tuple_t_el_list, struct_field_list> body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

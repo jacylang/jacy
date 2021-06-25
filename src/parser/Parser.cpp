@@ -322,9 +322,15 @@ namespace jc::parser {
             exitEntity();
             return makeNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), begin.to(cspan()));
         } else if (skipOpt(TokenKind::LParen)) {
-            // TODO
-
+            auto tupleFields = parseTupleFields();
+            exitEntity();
             skip(TokenKind::RParen, "closing `)`");
+            return makeNode<EnumEntry>(
+                EnumEntryKind::Tuple,
+                std::move(name),
+                std::move(tupleFields),
+                begin.to(cspan())
+            );
         } else if (skipOpt(TokenKind::LBrace)) {
             auto fields = parseStructFields();
 
