@@ -2105,12 +2105,12 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            opt_id_ptr name;
+            opt_id_ptr name{dt::None};
             if (is(TokenKind::Id)) {
                 name = justParseId("`parenType`");
             }
 
-            opt_type_ptr type;
+            opt_type_ptr type{dt::None};
             if (name and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
