@@ -24,7 +24,7 @@
 #include "ast/expr/SpreadExpr.h"
 #include "ast/expr/StructExpr.h"
 #include "ast/expr/Subscript.h"
-#include "ast/expr/ThisExpr.h"
+#include "ast/expr/SelfExpr.h"
 #include "ast/expr/TupleExpr.h"
 #include "ast/expr/UnitExpr.h"
 #include "ast/expr/WhenExpr.h"

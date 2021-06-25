@@ -552,7 +552,7 @@ namespace jc::ast {
         log.raw("]");
     }
 
-    void AstPrinter::visit(const ThisExpr & thisExpr) {
+    void AstPrinter::visit(const SelfExpr & thisExpr) {
         printNodeId(thisExpr);
 
         log.raw("this");

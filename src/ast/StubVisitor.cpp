@@ -306,7 +306,7 @@ namespace jc::ast {
         visitEach(subscript.indices);
     }
 
-    void StubVisitor::visit(const ThisExpr&) {}
+    void StubVisitor::visit(const SelfExpr&) {}
 
     void StubVisitor::visit(const TupleExpr & tupleExpr) {
         visitEach(tupleExpr.elements);

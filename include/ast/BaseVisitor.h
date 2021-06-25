@@ -57,7 +57,7 @@ namespace jc::ast {
     struct StructExpr;
     struct StructExprField;
     struct Subscript;
-    struct ThisExpr;
+    struct SelfExpr;
     struct TupleExpr;
     struct UnitExpr;
     struct WhenExpr;
@@ -149,7 +149,7 @@ namespace jc::ast {
         virtual void visit(const StructExpr&) = 0;
         virtual void visit(const StructExprField&) = 0;
         virtual void visit(const Subscript&) = 0;
-        virtual void visit(const ThisExpr&) = 0;
+        virtual void visit(const SelfExpr&) = 0;
         virtual void visit(const TupleExpr&) = 0;
         virtual void visit(const UnitExpr&) = 0;
         virtual void visit(const WhenExpr&) = 0;

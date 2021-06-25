@@ -513,7 +513,7 @@ namespace jc::ast {
         lintEach(subscript.indices);
     }
 
-    void Validator::visit(const ThisExpr&) {
+    void Validator::visit(const SelfExpr&) {
         // A??
     }
 
