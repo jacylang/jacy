@@ -23,7 +23,7 @@ namespace jc::sess {
             parseSess->fileId,
             "]"
         );
-        sources[parseSess->fileId] = std::move(parseSess->sourceFile);
+        sources.at(parseSess->fileId) = std::move(parseSess->sourceFile);
     }
 
     SourceFile & SourceMap::getSourceFile(file_id_t fileId) {
