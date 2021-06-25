@@ -1196,6 +1196,9 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
+        suggestErrorMsg("Unexpected token " + peek().toString(), cspan());
+        advance();
+
         return dt::None;
     }
 
