@@ -1882,7 +1882,7 @@ namespace jc::parser {
         );
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        opt_expr_ptr defaultValue;
+        opt_expr_ptr defaultValue{dt::None};
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
