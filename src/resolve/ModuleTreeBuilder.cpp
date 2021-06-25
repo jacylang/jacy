@@ -80,7 +80,7 @@ namespace jc::resolve {
             //  anyway it can contain another Block which could be a multi-line
             block.oneLine.unwrap().accept(*this);
         } else {
-            enterAnonMod(block.id, sess->defStorage.define(DefKind::));
+            enterAnonMod(block.id);
             visitEach(block.stmts.unwrap());
             exitMod();
         }
@@ -96,11 +96,11 @@ namespace jc::resolve {
         map.emplace(name, nodeId);
     }
 
-    void ModuleTreeBuilder::enterAnonMod(node_id nodeId, def_id defId) {
+    void ModuleTreeBuilder::enterAnonMod(node_id nodeId) {
         if (utils::map::has(mod->anonBlocks, nodeId)) {
             log.devPanic("Tried to redeclare anonymous block");
         }
-        auto child = std::make_shared<Module>(defId, mod);
+        auto child = std::make_shared<Module>(ModuleKind::Block, mod);
         mod->anonBlocks.emplace(nodeId, child);
         mod = child;
     }
