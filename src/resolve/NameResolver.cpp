@@ -23,9 +23,10 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::File & file) {
-
+        enterNamedMod(sess->sourceMap.getSourceFile(file.fileId).filename());
+        visitEach(file.items);
+        exitRib();
     }
-
 
     void NameResolver::visit(const ast::Func & func) {
         enterRib(); // -> (type params) rib
