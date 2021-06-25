@@ -1237,7 +1237,7 @@ namespace jc::parser {
             const auto & segmentBegin = cspan();
 
             bool isUnrecoverableError = false;
-            opt_id_ptr ident;
+            opt_id_ptr ident{dt::None};
             PathExprSeg::Kind kind = PathExprSeg::Kind::Error;
             switch (peek().kind) {
                 case TokenKind::Super: {
@@ -1272,7 +1272,7 @@ namespace jc::parser {
                 }
             }
 
-            opt_type_params typeParams;
+            opt_type_params typeParams{dt::None};
             bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path)) {
                 typeParams = parseOptTypeParams();
