@@ -253,8 +253,6 @@ namespace jc::parser {
                 if (expr) {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
-                } else {
-                    advance();
                 }
                 items.emplace_back(makeErrorNode(exprToken.span));
                 // If expr is `None` we already made an error in `primary`
@@ -705,11 +703,11 @@ namespace jc::parser {
                     return makeStmt<ItemStmt>(item.unwrap(), begin.to(cspan()));
                 }
 
+                // FIXME: Hardly parse expression but recover unexpected token
                 auto expr = parseOptExpr();
                 if (not expr) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
-                    advance();
                     return makeErrorNode(begin.to(cspan()));
                 }
 
