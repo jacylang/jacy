@@ -60,7 +60,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterNamedMod(mod.id);
+        enterNamedMod(mod.name.unwrap()->getValue());
         visitEach(mod.items);
         exitRib();
     }
@@ -97,7 +97,7 @@ namespace jc::resolve {
         }
 
         const auto prevDepth = getDepth();
-        enterNamedMod(block.id); // -> block rib
+        enterAnonMod(block.id); // -> block rib
         for (const auto & stmt : block.stmts.unwrap()) {
             stmt.accept(*this);
         }
