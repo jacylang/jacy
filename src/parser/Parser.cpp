@@ -308,7 +308,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeItem<Enum>(std::move(entries), begin.to(cspan()));
+        return makeItem<Enum>(std::move(name), std::move(entries), begin.to(cspan()));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {

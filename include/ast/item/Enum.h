@@ -43,11 +43,11 @@ namespace jc::ast {
     };
 
     struct Enum : Item {
-        Enum(enum_entry_list entries, const Span & span)
-            : Item(span, ItemKind::Enum), entries(std::move(entries)) {}
+        Enum(id_ptr name, enum_entry_list && entries, const Span & span)
+            : Item(span, ItemKind::Enum), name(std::move(name)), entries(std::move(entries)) {}
 
         id_ptr name;
-        enum_entry_list entries;
+        enum_entry_list entries{};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
