@@ -755,12 +755,12 @@ namespace jc::parser {
 
         auto pat = parseIdentPat();
 
-        dt::Option<type_ptr> type;
+        opt_type_ptr type{dt::None};
         if (skipOpt(TokenKind::Colon)) {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        opt_expr_ptr assignExpr;
+        opt_expr_ptr assignExpr{dt::None};
         if (skipOpt(TokenKind::Assign)) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
