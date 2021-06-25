@@ -3,14 +3,14 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
+        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
-        party.getRootModule()->accept(*this);
+        party.getRootFile()->accept(*this);
+        party.getRootDir()->accept(*this);
 
         log.dev("Rib depth after name resolution: ", getDepth());
 
         sess->resStorage = std::move(resStorage);
-
-        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
         return {dt::None, extractSuggestions()};
     }
@@ -180,11 +180,15 @@ namespace jc::resolve {
         return ribStack.at(getDepth() - 1);
     }
 
+    void NameResolver::enterRootRib() {
+        ribStack.emplace_back(std::make_unique<Rib>(Rib::Kind::Root));
+    }
+
     void NameResolver::enterRib(Rib::Kind kind) {
         if (getDepth() == UINT32_MAX) {
             Logger::devPanic("Maximum ribStack depth limit exceeded");
         }
-        ribStack.push_back(std::make_unique<Rib>(kind));
+        ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
     void NameResolver::enterModuleRib(node_id nodeId, Rib::Kind kind) {

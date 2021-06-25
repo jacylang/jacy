@@ -61,6 +61,7 @@ namespace jc::resolve {
         rib_stack ribStack;
         size_t getDepth() const;
         const rib_ptr & curRib() const;
+        void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
         void enterModuleRib(node_id nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
@@ -68,7 +69,6 @@ namespace jc::resolve {
 
         // Modules //
     private:
-        module_ptr moduleTreeRoot;
         module_ptr currentModule;
 
         // Declarations //
