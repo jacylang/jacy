@@ -13,7 +13,7 @@ namespace jc::parser {
         SourceFile(const fs::path & path, std::string && src) : path(path), src(std::move(src)) {}
 
         fs::path path;
-        dt::Option<std::string> src;
+        dt::Option<std::string> src{dt::None};
         std::vector<line_pos_t> linesIndices;
 
         std::string filename() const {
