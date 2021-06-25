@@ -163,6 +163,7 @@ namespace jc::core {
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
+        const auto & maxIndent = common::Indent<1>(std::to_string(sourceFile.linesIndices.size()).size());
         for (size_t i = 0; i < sourceFile.linesIndices.size(); i++) {
             std::string line;
             const auto & pos = sourceFile.linesIndices.at(i);
@@ -171,7 +172,7 @@ namespace jc::core {
             } else {
                 line = src.substr(pos, src.size() - pos - 1);
             }
-            log.raw(i + 1, " | ", line).nl();
+            log.raw(maxIndent - std::to_string(i + 1).size() + 1, i + 1, " | ", line).nl();
         }
     }
 
