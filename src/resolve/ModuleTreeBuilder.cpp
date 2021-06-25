@@ -44,7 +44,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         define(Namespace::Item, mod.name, mod.id);
-        enterMod(mod.name.unwrap()->getValue(), mod.id, mod.name.unwrap()->span);
+        enterMod(mod.name.unwrap()->getValue(), mod.name.span(), sess->defStorage.define(DefKind::Mod, mod.span));
         visitEach(mod.items);
         exitMod();
     }
