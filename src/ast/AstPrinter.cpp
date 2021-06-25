@@ -149,8 +149,10 @@ namespace jc::ast {
         printTypeParams(impl.typeParams);
         log.raw(" ");
         impl.traitTypePath.accept(*this);
-        log.raw(" for ");
-        impl.forType.accept(*this);
+        if (impl.forType) {
+            log.raw(" for ");
+            impl.forType.unwrap().accept(*this);
+        }
         printBodyLike(impl.members, "\n");
     }
 
