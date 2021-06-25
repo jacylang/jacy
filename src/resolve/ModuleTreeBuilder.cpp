@@ -44,7 +44,11 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
         define(Namespace::Item, mod.name, mod.id);
-        enterMod(mod.name.unwrap()->getValue(), mod.name.span(), sess->defStorage.define(DefKind::Mod, mod.span));
+        enterMod(
+            mod.name.unwrap()->getValue(),
+            mod.name.span(),
+            sess->defStorage.define(DefKind::Mod, mod.span)
+        );
         visitEach(mod.items);
         exitMod();
     }
@@ -56,7 +60,11 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
         define(Namespace::Item, trait.name, trait.id);
-        enterMod(trait.name.unwrap()->getValue(), trait.id, trait.name.unwrap()->span);
+        enterMod(
+            trait.name.unwrap()->getValue(),
+            trait.name.span(),
+            sess->defStorage.define(DefKind::Trait, trait.span)
+        );
         visitEach(trait.members);
         exitMod();
     }
@@ -72,7 +80,7 @@ namespace jc::resolve {
             //  anyway it can contain another Block which could be a multi-line
             block.oneLine.unwrap().accept(*this);
         } else {
-            enterMod(dt::None, block.id, dt::None);
+            enterAnonMod(block.id, sess->defStorage.define(DefKind::));
             visitEach(block.stmts.unwrap());
             exitMod();
         }
