@@ -2388,4 +2388,11 @@ namespace jc::parser {
             )
         );
     }
+
+    void Parser::logParseExtra(const std::string & entity) {
+        if (not extraDebugAll) {
+            return;
+        }
+        logParse(entity);
+    }
 }
