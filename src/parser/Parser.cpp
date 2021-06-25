@@ -944,7 +944,7 @@ namespace jc::parser {
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
-            dt::Option<Token> maybeOp;
+            dt::Option<Token> maybeOp{dt::None};
             for (const auto & op : parser.ops) {
                 if (is(op)) {
                     maybeOp = peek();
