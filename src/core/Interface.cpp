@@ -175,7 +175,7 @@ namespace jc::core {
             return;
         }
         common::Logger::nl();
-        log.info("Printing tokens for file [", path, "] (`-print=tokens`) [Count of tokens:", tokens.size(), "]");
+        log.info("Printing tokens for file [", path, "] (`-print=tokens`) [Count of tokens: ", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
