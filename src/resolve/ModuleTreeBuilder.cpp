@@ -7,6 +7,8 @@ namespace jc::resolve {
         // Enter root module
         mod = std::make_unique<Module>(ModuleKind::Root, dt::None);
 
+        sess->defStorage = std::move(defStorage);
+
         return {dt::None, extractSuggestions()};
     }
 
@@ -15,7 +17,7 @@ namespace jc::resolve {
         enterMod(
             sess->sourceMap.getSourceFile(file.id).filename(),
             dt::None,
-            sess->defStorage.define(DefKind::File, file.span)
+            defStorage.define(DefKind::File, file.span)
         );
 
         visitEach(file.items);
@@ -39,7 +41,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         enterAnonMod(impl.id);
         // Set definition of `impl` block
-        mod->defId = sess->defStorage.define(DefKind::Impl, impl.span);
+        mod->defId = defStorage.define(DefKind::Impl, impl.span);
         visitEach(impl.members);
         exitMod();
     }
@@ -49,7 +51,7 @@ namespace jc::resolve {
         enterMod(
             mod.name.unwrap()->getValue(),
             mod.name.span(),
-            sess->defStorage.define(DefKind::Mod, mod.span)
+            defStorage.define(DefKind::Mod, mod.span)
         );
         visitEach(mod.items);
         exitMod();
@@ -65,7 +67,7 @@ namespace jc::resolve {
         enterMod(
             trait.name.unwrap()->getValue(),
             trait.name.span(),
-            sess->defStorage.define(DefKind::Trait, trait.span)
+            defStorage.define(DefKind::Trait, trait.span)
         );
         visitEach(trait.members);
         exitMod();

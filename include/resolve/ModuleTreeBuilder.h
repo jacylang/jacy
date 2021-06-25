@@ -36,6 +36,7 @@ namespace jc::resolve {
 
         // Modules //
     private:
+        DefStorage defStorage;
         module_ptr mod;
         void define(Namespace ns, const ast::id_ptr & ident, node_id nodeId);
 
