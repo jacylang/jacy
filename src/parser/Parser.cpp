@@ -1155,6 +1155,12 @@ namespace jc::parser {
             return parseLiteral();
         }
 
+        if (is(TokenKind::Self)) {
+            const auto & span = cspan();
+            advance();
+            return Expr::asBase(makeExpr<SelfExpr>(span));
+        }
+
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             auto pathExpr = parsePathExpr();
             if (is(TokenKind::LBrace)) {
