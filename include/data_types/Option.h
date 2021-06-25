@@ -17,7 +17,6 @@ namespace jc::dt {
 
     template<class T>
     struct Option {
-        Option() : hasValue(false) {}
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
 
