@@ -878,8 +878,8 @@ namespace jc::parser {
             skip(TokenKind::BitOr, "Missing closing `|` at the end of lambda parameters");
         }
 
-        opt_type_ptr returnType;
-        opt_expr_ptr body;
+        opt_type_ptr returnType{dt::None};
+        opt_expr_ptr body{dt::None};
         if (skipOpt(TokenKind::Arrow)) {
             returnType = parseType("Expected lambda return type after `->`");
             body = Expr::asBase(
