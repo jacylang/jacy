@@ -24,19 +24,17 @@ namespace jc::resolve {
         }
 
         // If no module bound we unable to resolve name
-        if (boundModule.none()) {
-            return false;
+        if (boundModule) {
+            const auto & modNS = boundModule.unwrap()->getNS(ns);
+            const auto & found = modNS.find(name);
+            if (found != modNS.end()) {
+                resStorage.setRes(nodeId, Res{found->second});
+                return true;
+            }
         }
 
-        const auto & modNS = boundModule.unwrap()->getNS(ns);
-        const auto & found = modNS.find(name);
-        if (found == modNS.end()) {
-            return false;
-        }
-
-        resStorage.setRes(nodeId, Res{found->second});
-
-        return true;
+        resStorage.setRes(nodeId, Res{});
+        return false;
     }
 
     void Rib::bindMod(module_ptr module) {
