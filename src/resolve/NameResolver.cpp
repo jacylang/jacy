@@ -237,7 +237,7 @@ namespace jc::resolve {
     void NameResolver::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
         log.dev("Define '", name, "' as ", Name::kindStr(kind));
 
-        const auto & redecl = curRib()->declare(name, kind, nodeId);
+        const auto & redecl = curRib()->define(name, kind, nodeId);
 
         if (redecl) {
             suggestCannotRedeclare(

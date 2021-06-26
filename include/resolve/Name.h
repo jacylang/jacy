@@ -156,7 +156,7 @@ namespace jc::resolve {
 
         /// Declare new name.
         /// Returns `Name` that was already declared if it was
-        decl_result declare(const std::string & name, Name::Kind kind, node_id nodeId);
+        decl_result define(const std::string & name, Name::Kind kind, node_id nodeId);
 
         /// Resolve name in rib namespace
         /// Returns `None` if no `Name` found
