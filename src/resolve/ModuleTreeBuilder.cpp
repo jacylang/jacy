@@ -81,7 +81,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        define(Namespace::Type, trait.name, trait.id);
+        define(Namespace::Type, trait.name, defStorage.define(DefKind::Trait, trait.span));
         enterMod(
             trait.name.unwrap()->getValue(),
             trait.name.span(),
