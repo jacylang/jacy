@@ -42,7 +42,7 @@ namespace jc::resolve {
         module_ptr mod;
         void define(Namespace ns, const ast::id_ptr & ident, def_id defId);
 
-        void enterAnonMod(node_id nodeId);
+        void enterAnonMod(node_id nodeId, dt::Option<def_id> defId);
         void enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId);
         void exitMod();
     };
