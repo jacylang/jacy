@@ -30,7 +30,6 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Func & func) {
         enterRib(); // -> (type params) rib
-        declareTypeParams(func.typeParams);
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -66,8 +65,6 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
-        declareTypeParams(_struct.typeParams);
-
         // FIXME: Forward define struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
