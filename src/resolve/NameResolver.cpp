@@ -221,7 +221,7 @@ namespace jc::resolve {
         // Simple-dimple LOL
     }
 
-    void NameResolver::resolvePathExpr(RibNamespace ns, const ast::PathExpr & pathExpr) {
+    void NameResolver::resolvePathExpr(Namespace ns, const ast::PathExpr & pathExpr) {
         // TODO: global
 
         if (pathExpr.segments.size() == 1) {
@@ -245,7 +245,7 @@ namespace jc::resolve {
         }
     }
 
-    opt_node_id NameResolver::resolve(RibNamespace ns, const std::string & name) {
+    opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
         log.dev("Resolve '", name, "'");
         auto depth = getDepth();
         while (true) {
