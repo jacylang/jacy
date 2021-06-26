@@ -25,6 +25,7 @@ namespace jc::resolve {
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
+        mod_ns_map lifetimeNS;
         std::map<std::string, module_ptr> children;
         std::map<node_id, module_ptr> anonBlocks;
 
@@ -32,8 +33,9 @@ namespace jc::resolve {
             switch (ns) {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
+                case Namespace::Lifetime: return lifetimeNS;
                 default: {
-                    common::Logger::devPanic("Invalid `ModNode` namespace specified");
+                    common::Logger::devPanic("Invalid `Module` namespace specified");
                 }
             }
         }
@@ -42,6 +44,7 @@ namespace jc::resolve {
             switch (ns) {
                 case Namespace::Value: return "item namespace";
                 case Namespace::Type: return "type namespace";
+                case Namespace::Lifetime: return "lifetime namespace";
             }
         }
     };
