@@ -28,7 +28,7 @@ namespace jc::resolve {
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
-        opt_node_id define(const std::string & name, node_id nodeId);
+        opt_node_id define(const ast::id_ptr & ident);
 
         /// Resolves name in rib namespace
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
