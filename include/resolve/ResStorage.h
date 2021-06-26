@@ -44,6 +44,9 @@ namespace jc::resolve {
         ResStorage() = default;
 
         Res getRes(node_id name) const {
+            if (resolutions.find(name) == resolutions.end()) {
+                common::Logger::devPanic("Called `ResStorage::getRes` with non-existent name node id");
+            }
             // Note: It is actually a c-t error if resolution does not exists
             //  as far as unresolved names are stored as Error Res
             return resolutions.at(name);
