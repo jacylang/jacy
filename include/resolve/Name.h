@@ -152,11 +152,11 @@ namespace jc::resolve {
         ns_map lifetimeNS;
         dt::Option<module_ptr> boundModule{dt::None};
 
-        /// Declare new name.
-        /// Returns `Name` that was already declared if it was
+        /// Define new name.
+        /// Returns `Name` that was already defined if it was
         opt_name define(const std::string & name, Name::Kind kind, node_id nodeId);
 
-        /// Resolve name in rib namespace
+        /// Resolves name in rib namespace
         /// Returns `None` if no `Name` found
         opt_name resolve(const std::string & name, RibNamespace nsKind);
 
