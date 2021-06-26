@@ -76,7 +76,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        define(Namespace::Type, _struct.name, _struct.id);
+        define(Namespace::Type, _struct.name, defStorage.define(DefKind::Struct, _struct.span));
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
