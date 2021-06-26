@@ -97,11 +97,12 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        define(Namespace::Type, trait.name, defStorage.define(DefKind::Trait, trait.span));
+        const auto defId = defStorage.define(DefKind::Trait, trait.span);
+        define(Namespace::Type, trait.name, defId);
         enterMod(
             trait.name.unwrap()->getValue(),
             trait.name.span(),
-            defStorage.define(DefKind::Trait, trait.span)
+            defId
         );
         visitEach(trait.members);
         exitMod();
