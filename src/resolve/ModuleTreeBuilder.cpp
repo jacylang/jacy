@@ -122,6 +122,25 @@ namespace jc::resolve {
     }
 
     // Definitions //
+    def_id ModuleTreeBuilder::define(const ast::id_ptr & ident, DefKind defKind) {
+        const auto defId = defStorage.define(defKind, ident.span());
+        const auto ns = Def::getNS(defStorage.getDef(defId).kind);
+        log.dev(
+            "Define '",
+            ident.unwrap()->getValue(),
+            "' in module with defId [",
+            defId,
+            "] in ",
+            Module::nsToString(ns));
+        const auto & name = ident.unwrap()->getValue();
+        auto & map = mod->getNS(ns);
+        if (utils::map::has(map, name)) {
+            suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
+        }
+        map.emplace(name, defId);
+        return defId;
+    }
+
     void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeGenerics) {
         if (!maybeGenerics) {
             return;
