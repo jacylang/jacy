@@ -24,6 +24,10 @@ namespace jc::resolve {
         dt::Option<def_id> def{dt::None};
         dt::Option<node_id> nodeId{dt::None};
 
+        bool isErr() const {
+            return kind == ResKind::Error;
+        }
+
         def_id asDef() const {
             return def.unwrap();
         }
