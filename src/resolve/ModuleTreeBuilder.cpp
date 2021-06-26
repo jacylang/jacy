@@ -92,7 +92,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        define(Namespace::Type, typeAlias.name, typeAlias.id);
+        define(Namespace::Type, typeAlias.name, defStorage.define(DefKind::TypeAlias, typeAlias.span));
         typeAlias.type.accept(*this);
     }
 
