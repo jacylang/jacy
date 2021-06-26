@@ -42,17 +42,17 @@ namespace jc::resolve {
 
         static inline constexpr Namespace getNS(DefKind kind) {
             switch (kind) {
+                case DefKind::Enum:
                 case DefKind::Mod:
                 case DefKind::Trait:
-                case DefKind::TypeParam:
                 case DefKind::TypeAlias:
-                case DefKind::Enum:
+                case DefKind::TypeParam:
                 case DefKind::Variant: {
                     return Namespace::Type;
                 }
+                case DefKind::Const: {
                 case DefKind::ConstParam:
                 case DefKind::Func:
-                case DefKind::Const: {
                     return Namespace::Value;
                 }
                 case DefKind::Lifetime: {
