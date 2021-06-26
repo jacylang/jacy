@@ -40,7 +40,7 @@ namespace jc::resolve {
     private:
         DefStorage defStorage;
         module_ptr mod;
-        void define(Namespace ns, const ast::id_ptr & ident, node_id nodeId);
+        void define(Namespace ns, const ast::id_ptr & ident, def_id defId);
 
         void enterAnonMod(node_id nodeId);
         void enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId);

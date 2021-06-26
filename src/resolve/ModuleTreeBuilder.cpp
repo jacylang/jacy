@@ -109,14 +109,20 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
-        log.dev("Define '", ident.unwrap()->getValue(), "' by nodeId [", nodeId, "] in ", Module::nsToString(ns));
+    void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, def_id defId) {
+        log.dev(
+            "Define '",
+            ident.unwrap()->getValue(),
+            "' in module with defId [",
+            defId,
+            "] in ",
+            Module::nsToString(ns));
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
             suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
-        map.emplace(name, nodeId);
+        map.emplace(name, defId);
     }
 
     void ModuleTreeBuilder::enterAnonMod(node_id nodeId) {
