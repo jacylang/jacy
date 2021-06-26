@@ -44,21 +44,21 @@ namespace jc::resolve {
         enterMod(
             _enum.name.unwrap()->getValue(),
             _enum.name.span(),
-            define(_enum.name, DefKind::Enum, _enum.span)
+            define(_enum.name, DefKind::Enum)
         );
         visitEach(_enum.entries);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
-        define(enumEntry.name, DefKind::Variant, enumEntry.name.span());
+        define(enumEntry.name, DefKind::Variant);
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         enterMod(
             func.name.unwrap()->getValue(),
             func.name.span(),
-            define(func.name, DefKind::Func, func.name.span())
+            define(func.name, DefKind::Func)
         );
         // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
         if (func.body) {
@@ -75,36 +75,32 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        const auto defId = defStorage.define(DefKind::Mod, mod.span);
-        define(Namespace::Type, mod.name, defId);
         enterMod(
             mod.name.unwrap()->getValue(),
             mod.name.span(),
-            defId
+            define(mod.name, DefKind::Mod)
         );
         visitEach(mod.items);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        define(Namespace::Type, _struct.name, defStorage.define(DefKind::Struct, _struct.span));
+        define(_struct.name, DefKind::Struct);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        const auto defId = defStorage.define(DefKind::Trait, trait.span);
-        define(Namespace::Type, trait.name, defId);
         enterMod(
             trait.name.unwrap()->getValue(),
             trait.name.span(),
-            defId
+            define(trait.name, DefKind::Trait)
         );
         visitEach(trait.members);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        define(Namespace::Type, typeAlias.name, defStorage.define(DefKind::TypeAlias, typeAlias.span));
+        define(typeAlias.name, DefKind::TypeAlias);
         typeAlias.type.accept(*this);
     }
 
