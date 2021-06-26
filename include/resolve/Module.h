@@ -34,9 +34,6 @@ namespace jc::resolve {
                 case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
                 case Namespace::Lifetime: return lifetimeNS;
-                default: {
-                    common::Logger::devPanic("Invalid `Module` namespace specified");
-                }
             }
         }
 
