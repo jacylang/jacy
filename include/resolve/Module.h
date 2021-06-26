@@ -30,7 +30,7 @@ namespace jc::resolve {
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
-                case Namespace::Item: return valueNS;
+                case Namespace::Value: return valueNS;
                 case Namespace::Type: return typeNS;
                 default: {
                     common::Logger::devPanic("Invalid `ModNode` namespace specified");
@@ -40,7 +40,7 @@ namespace jc::resolve {
 
         constexpr static inline const char * nsToString(Namespace ns) {
             switch (ns) {
-                case Namespace::Item: return "item namespace";
+                case Namespace::Value: return "item namespace";
                 case Namespace::Type: return "type namespace";
             }
         }
