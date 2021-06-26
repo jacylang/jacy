@@ -850,7 +850,7 @@ namespace jc::ast {
         if (not resolved) {
             log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
         } else {
-            log.raw(getNameColor(resolved.unwrap()));
+            log.raw(getNameColor(resolved.unwrap));
         }
     }
 

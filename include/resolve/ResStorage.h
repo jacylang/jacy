@@ -23,6 +23,14 @@ namespace jc::resolve {
         ResKind kind;
         dt::Option<def_id> def{dt::None};
         dt::Option<node_id> nodeId{dt::None};
+
+        def_id asDef() const {
+            return def.unwrap();
+        }
+
+        node_id asLocal() const {
+            return nodeId.unwrap();
+        }
     };
 
     /// ResStorage
