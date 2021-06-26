@@ -284,6 +284,7 @@ namespace jc::resolve {
     }
 
     opt_node_id NameResolver::resolve(RibNamespace ns, const std::string & name) {
+        log.dev("Resolve '", name, "'");
         auto depth = getDepth();
         while (true) {
             const auto & rib = ribStack.at(depth);
