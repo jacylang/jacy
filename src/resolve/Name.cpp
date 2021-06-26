@@ -19,7 +19,7 @@ namespace jc::resolve {
         auto & ns = getNSForName(kind);
         const auto & found = ns.find(name);
         if (found == ns.end()) {
-            ns[name] = std::make_shared<Name>(kind, nodeId);
+            ns.emplace(name, Name{kind, nodeId});
             return dt::None;
         }
         return found->second;
