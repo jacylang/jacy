@@ -82,6 +82,8 @@ namespace jc::core {
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
         enum class BenchmarkKind {
+            None,
+
             Lexing,
             Parsing,
         };
@@ -92,7 +94,7 @@ namespace jc::core {
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
-        void endBench(const std::string & name, BenchmarkKind kind);
+        void endBench(const std::string & name, BenchmarkKind kind = BenchmarkKind::None);
         void printBenchmarks() noexcept;
     };
 }

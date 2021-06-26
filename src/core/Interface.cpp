@@ -291,6 +291,7 @@ namespace jc::core {
                 formatted += "parsing";
                 break;
             }
+            case BenchmarkKind::None: break;
         }
         auto end = bench();
         benchmarks.emplace(
