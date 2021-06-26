@@ -46,7 +46,7 @@ namespace jc::resolve {
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.params) {
-            define(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
+            define(param->name);
         }
 
         if (func.body) {
@@ -82,7 +82,7 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        define(letStmt.pat->name.unwrap()->getValue(), Name::Kind::Local, letStmt.id);
+        define(letStmt.pat->name);
     }
 
     // Expressions //
@@ -125,7 +125,7 @@ namespace jc::resolve {
         // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
         //  For example, `StructExpr` must call `resolvePathExpr` itself, but not visit its path
         //  Every Node that uses `PathExpr` not as "always from value namespace" must resolve path itself!
-        resolvePathExpr(RibNamespace::Value, pathExpr);
+        resolvePathExpr(Namespace::Value, pathExpr);
     }
 
     // Types //
