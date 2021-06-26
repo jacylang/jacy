@@ -154,7 +154,11 @@ namespace jc::resolve {
 
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Def & def) {
-            return os << def.kindStr();
+            os << def.kindStr();
+            if (def.nameNodeId) {
+                os << " [" << def.nameNodeId.unwrap() << "]";
+            }
+            return os;
         }
     };
 
