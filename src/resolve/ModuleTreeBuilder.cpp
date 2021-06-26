@@ -17,7 +17,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::File & file) {
         // This is actually impossible to redeclare file, filesystem does not allow it
         enterMod(
-            sess->sourceMap.getSourceFile(file.id).filename(),
+            sess->sourceMap.getSourceFile(file.fileId).filename(),
             dt::None,
             defStorage.define(DefKind::File, file.span)
         );
@@ -112,6 +112,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
+        log.dev("Enter mod [", name, "]");
         auto child = std::make_shared<Module>(defId, mod);
         if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
