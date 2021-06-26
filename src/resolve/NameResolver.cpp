@@ -189,6 +189,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterRib(Rib::Kind kind) {
+        log.dev("Enter rib mod");
         if (getDepth() == UINT32_MAX) {
             Logger::devPanic("Maximum ribStack depth limit exceeded");
         }
@@ -196,12 +197,14 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterNamedMod(const std::string & name, Rib::Kind kind) {
+        log.dev("Enter named mod '", name, "'");
         currentModule = currentModule->children.at(name);
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
 
     void NameResolver::enterAnonMod(node_id nodeId, Rib::Kind kind) {
+        log.dev("Enter anon mod '", nodeId, "'");
         currentModule = currentModule->anonBlocks.at(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
