@@ -43,12 +43,10 @@ namespace jc::resolve {
     public:
         ResStorage() = default;
 
-        dt::Option<Res> getRes(node_id name) const {
-            const auto & found = resolutions.find(name);
-            if (found != resolutions.end()) {
-                return found->second;
-            }
-            return dt::None;
+        Res getRes(node_id name) const {
+            // Note: It is actually a c-t error if resolution does not exists
+            //  as far as unresolved names are stored as Error Res
+            return resolutions.at(name);
         }
 
         void setRes(node_id name, Res res) {

@@ -847,10 +847,16 @@ namespace jc::ast {
             return;
         }
         const auto & resolved = sess->resStorage.getRes(nodeId);
-        if (not resolved) {
-            log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
-        } else {
-            log.raw(getNameColor(resolved.unwrap));
+        switch (resolved.kind) {
+            case resolve::ResKind::Error: {
+                log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
+                break;
+            }
+            case resolve::ResKind::Local: {
+                log.raw(getNameColor(resolved.asLocal()));
+                break;
+            }
+            // FIXME: Add definition printing
         }
     }
 
