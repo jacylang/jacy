@@ -51,7 +51,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
-        define(Namespace::Type, enumEntry.name, defStorage.define(DefKind::Variant, enumEntry.span));
+        define(DefKind::Variant, enumEntry.name, enumEntry.span);
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
