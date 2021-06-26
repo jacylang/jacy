@@ -287,13 +287,13 @@ namespace jc::resolve {
         log.dev("Resolve '", name, "'");
         auto depth = getDepth();
         while (true) {
-            const auto & rib = ribStack.at(depth);
+            if (depth == 0) {
+                break;
+            }
+            const auto & rib = ribStack.at(depth - 1);
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
                 return resolved.unwrap()->nodeId;
-            }
-            if (depth == 0) {
-                break;
             }
             depth--;
         }
