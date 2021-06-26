@@ -56,11 +56,18 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        define(Namespace::Item, func.name, defStorage.define(DefKind::Func, func.span));
+        const auto defId = defStorage.define(DefKind::Func, func.span);
+        define(Namespace::Item, func.name, defId);
+        enterMod(
+            func.name.unwrap()->getValue(),
+            func.name.span(),
+            defId
+        );
         // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
         if (func.body) {
             func.body.unwrap().accept(*this);
         }
+        exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
