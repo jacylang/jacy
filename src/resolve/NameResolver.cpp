@@ -47,7 +47,7 @@ namespace jc::resolve {
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.params) {
-            declare(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
+            define(param->name.unwrap()->getValue(), Name::Kind::Param, param->name.unwrap()->id);
         }
 
         if (func.body) {
@@ -68,7 +68,7 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Struct & _struct) {
         declareTypeParams(_struct.typeParams);
 
-        // FIXME: Forward declare struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
+        // FIXME: Forward define struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
         }
@@ -85,7 +85,7 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        declare(letStmt.pat->name.unwrap()->getValue(), Name::Kind::Local, letStmt.id);
+        define(letStmt.pat->name.unwrap()->getValue(), Name::Kind::Local, letStmt.id);
     }
 
     // Expressions //
@@ -144,29 +144,26 @@ namespace jc::resolve {
         const auto & typeParams = maybeTypeParams.unwrap();
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
-                declare(
+                define(
                     std::static_pointer_cast<ast::GenericType>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::TypeParam,
-                    typeParam->id
-                );
+                    typeParam->id);
             }
         }
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Lifetime) {
-                declare(
+                define(
                     std::static_pointer_cast<ast::Lifetime>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::Lifetime,
-                    typeParam->id
-                );
+                    typeParam->id);
             }
         }
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Const) {
-                declare(
+                define(
                     std::static_pointer_cast<ast::ConstParam>(typeParam)->name.unwrap()->getValue(),
                     Name::Kind::ConstParam,
-                    typeParam->id
-                );
+                    typeParam->id);
             }
         }
     }
@@ -237,8 +234,8 @@ namespace jc::resolve {
     }
 
     // Declarations //
-    void NameResolver::declare(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
-        log.dev("Declare '", name, "' as ", Name::kindStr(kind));
+    void NameResolver::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
+        log.dev("Define '", name, "' as ", Name::kindStr(kind));
 
         const auto & redecl = curRib()->declare(name, kind, nodeId);
 
