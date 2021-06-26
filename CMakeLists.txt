@@ -44,6 +44,10 @@ add_compile_options(
         -Wunreachable-code
         -Wunused
         -Wunused-parameter
+
+        # For dev
+        -Wno-unused-function
+
         -Wvariadic-macros
         -Wwrite-strings
 
