@@ -7,24 +7,33 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::print(module_ptr module) {
-        log.raw("{");
-        log.nl();
-        indent++;
         for (const auto & child : module->children) {
             printIndent();
             log.raw("[", child.first, "] ");
             print(child.second);
             log.nl();
         }
-        if (not module->valueNS.empty()) {
+
+        const auto noValues = module->valueNS.empty();
+        const auto noTypes = module->typeNS.empty();
+        const auto noLifetimes = module->lifetimeNS.empty();
+
+        if (noValues and noTypes and noLifetimes) {
+            log.raw("{}");
+        }
+
+        log.raw("{");
+        log.nl();
+        indent++;
+        if (not noValues) {
             printIndent();
             log.raw("[values]: ", module->valueNS).nl();
         }
-        if (not module->typeNS.empty()) {
+        if (not noTypes) {
             printIndent();
             log.raw("[types]: ", module->typeNS).nl();
         }
-        if (not module->lifetimeNS.empty()) {
+        if (not noLifetimes) {
             printIndent();
             log.raw("[lifetimes]: ", module->lifetimeNS).nl();
         }
