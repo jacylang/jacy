@@ -5,6 +5,7 @@
 
 #include "ast/Node.h"
 #include "resolve/Module.h"
+#include "resolve/ResStorage.h"
 
 namespace jc::resolve {
     using ast::node_id;
@@ -30,8 +31,8 @@ namespace jc::resolve {
         opt_node_id define(const std::string & name, node_id nodeId);
 
         /// Resolves name in rib namespace
-        /// Returns `None` if no `Name` found
-        opt_node_id resolve(const std::string & name);
+        /// Returns `false` if failed to resolve a name, or sets resolution in case of success
+        bool resolve(Namespace ns, const ast::id_ptr & ident, ResStorage & resStorage);
 
         void bindMod(module_ptr module);
 
