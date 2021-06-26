@@ -1,4 +1,4 @@
-#include "resolve/Name.h"
+#include "resolve/Rib.h"
 
 namespace jc::resolve {
     opt_node_id Rib::define(const std::string & name, ast::node_id nodeId) {

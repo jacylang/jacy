@@ -3,7 +3,7 @@
 
 #include "ast/StubVisitor.h"
 #include "data_types/SuggResult.h"
-#include "resolve/Name.h"
+#include "resolve/Rib.h"
 #include "utils/arr.h"
 #include "suggest/SuggInterface.h"
 #include "resolve/ResStorage.h"

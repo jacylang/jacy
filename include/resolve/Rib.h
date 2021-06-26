@@ -1,5 +1,5 @@
-#ifndef JACY_RESOLVE_NAME_H
-#define JACY_RESOLVE_NAME_H
+#ifndef JACY_RESOLVE_RIB_H
+#define JACY_RESOLVE_RIB_H
 
 #include <map>
 
@@ -39,4 +39,4 @@ namespace jc::resolve {
     };
 }
 
-#endif // JACY_RESOLVE_NAME_H
+#endif // JACY_RESOLVE_RIB_H
