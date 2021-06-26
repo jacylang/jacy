@@ -39,8 +39,26 @@ namespace jc::resolve {
         // Definitions //
     private:
         DefStorage defStorage;
-        void define(Namespace ns, const ast::id_ptr & ident, def_id defId);
-        void defineGenerics(const ast::opt_type_params & maybeTypeParams);
+
+        template<class ...DefArgs>
+        void define(Namespace ns, const ast::id_ptr & ident, DefArgs ...defArgs) {
+            const auto defId = defStorage.define(defArgs...);
+            log.dev(
+                "Define '",
+                ident.unwrap()->getValue(),
+                "' in module with defId [",
+                defId,
+                "] in ",
+                Module::nsToString(ns));
+            const auto & name = ident.unwrap()->getValue();
+            auto & map = mod->getNS(ns);
+            if (utils::map::has(map, name)) {
+                suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
+            }
+            map.emplace(name, defId);
+        }
+
+        void defineGenerics(const ast::opt_type_params & maybeGenerics);
 
         // Modules //
     private:

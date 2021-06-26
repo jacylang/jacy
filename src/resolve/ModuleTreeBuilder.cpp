@@ -126,28 +126,12 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, def_id defId) {
-        log.dev(
-            "Define '",
-            ident.unwrap()->getValue(),
-            "' in module with defId [",
-            defId,
-            "] in ",
-            Module::nsToString(ns));
-        const auto & name = ident.unwrap()->getValue();
-        auto & map = mod->getNS(ns);
-        if (utils::map::has(map, name)) {
-            suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
-        }
-        map.emplace(name, defId);
-    }
-
-    void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeTypeParams) {
-        if (!maybeTypeParams) {
+    void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeGenerics) {
+        if (!maybeGenerics) {
             return;
         }
         // FIXME: USE ONE LOOP!!!
-        const auto & typeParams = maybeTypeParams.unwrap();
+        const auto & typeParams = maybeGenerics.unwrap();
         for (const auto & typeParam : typeParams) {
             if (typeParam->kind == ast::TypeParamKind::Type) {
                 define(
