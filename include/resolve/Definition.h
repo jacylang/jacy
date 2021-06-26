@@ -23,6 +23,7 @@ namespace jc::resolve {
         Lifetime,
         ConstParam,
         Enum,
+        Variant,
         TypeAlias,
         Impl,
     };
