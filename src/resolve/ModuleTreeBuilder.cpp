@@ -142,7 +142,7 @@ namespace jc::resolve {
         map.emplace(name, defId);
     }
 
-    void ModuleTreeBuilder::declareTypeParams(const ast::opt_type_params & maybeTypeParams) {
+    void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeTypeParams) {
         if (!maybeTypeParams) {
             return;
         }
