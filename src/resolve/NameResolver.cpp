@@ -232,14 +232,10 @@ namespace jc::resolve {
             const auto & seg = pathExpr.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                const auto & resolved = resolve(ns, identStr);
+                auto resolved = resolve(ns, seg->ident.unwrap());
                 if (not resolved) {
                     log.dev("Failed to resolve '", identStr, "' [", pathExpr.id, "]");
                     suggestErrorMsg("'" + identStr + "' is not defined", pathExpr.span);
-                } else {
-                    log.dev("Resolved '", identStr, "' [", pathExpr.id, "] as node with id [", resolved, "]");
-                    // Set resolution
-                    resStorage.setRes(pathExpr.id, resolved.unwrap());
                 }
             }
         }
