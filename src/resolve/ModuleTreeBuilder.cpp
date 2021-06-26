@@ -41,11 +41,10 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        define(Namespace::Type, _enum.name, DefKind::Enum, _enum.span);
         enterMod(
             _enum.name.unwrap()->getValue(),
             _enum.name.span(),
-            defId
+            define(DefKind::Enum, _enum.name, DefKind::Enum, _enum.span)
         );
         visitEach(_enum.entries);
         exitMod();
