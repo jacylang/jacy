@@ -15,8 +15,8 @@ namespace jc::resolve {
     using rib_ptr = std::shared_ptr<Rib>;
     using opt_rib = dt::Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
-    using name_ptr = std::shared_ptr<Name>;
-    using ns_map = std::map<std::string, name_ptr>;
+    using ns_map = std::map<std::string, Name>;
+    using opt_name = dt::Option<Name>;
 
     enum class RibNamespace {
         Value,
@@ -134,12 +134,10 @@ namespace jc::resolve {
         }
 
         // Debug //
-        friend std::ostream & operator<<(std::ostream & os, const name_ptr & name) {
-            return os << name->kindsStrings.at(name->kind) << ":" << name->nodeId;
+        friend std::ostream & operator<<(std::ostream & os, const Name & name) {
+            return os << name.kindsStrings.at(name.kind) << ":" << name.nodeId;
         }
     };
-
-    using decl_result = dt::Option<name_ptr>;
 
     struct Rib {
         enum class Kind {
@@ -156,11 +154,11 @@ namespace jc::resolve {
 
         /// Declare new name.
         /// Returns `Name` that was already declared if it was
-        decl_result define(const std::string & name, Name::Kind kind, node_id nodeId);
+        opt_name define(const std::string & name, Name::Kind kind, node_id nodeId);
 
         /// Resolve name in rib namespace
         /// Returns `None` if no `Name` found
-        decl_result resolve(const std::string & name, RibNamespace nsKind);
+        opt_name resolve(const std::string & name, RibNamespace nsKind);
 
         ns_map & getNSForName(Name::Kind kind);
         ns_map & getNS(RibNamespace nsKind);

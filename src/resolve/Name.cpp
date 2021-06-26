@@ -15,7 +15,7 @@ namespace jc::resolve {
         {Name::Kind::Param, "Param"},
     };
 
-    decl_result Rib::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
+    opt_name Rib::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
         auto & ns = getNSForName(kind);
         const auto & found = ns.find(name);
         if (found == ns.end()) {
@@ -25,7 +25,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    decl_result Rib::resolve(const std::string & name, RibNamespace nsKind) {
+    opt_name Rib::resolve(const std::string & name, RibNamespace nsKind) {
         auto & ns = getNS(nsKind);
         const auto & found = ns.find(name);
         if (found == ns.end()) {
