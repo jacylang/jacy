@@ -65,7 +65,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        define(Namespace::Type, mod.name, defStorage.define(DefKind::TypeAlias, mod.span));
+        define(Namespace::Type, mod.name, defStorage.define(DefKind::Mod, mod.span));
         enterMod(
             mod.name.unwrap()->getValue(),
             mod.name.span(),
