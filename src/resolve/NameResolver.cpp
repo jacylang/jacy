@@ -245,21 +245,20 @@ namespace jc::resolve {
         }
     }
 
-    opt_node_id NameResolver::resolve(Namespace ns, const std::string & name) {
-        log.dev("Resolve '", name, "'");
+    bool NameResolver::resolve(Namespace ns, const ast::id_ptr & ident) {
+        log.dev("Resolve '", ident.unwrap()->getValue(), "'");
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            auto resolved = rib->resolve(name, ns);
-            if (resolved) {
-                return resolved.unwrap().nodeId;
+            if (rib->resolve(ns, ident, resStorage)) {
+                return true;
             }
             depth--;
         }
-        return dt::None;
+        return false;
     }
 
     // Suggestions //
