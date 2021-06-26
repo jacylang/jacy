@@ -113,7 +113,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
-        log.dev("Enter mod [", name, "]");
+        log.dev("Enter mod '", name, "'");
         auto child = std::make_shared<Module>(defId, mod);
         if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
