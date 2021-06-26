@@ -199,19 +199,14 @@ namespace jc::resolve {
     }
 
     // Declarations //
-    void NameResolver::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
-        log.dev("Define '", name, "' as ", Name::kindStr(kind));
+    void NameResolver::define(const ast::id_ptr & ident) {
+        log.dev("Define '", ident.unwrap()->getValue(), "' local");
 
-        const auto & redecl = curRib()->define(name, kind, nodeId);
+        const auto & redecl = curRib()->define(ident);
 
         if (redecl) {
-            suggestCannotRedeclare(
-                name,
-                Name::kindStr(kind),
-                redecl.unwrap().kindStr(),
-                nodeId,
-                redecl.unwrap().nodeId
-            );
+            const auto & name = ident.unwrap()->getValue();
+            suggestErrorMsg("'" + name + "' has been already declared", ident.span());
         }
     }
 
@@ -258,23 +253,24 @@ namespace jc::resolve {
     }
 
     // Suggestions //
-    void NameResolver::suggestCannotRedeclare(
-        const std::string & name,
-        const std::string & as,
-        const std::string & declaredAs,
-        ast::node_id nodeId,
-        ast::node_id declaredHere
-    ) {
-        suggest(
-            std::make_unique<sugg::MsgSpanLinkSugg>(
-                "Cannot redeclare '" + name + "' as " + as,
-                sess->nodeMap.getNodeSpan(nodeId),
-                "Because it is already declared as " + declaredAs + " here",
-                sess->nodeMap.getNodeSpan(declaredHere),
-                SuggKind::Error
-            )
-        );
-    }
+    // FIXME: Move to ModuleTreeBuilder
+//    void NameResolver::suggestCannotRedeclare(
+//        const std::string & name,
+//        const std::string & as,
+//        const std::string & declaredAs,
+//        ast::node_id nodeId,
+//        ast::node_id declaredHere
+//    ) {
+//        suggest(
+//            std::make_unique<sugg::MsgSpanLinkSugg>(
+//                "Cannot redeclare '" + name + "' as " + as,
+//                sess->nodeMap.getNodeSpan(nodeId),
+//                "Because it is already declared as " + declaredAs + " here",
+//                sess->nodeMap.getNodeSpan(declaredHere),
+//                SuggKind::Error
+//            )
+//        );
+//    }
 
     // Debug //
     void NameResolver::printRib() {

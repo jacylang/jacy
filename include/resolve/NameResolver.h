@@ -73,7 +73,7 @@ namespace jc::resolve {
 
         // Declarations //
     private:
-        void define(const std::string & name, Name::Kind kind, node_id nodeId);
+        void define(const ast::id_ptr & ident);
 
         // Resolution //
     private:
@@ -84,13 +84,13 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestCannotRedeclare(
-            const std::string & name,
-            const std::string & as,
-            const std::string & declaredAs,
-            node_id nodeId,
-            node_id declaredHere
-        );
+//        void suggestCannotRedeclare(
+//            const std::string & name,
+//            const std::string & as,
+//            const std::string & declaredAs,
+//            node_id nodeId,
+//            node_id declaredHere
+//        );
 
         // Debug //
     private:
