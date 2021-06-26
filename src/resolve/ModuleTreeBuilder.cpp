@@ -20,7 +20,10 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::File & file) {
-        // This is actually impossible to redeclare file, filesystem does not allow it
+        // That is actually impossible to redeclare file, filesystem does not allow it
+
+        // Note: Here we define file through `DefStorage`, but not through `define` method
+        //  as files are not presented in any namespace
         enterMod(
             sess->sourceMap.getSourceFile(file.fileId).filename(),
             dt::None,
@@ -33,7 +36,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Dir & dir) {
-        enterMod(dir.name, dt::None, dir.id);
+        enterMod(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span));
         for (const auto & module : dir.modules) {
             module->accept(*this);
         }
@@ -68,6 +71,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
+        // Note: Impl is defined as unnamed definition
         const auto defId = defStorage.define(DefKind::Impl, impl.span);
         enterAnonMod(impl.id, defId);
         visitEach(impl.members);
