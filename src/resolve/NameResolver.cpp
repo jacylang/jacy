@@ -213,6 +213,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::exitRib() {
+        log.dev("Exit rib");
         if (getDepth() == 0) {
             Logger::devPanic("NameResolver: Tried to exit from empty rib stack");
         }
