@@ -41,7 +41,7 @@ namespace jc::resolve {
         DefStorage defStorage;
 
         template<class ...DefArgs>
-        void define(DefKind kind, const ast::id_ptr & ident, DefArgs ...defArgs) {
+        def_id define(DefKind kind, const ast::id_ptr & ident, DefArgs ...defArgs) {
             const auto ns = Def::getNS(kind);
             const auto defId = defStorage.define(defArgs...);
             log.dev(
@@ -57,6 +57,7 @@ namespace jc::resolve {
                 suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
             }
             map.emplace(name, defId);
+            return defId;
         }
 
         void defineGenerics(const ast::opt_type_params & maybeGenerics);
