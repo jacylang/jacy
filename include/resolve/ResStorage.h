@@ -29,7 +29,7 @@ namespace jc::resolve {
     public:
         ResStorage() = default;
 
-        opt_node_id getRes(node_id name) const {
+        dt::Option<Res> getRes(node_id name) const {
             const auto & found = resolutions.find(name);
             if (found != resolutions.end()) {
                 return found->second;
@@ -37,16 +37,16 @@ namespace jc::resolve {
             return dt::None;
         }
 
-        void setRes(node_id name, node_id res) {
+        void setRes(node_id name, Res res) {
             resolutions.emplace(name, res);
         }
 
-        const std::map<node_id, node_id> getResolutions() const {
+        const std::map<node_id, Res> getResolutions() const {
             return resolutions;
         }
 
     private:
-        std::map<node_id, node_id> resolutions;
+        std::map<node_id, Res> resolutions;
     };
 }
 
