@@ -35,10 +35,10 @@ namespace jc::resolve {
     };
 
     struct Def {
-        Def(DefKind kind, const span::Span & span) : kind(kind), span(span) {}
+        Def(DefKind kind, const dt::Option<span::Span> & nameSpan) : kind(kind), nameSpan(nameSpan) {}
 
         DefKind kind;
-        const span::Span span;
+        const dt::Option<span::Span> nameSpan;
 
         static inline constexpr Namespace getNS(DefKind kind) {
             switch (kind) {
