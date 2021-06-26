@@ -232,7 +232,9 @@ namespace jc::core {
             common::Logger::nl();
         }
 
+        beginBench();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
+        endBench("name-resolution");
 
         if (config.checkPrint(common::Config::PrintKind::Resolutions)) {
             log.info("Printing resolutions (`-print=resolutions`)");
