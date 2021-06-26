@@ -72,9 +72,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        enterAnonMod(impl.id);
-        // Set definition of `impl` block
-        mod->defId = defStorage.define(DefKind::Impl, impl.span);
+        const auto defId = defStorage.define(DefKind::Impl, impl.span);
+        enterAnonMod(impl.id, defId);
         visitEach(impl.members);
         exitMod();
     }
@@ -119,7 +118,8 @@ namespace jc::resolve {
             //  anyway it can contain another Block which could be a multi-line
             block.oneLine.unwrap().accept(*this);
         } else {
-            enterAnonMod(block.id);
+            // Note: Block is not a definition, it is a pure anonymous module
+            enterAnonMod(block.id, dt::None);
             visitEach(block.stmts.unwrap());
             exitMod();
         }
