@@ -16,22 +16,22 @@ namespace jc::resolve {
     };
 
     enum class DefKind {
-        Root,
-        File,
         Dir,
+        File,
+        Root,
 
-        Mod,
-        Func,
         Const,
-        Struct,
-        Trait,
-        TypeParam,
-        Lifetime,
         ConstParam,
         Enum,
-        Variant,
-        TypeAlias,
+        Func,
         Impl,
+        Lifetime,
+        Mod,
+        Struct,
+        Trait,
+        TypeAlias,
+        TypeParam,
+        Variant,
     };
 
     struct Def {
