@@ -236,12 +236,34 @@ namespace jc::core {
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
         endBench("name-resolution");
 
-        if (config.checkPrint(common::Config::PrintKind::Resolutions)) {
-            log.info("Printing resolutions (`-print=resolutions`)");
-            log.raw(sess->resStorage.getResolutions());
-        }
+        printResolutions();
 
         printAst(ast::AstPrinterMode::Names);
+    }
+
+    // Debug //
+    void Interface::printResolutions() {
+        if (not config.checkPrint(common::Config::PrintKind::Resolutions)) {
+            return;
+        }
+        log.info("Printing resolutions (`-print=resolutions`)");
+
+        for (const auto & res : sess->resStorage.getResolutions()) {
+            log.raw(res.first, " -> ");
+            switch (res.second.kind) {
+                case resolve::ResKind::Error: {
+                    log.raw("[ERROR]");
+                    break;
+                }
+                case resolve::ResKind::Local: {
+                    log.raw(res.second.asLocal());
+                    break;
+                }
+                case resolve::ResKind::Def: {
+                    log.raw(sess->defStorage.getDef(res.second.asDef()));
+                }
+            }
+        }
     }
 
     // Suggestions //

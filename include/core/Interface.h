@@ -65,6 +65,9 @@ namespace jc::core {
 
         void resolveNames();
 
+        // Debug //
+        void printResolutions();
+
     private:
         common::Logger log{"Interface"};
 
