@@ -326,10 +326,11 @@ namespace jc::resolve {
         }
         log.info("Printing rib (`-print=ribs`) at depth [", getDepth(), "]");
         const auto & rib = curRib();
+        const auto & indent = common::Indent<2>(1);
         log.raw("{").nl();
-        log.raw("types: ", rib->typeNS).nl();
-        log.raw("values: ", rib->valueNS).nl();
-        log.raw("lifetimes: ", rib->lifetimeNS).nl();
+        log.raw(indent, "types: ", rib->typeNS).nl();
+        log.raw(indent, "values: ", rib->valueNS).nl();
+        log.raw(indent, "lifetimes: ", rib->lifetimeNS).nl();
         log.raw("}").nl();
     }
 }
