@@ -94,7 +94,7 @@ namespace jc::resolve {
 
     // Modules //
     void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, node_id nodeId) {
-        log.dev("Define ", ident.unwrap()->getValue(), " by nodeId ", nodeId, " in ", Module::nsToString(ns));
+        log.dev("Define '", ident.unwrap()->getValue(), "' by nodeId [", nodeId, "] in ", Module::nsToString(ns));
         const auto & name = ident.unwrap()->getValue();
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
