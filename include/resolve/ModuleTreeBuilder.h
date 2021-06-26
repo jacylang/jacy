@@ -40,9 +40,8 @@ namespace jc::resolve {
     private:
         DefStorage defStorage;
 
-        template<class ...DefArgs>
-        def_id define(const ast::id_ptr & ident, DefArgs ...defArgs) {
-            const auto defId = defStorage.define(defArgs...);
+        def_id define(const ast::id_ptr & ident, DefKind defKind) {
+            const auto defId = defStorage.define(defKind, ident.span());
             const auto ns = Def::getNS(defStorage.getDef(defId).kind);
             log.dev(
                 "Define '",
