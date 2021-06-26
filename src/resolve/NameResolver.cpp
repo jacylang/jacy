@@ -279,6 +279,6 @@ namespace jc::resolve {
         }
         log.info("Printing rib (`-print=ribs`) at depth [", getDepth(), "]");
         const auto & rib = curRib();
-        log.raw(rib->locals);
+        log.raw(rib->locals).nl();
     }
 }
