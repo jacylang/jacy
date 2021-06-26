@@ -33,6 +33,7 @@ namespace jc::resolve {
             }
         }
 
+        // Set error resolution
         resStorage.setRes(nodeId, Res{});
         return false;
     }

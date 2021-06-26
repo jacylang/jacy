@@ -41,9 +41,16 @@ namespace jc::resolve {
     };
 
     struct Def {
-        Def(DefKind kind, const dt::Option<span::Span> & nameSpan) : kind(kind), nameSpan(nameSpan) {}
+        Def(
+            DefKind kind,
+            const dt::Option<span::Span> & nameSpan,
+            ast::opt_node_id nameNodeId
+        ) : kind(kind),
+            nameNodeId(nameNodeId),
+            nameSpan(nameSpan) {}
 
         DefKind kind;
+        const ast::opt_node_id nameNodeId;
         const dt::Option<span::Span> nameSpan;
 
         static inline constexpr Namespace getNS(DefKind kind) {
