@@ -59,9 +59,6 @@ namespace jc::resolve {
         /// Returns `None` if no `Name` found
         opt_name resolve(const std::string & name, Namespace nsKind);
 
-        ns_map & getNSForName(Name::Kind kind);
-        ns_map & getNS(Namespace nsKind);
-
         void bindMod(module_ptr module);
 
         explicit Rib(Kind kind) : kind(kind) {}
