@@ -34,36 +34,6 @@ namespace jc::resolve {
         return found->second;
     }
 
-    ns_map & Rib::getNSForName(Name::Kind kind) {
-        switch (kind) {
-            case Name::Kind::Const:
-            case Name::Kind::Param:
-            case Name::Kind::Local:
-            case Name::Kind::ConstParam:
-            case Name::Kind::Func: {
-                return valueNS;
-            }
-            case Name::Kind::Enum:
-            case Name::Kind::Struct:
-            case Name::Kind::Trait:
-            case Name::Kind::TypeAlias:
-            case Name::Kind::TypeParam: {
-                return typeNS;
-            }
-            case Name::Kind::Lifetime: {
-                return lifetimeNS;
-            }
-        }
-    }
-
-    ns_map & Rib::getNS(Namespace nsKind) {
-        switch (nsKind) {
-            case Namespace::Value: return valueNS;
-            case Namespace::Type: return typeNS;
-            case Namespace::Lifetime: return lifetimeNS;
-        }
-    }
-
     void Rib::bindMod(module_ptr module) {
         boundModule = std::move(module);
     }
