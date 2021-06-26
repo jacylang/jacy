@@ -6,6 +6,8 @@ namespace jc::resolve {
 
         // Enter root module
         mod = std::make_unique<Module>(ModuleKind::Root, dt::None);
+        party.getRootFile()->accept(*this);
+        party.getRootDir()->accept(*this);
 
         sess->defStorage = std::move(defStorage);
 
