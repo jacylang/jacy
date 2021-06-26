@@ -51,6 +51,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
+        define(Namespace::Item, func.name, func.id);
         // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
         func.body->accept(*this);
     }
