@@ -22,6 +22,9 @@ namespace jc::ast {
         const Node & getNode(node_id nodeId) const;
         const Span & getNodeSpan(node_id nodeId) const;
         node_ptr getNodePtr(node_id nodeId) const;
+        size_t size() const {
+            return nodes.size();
+        }
 
     private:
         node_id currentNodeId{0};

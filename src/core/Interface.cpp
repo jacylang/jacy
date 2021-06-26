@@ -204,7 +204,14 @@ namespace jc::core {
             modeStr = "name resolution";
             cliParam = "names";
         }
-        log.info("Printing AST after [", modeStr, "] (`-print=", cliParam, "`)");
+        log.info(
+            "Printing AST after [",
+            modeStr,
+            "] (`-print=",
+            cliParam,
+            "`) [count of nodes=",
+            sess->nodeMap.size(),
+            "]");
         astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
