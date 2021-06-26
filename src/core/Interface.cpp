@@ -285,14 +285,14 @@ namespace jc::core {
         if (not lastBench) {
             common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
         }
-        std::string formatted = name + " ";
+        std::string formatted = name;
         switch (kind) {
             case BenchmarkKind::Lexing: {
-                formatted += "lexing";
+                formatted += " lexing";
                 break;
             }
             case BenchmarkKind::Parsing: {
-                formatted += "parsing";
+                formatted += " parsing";
                 break;
             }
             case BenchmarkKind::None: break;
