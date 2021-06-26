@@ -33,7 +33,7 @@ namespace jc::resolve {
         TypeParam,
         Variant,
     };
-    
+
     enum class NameUsage {
         Type,
         Expr,
@@ -164,6 +164,9 @@ namespace jc::resolve {
 
     struct DefStorage {
         const Def & getDef(def_id defId) const {
+            if (defId >= defs.size()) {
+                common::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
+            }
             return defs.at(defId);
         }
 
