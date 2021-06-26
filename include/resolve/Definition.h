@@ -33,6 +33,12 @@ namespace jc::resolve {
         TypeParam,
         Variant,
     };
+    
+    enum class NameUsage {
+        Type,
+        Expr,
+        Lifetime,
+    };
 
     struct Def {
         Def(DefKind kind, const dt::Option<span::Span> & nameSpan) : kind(kind), nameSpan(nameSpan) {}
@@ -62,6 +68,86 @@ namespace jc::resolve {
                     common::Logger::devPanic("Called `Def::getNS` with non-namespace `DefKind`");
                 }
             }
+        }
+
+        static std::string kindStr(DefKind kind) {
+            switch (kind) {
+                case DefKind::Const:
+                    return "`const`";
+                case DefKind::Struct:
+                    return "`struct`";
+                case DefKind::Trait:
+                    return "`trait`";
+                case DefKind::TypeParam:
+                    return "type parameter";
+                case DefKind::Lifetime:
+                    return "lifetime parameter";
+                case DefKind::ConstParam:
+                    return "`const` parameter";
+                case DefKind::Func:
+                    return "`func`";
+                case DefKind::Enum:
+                    return "`enum`";
+                case DefKind::TypeAlias:
+                    return "`type` alias";
+                default: {
+                    return "[NO REPRESENTATION]";
+                }
+            }
+        }
+
+        std::string kindStr() const {
+            return kindStr(kind);
+        }
+
+        static bool isUsableAs(DefKind kind, NameUsage usage) {
+            if (usage == NameUsage::Lifetime) {
+                switch (kind) {
+                    case DefKind::Lifetime:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+            if (usage == NameUsage::Type) {
+                switch (kind) {
+                    case DefKind::Struct:
+                    case DefKind::Trait:
+                    case DefKind::TypeAlias:
+                    case DefKind::TypeParam: {
+                        return true;
+                    }
+                    default: return false;
+                }
+            }
+            if (usage == NameUsage::Expr) {
+                switch (kind) {
+                    case DefKind::Const:
+                    case DefKind::ConstParam:
+                    case DefKind::Func: {
+                        return true;
+                    }
+                    default: return false;
+                }
+            }
+            return false;
+        }
+
+        bool isUsableAs(NameUsage usage) const {
+            return isUsableAs(kind, usage);
+        }
+
+        static std::string usageToString(NameUsage usage) {
+            switch (usage) {
+                case NameUsage::Type: return "type";
+                case NameUsage::Expr: return "expression";
+                case NameUsage::Lifetime: return "lifetime";
+            }
+        }
+
+        // Debug //
+        friend std::ostream & operator<<(std::ostream & os, const Def & def) {
+            return os << def.kindStr();
         }
     };
 

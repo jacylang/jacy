@@ -33,104 +33,11 @@ namespace jc::resolve {
             Param,
         } kind;
 
-        enum class Usage {
-            Type,
-            Expr,
-            Lifetime,
-        };
-
         const static std::map<Kind, const std::string> kindsStrings;
 
         node_id nodeId; // Syntax-unit nodeId
 
         Name(Kind kind, node_id nodeId) : kind(kind), nodeId(nodeId) {}
-
-        static std::string kindStr(Kind kind) {
-            switch (kind) {
-                case Kind::Const:
-                    return "`const`";
-                case Kind::Struct:
-                    return "`struct`";
-                case Kind::Trait:
-                    return "`trait`";
-                case Kind::Local:
-                    return "local variable";
-                case Kind::TypeParam:
-                    return "type parameter";
-                case Kind::Lifetime:
-                    return "lifetime parameter";
-                case Kind::ConstParam:
-                    return "`const` parameter";
-                case Kind::Func:
-                    return "`func`";
-                case Kind::Enum:
-                    return "`enum`";
-                case Kind::TypeAlias:
-                    return "`type` alias";
-                case Kind::Param:
-                    return "`func` parameter";
-                default: {
-                    return "[NO REPRESENTATION]";
-                }
-            }
-        }
-
-        std::string kindStr() const {
-            return kindStr(kind);
-        }
-
-        static bool isUsableAs(Kind kind, Usage usage) {
-            if (usage == Usage::Lifetime) {
-                switch (kind) {
-                    case Kind::Lifetime:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-            if (usage == Usage::Type) {
-                switch (kind) {
-                    case Kind::Struct:
-                    case Kind::Trait:
-                    case Kind::TypeAlias:
-                    case Kind::TypeParam: {
-                        return true;
-                    }
-                    default: return false;
-                }
-            }
-            if (usage == Usage::Expr) {
-                switch (kind) {
-                    case Kind::Const:
-                    case Kind::Param:
-                    case Kind::Local:
-                    case Kind::ConstParam:
-                    case Kind::Func: {
-                        return true;
-                    }
-                    default: return false;
-                }
-            }
-            return false;
-        }
-
-        bool isUsableAs(Usage usage) const {
-            return isUsableAs(kind, usage);
-        }
-
-        static std::string usageToString(Usage usage) {
-            switch (usage) {
-                case Usage::Type: return "type";
-                case Usage::Expr: return "expression";
-                case Usage::Lifetime: return "lifetime";
-            }
-            return "meow, bitch";
-        }
-
-        // Debug //
-        friend std::ostream & operator<<(std::ostream & os, const Name & name) {
-            return os << name.kindsStrings.at(name.kind) << ":" << name.nodeId;
-        }
     };
 
     struct Rib {
@@ -141,9 +48,7 @@ namespace jc::resolve {
         } kind;
 
         // TODO: Maybe use `Ident{node_id, string}` instead of string as key, to disambiguate
-        ns_map typeNS;
         ns_map valueNS;
-        ns_map lifetimeNS;
         dt::Option<module_ptr> boundModule{dt::None};
 
         /// Define new name.
