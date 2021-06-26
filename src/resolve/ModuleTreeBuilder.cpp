@@ -44,7 +44,7 @@ namespace jc::resolve {
         enterMod(
             _enum.name.unwrap()->getValue(),
             _enum.name.span(),
-            define(DefKind::Enum, _enum.name, DefKind::Enum, _enum.span)
+            define(_enum.name, DefKind::Enum, _enum.span)
         );
         visitEach(_enum.entries);
         exitMod();
