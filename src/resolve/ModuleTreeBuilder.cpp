@@ -80,11 +80,12 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        define(Namespace::Type, mod.name, defStorage.define(DefKind::Mod, mod.span));
+        const auto defId = defStorage.define(DefKind::Mod, mod.span);
+        define(Namespace::Type, mod.name, defId);
         enterMod(
             mod.name.unwrap()->getValue(),
             mod.name.span(),
-            defStorage.define(DefKind::Mod, mod.span)
+            defId
         );
         visitEach(mod.items);
         exitMod();
