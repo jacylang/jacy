@@ -222,7 +222,9 @@ namespace jc::core {
     void Interface::resolveNames() {
         log.printTitleDev("Name resolution");
 
+        beginBench();
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
+        endBench("module-tree-building");
 
         if (config.checkPrint(Config::PrintKind::ModTree)) {
             log.info("Printing module tree (`-print=mod-tree`)");
