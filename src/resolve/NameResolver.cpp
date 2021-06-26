@@ -186,7 +186,8 @@ namespace jc::resolve {
 
     void NameResolver::enterRootRib() {
         ribStack.emplace_back(std::make_unique<Rib>(Rib::Kind::Root));
-        curRib()->bindMod(sess->modTreeRoot.unwrap());
+        currentModule = sess->modTreeRoot.unwrap();
+        curRib()->bindMod(currentModule);
     }
 
     void NameResolver::enterRib(Rib::Kind kind) {
