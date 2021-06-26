@@ -12,9 +12,11 @@ namespace jc::resolve {
     enum class ResKind {
         Def,
         Local,
+        Error,
     };
 
     struct Res {
+        Res() : kind(ResKind::Error) {}
         Res(def_id def) : kind(ResKind::Def), def(def) {}
         Res(node_id nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
 
@@ -46,6 +48,7 @@ namespace jc::resolve {
         }
 
     private:
+        /// Map of Identifier node id -> resolution
         std::map<node_id, Res> resolutions;
     };
 }
