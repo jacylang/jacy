@@ -25,7 +25,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    opt_name Rib::resolve(const std::string & name, RibNamespace nsKind) {
+    opt_name Rib::resolve(const std::string & name, Namespace nsKind) {
         auto & ns = getNS(nsKind);
         const auto & found = ns.find(name);
         if (found == ns.end()) {
@@ -56,11 +56,11 @@ namespace jc::resolve {
         }
     }
 
-    ns_map & Rib::getNS(RibNamespace nsKind) {
+    ns_map & Rib::getNS(Namespace nsKind) {
         switch (nsKind) {
-            case RibNamespace::Value: return valueNS;
-            case RibNamespace::Type: return typeNS;
-            case RibNamespace::Lifetime: return lifetimeNS;
+            case Namespace::Value: return valueNS;
+            case Namespace::Type: return typeNS;
+            case Namespace::Lifetime: return lifetimeNS;
         }
     }
 

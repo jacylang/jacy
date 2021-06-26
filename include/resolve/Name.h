@@ -18,12 +18,6 @@ namespace jc::resolve {
     using ns_map = std::map<std::string, Name>;
     using opt_name = dt::Option<Name>;
 
-    enum class RibNamespace {
-        Value,
-        Type,
-        Lifetime,
-    };
-
     struct Name {
         enum class Kind {
             Const,
@@ -158,10 +152,10 @@ namespace jc::resolve {
 
         /// Resolves name in rib namespace
         /// Returns `None` if no `Name` found
-        opt_name resolve(const std::string & name, RibNamespace nsKind);
+        opt_name resolve(const std::string & name, Namespace nsKind);
 
         ns_map & getNSForName(Name::Kind kind);
-        ns_map & getNS(RibNamespace nsKind);
+        ns_map & getNS(Namespace nsKind);
 
         void bindMod(module_ptr module);
 

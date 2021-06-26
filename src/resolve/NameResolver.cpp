@@ -29,7 +29,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterRib(); // -> (type params) rib
+        enterNamedMod(func.name.unwrap()->getValue()); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -55,7 +55,7 @@ namespace jc::resolve {
 
         exitRib(); // <- (params) rib
 
-        exitRib(); // <- (type params) rib
+        exitRib(); // <- `func` mod rib
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
