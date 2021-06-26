@@ -47,7 +47,7 @@ namespace jc::core {
         dt::Option<ast::party_ptr> party{dt::None};
 
         void parse();
-        void lintAst();
+        void validateAST();
         ast::dir_ptr parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
         ast::file_ptr parseFile(const fs::entry_ptr & file);
 

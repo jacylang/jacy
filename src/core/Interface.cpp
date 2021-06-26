@@ -74,13 +74,13 @@ namespace jc::core {
         printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
         checkSuggestions("parsing");
-        lintAst();
+        validateAST();
     }
 
-    void Interface::lintAst() {
-        log.printTitleDev("Linting AST");
+    void Interface::validateAST() {
+        log.printTitleDev("AST validation");
 
-        astValidator.lint(*party.unwrap()).unwrap(sess, "linting");
+        astValidator.lint(*party.unwrap()).unwrap(sess, "validation");
     }
 
     ast::dir_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
