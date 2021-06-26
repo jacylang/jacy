@@ -42,14 +42,14 @@ namespace jc::dt {
             return std::move(value);
         }
 
-        Option<T> & then(const std::function<void(const T&)> & f) {
+        Option<T> & then(const std::function<void(const T&)> & f) const {
             if (not none()) {
                 f(unwrap());
             }
             return *this;
         }
 
-        Option<T> & otherwise(const std::function<void()> & f) {
+        Option<T> & otherwise(const std::function<void()> & f) const {
             if (none()) {
                 f();
             }

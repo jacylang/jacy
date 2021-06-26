@@ -138,35 +138,24 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeGenerics) {
-        if (!maybeGenerics) {
-            return;
-        }
-        // FIXME: USE ONE LOOP!!!
-        const auto & typeParams = maybeGenerics.unwrap();
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Type) {
-                define(
-                    std::static_pointer_cast<ast::GenericType>(typeParam)->name.unwrap()->getValue(),
-                    DefKind::TypeParam,
-                    typeParam->id);
+        maybeGenerics.then([&](const ast::type_param_list & generics) {
+            for (const auto & gen : generics) {
+                switch (gen->kind) {
+                    case ast::TypeParamKind::Type: {
+                        define(std::static_pointer_cast<ast::GenericType>(gen)->name, DefKind::TypeParam);
+                        break;
+                    }
+                    case ast::TypeParamKind::Const: {
+                        define(std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
+                        break;
+                    }
+                    case ast::TypeParamKind::Lifetime: {
+                        define(std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
+                        break;
+                    }
+                }
             }
-        }
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Lifetime) {
-                define(
-                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name.unwrap()->getValue(),
-                    DefKind::Lifetime,
-                    typeParam->id);
-            }
-        }
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Const) {
-                define(
-                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name.unwrap()->getValue(),
-                    DefKind::ConstParam,
-                    typeParam->id);
-            }
-        }
+        });
     }
 
     // Modules //
