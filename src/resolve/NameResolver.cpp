@@ -191,7 +191,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterRib(Rib::Kind kind) {
-        log.dev("Enter rib mod");
+        log.dev("Enter rib");
         if (getDepth() == UINT32_MAX) {
             Logger::devPanic("Maximum ribStack depth limit exceeded");
         }
