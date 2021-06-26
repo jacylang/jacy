@@ -36,7 +36,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        define(Namespace::Type, _enum.name, _enum.id);
+        define(Namespace::Type, _enum.name, defStorage.define(DefKind::Enum, _enum.span));
         enterMod(
             _enum.name.unwrap()->getValue(),
             _enum.name.span(),
