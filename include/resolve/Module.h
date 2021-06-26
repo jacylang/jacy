@@ -9,11 +9,6 @@ namespace jc::resolve {
     using ast::node_id;
     using mod_ns_map = std::map<std::string, def_id>;
 
-    enum class Namespace {
-        Item,
-        Type,
-    };
-
     enum class ModuleKind {
         Root,
         Block,

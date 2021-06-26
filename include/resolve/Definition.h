@@ -9,6 +9,12 @@ namespace jc::resolve {
     using module_ptr = std::shared_ptr<Module>;
     using def_id = size_t;
 
+    enum class Namespace {
+        Value,
+        Type,
+        Lifetime,
+    };
+
     enum class DefKind {
         Root,
         File,

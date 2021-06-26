@@ -41,7 +41,8 @@ namespace jc::resolve {
         DefStorage defStorage;
 
         template<class ...DefArgs>
-        void define(Namespace ns, const ast::id_ptr & ident, DefArgs ...defArgs) {
+        void define(DefKind kind, const ast::id_ptr & ident, DefArgs ...defArgs) {
+            const auto nsKind = Def
             const auto defId = defStorage.define(defArgs...);
             log.dev(
                 "Define '",
