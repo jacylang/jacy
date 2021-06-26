@@ -27,7 +27,7 @@ namespace jc::resolve {
         enterMod(
             sess->sourceMap.getSourceFile(file.fileId).filename(),
             dt::None,
-            defStorage.define(DefKind::File, file.span)
+            defStorage.define(DefKind::File, file.span, dt::None)
         );
 
         visitEach(file.items);
@@ -36,7 +36,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Dir & dir) {
-        enterMod(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span));
+        enterMod(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span, dt::None));
         for (const auto & module : dir.modules) {
             module->accept(*this);
         }
@@ -72,7 +72,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         // Note: Impl is defined as unnamed definition
-        const auto defId = defStorage.define(DefKind::Impl, impl.span);
+        const auto defId = defStorage.define(DefKind::Impl, impl.span, dt::None);
         enterAnonMod(impl.id, defId);
         visitEach(impl.members);
         exitMod();
@@ -123,7 +123,7 @@ namespace jc::resolve {
 
     // Definitions //
     def_id ModuleTreeBuilder::define(const ast::id_ptr & ident, DefKind defKind) {
-        const auto defId = defStorage.define(defKind, ident.span());
+        const auto defId = defStorage.define(defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(defStorage.getDef(defId).kind);
         log.dev(
             "Define '",
