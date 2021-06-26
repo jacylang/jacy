@@ -42,6 +42,13 @@ namespace jc::resolve {
                 }
             }
         }
+
+        constexpr static const char * nsToString(Namespace ns) {
+            switch (ns) {
+                case Namespace::Item: return "item namespace";
+                case Namespace::Type: return "type namespace";
+            }
+        }
     };
 
     struct ModulePrinter {
