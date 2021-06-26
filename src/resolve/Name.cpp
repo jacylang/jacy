@@ -1,34 +1,18 @@
 #include "resolve/Name.h"
 
 namespace jc::resolve {
-    const std::map<Name::Kind, const std::string> Name::kindsStrings = {
-        {Name::Kind::Const, "Const"},
-        {Name::Kind::Struct, "Struct"},
-        {Name::Kind::Trait, "Trait"},
-        {Name::Kind::Local, "Local"},
-        {Name::Kind::TypeParam, "TypeParam"},
-        {Name::Kind::Lifetime, "Lifetime"},
-        {Name::Kind::ConstParam, "ConstParam"},
-        {Name::Kind::Func, "Func"},
-        {Name::Kind::Enum, "Enum"},
-        {Name::Kind::TypeAlias, "TypeAlias"},
-        {Name::Kind::Param, "Param"},
-    };
-
-    opt_name Rib::define(const std::string & name, Name::Kind kind, ast::node_id nodeId) {
-        auto & ns = getNSForName(kind);
-        const auto & found = ns.find(name);
-        if (found == ns.end()) {
-            ns.emplace(name, Name{kind, nodeId});
+    opt_node_id Rib::define(const std::string & name, ast::node_id nodeId) {
+        const auto & found = locals.find(name);
+        if (found == locals.end()) {
+            locals.emplace(name, nodeId);
             return dt::None;
         }
         return found->second;
     }
 
-    opt_name Rib::resolve(const std::string & name, Namespace nsKind) {
-        auto & ns = getNS(nsKind);
-        const auto & found = ns.find(name);
-        if (found == ns.end()) {
+    opt_node_id Rib::resolve(const std::string & name) {
+        const auto & found = locals.find(name);
+        if (found == locals.end()) {
             return dt::None;
         }
         return found->second;
