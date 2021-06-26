@@ -136,38 +136,6 @@ namespace jc::resolve {
         // TODO: !!!
     }
 
-    void NameResolver::declareTypeParams(const ast::opt_type_params & maybeTypeParams) {
-        if (!maybeTypeParams) {
-            return;
-        }
-        // FIXME: USE ONE LOOP!!!
-        const auto & typeParams = maybeTypeParams.unwrap();
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Type) {
-                define(
-                    std::static_pointer_cast<ast::GenericType>(typeParam)->name.unwrap()->getValue(),
-                    Name::Kind::TypeParam,
-                    typeParam->id);
-            }
-        }
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Lifetime) {
-                define(
-                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name.unwrap()->getValue(),
-                    Name::Kind::Lifetime,
-                    typeParam->id);
-            }
-        }
-        for (const auto & typeParam : typeParams) {
-            if (typeParam->kind == ast::TypeParamKind::Const) {
-                define(
-                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name.unwrap()->getValue(),
-                    Name::Kind::ConstParam,
-                    typeParam->id);
-            }
-        }
-    }
-
     // Ribs //
     size_t NameResolver::getDepth() const {
         return ribStack.size();

@@ -53,9 +53,6 @@ namespace jc::resolve {
         common::Logger log{"NameResolver"};
         sess::sess_ptr sess;
 
-    private:
-        void declareTypeParams(const ast::opt_type_params & maybeTypeParams);
-
         // Ribs //
     private:
         rib_stack ribStack;

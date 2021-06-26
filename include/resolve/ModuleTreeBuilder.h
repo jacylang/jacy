@@ -36,12 +36,15 @@ namespace jc::resolve {
         sess::sess_ptr sess;
         common::Logger log{"ModuleTreeBuilder"};
 
-        // Modules //
+        // Definitions //
     private:
         DefStorage defStorage;
-        module_ptr mod;
         void define(Namespace ns, const ast::id_ptr & ident, def_id defId);
+        void declareTypeParams(const ast::opt_type_params & maybeTypeParams);
 
+        // Modules //
+    private:
+        module_ptr mod;
         void enterAnonMod(node_id nodeId, dt::Option<def_id> defId);
         void enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId);
         void exitMod();

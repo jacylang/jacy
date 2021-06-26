@@ -125,7 +125,7 @@ namespace jc::resolve {
         }
     }
 
-    // Modules //
+    // Definitions //
     void ModuleTreeBuilder::define(Namespace ns, const ast::id_ptr & ident, def_id defId) {
         log.dev(
             "Define '",
@@ -142,6 +142,39 @@ namespace jc::resolve {
         map.emplace(name, defId);
     }
 
+    void ModuleTreeBuilder::declareTypeParams(const ast::opt_type_params & maybeTypeParams) {
+        if (!maybeTypeParams) {
+            return;
+        }
+        // FIXME: USE ONE LOOP!!!
+        const auto & typeParams = maybeTypeParams.unwrap();
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Type) {
+                define(
+                    std::static_pointer_cast<ast::GenericType>(typeParam)->name.unwrap()->getValue(),
+                    DefKind::TypeParam,
+                    typeParam->id);
+            }
+        }
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Lifetime) {
+                define(
+                    std::static_pointer_cast<ast::Lifetime>(typeParam)->name.unwrap()->getValue(),
+                    DefKind::Lifetime,
+                    typeParam->id);
+            }
+        }
+        for (const auto & typeParam : typeParams) {
+            if (typeParam->kind == ast::TypeParamKind::Const) {
+                define(
+                    std::static_pointer_cast<ast::ConstParam>(typeParam)->name.unwrap()->getValue(),
+                    DefKind::ConstParam,
+                    typeParam->id);
+            }
+        }
+    }
+
+    // Modules //
     void ModuleTreeBuilder::enterAnonMod(node_id nodeId, dt::Option<def_id> defId) {
         if (utils::map::has(mod->anonBlocks, nodeId)) {
             log.devPanic("Tried to redeclare anonymous block");
