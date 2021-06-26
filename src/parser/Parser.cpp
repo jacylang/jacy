@@ -548,6 +548,8 @@ namespace jc::parser {
         skip(TokenKind::Assign, "Expected `=` in type alias");
         auto type = parseType("Expected type");
 
+        skipSemi();
+
         exitEntity();
 
         return makeItem<TypeAlias>(

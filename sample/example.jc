@@ -5,7 +5,7 @@ mod mood {
         Variant(Type),
     }
 
-    pub struct Struct {
+    struct Struct {
         field: Enum::Variant,
     }
 
