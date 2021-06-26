@@ -60,7 +60,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        define(Namespace::Item, mod.name, mod.id);
+        define(Namespace::Type, mod.name, mod.id);
         enterMod(
             mod.name.unwrap()->getValue(),
             mod.name.span(),
@@ -71,12 +71,12 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        define(Namespace::Item, _struct.name, _struct.id);
+        define(Namespace::Type, _struct.name, _struct.id);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        define(Namespace::Item, trait.name, trait.id);
+        define(Namespace::Type, trait.name, trait.id);
         enterMod(
             trait.name.unwrap()->getValue(),
             trait.name.span(),
