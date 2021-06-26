@@ -16,12 +16,18 @@ namespace jc::resolve {
             print(child.second);
             log.nl();
         }
-        printIndent();
-        log.raw("[values]: ", module->valueNS).nl();
-        printIndent();
-        log.raw("[types]: ", module->typeNS).nl();
-        printIndent();
-        log.raw("[lifetimes]: ", module->lifetimeNS).nl();
+        if (not module->valueNS.empty()) {
+            printIndent();
+            log.raw("[values]: ", module->valueNS).nl();
+        }
+        if (not module->typeNS.empty()) {
+            printIndent();
+            log.raw("[types]: ", module->typeNS).nl();
+        }
+        if (not module->lifetimeNS.empty()) {
+            printIndent();
+            log.raw("[lifetimes]: ", module->lifetimeNS).nl();
+        }
         indent--;
         printIndent();
         log.raw("}");
