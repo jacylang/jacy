@@ -856,7 +856,11 @@ namespace jc::ast {
                 log.raw(getNameColor(resolved.asLocal()));
                 break;
             }
-            // FIXME: Add definition printing
+            case resolve::ResKind::Def: {
+                // Get definition and use its name node_id as resolution color
+                log.raw(getNameColor(sess->defStorage.getDef(resolved.asDef()).nameNodeId.unwrap()));
+                break;
+            }
         }
     }
 
