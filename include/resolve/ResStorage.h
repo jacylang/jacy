@@ -9,6 +9,16 @@ namespace jc::resolve {
     using ast::node_id;
     using ast::opt_node_id;
 
+    struct Res {
+        enum class ResKind {
+            Def,
+            Local,
+        };
+
+        dt::Option<def_id> def;
+        dt::Option<node_id> nodeId;
+    };
+
     /// ResStorage
     /// @brief Collection of {path: node} names resolutions
     class ResStorage {

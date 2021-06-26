@@ -1,33 +1,3 @@
-mod mood {
-    type Type = i32;
-
-    enum Enum {
-        Variant(Type),
-    }
-
-    struct Struct {
-        field: Enum::Variant,
-    }
-
-    func foo(param: Type) {
-        print(param);
-    }
-
-    trait Trait {
-        func baz: Type;
-    }
-
-    impl Struct {
-        func bar {
-            foo(self.field);
-        }
-    }
-}
-
 func main {
-    use mood::Struct;
-
-    let s: Struct = Struct {field: 100};
-
-    s.baz();
+    main();
 }
