@@ -32,7 +32,7 @@ namespace jc::resolve {
 
     private:
         sess::sess_ptr sess;
-        common::Logger log{"ScopeTreeBuilder"};
+        common::Logger log{"ModuleTreeBuilder"};
 
         // Modules //
     private:
