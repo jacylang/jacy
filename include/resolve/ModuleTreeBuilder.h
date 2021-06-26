@@ -18,6 +18,7 @@ namespace jc::resolve {
         void visit(const ast::File & file) override;
         void visit(const ast::Dir & dir) override;
 
+        void visit(const ast::Enum & _enum) override;
         void visit(const ast::Func & func) override;
         void visit(const ast::Impl & impl) override;
         void visit(const ast::Mod & mod) override;

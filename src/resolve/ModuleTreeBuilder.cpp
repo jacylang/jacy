@@ -35,6 +35,17 @@ namespace jc::resolve {
         exitMod();
     }
 
+    void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
+        define(Namespace::Type, _enum.name, _enum.id);
+        enterMod(
+            _enum.name.unwrap()->getValue(),
+            _enum.name.span(),
+            defStorage.define(DefKind::Enum, _enum.span)
+        );
+        visitEach(_enum.entries);
+        exitMod();
+    }
+
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
         func.body->accept(*this);
