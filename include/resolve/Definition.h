@@ -39,6 +39,30 @@ namespace jc::resolve {
 
         DefKind kind;
         const span::Span span;
+
+        static inline constexpr Namespace getNS(DefKind kind) {
+            switch (kind) {
+                case DefKind::Mod:
+                case DefKind::Trait:
+                case DefKind::TypeParam:
+                case DefKind::TypeAlias:
+                case DefKind::Enum:
+                case DefKind::Variant: {
+                    return Namespace::Type;
+                }
+                case DefKind::ConstParam:
+                case DefKind::Func:
+                case DefKind::Const: {
+                    return Namespace::Value;
+                }
+                case DefKind::Lifetime: {
+                    return Namespace::Lifetime;
+                }
+                default: {
+                    common::Logger::devPanic("Called `Def::getNS` with non-namespace `DefKind`");
+                }
+            }
+        }
     };
 
     struct DefStorage {
