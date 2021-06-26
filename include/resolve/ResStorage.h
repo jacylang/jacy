@@ -9,14 +9,18 @@ namespace jc::resolve {
     using ast::node_id;
     using ast::opt_node_id;
 
-    struct Res {
-        enum class ResKind {
-            Def,
-            Local,
-        };
+    enum class ResKind {
+        Def,
+        Local,
+    };
 
-        dt::Option<def_id> def;
-        dt::Option<node_id> nodeId;
+    struct Res {
+        Res(def_id def) : kind(ResKind::Def), def(def) {}
+        Res(node_id nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
+
+        ResKind kind;
+        dt::Option<def_id> def{dt::None};
+        dt::Option<node_id> nodeId{dt::None};
     };
 
     /// ResStorage
