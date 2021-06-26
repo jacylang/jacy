@@ -20,6 +20,8 @@ namespace jc::resolve {
         log.raw("[values]: ", module->valueNS).nl();
         printIndent();
         log.raw("[types]: ", module->typeNS).nl();
+        printIndent();
+        log.raw("[lifetimes]: ", module->lifetimeNS).nl();
         indent--;
         printIndent();
         log.raw("}");
