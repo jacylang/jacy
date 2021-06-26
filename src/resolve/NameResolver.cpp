@@ -243,9 +243,9 @@ namespace jc::resolve {
             suggestCannotRedeclare(
                 name,
                 Name::kindStr(kind),
-                redecl.unwrap()->kindStr(),
+                redecl.unwrap().kindStr(),
                 nodeId,
-                redecl.unwrap()->nodeId
+                redecl.unwrap().nodeId
             );
         }
     }
@@ -290,7 +290,7 @@ namespace jc::resolve {
             const auto & rib = ribStack.at(depth - 1);
             auto resolved = rib->resolve(name, ns);
             if (resolved) {
-                return resolved.unwrap()->nodeId;
+                return resolved.unwrap().nodeId;
             }
             depth--;
         }
