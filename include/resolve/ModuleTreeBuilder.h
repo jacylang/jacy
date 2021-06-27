@@ -54,7 +54,7 @@ namespace jc::resolve {
 
         // Debug //
     private:
-        dt::Option<std::string> curModuleName;
+        dt::Option<std::string> curModuleName{dt::None};
     };
 }
 
