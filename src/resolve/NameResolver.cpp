@@ -237,7 +237,6 @@ namespace jc::resolve {
     }
 
     bool NameResolver::resolve(Namespace ns, const ast::id_ptr & ident) {
-        log.dev("Resolve '", ident.unwrap()->getValue(), "'");
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {

@@ -14,11 +14,12 @@ namespace jc::resolve {
     bool Rib::resolve(Namespace ns, const ast::id_ptr & ident, ResStorage & resStorage) {
         const auto & nodeId = ident.unwrap()->id;
         const auto & name = ident.unwrap()->getValue();
+
         // Try to resolve local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
-            const auto & found = locals.find(name);
-            if (found != locals.end()) {
-                resStorage.setRes(nodeId, Res{found->second});
+            const auto & local = locals.find(name);
+            if (local != locals.end()) {
+                resStorage.setRes(nodeId, Res{local->second});
                 return true;
             }
         }
@@ -26,9 +27,9 @@ namespace jc::resolve {
         // If no module bound we unable to resolve name
         if (boundModule) {
             const auto & modNS = boundModule.unwrap()->getNS(ns);
-            const auto & found = modNS.find(name);
-            if (found != modNS.end()) {
-                resStorage.setRes(nodeId, Res{found->second});
+            const auto & def = modNS.find(name);
+            if (def != modNS.end()) {
+                resStorage.setRes(nodeId, Res{def->second});
                 return true;
             }
         }
