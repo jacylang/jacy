@@ -130,7 +130,9 @@ namespace jc::ast {
     void AstPrinter::visit(const FuncParam & funcParam) {
         printNodeId(funcParam);
 
+        colorizeName(funcParam.name);
         funcParam.name.accept(*this);
+        resetNameColor();
 
         log.raw(": ");
         funcParam.type.accept(*this);
