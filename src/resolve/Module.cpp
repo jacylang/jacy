@@ -26,31 +26,21 @@ namespace jc::resolve {
         log.nl();
         indent++;
 
-//        for (const auto & child : module->children) {
-//            printIndent();
-//            log.raw("'", child.first, "' ");
-//            print(child.second);
-//            log.nl();
-//        }
-//
-//        for (const auto & block : module->anonBlocks) {
-//            printIndent();
-//            log.raw("(ANON)#", block.first);
-//            print(block.second);
-//            log.nl();
-//        }
-
         if (not noValues) {
             printIndent();
-            log.raw("[values]: ", module->valueNS).nl();
+            log.raw("[value NS]: ");
+            printNS(module->valueNS);
+            log.nl();
         }
         if (not noTypes) {
             printIndent();
-            log.raw("[types]: ", module->typeNS).nl();
+            log.raw("[type NS]: ");
+            printNS(module->typeNS);
+            log.nl();
         }
         if (not noLifetimes) {
             printIndent();
-            log.raw("[lifetimes]: ");
+            log.raw("[lifetime NS]: ");
             printNS(module->lifetimeNS);
             log.nl();
         }
