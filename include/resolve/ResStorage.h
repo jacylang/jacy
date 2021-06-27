@@ -10,7 +10,20 @@ namespace jc::resolve {
     using ast::opt_node_id;
 
     enum class PrimType {
+        Bool,
 
+        Int8,
+        Int16,
+        Int32, Int, // With alias
+        Int64,
+
+        Uint8,
+        Uint16,
+        Uint32, Uint, // With alias
+        Uint64,
+
+        Char,
+        StrSlice,
     };
 
     enum class ResKind {
