@@ -5,7 +5,7 @@ namespace jc::resolve {
         this->sess = sess;
 
         // Enter root module
-        mod = std::make_shared<Module>();
+        mod = std::make_shared<Module>(ModuleKind::Root);
 
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
@@ -69,7 +69,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         // Note: Impl is defined as unnamed definition
         const auto defId = defStorage.define(DefKind::Impl, impl.span, dt::None);
-        enterAnonMod(impl.id, defId);
+        enterBlock(impl.id, defId);
         visitEach(impl.members);
         exitMod();
     }
@@ -111,7 +111,7 @@ namespace jc::resolve {
             block.oneLine.unwrap().accept(*this);
         } else {
             // Note: Block is not a definition, it is a pure anonymous module
-            enterAnonMod(block.id, dt::None);
+            enterBlock(block.id, dt::None);
             visitEach(block.stmts.unwrap());
             exitMod();
         }
@@ -171,14 +171,13 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void ModuleTreeBuilder::enterAnonMod(node_id nodeId, dt::Option<def_id> defId) {
-        auto child = defStorage.addBlock(nodeId, mod);
-        child->defId = defId;
+    void ModuleTreeBuilder::enterBlock(node_id nodeId, dt::Option<def_id> defId) {
+        auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
         enterMod(child);
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
-        auto child = defStorage.addModule(defId, mod);
+        auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def));
         if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
                 log.devPanic("Module without name span redeclaration");
