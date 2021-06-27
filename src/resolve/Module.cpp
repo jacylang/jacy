@@ -19,13 +19,15 @@ namespace jc::resolve {
 
         log.raw("{");
         log.nl();
+        indent++;
+
         for (const auto & child : module->children) {
             printIndent();
             log.raw("[", child.first, "] ");
             print(child.second);
             log.nl();
         }
-        indent++;
+
         if (not noValues) {
             printIndent();
             log.raw("[values]: ", module->valueNS).nl();
