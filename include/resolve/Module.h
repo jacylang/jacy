@@ -42,6 +42,15 @@ namespace jc::resolve {
             }
         }
 
+        constexpr inline const char * kindStr() const {
+            switch (kind) {
+                case ModuleKind::Root: return "[ROOT]";
+                case ModuleKind::Block: return "[BLOCK]";
+                case ModuleKind::Def: return "[DEF]";
+                case ModuleKind::Fictive: return "[FICTIVE]";
+            }
+        }
+
         constexpr static inline const char * nsToString(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return "value namespace";

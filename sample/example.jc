@@ -1,3 +1,6 @@
 func main {
-    main();
+}
+
+func main {
+
 }
