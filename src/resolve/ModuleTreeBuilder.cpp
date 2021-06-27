@@ -172,11 +172,13 @@ namespace jc::resolve {
 
     // Modules //
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
+        log.dev("Enter block module #", nodeId);
         auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
         enterMod(child);
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
+        log.dev("Enter module '", name, "' defined with id #", defId);
         auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def));
         if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
