@@ -21,11 +21,10 @@ namespace jc::resolve {
 
         // Note: Here we define file through `DefStorage`, but not through `define` method
         //  as files are not presented in any namespace
-        enterMod(
+        enterModule(
             sess->sourceMap.getSourceFile(file.fileId).filename(),
             dt::None,
-            defStorage.define(DefKind::File, file.span, dt::None)
-        );
+            defStorage.define(DefKind::File, file.span, dt::None));
 
         visitEach(file.items);
 
@@ -33,7 +32,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Dir & dir) {
-        enterMod(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span, dt::None));
+        enterModule(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span, dt::None));
         for (const auto & module : dir.modules) {
             module->accept(*this);
         }
@@ -41,11 +40,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        enterMod(
-            _enum.name.unwrap()->getValue(),
-            _enum.name.span(),
-            define(_enum.name, DefKind::Enum)
-        );
+        enterModule(
+            _enum.name.unwrap()->getValue(), _enum.name.span(), define(_enum.name, DefKind::Enum));
         visitEach(_enum.entries);
         exitMod();
     }
@@ -55,11 +51,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
-        enterMod(
-            func.name.unwrap()->getValue(),
-            func.name.span(),
-            define(func.name, DefKind::Func)
-        );
+        enterModule(
+            func.name.unwrap()->getValue(), func.name.span(), define(func.name, DefKind::Func));
         if (func.body) {
             func.body.unwrap().accept(*this);
         }
@@ -75,11 +68,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterMod(
-            mod.name.unwrap()->getValue(),
-            mod.name.span(),
-            define(mod.name, DefKind::Mod)
-        );
+        enterModule(
+            mod.name.unwrap()->getValue(), mod.name.span(), define(mod.name, DefKind::Mod));
         visitEach(mod.items);
         exitMod();
     }
@@ -90,11 +80,8 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterMod(
-            trait.name.unwrap()->getValue(),
-            trait.name.span(),
-            define(trait.name, DefKind::Trait)
-        );
+        enterModule(
+            trait.name.unwrap()->getValue(), trait.name.span(), define(trait.name, DefKind::Trait));
         visitEach(trait.members);
         exitMod();
     }
@@ -138,6 +125,7 @@ namespace jc::resolve {
 
         // If type is defined then check if its name shadows one of primitive types
         if (ns == Namespace::Type) {
+            // TODO: Add warning suggestion
             const auto maybePrimType = getPrimTypeBitMask(name);
             if (maybePrimType) {
                 // Set primitive type shadow flag
@@ -177,7 +165,8 @@ namespace jc::resolve {
         enterMod(child);
     }
 
-    void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
+    /// Enters named module and adds module to DefStorage by defId
+    void ModuleTreeBuilder::enterModule(const std::string & name, const span::opt_span & nameSpan, def_id defId) {
         log.dev("Enter module '", name, "' defined with id #", defId);
         auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def));
         if (utils::map::has(mod->typeNS, name)) {

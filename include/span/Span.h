@@ -8,9 +8,11 @@
 #include "common/Logger.h"
 
 namespace jc::span {
+    struct Span;
     using span_pos_t = uint32_t;
     using span_len_t = uint16_t;
     using file_id_t = size_t;
+    using opt_span = dt::Option<Span>;
 
     struct Span {
         Span() = default;
