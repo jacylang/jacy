@@ -183,15 +183,14 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
-        log.dev("Enter mod '", name, "'");
-        auto child = std::make_shared<Module>(defId, mod);
-        if (utils::map::has(mod->children, name)) {
+        auto child = defStorage.addModule(defId, mod);
+        if (utils::map::has(mod->typeNS, name)) {
             if (not nameSpan) {
                 log.devPanic("Module without name span redeclaration");
             }
             suggestErrorMsg("'" + name + "' has been already declared in this scope", nameSpan.unwrap());
         } else {
-            mod->children.emplace(name, child);
+            mod->typeNS.emplace(name, defId);
         }
 
         enterMod(child);

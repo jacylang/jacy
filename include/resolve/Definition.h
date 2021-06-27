@@ -189,8 +189,15 @@ namespace jc::resolve {
             return defs;
         }
 
+        template<class ...Args>
+        module_ptr addModule(def_id defId, Args ...args) {
+            modules.emplace(defId, args...);
+            return modules.at(defId);
+        }
+
     private:
         std::vector<Def> defs;
+        std::map<def_id, module_ptr> modules;
     };
 }
 
