@@ -19,6 +19,7 @@ namespace jc::resolve {
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
+                common::Logger::devDebug();
                 resStorage.setRes(nodeId, Res{local->second});
                 return true;
             }
@@ -34,6 +35,7 @@ namespace jc::resolve {
             }
         }
 
+        common::Logger::devDebug("Set error resolution for node #", nodeId);
         // Set error resolution
         resStorage.setRes(nodeId, Res{});
         return false;
