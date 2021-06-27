@@ -55,10 +55,10 @@ namespace jc::resolve {
         // Suggestions //
     private:
         void suggestCannotRedefine(
-            const ast::id_ptr & name,
+            const ast::id_ptr & ident,
             const std::string & as,
             const std::string & declaredAs,
-            def_id defId
+            def_id prevDefId
         );
 
         // Debug //
