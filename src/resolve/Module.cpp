@@ -28,8 +28,7 @@ namespace jc::resolve {
             return;
         }
 
-        log.raw("{");
-        log.nl();
+        log.raw("{").nl();
         indent++;
 
         if (not noValues) {
@@ -57,10 +56,21 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printNS(const mod_ns_map & ns) {
+        if (ns.empty()) {
+            log.raw("{}");
+            return;
+        }
+        log.raw("{").nl();
+        indent++;
         for (const auto & [name, defId] : ns) {
+            printIndent();
             log.raw("'", name, "' ");
             printDef(defId);
+            log.nl();
         }
+        indent--;
+        printIndent();
+        log.raw("}");
     }
 
     void ModulePrinter::printDef(def_id defId) {
