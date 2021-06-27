@@ -11,11 +11,13 @@ namespace jc::resolve {
     using mod_ns_map = std::map<std::string, def_id>;
 
     enum class ModuleKind {
+        Root,
         Block,
         Def,
     };
 
     struct Module {
+        explicit Module() : kind(ModuleKind::Root) {}
         explicit Module(node_id nodeId, module_ptr parent)
             : kind(ModuleKind::Block), nodeId(nodeId), parent(parent) {}
         explicit Module(def_id defId, dt::Option<module_ptr> parent)

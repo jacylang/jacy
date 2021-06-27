@@ -5,13 +5,10 @@ namespace jc::resolve {
         this->sess = sess;
 
         // Enter root module
-        mod = std::make_unique<Module>(ModuleKind::Root, dt::None);
+        mod = std::make_shared<Module>();
+
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
-
-        if (mod->kind != ModuleKind::Root) {
-            log.devPanic("ModuleTreeBuilder top module is not of kind Root");
-        }
 
         sess->defStorage = std::move(defStorage);
         sess->modTreeRoot = std::move(mod);
