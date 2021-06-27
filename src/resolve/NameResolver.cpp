@@ -245,10 +245,12 @@ namespace jc::resolve {
             }
             const auto & rib = ribStack.at(depth - 1);
             if (rib->resolve(ns, ident, resStorage)) {
+                log.dev("Resolved '", ident.unwrap()->getValue(), "'");
                 return true;
             }
             depth--;
         }
+        log.dev("Failed to resolve '", ident.unwrap()->getValue(), "'");
         return false;
     }
 
