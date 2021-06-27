@@ -21,10 +21,7 @@ namespace jc::resolve {
 
         // Note: Here we define file through `DefStorage`, but not through `define` method
         //  as files are not presented in any namespace
-        enterModule(
-            sess->sourceMap.getSourceFile(file.fileId).filename(),
-            dt::None,
-            defStorage.define(DefKind::File, file.span, dt::None));
+        enterFictiveModule(sess->sourceMap.getSourceFile(file.fileId).filename(), DefKind::File);
 
         visitEach(file.items);
 
@@ -32,7 +29,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Dir & dir) {
-        enterModule(dir.name, dt::None, defStorage.define(DefKind::Dir, dir.span, dt::None));
+        enterFictiveModule(dir.name, DefKind::Dir);
         for (const auto & module : dir.modules) {
             module->accept(*this);
         }
