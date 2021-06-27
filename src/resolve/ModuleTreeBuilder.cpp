@@ -173,12 +173,8 @@ namespace jc::resolve {
 
     // Modules //
     void ModuleTreeBuilder::enterAnonMod(node_id nodeId, dt::Option<def_id> defId) {
-        if (utils::map::has(mod->anonBlocks, nodeId)) {
-            log.devPanic("Tried to redeclare anonymous block");
-        }
-        auto child = std::make_shared<Module>(ModuleKind::Block, mod);
+        auto child = defStorage.addBlock(nodeId, mod);
         child->defId = defId;
-        mod->anonBlocks.emplace(nodeId, child);
         enterMod(child);
     }
 
