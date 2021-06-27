@@ -44,6 +44,7 @@ namespace jc::resolve {
             printNS(module->lifetimeNS);
             log.nl();
         }
+
         indent--;
         printIndent();
         log.raw("}");
@@ -51,7 +52,7 @@ namespace jc::resolve {
 
     void ModulePrinter::printNS(const mod_ns_map & ns) {
         for (const auto & [name, defId] : ns) {
-            log.raw("'", name, "': ");
+            log.raw("'", name, "' ");
             printDef(defId);
         }
     }
