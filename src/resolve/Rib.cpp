@@ -11,16 +11,13 @@ namespace jc::resolve {
         return found->second;
     }
 
-    bool Rib::resolve(Namespace ns, const ast::id_ptr & ident, ResStorage & resStorage) {
-        const auto & nodeId = ident.unwrap()->id;
-        const auto & name = ident.unwrap()->getValue();
-
+    bool Rib::resolve(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage) {
         // Try to resolve local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
-                common::Logger::devDebug("Set resolution for node #", nodeId, " as local #", local->second);
-                resStorage.setRes(nodeId, Res{local->second});
+                common::Logger::devDebug("Set resolution for node #", refNodeId, " as local #", local->second);
+                resStorage.setRes(refNodeId, Res{local->second});
                 return true;
             }
         }
@@ -30,8 +27,8 @@ namespace jc::resolve {
             const auto & modNS = boundModule.unwrap()->getNS(ns);
             const auto & def = modNS.find(name);
             if (def != modNS.end()) {
-                common::Logger::devDebug("Set resolution for node #", nodeId, " as def #", def->second);
-                resStorage.setRes(nodeId, Res{def->second});
+                common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", def->second);
+                resStorage.setRes(refNodeId, Res{def->second});
                 return true;
             }
         }

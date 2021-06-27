@@ -32,7 +32,7 @@ namespace jc::resolve {
 
         /// Resolves name in rib namespace
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool resolve(Namespace ns, const ast::id_ptr & ident, ResStorage & resStorage);
+        bool resolve(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage);
 
         void bindMod(module_ptr module);
 
