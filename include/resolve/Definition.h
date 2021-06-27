@@ -201,6 +201,14 @@ namespace jc::resolve {
             return blocks.at(nodeId);
         }
 
+        const module_ptr & getModule(def_id defId) const {
+            return modules.at(defId);
+        }
+
+        const module_ptr & getBlock(ast::node_id nodeId) const {
+            return blocks.at(nodeId);
+        }
+
     private:
         std::vector<Def> defs;
         std::map<def_id, module_ptr> modules;
