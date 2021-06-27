@@ -23,7 +23,6 @@ namespace jc::resolve {
 //        explicit Module(def_id defId, dt::Option<module_ptr> parent)
 //            : kind(ModuleKind::Def), defId(defId), parent(parent) {}
 
-
         ModuleKind kind;
 //        dt::Option<node_id> nodeId{dt::None};
 //        dt::Option<def_id> defId{dt::None};

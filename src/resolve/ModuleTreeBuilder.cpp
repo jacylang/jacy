@@ -171,7 +171,7 @@ namespace jc::resolve {
     }
 
     // Modules //
-    void ModuleTreeBuilder::enterBlock(node_id nodeId, dt::Option<def_id> defId) {
+    void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
         enterMod(child);
     }
