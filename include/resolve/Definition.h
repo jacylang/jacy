@@ -189,15 +189,13 @@ namespace jc::resolve {
             return defs;
         }
 
-        template<class ...Args>
-        module_ptr addModule(def_id defId, Args ...args) {
-            modules.emplace(defId, args...);
+        module_ptr addModule(def_id defId, module_ptr module) {
+            modules.emplace(defId, module);
             return modules.at(defId);
         }
 
-        template<class ...Args>
-        module_ptr addBlock(ast::node_id nodeId, Args ...args) {
-            blocks.emplace(nodeId, args...);
+        module_ptr addBlock(ast::node_id nodeId, module_ptr module) {
+            blocks.emplace(nodeId, module);
             return blocks.at(nodeId);
         }
 
