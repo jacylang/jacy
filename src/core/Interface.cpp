@@ -254,8 +254,9 @@ namespace jc::core {
         for (const auto & def : sess->defStorage.getDefinitions()) {
             log.raw(def.kindStr());
             if (def.nameNodeId) {
-                log.raw(" points to name node #", def.nameNodeId.unwrap());
+                log.raw(" with name node #", def.nameNodeId.unwrap());
             }
+            log.nl();
         }
     }
 
