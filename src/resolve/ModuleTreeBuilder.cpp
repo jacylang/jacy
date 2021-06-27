@@ -60,7 +60,6 @@ namespace jc::resolve {
             func.name.span(),
             define(func.name, DefKind::Func)
         );
-        // Note: Here, we only need function body to visit and do not enter module because body is a Block expression
         if (func.body) {
             func.body.unwrap().accept(*this);
         }

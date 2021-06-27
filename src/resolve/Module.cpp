@@ -1,4 +1,5 @@
 #include "resolve/Module.h"
+#include "session/Session.h"
 
 namespace jc::resolve {
     // ModulePrinter //
@@ -6,13 +7,17 @@ namespace jc::resolve {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(module_ptr module) {
+    void ModulePrinter::print(sess::sess_ptr sess) {
+        this->sess = sess;
+        printMod(sess->modTreeRoot.unwrap());
+    }
+
+    void ModulePrinter::printMod(module_ptr module) {
         const auto noValues = module->valueNS.empty();
         const auto noTypes = module->typeNS.empty();
         const auto noLifetimes = module->lifetimeNS.empty();
-        const auto noChildren = module->children.empty();
 
-        if (noValues and noTypes and noLifetimes and noChildren) {
+        if (noValues and noTypes and noLifetimes) {
             log.raw("{}");
             return;
         }
@@ -21,19 +26,19 @@ namespace jc::resolve {
         log.nl();
         indent++;
 
-        for (const auto & child : module->children) {
-            printIndent();
-            log.raw("'", child.first, "' ");
-            print(child.second);
-            log.nl();
-        }
-
-        for (const auto & block : module->anonBlocks) {
-            printIndent();
-            log.raw("(ANON)#", block.first);
-            print(block.second);
-            log.nl();
-        }
+//        for (const auto & child : module->children) {
+//            printIndent();
+//            log.raw("'", child.first, "' ");
+//            print(child.second);
+//            log.nl();
+//        }
+//
+//        for (const auto & block : module->anonBlocks) {
+//            printIndent();
+//            log.raw("(ANON)#", block.first);
+//            print(block.second);
+//            log.nl();
+//        }
 
         if (not noValues) {
             printIndent();
@@ -45,11 +50,48 @@ namespace jc::resolve {
         }
         if (not noLifetimes) {
             printIndent();
-            log.raw("[lifetimes]: ", module->lifetimeNS).nl();
+            log.raw("[lifetimes]: ");
+            printNS(module->lifetimeNS);
+            log.nl();
         }
         indent--;
         printIndent();
         log.raw("}");
+    }
+
+    void ModulePrinter::printNS(const mod_ns_map & ns) {
+        for (const auto & [name, defId] : ns) {
+            log.raw("'", name, "': ");
+            printDef(defId);
+        }
+    }
+
+    void ModulePrinter::printDef(def_id defId) {
+        const auto & def = sess->defStorage.getDef(defId);
+        log.raw(def.kindStr());
+
+        switch (def.kind) {
+            case DefKind::Dir:
+            case DefKind::File:
+            case DefKind::Root:
+            case DefKind::Enum:
+            case DefKind::Impl:
+            case DefKind::Mod:
+            case DefKind::Struct:
+            case DefKind::Trait: {
+                log.raw(" ");
+                printMod(sess->defStorage.getModule(defId));
+                break;
+            }
+            case DefKind::Func:
+            case DefKind::Lifetime:
+            case DefKind::TypeAlias:
+            case DefKind::TypeParam:
+            case DefKind::Const:
+            case DefKind::ConstParam:
+            case DefKind::Variant:
+                break;
+        }
     }
 
     void ModulePrinter::printIndent() {
