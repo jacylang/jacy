@@ -108,7 +108,7 @@ namespace jc::ast {
         printTypeParams(func.typeParams);
         log.raw(" ");
 
-        colorizeDef(func.id);
+        colorizeDef(func.name);
         func.name.accept(*this);
         resetNameColor();
 
@@ -835,11 +835,11 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::colorizeDef(node_id defId) {
+    void AstPrinter::colorizeDef(const id_ptr & ident) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(defId));
+        log.raw(getNameColor(ident.unwrap()->id));
     }
 
     void AstPrinter::colorizeName(node_id nodeId) {
