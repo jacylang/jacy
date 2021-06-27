@@ -208,7 +208,7 @@ namespace jc::resolve {
     }
 
     // Suggestions //
-    void ModuleTreeBuilder::suggestCannotRedeclare(
+    void ModuleTreeBuilder::suggestCannotRedefine(
         const std::string & name,
         const std::string & as,
         const std::string & declaredAs,

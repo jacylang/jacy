@@ -54,7 +54,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestCannotRedeclare(
+        void suggestCannotRedefine(
             const std::string & name,
             const std::string & as,
             const std::string & declaredAs,
