@@ -166,7 +166,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterAnonMod(node_id nodeId, Rib::Kind kind) {
-        currentModule = currentModule->anonBlocks.at(nodeId);
+        currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
