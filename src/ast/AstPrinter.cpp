@@ -643,12 +643,16 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypePath & typePath) {
+        colorizeName(typePath.id);
+
         printNodeId(typePath);
 
         if (typePath.global) {
             log.raw("::");
         }
         printDelim(typePath.segments, "", "", "::");
+
+        resetNameColor();
     }
 
     void AstPrinter::visit(const TypePathSeg & seg) {
