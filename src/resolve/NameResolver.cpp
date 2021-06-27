@@ -254,26 +254,6 @@ namespace jc::resolve {
         return false;
     }
 
-    // Suggestions //
-    // FIXME: Move to ModuleTreeBuilder
-//    void NameResolver::suggestCannotRedeclare(
-//        const std::string & name,
-//        const std::string & as,
-//        const std::string & declaredAs,
-//        ast::node_id nodeId,
-//        ast::node_id declaredHere
-//    ) {
-//        suggest(
-//            std::make_unique<sugg::MsgSpanLinkSugg>(
-//                "Cannot redeclare '" + name + "' as " + as,
-//                sess->nodeMap.getNodeSpan(nodeId),
-//                "Because it is already declared as " + declaredAs + " here",
-//                sess->nodeMap.getNodeSpan(declaredHere),
-//                SuggKind::Error
-//            )
-//        );
-//    }
-
     // Debug //
     void NameResolver::printRib() {
         if (not printRibsFlag or ribStack.empty()) {

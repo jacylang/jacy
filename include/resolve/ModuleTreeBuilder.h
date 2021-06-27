@@ -52,6 +52,16 @@ namespace jc::resolve {
         void enterChildModule(module_ptr child);
         void exitMod();
 
+        // Suggestions //
+    private:
+        void suggestCannotRedeclare(
+            const std::string & name,
+            const std::string & as,
+            const std::string & declaredAs,
+            node_id nodeId,
+            node_id declaredHere
+        );
+
         // Debug //
     private:
         dt::Option<std::string> curModuleName{dt::None};

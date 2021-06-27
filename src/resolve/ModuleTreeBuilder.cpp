@@ -206,4 +206,21 @@ namespace jc::resolve {
     void ModuleTreeBuilder::exitMod() {
         mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit root module");
     }
+
+    // Suggestions //
+    void ModuleTreeBuilder::suggestCannotRedeclare(
+        const std::string & name,
+        const std::string & as,
+        const std::string & declaredAs,
+        ast::node_id nodeId,
+        ast::node_id declaredHere
+    ) {
+        suggest(
+            std::make_unique<sugg::MsgSpanLinkSugg>(
+                "Cannot redeclare '" + name + "' as " + as,
+                sess->nodeMap.getNodeSpan(nodeId),
+                "Because it is already declared as " + declaredAs + " here",
+                sess->nodeMap.getNodeSpan(declaredHere),
+                sugg::SuggKind::Error));
+    }
 }

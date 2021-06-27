@@ -82,16 +82,6 @@ namespace jc::resolve {
         void resolvePathExpr(Namespace ns, const ast::PathExpr & pathExpr);
         bool resolve(Namespace ns, const std::string & name, node_id refNodeId);
 
-        // Suggestions //
-    private:
-//        void suggestCannotRedeclare(
-//            const std::string & name,
-//            const std::string & as,
-//            const std::string & declaredAs,
-//            node_id nodeId,
-//            node_id declaredHere
-//        );
-
         // Debug //
     private:
         bool printRibsFlag{false};
