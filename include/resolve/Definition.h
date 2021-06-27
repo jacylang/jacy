@@ -195,9 +195,16 @@ namespace jc::resolve {
             return modules.at(defId);
         }
 
+        template<class ...Args>
+        module_ptr addBlock(ast::node_id nodeId, Args ...args) {
+            blocks.emplace(nodeId, args...);
+            return blocks.at(nodeId);
+        }
+
     private:
         std::vector<Def> defs;
         std::map<def_id, module_ptr> modules;
+        std::map<ast::node_id, module_ptr> blocks;
     };
 }
 

@@ -28,7 +28,6 @@ namespace jc::resolve {
         mod_ns_map typeNS;
         mod_ns_map lifetimeNS;
         prim_type_set_t shadowedPrimTypes;
-        std::map<node_id, module_ptr> anonBlocks;
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
