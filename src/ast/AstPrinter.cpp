@@ -835,11 +835,11 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::colorizeDef(node_id nodeId) {
+    void AstPrinter::colorizeDef(node_id defId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(nodeId));
+        log.raw(getNameColor(defId));
     }
 
     void AstPrinter::colorizeName(node_id nodeId) {
@@ -871,11 +871,11 @@ namespace jc::ast {
         log.raw(Color::Reset);
     }
 
-    common::Color AstPrinter::getNameColor(node_id nodeId) {
+    common::Color AstPrinter::getNameColor(node_id defId) {
         // Note: Functionality is common for name declaration and name usage,
         //  because AstPrinter does not do forward declarations
 
-        const auto & found = namesColors.find(nodeId);
+        const auto & found = namesColors.find(defId);
         if (found == namesColors.end()) {
             // Assign color for name if not found
 
@@ -886,8 +886,8 @@ namespace jc::ast {
                 // Use next allowed color
                 lastColor++;
             }
-            namesColors[nodeId] = allowedNamesColors.at(lastColor);
-            return namesColors[nodeId];
+            namesColors[defId] = allowedNamesColors.at(lastColor);
+            return namesColors[defId];
         }
         return found->second;
     }
