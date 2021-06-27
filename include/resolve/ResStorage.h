@@ -10,8 +10,12 @@ namespace jc::resolve {
     using ast::opt_node_id;
     using prim_type_set_t = uint16_t;
 
+    /// One bit for each `PrimType` variant
+    /// Leftmost bit is last `PrimType` variant (`Str`), rightmost is `Bool`
+    /// const prim_type_set_t PRIM_TYPES_MASK = 0b1111111111111;
+
     enum class PrimType : uint8_t {
-        Bool,
+        Bool = 0,
         Int8,
         Int16,
         Int32,
@@ -23,10 +27,8 @@ namespace jc::resolve {
         Uint, // Alias for `Uint32`
         Uint64,
         Char,
-        Str,
+        Str, // Note!!!: Order matters -- keep Str last
     };
-
-    const prim_type_set_t PRIM_TYPES_MASK = 0b1111111111111; // One bit for each `PrimType` variant
 
     inline dt::Option<PrimType> getPrimType(const std::string & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
@@ -59,6 +61,34 @@ namespace jc::resolve {
         }
         // Return mask with 1 at found primitive type offset
         return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType));
+    }
+
+    /// [Debug noly] get list of shadowed primitive type names by mask
+    inline std::vector<std::string> getShadowedPrimTypes(prim_type_set_t mask) {
+        static const std::map<PrimType, std::string> primTypesNames = {
+            {PrimType::Bool, "bool"},
+            {PrimType::Int8, "int8"},
+            {PrimType::Int16, "int16"},
+            {PrimType::Int32, "int32"},
+            {PrimType::Int, "int"},
+            {PrimType::Int64, "int64"},
+            {PrimType::Uint8, "uint8"},
+            {PrimType::Uint16, "uint16"},
+            {PrimType::Uint32, "uint32"},
+            {PrimType::Uint, "uint"},
+            {PrimType::Uint64, "uint64"},
+            {PrimType::Char, "char"},
+            {PrimType::Str, "str"},
+        };
+        static const auto leftmostBit = static_cast<prim_type_set_t>(PrimType::Str);
+
+        std::vector<std::string> shadowedTypes;
+        for (prim_type_set_t shift = 0; shift < leftmostBit; shift++) {
+            if (mask << shift & 1) {
+                shadowedTypes.emplace_back(primTypesNames.at(static_cast<PrimType>(shift)));
+            }
+        }
+        return shadowedTypes;
     }
 
     enum class ResKind {
