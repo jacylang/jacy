@@ -232,6 +232,8 @@ namespace jc::core {
             common::Logger::nl();
         }
 
+        printDefinitions();
+
         beginBench();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
         endBench("name-resolution");
@@ -243,13 +245,25 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDefinitions() {
+        if (not config.checkPrint(common::Config::PrintKind::Definitions)) {
+            return;
+        }
 
+        log.info("Printing definitions (`-print=definitions`)");
+
+        for (const auto & def : sess->defStorage.getDefinitions()) {
+            log.raw(def.kindStr());
+            if (def.nameNodeId) {
+                log.raw(" points to name node #", def.nameNodeId.unwrap());
+            }
+        }
     }
 
     void Interface::printResolutions() {
         if (not config.checkPrint(common::Config::PrintKind::Resolutions)) {
             return;
         }
+
         log.info("Printing resolutions (`-print=resolutions`)");
 
         for (const auto & res : sess->resStorage.getResolutions()) {

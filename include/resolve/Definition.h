@@ -185,6 +185,10 @@ namespace jc::resolve {
             return defs.size() - 1;
         }
 
+        const std::vector<Def> & getDefinitions() const {
+            return defs;
+        }
+
     private:
         std::vector<Def> defs;
     };
