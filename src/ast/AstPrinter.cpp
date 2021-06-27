@@ -74,8 +74,6 @@ namespace jc::ast {
 
         log.raw("enum ");
         colorizeDef(enumDecl.name);
-        enumDecl.name.accept(*this);
-        resetNameColor();
 
         printBodyLike(enumDecl.entries, ",\n");
     }
@@ -111,8 +109,6 @@ namespace jc::ast {
         log.raw(" ");
 
         colorizeDef(func.name);
-        func.name.accept(*this);
-        resetNameColor();
 
         printDelim(func.params, "(", ")");
 
@@ -255,8 +251,6 @@ namespace jc::ast {
         log.raw("let ");
 
         colorizeDef(letStmt.pat->name);
-        letStmt.pat->accept(*this);
-        resetNameColor();
 
         if (letStmt.type) {
             log.raw(": ");
@@ -839,6 +833,7 @@ namespace jc::ast {
     // Names mode //
     void AstPrinter::colorizeDef(const id_ptr & ident) {
         if (mode != AstPrinterMode::Names) {
+            ident.unwrap()->accept(*this);
             return;
         }
         log.raw(getNameColor(ident.unwrap()->id));
