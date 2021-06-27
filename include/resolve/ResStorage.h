@@ -8,23 +8,51 @@
 namespace jc::resolve {
     using ast::node_id;
     using ast::opt_node_id;
+    using prim_type_set_t = uint16_t;
 
-    enum class PrimType {
+    enum class PrimType : uint8_t {
         Bool,
-
         Int8,
         Int16,
-        Int32, Int, // With alias
+        Int32,
+        Int, // Alias for `Int32`
         Int64,
-
         Uint8,
         Uint16,
-        Uint32, Uint, // With alias
+        Uint32,
+        Uint, // Alias for `Uint32`
         Uint64,
-
         Char,
-        StrSlice,
+        Str,
     };
+
+    const prim_type_set_t PRIM_TYPES_MASK = 0b1111111111111; // One bit for each `PrimType` variant
+
+    inline dt::Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
+        static const std::map<std::string, PrimType> primTypesNames = {
+            {"bool", PrimType::Bool},
+            {"int8", PrimType::Int8},
+            {"int16", PrimType::Int16},
+            {"int32", PrimType::Int32},
+            {"int", PrimType::Int},
+            {"int64", PrimType::Int64},
+            {"uint8", PrimType::Uint8},
+            {"uint16", PrimType::Uint16},
+            {"uint32", PrimType::Uint32},
+            {"uint", PrimType::Uint},
+            {"uint64", PrimType::Uint64},
+            {"char", PrimType::Char},
+            {"str", PrimType::Str},
+        };
+
+        const auto & found = primTypesNames.find(typeName);
+        if (found == primTypesNames.end()) {
+            return dt::None;
+        }
+
+        // Return mask with 1 at found primitive type offset
+        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(found->second));
+    }
 
     enum class ResKind {
         Def,

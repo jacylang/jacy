@@ -3,6 +3,7 @@
 
 #include "ast/Party.h"
 #include "resolve/Definition.h"
+#include "resolve/ResStorage.h"
 
 namespace jc::resolve {
     struct Module;
@@ -26,6 +27,7 @@ namespace jc::resolve {
         mod_ns_map valueNS;
         mod_ns_map typeNS;
         mod_ns_map lifetimeNS;
+        prim_type_set_t shadowedPrimTypes;
         std::map<std::string, module_ptr> children;
         std::map<node_id, module_ptr> anonBlocks;
 
