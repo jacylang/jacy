@@ -19,7 +19,7 @@ namespace jc::resolve {
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
-                common::Logger::devDebug();
+                common::Logger::devDebug("Set resolution for node #", nodeId, );
                 resStorage.setRes(nodeId, Res{local->second});
                 return true;
             }
