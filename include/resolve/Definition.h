@@ -97,9 +97,18 @@ namespace jc::resolve {
                     return "`enum`";
                 case DefKind::TypeAlias:
                     return "`type` alias";
-                default: {
-                    return "[NO REPRESENTATION]";
-                }
+                case DefKind::Dir:
+                    return "[DIR]";
+                case DefKind::File:
+                    return "[FILE]";
+                case DefKind::Root:
+                    return "[ROOT]";
+                case DefKind::Impl:
+                    return "`impl`";
+                case DefKind::Mod:
+                    return "`mod`";
+                case DefKind::Variant:
+                    return "`enum` variant";
             }
         }
 

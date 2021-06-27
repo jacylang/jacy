@@ -242,6 +242,10 @@ namespace jc::core {
     }
 
     // Debug //
+    void Interface::printDefinitions() {
+
+    }
+
     void Interface::printResolutions() {
         if (not config.checkPrint(common::Config::PrintKind::Resolutions)) {
             return;

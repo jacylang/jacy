@@ -66,6 +66,7 @@ namespace jc::core {
         void resolveNames();
 
         // Debug //
+        void printDefinitions();
         void printResolutions();
 
     private:
