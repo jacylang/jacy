@@ -42,6 +42,7 @@ namespace jc::common {
             AstNodeMap,
             Ribs,
             Resolutions,
+            Definitions,
 
             All,
         };

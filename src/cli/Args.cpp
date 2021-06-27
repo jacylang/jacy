@@ -25,6 +25,7 @@ namespace jc::cli {
                 "ast-node-map",
                 "ribs",
                 "resolutions",
+                "definitions",
                 "all"
             }
         }},

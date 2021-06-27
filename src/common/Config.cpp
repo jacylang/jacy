@@ -16,6 +16,7 @@ namespace jc::common {
         {"ast-node-map", Config::PrintKind::AstNodeMap},
         {"ribs",         Config::PrintKind::Ribs},
         {"resolutions",  Config::PrintKind::Resolutions},
+        {"definitions",  Config::PrintKind::Definitions},
         {"all",          Config::PrintKind::All},
     };
 
