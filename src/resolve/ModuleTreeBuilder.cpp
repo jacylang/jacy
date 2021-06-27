@@ -69,7 +69,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         // Note: Impl is defined as unnamed definition
         const auto defId = defStorage.define(DefKind::Impl, impl.span, dt::None);
-        enterBlock(impl.id, defId);
+        enterBlock(impl.id);
         visitEach(impl.members);
         exitMod();
     }
@@ -111,7 +111,7 @@ namespace jc::resolve {
             block.oneLine.unwrap().accept(*this);
         } else {
             // Note: Block is not a definition, it is a pure anonymous module
-            enterBlock(block.id, dt::None);
+            enterBlock(block.id);
             visitEach(block.stmts.unwrap());
             exitMod();
         }
