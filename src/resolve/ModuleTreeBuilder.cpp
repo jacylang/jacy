@@ -118,9 +118,11 @@ namespace jc::resolve {
             Module::nsToString(ns));
 
         auto & nsMap = mod->getNS(ns);
+
+        // Try to emplace definition in namespace, and if it is already defined suggest an error
         const auto & defined = nsMap.emplace(name, defId);
         if (not defined.second) {
-            suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
+            suggestCannotRedefine(ident, defKind, defined.first->second);
         }
 
         // If type is defined then check if its name shadows one of primitive types
