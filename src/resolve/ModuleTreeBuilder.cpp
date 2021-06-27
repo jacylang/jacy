@@ -110,7 +110,9 @@ namespace jc::resolve {
         log.dev(
             "Define '",
             name,
-            "' in module with defId [",
+            "'",
+            (curModuleName ? " in module '" + curModuleName.unwrap() + "'" : ""),
+            " with defId [",
             defId,
             "] in ",
             Module::nsToString(ns));
@@ -158,6 +160,7 @@ namespace jc::resolve {
     // Modules //
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
+        curModuleName = dt::None;
         log.dev("Enter block module #", nodeId);
         auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
         enterChildModule(child);
@@ -166,7 +169,10 @@ namespace jc::resolve {
     /// Enters named module and adds module to DefStorage by defId
     void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, def_id defId) {
         const auto & name = ident.unwrap()->getValue();
+
+        curModuleName = name;
         log.dev("Enter module '", name, "' defined with id #", defId);
+
         auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def));
         if (utils::map::has(mod->typeNS, name)) {
             suggestErrorMsg("'" + name + "' has been already declared in this scope", ident.span());
@@ -178,7 +184,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::enterFictiveModule(const std::string & name, DefKind defKind) {
-        log.dev("Enter fictive module '", name, "' (", Def::kindStr(defKind), ")");
+        curModuleName = name;
+
+        log.dev("Enter fictive module '", name, "' ", Def::kindStr(defKind));
         const auto moduleDefId = defStorage.define(defKind, dt::None, dt::None);
         auto child = defStorage.addModule(moduleDefId, std::make_shared<Module>(ModuleKind::Fictive));
         if (utils::map::has(mod->typeNS, name)) {

@@ -51,6 +51,10 @@ namespace jc::resolve {
         void enterFictiveModule(const std::string & name, DefKind defKind);
         void enterChildModule(module_ptr child);
         void exitMod();
+
+        // Debug //
+    private:
+        dt::Option<std::string> curModuleName;
     };
 }
 
