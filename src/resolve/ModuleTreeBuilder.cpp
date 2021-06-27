@@ -136,10 +136,13 @@ namespace jc::resolve {
             suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
 
-        const auto maybePrimType = getPrimTypeBitMask(name);
-        if (maybePrimType) {
-            // Set primitive type shadow flag
-            mod->shadowedPrimTypes |= maybePrimType.unwrap();
+        // If type is defined then check if its name shadows one of primitive types
+        if (ns == Namespace::Type) {
+            const auto maybePrimType = getPrimTypeBitMask(name);
+            if (maybePrimType) {
+                // Set primitive type shadow flag
+                mod->shadowedPrimTypes |= maybePrimType.unwrap();
+            }
         }
 
         map.emplace(name, defId);
