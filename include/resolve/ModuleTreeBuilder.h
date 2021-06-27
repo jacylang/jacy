@@ -56,8 +56,7 @@ namespace jc::resolve {
     private:
         void suggestCannotRedefine(
             const ast::id_ptr & ident,
-            const std::string & as,
-            const std::string & declaredAs,
+            DefKind as,
             def_id prevDefId
         );
 
