@@ -19,7 +19,7 @@ namespace jc::resolve {
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
-                common::Logger::devDebug("Set resolution for node #", nodeId, );
+                common::Logger::devDebug("Set resolution for node #", nodeId, " as local #", local->second);
                 resStorage.setRes(nodeId, Res{local->second});
                 return true;
             }
@@ -30,6 +30,7 @@ namespace jc::resolve {
             const auto & modNS = boundModule.unwrap()->getNS(ns);
             const auto & def = modNS.find(name);
             if (def != modNS.end()) {
+                common::Logger::devDebug("Set resolution for node #", nodeId, " as def #", def->second);
                 resStorage.setRes(nodeId, Res{def->second});
                 return true;
             }
