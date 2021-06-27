@@ -251,8 +251,9 @@ namespace jc::core {
 
         log.info("Printing definitions (`-print=definitions`)");
 
-        for (const auto & def : sess->defStorage.getDefinitions()) {
-            log.raw(def.kindStr());
+        for (size_t i = 0; i < sess->defStorage.getDefinitions().size(); i++) {
+            const auto & def = sess->defStorage.getDef(i);
+            log.raw("#", i, ": ", def.kindStr());
             if (def.nameNodeId) {
                 log.raw(" with name node #", def.nameNodeId.unwrap());
             }
