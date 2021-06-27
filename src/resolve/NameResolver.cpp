@@ -160,7 +160,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterNamedMod(const std::string & name, Rib::Kind kind) {
-        currentModule = sess->defStorage.
+        currentModule = sess->defStorage.getModule(currentModule->typeNS.at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
