@@ -17,19 +17,19 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Dir & dir) {
-        enterNamedMod(dir.name);
+        enterModule(dir.name);
         visitEach(dir.modules);
         exitRib();
     }
 
     void NameResolver::visit(const ast::File & file) {
-        enterNamedMod(sess->sourceMap.getSourceFile(file.fileId).filename());
+        enterModule(sess->sourceMap.getSourceFile(file.fileId).filename());
         visitEach(file.items);
         exitRib();
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterNamedMod(func.name.unwrap()->getValue()); // -> `func` mod rib
+        enterModule(func.name.unwrap()->getValue()); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -59,7 +59,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterNamedMod(mod.name.unwrap()->getValue());
+        enterModule(mod.name.unwrap()->getValue());
         visitEach(mod.items);
         exitRib();
     }
@@ -94,7 +94,7 @@ namespace jc::resolve {
         }
 
         const auto prevDepth = getDepth();
-        enterAnonMod(block.id); // -> block rib
+        enterBlock(block.id); // -> block rib
         for (const auto & stmt : block.stmts.unwrap()) {
             stmt.accept(*this);
         }
@@ -159,13 +159,13 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterNamedMod(const std::string & name, Rib::Kind kind) {
+    void NameResolver::enterModule(const std::string & name, Rib::Kind kind) {
         currentModule = sess->defStorage.getModule(currentModule->typeNS.at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
 
-    void NameResolver::enterAnonMod(node_id nodeId, Rib::Kind kind) {
+    void NameResolver::enterBlock(node_id nodeId, Rib::Kind kind) {
         currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
