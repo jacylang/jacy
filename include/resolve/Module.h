@@ -43,7 +43,7 @@ namespace jc::resolve {
 
         constexpr static inline const char * nsToString(Namespace ns) {
             switch (ns) {
-                case Namespace::Value: return "item namespace";
+                case Namespace::Value: return "value namespace";
                 case Namespace::Type: return "type namespace";
                 case Namespace::Lifetime: return "lifetime namespace";
             }
