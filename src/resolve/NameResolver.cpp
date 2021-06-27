@@ -246,6 +246,12 @@ namespace jc::resolve {
             depth--;
         }
         log.dev("Failed to resolve '", ident.unwrap()->getValue(), "'");
+
+        const auto nodeId = ident.unwrap()->id;
+        common::Logger::devDebug("Set error resolution for node #", nodeId);
+        // Set error resolution
+        resStorage.setRes(nodeId, Res{});
+
         return false;
     }
 

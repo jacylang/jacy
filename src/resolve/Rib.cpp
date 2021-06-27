@@ -36,9 +36,6 @@ namespace jc::resolve {
             }
         }
 
-        common::Logger::devDebug("Set error resolution for node #", nodeId);
-        // Set error resolution
-        resStorage.setRes(nodeId, Res{});
         return false;
     }
 
