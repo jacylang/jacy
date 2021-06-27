@@ -223,7 +223,7 @@ namespace jc::resolve {
             const auto & seg = pathExpr.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                auto resolved = resolve(ns, seg->ident.unwrap());
+                auto resolved = resolve(ns, identStr, pathExpr.id);
                 if (not resolved) {
                     log.dev("Failed to resolve '", identStr, "' [", pathExpr.id, "]");
                     suggestErrorMsg("'" + identStr + "' is not defined", pathExpr.span);
@@ -232,25 +232,24 @@ namespace jc::resolve {
         }
     }
 
-    bool NameResolver::resolve(Namespace ns, const ast::id_ptr & ident) {
+    bool NameResolver::resolve(Namespace ns, const std::string & name, node_id refNodeId) {
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            if (rib->resolve(ns, ident, resStorage)) {
-                log.dev("Resolved '", ident.unwrap()->getValue(), "'");
+            if (rib->resolve(ns, name, refNodeId, resStorage)) {
+                log.dev("Resolved '", name, "'");
                 return true;
             }
             depth--;
         }
-        log.dev("Failed to resolve '", ident.unwrap()->getValue(), "'");
+        log.dev("Failed to resolve '", name, "'");
 
-        const auto nodeId = ident.unwrap()->id;
-        common::Logger::devDebug("Set error resolution for node #", nodeId);
+        common::Logger::devDebug("Set error resolution for node #", refNodeId);
         // Set error resolution
-        resStorage.setRes(nodeId, Res{});
+        resStorage.setRes(refNodeId, Res{});
 
         return false;
     }

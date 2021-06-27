@@ -80,7 +80,7 @@ namespace jc::resolve {
         ResStorage resStorage;
         void resolveSimplePath(const ast::simple_path_ptr & simplePath);
         void resolvePathExpr(Namespace ns, const ast::PathExpr & pathExpr);
-        bool resolve(Namespace ns, const ast::id_ptr & ident);
+        bool resolve(Namespace ns, const std::string & name, node_id refNodeId);
 
         // Suggestions //
     private:
