@@ -179,7 +179,7 @@ namespace jc::resolve {
         auto child = std::make_shared<Module>(ModuleKind::Block, mod);
         child->defId = defId;
         mod->anonBlocks.emplace(nodeId, child);
-        mod = child;
+        enterMod(child);
     }
 
     void ModuleTreeBuilder::enterMod(const std::string & name, const dt::Option<ast::Span> & nameSpan, def_id defId) {
@@ -194,6 +194,11 @@ namespace jc::resolve {
             mod->children.emplace(name, child);
         }
 
+        enterMod(child);
+    }
+
+    void ModuleTreeBuilder::enterMod(module_ptr child) {
+        child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
     }
 
