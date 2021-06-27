@@ -48,7 +48,8 @@ namespace jc::resolve {
         module_ptr mod;
         void enterBlock(node_id nodeId);
         void enterModule(const ast::id_ptr & ident, def_id defId);
-        void enterMod(module_ptr child);
+        void enterFictiveModule(const std::string & name, DefKind defKind);
+        void enterChildModule(module_ptr child);
         void exitMod();
     };
 }

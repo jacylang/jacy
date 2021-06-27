@@ -163,7 +163,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         log.dev("Enter block module #", nodeId);
         auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
-        enterMod(child);
+        enterChildModule(child);
     }
 
     /// Enters named module and adds module to DefStorage by defId
@@ -177,10 +177,22 @@ namespace jc::resolve {
             mod->typeNS.emplace(name, defId);
         }
 
-        enterMod(child);
+        enterChildModule(child);
     }
 
-    void ModuleTreeBuilder::enterMod(module_ptr child) {
+    void ModuleTreeBuilder::enterFictiveModule(const std::string & name, DefKind defKind) {
+        log.dev("Enter fictive module '", name, "' (", Def::kindStr(defKind), ")");
+        const auto moduleDefId = defStorage.define(defKind, dt::None, dt::None);
+        auto child = defStorage.addModule(moduleDefId, std::make_shared<Module>(ModuleKind::Fictive));
+        if (utils::map::has(mod->typeNS, name)) {
+            log.devPanic("Tried to redefine fictive module '", name, "'");
+        }
+        mod->typeNS.emplace(name, moduleDefId);
+
+        enterChildModule(child);
+    }
+
+    void ModuleTreeBuilder::enterChildModule(module_ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
     }

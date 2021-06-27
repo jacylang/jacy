@@ -14,6 +14,7 @@ namespace jc::resolve {
         Root,
         Block,
         Def,
+        Fictive,
     };
 
     struct Module {
