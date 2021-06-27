@@ -161,7 +161,7 @@ namespace jc::ast {
         printNodeId(mod);
 
         log.raw("mod ");
-        mod.name.accept(*this);
+        colorizeDef(mod.name);
         printBodyLike(mod.items, "\n");
     }
 
@@ -169,7 +169,7 @@ namespace jc::ast {
         printNodeId(_struct);
 
         log.raw("struct ");
-        _struct.name.accept(*this);
+        colorizeDef(_struct.name);
         log.raw(" ");
 
         printDelim(_struct.fields, "{", "}", ",\n");
@@ -187,7 +187,9 @@ namespace jc::ast {
         printNodeId(trait);
 
         log.raw("trait ");
-        trait.name.accept(*this);
+
+        colorizeDef(trait.name);
+
         printTypeParams(trait.typeParams);
 
         if (!trait.superTraits.empty()) {
@@ -202,7 +204,7 @@ namespace jc::ast {
         printNodeId(typeAlias);
 
         log.raw("type ");
-        typeAlias.name.accept(*this);
+        colorizeDef(typeAlias.name);
         log.raw(" = ");
         typeAlias.type.accept(*this);
         log.raw(";");
