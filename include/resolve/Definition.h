@@ -190,13 +190,19 @@ namespace jc::resolve {
         }
 
         module_ptr addModule(def_id defId, module_ptr module) {
-            modules.emplace(defId, module);
-            return modules.at(defId);
+            const auto & added = modules.emplace(defId, module);
+            if (not added.second) {
+                common::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
+            }
+            return added.first->second;
         }
 
         module_ptr addBlock(ast::node_id nodeId, module_ptr module) {
-            blocks.emplace(nodeId, module);
-            return blocks.at(nodeId);
+            const auto & added = blocks.emplace(nodeId, module);
+            if (not added.second) {
+                common::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
+            }
+            return added.first->second;
         }
 
         const module_ptr & getModule(def_id defId) const {
