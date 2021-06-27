@@ -17,6 +17,12 @@ namespace jc::resolve {
         const auto noTypes = module->typeNS.empty();
         const auto noLifetimes = module->lifetimeNS.empty();
 
+        const auto & shadowedPrimTypesNames = getShadowedPrimTypes(module->shadowedPrimTypes);
+
+        if (not shadowedPrimTypesNames.empty()) {
+            log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
+        }
+
         if (noValues and noTypes and noLifetimes) {
             log.raw("{}");
             return;
