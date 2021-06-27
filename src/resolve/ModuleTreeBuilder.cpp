@@ -123,20 +123,29 @@ namespace jc::resolve {
 
     // Definitions //
     def_id ModuleTreeBuilder::define(const ast::id_ptr & ident, DefKind defKind) {
+        const auto & name = ident.unwrap()->getValue();
         const auto defId = defStorage.define(defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(defStorage.getDef(defId).kind);
+
         log.dev(
             "Define '",
-            ident.unwrap()->getValue(),
+            name,
             "' in module with defId [",
             defId,
             "] in ",
             Module::nsToString(ns));
-        const auto & name = ident.unwrap()->getValue();
+
         auto & map = mod->getNS(ns);
         if (utils::map::has(map, name)) {
             suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
+
+        const auto maybePrimType = getPrimTypeBitMask(name);
+        if (maybePrimType) {
+            // Set primitive type shadow flag
+            mod->shadowedPrimTypes |= maybePrimType.unwrap();
+        }
+
         map.emplace(name, defId);
         return defId;
     }

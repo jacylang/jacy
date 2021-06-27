@@ -28,7 +28,7 @@ namespace jc::resolve {
 
     const prim_type_set_t PRIM_TYPES_MASK = 0b1111111111111; // One bit for each `PrimType` variant
 
-    inline dt::Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
+    inline dt::Option<PrimType> getPrimType(const std::string & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
             {"bool", PrimType::Bool},
             {"int8", PrimType::Int8},
@@ -49,9 +49,16 @@ namespace jc::resolve {
         if (found == primTypesNames.end()) {
             return dt::None;
         }
+        return found->second;
+    }
 
+    inline dt::Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
+        const auto primType = getPrimType(typeName);
+        if (not primType) {
+            return dt::None;
+        }
         // Return mask with 1 at found primitive type offset
-        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(found->second));
+        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType));
     }
 
     enum class ResKind {
