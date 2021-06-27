@@ -28,6 +28,13 @@ namespace jc::resolve {
             log.nl();
         }
 
+        for (const auto & block : module->anonBlocks) {
+            printIndent();
+            log.raw("[ANON:", block.first, "]");
+            print(block.second);
+            log.nl();
+        }
+
         if (not noValues) {
             printIndent();
             log.raw("[values]: ", module->valueNS).nl();
