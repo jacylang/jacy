@@ -9,9 +9,14 @@ namespace jc::resolve {
     using ast::node_id;
     using ast::opt_node_id;
 
+    enum class PrimType {
+
+    };
+
     enum class ResKind {
         Def,
         Local,
+        PrimType,
         Error,
     };
 
@@ -19,10 +24,12 @@ namespace jc::resolve {
         Res() : kind(ResKind::Error) {}
         Res(def_id def) : kind(ResKind::Def), def(def) {}
         Res(node_id nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
+        Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
 
         ResKind kind;
         dt::Option<def_id> def{dt::None};
         dt::Option<node_id> nodeId{dt::None};
+        dt::Option<PrimType> primType{dt::None};
 
         bool isErr() const {
             return kind == ResKind::Error;
