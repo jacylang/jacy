@@ -32,7 +32,7 @@ namespace jc::resolve {
         mod_ns_map valueNS;
         mod_ns_map typeNS;
         mod_ns_map lifetimeNS;
-        prim_type_set_t shadowedPrimTypes;
+        prim_type_set_t shadowedPrimTypes{0};
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
