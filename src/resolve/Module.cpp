@@ -23,14 +23,14 @@ namespace jc::resolve {
 
         for (const auto & child : module->children) {
             printIndent();
-            log.raw("[", child.first, "] ");
+            log.raw("'", child.first, "' ");
             print(child.second);
             log.nl();
         }
 
         for (const auto & block : module->anonBlocks) {
             printIndent();
-            log.raw("[ANON:", block.first, "]");
+            log.raw("ANON$", block.first);
             print(block.second);
             log.nl();
         }
