@@ -209,18 +209,18 @@ namespace jc::resolve {
 
     // Suggestions //
     void ModuleTreeBuilder::suggestCannotRedefine(
-        const std::string & name,
+        const ast::id_ptr & name,
         const std::string & as,
         const std::string & declaredAs,
-        ast::node_id nodeId,
-        ast::node_id declaredHere
+        def_id defId
     ) {
+        const auto prevDefSpan = sess->nodeMap.getNodeSpan(sess->defStorage.getDef(defId).nameNodeId.unwrap());
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
-                "Cannot redeclare '" + name + "' as " + as,
-                sess->nodeMap.getNodeSpan(nodeId),
+                "Cannot redeclare '" + name.unwrap()->getValue() + "' as " + as,
+                name.span(),
                 "Because it is already declared as " + declaredAs + " here",
-                sess->nodeMap.getNodeSpan(declaredHere),
+                prevDefSpan,
                 sugg::SuggKind::Error));
     }
 }

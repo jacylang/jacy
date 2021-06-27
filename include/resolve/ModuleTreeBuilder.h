@@ -55,11 +55,10 @@ namespace jc::resolve {
         // Suggestions //
     private:
         void suggestCannotRedefine(
-            const std::string & name,
+            const ast::id_ptr & name,
             const std::string & as,
             const std::string & declaredAs,
-            node_id nodeId,
-            node_id declaredHere
+            def_id defId
         );
 
         // Debug //
