@@ -158,6 +158,7 @@ namespace jc::resolve {
     }
 
     // Modules //
+
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         curModuleName = dt::None;
@@ -203,6 +204,6 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::exitMod() {
-        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit global scope");
+        mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit root module");
     }
 }
