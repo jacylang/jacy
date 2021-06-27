@@ -117,8 +117,9 @@ namespace jc::resolve {
             "] in ",
             Module::nsToString(ns));
 
-        auto & map = mod->getNS(ns);
-        if (utils::map::has(map, name)) {
+        auto & nsMap = mod->getNS(ns);
+        const auto & defined = nsMap.emplace(name, defId);
+        if (not defined.second) {
             suggestErrorMsg("'" + name + "' has been already declared", ident.unwrap()->span);
         }
 
@@ -132,7 +133,6 @@ namespace jc::resolve {
             }
         }
 
-        map.emplace(name, defId);
         return defId;
     }
 
