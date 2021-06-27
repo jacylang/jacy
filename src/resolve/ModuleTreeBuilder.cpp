@@ -105,6 +105,8 @@ namespace jc::resolve {
     }
 
     // Definitions //
+
+    /// Adds definition by name to specific namespace determined by DefKind
     def_id ModuleTreeBuilder::define(const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
         const auto defId = defStorage.define(defKind, ident.span(), ident.unwrap()->id);
@@ -159,6 +161,7 @@ namespace jc::resolve {
     }
 
     // Modules //
+    /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         log.dev("Enter block module #", nodeId);
         auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block));
@@ -166,14 +169,12 @@ namespace jc::resolve {
     }
 
     /// Enters named module and adds module to DefStorage by defId
-    void ModuleTreeBuilder::enterModule(const std::string & name, const span::opt_span & nameSpan, def_id defId) {
+    void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, def_id defId) {
+        const auto & name = ident.unwrap()->getValue();
         log.dev("Enter module '", name, "' defined with id #", defId);
         auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def));
         if (utils::map::has(mod->typeNS, name)) {
-            if (not nameSpan) {
-                log.devPanic("Module without name span redeclaration");
-            }
-            suggestErrorMsg("'" + name + "' has been already declared in this scope", nameSpan.unwrap());
+            suggestErrorMsg("'" + name + "' has been already declared in this scope", ident.span());
         } else {
             mod->typeNS.emplace(name, defId);
         }

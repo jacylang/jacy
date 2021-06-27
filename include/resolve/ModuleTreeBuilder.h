@@ -47,7 +47,7 @@ namespace jc::resolve {
     private:
         module_ptr mod;
         void enterBlock(node_id nodeId);
-        void enterModule(const std::string & name, const span::opt_span & nameSpan, def_id defId);
+        void enterModule(const ast::id_ptr & ident, def_id defId);
         void enterMod(module_ptr child);
         void exitMod();
     };
