@@ -228,7 +228,7 @@ namespace jc::core {
 
         if (config.checkPrint(Config::PrintKind::ModTree)) {
             log.info("Printing module tree (`-print=mod-tree`)");
-            modulePrinter.print(sess->modTreeRoot.unwrap());
+            modulePrinter.print(sess);
             common::Logger::nl();
         }
 
