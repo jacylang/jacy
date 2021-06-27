@@ -18,7 +18,7 @@ namespace jc::resolve {
     };
 
     struct Module {
-        explicit Module(ModuleKind kind) : kind(kind) {}
+        explicit Module(ModuleKind kind, dt::Option<module_ptr> parent) : kind(kind), parent(parent) {}
 //        explicit Module(node_id nodeId, module_ptr parent)
 //            : kind(ModuleKind::Block), nodeId(nodeId), parent(parent) {}
 //        explicit Module(def_id defId, dt::Option<module_ptr> parent)
