@@ -223,7 +223,7 @@ namespace jc::resolve {
         DefKind as,
         def_id prevDefId
     ) {
-        const auto & prevDef = sess->defStorage.getDef(prevDefId);
+        const auto & prevDef = defStorage.getDef(prevDefId);
         const auto & prevDefSpan = sess->nodeMap.getNodeSpan(prevDef.nameNodeId.unwrap());
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
