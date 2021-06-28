@@ -170,10 +170,11 @@ namespace jc::resolve {
 
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
-        curModuleName = dt::None;
         log.dev("Enter block module #", nodeId);
-        auto child = _defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block, mod));
-        enterChildModule(child);
+        enterChildModule(_defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block, mod)));
+
+        // For debug //
+        curModuleName = dt::None;
     }
 
     /// Enters named module and adds module to DefStorage by defId
