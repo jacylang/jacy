@@ -122,6 +122,13 @@ namespace jc::resolve {
         // Try to emplace definition in namespace, and if it is already defined suggest an error
         const auto & defined = nsMap.emplace(name, defId);
         if (not defined.second) {
+            log.dev(
+                "Tried to redefine '",
+                name,
+                "' as ",
+                Def::kindStr(defKind),
+                ", previously defined with id #",
+                defined.second);
             suggestCannotRedefine(ident, defKind, defined.first->second);
         }
 
