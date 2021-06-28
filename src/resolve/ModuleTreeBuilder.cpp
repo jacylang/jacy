@@ -10,7 +10,7 @@ namespace jc::resolve {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
-        sess->defStorage = std::move(defStorage);
+        sess->defStorage = std::move(_defStorage);
         sess->modTreeRoot = std::move(mod);
 
         return {dt::None, extractSuggestions()};
@@ -58,7 +58,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         // Note: Impl is defined as unnamed definition
-        const auto defId = defStorage.define(DefKind::Impl, impl.span, dt::None);
+        const auto defId = _defStorage.define(DefKind::Impl, impl.span, dt::None);
         enterBlock(impl.id);
         visitEach(impl.members);
         exitMod();
@@ -104,8 +104,8 @@ namespace jc::resolve {
     /// Adds definition by name to specific namespace determined by DefKind
     def_id ModuleTreeBuilder::addDef(const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
-        const auto defId = defStorage.define(defKind, ident.span(), ident.unwrap()->id);
-        const auto ns = Def::getNS(defStorage.getDef(defId).kind);
+        const auto defId = _defStorage.define(defKind, ident.span(), ident.unwrap()->id);
+        const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
 
         log.dev(
             "Trying to add def '",
@@ -172,7 +172,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         curModuleName = dt::None;
         log.dev("Enter block module #", nodeId);
-        auto child = defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block, mod));
+        auto child = _defStorage.addBlock(nodeId, std::make_shared<Module>(ModuleKind::Block, mod));
         enterChildModule(child);
     }
 
@@ -183,7 +183,7 @@ namespace jc::resolve {
         curModuleName = name;
         log.dev("Enter module '", name, "' defined with id #", defId);
 
-        auto child = defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def, mod));
+        auto child = _defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def, mod));
         if (utils::map::has(mod->typeNS, name)) {
             suggestErrorMsg("'" + name + "' has been already declared in this scope", ident.span());
         } else {
@@ -197,8 +197,8 @@ namespace jc::resolve {
         curModuleName = name;
 
         log.dev("Enter fictive module '", name, "' ", Def::kindStr(defKind));
-        const auto moduleDefId = defStorage.define(defKind, dt::None, dt::None);
-        auto child = defStorage.addModule(moduleDefId, std::make_shared<Module>(ModuleKind::Fictive, mod));
+        const auto moduleDefId = _defStorage.define(defKind, dt::None, dt::None);
+        auto child = _defStorage.addModule(moduleDefId, std::make_shared<Module>(ModuleKind::Fictive, mod));
         if (utils::map::has(mod->typeNS, name)) {
             log.devPanic("Tried to redefine fictive module '", name, "'");
         }
@@ -223,7 +223,7 @@ namespace jc::resolve {
         DefKind as,
         def_id prevDefId
     ) {
-        const auto & prevDef = defStorage.getDef(prevDefId);
+        const auto & prevDef = _defStorage.getDef(prevDefId);
         const auto & prevDefSpan = sess->nodeMap.getNodeSpan(prevDef.nameNodeId.unwrap());
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
