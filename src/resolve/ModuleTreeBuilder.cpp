@@ -180,12 +180,11 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, DefKind defKind) {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
-
-        curModuleName = name;
         log.dev("Enter module '", name, "' defined with id #", defId);
+        enterChildModule(_defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def, mod)));
 
-        auto child = _defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def, mod));
-        enterChildModule(child);
+        // For debug //
+        curModuleName = name;
     }
 
     void ModuleTreeBuilder::enterFictiveModule(const std::string & name, DefKind defKind) {
