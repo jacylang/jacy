@@ -185,12 +185,6 @@ namespace jc::resolve {
         log.dev("Enter module '", name, "' defined with id #", defId);
 
         auto child = _defStorage.addModule(defId, std::make_shared<Module>(ModuleKind::Def, mod));
-        if (utils::map::has(mod->typeNS, name)) {
-            suggestErrorMsg("'" + name + "' has been already declared in this scope", ident.span());
-        } else {
-            mod->typeNS.emplace(name, defId);
-        }
-
         enterChildModule(child);
     }
 

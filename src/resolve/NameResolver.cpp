@@ -160,6 +160,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Rib::Kind kind) {
+        // FIXME: Use different ns for Func definition
         currentModule = sess->defStorage.getModule(currentModule->typeNS.at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
