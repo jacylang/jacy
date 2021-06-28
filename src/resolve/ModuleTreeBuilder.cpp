@@ -37,19 +37,19 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        enterModule(_enum.name, define(_enum.name, DefKind::Enum));
+        enterModule(_enum.name, addDef(_enum.name, DefKind::Enum));
         visitEach(_enum.entries);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
-        define(enumEntry.name, DefKind::Variant);
+        addDef(enumEntry.name, DefKind::Variant);
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        enterModule(func.name, define(func.name, DefKind::Func));
+        enterModule(func.name, addDef(func.name, DefKind::Func));
         if (func.body) {
             func.body.unwrap().accept(*this);
         }
@@ -65,24 +65,24 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterModule(mod.name, define(mod.name, DefKind::Mod));
+        enterModule(mod.name, addDef(mod.name, DefKind::Mod));
         visitEach(mod.items);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        define(_struct.name, DefKind::Struct);
+        addDef(_struct.name, DefKind::Struct);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterModule(trait.name, define(trait.name, DefKind::Trait));
+        enterModule(trait.name, addDef(trait.name, DefKind::Trait));
         visitEach(trait.members);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        define(typeAlias.name, DefKind::TypeAlias);
+        addDef(typeAlias.name, DefKind::TypeAlias);
         typeAlias.type.accept(*this);
     }
 
@@ -102,13 +102,13 @@ namespace jc::resolve {
     // Definitions //
 
     /// Adds definition by name to specific namespace determined by DefKind
-    def_id ModuleTreeBuilder::define(const ast::id_ptr & ident, DefKind defKind) {
+    def_id ModuleTreeBuilder::addDef(const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
         const auto defId = defStorage.define(defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(defStorage.getDef(defId).kind);
 
         log.dev(
-            "Define '",
+            "Trying to add def '",
             name,
             "'",
             (curModuleName ? " in module '" + curModuleName.unwrap() + "'" : ""),
@@ -150,15 +150,15 @@ namespace jc::resolve {
             for (const auto & gen : generics) {
                 switch (gen->kind) {
                     case ast::TypeParamKind::Type: {
-                        define(std::static_pointer_cast<ast::GenericType>(gen)->name, DefKind::TypeParam);
+                        addDef(std::static_pointer_cast<ast::GenericType>(gen)->name, DefKind::TypeParam);
                         break;
                     }
                     case ast::TypeParamKind::Const: {
-                        define(std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
+                        addDef(std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
                         break;
                     }
                     case ast::TypeParamKind::Lifetime: {
-                        define(std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
+                        addDef(std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
                         break;
                     }
                 }

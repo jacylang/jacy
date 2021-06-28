@@ -40,7 +40,7 @@ namespace jc::resolve {
     private:
         DefStorage defStorage;
 
-        def_id define(const ast::id_ptr & ident, DefKind defKind);
+        def_id addDef(const ast::id_ptr & ident, DefKind defKind);
         void defineGenerics(const ast::opt_type_params & maybeGenerics);
 
         // Modules //
