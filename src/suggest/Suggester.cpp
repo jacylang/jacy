@@ -35,8 +35,13 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(MsgSpanLinkSugg * sugg) {
-        pointMsgTo(sugg->spanMsg, sugg->span);
-        pointMsgTo(sugg->linkMsg, sugg->link);
+        if (sugg->span.pos > sugg->link.pos) {
+            pointMsgTo(sugg->linkMsg, sugg->link);
+            pointMsgTo(sugg->spanMsg, sugg->span);
+        } else {
+            pointMsgTo(sugg->spanMsg, sugg->span);
+            pointMsgTo(sugg->linkMsg, sugg->link);
+        }
     }
 
     void Suggester::visit(HelpSugg * helpSugg) {
