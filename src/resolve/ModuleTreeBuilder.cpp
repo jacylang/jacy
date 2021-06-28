@@ -177,7 +177,8 @@ namespace jc::resolve {
     }
 
     /// Enters named module and adds module to DefStorage by defId
-    void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, def_id defId) {
+    void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, DefKind defKind) {
+        const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
 
         curModuleName = name;
