@@ -14,6 +14,7 @@ namespace jc::sugg {
     enum class SuggKind {
         Error,
         Warn,
+        None,
     };
 
     // Note: Constructor parameters order rule for `Suggestion`:

@@ -31,16 +31,16 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(MsgSugg * sugg) {
-        pointMsgTo(sugg->msg, sugg->span);
+        pointMsgTo(sugg->msg, sugg->span, sugg->kind);
     }
 
     void Suggester::visit(MsgSpanLinkSugg * sugg) {
         if (sugg->span.pos > sugg->link.pos) {
-            pointMsgTo(sugg->linkMsg, sugg->link);
-            pointMsgTo(sugg->spanMsg, sugg->span);
+            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
+            pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
         } else {
-            pointMsgTo(sugg->spanMsg, sugg->span);
-            pointMsgTo(sugg->linkMsg, sugg->link);
+            pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
+            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
         }
     }
 
@@ -50,7 +50,7 @@ namespace jc::sugg {
         printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
-    void Suggester::pointMsgTo(const std::string & msg, const Span & span) {
+    void Suggester::pointMsgTo(const std::string & msg, const Span & span, SuggKind kind) {
         const auto & fileId = span.fileId;
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
