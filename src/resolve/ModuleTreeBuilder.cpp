@@ -37,7 +37,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        enterModule(_enum.name, addDef(_enum.name, DefKind::Enum));
+        enterModule(_enum.name, DefKind::Enum);
         visitEach(_enum.entries);
         exitMod();
     }
@@ -49,7 +49,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        enterModule(func.name, addDef(func.name, DefKind::Func));
+        enterModule(func.name, DefKind::Func);
         if (func.body) {
             func.body.unwrap().accept(*this);
         }
@@ -65,7 +65,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterModule(mod.name, addDef(mod.name, DefKind::Mod));
+        enterModule(mod.name, DefKind::Mod);
         visitEach(mod.items);
         exitMod();
     }
@@ -76,7 +76,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterModule(trait.name, addDef(trait.name, DefKind::Trait));
+        enterModule(trait.name, DefKind::Trait);
         visitEach(trait.members);
         exitMod();
     }
