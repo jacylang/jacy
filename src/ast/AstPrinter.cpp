@@ -785,7 +785,7 @@ namespace jc::ast {
         pat.name.accept(*this);
     }
 
-    void AstPrinter::visit(const SpreadPattern & pat) {
+    void AstPrinter::visit(const SpreadPattern&) {
         log.raw("...");
     }
 
@@ -866,6 +866,10 @@ namespace jc::ast {
             case resolve::ResKind::Def: {
                 // Get definition and use its name node_id as resolution color
                 log.raw(getNameColor(sess->defStorage.getDef(resolved.asDef()).nameNodeId.unwrap()));
+                break;
+            }
+            case resolve::ResKind::PrimType: {
+                log.raw(resolve::primTypeToString(resolved.asPrimType()));
                 break;
             }
         }
