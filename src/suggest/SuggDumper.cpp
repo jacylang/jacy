@@ -47,6 +47,9 @@ namespace jc::sugg {
             case SuggKind::Warn: {
                 Logger::print("[WARN] ");
             } break;
+            case SuggKind::None: {
+                Logger::print("[NONE] ");
+            } break;
         }
     }
 
