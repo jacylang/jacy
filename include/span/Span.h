@@ -33,7 +33,7 @@ namespace jc::span {
         file_id_t fileId{0};
 
         std::string toString() const {
-            return std::to_string(pos) + "; len = " + std::to_string(len);
+            return std::to_string(pos) + "; len = " + std::to_string(static_cast<unsigned long>(len));
         }
 
         span_pos_t getHighBound() const {
