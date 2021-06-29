@@ -53,7 +53,7 @@ namespace jc::resolve {
         const ast::opt_node_id nameNodeId;
         const dt::Option<span::Span> nameSpan;
 
-        static inline constexpr Namespace getNS(DefKind kind) {
+        static inline Namespace getNS(DefKind kind) {
             switch (kind) {
                 case DefKind::Enum:
                 case DefKind::Mod:
@@ -74,10 +74,10 @@ namespace jc::resolve {
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
                 }
-                default: {
-                    common::Logger::notImplemented("Definition::getNS");
-                }
+                default:;
             }
+
+            common::Logger::notImplemented("Definition::getNS");
         }
 
         static std::string kindStr(DefKind kind) {
