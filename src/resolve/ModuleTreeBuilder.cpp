@@ -57,8 +57,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        // Note: Impl is defined as unnamed definition
-        const auto defId = _defStorage.define(DefKind::Impl, impl.span, dt::None);
+        // Note: Impl is a block and it will be bound to some type in NameResolver
         enterBlock(impl.id);
         visitEach(impl.members);
         exitMod();
