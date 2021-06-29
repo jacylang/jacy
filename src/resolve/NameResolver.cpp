@@ -75,7 +75,7 @@ namespace jc::resolve {
         resolveUseTree(useDecl.useTree);
     }
 
-    void NameResolver::resolveUseTree(const ast::use_tree_ptr & maybeUseTree) {
+    void NameResolver::resolveUseTree(const ast::use_tree_ptr&) {
         // TODO: Everything goes harder
     }
 
@@ -129,7 +129,7 @@ namespace jc::resolve {
     }
 
     // Types //
-    void NameResolver::visit(const ast::TypePath & typePath) {
+    void NameResolver::visit(const ast::TypePath&) {
         // TODO: !!!
     }
 
@@ -208,7 +208,7 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void NameResolver::resolveSimplePath(const ast::simple_path_ptr & simplePath) {
+    void NameResolver::resolveSimplePath(const ast::simple_path_ptr&) {
         // TODO
         // Simple-dimple LOL
     }

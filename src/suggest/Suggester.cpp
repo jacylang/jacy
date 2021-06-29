@@ -50,7 +50,7 @@ namespace jc::sugg {
         printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
-    void Suggester::pointMsgTo(const std::string & msg, const Span & span, SuggKind kind) {
+    void Suggester::pointMsgTo(const std::string & msg, const Span & span, SuggKind) {
         const auto & fileId = span.fileId;
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
