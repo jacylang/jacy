@@ -650,13 +650,13 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void Validator::visit(const LiteralPattern & pat) {}
+    void Validator::visit(const LiteralPattern&) {}
 
     void Validator::visit(const IdentPattern & pat) {
         pat.name.accept(*this);
     }
 
-    void Validator::visit(const SpreadPattern & pat) {}
+    void Validator::visit(const SpreadPattern&) {}
 
     // Helpers //
     bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
