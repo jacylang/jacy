@@ -212,7 +212,7 @@ namespace jc::parser {
 
         const auto kw = Token::keywords.find(id);
         if (kw != Token::keywords.end()) {
-            addToken(kw->second, kw->first.size());
+            addToken(kw->second, static_cast<span::span_len_t>(kw->first.size()));
         } else {
             addToken(TokenKind::Id, id);
         }
