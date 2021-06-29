@@ -71,9 +71,6 @@ namespace jc::resolve {
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
                 }
-                default: {
-                    common::Logger::devPanic("Called `Def::getNS` with non-namespace `DefKind`");
-                }
             }
         }
 
@@ -109,9 +106,8 @@ namespace jc::resolve {
                     return "`mod`";
                 case DefKind::Variant:
                     return "`enum` variant";
+                default: return "[NO REPRESENTATION (bug)]";
             }
-
-            common::Logger::notImplemented("Definition::kindStr");
         }
 
         std::string kindStr() const {
@@ -161,9 +157,8 @@ namespace jc::resolve {
                 case NameUsage::Type: return "type";
                 case NameUsage::Expr: return "expression";
                 case NameUsage::Lifetime: return "lifetime";
+                default: return "[NO REPRESENTATION (bug)]";
             }
-
-            common::Logger::notImplemented("Definition::usageToString");
         }
 
         // Debug //
