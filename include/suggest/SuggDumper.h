@@ -1,5 +1,5 @@
-#ifndef JACY_INCLUDE_SUGGEST_SUGGDUMPER_H
-#define JACY_INCLUDE_SUGGEST_SUGGDUMPER_H
+#ifndef JACY_SUGGEST_SUGGDUMPER_H
+#define JACY_SUGGEST_SUGGDUMPER_H
 
 #include "suggest/BaseSugg.h"
 
@@ -24,4 +24,4 @@ namespace jc::sugg {
     };
 }
 
-#endif // JACY_INCLUDE_SUGGEST_SUGGDUMPER_H
+#endif // JACY_SUGGEST_SUGGDUMPER_H
