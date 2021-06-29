@@ -40,6 +40,7 @@ namespace jc::resolve {
                 case Namespace::Type: return typeNS;
                 case Namespace::Lifetime: return lifetimeNS;
             }
+            common::Logger::notImplemented("Module::getNS");
         }
 
         constexpr inline const char * kindStr() const {
