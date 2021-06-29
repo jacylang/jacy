@@ -2,4 +2,4 @@
 
 | Resource | Description |
 | --- | --- |
-| [Dev Book](https://jacy-lang.gitbook.io/dev-book/) | Development notes about everything |
+| [Dev Book](https://hazer-hazer.github.io/Jacy-Dev-Book/) | Development notes about everything |
