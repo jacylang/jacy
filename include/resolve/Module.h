@@ -60,7 +60,7 @@ namespace jc::resolve {
                 case Namespace::Lifetime: return "lifetime namespace";
             }
 
-            common::Logger::notImplemented("Module::kindStr");
+            common::Logger::notImplemented("Module::nsToString");
         }
     };
 
