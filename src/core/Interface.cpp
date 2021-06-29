@@ -283,6 +283,9 @@ namespace jc::core {
                     log.raw(sess->defStorage.getDef(res.second.asDef()));
                     break;
                 }
+                case resolve::ResKind::PrimType: {
+                    log.raw(resolve::primTypeToString(res.second.asPrimType()));
+                }
             }
         }
     }
