@@ -49,8 +49,6 @@ namespace jc::resolve {
                 case ModuleKind::Def: return "[DEF]";
                 case ModuleKind::Fictive: return "[FICTIVE]";
             }
-
-            common::Logger::notImplemented("Module::kindStr");
         }
 
         constexpr static inline const char * nsToString(Namespace ns) {
@@ -59,8 +57,6 @@ namespace jc::resolve {
                 case Namespace::Type: return "type namespace";
                 case Namespace::Lifetime: return "lifetime namespace";
             }
-
-            common::Logger::notImplemented("Module::nsToString");
         }
     };
 
