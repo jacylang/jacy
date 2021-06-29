@@ -1,5 +1,5 @@
-#ifndef JACY_INCLUDE_RESOLVE_RESSTORAGE_H
-#define JACY_INCLUDE_RESOLVE_RESSTORAGE_H
+#ifndef JACY_RESOLVE_RESSTORAGE_H
+#define JACY_RESOLVE_RESSTORAGE_H
 
 #include <map>
 
@@ -151,4 +151,4 @@ namespace jc::resolve {
     };
 }
 
-#endif // JACY_INCLUDE_RESOLVE_RESSTORAGE_H
+#endif // JACY_RESOLVE_RESSTORAGE_H
