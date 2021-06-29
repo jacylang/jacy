@@ -281,6 +281,7 @@ namespace jc::core {
                 }
                 case resolve::ResKind::Def: {
                     log.raw(sess->defStorage.getDef(res.second.asDef()));
+                    break;
                 }
             }
         }

@@ -151,6 +151,10 @@ namespace jc::resolve {
         node_id asLocal() const {
             return nodeId.unwrap();
         }
+
+        PrimType asPrimType() const {
+            return primType.unwrap();
+        }
     };
 
     /// ResStorage
