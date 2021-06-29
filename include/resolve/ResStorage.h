@@ -91,6 +91,37 @@ namespace jc::resolve {
         return shadowedTypes;
     }
 
+    inline std::string primTypeToString(PrimType primType) {
+        switch (primType) {
+            case PrimType::Bool:
+                return "bool";
+            case PrimType::Int8:
+                return "int8";
+            case PrimType::Int16:
+                return "int16";
+            case PrimType::Int32:
+                return "int32";
+            case PrimType::Int:
+                return "int";
+            case PrimType::Int64:
+                return "int64";
+            case PrimType::Uint8:
+                return "uint8";
+            case PrimType::Uint16:
+                return "uint16";
+            case PrimType::Uint32:
+                return "uint32";
+            case PrimType::Uint:
+                return "uint";
+            case PrimType::Uint64:
+                return "uint64";
+            case PrimType::Char:
+                return "char";
+            case PrimType::Str:
+                return "str";
+        }
+    }
+
     enum class ResKind {
         Def,
         Local,
