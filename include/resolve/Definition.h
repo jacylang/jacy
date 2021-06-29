@@ -110,6 +110,8 @@ namespace jc::resolve {
                 case DefKind::Variant:
                     return "`enum` variant";
             }
+
+            common::Logger::notImplemented("Definition::kindStr");
         }
 
         std::string kindStr() const {
@@ -146,7 +148,8 @@ namespace jc::resolve {
                     default: return false;
                 }
             }
-            return false;
+
+            common::Logger::notImplemented("Definition::isUsableAs");
         }
 
         bool isUsableAs(NameUsage usage) const {
@@ -159,6 +162,8 @@ namespace jc::resolve {
                 case NameUsage::Expr: return "expression";
                 case NameUsage::Lifetime: return "lifetime";
             }
+
+            common::Logger::notImplemented("Definition::usageToString");
         }
 
         // Debug //
