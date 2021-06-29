@@ -60,6 +60,9 @@ namespace jc::resolve {
                 case DefKind::Trait:
                 case DefKind::TypeAlias:
                 case DefKind::TypeParam:
+                case DefKind::Dir:
+                case DefKind::File:
+                case DefKind::Struct:
                 case DefKind::Variant: {
                     return Namespace::Type;
                 }
@@ -70,6 +73,9 @@ namespace jc::resolve {
                 }
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
+                }
+                default: {
+                    common::Logger::notImplemented("Definition::getNS");
                 }
             }
         }
