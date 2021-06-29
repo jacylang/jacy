@@ -48,6 +48,7 @@ namespace jc::resolve {
                 case ModuleKind::Block: return "[BLOCK]";
                 case ModuleKind::Def: return "[DEF]";
                 case ModuleKind::Fictive: return "[FICTIVE]";
+                default: return "[NO REPRESENTATION (bug)]";
             }
         }
 
@@ -56,6 +57,7 @@ namespace jc::resolve {
                 case Namespace::Value: return "value namespace";
                 case Namespace::Type: return "type namespace";
                 case Namespace::Lifetime: return "lifetime namespace";
+                default: return "[NO REPRESENTATION (bug)]";
             }
         }
     };
