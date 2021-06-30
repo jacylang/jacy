@@ -351,7 +351,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Func, "`func`", "`parseFunc`");
 
-        auto typeParams = parseOptGenerics();
+        auto generics = parseOptGenerics();
         auto name = parseId("`func` name");
 
         const auto & maybeParenToken = peek();
@@ -384,7 +384,7 @@ namespace jc::parser {
 
         return makeItem<Func>(
             std::move(modifiers),
-            std::move(typeParams),
+            std::move(generics),
             std::move(name),
             std::move(params),
             std::move(returnType),
