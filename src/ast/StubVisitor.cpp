@@ -371,10 +371,10 @@ namespace jc::ast {
     void StubVisitor::visit(const UnitType&) {}
 
     // Type params //
-    void StubVisitor::visit(const TypeParam & genericType) {
-        genericType.name.accept(*this);
-        if (genericType.boundType) {
-            genericType.boundType.unwrap().accept(*this);
+    void StubVisitor::visit(const TypeParam & typeParam) {
+        typeParam.name.accept(*this);
+        if (typeParam.boundType) {
+            typeParam.boundType.unwrap().accept(*this);
         }
     }
 
