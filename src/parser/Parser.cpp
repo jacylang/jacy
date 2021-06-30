@@ -271,7 +271,7 @@ namespace jc::parser {
         justSkip(TokenKind::Enum, "`enum`", "`parseEnum`");
 
         auto name = parseId("`enum` name");
-        auto typeParams = parseOptTypeParams();
+        auto typeParams = parseOptGenerics();
 
         enum_entry_list entries;
         if (not isSemis()) {
@@ -351,7 +351,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Func, "`func`", "`parseFunc`");
 
-        auto typeParams = parseOptTypeParams();
+        auto typeParams = parseOptGenerics();
         auto name = parseId("`func` name");
 
         const auto & maybeParenToken = peek();
@@ -400,7 +400,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Impl, "`impl`", "`parseImpl`");
 
-        auto typeParams = parseOptTypeParams();
+        auto typeParams = parseOptGenerics();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
         opt_type_ptr forType{dt::None};
@@ -429,7 +429,7 @@ namespace jc::parser {
         justSkip(TokenKind::Struct, "`struct`", "`parseStruct`");
 
         auto name = parseId("`struct` name");
-        auto typeParams = parseOptTypeParams();
+        auto typeParams = parseOptGenerics();
 
         struct_field_list fields;
         if (not isSemis()) {
@@ -499,7 +499,7 @@ namespace jc::parser {
         justSkip(TokenKind::Trait, "`trait`", "`parseTrait`");
 
         auto name = parseId("`trait` name");
-        auto typeParams = parseOptTypeParams();
+        auto typeParams = parseOptGenerics();
 
         type_path_list superTraits;
         if (skipOpt(TokenKind::Colon)) {
@@ -1284,7 +1284,7 @@ namespace jc::parser {
             opt_gen_params typeParams{dt::None};
             bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path)) {
-                typeParams = parseOptTypeParams();
+                typeParams = parseOptGenerics();
                 pathNotGeneric = not typeParams;
             }
 
@@ -1403,7 +1403,7 @@ namespace jc::parser {
                 } else {
                     // Recover path expression
                     // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto typeParams = parseOptTypeParams();
+                    auto typeParams = parseOptGenerics();
                     value = makeExpr<PathExpr>(
                         false,
                         path_expr_seg_list{
@@ -1799,7 +1799,7 @@ namespace jc::parser {
                 } else {
                     // Recover path expression
                     // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto typeParams = parseOptTypeParams();
+                    auto typeParams = parseOptGenerics();
                     value = makeExpr<PathExpr>(
                         false,
                         path_expr_seg_list{
@@ -2196,7 +2196,7 @@ namespace jc::parser {
         return makeType<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
-    opt_gen_params Parser::parseOptTypeParams() {
+    opt_gen_params Parser::parseOptGenerics() {
         logParseExtra("[opt] TypeParams");
 
         if (not is(TokenKind::LAngle)) {
@@ -2205,7 +2205,7 @@ namespace jc::parser {
 
         enterEntity("TypeParams");
 
-        justSkip(TokenKind::LAngle, "`<`", "`parseOptTypeParams`");
+        justSkip(TokenKind::LAngle, "`<`", "`parseOptGenerics`");
 
         gen_param_list typeParams;
 
@@ -2229,7 +2229,7 @@ namespace jc::parser {
                     makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
                 );
             } else if (is(TokenKind::Id)) {
-                auto name = justParseId("`parseOptTypeParams`");
+                auto name = justParseId("`parseOptGenerics`");
                 opt_type_ptr type{dt::None};
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
@@ -2299,7 +2299,7 @@ namespace jc::parser {
         while (not eof()) {
             const auto & segBegin = cspan();
             auto name = parseId("identifier in type path");
-            auto typeParams = parseOptTypeParams();
+            auto typeParams = parseOptGenerics();
 
             segments.push_back(
                 makeNode<TypePathSeg>(
