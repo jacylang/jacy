@@ -105,7 +105,7 @@ namespace jc::ast {
 
         printModifiers(func.modifiers);
         log.raw("func");
-        printTypeParams(func.generics);
+        printGenerics(func.generics);
         log.raw(" ");
 
         colorizeDef(func.name);
@@ -147,7 +147,7 @@ namespace jc::ast {
         printNodeId(impl);
 
         log.raw("impl");
-        printTypeParams(impl.generics);
+        printGenerics(impl.generics);
         log.raw(" ");
         impl.traitTypePath.accept(*this);
         if (impl.forType) {
@@ -190,7 +190,7 @@ namespace jc::ast {
 
         colorizeDef(trait.name);
 
-        printTypeParams(trait.generics);
+        printGenerics(trait.generics);
 
         if (!trait.superTraits.empty()) {
             log.raw(" : ");
@@ -482,7 +482,7 @@ namespace jc::ast {
                 log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
             }
         }
-        printTypeParams(seg.generics, true);
+        printGenerics(seg.generics, true);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
@@ -659,7 +659,7 @@ namespace jc::ast {
         printNodeId(seg);
 
         seg.name.accept(*this);
-        printTypeParams(seg.typeParams);
+        printGenerics(seg.typeParams);
     }
 
     void AstPrinter::visit(const UnitType & unitType) {
@@ -802,7 +802,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printTypeParams(const ast::opt_gen_params & optTypeParams, bool pathPrefix) {
+    void AstPrinter::printGenerics(const ast::opt_gen_params & optTypeParams, bool pathPrefix) {
         if (!optTypeParams) {
             return;
         }
