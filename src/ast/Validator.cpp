@@ -168,8 +168,8 @@ namespace jc::ast {
 
         trait.name.accept(*this);
 
-        if (trait.typeParams) {
-            lintEach(trait.typeParams.unwrap());
+        if (trait.generics) {
+            lintEach(trait.generics.unwrap());
         }
 
         lintEach(trait.superTraits);

@@ -106,8 +106,8 @@ namespace jc::ast {
     void StubVisitor::visit(const Trait & trait) {
         trait.name.accept(*this);
 
-        if (trait.typeParams) {
-            visitEach(trait.typeParams.unwrap());
+        if (trait.generics) {
+            visitEach(trait.generics.unwrap());
         }
 
         visitEach(trait.superTraits);

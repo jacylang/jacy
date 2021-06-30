@@ -190,7 +190,7 @@ namespace jc::ast {
 
         colorizeDef(trait.name);
 
-        printTypeParams(trait.typeParams);
+        printTypeParams(trait.generics);
 
         if (!trait.superTraits.empty()) {
             log.raw(" : ");
