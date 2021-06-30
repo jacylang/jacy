@@ -1112,7 +1112,7 @@ namespace jc::parser {
             } else if (is(TokenKind::LParen)) {
                 enterEntity("Invoke");
 
-                auto args = parseNamedList("function call");
+                auto args = parseArgList("function call");
 
                 exitEntity();
                 lhs = makeExpr<Invoke>(std::move(lhs), std::move(args), begin.to(cspan()));
@@ -1762,16 +1762,16 @@ namespace jc::parser {
         enterEntity("Attribute");
 
         auto name = parseId("attribute name");
-        auto params = parseNamedList("attribute");
+        auto params = parseArgList("attribute");
 
         exitEntity();
         return makeNode<Attribute>(std::move(name), std::move(params), begin.to(cspan()));
     }
 
-    arg_list Parser::parseNamedList(const std::string & construction) {
-        enterEntity("NamedList:" + construction);
+    arg_list Parser::parseArgList(const std::string & construction) {
+        enterEntity("ArgList:" + construction);
 
-        justSkip(TokenKind::LParen, "`(`", "`parseNamedList`");
+        justSkip(TokenKind::LParen, "`(`", "`parseArgList`");
 
         arg_list namedList;
 
@@ -1792,7 +1792,7 @@ namespace jc::parser {
             opt_expr_ptr value = dt::None;
 
             if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseNamedList`");
+                auto identifier = justParseId("`parseArgList`");
                 if (skipOpt(TokenKind::Colon)) {
                     name = identifier;
                     value = parseExpr("Expected value after `:`");
