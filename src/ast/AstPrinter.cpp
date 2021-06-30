@@ -669,7 +669,7 @@ namespace jc::ast {
     }
 
     // Generics //
-    void AstPrinter::visit(const GenericType & genericType) {
+    void AstPrinter::visit(const TypeParam & genericType) {
         printNodeId(genericType);
 
         genericType.name.accept(*this);
@@ -802,7 +802,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printTypeParams(const ast::opt_type_params & optTypeParams, bool pathPrefix) {
+    void AstPrinter::printTypeParams(const ast::opt_gen_params & optTypeParams, bool pathPrefix) {
         if (!optTypeParams) {
             return;
         }

@@ -144,19 +144,19 @@ namespace jc::resolve {
         return defId;
     }
 
-    void ModuleTreeBuilder::defineGenerics(const ast::opt_type_params & maybeGenerics) {
-        maybeGenerics.then([&](const ast::type_param_list & generics) {
+    void ModuleTreeBuilder::defineGenerics(const ast::opt_gen_params & maybeGenerics) {
+        maybeGenerics.then([&](const ast::gen_param_list & generics) {
             for (const auto & gen : generics) {
                 switch (gen->kind) {
-                    case ast::TypeParamKind::Type: {
-                        addDef(std::static_pointer_cast<ast::GenericType>(gen)->name, DefKind::TypeParam);
+                    case ast::GenericParamKind::Type: {
+                        addDef(std::static_pointer_cast<ast::TypeParam>(gen)->name, DefKind::TypeParam);
                         break;
                     }
-                    case ast::TypeParamKind::Const: {
+                    case ast::GenericParamKind::Const: {
                         addDef(std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
                         break;
                     }
-                    case ast::TypeParamKind::Lifetime: {
+                    case ast::GenericParamKind::Lifetime: {
                         addDef(std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
                         break;
                     }

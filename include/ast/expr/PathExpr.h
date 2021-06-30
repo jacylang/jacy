@@ -3,7 +3,7 @@
 
 #include "ast/expr/Expr.h"
 #include "ast/fragments/Identifier.h"
-#include "ast/fragments/TypeParams.h"
+#include "ast/fragments/Generics.h"
 
 namespace jc::ast {
     struct PathExpr;
@@ -24,7 +24,7 @@ namespace jc::ast {
 
         PathExprSeg(
             id_ptr ident,
-            opt_type_params typeParams,
+            opt_gen_params typeParams,
             const Span & span
         ) : Node(span),
             kind(Kind::Ident),
@@ -33,7 +33,7 @@ namespace jc::ast {
 
         PathExprSeg(
             Kind kind,
-            opt_type_params typeParams,
+            opt_gen_params typeParams,
             const Span & span
         ) : Node(span),
             kind(kind),
@@ -41,7 +41,7 @@ namespace jc::ast {
             typeParams(std::move(typeParams)) {}
 
         opt_id_ptr ident;
-        opt_type_params typeParams;
+        opt_gen_params typeParams;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

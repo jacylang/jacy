@@ -238,7 +238,7 @@ namespace jc::parser {
         tuple_t_el_list parseTupleFields();
 
         // Type fragments //
-        opt_type_params parseOptTypeParams();
+        opt_gen_params parseOptTypeParams();
         PR<type_path_ptr> parseTypePath(const std::string & suggMsg);
         opt_type_path_ptr parseOptTypePath();
 

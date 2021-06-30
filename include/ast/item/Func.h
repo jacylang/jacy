@@ -3,7 +3,7 @@
 
 #include "ast/item/Item.h"
 #include "ast/fragments/Identifier.h"
-#include "ast/fragments/TypeParams.h"
+#include "ast/fragments/Generics.h"
 #include "ast/fragments/Attribute.h"
 #include "ast/expr/Block.h"
 
@@ -35,7 +35,7 @@ namespace jc::ast {
     struct Func : Item {
         Func(
             parser::token_list modifiers,
-            opt_type_params typeParams,
+            opt_gen_params typeParams,
             id_ptr name,
             func_param_list params,
             opt_type_ptr returnType,
@@ -50,7 +50,7 @@ namespace jc::ast {
             body(std::move(body)) {}
 
         parser::token_list modifiers;
-        opt_type_params typeParams;
+        opt_gen_params typeParams;
         id_ptr name;
         func_param_list params;
         opt_type_ptr returnType;

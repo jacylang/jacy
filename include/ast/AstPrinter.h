@@ -95,7 +95,7 @@ namespace jc::ast {
         void visit(const UnitType & unitType) override;
 
         // Generics //
-        void visit(const GenericType & genericType) override;
+        void visit(const TypeParam & genericType) override;
         void visit(const Lifetime & lifetime) override;
         void visit(const ConstParam & constParam) override;
 
@@ -120,7 +120,7 @@ namespace jc::ast {
     private:
         void printAttributes(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
-        void printTypeParams(const opt_type_params & optTypeParams, bool pathPrefix = false);
+        void printTypeParams(const opt_gen_params & optTypeParams, bool pathPrefix = false);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 

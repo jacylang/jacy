@@ -2,12 +2,12 @@
 #define JACY_AST_ITEM_IMPL_H
 
 #include "ast/item/Item.h"
-#include "ast/fragments/TypeParams.h"
+#include "ast/fragments/Generics.h"
 
 namespace jc::ast {
     struct Impl : Item {
         Impl(
-            opt_type_params typeParams,
+            opt_gen_params typeParams,
             PR<type_path_ptr> traitTypePath,
             opt_type_ptr forType,
             item_list members,
@@ -18,7 +18,7 @@ namespace jc::ast {
             forType(std::move(forType)),
             members(std::move(members)) {}
 
-        opt_type_params typeParams;
+        opt_gen_params typeParams;
         PR<type_path_ptr> traitTypePath;
         opt_type_ptr forType;
         item_list members;

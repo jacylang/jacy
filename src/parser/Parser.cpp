@@ -1281,7 +1281,7 @@ namespace jc::parser {
                 }
             }
 
-            opt_type_params typeParams{dt::None};
+            opt_gen_params typeParams{dt::None};
             bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path)) {
                 typeParams = parseOptTypeParams();
@@ -2196,7 +2196,7 @@ namespace jc::parser {
         return makeType<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
-    opt_type_params Parser::parseOptTypeParams() {
+    opt_gen_params Parser::parseOptTypeParams() {
         logParseExtra("[opt] TypeParams");
 
         if (not is(TokenKind::LAngle)) {
@@ -2207,7 +2207,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LAngle, "`<`", "`parseOptTypeParams`");
 
-        type_param_list typeParams;
+        gen_param_list typeParams;
 
         bool first = true;
         while (not eof()) {
@@ -2235,7 +2235,7 @@ namespace jc::parser {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
                 typeParams.push_back(
-                    makeNode<GenericType>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
+                    makeNode<TypeParam>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
                 );
             } else if (skipOpt(TokenKind::Const)) {
                 auto name = parseId("`const` parameter name");

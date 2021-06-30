@@ -2,7 +2,7 @@
 #define JACY_AST_FRAGMENTS_TYPE_H
 
 #include "ast/Node.h"
-#include "ast/fragments/TypeParams.h"
+#include "ast/fragments/Generics.h"
 #include "ast/BaseVisitor.h"
 
 // TODO: Separate Types by files in folder `type`
@@ -117,11 +117,11 @@ namespace jc::ast {
     };
 
     struct TypePathSeg : Node {
-        TypePathSeg(id_ptr name, opt_type_params typeParams, const Span & span)
+        TypePathSeg(id_ptr name, opt_gen_params typeParams, const Span & span)
             : Node(span), name(std::move(name)), typeParams(std::move(typeParams)) {}
 
         id_ptr name;
-        opt_type_params typeParams;
+        opt_gen_params typeParams;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

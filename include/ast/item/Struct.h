@@ -2,7 +2,7 @@
 #define JACY_AST_ITEM_STRUCT_H
 
 #include "ast/item/Item.h"
-#include "ast/fragments/TypeParams.h"
+#include "ast/fragments/Generics.h"
 
 namespace jc::ast {
     struct StructField;
@@ -29,7 +29,7 @@ namespace jc::ast {
     struct Struct : Item {
         Struct(
             id_ptr name,
-            opt_type_params typeParams,
+            opt_gen_params typeParams,
             struct_field_list fields,
             const Span & span
         ) : Item(span, ItemKind::Struct),
@@ -38,7 +38,7 @@ namespace jc::ast {
             fields(std::move(fields)) {}
 
         id_ptr name;
-        opt_type_params typeParams;
+        opt_gen_params typeParams;
         struct_field_list fields;
 
         void accept(BaseVisitor & visitor) const override {
