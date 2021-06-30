@@ -2299,11 +2299,11 @@ namespace jc::parser {
         while (not eof()) {
             const auto & segBegin = cspan();
             auto name = parseId("identifier in type path");
-            auto typeParams = parseOptGenerics();
+            auto generics = parseOptGenerics();
 
             segments.push_back(
                 makeNode<TypePathSeg>(
-                    std::move(name), std::move(typeParams), segBegin.to(cspan())
+                    std::move(name), std::move(generics), segBegin.to(cspan())
                 )
             );
 
