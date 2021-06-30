@@ -802,19 +802,16 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printGenerics(const ast::opt_gen_params & optGenerics, bool pathPrefix) {
-        if (!optGenerics) {
-            return;
-        }
+    void AstPrinter::printGenerics(const ast::opt_gen_params & generics, bool pathPrefix) {
+        generics.then([&](const auto & generics) {
+            if (generics.empty()) {
+                return;
+            } else if (pathPrefix) {
+                log.raw("::");
+            }
 
-        auto generics = optGenerics.unwrap("AstPrinter -> print typeParams -> optTypeParams");
-        if (generics.empty()) {
-            return;
-        } else if (pathPrefix) {
-            log.raw("::");
-        }
-
-        printDelim(generics, "<", ">");
+            printDelim(generics, "<", ">");
+        });
     }
 
     // Indentation //
