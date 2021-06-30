@@ -446,8 +446,8 @@ namespace jc::ast {
                 log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
             }
         }
-        if (seg.typeParams) {
-            lintEach(seg.typeParams.unwrap());
+        if (seg.generics) {
+            lintEach(seg.generics.unwrap());
         }
     }
 

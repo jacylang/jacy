@@ -24,24 +24,24 @@ namespace jc::ast {
 
         PathExprSeg(
             id_ptr ident,
-            opt_gen_params typeParams,
+            opt_gen_params generics,
             const Span & span
         ) : Node(span),
             kind(Kind::Ident),
             ident(std::move(ident)),
-            typeParams(std::move(typeParams)) {}
+            generics(std::move(generics)) {}
 
         PathExprSeg(
             Kind kind,
-            opt_gen_params typeParams,
+            opt_gen_params generics,
             const Span & span
         ) : Node(span),
             kind(kind),
             ident(dt::None),
-            typeParams(std::move(typeParams)) {}
+            generics(std::move(generics)) {}
 
         opt_id_ptr ident;
-        opt_gen_params typeParams;
+        opt_gen_params generics;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

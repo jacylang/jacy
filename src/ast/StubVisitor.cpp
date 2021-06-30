@@ -257,8 +257,8 @@ namespace jc::ast {
             }
             default:;
         }
-        if (seg.typeParams) {
-            visitEach(seg.typeParams.unwrap());
+        if (seg.generics) {
+            visitEach(seg.generics.unwrap());
         }
     }
 

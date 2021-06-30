@@ -482,7 +482,7 @@ namespace jc::ast {
                 log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
             }
         }
-        printTypeParams(seg.typeParams, true);
+        printTypeParams(seg.generics, true);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
