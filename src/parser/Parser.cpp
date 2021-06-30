@@ -499,7 +499,7 @@ namespace jc::parser {
         justSkip(TokenKind::Trait, "`trait`", "`parseTrait`");
 
         auto name = parseId("`trait` name");
-        auto typeParams = parseOptGenerics();
+        auto generics = parseOptGenerics();
 
         type_path_list superTraits;
         if (skipOpt(TokenKind::Colon)) {
@@ -530,7 +530,7 @@ namespace jc::parser {
 
         return makeItem<Trait>(
             std::move(name),
-            std::move(typeParams),
+            std::move(generics),
             std::move(superTraits),
             std::move(members),
             begin.to(cspan())
