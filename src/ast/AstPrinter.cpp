@@ -669,13 +669,13 @@ namespace jc::ast {
     }
 
     // Generics //
-    void AstPrinter::visit(const TypeParam & genericType) {
-        printNodeId(genericType);
+    void AstPrinter::visit(const TypeParam & typeParam) {
+        printNodeId(typeParam);
 
-        genericType.name.accept(*this);
-        if (genericType.boundType) {
+        typeParam.name.accept(*this);
+        if (typeParam.boundType) {
             log.raw(": ");
-            genericType.boundType.unwrap().accept(*this);
+            typeParam.boundType.unwrap().accept(*this);
         }
     }
 
