@@ -2197,17 +2197,17 @@ namespace jc::parser {
     }
 
     opt_gen_params Parser::parseOptGenerics() {
-        logParseExtra("[opt] TypeParams");
+        logParseExtra("[opt] Generics");
 
         if (not is(TokenKind::LAngle)) {
             return dt::None;
         }
 
-        enterEntity("TypeParams");
+        enterEntity("Generics");
 
         justSkip(TokenKind::LAngle, "`<`", "`parseOptGenerics`");
 
-        gen_param_list typeParams;
+        gen_param_list generics;
 
         bool first = true;
         while (not eof()) {
@@ -2221,12 +2221,12 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator between type parameters");
             }
 
-            const auto & typeParamBegin = cspan();
+            const auto & genBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick)) {
                 auto name = parseId("lifetime parameter name");
-                typeParams.push_back(
-                    makeNode<Lifetime>(std::move(name), typeParamBegin.to(cspan()))
+                generics.push_back(
+                    makeNode<Lifetime>(std::move(name), genBegin.to(cspan()))
                 );
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
@@ -2234,8 +2234,8 @@ namespace jc::parser {
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                typeParams.push_back(
-                    makeNode<TypeParam>(std::move(name), std::move(type), typeParamBegin.to(cspan()))
+                generics.push_back(
+                    makeNode<TypeParam>(std::move(name), std::move(type), genBegin.to(cspan()))
                 );
             } else if (skipOpt(TokenKind::Const)) {
                 auto name = parseId("`const` parameter name");
@@ -2249,20 +2249,20 @@ namespace jc::parser {
                 if (skipOpt(TokenKind::Assign)) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
-                typeParams.push_back(
+                generics.push_back(
                     makeNode<ConstParam>(
-                        std::move(name), std::move(type), std::move(defaultValue), typeParamBegin.to(cspan())
+                        std::move(name), std::move(type), std::move(defaultValue), genBegin.to(cspan())
                     )
                 );
             } else {
-                suggestErrorMsg("Expected type parameter", typeParamBegin);
+                suggestErrorMsg("Expected type parameter", genBegin);
             }
         }
         skip(TokenKind::RAngle, "Missing closing `>` in type parameter list");
 
         exitEntity();
 
-        return typeParams;
+        return generics;
     }
 
     PR<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
