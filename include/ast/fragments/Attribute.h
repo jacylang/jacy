@@ -3,7 +3,7 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/Identifier.h"
-#include "ast/fragments/NamedList.h"
+#include "ast/fragments/Arg.h"
 
 namespace jc::ast {
     struct Attribute;

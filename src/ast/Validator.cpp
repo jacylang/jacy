@@ -619,7 +619,7 @@ namespace jc::ast {
 
     void Validator::visit(const Identifier&) {}
 
-    void Validator::visit(const NamedElement & el) {
+    void Validator::visit(const Arg & el) {
         if (el.name) {
             el.name.unwrap().accept(*this);
         }

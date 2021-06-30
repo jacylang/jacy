@@ -1,7 +1,7 @@
 #ifndef JACY_AST_EXPR_INVOKE_H
 #define JACY_AST_EXPR_INVOKE_H
 
-#include "ast/fragments/NamedList.h"
+#include "ast/fragments/Arg.h"
 
 namespace jc::ast {
     struct Invoke : Expr {

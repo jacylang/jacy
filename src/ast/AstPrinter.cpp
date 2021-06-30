@@ -715,7 +715,7 @@ namespace jc::ast {
         log.raw(id.getValue());
     }
 
-    void AstPrinter::visit(const NamedElement & el) {
+    void AstPrinter::visit(const Arg & el) {
         printNodeId(el);
 
         if (el.name) {

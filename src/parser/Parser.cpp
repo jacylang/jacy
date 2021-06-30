@@ -1421,7 +1421,7 @@ namespace jc::parser {
             }
 
             namedList.push_back(
-                makeNode<NamedElement>(std::move(name), std::move(value), exprToken.span.to(cspan()))
+                makeNode<Arg>(std::move(name), std::move(value), exprToken.span.to(cspan()))
             );
         }
         skip(TokenKind::RParen, "Expected closing `)`");
@@ -1817,7 +1817,7 @@ namespace jc::parser {
             }
 
             namedList.emplace_back(
-                makeNode<NamedElement>(
+                makeNode<Arg>(
                     std::move(name), std::move(value), exprToken.span.to(cspan())
                 )
             );

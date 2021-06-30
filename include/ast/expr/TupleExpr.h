@@ -1,7 +1,7 @@
 #ifndef JACY_AST_EXPR_TUPLEEXPR_H
 #define JACY_AST_EXPR_TUPLEEXPR_H
 
-#include "ast/fragments/NamedList.h"
+#include "ast/fragments/Arg.h"
 
 namespace jc::ast {
     struct TupleExpr : Expr {

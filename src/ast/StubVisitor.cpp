@@ -398,7 +398,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const Identifier&) {}
 
-    void StubVisitor::visit(const NamedElement & el) {
+    void StubVisitor::visit(const Arg & el) {
         if (el.name) {
             el.name.unwrap().accept(*this);
         }
