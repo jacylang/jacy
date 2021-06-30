@@ -120,7 +120,7 @@ namespace jc::ast {
     private:
         void printAttributes(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
-        void printGenerics(const opt_gen_params & optTypeParams, bool pathPrefix = false);
+        void printGenerics(const opt_gen_params & optGenerics, bool pathPrefix = false);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 
