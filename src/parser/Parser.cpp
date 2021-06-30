@@ -271,7 +271,7 @@ namespace jc::parser {
         justSkip(TokenKind::Enum, "`enum`", "`parseEnum`");
 
         auto name = parseId("`enum` name");
-        auto typeParams = parseOptGenerics();
+        auto generics = parseOptGenerics();
 
         enum_entry_list entries;
         if (not isSemis()) {
