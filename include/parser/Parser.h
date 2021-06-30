@@ -221,7 +221,7 @@ namespace jc::parser {
         opt_block_ptr parseFuncBody();
         attr_list parseAttrList();
         dt::Option<attr_ptr> parseAttr();
-        named_list parseNamedList(const std::string & construction);
+        arg_list parseNamedList(const std::string & construction);
         parser::token_list parseModifiers();
         func_param_list parseFuncParamList();
         func_param_ptr parseFuncParam();

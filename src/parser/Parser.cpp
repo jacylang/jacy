@@ -1377,7 +1377,7 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        named_list namedList;
+        arg_list namedList;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
@@ -1768,12 +1768,12 @@ namespace jc::parser {
         return makeNode<Attribute>(std::move(name), std::move(params), begin.to(cspan()));
     }
 
-    named_list Parser::parseNamedList(const std::string & construction) {
+    arg_list Parser::parseNamedList(const std::string & construction) {
         enterEntity("NamedList:" + construction);
 
         justSkip(TokenKind::LParen, "`(`", "`parseNamedList`");
 
-        named_list namedList;
+        arg_list namedList;
 
         bool first = true;
         while (not eof()) {

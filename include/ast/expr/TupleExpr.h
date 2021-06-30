@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct TupleExpr : Expr {
-        TupleExpr(named_list elements, const Span & span)
+        TupleExpr(arg_list elements, const Span & span)
             : Expr(span, ExprKind::Tuple), elements(std::move(elements)) {}
 
-        named_list elements;
+        arg_list elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

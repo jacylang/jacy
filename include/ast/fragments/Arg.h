@@ -6,8 +6,8 @@
 
 namespace jc::ast {
     struct Arg;
-    using named_el_ptr = std::shared_ptr<Arg>;
-    using named_list = std::vector<named_el_ptr>;
+    using arg_ptr = std::shared_ptr<Arg>;
+    using arg_list = std::vector<arg_ptr>;
 
     struct Arg : Node {
         Arg(opt_id_ptr name, opt_expr_ptr value, const Span & span)

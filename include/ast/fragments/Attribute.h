@@ -11,11 +11,11 @@ namespace jc::ast {
     using attr_list = std::vector<attr_ptr>;
 
     struct Attribute : Node {
-        Attribute(id_ptr name, named_list params, const Span & span)
+        Attribute(id_ptr name, arg_list params, const Span & span)
             : Node(span), name(std::move(name)), params(std::move(params)) {}
 
         id_ptr name;
-        named_list params;
+        arg_list params;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
