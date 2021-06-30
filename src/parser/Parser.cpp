@@ -1773,7 +1773,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LParen, "`(`", "`parseArgList`");
 
-        arg_list namedList;
+        arg_list args;
 
         bool first = true;
         while (not eof()) {
@@ -1787,46 +1787,30 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator between arguments in " + construction);
             }
 
-            const auto & exprToken = peek();
-            opt_id_ptr name = dt::None;
-            opt_expr_ptr value = dt::None;
+            const auto & argBegin = cspan();
 
-            if (is(TokenKind::Id)) {
+            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
                 auto identifier = justParseId("`parseArgList`");
-                if (skipOpt(TokenKind::Colon)) {
-                    name = identifier;
-                    value = parseExpr("Expected value after `:`");
-                } else {
-                    // Recover path expression
-                    // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto generics = parseOptGenerics();
-                    value = makeExpr<PathExpr>(
-                        false,
-                        path_expr_seg_list{
-                            makeNode<PathExprSeg>(
-                                std::move(identifier),
-                                generics,
-                                exprToken.span.to(cspan())
-                            )
-                        },
-                        exprToken.span.to(cspan())
-                    );
-                }
+                justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
+                auto value = parseExpr("Expected value after `:`");
+                args.emplace_back(
+                    makeNode<Arg>(
+                        std::move(identifier),
+                        std::move(value),
+                        argBegin.to(cspan())
+                    )
+                );
             } else {
-                value = parseExpr("Expression expected");
+                auto value = parseExpr("Expression expected");
+                args.emplace_back(makeNode<Arg>(dt::None, std::move(value), argBegin.to(cspan())));
             }
-
-            namedList.emplace_back(
-                makeNode<Arg>(
-                    std::move(name), std::move(value), exprToken.span.to(cspan())
-                )
-            );
         }
+
         skip(TokenKind::RParen, "Expected closing `)` in " + construction);
 
         exitEntity();
 
-        return namedList;
+        return args;
     }
 
     parser::token_list Parser::parseModifiers() {
