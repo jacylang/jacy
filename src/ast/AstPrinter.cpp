@@ -147,7 +147,7 @@ namespace jc::ast {
         printNodeId(impl);
 
         log.raw("impl");
-        printTypeParams(impl.typeParams);
+        printTypeParams(impl.generics);
         log.raw(" ");
         impl.traitTypePath.accept(*this);
         if (impl.forType) {

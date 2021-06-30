@@ -122,8 +122,8 @@ namespace jc::ast {
     void Validator::visit(const Impl & impl) {
         // TODO: lint attributes
 
-        if (impl.typeParams) {
-            lintEach(impl.typeParams.unwrap());
+        if (impl.generics) {
+            lintEach(impl.generics.unwrap());
         }
 
         impl.traitTypePath.accept(*this);

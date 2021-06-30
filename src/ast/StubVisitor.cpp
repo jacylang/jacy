@@ -78,8 +78,8 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Impl & impl) {
-        if (impl.typeParams) {
-            visitEach(impl.typeParams.unwrap());
+        if (impl.generics) {
+            visitEach(impl.generics.unwrap());
         }
         impl.traitTypePath.accept(*this);
         if (impl.forType) {
