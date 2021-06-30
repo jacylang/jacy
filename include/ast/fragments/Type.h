@@ -117,11 +117,11 @@ namespace jc::ast {
     };
 
     struct TypePathSeg : Node {
-        TypePathSeg(id_ptr name, opt_gen_params typeParams, const Span & span)
-            : Node(span), name(std::move(name)), typeParams(std::move(typeParams)) {}
+        TypePathSeg(id_ptr name, opt_gen_params generics, const Span & span)
+            : Node(span), name(std::move(name)), generics(std::move(generics)) {}
 
         id_ptr name;
-        opt_gen_params typeParams;
+        opt_gen_params generics;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

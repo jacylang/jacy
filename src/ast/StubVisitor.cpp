@@ -363,8 +363,8 @@ namespace jc::ast {
     void StubVisitor::visit(const TypePathSeg & seg) {
         seg.name.accept(*this);
 
-        if (seg.typeParams) {
-            visitEach(seg.typeParams.unwrap());
+        if (seg.generics) {
+            visitEach(seg.generics.unwrap());
         }
     }
 

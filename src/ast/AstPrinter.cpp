@@ -659,7 +659,7 @@ namespace jc::ast {
         printNodeId(seg);
 
         seg.name.accept(*this);
-        printGenerics(seg.typeParams);
+        printGenerics(seg.generics);
     }
 
     void AstPrinter::visit(const UnitType & unitType) {

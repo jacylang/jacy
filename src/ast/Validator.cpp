@@ -582,8 +582,8 @@ namespace jc::ast {
     void Validator::visit(const TypePathSeg & seg) {
         seg.name.accept(*this);
 
-        if (seg.typeParams) {
-            lintEach(seg.typeParams.unwrap());
+        if (seg.generics) {
+            lintEach(seg.generics.unwrap());
         }
     }
 
