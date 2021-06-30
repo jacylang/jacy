@@ -92,8 +92,8 @@ namespace jc::ast {
             }
         }
 
-        if (func.typeParams) {
-            lintEach(func.typeParams.unwrap());
+        if (func.generics) {
+            lintEach(func.generics.unwrap());
         }
 
         func.name.accept(*this);

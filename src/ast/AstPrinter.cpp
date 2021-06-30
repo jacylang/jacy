@@ -105,7 +105,7 @@ namespace jc::ast {
 
         printModifiers(func.modifiers);
         log.raw("func");
-        printTypeParams(func.typeParams);
+        printTypeParams(func.generics);
         log.raw(" ");
 
         colorizeDef(func.name);

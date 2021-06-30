@@ -53,8 +53,8 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Func & func) {
-        if (func.typeParams) {
-            visitEach(func.typeParams.unwrap());
+        if (func.generics) {
+            visitEach(func.generics.unwrap());
         }
         func.name.accept(*this);
 
