@@ -29,16 +29,16 @@ namespace jc::ast {
     struct Struct : Item {
         Struct(
             id_ptr name,
-            opt_gen_params typeParams,
+            opt_gen_params generics,
             struct_field_list fields,
             const Span & span
         ) : Item(span, ItemKind::Struct),
             name(std::move(name)),
-            typeParams(std::move(typeParams)),
+            generics(std::move(generics)),
             fields(std::move(fields)) {}
 
         id_ptr name;
-        opt_gen_params typeParams;
+        opt_gen_params generics;
         struct_field_list fields;
 
         void accept(BaseVisitor & visitor) const override {

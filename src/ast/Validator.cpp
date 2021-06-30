@@ -149,8 +149,8 @@ namespace jc::ast {
 
         _struct.name.accept(*this);
 
-        if (_struct.typeParams) {
-            lintEach(_struct.typeParams.unwrap());
+        if (_struct.generics) {
+            lintEach(_struct.generics.unwrap());
         }
 
         pushContext(ValidatorCtx::Struct);
