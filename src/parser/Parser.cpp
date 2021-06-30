@@ -400,7 +400,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Impl, "`impl`", "`parseImpl`");
 
-        auto typeParams = parseOptGenerics();
+        auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath("Expected path to trait type");
 
         opt_type_ptr forType{dt::None};
@@ -413,7 +413,7 @@ namespace jc::parser {
         exitEntity();
 
         return makeItem<Impl>(
-            std::move(typeParams),
+            std::move(generics),
             std::move(traitTypePath),
             std::move(forType),
             std::move(members),
