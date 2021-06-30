@@ -429,7 +429,7 @@ namespace jc::parser {
         justSkip(TokenKind::Struct, "`struct`", "`parseStruct`");
 
         auto name = parseId("`struct` name");
-        auto typeParams = parseOptGenerics();
+        auto generics = parseOptGenerics();
 
         struct_field_list fields;
         if (not isSemis()) {
@@ -449,7 +449,7 @@ namespace jc::parser {
         exitEntity();
 
         return makeItem<Struct>(
-            std::move(name), std::move(typeParams), std::move(fields), begin.to(cspan())
+            std::move(name), std::move(generics), std::move(fields), begin.to(cspan())
         );
     }
 
