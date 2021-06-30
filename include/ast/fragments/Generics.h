@@ -1,5 +1,5 @@
-#ifndef JACY_AST_FRAGMENTS_TYPEPARAMS_H
-#define JACY_AST_FRAGMENTS_TYPEPARAMS_H
+#ifndef JACY_AST_FRAGMENTS_GENERICS_H
+#define JACY_AST_FRAGMENTS_GENERICS_H
 
 #include "Identifier.h"
 
@@ -77,6 +77,6 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_FRAGMENTS_TYPEPARAMS_H
+#endif // JACY_AST_FRAGMENTS_GENERICS_H
 
 
