@@ -100,7 +100,7 @@ namespace jc::ast {
         void visit(const UnitType & unitType) override;
 
         // Type params //
-        void visit(const TypeParam & genericType) override;
+        void visit(const TypeParam & typeParam) override;
         void visit(const Lifetime & lifetime) override;
         void visit(const ConstParam & constParam) override;
 

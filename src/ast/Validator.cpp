@@ -592,10 +592,10 @@ namespace jc::ast {
     }
 
     // Type params //
-    void Validator::visit(const TypeParam & genericType) {
-        genericType.name.accept(*this);
-        if (genericType.boundType) {
-            genericType.boundType.unwrap().accept(*this);
+    void Validator::visit(const TypeParam & typeParam) {
+        typeParam.name.accept(*this);
+        if (typeParam.boundType) {
+            typeParam.boundType.unwrap().accept(*this);
         }
     }
 
