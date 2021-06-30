@@ -1281,16 +1281,16 @@ namespace jc::parser {
                 }
             }
 
-            opt_gen_params typeParams{dt::None};
+            opt_gen_params generics{dt::None};
             bool pathNotGeneric = false;
             if (skipOpt(TokenKind::Path)) {
-                typeParams = parseOptGenerics();
-                pathNotGeneric = not typeParams;
+                generics = parseOptGenerics();
+                pathNotGeneric = not generics;
             }
 
             if (kind == PathExprSeg::Kind::Ident) {
                 segments.push_back(
-                    makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(typeParams), segmentBegin.to(cspan()))
+                    makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
                 );
             } else if (kind == PathExprSeg::Kind::Error) {
                 segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
@@ -1299,7 +1299,7 @@ namespace jc::parser {
                 }
             } else {
                 segments.push_back(
-                    makeNode<PathExprSeg>(kind, std::move(typeParams), segmentBegin.to(cspan()))
+                    makeNode<PathExprSeg>(kind, std::move(generics), segmentBegin.to(cspan()))
                 );
             }
 
