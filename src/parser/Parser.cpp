@@ -1799,13 +1799,13 @@ namespace jc::parser {
                 } else {
                     // Recover path expression
                     // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto typeParams = parseOptGenerics();
+                    auto generics = parseOptGenerics();
                     value = makeExpr<PathExpr>(
                         false,
                         path_expr_seg_list{
                             makeNode<PathExprSeg>(
                                 std::move(identifier),
-                                typeParams,
+                                generics,
                                 exprToken.span.to(cspan())
                             )
                         },
