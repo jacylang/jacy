@@ -1377,8 +1377,9 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        arg_list namedList;
+        expr_list values;
         bool first = true;
+        bool forceTuple = false;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
@@ -1390,51 +1391,24 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
             }
 
-            auto exprToken = peek();
-
-            opt_id_ptr name = dt::None;
-            opt_expr_ptr value = dt::None;
-
-            if (is(TokenKind::Id)) {
-                auto identifier = justParseId("`parseTupleOrParenExpr`");
-                if (skipOpt(TokenKind::Colon)) {
-                    name = identifier;
-                    value = parseExpr("Expected value after `:` in tuple");
-                } else {
-                    // Recover path expression
-                    // We collected one identifier, and if it is not a tuple element name, we need to use it as path
-                    auto generics = parseOptGenerics();
-                    value = makeExpr<PathExpr>(
-                        false,
-                        path_expr_seg_list{
-                            makeNode<PathExprSeg>(
-                                std::move(identifier),
-                                generics,
-                                exprToken.span.to(cspan())
-                            )
-                        },
-                        exprToken.span.to(cspan())
-                    );
-                }
-            } else {
-                value = parseExpr("Expression expected");
+            if (is(TokenKind::RParen)) {
+                // If there's a trailing comma -- it is 100% tuple
+                forceTuple = true;
+                break;
             }
 
-            namedList.push_back(
-                makeNode<Arg>(std::move(name), std::move(value), exprToken.span.to(cspan()))
-            );
+            values.emplace_back(parseExpr("Expression expected"));
         }
+
         skip(TokenKind::RParen, "Expected closing `)`");
 
-        if (namedList.size() == 1 and not namedList.at(0)->name and namedList.at(0)->value) {
+        if (not forceTuple and values.size() == 1) {
             exitEntity();
-            return makeExpr<ParenExpr>(
-                namedList.at(0)->value.unwrap("`parseTupleOrParenExpr` -> `parenExpr`"), begin.to(cspan())
-            );
+            return makeExpr<ParenExpr>(std::move(values.at(0)), begin.to(cspan()));
         }
 
         exitEntity();
-        return makeExpr<TupleExpr>(std::move(namedList), begin.to(cspan()));
+        return makeExpr<TupleExpr>(std::move(values), begin.to(cspan()));
     }
 
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
