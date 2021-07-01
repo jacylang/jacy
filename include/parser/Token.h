@@ -123,6 +123,7 @@ namespace jc::parser {
         NotIn,
         Infix,
         Loop,
+        Match,
         Module,
         Move,
         Mut,
