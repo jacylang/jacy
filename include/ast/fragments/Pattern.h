@@ -8,6 +8,7 @@ namespace jc::ast {
     struct Pattern;
     struct IdentPattern;
     using pat_ptr = std::shared_ptr<Pattern>;
+    using pat_list = std::vector<pat_ptr>;
     using id_pat_ptr = std::shared_ptr<IdentPattern>;
 
     enum class PatternKind {

@@ -3,6 +3,7 @@
 
 #include "ast/expr/Expr.h"
 #include "Block.h"
+#include "ast/fragments/Pattern.h"
 
 namespace jc::ast {
     struct MatchArm;
@@ -11,14 +12,14 @@ namespace jc::ast {
 
     struct MatchArm : Node {
         MatchArm(
-            expr_list conditions,
+            pat_list patterns,
             block_ptr body,
             const Span & span
         ) : Node(span),
-            conditions(std::move(conditions)),
+            patterns(std::move(patterns)),
             body(std::move(body)) {}
 
-        expr_list conditions;
+        pat_list patterns;
         block_ptr body;
 
         void accept(BaseVisitor & visitor) const override {
