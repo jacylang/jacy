@@ -17,6 +17,11 @@ const int_types = [
 
 const float_types = ['f32', 'f64']
 
+const PREC = {
+    assign: 0,
+    or: 
+}
+
 const delim1 = (del, rule) => seq(rule, repeat(seq(del, rule)))
 const delim = (del, rule) => optional(delim1(del, rule))
 const trail_comma = optional(',')
@@ -31,6 +36,7 @@ module.exports = grammar({
         [$._path_expr_seg, $._path_expr_seg],
         [$._expr, $._pattern],
         [$._path_ident, $.ident_pat],
+        [$._literal, $.lit_pat],
     ],
 
     word: $ => $.ident,
@@ -198,6 +204,8 @@ module.exports = grammar({
 
             $.block_expr,
 
+            $.binop_expr,
+
             $.lambda,
             $.unit_expr,
             $.tuple,
@@ -226,6 +234,12 @@ module.exports = grammar({
         ),
 
         block_expr: $ => seq('{', repeat($._statement), '}'),
+        
+        binop_expr: $ => {
+            const precTable = {
+
+            }
+        },
 
         path_expr: $ => seq(
             optional('::'),
@@ -405,7 +419,11 @@ module.exports = grammar({
         ),
 
         lit_pat: $ => choice(
-            
+            $.bool_lit,
+            seq(optional('-'), $.int_lit),
+            seq(optional('-'), $.float_lit),
+            $.char_lit,
+            $.string_lit,
         ),
 
         ident_pat: $ => seq(
