@@ -2326,6 +2326,17 @@ namespace jc::parser {
         return makeNode<IdentPattern>(ref, mut, std::move(id), begin.to(id.span()));
     }
 
+    pat_ptr Parser::parseRefPattern() {
+        logParse("RefPattern");
+
+        const auto & begin = cspan();
+        bool ref = skipOpt(TokenKind::BitOr);
+        bool mut = skipOpt(TokenKind::Mut);
+        auto pat = parsePattern();
+
+        return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
+    }
+
     // Helpers //
     Span Parser::cspan() const {
         return peek().span;
