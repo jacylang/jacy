@@ -16,6 +16,7 @@ namespace jc::ast {
         Ident,
         Wildcard,
         Spread,
+        Ref,
     };
 
     struct Pattern : Node {
@@ -70,7 +71,14 @@ namespace jc::ast {
 
     // TODO: Range patterns
 
-    // TODO: Ref pattern
+    struct RefPattern : Pattern {
+        RefPattern(bool ref, bool mut, pat_ptr && pat, const Span & span)
+            : ref(ref), mut(mut), pat(std::move(pat)), Pattern(PatternKind::Ref, span) {}
+
+        bool ref;
+        bool mut;
+        pat_ptr pat;
+    };
 
     // TODO: Struct pattern
 
