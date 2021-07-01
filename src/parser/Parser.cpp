@@ -2278,6 +2278,12 @@ namespace jc::parser {
     }
 
     // Patterns //
+    pat_ptr Parser::parsePattern() {
+        logParse("Pattern");
+
+
+    }
+
     id_pat_ptr Parser::parseIdentPat() {
         logParse("IdentPattern");
 

@@ -243,6 +243,7 @@ namespace jc::parser {
         opt_type_path_ptr parseOptTypePath();
 
         // Patterns //
+        pat_ptr parsePattern();
         id_pat_ptr parseIdentPat();
 
         template<class T>
