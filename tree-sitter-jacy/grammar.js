@@ -37,6 +37,8 @@ module.exports = grammar({
         source_file: $ => repeat($._item),
 
         // Literals //
+        bool_lit: $ => choice('true', 'false'),
+
         int_lit: $ => token(seq(
             choice(
                 /[0-9][0-9+]*/, // Raw dec
@@ -200,6 +202,7 @@ module.exports = grammar({
         ),
 
         _literal: $ => choice(
+            $.bool_lit,
             $.int_lit,
             $.string_lit,
         ),

@@ -9,6 +9,19 @@
         "name": "_item"
       }
     },
+    "bool_lit": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "true"
+        },
+        {
+          "type": "STRING",
+          "value": "false"
+        }
+      ]
+    },
     "int_lit": {
       "type": "TOKEN",
       "content": {
@@ -939,6 +952,10 @@
     "_literal": {
       "type": "CHOICE",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "bool_lit"
+        },
         {
           "type": "SYMBOL",
           "name": "int_lit"
