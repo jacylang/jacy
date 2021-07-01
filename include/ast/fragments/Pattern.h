@@ -54,6 +54,10 @@ namespace jc::ast {
 
     struct WildcardPattern : Pattern {
         WildcardPattern(const Span & span) : Pattern(PatternKind::Wildcard, span) {}
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct SpreadPattern : Pattern {
