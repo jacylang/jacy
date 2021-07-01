@@ -71,15 +71,6 @@ namespace jc::ast {
 
     // TODO: Range patterns
 
-    struct RefPattern : Pattern {
-        RefPattern(bool ref, bool mut, pat_ptr && pat, const Span & span)
-            : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
-
-        bool ref;
-        bool mut;
-        pat_ptr pat;
-    };
-
     // TODO: Struct pattern
 
     // TODO: Tuple pattern

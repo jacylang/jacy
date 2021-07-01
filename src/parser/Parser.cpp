@@ -2326,7 +2326,7 @@ namespace jc::parser {
         return makeNode<IdentPattern>(ref, mut, std::move(id), begin.to(id.span()));
     }
 
-
+    // Helpers //
     Span Parser::cspan() const {
         return peek().span;
     }

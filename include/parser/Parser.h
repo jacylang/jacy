@@ -246,7 +246,10 @@ namespace jc::parser {
         pat_ptr parsePattern();
         pat_ptr parseLiteralPattern();
         id_pat_ptr parseIdentPat();
+        pat_ptr parseRefPattern();
 
+        // Helpers //
+    private:
         template<class T>
         T errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
             if (option.none()) {
