@@ -214,7 +214,7 @@ namespace jc::parser {
         // Control-flow expressions //
         expr_ptr parseIfExpr(bool isElif = false);
         expr_ptr parseLoopExpr();
-        expr_ptr parseWhenExpr();
+        expr_ptr parseMatchExpr();
         match_arm_ptr parseWhenEntry();
 
         // Fragments //

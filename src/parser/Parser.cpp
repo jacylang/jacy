@@ -1185,7 +1185,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::When)) {
-            return parseWhenExpr();
+            return parseMatchExpr();
         }
 
         if (is(TokenKind::Loop)) {
@@ -1616,12 +1616,12 @@ namespace jc::parser {
         return makeExpr<LoopExpr>(std::move(body), begin.to(cspan()));
     }
 
-    expr_ptr Parser::parseWhenExpr() {
+    expr_ptr Parser::parseMatchExpr() {
         enterEntity("WhenExpr");
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::When, "`when`", "`parseWhenExpr`");
+        justSkip(TokenKind::When, "`when`", "`parseMatchExpr`");
 
         auto subject = parseExpr("Expected subject expression in `when` expression");
 
