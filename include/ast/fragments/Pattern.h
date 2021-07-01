@@ -3,6 +3,7 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/Identifier.h"
+#include "ast/expr/PathExpr.h"
 
 namespace jc::ast {
     struct Pattern;
@@ -17,6 +18,7 @@ namespace jc::ast {
         Wildcard,
         Spread,
         Ref,
+        Struct,
     };
 
     struct Pattern : Node {
@@ -84,7 +86,34 @@ namespace jc::ast {
         }
     };
 
-    // TODO: Struct pattern
+    // Struct Pattern //
+    struct StructPatNamedEl {
+        StructPatNamedEl(id_ptr && name, pat_ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
+
+        id_ptr name;
+        pat_ptr pat;
+    };
+
+    struct StructPatEl {
+        // `name: pattern` case (match field insides)
+        StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
+
+        // `ref mut name` case (borrow field)
+        StructPatEl(id_pat_ptr && idPat) : el(std::move(idPat)) {}
+
+        // `...` case
+        StructPatEl(const Span & span) : el(std::move(span)) {}
+
+        std::variant<StructPatNamedEl, id_pat_ptr, Span> el;
+    };
+
+    struct StructPattern : Pattern {
+        StructPattern(path_expr_ptr path, std::vector<StructPatEl> && elements, const Span & span)
+            : Pattern(PatternKind::Struct, span), path(path), elements(std::move(elements)) {}
+
+        path_expr_ptr path;
+        std::vector<StructPatEl> elements;
+    };
 
     // TODO: Tuple pattern
 
