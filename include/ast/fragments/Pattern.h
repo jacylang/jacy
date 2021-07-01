@@ -103,6 +103,10 @@ namespace jc::ast {
     };
 
     struct StructPatEl {
+        enum class Kind {
+            Named
+        };
+
         // `field: pattern` case (match field insides)
         StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
 
