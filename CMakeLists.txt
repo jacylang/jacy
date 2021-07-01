@@ -19,6 +19,7 @@ add_compile_options(
         -Wall
     #   Uncomment this line when want to suffer a little bit
     #    -Werror
+        -Wno-trigraphs # `??=` and etc. produces a warning
         -pedantic
         -pedantic-errors
         -Wextra

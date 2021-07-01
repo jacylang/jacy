@@ -816,10 +816,6 @@ namespace jc::parser {
             return Ok(makeExpr<BreakExpr>(std::move(expr), begin.to(cspan())));
         }
 
-        if (is(TokenKind::BitOr) or is(TokenKind::Or)) {
-            return Ok(parseLambda());
-        }
-
         return assignment();
     }
 
