@@ -94,6 +94,14 @@ namespace jc::ast {
         pat_ptr pat;
     };
 
+    struct StructPatIdentEl {
+        StructPatIdentEl(bool ref, bool mut, id_ptr && name) : ref(ref), mut(mut), name(std::move(name)) {}
+
+        bool ref;
+        bool mut;
+        id_ptr name;
+    };
+
     struct StructPatEl {
         // `field: pattern` case (match field insides)
         StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
