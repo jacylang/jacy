@@ -14,6 +14,7 @@ namespace jc::ast {
     enum class PatternKind {
         Literal,
         Ident,
+        Wildcard,
         Spread,
     };
 
@@ -51,7 +52,9 @@ namespace jc::ast {
         }
     };
 
-    // TODO: Wildcard pattern
+    struct WildcardPattern : Pattern {
+        WildcardPattern(const Span & span) : Pattern(PatternKind::Wildcard, span) {}
+    };
 
     struct SpreadPattern : Pattern {
         SpreadPattern(const Span & span) : Pattern(PatternKind::Spread, span) {}

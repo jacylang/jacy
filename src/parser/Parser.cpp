@@ -2284,7 +2284,6 @@ namespace jc::parser {
         if (is(TokenKind::Sub) or peek().isLiteral()) {
             return parseLiteralPattern();
         }
-
     }
 
     pat_ptr Parser::parseLiteralPattern() {
