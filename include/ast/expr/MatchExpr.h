@@ -1,5 +1,5 @@
-#ifndef JACY_AST_EXPR_WHENEXPR_H
-#define JACY_AST_EXPR_WHENEXPR_H
+#ifndef JACY_AST_EXPR_MATCHEXPR_H
+#define JACY_AST_EXPR_MATCHEXPR_H
 
 #include "ast/expr/Expr.h"
 #include "Block.h"
@@ -44,4 +44,4 @@ namespace jc::ast {
     };
 }
 
-#endif //JACY_AST_EXPR_WHENEXPR_H
+#endif // JACY_AST_EXPR_MATCHEXPR_H
