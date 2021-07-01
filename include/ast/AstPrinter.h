@@ -80,7 +80,7 @@ namespace jc::ast {
         void visit(const SelfExpr & selfExpr) override;
         void visit(const TupleExpr & tupleExpr) override;
         void visit(const UnitExpr & unitExpr) override;
-        void visit(const MatchExpr & whenExpr) override;
+        void visit(const MatchExpr & matchExpr) override;
         void visit(const MatchArm & entry) override;
 
         // Types //

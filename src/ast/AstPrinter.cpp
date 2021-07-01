@@ -571,12 +571,12 @@ namespace jc::ast {
         log.raw("()");
     }
 
-    void AstPrinter::visit(const MatchExpr & whenExpr) {
-        printNodeId(whenExpr);
+    void AstPrinter::visit(const MatchExpr & matchExpr) {
+        printNodeId(matchExpr);
 
         log.raw("match ");
-        whenExpr.subject.accept(*this);
-        printBodyLike(whenExpr.entries, ",\n");
+        matchExpr.subject.accept(*this);
+        printBodyLike(matchExpr.entries, ",\n");
     }
 
     void AstPrinter::visit(const MatchArm & entry) {
