@@ -2284,6 +2284,10 @@ namespace jc::parser {
         if (is(TokenKind::Sub) or peek().isLiteral()) {
             return parseLiteralPattern();
         }
+
+        if (const auto & wildcard = skipOpt(TokenKind::Wildcard)) {
+            return makeNode<WildcardPattern>(wildcard.unwrap().span);
+        }
     }
 
     pat_ptr Parser::parseLiteralPattern() {
