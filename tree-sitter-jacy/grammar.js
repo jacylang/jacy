@@ -1,4 +1,4 @@
-const num_types = [
+const int_types = [
     'i8',
     'i16',
     'i32',
@@ -14,6 +14,8 @@ const num_types = [
     'usize',
     'isize',
 ]
+
+const float_types = ['f32', 'f64']
 
 const delim1 = (del, rule) => seq(rule, repeat(seq(del, rule)))
 const delim = (del, rule) => optional(delim1(del, rule))
@@ -46,7 +48,13 @@ module.exports = grammar({
                 /0b[01_]+/, // Bin
                 /0o[0-7_]+/ // Octo
             ),
-            optional(choice(...num_types)), // Suffixes
+            optional(choice(...int_types)), // Suffixes
+        )),
+
+        float_lit: $ => token(seq(
+            /[0-9][0-9_]*\.[0-9][0-9_]*/,
+            opt_seq(choice('e', 'E'), optional(choice('+', '-')), /[0-9_]*[0-9][0-9_]*/),
+            optional(choice(...float_types)), // Suffixes
         )),
 
         char_lit: $ => /'.'/,
@@ -206,6 +214,7 @@ module.exports = grammar({
         _literal: $ => choice(
             $.bool_lit,
             $.int_lit,
+            $.float_lit,
             $.char_lit,
             $.string_lit,
         ),
@@ -331,7 +340,7 @@ module.exports = grammar({
             'char',
             'str',
             '!',
-            ...num_types,
+            ...int_types,
         ),
 
         unit_type: $ => seq('(', ')'),
@@ -390,9 +399,13 @@ module.exports = grammar({
         // Patterns //
         //////////////
         _pattern: $ => choice(
-            $._literal,
+            $.lit_pat,
             $.ident_pat,
             $.wildcard,
+        ),
+
+        lit_pat: $ => choice(
+            
         ),
 
         ident_pat: $ => seq(
