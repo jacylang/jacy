@@ -107,12 +107,12 @@ namespace jc::ast {
         StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
 
         // `ref? mut? field` case (borrow field)
-        StructPatEl(id_pat_ptr && idPat) : el(std::move(idPat)) {}
+        StructPatEl(StructPatIdentEl && identEl) : el(std::move(identEl)) {}
 
         // `...` case
         StructPatEl(const Span & span) : el(std::move(span)) {}
 
-        std::variant<StructPatNamedEl, id_pat_ptr, Span> el;
+        std::variant<StructPatNamedEl, StructPatIdentEl, Span> el;
     };
 
     struct StructPattern : Pattern {
