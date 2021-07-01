@@ -2293,6 +2293,7 @@ namespace jc::parser {
 
         bool neg = skipOpt(TokenKind::Sub);
 
+        // Note: Allowed negative literals are checked in `Validator`
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
