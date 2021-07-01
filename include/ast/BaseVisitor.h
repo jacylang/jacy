@@ -91,6 +91,7 @@ namespace jc::ast {
     struct IdentPattern;
     struct WildcardPattern;
     struct SpreadPattern;
+    struct RefPattern;
 
     class BaseVisitor {
     public:
@@ -184,6 +185,7 @@ namespace jc::ast {
         virtual void visit(const IdentPattern&) = 0;
         virtual void visit(const WildcardPattern&) = 0;
         virtual void visit(const SpreadPattern&) = 0;
+        virtual void visit(const RefPattern&) = 0;
     };
 }
 

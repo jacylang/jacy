@@ -78,6 +78,10 @@ namespace jc::ast {
         bool ref;
         bool mut;
         pat_ptr pat;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     // TODO: Struct pattern
