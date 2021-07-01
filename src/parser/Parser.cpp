@@ -2285,8 +2285,12 @@ namespace jc::parser {
             return parseLiteralPattern();
         }
 
-        if (const auto & wildcard = skipOpt(TokenKind::Wildcard)) {
+        if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
             return makeNode<WildcardPattern>(wildcard.unwrap().span);
+        }
+
+        if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
+            return makeNode<SpreadPattern>(spread.unwrap().span);
         }
     }
 
