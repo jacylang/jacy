@@ -574,7 +574,7 @@ namespace jc::ast {
     void AstPrinter::visit(const MatchExpr & whenExpr) {
         printNodeId(whenExpr);
 
-        log.raw("when ");
+        log.raw("match ");
         whenExpr.subject.accept(*this);
         printBodyLike(whenExpr.entries, ",\n");
     }
