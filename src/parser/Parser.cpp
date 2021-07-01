@@ -2371,10 +2371,7 @@ namespace jc::parser {
             const auto & ref = skipOpt(TokenKind::Ref);
             const auto & mut = skipOpt(TokenKind::Mut);
 
-            opt_id_ptr ident{dt::None};
-            if (is(TokenKind::Id)) {
-                ident = justParseId("`parseStructPattern`");
-            }
+            id_ptr ident = parseId("Field name expected");
 
             if (skipOpt(TokenKind::Colon)) {
                 // `field: pattern` case
@@ -2388,6 +2385,8 @@ namespace jc::parser {
                 }
 
                 auto pat = parsePattern();
+
+                elements.emplace_back(StructPatNamedEl{std::move(ident), std::move(pat)});
             } else {
                 // `ref? mut? field` case
             }
