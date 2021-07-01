@@ -1653,7 +1653,7 @@ namespace jc::parser {
                 break;
             }
 
-            entries.push_back(parseWhenEntry());
+            entries.push_back(parseMatchArm());
         }
 
         skip(TokenKind::RBrace, "Missing closing `}` at the end of `when` body");
@@ -1663,7 +1663,7 @@ namespace jc::parser {
         return makeExpr<MatchExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
     }
 
-    match_arm_ptr Parser::parseWhenEntry() {
+    match_arm_ptr Parser::parseMatchArm() {
         enterEntity("WhenEntry");
 
         const auto & begin = cspan();
