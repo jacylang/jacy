@@ -254,6 +254,7 @@ module.exports = grammar({
             either_semi(
                 '{',
                 delim(',', seq(
+                    optional('|'),
                     delim('|', $._pattern),
                     '=>',
                     $._expr
