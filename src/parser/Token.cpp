@@ -42,7 +42,6 @@ namespace jc::parser {
         {"unsafe",      TokenKind::Unsafe},
         {"use",         TokenKind::Use},
         {"let",         TokenKind::Let},
-        {"when",        TokenKind::When},
         {"where",       TokenKind::Where},
         {"while",       TokenKind::While},
         {"yield",       TokenKind::Yield},

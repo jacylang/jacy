@@ -143,7 +143,6 @@ namespace jc::parser {
         Unsafe,
         Use,
         Let,
-        When,
         Where,
         While,
         Yield,
