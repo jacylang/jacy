@@ -2281,7 +2281,9 @@ namespace jc::parser {
     pat_ptr Parser::parsePattern() {
         logParse("Pattern");
 
-
+        if (is(TokenKind::Sub) or peek().isLiteral()) {
+            return parseLiteralPattern();
+        }
     }
 
     pat_ptr Parser::parseLiteralPattern() {
