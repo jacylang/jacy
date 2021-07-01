@@ -516,6 +516,10 @@ namespace jc::parser {
                 addToken(TokenKind::Backtick, 1);
                 advance();
             } break;
+            case '_': {
+                addToken(TokenKind::Wildcard, 1);
+                advance();
+            } break;
             default: {
                 unexpectedTokenError();
             }
