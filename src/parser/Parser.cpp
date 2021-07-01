@@ -2292,6 +2292,10 @@ namespace jc::parser {
         if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
             return makeNode<SpreadPattern>(spread.unwrap().span);
         }
+
+        if (is(TokenKind::Mut) or is(TokenKind::BitOr)) {
+            return parseRefPattern();
+        }
     }
 
     pat_ptr Parser::parseLiteralPattern() {
