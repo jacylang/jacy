@@ -525,7 +525,7 @@ namespace jc::ast {
         // Meow
     }
 
-    void Validator::visit(const WhenExpr & whenExpr) {
+    void Validator::visit(const MatchExpr & whenExpr) {
         whenExpr.subject.accept(*this);
         lintEach(whenExpr.entries);
     }

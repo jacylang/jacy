@@ -27,8 +27,8 @@ namespace jc::ast {
         }
     };
 
-    struct WhenExpr : Expr {
-        WhenExpr(
+    struct MatchExpr : Expr {
+        MatchExpr(
             expr_ptr subject,
             when_entry_list entries,
             const Span & span

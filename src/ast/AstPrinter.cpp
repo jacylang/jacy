@@ -571,7 +571,7 @@ namespace jc::ast {
         log.raw("()");
     }
 
-    void AstPrinter::visit(const WhenExpr & whenExpr) {
+    void AstPrinter::visit(const MatchExpr & whenExpr) {
         printNodeId(whenExpr);
 
         log.raw("when ");

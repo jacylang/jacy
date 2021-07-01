@@ -1628,7 +1628,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi)) {
             // `when` body is ignored with `;`
             exitEntity();
-            return makeExpr<WhenExpr>(std::move(subject), when_entry_list{}, begin.to(cspan()));
+            return makeExpr<MatchExpr>(std::move(subject), when_entry_list{}, begin.to(cspan()));
         }
 
         skip(
@@ -1660,7 +1660,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeExpr<WhenExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
+        return makeExpr<MatchExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
     }
 
     when_entry_ptr Parser::parseWhenEntry() {

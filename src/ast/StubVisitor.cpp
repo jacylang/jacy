@@ -314,7 +314,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const UnitExpr&) {}
 
-    void StubVisitor::visit(const WhenExpr & whenExpr) {
+    void StubVisitor::visit(const MatchExpr & whenExpr) {
         whenExpr.subject.accept(*this);
         visitEach(whenExpr.entries);
     }

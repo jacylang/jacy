@@ -27,7 +27,7 @@
 #include "ast/expr/SelfExpr.h"
 #include "ast/expr/TupleExpr.h"
 #include "ast/expr/UnitExpr.h"
-#include "ast/expr/WhenExpr.h"
+#include "ast/expr/MatchExpr.h"
 
 // Statements //
 #include "ast/stmt/ExprStmt.h"
