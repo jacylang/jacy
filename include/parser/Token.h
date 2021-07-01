@@ -146,6 +146,7 @@ namespace jc::parser {
         Let,
         Where,
         While,
+        Wildcard,
         Yield,
 
         None,
