@@ -2355,6 +2355,12 @@ namespace jc::parser {
                 break;
             }
 
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenKind::Comma, "Missing `,` separator", Recovery::None);
+            }
+
             // `...` case
             if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
                 elements.emplace_back(spread.unwrap().span);
@@ -2371,12 +2377,17 @@ namespace jc::parser {
             }
 
             if (skipOpt(TokenKind::Colon)) {
+                // `field: pattern` case
+
+                // It is an error having `ref/mut field: pattern`
                 if (ref) {
-                    suggestErrorMsg("Unexpected `ref` in field partial pattern", ref.unwrap().span);
+                    suggestErrorMsg("Unexpected `ref` in field destructuring pattern", ref.unwrap().span);
                 }
                 if (mut) {
-                    suggestErrorMsg()
+                    suggestErrorMsg("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
                 }
+
+                auto pat = parsePattern();
             } else {
                 // `ref? mut? field` case
             }
