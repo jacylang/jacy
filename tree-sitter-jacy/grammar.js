@@ -49,6 +49,8 @@ module.exports = grammar({
             optional(choice(...num_types)), // Suffixes
         )),
 
+        char_lit: $ => /'.'/,
+
         string_lit: $ => seq(
             '"',
             repeat(/.*/),
@@ -204,6 +206,7 @@ module.exports = grammar({
         _literal: $ => choice(
             $.bool_lit,
             $.int_lit,
+            $.char_lit,
             $.string_lit,
         ),
 

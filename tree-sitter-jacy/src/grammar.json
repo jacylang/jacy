@@ -120,6 +120,10 @@
         ]
       }
     },
+    "char_lit": {
+      "type": "PATTERN",
+      "value": "'.'"
+    },
     "string_lit": {
       "type": "SEQ",
       "members": [
