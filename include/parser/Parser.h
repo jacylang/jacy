@@ -244,6 +244,7 @@ namespace jc::parser {
 
         // Patterns //
         pat_ptr parsePattern();
+        pat_ptr parseLiteralPattern();
         id_pat_ptr parseIdentPat();
 
         template<class T>

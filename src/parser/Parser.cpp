@@ -130,7 +130,7 @@ namespace jc::parser {
 
     void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
         if (not peek().is(kind)) {
-            common::Logger::devPanic("[bug] Expected ", expected, " in ", panicIn);
+            log.devPanic("[bug] Expected ", expected, " in ", panicIn);
         }
 
         if (extraDebugAll) {
@@ -2282,6 +2282,25 @@ namespace jc::parser {
         logParse("Pattern");
 
 
+    }
+
+    pat_ptr Parser::parseLiteralPattern() {
+        logParse("LiteralPattern");
+
+        const auto & begin = cspan();
+
+        bool neg = skipOpt(TokenKind::Sub);
+
+        if (neg and not peek().isLiteral()) {
+            suggestErrorMsg("Literal expected after `-` in pattern", cspan());
+        } else {
+            log.devPanic("Non-literal token in `parseLiteralPattern`");
+        }
+
+        auto token = peek();
+        advance();
+
+        return makeNode<LiteralPattern>(neg, token, begin.to(cspan()));
     }
 
     id_pat_ptr Parser::parseIdentPat() {
