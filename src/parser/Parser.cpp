@@ -2361,6 +2361,10 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator", Recovery::None);
             }
 
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
             // `...` case
             if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
                 elements.emplace_back(spread.unwrap().span);
