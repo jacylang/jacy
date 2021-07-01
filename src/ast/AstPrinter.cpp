@@ -579,7 +579,7 @@ namespace jc::ast {
         printBodyLike(whenExpr.entries, ",\n");
     }
 
-    void AstPrinter::visit(const WhenEntry & entry) {
+    void AstPrinter::visit(const MatchArm & entry) {
         printNodeId(entry);
 
         printDelim(entry.conditions);

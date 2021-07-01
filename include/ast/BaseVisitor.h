@@ -61,7 +61,7 @@ namespace jc::ast {
     struct TupleExpr;
     struct UnitExpr;
     struct MatchExpr;
-    struct WhenEntry;
+    struct MatchArm;
 
     // Types //
     struct ParenType;
@@ -153,7 +153,7 @@ namespace jc::ast {
         virtual void visit(const TupleExpr&) = 0;
         virtual void visit(const UnitExpr&) = 0;
         virtual void visit(const MatchExpr&) = 0;
-        virtual void visit(const WhenEntry&) = 0;
+        virtual void visit(const MatchArm&) = 0;
 
         // Types //
         virtual void visit(const ParenType&) = 0;

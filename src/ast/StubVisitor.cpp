@@ -319,7 +319,7 @@ namespace jc::ast {
         visitEach(whenExpr.entries);
     }
 
-    void StubVisitor::visit(const WhenEntry & entry) {
+    void StubVisitor::visit(const MatchArm & entry) {
         visitEach(entry.conditions);
         entry.body.accept(*this);
     }

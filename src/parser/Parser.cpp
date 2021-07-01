@@ -1628,7 +1628,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi)) {
             // `when` body is ignored with `;`
             exitEntity();
-            return makeExpr<MatchExpr>(std::move(subject), when_entry_list{}, begin.to(cspan()));
+            return makeExpr<MatchExpr>(std::move(subject), match_arm_list{}, begin.to(cspan()));
         }
 
         skip(
@@ -1637,7 +1637,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        when_entry_list entries;
+        match_arm_list entries;
         bool first = true;
         while (not eof()) {
             if (first) {
@@ -1663,7 +1663,7 @@ namespace jc::parser {
         return makeExpr<MatchExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
     }
 
-    when_entry_ptr Parser::parseWhenEntry() {
+    match_arm_ptr Parser::parseWhenEntry() {
         enterEntity("WhenEntry");
 
         const auto & begin = cspan();
@@ -1695,7 +1695,7 @@ namespace jc::parser {
         block_ptr body = parseBlock("when", BlockArrow::Require);
 
         exitEntity();
-        return makeNode<WhenEntry>(std::move(conditions), std::move(body), begin.to(cspan()));
+        return makeNode<MatchArm>(std::move(conditions), std::move(body), begin.to(cspan()));
     }
 
     opt_block_ptr Parser::parseFuncBody() {

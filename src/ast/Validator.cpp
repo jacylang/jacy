@@ -530,7 +530,7 @@ namespace jc::ast {
         lintEach(whenExpr.entries);
     }
 
-    void Validator::visit(const WhenEntry & entry) {
+    void Validator::visit(const MatchArm & entry) {
         lintEach(entry.conditions);
         entry.body.accept(*this);
     }

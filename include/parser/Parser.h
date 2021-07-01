@@ -215,7 +215,7 @@ namespace jc::parser {
         expr_ptr parseIfExpr(bool isElif = false);
         expr_ptr parseLoopExpr();
         expr_ptr parseWhenExpr();
-        when_entry_ptr parseWhenEntry();
+        match_arm_ptr parseWhenEntry();
 
         // Fragments //
         opt_block_ptr parseFuncBody();

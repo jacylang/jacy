@@ -5,12 +5,12 @@
 #include "Block.h"
 
 namespace jc::ast {
-    struct WhenEntry;
-    using when_entry_ptr = std::shared_ptr<WhenEntry>;
-    using when_entry_list = std::vector<when_entry_ptr>;
+    struct MatchArm;
+    using match_arm_ptr = std::shared_ptr<MatchArm>;
+    using match_arm_list = std::vector<match_arm_ptr>;
 
-    struct WhenEntry : Node {
-        WhenEntry(
+    struct MatchArm : Node {
+        MatchArm(
             expr_list conditions,
             block_ptr body,
             const Span & span
@@ -18,7 +18,6 @@ namespace jc::ast {
             conditions(std::move(conditions)),
             body(std::move(body)) {}
 
-        // TODO: Complex prefix conditions like `in lhs`
         expr_list conditions;
         block_ptr body;
 
@@ -30,14 +29,14 @@ namespace jc::ast {
     struct MatchExpr : Expr {
         MatchExpr(
             expr_ptr subject,
-            when_entry_list entries,
+            match_arm_list entries,
             const Span & span
         ) : Expr(span, ExprKind::When),
             subject(std::move(subject)),
             entries(std::move(entries)) {}
 
         expr_ptr subject;
-        when_entry_list entries;
+        match_arm_list entries;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
