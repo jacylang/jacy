@@ -2393,6 +2393,7 @@ namespace jc::parser {
                 elements.emplace_back(StructPatNamedEl{std::move(ident), std::move(pat)});
             } else {
                 // `ref? mut? field` case
+                elements.emplace_back(StructPatIdentEl{ref, mut, std::move(ident)});
             }
         }
 
