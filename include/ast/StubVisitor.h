@@ -68,8 +68,8 @@ namespace jc::ast {
         virtual void visit(const SelfExpr & selfExpr) override;
         virtual void visit(const TupleExpr & tupleExpr) override;
         virtual void visit(const UnitExpr & unitExpr) override;
-        virtual void visit(const MatchExpr & whenExpr) override;
-        virtual void visit(const MatchArm & entry) override;
+        virtual void visit(const MatchExpr & matchExpr) override;
+        virtual void visit(const MatchArm & matchArm) override;
 
         // Types //
         virtual void visit(const ParenType & parenType) override;

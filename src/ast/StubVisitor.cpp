@@ -314,14 +314,14 @@ namespace jc::ast {
 
     void StubVisitor::visit(const UnitExpr&) {}
 
-    void StubVisitor::visit(const MatchExpr & whenExpr) {
-        whenExpr.subject.accept(*this);
-        visitEach(whenExpr.entries);
+    void StubVisitor::visit(const MatchExpr & matchExpr) {
+        matchExpr.subject.accept(*this);
+        visitEach(matchExpr.entries);
     }
 
-    void StubVisitor::visit(const MatchArm & entry) {
-        visitEach(entry.conditions);
-        entry.body.accept(*this);
+    void StubVisitor::visit(const MatchArm & matchArm) {
+        visitEach(matchArm.conditions);
+        matchArm.body.accept(*this);
     }
 
     // Types //
