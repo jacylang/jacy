@@ -1617,27 +1617,27 @@ namespace jc::parser {
     }
 
     expr_ptr Parser::parseMatchExpr() {
-        enterEntity("WhenExpr");
+        enterEntity("MatchExpr");
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Match, "`when`", "`parseMatchExpr`");
+        justSkip(TokenKind::Match, "`match`", "`parseMatchExpr`");
 
-        auto subject = parseExpr("Expected subject expression in `when` expression");
+        auto subject = parseExpr("Expected subject expression in `match` expression");
 
         if (skipOpt(TokenKind::Semi)) {
-            // `when` body is ignored with `;`
+            // `match` body is ignored with `;`
             exitEntity();
             return makeExpr<MatchExpr>(std::move(subject), match_arm_list{}, begin.to(cspan()));
         }
 
         skip(
             TokenKind::LBrace,
-            "To start `when` body put `{` here or `;` to ignore body",
+            "To start `match` body put `{` here or `;` to ignore body",
             Recovery::Once
         );
 
-        match_arm_list entries;
+        match_arm_list arms;
         bool first = true;
         while (not eof()) {
             if (first) {
@@ -1645,7 +1645,7 @@ namespace jc::parser {
             } else {
                 skip(
                     TokenKind::Comma,
-                    "Missing `,` delimiter between `when` entries"
+                    "Missing `,` delimiter between `match` arms"
                 );
             }
 
@@ -1653,14 +1653,14 @@ namespace jc::parser {
                 break;
             }
 
-            entries.push_back(parseMatchArm());
+            arms.push_back(parseMatchArm());
         }
 
-        skip(TokenKind::RBrace, "Missing closing `}` at the end of `when` body");
+        skip(TokenKind::RBrace, "Missing closing `}` at the end of `match` body");
 
         exitEntity();
 
-        return makeExpr<MatchExpr>(std::move(subject), std::move(entries), begin.to(cspan()));
+        return makeExpr<MatchExpr>(std::move(subject), std::move(arms), begin.to(cspan()));
     }
 
     match_arm_ptr Parser::parseMatchArm() {
