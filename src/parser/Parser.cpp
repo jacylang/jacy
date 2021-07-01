@@ -1184,7 +1184,7 @@ namespace jc::parser {
             return Expr::asBase(parseBlock("Block expression", BlockArrow::Just));
         }
 
-        if (is(TokenKind::When)) {
+        if (is(TokenKind::Match)) {
             return parseMatchExpr();
         }
 
@@ -1621,7 +1621,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::When, "`when`", "`parseMatchExpr`");
+        justSkip(TokenKind::Match, "`when`", "`parseMatchExpr`");
 
         auto subject = parseExpr("Expected subject expression in `when` expression");
 
