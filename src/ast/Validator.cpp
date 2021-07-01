@@ -525,14 +525,14 @@ namespace jc::ast {
         // Meow
     }
 
-    void Validator::visit(const MatchExpr & whenExpr) {
-        whenExpr.subject.accept(*this);
-        lintEach(whenExpr.entries);
+    void Validator::visit(const MatchExpr & matchExpr) {
+        matchExpr.subject.accept(*this);
+        lintEach(matchExpr.entries);
     }
 
-    void Validator::visit(const MatchArm & entry) {
-        lintEach(entry.conditions);
-        entry.body.accept(*this);
+    void Validator::visit(const MatchArm & matchArm) {
+        lintEach(matchArm.conditions);
+        matchArm.body.accept(*this);
     }
 
     ///////////
