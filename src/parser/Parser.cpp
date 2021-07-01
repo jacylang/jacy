@@ -1664,7 +1664,7 @@ namespace jc::parser {
     }
 
     match_arm_ptr Parser::parseMatchArm() {
-        enterEntity("WhenEntry");
+        enterEntity("MatchArm");
 
         const auto & begin = cspan();
 
@@ -1682,17 +1682,16 @@ namespace jc::parser {
                 break;
             }
 
-            // TODO: Complex conditions
-            conditions.push_back(parseExpr("Expected `when` entry condition"));
+            conditions.push_back(parseExpr("Expected `match` arm condition"));
         }
 
         skip(
             TokenKind::DoubleArrow,
-            "Expected `=>` after `when` entry conditions",
+            "Expected `=>` after `match` arm conditions",
             Recovery::Once
         );
 
-        block_ptr body = parseBlock("when", BlockArrow::Require);
+        block_ptr body = parseBlock("match", BlockArrow::Require);
 
         exitEntity();
         return makeNode<MatchArm>(std::move(conditions), std::move(body), begin.to(cspan()));
