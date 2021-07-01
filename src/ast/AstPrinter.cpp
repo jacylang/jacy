@@ -579,12 +579,12 @@ namespace jc::ast {
         printBodyLike(matchExpr.entries, ",\n");
     }
 
-    void AstPrinter::visit(const MatchArm & entry) {
-        printNodeId(entry);
+    void AstPrinter::visit(const MatchArm & matchArm) {
+        printNodeId(matchArm);
 
-        printDelim(entry.conditions);
+        printDelim(matchArm.conditions);
         log.raw(" => ");
-        entry.body.accept(*this);
+        matchArm.body.accept(*this);
     }
 
     // Types //

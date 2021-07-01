@@ -81,7 +81,7 @@ namespace jc::ast {
         void visit(const TupleExpr & tupleExpr) override;
         void visit(const UnitExpr & unitExpr) override;
         void visit(const MatchExpr & matchExpr) override;
-        void visit(const MatchArm & entry) override;
+        void visit(const MatchArm & matchArm) override;
 
         // Types //
         void visit(const ParenType & parenType) override;
