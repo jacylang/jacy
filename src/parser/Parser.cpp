@@ -2341,6 +2341,50 @@ namespace jc::parser {
         return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
+    pat_ptr Parser::parseStructPattern() {
+        logParse("StructPattern");
+
+        justSkip(TokenKind::LBrace, "`{`", "`parseStructPattern`");
+
+        const auto & begin = cspan();
+
+        std::vector<StructPatEl> elements;
+        bool first = false;
+        while (not eof()) {
+            if (is(TokenKind::RBrace)) {
+                break;
+            }
+
+            // `...` case
+            if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
+                elements.emplace_back(spread.unwrap().span);
+                continue;
+            }
+
+            // TODO: "Invert" Suggestion for `mut ref` case
+            const auto & ref = skipOpt(TokenKind::Ref);
+            const auto & mut = skipOpt(TokenKind::Mut);
+
+            opt_id_ptr ident{dt::None};
+            if (is(TokenKind::Id)) {
+                ident = justParseId("`parseStructPattern`");
+            }
+
+            if (skipOpt(TokenKind::Colon)) {
+                if (ref) {
+                    suggestErrorMsg("Unexpected `ref` in field partial pattern", ref.unwrap().span);
+                }
+                if (mut) {
+                    suggestErrorMsg()
+                }
+            } else {
+                // `ref? mut? field` case
+            }
+        }
+
+        skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
+    }
+
     // Helpers //
     Span Parser::cspan() const {
         return peek().span;

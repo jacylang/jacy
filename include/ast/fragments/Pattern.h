@@ -95,10 +95,10 @@ namespace jc::ast {
     };
 
     struct StructPatEl {
-        // `name: pattern` case (match field insides)
+        // `field: pattern` case (match field insides)
         StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
 
-        // `ref mut name` case (borrow field)
+        // `ref? mut? field` case (borrow field)
         StructPatEl(id_pat_ptr && idPat) : el(std::move(idPat)) {}
 
         // `...` case

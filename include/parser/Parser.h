@@ -247,6 +247,7 @@ namespace jc::parser {
         pat_ptr parseLiteralPattern();
         id_pat_ptr parseIdentPat();
         pat_ptr parseRefPattern();
+        pat_ptr parseStructPattern();
 
         // Helpers //
     private:
