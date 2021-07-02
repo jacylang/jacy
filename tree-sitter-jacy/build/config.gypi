@@ -78,6 +78,15 @@
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 0,
     "nodedir": "/home/is-gordeev/.cache/node-gyp/14.16.0",
-    "standalone_static_library": 1
+    "standalone_static_library": 1,
+    "target": "v14.16.0",
+    "user_agent": "npm/7.17.0 node/v14.16.0 linux x64 workspaces/false",
+    "userconfig": "/home/is-gordeev/.npmrc",
+    "metrics_registry": "https://registry.npmjs.org/",
+    "prefix": "/home/is-gordeev/.nvm/versions/node/v14.16.0",
+    "cache": "/home/is-gordeev/.npm",
+    "node_gyp": "/home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js",
+    "globalconfig": "/home/is-gordeev/.nvm/versions/node/v14.16.0/etc/npmrc",
+    "init_module": "/home/is-gordeev/.npm-init.js"
   }
 }

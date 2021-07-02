@@ -58,7 +58,7 @@ CFLAGS.host ?= $(CPPFLAGS_host) $(CFLAGS_host)
 CXX.host ?= g++
 CXXFLAGS.host ?= $(CPPFLAGS_host) $(CXXFLAGS_host)
 LINK.host ?= $(CXX.host)
-LDFLAGS.host ?= $(LDFLAGS_host)
+LDFLAGS.host ?=
 AR.host ?= ar
 
 # Define a dir function that can handle spaces.
@@ -308,8 +308,8 @@ ifeq ($(strip $(foreach prefix,$(NO_LOAD),\
 endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
-cmd_regen_makefile = cd $(srcdir); /home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/is-gordeev/.cache/node-gyp/14.16.0" "-Dnode_gyp_dir=/home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/node-gyp" "-Dnode_lib_file=/home/is-gordeev/.cache/node-gyp/14.16.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/is-gordeev/dev/JacyProject/Jacy/tree-sitter-jacy" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/home/is-gordeev/dev/JacyProject/Jacy/tree-sitter-jacy/build/config.gypi -I/home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/node-gyp/addon.gypi -I/home/is-gordeev/.cache/node-gyp/14.16.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/binding.gyp $(srcdir)/../../../../.cache/node-gyp/14.16.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/../../../../.nvm/versions/node/v14.16.0/lib/node_modules/node-gyp/addon.gypi
+cmd_regen_makefile = cd $(srcdir); /home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/npm/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/is-gordeev/.cache/node-gyp/14.16.0" "-Dnode_gyp_dir=/home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/npm/node_modules/node-gyp" "-Dnode_lib_file=/home/is-gordeev/.cache/node-gyp/14.16.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/is-gordeev/dev/JacyProject/Jacy/tree-sitter-jacy" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/home/is-gordeev/dev/JacyProject/Jacy/tree-sitter-jacy/build/config.gypi -I/home/is-gordeev/.nvm/versions/node/v14.16.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi -I/home/is-gordeev/.cache/node-gyp/14.16.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
+Makefile: $(srcdir)/../../../../.cache/node-gyp/14.16.0/include/node/common.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../.nvm/versions/node/v14.16.0/lib/node_modules/npm/node_modules/node-gyp/addon.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included
