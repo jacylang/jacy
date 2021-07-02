@@ -4,12 +4,12 @@
       "target_name": "tree_sitter_Jacy_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "src"
+        "src",
+        "src/tree_sitter"
       ],
       "sources": [
         "bindings/node/binding.cc",
-        "src/parser.c",
-        # If your language uses an external scanner, add it here.
+        "src/parser.c"
       ],
       "cflags_c": [
         "-std=c99",

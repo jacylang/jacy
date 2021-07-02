@@ -49,7 +49,8 @@ INCS_Debug := \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
-	-I$(srcdir)/src
+	-I$(srcdir)/src \
+	-I$(srcdir)/src/tree_sitter
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=tree_sitter_Jacy_binding' \
@@ -95,7 +96,8 @@ INCS_Release := \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
-	-I$(srcdir)/src
+	-I$(srcdir)/src \
+	-I$(srcdir)/src/tree_sitter
 
 OBJS := \
 	$(obj).target/$(TARGET)/bindings/node/binding.o \
@@ -112,25 +114,25 @@ $(OBJS): GYP_CXXFLAGS := $(DEFS_$(BUILDTYPE)) $(INCS_$(BUILDTYPE))  $(CFLAGS_$(B
 
 # Suffix rules, putting all outputs into $(obj).
 
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.c FORCE_DO_CMD
-	@$(call do_cmd,cc,1)
-
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.cc FORCE_DO_CMD
 	@$(call do_cmd,cxx,1)
 
-# Try building from generated source, too.
-
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.c FORCE_DO_CMD
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(srcdir)/%.c FORCE_DO_CMD
 	@$(call do_cmd,cc,1)
+
+# Try building from generated source, too.
 
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.cc FORCE_DO_CMD
 	@$(call do_cmd,cxx,1)
 
-$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.c FORCE_DO_CMD
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj).$(TOOLSET)/%.c FORCE_DO_CMD
 	@$(call do_cmd,cc,1)
 
 $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
 	@$(call do_cmd,cxx,1)
+
+$(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.c FORCE_DO_CMD
+	@$(call do_cmd,cc,1)
 
 # End of this set of suffix rules
 ### Rules for final target.
