@@ -1,6 +1,6 @@
 {
   "name": "tree-sitter-jacy",
-  "version": "0.0.2-rc.0",
+  "version": "0.0.2-rc.2",
   "description": "Tree-Sitter grammar for Jacy",
   "main": "grammar.js",
   "scripts": {
@@ -25,11 +25,14 @@
   },
   "homepage": "https://github.com/hazer-hazer/Jacy-Atom#readme",
   "devDependencies": {
-    "tree-sitter-cli": "0.19.5",
-    "nan": "*"
+    "tree-sitter-cli": "0.19.5"
+  },
+  "dependencies": {
+    "nan": "^2.12.1"
   },
   "tree-sitter": [{
     "scope": "source.jc",
-    "file-types": ["jc"]
+    "file-types": ["jc"],
+    "injection-regex": "^(jc|jacy)$"
   }]
 }

@@ -78,6 +78,21 @@
     "v8_use_siphash": 1,
     "want_separate_host_toolset": 0,
     "nodedir": "/home/is-gordeev/.cache/node-gyp/14.16.0",
-    "standalone_static_library": 1
+    "standalone_static_library": 1,
+    "version_commit_hooks": "true",
+    "user_agent": "yarn/1.22.10 npm/? node/v14.16.0 linux x64",
+    "bin_links": "true",
+    "init_version": "1.0.0",
+    "init_license": "MIT",
+    "version_tag_prefix": "v",
+    "_bb_registry": "https://npm.bingo-boom.ru/repository/npm-private/",
+    "registry": "https://registry.yarnpkg.com",
+    "ignore_scripts": "",
+    "version_git_message": "v%s",
+    "version_git_tag": "true",
+    "version_git_sign": "",
+    "strict_ssl": "true",
+    "save_prefix": "^",
+    "ignore_optional": ""
   }
 }
