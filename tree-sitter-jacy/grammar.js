@@ -17,10 +17,76 @@ const int_types = [
 
 const float_types = ['f32', 'f64']
 
-const PREC = {
-    assign: 0,
-    or: 
-}
+// Precedence from lowest to highest
+const precIndex = [
+    'assign',
+    'pipe',
+    'range',
+    'or',
+    'and',
+    'cmp',
+    'bitor',
+    'xor',
+    'bitand',
+    'shift',
+    'add',
+    'mul',
+    'pow',
+    'cast',
+    'unary',
+    'errprop',
+    'call',
+    'field',
+    'path',
+]
+
+const PREC = precIndex.reduce((acc, name, i) => (acc[name] = i, acc), {})
+
+const BINOPS_START_PREC = PREC.assign
+const BINOPS = [
+    // pipe
+    ['|>'],
+
+    // range
+    ['..', '..='],
+
+    // or
+    ['or'],
+
+    // and
+    ['and'],
+
+    // cmp
+    ['==', '!=', '===', '!==', '<', '>', '<=', '>=', '<=>'],
+
+    // bitor
+    ['|'],
+
+    // xor
+    ['^'],
+
+    // bitand
+    ['&'],
+
+    // shift
+    ['<<', '>>'],
+
+    // add
+    ['+', '-'],
+
+    // mul
+    ['*', '/', '%'],
+    
+    // pow
+    ['**'],
+
+    // case
+    ['as'],
+]
+
+const ASSIGN_OPS = ['=', '+=', '-=', '*=', '/=', '%=', '**=', '&=', '|=', '^=', '<<=', '>>=']
+
+const p = t => [...new Set(t.split(/[\w\s]/).filter(el => el != 'a' && el != 'b' && el.length))]
 
 const delim1 = (del, rule) => seq(rule, repeat(seq(del, rule)))
 const delim = (del, rule) => optional(delim1(del, rule))
@@ -32,11 +98,9 @@ module.exports = grammar({
     name: 'Jacy',
 
     conflicts: $ => [
-        [$._expr, $._param],
-        [$._path_expr_seg, $._path_expr_seg],
         [$._expr, $._pattern],
-        [$._path_ident, $.ident_pat],
         [$._literal, $.lit_pat],
+        // [$.path_in_expr, $.type_path],
     ],
 
     word: $ => $.ident,
@@ -71,23 +135,31 @@ module.exports = grammar({
             token.immediate('"'),
         ),
 
+        _path: $ => choice(
+            'self',
+            'super',
+            'party',
+            alias($._prim_type, $.ident),
+            $.ident,
+            $.path_in_expr,
+        ),
+
         // Fragments //
         ident: $ => /[a-zA-Z_]+/,
 
         _type_anno: $ => seq(':', $._type),
 
-        _gen_args: $ => choice(
-            seq('<', '>'),
-            seq(
-                '<',
-                delim1(',', choice(
-                    $.lifetime,
-                    seq('const', $._expr),
-                    $._type,
-                    seq($.ident, '=', $._type), // Type binding
-                )),
-                '>'
-            ),
+        _gen_args: $ => seq(
+            token(prec(1, '<')),
+            delim1(',', choice(
+                $._type,
+                $.lifetime,
+                $._literal,
+                $.block_expr,
+                seq($.ident, '=', $._type), // Type binding
+            )),
+            trail_comma,
+            '>',
         ),
 
         lifetime: $ => seq('\'', $.ident),
@@ -134,13 +206,16 @@ module.exports = grammar({
 
         _func_param_list: $ => seq(
             '(',
-            delim(',', $._param), trail_comma,
+            delim(',', $.param),
+            trail_comma,
             ')',
         ),
 
-        _param: $ => seq(
+        param: $ => seq(
+            optional('mut'),
             field('pat', $._pattern),
-            field('type', optional($._type_anno))
+            ':',
+            field('type', $._type),
         ),
 
         _func_body: $ => either_semi(choice(
@@ -199,12 +274,13 @@ module.exports = grammar({
         /////////////////
         _expr: $ => choice(
             $._literal,
-            $.path_expr,
+            $.path_in_expr,
             $.paren_expr,
 
             $.block_expr,
 
             $.binop_expr,
+            $.assign_expr,
 
             $.lambda,
             $.unit_expr,
@@ -234,21 +310,35 @@ module.exports = grammar({
         ),
 
         block_expr: $ => seq('{', repeat($._statement), '}'),
-        
-        binop_expr: $ => {
-            const precTable = {
 
-            }
-        },
+        binop_expr: $ => choice(...BINOPS.map((ops, i) => prec.left(i + BINOPS_START_PREC, seq(
+            field('lhs', $._expr),
+            field('op', ops.length > 1 ? choice(...ops) : ops[0]),
+            field('rhs', $._expr),
+        )))),
 
-        path_expr: $ => seq(
-            optional('::'),
-            delim1('::', $._path_expr_seg),
-        ),
+        assign_expr: $ => prec.left(PREC.assign, seq(
+            field('lhs', $._expr),
+            choice(...ASSIGN_OPS),
+            field('rhs', $._expr),
+        )),
 
-        _path_expr_seg: $ => seq(
-            $._path_ident,
-            opt_seq('::', $._gen_args),
+        path_in_expr: $ => prec(-2, seq(
+            field('path', optional(choice(
+                $._path,
+                $.turbofish_gen,
+            ))),
+            '::',
+            field('name', $.ident),
+        )),
+
+        turbofish_gen: $ => seq(
+            field('type', choice(
+                $.ident,
+                $.path_in_expr,
+            )),
+            '::',
+            field('generics', $._gen_args),
         ),
 
         // Control-Flow //
@@ -313,14 +403,14 @@ module.exports = grammar({
         continue_expr: $ => 'continue',
 
         // Lambda //
-        lambda: $ => seq(
+        lambda: $ => prec(-1, seq(
             field('params', choice(
                 $.ident,
                 $._func_param_list,
             )),
             '->',
             field('body', $._expr),
-        ),
+        )),
 
         // Tuple //
         tuple: $ => seq(
@@ -347,6 +437,8 @@ module.exports = grammar({
             $.array_type,
             $.ref_type,
             $.mut_type,
+            $.type_path,
+            $.gen_type,
         ),
 
         _prim_type: $ => choice(
@@ -355,6 +447,7 @@ module.exports = grammar({
             'str',
             '!',
             ...int_types,
+            ...float_types,
         ),
 
         unit_type: $ => seq('(', ')'),
@@ -397,24 +490,37 @@ module.exports = grammar({
         mut_type: $ => seq('mut', $._type),
 
         type_path: $ => seq(
-            optional('::'),
-            delim1('::', $._type_path_seg),
+            field('path', optional(choice(
+                $._path,
+                $.turbofish_gen,
+                seq($.ident, $._gen_args),
+            ))),
+            '::',
+            field('name', $.ident),
         ),
 
-        _type_path_seg: $ => seq(
-            $._path_ident,
-            choice(
-                seq('::', $._gen_args),
-                optional($._gen_args),
-            ),
-        ),
+        gen_type: $ => prec(1, seq(
+            field('type', choice(
+                $.ident,
+                $.type_path,
+            )),
+            field('gen_args', $._gen_args),
+        )),
 
         //////////////
         // Patterns //
         //////////////
         _pattern: $ => choice(
             $.lit_pat,
-            $.ident_pat,
+        
+            $.bind_pat,
+            $.borrow_pat,
+            $.mut_pat,
+            $.ref_pat,
+
+            $.ident,
+            $.range_pat,
+
             $.wildcard,
         ),
 
@@ -426,11 +532,37 @@ module.exports = grammar({
             $.string_lit,
         ),
 
-        ident_pat: $ => seq(
-            optional('ref'),
-            optional('mut'),
+        bind_pat: $ => seq(
             $.ident,
-            opt_seq('@', $._pattern),
+            '@',
+            $._pattern,
+        ),
+        
+        borrow_pat: $ => seq(
+            'ref',
+            $._pattern,
+        ),
+
+        mut_pat: $ => prec(-1, seq(
+            'mut',
+            $._pattern,
+        )),
+
+        ref_pat: $ => seq(
+            '&',
+            $._pattern,
+        ),
+
+        range_pat: $ => seq(
+            choice(
+                $._path,
+                $.lit_pat,
+            ),
+            choice('..', '..='),
+            choice(
+                $._path,
+                $.lit_pat,
+            ),
         ),
 
         wildcard: $ => '_',
