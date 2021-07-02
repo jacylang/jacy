@@ -27,5 +27,9 @@
   "devDependencies": {
     "tree-sitter-cli": "0.19.5",
     "nan": "*"
-  }
+  },
+  "tree-sitter": [{
+    "scope": "source.jc",
+    "file-types": ["jc"]
+  }]
 }

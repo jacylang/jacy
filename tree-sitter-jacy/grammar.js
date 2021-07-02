@@ -102,7 +102,7 @@ const either_semi = rule => choice(';', rule)
 const opt_seq = (...rules) => optional(seq(...rules))
 
 module.exports = grammar({
-    name: 'Jacy',
+    name: 'jacy',
 
     conflicts: $ => [
         [$._expr, $._pattern],
