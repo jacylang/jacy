@@ -1,16 +1,16 @@
 {
   "name": "tree-sitter-jacy",
-  "version": "0.0.2-rc.4",
+  "version": "0.0.2-rc.5",
   "description": "Tree-Sitter grammar for Jacy",
   "main": "bindings/node",
   "scripts": {
     "build": "tree-sitter generate && node-gyp build",
-    "config": "node-gyp configure --target=v14.16.0"
+    "config": "node-gyp configure --release --verbose --python=python2"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hazer-hazer/Jacy-Atom.git"
-  }, 
+  },
   "keywords": [
     "tree-sitter",
     "jacy",
@@ -26,14 +26,18 @@
   },
   "homepage": "https://github.com/hazer-hazer/Jacy-Atom#readme",
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.2"
+    "tree-sitter-cli": "^0.20.0"
   },
   "dependencies": {
     "nan": "^2.12.1"
   },
-  "tree-sitter": [{
-    "scope": "source.jc",
-    "file-types": ["jc"],
-    "injection-regex": "^(jc|jacy)$"
-  }]
+  "tree-sitter": [
+    {
+      "scope": "source.jc",
+      "file-types": [
+        "jc"
+      ],
+      "injection-regex": "^(jc|jacy)$"
+    }
+  ]
 }

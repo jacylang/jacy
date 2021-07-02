@@ -11,6 +11,9 @@ DEFS_Debug := \
 	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-DV8_COMPRESS_POINTERS' \
+	'-DV8_31BIT_SMIS_ON_64BIT_ARCH' \
+	'-DV8_REVERSE_JSARGS' \
 	'-D__STDC_FORMAT_MACROS' \
 	'-DOPENSSL_NO_PINSHARED' \
 	'-DOPENSSL_THREADS' \
@@ -41,13 +44,13 @@ CFLAGS_CC_Debug := \
 	-std=gnu++1y
 
 INCS_Debug := \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/include/node \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/src \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/openssl/config \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/openssl/openssl/include \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/uv/include \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/include/node \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/src \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/openssl/config \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/openssl/openssl/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/uv/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/zlib \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/src
 
@@ -60,6 +63,9 @@ DEFS_Release := \
 	'-DV8_IMMINENT_DEPRECATION_WARNINGS' \
 	'-D_LARGEFILE_SOURCE' \
 	'-D_FILE_OFFSET_BITS=64' \
+	'-DV8_COMPRESS_POINTERS' \
+	'-DV8_31BIT_SMIS_ON_64BIT_ARCH' \
+	'-DV8_REVERSE_JSARGS' \
 	'-D__STDC_FORMAT_MACROS' \
 	'-DOPENSSL_NO_PINSHARED' \
 	'-DOPENSSL_THREADS' \
@@ -87,13 +93,13 @@ CFLAGS_CC_Release := \
 	-std=gnu++1y
 
 INCS_Release := \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/include/node \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/src \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/openssl/config \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/openssl/openssl/include \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/uv/include \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
-	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/include/node \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/src \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/openssl/config \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/openssl/openssl/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/uv/include \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/zlib \
+	-I/home/is-gordeev/.electron-gyp/13.1.5/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
 	-I$(srcdir)/src
 
