@@ -95,8 +95,6 @@ const BINOPS = [
 
 const ASSIGN_OPS = ['=', '+=', '-=', '*=', '/=', '%=', '**=', '&=', '|=', '^=', '<<=', '>>=']
 
-const p = t => [...new Set(t.split(/[\w\s]/).filter(el => el != 'a' && el != 'b' && el.length))]
-
 const delim1 = (del, rule) => seq(rule, repeat(seq(del, rule)))
 const delim = (del, rule) => optional(delim1(del, rule))
 const trail_comma = optional(',')
