@@ -472,10 +472,10 @@ module.exports = grammar({
 
         fn_type: $ => seq(
             '(',
-            repeat(seq(
+            field('params', repeat(seq(
                 $.ident,
                 optional(seq(':', $._type)),
-            )),
+            ))),
             ')',
             '->',
             $._type,

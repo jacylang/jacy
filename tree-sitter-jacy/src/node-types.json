@@ -1031,9 +1031,68 @@
   {
     "type": "fn_type",
     "named": true,
-    "fields": {},
+    "fields": {
+      "params": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "array_type",
+            "named": true
+          },
+          {
+            "type": "fn_type",
+            "named": true
+          },
+          {
+            "type": "gen_type",
+            "named": true
+          },
+          {
+            "type": "ident",
+            "named": true
+          },
+          {
+            "type": "mut_type",
+            "named": true
+          },
+          {
+            "type": "parent_type",
+            "named": true
+          },
+          {
+            "type": "prim_type",
+            "named": true
+          },
+          {
+            "type": "ref_type",
+            "named": true
+          },
+          {
+            "type": "slice_type",
+            "named": true
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "type_path",
+            "named": true
+          },
+          {
+            "type": "unit_type",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
@@ -1046,10 +1105,6 @@
         },
         {
           "type": "gen_type",
-          "named": true
-        },
-        {
-          "type": "ident",
           "named": true
         },
         {
