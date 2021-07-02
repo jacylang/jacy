@@ -54,7 +54,7 @@ module.exports = grammar({
                 /0b[01_]+/, // Bin
                 /0o[0-7_]+/ // Octo
             ),
-            optional(choice(...int_types)), // Suffixes
+            optional(choice(...int_types, ...float_types)), // Suffixes
         )),
 
         float_lit: $ => token(seq(
