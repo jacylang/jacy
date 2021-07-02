@@ -17,6 +17,15 @@ const int_types = [
 
 const float_types = ['f32', 'f64']
 
+const prim_types = [
+    'bool',
+    'char',
+    'str',
+    '!',
+    ...int_types,
+    ...float_types,
+]
+
 // Precedence from lowest to highest
 const precIndex = [
     'assign',
@@ -100,6 +109,9 @@ module.exports = grammar({
     conflicts: $ => [
         [$._expr, $._pattern],
         [$._literal, $.lit_pat],
+        [$._type, $._path],
+        [$._expr, $._path],
+        [$.path_in_expr, $.type_path],
         // [$.path_in_expr, $.type_path],
     ],
 
@@ -135,19 +147,19 @@ module.exports = grammar({
             token.immediate('"'),
         ),
 
-        _path: $ => choice(
-            'self',
-            'super',
-            'party',
-            alias($._prim_type, $.ident),
-            $.ident,
-            $.path_in_expr,
-        ),
-
         // Fragments //
         ident: $ => /[a-zA-Z_]+/,
 
         _type_anno: $ => seq(':', $._type),
+
+        _path: $ => choice(
+            'self',
+            'super',
+            'party',
+            alias(choice(...prim_types), $.ident),
+            $.ident,
+            $.path_in_expr,
+        ),
 
         _gen_args: $ => seq(
             token(prec(1, '<')),
@@ -186,7 +198,7 @@ module.exports = grammar({
 
         type_param: $ => seq($.ident, optional($._type_anno), opt_seq('=', $._type)),
 
-        const_param: $ => seq('const', $.ident, ':', $._type, opt_seq('=', $._expr)),
+        const_param: $ => seq('const', $.ident, $._type_anno, opt_seq('=', $._expr)),
 
         ///////////
         // Items //
@@ -214,8 +226,7 @@ module.exports = grammar({
         param: $ => seq(
             optional('mut'),
             field('pat', $._pattern),
-            ':',
-            field('type', $._type),
+            field('type', opt_seq($._type_anno)),
         ),
 
         _func_body: $ => either_semi(choice(
@@ -274,7 +285,11 @@ module.exports = grammar({
         /////////////////
         _expr: $ => choice(
             $._literal,
+
+            prec.left($.ident),
+            alias(choice(...prim_types), $.ident),
             $.path_in_expr,
+
             $.paren_expr,
 
             $.block_expr,
@@ -323,20 +338,16 @@ module.exports = grammar({
             field('rhs', $._expr),
         )),
 
-        path_in_expr: $ => prec(-2, seq(
-            field('path', optional(choice(
+        path_in_expr: $ => seq(
+            field('path', optional(
                 $._path,
-                $.turbofish_gen,
-            ))),
+            )),
+            optional($.turbofish_gen),
             '::',
             field('name', $.ident),
-        )),
+        ),
 
         turbofish_gen: $ => seq(
-            field('type', choice(
-                $.ident,
-                $.path_in_expr,
-            )),
             '::',
             field('generics', $._gen_args),
         ),
@@ -428,7 +439,7 @@ module.exports = grammar({
         // Types //
         ///////////
         _type: $ => choice(
-            $._prim_type,
+            alias(choice(...prim_types), $.prim_type),
             $.unit_type,
             $.parent_type,
             $.tuple_type,
@@ -439,15 +450,6 @@ module.exports = grammar({
             $.mut_type,
             $.type_path,
             $.gen_type,
-        ),
-
-        _prim_type: $ => choice(
-            'bool',
-            'char',
-            'str',
-            '!',
-            ...int_types,
-            ...float_types,
         ),
 
         unit_type: $ => seq('(', ')'),
