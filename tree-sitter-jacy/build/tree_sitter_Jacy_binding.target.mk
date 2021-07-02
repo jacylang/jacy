@@ -49,8 +49,7 @@ INCS_Debug := \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
-	-I$(srcdir)/src \
-	-I$(srcdir)/src/tree_sitter
+	-I$(srcdir)/src
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=tree_sitter_Jacy_binding' \
@@ -96,8 +95,7 @@ INCS_Release := \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/zlib \
 	-I/home/is-gordeev/.cache/node-gyp/14.16.0/deps/v8/include \
 	-I$(srcdir)/node_modules/nan \
-	-I$(srcdir)/src \
-	-I$(srcdir)/src/tree_sitter
+	-I$(srcdir)/src
 
 OBJS := \
 	$(obj).target/$(TARGET)/bindings/node/binding.o \

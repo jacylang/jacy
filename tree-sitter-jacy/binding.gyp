@@ -4,8 +4,7 @@
       "target_name": "tree_sitter_Jacy_binding",
       "include_dirs": [
         "<!(node -e \"require('nan')\")",
-        "src",
-        "src/tree_sitter"
+        "src"
       ],
       "sources": [
         "bindings/node/binding.cc",

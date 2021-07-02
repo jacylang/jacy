@@ -1,15 +1,15 @@
 {
   "name": "tree-sitter-jacy",
-  "version": "0.0.2-rc.2",
+  "version": "0.0.2-rc.3",
   "description": "Tree-Sitter grammar for Jacy",
-  "main": "grammar.js",
+  "main": "bindings/node",
   "scripts": {
-    "build": "export PATH=\"./node_modules/tree-sitter:$PATH\" && tree-sitter generate && node-gyp build"
+    "build": "tree-sitter generate && node-gyp build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hazer-hazer/Jacy-Atom.git"
-  },
+  }, 
   "keywords": [
     "tree-sitter",
     "jacy",
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/hazer-hazer/Jacy-Atom#readme",
   "devDependencies": {
-    "tree-sitter-cli": "0.19.5"
+    "tree-sitter-cli": "^0.19.2"
   },
   "dependencies": {
     "nan": "^2.12.1"
