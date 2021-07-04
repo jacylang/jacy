@@ -109,6 +109,11 @@ namespace jc::parser {
             return Ok(std::static_pointer_cast<B>(node));
         }
 
+        template<class B, class T>
+        inline PR<N<B>> nodeAsPR(T && node) const {
+            return Ok(std::static_pointer_cast<B>(node));
+        }
+
         template<class T>
         inline PR<N<T>> makeErrorNode(const Span & span) {
             auto errorNode = std::make_shared<ErrorNode>(span);
