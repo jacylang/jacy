@@ -48,8 +48,6 @@ namespace jc::ast {
 
     public:
         ParseResult() : state(std::monostate{}) {}
-        ParseResult(const T & value) : state(value) {}
-        ParseResult(const E & error) : state(error) {}
         ParseResult(T && value) : state(std::move(value)) {}
         ParseResult(E && error) : state(std::move(error)) {}
         ParseResult(const ParseResult<T> & other)
