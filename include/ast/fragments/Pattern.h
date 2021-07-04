@@ -11,7 +11,6 @@ namespace jc::ast {
     using pat_ptr = PR<std::shared_ptr<Pattern>>;
     using opt_pat = dt::Option<pat_ptr>;
     using pat_list = std::vector<pat_ptr>;
-    using id_pat_ptr = std::shared_ptr<BorrowPat>;
 
     enum class PatternKind {
         Paren,
