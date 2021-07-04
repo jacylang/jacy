@@ -18,6 +18,10 @@ namespace jc::ast {
     using node_id = uint32_t;
     using opt_node_id = dt::Option<ast::node_id>;
 
+    /// Wrapper for all nodes to be boxed
+    template<class T>
+    using P = std::shared_ptr<T>;
+
     const node_id NONE_NODE_ID = UINT32_MAX;
 
     struct Node {
