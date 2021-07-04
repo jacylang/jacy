@@ -1726,7 +1726,7 @@ namespace jc::parser {
     dt::Option<attr_ptr> Parser::parseAttr() {
         const auto & begin = cspan();
         if (not is(TokenKind::At)) {
-            return;
+            return dt::None;
         }
 
         justSkip(TokenKind::At, "`@`", "`parseAttr`");
