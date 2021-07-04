@@ -2275,12 +2275,12 @@ namespace jc::parser {
 
         // `_`
         if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
-            return Pattern::asBase(makeNode<WCPat>(wildcard.unwrap().span));
+            return makeNode<WCPat>(wildcard.unwrap().span).as<Pattern>();
         }
 
         // `...`
         if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
-            return Pattern::asBase(makeNode<SpreadPat>(spread.unwrap().span));
+            return makeNode<SpreadPat>(spread.unwrap().span).as<Pattern>();
         }
 
         // `ref mut IDENT @ pattern`
@@ -2299,7 +2299,7 @@ namespace jc::parser {
             justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
             auto pat = parsePat();
             skip(TokenKind::RParen, "Closing `)`");
-            return Pattern::asBase(makeNode<ParenPat>(std::move(pat), begin.to(cspan())));
+            return makeNode<ParenPat>(std::move(pat), begin.to(cspan())).as<Pattern>();
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
@@ -2314,7 +2314,7 @@ namespace jc::parser {
 
             // TODO: Range from
 
-            return Pattern::asBase(makeNode<PathPat>(std::move(path), begin.to(cspan())));
+            return makeNode<PathPat>(std::move(path), begin.to(cspan())).as<Pattern>();
         }
 
         suggestErrorMsg("Expected pattern, got " + peek().toString(), cspan());
