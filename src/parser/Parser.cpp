@@ -1020,16 +1020,16 @@ namespace jc::parser {
                 bool ref = skipOpt(TokenKind::Ampersand);
                 bool mut = skipOpt(TokenKind::Mut);
                 // TODO!!!: Swap `&` and `mut` suggestion
-                return Ok(makeNode<BorrowExpr>(ref, mut, std::move(rhs), begin.to(cspan())).as<Expr>());
+                return makePRNode<BorrowExpr, Expr>(ref, mut, std::move(rhs), begin.to(cspan()));
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
 
-                return Ok(makeNode<DerefExpr>(std::move(rhs), begin.to(cspan())).as<Expr>());
+                return makePRNode<DerefExpr, Expr>(std::move(rhs), begin.to(cspan()));
             }
 
             logParse("Prefix");
 
-            return Ok(makeNode<Prefix>(op, std::move(rhs), begin.to(cspan())).as<Expr>());
+            return makePRNode<Prefix, Expr>(op, std::move(rhs), begin.to(cspan()));
         }
 
         return quest();
