@@ -2298,7 +2298,7 @@ namespace jc::parser {
             return parseBorrowPat();
         }
 
-        if (is(TokenKind::Mut) or is(TokenKind::BitOr)) {
+        if (is(TokenKind::Ampersand) or is(TokenKind::Mut)) {
             return parseRefPat();
         }
     }
