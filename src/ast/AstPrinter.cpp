@@ -306,11 +306,7 @@ namespace jc::ast {
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
         printNodeId(borrowExpr);
 
-        if (borrowExpr.twin) {
-            log.raw("&&");
-        } else {
-            log.raw("&");
-        }
+        log.raw("&");
         if (borrowExpr.mut) {
             log.raw("mut");
         }
