@@ -791,6 +791,18 @@ namespace jc::ast {
         pat.name.accept(*this);
     }
 
+    void AstPrinter::visit(const RefPat & pat) {
+        if (pat.ref) {
+            log.raw("&");
+        }
+
+        if (pat.mut) {
+            log.raw("mut");
+        }
+
+        pat.pat.accept(*this);
+    }
+
     void AstPrinter::visit(const SpreadPat&) {
         log.raw("...");
     }
