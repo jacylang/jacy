@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct Arg;
-    using arg_ptr = std::shared_ptr<Arg>;
+    using arg_ptr = P<Arg>;
     using arg_list = std::vector<arg_ptr>;
 
     struct Arg : Node {

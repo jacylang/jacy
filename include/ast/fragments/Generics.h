@@ -6,9 +6,9 @@
 namespace jc::ast {
     struct Type;
     struct GenericParam;
-    using gen_param_list = std::vector<std::shared_ptr<GenericParam>>;
+    using gen_param_list = std::vector<P<GenericParam>>;
     using opt_gen_params = dt::Option<gen_param_list>;
-    using pure_type_ptr = std::shared_ptr<Type>;
+    using pure_type_ptr = P<Type>;
     using type_ptr = PR<pure_type_ptr>;
     using opt_type_ptr = dt::Option<type_ptr>;
 

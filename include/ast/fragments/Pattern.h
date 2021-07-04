@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct Pattern;
     struct BorrowPat;
-    using pure_pat_ptr = std::shared_ptr<Pattern>;
+    using pure_pat_ptr = P<Pattern>;
     using pat_ptr = PR<pure_pat_ptr>;
     using opt_pat = dt::Option<pat_ptr>;
     using pat_list = std::vector<pat_ptr>;
@@ -29,7 +29,7 @@ namespace jc::ast {
 
         PatternKind kind;
 
-        static inline pat_ptr asBase(std::shared_ptr<Pattern> pat) {
+        static inline pat_ptr asBase(P<Pattern> pat) {
             return std::static_pointer_cast<Pattern>(pat);
         }
 
