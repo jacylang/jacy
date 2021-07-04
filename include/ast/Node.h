@@ -56,6 +56,7 @@ namespace jc::ast {
             : state(other.state) {}
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
+        ParseResult(N<T> && node) : state(std::move(node.inner)) {}
 
         T & unwrap(const std::string & msg = "") {
             if (isErr()) {
@@ -101,7 +102,11 @@ namespace jc::ast {
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
-            state = other.state;
+            if (other.isErr()) {
+                state = std::get<E>(other.state);
+            } else {
+                state = std::get<T>(other.state);
+            }
             return *this;
         }
 
@@ -174,6 +179,7 @@ namespace jc::ast {
     struct N {
         std::shared_ptr<T> inner;
 
+        N(const N<T> & t) : inner(t.inner) {}
         N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
         N(N<T> && t) : inner(std::move(t.inner)) {}
 
