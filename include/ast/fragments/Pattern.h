@@ -97,6 +97,10 @@ namespace jc::ast {
             : Pattern(PatternKind::Path, span), path(std::move(path)) {}
 
         path_expr_ptr path;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct WCPat : Pattern {

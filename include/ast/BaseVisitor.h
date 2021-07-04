@@ -91,6 +91,7 @@ namespace jc::ast {
     struct LitPat;
     struct BorrowPat;
     struct RefPattern;
+    struct PathPat;
     struct WCPat;
     struct SpreadPat;
 
@@ -186,6 +187,7 @@ namespace jc::ast {
         virtual void visit(const LitPat&) = 0;
         virtual void visit(const BorrowPat&) = 0;
         virtual void visit(const RefPattern&) = 0;
+        virtual void visit(const PathPat&) = 0;
         virtual void visit(const WCPat&) = 0;
         virtual void visit(const SpreadPat&) = 0;
     };
