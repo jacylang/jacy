@@ -7,7 +7,7 @@
 
 namespace jc::ast {
     struct MatchArm;
-    using match_arm_ptr = std::shared_ptr<MatchArm>;
+    using match_arm_ptr = P<MatchArm>;
     using match_arm_list = std::vector<match_arm_ptr>;
 
     struct MatchArm : Node {

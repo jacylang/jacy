@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct LiteralConstant;
-    using literal_ptr = std::shared_ptr<LiteralConstant>;
+    using literal_ptr = P<LiteralConstant>;
 
     struct LiteralConstant : Expr {
         explicit LiteralConstant(const parser::Token & token, const Span & span)

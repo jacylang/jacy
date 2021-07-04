@@ -12,9 +12,9 @@ namespace jc::ast {
     struct File;
     struct FsModule;
     using party_ptr = std::unique_ptr<Party>;
-    using dir_ptr = std::shared_ptr<Dir>;
-    using file_ptr = std::shared_ptr<File>;
-    using fs_module_ptr = std::shared_ptr<FsModule>;
+    using dir_ptr = P<Dir>;
+    using file_ptr = P<File>;
+    using fs_module_ptr = P<FsModule>;
 
     struct FsModule : Node {
         FsModule() : Node(Span{}) {}

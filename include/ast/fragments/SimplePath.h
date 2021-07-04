@@ -8,8 +8,8 @@
 namespace jc::ast {
     struct SimplePathSeg;
     struct SimplePath;
-    using simple_path_seg_ptr = std::shared_ptr<SimplePathSeg>;
-    using simple_path_ptr = std::shared_ptr<SimplePath>;
+    using simple_path_seg_ptr = P<SimplePathSeg>;
+    using simple_path_ptr = P<SimplePath>;
 
     struct SimplePathSeg : Node {
         const enum class Kind {

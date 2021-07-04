@@ -7,7 +7,7 @@
 
 namespace jc::ast {
     struct Expr;
-    using pure_expr_ptr = std::shared_ptr<Expr>;
+    using pure_expr_ptr = P<Expr>;
     using expr_ptr = PR<pure_expr_ptr>;
     using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
@@ -59,7 +59,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        static std::shared_ptr<T> as(pure_expr_ptr expr) {
+        static P<T> as(pure_expr_ptr expr) {
             return std::static_pointer_cast<T>(expr);
         }
 

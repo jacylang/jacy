@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Infix;
-    using infix_ptr = std::shared_ptr<Infix>;
+    using infix_ptr = P<Infix>;
 
     struct Infix : Expr {
         Infix(expr_ptr lhs, const parser::Token & op, expr_ptr rhs, const Span & span)
