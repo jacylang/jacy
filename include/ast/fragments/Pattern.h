@@ -9,6 +9,7 @@ namespace jc::ast {
     struct Pattern;
     struct BorrowPat;
     using pat_ptr = std::shared_ptr<Pattern>;
+    using opt_pat = dt::Option<pat_ptr>;
     using pat_list = std::vector<pat_ptr>;
     using id_pat_ptr = std::shared_ptr<BorrowPat>;
 
@@ -54,13 +55,13 @@ namespace jc::ast {
 
     /// `ref mut IDENT @ pattern`
     struct BorrowPat : Pattern {
-        BorrowPat(bool ref, bool mut, id_ptr && name, pat_ptr && pat, const Span & span)
+        BorrowPat(bool ref, bool mut, id_ptr && name, opt_pat && pat, const Span & span)
             : Pattern(PatternKind::Borrow, span), ref(ref), mut(mut), name(std::move(name)), pat(std::move(pat)) {}
 
         bool ref;
         bool mut;
         id_ptr name;
-        pat_ptr pat;
+        opt_pat pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

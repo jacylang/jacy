@@ -2348,7 +2348,12 @@ namespace jc::parser {
 
         auto id = parseId("Missing identifier");
 
-        return makeNode<BorrowPat>(ref, mut, std::move(id), begin.to(id.span()));
+        dt::Option<pat_ptr> pat{dt::None};
+        if (skipOpt(TokenKind::At)) {
+            pat = parsePat();
+        }
+
+        return makeNode<BorrowPat>(ref, mut, std::move(id), std::move(pat), begin.to(id.span()));
     }
 
     pat_ptr Parser::parseRefPat() {
