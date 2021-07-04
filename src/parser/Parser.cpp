@@ -2280,7 +2280,9 @@ namespace jc::parser {
         );
     }
 
+    //////////////
     // Patterns //
+    //////////////
     pat_ptr Parser::parsePat() {
         logParse("Pattern");
 
