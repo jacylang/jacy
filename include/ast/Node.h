@@ -211,6 +211,11 @@ namespace jc::ast {
             }
             return std::static_pointer_cast<B>(expr.asValue());
         }
+
+        template<class B>
+        N<B> asBase() const {
+            return N<B>(std::static_pointer_cast<B>(std::move(inner)));
+        }
     };
 }
 
