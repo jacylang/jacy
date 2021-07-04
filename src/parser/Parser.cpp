@@ -972,7 +972,7 @@ namespace jc::parser {
             auto rhs = maybeRhs.unwrap("`precParse` -> `rhs`");
             maybeLhs = makeNode<Infix>(
                 std::move(lhs), op, std::move(rhs), begin.to(cspan())
-            );
+            ).as<Expr>();
             if (not multiple) {
                 break;
             }
@@ -1025,22 +1025,16 @@ namespace jc::parser {
                 bool ref = skipOpt(TokenKind::Ampersand);
                 bool mut = skipOpt(TokenKind::Mut);
                 // TODO!!!: Swap `&` and `mut` suggestion
-                return Expr::pureAsBase(
-                    makeNode<BorrowExpr>(ref, mut, std::move(rhs), begin.to(cspan()))
-                );
+                return Ok(makeNode<BorrowExpr>(ref, mut, std::move(rhs), begin.to(cspan())).as<Expr>());
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
 
-                return Expr::pureAsBase(
-                    makeNode<DerefExpr>(std::move(rhs), begin.to(cspan()))
-                );
+                return Ok(makeNode<DerefExpr>(std::move(rhs), begin.to(cspan())).as<Expr>());
             }
 
             logParse("Prefix");
 
-            return Expr::pureAsBase(
-                makeNode<Prefix>(op, std::move(rhs), begin.to(cspan()))
-            );
+            return Ok(makeNode<Prefix>(op, std::move(rhs), begin.to(cspan())).as<Expr>());
         }
 
         return quest();
@@ -1057,7 +1051,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Quest)) {
             logParse("Quest");
 
-            return Expr::pureAsBase(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())));
+            return Ok(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())).as<Expr>());
         }
 
         return lhs;
@@ -1097,7 +1091,7 @@ namespace jc::parser {
                 skip(TokenKind::RParen, "Missing closing `]` in array expression");
 
                 exitEntity();
-                lhs = makeNode<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan()));
+                lhs = makeNode<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan())).as<Expr>();
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
@@ -1106,7 +1100,7 @@ namespace jc::parser {
                 auto args = parseArgList("function call");
 
                 exitEntity();
-                lhs = makeNode<Invoke>(std::move(lhs), std::move(args), begin.to(cspan()));
+                lhs = makeNode<Invoke>(std::move(lhs), std::move(args), begin.to(cspan())).as<Expr>();
 
                 begin = cspan();
             } else {
@@ -1130,7 +1124,7 @@ namespace jc::parser {
 
             auto name = parseId("field name");
 
-            lhs = Expr::pureAsBase(makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())));
+            lhs = makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())).as<Expr>();
             begin = cspan();
         }
 
@@ -1149,7 +1143,7 @@ namespace jc::parser {
         if (is(TokenKind::Self)) {
             const auto & span = cspan();
             advance();
-            return Expr::pureAsBase(makeNode<SelfExpr>(span));
+            return Some<expr_ptr>(makeNode<SelfExpr>(span).as<Expr>());
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
@@ -1160,7 +1154,7 @@ namespace jc::parser {
                 }
                 return parseStructExpr(std::move(pathExpr.unwrap()));
             }
-            return Expr::asBase(pathExpr);
+            return pathExpr;
         }
 
         if (is(TokenKind::If)) {
@@ -1176,7 +1170,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Expr::asBase(parseBlock("Block expression", BlockArrow::Just));
+            return parseBlock("Block expression", BlockArrow::Just);
         }
 
         if (is(TokenKind::Match)) {
@@ -1301,7 +1295,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return Expr::as<PathExpr>(makeNode<PathExpr>(global, std::move(segments), begin.to(prev().span)));
+        return makeNode<PathExpr>(global, std::move(segments), begin.to(prev().span));
     }
 
     expr_ptr Parser::parseLiteral() {
@@ -1313,7 +1307,7 @@ namespace jc::parser {
         }
         auto token = peek();
         advance();
-        return makeNode<LiteralConstant>(token, begin.to(cspan()));
+        return makeNode<LiteralConstant>(token, begin.to(cspan())).as<Expr>();
     }
 
     expr_ptr Parser::parseListExpr() {
@@ -1344,7 +1338,7 @@ namespace jc::parser {
                         maybeSpreadOp,
                         parseExpr("Expected expression after spread operator `...` in list expression"),
                         maybeSpreadOp.span.to(cspan())
-                    )
+                    ).as<Expr>()
                 );
             } else {
                 elements.push_back(parseExpr("Expression expected"));
@@ -1352,7 +1346,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return makeNode<ListExpr>(std::move(elements), begin.to(cspan()));
+        return makeNode<ListExpr>(std::move(elements), begin.to(cspan())).as<Expr>();
     }
 
     expr_ptr Parser::parseTupleOrParenExpr() {
