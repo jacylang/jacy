@@ -2007,7 +2007,8 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
-            return parseOptTypePath();
+            // We matched IDENT or `::`, so we can unwrap parsed type as optional
+            return Ok(parseOptTypePath().unwrap().as<Type>());
         }
 
         const auto & begin = cspan();
