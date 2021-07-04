@@ -58,11 +58,6 @@ namespace jc::ast {
                    or kind == ExprKind::Id;
         }
 
-        template<class T>
-        static N<T> as(pure_expr_ptr expr) {
-            return std::static_pointer_cast<T>(expr);
-        }
-
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
