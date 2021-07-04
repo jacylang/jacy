@@ -1046,7 +1046,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Quest)) {
             logParse("Quest");
 
-            return Ok(makeNode<QuestExpr>(lhs.unwrap(), begin.to(cspan())).as<Expr>());
+            return makePRNode<QuestExpr, Expr>(lhs.unwrap(), begin.to(cspan()));
         }
 
         return lhs;
@@ -1086,7 +1086,7 @@ namespace jc::parser {
                 skip(TokenKind::RParen, "Missing closing `]` in array expression");
 
                 exitEntity();
-                lhs = makeNode<Subscript>(std::move(lhs), std::move(indices), begin.to(cspan())).as<Expr>();
+                lhs = makePRNode<Subscript, Expr>(std::move(lhs), std::move(indices), begin.to(cspan()));
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
@@ -1095,7 +1095,7 @@ namespace jc::parser {
                 auto args = parseArgList("function call");
 
                 exitEntity();
-                lhs = makeNode<Invoke>(std::move(lhs), std::move(args), begin.to(cspan())).as<Expr>();
+                lhs = makePRNode<Invoke, Expr>(std::move(lhs), std::move(args), begin.to(cspan()));
 
                 begin = cspan();
             } else {
