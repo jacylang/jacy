@@ -603,7 +603,7 @@ namespace jc::parser {
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
                 exitEntity();
-                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())).asBase<UseTree>();
+                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())).as<UseTree>();
             }
 
             if (skipOpt(TokenKind::LBrace)) {
@@ -632,16 +632,15 @@ namespace jc::parser {
 
                 exitEntity();
 
-                return std::static_pointer_cast<UseTree>(
-                    makeNode<UseTreeSpecific>(std::move(maybePath), std::move(specifics), begin.to(cspan()))
-                );
+                return makeNode<UseTreeSpecific>(
+                    std::move(maybePath),
+                    std::move(specifics),
+                    begin.to(cspan())).as<UseTree>();
             }
 
             if (maybePath) {
                 exitEntity();
-                return std::static_pointer_cast<UseTree>(
-                    makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()))
-                );
+                return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan())).as<UseTree>();
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);

@@ -195,25 +195,7 @@ namespace jc::ast {
         }
 
         template<class B>
-        static N<B> asBase(N<B> && node) {
-            return std::static_pointer_cast<B>(std::move(node.inner));
-        }
-
-        template<class B>
-        static const N<B> & asBase(N<B> && node) {
-            return std::static_pointer_cast<B>(std::move(node.inner));
-        }
-
-        template<class U, class B>
-        static N<B> asBase(PR<U> && expr) {
-            if (expr.isErr()) {
-                return expr.asErr();
-            }
-            return std::static_pointer_cast<B>(expr.asValue());
-        }
-
-        template<class B>
-        N<B> asBase() const {
+        N<B> as() const {
             return N<B>(std::static_pointer_cast<B>(std::move(inner)));
         }
     };
