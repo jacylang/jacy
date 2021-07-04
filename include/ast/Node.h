@@ -99,8 +99,8 @@ namespace jc::ast {
         }
 
         template<class B>
-        ParseResult<B> as() const {
-            return ParseResult<B>(std::move(state));
+        ParseResult<N<B>> as() const {
+            return ParseResult<N<B>>(std::move(state));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
