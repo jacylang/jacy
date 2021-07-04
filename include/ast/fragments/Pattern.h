@@ -41,6 +41,7 @@ namespace jc::ast {
         }
     };
 
+    /// `ref mut IDENT @ pattern`
     struct IdentPattern : Pattern {
         // TODO: Binding after binding syntax will be established
         IdentPattern(bool ref, bool mut, id_ptr name, const Span & span)
@@ -73,6 +74,7 @@ namespace jc::ast {
 
     // TODO: Range patterns
 
+    /// `&mut pattern`
     struct RefPattern : Pattern {
         RefPattern(bool ref, bool mut, pat_ptr && pat, const Span & span)
             : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
@@ -87,6 +89,8 @@ namespace jc::ast {
     };
 
     // Struct Pattern //
+
+    /// Struct nested pattern like `IDENT: pattern`
     struct StructPatNamedEl {
         StructPatNamedEl(id_ptr && name, pat_ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
 
@@ -94,6 +98,7 @@ namespace jc::ast {
         pat_ptr pat;
     };
 
+    /// Struct nested pattern like `ref mut IDENT`
     struct StructPatIdentEl {
         StructPatIdentEl(bool ref, bool mut, id_ptr && name) : ref(ref), mut(mut), name(std::move(name)) {}
 
