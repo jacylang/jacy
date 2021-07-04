@@ -498,13 +498,8 @@ namespace jc::parser {
                 advance();
             } break;
             case '@': {
-                if (not hidden()) {
-                    addToken(TokenKind::At_WWS, 1);
-                    advance();
-                } else {
-                    addToken(TokenKind::At, 1);
-                    advance();
-                }
+                addToken(TokenKind::At, 1);
+                advance();
             } break;
             case '`': {
                 addToken(TokenKind::Backtick, 1);
