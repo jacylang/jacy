@@ -449,6 +449,23 @@ namespace jc::ast {
     void StubVisitor::visit(const SpreadPat&) {}
 
     void StubVisitor::visit(const StructPat & pat) {
+        pat.path.accept(*this);
 
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+                    dp.name.accept(*this);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+                    bp.name.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Spread:;
+            }
+        }
     }
 }
