@@ -519,7 +519,7 @@ namespace jc::parser {
                 if (not superTrait) {
                     suggestErrorMsg("Expected super-trait identifier", cspan());
                 } else {
-                    superTraits.emplace_back(superTrait.unwrap("`parseTrait` -> `superTrait`"));
+                    superTraits.emplace_back(std::move(superTrait.unwrap("`parseTrait` -> `superTrait`")));
                 }
             }
         }
