@@ -107,7 +107,6 @@ namespace jc::parser {
         {TokenKind::Pipe,               "|>"},
         {TokenKind::Dollar,             "$"},
         {TokenKind::At,                 "@"},
-        {TokenKind::At_WWS,             "@(WWS)"},
 
         // Punctuations //
         {TokenKind::Semi,               ";"},
