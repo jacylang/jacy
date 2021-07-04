@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct StructField;
-    using struct_field_ptr = std::shared_ptr<StructField>;
+    using struct_field_ptr = P<StructField>;
     using struct_field_list = std::vector<struct_field_ptr>;
 
     struct StructField : Node {

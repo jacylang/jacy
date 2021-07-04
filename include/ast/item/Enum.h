@@ -10,7 +10,7 @@
 
 namespace jc::ast {
     struct EnumEntry;
-    using enum_entry_ptr = std::shared_ptr<EnumEntry>;
+    using enum_entry_ptr = P<EnumEntry>;
     using enum_entry_list = std::vector<enum_entry_ptr>;
 
     enum class EnumEntryKind {
