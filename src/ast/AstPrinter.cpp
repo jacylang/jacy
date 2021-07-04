@@ -815,24 +815,39 @@ namespace jc::ast {
         log.raw("...");
     }
 
-//    void AstPrinter::visit(const StructPat & pat) {
-//        pat.path.accept(*this);
-//
-//        for (const auto & el : pat.elements) {
-//            switch (el.kind) {
-//                case StructPatEl::Kind::Destruct: {
-//                    break;
-//                }
-//                case StructPatEl::Kind::Borrow: {
-//                    const auto & borrowPat = std::static_pointer_cast<StructPatBorrowEl>(el);
-//
-//                }
-//                case StructPatEl::Kind::Spread: {
-//                    log.raw("...");
-//                }
-//            }
-//        }
-//    }
+    void AstPrinter::visit(const StructPat & pat) {
+        pat.path.accept(*this);
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+
+                    dp.name.accept(*this);
+                    log.raw(": ");
+                    dp.pat.accept(*this);
+
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+
+                    if (bp.ref) {
+                        log.raw("ref ");
+                    }
+
+                    if (bp.mut) {
+                        log.raw("mut ");
+                    }
+
+                    bp.name.accept(*this);
+                }
+                case StructPatEl::Kind::Spread: {
+                    log.raw("...");
+                }
+            }
+        }
+    }
 
     // Helpers //
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
