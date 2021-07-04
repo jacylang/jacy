@@ -215,7 +215,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const LetStmt & letStmt) {
-        letStmt.pat->accept(*this);
+        letStmt.pat.accept(*this);
 
         if (letStmt.type) {
             letStmt.type.unwrap().accept(*this);
@@ -531,7 +531,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const MatchArm & matchArm) {
-        lintEach(matchArm.conditions);
+        lintEach(matchArm.patterns);
         matchArm.body.accept(*this);
     }
 
@@ -624,7 +624,7 @@ namespace jc::ast {
             el.name.unwrap().accept(*this);
         }
         if (el.value) {
-            el.value.unwrap().accept(*this);
+            el.value.unwrap()->accept(*this);
         }
     }
 
