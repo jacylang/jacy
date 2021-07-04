@@ -2385,7 +2385,7 @@ namespace jc::parser {
         return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
-    pure_pat_ptr Parser::parseStructPat() {
+    pure_pat_ptr Parser::parseStructPat(path_expr_ptr && path) {
         logParse("StructPattern");
 
         justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");

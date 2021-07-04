@@ -247,7 +247,7 @@ namespace jc::parser {
         pure_pat_ptr parseLitPat();
         pure_pat_ptr parseBorrowPat();
         pure_pat_ptr parseRefPat();
-        pure_pat_ptr parseStructPat();
+        pure_pat_ptr parseStructPat(path_expr_ptr && path);
 
         // Helpers //
     private:
