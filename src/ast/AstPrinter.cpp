@@ -254,7 +254,9 @@ namespace jc::ast {
 
         log.raw("let ");
 
-        colorizeDef(letStmt.pat->name);
+        // FIXME: Check colorizing
+        letStmt.pat.accept(*this);
+//        colorizeDef(letStmt.pat->name);
 
         if (letStmt.type) {
             log.raw(": ");
