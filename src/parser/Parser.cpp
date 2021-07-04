@@ -1119,7 +1119,7 @@ namespace jc::parser {
 
             auto name = parseId("field name");
 
-            lhs = makeNode<MemberAccess>(lhs.unwrap(), std::move(name), begin.to(cspan())).as<Expr>();
+            lhs = makePRNode<MemberAccess, Expr>(lhs.unwrap(), std::move(name), begin.to(cspan()));
             begin = cspan();
         }
 
