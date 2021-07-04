@@ -697,7 +697,7 @@ namespace jc::parser {
             default: {
                 auto item = parseOptItem();
                 if (item) {
-                    return makeNode<ItemStmt>(item.unwrap(), begin.to(cspan())).as<Stmt>();
+                    return makePRNode<ItemStmt, Stmt>(std::move(item.unwrap()), begin.to(cspan()));
                 }
 
                 // FIXME: Hardly parse expression but recover unexpected token
@@ -705,12 +705,12 @@ namespace jc::parser {
                 if (not expr) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
-                    return makeErrorNode(begin.to(cspan()));
+                    return makeErrorNode<Stmt>(begin.to(cspan()));
                 }
 
-                auto exprStmt = makeNode<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
+                auto exprStmt = makePRNode<ExprStmt, Stmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
                 skipSemi();
-                return exprStmt.as<Stmt>();
+                return exprStmt;
             }
         }
     }
