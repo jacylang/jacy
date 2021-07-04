@@ -18,6 +18,7 @@ namespace jc::ast {
         Literal,
         Borrow,
         Ref,
+        Path,
         Wildcard,
         Spread,
         Struct,
@@ -89,6 +90,13 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
+    };
+
+    struct PathPat : Pattern {
+        PathPat(path_expr_ptr && path, const Span & span)
+            : Pattern(PatternKind::Path, span), path(std::move(path)) {}
+
+        path_expr_ptr path;
     };
 
     struct WCPat : Pattern {
