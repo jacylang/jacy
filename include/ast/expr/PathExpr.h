@@ -8,8 +8,8 @@
 namespace jc::ast {
     struct PathExpr;
     struct PathExprSeg;
-    using path_expr_ptr = PR<P<PathExpr>>;
-    using path_expr_seg_ptr = PR<P<PathExprSeg>>;
+    using path_expr_ptr = PR<N<PathExpr>>;
+    using path_expr_seg_ptr = PR<N<PathExprSeg>>;
     using path_expr_seg_list = std::vector<path_expr_seg_ptr>;
 
     struct PathExprSeg : Node {

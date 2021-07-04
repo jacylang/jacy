@@ -7,7 +7,7 @@
 
 namespace jc::ast {
     struct Identifier;
-    using id_ptr = PR<P<Identifier>>;
+    using id_ptr = PR<N<Identifier>>;
     using opt_id_ptr = dt::Option<id_ptr>;
 
     struct Identifier : Node {
