@@ -846,6 +846,7 @@ namespace jc::ast {
                     }
 
                     bp.name.accept(*this);
+                    break;
                 }
                 case StructPatEl::Kind::Spread: {
                     log.raw("...");
