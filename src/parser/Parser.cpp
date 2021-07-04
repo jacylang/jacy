@@ -1420,7 +1420,7 @@ namespace jc::parser {
         skip(TokenKind::RBrace, "Missing closing `}`");
 
         exitEntity();
-        return makeNode<StructExpr>(std::move(path), std::move(fields), begin.to(cspan())).as<Expr>();
+        return makePRNode<StructExpr, Expr>(std::move(path), std::move(fields), begin.to(cspan()));
     }
 
     struct_expr_field_ptr Parser::parseStructExprField() {
@@ -1456,7 +1456,7 @@ namespace jc::parser {
         advance();
 
         exitEntity();
-        return makeErrorNode(begin);
+        return makeErrorNode<StructExprField>(begin);
     }
 
     block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
@@ -1527,7 +1527,7 @@ namespace jc::parser {
             }
             suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
             exitEntity();
-            return makeErrorNode(begin.to(cspan()));
+            return makeErrorNode<Block>(begin.to(cspan()));
         }
 
         exitEntity();
