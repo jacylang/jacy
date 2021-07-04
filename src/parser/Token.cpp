@@ -2,6 +2,7 @@
 
 namespace jc::parser {
     const std::map<std::string, TokenKind> Token::keywords = {
+        {"and",         TokenKind::And},
         {"as",          TokenKind::As},
         {"async",       TokenKind::Async},
         {"await",       TokenKind::Await},
@@ -27,6 +28,7 @@ namespace jc::parser {
         {"move",        TokenKind::Move},
         {"mut",         TokenKind::Mut},
         {"return",      TokenKind::Return},
+        {"or",          TokenKind::Or},
         {"party",       TokenKind::Party},
         {"pri",         TokenKind::Pri},
         {"pub",         TokenKind::Pub},
