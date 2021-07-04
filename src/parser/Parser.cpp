@@ -2333,7 +2333,7 @@ namespace jc::parser {
         auto token = peek();
         advance();
 
-        return makePRNode<LitPat, Pattern>(neg, token, begin.to(cspan()));
+        return makeNode<LitPat>(neg, token, begin.to(cspan()));
     }
 
     pure_pat_ptr Parser::parseBorrowPat() {
@@ -2350,7 +2350,7 @@ namespace jc::parser {
             pat = parsePat();
         }
 
-        return makePRNode<BorrowPat, Pattern>(ref, mut, std::move(id), std::move(pat), begin.to(id.span()));
+        return makeNode<BorrowPat>(ref, mut, std::move(id), std::move(pat), begin.to(id.span()));
     }
 
     pure_pat_ptr Parser::parseRefPat() {
@@ -2361,7 +2361,7 @@ namespace jc::parser {
         bool mut = skipOpt(TokenKind::Mut);
         auto pat = parsePat();
 
-        return makePRNode<RefPat, Pattern>(ref, mut, std::move(pat), begin.to(cspan()));
+        return makeNode<RefPat>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
     pure_pat_ptr Parser::parseStructPat(path_expr_ptr && path) {
@@ -2422,7 +2422,7 @@ namespace jc::parser {
 
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
 
-        return makePRNode<StructPat>(std::move(path), std::move(elements), begin.to(cspan()));
+        return makeNode<StructPat>(std::move(path), std::move(elements), begin.to(cspan()));
     }
 
     // Helpers //
