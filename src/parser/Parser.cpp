@@ -2040,10 +2040,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::RParen)) {
             exitEntity();
-            return {
-                {},
-                {}
-            };
+            return {};
         }
 
         std::vector<size_t> namedElements;
@@ -2105,13 +2102,13 @@ namespace jc::parser {
             exitEntity();
             return makeNode<ArrayType>(
                 std::move(type), std::move(sizeExpr), begin.to(cspan())
-            );
+            ).as<Type>();
         }
 
         skip(TokenKind::RBracket, "Missing closing `]` in slice type");
 
         exitEntity();
-        return makeNode<SliceType>(std::move(type), begin.to(cspan()));
+        return makeNode<SliceType>(std::move(type), begin.to(cspan())).as<Type>();
     }
 
     type_ptr Parser::parseFuncType(tuple_t_el_list tupleElements, const Span & span) {
@@ -2136,7 +2133,7 @@ namespace jc::parser {
         auto returnType = parseType("Expected return type in function type after `->`");
 
         exitEntity();
-        return makeNode<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
+        return makeNode<FuncType>(std::move(params), std::move(returnType), span.to(cspan())).as<Type>();
     }
 
     opt_gen_params Parser::parseOptGenerics() {
@@ -2168,9 +2165,7 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick)) {
                 auto name = parseId("lifetime parameter name");
-                generics.push_back(
-                    makeNode<Lifetime>(std::move(name), genBegin.to(cspan()))
-                );
+                generics.push_back(makeNode<Lifetime>(std::move(name), genBegin.to(cspan())));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
                 opt_type_ptr type{dt::None};
