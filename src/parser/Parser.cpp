@@ -1201,7 +1201,7 @@ namespace jc::parser {
         if (maybeIdToken) {
             return makeNode<Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
         }
-        return makeErrorNode(span);
+        return makeErrorNode<Identifier>(span);
     }
 
     path_expr_ptr Parser::parsePathExpr() {
@@ -1273,7 +1273,7 @@ namespace jc::parser {
                     makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
                 );
             } else if (kind == PathExprSeg::Kind::Error) {
-                segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
+                segments.emplace_back(makeErrorNode<PathExprSeg>(segmentBegin.to(cspan())));
                 if (isUnrecoverableError) {
                     break;
                 }
