@@ -2320,16 +2320,18 @@ namespace jc::parser {
             return makeNode<ParenPat>(std::move(pat), begin.to(cspan()));
         }
 
-//        if (is(TokenKind::Id) or is(TokenKind::Path)) {
-//            auto path = parsePathExpr();
-//
-//            if (is(TokenKind::LBrace)) {
-//                // `path::to::something {...}`
-//            }
-//
-//            // TODO: Range from
-//
-//        }
+        if (is(TokenKind::Id) or is(TokenKind::Path)) {
+            const auto & begin = cspan();
+            auto path = parsePathExpr();
+
+            if (is(TokenKind::LBrace)) {
+                // `path::to::something {...}`
+            }
+
+            // TODO: Range from
+
+            return makeNode<PathPat>(std::move(path), begin.to(cspan()));
+        }
     }
 
     pat_ptr Parser::parseLitPat() {
