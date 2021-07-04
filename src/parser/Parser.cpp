@@ -1138,14 +1138,14 @@ namespace jc::parser {
         if (is(TokenKind::Self)) {
             const auto & span = cspan();
             advance();
-            return Some<expr_ptr>(makeNode<SelfExpr>(span).as<Expr>());
+            return makePRNode<SelfExpr, Expr>(span);
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             auto pathExpr = parsePathExpr();
             if (is(TokenKind::LBrace)) {
                 if (pathExpr.isErr()) {
-                    return parseStructExpr(makeErrorNode(pathExpr.span()));
+                    return parseStructExpr(makeErrorNode<PathExpr>(pathExpr.span()));
                 }
                 return parseStructExpr(std::move(pathExpr.unwrap()));
             }
