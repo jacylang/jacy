@@ -2015,14 +2015,13 @@ namespace jc::parser {
                 return parseFuncType(std::move(tupleElements), begin);
             } else {
                 if (tupleElements.empty()) {
-                    return Ok(makeNode<UnitType>(begin.to(cspan())).as<Type>());
+                    return makePRNode<UnitType, Type>(begin.to(cspan()));
                 } else if (tupleElements.size() == 1 and not tupleElements.at(0)->name and tupleElements.at(0)->type) {
-                    return Ok(
-                        makeNode<ParenType>(
+                    return makePRNode<ParenType, Type>(
                             std::move(tupleElements.at(0)->type.unwrap()),
-                            begin.to(cspan())).as<Type>());
+                            begin.to(cspan()));
                 }
-                return Ok(makeNode<TupleType>(std::move(tupleElements), begin.to(cspan())).as<Type>());
+                return makePRNode<TupleType, Type>(std::move(tupleElements), begin.to(cspan()));
             }
         }
 
