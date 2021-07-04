@@ -1597,7 +1597,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<LoopExpr>(std::move(body), begin.to(cspan())).as<Expr>();
+        return makePRNode<LoopExpr, Expr>(std::move(body), begin.to(cspan()));
     }
 
     expr_ptr Parser::parseMatchExpr() {
@@ -1612,7 +1612,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi)) {
             // `match` body is ignored with `;`
             exitEntity();
-            return makeNode<MatchExpr>(std::move(subject), match_arm_list{}, begin.to(cspan())).as<Expr>();
+            return makePRNode<MatchExpr, Expr>(std::move(subject), match_arm_list{}, begin.to(cspan()));
         }
 
         skip(
@@ -1644,7 +1644,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<MatchExpr>(std::move(subject), std::move(arms), begin.to(cspan())).as<Expr>();
+        return makePRNode<MatchExpr, Expr>(std::move(subject), std::move(arms), begin.to(cspan()));
     }
 
     match_arm_ptr Parser::parseMatchArm() {
