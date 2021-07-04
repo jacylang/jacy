@@ -214,7 +214,7 @@ namespace jc::parser {
         }
 
         if (maybeItem) {
-            auto item = maybeItem.unwrap().unwrap();
+            auto item = std::move(maybeItem.unwrap().unwrap());
             item->setAttributes(std::move(attributes));
             return Some(Ok(std::move(item)));
         }
