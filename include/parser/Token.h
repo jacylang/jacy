@@ -63,7 +63,7 @@ namespace jc::parser {
         NullCoalesce,               // ??
         Shl,                        // <<
         Shr,                        // >>
-        BitAnd,                     // &
+        Ampersand,                  // &
         BitOr,                      // |
         Xor,                        // ^
         Inv,                        // ~

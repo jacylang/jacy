@@ -394,7 +394,7 @@ namespace jc::parser {
                     addToken(TokenKind::BitAndAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenKind::BitAnd, 1);
+                    addToken(TokenKind::Ampersand, 1);
                     advance();
                 }
             } break;

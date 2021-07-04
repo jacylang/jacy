@@ -994,7 +994,7 @@ namespace jc::parser {
         {0b11, {TokenKind::And}},
         {0b11, {TokenKind::BitOr}},
         {0b11, {TokenKind::Xor}},
-        {0b11, {TokenKind::BitAnd}},
+        {0b11, {TokenKind::Ampersand}},
         {0b11, {TokenKind::Eq,     TokenKind::NotEq,  TokenKind::RefEq, TokenKind::RefNotEq}},
         {0b11, {TokenKind::LAngle, TokenKind::RAngle, TokenKind::LE,    TokenKind::GE}},
         {0b11, {TokenKind::Spaceship}},
@@ -1015,7 +1015,7 @@ namespace jc::parser {
         if (
             skipOpt(TokenKind::Not) or
             skipOpt(TokenKind::Sub) or
-            skipOpt(TokenKind::BitAnd) or
+            skipOpt(TokenKind::Ampersand) or
             skipOpt(TokenKind::Mul)
         ) {
             logParse("Prefix:'" + op.kindToString() + "'");
@@ -1025,10 +1025,10 @@ namespace jc::parser {
                 return quest(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.unwrap();
-            if (op.is(TokenKind::BitAnd) or op.is(TokenKind::Mut)) {
+            if (op.is(TokenKind::Ampersand) or op.is(TokenKind::Mut)) {
                 logParse("Borrow");
 
-                bool ref = skipOpt(TokenKind::BitAnd);
+                bool ref = skipOpt(TokenKind::Ampersand);
                 bool mut = skipOpt(TokenKind::Mut);
                 // TODO!!!: Swap `&` and `mut` suggestion
                 return Expr::pureAsBase(

@@ -334,7 +334,7 @@ namespace jc::ast {
             case parser::TokenKind::And:
             case parser::TokenKind::BitOr:
             case parser::TokenKind::Xor:
-            case parser::TokenKind::BitAnd:
+            case parser::TokenKind::Ampersand:
             case parser::TokenKind::Eq:
             case parser::TokenKind::NotEq:
             case parser::TokenKind::LAngle:
