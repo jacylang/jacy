@@ -698,7 +698,7 @@ namespace jc::parser {
             default: {
                 auto item = parseOptItem();
                 if (item) {
-                    return makeNode<ItemStmt>(item.unwrap(), begin.to(cspan()));
+                    return makeNode<ItemStmt>(item.unwrap(), begin.to(cspan())).as<Stmt>();
                 }
 
                 // FIXME: Hardly parse expression but recover unexpected token
@@ -711,7 +711,7 @@ namespace jc::parser {
 
                 auto exprStmt = makeNode<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
                 skipSemi();
-                return std::static_pointer_cast<Stmt>(exprStmt);
+                return exprStmt.as<Stmt>();
             }
         }
     }
