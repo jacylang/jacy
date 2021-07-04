@@ -739,7 +739,7 @@ namespace jc::parser {
 
         return makeNode<ForStmt>(
             std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan())
-        );
+        ).as<Stmt>();
     }
 
     pure_stmt_ptr Parser::parseLetStmt() {
@@ -799,7 +799,7 @@ namespace jc::parser {
             auto expr = assignment();
 
             exitEntity();
-            return Ok(makeNode<ReturnExpr>(std::move(expr), begin.to(cspan())));
+            return Ok(makeNode<ReturnExpr>(std::move(expr), begin.to(cspan())).as<Expr>());
         }
 
         if (skipOpt(TokenKind::Break)) {
@@ -809,7 +809,7 @@ namespace jc::parser {
 
             exitEntity();
 
-            return Ok(makeNode<BreakExpr>(std::move(expr), begin.to(cspan())));
+            return Ok(makeNode<BreakExpr>(std::move(expr), begin.to(cspan())).as<Expr>());
         }
 
         return assignment();
