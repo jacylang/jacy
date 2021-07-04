@@ -1357,7 +1357,7 @@ namespace jc::parser {
         // Empty tuple //
         if (skipOpt(TokenKind::RParen)) {
             logParse("UnitExpr");
-            return makeNode<UnitExpr>(begin.to(cspan()));
+            return makeNode<UnitExpr>(begin.to(cspan())).as<Expr>()
         }
 
         enterEntity("TupleExpr or ParenExpr");
@@ -1389,11 +1389,11 @@ namespace jc::parser {
 
         if (not forceTuple and values.size() == 1) {
             exitEntity();
-            return makeNode<ParenExpr>(std::move(values.at(0)), begin.to(cspan()));
+            return makeNode<ParenExpr>(std::move(values.at(0)), begin.to(cspan())).as<Expr>();
         }
 
         exitEntity();
-        return makeNode<TupleExpr>(std::move(values), begin.to(cspan()));
+        return makeNode<TupleExpr>(std::move(values), begin.to(cspan())).as<Expr>();
     }
 
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
@@ -1425,7 +1425,7 @@ namespace jc::parser {
         skip(TokenKind::RBrace, "Missing closing `}`");
 
         exitEntity();
-        return makeNode<StructExpr>(std::move(path), std::move(fields), begin.to(cspan()));
+        return makeNode<StructExpr>(std::move(path), std::move(fields), begin.to(cspan())).as<Expr>();
     }
 
     struct_expr_field_ptr Parser::parseStructExprField() {
@@ -1588,7 +1588,7 @@ namespace jc::parser {
 
         return makeNode<IfExpr>(
             std::move(condition), std::move(ifBranch), std::move(elseBranch), begin.to(cspan())
-        );
+        ).as<Expr>()
     }
 
     expr_ptr Parser::parseLoopExpr() {
@@ -1602,7 +1602,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<LoopExpr>(std::move(body), begin.to(cspan()));
+        return makeNode<LoopExpr>(std::move(body), begin.to(cspan())).as<Expr>();
     }
 
     expr_ptr Parser::parseMatchExpr() {
@@ -1617,7 +1617,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi)) {
             // `match` body is ignored with `;`
             exitEntity();
-            return makeNode<MatchExpr>(std::move(subject), match_arm_list{}, begin.to(cspan()));
+            return makeNode<MatchExpr>(std::move(subject), match_arm_list{}, begin.to(cspan())).as<Expr>();
         }
 
         skip(
@@ -1649,7 +1649,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<MatchExpr>(std::move(subject), std::move(arms), begin.to(cspan()));
+        return makeNode<MatchExpr>(std::move(subject), std::move(arms), begin.to(cspan())).as<Expr>();
     }
 
     match_arm_ptr Parser::parseMatchArm() {
@@ -2007,7 +2007,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
-            return Ok(std::static_pointer_cast<Type>(parseOptTypePath().unwrap("MEOW????")));
+            return parseOptTypePath();
         }
 
         const auto & begin = cspan();
@@ -2019,15 +2019,14 @@ namespace jc::parser {
                 return parseFuncType(std::move(tupleElements), begin);
             } else {
                 if (tupleElements.empty()) {
-                    return Ok(makeType<UnitType>(begin.to(cspan())));
+                    return Ok(makeNode<UnitType>(begin.to(cspan())).as<Type>());
                 } else if (tupleElements.size() == 1 and not tupleElements.at(0)->name and tupleElements.at(0)->type) {
                     return Ok(
-                        makeType<ParenType>(
-                            std::move(tupleElements.at(0)->type.unwrap()), begin.to(cspan())
-                        )
-                    );
+                        makeNode<ParenType>(
+                            std::move(tupleElements.at(0)->type.unwrap()),
+                            begin.to(cspan())).as<Type>());
                 }
-                return Ok(makeType<TupleType>(std::move(tupleElements), begin.to(cspan())));
+                return Ok(makeNode<TupleType>(std::move(tupleElements), begin.to(cspan())).as<Type>());
             }
         }
 
@@ -2104,7 +2103,7 @@ namespace jc::parser {
             auto sizeExpr = parseExpr("Expected constant size expression in array type");
             skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
-            return makeType<ArrayType>(
+            return makeNode<ArrayType>(
                 std::move(type), std::move(sizeExpr), begin.to(cspan())
             );
         }
@@ -2112,7 +2111,7 @@ namespace jc::parser {
         skip(TokenKind::RBracket, "Missing closing `]` in slice type");
 
         exitEntity();
-        return makeType<SliceType>(std::move(type), begin.to(cspan()));
+        return makeNode<SliceType>(std::move(type), begin.to(cspan()));
     }
 
     type_ptr Parser::parseFuncType(tuple_t_el_list tupleElements, const Span & span) {
@@ -2137,7 +2136,7 @@ namespace jc::parser {
         auto returnType = parseType("Expected return type in function type after `->`");
 
         exitEntity();
-        return makeType<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
+        return makeNode<FuncType>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
     opt_gen_params Parser::parseOptGenerics() {
