@@ -13,14 +13,27 @@ namespace jc::ast {
     /// Wrapper for all nodes to be boxed
     template<class T>
     struct N {
-        std::shared_ptr<T> node;
+        std::shared_ptr<T> inner;
+
+        N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
+        N(N<T> && t) : inner(std::move(t.inner)) {}
 
         T & operator*() const noexcept {
-            return *node.get();
+            return *inner.get();
         }
 
         T * operator->() const noexcept {
-            return node.get();
+            return inner.get();
+        }
+
+        template<class B>
+        N<B> asBase(N<B> && node) const {
+            return std::static_pointer_cast<B>(std::move(node.inner));
+        }
+
+        template<class B>
+        const N<B> & asBase(N<B> && node) const {
+            return std::static_pointer_cast<B>(std::move(node.inner));
         }
     };
 
