@@ -164,7 +164,7 @@ namespace jc::parser {
 
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {makeNode<File>(parseSess->fileId, std::move(items)), extractSuggestions()};
+        return {makeNode<File, FsModule>(parseSess->fileId, std::move(items)), extractSuggestions()};
     }
 
     ///////////
@@ -306,7 +306,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Enum>(std::move(name), std::move(entries), begin.to(cspan())).as<Item>();
+        return makeNode<Enum, Item>(std::move(name), std::move(entries), begin.to(cspan()));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {
@@ -382,7 +382,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Func>(
+        return Ok(makeNode<Func>(
             std::move(modifiers),
             std::move(generics),
             std::move(name),
@@ -390,7 +390,7 @@ namespace jc::parser {
             std::move(returnType),
             std::move(body),
             begin.to(cspan())
-        ).as<Item>();
+        ).as<Item>());
     }
 
     item_ptr Parser::parseImpl() {
@@ -412,13 +412,13 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Impl>(
+        return Ok(makeNode<Impl>(
             std::move(generics),
             std::move(traitTypePath),
             std::move(forType),
             std::move(members),
             begin.to(cspan())
-        ).as<Item>();
+        ).as<Item>());
     }
 
     item_ptr Parser::parseStruct() {
@@ -448,9 +448,9 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Struct>(
+        return Ok(makeNode<Struct>(
             std::move(name), std::move(generics), std::move(fields), begin.to(cspan())
-        ).as<Item>();
+        ).as<Item>());
     }
 
     struct_field_list Parser::parseStructFields() {

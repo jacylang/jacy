@@ -11,7 +11,7 @@
 
 namespace jc::ast {
     template<class T>
-    struct N;
+    using N = std::shared_ptr<T>;
 
     struct Node;
     struct ErrorNode;
@@ -45,11 +45,11 @@ namespace jc::ast {
     template<class T>
     class ParseResult {
         using E = N<ErrorNode>;
+        using S = std::variant<T, E, std::monostate>;
 
     public:
         ParseResult() : state(std::monostate{}) {}
-        ParseResult(T && value) : state(std::move(value)) {}
-        ParseResult(E && error) : state(std::move(error)) {}
+        ParseResult(S && state) : state(std::move(state)) {}
         ParseResult(const ParseResult<T> & other)
             : state(other.state) {}
         ParseResult(ParseResult<T> && other)
@@ -155,7 +155,7 @@ namespace jc::ast {
         }
 
     protected:
-        std::variant<T, E, std::monostate> state;
+        S state;
     };
 
     template<class T>
@@ -175,32 +175,6 @@ namespace jc::ast {
 
     template<class T>
     using PR = ParseResult<T>;
-
-    /// Wrapper for all nodes to be boxed
-    template<class T>
-    struct N {
-        std::shared_ptr<T> inner;
-
-        template<class ...Args>
-        N(Args && ...args) : inner(std::make_shared<T>(std::forward<Args>(args)...)) {}
-
-        N(const N<T> & t) : inner(t.inner) {}
-        N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
-        N(N<T> && t) : inner(std::move(t.inner)) {}
-
-        T & operator*() const noexcept {
-            return *inner.get();
-        }
-
-        T * operator->() const noexcept {
-            return inner.get();
-        }
-
-        template<class B>
-        N<B> as() const {
-            return N<B>(std::static_pointer_cast<B>(std::move(inner)));
-        }
-    };
 }
 
 #endif // JACY_AST_NODE_H
