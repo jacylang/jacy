@@ -102,34 +102,6 @@ namespace jc::parser {
             return node;
         }
 
-        template<class T, class ...Args>
-        inline pure_expr_ptr makeExpr(Args ...args) {
-            auto expr = N<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(expr);
-            return expr;
-        }
-
-        template<class T, class ...Args>
-        inline pure_item_ptr makeItem(Args ...args) {
-            auto item = N<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(item);
-            return item;
-        }
-
-        template<class T, class ...Args>
-        inline pure_stmt_ptr makeStmt(Args ...args) {
-            auto stmt = N<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(stmt);
-            return stmt;
-        }
-
-        template<class T, class ...Args>
-        inline pure_type_ptr makeType(Args ...args) {
-            auto type = N<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(type);
-            return type;
-        }
-
         inline N<ErrorNode> makeErrorNode(const Span & span) {
             auto errorNode = N<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
