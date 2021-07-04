@@ -1881,7 +1881,7 @@ namespace jc::parser {
                 cspan()
             );
             exitEntity();
-            return makeErrorNode(begin.to(cspan()));
+            return makeErrorNode<SimplePath>(begin.to(cspan()));
         }
 
         exitEntity();
