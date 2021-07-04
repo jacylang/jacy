@@ -1580,7 +1580,7 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makeNode<ExprStmt>(parseIfExpr(true), elifBegin.to(cspan())));
+            elif.push_back(makeNode<ExprStmt>(parseIfExpr(true), elifBegin.to(cspan())).as<Stmt>());
             elseBranch = makeNode<Block>(std::move(elif), elifBegin.to(cspan()));
         }
 
@@ -1588,7 +1588,7 @@ namespace jc::parser {
 
         return makeNode<IfExpr>(
             std::move(condition), std::move(ifBranch), std::move(elseBranch), begin.to(cspan())
-        ).as<Expr>()
+        ).as<Expr>();
     }
 
     expr_ptr Parser::parseLoopExpr() {
