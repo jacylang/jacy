@@ -12,12 +12,12 @@
 namespace jc::ast {
     /// Wrapper for all nodes to be boxed
     template<class T>
-    using P = std::shared_ptr<T>;
+    using N = std::shared_ptr<T>;
 
     struct Node;
     struct ErrorNode;
     using span::Span;
-    using node_ptr = P<Node>;
+    using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
     using node_id = uint32_t;
     using opt_node_id = dt::Option<ast::node_id>;
@@ -45,7 +45,7 @@ namespace jc::ast {
     // NOTE: Since there's no generic constraints, `ParseResult` MUST only be used with T = `shared_ptr<{any node}>`
     template<class T>
     class ParseResult {
-        using E = P<ErrorNode>;
+        using E = N<ErrorNode>;
 
     public:
         ParseResult() : state(std::monostate{}) {}
@@ -153,7 +153,7 @@ namespace jc::ast {
     };
 
     template<class T>
-    inline ParseResult<T> Err(P<ErrorNode> && err) {
+    inline ParseResult<T> Err(N<ErrorNode> && err) {
         return ParseResult<T>(err);
     }
 

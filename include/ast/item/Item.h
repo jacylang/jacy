@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Item;
-    using pure_item_ptr = P<Item>;
+    using pure_item_ptr = N<Item>;
     using item_ptr = PR<pure_item_ptr>;
     using item_list = std::vector<item_ptr>;
 

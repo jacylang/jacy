@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct LambdaParam;
-    using lambda_param_list = std::vector<P<LambdaParam>>;
+    using lambda_param_list = std::vector<N<LambdaParam>>;
 
     struct LambdaParam : Node {
         LambdaParam(id_ptr name, opt_type_ptr type, const Span & span)
