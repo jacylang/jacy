@@ -1725,9 +1725,11 @@ namespace jc::parser {
 
     dt::Option<attr_ptr> Parser::parseAttr() {
         const auto & begin = cspan();
-        if (not skipOpt(TokenKind::At_WWS)) {
-            return dt::None;
+        if (not is(TokenKind::At)) {
+            return;
         }
+
+        justSkip(TokenKind::At, "`@`", "`parseAttr`");
 
         enterEntity("Attribute");
 
