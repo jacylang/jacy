@@ -650,13 +650,52 @@ namespace jc::ast {
     }
 
     // Patterns //
+    void Validator::visit(const ParenPat & pat) {
+        pat.pat.accept(*this);
+    }
+
     void Validator::visit(const LitPat&) {}
 
     void Validator::visit(const BorrowPat & pat) {
         pat.name.accept(*this);
+
+        if (pat.pat) {
+            pat.pat.unwrap().accept(*this);
+        }
     }
 
+    void Validator::visit(const RefPat & pat) {
+        pat.pat.accept(*this);
+    }
+
+    void Validator::visit(const PathPat & pat) {
+        pat.path.accept(*this);
+    }
+
+    void Validator::visit(const WCPat&) {}
+
     void Validator::visit(const SpreadPat&) {}
+
+    void Validator::visit(const StructPat & pat) {
+        pat.path.accept(*this);
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+                    dp.name.accept(*this);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+                    bp.name.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Spread:;
+            }
+        }
+    }
 
     // Helpers //
     bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
