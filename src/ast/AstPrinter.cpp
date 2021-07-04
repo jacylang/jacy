@@ -580,7 +580,7 @@ namespace jc::ast {
     void AstPrinter::visit(const MatchArm & matchArm) {
         printNodeId(matchArm);
 
-        printDelim(matchArm.conditions);
+        printDelim(matchArm.patterns);
         log.raw(" => ");
         matchArm.body.accept(*this);
     }
