@@ -1,12 +1,12 @@
 #ifndef JACY_AST_FRAGMENTS_GENERICS_H
 #define JACY_AST_FRAGMENTS_GENERICS_H
 
-#include "Identifier.h"
+#include "ast/fragments/Identifier.h"
 
 namespace jc::ast {
     struct Type;
     struct GenericParam;
-    using gen_param_list = std::vector<P<GenericParam>>;
+    using gen_param_list = std::vector<N<GenericParam>>;
     using opt_gen_params = dt::Option<gen_param_list>;
     using pure_type_ptr = N<Type>;
     using type_ptr = PR<pure_type_ptr>;
