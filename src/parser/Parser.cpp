@@ -736,9 +736,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<ForStmt>(
-            std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan())
-        ).as<Stmt>();
+        return makeNode<ForStmt>(std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan()));
     }
 
     pure_stmt_ptr Parser::parseLetStmt() {
@@ -764,9 +762,7 @@ namespace jc::parser {
 
         skipSemi();
 
-        return makeNode<LetStmt>(
-            std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan())
-        ).as<Stmt>();
+        return makeNode<LetStmt>(std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan()));
     }
 
     pure_stmt_ptr Parser::parseWhileStmt() {
@@ -780,9 +776,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<WhileStmt>(
-            std::move(condition), std::move(body), begin.to(cspan())
-        ).as<Stmt>();
+        return makeNode<WhileStmt>(std::move(condition), std::move(body), begin.to(cspan()));
     }
 
     /////////////////
@@ -798,7 +792,7 @@ namespace jc::parser {
             auto expr = assignment();
 
             exitEntity();
-            return Ok(makeNode<ReturnExpr>(std::move(expr), begin.to(cspan())).as<Expr>());
+            return makePRNode<ReturnExpr, Expr>(std::move(expr), begin.to(cspan()));
         }
 
         if (skipOpt(TokenKind::Break)) {
@@ -808,7 +802,7 @@ namespace jc::parser {
 
             exitEntity();
 
-            return Ok(makeNode<BreakExpr>(std::move(expr), begin.to(cspan())).as<Expr>());
+            return makePRNode<BreakExpr, Expr>(std::move(expr), begin.to(cspan()));
         }
 
         return assignment();
@@ -822,9 +816,9 @@ namespace jc::parser {
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (not expr) {
             suggestErrorMsg(suggMsg, begin);
-            return makeErrorNode(begin.to(cspan()));
+            return makeErrorNode<Expr>(begin.to(cspan()));
         }
-        return expr.unwrap("parseExpr -> expr");
+        return std::move(expr.unwrap("parseExpr -> expr"));
     }
 
     pure_expr_ptr Parser::parseLambda() {
@@ -884,7 +878,7 @@ namespace jc::parser {
 
         return makeNode<Lambda>(
             std::move(params), std::move(returnType), std::move(body.unwrap()), begin.to(cspan())
-        ).as<Expr>();
+        );
     }
 
     opt_expr_ptr Parser::assignment() {
@@ -905,9 +899,11 @@ namespace jc::parser {
 
             auto rhs = parseExpr("Expected expression in assignment");
 
-            return Ok(makeNode<Assignment>(
-                std::move(checkedLhs), maybeAssignOp, std::move(rhs), begin.to(cspan())
-            ).as<Expr>());
+            return makePRNode<Assignment, Expr>(
+                std::move(checkedLhs),
+                maybeAssignOp,
+                std::move(rhs),
+                begin.to(cspan()));
         }
 
         return lhs;
@@ -971,9 +967,7 @@ namespace jc::parser {
                 continue;
             }
             auto rhs = maybeRhs.unwrap("`precParse` -> `rhs`");
-            maybeLhs = makeNode<Infix>(
-                std::move(lhs), op, std::move(rhs), begin.to(cspan())
-            ).as<Expr>();
+            maybeLhs = makePRNode<Infix, Expr>(std::move(lhs), op, std::move(rhs), begin.to(cspan()));
             if (not multiple) {
                 break;
             }
