@@ -54,7 +54,6 @@ namespace jc::ast {
             : state(other.state) {}
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
-        ParseResult(N<T> && node) : state(std::move(node.inner)) {}
 
         T & unwrap(const std::string & msg = "") {
             if (isErr()) {
@@ -97,6 +96,11 @@ namespace jc::ast {
                 throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
             }
             return std::get<T>(state);
+        }
+
+        template<class B>
+        ParseResult<B> as() const {
+            return ParseResult<B>(std::move(state));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {

@@ -1154,7 +1154,7 @@ namespace jc::parser {
                 }
                 return parseStructExpr(std::move(pathExpr.unwrap()));
             }
-            return pathExpr;
+            return pathExpr.as<N<Expr>>();
         }
 
         if (is(TokenKind::If)) {
@@ -1170,7 +1170,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return parseBlock("Block expression", BlockArrow::Just);
+            return parseBlock("Block expression", BlockArrow::Just).as<N<Expr>>();
         }
 
         if (is(TokenKind::Match)) {
