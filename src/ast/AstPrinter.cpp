@@ -763,6 +763,12 @@ namespace jc::ast {
     }
 
     // Patterns //
+    void AstPrinter::visit(const ParenPat & pat) {
+        log.raw("(");
+        pat.pat.accept(*this);
+        log.raw(")");
+    }
+
     void AstPrinter::visit(const LitPat & pat) {
         printNodeId(pat);
 
