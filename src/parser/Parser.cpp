@@ -2337,7 +2337,7 @@ namespace jc::parser {
         return makeErrorNode(cspan());
     }
 
-    pat_ptr Parser::parseLitPat() {
+    pure_pat_ptr Parser::parseLitPat() {
         logParse("LiteralPattern");
 
         const auto & begin = cspan();
@@ -2357,7 +2357,7 @@ namespace jc::parser {
         return makeNode<LitPat>(neg, token, begin.to(cspan()));
     }
 
-    id_pat_ptr Parser::parseBorrowPat() {
+    pure_pat_ptr Parser::parseBorrowPat() {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
@@ -2374,7 +2374,7 @@ namespace jc::parser {
         return makeNode<BorrowPat>(ref, mut, std::move(id), std::move(pat), begin.to(id.span()));
     }
 
-    pat_ptr Parser::parseRefPat() {
+    pure_pat_ptr Parser::parseRefPat() {
         logParse("RefPattern");
 
         const auto & begin = cspan();
@@ -2385,7 +2385,7 @@ namespace jc::parser {
         return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
-    pat_ptr Parser::parseStructPat() {
+    pure_pat_ptr Parser::parseStructPat() {
         logParse("StructPattern");
 
         justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
