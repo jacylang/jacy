@@ -603,7 +603,7 @@ namespace jc::parser {
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
                 exitEntity();
-                return std::static_pointer_cast<UseTree>(makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())));
+                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan()));
             }
 
             if (skipOpt(TokenKind::LBrace)) {

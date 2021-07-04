@@ -96,42 +96,42 @@ namespace jc::parser {
         sess::sess_ptr sess;
 
         template<class T, class ...Args>
-        inline std::shared_ptr<T> makeNode(Args ...args) {
-            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+        inline N<T> makeNode(Args ...args) {
+            auto node = N<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(node);
             return node;
         }
 
         template<class T, class ...Args>
         inline pure_expr_ptr makeExpr(Args ...args) {
-            auto expr = std::make_shared<T>(std::forward<Args>(args)...);
+            auto expr = N<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(expr);
             return expr;
         }
 
         template<class T, class ...Args>
         inline pure_item_ptr makeItem(Args ...args) {
-            auto item = std::make_shared<T>(std::forward<Args>(args)...);
+            auto item = N<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(item);
             return item;
         }
 
         template<class T, class ...Args>
         inline pure_stmt_ptr makeStmt(Args ...args) {
-            auto stmt = std::make_shared<T>(std::forward<Args>(args)...);
+            auto stmt = N<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(stmt);
             return stmt;
         }
 
         template<class T, class ...Args>
         inline pure_type_ptr makeType(Args ...args) {
-            auto type = std::make_shared<T>(std::forward<Args>(args)...);
+            auto type = N<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(type);
             return type;
         }
 
-        inline std::shared_ptr<ErrorNode> makeErrorNode(const Span & span) {
-            auto errorNode = std::make_shared<ErrorNode>(span);
+        inline N<ErrorNode> makeErrorNode(const Span & span) {
+            auto errorNode = N<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
             return errorNode;
         }
