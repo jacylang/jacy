@@ -127,8 +127,8 @@ namespace jc::ast {
         std::variant<StructPatternDestructEl, StructPatBorrowEl, Span> el;
     };
 
-    struct StructPattern : Pattern {
-        StructPattern(path_expr_ptr path, std::vector<StructPatEl> && elements, const Span & span)
+    struct StructPat : Pattern {
+        StructPat(path_expr_ptr path, std::vector<StructPatEl> && elements, const Span & span)
             : Pattern(PatternKind::Struct, span), path(path), elements(std::move(elements)) {}
 
         path_expr_ptr path;
