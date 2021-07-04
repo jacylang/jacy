@@ -30,11 +30,6 @@ namespace jc::ast {
             return this->kind == kind;
         }
 
-        template<class T>
-        static N<T> as(stmt_ptr stmt) {
-            return std::static_pointer_cast<T>(stmt);
-        }
-
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
