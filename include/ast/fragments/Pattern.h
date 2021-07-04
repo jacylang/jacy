@@ -31,7 +31,7 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pattern {
-        ParenPat(pat_ptr && pat, const Span & span) : pat(std::move(pat)), Pattern(PatternKind::Paren, span) {}
+        ParenPat(pat_ptr && pat, const Span & span) : Pattern(PatternKind::Paren, span), pat(std::move(pat)) {}
 
         pat_ptr pat;
     };
