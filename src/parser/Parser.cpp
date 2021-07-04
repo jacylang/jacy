@@ -1302,7 +1302,7 @@ namespace jc::parser {
         }
         auto token = peek();
         advance();
-        return makeNode<LiteralConstant>(token, begin.to(cspan())).as<Expr>();
+        return makePRNode<LiteralConstant, Expr>(token, begin.to(cspan()));
     }
 
     expr_ptr Parser::parseListExpr() {
@@ -1329,11 +1329,11 @@ namespace jc::parser {
             const auto & maybeSpreadOp = peek();
             if (skipOpt(TokenKind::Spread)) {
                 elements.push_back(
-                    makeNode<SpreadExpr>(
+                    makePRNode<SpreadExpr, Expr>(
                         maybeSpreadOp,
                         parseExpr("Expected expression after spread operator `...` in list expression"),
                         maybeSpreadOp.span.to(cspan())
-                    ).as<Expr>()
+                    )
                 );
             } else {
                 elements.push_back(parseExpr("Expression expected"));
@@ -1341,7 +1341,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return makeNode<ListExpr>(std::move(elements), begin.to(cspan())).as<Expr>();
+        return makePRNode<ListExpr, Expr>(std::move(elements), begin.to(cspan()));
     }
 
     expr_ptr Parser::parseTupleOrParenExpr() {
