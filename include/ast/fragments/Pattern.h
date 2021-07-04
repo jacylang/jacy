@@ -56,6 +56,20 @@ namespace jc::ast {
         }
     };
 
+    /// `&mut pattern`
+    struct RefPattern : Pattern {
+        RefPattern(bool ref, bool mut, pat_ptr && pat, const Span & span)
+            : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
+
+        bool ref;
+        bool mut;
+        pat_ptr pat;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
     struct WCPat : Pattern {
         WCPat(const Span & span) : Pattern(PatternKind::Wildcard, span) {}
 
@@ -73,20 +87,6 @@ namespace jc::ast {
     };
 
     // TODO: Range patterns
-
-    /// `&mut pattern`
-    struct RefPattern : Pattern {
-        RefPattern(bool ref, bool mut, pat_ptr && pat, const Span & span)
-            : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
-
-        bool ref;
-        bool mut;
-        pat_ptr pat;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
 
     // Struct Pattern //
 
