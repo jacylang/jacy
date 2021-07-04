@@ -723,7 +723,7 @@ namespace jc::ast {
             }
         }
         if (el.value) {
-            el.value.unwrap().accept(*this);
+            el.value.unwrap()->accept(*this);
         }
     }
 
