@@ -54,13 +54,13 @@ namespace jc::ast {
 
     /// `ref mut IDENT @ pattern`
     struct BorrowPat : Pattern {
-        // TODO: Binding after binding syntax will be established
-        BorrowPat(bool ref, bool mut, id_ptr name, const Span & span)
-            : Pattern(PatternKind::Borrow, span), ref(ref), mut(mut), name(std::move(name)) {}
+        BorrowPat(bool ref, bool mut, id_ptr && name, pat_ptr && pat, const Span & span)
+            : Pattern(PatternKind::Borrow, span), ref(ref), mut(mut), name(std::move(name)), pat(std::move(pat)) {}
 
         bool ref;
         bool mut;
         id_ptr name;
+        pat_ptr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
