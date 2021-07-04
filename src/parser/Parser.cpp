@@ -753,7 +753,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Let, "`let`", "`parseLetStmt`");
 
-        auto pat = parseBorrowPat();
+        auto pat = parsePat();
 
         opt_type_ptr type{dt::None};
         if (skipOpt(TokenKind::Colon)) {
