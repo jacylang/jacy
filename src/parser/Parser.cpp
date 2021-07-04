@@ -1016,7 +1016,6 @@ namespace jc::parser {
             skipOpt(TokenKind::Not) or
             skipOpt(TokenKind::Sub) or
             skipOpt(TokenKind::BitAnd) or
-            skipOpt(TokenKind::And) or
             skipOpt(TokenKind::Mul)
         ) {
             logParse("Prefix:'" + op.kindToString() + "'");
@@ -1026,12 +1025,14 @@ namespace jc::parser {
                 return quest(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.unwrap();
-            if (op.is(TokenKind::BitAnd) or op.is(TokenKind::And)) {
+            if (op.is(TokenKind::BitAnd) or op.is(TokenKind::Mut)) {
                 logParse("Borrow");
 
+                bool ref = skipOpt(TokenKind::BitAnd);
                 bool mut = skipOpt(TokenKind::Mut);
+                // TODO!!!: Swap `&` and `mut` suggestion
                 return Expr::pureAsBase(
-                    makeNode<BorrowExpr>(op.is(TokenKind::And), mut, std::move(rhs), begin.to(cspan()))
+                    makeNode<BorrowExpr>(ref, mut, std::move(rhs), begin.to(cspan()))
                 );
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
