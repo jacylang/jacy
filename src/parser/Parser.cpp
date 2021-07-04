@@ -2332,6 +2332,9 @@ namespace jc::parser {
 
             return makeNode<PathPat>(std::move(path), begin.to(cspan()));
         }
+
+        suggestErrorMsg("Expected pattern, got " + peek().toString(), cspan());
+        return makeErrorNode(cspan());
     }
 
     pat_ptr Parser::parseLitPat() {
