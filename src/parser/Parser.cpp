@@ -656,16 +656,13 @@ namespace jc::parser {
 
             auto as = parseId("binding name after `as`");
             exitEntity();
-            return std::static_pointer_cast<UseTree>(
-                makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
-            );
+            return makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
+                .as<UseTree>();
         }
 
         if (maybePath) {
             exitEntity();
-            return std::static_pointer_cast<UseTree>(
-                makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan()))
-            );
+            return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan())).as<UseTree>();
         }
 
         if (is(TokenKind::As)) {
