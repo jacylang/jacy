@@ -15,10 +15,10 @@ namespace jc::ast {
     enum class PatternKind {
         Paren,
         Literal,
-        Ident,
+        Borrow,
+        Ref,
         Wildcard,
         Spread,
-        Ref,
         Struct,
     };
 
@@ -52,7 +52,7 @@ namespace jc::ast {
     struct BorrowPat : Pattern {
         // TODO: Binding after binding syntax will be established
         BorrowPat(bool ref, bool mut, id_ptr name, const Span & span)
-            : Pattern(PatternKind::Ident, span), ref(ref), mut(mut), name(std::move(name)) {}
+            : Pattern(PatternKind::Borrow, span), ref(ref), mut(mut), name(std::move(name)) {}
 
         bool ref;
         bool mut;
