@@ -789,6 +789,11 @@ namespace jc::ast {
         }
 
         pat.name.accept(*this);
+
+        if (pat.pat) {
+            log.raw(" @ ");
+            pat.pat.unwrap().accept(*this);
+        }
     }
 
     void AstPrinter::visit(const RefPat & pat) {
