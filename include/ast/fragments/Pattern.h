@@ -29,8 +29,8 @@ namespace jc::ast {
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
-    struct LiteralPattern : Pattern {
-        LiteralPattern(bool neg, const parser::Token & literal, const Span & span)
+    struct LitPat : Pattern {
+        LitPat(bool neg, const parser::Token & literal, const Span & span)
             : Pattern(PatternKind::Literal, span), neg(neg), literal(literal) {}
 
         bool neg;

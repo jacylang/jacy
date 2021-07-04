@@ -763,7 +763,7 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void AstPrinter::visit(const LiteralPattern & pat) {
+    void AstPrinter::visit(const LitPat & pat) {
         printNodeId(pat);
 
         if (pat.neg) {

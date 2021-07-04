@@ -2315,7 +2315,7 @@ namespace jc::parser {
         auto token = peek();
         advance();
 
-        return makeNode<LiteralPattern>(neg, token, begin.to(cspan()));
+        return makeNode<LitPat>(neg, token, begin.to(cspan()));
     }
 
     id_pat_ptr Parser::parseIdentPat() {

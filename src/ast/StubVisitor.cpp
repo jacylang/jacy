@@ -422,7 +422,7 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void StubVisitor::visit(const LiteralPattern&) {}
+    void StubVisitor::visit(const LitPat&) {}
 
     void StubVisitor::visit(const BorrowPat & pat) {
         pat.name.accept(*this);

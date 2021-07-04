@@ -112,7 +112,7 @@ namespace jc::ast {
         void visit(const SimplePathSeg & seg) override;
 
         // Patterns //
-        void visit(const LiteralPattern & pat) override;
+        void visit(const LitPat & pat) override;
         void visit(const BorrowPat & pat) override;
         void visit(const SpreadPattern & pat) override;
 
