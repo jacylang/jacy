@@ -95,11 +95,18 @@ namespace jc::parser {
 
         sess::sess_ptr sess;
 
-        template<class T, class B = T, class ...Args>
-        inline PR<N<B>> makeNode(Args ...args) {
+        template<class T, class ...Args>
+        inline N<T> makeNode(Args ...args) {
             auto node = std::make_shared<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(node);
-            return Ok(node);
+            return node;
+        }
+
+        template<class T, class B = T, class ...Args>
+        inline PR<N<B>> makePRNode(Args ...args) {
+            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(node);
+            return Ok(std::static_pointer_cast<B>(node));
         }
 
         inline N<ErrorNode> makeErrorNode(const Span & span) {

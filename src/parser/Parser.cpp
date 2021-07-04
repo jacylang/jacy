@@ -164,7 +164,7 @@ namespace jc::parser {
 
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {makeNode<File, FsModule>(parseSess->fileId, std::move(items)), extractSuggestions()};
+        return {makeNode<File>(parseSess->fileId, std::move(items)), extractSuggestions()};
     }
 
     ///////////
@@ -306,7 +306,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Enum, Item>(std::move(name), std::move(entries), begin.to(cspan()));
+        return makePRNode<Enum, Item>(std::move(name), std::move(entries), begin.to(cspan()));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {
