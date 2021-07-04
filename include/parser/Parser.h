@@ -111,9 +111,9 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline pure_item_ptr makeItem(Args ...args) {
-            auto expr = std::make_shared<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(expr);
-            return expr;
+            auto item = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(item);
+            return item;
         }
 
         template<class T, class ...Args>
