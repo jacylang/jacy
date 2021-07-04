@@ -698,7 +698,7 @@ namespace jc::parser {
             default: {
                 auto item = parseOptItem();
                 if (item) {
-                    return makeStmt<ItemStmt>(item.unwrap(), begin.to(cspan()));
+                    return makeNode<ItemStmt>(item.unwrap(), begin.to(cspan()));
                 }
 
                 // FIXME: Hardly parse expression but recover unexpected token
@@ -709,7 +709,7 @@ namespace jc::parser {
                     return makeErrorNode(begin.to(cspan()));
                 }
 
-                auto exprStmt = makeStmt<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
+                auto exprStmt = makeNode<ExprStmt>(expr.unwrap("`parseStmt` -> `expr`"), begin.to(cspan()));
                 skipSemi();
                 return std::static_pointer_cast<Stmt>(exprStmt);
             }
@@ -765,7 +765,7 @@ namespace jc::parser {
 
         skipSemi();
 
-        return makeStmt<LetStmt>(
+        return makeNode<LetStmt>(
             std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan())
         );
     }
@@ -1588,7 +1588,7 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makeStmt<ExprStmt>(parseIfExpr(true), elifBegin.to(cspan())));
+            elif.push_back(makeNode<ExprStmt>(parseIfExpr(true), elifBegin.to(cspan())));
             elseBranch = makeNode<Block>(std::move(elif), elifBegin.to(cspan()));
         }
 
