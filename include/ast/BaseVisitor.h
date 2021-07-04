@@ -94,6 +94,7 @@ namespace jc::ast {
     struct PathPat;
     struct WCPat;
     struct SpreadPat;
+    struct StructPat;
 
     class BaseVisitor {
     public:
@@ -190,6 +191,7 @@ namespace jc::ast {
         virtual void visit(const PathPat&) = 0;
         virtual void visit(const WCPat&) = 0;
         virtual void visit(const SpreadPat&) = 0;
+        virtual void visit(const StructPat&) = 0;
     };
 }
 

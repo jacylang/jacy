@@ -170,6 +170,10 @@ namespace jc::ast {
 
         path_expr_ptr path;
         std::vector<StructPatEl> elements;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     // TODO: Tuple pattern
