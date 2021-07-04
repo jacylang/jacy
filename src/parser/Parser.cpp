@@ -1669,7 +1669,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        expr_list conditions;
+        pat_list patterns;
         bool first = true;
         while (not eof()) {
             if (first) {
@@ -1683,7 +1683,7 @@ namespace jc::parser {
                 break;
             }
 
-            conditions.push_back(parseExpr("Expected `match` arm condition"));
+            patterns.push_back(parsePat());
         }
 
         skip(
@@ -1695,7 +1695,7 @@ namespace jc::parser {
         block_ptr body = parseBlock("match", BlockArrow::Require);
 
         exitEntity();
-        return makeNode<MatchArm>(std::move(conditions), std::move(body), begin.to(cspan()));
+        return makeNode<MatchArm>(std::move(patterns), std::move(body), begin.to(cspan()));
     }
 
     opt_block_ptr Parser::parseFuncBody() {
