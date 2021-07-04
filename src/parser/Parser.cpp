@@ -1357,7 +1357,7 @@ namespace jc::parser {
         // Empty tuple //
         if (skipOpt(TokenKind::RParen)) {
             logParse("UnitExpr");
-            return makeNode<UnitExpr>(begin.to(cspan())).as<Expr>()
+            return makeNode<UnitExpr>(begin.to(cspan())).as<Expr>();
         }
 
         enterEntity("TupleExpr or ParenExpr");
