@@ -8,7 +8,7 @@
 
 namespace jc::ast {
     struct Stmt;
-    using pure_stmt_ptr = std::shared_ptr<Stmt>;
+    using pure_stmt_ptr = P<Stmt>;
     using stmt_ptr = PR<pure_stmt_ptr>;
     using opt_stmt_ptr = dt::Option<stmt_ptr>;
     using stmt_list = std::vector<stmt_ptr>;
@@ -31,7 +31,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        static std::shared_ptr<T> as(stmt_ptr stmt) {
+        static P<T> as(stmt_ptr stmt) {
             return std::static_pointer_cast<T>(stmt);
         }
 
