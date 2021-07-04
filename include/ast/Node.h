@@ -101,8 +101,11 @@ namespace jc::ast {
         }
 
         template<class B>
-        ParseResult<N<B>> as() const {
-            return ParseResult<N<B>>(std::move(state));
+        ParseResult<N<B>> as() {
+            if (isErr()) {
+                return ParseResult<N<B>>(std::move(std::get<E>(state)));
+            }
+            return ParseResult<N<B>>(std::move(std::static_pointer_cast<B>(std::get<T>(state))));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
