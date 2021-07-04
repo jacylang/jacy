@@ -428,5 +428,5 @@ namespace jc::ast {
         pat.name.accept(*this);
     }
 
-    void StubVisitor::visit(const SpreadPattern&) {}
+    void StubVisitor::visit(const SpreadPat&) {}
 }

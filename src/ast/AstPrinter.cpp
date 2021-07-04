@@ -785,7 +785,7 @@ namespace jc::ast {
         pat.name.accept(*this);
     }
 
-    void AstPrinter::visit(const SpreadPattern&) {
+    void AstPrinter::visit(const SpreadPat&) {
         log.raw("...");
     }
 

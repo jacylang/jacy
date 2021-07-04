@@ -64,8 +64,8 @@ namespace jc::ast {
         }
     };
 
-    struct SpreadPattern : Pattern {
-        SpreadPattern(const Span & span) : Pattern(PatternKind::Spread, span) {}
+    struct SpreadPat : Pattern {
+        SpreadPat(const Span & span) : Pattern(PatternKind::Spread, span) {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

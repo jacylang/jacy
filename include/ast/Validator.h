@@ -114,7 +114,7 @@ namespace jc::ast {
         // Patterns //
         void visit(const LitPat & pat) override;
         void visit(const BorrowPat & pat) override;
-        void visit(const SpreadPattern & pat) override;
+        void visit(const SpreadPat & pat) override;
 
 
         // Helpers //

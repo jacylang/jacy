@@ -656,7 +656,7 @@ namespace jc::ast {
         pat.name.accept(*this);
     }
 
-    void Validator::visit(const SpreadPattern&) {}
+    void Validator::visit(const SpreadPat&) {}
 
     // Helpers //
     bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
