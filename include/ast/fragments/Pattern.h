@@ -109,16 +109,18 @@ namespace jc::ast {
 
     struct StructPatEl {
         // `field: pattern` case (match field insides)
-        StructPatEl(StructPatternDestructEl && namedEl) : el(std::move(namedEl)) {}
+        StructPatEl(StructPatternDestructEl && namedEl) : kind(Kind::Destruct), el(std::move(namedEl)) {}
 
         // `ref? mut? field` case (borrow field)
-        StructPatEl(StructPatBorrowEl && identEl) : el(std::move(identEl)) {}
+        StructPatEl(StructPatBorrowEl && identEl) : kind(Kind::Borrow), el(std::move(identEl)) {}
 
         // `...` case
-        StructPatEl(const Span & span) : el(std::move(span)) {}
+        StructPatEl(const Span & span) : kind(Kind::Spread), el(std::move(span)) {}
 
         enum class Kind {
-            Named,
+            Destruct,
+            Borrow,
+            Spread,
         };
 
         Kind kind;
