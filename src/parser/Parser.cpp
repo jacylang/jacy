@@ -753,7 +753,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Let, "`let`", "`parseLetStmt`");
 
-        auto pat = parseIdentPat();
+        auto pat = parseBorrowPat();
 
         opt_type_ptr type{dt::None};
         if (skipOpt(TokenKind::Colon)) {
@@ -2278,11 +2278,11 @@ namespace jc::parser {
     }
 
     // Patterns //
-    pat_ptr Parser::parsePattern() {
+    pat_ptr Parser::parsePat() {
         logParse("Pattern");
 
         if (is(TokenKind::Sub) or peek().isLiteral()) {
-            return parseLiteralPattern();
+            return parseLitPat();
         }
 
         if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
@@ -2294,11 +2294,11 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Mut) or is(TokenKind::BitOr)) {
-            return parseRefPattern();
+            return parseRefPat();
         }
     }
 
-    pat_ptr Parser::parseLiteralPattern() {
+    pat_ptr Parser::parseLitPat() {
         logParse("LiteralPattern");
 
         const auto & begin = cspan();
@@ -2309,7 +2309,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
-            log.devPanic("Non-literal token in `parseLiteralPattern`");
+            log.devPanic("Non-literal token in `parseLitPat`");
         }
 
         auto token = peek();
@@ -2318,7 +2318,7 @@ namespace jc::parser {
         return makeNode<LitPat>(neg, token, begin.to(cspan()));
     }
 
-    id_pat_ptr Parser::parseIdentPat() {
+    id_pat_ptr Parser::parseBorrowPat() {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
@@ -2330,21 +2330,21 @@ namespace jc::parser {
         return makeNode<BorrowPat>(ref, mut, std::move(id), begin.to(id.span()));
     }
 
-    pat_ptr Parser::parseRefPattern() {
+    pat_ptr Parser::parseRefPat() {
         logParse("RefPattern");
 
         const auto & begin = cspan();
         bool ref = skipOpt(TokenKind::BitOr);
         bool mut = skipOpt(TokenKind::Mut);
-        auto pat = parsePattern();
+        auto pat = parsePat();
 
         return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
-    pat_ptr Parser::parseStructPattern() {
+    pat_ptr Parser::parseStructPat() {
         logParse("StructPattern");
 
-        justSkip(TokenKind::LBrace, "`{`", "`parseStructPattern`");
+        justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
 
         const auto & begin = cspan();
 
@@ -2388,7 +2388,7 @@ namespace jc::parser {
                     suggestErrorMsg("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
                 }
 
-                auto pat = parsePattern();
+                auto pat = parsePat();
 
                 elements.emplace_back(StructPatternDestructEl{std::move(ident), std::move(pat)});
             } else {

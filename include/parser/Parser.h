@@ -243,11 +243,11 @@ namespace jc::parser {
         opt_type_path_ptr parseOptTypePath();
 
         // Patterns //
-        pat_ptr parsePattern();
-        pat_ptr parseLiteralPattern();
-        id_pat_ptr parseIdentPat();
-        pat_ptr parseRefPattern();
-        pat_ptr parseStructPattern();
+        pat_ptr parsePat();
+        pat_ptr parseLitPat();
+        id_pat_ptr parseBorrowPat();
+        pat_ptr parseRefPat();
+        pat_ptr parseStructPat();
 
         // Helpers //
     private:
