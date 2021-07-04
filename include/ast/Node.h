@@ -12,7 +12,17 @@
 namespace jc::ast {
     /// Wrapper for all nodes to be boxed
     template<class T>
-    using N = std::shared_ptr<T>;
+    struct N {
+        std::shared_ptr<T> node;
+
+        T & operator*() const noexcept {
+            return *node.get();
+        }
+
+        T * operator->() const noexcept {
+            return node.get();
+        }
+    };
 
     struct Node;
     struct ErrorNode;
