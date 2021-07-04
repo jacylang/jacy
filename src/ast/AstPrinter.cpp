@@ -807,6 +807,10 @@ namespace jc::ast {
         pat.path.accept(*this);
     }
 
+    void AstPrinter::visit(const WCPat & pat) {
+        log.raw("_");
+    }
+
     void AstPrinter::visit(const SpreadPat&) {
         log.raw("...");
     }

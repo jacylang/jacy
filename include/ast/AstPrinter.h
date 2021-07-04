@@ -113,6 +113,7 @@ namespace jc::ast {
         void visit(const RefPat & pat) override;
         void visit(const PathPat & pat) override;
         void visit(const SpreadPat & pat) override;
+        void visit(const WCPat & pat) override;
 
     private:
         sess::sess_ptr sess;
