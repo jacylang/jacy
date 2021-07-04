@@ -390,10 +390,7 @@ namespace jc::parser {
                 }
             } break;
             case '&': {
-                if (lookup() == '&') {
-                    addToken(TokenKind::And, 2);
-                    advance(2);
-                } else if (lookup() == '=') {
+                if (lookup() == '=') {
                     addToken(TokenKind::BitAndAssign, 2);
                     advance(2);
                 } else {
@@ -419,10 +416,7 @@ namespace jc::parser {
                 }
             } break;
             case '|': {
-                if (lookup() == '|') {
-                    addToken(TokenKind::Or, 2);
-                    advance(2);
-                } else if (lookup() == '>') {
+                if (lookup() == '>') {
                     addToken(TokenKind::Pipe, 2);
                     advance(2);
                 } else if (lookup() == '=') {
