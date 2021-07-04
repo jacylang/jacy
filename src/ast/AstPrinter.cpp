@@ -797,7 +797,7 @@ namespace jc::ast {
         }
 
         if (pat.mut) {
-            log.raw("mut");
+            log.raw("mut ");
         }
 
         pat.pat.accept(*this);
