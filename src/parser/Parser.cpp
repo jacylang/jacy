@@ -2301,6 +2301,8 @@ namespace jc::parser {
         if (is(TokenKind::Ampersand) or is(TokenKind::Mut)) {
             return parseRefPat();
         }
+
+        if (is())
     }
 
     pat_ptr Parser::parseLitPat() {

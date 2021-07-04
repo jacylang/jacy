@@ -13,6 +13,7 @@ namespace jc::ast {
     using id_pat_ptr = std::shared_ptr<BorrowPat>;
 
     enum class PatternKind {
+        Paren,
         Literal,
         Ident,
         Wildcard,
@@ -27,6 +28,12 @@ namespace jc::ast {
         PatternKind kind;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
+    };
+
+    struct ParenPat : Pattern {
+        ParenPat(pat_ptr && pat, const Span & span) : pat(std::move(pat)), Pattern(PatternKind::Paren, span) {}
+
+        pat_ptr pat;
     };
 
     struct LitPat : Pattern {
