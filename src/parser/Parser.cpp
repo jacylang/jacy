@@ -1988,7 +1988,7 @@ namespace jc::parser {
             if (not suggMsg.empty()) {
                 suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             }
-            return makeErrorNode(begin.to(cspan()));
+            return makeErrorNode<Type>(begin.to(cspan()));
         }
         return type.unwrap("`parseType` -> `type`");
     }
@@ -2003,7 +2003,7 @@ namespace jc::parser {
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             // We matched IDENT or `::`, so we can unwrap parsed type as optional
-            return Ok(parseOptTypePath().unwrap().as<Type>());
+            return parseOptTypePath().unwrap();
         }
 
         const auto & begin = cspan();
@@ -2096,15 +2096,15 @@ namespace jc::parser {
             auto sizeExpr = parseExpr("Expected constant size expression in array type");
             skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
-            return makeNode<ArrayType>(
+            return makePRNode<ArrayType, Type>(
                 std::move(type), std::move(sizeExpr), begin.to(cspan())
-            ).as<Type>();
+            );
         }
 
         skip(TokenKind::RBracket, "Missing closing `]` in slice type");
 
         exitEntity();
-        return makeNode<SliceType>(std::move(type), begin.to(cspan())).as<Type>();
+        return makePRNode<SliceType, Type>(std::move(type), begin.to(cspan()));
     }
 
     type_ptr Parser::parseFuncType(tuple_t_el_list tupleElements, const Span & span) {
@@ -2129,7 +2129,7 @@ namespace jc::parser {
         auto returnType = parseType("Expected return type in function type after `->`");
 
         exitEntity();
-        return makeNode<FuncType>(std::move(params), std::move(returnType), span.to(cspan())).as<Type>();
+        return makePRNode<FuncType, Type>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
     opt_gen_params Parser::parseOptGenerics() {
@@ -2161,7 +2161,7 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick)) {
                 auto name = parseId("lifetime parameter name");
-                generics.push_back(makeNode<Lifetime>(std::move(name), genBegin.to(cspan())).as<GenericParam>());
+                generics.push_back(makeNode<Lifetime>(std::move(name), genBegin.to(cspan())));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
                 opt_type_ptr type{dt::None};
@@ -2169,7 +2169,7 @@ namespace jc::parser {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
                 generics.push_back(
-                    makeNode<TypeParam>(std::move(name), std::move(type), genBegin.to(cspan())).as<GenericParam>()
+                    makeNode<TypeParam>(std::move(name), std::move(type), genBegin.to(cspan()))
                 );
             } else if (skipOpt(TokenKind::Const)) {
                 auto name = parseId("`const` parameter name");
@@ -2186,7 +2186,7 @@ namespace jc::parser {
                 generics.push_back(
                     makeNode<ConstParam>(
                         std::move(name), std::move(type), std::move(defaultValue), genBegin.to(cspan())
-                    ).as<GenericParam>()
+                    )
                 );
             } else {
                 suggestErrorMsg("Expected type parameter", genBegin);
@@ -2206,7 +2206,7 @@ namespace jc::parser {
         auto pathType = parseOptTypePath();
         if (not pathType) {
             suggestErrorMsg(suggMsg, cspan());
-            return makeErrorNode(begin.to(cspan()));
+            return makeErrorNode<TypePath>(begin.to(cspan()));
         }
 
         return std::move(pathType.unwrap());
