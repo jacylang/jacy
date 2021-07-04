@@ -874,7 +874,7 @@ namespace jc::parser {
         opt_expr_ptr body{dt::None};
         if (skipOpt(TokenKind::Arrow)) {
             returnType = parseType("Expected lambda return type after `->`");
-            body = parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed).as<Expr>();
+            body = Some(parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed));
         } else {
             body = parseExpr("Expected lambda body");
         }
