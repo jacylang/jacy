@@ -89,7 +89,7 @@ namespace jc::ast {
     // Patterns //
     struct LitPat;
     struct BorrowPat;
-    struct WildcardPattern;
+    struct WCPat;
     struct SpreadPattern;
     struct RefPattern;
 
@@ -183,7 +183,7 @@ namespace jc::ast {
         // Patterns //
         virtual void visit(const LitPat&) = 0;
         virtual void visit(const BorrowPat&) = 0;
-        virtual void visit(const WildcardPattern&) = 0;
+        virtual void visit(const WCPat&) = 0;
         virtual void visit(const SpreadPattern&) = 0;
         virtual void visit(const RefPattern&) = 0;
     };

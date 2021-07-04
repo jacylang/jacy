@@ -2286,7 +2286,7 @@ namespace jc::parser {
         }
 
         if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
-            return makeNode<WildcardPattern>(wildcard.unwrap().span);
+            return makeNode<WCPat>(wildcard.unwrap().span);
         }
 
         if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
