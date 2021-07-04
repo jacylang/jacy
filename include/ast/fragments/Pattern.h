@@ -55,8 +55,17 @@ namespace jc::ast {
 
     /// `ref mut IDENT @ pattern`
     struct BorrowPat : Pattern {
-        BorrowPat(bool ref, bool mut, id_ptr && name, opt_pat && pat, const Span & span)
-            : Pattern(PatternKind::Borrow, span), ref(ref), mut(mut), name(std::move(name)), pat(std::move(pat)) {}
+        BorrowPat(
+            bool ref,
+            bool mut,
+            id_ptr && name,
+            opt_pat && pat,
+            const Span & span
+        ) : Pattern(PatternKind::Borrow, span),
+            ref(ref),
+            mut(mut),
+            name(std::move(name)),
+            pat(std::move(pat)) {}
 
         bool ref;
         bool mut;
