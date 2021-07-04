@@ -2384,7 +2384,7 @@ namespace jc::parser {
         bool mut = skipOpt(TokenKind::Mut);
         auto pat = parsePat();
 
-        return makeNode<RefPattern>(ref, mut, std::move(pat), begin.to(cspan()));
+        return makeNode<RefPat>(ref, mut, std::move(pat), begin.to(cspan()));
     }
 
     pure_pat_ptr Parser::parseStructPat(path_expr_ptr && path) {
