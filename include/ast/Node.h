@@ -180,7 +180,7 @@ namespace jc::ast {
         std::shared_ptr<T> inner;
 
         template<class ...Args>
-        N(Args && ...args) : inner(std::make_shared<T>(std::forward<Args...>(args...))) {}
+        N(Args && ...args) : inner(std::make_shared<T>(std::forward<Args>(args)...)) {}
 
         N(const N<T> & t) : inner(t.inner) {}
         N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
