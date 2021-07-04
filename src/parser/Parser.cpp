@@ -2327,7 +2327,7 @@ namespace jc::parser {
 
         auto id = parseId("Missing identifier");
 
-        return makeNode<IdentPattern>(ref, mut, std::move(id), begin.to(id.span()));
+        return makeNode<BorrowPat>(ref, mut, std::move(id), begin.to(id.span()));
     }
 
     pat_ptr Parser::parseRefPattern() {

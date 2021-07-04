@@ -96,7 +96,7 @@ namespace jc::ast {
 
         // Patterns //
         virtual void visit(const LiteralPattern & pat) override;
-        virtual void visit(const IdentPattern & pat) override;
+        virtual void visit(const BorrowPat & pat) override;
         virtual void visit(const SpreadPattern & pat) override;
 
     protected:

@@ -773,7 +773,7 @@ namespace jc::ast {
         log.raw(pat.literal.val);
     }
 
-    void AstPrinter::visit(const IdentPattern & pat) {
+    void AstPrinter::visit(const BorrowPat & pat) {
         if (pat.ref) {
             log.raw("ref ");
         }

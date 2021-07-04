@@ -7,10 +7,10 @@
 
 namespace jc::ast {
     struct Pattern;
-    struct IdentPattern;
+    struct BorrowPat;
     using pat_ptr = std::shared_ptr<Pattern>;
     using pat_list = std::vector<pat_ptr>;
-    using id_pat_ptr = std::shared_ptr<IdentPattern>;
+    using id_pat_ptr = std::shared_ptr<BorrowPat>;
 
     enum class PatternKind {
         Literal,
@@ -42,9 +42,9 @@ namespace jc::ast {
     };
 
     /// `ref mut IDENT @ pattern`
-    struct IdentPattern : Pattern {
+    struct BorrowPat : Pattern {
         // TODO: Binding after binding syntax will be established
-        IdentPattern(bool ref, bool mut, id_ptr name, const Span & span)
+        BorrowPat(bool ref, bool mut, id_ptr name, const Span & span)
             : Pattern(PatternKind::Ident, span), ref(ref), mut(mut), name(std::move(name)) {}
 
         bool ref;

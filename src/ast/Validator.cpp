@@ -652,7 +652,7 @@ namespace jc::ast {
     // Patterns //
     void Validator::visit(const LiteralPattern&) {}
 
-    void Validator::visit(const IdentPattern & pat) {
+    void Validator::visit(const BorrowPat & pat) {
         pat.name.accept(*this);
     }
 
