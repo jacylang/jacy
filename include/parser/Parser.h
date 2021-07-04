@@ -109,7 +109,8 @@ namespace jc::parser {
             return Ok(std::static_pointer_cast<B>(node));
         }
 
-        inline N<ErrorNode> makeErrorNode(const Span & span) {
+        template<class T>
+        inline PR<N<T>> makeErrorNode(const Span & span) {
             auto errorNode = std::make_shared<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
             return errorNode;

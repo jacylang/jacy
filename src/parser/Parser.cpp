@@ -382,7 +382,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return Ok(makeNode<Func>(
+        return makePRNode<Func, Item>(
             std::move(modifiers),
             std::move(generics),
             std::move(name),
@@ -390,7 +390,7 @@ namespace jc::parser {
             std::move(returnType),
             std::move(body),
             begin.to(cspan())
-        ).as<Item>());
+        );
     }
 
     item_ptr Parser::parseImpl() {
@@ -412,13 +412,13 @@ namespace jc::parser {
 
         exitEntity();
 
-        return Ok(makeNode<Impl>(
+        return makePRNode<Impl, Item>(
             std::move(generics),
             std::move(traitTypePath),
             std::move(forType),
             std::move(members),
             begin.to(cspan())
-        ).as<Item>());
+        );
     }
 
     item_ptr Parser::parseStruct() {
@@ -448,9 +448,9 @@ namespace jc::parser {
 
         exitEntity();
 
-        return Ok(makeNode<Struct>(
+        return makePRNode<Struct, Item>(
             std::move(name), std::move(generics), std::move(fields), begin.to(cspan())
-        ).as<Item>());
+        );
     }
 
     struct_field_list Parser::parseStructFields() {
@@ -528,13 +528,13 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Trait>(
+        return makePRNode<Trait, Item>(
             std::move(name),
             std::move(generics),
             std::move(superTraits),
             std::move(members),
             begin.to(cspan())
-        ).as<Item>();
+        );
     }
 
     item_ptr Parser::parseTypeAlias() {
@@ -552,9 +552,9 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<TypeAlias>(
+        return makePRNode<TypeAlias, Item>(
             std::move(name), std::move(type), begin.to(cspan())
-        ).as<Item>();
+        );
     }
 
     item_ptr Parser::parseMod() {
@@ -574,7 +574,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Mod>(std::move(name), std::move(items), begin.to(cspan())).as<Item>();
+        return makePRNode<Mod, Item>(std::move(name), std::move(items), begin.to(cspan()));
     }
 
     item_ptr Parser::parseUseDecl() {
@@ -590,7 +590,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<UseDecl>(std::move(useTree), begin.to(cspan())).as<Item>();
+        return makePRNode<UseDecl, Item>(std::move(useTree), begin.to(cspan()));
     }
 
     use_tree_ptr Parser::parseUseTree() {
@@ -603,7 +603,7 @@ namespace jc::parser {
             // `*` case
             if (skipOpt(TokenKind::Mul)) {
                 exitEntity();
-                return makeNode<UseTreeAll>(std::move(maybePath), begin.to(cspan())).as<UseTree>();
+                return makePRNode<UseTreeAll, UseTree>(std::move(maybePath), begin.to(cspan()));
             }
 
             if (skipOpt(TokenKind::LBrace)) {
@@ -632,15 +632,15 @@ namespace jc::parser {
 
                 exitEntity();
 
-                return makeNode<UseTreeSpecific>(
+                return makePRNode<UseTreeSpecific, UseTree>(
                     std::move(maybePath),
                     std::move(specifics),
-                    begin.to(cspan())).as<UseTree>();
+                    begin.to(cspan()));
             }
 
             if (maybePath) {
                 exitEntity();
-                return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan())).as<UseTree>();
+                return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), begin.to(cspan()));
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
@@ -656,13 +656,12 @@ namespace jc::parser {
 
             auto as = parseId("binding name after `as`");
             exitEntity();
-            return makeNode<UseTreeRebind>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()))
-                .as<UseTree>();
+            return makePRNode<UseTreeRebind, UseTree>(std::move(maybePath.unwrap()), std::move(as), begin.to(cspan()));
         }
 
         if (maybePath) {
             exitEntity();
-            return makeNode<UseTreeRaw>(std::move(maybePath.unwrap()), begin.to(cspan())).as<UseTree>();
+            return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), begin.to(cspan()));
         }
 
         if (is(TokenKind::As)) {
@@ -674,7 +673,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeErrorNode(begin.to(cspan()));
+        return makeErrorNode<UseTree>(begin.to(cspan()));
     }
 
     ////////////////
