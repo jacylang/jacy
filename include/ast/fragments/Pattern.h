@@ -91,16 +91,16 @@ namespace jc::ast {
     // Struct Pattern //
 
     /// Struct nested pattern like `IDENT: pattern`
-    struct StructPatNamedEl {
-        StructPatNamedEl(id_ptr && name, pat_ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
+    struct StructPatternDestructEl {
+        StructPatternDestructEl(id_ptr && name, pat_ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
 
         id_ptr name;
         pat_ptr pat;
     };
 
     /// Struct nested pattern like `ref mut IDENT`
-    struct StructPatIdentEl {
-        StructPatIdentEl(bool ref, bool mut, id_ptr && name) : ref(ref), mut(mut), name(std::move(name)) {}
+    struct StructPatBorrowEl {
+        StructPatBorrowEl(bool ref, bool mut, id_ptr && name) : ref(ref), mut(mut), name(std::move(name)) {}
 
         bool ref;
         bool mut;
@@ -108,20 +108,21 @@ namespace jc::ast {
     };
 
     struct StructPatEl {
-        enum class Kind {
-            Named
-        };
-
         // `field: pattern` case (match field insides)
-        StructPatEl(StructPatNamedEl && namedEl) : el(std::move(namedEl)) {}
+        StructPatEl(StructPatternDestructEl && namedEl) : el(std::move(namedEl)) {}
 
         // `ref? mut? field` case (borrow field)
-        StructPatEl(StructPatIdentEl && identEl) : el(std::move(identEl)) {}
+        StructPatEl(StructPatBorrowEl && identEl) : el(std::move(identEl)) {}
 
         // `...` case
         StructPatEl(const Span & span) : el(std::move(span)) {}
 
-        std::variant<StructPatNamedEl, StructPatIdentEl, Span> el;
+        enum class Kind {
+            Named,
+        };
+
+        Kind kind;
+        std::variant<StructPatternDestructEl, StructPatBorrowEl, Span> el;
     };
 
     struct StructPattern : Pattern {

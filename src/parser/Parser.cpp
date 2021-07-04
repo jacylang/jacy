@@ -2390,10 +2390,10 @@ namespace jc::parser {
 
                 auto pat = parsePattern();
 
-                elements.emplace_back(StructPatNamedEl{std::move(ident), std::move(pat)});
+                elements.emplace_back(StructPatternDestructEl{std::move(ident), std::move(pat)});
             } else {
                 // `ref? mut? field` case
-                elements.emplace_back(StructPatIdentEl{ref, mut, std::move(ident)});
+                elements.emplace_back(StructPatBorrowEl{ref, mut, std::move(ident)});
             }
         }
 
