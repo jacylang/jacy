@@ -111,6 +111,7 @@ namespace jc::ast {
         void visit(const LitPat & pat) override;
         void visit(const BorrowPat & pat) override;
         void visit(const RefPat & pat) override;
+        void visit(const PathPat & pat) override;
         void visit(const SpreadPat & pat) override;
 
     private:
