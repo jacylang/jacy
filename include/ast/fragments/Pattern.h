@@ -34,6 +34,10 @@ namespace jc::ast {
         ParenPat(pat_ptr && pat, const Span & span) : Pattern(PatternKind::Paren, span), pat(std::move(pat)) {}
 
         pat_ptr pat;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct LitPat : Pattern {
