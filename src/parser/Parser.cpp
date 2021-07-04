@@ -767,7 +767,7 @@ namespace jc::parser {
 
         return makeNode<LetStmt>(
             std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan())
-        );
+        ).as<Stmt>();
     }
 
     pure_stmt_ptr Parser::parseWhileStmt() {
@@ -783,7 +783,7 @@ namespace jc::parser {
 
         return makeNode<WhileStmt>(
             std::move(condition), std::move(body), begin.to(cspan())
-        );
+        ).as<Stmt>();
     }
 
     /////////////////
@@ -874,9 +874,7 @@ namespace jc::parser {
         opt_expr_ptr body{dt::None};
         if (skipOpt(TokenKind::Arrow)) {
             returnType = parseType("Expected lambda return type after `->`");
-            body = Expr::asBase(
-                parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed)
-            );
+            body = parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed).as<Expr>();
         } else {
             body = parseExpr("Expected lambda body");
         }
@@ -885,7 +883,7 @@ namespace jc::parser {
 
         return makeNode<Lambda>(
             std::move(params), std::move(returnType), std::move(body.unwrap()), begin.to(cspan())
-        );
+        ).as<Expr>();
     }
 
     opt_expr_ptr Parser::assignment() {
@@ -908,7 +906,7 @@ namespace jc::parser {
 
             return Ok(makeNode<Assignment>(
                 std::move(checkedLhs), maybeAssignOp, std::move(rhs), begin.to(cspan())
-            ));
+            ).as<Expr>());
         }
 
         return lhs;
