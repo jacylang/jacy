@@ -28,6 +28,10 @@ namespace jc::ast {
 
         PatternKind kind;
 
+        static inline pat_ptr asBase(std::shared_ptr<Pattern> pat) {
+            return std::static_pointer_cast<Pattern>(pat);
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
