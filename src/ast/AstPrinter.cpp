@@ -807,7 +807,7 @@ namespace jc::ast {
         pat.path.accept(*this);
     }
 
-    void AstPrinter::visit(const WCPat & pat) {
+    void AstPrinter::visit(const WCPat&) {
         log.raw("_");
     }
 
