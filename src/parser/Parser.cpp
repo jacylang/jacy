@@ -1352,7 +1352,7 @@ namespace jc::parser {
         // Empty tuple //
         if (skipOpt(TokenKind::RParen)) {
             logParse("UnitExpr");
-            return makeNode<UnitExpr>(begin.to(cspan())).as<Expr>();
+            return makePRNode<UnitExpr, Expr>(begin.to(cspan()));
         }
 
         enterEntity("TupleExpr or ParenExpr");
@@ -1384,11 +1384,11 @@ namespace jc::parser {
 
         if (not forceTuple and values.size() == 1) {
             exitEntity();
-            return makeNode<ParenExpr>(std::move(values.at(0)), begin.to(cspan())).as<Expr>();
+            return makePRNode<ParenExpr, Expr>(std::move(values.at(0)), begin.to(cspan()));
         }
 
         exitEntity();
-        return makeNode<TupleExpr>(std::move(values), begin.to(cspan())).as<Expr>();
+        return makePRNode<TupleExpr, Expr>(std::move(values), begin.to(cspan()));
     }
 
     expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
