@@ -2282,26 +2282,32 @@ namespace jc::parser {
     pat_ptr Parser::parsePat() {
         logParse("Pattern");
 
+        // `-123123`
         if (is(TokenKind::Sub) or peek().isLiteral()) {
             return parseLitPat();
         }
 
+        // `_`
         if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
             return makeNode<WCPat>(wildcard.unwrap().span);
         }
 
+        // `...`
         if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
             return makeNode<SpreadPat>(spread.unwrap().span);
         }
 
+        // `ref mut IDENT @ pattern`
         if (is(TokenKind::Ref) or is(TokenKind::Mut)) {
             return parseBorrowPat();
         }
 
+        // `&mut pattern`
         if (is(TokenKind::Ampersand) or is(TokenKind::Mut)) {
             return parseRefPat();
         }
 
+        // `(pattern)`
         if (is(TokenKind::LParen)) {
             const auto & begin = cspan();
             justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
