@@ -2444,6 +2444,8 @@ namespace jc::parser {
         }
 
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
+
+        return makeNode<StructPat>(std::move(path), std::move(elements), begin.to(cspan()));
     }
 
     // Helpers //
