@@ -85,7 +85,6 @@ namespace jc::parser {
         Pipe,                       // |>
         Dollar,                     // $
         At,                         // @
-        At_WWS,                     // @ Without whitespace
 
         // Punctuations //
         Semi,                       // ;
