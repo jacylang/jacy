@@ -10,32 +10,8 @@
 #include "ast/BaseVisitor.h"
 
 namespace jc::ast {
-    /// Wrapper for all nodes to be boxed
     template<class T>
-    struct N {
-        std::shared_ptr<T> inner;
-
-        N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
-        N(N<T> && t) : inner(std::move(t.inner)) {}
-
-        T & operator*() const noexcept {
-            return *inner.get();
-        }
-
-        T * operator->() const noexcept {
-            return inner.get();
-        }
-
-        template<class B>
-        N<B> asBase(N<B> && node) const {
-            return std::static_pointer_cast<B>(std::move(node.inner));
-        }
-
-        template<class B>
-        const N<B> & asBase(N<B> && node) const {
-            return std::static_pointer_cast<B>(std::move(node.inner));
-        }
-    };
+    struct N;
 
     struct Node;
     struct ErrorNode;
@@ -192,6 +168,41 @@ namespace jc::ast {
 
     template<class T>
     using PR = ParseResult<T>;
+
+    /// Wrapper for all nodes to be boxed
+    template<class T>
+    struct N {
+        std::shared_ptr<T> inner;
+
+        N(std::shared_ptr<T> && t) : inner(std::move(t)) {}
+        N(N<T> && t) : inner(std::move(t.inner)) {}
+
+        T & operator*() const noexcept {
+            return *inner.get();
+        }
+
+        T * operator->() const noexcept {
+            return inner.get();
+        }
+
+        template<class B>
+        static N<B> asBase(N<B> && node) {
+            return std::static_pointer_cast<B>(std::move(node.inner));
+        }
+
+        template<class B>
+        static const N<B> & asBase(N<B> && node) {
+            return std::static_pointer_cast<B>(std::move(node.inner));
+        }
+
+        template<class U, class B>
+        static N<B> asBase(PR<U> && expr) {
+            if (expr.isErr()) {
+                return expr.asErr();
+            }
+            return std::static_pointer_cast<B>(expr.asValue());
+        }
+    };
 }
 
 #endif // JACY_AST_NODE_H
