@@ -2293,6 +2293,10 @@ namespace jc::parser {
             return makeNode<SpreadPat>(spread.unwrap().span);
         }
 
+        if (is(TokenKind::Ref) or is(TokenKind::Mut)) {
+            return parseBorrowPat();
+        }
+
         if (is(TokenKind::Mut) or is(TokenKind::BitOr)) {
             return parseRefPat();
         }
