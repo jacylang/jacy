@@ -10,7 +10,7 @@ namespace jc::resolve {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
-        sess->resStorage = std::move(resStorage);
+        sess->resStorage = std::move(_resStorage);
         return {dt::None, extractSuggestions()};
     }
 
@@ -287,7 +287,7 @@ namespace jc::resolve {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            if (rib->resolve(ns, name, refNodeId, resStorage)) {
+            if (rib->resolve(ns, name, refNodeId, _resStorage)) {
                 log.dev("Resolved '", name, "'");
                 return true;
             }
@@ -297,7 +297,7 @@ namespace jc::resolve {
 
         common::Logger::devDebug("Set error resolution for node #", refNodeId);
         // Set error resolution
-        resStorage.setRes(refNodeId, Res{});
+        _resStorage.setRes(refNodeId, Res{});
 
         return false;
     }
