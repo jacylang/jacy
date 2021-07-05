@@ -679,6 +679,7 @@ namespace jc::ast {
     void Validator::visit(const StructPat & pat) {
         pat.path.accept(*this);
 
+        size_t i = 0;
         for (const auto & el : pat.elements) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
@@ -692,8 +693,13 @@ namespace jc::ast {
                     bp.name.accept(*this);
                     break;
                 }
-                case StructPatEl::Kind::Spread:;
+                case StructPatEl::Kind::Spread: {
+                    if (i != pat.elements.size() - 1) {
+                        suggestErrorMsg("`...` must be placed last", std::get<Span>(el.el));
+                    }
+                }
             }
+            i++;
         }
     }
 
