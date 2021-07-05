@@ -43,7 +43,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ForStmt & forStmt) {
-        forStmt.forEntity.accept(*this);
+        forStmt.pat.accept(*this);
         forStmt.inExpr.accept(*this);
         forStmt.body.accept(*this);
     }
