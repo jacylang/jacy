@@ -806,7 +806,7 @@ namespace jc::parser {
         return std::move(expr.unwrap("parseExpr -> expr"));
     }
 
-    pure_expr_ptr Parser::parseLambda() {
+    expr_ptr Parser::parseLambda() {
         enterEntity("Lambda:" + peek().toString());
 
         const auto & begin = cspan();
@@ -859,7 +859,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<Lambda>(
+        return makePRNode<Lambda, Expr>(
             std::move(params), std::move(returnType), std::move(body.unwrap()), begin.to(cspan())
         );
     }

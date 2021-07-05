@@ -171,7 +171,7 @@ namespace jc::parser {
         // Expressions //
         opt_expr_ptr parseOptExpr();
         expr_ptr parseExpr(const std::string & suggMsg);
-        pure_expr_ptr parseLambda();
+        expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
 
