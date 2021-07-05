@@ -27,7 +27,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterModule(func.name.unwrap()->getValue()); // -> `func` mod rib
+        // Note: Functions stored in value namespace
+        enterModule(func.name.unwrap()->getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -207,7 +208,6 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
-        // FIXME: Use different ns for Func definition
         currentModule = sess->defStorage.getModule(currentModule->getNS(ns).at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
