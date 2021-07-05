@@ -227,12 +227,7 @@ namespace jc::core {
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
         endBench("module-tree-building");
 
-        if (config.checkPrint(Config::PrintKind::ModTree)) {
-            log.info("Printing module tree (`-print=mod-tree`)");
-            modulePrinter.print(sess);
-            common::Logger::nl();
-        }
-
+        printModTree();
         printDefinitions();
 
         log.dev("Resolving names...");
@@ -246,6 +241,16 @@ namespace jc::core {
     }
 
     // Debug //
+    void Interface::printModTree() {
+        if (not config.checkPrint(Config::PrintKind::ModTree)) {
+            return;
+        }
+
+        log.info("Printing module tree (`-print=mod-tree`)");
+        modulePrinter.print(sess);
+        common::Logger::nl();
+    }
+
     void Interface::printDefinitions() {
         if (not config.checkPrint(common::Config::PrintKind::Definitions)) {
             return;
