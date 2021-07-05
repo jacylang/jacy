@@ -82,7 +82,7 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        define(letStmt.pat->name);
+//        define(letStmt.pat->name);
     }
 
     // Expressions //

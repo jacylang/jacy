@@ -10,12 +10,7 @@ namespace jc::parser {
     }
 
     Token Parser::peek() const {
-        try {
-            return tokens.at(index);
-        } catch (std::out_of_range & error) {
-            log.error("Parser: called peek() out of token list bound");
-            throw error;
-        }
+        return tokens.at(index);
     }
 
     Token Parser::advance(uint8_t distance) {
@@ -24,21 +19,11 @@ namespace jc::parser {
     }
 
     Token Parser::lookup() const {
-        try {
-            return tokens.at(index + 1);
-        } catch (std::out_of_range & error) {
-            log.error("Parser: called lookup() out of token list bound");
-            throw error;
-        }
+        return tokens.at(index + 1);
     }
 
     Token Parser::prev() const {
-        try {
-            return tokens.at(index - 1);
-        } catch (std::out_of_range & error) {
-            log.error("Parser: called prev() out of token list bound");
-            throw error;
-        }
+        return tokens.at(index - 1);
     }
 
     // Checkers //
@@ -254,7 +239,7 @@ namespace jc::parser {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
-                items.emplace_back(makeErrorNode<Item>(exprToken.span));
+                items.emplace_back(makeErrorNode(exprToken.span));
                 // If expr is `None` we already made an error in `primary`
             }
         }
@@ -2001,7 +1986,7 @@ namespace jc::parser {
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             // We matched IDENT or `::`, so we can unwrap parsed type as optional
-            return nodeAsPR<Type>(parseOptTypePath().unwrap());
+            return nodeAsPR<Type>(std::move(parseOptTypePath().unwrap()));
         }
 
         const auto & begin = cspan();

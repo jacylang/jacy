@@ -10,7 +10,7 @@
 #include "ast/BaseVisitor.h"
 
 namespace jc::ast {
-    template<class T>
+    template<typename T>
     using N = std::shared_ptr<T>;
 
     struct Node;
