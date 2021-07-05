@@ -707,8 +707,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::For, "`for`", "`parseForStmt`");
 
-        // TODO: Patterns
-        auto forEntity = parseId("`for` entity");
+        auto pat = parsePat();
 
         skip(
             TokenKind::In,
@@ -721,7 +720,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRNode<ForStmt, Stmt>(std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan()));
+        return makePRNode<ForStmt, Stmt>(std::move(pat), std::move(inExpr), std::move(body), begin.to(cspan()));
     }
 
     stmt_ptr Parser::parseLetStmt() {
