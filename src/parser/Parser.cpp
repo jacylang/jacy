@@ -1868,7 +1868,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return std::move(simplePath.unwrap());
+        return std::move(simplePath.take());
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
