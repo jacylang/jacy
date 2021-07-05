@@ -8,8 +8,7 @@
 
 namespace jc::ast {
     struct Stmt;
-    using pure_stmt_ptr = N<Stmt>;
-    using stmt_ptr = PR<pure_stmt_ptr>;
+    using stmt_ptr = PR<N<Stmt>>;
     using opt_stmt_ptr = dt::Option<stmt_ptr>;
     using stmt_list = std::vector<stmt_ptr>;
 

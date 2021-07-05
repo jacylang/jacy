@@ -7,8 +7,7 @@
 
 namespace jc::ast {
     struct Expr;
-    using pure_expr_ptr = N<Expr>;
-    using expr_ptr = PR<pure_expr_ptr>;
+    using expr_ptr = PR<N<Expr>>;
     using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
 

@@ -106,15 +106,15 @@ namespace jc::parser {
         inline PR<N<B>> makePRNode(Args ...args) {
             auto node = std::make_shared<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(node);
-            return Ok(std::static_pointer_cast<B>(node));
+            return std::static_pointer_cast<B>(node);
         }
 
         template<class B, class T>
         inline PR<N<B>> nodeAsPR(T && node) const {
-            return Ok(std::static_pointer_cast<B>(node));
+            return std::static_pointer_cast<B>(node);
         }
 
-        inline std::shared_ptr<ErrorNode> makeErrorNode(const Span & span) {
+        inline N<ErrorNode> makeErrorNode(const Span & span) {
             auto errorNode = std::make_shared<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
             return errorNode;
