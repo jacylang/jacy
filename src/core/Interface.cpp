@@ -222,6 +222,7 @@ namespace jc::core {
     void Interface::resolveNames() {
         log.printTitleDev("Name resolution");
 
+        log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
         endBench("module-tree-building");
@@ -234,6 +235,7 @@ namespace jc::core {
 
         printDefinitions();
 
+        log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
         endBench("name-resolution");
