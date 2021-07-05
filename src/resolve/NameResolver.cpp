@@ -140,6 +140,28 @@ namespace jc::resolve {
         define(pat.name);
     }
 
+    void NameResolver::visit(const ast::StructPat & pat) {
+        // Note: Path in StructPat is always a type
+        resolvePathExpr(Namespace::Type, *pat.path.unwrap());
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case ast::StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
+                    define(dp.name);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case ast::StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<ast::StructPatBorrowEl>(el.el);
+                    define(bp.name);
+                    break;
+                }
+                case ast::StructPatEl::Kind::Spread:;
+            }
+        }
+    }
+
     // Ribs //
     size_t NameResolver::getDepth() const {
         return ribStack.size();

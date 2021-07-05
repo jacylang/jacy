@@ -130,7 +130,7 @@ namespace jc::ast {
         pat_ptr pat;
     };
 
-    /// Struct nested pattern like `ref mut IDENT`
+    /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding
     struct StructPatBorrowEl {
         StructPatBorrowEl(bool ref, bool mut, id_ptr && name) : ref(ref), mut(mut), name(std::move(name)) {}
 
