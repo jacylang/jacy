@@ -188,9 +188,9 @@ namespace jc::resolve {
     const rib_ptr & NameResolver::curRib() const {
         const auto depth = getDepth();
         if (depth == 0) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", getDepth());
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
         }
-        return ribStack.at(getDepth() - 1);
+        return ribStack.at(depth - 1);
     }
 
     void NameResolver::enterRootRib() {
