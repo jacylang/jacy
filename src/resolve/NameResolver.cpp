@@ -206,9 +206,9 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModule(const std::string & name, Rib::Kind kind) {
+    void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
         // FIXME: Use different ns for Func definition
-        currentModule = sess->defStorage.getModule(currentModule->typeNS.at(name));
+        currentModule = sess->defStorage.getModule(currentModule->getNS(ns).at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
