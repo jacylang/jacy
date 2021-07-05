@@ -57,9 +57,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ForStmt & forStmt) {
-        // TODO: Update when for will have patterns
-        forStmt.forEntity.accept(*this);
-
+        forStmt.pat.accept(*this);
         forStmt.inExpr.accept(*this);
 
         pushContext(ValidatorCtx::Loop);
