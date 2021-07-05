@@ -1868,7 +1868,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return std::move(simplePath.take());
+        return simplePath.take();
     }
 
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
@@ -2191,7 +2191,7 @@ namespace jc::parser {
             return makeErrorNode(begin.to(cspan()));
         }
 
-        return std::move(pathType.unwrap());
+        return pathType.take();
     }
 
     opt_type_path_ptr Parser::parseOptTypePath() {
