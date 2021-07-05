@@ -56,7 +56,7 @@ namespace jc::ast {
             return visitor.visit(*this);
         }
 
-        void accept(DirTreePrinter & visitor) const {
+        void accept(DirTreePrinter & visitor) const override {
             return visitor.visit(*this);
         }
     };
