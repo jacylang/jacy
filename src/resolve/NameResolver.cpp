@@ -134,7 +134,7 @@ namespace jc::resolve {
     }
 
     // Patterns //
-    /// All identifiers appeared in patterns are bindings, thus we just define them in current rib
+    /// All identifiers (not PathExpr) appeared in patterns are bindings, thus we just define them in current rib
 
     void NameResolver::visit(const ast::BorrowPat & pat) {
         define(pat.name);
