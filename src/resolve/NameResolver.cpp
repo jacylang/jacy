@@ -10,8 +10,6 @@ namespace jc::resolve {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
-        log.dev("Rib depth after name resolution: ", getDepth());
-
         sess->resStorage = std::move(resStorage);
         return {dt::None, extractSuggestions()};
     }

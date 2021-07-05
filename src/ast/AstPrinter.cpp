@@ -253,9 +253,7 @@ namespace jc::ast {
 
         log.raw("let ");
 
-        // FIXME: Check colorizing
         letStmt.pat.accept(*this);
-//        colorizeDef(letStmt.pat->name);
 
         if (letStmt.type) {
             log.raw(": ");
@@ -785,7 +783,9 @@ namespace jc::ast {
             log.raw("mut ");
         }
 
+        colorizeDef(pat.name);
         pat.name.accept(*this);
+        resetNameColor();
 
         if (pat.pat) {
             log.raw(" @ ");
@@ -825,10 +825,11 @@ namespace jc::ast {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
 
+                    colorizeDef(dp.name);
                     dp.name.accept(*this);
+                    resetNameColor();
                     log.raw(": ");
                     dp.pat.accept(*this);
-
                     break;
                 }
                 case StructPatEl::Kind::Borrow: {
@@ -842,7 +843,9 @@ namespace jc::ast {
                         log.raw("mut ");
                     }
 
+                    colorizeDef(bp.name);
                     bp.name.accept(*this);
+                    resetNameColor();
                     break;
                 }
                 case StructPatEl::Kind::Spread: {
