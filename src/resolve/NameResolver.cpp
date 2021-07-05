@@ -202,7 +202,7 @@ namespace jc::resolve {
         }
     }
 
-    // Declarations //
+    // Definitions //
     void NameResolver::define(const ast::id_ptr & ident) {
         log.dev("Define '", ident.unwrap()->getValue(), "' local");
 

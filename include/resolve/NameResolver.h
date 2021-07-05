@@ -48,7 +48,7 @@ namespace jc::resolve {
 
         // Patterns //
         void visit(const ast::BorrowPat & pat) override;
-//        void visit(const ast::RefPat & pat) override;
+        void visit(const ast::RefPat & pat) override;
 //        void visit(const ast::StructPat & pat) override;
 
     private:
@@ -76,7 +76,7 @@ namespace jc::resolve {
         /// We need to store it because some ribs do not bind modules
         module_ptr currentModule;
 
-        // Declarations //
+        // Definitions //
     private:
         void define(const ast::id_ptr & ident);
 
