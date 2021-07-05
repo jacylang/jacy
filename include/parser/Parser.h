@@ -164,9 +164,9 @@ namespace jc::parser {
 
         // Statements //
         stmt_ptr parseStmt();
-        pure_stmt_ptr parseForStmt();
-        pure_stmt_ptr parseLetStmt();
-        pure_stmt_ptr parseWhileStmt();
+        stmt_ptr parseForStmt();
+        stmt_ptr parseLetStmt();
+        stmt_ptr parseWhileStmt();
 
         // Expressions //
         opt_expr_ptr parseOptExpr();

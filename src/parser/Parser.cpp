@@ -700,7 +700,7 @@ namespace jc::parser {
         }
     }
 
-    pure_stmt_ptr Parser::parseForStmt() {
+    stmt_ptr Parser::parseForStmt() {
         enterEntity("ForStmt");
 
         const auto & begin = cspan();
@@ -721,10 +721,10 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<ForStmt>(std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan()));
+        return makePRNode<ForStmt, Stmt>(std::move(forEntity), std::move(inExpr), std::move(body), begin.to(cspan()));
     }
 
-    pure_stmt_ptr Parser::parseLetStmt() {
+    stmt_ptr Parser::parseLetStmt() {
         enterEntity("LetStmt");
 
         const auto & begin = cspan();
@@ -747,10 +747,10 @@ namespace jc::parser {
 
         skipSemi();
 
-        return makeNode<LetStmt>(std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan()));
+        return makePRNode<LetStmt, Stmt>(std::move(pat), std::move(type), std::move(assignExpr), begin.to(cspan()));
     }
 
-    pure_stmt_ptr Parser::parseWhileStmt() {
+    stmt_ptr Parser::parseWhileStmt() {
         enterEntity("WhileStmt");
         const auto & begin = cspan();
 
@@ -761,7 +761,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<WhileStmt>(std::move(condition), std::move(body), begin.to(cspan()));
+        return makePRNode<WhileStmt, Stmt>(std::move(condition), std::move(body), begin.to(cspan()));
     }
 
     /////////////////
