@@ -49,7 +49,6 @@ namespace jc::ast {
 
     public:
         ParseResult() : state(std::monostate{}) {}
-        ParseResult(S && state) : state(std::move(state)) {}
         ParseResult(T && value) : state(std::move(value)) {}
         ParseResult(E && error) : state(std::move(error)) {}
         ParseResult(const ParseResult<T> & other)
@@ -165,12 +164,12 @@ namespace jc::ast {
 
     template<class T>
     inline ParseResult<T> Err(N<ErrorNode> && err) {
-        return ParseResult<T>(err);
+        return ParseResult<T>(std::move(err));
     }
 
     template<class T>
     inline ParseResult<T> Ok(T && ok) {
-        return ParseResult<T>(ok);
+        return ParseResult<T>(std::move(ok));
     }
 
     template<class T>
