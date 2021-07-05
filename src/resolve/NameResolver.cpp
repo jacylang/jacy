@@ -82,6 +82,14 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
         letStmt.pat.accept(*this);
+
+        if (letStmt.type) {
+            letStmt.type.unwrap().accept(*this);
+        }
+
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
+        }
     }
 
     // Expressions //
