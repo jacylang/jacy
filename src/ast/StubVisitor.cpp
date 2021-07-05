@@ -151,7 +151,9 @@ namespace jc::ast {
         if (letStmt.type) {
             letStmt.type.unwrap().accept(*this);
         }
-        letStmt.assignExpr->accept(*this);
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
