@@ -50,8 +50,7 @@ namespace jc::ast {
         printNodeId(forStmt);
 
         log.raw("for ");
-        // TODO: Update when `for` will have patterns
-        forStmt.forEntity.accept(*this);
+        forStmt.pat.accept(*this);
         log.raw(" in ");
         forStmt.inExpr.accept(*this);
         forStmt.body.accept(*this);
