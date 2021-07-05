@@ -228,10 +228,10 @@ namespace jc::parser {
 
         // Patterns //
         pat_ptr parsePat();
-        pure_pat_ptr parseLitPat();
-        pure_pat_ptr parseBorrowPat();
-        pure_pat_ptr parseRefPat();
-        pure_pat_ptr parseStructPat(path_expr_ptr && path);
+        pat_ptr parseLitPat();
+        pat_ptr parseBorrowPat();
+        pat_ptr parseRefPat();
+        pat_ptr parseStructPat(path_expr_ptr && path);
 
         // Helpers //
     private:
