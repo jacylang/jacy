@@ -174,8 +174,6 @@ namespace jc::ast {
     // TODO: Tuple pattern
 
     // TODO: Slice pattern
-
-    // TODO: Path pattern
 }
 
 #endif // JACY_AST_FRAGMENTS_PATTERN_H
