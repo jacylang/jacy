@@ -128,6 +128,21 @@ namespace jc::resolve {
         resolvePathExpr(Namespace::Value, pathExpr);
     }
 
+    void NameResolver::visit(const ast::MatchArm & arm) {
+        // Note: Each pattern in arm is separate rib, thus we need separate handler for it here
+
+        const auto prevDepth = getDepth();
+
+        for (const auto & pat : arm.patterns) {
+            enterRib();
+            pat.accept(*this);
+        }
+
+        arm.body.accept(*this);
+
+        liftToDepth(prevDepth);
+    }
+
     // Types //
     void NameResolver::visit(const ast::TypePath&) {
         // TODO: !!!
