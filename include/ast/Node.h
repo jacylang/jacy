@@ -57,11 +57,11 @@ namespace jc::ast {
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
 
-        T & unwrap(const std::string & msg = "") {
+        T unwrap(const std::string & msg = "") {
             if (isErr()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
-            return std::get<T>(state);
+            return std::move(std::get<T>(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {

@@ -1130,7 +1130,7 @@ namespace jc::parser {
                 if (pathExpr.isErr()) {
                     return parseStructExpr(makeErrorNode(pathExpr.span()));
                 }
-                return parseStructExpr(std::move(pathExpr.unwrap()));
+                return parseStructExpr(pathExpr.unwrap());
             }
             return pathExpr.as<Expr>();
         }
