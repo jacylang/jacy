@@ -4,23 +4,21 @@
 #include "ast/stmt/Stmt.h"
 #include "ast/expr/Expr.h"
 #include "ast/expr/Block.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Pattern.h"
 
 namespace jc::ast {
     struct ForStmt : Stmt {
-        // TODO: Add destructuring
-
         ForStmt(
-            id_ptr forEntity,
+            pat_ptr pat,
             expr_ptr inExpr,
             block_ptr body,
             const Span & span
         ) : Stmt(span, StmtKind::For),
-            forEntity(std::move(forEntity)),
+            pat(std::move(pat)),
             inExpr(std::move(inExpr)),
             body(std::move(body)) {}
 
-        id_ptr forEntity;
+        pat_ptr pat;
         expr_ptr inExpr;
         block_ptr body;
 
