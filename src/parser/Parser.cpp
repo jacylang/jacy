@@ -789,10 +789,6 @@ namespace jc::parser {
             return makePRNode<BreakExpr, Expr>(std::move(expr), begin.to(cspan()));
         }
 
-        if (is(TokenKind::Backslash)) {
-            return parseLambda();
-        }
-
         return assignment();
     }
 
@@ -816,7 +812,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Backslash, "\\", "`parseLambda`");
 
-        lambda_param_list params;
+        std::vector<id_ptr> params;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::BitOr)) {
