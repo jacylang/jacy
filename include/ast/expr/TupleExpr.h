@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct TupleExpr : Expr {
         TupleExpr(expr_list elements, const Span & span)
-            : Expr(span, ExprKind::Tuple), elements(std::move(elements)), allowLambda(allowLambda) {}
+            : Expr(span, ExprKind::Tuple), elements(std::move(elements)) {}
 
         expr_list elements;
 
