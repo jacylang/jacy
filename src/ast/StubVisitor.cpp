@@ -222,7 +222,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const LambdaParam & param) {
-        param.name.accept(*this);
+        param.pat.accept(*this);
         if (param.type) {
             param.type.unwrap().accept(*this);
         }
