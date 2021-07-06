@@ -2261,7 +2261,9 @@ namespace jc::parser {
         }
 
         // `ref mut IDENT @ pattern`
-        if (is(TokenKind::Ref) or is(TokenKind::Mut)) {
+        // Note: `ref` or `mut` 100% means that it is a borrow pattern,
+        //  but single identifier must be parser as borrow pattern too and as path pattern
+        if (is(TokenKind::Ref) or is(TokenKind::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
             return parseBorrowPat();
         }
 
