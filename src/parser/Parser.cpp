@@ -773,7 +773,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Return)) {
             enterEntity("ReturnExpr");
 
-            auto expr = assignment();
+            auto expr = parseOptExpr();
 
             exitEntity();
             return makePRNode<ReturnExpr, Expr>(std::move(expr), begin.to(cspan()));
@@ -782,7 +782,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Break)) {
             enterEntity("BreakExpr");
 
-            auto expr = assignment();
+            auto expr = parseOptExpr();
 
             exitEntity();
 
