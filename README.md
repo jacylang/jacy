@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="img/JacyLarge.png" width="300">
+    <img src="img/JacyLarge.png" height="300">
 </p>
 
 # *Jacy* programming language
