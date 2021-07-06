@@ -784,8 +784,6 @@ namespace jc::ast {
         }
 
         colorizeDef(pat.name);
-        pat.name.accept(*this);
-        resetNameColor();
 
         if (pat.pat) {
             log.raw(" @ ");
