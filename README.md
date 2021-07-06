@@ -2,7 +2,7 @@
     <img src="img/JacyLarge.png" width="300">
 </p>
 
-# *Jacy*
+# *Jacy* programming language
 
 | Resource | Description |
 | --- | --- |
