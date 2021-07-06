@@ -907,7 +907,6 @@ namespace jc::ast {
     }
 
     void AstPrinter::colorizeName(node_id nodeId) {
-        log.dev("Colorize name for node #", nodeId);
         if (mode != AstPrinterMode::Names) {
             return;
         }
