@@ -824,8 +824,6 @@ namespace jc::ast {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
 
                     colorizeDef(dp.name);
-                    dp.name.accept(*this);
-                    resetNameColor();
                     log.raw(": ");
                     dp.pat.accept(*this);
                     break;
@@ -842,8 +840,6 @@ namespace jc::ast {
                     }
 
                     colorizeDef(bp.name);
-                    bp.name.accept(*this);
-                    resetNameColor();
                     break;
                 }
                 case StructPatEl::Kind::Spread: {
