@@ -789,6 +789,10 @@ namespace jc::parser {
             return makePRNode<BreakExpr, Expr>(std::move(expr), begin.to(cspan()));
         }
 
+        if (is(TokenKind::Backslash)) {
+            return parseLambda();
+        }
+
         return assignment();
     }
 
@@ -812,7 +816,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Backslash, "\\", "`parseLambda`");
 
-        std::vector<id_ptr> params;
+        lambda_param_list params;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::BitOr)) {
@@ -826,7 +830,7 @@ namespace jc::parser {
             }
 
             const auto & paramBegin = cspan();
-            auto name = parseId("lambda parameter name");
+            auto pat = parsePat();
             opt_type_ptr type{dt::None};
             if (skipOpt(TokenKind::Colon)) {
                 type = parseType("Expected lambda parameter type after `:`");
@@ -834,24 +838,18 @@ namespace jc::parser {
 
             params.push_back(
                 makeNode<LambdaParam>(
-                    std::move(name), std::move(type), paramBegin.to(cspan())
+                    std::move(pat), std::move(type), paramBegin.to(cspan())
                 )
             );
         }
 
         opt_type_ptr returnType{dt::None};
-        opt_expr_ptr body{dt::None};
-        if (skipOpt(TokenKind::Arrow)) {
-            returnType = parseType("Expected lambda return type after `->`");
-            body = parseBlock("Expected block with `{}` for lambda typed with `->`", BlockArrow::NotAllowed).as<Expr>();
-        } else {
-            body = parseExpr("Expected lambda body");
-        }
+        expr_ptr body = parseExpr();
 
         exitEntity();
 
         return makePRNode<Lambda, Expr>(
-            std::move(params), std::move(returnType), std::move(body.unwrap()), begin.to(cspan())
+            std::move(params), std::move(returnType), std::move(body), begin.to(cspan())
         );
     }
 
