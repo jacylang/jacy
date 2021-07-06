@@ -509,6 +509,10 @@ namespace jc::parser {
                 addToken(TokenKind::Wildcard, 1);
                 advance();
             } break;
+            case '\\': {
+                addToken(TokenKind::Backslash, 1);
+                advance();
+            } break;
             default: {
                 unexpectedTokenError();
             }
