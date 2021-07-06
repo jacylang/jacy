@@ -96,41 +96,25 @@ namespace jc::parser {
         sess::sess_ptr sess;
 
         template<class T, class ...Args>
-        inline std::shared_ptr<T> makeNode(Args ...args) {
+        inline N<T> makeNode(Args ...args) {
             auto node = std::make_shared<T>(std::forward<Args>(args)...);
             sess->nodeMap.addNode(node);
             return node;
         }
 
-        template<class T, class ...Args>
-        inline pure_expr_ptr makeExpr(Args ...args) {
-            auto expr = std::make_shared<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(expr);
-            return expr;
+        template<class T, class B, class ...Args>
+        inline PR<N<B>> makePRNode(Args ...args) {
+            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+            sess->nodeMap.addNode(node);
+            return std::static_pointer_cast<B>(node);
         }
 
-        template<class T, class ...Args>
-        inline pure_item_ptr makeItem(Args ...args) {
-            auto expr = std::make_shared<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(expr);
-            return expr;
+        template<class B, class T>
+        inline PR<N<B>> nodeAsPR(T && node) const {
+            return std::static_pointer_cast<B>(node);
         }
 
-        template<class T, class ...Args>
-        inline pure_stmt_ptr makeStmt(Args ...args) {
-            auto stmt = std::make_shared<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(stmt);
-            return stmt;
-        }
-
-        template<class T, class ...Args>
-        inline pure_type_ptr makeType(Args ...args) {
-            auto type = std::make_shared<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(type);
-            return type;
-        }
-
-        inline std::shared_ptr<ErrorNode> makeErrorNode(const Span & span) {
+        inline N<ErrorNode> makeErrorNode(const Span & span) {
             auto errorNode = std::make_shared<ErrorNode>(span);
             sess->nodeMap.addNode(errorNode);
             return errorNode;
@@ -180,14 +164,14 @@ namespace jc::parser {
 
         // Statements //
         stmt_ptr parseStmt();
-        pure_stmt_ptr parseForStmt();
-        pure_stmt_ptr parseLetStmt();
-        pure_stmt_ptr parseWhileStmt();
+        stmt_ptr parseForStmt();
+        stmt_ptr parseLetStmt();
+        stmt_ptr parseWhileStmt();
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
         expr_ptr parseExpr(const std::string & suggMsg);
-        pure_expr_ptr parseLambda();
+        expr_ptr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
 
@@ -243,11 +227,11 @@ namespace jc::parser {
         opt_type_path_ptr parseOptTypePath();
 
         // Patterns //
-        pat_ptr parsePattern();
-        pat_ptr parseLiteralPattern();
-        id_pat_ptr parseIdentPat();
-        pat_ptr parseRefPattern();
-        pat_ptr parseStructPattern();
+        pat_ptr parsePat();
+        pat_ptr parseLitPat();
+        pat_ptr parseBorrowPat();
+        pat_ptr parseRefPat();
+        pat_ptr parseStructPat(path_expr_ptr && path);
 
         // Helpers //
     private:

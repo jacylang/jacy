@@ -58,12 +58,12 @@ namespace jc::parser {
         Div,                        // /
         Mod,                        // %
         Power,                      // **
-        Or,                         // ||
-        And,                        // &&
+        Or,                         // or (placed in keywords)
+        And,                        // and (placed in keywords)
         NullCoalesce,               // ??
         Shl,                        // <<
         Shr,                        // >>
-        BitAnd,                     // &
+        Ampersand,                  // &
         BitOr,                      // |
         Xor,                        // ^
         Inv,                        // ~
@@ -85,7 +85,6 @@ namespace jc::parser {
         Pipe,                       // |>
         Dollar,                     // $
         At,                         // @
-        At_WWS,                     // @ Without whitespace
 
         // Punctuations //
         Semi,                       // ;

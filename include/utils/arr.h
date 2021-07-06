@@ -25,7 +25,7 @@ namespace jc::utils::arr {
     auto moveConcat(Arg && first, Args && ...vecs) {
         auto res = std::forward<Arg>(first);
         ((res.insert(res.end(), std::make_move_iterator(vecs.begin()), std::make_move_iterator(vecs.end()))), ...);
-        return std::move(res);
+        return res;
     }
 
     /**

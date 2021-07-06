@@ -13,10 +13,10 @@ namespace jc::ast {
     struct TypePathSeg;
     struct TypePath;
     using type_list = std::vector<type_ptr>;
-    using tuple_t_el_ptr = std::shared_ptr<TupleTypeEl>;
+    using tuple_t_el_ptr = N<TupleTypeEl>;
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
-    using id_t_list = std::vector<std::shared_ptr<TypePathSeg>>;
-    using type_path_ptr = std::shared_ptr<TypePath>;
+    using id_t_list = std::vector<N<TypePathSeg>>;
+    using type_path_ptr = N<TypePath>;
     using opt_type_path_ptr = dt::Option<type_path_ptr>;
     using type_path_list = std::vector<type_path_ptr>;
 

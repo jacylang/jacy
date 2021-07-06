@@ -10,10 +10,13 @@
 #include "ast/BaseVisitor.h"
 
 namespace jc::ast {
+    template<typename T>
+    using N = std::shared_ptr<T>;
+
     struct Node;
     struct ErrorNode;
     using span::Span;
-    using node_ptr = std::shared_ptr<Node>;
+    using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
     using node_id = uint32_t;
     using opt_node_id = dt::Option<ast::node_id>;
@@ -41,12 +44,11 @@ namespace jc::ast {
     // NOTE: Since there's no generic constraints, `ParseResult` MUST only be used with T = `shared_ptr<{any node}>`
     template<class T>
     class ParseResult {
-        using E = std::shared_ptr<ErrorNode>;
+        using E = N<ErrorNode>;
+        using S = std::variant<T, E, std::monostate>;
 
     public:
         ParseResult() : state(std::monostate{}) {}
-        ParseResult(const T & value) : state(value) {}
-        ParseResult(const E & error) : state(error) {}
         ParseResult(T && value) : state(std::move(value)) {}
         ParseResult(E && error) : state(std::move(error)) {}
         ParseResult(const ParseResult<T> & other)
@@ -54,11 +56,11 @@ namespace jc::ast {
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
 
-        T & unwrap(const std::string & msg = "") {
+        T unwrap(const std::string & msg = "") {
             if (isErr()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
-            return std::get<T>(state);
+            return std::move(std::get<T>(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {
@@ -97,8 +99,20 @@ namespace jc::ast {
             return std::get<T>(state);
         }
 
+        template<class B>
+        ParseResult<N<B>> as() {
+            if (isErr()) {
+                return ParseResult<N<B>>(std::move(std::get<E>(state)));
+            }
+            return ParseResult<N<B>>(std::move(std::static_pointer_cast<B>(std::get<T>(state))));
+        }
+
         ParseResult<T> & operator=(const ParseResult<T> & other) {
-            state = other.state;
+            if (other.isErr()) {
+                state = std::get<E>(other.state);
+            } else {
+                state = std::get<T>(other.state);
+            }
             return *this;
         }
 
@@ -145,17 +159,17 @@ namespace jc::ast {
         }
 
     protected:
-        std::variant<T, E, std::monostate> state;
+        S state;
     };
 
     template<class T>
-    inline ParseResult<T> Err(std::shared_ptr<ErrorNode> && err) {
-        return ParseResult<T>(err);
+    inline ParseResult<T> Err(N<ErrorNode> && err) {
+        return ParseResult<T>(std::move(err));
     }
 
     template<class T>
     inline ParseResult<T> Ok(T && ok) {
-        return ParseResult<T>(ok);
+        return ParseResult<T>(std::move(ok));
     }
 
     template<class T>

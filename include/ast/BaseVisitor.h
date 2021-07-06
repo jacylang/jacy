@@ -87,11 +87,14 @@ namespace jc::ast {
     struct SimplePathSeg;
 
     // Patterns //
-    struct LiteralPattern;
-    struct IdentPattern;
-    struct WildcardPattern;
-    struct SpreadPattern;
-    struct RefPattern;
+    struct ParenPat;
+    struct LitPat;
+    struct BorrowPat;
+    struct RefPat;
+    struct PathPat;
+    struct WCPat;
+    struct SpreadPat;
+    struct StructPat;
 
     class BaseVisitor {
     public:
@@ -181,11 +184,14 @@ namespace jc::ast {
         virtual void visit(const SimplePathSeg&) = 0;
 
         // Patterns //
-        virtual void visit(const LiteralPattern&) = 0;
-        virtual void visit(const IdentPattern&) = 0;
-        virtual void visit(const WildcardPattern&) = 0;
-        virtual void visit(const SpreadPattern&) = 0;
-        virtual void visit(const RefPattern&) = 0;
+        virtual void visit(const ParenPat&) = 0;
+        virtual void visit(const LitPat&) = 0;
+        virtual void visit(const BorrowPat&) = 0;
+        virtual void visit(const RefPat&) = 0;
+        virtual void visit(const PathPat&) = 0;
+        virtual void visit(const WCPat&) = 0;
+        virtual void visit(const SpreadPat&) = 0;
+        virtual void visit(const StructPat&) = 0;
     };
 }
 

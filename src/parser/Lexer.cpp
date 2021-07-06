@@ -390,14 +390,11 @@ namespace jc::parser {
                 }
             } break;
             case '&': {
-                if (lookup() == '&') {
-                    addToken(TokenKind::And, 2);
-                    advance(2);
-                } else if (lookup() == '=') {
+                if (lookup() == '=') {
                     addToken(TokenKind::BitAndAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenKind::BitAnd, 1);
+                    addToken(TokenKind::Ampersand, 1);
                     advance();
                 }
             } break;
@@ -419,10 +416,7 @@ namespace jc::parser {
                 }
             } break;
             case '|': {
-                if (lookup() == '|') {
-                    addToken(TokenKind::Or, 2);
-                    advance(2);
-                } else if (lookup() == '>') {
+                if (lookup() == '>') {
                     addToken(TokenKind::Pipe, 2);
                     advance(2);
                 } else if (lookup() == '=') {
@@ -504,13 +498,8 @@ namespace jc::parser {
                 advance();
             } break;
             case '@': {
-                if (not hidden()) {
-                    addToken(TokenKind::At_WWS, 1);
-                    advance();
-                } else {
-                    addToken(TokenKind::At, 1);
-                    advance();
-                }
+                addToken(TokenKind::At, 1);
+                advance();
             } break;
             case '`': {
                 addToken(TokenKind::Backtick, 1);

@@ -43,7 +43,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ForStmt & forStmt) {
-        forStmt.forEntity.accept(*this);
+        forStmt.pat.accept(*this);
         forStmt.inExpr.accept(*this);
         forStmt.body.accept(*this);
     }
@@ -147,11 +147,13 @@ namespace jc::ast {
 
     // Statements //
     void StubVisitor::visit(const LetStmt & letStmt) {
-        letStmt.pat->accept(*this);
+        letStmt.pat.accept(*this);
         if (letStmt.type) {
             letStmt.type.unwrap().accept(*this);
         }
-        letStmt.assignExpr->accept(*this);
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
+        }
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
@@ -320,7 +322,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const MatchArm & matchArm) {
-        visitEach(matchArm.conditions);
+        visitEach(matchArm.patterns);
         matchArm.body.accept(*this);
     }
 
@@ -403,7 +405,7 @@ namespace jc::ast {
             el.name.unwrap().accept(*this);
         }
         if (el.value) {
-            el.value.unwrap().accept(*this);
+            el.value.unwrap()->accept(*this);
         }
     }
 
@@ -422,11 +424,50 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void StubVisitor::visit(const LiteralPattern&) {}
-
-    void StubVisitor::visit(const IdentPattern & pat) {
-        pat.name.accept(*this);
+    void StubVisitor::visit(const ParenPat & pat) {
+        pat.pat.accept(*this);
     }
 
-    void StubVisitor::visit(const SpreadPattern&) {}
+    void StubVisitor::visit(const LitPat&) {}
+
+    void StubVisitor::visit(const BorrowPat & pat) {
+        pat.name.accept(*this);
+
+        if (pat.pat) {
+            pat.pat.unwrap().accept(*this);
+        }
+    }
+
+    void StubVisitor::visit(const RefPat & pat) {
+        pat.pat.accept(*this);
+    }
+
+    void StubVisitor::visit(const PathPat & pat) {
+        pat.path.accept(*this);
+    }
+
+    void StubVisitor::visit(const WCPat&) {}
+
+    void StubVisitor::visit(const SpreadPat&) {}
+
+    void StubVisitor::visit(const StructPat & pat) {
+        pat.path.accept(*this);
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+                    dp.name.accept(*this);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+                    bp.name.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Spread:;
+            }
+        }
+    }
 }

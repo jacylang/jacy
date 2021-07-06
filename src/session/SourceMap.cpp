@@ -26,7 +26,7 @@ namespace jc::sess {
         sources.at(parseSess->fileId) = std::move(parseSess->sourceFile);
     }
 
-    SourceFile & SourceMap::getSourceFile(file_id_t fileId) {
+    const SourceFile & SourceMap::getSourceFile(file_id_t fileId) {
         if (sources.find(fileId) == sources.end()) {
             common::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
         }

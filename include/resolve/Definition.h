@@ -179,10 +179,11 @@ namespace jc::resolve {
 
     struct DefStorage {
         const Def & getDef(def_id defId) const {
-            if (defId >= defs.size()) {
+            try {
+                return defs.at(defId);
+            } catch (std::out_of_range & e) {
                 common::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
-            return defs.at(defId);
         }
 
         template<class ...Args>

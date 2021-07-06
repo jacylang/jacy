@@ -7,8 +7,7 @@
 
 namespace jc::ast {
     struct Expr;
-    using pure_expr_ptr = std::shared_ptr<Expr>;
-    using expr_ptr = PR<pure_expr_ptr>;
+    using expr_ptr = PR<N<Expr>>;
     using opt_expr_ptr = dt::Option<expr_ptr>;
     using expr_list = std::vector<expr_ptr>;
 
@@ -56,24 +55,6 @@ namespace jc::ast {
         bool isSimple() const {
             return kind == ExprKind::LiteralConstant
                    or kind == ExprKind::Id;
-        }
-
-        template<class T>
-        static std::shared_ptr<T> as(pure_expr_ptr expr) {
-            return std::static_pointer_cast<T>(expr);
-        }
-
-        template<class T = pure_expr_ptr>
-        static expr_ptr pureAsBase(T && expr) {
-            return std::static_pointer_cast<Expr>(expr);
-        }
-
-        template<typename T = expr_ptr>
-        static expr_ptr asBase(T && expr) {
-            if (expr.isErr()) {
-                return expr.asErr();
-            }
-            return std::static_pointer_cast<Expr>(expr.asValue());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;

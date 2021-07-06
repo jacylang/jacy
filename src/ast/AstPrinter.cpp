@@ -50,8 +50,7 @@ namespace jc::ast {
         printNodeId(forStmt);
 
         log.raw("for ");
-        // TODO: Update when `for` will have patterns
-        forStmt.forEntity.accept(*this);
+        forStmt.pat.accept(*this);
         log.raw(" in ");
         forStmt.inExpr.accept(*this);
         forStmt.body.accept(*this);
@@ -254,7 +253,7 @@ namespace jc::ast {
 
         log.raw("let ");
 
-        colorizeDef(letStmt.pat->name);
+        letStmt.pat.accept(*this);
 
         if (letStmt.type) {
             log.raw(": ");
@@ -304,11 +303,7 @@ namespace jc::ast {
     void AstPrinter::visit(const BorrowExpr & borrowExpr) {
         printNodeId(borrowExpr);
 
-        if (borrowExpr.twin) {
-            log.raw("&&");
-        } else {
-            log.raw("&");
-        }
+        log.raw("&");
         if (borrowExpr.mut) {
             log.raw("mut");
         }
@@ -582,7 +577,7 @@ namespace jc::ast {
     void AstPrinter::visit(const MatchArm & matchArm) {
         printNodeId(matchArm);
 
-        printDelim(matchArm.conditions);
+        printDelim(matchArm.patterns, "", "", " | ");
         log.raw(" => ");
         matchArm.body.accept(*this);
     }
@@ -725,7 +720,7 @@ namespace jc::ast {
             }
         }
         if (el.value) {
-            el.value.unwrap().accept(*this);
+            el.value.unwrap()->accept(*this);
         }
     }
 
@@ -763,7 +758,13 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void AstPrinter::visit(const LiteralPattern & pat) {
+    void AstPrinter::visit(const ParenPat & pat) {
+        log.raw("(");
+        pat.pat.accept(*this);
+        log.raw(")");
+    }
+
+    void AstPrinter::visit(const LitPat & pat) {
         printNodeId(pat);
 
         if (pat.neg) {
@@ -773,7 +774,7 @@ namespace jc::ast {
         log.raw(pat.literal.val);
     }
 
-    void AstPrinter::visit(const IdentPattern & pat) {
+    void AstPrinter::visit(const BorrowPat & pat) {
         if (pat.ref) {
             log.raw("ref ");
         }
@@ -782,11 +783,76 @@ namespace jc::ast {
             log.raw("mut ");
         }
 
+        colorizeDef(pat.name);
         pat.name.accept(*this);
+        resetNameColor();
+
+        if (pat.pat) {
+            log.raw(" @ ");
+            pat.pat.unwrap().accept(*this);
+        }
     }
 
-    void AstPrinter::visit(const SpreadPattern&) {
+    void AstPrinter::visit(const RefPat & pat) {
+        if (pat.ref) {
+            log.raw("&");
+        }
+
+        if (pat.mut) {
+            log.raw("mut ");
+        }
+
+        pat.pat.accept(*this);
+    }
+
+    void AstPrinter::visit(const PathPat & pat) {
+        pat.path.accept(*this);
+    }
+
+    void AstPrinter::visit(const WCPat&) {
+        log.raw("_");
+    }
+
+    void AstPrinter::visit(const SpreadPat&) {
         log.raw("...");
+    }
+
+    void AstPrinter::visit(const StructPat & pat) {
+        pat.path.accept(*this);
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+
+                    colorizeDef(dp.name);
+                    dp.name.accept(*this);
+                    resetNameColor();
+                    log.raw(": ");
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+
+                    if (bp.ref) {
+                        log.raw("ref ");
+                    }
+
+                    if (bp.mut) {
+                        log.raw("mut ");
+                    }
+
+                    colorizeDef(bp.name);
+                    bp.name.accept(*this);
+                    resetNameColor();
+                    break;
+                }
+                case StructPatEl::Kind::Spread: {
+                    log.raw("...");
+                }
+            }
+        }
     }
 
     // Helpers //

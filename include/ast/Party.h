@@ -12,9 +12,9 @@ namespace jc::ast {
     struct File;
     struct FsModule;
     using party_ptr = std::unique_ptr<Party>;
-    using dir_ptr = std::shared_ptr<Dir>;
-    using file_ptr = std::shared_ptr<File>;
-    using fs_module_ptr = std::shared_ptr<FsModule>;
+    using dir_ptr = N<Dir>;
+    using file_ptr = N<File>;
+    using fs_module_ptr = N<FsModule>;
 
     struct FsModule : Node {
         FsModule() : Node(Span{}) {}
@@ -56,7 +56,7 @@ namespace jc::ast {
             return visitor.visit(*this);
         }
 
-        void accept(DirTreePrinter & visitor) const {
+        void accept(DirTreePrinter & visitor) const override {
             return visitor.visit(*this);
         }
     };

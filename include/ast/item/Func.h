@@ -9,7 +9,7 @@
 
 namespace jc::ast {
     struct FuncParam;
-    using func_param_ptr = std::shared_ptr<FuncParam>;
+    using func_param_ptr = N<FuncParam>;
     using func_param_list = std::vector<func_param_ptr>;
 
     struct FuncParam : Node {

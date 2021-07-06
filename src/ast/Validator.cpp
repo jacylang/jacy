@@ -57,9 +57,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ForStmt & forStmt) {
-        // TODO: Update when for will have patterns
-        forStmt.forEntity.accept(*this);
-
+        forStmt.pat.accept(*this);
         forStmt.inExpr.accept(*this);
 
         pushContext(ValidatorCtx::Loop);
@@ -215,7 +213,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const LetStmt & letStmt) {
-        letStmt.pat->accept(*this);
+        letStmt.pat.accept(*this);
 
         if (letStmt.type) {
             letStmt.type.unwrap().accept(*this);
@@ -334,7 +332,7 @@ namespace jc::ast {
             case parser::TokenKind::And:
             case parser::TokenKind::BitOr:
             case parser::TokenKind::Xor:
-            case parser::TokenKind::BitAnd:
+            case parser::TokenKind::Ampersand:
             case parser::TokenKind::Eq:
             case parser::TokenKind::NotEq:
             case parser::TokenKind::LAngle:
@@ -531,7 +529,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const MatchArm & matchArm) {
-        lintEach(matchArm.conditions);
+        lintEach(matchArm.patterns);
         matchArm.body.accept(*this);
     }
 
@@ -624,7 +622,7 @@ namespace jc::ast {
             el.name.unwrap().accept(*this);
         }
         if (el.value) {
-            el.value.unwrap().accept(*this);
+            el.value.unwrap()->accept(*this);
         }
     }
 
@@ -650,19 +648,64 @@ namespace jc::ast {
     }
 
     // Patterns //
-    void Validator::visit(const LiteralPattern&) {}
-
-    void Validator::visit(const IdentPattern & pat) {
-        pat.name.accept(*this);
+    void Validator::visit(const ParenPat & pat) {
+        pat.pat.accept(*this);
     }
 
-    void Validator::visit(const SpreadPattern&) {}
+    void Validator::visit(const LitPat&) {}
+
+    void Validator::visit(const BorrowPat & pat) {
+        pat.name.accept(*this);
+
+        if (pat.pat) {
+            pat.pat.unwrap().accept(*this);
+        }
+    }
+
+    void Validator::visit(const RefPat & pat) {
+        pat.pat.accept(*this);
+    }
+
+    void Validator::visit(const PathPat & pat) {
+        pat.path.accept(*this);
+    }
+
+    void Validator::visit(const WCPat&) {}
+
+    void Validator::visit(const SpreadPat&) {}
+
+    void Validator::visit(const StructPat & pat) {
+        pat.path.accept(*this);
+
+        size_t i = 0;
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
+                    dp.name.accept(*this);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
+                    bp.name.accept(*this);
+                    break;
+                }
+                case StructPatEl::Kind::Spread: {
+                    if (i != pat.elements.size() - 1) {
+                        suggestErrorMsg("`...` must be placed last", std::get<Span>(el.el));
+                    }
+                }
+            }
+            i++;
+        }
+    }
 
     // Helpers //
     bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
-            return isPlaceExpr(Expr::as<ParenExpr>(expr)->expr);
+            return isPlaceExpr(std::static_pointer_cast<ParenExpr>(expr)->expr);
         }
         return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }

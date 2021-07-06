@@ -10,9 +10,7 @@ namespace jc::resolve {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 
-        log.dev("Rib depth after name resolution: ", getDepth());
-
-        sess->resStorage = std::move(resStorage);
+        sess->resStorage = std::move(_resStorage);
         return {dt::None, extractSuggestions()};
     }
 
@@ -29,7 +27,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterModule(func.name.unwrap()->getValue()); // -> `func` mod rib
+        // Note: Functions stored in value namespace
+        enterModule(func.name.unwrap()->getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param->type.accept(*this);
@@ -82,7 +81,15 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        define(letStmt.pat->name);
+        letStmt.pat.accept(*this);
+
+        if (letStmt.type) {
+            letStmt.type.unwrap().accept(*this);
+        }
+
+        if (letStmt.assignExpr) {
+            letStmt.assignExpr.unwrap().accept(*this);
+        }
     }
 
     // Expressions //
@@ -128,9 +135,58 @@ namespace jc::resolve {
         resolvePathExpr(Namespace::Value, pathExpr);
     }
 
+    void NameResolver::visit(const ast::MatchArm & arm) {
+        // Note: Each pattern in arm is separate rib, thus we need separate handler for it here
+
+        const auto prevDepth = getDepth();
+
+        for (const auto & pat : arm.patterns) {
+            enterRib();
+            pat.accept(*this);
+        }
+
+        arm.body.accept(*this);
+
+        liftToDepth(prevDepth);
+    }
+
     // Types //
     void NameResolver::visit(const ast::TypePath&) {
         // TODO: !!!
+    }
+
+    // Patterns //
+    /// All identifiers (not PathExpr) appeared in patterns are bindings, thus we just define them in current rib
+
+    void NameResolver::visit(const ast::BorrowPat & pat) {
+        define(pat.name);
+    }
+
+    void NameResolver::visit(const ast::PathPat & pat) {
+        // Complex case, as path in pattern can be const, variant or some associated item.
+        // All these names are stored in different namespaces, so we need to find both in value and type namespaces
+    }
+
+    void NameResolver::visit(const ast::StructPat & pat) {
+        // Note: Path in StructPat is always a type
+        resolvePathExpr(Namespace::Type, *pat.path.unwrap());
+
+        for (const auto & el : pat.elements) {
+            switch (el.kind) {
+                case ast::StructPatEl::Kind::Destruct: {
+                    const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
+                    define(dp.name);
+                    dp.pat.accept(*this);
+                    break;
+                }
+                case ast::StructPatEl::Kind::Borrow: {
+                    const auto & bp = std::get<ast::StructPatBorrowEl>(el.el);
+                    define(bp.name);
+                    break;
+                }
+                case ast::StructPatEl::Kind::Spread:;
+            }
+        }
     }
 
     // Ribs //
@@ -141,9 +197,9 @@ namespace jc::resolve {
     const rib_ptr & NameResolver::curRib() const {
         const auto depth = getDepth();
         if (depth == 0) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", getDepth());
+            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
         }
-        return ribStack.at(getDepth() - 1);
+        return ribStack.at(depth - 1);
     }
 
     void NameResolver::enterRootRib() {
@@ -159,9 +215,8 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModule(const std::string & name, Rib::Kind kind) {
-        // FIXME: Use different ns for Func definition
-        currentModule = sess->defStorage.getModule(currentModule->typeNS.at(name));
+    void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
+        currentModule = sess->defStorage.getModule(currentModule->getNS(ns).at(name));
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
@@ -195,7 +250,7 @@ namespace jc::resolve {
         }
     }
 
-    // Declarations //
+    // Definitions //
     void NameResolver::define(const ast::id_ptr & ident) {
         log.dev("Define '", ident.unwrap()->getValue(), "' local");
 
@@ -240,7 +295,7 @@ namespace jc::resolve {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            if (rib->resolve(ns, name, refNodeId, resStorage)) {
+            if (rib->resolve(ns, name, refNodeId, _resStorage)) {
                 log.dev("Resolved '", name, "'");
                 return true;
             }
@@ -250,7 +305,7 @@ namespace jc::resolve {
 
         common::Logger::devDebug("Set error resolution for node #", refNodeId);
         // Set error resolution
-        resStorage.setRes(refNodeId, Res{});
+        _resStorage.setRes(refNodeId, Res{});
 
         return false;
     }
