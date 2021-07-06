@@ -1,8 +1,8 @@
-# *Jacy*
-
 <p align="center">
     <img src="img/JacyLarge.png" width="300">
 </p>
+
+# *Jacy*
 
 | Resource | Description |
 | --- | --- |
