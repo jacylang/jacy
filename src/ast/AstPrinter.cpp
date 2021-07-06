@@ -378,7 +378,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
-        printDelim(lambdaExpr.params, "(", ")");
+        printDelim(lambdaExpr.params, "\\(", ")");
 
         if (lambdaExpr.returnType) {
             log.raw(": ");
