@@ -2334,7 +2334,7 @@ namespace jc::parser {
             pat = parsePat();
         }
 
-        return makePRNode<BorrowPat, Pattern>(ref, mut, std::move(id), std::move(pat), begin.to(id.span()));
+        return makePRNode<BorrowPat, Pattern>(ref, mut, std::move(id), std::move(pat), begin.to(cspan()));
     }
 
     pat_ptr Parser::parseRefPat() {
