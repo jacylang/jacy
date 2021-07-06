@@ -5,9 +5,26 @@
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
+    struct LambdaParam;
+    using lambda_param_list = std::vector<N<LambdaParam>>;
+
+    struct LambdaParam : Node {
+        LambdaParam(id_ptr name, opt_type_ptr type, const Span & span)
+            : Node(span),
+              name(std::move(name)),
+              type(std::move(type)) {}
+
+        id_ptr name;
+        opt_type_ptr type;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
     struct Lambda : Expr {
         Lambda(
-            std::vector<id_ptr> && params,
+            lambda_param_list params,
             opt_type_ptr returnType,
             expr_ptr body,
             const Span & span
@@ -16,7 +33,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)) {}
 
-        std::vector<id_ptr> params;
+        lambda_param_list params;
         opt_type_ptr returnType;
         expr_ptr body;
 
