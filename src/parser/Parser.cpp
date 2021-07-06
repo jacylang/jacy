@@ -814,42 +814,36 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        bool expectParams = false;
-        if (skipOpt(TokenKind::BitOr)) {
-            expectParams = true;
-        } else {
-            justSkip(TokenKind::Or, "`||`", "`parseLambda`");
-        }
+        justSkip(TokenKind::Backslash, "\\", "`parseLambda`");
 
         lambda_param_list params;
-        if (expectParams) {
-            bool first = true;
-            while (not eof()) {
-                if (is(TokenKind::BitOr)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
-                }
-
-                const auto & paramBegin = cspan();
-                auto name = parseId("lambda parameter name");
-                opt_type_ptr type{dt::None};
-                if (skipOpt(TokenKind::Colon)) {
-                    type = parseType("Expected lambda parameter type after `:`");
-                }
-
-                params.push_back(
-                    makeNode<LambdaParam>(
-                        std::move(name), std::move(type), paramBegin.to(cspan())
-                    )
-                );
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::BitOr)) {
+                break;
             }
-            skip(TokenKind::BitOr, "Missing closing `|` at the end of lambda parameters");
+
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
+            }
+
+            const auto & paramBegin = cspan();
+            auto name = parseId("lambda parameter name");
+            opt_type_ptr type{dt::None};
+            if (skipOpt(TokenKind::Colon)) {
+                type = parseType("Expected lambda parameter type after `:`");
+            }
+
+            params.push_back(
+                makeNode<LambdaParam>(
+                    std::move(name), std::move(type), paramBegin.to(cspan())
+                )
+            );
         }
+
+        skip(TokenKind::BitOr, "Missing closing `|` at the end of lambda parameters");
 
         opt_type_ptr returnType{dt::None};
         opt_expr_ptr body{dt::None};
