@@ -762,16 +762,18 @@ namespace jc::ast {
         log.raw("(");
         pat.pat.accept(*this);
         log.raw(")");
+
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const LitPat & pat) {
-        printNodeId(pat);
-
         if (pat.neg) {
             log.raw("-");
         }
 
         log.raw(pat.literal.val);
+
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const BorrowPat & pat) {
@@ -789,6 +791,8 @@ namespace jc::ast {
             log.raw(" @ ");
             pat.pat.unwrap().accept(*this);
         }
+
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const RefPat & pat) {
@@ -801,18 +805,26 @@ namespace jc::ast {
         }
 
         pat.pat.accept(*this);
+
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const PathPat & pat) {
         pat.path.accept(*this);
+
+        printNodeId(pat);
     }
 
-    void AstPrinter::visit(const WCPat&) {
+    void AstPrinter::visit(const WCPat & pat) {
         log.raw("_");
+
+        printNodeId(pat);
     }
 
-    void AstPrinter::visit(const SpreadPat&) {
+    void AstPrinter::visit(const SpreadPat & pat) {
         log.raw("...");
+
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const StructPat & pat) {
@@ -847,6 +859,8 @@ namespace jc::ast {
                 }
             }
         }
+
+        printNodeId(pat);
     }
 
     // Helpers //
