@@ -1139,7 +1139,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LParen)) {
-            return parseTupleOrParenExpr();
+            return parseParenLikeExpr();
         }
 
         if (is(TokenKind::LBracket)) {
@@ -1326,10 +1326,10 @@ namespace jc::parser {
         return makePRNode<ListExpr, Expr>(std::move(elements), begin.to(cspan()));
     }
 
-    expr_ptr Parser::parseTupleOrParenExpr() {
+    expr_ptr Parser::parseParenLikeExpr() {
         const auto & begin = cspan();
 
-        justSkip(TokenKind::LParen, "`(`", "`parseTupleOrParenExpr`");
+        justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
 
         // Empty tuple //
         if (skipOpt(TokenKind::RParen)) {

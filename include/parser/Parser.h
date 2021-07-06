@@ -189,7 +189,7 @@ namespace jc::parser {
         path_expr_ptr parsePathExpr();
         expr_ptr parseLiteral();
         expr_ptr parseListExpr();
-        expr_ptr parseTupleOrParenExpr();
+        expr_ptr parseParenLikeExpr();
         expr_ptr parseStructExpr(path_expr_ptr && path);
         struct_expr_field_ptr parseStructExprField();
 
