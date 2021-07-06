@@ -123,6 +123,7 @@ namespace jc::parser {
         {TokenKind::Quest,              "?"},
         {TokenKind::Backtick,           "`"},
         {TokenKind::Wildcard,           "_"},
+        {TokenKind::Backslash,          "\\"},
     };
 
     const std::vector<TokenKind> Token::assignOperators = {
