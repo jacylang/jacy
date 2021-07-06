@@ -378,21 +378,21 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Lambda & lambdaExpr) {
-        printDelim(lambdaExpr.params, "|", "|");
+        printDelim(lambdaExpr.params, "(", ")");
 
         if (lambdaExpr.returnType) {
-            log.raw(" -> ");
+            log.raw(": ");
             lambdaExpr.returnType.unwrap().accept(*this);
         }
 
-        log.raw(" ");
+        log.raw(" -> ");
         lambdaExpr.body.accept(*this);
 
         printNodeId(lambdaExpr);
     }
 
     void AstPrinter::visit(const LambdaParam & param) {
-        param.name.accept(*this);
+        param.pat.accept(*this);
         if (param.type) {
             log.raw(": ");
             param.type.unwrap().accept(*this);
