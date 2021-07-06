@@ -380,7 +380,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const LambdaParam & param) {
-        param.name.accept(*this);
+        param.pat.accept(*this);
         if (param.type) {
             param.type.unwrap().accept(*this);
         }
