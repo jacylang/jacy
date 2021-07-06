@@ -816,35 +816,47 @@ namespace jc::parser {
 
         justSkip(TokenKind::Backslash, "\\", "`parseLambda`");
 
+        bool allowReturnType = false;
         lambda_param_list params;
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::BitOr)) {
-                break;
+        if (skipOpt(TokenKind::LParen)) {
+            bool first = true;
+            while (not eof()) {
+                if (is(TokenKind::BitOr)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
+                }
+
+                const auto & paramBegin = cspan();
+                auto pat = parsePat();
+                opt_type_ptr type{dt::None};
+                if (skipOpt(TokenKind::Colon)) {
+                    type = parseType("Expected lambda parameter type after `:`");
+                }
+
+                params.push_back(
+                    makeNode<LambdaParam>(
+                        std::move(pat), std::move(type), paramBegin.to(cspan())
+                    )
+                );
             }
 
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
-            }
-
-            const auto & paramBegin = cspan();
-            auto pat = parsePat();
-            opt_type_ptr type{dt::None};
-            if (skipOpt(TokenKind::Colon)) {
-                type = parseType("Expected lambda parameter type after `:`");
-            }
-
-            params.push_back(
-                makeNode<LambdaParam>(
-                    std::move(pat), std::move(type), paramBegin.to(cspan())
-                )
-            );
+            skip(TokenKind::RParen, "Closing `)`");
         }
 
         opt_type_ptr returnType{dt::None};
-        expr_ptr body = parseExpr();
+
+        if (allowReturnType and skipOpt(TokenKind::Colon)) {
+            returnType = parseType("Return type for lambda after `:`");
+        }
+
+        skip(TokenKind::Arrow, "`->` in lambda");
+
+        expr_ptr body = parseExpr("lambda body expression");
 
         exitEntity();
 
