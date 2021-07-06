@@ -1,6 +1,6 @@
-<p align="center">
+<div align="center">
     <img src="img/JacyLarge.png" height="150">
-</p>
+</div>
 
 # *Jacy* programming language
 
