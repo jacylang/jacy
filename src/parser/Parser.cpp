@@ -2313,7 +2313,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
-            log.devPanic("Non-literal token in `parseLitPat`");
+            log.devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
         }
 
         auto token = peek();
