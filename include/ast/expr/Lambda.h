@@ -1,7 +1,7 @@
 #ifndef JACY_AST_EXPR_LAMBDA_H
 #define JACY_AST_EXPR_LAMBDA_H
 
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Pattern.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
@@ -9,12 +9,12 @@ namespace jc::ast {
     using lambda_param_list = std::vector<N<LambdaParam>>;
 
     struct LambdaParam : Node {
-        LambdaParam(id_ptr name, opt_type_ptr type, const Span & span)
+        LambdaParam(pat_ptr pat, opt_type_ptr type, const Span & span)
             : Node(span),
-              name(std::move(name)),
+              pat(std::move(pat)),
               type(std::move(type)) {}
 
-        id_ptr name;
+        pat_ptr pat;
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) const override {
