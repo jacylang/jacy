@@ -789,6 +789,10 @@ namespace jc::parser {
             return makePRNode<BreakExpr, Expr>(std::move(expr), begin.to(cspan()));
         }
 
+        if (is(TokenKind::Backslash)) {
+            return parseLambda();
+        }
+
         return assignment();
     }
 
