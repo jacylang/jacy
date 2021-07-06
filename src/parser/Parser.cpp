@@ -821,7 +821,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::LParen)) {
             bool first = true;
             while (not eof()) {
-                if (is(TokenKind::BitOr)) {
+                if (is(TokenKind::RParen)) {
                     break;
                 }
 
