@@ -898,7 +898,7 @@ namespace jc::ast {
         if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
             return;
         }
-        log.raw(Color::LightGray, "[", node.id, "]", Color::Reset);
+        log.raw(Color::LightGray, "#", node.id, Color::Reset);
     }
 
     // Names mode //
