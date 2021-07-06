@@ -7,7 +7,7 @@
 namespace jc::ast {
     struct Lambda : Expr {
         Lambda(
-            lambda_param_list params,
+            std::vector<id_ptr> && params,
             opt_type_ptr returnType,
             expr_ptr body,
             const Span & span
@@ -16,7 +16,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)) {}
 
-        lambda_param_list params;
+        std::vector<id_ptr> params;
         opt_type_ptr returnType;
         expr_ptr body;
 
