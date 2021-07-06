@@ -831,6 +831,10 @@ namespace jc::parser {
                     skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
                 }
 
+                if (is(TokenKind::RParen)) {
+                    break;
+                }
+
                 const auto & paramBegin = cspan();
                 auto pat = parsePat();
                 opt_type_ptr type{dt::None};
