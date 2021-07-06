@@ -109,21 +109,21 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-    void NameResolver::visit(const ast::Lambda & lambdaExpr) {
+    void NameResolver::visit(const ast::Lambda & lambda) {
         enterRib(); // -> (lambda params)
 
-        for (const auto & param : lambdaExpr.params) {
-            // TODO: Param name
+        for (const auto & param : lambda.params) {
+            param->pat.accept(*this);
             if (param->type) {
                 param->type.unwrap().accept(*this);
             }
         }
 
-        if (lambdaExpr.returnType) {
-            lambdaExpr.returnType.unwrap().accept(*this);
+        if (lambda.returnType) {
+            lambda.returnType.unwrap().accept(*this);
         }
 
-        lambdaExpr.body.accept(*this);
+        lambda.body.accept(*this);
 
         exitRib(); // <- (lambda params)
     }

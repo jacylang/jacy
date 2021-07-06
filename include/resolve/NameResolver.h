@@ -40,7 +40,7 @@ namespace jc::resolve {
 
         // Expressions //
         void visit(const ast::Block & block) override;
-        void visit(const ast::Lambda & lambdaExpr) override;
+        void visit(const ast::Lambda & lambda) override;
         void visit(const ast::PathExpr & pathExpr) override;
         void visit(const ast::MatchArm & arm) override;
 
