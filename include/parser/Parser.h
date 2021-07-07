@@ -225,7 +225,6 @@ namespace jc::parser {
         // Type fragments //
         opt_gen_params parseOptGenerics();
         type_path_ptr parseTypePath();
-        opt_type_path_ptr parseOptTypePath();
 
         // Patterns //
         pat_ptr parsePat();
