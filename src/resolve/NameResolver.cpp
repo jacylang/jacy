@@ -64,8 +64,6 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
-
-
         // TODO?: Forward define struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
@@ -150,6 +148,11 @@ namespace jc::resolve {
         arm.body.accept(*this);
 
         liftToDepth(prevDepth);
+    }
+
+    void NameResolver::visit(const ast::StructExpr & _struct) {
+        resolvePathExpr(Namespace::Type, *_struct.path.unwrap());
+        visitEach(_struct.fields);
     }
 
     // Types //
