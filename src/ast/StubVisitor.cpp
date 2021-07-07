@@ -248,20 +248,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const PathExpr & pathExpr) {
-        visitEach(pathExpr.segments);
-    }
-
-    void StubVisitor::visit(const PathExprSeg & seg) {
-        switch (seg.kind) {
-            case PathExprSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
-                break;
-            }
-            default:;
-        }
-        if (seg.generics) {
-            visitEach(seg.generics.unwrap());
-        }
+        pathExpr.path.accept(*this);
     }
 
     void StubVisitor::visit(const Prefix & prefix) {
@@ -359,7 +346,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TypePath & typePath) {
-        visitEach(typePath.segments);
+        typePath.path.accept(*this);
     }
 
     void StubVisitor::visit(const TypePathSeg & seg) {
