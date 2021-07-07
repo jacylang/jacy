@@ -9,9 +9,9 @@ namespace jc::ast {
     using path_expr_ptr = N<PathExpr>;
 
     struct PathExpr : Expr {
-        PathExpr(path_ptr && path, const Span & span) : Expr(span, ExprKind::Path), path(std::move(path)) {}
+        PathExpr(Path && path, const Span & span) : Expr(span, ExprKind::Path), path(std::move(path)) {}
 
-        path_ptr path;
+        Path path;
     };
 }
 
