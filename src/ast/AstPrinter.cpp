@@ -441,7 +441,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathExpr & pathExpr) {
-
+        pathExpr.path.accept(*this);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
@@ -602,23 +602,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypePath & typePath) {
-        colorizeName(typePath.id);
-
-        if (typePath.global) {
-            log.raw("::");
-        }
-        printDelim(typePath.segments, "", "", "::");
-
-        resetNameColor();
-
-        printNodeId(typePath);
-    }
-
-    void AstPrinter::visit(const TypePathSeg & seg) {
-        seg.name.accept(*this);
-        printGenerics(seg.generics);
-
-        printNodeId(seg);
+        typePath.path.accept(*this);
     }
 
     void AstPrinter::visit(const UnitType & unitType) {
@@ -720,7 +704,7 @@ namespace jc::ast {
                 break;
             }
             default: {
-                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
+                log.devPanic("Unexpected `PathSeg::Kind` in `AstPrinter`");
             }
         }
         printGenerics(seg.generics, true);
