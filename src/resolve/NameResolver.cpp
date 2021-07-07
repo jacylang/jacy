@@ -173,7 +173,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::StructPat & pat) {
         // Note: Path in StructPat is always a type
-        resolvePath(Namespace::Type, *pat.path.unwrap());
+        resolvePath(Namespace::Type, pat.path.unwrap()->path);
 
         for (const auto & el : pat.elements) {
             switch (el.kind) {
