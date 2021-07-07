@@ -423,30 +423,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const PathExpr & pathExpr) {
-        lintEach(pathExpr.segments);
-    }
-
-    void Validator::visit(const PathExprSeg & seg) {
-        switch (seg.kind) {
-            case PathExprSeg::Kind::Super:
-            case PathExprSeg::Kind::Self:
-            case PathExprSeg::Kind::Party: {
-                if (seg.ident) {
-                    log.devPanic("`ident` exists in non-Ident `PathExprSeg`");
-                }
-                break;
-            }
-            case PathExprSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
-                break;
-            }
-            default: {
-                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
-            }
-        }
-        if (seg.generics) {
-            lintEach(seg.generics.unwrap());
-        }
+        pathExpr.path.accept(*this);
     }
 
     void Validator::visit(const Prefix & prefix) {
@@ -623,6 +600,29 @@ namespace jc::ast {
         }
         if (el.value) {
             el.value.unwrap()->accept(*this);
+        }
+    }
+
+    void Validator::visit(const PathSeg & seg) {
+        switch (seg.kind) {
+            case PathSeg::Kind::Super:
+            case PathSeg::Kind::Self:
+            case PathSeg::Kind::Party: {
+                if (seg.ident) {
+                    log.devPanic("`ident` exists in non-Ident `PathExprSeg`");
+                }
+                break;
+            }
+            case PathSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default: {
+                log.devPanic("Unexpected `PathSeg::Kind` in `Validator`");
+            }
+        }
+        if (seg.generics) {
+            lintEach(seg.generics.unwrap());
         }
     }
 
