@@ -12,6 +12,10 @@ namespace jc::ast {
         PathExpr(Path && path, const Span & span) : Expr(span, ExprKind::Path), path(std::move(path)) {}
 
         Path path;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
