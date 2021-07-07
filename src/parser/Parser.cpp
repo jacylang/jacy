@@ -1209,28 +1209,28 @@ namespace jc::parser {
             }
         }
 
-        path_expr_seg_list segments;
+        path_seg_list segments;
         while (not eof()) {
             const auto & segmentBegin = cspan();
 
             bool isUnrecoverableError = false;
             opt_id_ptr ident{dt::None};
-            PathExprSeg::Kind kind = PathExprSeg::Kind::Error;
+            PathSeg::Kind kind = PathSeg::Kind::Error;
             switch (peek().kind) {
                 case TokenKind::Super: {
-                    kind = ast::PathExprSeg::Kind::Super;
+                    kind = PathSeg::Kind::Super;
                     break;
                 }
                 case TokenKind::Self: {
-                    kind = ast::PathExprSeg::Kind::Self;
+                    kind = PathSeg::Kind::Self;
                     break;
                 }
                 case TokenKind::Party: {
-                    kind = ast::PathExprSeg::Kind::Party;
+                    kind = PathSeg::Kind::Party;
                     break;
                 }
                 case TokenKind::Id: {
-                    kind = ast::PathExprSeg::Kind::Ident;
+                    kind = PathSeg::Kind::Ident;
                     ident = justParseId("`parsePathExpr`");
                     break;
                 }
@@ -1256,18 +1256,18 @@ namespace jc::parser {
                 pathNotGeneric = not generics;
             }
 
-            if (kind == PathExprSeg::Kind::Ident) {
+            if (kind == PathSeg::Kind::Ident) {
                 segments.push_back(
-                    makeNode<PathExprSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
+                    makeNode<PathSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
                 );
-            } else if (kind == PathExprSeg::Kind::Error) {
+            } else if (kind == PathSeg::Kind::Error) {
                 segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
                 if (isUnrecoverableError) {
                     break;
                 }
             } else {
                 segments.push_back(
-                    makeNode<PathExprSeg>(kind, std::move(generics), segmentBegin.to(cspan()))
+                    makeNode<PathSeg>(kind, std::move(generics), segmentBegin.to(cspan()))
                 );
             }
 
