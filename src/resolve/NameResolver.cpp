@@ -155,8 +155,8 @@ namespace jc::resolve {
     }
 
     // Types //
-    void NameResolver::visit(const ast::TypePath&) {
-        // TODO: !!!
+    void NameResolver::visit(const ast::TypePath & typePath) {
+        resolvePath(Namespace::Type, typePath.path);
     }
 
     // Patterns //
