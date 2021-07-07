@@ -603,6 +603,10 @@ namespace jc::ast {
         }
     }
 
+    void Validator::visit(const Path & path) {
+        lintEach(path.segments);
+    }
+
     void Validator::visit(const PathSeg & seg) {
         switch (seg.kind) {
             case PathSeg::Kind::Super:
