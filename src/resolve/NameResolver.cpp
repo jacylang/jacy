@@ -150,7 +150,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::StructExpr & _struct) {
-        resolvePath(Namespace::Type, *_struct.path.unwrap());
+        resolvePath(Namespace::Type, _struct.path.unwrap()->path);
         visitEach(_struct.fields);
     }
 
