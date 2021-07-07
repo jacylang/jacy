@@ -57,7 +57,6 @@ namespace jc::ast {
         virtual void visit(const MemberAccess & memberAccess) override;
         virtual void visit(const ParenExpr & parenExpr) override;
         virtual void visit(const PathExpr & pathExpr) override;
-        virtual void visit(const PathExprSeg & seg) override;
         virtual void visit(const Prefix & prefix) override;
         virtual void visit(const QuestExpr & questExpr) override;
         virtual void visit(const ReturnExpr & returnExpr) override;
@@ -79,7 +78,6 @@ namespace jc::ast {
         virtual void visit(const SliceType & listType) override;
         virtual void visit(const ArrayType & arrayType) override;
         virtual void visit(const TypePath & typePath) override;
-        virtual void visit(const TypePathSeg & seg) override;
         virtual void visit(const UnitType & unitType) override;
 
         // Type params //
@@ -91,6 +89,8 @@ namespace jc::ast {
         virtual void visit(const Attribute & attr) override;
         virtual void visit(const Identifier & id) override;
         virtual void visit(const Arg & el) override;
+        virtual void visit(const Path & path) override;
+        virtual void visit(const PathSeg & seg) override;
         virtual void visit(const SimplePath & path) override;
         virtual void visit(const SimplePathSeg & seg) override;
 
