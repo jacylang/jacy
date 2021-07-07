@@ -49,7 +49,6 @@ namespace jc::ast {
     struct MemberAccess;
     struct ParenExpr;
     struct PathExpr;
-    struct PathExprSeg;
     struct Prefix;
     struct QuestExpr;
     struct ReturnExpr;
@@ -71,7 +70,6 @@ namespace jc::ast {
     struct SliceType;
     struct ArrayType;
     struct TypePath;
-    struct TypePathSeg;
     struct UnitType;
 
     // Type params //
