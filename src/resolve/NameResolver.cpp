@@ -275,18 +275,18 @@ namespace jc::resolve {
     void NameResolver::resolvePath(Namespace ns, const ast::Path & path) {
         // TODO: global
 
-        if (pathExpr.segments.size() == 1) {
+        if (path.segments.size() == 1) {
             // Simplest case, we just got an identifier
 
             // TODO!!!: Keyword segments: self, super, etc.
             // FIXME
-            const auto & seg = pathExpr.segments.at(0).unwrap();
+            const auto & seg = path.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                auto resolved = resolve(ns, identStr, pathExpr.id);
+                auto resolved = resolve(ns, identStr, path.id);
                 if (not resolved) {
-                    log.dev("Failed to resolve '", identStr, "' [", pathExpr.id, "]");
-                    suggestErrorMsg("'" + identStr + "' is not defined", pathExpr.span);
+                    log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
+                    suggestErrorMsg("'" + identStr + "' is not defined", path.span);
                 }
             }
         }
