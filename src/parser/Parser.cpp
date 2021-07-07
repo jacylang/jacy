@@ -1833,7 +1833,7 @@ namespace jc::parser {
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
     }
 
-    Path Parser::parsePath(bool turbofish) {
+    Path Parser::parsePath(bool inExpr) {
         enterEntity("Path");
 
         const auto & begin = cspan();
@@ -1880,7 +1880,7 @@ namespace jc::parser {
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
             // But, `or` is short-circuit, so order matters!!! we need to skip `::` if it is given
-            if (skipOpt(TokenKind::Path) or not turbofish) {
+            if (skipOpt(TokenKind::Path) or not inExpr) {
                 generics = parseOptGenerics();
                 pathNotGeneric = generics.none();
             }
