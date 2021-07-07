@@ -83,6 +83,7 @@ namespace jc::ast {
     struct Attribute;
     struct Identifier;
     struct Arg;
+    struct Path;
     struct SimplePath;
     struct SimplePathSeg;
 
@@ -146,7 +147,6 @@ namespace jc::ast {
         virtual void visit(const MemberAccess&) = 0;
         virtual void visit(const ParenExpr&) = 0;
         virtual void visit(const PathExpr&) = 0;
-        virtual void visit(const PathExprSeg&) = 0;
         virtual void visit(const Prefix&) = 0;
         virtual void visit(const QuestExpr&) = 0;
         virtual void visit(const ReturnExpr&) = 0;
@@ -168,7 +168,6 @@ namespace jc::ast {
         virtual void visit(const SliceType&) = 0;
         virtual void visit(const ArrayType&) = 0;
         virtual void visit(const TypePath&) = 0;
-        virtual void visit(const TypePathSeg&) = 0;
         virtual void visit(const UnitType&) = 0;
 
         // Type params //
@@ -180,6 +179,7 @@ namespace jc::ast {
         virtual void visit(const Attribute&) = 0;
         virtual void visit(const Identifier&) = 0;
         virtual void visit(const Arg&) = 0;
+        virtual void visit(const Path&) = 0;
         virtual void visit(const SimplePath&) = 0;
         virtual void visit(const SimplePathSeg&) = 0;
 
