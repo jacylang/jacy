@@ -2179,63 +2179,8 @@ namespace jc::parser {
         return generics;
     }
 
-    PR<type_path_ptr> Parser::parseTypePath(const std::string & suggMsg) {
-        logParse("TypePath");
-
-        auto begin = cspan();
-        auto pathType = parseOptTypePath();
-        if (not pathType) {
-            suggestErrorMsg(suggMsg, cspan());
-            return makeErrorNode(begin.to(cspan()));
-        }
-
-        return pathType.take();
-    }
-
-    opt_type_path_ptr Parser::parseOptTypePath() {
-        logParseExtra("[opt] TypePath");
-
-        const auto & maybePathToken = peek();
-        bool global = skipOpt(TokenKind::Path);
-
-        if (not is(TokenKind::Id)) {
-            if (global) {
-                suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
-                );
-            }
-            return dt::None;
-        }
-
-        enterEntity("TypePath");
-
-        id_t_list segments;
-        while (not eof()) {
-            const auto & segBegin = cspan();
-            auto name = parseId("identifier in type path");
-            auto generics = parseOptGenerics();
-
-            segments.push_back(
-                makeNode<TypePathSeg>(
-                    std::move(name), std::move(generics), segBegin.to(cspan())
-                )
-            );
-
-            if (skipOpt(TokenKind::Path)) {
-                if (eof()) {
-                    suggestErrorMsg("Missing type after `::`", cspan());
-                }
-
-                continue;
-            }
-            break;
-        }
-
-        exitEntity();
-
-        return makeNode<TypePath>(
-            global, std::move(segments), maybePathToken.span.to(cspan())
-        );
+    type_path_ptr Parser::parseTypePath() {
+        return makeNode<TypePath>(parsePath(false));
     }
 
     //////////////
