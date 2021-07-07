@@ -386,7 +386,7 @@ namespace jc::parser {
         justSkip(TokenKind::Impl, "`impl`", "`parseImpl`");
 
         auto generics = parseOptGenerics();
-        auto traitTypePath = parseTypePath("Expected path to trait type");
+        auto traitTypePath = parseTypePath();
 
         opt_type_ptr forType{dt::None};
         if (skipOpt(TokenKind::For)) {
