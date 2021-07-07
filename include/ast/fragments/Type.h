@@ -4,6 +4,7 @@
 #include "ast/Node.h"
 #include "ast/fragments/Generics.h"
 #include "ast/BaseVisitor.h"
+#include "ast/fragments/Path.h"
 
 // TODO: Separate Types by files in folder `type`
 
@@ -11,7 +12,6 @@ namespace jc::ast {
     struct Type;
     struct TupleTypeEl;
     struct TypePathSeg;
-    struct TypePath;
     using type_list = std::vector<type_ptr>;
     using tuple_t_el_ptr = N<TupleTypeEl>;
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
@@ -116,24 +116,10 @@ namespace jc::ast {
         }
     };
 
-    struct TypePathSeg : Node {
-        TypePathSeg(id_ptr name, opt_gen_params generics, const Span & span)
-            : Node(span), name(std::move(name)), generics(std::move(generics)) {}
-
-        id_ptr name;
-        opt_gen_params generics;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
     struct TypePath : Type {
-        TypePath(bool global, id_t_list segments, const Span & span)
-            : Type(span, TypeKind::Path), global(global), segments(std::move(segments)) {}
+        TypePath(path_ptr && path, const Span & span) : Type(span, TypeKind::Path), path(std::move(path)) {}
 
-        bool global{};
-        id_t_list segments{};
+        path_ptr path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
