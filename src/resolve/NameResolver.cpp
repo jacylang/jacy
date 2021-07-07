@@ -272,7 +272,7 @@ namespace jc::resolve {
         // Simple-dimple LOL
     }
 
-    void NameResolver::resolvePath(Namespace ns, const ast::PathExpr & pathExpr) {
+    void NameResolver::resolvePath(Namespace ns, const ast::Path & path) {
         // TODO: global
 
         if (pathExpr.segments.size() == 1) {
