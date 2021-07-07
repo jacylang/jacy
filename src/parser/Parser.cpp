@@ -1193,91 +1193,6 @@ namespace jc::parser {
     }
 
     path_expr_ptr Parser::parsePathExpr() {
-        enterEntity("PathExpr");
-
-        const auto & begin = cspan();
-        const auto & maybePathToken = peek();
-        bool global = skipOpt(TokenKind::Path);
-
-        if (not is(TokenKind::Id)) {
-            if (global) {
-                suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
-                );
-            } else {
-                common::Logger::devPanic("parsePathExpr -> not id -> not global");
-            }
-        }
-
-        path_seg_list segments;
-        while (not eof()) {
-            const auto & segmentBegin = cspan();
-
-            bool isUnrecoverableError = false;
-            opt_id_ptr ident{dt::None};
-            PathSeg::Kind kind = PathSeg::Kind::Error;
-            switch (peek().kind) {
-                case TokenKind::Super: {
-                    kind = PathSeg::Kind::Super;
-                    break;
-                }
-                case TokenKind::Self: {
-                    kind = PathSeg::Kind::Self;
-                    break;
-                }
-                case TokenKind::Party: {
-                    kind = PathSeg::Kind::Party;
-                    break;
-                }
-                case TokenKind::Id: {
-                    kind = PathSeg::Kind::Ident;
-                    ident = justParseId("`parsePathExpr`");
-                    break;
-                }
-                default: {
-                    const auto & errorToken = peek();
-                    // TODO: Dynamic message for first or following segments (self and party can be only first)
-                    suggestErrorMsg("Expected identifier, `super`, `self` or `party` in path", cspan());
-
-                    // We eat error token only if user used keyword in path
-                    // In other cases it could be beginning of another expression and we would break everything
-                    if (not errorToken.isKw()) {
-                        isUnrecoverableError = true;
-                    } else {
-                        advance();
-                    }
-                }
-            }
-
-            opt_gen_params generics{dt::None};
-            bool pathNotGeneric = false;
-            if (skipOpt(TokenKind::Path)) {
-                generics = parseOptGenerics();
-                pathNotGeneric = not generics;
-            }
-
-            if (kind == PathSeg::Kind::Ident) {
-                segments.push_back(
-                    makeNode<PathSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
-                );
-            } else if (kind == PathSeg::Kind::Error) {
-                segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
-                if (isUnrecoverableError) {
-                    break;
-                }
-            } else {
-                segments.push_back(
-                    makeNode<PathSeg>(kind, std::move(generics), segmentBegin.to(cspan()))
-                );
-            }
-
-            if (pathNotGeneric or skipOpt(TokenKind::Path)) {
-                continue;
-            }
-            break;
-        }
-
-        exitEntity();
         return makeNode<PathExpr>(Path{global, std::move(segments), begin.to(cspan())}, begin.to(prev().span));
     }
 
@@ -1921,6 +1836,84 @@ namespace jc::parser {
 
         exitEntity();
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
+    }
+
+    Path Parser::parsePath(bool turbofish) {
+        enterEntity("Path");
+
+        const auto & begin = cspan();
+        const auto & maybePathToken = peek();
+        bool global = skipOpt(TokenKind::Path);
+
+        if (not is(TokenKind::Id)) {
+            if (global) {
+                suggestErrorMsg(
+                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
+                );
+            } else {
+                common::Logger::devPanic("parsePath -> not id -> not global");
+            }
+        }
+
+        path_seg_list segments;
+        while (not eof()) {
+            const auto & segmentBegin = cspan();
+
+            bool isUnrecoverableError = false;
+            opt_id_ptr ident{dt::None};
+            auto kind = PathSeg::getKind(peek());
+            if (kind == ast::PathSeg::Kind::Ident) {
+                kind = PathSeg::Kind::Ident;
+                ident = justParseId("`parsePath`");
+            } else if (kind == ast::PathSeg::Kind::Error) {
+                const auto & errorToken = peek();
+                // TODO: Dynamic message for first or following segments (self and party can be only first)
+                suggestErrorMsg(
+                    "Expected identifier, `super`, `self` or `party` in path, got " + errorToken.toString(), cspan());
+
+                // We eat error token only if user used keyword in path
+                // In other cases it could be beginning of another expression and we would break everything
+                if (not errorToken.isKw()) {
+                    isUnrecoverableError = true;
+                } else {
+                    advance();
+                }
+            }
+
+            opt_gen_params generics{dt::None};
+            bool pathNotGeneric = false;
+
+            // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
+            // But, `or` is short-circuit, so order matters!!! we need to skip `::` if it is given
+            if (skipOpt(TokenKind::Path) or not turbofish) {
+                generics = parseOptGenerics();
+                pathNotGeneric = generics.none();
+            }
+
+            if (kind == PathSeg::Kind::Ident) {
+                segments.push_back(
+                    makeNode<PathSeg>(std::move(ident.unwrap()), std::move(generics), segmentBegin.to(cspan()))
+                );
+            } else if (kind == PathSeg::Kind::Error) {
+                segments.emplace_back(makeErrorNode(segmentBegin.to(cspan())));
+                if (isUnrecoverableError) {
+                    break;
+                }
+            } else {
+                segments.push_back(
+                    makeNode<PathSeg>(kind, std::move(generics), segmentBegin.to(cspan()))
+                );
+            }
+
+            if (pathNotGeneric or skipOpt(TokenKind::Path)) {
+                continue;
+            }
+            break;
+        }
+
+        exitEntity();
+
+        return Path{global, std::move(segments), begin.to(cspan())};
     }
 
     tuple_t_el_list Parser::parseTupleFields() {
