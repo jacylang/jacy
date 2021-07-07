@@ -82,6 +82,7 @@ namespace jc::ast {
     struct Identifier;
     struct Arg;
     struct Path;
+    struct PathSeg;
     struct SimplePath;
     struct SimplePathSeg;
 
@@ -178,6 +179,7 @@ namespace jc::ast {
         virtual void visit(const Identifier&) = 0;
         virtual void visit(const Arg&) = 0;
         virtual void visit(const Path&) = 0;
+        virtual void visit(const PathSeg&) = 0;
         virtual void visit(const SimplePath&) = 0;
         virtual void visit(const SimplePathSeg&) = 0;
 
