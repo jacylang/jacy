@@ -131,7 +131,7 @@ namespace jc::resolve {
         // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
         //  For example, `StructExpr` must call `resolvePath` itself, but not visit its path
         //  Every Node that uses `PathExpr` not as "always from value namespace" must resolve path itself!
-        resolvePath(Namespace::Value, pathExpr);
+        resolvePath(Namespace::Value, pathExpr.path);
     }
 
     void NameResolver::visit(const ast::MatchArm & arm) {
