@@ -441,43 +441,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathExpr & pathExpr) {
-        colorizeName(pathExpr.id);
 
-        if (pathExpr.global) {
-            log.raw("::");
-        }
-        printDelim(pathExpr.segments, "", "", "::");
-
-        resetNameColor();
-
-        printNodeId(pathExpr);
-    }
-
-    void AstPrinter::visit(const PathExprSeg & seg) {
-        switch (seg.kind) {
-            case PathExprSeg::Kind::Super: {
-                log.raw("super");
-                break;
-            }
-            case PathExprSeg::Kind::Self: {
-                log.raw("self");
-                break;
-            }
-            case PathExprSeg::Kind::Party: {
-                log.raw("party");
-                break;
-            }
-            case PathExprSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
-                break;
-            }
-            default: {
-                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
-            }
-        }
-        printGenerics(seg.generics, true);
-
-        printNodeId(seg);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
@@ -722,6 +686,46 @@ namespace jc::ast {
         }
 
         printNodeId(el);
+    }
+
+    void AstPrinter::visit(const Path & path) {
+        colorizeName(path.id);
+
+        if (path.global) {
+            log.raw("::");
+        }
+        printDelim(path.segments, "", "", "::");
+
+        resetNameColor();
+
+        printNodeId(path);
+    }
+
+    void AstPrinter::visit(const PathSeg & seg) {
+        switch (seg.kind) {
+            case PathSeg::Kind::Super: {
+                log.raw("super");
+                break;
+            }
+            case PathSeg::Kind::Self: {
+                log.raw("self");
+                break;
+            }
+            case PathSeg::Kind::Party: {
+                log.raw("party");
+                break;
+            }
+            case PathSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default: {
+                log.devPanic("Unexpected `PathExprSeg::Kind` in `AstPrinter`");
+            }
+        }
+        printGenerics(seg.generics, true);
+
+        printNodeId(seg);
     }
 
     void AstPrinter::visit(const SimplePath & path) {

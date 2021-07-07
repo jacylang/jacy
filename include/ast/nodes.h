@@ -49,4 +49,6 @@
 
 #include "ast/Node.h"
 
+#include "ast/fragments/Path.h"
+
 #endif // JACY_NODES_H
