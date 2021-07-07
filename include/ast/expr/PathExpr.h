@@ -5,6 +5,9 @@
 #include "ast/fragments/Path.h"
 
 namespace jc::ast {
+    struct PathExpr;
+    using path_expr_ptr = N<PathExpr>;
+
     struct PathExpr : Expr {
         PathExpr(path_ptr && path, const Span & span) : Expr(span, ExprKind::Path), path(std::move(path)) {}
 
