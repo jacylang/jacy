@@ -102,6 +102,7 @@ namespace jc::ast {
         void visit(const Identifier & id) override;
         void visit(const Arg & el) override;
         void visit(const Path & path) override;
+        void visit(const PathSeg & seg) override;
         void visit(const SimplePath & path) override;
         void visit(const SimplePathSeg & seg) override;
 
