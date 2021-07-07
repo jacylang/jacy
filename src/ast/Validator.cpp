@@ -551,15 +551,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TypePath & typePath) {
-        lintEach(typePath.segments);
-    }
-
-    void Validator::visit(const TypePathSeg & seg) {
-        seg.name.accept(*this);
-
-        if (seg.generics) {
-            lintEach(seg.generics.unwrap());
-        }
+        typePath.path.accept(*this);
     }
 
     void Validator::visit(const UnitType&) {
@@ -613,7 +605,7 @@ namespace jc::ast {
             case PathSeg::Kind::Self:
             case PathSeg::Kind::Party: {
                 if (seg.ident) {
-                    log.devPanic("`ident` exists in non-Ident `PathExprSeg`");
+                    log.devPanic("`ident` exists in non-Ident `PathSeg`");
                 }
                 break;
             }
