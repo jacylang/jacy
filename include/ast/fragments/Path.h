@@ -39,6 +39,17 @@ namespace jc::ast {
         opt_id_ptr ident;
         opt_gen_params generics;
 
+        static inline constexpr Kind getKind(const parser::Token & token) {
+            switch (token.kind) {
+                case parser::TokenKind::Super: return Kind::Super;
+                case parser::TokenKind::Self: return Kind::Self;
+                case parser::TokenKind::Party: return Kind::Party;
+                case parser::TokenKind::Id: return Kind::Ident;
+                default:;
+            }
+            return Kind::Error;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
