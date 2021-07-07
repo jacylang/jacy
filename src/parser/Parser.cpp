@@ -500,12 +500,7 @@ namespace jc::parser {
                     skip(TokenKind::Comma, "Missing `,` separator");
                 }
 
-                auto superTrait = parseOptTypePath();
-                if (not superTrait) {
-                    suggestErrorMsg("Expected super-trait identifier", cspan());
-                } else {
-                    superTraits.emplace_back(std::move(superTrait.unwrap("`parseTrait` -> `superTrait`")));
-                }
+                superTraits.emplace_back(parseTypePath());
             }
         }
 
