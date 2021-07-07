@@ -388,6 +388,10 @@ namespace jc::ast {
         }
     }
 
+    void StubVisitor::visit(const Path & path) {
+        visitEach(path.segments);
+    }
+
     void StubVisitor::visit(const PathSeg & seg) {
         switch (seg.kind) {
             case PathSeg::Kind::Ident: {
