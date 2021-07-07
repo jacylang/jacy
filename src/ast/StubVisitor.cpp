@@ -349,14 +349,6 @@ namespace jc::ast {
         typePath.path.accept(*this);
     }
 
-    void StubVisitor::visit(const TypePathSeg & seg) {
-        seg.name.accept(*this);
-
-        if (seg.generics) {
-            visitEach(seg.generics.unwrap());
-        }
-    }
-
     void StubVisitor::visit(const UnitType&) {}
 
     // Type params //
@@ -393,6 +385,19 @@ namespace jc::ast {
         }
         if (el.value) {
             el.value.unwrap()->accept(*this);
+        }
+    }
+
+    void StubVisitor::visit(const PathSeg & seg) {
+        switch (seg.kind) {
+            case PathSeg::Kind::Ident: {
+                seg.ident.unwrap().accept(*this);
+                break;
+            }
+            default:;
+        }
+        if (seg.generics) {
+            visitEach(seg.generics.unwrap());
         }
     }
 
