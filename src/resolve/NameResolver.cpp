@@ -64,7 +64,9 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
-        // FIXME: Forward define struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
+
+
+        // TODO?: Forward define struct field in `ModuleTreeBuilder` to resolve paths pointing to struct??!!
         for (const auto & field : _struct.fields) {
             field->type.accept(*this);
         }
