@@ -117,9 +117,9 @@ namespace jc::ast {
     };
 
     struct TypePath : Type {
-        TypePath(Path && path) : Type(path.span, TypeKind::Path), path(std::move(path)) {}
+        TypePath(path_ptr && path) : Type(path->span, TypeKind::Path), path(std::move(path)) {}
 
-        Path path;
+        path_ptr path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
