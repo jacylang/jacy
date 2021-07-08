@@ -46,9 +46,9 @@ namespace jc::resolve {
     // As, actually, mostly everything else ❤🔥
     template<class T>
     struct PerNS {
-        T valueNS;
-        T typeNS;
-        T lifetimeNS;
+        T value;
+        T type;
+        T lifetime;
     };
 
     struct Def {

@@ -13,9 +13,9 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printMod(module_ptr module) {
-        const auto noValues = module->perNS.valueNS.empty();
-        const auto noTypes = module->perNS.typeNS.empty();
-        const auto noLifetimes = module->perNS.lifetimeNS.empty();
+        const auto noValues = module->perNS.value.empty();
+        const auto noTypes = module->perNS.type.empty();
+        const auto noLifetimes = module->perNS.lifetime.empty();
 
         const auto & shadowedPrimTypesNames = getShadowedPrimTypes(module->shadowedPrimTypes);
 
@@ -34,19 +34,19 @@ namespace jc::resolve {
         if (not noValues) {
             printIndent();
             log.raw("[value NS]: ");
-            printNS(module->perNS.valueNS);
+            printNS(module->perNS.value);
             log.nl();
         }
         if (not noTypes) {
             printIndent();
             log.raw("[type NS]: ");
-            printNS(module->perNS.typeNS);
+            printNS(module->perNS.type);
             log.nl();
         }
         if (not noLifetimes) {
             printIndent();
             log.raw("[lifetime NS]: ");
-            printNS(module->perNS.lifetimeNS);
+            printNS(module->perNS.lifetime);
             log.nl();
         }
 
