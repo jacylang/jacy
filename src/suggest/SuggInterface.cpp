@@ -22,7 +22,11 @@ namespace jc::sugg {
         suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Warn, eid));
     }
 
-    void SuggInterface::suggestHelp(const std::string & helpMsg, sugg::opt_sugg_ptr sugg) {
+    void SuggInterface::suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg) {
         suggest(std::make_unique<sugg::HelpSugg>(helpMsg, std::move(sugg)));
+    }
+
+    void SuggInterface::suggestHelp(const std::string & helpMsg) {
+        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, dt::None));
     }
 }
