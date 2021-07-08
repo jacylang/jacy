@@ -8,6 +8,7 @@ namespace jc::resolve {
     struct Module;
     using module_ptr = std::shared_ptr<Module>;
     using def_id = size_t;
+    using opt_def_id = dt::Option<def_id>;
 
     enum class Namespace {
         Value,
