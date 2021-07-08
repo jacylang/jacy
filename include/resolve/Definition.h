@@ -58,10 +58,10 @@ namespace jc::resolve {
             }
         }
 
-        void each(const std::function<void(T & ns)> & cb) {
-            cb(get(Namespace::Value));
-            cb(get(Namespace::Type));
-            cb(get(Namespace::Lifetime));
+        void each(const std::function<void(Namespace nsName, const T & ns)> & cb) const {
+            cb(Namespace::Value, get(Namespace::Value));
+            cb(Namespace::Type, get(Namespace::Type));
+            cb(Namespace::Lifetime, get(Namespace::Lifetime));
         }
     };
 
