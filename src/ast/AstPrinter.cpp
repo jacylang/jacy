@@ -441,7 +441,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathExpr & pathExpr) {
-        pathExpr.path.accept(*this);
+        pathExpr.path->accept(*this);
     }
 
     void AstPrinter::visit(const Prefix & prefix) {
@@ -602,7 +602,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypePath & typePath) {
-        typePath.path.accept(*this);
+        typePath.path->accept(*this);
     }
 
     void AstPrinter::visit(const UnitType & unitType) {
