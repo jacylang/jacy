@@ -1880,9 +1880,10 @@ namespace jc::parser {
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
             // But, `or` is short-circuit, so order matters!!! we need to skip `::` if it is given
-            if (skipOpt(TokenKind::Path) or not inExpr) {
+            const auto & continuePath = skipOpt(TokenKind::Path);
+            if (continuePath or not inExpr) {
                 generics = parseOptGenerics();
-                pathNotGeneric = generics.none();
+                pathNotGeneric = continuePath and generics.none();
             }
 
             if (kind == PathSeg::Kind::Ident) {
@@ -1900,6 +1901,7 @@ namespace jc::parser {
                 );
             }
 
+            // Note: Order matters (short-circuit), we already skipped one `::` to parse turbofish
             if (pathNotGeneric or skipOpt(TokenKind::Path)) {
                 continue;
             }
