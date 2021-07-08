@@ -377,7 +377,7 @@ namespace jc::resolve {
         return false;
     }
 
-    void NameResolver::suggestAltNames(Namespace initialUsage, const PerNS<opt_def_id> & altDefs) {
+    void NameResolver::suggestAltNames(Namespace target, const PerNS<opt_def_id> & altDefs) {
 
     }
 
