@@ -49,6 +49,14 @@ namespace jc::resolve {
         T value;
         T type;
         T lifetime;
+
+        T & get(Namespace ns) const {
+            switch (ns) {
+                case Namespace::Value: return value;
+                case Namespace::Type: return type;
+                case Namespace::Lifetime: return lifetime;
+            }
+        }
     };
 
     struct Def {
