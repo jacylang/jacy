@@ -314,8 +314,10 @@ namespace jc::resolve {
                 if (module != typeNs.end()) {
                     // Get module specified in path segment from current searched module
                     searchMod = sess->defStorage.getModule(module->second);
+                    log.dev("Enter module by path segment '", pathStr, "' with def id #", module->second);
                 } else {
                     // Resolution failed
+                    log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
                     unresolvedSegIndex = i;
                     break;
                 }
@@ -329,6 +331,7 @@ namespace jc::resolve {
                 const auto & modNs = searchMod->getNS(ns);
                 const auto & def = modNs.find(segName);
                 if (def != modNs.end()) {
+                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", def->second);
                     _resStorage.setRes(path.id, Res{def->second});
                 } else {
                     unresolvedSegIndex = i;
