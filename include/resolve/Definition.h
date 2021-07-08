@@ -38,7 +38,7 @@ namespace jc::resolve {
 
     enum class NameUsage {
         Type,
-        Expr,
+        Value,
         Lifetime,
     };
 
@@ -151,7 +151,7 @@ namespace jc::resolve {
                     default: return false;
                 }
             }
-            if (usage == NameUsage::Expr) {
+            if (usage == NameUsage::Value) {
                 switch (kind) {
                     case DefKind::Const:
                     case DefKind::ConstParam:
@@ -172,7 +172,7 @@ namespace jc::resolve {
         static std::string usageToString(NameUsage usage) {
             switch (usage) {
                 case NameUsage::Type: return "type";
-                case NameUsage::Expr: return "expression";
+                case NameUsage::Value: return "value";
                 case NameUsage::Lifetime: return "lifetime";
                 default: return "[NO REPRESENTATION (bug)]";
             }
