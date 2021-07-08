@@ -328,14 +328,12 @@ namespace jc::resolve {
                 pathStr += segName;
             } else {
                 // Resolve last segment
-                const auto & modNs = searchMod->getNS(ns);
-                const auto & def = modNs.find(segName);
-                if (def != modNs.end()) {
-                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", def->second);
-                    _resStorage.setRes(path.id, Res{def->second});
-                } else {
+                searchMod->find(ns, segName).then([&](auto defId) {
+                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", defId);
+                    _resStorage.setRes(path.id, Res{defId});
+                }).otherwise([&]() {
                     unresolvedSegIndex = i;
-                }
+                });
             }
         }
 
