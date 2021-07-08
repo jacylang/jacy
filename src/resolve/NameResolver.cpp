@@ -291,17 +291,25 @@ namespace jc::resolve {
             return;
         }
 
+        // TODO!!!: Keyword segments: self, super, etc.
+
         // Resolve complex path
+        // Note: We search in `Module`s, but lift by `mod`s
         module_ptr searchMod = currentModule;
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
+            const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
-            // TODO!!!: Keyword segments: self, super, etc.
-            // FIXME
-            if (i == path.segments.size() - 1) {
+            if (i < path.segments.size() - 1) {
+                continue;
+            }
 
+            // Resolve last segment
+            const auto & modNs = searchMod->getNS(ns);
+            const auto & def = modNs.find(segName);
+            if (def != modNs.end()) {
+                _resStorage.setRes(path.id, Res{def->second});
             } else {
-
             }
         }
     }
