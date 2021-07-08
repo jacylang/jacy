@@ -1843,7 +1843,7 @@ namespace jc::parser {
         if (not is(TokenKind::Id)) {
             if (global) {
                 suggestErrorMsg(
-                    "Unexpected `::`, maybe you meant to specify a type?", maybePathToken.span
+                    "Invalid path `::`", maybePathToken.span
                 );
             } else {
                 common::Logger::devPanic("parsePath -> not id -> not global");

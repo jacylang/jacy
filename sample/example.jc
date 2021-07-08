@@ -1,5 +1,5 @@
 mod a {
-    func foo {}
+    type foo = i32;
 }
 
 func main {
