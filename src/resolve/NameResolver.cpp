@@ -316,6 +316,7 @@ namespace jc::resolve {
                     searchMod = sess->defStorage.getModule(module->second);
                 } else {
                     // Resolution failed
+                    unresolvedSegment = segName;
                     break;
                 }
 
@@ -336,15 +337,14 @@ namespace jc::resolve {
         }
 
         if (not unresolvedSegment.none()) {
-//            if (pathStr.empty()) {
-//                // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
-//                // so give different error message
-//
-//                const auto & localName = path.segments.at(0).unwrap()->ident.unwrap().unwrap()->getValue();
-//                suggestErrorMsg("'" + localName + "' is not defined");
-//            } else {
-//                suggestErrorMsg()
-//            }
+            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+            // so give different error message
+            auto msg = "'" + unresolvedSegment.unwrap() + "' is not defined";
+
+            if (not pathStr.empty()) {
+                msg += " in '" + pathStr + "'";
+            }
+            suggestErrorMsg(msg, path.span);
         }
     }
 
