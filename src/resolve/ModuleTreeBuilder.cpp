@@ -82,7 +82,10 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
         addDef(typeAlias.name, DefKind::TypeAlias);
-        typeAlias.type.accept(*this);
+
+        typeAlias.type.then([&](const auto & type) {
+            type.accept(*this);
+        });
     }
 
     void ModuleTreeBuilder::visit(const ast::Block & block) {
