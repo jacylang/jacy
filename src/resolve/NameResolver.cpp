@@ -300,6 +300,7 @@ namespace jc::resolve {
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
         dt::Option<size_t> unresolvedSegIndex{dt::None};
+        PerNS<opt_def_id> altRes = {dt::None, dt::None, dt::None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
@@ -316,6 +317,7 @@ namespace jc::resolve {
                     // Resolution failed
                     log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
                     unresolvedSegIndex = i;
+                    altRes = searchMod->findAlt(segName);
                 });
 
                 if (unresolvedSegIndex) {
@@ -333,6 +335,7 @@ namespace jc::resolve {
                     _resStorage.setRes(path.id, Res{defId});
                 }).otherwise([&]() {
                     unresolvedSegIndex = i;
+                    altRes = searchMod->findAlt(segName);
                 });
             }
         }
