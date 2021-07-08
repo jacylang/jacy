@@ -23,17 +23,17 @@ namespace jc::resolve {
         }
 
         // If no module bound we unable to resolve name
-        if (boundModule) {
-            const auto & modNS = boundModule.unwrap()->getNS(ns);
-            const auto & def = modNS.find(name);
-            if (def != modNS.end()) {
-                common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", def->second);
-                resStorage.setRes(refNodeId, Res{def->second});
-                return true;
-            }
-        }
+        bool resolved = false;
 
-        return false;
+        boundModule.then([&](const module_ptr & mod) {
+            mod->find(ns, name).then([&](def_id defId) {
+                common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", defId);
+                resStorage.setRes(refNodeId, Res{defId});
+                resolved = true;
+            });
+        });
+
+        return resolved;
     }
 
     void Rib::bindMod(module_ptr module) {
