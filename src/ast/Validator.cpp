@@ -181,7 +181,10 @@ namespace jc::ast {
         // TODO: lint attributes
 
         typeAlias.name.accept(*this);
-        typeAlias.type.accept(*this);
+
+        typeAlias.type.then([&](const auto & type) {
+            type.accept(*this);
+        });
     }
 
     void Validator::visit(const UseDecl & useDecl) {
