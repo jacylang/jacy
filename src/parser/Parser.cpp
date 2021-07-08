@@ -1833,7 +1833,7 @@ namespace jc::parser {
         return makeNode<SimplePath>(global, std::move(segments), begin.to(cspan()));
     }
 
-    Path Parser::parsePath(bool inExpr) {
+    path_ptr Parser::parsePath(bool inExpr) {
         enterEntity("Path");
 
         const auto & begin = cspan();
