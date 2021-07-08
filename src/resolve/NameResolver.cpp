@@ -294,28 +294,52 @@ namespace jc::resolve {
         // TODO!!!: Keyword segments: self, super, etc.
 
         // Resolve complex path
-        // Note: We search in `Module`s, but lift by `mod`s
         module_ptr searchMod = currentModule;
+
+        // Path as string, built iterating through path segments
+        // When resolution fails, it contains all segments we dived into
         std::string pathStr;
+        bool resolved = false;
+
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
+            // Resolve prefix path, `a::b::` (before target)
             if (i < path.segments.size() - 1) {
+                // Note: Module-like items stored in `Type` namespace
+                const auto & typeNs = searchMod->getNS(Namespace::Type);
+                const auto & module = typeNs.find(segName);
+
+                if (module != typeNs.end()) {
+                    // Get module specified in path segment from current searched module
+                    searchMod = sess->defStorage.getModule(module->second);
+                } else {
+                    // Resolution failed
+                    break;
+                }
+
                 if (i != 0) {
                     pathStr += "::";
                 }
                 pathStr += segName;
-                continue;
-            }
-
-            // Resolve last segment
-            const auto & modNs = searchMod->getNS(ns);
-            const auto & def = modNs.find(segName);
-            if (def != modNs.end()) {
-                _resStorage.setRes(path.id, Res{def->second});
             } else {
-                suggestErrorMsg("'" + segName + "' is not defined in '" + pathStr + "'", seg->span);
+                // Resolve last segment
+                const auto & modNs = searchMod->getNS(ns);
+                const auto & def = modNs.find(segName);
+                if (def != modNs.end()) {
+                    _resStorage.setRes(path.id, Res{def->second});
+                    resolved = true;
+                }
+            }
+        }
+
+        if (not resolved) {
+            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+            // so give different error message
+            if (pathStr.empty()) {
+//                const auto & localName = path.segments.at(0).unwrap()->ident.unwrap().unwrap()->getValue();
+//                suggestErrorMsg();
             }
         }
     }
