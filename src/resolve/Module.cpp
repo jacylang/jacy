@@ -13,9 +13,9 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printMod(module_ptr module) {
-        const auto noValues = module->valueNS.empty();
-        const auto noTypes = module->typeNS.empty();
-        const auto noLifetimes = module->lifetimeNS.empty();
+        const auto noValues = module->perNS.valueNS.empty();
+        const auto noTypes = module->perNS.typeNS.empty();
+        const auto noLifetimes = module->perNS.lifetimeNS.empty();
 
         const auto & shadowedPrimTypesNames = getShadowedPrimTypes(module->shadowedPrimTypes);
 
