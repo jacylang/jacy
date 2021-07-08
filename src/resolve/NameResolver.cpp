@@ -378,11 +378,22 @@ namespace jc::resolve {
     }
 
     void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<opt_def_id> & altDefs) {
+        const auto & makeHelpSugg = [&](Namespace ns) {
+
+        };
+
         if (target != Namespace::Type and altDefs.type) {
             const auto & def = sess->defStorage.getDef(altDefs.type.unwrap());
-//            suggestHelp(
-//                "Alternative: '" + name + "' " + def.kindStr()
-//                + ", but it cannot be used as " + Module::nsToString(target));
+            suggestHelp(
+                "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
+                Module::nsToString(target), dt::None);
+        }
+
+        if (target != Namespace::Value and altDefs.type) {
+            const auto & def = sess->defStorage.getDef(altDefs.type.unwrap());
+            suggestHelp(
+                "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
+                Module::nsToString(target), dt::None);
         }
     }
 
