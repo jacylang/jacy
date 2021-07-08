@@ -5,7 +5,7 @@ namespace jc::resolve {
         this->sess = sess;
 
         // Enter root module
-        mod = Module::newWrapperModule(ModuleKind::Root, dt::None);
+        mod = Module::newWrapperModule(ModuleKind::Root, dt::None, dt::None);
 
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
