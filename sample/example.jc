@@ -3,5 +3,5 @@ mod a {
 }
 
 func main {
-    let b: a::foo = 123;
+    a::foo();
 }

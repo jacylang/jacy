@@ -18,7 +18,6 @@ namespace jc::sugg {
         Logger::nl();
         for (const auto & sg : suggestions) {
             sg->accept(*this);
-            Logger::nl();
             if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
             }
@@ -31,10 +30,12 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(MsgSugg * sugg) {
+        Logger::nl();
         pointMsgTo(sugg->msg, sugg->span, sugg->kind);
     }
 
     void Suggester::visit(MsgSpanLinkSugg * sugg) {
+        Logger::nl();
         if (sugg->span.pos > sugg->link.pos) {
             pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
