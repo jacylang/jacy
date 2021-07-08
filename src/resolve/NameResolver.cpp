@@ -315,7 +315,7 @@ namespace jc::resolve {
             if (def != modNs.end()) {
                 _resStorage.setRes(path.id, Res{def->second});
             } else {
-                suggestErrorMsg("'" + segName + "' is not defined", seg->span);
+                suggestErrorMsg("'" + segName + "' is not defined in '" + pathStr + "'", seg->span);
             }
         }
     }
