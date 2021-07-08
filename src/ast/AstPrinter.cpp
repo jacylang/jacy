@@ -203,10 +203,10 @@ namespace jc::ast {
         log.raw("type ");
         colorizeDef(typeAlias.name);
 
-        if (typeAlias.type) {
+        typeAlias.type.then([&](const auto & type) {
             log.raw(" = ");
-            typeAlias.type.unwrap().accept(*this);
-        }
+            type.accept(*this);
+        });
 
         log.raw(";");
 
