@@ -63,6 +63,15 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
+        opt_def_id find(Namespace nsKind, const std::string & name) const {
+            const auto & ns = getNS(nsKind);
+            const auto & def = ns.find(name);
+            if (def == ns.end()) {
+                return dt::None;
+            }
+            return def->second;
+        }
+
         const mod_ns_map & getNS(Namespace ns) const {
             switch (ns) {
                 case Namespace::Value: return valueNS;
