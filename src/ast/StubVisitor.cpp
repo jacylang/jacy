@@ -116,7 +116,9 @@ namespace jc::ast {
 
     void StubVisitor::visit(const TypeAlias & typeAlias) {
         typeAlias.name.accept(*this);
-        typeAlias.type.accept(*this);
+        typeAlias.type.then([&](const auto & type) {
+            type.accept(*this);
+        });
     }
 
     void StubVisitor::visit(const UseDecl & useDecl) {
