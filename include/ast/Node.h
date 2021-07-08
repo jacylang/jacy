@@ -5,6 +5,7 @@
 #include <utility>
 #include <cstdint>
 
+#include "utils/newty.h"
 #include "parser/Token.h"
 #include "data_types/Result.h"
 #include "ast/BaseVisitor.h"
@@ -18,7 +19,7 @@ namespace jc::ast {
     using span::Span;
     using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
-    using node_id = uint32_t;
+    using node_id = utils::newty::NewTy<uint32_t>;
     using opt_node_id = dt::Option<ast::node_id>;
 
     const node_id NONE_NODE_ID = UINT32_MAX;
