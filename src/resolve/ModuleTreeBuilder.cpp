@@ -117,7 +117,8 @@ namespace jc::resolve {
             " with defId [",
             defId,
             "] in ",
-            Module::nsToString(ns));
+            Module::nsToString(ns),
+            " namespace");
 
         auto & nsMap = mod->getNS(ns);
 
