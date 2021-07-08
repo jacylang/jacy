@@ -54,13 +54,13 @@ namespace jc::resolve {
         }
 
         // `Block` module
-        static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None);
+        static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent, opt_def_id nearestModDef) {
+            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 
         // `Def` module
-        static inline module_ptr newDefModule(def_id defId, module_ptr parent) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, None, defId);
+        static inline module_ptr newDefModule(def_id defId, module_ptr parent, opt_def_id nearestModDef) {
+            return std::make_shared<Module>(ModuleKind::Block, parent, None, defId, nearestModDef);
         }
 
         mod_ns_map & getNS(Namespace ns) {
