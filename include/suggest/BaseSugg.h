@@ -89,12 +89,12 @@ namespace jc::sugg {
     struct HelpSugg : BaseSugg {
         HelpSugg(
             std::string helpMsg,
-            sugg_ptr sugg
+            opt_sugg_ptr sugg
         ) : helpMsg(std::move(helpMsg)),
             sugg(std::move(sugg)) {}
 
         std::string helpMsg;
-        sugg_ptr sugg;
+        opt_sugg_ptr sugg;
 
         SuggKind getKind() const override {
             return sugg->getKind();
