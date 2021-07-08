@@ -277,6 +277,21 @@ namespace jc::resolve {
     void NameResolver::resolvePath(Namespace ns, const ast::Path & path) {
         // TODO: global
 
+        // If path is one segment long then it can be a local variable
+        if (path.segments.size() == 1) {
+            const auto & seg = path.segments.at(0).unwrap();
+            if (seg->ident) {
+                const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
+                auto resolved = resolve(ns, identStr, path.id);
+                if (not resolved) {
+                    log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
+                    suggestErrorMsg("'" + identStr + "' is not defined", path.span);
+                }
+            }
+            return;
+        }
+
+        // Resolve complex path
         module_ptr searchMod = currentModule;
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
@@ -284,14 +299,8 @@ namespace jc::resolve {
             // TODO!!!: Keyword segments: self, super, etc.
             // FIXME
             if (i == path.segments.size() - 1) {
-                if (seg->ident) {
-                    const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                    auto resolved = resolve(ns, identStr, path.id);
-                    if (not resolved) {
-                        log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
-                        suggestErrorMsg("'" + identStr + "' is not defined", path.span);
-                    }
-                }
+            } else {
+
             }
         }
     }
