@@ -378,7 +378,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<opt_def_id> & altDefs) {
-        altDefs.each([&](auto defId) {
+        altDefs.each([&](auto ns, auto defId) {
             const auto & def = sess->defStorage.getDef(defId);
             suggestHelp(
                 "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
