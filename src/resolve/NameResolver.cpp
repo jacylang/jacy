@@ -352,6 +352,9 @@ namespace jc::resolve {
                 msg += " in '" + pathStr + "'";
             }
             suggestErrorMsg(msg, unresolvedSegIdent->span);
+
+            // Agenda: Fix alt names, something wrong with them.
+            //  Due to something, [FILE] provided as suggestion, checkout current commit example to test
             suggestAltNames(ns, unresolvedSegName, altDefs);
         }
     }
