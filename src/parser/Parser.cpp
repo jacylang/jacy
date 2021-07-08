@@ -839,7 +839,7 @@ namespace jc::parser {
 
                 params.push_back(
                     makeNode<LambdaParam>(
-                        std::move(pat), std::move(type), paramcloseSpan(begin)
+                        std::move(pat), std::move(type), closeSpan(paramBegin)
                     )
                 );
             }
@@ -1473,8 +1473,8 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makePRNode<ExprStmt, Stmt>(parseIfExpr(true), elifcloseSpan(begin)));
-            elseBranch = makeNode<Block>(std::move(elif), elifcloseSpan(begin));
+            elif.push_back(makePRNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
+            elseBranch = makeNode<Block>(std::move(elif), closeSpan(elifBegin));
         }
 
         exitEntity();
@@ -1650,12 +1650,12 @@ namespace jc::parser {
                     makeNode<Arg>(
                         std::move(identifier),
                         std::move(value),
-                        argcloseSpan(begin)
+                        closeSpan(argBegin)
                     )
                 );
             } else {
                 auto value = parseExpr("Expression expected");
-                args.emplace_back(makeNode<Arg>(dt::None, std::move(value), argcloseSpan(begin)));
+                args.emplace_back(makeNode<Arg>(dt::None, std::move(value), closeSpan(argBegin)));
             }
         }
 
@@ -1852,7 +1852,7 @@ namespace jc::parser {
 
         path_seg_list segments;
         while (not eof()) {
-            const auto & segmentBegin = cspan();
+            const auto & segBegin = cspan();
 
             bool isUnrecoverableError = false;
             opt_id_ptr ident{dt::None};
@@ -1887,16 +1887,16 @@ namespace jc::parser {
 
             if (kind == PathSeg::Kind::Ident) {
                 segments.push_back(
-                    makeNode<PathSeg>(std::move(ident.unwrap()), std::move(generics), segmentcloseSpan(begin))
+                    makeNode<PathSeg>(std::move(ident.unwrap()), std::move(generics), closeSpan(segBegin))
                 );
             } else if (kind == PathSeg::Kind::Error) {
-                segments.emplace_back(makeErrorNode(segmentcloseSpan(begin)));
+                segments.emplace_back(makeErrorNode(closeSpan(segBegin)));
                 if (isUnrecoverableError) {
                     break;
                 }
             } else {
                 segments.push_back(
-                    makeNode<PathSeg>(kind, std::move(generics), segmentcloseSpan(begin))
+                    makeNode<PathSeg>(kind, std::move(generics), closeSpan(segBegin))
                 );
             }
 
@@ -1938,12 +1938,12 @@ namespace jc::parser {
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeEl>(std::move(name), std::move(type), elcloseSpan(begin))
+                    makeNode<TupleTypeEl>(std::move(name), std::move(type), closeSpan(elBegin))
                 );
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeEl>(dt::None, std::move(type), elcloseSpan(begin))
+                    makeNode<TupleTypeEl>(dt::None, std::move(type), closeSpan(elBegin))
                 );
             }
         }
@@ -2136,7 +2136,7 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick)) {
                 auto name = parseId("lifetime parameter name");
-                generics.push_back(makeNode<Lifetime>(std::move(name), gencloseSpan(begin)));
+                generics.push_back(makeNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
                 opt_type_ptr type{dt::None};
@@ -2144,7 +2144,7 @@ namespace jc::parser {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
                 generics.push_back(
-                    makeNode<TypeParam>(std::move(name), std::move(type), gencloseSpan(begin))
+                    makeNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
                 );
             } else if (skipOpt(TokenKind::Const)) {
                 auto name = parseId("`const` parameter name");
@@ -2160,7 +2160,7 @@ namespace jc::parser {
                 }
                 generics.push_back(
                     makeNode<ConstParam>(
-                        std::move(name), std::move(type), std::move(defaultValue), gencloseSpan(begin)
+                        std::move(name), std::move(type), std::move(defaultValue), closeSpan(genBegin)
                     )
                 );
             } else {
