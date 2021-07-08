@@ -131,7 +131,7 @@ namespace jc::resolve {
         // Note!!!: PathExpr MUST BE visited only in case of it is a part of an expression.
         //  For example, `StructExpr` must call `resolvePath` itself, but not visit its path
         //  Every Node that uses `PathExpr` not as "always from value namespace" must resolve path itself!
-        resolvePath(Namespace::Value, pathExpr.path);
+        resolvePath(Namespace::Value, *pathExpr.path);
     }
 
     void NameResolver::visit(const ast::MatchArm & arm) {
@@ -150,13 +150,13 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::StructExpr & _struct) {
-        resolvePath(Namespace::Type, _struct.path.unwrap()->path);
+        resolvePath(Namespace::Type, *_struct.path.unwrap()->path);
         visitEach(_struct.fields);
     }
 
     // Types //
     void NameResolver::visit(const ast::TypePath & typePath) {
-        resolvePath(Namespace::Type, typePath.path);
+        resolvePath(Namespace::Type, *typePath.path);
     }
 
     // Patterns //
@@ -173,7 +173,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::StructPat & pat) {
         // Note: Path in StructPat is always a type
-        resolvePath(Namespace::Type, pat.path.unwrap()->path);
+        resolvePath(Namespace::Type, *pat.path.unwrap()->path);
 
         for (const auto & el : pat.elements) {
             switch (el.kind) {
