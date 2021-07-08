@@ -282,7 +282,7 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                auto resolved = resolve(ns, identStr, path.id);
+                auto resolved = resolveLocal(ns, identStr, path.id);
                 if (not resolved) {
                     log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
                     suggestErrorMsg("'" + identStr + "' is not defined", path.span);
@@ -299,13 +299,14 @@ namespace jc::resolve {
             // TODO!!!: Keyword segments: self, super, etc.
             // FIXME
             if (i == path.segments.size() - 1) {
+
             } else {
 
             }
         }
     }
 
-    bool NameResolver::resolve(Namespace ns, const std::string & name, node_id refNodeId) {
+    bool NameResolver::resolveLocal(Namespace ns, const std::string & name, node_id refNodeId) {
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {
@@ -318,7 +319,7 @@ namespace jc::resolve {
             }
             depth--;
         }
-        log.dev("Failed to resolve '", name, "'");
+        log.dev("Failed to resolve local '", name, "'");
 
         common::Logger::devDebug("Set error resolution for node #", refNodeId);
         // Set error resolution
