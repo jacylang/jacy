@@ -9,6 +9,7 @@ namespace jc::resolve {
     struct Module;
     using ast::node_id;
     using mod_ns_map = std::map<std::string, def_id>;
+    using dt::None;
 
     enum class ModuleKind {
         Root,
@@ -31,13 +32,13 @@ namespace jc::resolve {
             nearestModDef(nearestModDef) {}
 
         ModuleKind kind;
-        dt::Option<module_ptr> parent{dt::None};
+        dt::Option<module_ptr> parent{None};
 
         // Node id for `Block` module
-        opt_node_id nodeId{dt::None};
+        opt_node_id nodeId{None};
 
         // Definition id for `Def` module
-        dt::Option<def_id> defId{dt::None};
+        dt::Option<def_id> defId{None};
 
         // Nearest `mod` definition
         opt_def_id nearestModDef;
@@ -49,17 +50,17 @@ namespace jc::resolve {
 
         // `Fictive` or `Root` module
         static inline module_ptr newWrapperModule(ModuleKind kind, dt::Option<module_ptr> parent) {
-            return std::make_shared<Module>(kind, parent, dt::None, dt::None);
+            return std::make_shared<Module>(kind, parent, None, None, None);
         }
 
         // `Block` module
         static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, dt::None);
+            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None);
         }
 
         // `Def` module
         static inline module_ptr newDefModule(def_id defId, module_ptr parent) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, dt::None, defId);
+            return std::make_shared<Module>(ModuleKind::Block, parent, None, defId);
         }
 
         mod_ns_map & getNS(Namespace ns) {
