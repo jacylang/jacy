@@ -45,7 +45,9 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(HelpSugg * helpSugg) {
-        helpSugg->sugg->accept(*this);
+        if (helpSugg->sugg) {
+            helpSugg->sugg.unwrap()->accept(*this);
+        }
         // Note: 6 = "help: "
         printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
