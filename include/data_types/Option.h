@@ -19,6 +19,7 @@ namespace jc::dt {
     struct Option {
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
+        Option(T && value) : value(std::move(value)), hasValue(true) {}
 
         const T & unwrap(const std::string & msg = "") const {
             if (none()) {
