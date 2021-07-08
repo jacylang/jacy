@@ -215,6 +215,9 @@ namespace jc::resolve {
     void ModuleTreeBuilder::exitMod() {
         log.dev("Exit ", mod->kindStr(), " module");
         mod = mod->parent.unwrap("[ModuleTreeBuilder]: Tried to exit root module");
+
+        // Set nearest `mod` from parent we lift to
+        nearestModDef = mod->nearestModDef;
     }
 
     // Suggestions //
