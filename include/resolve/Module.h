@@ -18,16 +18,21 @@ namespace jc::resolve {
     };
 
     struct Module {
-        explicit Module(ModuleKind kind, dt::Option<module_ptr> parent) : kind(kind), parent(parent) {}
-//        explicit Module(node_id nodeId, module_ptr parent)
-//            : kind(ModuleKind::Block), nodeId(nodeId), parent(parent) {}
-//        explicit Module(def_id defId, dt::Option<module_ptr> parent)
-//            : kind(ModuleKind::Def), defId(defId), parent(parent) {}
+        // `Block` module
+        Module(node_id nodeId, dt::Option<module_ptr> parent)
+            : kind(ModuleKind::Block), parent(parent), nodeId(nodeId) {}
+
+        Module(def_id defId, dt::Option<module_ptr> parent)
+            : kind(ModuleKind::Block), parent(parent), defId(defId) {}
 
         ModuleKind kind;
-//        dt::Option<node_id> nodeId{dt::None};
-//        dt::Option<def_id> defId{dt::None};
         dt::Option<module_ptr> parent{dt::None};
+
+        // Node id for `Block` module
+        dt::Option<node_id> nodeId{dt::None};
+
+        // Definition id for `Def` module
+        dt::Option<def_id> defId{dt::None};
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
