@@ -1908,7 +1908,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return Path{global, std::move(segments), begin.to(cspan())};
+        return makeNode<Path>(global, std::move(segments), begin.to(cspan()));
     }
 
     tuple_t_el_list Parser::parseTupleFields() {
