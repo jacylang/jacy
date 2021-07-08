@@ -91,7 +91,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestAltNames(Namespace initialUsage, const PerNS<opt_def_id> & altDefs);
+        void suggestAltNames(Namespace target, const PerNS<opt_def_id> & altDefs);
 
         // Debug //
     private:
