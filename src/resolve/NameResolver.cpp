@@ -296,11 +296,16 @@ namespace jc::resolve {
         // Resolve complex path
         // Note: We search in `Module`s, but lift by `mod`s
         module_ptr searchMod = currentModule;
+        std::string pathStr;
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
             if (i < path.segments.size() - 1) {
+                if (i != 0) {
+                    pathStr += "::";
+                }
+                pathStr += segName;
                 continue;
             }
 
