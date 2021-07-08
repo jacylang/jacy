@@ -202,8 +202,12 @@ namespace jc::ast {
     void AstPrinter::visit(const TypeAlias & typeAlias) {
         log.raw("type ");
         colorizeDef(typeAlias.name);
-        log.raw(" = ");
-        typeAlias.type.accept(*this);
+
+        if (typeAlias.type) {
+            log.raw(" = ");
+            typeAlias.type.unwrap().accept(*this);
+        }
+
         log.raw(";");
 
         printNodeId(typeAlias);
