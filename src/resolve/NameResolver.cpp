@@ -299,7 +299,7 @@ namespace jc::resolve {
         // Path as string, built iterating through path segments
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
-        bool resolved = false;
+        dt::Option<std::string> unresolvedSegment{dt::None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
@@ -329,18 +329,22 @@ namespace jc::resolve {
                 const auto & def = modNs.find(segName);
                 if (def != modNs.end()) {
                     _resStorage.setRes(path.id, Res{def->second});
-                    resolved = true;
+                } else {
+                    unresolvedSegment = segName;
                 }
             }
         }
 
-        if (not resolved) {
-            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
-            // so give different error message
-            if (pathStr.empty()) {
+        if (not unresolvedSegment.none()) {
+//            if (pathStr.empty()) {
+//                // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+//                // so give different error message
+//
 //                const auto & localName = path.segments.at(0).unwrap()->ident.unwrap().unwrap()->getValue();
-//                suggestErrorMsg();
-            }
+//                suggestErrorMsg("'" + localName + "' is not defined");
+//            } else {
+//                suggestErrorMsg()
+//            }
         }
     }
 
