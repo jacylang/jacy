@@ -17,6 +17,11 @@ namespace jc::sugg {
         bool errorAppeared = false;
         Logger::nl();
         for (const auto & sg : suggestions) {
+            // Note: Each suggestion visitor must call `Logger::nl` itself,
+            //  because some suggestions do not require new line before it
+            //  (e.g. HelpSugg may not be bound to some suggestion, but be addressed to it implicitly),
+            //  so we print new lines before all suggestions which requires it
+
             sg->accept(*this);
             if (sg->getKind() == SuggKind::Error) {
                 errorAppeared = true;
