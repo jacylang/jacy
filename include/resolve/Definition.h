@@ -58,7 +58,7 @@ namespace jc::resolve {
             }
         }
 
-        void each(const std::function<void(const T & ns, Namespace nsName)> & cb) const {
+        void each(const std::function<void(const T & ns, Namespace nsKind)> & cb) const {
             cb(get(Namespace::Value), Namespace::Value);
             cb(get(Namespace::Type), Namespace::Type);
             cb(get(Namespace::Lifetime), Namespace::Lifetime);
