@@ -38,7 +38,7 @@ namespace jc::resolve {
         opt_node_id nodeId{None};
 
         // Definition id for `Def` module
-        dt::Option<def_id> defId{None};
+        opt_def_id defId{None};
 
         // Nearest `mod` definition
         opt_def_id nearestModDef;
