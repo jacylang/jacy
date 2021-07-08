@@ -22,23 +22,25 @@ namespace jc::resolve {
             ModuleKind kind,
             dt::Option<module_ptr> parent,
             opt_node_id nodeId,
-            opt_def_id defId
+            opt_def_id defId,
+            opt_def_id nearestModDef
         ) : kind(kind),
             parent(parent),
             nodeId(nodeId),
-            defId(defId) {}
+            defId(defId),
+            nearestModDef(nearestModDef) {}
 
         ModuleKind kind;
         dt::Option<module_ptr> parent{dt::None};
-
-        // Nearest `mod` definition
-        opt_def_id nearestModDef;
 
         // Node id for `Block` module
         opt_node_id nodeId{dt::None};
 
         // Definition id for `Def` module
         dt::Option<def_id> defId{dt::None};
+
+        // Nearest `mod` definition
+        opt_def_id nearestModDef;
 
         mod_ns_map valueNS;
         mod_ns_map typeNS;
