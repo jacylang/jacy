@@ -50,7 +50,7 @@ namespace jc::resolve {
         T type;
         T lifetime;
 
-        T & get(Namespace ns) const {
+        const T & get(Namespace ns) const {
             switch (ns) {
                 case Namespace::Value: return value;
                 case Namespace::Type: return type;
