@@ -72,18 +72,18 @@ namespace jc::resolve {
 
         const mod_ns_map & getNS(Namespace ns) const {
             switch (ns) {
-                case Namespace::Value: return valueNS;
-                case Namespace::Type: return typeNS;
-                case Namespace::Lifetime: return lifetimeNS;
+                case Namespace::Value: return perNS.valueNS;
+                case Namespace::Type: return perNS.typeNS;
+                case Namespace::Lifetime: return perNS.lifetimeNS;
             }
             common::Logger::notImplemented("Module::getNS");
         }
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
-                case Namespace::Value: return valueNS;
-                case Namespace::Type: return typeNS;
-                case Namespace::Lifetime: return lifetimeNS;
+                case Namespace::Value: return perNS.valueNS;
+                case Namespace::Type: return perNS.typeNS;
+                case Namespace::Lifetime: return perNS.lifetimeNS;
             }
             common::Logger::notImplemented("Module::getNS");
         }
