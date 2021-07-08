@@ -192,6 +192,14 @@ namespace jc::resolve {
             }
         }
 
+        static std::string nsAsUsageStr(Namespace ns) {
+            switch (ns) {
+                case Namespace::Value: return "expression";
+                case Namespace::Type: return "type";
+                case Namespace::Lifetime: return "lifetime";
+            }
+        }
+
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Def & def) {
             os << def.kindStr();
