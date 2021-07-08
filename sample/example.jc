@@ -1,8 +1,7 @@
 mod a {
-
+    func foo {}
 }
 
 func main {
-    a;
+    a::foo();
 }
-
