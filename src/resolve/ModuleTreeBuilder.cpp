@@ -170,7 +170,7 @@ namespace jc::resolve {
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
         log.dev("Enter block module #", nodeId);
-        enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod)));
+        enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
         curModuleName = dt::None;
@@ -181,7 +181,7 @@ namespace jc::resolve {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
         log.dev("Enter module '", name, "' defined with id #", defId);
-        enterChildModule(_defStorage.addModule(defId, Module::newDefModule(defId, mod)));
+        enterChildModule(_defStorage.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
         curModuleName = name;
