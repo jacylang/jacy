@@ -308,17 +308,17 @@ namespace jc::resolve {
             // Resolve prefix path, `a::b::` (before target)
             if (i < path.segments.size() - 1) {
                 // Note: Module-like items stored in `Type` namespace
-                const auto & typeNs = searchMod->getNS(Namespace::Type);
-                const auto & module = typeNs.find(segName);
-
-                if (module != typeNs.end()) {
+                searchMod->find(Namespace::Type, segName).then([&](auto defId) {
                     // Get module specified in path segment from current searched module
-                    searchMod = sess->defStorage.getModule(module->second);
-                    log.dev("Enter module by path segment '", pathStr, "' with def id #", module->second);
-                } else {
+                    searchMod = sess->defStorage.getModule(defId);
+                    log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
+                }).otherwise([&]() {
                     // Resolution failed
                     log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
                     unresolvedSegIndex = i;
+                });
+
+                if (unresolvedSegIndex) {
                     break;
                 }
 
