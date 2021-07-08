@@ -42,6 +42,15 @@ namespace jc::resolve {
         Lifetime,
     };
 
+    // Stolen from Rust's source code
+    // As, actually, mostly everything else ❤🔥
+    template<class T>
+    struct PerNS {
+        T valueNS;
+        T typeNS;
+        T lifetimeNS;
+    };
+
     struct Def {
         Def(
             DefKind kind,
