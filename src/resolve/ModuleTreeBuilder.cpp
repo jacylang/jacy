@@ -181,7 +181,7 @@ namespace jc::resolve {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
         log.dev("Enter module '", name, "' defined with id #", defId);
-        enterChildModule(_defStorage.addModule(defId, std::make_shared<Module>(defId, mod)));
+        enterChildModule(_defStorage.addModule(defId, Module::newDefModule(defId, mod)));
 
         // For debug //
         curModuleName = name;
