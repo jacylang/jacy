@@ -12,7 +12,7 @@ namespace jc::resolve {
     }
 
     bool Rib::find(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage) {
-        // Try to resolve local var first as it has higher precedence than items
+        // Try to find local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
@@ -22,9 +22,8 @@ namespace jc::resolve {
             }
         }
 
-        // If no module bound we unable to resolve name
+        // Try to find name in bound module
         bool resolved = false;
-
         boundModule.then([&](const module_ptr & mod) {
             mod->find(ns, name).then([&](def_id defId) {
                 common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", defId);
