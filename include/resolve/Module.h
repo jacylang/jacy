@@ -71,7 +71,7 @@ namespace jc::resolve {
         }
 
         // Find alternatives in other namespaces excluding specified one
-        PerNS<opt_def_id> findAlt(Namespace excludeNs, const std::string & name) const {
+        PerNS<opt_def_id> findAlt(const std::string & name) const {
             return {
                 find(Namespace::Value, name),
                 find(Namespace::Type, name),
