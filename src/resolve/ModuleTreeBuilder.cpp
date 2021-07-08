@@ -181,6 +181,12 @@ namespace jc::resolve {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
         log.dev("Enter module '", name, "' defined with id #", defId);
+
+        // We entered a new `mod`, so update `nearestModDef`
+        if (defKind == DefKind::Mod) {
+            nearestModDef = defId;
+        }
+
         enterChildModule(_defStorage.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
