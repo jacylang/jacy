@@ -423,7 +423,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const PathExpr & pathExpr) {
-        pathExpr.path.accept(*this);
+        pathExpr.path->accept(*this);
     }
 
     void Validator::visit(const Prefix & prefix) {
@@ -551,7 +551,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TypePath & typePath) {
-        typePath.path.accept(*this);
+        typePath.path->accept(*this);
     }
 
     void Validator::visit(const UnitType&) {
