@@ -100,7 +100,7 @@ namespace jc::resolve {
 
     // Definitions //
 
-    /// Adds definition by name to specific namespace determined by DefKind
+    /// Adds definition by name to specific namespace determined by DefKind in current module
     def_id ModuleTreeBuilder::addDef(const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
         const auto defId = _defStorage.define(defKind, ident.span(), ident.unwrap()->id);
