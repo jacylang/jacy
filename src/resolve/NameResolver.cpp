@@ -293,9 +293,9 @@ namespace jc::resolve {
 
         // TODO!!!: Keyword segments: self, super, etc.
 
-        // Resolve complex path
-        module_ptr searchMod = currentModule;
+        // Resolve complex path //
 
+        module_ptr searchMod = currentModule;
         // Path as string, built iterating through path segments
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;

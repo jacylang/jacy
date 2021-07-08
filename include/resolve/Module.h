@@ -72,7 +72,7 @@ namespace jc::resolve {
             common::Logger::notImplemented("Module::getNS");
         }
 
-        constexpr inline const char * kindStr() const {
+        inline const char * kindStr() const {
             switch (kind) {
                 case ModuleKind::Root: return "[ROOT]";
                 case ModuleKind::Block: return "[BLOCK]";
