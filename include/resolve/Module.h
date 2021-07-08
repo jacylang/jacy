@@ -18,22 +18,21 @@ namespace jc::resolve {
     };
 
     struct Module {
-        // `Fictive` or `Root` module
-        Module(ModuleKind kind, dt::Option<module_ptr> parent) : kind(kind), parent(parent) {}
-
-        // `Block` module
-        Module(node_id nodeId, dt::Option<module_ptr> parent)
-            : kind(ModuleKind::Block), parent(parent), nodeId(nodeId) {}
-
-        // `Def` module
-        Module(def_id defId, dt::Option<module_ptr> parent)
-            : kind(ModuleKind::Block), parent(parent), defId(defId) {}
+        Module(
+            ModuleKind kind,
+            dt::Option<module_ptr> parent,
+            opt_node_id nodeId,
+            dt::Option<def_id> defId
+        ) : kind(kind),
+            parent(parent),
+            nodeId(nodeId),
+            defId(defId) {}
 
         ModuleKind kind;
         dt::Option<module_ptr> parent{dt::None};
 
         // Node id for `Block` module
-        dt::Option<node_id> nodeId{dt::None};
+        opt_node_id nodeId{dt::None};
 
         // Definition id for `Def` module
         dt::Option<def_id> defId{dt::None};
@@ -42,6 +41,21 @@ namespace jc::resolve {
         mod_ns_map typeNS;
         mod_ns_map lifetimeNS;
         prim_type_set_t shadowedPrimTypes{0};
+
+        // `Fictive` or `Root` module
+        module_ptr newWrapperModule(ModuleKind kind, dt::Option<module_ptr> parent) {
+
+        }
+
+        // `Block` module
+        static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent) {
+            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, dt::None);
+        }
+
+        // `Def` module
+        static inline module_ptr newDefModule(def_id defId, module_ptr parent) {
+            return std::make_shared<Module>(ModuleKind::Block, parent, dt::None, defId);
+        }
 
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
