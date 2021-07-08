@@ -70,6 +70,15 @@ namespace jc::resolve {
             return def->second;
         }
 
+        // Find alternatives in other namespaces excluding specified one
+        PerNS<opt_def_id> findAlt(Namespace excludeNs, const std::string & name) const {
+            return {
+                find(Namespace::Value, name),
+                find(Namespace::Type, name),
+                find(Namespace::Lifetime, name)
+            };
+        }
+
         const mod_ns_map & getNS(Namespace ns) const {
             switch (ns) {
                 case Namespace::Value: return perNS.valueNS;
