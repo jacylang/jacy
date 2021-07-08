@@ -43,8 +43,8 @@ namespace jc::resolve {
         prim_type_set_t shadowedPrimTypes{0};
 
         // `Fictive` or `Root` module
-        module_ptr newWrapperModule(ModuleKind kind, dt::Option<module_ptr> parent) {
-
+        static inline module_ptr newWrapperModule(ModuleKind kind, dt::Option<module_ptr> parent) {
+            return std::make_shared<Module>(kind, parent, dt::None, dt::None);
         }
 
         // `Block` module
