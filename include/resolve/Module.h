@@ -60,7 +60,7 @@ namespace jc::resolve {
 
         // `Def` module
         static inline module_ptr newDefModule(def_id defId, module_ptr parent, opt_def_id nearestModDef) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, None, defId, nearestModDef);
+            return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
         mod_ns_map & getNS(Namespace ns) {
