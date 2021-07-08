@@ -525,8 +525,11 @@ namespace jc::parser {
         justSkip(TokenKind::Type, "`type`", "`parseTypeAlias`");
 
         auto name = parseId("`type` name");
-        skip(TokenKind::Assign, "Expected `=` in type alias");
-        auto type = parseType("Expected type");
+
+        opt_type_ptr type{dt::None};
+        if (skipOpt(TokenKind::Assign)) {
+            type = parseType("Expected type");
+        }
 
         skipSemi();
 
