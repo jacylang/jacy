@@ -63,6 +63,15 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
+        const mod_ns_map & getNS(Namespace ns) const {
+            switch (ns) {
+                case Namespace::Value: return valueNS;
+                case Namespace::Type: return typeNS;
+                case Namespace::Lifetime: return lifetimeNS;
+            }
+            common::Logger::notImplemented("Module::getNS");
+        }
+
         mod_ns_map & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return valueNS;

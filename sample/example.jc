@@ -1,7 +1,7 @@
 mod a {
-    type foo = i32;
+    type foo;
 }
 
 func main {
-    a::foo();
+    let b: a::foo = 123;
 }
