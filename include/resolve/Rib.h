@@ -30,9 +30,9 @@ namespace jc::resolve {
         /// Returns local node_id that was already defined if it was
         opt_node_id define(const ast::id_ptr & ident);
 
-        /// Resolves name in rib namespace
+        /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool resolve(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage);
+        bool find(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage);
 
         void bindMod(module_ptr module);
 

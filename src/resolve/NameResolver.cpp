@@ -359,7 +359,7 @@ namespace jc::resolve {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            if (rib->resolve(ns, name, refNodeId, _resStorage)) {
+            if (rib->find(ns, name, refNodeId, _resStorage)) {
                 log.dev("Resolved '", name, "'");
                 return true;
             }
