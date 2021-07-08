@@ -377,6 +377,10 @@ namespace jc::resolve {
         return false;
     }
 
+    void NameResolver::suggestAltNames(const PerNS<opt_def_id> & altDefs) {
+
+    }
+
     // Debug //
     void NameResolver::printRib() {
         if (not printRibsFlag or ribStack.empty()) {

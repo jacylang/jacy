@@ -89,6 +89,10 @@ namespace jc::resolve {
         void resolvePath(Namespace ns, const ast::Path & path);
         bool resolveLocal(Namespace ns, const std::string & name, node_id refNodeId);
 
+        // Suggestions //
+    private:
+        void suggestAltNames(const PerNS<opt_def_id> & altDefs);
+
         // Debug //
     private:
         bool printRibsFlag{false};
