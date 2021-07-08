@@ -109,9 +109,9 @@ namespace jc::resolve {
 
         constexpr static inline const char * nsToString(Namespace ns) {
             switch (ns) {
-                case Namespace::Value: return "value namespace";
-                case Namespace::Type: return "type namespace";
-                case Namespace::Lifetime: return "lifetime namespace";
+                case Namespace::Value: return "value";
+                case Namespace::Type: return "type";
+                case Namespace::Lifetime: return "lifetime";
                 default: return "[NO REPRESENTATION (bug)]";
             }
         }
