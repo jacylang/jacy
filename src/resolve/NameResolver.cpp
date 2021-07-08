@@ -386,7 +386,7 @@ namespace jc::resolve {
             const auto & def = sess->defStorage.getDef(defId);
             suggestHelp(
                 "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
-                Module::nsToString(target), dt::None);
+                Module::nsToString(target));
         });
     }
 
