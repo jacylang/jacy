@@ -7,6 +7,7 @@
 namespace jc::resolve {
     struct Module;
     using module_ptr = std::shared_ptr<Module>;
+    using opt_module_ptr = dt::Option<module_ptr>;
     using def_id = size_t;
     using opt_def_id = dt::Option<def_id>;
 

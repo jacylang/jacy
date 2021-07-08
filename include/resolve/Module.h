@@ -21,7 +21,7 @@ namespace jc::resolve {
     struct Module {
         Module(
             ModuleKind kind,
-            dt::Option<module_ptr> parent,
+            opt_module_ptr parent,
             opt_node_id nodeId,
             opt_def_id defId,
             opt_def_id nearestModDef
@@ -32,7 +32,7 @@ namespace jc::resolve {
             nearestModDef(nearestModDef) {}
 
         ModuleKind kind;
-        dt::Option<module_ptr> parent{None};
+        opt_module_ptr parent{None};
 
         // Node id for `Block` module
         opt_node_id nodeId{None};
@@ -49,8 +49,8 @@ namespace jc::resolve {
         prim_type_set_t shadowedPrimTypes{0};
 
         // `Fictive` or `Root` module
-        static inline module_ptr newWrapperModule(ModuleKind kind, dt::Option<module_ptr> parent) {
-            return std::make_shared<Module>(kind, parent, None, None, None);
+        static inline module_ptr newWrapperModule(ModuleKind kind, opt_module_ptr parent, opt_def_id nearestModDef) {
+            return std::make_shared<Module>(kind, parent, None, None, nearestModDef);
         }
 
         // `Block` module
