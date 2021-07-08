@@ -18,10 +18,14 @@ namespace jc::resolve {
     };
 
     struct Module {
+        // `Fictive` or `Root` module
+        Module(ModuleKind kind, dt::Option<module_ptr> parent) : kind(kind), parent(parent) {}
+
         // `Block` module
         Module(node_id nodeId, dt::Option<module_ptr> parent)
             : kind(ModuleKind::Block), parent(parent), nodeId(nodeId) {}
 
+        // `Def` module
         Module(def_id defId, dt::Option<module_ptr> parent)
             : kind(ModuleKind::Block), parent(parent), defId(defId) {}
 
