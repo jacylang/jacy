@@ -272,6 +272,8 @@ namespace jc::resolve {
         // Simple-dimple LOL
     }
 
+    /// Resolves any kind of path
+    /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
     void NameResolver::resolvePath(Namespace ns, const ast::Path & path) {
         // TODO: global
 
