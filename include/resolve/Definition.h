@@ -57,6 +57,12 @@ namespace jc::resolve {
                 case Namespace::Lifetime: return lifetime;
             }
         }
+
+        void each(const std::function<void(T & ns)> & cb) {
+            cb(get(Namespace::Value));
+            cb(get(Namespace::Type));
+            cb(get(Namespace::Lifetime));
+        }
     };
 
     struct Def {
