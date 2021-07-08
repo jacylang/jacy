@@ -205,10 +205,10 @@ namespace jc::resolve {
             moduleDefId,
             Module::newWrapperModule(ModuleKind::Fictive, mod, moduleDefId)
         );
-        if (utils::map::has(mod->typeNS, name)) {
+        if (utils::map::has(mod->perNS.typeNS, name)) {
             log.devPanic("Tried to redefine fictive module '", name, "'");
         }
-        mod->typeNS.emplace(name, moduleDefId);
+        mod->perNS.typeNS.emplace(name, moduleDefId);
 
         enterChildModule(child);
     }
