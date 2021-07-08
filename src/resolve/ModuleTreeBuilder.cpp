@@ -169,7 +169,7 @@ namespace jc::resolve {
 
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(node_id nodeId) {
-        log.dev("Enter block module #", nodeId);
+        log.dev("Enter [BLOCK] module #", nodeId);
         enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
@@ -180,7 +180,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, DefKind defKind) {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
-        log.dev("Enter module '", name, "' defined with id #", defId);
+        log.dev("Enter [DEF] module '", name, "' defined with id #", defId);
 
         // We entered a new `mod`, so update `nearestModDef`
         if (defKind == DefKind::Mod) {
@@ -196,7 +196,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterFictiveModule(const std::string & name, DefKind defKind) {
         curModuleName = name;
 
-        log.dev("Enter fictive module '", name, "' ", Def::kindStr(defKind));
+        log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
         const auto moduleDefId = _defStorage.define(defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(moduleDefId, Module::newWrapperModule(ModuleKind::Fictive, mod));
         if (utils::map::has(mod->typeNS, name)) {
