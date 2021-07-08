@@ -43,9 +43,7 @@ namespace jc::resolve {
         // Nearest `mod` definition
         opt_def_id nearestModDef;
 
-        mod_ns_map valueNS;
-        mod_ns_map typeNS;
-        mod_ns_map lifetimeNS;
+        PerNS<mod_ns_map> perNS;
         prim_type_set_t shadowedPrimTypes{0};
 
         // `Fictive` or `Root` module
