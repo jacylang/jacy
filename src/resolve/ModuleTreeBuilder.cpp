@@ -198,7 +198,10 @@ namespace jc::resolve {
 
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
         const auto moduleDefId = _defStorage.define(defKind, dt::None, dt::None);
-        auto child = _defStorage.addModule(moduleDefId, Module::newWrapperModule(ModuleKind::Fictive, mod));
+        auto child = _defStorage.addModule(
+            moduleDefId,
+            Module::newWrapperModule(ModuleKind::Fictive, mod, moduleDefId)
+        );
         if (utils::map::has(mod->typeNS, name)) {
             log.devPanic("Tried to redefine fictive module '", name, "'");
         }
