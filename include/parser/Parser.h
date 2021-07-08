@@ -247,6 +247,7 @@ namespace jc::parser {
         /// Shortcut for `peek().span`
         Span cspan() const;
         Span nspan() const;
+        Span closeSpan(const Span & begin);
 
         // DEV //
     private:

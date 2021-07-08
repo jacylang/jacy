@@ -1,3 +1,7 @@
+mod a {
+
+}
+
 func main {
-    let a = \(x) -> x * 2;
+    a;
 }

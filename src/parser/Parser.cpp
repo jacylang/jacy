@@ -2360,6 +2360,10 @@ namespace jc::parser {
         return lookup().span;
     }
 
+    Span Parser::closeSpan(const Span & begin) {
+        return begin.to(prev().span);
+    }
+
     // DEBUG //
     void Parser::enterEntity(const std::string & entity) {
         if (not extraDebugEntities) {
