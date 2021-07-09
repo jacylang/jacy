@@ -113,7 +113,7 @@ namespace jc::resolve {
     /// Adds definition by name to specific namespace determined by DefKind in current module
     def_id ModuleTreeBuilder::addDef(DefVis vis, const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
-        const auto defId = _defStorage.define(vis, defKind, ident.span(), ident.unwrap()->id);
+        const auto defId = _defStorage.define(modDepth, vis, defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
 
         log.dev(
@@ -210,7 +210,7 @@ namespace jc::resolve {
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
 
         // Note: Fictive modules are always public
-        const auto moduleDefId = _defStorage.define(DefVis::Pub, defKind, dt::None, dt::None);
+        const auto moduleDefId = _defStorage.define(modDepth, DefVis::Pub, defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(
             moduleDefId, Module::newFictiveModule(ModuleKind::Fictive, mod, moduleDefId)
         );
