@@ -49,7 +49,12 @@ namespace jc::resolve {
         PerNS<mod_ns_map> perNS;
         prim_type_set_t shadowedPrimTypes{0};
 
-        // `Fictive` or `Root` module
+        // `Root` module
+        static inline module_ptr newRootModule() {
+            return std::make_shared<Module>(0, ModuleKind::Root, None, None, None, None);
+        }
+
+        // [Dir] or [File] fictive module
         static inline module_ptr newFictiveModule(ModuleKind kind, module_ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(parent->depth + 1, kind, parent, None, None, nearestModDef);
         }
