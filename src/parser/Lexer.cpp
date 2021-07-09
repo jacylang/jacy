@@ -407,9 +407,6 @@ namespace jc::parser {
                         addToken(TokenKind::NotEq, 2);
                         advance(2);
                     }
-                } else if (lookup() == 'i' and lookup(2) == 'n') {
-                    addToken(TokenKind::NotIn, 3);
-                    advance(3);
                 } else {
                     addToken(TokenKind::Not, 1);
                     advance();
@@ -480,18 +477,8 @@ namespace jc::parser {
                 advance();
             } break;
             case '?': {
-                if (lookup() == '?') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::NullishAssign, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::NullCoalesce, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::Quest, 1);
-                    advance();
-                }
+                addToken(TokenKind::Quest, 1);
+                advance();
             } break;
             case '$': {
                 addToken(TokenKind::Dollar, 1);
