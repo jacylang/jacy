@@ -123,6 +123,7 @@ namespace jc::ast {
 
         // Helpers //
     private:
+        void printVis(const Vis & vis);
         void printAttributes(const attr_list & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void printGenerics(const opt_gen_params & optGenerics, bool pathPrefix = false);

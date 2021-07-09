@@ -856,6 +856,16 @@ namespace jc::ast {
     }
 
     // Helpers //
+    void AstPrinter::printVis(const Vis & vis) {
+        switch (vis.kind) {
+            case VisKind::Pub: {
+                log.raw("pub ");
+                break;
+            }
+            case VisKind::Unset:;
+        }
+    }
+
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
             attr->accept(*this);
