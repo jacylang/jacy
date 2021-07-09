@@ -159,15 +159,15 @@ namespace jc::resolve {
             for (const auto & gen : generics) {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {
-                        addDef(std::static_pointer_cast<ast::TypeParam>(gen)->name, DefKind::TypeParam);
+                        addDef(DefVis::Pub, std::static_pointer_cast<ast::TypeParam>(gen)->name, DefKind::TypeParam);
                         break;
                     }
                     case ast::GenericParamKind::Const: {
-                        addDef(std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
+                        addDef(DefVis::Pub, std::static_pointer_cast<ast::ConstParam>(gen)->name, DefKind::ConstParam);
                         break;
                     }
                     case ast::GenericParamKind::Lifetime: {
-                        addDef(std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
+                        addDef(DefVis::Pub, std::static_pointer_cast<ast::Lifetime>(gen)->name, DefKind::Lifetime);
                         break;
                     }
                 }
@@ -207,7 +207,9 @@ namespace jc::resolve {
         curModuleName = name;
 
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
-        const auto moduleDefId = _defStorage.define(defKind, dt::None, dt::None);
+
+        // Note: Fictive modules are always public
+        const auto moduleDefId = _defStorage.define(DefVis::Pub, defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(
             moduleDefId, Module::newFictiveModule(ModuleKind::Fictive, mod, moduleDefId)
         );
