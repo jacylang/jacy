@@ -385,11 +385,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<opt_def_id> & altDefs) {
-        altDefs.each([&](auto defId, Namespace nsKind) {
-            if (nsKind == target) {
+        altDefs.each([&](opt_def_id defId, Namespace nsKind) {
+            if (nsKind == target or defId.none()) {
                 return;
             }
-            const auto & def = sess->defStorage.getDef(defId);
+            const auto & def = sess->defStorage.getDef(defId.unwrap());
             log.dev(
                 "Found alternative for unresolved name '",
                 name,
