@@ -314,7 +314,7 @@ namespace jc::resolve {
                 // Note: Module-like items stored in `Type` namespace
                 searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
                     // Check module definition visibility
-                    // Note: Order matters, we need to check for visibility before descend to next module
+                    // Note: Order matters, we need to check visibility before descend to next module
                     if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
