@@ -90,12 +90,12 @@ namespace jc::resolve {
             case DefKind::Impl:
             case DefKind::Mod:
             case DefKind::Struct:
+            case DefKind::Func:
             case DefKind::Trait: {
                 log.raw(" ");
                 printMod(sess->defStorage.getModule(defId));
                 break;
             }
-            case DefKind::Func:
             case DefKind::Lifetime:
             case DefKind::TypeAlias:
             case DefKind::TypeParam:
