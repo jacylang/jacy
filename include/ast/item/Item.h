@@ -19,6 +19,17 @@ namespace jc::ast {
         Use,
     };
 
+    enum class VisKind {
+        Pub,
+    };
+
+    struct Vis {
+        Vis(VisKind kind, const Span & span) : kind(kind), span(span) {}
+
+        VisKind kind;
+        Span span;
+    };
+
     struct Item : Node {
         Item(const Span & span, ItemKind kind) : Node(span), kind(kind) {}
 
