@@ -47,6 +47,7 @@ namespace jc::resolve {
 
         // Modules //
     private:
+        def_depth modDepth{0};
         module_ptr mod;
         opt_def_id nearestModDef{dt::None};
         void enterBlock(node_id nodeId);
