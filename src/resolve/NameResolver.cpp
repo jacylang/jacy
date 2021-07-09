@@ -317,7 +317,7 @@ namespace jc::resolve {
                     searchMod = sess->defStorage.getModule(defId);
 
                     // Check module definition visibility
-                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                    if (sess->defStorage.isPrivateFor(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                     }
@@ -342,7 +342,7 @@ namespace jc::resolve {
                 // Resolve last segment
                 searchMod->find(ns, segName).then([&](def_id defId) {
                     // Check target definition visibility
-                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                    if (sess->defStorage.isPrivateFor(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                         return;

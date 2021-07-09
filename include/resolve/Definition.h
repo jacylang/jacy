@@ -227,7 +227,7 @@ namespace jc::resolve {
             }
         }
 
-        DefVis getDefVis(def_id defId) const {
+        DefVis isPrivateFor(def_id defId) const {
             return getDef(defId).vis;
         }
 
