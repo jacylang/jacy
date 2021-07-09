@@ -225,6 +225,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterChildModule(module_ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
+        modDepth++;
     }
 
     void ModuleTreeBuilder::exitMod() {
@@ -233,6 +234,7 @@ namespace jc::resolve {
 
         // Set nearest `mod` from parent we lift to
         nearestModDef = mod->nearestModDef;
+        modDepth--;
     }
 
     // Suggestions //
