@@ -9,8 +9,7 @@
 #include "common/Logger.h"
 #include "session/SourceMap.h"
 #include "ast/NodeMap.h"
-#include "resolve/Module.h"
-#include "resolve/ResStorage.h"
+#include "resolve/DefStorage.h"
 
 namespace jc::sess {
     struct Session;
