@@ -10,6 +10,7 @@ namespace jc::resolve {
     using ast::node_id;
     using mod_ns_map = std::map<std::string, def_id>;
     using dt::None;
+    using mod_depth = uint32_t;
 
     enum class ModuleKind {
         Root,
@@ -20,7 +21,7 @@ namespace jc::resolve {
 
     struct Module {
         Module(
-            uint32_t depth,
+            mod_depth depth,
             ModuleKind kind,
             opt_module_ptr parent,
             opt_node_id nodeId,
@@ -33,7 +34,7 @@ namespace jc::resolve {
             defId(defId),
             nearestModDef(nearestModDef) {}
 
-        uint32_t depth;
+        mod_depth depth;
         ModuleKind kind;
         opt_module_ptr parent{None};
 
