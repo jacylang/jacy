@@ -313,14 +313,15 @@ namespace jc::resolve {
             if (i < path.segments.size() - 1) {
                 // Note: Module-like items stored in `Type` namespace
                 searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
-                    // Get module specified in path segment from current searched module
-                    searchMod = sess->defStorage.getModule(defId);
-
                     // Check module definition visibility
-                    if (sess->defStorage.isPrivateFor(defId) != DefVis::Pub) {
+                    // Note: Order matters, we need to check for visibility before descend to next module
+                    if (sess->defStorage.isPrivateFor(defId, searchMod->nearestModDef)) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                     }
+
+                    // Get module specified in path segment from current searched module
+                    searchMod = sess->defStorage.getModule(defId);
 
                     log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
                 }).otherwise([&]() {
