@@ -113,7 +113,7 @@ namespace jc::resolve {
     /// Adds definition by name to specific namespace determined by DefKind in current module
     def_id ModuleTreeBuilder::addDef(DefVis vis, const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
-        const auto defId = _defStorage.define(modDepth, vis, defKind, ident.span(), ident.unwrap()->id);
+        const auto defId = _defStorage.define(_modDepth, vis, defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
 
         log.dev(
@@ -210,7 +210,7 @@ namespace jc::resolve {
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
 
         // Note: Fictive modules are always public
-        const auto moduleDefId = _defStorage.define(modDepth, DefVis::Pub, defKind, dt::None, dt::None);
+        const auto moduleDefId = _defStorage.define(_modDepth, DefVis::Pub, defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(
             moduleDefId, Module::newFictiveModule(ModuleKind::Fictive, mod, moduleDefId)
         );
@@ -225,10 +225,10 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterChildModule(module_ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
-        if (modDepth == UINT32_MAX) {
+        if (_modDepth == UINT32_MAX) {
             log.devPanic("Exceeded definitions depth limit");
         }
-        modDepth++;
+        _modDepth++;
     }
 
     void ModuleTreeBuilder::exitMod() {
@@ -237,7 +237,7 @@ namespace jc::resolve {
 
         // Set nearest `mod` from parent we lift to
         nearestModDef = mod->nearestModDef;
-        modDepth--;
+        _modDepth--;
     }
 
     // Suggestions //
