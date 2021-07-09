@@ -20,20 +20,17 @@ namespace jc::resolve {
 
     struct Module {
         Module(
-            mod_depth depth,
             ModuleKind kind,
             opt_module_ptr parent,
             opt_node_id nodeId,
             opt_def_id defId,
             opt_def_id nearestModDef
-        ) : depth(depth),
-            kind(kind),
+        ) : kind(kind),
             parent(parent),
             nodeId(nodeId),
             defId(defId),
             nearestModDef(nearestModDef) {}
 
-        mod_depth depth;
         ModuleKind kind;
         opt_module_ptr parent{None};
 

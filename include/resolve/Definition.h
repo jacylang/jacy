@@ -10,7 +10,7 @@ namespace jc::resolve {
     using opt_module_ptr = dt::Option<module_ptr>;
     using def_id = size_t;
     using opt_def_id = dt::Option<def_id>;
-    using mod_depth = uint32_t;
+    using def_depth = uint32_t;
 
     enum class Namespace {
         Value,
