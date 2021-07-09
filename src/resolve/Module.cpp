@@ -19,11 +19,6 @@ namespace jc::resolve {
 
         const auto & shadowedPrimTypesNames = getShadowedPrimTypes(module->shadowedPrimTypes);
 
-        const auto & moduleDef = sess->defStorage.getDef(module->defId);
-        if (moduleDef.nameNodeId) {
-            log.raw("(#", moduleDef.nameNodeId.unwrap(), ") ");
-        }
-
         if (not shadowedPrimTypesNames.empty()) {
             log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
         }
@@ -81,6 +76,10 @@ namespace jc::resolve {
     void ModulePrinter::printDef(def_id defId) {
         const auto & def = sess->defStorage.getDef(defId);
         log.raw(def.kindStr());
+
+        if (def.nameNodeId) {
+            log.raw("(#", def.nameNodeId.unwrap(), ") ");
+        }
 
         switch (def.kind) {
             case DefKind::Dir:
