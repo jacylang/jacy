@@ -14,7 +14,8 @@ namespace jc::resolve {
         }
 
         /// Checks if definition is private for module at given depth
-        DefVis isPrivateFor(def_id defId, def_depth forModuleAtDepth) const {
+        bool isPrivateFor(def_id defId, def_depth forModuleAtDepth) const {
+            return getDef(defId) > forModuleAtDepth
         }
 
         template<class ...Args>
