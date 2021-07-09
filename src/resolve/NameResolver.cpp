@@ -307,6 +307,8 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(i).unwrap();
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
+            // TODO: Unify logic, it is possible
+
             // Resolve prefix path, `a::b::` (before target)
             if (i < path.segments.size() - 1) {
                 // Note: Module-like items stored in `Type` namespace
