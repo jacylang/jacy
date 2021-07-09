@@ -17,6 +17,10 @@ namespace jc::resolve {
         Lifetime,
     };
 
+    enum class DefVis {
+        Pub,
+    };
+
     enum class DefKind {
         Dir,
         File,
@@ -67,13 +71,16 @@ namespace jc::resolve {
 
     struct Def {
         Def(
+            DefVis vis,
             DefKind kind,
             const dt::Option<span::Span> & nameSpan,
             ast::opt_node_id nameNodeId
-        ) : kind(kind),
+        ) : vis(vis),
+            kind(kind),
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
 
+        DefVis vis;
         DefKind kind;
         const ast::opt_node_id nameNodeId;
         const dt::Option<span::Span> nameSpan;
