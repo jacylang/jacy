@@ -2,11 +2,12 @@ mod a {
     mod b {
         type A;
     }
-    
+
     func foo {
         let a: b::A;
     }
 }
 
 func main {
+
 }
