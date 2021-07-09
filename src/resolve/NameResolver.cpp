@@ -343,7 +343,7 @@ namespace jc::resolve {
                 // Resolve last segment
                 searchMod->find(ns, segName).then([&](def_id defId) {
                     // Check target definition visibility
-                    if (sess->defStorage.isPrivateFor(defId) != DefVis::Pub) {
+                    if (sess->defStorage.isPrivateFor(defId, searchMod->nearestModDef)) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                         return;

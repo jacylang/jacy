@@ -48,22 +48,22 @@ namespace jc::resolve {
 
         // `Root` module
         static inline module_ptr newRootModule() {
-            return std::make_shared<Module>(0, ModuleKind::Root, None, None, None, None);
+            return std::make_shared<Module>(ModuleKind::Root, None, None, None, None);
         }
 
         // [Dir] or [File] fictive module
         static inline module_ptr newFictiveModule(ModuleKind kind, module_ptr parent, opt_def_id nearestModDef) {
-            return std::make_shared<Module>(parent->depth + 1, kind, parent, None, None, nearestModDef);
+            return std::make_shared<Module>(kind, parent, None, None, nearestModDef);
         }
 
         // `Block` module
         static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent, opt_def_id nearestModDef) {
-            return std::make_shared<Module>(parent->depth + 1, ModuleKind::Block, parent, nodeId, None, nearestModDef);
+            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 
         // `Def` module
         static inline module_ptr newDefModule(def_id defId, module_ptr parent, opt_def_id nearestModDef) {
-            return std::make_shared<Module>(parent->depth + 1, ModuleKind::Def, parent, None, defId, nearestModDef);
+            return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
         opt_def_id find(Namespace nsKind, const std::string & name) const {
