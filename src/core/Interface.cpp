@@ -277,14 +277,14 @@ namespace jc::core {
         log.info("Printing resolutions (`-print=resolutions`)");
 
         for (const auto & res : sess->resStorage.getResolutions()) {
-            log.raw("#", res.first, " -> #");
+            log.raw("#", res.first, " ->");
             switch (res.second.kind) {
                 case resolve::ResKind::Error: {
                     log.raw("[ERROR]");
                     break;
                 }
                 case resolve::ResKind::Local: {
-                    log.raw(res.second.asLocal());
+                    log.raw("local #", res.second.asLocal());
                     break;
                 }
                 case resolve::ResKind::Def: {

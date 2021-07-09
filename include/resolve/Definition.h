@@ -216,7 +216,7 @@ namespace jc::resolve {
         friend std::ostream & operator<<(std::ostream & os, const Def & def) {
             os << def.kindStr();
             if (def.nameNodeId) {
-                os << " [" << def.nameNodeId.unwrap() << "]";
+                os << " [nameNode: #" << def.nameNodeId.unwrap() << "]";
             }
             return os;
         }
