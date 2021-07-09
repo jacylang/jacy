@@ -318,6 +318,7 @@ namespace jc::resolve {
                     // Check module definition visibility
                     // Note: Order matters, we need to check for visibility before descend to next module
                     if (sess->defStorage.isPrivateFor(descendModule->defId, searchMod->nearestModDef)) {
+                        log.dev("[ERROR] #", descendModule->defId, " is not accessible from #", searchMod->nearestModDef);
                         inaccessible = true;
                         unresolvedSegIndex = i;
                     }
