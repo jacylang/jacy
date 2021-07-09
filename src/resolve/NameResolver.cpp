@@ -315,8 +315,7 @@ namespace jc::resolve {
                     searchMod = sess->defStorage.getModule(defId);
 
                     // Check module definition visibility
-                    const Def & moduleDef = sess->defStorage.getDef(defId);
-                    if (moduleDef.vis != DefVis::Pub) {
+                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                     }
@@ -339,7 +338,14 @@ namespace jc::resolve {
                 pathStr += segName;
             } else {
                 // Resolve last segment
-                searchMod->find(ns, segName).then([&](auto defId) {
+                searchMod->find(ns, segName).then([&](def_id defId) {
+                    // Check target definition visibility
+                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                        inaccessible = true;
+                        unresolvedSegIndex = i;
+                        return;
+                    }
+
                     log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", defId);
                     _resStorage.setRes(path.id, Res{defId});
                 }).otherwise([&]() {
