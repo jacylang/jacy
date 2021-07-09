@@ -227,6 +227,10 @@ namespace jc::resolve {
             }
         }
 
+        DefVis getDefVis(def_id defId) const {
+            return getDef(defId).vis;
+        }
+
         template<class ...Args>
         def_id define(Args ...args) {
             defs.emplace_back(Def(args...));

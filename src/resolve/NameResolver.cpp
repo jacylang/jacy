@@ -299,6 +299,7 @@ namespace jc::resolve {
         // Path as string, built iterating through path segments
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
+        bool inaccessible = false;
         dt::Option<size_t> unresolvedSegIndex{dt::None};
         PerNS<opt_def_id> altDefs = {dt::None, dt::None, dt::None};
 
@@ -312,6 +313,14 @@ namespace jc::resolve {
                 searchMod->find(Namespace::Type, segName).then([&](auto defId) {
                     // Get module specified in path segment from current searched module
                     searchMod = sess->defStorage.getModule(defId);
+
+                    // Check module definition visibility
+                    const Def & moduleDef = sess->defStorage.getDef(defId);
+                    if (moduleDef.vis != DefVis::Pub) {
+                        inaccessible = true;
+                        unresolvedSegIndex = i;
+                    }
+
                     log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
                 }).otherwise([&]() {
                     // Resolution failed
