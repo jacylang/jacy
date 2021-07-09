@@ -5,7 +5,7 @@ namespace jc::resolve {
         this->sess = sess;
 
         // Enter root module
-        mod = Module::newWrapperModule(ModuleKind::Root, dt::None, dt::None);
+        mod = Module::newFictiveModule(ModuleKind::Root, dt::None, dt::None);
 
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
@@ -180,7 +180,7 @@ namespace jc::resolve {
         curModuleName = dt::None;
     }
 
-    /// Enters named module and adds module to DefStorage by defId
+    /// Enters named module, defines it in current module and adds module to DefStorage by defId
     void ModuleTreeBuilder::enterModule(const ast::id_ptr & ident, DefKind defKind) {
         const auto defId = addDef(ident, defKind);
         const auto & name = ident.unwrap()->getValue();
@@ -203,8 +203,7 @@ namespace jc::resolve {
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
         const auto moduleDefId = _defStorage.define(defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(
-            moduleDefId,
-            Module::newWrapperModule(ModuleKind::Fictive, mod, moduleDefId)
+            moduleDefId, Module::newFictiveModule(ModuleKind::Fictive, mod, moduleDefId)
         );
         if (utils::map::has(mod->perNS.type, name)) {
             log.devPanic("Tried to redefine fictive module '", name, "'");

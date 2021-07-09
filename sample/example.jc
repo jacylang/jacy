@@ -1,5 +1,7 @@
 mod a {
-    type foo;
+    pub func foo() {
+
+    }
 }
 
 func main {

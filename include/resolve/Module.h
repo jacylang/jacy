@@ -20,17 +20,20 @@ namespace jc::resolve {
 
     struct Module {
         Module(
+            uint32_t depth,
             ModuleKind kind,
             opt_module_ptr parent,
             opt_node_id nodeId,
             opt_def_id defId,
             opt_def_id nearestModDef
-        ) : kind(kind),
+        ) : depth(depth),
+            kind(kind),
             parent(parent),
             nodeId(nodeId),
             defId(defId),
             nearestModDef(nearestModDef) {}
 
+        uint32_t depth;
         ModuleKind kind;
         opt_module_ptr parent{None};
 
@@ -47,7 +50,7 @@ namespace jc::resolve {
         prim_type_set_t shadowedPrimTypes{0};
 
         // `Fictive` or `Root` module
-        static inline module_ptr newWrapperModule(ModuleKind kind, opt_module_ptr parent, opt_def_id nearestModDef) {
+        static inline module_ptr newFictiveModule(ModuleKind kind, module_ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(kind, parent, None, None, nearestModDef);
         }
 
