@@ -277,7 +277,7 @@ namespace jc::core {
         log.info("Printing resolutions (`-print=resolutions`)");
 
         for (const auto & res : sess->resStorage.getResolutions()) {
-            log.raw("#", res.first, " ->");
+            log.raw("#", res.first, " -> ");
             switch (res.second.kind) {
                 case resolve::ResKind::Error: {
                     log.raw("[ERROR]");
