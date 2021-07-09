@@ -67,16 +67,13 @@ namespace jc::resolve {
 
     struct Def {
         Def(
-            ast::Vis vis,
             DefKind kind,
             const dt::Option<span::Span> & nameSpan,
             ast::opt_node_id nameNodeId
-        ) : vis(vis),
-            kind(kind),
+        ) : kind(kind),
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
 
-        ast::Vis vis;
         DefKind kind;
         const ast::opt_node_id nameNodeId;
         const dt::Option<span::Span> nameSpan;
