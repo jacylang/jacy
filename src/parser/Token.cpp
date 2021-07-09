@@ -19,9 +19,7 @@ namespace jc::parser {
         {"if",          TokenKind::If},
         {"impl",        TokenKind::Impl},
         {"in",          TokenKind::In},
-        {"!in",         TokenKind::NotIn},
         {"infix",       TokenKind::Infix},
-        {"init",        TokenKind::Init},
         {"loop",        TokenKind::Loop},
         {"match",       TokenKind::Match},
         {"mod",         TokenKind::Module},
@@ -30,7 +28,6 @@ namespace jc::parser {
         {"return",      TokenKind::Return},
         {"or",          TokenKind::Or},
         {"party",       TokenKind::Party},
-        {"pri",         TokenKind::Pri},
         {"pub",         TokenKind::Pub},
         {"ref",         TokenKind::Ref},
         {"self",        TokenKind::Self},
@@ -41,13 +38,10 @@ namespace jc::parser {
         {"trait",       TokenKind::Trait},
         {"true",        TokenKind::True},
         {"type",        TokenKind::Type},
-        {"union",       TokenKind::Union},
-        {"unsafe",      TokenKind::Unsafe},
         {"use",         TokenKind::Use},
         {"let",         TokenKind::Let},
         {"where",       TokenKind::Where},
         {"while",       TokenKind::While},
-        {"yield",       TokenKind::Yield},
     };
 
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {
