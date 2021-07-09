@@ -264,6 +264,7 @@ namespace jc::core {
             if (def.nameNodeId) {
                 log.raw(" with name node #", def.nameNodeId.unwrap());
             }
+            log.raw(" depth=", def.depth);
             log.nl();
         }
     }
