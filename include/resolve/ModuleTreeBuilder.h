@@ -41,7 +41,7 @@ namespace jc::resolve {
         // `_` prepended to avoid confusions with Session::defStorage
         DefStorage _defStorage;
 
-        DefVis getItemVis(const ast::item_ptr & item);
+        DefVis getItemVis(const ast::Item & item);
         def_id addDef(DefVis vis, const ast::id_ptr & ident, DefKind defKind);
         void defineGenerics(const ast::opt_gen_params & maybeGenerics);
 

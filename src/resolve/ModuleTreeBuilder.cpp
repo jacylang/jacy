@@ -102,8 +102,8 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    DefVis ModuleTreeBuilder::getItemVis(const ast::item_ptr & item) {
-        switch (item.unwrap()->vis.kind) {
+    DefVis ModuleTreeBuilder::getItemVis(const ast::Item & item) {
+        switch (item.vis.kind) {
             case ast::VisKind::Pub: return DefVis::Pub;
             case ast::VisKind::Unset: return DefVis::Unset;
         }
