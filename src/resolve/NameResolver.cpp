@@ -390,6 +390,14 @@ namespace jc::resolve {
                 return;
             }
             const auto & def = sess->defStorage.getDef(defId);
+            log.dev(
+                "Found alternative for unresolved name '",
+                name,
+                "' as def #",
+                defId,
+                " in ",
+                Module::nsToString(nsKind),
+                " namespace");
             suggestHelp(
                 "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
                 Def::nsAsUsageStr(target));
