@@ -10,7 +10,6 @@ namespace jc::resolve {
     using ast::node_id;
     using mod_ns_map = std::map<std::string, def_id>;
     using dt::None;
-    using mod_depth = uint32_t;
 
     enum class ModuleKind {
         Root,
