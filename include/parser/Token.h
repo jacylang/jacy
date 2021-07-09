@@ -27,6 +27,8 @@ namespace jc::parser {
         uint32_t col{0};
     };
 
+    /// Note: Some keywords marked with RNU (Reserved but Not Used)
+
     enum class TokenKind : uint8_t {
         Eof,
         DecLiteral,
@@ -119,8 +121,6 @@ namespace jc::parser {
         If,
         Impl,
         In,
-        Init,
-        NotIn,
         Infix,
         Loop,
         Match,
@@ -129,7 +129,6 @@ namespace jc::parser {
         Mut,
         Return,
         Party,
-        Pri,
         Pub,
         Ref,
         Self,
@@ -140,14 +139,11 @@ namespace jc::parser {
         Trait,
         True,
         Type,
-        Union,
-        Unsafe,
         Use,
         Let,
         Where,
         While,
         Wildcard,
-        Yield,
 
         None,
     };
