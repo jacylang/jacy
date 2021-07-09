@@ -20,6 +20,7 @@ namespace jc::ast {
     };
 
     enum class VisKind {
+        Unset,
         Pub,
     };
 

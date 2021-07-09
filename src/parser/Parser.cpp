@@ -251,7 +251,14 @@ namespace jc::parser {
     Vis Parser::parseVis() {
         const auto & pub = skipOpt(TokenKind::Pub);
 
+        VisKind kind{VisKind::Unset};
+        span::opt_span span{dt::None};
+        if (pub) {
+            kind = ast::VisKind::Pub;
+            span = pub.unwrap().span;
+        }
 
+        return Vis::newVis(kind, span);
     }
 
     item_ptr Parser::parseEnum() {
