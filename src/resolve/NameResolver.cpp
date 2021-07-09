@@ -361,14 +361,23 @@ namespace jc::resolve {
             const auto & unresolvedSegIdent = path.segments.at(unresolvedSegIndex.unwrap())
                 .unwrap()->ident.unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
-            auto msg = "'" + unresolvedSegName + "' is not defined";
 
-            if (not pathStr.empty()) {
-                msg += " in '" + pathStr + "'";
+            if (inaccessible) {
+                // Report "Cannot access" error
+                suggestErrorMsg(
+                    "Cannot access '" + unresolvedSegName + "', because it is private",
+                    unresolvedSegIdent->span);
+            } else {
+                // Report "Not defined" error
+
+                auto msg = "'" + unresolvedSegName + "' is not defined";
+
+                if (not pathStr.empty()) {
+                    msg += " in '" + pathStr + "'";
+                }
+                suggestErrorMsg(msg, unresolvedSegIdent->span);
+                suggestAltNames(ns, unresolvedSegName, altDefs);
             }
-            suggestErrorMsg(msg, unresolvedSegIdent->span);
-
-            suggestAltNames(ns, unresolvedSegName, altDefs);
         }
     }
 
