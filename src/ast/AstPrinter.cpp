@@ -69,6 +69,8 @@ namespace jc::ast {
     // Items //
     ///////////
     void AstPrinter::visit(const Enum & enumDecl) {
+        printVis(enumDecl.vis);
+
         log.raw("enum ");
         colorizeDef(enumDecl.name);
 
@@ -100,6 +102,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Func & func) {
+        printVis(func.vis);
+
         printModifiers(func.modifiers);
         log.raw("func");
         printGenerics(func.generics);
@@ -143,6 +147,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Impl & impl) {
+        printVis(impl.vis);
+
         log.raw("impl");
         printGenerics(impl.generics);
         log.raw(" ");
@@ -157,6 +163,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Mod & mod) {
+        printVis(mod.vis);
+
         log.raw("mod ");
         colorizeDef(mod.name);
         printBodyLike(mod.items, "\n");
@@ -165,6 +173,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Struct & _struct) {
+        printVis(_struct.vis);
+
         log.raw("struct ");
         colorizeDef(_struct.name);
         log.raw(" ");
@@ -183,6 +193,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Trait & trait) {
+        printVis(trait.vis);
+
         log.raw("trait ");
 
         colorizeDef(trait.name);
@@ -200,6 +212,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TypeAlias & typeAlias) {
+        printVis(typeAlias.vis);
+
         log.raw("type ");
         colorizeDef(typeAlias.name);
 
@@ -214,6 +228,8 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseDecl & useDecl) {
+        printVis(useDecl.vis);
+
         log.raw("use ");
         useDecl.useTree.accept(*this);
 
@@ -252,6 +268,9 @@ namespace jc::ast {
         printNodeId(useTree);
     }
 
+    ////////////////
+    // Statements //
+    ////////////////
     void AstPrinter::visit(const LetStmt & letStmt) {
         log.raw("let ");
 
