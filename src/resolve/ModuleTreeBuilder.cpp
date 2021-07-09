@@ -104,9 +104,9 @@ namespace jc::resolve {
     // Definitions //
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    def_id ModuleTreeBuilder::addDef(const ast::id_ptr & ident, DefKind defKind) {
+    def_id ModuleTreeBuilder::addDef(ast::Vis vis, const ast::id_ptr & ident, DefKind defKind) {
         const auto & name = ident.unwrap()->getValue();
-        const auto defId = _defStorage.define(defKind, ident.span(), ident.unwrap()->id);
+        const auto defId = _defStorage.define(vis, defKind, ident.span(), ident.unwrap()->id);
         const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
 
         log.dev(
