@@ -344,8 +344,6 @@ namespace jc::ast {
             case parser::TokenKind::GE:
             case parser::TokenKind::Spaceship:
             case parser::TokenKind::In:
-            case parser::TokenKind::NotIn:
-            case parser::TokenKind::NullCoalesce:
             case parser::TokenKind::Shl:
             case parser::TokenKind::Shr:
             case parser::TokenKind::Range:
