@@ -210,14 +210,14 @@ namespace jc::resolve {
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
 
         // Note: Fictive modules are always public
-        const auto moduleDefId = _defStorage.define(_modDepth, DefVis::Pub, defKind, dt::None, dt::None);
+        const auto defId = _defStorage.define(_modDepth, DefVis::Pub, defKind, dt::None, dt::None);
         auto child = _defStorage.addModule(
-            moduleDefId, Module::newFictiveModule(ModuleKind::Fictive, mod, moduleDefId)
+            defId, Module::newFictiveModule(ModuleKind::Fictive, mod, defId)
         );
         if (utils::map::has(mod->perNS.type, name)) {
             log.devPanic("Tried to redefine fictive module '", name, "'");
         }
-        mod->perNS.type.emplace(name, moduleDefId);
+        mod->perNS.type.emplace(name, defId);
 
         enterChildModule(child);
     }
