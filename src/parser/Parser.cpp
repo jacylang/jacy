@@ -162,6 +162,8 @@ namespace jc::parser {
         parser::token_list modifiers = parseModifiers();
         dt::Option<item_ptr> maybeItem{dt::None};
 
+        auto vis = parseVis();
+
         switch (peek().kind) {
             case TokenKind::Func: {
                 maybeItem = parseFunc(std::move(modifiers));

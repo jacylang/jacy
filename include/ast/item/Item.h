@@ -25,9 +25,8 @@ namespace jc::ast {
     };
 
     struct Vis {
-        static inline Vis newVis(VisKind kind, const span::opt_span & span) {
-            return Vis{kind, span};
-        }
+        Vis() : kind(VisKind::Unset), span(dt::None) {}
+        Vis(VisKind kind, const span::opt_span & span) : kind(kind), span(span) {}
 
         VisKind kind;
         span::opt_span span;
@@ -38,6 +37,7 @@ namespace jc::ast {
 
         attr_list attributes;
         ItemKind kind;
+        Vis vis;
 
         void setAttributes(attr_list && attributes) {
             this->attributes = std::move(attributes);
