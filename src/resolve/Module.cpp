@@ -19,6 +19,11 @@ namespace jc::resolve {
 
         const auto & shadowedPrimTypesNames = getShadowedPrimTypes(module->shadowedPrimTypes);
 
+        const auto & moduleDef = sess->defStorage.getDef(module->defId);
+        if (moduleDef.nameNodeId) {
+            log.raw("(#", moduleDef.nameNodeId.unwrap(), ")");
+        }
+
         if (not shadowedPrimTypesNames.empty()) {
             log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
         }

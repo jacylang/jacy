@@ -1,7 +1,12 @@
 mod a {
-    pub type A;
+    mod b {
+        type A;
+    }
+    
+    func foo {
+        let a: b::A;
+    }
 }
 
 func main {
-    let a: a::A;
 }
