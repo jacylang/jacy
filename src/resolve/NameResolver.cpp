@@ -314,8 +314,10 @@ namespace jc::resolve {
                 // Note: Module-like items stored in `Type` namespace
                 searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
                     // Check module definition visibility
-                    // Note: Order matters, we need to check visibility before descend to next module
-                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                    // Note: We check if current segment is not the first one,
+                    //  because items in a module are visible for other items in it, and we already found the name
+                    // Note!: Order matters, we need to check visibility before descend to next module
+                    if (i != 0 and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresolvedSegIndex = i;
                     }
