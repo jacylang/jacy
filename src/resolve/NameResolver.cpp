@@ -312,7 +312,7 @@ namespace jc::resolve {
             // Resolve prefix path, `a::b::` (before target)
             if (i < path.segments.size() - 1) {
                 // Note: Module-like items stored in `Type` namespace
-                searchMod->find(Namespace::Type, segName).then([&](auto defId) {
+                searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
                     // Get module specified in path segment from current searched module
                     searchMod = sess->defStorage.getModule(defId);
 
