@@ -225,6 +225,9 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterChildModule(module_ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
+        if (modDepth == UINT32_MAX) {
+            log.devPanic("Exceeded definitions depth limit");
+        }
         modDepth++;
     }
 
