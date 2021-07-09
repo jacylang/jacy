@@ -73,6 +73,7 @@ namespace jc::resolve {
 
     struct Def {
         Def(
+            def_depth depth,
             DefVis vis,
             DefKind kind,
             const dt::Option<span::Span> & nameSpan,
@@ -82,6 +83,7 @@ namespace jc::resolve {
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
 
+        def_depth depth;
         DefVis vis;
         DefKind kind;
         const ast::opt_node_id nameNodeId;
