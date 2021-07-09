@@ -131,7 +131,6 @@ namespace jc::parser {
         TokenKind::BitAndAssign,
         TokenKind::BitOrAssign,
         TokenKind::XorAssign,
-        TokenKind::NullishAssign,
     };
 
     const std::vector<TokenKind> Token::literals = {
