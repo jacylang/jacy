@@ -53,7 +53,6 @@ namespace jc::parser {
         BitAndAssign,               // &=
         BitOrAssign,                // |=
         XorAssign,                  // ^=
-        NullishAssign,              // ??=
         Add,                        // +
         Sub,                        // -
         Mul,                        // *
@@ -62,7 +61,6 @@ namespace jc::parser {
         Power,                      // **
         Or,                         // or (placed in keywords)
         And,                        // and (placed in keywords)
-        NullCoalesce,               // ??
         Shl,                        // <<
         Shr,                        // >>
         Ampersand,                  // &
