@@ -295,6 +295,7 @@ namespace jc::core {
                     log.raw(resolve::primTypeToString(res.second.asPrimType()));
                 }
             }
+            log.nl();
         }
     }
 

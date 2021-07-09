@@ -1,6 +1,6 @@
 mod a {
     mod b {
-        type A;
+        pub type A;
     }
 
     func foo {
@@ -9,5 +9,5 @@ mod a {
 }
 
 func main {
-
+    let a: a::b::A;
 }
