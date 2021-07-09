@@ -260,7 +260,7 @@ namespace jc::parser {
             span = pub.unwrap().span;
         }
 
-        return Vis::newVis(kind, span);
+        return Vis{kind, span};
     }
 
     item_ptr Parser::parseEnum() {

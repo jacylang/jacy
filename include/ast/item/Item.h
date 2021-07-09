@@ -43,6 +43,10 @@ namespace jc::ast {
             this->attributes = std::move(attributes);
         }
 
+        void setVis(Vis && vis) {
+            this->vis = std::move(vis);
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
