@@ -78,7 +78,8 @@ namespace jc::resolve {
             DefKind kind,
             const dt::Option<span::Span> & nameSpan,
             ast::opt_node_id nameNodeId
-        ) : vis(vis),
+        ) : depth(depth),
+            vis(vis),
             kind(kind),
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
