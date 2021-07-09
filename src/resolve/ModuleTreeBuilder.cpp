@@ -102,6 +102,12 @@ namespace jc::resolve {
     }
 
     // Definitions //
+    DefVis ModuleTreeBuilder::getItemVis(const ast::item_ptr & item) {
+        switch (item.unwrap()->vis.kind) {
+            case ast::VisKind::Pub: return DefVis::Pub;
+            case ast::VisKind::Unset: return DefVis::Unset;
+        }
+    }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
     def_id ModuleTreeBuilder::addDef(DefVis vis, const ast::id_ptr & ident, DefKind defKind) {

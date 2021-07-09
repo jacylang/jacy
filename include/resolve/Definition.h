@@ -18,6 +18,7 @@ namespace jc::resolve {
     };
 
     enum class DefVis {
+        Unset,
         Pub,
     };
 
