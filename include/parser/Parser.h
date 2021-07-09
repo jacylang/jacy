@@ -150,6 +150,7 @@ namespace jc::parser {
         dt::Option<item_ptr> parseOptItem();
         item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
+        Vis parseVis();
         item_ptr parseEnum();
         enum_entry_ptr parseEnumEntry();
         item_ptr parseFunc(parser::token_list && modifiers);

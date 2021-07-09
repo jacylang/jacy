@@ -248,6 +248,12 @@ namespace jc::parser {
         return items;
     }
 
+    Vis Parser::parseVis() {
+        const auto & pub = skipOpt(TokenKind::Pub);
+
+
+    }
+
     item_ptr Parser::parseEnum() {
         enterEntity("Enum");
 

@@ -24,10 +24,12 @@ namespace jc::ast {
     };
 
     struct Vis {
-        Vis(VisKind kind, const Span & span) : kind(kind), span(span) {}
+        static inline Vis newVis(VisKind kind, const span::opt_span & span) {
+            return Vis{kind, span};
+        }
 
         VisKind kind;
-        Span span;
+        span::opt_span span;
     };
 
     struct Item : Node {
