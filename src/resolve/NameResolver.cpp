@@ -373,9 +373,10 @@ namespace jc::resolve {
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
+                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
-                    "Cannot access '" + unresolvedSegName + "', because it is private",
+                    "Cannot access private " + defKind + "'" + unresolvedSegName + "' in '" + pathStr + "'",
                     unresolvedSegIdent->span);
             } else {
                 // Report "Not defined" error
