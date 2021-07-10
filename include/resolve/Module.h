@@ -103,6 +103,17 @@ namespace jc::resolve {
             common::Logger::notImplemented("Module::getNS");
         }
 
+        opt_def_id tryDefine(Namespace ns, const std::string & name, def_id defId) {
+            const auto & defined = getNS(ns).emplace(name, defId);
+            // Note: emplace returns `pair<new element iterator, true>` if emplaced new element
+            //  and `pair<old element iterator, false>` if tried to re-emplace
+            if (not defined.second) {
+                // Return old def id
+                return defined.first->second;
+            }
+            return None;
+        }
+
         inline const char * kindStr() const {
             switch (kind) {
                 case ModuleKind::Root: return "[ROOT]";
