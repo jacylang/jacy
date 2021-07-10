@@ -23,7 +23,7 @@ namespace jc::resolve {
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
         std::string pathStr;
-        module_ptr searchMod = _module;
+        module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
         for (size_t i = 0; i < useTree.path->segments.size(); i++) {
             const auto & seg = useTree.path->segments.at(i);
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
