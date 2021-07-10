@@ -131,19 +131,17 @@ namespace jc::resolve {
             Module::nsToString(ns),
             " namespace");
 
-        auto & nsMap = mod->getNS(ns);
-
         // Try to emplace definition in namespace, and if it is already defined suggest an error
-        const auto & defined = nsMap.emplace(name, defId);
-        if (not defined.second) {
+        const auto & oldDefId = mod->tryDefine(ns, name, defId);
+        if (not oldDefId) {
             log.dev(
                 "Tried to redefine '",
                 name,
                 "' as ",
                 Def::kindStr(defKind),
                 ", previously defined with id #",
-                defined.first->second);
-            suggestCannotRedefine(ident, defKind, defined.first->second);
+                oldDefId);
+            suggestCannotRedefine(ident, defKind, oldDefId);
         }
 
         // If type is defined then check if its name shadows one of primitive types
