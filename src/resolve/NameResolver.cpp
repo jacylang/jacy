@@ -311,7 +311,7 @@ namespace jc::resolve {
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
         bool inaccessible = false;
-        dt::Option<UnresSeg> unresSeg;
+        dt::Option<UnresSeg> unresSeg{dt::None};
         PerNS<opt_def_id> altDefs = {dt::None, dt::None, dt::None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
@@ -333,7 +333,7 @@ namespace jc::resolve {
                 // Note!: Order matters, we need to check visibility before descend to next module
                 if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                     inaccessible = true;
-                    unresolvedSegIndex = i;
+                    unresSeg = {i, defId};
                     return;
                 }
 
@@ -349,11 +349,11 @@ namespace jc::resolve {
             }).otherwise([&]() {
                 // Resolution failed
                 log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
-                unresolvedSegIndex = i;
+                unresSeg = {i, dt::None};
                 altDefs = searchMod->findAlt(segName);
             });
 
-            if (unresolvedSegIndex) {
+            if (unresSeg) {
                 break;
             }
 
@@ -365,10 +365,10 @@ namespace jc::resolve {
             }
         }
 
-        if (not unresolvedSegIndex.none()) {
+        if (unresSeg) {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
-            const auto & unresolvedSegIdent = path.segments.at(unresolvedSegIndex.unwrap())
+            const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)
                 .unwrap()->ident.unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
