@@ -39,25 +39,48 @@ namespace jc::resolve {
             bool isPrefixSeg = i < useTree.path->segments.size() - 1;
 
             if (isPrefixSeg) {
-                const auto & defId = searchMod->find(Namespace::Type, segName);
-                // Only items from type namespace can be descended to
-                searchMod = sess->defStorage.getModule(defId.unwrap());
-                if (not isFirstSeg) {
-                    pathStr += "::";
+                searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
+                    if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                        inaccessible = true;
+                        unresSeg = {i, defId};
+                        return;
+                    }
+
+                    // Only items from type namespace can be descended to
+                    searchMod = sess->defStorage.getModule(defId);
+                    if (not isFirstSeg) {
+                        pathStr += "::";
+                    }
+                    pathStr += segName;
+                });
+
+                if (unresSeg) {
+                    break;
                 }
-                pathStr += segName;
             } else {
                 auto defsPerNS = searchMod->findAll(segName);
 
-                if (defsPerNS.type.none() and defsPerNS.value.none() and defsPerNS.lifetime.none()) {
-                    auto msg = "Cannot find '" + segName + "'";
-                    if (not pathStr.empty()) {
-                        msg += " in '" + pathStr + "'";
+                // Save count of found definitions in module
+                // It is useful because
+                // - If count is 0 then it is an error
+                // - If count is 1 then we report an error if item is private
+                // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we
+                auto defsCount = 0;
+                defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
+                    if (optDefId.some()) {
+                        defsCount++;
                     }
-                    suggestErrorMsg(msg, seg->span);
+                });
+
+                if (defsPerNS.type.none() and defsPerNS.value.none() and defsPerNS.lifetime.none()) {
+                    unresSeg = {i, None};
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
+                            if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                                inaccessible = true;
+                                unresSeg = {i, defId};
+                            }
                             _module->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                                 // Note: If some definition can be redefined -- it is always named definition,
                                 //  so we can safely get its name node span
@@ -74,6 +97,29 @@ namespace jc::resolve {
                         });
                     });
                 }
+            }
+        }
+
+        if (unresSeg) {
+            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+            // so give different error message
+            const auto & unresolvedSegIdent = useTree.path->segments.at(unresSeg.unwrap().segIndex)->ident
+                                                .unwrap().unwrap();
+            const auto & unresolvedSegName = unresolvedSegIdent->getValue();
+
+            if (inaccessible) {
+                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
+                // Report "Cannot access" error
+                suggestErrorMsg(
+                    "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
+                    unresolvedSegIdent->span);
+            } else {
+                // Report "Not defined" error
+                auto msg = "'" + unresolvedSegName + "' is not defined";
+                if (not pathStr.empty()) {
+                    msg += " in '" + pathStr + "'";
+                }
+                suggestErrorMsg(msg, unresolvedSegIdent->span);
             }
         }
     }

@@ -352,7 +352,7 @@ namespace jc::resolve {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)
-                .unwrap()->ident.unwrap().unwrap();
+                                                .unwrap()->ident.unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
