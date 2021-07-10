@@ -26,6 +26,9 @@ namespace jc::resolve {
         //  - `SimplePath` must be removed and only `Path` will be used, thus we don't have two path kinds
 
         std::string pathStr;
+        bool inaccessible = false;
+        dt::Option<UnresSeg> unresSeg{None};
+        PerNS<opt_def_id> altDefs{None, None, None};
         module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
         for (size_t i = 0; i < useTree.path->segments.size(); i++) {
             const auto & seg = useTree.path->segments.at(i);
