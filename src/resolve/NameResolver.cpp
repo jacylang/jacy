@@ -274,7 +274,7 @@ namespace jc::resolve {
 
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
-    void NameResolver::resolvePath(Namespace ns, const ast::Path & path) {
+    void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path) {
         // TODO: global
 
         // If path is one segment long then it can be a local variable
@@ -282,7 +282,7 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(0).unwrap();
             if (seg->ident) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
-                auto resolved = resolveLocal(ns, identStr, path.id);
+                auto resolved = resolveLocal(targetNS, identStr, path.id);
                 if (not resolved) {
                     log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
                     suggestErrorMsg("'" + identStr + "' is not defined", path.span);
@@ -383,7 +383,7 @@ namespace jc::resolve {
                     msg += " in '" + pathStr + "'";
                 }
                 suggestErrorMsg(msg, unresolvedSegIdent->span);
-                suggestAltNames(ns, unresolvedSegName, altDefs);
+                suggestAltNames(targetNS, unresolvedSegName, altDefs);
             }
         }
     }
