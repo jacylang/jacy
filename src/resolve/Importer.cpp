@@ -14,11 +14,28 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
+        std::string pathStr;
+        module_ptr searchMod = module;
         for (const auto & seg : useTree.path->segments) {
+            const auto & segName = seg->ident.unwrap().unwrap()->getValue();
+            auto allDefs = searchMod->findAll(segName);
             opt_def_id defId{dt::None};
-            PerNS<mod_ns_map>::eachKind([&](Namespace nsKind) {
-                module->find(nsKind, seg->ident.unwrap().unwrap()->getValue());
+            allDefs.each([&](opt_def_id optDefId, Namespace nsKind) {
+                if (optDefId) {
+                    defId = optDefId.unwrap();
+                }
             });
+
+            if (not defId) {
+                auto msg = "Cannot find '" + segName + "'";
+                if (not pathStr.empty()) {
+                    msg += " in '" + pathStr + "'";
+                }
+                suggestErrorMsg(msg, seg->span);
+            } else {
+                searchMod = sess->defStorage.getModule(defId.unwrap());
+            }
         }
+
     }
 }
