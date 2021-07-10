@@ -70,7 +70,7 @@ namespace jc::resolve {
             cb(get(Namespace::Lifetime), Namespace::Lifetime);
         }
 
-        static void eachKind(const std::function<void(Namespace nsKind)> & cb) const {
+        static void eachKind(const std::function<void(Namespace nsKind)> & cb) {
             cb(Namespace::Value);
             cb(Namespace::Type);
             cb(Namespace::Lifetime);
