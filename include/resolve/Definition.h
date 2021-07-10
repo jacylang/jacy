@@ -69,6 +69,12 @@ namespace jc::resolve {
             cb(get(Namespace::Type), Namespace::Type);
             cb(get(Namespace::Lifetime), Namespace::Lifetime);
         }
+
+        static void eachKind(const std::function<void(Namespace nsKind)> & cb) const {
+            cb(Namespace::Value);
+            cb(Namespace::Type);
+            cb(Namespace::Lifetime);
+        }
     };
 
     struct Def {

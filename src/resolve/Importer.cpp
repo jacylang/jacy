@@ -14,6 +14,8 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
-
+//        for (const auto & seg : useTree.path->segments) {
+//
+//        }
     }
 }
