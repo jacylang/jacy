@@ -18,7 +18,7 @@ namespace jc::resolve {
 
     private:
         sess::sess_ptr sess;
-        module_ptr module;
+        module_ptr _module;
     };
 }
 

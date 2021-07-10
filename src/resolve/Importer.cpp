@@ -9,13 +9,13 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
-        module = sess->defStorage.getUseDeclModule(useDecl.id);
+        _module = sess->defStorage.getUseDeclModule(useDecl.id);
         useDecl.useTree.accept(*this);
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
         std::string pathStr;
-        module_ptr searchMod = module;
+        module_ptr searchMod = _module;
         for (const auto & seg : useTree.path->segments) {
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
             auto allDefs = searchMod->findAll(segName);
