@@ -39,7 +39,11 @@ namespace jc::resolve {
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
-                            _module->tryDefine(nsKind, segName, defId);
+                            _module->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
+                                suggestErrorMsg(
+                                    "Cannot `use` '" + segName + "' as it was already declared in this scope",
+                                    seg->span);
+                            });
                         });
                     });
                 }
