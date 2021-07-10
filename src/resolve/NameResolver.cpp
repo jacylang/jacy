@@ -371,9 +371,7 @@ namespace jc::resolve {
                     unresolvedSegIdent->span);
             } else {
                 // Report "Not defined" error
-
                 auto msg = "'" + unresolvedSegName + "' is not defined";
-
                 if (not pathStr.empty()) {
                     msg += " in '" + pathStr + "'";
                 }
