@@ -231,7 +231,7 @@ namespace jc::core {
         printDefinitions();
 
         log.dev("Resolve imports...");
-        importer.declare(sess, *party.unwrap());
+        importer.declare(sess, *party.unwrap()).unwrap(sess, "imports resolution");
 
         log.dev("Resolving names...");
         beginBench();
