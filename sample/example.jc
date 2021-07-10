@@ -2,7 +2,7 @@ mod m {
     use b::foo;
 
     mod b {
-        func foo {}
+        pub func foo {}
     }
 }
 

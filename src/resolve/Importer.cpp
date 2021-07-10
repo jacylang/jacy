@@ -29,7 +29,6 @@ namespace jc::resolve {
         std::string pathStr;
         bool inaccessible = false;
         dt::Option<UnresSeg> unresSeg{None};
-        PerNS<opt_def_id> altDefs{None, None, None};
 
         for (size_t i = 0; i < useTree.path->segments.size(); i++) {
             const auto & seg = useTree.path->segments.at(i);
