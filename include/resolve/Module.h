@@ -118,9 +118,9 @@ namespace jc::resolve {
             std::string repr = kindStr();
             repr += " ";
             if (kind == ModuleKind::Block) {
-                repr += " block #" + std::to_string(nodeId.unwrap());
+                repr += "block #" + std::to_string(nodeId.unwrap());
             } else if (kind == ModuleKind::Def) {
-                repr += " module #" + std::to_string(defId.unwrap());
+                repr += "module #" + std::to_string(defId.unwrap());
             }
             return repr;
         }
