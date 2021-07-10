@@ -237,6 +237,7 @@ namespace jc::ast {
 
         log.raw("use ");
         useDecl.useTree.accept(*this);
+        log.raw(";");
 
         printNodeId(useDecl);
     }
