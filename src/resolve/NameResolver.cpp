@@ -277,6 +277,9 @@ namespace jc::resolve {
     void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path) {
         // TODO: global
 
+        // TODO: Generic args not allowed in local variables, check for single-seg path with generics
+
+        // Resolve local //
         // If path is one segment long then it can be a local variable
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
@@ -317,7 +320,7 @@ namespace jc::resolve {
             Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
             searchMod->find(ns, segName).then([&](def_id defId) {
-                // Check module definition visibility
+                // Check visibility
                 // Note: We check if current segment is not the first one,
                 //  because items in a module are visible for other items in it, and we already found the name
                 // Note!: Order matters, we need to check visibility before descend to next module
