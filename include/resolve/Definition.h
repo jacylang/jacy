@@ -64,6 +64,14 @@ namespace jc::resolve {
             }
         }
 
+        void set(Namespace ns, const T & t) {
+            switch (ns) {
+                case Namespace::Value: value = t; break;
+                case Namespace::Type: type = t; break;
+                case Namespace::Lifetime: lifetime = t; break;
+            }
+        }
+
         void each(const std::function<void(const T & ns, Namespace nsKind)> & cb) const {
             cb(get(Namespace::Value), Namespace::Value);
             cb(get(Namespace::Type), Namespace::Type);
