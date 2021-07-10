@@ -68,6 +68,10 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
+        void addImportedDef(def_id defId) {
+            importedDefs.emplace_back(defId);
+        }
+
         opt_def_id find(Namespace nsKind, const std::string & name) const {
             const auto & ns = getNS(nsKind);
             const auto & def = ns.find(name);
