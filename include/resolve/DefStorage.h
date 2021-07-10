@@ -55,6 +55,7 @@ namespace jc::resolve {
         std::vector<Def> defs;
         std::map<def_id, module_ptr> modules;
         std::map<ast::node_id, module_ptr> blocks;
+        std::map<ast::node_id, module_ptr> useDeclModules;
     };
 }
 
