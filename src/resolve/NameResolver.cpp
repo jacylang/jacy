@@ -334,6 +334,7 @@ namespace jc::resolve {
                 if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                     inaccessible = true;
                     unresSeg = {i, defId};
+                    log.dev("Failed to resolve '", segName, "' as it is a private def #", defId);
                     return;
                 }
 
