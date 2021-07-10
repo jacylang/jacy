@@ -36,7 +36,9 @@ namespace jc::resolve {
                     suggestErrorMsg(msg, seg->span);
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
-
+                        optDefId.then([&](def_id defId) {
+                            _module->tryDefine(nsKind, segName, defId);
+                        });
                     });
                 }
             }
