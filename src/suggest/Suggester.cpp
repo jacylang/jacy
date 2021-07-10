@@ -134,7 +134,7 @@ namespace jc::sugg {
 
     void Suggester::printWithIndent(file_id_t fileId, const std::string & msg) {
         const auto & indent = getFileIndent(fileId);
-        printWithIndent(indent, msg);
+        printWithIndent(utils::str::repeat(" ", indent.size() - 3) + " | ", msg);
     }
 
     void Suggester::printWithIndent(const std::string & indent, const std::string & msg) {
