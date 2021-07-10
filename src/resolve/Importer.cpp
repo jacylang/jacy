@@ -27,6 +27,10 @@ namespace jc::resolve {
                 const auto & defId = searchMod->find(Namespace::Type, segName);
                 // Only items from type namespace can be descended to
                 searchMod = sess->defStorage.getModule(defId);
+                if (i != 0) {
+                    pathStr += "::";
+                }
+                pathStr += segName;
             } else {
                 auto defsPerNS = searchMod->findAll(segName);
 
