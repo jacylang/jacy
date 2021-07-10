@@ -70,11 +70,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::UseDecl & useDecl) {
-        resolveUseTree(useDecl.useTree);
+        useDecl.useTree.accept(*this);
     }
 
-    void NameResolver::resolveUseTree(const ast::use_tree_ptr&) {
-        // TODO: Everything goes harder
+    void NameResolver::visit(const ast::UseTreeRaw & useDecl) {
+
     }
 
     // Statements //
