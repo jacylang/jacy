@@ -5,10 +5,10 @@
 #include "suggest/SuggInterface.h"
 
 namespace jc::resolve {
-    class Imported : public ast::StubVisitor, public sugg::SuggInterface {
+    class Importer : public ast::StubVisitor, public sugg::SuggInterface {
     public:
-        Imported() : StubVisitor("Imported") {}
-        ~Imported() override = default;
+        Importer() : StubVisitor("Importer") {}
+        ~Importer() override = default;
     }
 }
 
