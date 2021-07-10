@@ -341,7 +341,7 @@ namespace jc::resolve {
                 // Resolution failed
                 log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
                 unresSeg = {i, dt::None};
-                altDefs = searchMod->findAlt(segName);
+                altDefs = searchMod->findAll(segName);
             });
 
             if (unresSeg) {

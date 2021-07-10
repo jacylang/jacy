@@ -14,8 +14,11 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
-//        for (const auto & seg : useTree.path->segments) {
-//
-//        }
+        for (const auto & seg : useTree.path->segments) {
+            opt_def_id defId{dt::None};
+            PerNS<mod_ns_map>::eachKind([&](Namespace nsKind) {
+                module->find(nsKind, seg->ident.unwrap().unwrap()->getValue());
+            });
+        }
     }
 }

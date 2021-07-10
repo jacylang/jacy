@@ -81,8 +81,9 @@ namespace jc::resolve {
             return def->second;
         }
 
-        // Find alternatives in other namespaces excluding specified one
-        PerNS<opt_def_id> findAlt(const std::string & name) const {
+        // Search for name in all namespaces
+        // Also used to find alternatives for failed resolutions
+        PerNS<opt_def_id> findAll(const std::string & name) const {
             return {
                 find(Namespace::Value, name),
                 find(Namespace::Type, name),

@@ -3,6 +3,7 @@
 
 #include "ast/StubVisitor.h"
 #include "suggest/SuggInterface.h"
+#include "resolve/Definition.h"
 
 namespace jc::resolve {
     class Importer : public ast::StubVisitor, public sugg::SuggInterface {
