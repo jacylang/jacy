@@ -70,6 +70,8 @@ namespace jc::resolve {
                 defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
+                        const auto & defVis = sess->defStorage.getDefVis(optDefId.unwrap());
+                        defsPerNSVis.set(nsKind, defVis);
                     }
                 });
 
@@ -79,7 +81,7 @@ namespace jc::resolve {
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
-                            if (defsCount == 1 and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                            if (defsCount == 1) {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
