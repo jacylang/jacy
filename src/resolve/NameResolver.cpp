@@ -69,14 +69,6 @@ namespace jc::resolve {
         }
     }
 
-    void NameResolver::visit(const ast::UseDecl & useDecl) {
-        useDecl.useTree.accept(*this);
-    }
-
-    void NameResolver::visit(const ast::UseTreeRaw & useDecl) {
-
-    }
-
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();

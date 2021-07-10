@@ -9,7 +9,10 @@ namespace jc::resolve {
     public:
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
-    }
+
+        void visit(const ast::UseDecl & useDecl) override;
+        void visit(const ast::UseTreeRaw & useDecl) override;
+    };
 }
 
 #endif // JACY_RESOLVE_IMPORTER_H
