@@ -55,6 +55,10 @@ namespace jc::resolve {
             useDeclModules.emplace(nodeId, module);
         }
 
+        const module_ptr & getUseDeclModule(ast::node_id nodeId) const {
+            return useDeclModules.at(nodeId);
+        }
+
     private:
         std::vector<Def> defs;
         std::map<def_id, module_ptr> modules;
