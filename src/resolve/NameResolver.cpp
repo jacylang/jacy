@@ -310,8 +310,7 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(i).unwrap();
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
-            // Agenda:
-            // TODO: Pretty error messages like "Cannot use private *func*, etc."
+            // TODO: Resolve segment generics
 
             // For path prefix `a::b::` we find segments in type namespace,
             // but last segment is resolved in target namespace
