@@ -22,6 +22,9 @@ namespace jc::resolve {
             opt_def_id defId{dt::None};
             allDefs.each([&](opt_def_id optDefId, Namespace nsKind) {
                 if (optDefId) {
+                    if (defId) {
+                        log.devPanic("Found multiple definitions in module");
+                    }
                     defId = optDefId.unwrap();
                 }
             });
@@ -36,6 +39,5 @@ namespace jc::resolve {
                 searchMod = sess->defStorage.getModule(defId.unwrap());
             }
         }
-
     }
 }

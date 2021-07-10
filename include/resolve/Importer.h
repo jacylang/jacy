@@ -17,6 +17,7 @@ namespace jc::resolve {
         void visit(const ast::UseTreeRaw & useTree) override;
 
     private:
+        common::Logger log{"importer"};
         sess::sess_ptr sess;
         module_ptr _module;
     };
