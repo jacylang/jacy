@@ -4,6 +4,7 @@
 #include "ast/StubVisitor.h"
 #include "suggest/SuggInterface.h"
 #include "resolve/Definition.h"
+#include "data_types/SuggResult.h"
 
 namespace jc::resolve {
     class Importer : public ast::StubVisitor, public sugg::SuggInterface {
@@ -11,7 +12,7 @@ namespace jc::resolve {
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        void declare(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> declare(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;
