@@ -1,5 +1,5 @@
 mod a {
-    pub func foo {
+    func foo {
     }
 }
 

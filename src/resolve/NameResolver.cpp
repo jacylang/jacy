@@ -308,57 +308,50 @@ namespace jc::resolve {
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
             // Agenda:
-            // TODO: Unify logic -- it is possible
             // TODO: Pretty error messages like "Cannot use private *func*, etc."
 
-            // Resolve prefix path, `a::b::` (before target)
-            if (i < path.segments.size() - 1) {
-                // Note: Module-like items stored in `Type` namespace
-                searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
-                    // Check module definition visibility
-                    // Note: We check if current segment is not the first one,
-                    //  because items in a module are visible for other items in it, and we already found the name
-                    // Note!: Order matters, we need to check visibility before descend to next module
-                    if (i != 0 and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
-                        inaccessible = true;
-                        unresolvedSegIndex = i;
-                    }
+            // For path prefix `a::b::` we find segments in type namespace,
+            // but last segment is resolved in target namespace
+            bool isFirstSeg = i == 0;
+            bool isPrefixSeg = i < path.segments.size() - 1;
+            Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
-                    // Get module specified in path segment from current searched module
-                    searchMod = sess->defStorage.getModule(defId);
-
-                    log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
-                }).otherwise([&]() {
-                    // Resolution failed
-                    log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
+            searchMod->find(ns, segName).then([&](def_id defId) {
+                // Check module definition visibility
+                // Note: We check if current segment is not the first one,
+                //  because items in a module are visible for other items in it, and we already found the name
+                // Note!: Order matters, we need to check visibility before descend to next module
+                if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                    inaccessible = true;
                     unresolvedSegIndex = i;
-                    altDefs = searchMod->findAlt(segName);
-                });
-
-                if (unresolvedSegIndex) {
-                    break;
+                    return;
                 }
 
-                if (i != 0) {
+                if (isPrefixSeg) {
+                    // Resolve prefix path, `a::b::` (before target)
+                    searchMod = sess->defStorage.getModule(defId);
+                    log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
+                } else {
+                    // Resolve last segment
+                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", defId);
+                    _resStorage.setRes(path.id, Res{defId});
+                }
+            }).otherwise([&]() {
+                // Resolution failed
+                log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
+                unresolvedSegIndex = i;
+                altDefs = searchMod->findAlt(segName);
+            });
+
+            if (unresolvedSegIndex) {
+                break;
+            }
+
+            if (isPrefixSeg) {
+                if (not isFirstSeg) {
                     pathStr += "::";
                 }
                 pathStr += segName;
-            } else {
-                // Resolve last segment
-                searchMod->find(ns, segName).then([&](def_id defId) {
-                    // Check target definition visibility
-                    if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
-                        inaccessible = true;
-                        unresolvedSegIndex = i;
-                        return;
-                    }
-
-                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", defId);
-                    _resStorage.setRes(path.id, Res{defId});
-                }).otherwise([&]() {
-                    unresolvedSegIndex = i;
-                    altDefs = searchMod->findAlt(segName);
-                });
             }
         }
 
