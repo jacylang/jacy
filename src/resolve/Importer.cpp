@@ -16,27 +16,29 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseTreeRaw & useTree) {
         std::string pathStr;
         module_ptr searchMod = _module;
-        for (const auto & seg : useTree.path->segments) {
+        for (size_t i = 0; i < useTree.path->segments.size(); i++) {
+            const auto & seg = useTree.path->segments.at(i);
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
-            auto allDefs = searchMod->findAll(segName);
-            opt_def_id defId{dt::None};
-            allDefs.each([&](opt_def_id optDefId, Namespace nsKind) {
-                if (optDefId) {
-                    if (defId) {
-                        log.devPanic("Found multiple definitions in module");
-                    }
-                    defId = optDefId.unwrap();
-                }
-            });
+            const auto isPrefixSeg = i < useTree.path->segments.size() - 1;
 
-            if (not defId) {
-                auto msg = "Cannot find '" + segName + "'";
-                if (not pathStr.empty()) {
-                    msg += " in '" + pathStr + "'";
-                }
-                suggestErrorMsg(msg, seg->span);
+            if (isPrefixSeg) {
+                const auto & defId = searchMod->find(Namespace::Type, segName);
+                // Only items from type namespace can be descended to
+                searchMod = sess->defStorage.getModule(defId);
             } else {
-                searchMod = sess->defStorage.getModule(defId.unwrap());
+                auto defsPerNS = searchMod->findAll(segName);
+
+                if (defsPerNS.type.none() and defsPerNS.value.none() and defsPerNS.lifetime.none()) {
+                    auto msg = "Cannot find '" + segName + "'";
+                    if (not pathStr.empty()) {
+                        msg += " in '" + pathStr + "'";
+                    }
+                    suggestErrorMsg(msg, seg->span);
+                } else {
+                    defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
+
+                    });
+                }
             }
         }
     }
