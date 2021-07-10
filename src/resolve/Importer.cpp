@@ -66,12 +66,16 @@ namespace jc::resolve {
                 // - If count is 1 then we report an error if item is private
                 // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we skip private items
                 uint8_t defsCount = 0;
+                uint8_t visDefsCount = 0;
                 PerNS<dt::Option<DefVis>> defsPerNSVis{None, None, None};
                 defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
                         const auto & defVis = sess->defStorage.getDefVis(optDefId.unwrap());
                         defsPerNSVis.set(nsKind, defVis);
+                        if (defVis == DefVis::Pub) {
+                            visDefsCount++;
+                        }
                     }
                 });
 
@@ -81,7 +85,8 @@ namespace jc::resolve {
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
-                            if (defsCount == 1) {
+                            // Report "Cannot access" only if this is the only one inaccessible item
+                            if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
