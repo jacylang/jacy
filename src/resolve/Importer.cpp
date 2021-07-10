@@ -6,6 +6,8 @@ namespace jc::resolve {
 
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
+
+        return {dt::None, extractSuggestions()};
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
