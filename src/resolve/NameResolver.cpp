@@ -27,7 +27,6 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        // Note: Functions stored in value namespace
         enterModule(func.name.unwrap()->getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
@@ -41,7 +40,6 @@ namespace jc::resolve {
             func.returnType.unwrap().accept(*this);
         }
 
-        // Note: Function parameter names can conflict
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.params) {
