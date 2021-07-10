@@ -11,8 +11,14 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
-        _module = sess->defStorage.getUseDeclModule(useDecl.id);
+        auto prevModule = _module;
+        const auto & useDeclModule = sess->defStorage.getUseDeclModule(useDecl.id);
+
+        log.dev("Import `use` with module ", useDeclModule->toString());
+
+        _module = useDeclModule;
         useDecl.useTree.accept(*this);
+        _module = prevModule;
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
