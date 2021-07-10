@@ -230,6 +230,9 @@ namespace jc::core {
         printModTree();
         printDefinitions();
 
+        log.dev("Resolve imports...");
+        importer.declare(sess, *party.unwrap());
+
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
