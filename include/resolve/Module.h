@@ -114,6 +114,17 @@ namespace jc::resolve {
             return None;
         }
 
+        std::string toString() const {
+            std::string repr = kindStr();
+            repr += " ";
+            if (kind == ModuleKind::Block) {
+                repr += " block #" + std::to_string(nodeId.unwrap());
+            } else if (kind == ModuleKind::Def) {
+                repr += " module #" + std::to_string(defId.unwrap());
+            }
+            return repr;
+        }
+
         inline const char * kindStr() const {
             switch (kind) {
                 case ModuleKind::Root: return "[ROOT]";
