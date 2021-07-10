@@ -27,6 +27,12 @@ namespace jc::resolve {
         void visit(const ast::Trait & trait) override;
         void visit(const ast::TypeAlias & typeAlias) override;
 
+        void visit(const ast::UseDecl & useDecl) override;
+        void visit(const ast::UseTreeRaw & useTree) override;
+//        void visit(const ast::UseTreeSpecific & useTree) override;
+//        void visit(const ast::UseTreeRebind & useTree) override;
+//        void visit(const ast::UseTreeAll & useTree) override;
+
         void visit(const ast::Block & block) override;
 
     private:

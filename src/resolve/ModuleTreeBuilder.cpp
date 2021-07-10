@@ -89,6 +89,10 @@ namespace jc::resolve {
         });
     }
 
+    void ModuleTreeBuilder::visit(const ast::UseDecl & useDecl) {
+        useDecl.useTree.accept(*this);
+    }
+
     void ModuleTreeBuilder::visit(const ast::Block & block) {
         if (block.blockKind == ast::BlockKind::OneLine) {
             // Note: One line block does not open module,
