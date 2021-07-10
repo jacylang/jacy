@@ -90,7 +90,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::UseDecl & useDecl) {
-
+        _defStorage.setUseDeclModule(useDecl.id, mod);
     }
 
     void ModuleTreeBuilder::visit(const ast::Block & block) {
