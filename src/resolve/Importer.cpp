@@ -22,8 +22,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
-        // TODO!!!: Unify path resolution logic in NameResolver and Importer,
-        //  - `SimplePath` must be removed and only `Path` will be used, thus we don't have two path kinds
+        // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
 
         module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
 
@@ -43,7 +42,7 @@ namespace jc::resolve {
                 const auto & defId = searchMod->find(Namespace::Type, segName);
                 // Only items from type namespace can be descended to
                 searchMod = sess->defStorage.getModule(defId.unwrap());
-                if (i != 0) {
+                if (not isFirstSeg) {
                     pathStr += "::";
                 }
                 pathStr += segName;
