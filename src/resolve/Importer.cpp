@@ -64,20 +64,22 @@ namespace jc::resolve {
                 // It is useful because
                 // - If count is 0 then it is an error
                 // - If count is 1 then we report an error if item is private
-                // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we
-                auto defsCount = 0;
+                // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we skip private items
+                uint8_t defsCount = 0;
+                PerNS<dt::Option<DefVis>> defsPerNSVis{None, None, None};
                 defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
                     }
                 });
 
-                if (defsPerNS.type.none() and defsPerNS.value.none() and defsPerNS.lifetime.none()) {
+                if (defsCount == 0) {
+                    // No target found
                     unresSeg = {i, None};
                 } else {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
-                            if (sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                            if (defsCount == 1 and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
