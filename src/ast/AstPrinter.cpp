@@ -119,6 +119,7 @@ namespace jc::ast {
         }
 
         if (func.body) {
+            const auto & body = func.body.unwrap();
             if (func.body.unwrap() and func.body.unwrap().unwrap()->blockKind == BlockKind::OneLine) {
                 log.raw(" = ");
             }

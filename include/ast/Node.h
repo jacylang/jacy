@@ -70,6 +70,10 @@ namespace jc::ast {
             return std::get<T>(state);
         }
 
+        bool isOk() const {
+            return not isErr();
+        }
+
         bool isErr() const {
             return state.index() != 0;
         }
