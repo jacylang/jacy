@@ -10,6 +10,14 @@ namespace jc::resolve {
     using ast::opt_node_id;
     using prim_type_set_t = uint16_t;
 
+    // Unresolved segment
+    // Has index in path segments vector and optional definition id,
+    // if segment is resolved but it is private
+    struct UnresSeg {
+        size_t segIndex;
+        opt_def_id defId{dt::None};
+    };
+
     /// One bit for each `PrimType` variant
     /// Leftmost bit is last `PrimType` variant (`Str`), rightmost is `Bool`
     /// const prim_type_set_t PRIM_TYPES_MASK = 0b1111111111111;

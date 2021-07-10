@@ -265,14 +265,6 @@ namespace jc::resolve {
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
     void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path) {
-        // Unresolved segment
-        // Has index in path segments vector and optional definition id,
-        // if segment is resolved but it is private
-        struct UnresSeg {
-            size_t segIndex;
-            opt_def_id defId{dt::None};
-        };
-
         // TODO: global
 
         // TODO: Generic args not allowed in local variables, check for single-seg path with generics
