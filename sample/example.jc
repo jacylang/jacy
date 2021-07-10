@@ -1,8 +1,9 @@
-mod a {
+mod b {
     func foo {
+
     }
 }
 
 func main {
-    a::foo();
+    use b::foo;
 }

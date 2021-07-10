@@ -62,6 +62,10 @@ namespace jc::dt {
             return !hasValue;
         }
 
+        bool some() const {
+            return hasValue;
+        }
+
         operator bool() const {
             return hasValue;
         }
