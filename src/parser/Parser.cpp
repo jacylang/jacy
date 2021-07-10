@@ -1822,13 +1822,13 @@ namespace jc::parser {
 
             if (is(TokenKind::Id)) {
                 auto ident = justParseId("`parseOptSimplePath`");
-                segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), cspan().to(cspan())));
+                segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Super)) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, segBegin));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Party)) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, segBegin));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Self)) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, segBegin));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
             if (not is(TokenKind::Path)) {
