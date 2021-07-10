@@ -119,9 +119,13 @@ namespace jc::ast {
         }
 
         if (func.body) {
-            const auto & body = func.body.unwrap();
-            if (func.body.unwrap() and func.body.unwrap().unwrap()->blockKind == BlockKind::OneLine) {
-                log.raw(" = ");
+            if (func.body.unwrap().isOk()) {
+                const auto & body = func.body.unwrap().unwrap();
+                if (body->blockKind == BlockKind::OneLine) {
+                    log.raw(" = ");
+                } else if (body->blockKind == BlockKind::Raw and body->stmts.unwrap().size() == 0) {
+                    log.raw(" ");
+                }
             }
             func.body.unwrap().accept(*this);
         } else {
