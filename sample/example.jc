@@ -2,8 +2,11 @@ mod b {
     func foo {}
 }
 
+func foo {}
+
+use b::foo;
+
 func main {
-    use b::foo;
 
     foo();
 }

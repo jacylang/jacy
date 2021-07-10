@@ -56,9 +56,9 @@ namespace jc::resolve {
                                 const auto & oldDefSpan = sess->nodeMap.getNodeSpan(oldDef.nameNodeId.unwrap());
                                 suggest(
                                     std::make_unique<sugg::MsgSpanLinkSugg>(
-                                        "Cannot `use` '" + segName + "' as ",
+                                        "Cannot `use` '" + segName + "'",
                                         seg->span,
-                                        "As it was already declared as " + oldDef.kindStr() + " here",
+                                        "Because it is already declared as " + oldDef.kindStr() + " here",
                                         oldDefSpan,
                                         sugg::SuggKind::Error));
                             });
