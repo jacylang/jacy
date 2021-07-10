@@ -46,8 +46,6 @@ namespace jc::resolve {
         PerNS<mod_ns_map> perNS;
         prim_type_set_t shadowedPrimTypes{0};
 
-        std::vector<def_id> importedDefs;
-
         // `Root` module
         static inline module_ptr newRootModule() {
             return std::make_shared<Module>(ModuleKind::Root, None, None, None, None);
@@ -66,10 +64,6 @@ namespace jc::resolve {
         // `Def` module
         static inline module_ptr newDefModule(def_id defId, module_ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
-        }
-
-        void addImportedDef(def_id defId) {
-            importedDefs.emplace_back(defId);
         }
 
         opt_def_id find(Namespace nsKind, const std::string & name) const {
