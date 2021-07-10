@@ -25,15 +25,19 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer,
         //  - `SimplePath` must be removed and only `Path` will be used, thus we don't have two path kinds
 
+        module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
+
         std::string pathStr;
         bool inaccessible = false;
         dt::Option<UnresSeg> unresSeg{None};
         PerNS<opt_def_id> altDefs{None, None, None};
-        module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
+
         for (size_t i = 0; i < useTree.path->segments.size(); i++) {
             const auto & seg = useTree.path->segments.at(i);
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
-            const auto isPrefixSeg = i < useTree.path->segments.size() - 1;
+
+            bool isFirstSeg = i == 0;
+            bool isPrefixSeg = i < useTree.path->segments.size() - 1;
 
             if (isPrefixSeg) {
                 const auto & defId = searchMod->find(Namespace::Type, segName);
