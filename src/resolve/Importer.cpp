@@ -50,9 +50,17 @@ namespace jc::resolve {
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
                             _module->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
-                                suggestErrorMsg(
-                                    "Cannot `use` '" + segName + "' as it was already declared in this scope",
-                                    seg->span);
+                                // Note: If some definition can be redefined -- it is always named definition,
+                                //  so we can safely get its name node span
+                                const auto & oldDef = sess->defStorage.getDef(oldDefId);
+                                const auto & oldDefSpan = sess->nodeMap.getNodeSpan(oldDef.nameNodeId.unwrap());
+                                suggest(
+                                    std::make_unique<sugg::MsgSpanLinkSugg>(
+                                        "Cannot `use` '" + segName + "' as ",
+                                        seg->span,
+                                        "As it was already declared as " + oldDef.kindStr() + " here",
+                                        oldDefSpan,
+                                        sugg::SuggKind::Error));
                             });
                         });
                     });

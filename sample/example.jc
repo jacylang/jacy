@@ -4,4 +4,6 @@ mod b {
 
 func main {
     use b::foo;
+
+    foo();
 }
