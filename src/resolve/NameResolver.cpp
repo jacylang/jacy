@@ -374,7 +374,7 @@ namespace jc::resolve {
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
-                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId).kindStr();
+                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
