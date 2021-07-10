@@ -1,7 +1,7 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
+    dt::SuggResult<None_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
         printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
@@ -11,7 +11,7 @@ namespace jc::resolve {
         party.getRootDir()->accept(*this);
 
         sess->resStorage = std::move(_resStorage);
-        return {dt::None, extractSuggestions()};
+        return {None, extractSuggestions()};
     }
 
     void NameResolver::visit(const ast::Dir & dir) {
@@ -293,8 +293,8 @@ namespace jc::resolve {
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
         bool inaccessible = false;
-        dt::Option<UnresSeg> unresSeg{dt::None};
-        PerNS<opt_def_id> altDefs = {dt::None, dt::None, dt::None};
+        dt::Option<UnresSeg> unresSeg{None};
+        PerNS<opt_def_id> altDefs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
@@ -332,7 +332,7 @@ namespace jc::resolve {
             }).otherwise([&]() {
                 // Resolution failed
                 log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
-                unresSeg = {i, dt::None};
+                unresSeg = {i, None};
                 altDefs = searchMod->findAll(segName);
             });
 
