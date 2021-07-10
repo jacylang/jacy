@@ -32,7 +32,7 @@ namespace jc::resolve {
             if (isPrefixSeg) {
                 const auto & defId = searchMod->find(Namespace::Type, segName);
                 // Only items from type namespace can be descended to
-                searchMod = sess->defStorage.getModule(defId);
+                searchMod = sess->defStorage.getModule(defId.unwrap());
                 if (i != 0) {
                     pathStr += "::";
                 }

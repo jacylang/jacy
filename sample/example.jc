@@ -1,12 +1,11 @@
-mod b {
-    func foo {}
+mod m {
+    use b::foo;
+
+    mod b {
+        func foo {}
+    }
 }
 
-func foo {}
-
-use b::foo;
-
 func main {
-
-    foo();
+    m::foo();
 }
