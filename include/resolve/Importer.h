@@ -10,7 +10,7 @@ namespace jc::resolve {
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        void declare(sess::sess_ptr sess);
+        void declare(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;
