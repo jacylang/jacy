@@ -5,8 +5,7 @@ namespace jc::resolve {
         useDecl.useTree.accept(*this);
     }
 
-    void Importer::visit(const ast::UseTreeRaw & useDecl) {
+    void Importer::visit(const ast::UseTreeRaw & useTree) {
 
     }
 }
-

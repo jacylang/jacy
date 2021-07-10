@@ -11,7 +11,7 @@ namespace jc::resolve {
         ~Importer() override = default;
 
         void visit(const ast::UseDecl & useDecl) override;
-        void visit(const ast::UseTreeRaw & useDecl) override;
+        void visit(const ast::UseTreeRaw & useTree) override;
     };
 }
 
