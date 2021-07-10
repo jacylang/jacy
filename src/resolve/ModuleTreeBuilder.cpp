@@ -133,7 +133,7 @@ namespace jc::resolve {
 
         // Try to emplace definition in namespace, and if it is already defined suggest an error
         const auto & oldDefId = mod->tryDefine(ns, name, defId);
-        if (not oldDefId) {
+        if (oldDefId) {
             log.dev(
                 "Tried to redefine '",
                 name,
