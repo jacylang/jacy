@@ -10,9 +10,7 @@ namespace jc::ast {
 
         template<class T, class ...Args>
         N<T> makeBoxNode(Args && ...args) {
-            if (nodes.size() == NONE_NODE_ID) {
-                common::Logger::devPanic("Nodes count exceeded");
-            }
+            checkSize();
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
             node->id = nodes.size();
             nodes.emplace_back(node.get());
@@ -21,6 +19,7 @@ namespace jc::ast {
 
         template<class T, class ...Args>
         T makeNode(Args && ...args) {
+            checkSize();
         }
 
         const Node & getNode(node_id nodeId) const;
