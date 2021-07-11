@@ -2216,12 +2216,12 @@ namespace jc::parser {
         }
 
         // `_`
-        if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard) {
+        if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard.some()) {
             return makePRNode<WCPat, Pattern>(wildcard.unwrap().span);
         }
 
         // `...`
-        if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
+        if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
             return makePRNode<SpreadPat, Pattern>(spread.unwrap().span);
         }
 
