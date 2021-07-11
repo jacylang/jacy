@@ -32,7 +32,7 @@ namespace jc::resolve {
     void Importer::resolvePath(
         PathResKind resKind,
         const ast::SimplePath & path,
-        const std::function<void ()> & targetCb
+        const std::function<void()> & targetCb
     ) {
         module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
@@ -47,7 +47,7 @@ namespace jc::resolve {
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
 
-            if (isPrefixSeg) {
+            if (isPrefixSeg or resKind == PathResKind::Full) {
                 searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
                     if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
