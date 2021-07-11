@@ -199,8 +199,8 @@ namespace jc::ast {
     }
 
     template<class T>
-    inline NParseResult<T> OkPR(N<T> && ok) {
-        return NParseResult<T>(std::move(ok));
+    inline NParseResult<N<T>> OkPR(N<T> && ok) {
+        return NParseResult<N<T>>(std::move(ok));
     }
 
     template<class T>
