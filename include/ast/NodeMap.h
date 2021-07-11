@@ -10,16 +10,15 @@ namespace jc::ast {
 
         template<class T, class ...Args>
         N<T> makeBoxNode(Args && ...args) {
-            checkSize();
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
-            node->id = nodes.size();
-            nodes.emplace_back(node.get());
+            addNode(node.get());
             return node;
         }
 
-        template<class T, class ...Args>
-        T makeNode(Args && ...args) {
+        void addNode(Node * node) {
             checkSize();
+            node->id = static_cast<node_id>(nodes.size());
+            nodes.emplace_back(node);
         }
 
         const Node & getNode(node_id nodeId) const;
