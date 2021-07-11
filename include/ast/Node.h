@@ -33,8 +33,8 @@ namespace jc::ast {
         virtual void accept(BaseVisitor & visitor) const = 0;
 
         template<class T>
-        static const T * cast(const node_ptr & node) {
-            return static_cast<T*>(node.get());
+        static const T * cast(const Node * node) {
+            return static_cast<T*>(node);
         }
     };
 
