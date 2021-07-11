@@ -2289,8 +2289,8 @@ namespace jc::parser {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
-        bool ref = skipOpt(TokenKind::Ref);
-        bool mut = skipOpt(TokenKind::Mut);
+        bool ref = skipOpt(TokenKind::Ref).some();
+        bool mut = skipOpt(TokenKind::Mut).some();
 
         auto id = parseId("Missing identifier");
 
