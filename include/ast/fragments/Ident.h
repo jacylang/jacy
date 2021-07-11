@@ -1,5 +1,5 @@
-#ifndef JACY_AST_FRAGMENTS_IDENTIFIER_H
-#define JACY_AST_FRAGMENTS_IDENTIFIER_H
+#ifndef JACY_AST_FRAGMENTS_IDENT_H
+#define JACY_AST_FRAGMENTS_IDENT_H
 
 #include <vector>
 
@@ -26,4 +26,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_FRAGMENTS_IDENTIFIER_H
+#endif // JACY_AST_FRAGMENTS_IDENT_H
