@@ -2109,7 +2109,7 @@ namespace jc::parser {
 
         type_list params;
         for (const auto & tupleEl : tupleElements) {
-            if (tupleEl->name) {
+            if (tupleEl->name.some()) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
                 suggestErrorMsg(
@@ -2117,7 +2117,7 @@ namespace jc::parser {
                     tupleEl->name.unwrap().unwrap()->span
                 );
             }
-            if (not tupleEl->type) {
+            if (tupleEl->type.none()) {
                 common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
             }
             params.push_back(tupleEl->type.unwrap(""));
