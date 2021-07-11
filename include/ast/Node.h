@@ -104,27 +104,8 @@ namespace jc::ast {
             return std::get<T>(state);
         }
 
-        NParseResult<T> & operator=(const NParseResult<T> & other) {
-            if (other.err()) {
-                state = std::get<E>(other.state);
-            } else {
-                state = std::get<T>(other.state);
-            }
-            return *this;
-        }
-
         NParseResult<T> & operator=(NParseResult<T> && other) {
             state = std::move(other.state);
-            return *this;
-        }
-
-        NParseResult<T> & operator=(const T & rawT) {
-            state = rawT;
-            return *this;
-        }
-
-        NParseResult<T> & operator=(const E & rawE) {
-            state = rawE;
             return *this;
         }
 
@@ -136,20 +117,6 @@ namespace jc::ast {
         NParseResult<T> & operator=(E && rawE) {
             state = std::move(rawE);
             return *this;
-        }
-
-        const T * operator->() const {
-            if (this->err()) {
-                throw std::logic_error("Called `const T * NParseResult::operator->` on an `Err` NParseResult");
-            }
-            return &std::get<T>(this->state);
-        }
-
-        const T & operator*() const {
-            if (this->err()) {
-                throw std::logic_error("Called `const T & NParseResult::operator*` on an `Err` NParseResult");
-            }
-            return *std::get<T>(this->state);
         }
 
         template<class B>
