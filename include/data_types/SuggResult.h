@@ -17,7 +17,7 @@ namespace jc::dt {
     public:
         SuggResult(const T & value, sugg::sugg_list && suggestions)
             : value(value), suggestions(std::move(suggestions)) {}
-        SuggResult(T && value, sugg::sugg_list suggestions)
+        SuggResult(T && value, sugg::sugg_list && suggestions)
             : value(std::move(value)), suggestions(std::move(suggestions)) {}
 
         std::tuple<T, sugg::sugg_list> extract() {
