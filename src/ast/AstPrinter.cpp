@@ -427,10 +427,10 @@ namespace jc::ast {
 
     void AstPrinter::visit(const LambdaParam & param) {
         param.pat.accept(*this);
-        if (param.type) {
+        param.type.then([&](const auto & type) {
             log.raw(": ");
-            param.type.unwrap().accept(*this);
-        }
+            type.accept(*this);
+        });
 
         printNodeId(param);
     }
