@@ -52,7 +52,7 @@ namespace jc::resolve {
         //  Func module stores type parameters but body is a nested block
         enterModule(getItemVis(func), func.name, DefKind::Func);
         if (func.body) {
-            func.body.unwrap().accept(*this);
+            func.body.unwrap().autoAccept(*this);
         }
         exitMod();
     }
@@ -97,7 +97,7 @@ namespace jc::resolve {
         if (block.blockKind == ast::BlockKind::OneLine) {
             // Note: One line block does not open module,
             //  anyway it can contain another Block which could be a multi-line
-            block.oneLine.unwrap().accept(*this);
+            block.oneLine.unwrap().autoAccept(*this);
         } else {
             // Note: Block is not a definition, it is a pure anonymous module
             enterBlock(block.id);

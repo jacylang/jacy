@@ -15,16 +15,16 @@ namespace jc::ast {
 
     // Statements //
     void StubVisitor::visit(const Enum & enumDecl) {
-        enumDecl.name.accept(*this);
+        enumDecl.name.autoAccept(*this);
         visitEach(enumDecl.entries);
     }
 
     void StubVisitor::visit(const EnumEntry & enumEntry) {
-        enumEntry.name.accept(*this);
+        enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
-                std::get<expr_ptr>(enumEntry.body).accept(*this);
+                std::get<expr_ptr>(enumEntry.body).autoAccept(*this);
                 break;
             }
             case EnumEntryKind::Tuple: {
@@ -39,41 +39,41 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ExprStmt & exprStmt) {
-        exprStmt.expr.accept(*this);
+        exprStmt.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ForStmt & forStmt) {
-        forStmt.pat.accept(*this);
-        forStmt.inExpr.accept(*this);
-        forStmt.body.accept(*this);
+        forStmt.pat.autoAccept(*this);
+        forStmt.inExpr.autoAccept(*this);
+        forStmt.body.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ItemStmt & itemStmt) {
-        itemStmt.item.accept(*this);
+        itemStmt.item.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Func & func) {
         if (func.generics) {
             visitEach(func.generics.unwrap());
         }
-        func.name.accept(*this);
+        func.name.autoAccept(*this);
 
         visitEach(func.params);
 
         if (func.returnType) {
-            func.returnType.unwrap().accept(*this);
+            func.returnType.unwrap().autoAccept(*this);
         }
 
         if (func.body) {
-            func.body.unwrap().accept(*this);
+            func.body.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const FuncParam & funcParam) {
-        funcParam.name.accept(*this);
-        funcParam.type.accept(*this);
+        funcParam.name.autoAccept(*this);
+        funcParam.type.autoAccept(*this);
         if (funcParam.defaultValue) {
-            funcParam.defaultValue.unwrap().accept(*this);
+            funcParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
 
@@ -81,30 +81,30 @@ namespace jc::ast {
         if (impl.generics) {
             visitEach(impl.generics.unwrap());
         }
-        impl.traitTypePath.accept(*this);
+        impl.traitTypePath.autoAccept(*this);
         if (impl.forType) {
-            impl.forType.unwrap().accept(*this);
+            impl.forType.unwrap().autoAccept(*this);
         }
         visitEach(impl.members);
     }
 
     void StubVisitor::visit(const Mod & mod) {
-        mod.name.accept(*this);
+        mod.name.autoAccept(*this);
         visitEach(mod.items);
     }
 
     void StubVisitor::visit(const Struct & _struct) {
-        _struct.name.accept(*this);
+        _struct.name.autoAccept(*this);
         visitEach(_struct.fields);
     }
 
     void StubVisitor::visit(const StructField & field) {
-        field.name.accept(*this);
-        field.type.accept(*this);
+        field.name.autoAccept(*this);
+        field.type.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Trait & trait) {
-        trait.name.accept(*this);
+        trait.name.autoAccept(*this);
 
         if (trait.generics) {
             visitEach(trait.generics.unwrap());
@@ -115,14 +115,14 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TypeAlias & typeAlias) {
-        typeAlias.name.accept(*this);
+        typeAlias.name.autoAccept(*this);
         typeAlias.type.then([&](const auto & type) {
             type.accept(*this);
         });
     }
 
     void StubVisitor::visit(const UseDecl & useDecl) {
-        useDecl.useTree.accept(*this);
+        useDecl.useTree.autoAccept(*this);
     }
 
     void StubVisitor::visit(const UseTreeRaw & useTree) {
@@ -138,7 +138,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const UseTreeRebind & useTree) {
         useTree.path->accept(*this);
-        useTree.as.accept(*this);
+        useTree.as.autoAccept(*this);
     }
 
     void StubVisitor::visit(const UseTreeAll & useTree) {
@@ -149,67 +149,67 @@ namespace jc::ast {
 
     // Statements //
     void StubVisitor::visit(const LetStmt & letStmt) {
-        letStmt.pat.accept(*this);
+        letStmt.pat.autoAccept(*this);
         if (letStmt.type) {
-            letStmt.type.unwrap().accept(*this);
+            letStmt.type.unwrap().autoAccept(*this);
         }
         if (letStmt.assignExpr) {
-            letStmt.assignExpr.unwrap().accept(*this);
+            letStmt.assignExpr.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const WhileStmt & whileStmt) {
-        whileStmt.condition.accept(*this);
-        whileStmt.body.accept(*this);
+        whileStmt.condition.autoAccept(*this);
+        whileStmt.body.autoAccept(*this);
     }
 
     // Expressions //
     void StubVisitor::visit(const Assignment & assign) {
-        assign.lhs.accept(*this);
-        assign.rhs.accept(*this);
+        assign.lhs.autoAccept(*this);
+        assign.rhs.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Block & block) {
         if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().accept(*this);
+            block.oneLine.unwrap().autoAccept(*this);
         } else {
             visitEach(block.stmts.unwrap());
         }
     }
 
     void StubVisitor::visit(const BorrowExpr & borrowExpr) {
-        borrowExpr.expr.accept(*this);
+        borrowExpr.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const BreakExpr & breakExpr) {
         if (breakExpr.expr) {
-            breakExpr.expr.unwrap().accept(*this);
+            breakExpr.expr.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const ContinueExpr&) {}
 
     void StubVisitor::visit(const DerefExpr & derefExpr) {
-        derefExpr.expr.accept(*this);
+        derefExpr.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const IfExpr & ifExpr) {
-        ifExpr.condition.accept(*this);
+        ifExpr.condition.autoAccept(*this);
         if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap().accept(*this);
+            ifExpr.ifBranch.unwrap().autoAccept(*this);
         }
         if (ifExpr.elseBranch) {
-            ifExpr.elseBranch.unwrap().accept(*this);
+            ifExpr.elseBranch.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const Infix & infix) {
-        infix.lhs.accept(*this);
-        infix.rhs.accept(*this);
+        infix.lhs.autoAccept(*this);
+        infix.rhs.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Invoke & invoke) {
-        invoke.lhs.accept(*this);
+        invoke.lhs.autoAccept(*this);
         visitEach(invoke.args);
     }
 
@@ -217,16 +217,16 @@ namespace jc::ast {
         visitEach(lambdaExpr.params);
 
         if (lambdaExpr.returnType) {
-            lambdaExpr.returnType.unwrap().accept(*this);
+            lambdaExpr.returnType.unwrap().autoAccept(*this);
         }
 
-        lambdaExpr.body.accept(*this);
+        lambdaExpr.body.autoAccept(*this);
     }
 
     void StubVisitor::visit(const LambdaParam & param) {
-        param.pat.accept(*this);
+        param.pat.autoAccept(*this);
         if (param.type) {
-            param.type.unwrap().accept(*this);
+            param.type.unwrap().autoAccept(*this);
         }
     }
 
@@ -237,16 +237,16 @@ namespace jc::ast {
     void StubVisitor::visit(const LiteralConstant&) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
-        loopExpr.body.accept(*this);
+        loopExpr.body.autoAccept(*this);
     }
 
     void StubVisitor::visit(const MemberAccess & memberAccess) {
-        memberAccess.lhs.accept(*this);
-        memberAccess.field.accept(*this);
+        memberAccess.lhs.autoAccept(*this);
+        memberAccess.field.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ParenExpr & parenExpr) {
-        parenExpr.expr.accept(*this);
+        parenExpr.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const PathExpr & pathExpr) {
@@ -254,46 +254,46 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Prefix & prefix) {
-        prefix.rhs.accept(*this);
+        prefix.rhs.autoAccept(*this);
     }
 
     void StubVisitor::visit(const QuestExpr & questExpr) {
-        questExpr.expr.accept(*this);
+        questExpr.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ReturnExpr & returnExpr) {
-        returnExpr.expr->accept(*this);
+        returnExpr.expr->autoAccept(*this);
     }
 
     void StubVisitor::visit(const SpreadExpr & spreadExpr) {
-        spreadExpr.expr.accept(*this);
+        spreadExpr.expr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const StructExpr & structExpr) {
-        structExpr.path.accept(*this);
+        structExpr.path.autoAccept(*this);
         visitEach(structExpr.fields);
     }
 
     void StubVisitor::visit(const StructExprField & field) {
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
-                field.name.unwrap().accept(*this);
-                field.expr.unwrap().accept(*this);
+                field.name.unwrap().autoAccept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Shortcut: {
-                field.name.unwrap().accept(*this);
+                field.name.unwrap().autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Base: {
-                field.expr.unwrap().accept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
         }
     }
 
     void StubVisitor::visit(const Subscript & subscript) {
-        subscript.lhs.accept(*this);
+        subscript.lhs.autoAccept(*this);
         visitEach(subscript.indices);
     }
 
@@ -306,18 +306,18 @@ namespace jc::ast {
     void StubVisitor::visit(const UnitExpr&) {}
 
     void StubVisitor::visit(const MatchExpr & matchExpr) {
-        matchExpr.subject.accept(*this);
+        matchExpr.subject.autoAccept(*this);
         visitEach(matchExpr.entries);
     }
 
     void StubVisitor::visit(const MatchArm & matchArm) {
         visitEach(matchArm.patterns);
-        matchArm.body.accept(*this);
+        matchArm.body.autoAccept(*this);
     }
 
     // Types //
     void StubVisitor::visit(const ParenType & parenType) {
-        parenType.type.accept(*this);
+        parenType.type.autoAccept(*this);
     }
 
     void StubVisitor::visit(const TupleType & tupleType) {
@@ -326,25 +326,25 @@ namespace jc::ast {
 
     void StubVisitor::visit(const TupleTypeEl & el) {
         if (el.name) {
-            el.name.unwrap().accept(*this);
+            el.name.unwrap().autoAccept(*this);
         }
         if (el.type) {
-            el.type.unwrap().accept(*this);
+            el.type.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const FuncType & funcType) {
         visitEach(funcType.params);
-        funcType.returnType.accept(*this);
+        funcType.returnType.autoAccept(*this);
     }
 
     void StubVisitor::visit(const SliceType & listType) {
-        listType.type.accept(*this);
+        listType.type.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ArrayType & arrayType) {
-        arrayType.type.accept(*this);
-        arrayType.sizeExpr.accept(*this);
+        arrayType.type.autoAccept(*this);
+        arrayType.sizeExpr.autoAccept(*this);
     }
 
     void StubVisitor::visit(const TypePath & typePath) {
@@ -355,27 +355,27 @@ namespace jc::ast {
 
     // Type params //
     void StubVisitor::visit(const TypeParam & typeParam) {
-        typeParam.name.accept(*this);
+        typeParam.name.autoAccept(*this);
         if (typeParam.boundType) {
-            typeParam.boundType.unwrap().accept(*this);
+            typeParam.boundType.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const Lifetime & lifetime) {
-        lifetime.name.accept(*this);
+        lifetime.name.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ConstParam & constParam) {
-        constParam.name.accept(*this);
-        constParam.type.accept(*this);
+        constParam.name.autoAccept(*this);
+        constParam.type.autoAccept(*this);
         if (constParam.defaultValue) {
-            constParam.defaultValue.unwrap().accept(*this);
+            constParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
 
     // Fragments //
     void StubVisitor::visit(const Attribute & attr) {
-        attr.name.accept(*this);
+        attr.name.autoAccept(*this);
         visitEach(attr.params);
     }
 
@@ -383,7 +383,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const Arg & el) {
         if (el.name) {
-            el.name.unwrap().accept(*this);
+            el.name.unwrap().autoAccept(*this);
         }
         if (el.value) {
             el.value.unwrap()->accept(*this);
@@ -397,7 +397,7 @@ namespace jc::ast {
     void StubVisitor::visit(const PathSeg & seg) {
         switch (seg.kind) {
             case PathSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
+                seg.ident.unwrap().autoAccept(*this);
                 break;
             }
             default:;
@@ -414,7 +414,7 @@ namespace jc::ast {
     void StubVisitor::visit(const SimplePathSeg & seg) {
         switch (seg.kind) {
             case SimplePathSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
+                seg.ident.unwrap().autoAccept(*this);
                 break;
             }
             default:;
@@ -423,25 +423,25 @@ namespace jc::ast {
 
     // Patterns //
     void StubVisitor::visit(const ParenPat & pat) {
-        pat.pat.accept(*this);
+        pat.pat.autoAccept(*this);
     }
 
     void StubVisitor::visit(const LitPat&) {}
 
     void StubVisitor::visit(const BorrowPat & pat) {
-        pat.name.accept(*this);
+        pat.name.autoAccept(*this);
 
         if (pat.pat) {
-            pat.pat.unwrap().accept(*this);
+            pat.pat.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const RefPat & pat) {
-        pat.pat.accept(*this);
+        pat.pat.autoAccept(*this);
     }
 
     void StubVisitor::visit(const PathPat & pat) {
-        pat.path.accept(*this);
+        pat.path.autoAccept(*this);
     }
 
     void StubVisitor::visit(const WCPat&) {}
@@ -449,19 +449,19 @@ namespace jc::ast {
     void StubVisitor::visit(const SpreadPat&) {}
 
     void StubVisitor::visit(const StructPat & pat) {
-        pat.path.accept(*this);
+        pat.path.autoAccept(*this);
 
         for (const auto & el : pat.elements) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
-                    dp.name.accept(*this);
-                    dp.pat.accept(*this);
+                    dp.name.autoAccept(*this);
+                    dp.pat.autoAccept(*this);
                     break;
                 }
                 case StructPatEl::Kind::Borrow: {
                     const auto & bp = std::get<StructPatBorrowEl>(el.el);
-                    bp.name.accept(*this);
+                    bp.name.autoAccept(*this);
                     break;
                 }
                 case StructPatEl::Kind::Spread:;

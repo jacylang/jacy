@@ -188,7 +188,7 @@ namespace jc::ast {
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
             basePrintDelim<PR<T>>(elements, begin, end, delim, chopTH, [&](const PR<T> & el) {
-                el.accept(*this);
+                el.autoAccept(*this);
             });
         }
 

@@ -17,7 +17,7 @@ namespace jc::resolve {
 
         _useDeclModule = useDeclModule;
         _importModule = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
-        useDecl.useTree.accept(*this);
+        useDecl.useTree.autoAccept(*this);
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
@@ -35,7 +35,7 @@ namespace jc::resolve {
 
         // Here, we resolve specifics relatively to current path
         for (const auto & specific : useTree.specifics) {
-            specific.accept(*this);
+            specific.autoAccept(*this);
         }
     }
 

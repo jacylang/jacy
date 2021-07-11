@@ -34,11 +34,11 @@ namespace jc::ast {
     }
 
     void Validator::visit(const EnumEntry & enumEntry) {
-        enumEntry.name.accept(*this);
+        enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
-                std::get<expr_ptr>(enumEntry.body).accept(*this);
+                std::get<expr_ptr>(enumEntry.body).autoAccept(*this);
                 break;
             }
             case EnumEntryKind::Tuple: {
@@ -53,21 +53,21 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ExprStmt & exprStmt) {
-        exprStmt.expr.accept(*this);
+        exprStmt.expr.autoAccept(*this);
     }
 
     void Validator::visit(const ForStmt & forStmt) {
-        forStmt.pat.accept(*this);
-        forStmt.inExpr.accept(*this);
+        forStmt.pat.autoAccept(*this);
+        forStmt.inExpr.autoAccept(*this);
 
         pushContext(ValidatorCtx::Loop);
-        forStmt.body.accept(*this);
+        forStmt.body.autoAccept(*this);
         popContext();
     }
 
     void Validator::visit(const ItemStmt & itemStmt) {
         // TODO: Lint attributes
-        itemStmt.item.accept(*this);
+        itemStmt.item.autoAccept(*this);
     }
 
     void Validator::visit(const Func & func) {
@@ -94,26 +94,26 @@ namespace jc::ast {
             lintEach(func.generics.unwrap());
         }
 
-        func.name.accept(*this);
+        func.name.autoAccept(*this);
 
         lintEach(func.params);
 
         if (func.returnType.some()) {
-            func.returnType.unwrap().accept(*this);
+            func.returnType.unwrap().autoAccept(*this);
         }
 
         pushContext(ValidatorCtx::Func);
         if (func.body.some()) {
-            func.body->accept(*this);
+            func.body->autoAccept(*this);
         }
         popContext();
     }
 
     void Validator::visit(const FuncParam & funcParam) {
-        funcParam.name.accept(*this);
-        funcParam.type.accept(*this);
+        funcParam.name.autoAccept(*this);
+        funcParam.type.autoAccept(*this);
         if (funcParam.defaultValue.some()) {
-            funcParam.defaultValue.unwrap().accept(*this);
+            funcParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
 
@@ -124,10 +124,10 @@ namespace jc::ast {
             lintEach(impl.generics.unwrap());
         }
 
-        impl.traitTypePath.accept(*this);
+        impl.traitTypePath.autoAccept(*this);
 
         if (impl.forType.some()) {
-            impl.forType.unwrap().accept(*this);
+            impl.forType.unwrap().autoAccept(*this);
         }
 
         pushContext(ValidatorCtx::Struct);
@@ -138,14 +138,14 @@ namespace jc::ast {
     void Validator::visit(const Mod & mod) {
         // TODO: lint attributes
 
-        mod.name.accept(*this);
+        mod.name.autoAccept(*this);
         lintEach(mod.items);
     }
 
     void Validator::visit(const Struct & _struct) {
         // TODO: lint attributes
 
-        _struct.name.accept(*this);
+        _struct.name.autoAccept(*this);
 
         if (_struct.generics.some()) {
             lintEach(_struct.generics.unwrap());
@@ -157,14 +157,14 @@ namespace jc::ast {
     }
 
     void Validator::visit(const StructField & field) {
-        field.name.accept(*this);
-        field.type.accept(*this);
+        field.name.autoAccept(*this);
+        field.type.autoAccept(*this);
     }
 
     void Validator::visit(const Trait & trait) {
         // TODO: lint attributes
 
-        trait.name.accept(*this);
+        trait.name.autoAccept(*this);
 
         if (trait.generics.some()) {
             lintEach(trait.generics.unwrap());
@@ -180,7 +180,7 @@ namespace jc::ast {
     void Validator::visit(const TypeAlias & typeAlias) {
         // TODO: lint attributes
 
-        typeAlias.name.accept(*this);
+        typeAlias.name.autoAccept(*this);
 
         typeAlias.type.then([&](const auto & type) {
             type.accept(*this);
@@ -190,7 +190,7 @@ namespace jc::ast {
     void Validator::visit(const UseDecl & useDecl) {
         // TODO: lint attributes
 
-        useDecl.useTree.accept(*this);
+        useDecl.useTree.autoAccept(*this);
     }
 
     void Validator::visit(const UseTreeRaw & useTree) {
@@ -206,7 +206,7 @@ namespace jc::ast {
 
     void Validator::visit(const UseTreeRebind & useTree) {
         useTree.path->accept(*this);
-        useTree.as.accept(*this);
+        useTree.as.autoAccept(*this);
     }
 
     void Validator::visit(const UseTreeAll & useTree) {
@@ -216,22 +216,22 @@ namespace jc::ast {
     }
 
     void Validator::visit(const LetStmt & letStmt) {
-        letStmt.pat.accept(*this);
+        letStmt.pat.autoAccept(*this);
 
         if (letStmt.type.some()) {
-            letStmt.type.unwrap().accept(*this);
+            letStmt.type.unwrap().autoAccept(*this);
         }
 
         if (letStmt.assignExpr.some()) {
-            letStmt.assignExpr.unwrap().accept(*this);
+            letStmt.assignExpr.unwrap().autoAccept(*this);
         }
     }
 
     void Validator::visit(const WhileStmt & whileStmt) {
-        whileStmt.condition.accept(*this);
+        whileStmt.condition.autoAccept(*this);
 
         pushContext(ValidatorCtx::Loop);
-        whileStmt.body.accept(*this);
+        whileStmt.body.autoAccept(*this);
         popContext();
     }
 
@@ -239,8 +239,8 @@ namespace jc::ast {
     // Expressions //
     /////////////////
     void Validator::visit(const Assignment & assign) {
-        assign.lhs.accept(*this);
-        assign.rhs.accept(*this);
+        assign.lhs.autoAccept(*this);
+        assign.rhs.autoAccept(*this);
 
         const auto & span = assign.op.span;
         switch (assign.lhs.unwrap()->kind) {
@@ -279,19 +279,19 @@ namespace jc::ast {
 
     void Validator::visit(const Block & block) {
         if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().accept(*this);
+            block.oneLine.unwrap().autoAccept(*this);
         } else {
             lintEach(block.stmts.unwrap());
         }
     }
 
     void Validator::visit(const BorrowExpr & borrowExpr) {
-        borrowExpr.expr.accept(*this);
+        borrowExpr.expr.autoAccept(*this);
     }
 
     void Validator::visit(const BreakExpr & breakExpr) {
         if (breakExpr.expr.some()) {
-            breakExpr.expr.unwrap().accept(*this);
+            breakExpr.expr.unwrap().autoAccept(*this);
         }
 
         if (not isDeepInside(ValidatorCtx::Loop)) {
@@ -306,18 +306,18 @@ namespace jc::ast {
     }
 
     void Validator::visit(const DerefExpr & derefExpr) {
-        derefExpr.expr.accept(*this);
+        derefExpr.expr.autoAccept(*this);
     }
 
     void Validator::visit(const IfExpr & ifExpr) {
-        ifExpr.condition.accept(*this);
+        ifExpr.condition.autoAccept(*this);
 
         if (ifExpr.ifBranch.some()) {
-            ifExpr.ifBranch.unwrap().accept(*this);
+            ifExpr.ifBranch.unwrap().autoAccept(*this);
         }
 
         if (ifExpr.elseBranch.some()) {
-            ifExpr.elseBranch.unwrap().accept(*this);
+            ifExpr.elseBranch.unwrap().autoAccept(*this);
         }
     }
 
@@ -364,7 +364,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Invoke & invoke) {
-        invoke.lhs.accept(*this);
+        invoke.lhs.autoAccept(*this);
         lintEach(invoke.args);
     }
 
@@ -372,18 +372,18 @@ namespace jc::ast {
         lintEach(lambdaExpr.params);
 
         if (lambdaExpr.returnType.some()) {
-            lambdaExpr.returnType.unwrap().accept(*this);
+            lambdaExpr.returnType.unwrap().autoAccept(*this);
         }
 
         pushContext(ValidatorCtx::Func);
-        lambdaExpr.body.accept(*this);
+        lambdaExpr.body.autoAccept(*this);
         popContext();
     }
 
     void Validator::visit(const LambdaParam & param) {
-        param.pat.accept(*this);
+        param.pat.autoAccept(*this);
         if (param.type.some()) {
-            param.type.unwrap().accept(*this);
+            param.type.unwrap().autoAccept(*this);
         }
     }
 
@@ -397,13 +397,13 @@ namespace jc::ast {
 
     void Validator::visit(const LoopExpr & loopExpr) {
         pushContext(ValidatorCtx::Loop);
-        loopExpr.body.accept(*this);
+        loopExpr.body.autoAccept(*this);
         popContext();
     }
 
     void Validator::visit(const MemberAccess & memberAccess) {
-        memberAccess.lhs.accept(*this);
-        memberAccess.field.accept(*this);
+        memberAccess.lhs.autoAccept(*this);
+        memberAccess.field.autoAccept(*this);
     }
 
     void Validator::visit(const ParenExpr & parenExpr) {
@@ -438,16 +438,16 @@ namespace jc::ast {
             }
         }
 
-        prefix.rhs.accept(*this);
+        prefix.rhs.autoAccept(*this);
     }
 
     void Validator::visit(const QuestExpr & questExpr) {
-        questExpr.expr.accept(*this);
+        questExpr.expr.autoAccept(*this);
     }
 
     void Validator::visit(const ReturnExpr & returnExpr) {
         if (returnExpr.expr.some()) {
-            returnExpr.expr.unwrap().accept(*this);
+            returnExpr.expr.unwrap().autoAccept(*this);
         }
 
         if (not isDeepInside(ValidatorCtx::Func)) {
@@ -458,34 +458,34 @@ namespace jc::ast {
     void Validator::visit(const SpreadExpr & spreadExpr) {
         // TODO: Context check? Where we allow spread?
 
-        spreadExpr.expr.accept(*this);
+        spreadExpr.expr.autoAccept(*this);
     }
 
     void Validator::visit(const StructExpr & structExpr) {
-        structExpr.path.accept(*this);
+        structExpr.path.autoAccept(*this);
         lintEach(structExpr.fields);
     }
 
     void Validator::visit(const StructExprField & field) {
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
-                field.name.unwrap().accept(*this);
-                field.expr->accept(*this);
+                field.name.unwrap().autoAccept(*this);
+                field.expr->autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Shortcut: {
-                field.name.unwrap().accept(*this);
+                field.name.unwrap().autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Base: {
-                field.expr->accept(*this);
+                field.expr->autoAccept(*this);
                 break;
             }
         }
     }
 
     void Validator::visit(const Subscript & subscript) {
-        subscript.lhs.accept(*this);
+        subscript.lhs.autoAccept(*this);
         lintEach(subscript.indices);
     }
 
@@ -502,13 +502,13 @@ namespace jc::ast {
     }
 
     void Validator::visit(const MatchExpr & matchExpr) {
-        matchExpr.subject.accept(*this);
+        matchExpr.subject.autoAccept(*this);
         lintEach(matchExpr.entries);
     }
 
     void Validator::visit(const MatchArm & matchArm) {
         lintEach(matchArm.patterns);
-        matchArm.body.accept(*this);
+        matchArm.body.autoAccept(*this);
     }
 
     ///////////
@@ -530,25 +530,25 @@ namespace jc::ast {
 
     void Validator::visit(const TupleTypeEl & el) {
         if (el.name.some()) {
-            el.name.unwrap().accept(*this);
+            el.name.unwrap().autoAccept(*this);
         }
         if (el.type.some()) {
-            el.type.unwrap().accept(*this);
+            el.type.unwrap().autoAccept(*this);
         }
     }
 
     void Validator::visit(const FuncType & funcType) {
         lintEach(funcType.params);
-        funcType.returnType.accept(*this);
+        funcType.returnType.autoAccept(*this);
     }
 
     void Validator::visit(const SliceType & listType) {
-        listType.type.accept(*this);
+        listType.type.autoAccept(*this);
     }
 
     void Validator::visit(const ArrayType & arrayType) {
-        arrayType.type.accept(*this);
-        arrayType.sizeExpr.accept(*this);
+        arrayType.type.autoAccept(*this);
+        arrayType.sizeExpr.autoAccept(*this);
     }
 
     void Validator::visit(const TypePath & typePath) {
@@ -561,27 +561,27 @@ namespace jc::ast {
 
     // Type params //
     void Validator::visit(const TypeParam & typeParam) {
-        typeParam.name.accept(*this);
+        typeParam.name.autoAccept(*this);
         if (typeParam.boundType.some()) {
-            typeParam.boundType.unwrap().accept(*this);
+            typeParam.boundType.unwrap().autoAccept(*this);
         }
     }
 
     void Validator::visit(const Lifetime & lifetime) {
-        lifetime.name.accept(*this);
+        lifetime.name.autoAccept(*this);
     }
 
     void Validator::visit(const ConstParam & constParam) {
-        constParam.name.accept(*this);
-        constParam.type.accept(*this);
+        constParam.name.autoAccept(*this);
+        constParam.type.autoAccept(*this);
         if (constParam.defaultValue.some()) {
-            constParam.defaultValue.unwrap().accept(*this);
+            constParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
 
     // Fragments //
     void Validator::visit(const Attribute & attr) {
-        attr.name.accept(*this);
+        attr.name.autoAccept(*this);
         lintEach(attr.params);
     }
 
@@ -589,9 +589,9 @@ namespace jc::ast {
 
     void Validator::visit(const Arg & el) {
         if (el.name.some()) {
-            el.name.unwrap().accept(*this);
+            el.name.unwrap().autoAccept(*this);
         }
-        el.value.accept(*this);
+        el.value.autoAccept(*this);
     }
 
     void Validator::visit(const Path & path) {
@@ -609,7 +609,7 @@ namespace jc::ast {
                 break;
             }
             case PathSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
+                seg.ident.unwrap().autoAccept(*this);
                 break;
             }
             default: {
@@ -636,7 +636,7 @@ namespace jc::ast {
                 break;
             }
             case SimplePathSeg::Kind::Ident: {
-                seg.ident.unwrap().accept(*this);
+                seg.ident.unwrap().autoAccept(*this);
                 break;
             }
         }
@@ -644,25 +644,25 @@ namespace jc::ast {
 
     // Patterns //
     void Validator::visit(const ParenPat & pat) {
-        pat.pat.accept(*this);
+        pat.pat.autoAccept(*this);
     }
 
     void Validator::visit(const LitPat&) {}
 
     void Validator::visit(const BorrowPat & pat) {
-        pat.name.accept(*this);
+        pat.name.autoAccept(*this);
 
         if (pat.pat.some()) {
-            pat.pat.unwrap().accept(*this);
+            pat.pat.unwrap().autoAccept(*this);
         }
     }
 
     void Validator::visit(const RefPat & pat) {
-        pat.pat.accept(*this);
+        pat.pat.autoAccept(*this);
     }
 
     void Validator::visit(const PathPat & pat) {
-        pat.path.accept(*this);
+        pat.path.autoAccept(*this);
     }
 
     void Validator::visit(const WCPat&) {}
@@ -670,20 +670,20 @@ namespace jc::ast {
     void Validator::visit(const SpreadPat&) {}
 
     void Validator::visit(const StructPat & pat) {
-        pat.path.accept(*this);
+        pat.path.autoAccept(*this);
 
         size_t i = 0;
         for (const auto & el : pat.elements) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
-                    dp.name.accept(*this);
-                    dp.pat.accept(*this);
+                    dp.name.autoAccept(*this);
+                    dp.pat.autoAccept(*this);
                     break;
                 }
                 case StructPatEl::Kind::Borrow: {
                     const auto & bp = std::get<StructPatBorrowEl>(el.el);
-                    bp.name.accept(*this);
+                    bp.name.autoAccept(*this);
                     break;
                 }
                 case StructPatEl::Kind::Spread: {

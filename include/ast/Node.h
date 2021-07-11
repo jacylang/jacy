@@ -154,7 +154,7 @@ namespace jc::ast {
             return *std::get<T>(state);
         }
 
-        void accept(BaseVisitor & visitor) const {
+        void autoAccept(BaseVisitor & visitor) const {
             if (isErr()) {
                 return std::get<E>(state)->accept(visitor);
             } else {

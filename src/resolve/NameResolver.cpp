@@ -30,14 +30,14 @@ namespace jc::resolve {
         enterModule(func.name.unwrap()->getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
-            param->type.accept(*this);
+            param->type.autoAccept(*this);
             if (param->defaultValue) {
-                param->defaultValue.unwrap().accept(*this);
+                param->defaultValue.unwrap().autoAccept(*this);
             }
         }
 
         if (func.returnType) {
-            func.returnType.unwrap().accept(*this);
+            func.returnType.unwrap().autoAccept(*this);
         }
 
         enterRib(); // -> (params) rib
@@ -47,7 +47,7 @@ namespace jc::resolve {
         }
 
         if (func.body) {
-            func.body.unwrap().accept(*this);
+            func.body.unwrap().autoAccept(*this);
         }
 
         exitRib(); // <- (params) rib
@@ -63,21 +63,21 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Struct & _struct) {
         for (const auto & field : _struct.fields) {
-            field->type.accept(*this);
+            field->type.autoAccept(*this);
         }
     }
 
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        letStmt.pat.accept(*this);
+        letStmt.pat.autoAccept(*this);
 
         if (letStmt.type) {
-            letStmt.type.unwrap().accept(*this);
+            letStmt.type.unwrap().autoAccept(*this);
         }
 
         if (letStmt.assignExpr) {
-            letStmt.assignExpr.unwrap().accept(*this);
+            letStmt.assignExpr.unwrap().autoAccept(*this);
         }
     }
 
@@ -85,14 +85,14 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Block & block) {
         if (block.blockKind == ast::BlockKind::OneLine) {
             // Note: One-line block as it is an expression does not open new scope
-            block.oneLine.unwrap().accept(*this);
+            block.oneLine.unwrap().autoAccept(*this);
             return;
         }
 
         const auto prevDepth = getDepth();
         enterBlock(block.id); // -> block rib
         for (const auto & stmt : block.stmts.unwrap()) {
-            stmt.accept(*this);
+            stmt.autoAccept(*this);
         }
 
         liftToDepth(prevDepth);
@@ -102,17 +102,17 @@ namespace jc::resolve {
         enterRib(); // -> (lambda params)
 
         for (const auto & param : lambda.params) {
-            param->pat.accept(*this);
+            param->pat.autoAccept(*this);
             if (param->type) {
-                param->type.unwrap().accept(*this);
+                param->type.unwrap().autoAccept(*this);
             }
         }
 
         if (lambda.returnType) {
-            lambda.returnType.unwrap().accept(*this);
+            lambda.returnType.unwrap().autoAccept(*this);
         }
 
-        lambda.body.accept(*this);
+        lambda.body.autoAccept(*this);
 
         exitRib(); // <- (lambda params)
     }
@@ -131,10 +131,10 @@ namespace jc::resolve {
 
         for (const auto & pat : arm.patterns) {
             enterRib();
-            pat.accept(*this);
+            pat.autoAccept(*this);
         }
 
-        arm.body.accept(*this);
+        arm.body.autoAccept(*this);
 
         liftToDepth(prevDepth);
     }
@@ -170,7 +170,7 @@ namespace jc::resolve {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
                     define(dp.name);
-                    dp.pat.accept(*this);
+                    dp.pat.autoAccept(*this);
                     break;
                 }
                 case ast::StructPatEl::Kind::Borrow: {
