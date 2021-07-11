@@ -132,27 +132,6 @@ namespace jc::ast {
             return *this;
         }
 
-        const T * operator->() const {
-            if (err()) {
-                throw std::logic_error("Called `const T * BaseParseResult::operator->` on an `Err` BaseParseResult");
-            }
-            return &std::get<T>(state);
-        }
-
-        const T & operator*() const {
-            if (err()) {
-                throw std::logic_error("Called `const T & BaseParseResult::operator*` on an `Err` BaseParseResult");
-            }
-            return *std::get<T>(state);
-        }
-
-        const Span & span() const {
-            if (err()) {
-                return std::get<E>(state)->span;
-            }
-            return std::get<T>(state)->span;
-        }
-
     protected:
         S state;
     };
@@ -179,6 +158,27 @@ namespace jc::ast {
             } else {
                 return std::get<T>(this->state)->accept(visitor);
             }
+        }
+
+        const T * operator->() const {
+            if (this->err()) {
+                throw std::logic_error("Called `const T * NParseResult::operator->` on an `Err` NParseResult");
+            }
+            return &std::get<T>(this->state);
+        }
+
+        const T & operator*() const {
+            if (this->err()) {
+                throw std::logic_error("Called `const T & NParseResult::operator*` on an `Err` NParseResult");
+            }
+            return *std::get<T>(this->state);
+        }
+
+        const Span & span() const {
+            if (this->err()) {
+                return std::get<E>(this->state)->span;
+            }
+            return std::get<T>(this->state)->span;
         }
     };
 
