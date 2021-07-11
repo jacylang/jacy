@@ -69,7 +69,7 @@ namespace jc::ast {
             : state(std::move(other.state)) {}
 
         BaseParseResult<T> & operator=(BaseParseResult<T> && other) {
-            if (other.isErr()) {
+            if (other.err()) {
                 state = std::get<E>(std::move(other.state));
             } else {
                 state = std::get<T>(std::move(other.state));
