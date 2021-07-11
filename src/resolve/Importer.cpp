@@ -47,6 +47,13 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
+        if (useTree.path.some()) {
+            resolvePath(PathResKind::Full, *useTree.path.unwrap());
+        }
+
+        for (const auto & specific : useTree.specifics) {
+            specific.accept(*this);
+        }
     }
 
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
