@@ -49,7 +49,7 @@ namespace jc::resolve {
 
         // Resolutions //
     private:
-        void resolvePath(PathResKind resKind, const ast::SimplePath & path);
+        PathResult resolvePath(PathResKind resKind, const ast::SimplePath & path);
     };
 }
 

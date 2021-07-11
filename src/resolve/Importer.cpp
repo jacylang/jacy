@@ -48,7 +48,7 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
     }
 
-    void Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
+    PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
         std::string pathStr;
@@ -148,5 +148,7 @@ namespace jc::resolve {
                 suggestErrorMsg(msg, unresolvedSegIdent->span);
             }
         }
+
+        return PathResult{defPerNs, path.segments.at(path.segments.size() - 1)};
     }
 }
