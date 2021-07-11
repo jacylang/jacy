@@ -140,7 +140,7 @@ namespace jc::resolve {
                 "' as ",
                 Def::kindStr(defKind),
                 ", previously defined with id #",
-                oldDefId);
+                oldDefId.unwrap());
             suggestCannotRedefine(ident, defKind, oldDefId.unwrap());
         }
 
