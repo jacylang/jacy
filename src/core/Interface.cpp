@@ -98,7 +98,7 @@ namespace jc::core {
             }
         }
 
-        return sess->nodeMap.makeNode<ast::Dir>(name, std::move(nestedEntries));
+        return sess->nodeMap.makeBoxNode<ast::Dir>(name, std::move(nestedEntries));
     }
 
     ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {

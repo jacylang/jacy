@@ -9,7 +9,7 @@ namespace jc::ast {
         NodeMap() = default;
 
         template<class T, class ...Args>
-        N<T> makeNode(Args && ...args) {
+        N<T> makeBoxNode(Args && ...args) {
             if (nodes.size() == NONE_NODE_ID) {
                 common::Logger::devPanic("Nodes count exceeded");
             }

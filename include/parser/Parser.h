@@ -97,12 +97,12 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) {
-            return sess->nodeMap.makeNode<T>(std::forward<Args>(args)...);
+            return sess->nodeMap.makeBoxNode<T>(std::forward<Args>(args)...);
         }
 
         template<class T, class B, class ...Args>
         inline PR<N<B>> makePRNode(Args && ...args) {
-            return OkPR(N<B>(static_cast<B*>(sess->nodeMap.makeNode<T>(std::forward<Args>(args)...).release())));
+            return OkPR(N<B>(static_cast<B*>(sess->nodeMap.makeBoxNode<T>(std::forward<Args>(args)...).release())));
         }
 
         template<class B, class T>
@@ -111,7 +111,7 @@ namespace jc::parser {
         }
 
         inline N<ErrorNode> makeErrorNode(const Span & span) {
-            return sess->nodeMap.makeNode<ErrorNode>(span);
+            return sess->nodeMap.makeBoxNode<ErrorNode>(span);
         }
 
         parse_sess_ptr parseSess;
