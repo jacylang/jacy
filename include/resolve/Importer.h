@@ -8,6 +8,14 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
+    /// Path resolution style
+    /// Prefix - Resolve all path segments except last one
+    /// Full - Resolve full path
+    enum class PathResKind {
+        Prefix,
+        Full,
+    };
+
     class Importer : public ast::StubVisitor, public sugg::SuggInterface {
     public:
         Importer() : StubVisitor("Importer") {}
@@ -28,6 +36,10 @@ namespace jc::resolve {
 
         // Module that `use` now in
         module_ptr _importModule;
+
+        // Resolutions //
+    private:
+        void resolvePath(const std::function<void()> & targetCb);
     };
 }
 
