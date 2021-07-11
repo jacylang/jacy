@@ -173,6 +173,9 @@ namespace jc::ast {
     };
 
     template<class T>
+    class ParseResult : public BaseParseResult<T> {};
+
+    template<class T>
     inline BaseParseResult<T> ErrPR(N<ErrorNode> && err) {
         return BaseParseResult<T>(std::move(err));
     }
