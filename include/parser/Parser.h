@@ -97,12 +97,12 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) {
-            return sess->nodeMap.makeNode<T>(std::forward<Args>(args)...);
+            return sess->nodeMap.makeNode<T>(args...);
         }
 
         template<class T, class B, class ...Args>
         inline PR<N<B>> makePRNode(Args && ...args) {
-            return OkPR(static_cast<B*>(sess->nodeMap.makeNode<T>(std::forward<Args>(args)...).release()));
+            return OkPR(static_cast<B*>(sess->nodeMap.makeNode<T>(args...).release()));
         }
 
         template<class B, class T>
