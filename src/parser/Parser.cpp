@@ -816,7 +816,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto expr = parseOptExpr();
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        if (not expr) {
+        if (expr.none()) {
             suggestErrorMsg(suggMsg, begin);
             return makeErrorNode(closeSpan(begin));
         }
@@ -868,7 +868,7 @@ namespace jc::parser {
 
         opt_type_ptr returnType{None};
 
-        if (allowReturnType and skipOpt(TokenKind::Colon)) {
+        if (allowReturnType and skipOpt(TokenKind::Colon).some()) {
             returnType = parseType("Return type for lambda after `:`");
         }
 
