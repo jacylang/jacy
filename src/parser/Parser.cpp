@@ -2024,7 +2024,7 @@ namespace jc::parser {
                     tupleElements.at(0)->type.some()
                 ) {
                     return makePRNode<ParenType, Type>(
-                            std::move(tupleElements.at(0)->type.unwrap()),
+                            tupleElements.at(0)->type.take(),
                             closeSpan(begin));
                 }
                 return makePRNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
