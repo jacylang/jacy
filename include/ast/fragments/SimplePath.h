@@ -19,10 +19,10 @@ namespace jc::ast {
             Ident,
         } kind;
 
-        SimplePathSeg(ident_pr && ident, const Span & span) : Node(span), kind(Kind::Ident), ident(ident) {}
+        SimplePathSeg(ident_ptr && ident, const Span & span) : Node(span), kind(Kind::Ident), ident(ident) {}
         SimplePathSeg(Kind kind, const Span & span) : Node(span), kind(kind) {}
 
-        opt_ident_pr ident{None};
+        opt_ident ident{None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

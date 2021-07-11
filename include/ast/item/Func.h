@@ -14,7 +14,7 @@ namespace jc::ast {
 
     struct FuncParam : Node {
         FuncParam(
-            ident_pr name,
+            ident_ptr name,
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
@@ -23,7 +23,7 @@ namespace jc::ast {
             type(std::move(type)),
             defaultValue(std::move(defaultValue)) {}
 
-        ident_pr name;
+        ident_ptr name;
         type_ptr type;
         opt_expr_ptr defaultValue;
 
@@ -36,7 +36,7 @@ namespace jc::ast {
         Func(
             parser::token_list modifiers,
             opt_gen_params generics,
-            ident_pr name,
+            ident_ptr name,
             func_param_list params,
             opt_type_ptr returnType,
             opt_block_ptr body,
@@ -51,7 +51,7 @@ namespace jc::ast {
 
         parser::token_list modifiers;
         opt_gen_params generics;
-        ident_pr name;
+        ident_ptr name;
         func_param_list params;
         opt_type_ptr returnType;
         opt_block_ptr body;

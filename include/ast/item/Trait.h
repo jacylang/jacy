@@ -7,7 +7,7 @@
 namespace jc::ast {
     struct Trait : Item {
         Trait(
-            ident_pr name,
+            ident_ptr name,
             opt_gen_params generics,
             type_path_list superTraits,
             item_list members,
@@ -18,7 +18,7 @@ namespace jc::ast {
             superTraits(std::move(superTraits)),
             members(std::move(members)) {}
 
-        ident_pr name;
+        ident_ptr name;
         opt_gen_params generics;
         type_path_list superTraits;
         item_list members;

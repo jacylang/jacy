@@ -1182,7 +1182,7 @@ namespace jc::parser {
         return None;
     }
 
-    ident_pr Parser::justParseIdent(const std::string & panicIn) {
+    ident_ptr Parser::justParseIdent(const std::string & panicIn) {
         logParse("[just] id");
 
         const auto & begin = cspan();
@@ -1191,7 +1191,7 @@ namespace jc::parser {
         return OkPR(Ident{token, closeSpan(begin)});
     }
 
-    ident_pr Parser::parseIdent(const std::string & expected) {
+    ident_ptr Parser::parseIdent(const std::string & expected) {
         logParse("Ident");
 
         // Note: We don't make `span.to(span)`,
@@ -1875,7 +1875,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             bool isUnrecoverableError = false;
-            opt_ident_pr ident{None};
+            opt_ident ident{None};
             auto kind = PathSeg::getKind(peek());
             if (kind == ast::PathSeg::Kind::Ident) {
                 kind = PathSeg::Kind::Ident;
@@ -2051,7 +2051,7 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            opt_ident_pr name{None};
+            opt_ident name{None};
             if (is(TokenKind::Id)) {
                 name = justParseIdent("`parenType`");
             }
@@ -2347,7 +2347,7 @@ namespace jc::parser {
             const auto & ref = skipOpt(TokenKind::Ref);
             const auto & mut = skipOpt(TokenKind::Mut);
 
-            ident_pr ident = parseIdent("Field name expected");
+            ident_ptr ident = parseIdent("Field name expected");
 
             if (skipOpt(TokenKind::Colon).some()) {
                 // `field: pattern` case
