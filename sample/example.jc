@@ -1,11 +1,11 @@
 mod m {
-    use b::{foo as bar};
-
     mod b {
         pub func foo {}
     }
 }
 
 func main {
+    use m::*;
+
     m::bar();
 }

@@ -50,6 +50,7 @@ namespace jc::resolve {
 
         _importModule->perNS.each([&](const mod_ns_map & ns, Namespace nsKind) {
             for (const auto & def : ns) {
+                // Note: for `use a::*` we don't report "redefinition" error
                 _useDeclModule->tryDefine(nsKind, def.first, def.second);
             }
         });
