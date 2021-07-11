@@ -19,10 +19,20 @@ namespace jc::ast {
             return node;
         }
 
+        template<class T, class ...Args>
+        T makeNode(Args && ...args) {
+        }
+
         const Node & getNode(node_id nodeId) const;
         const Span & getNodeSpan(node_id nodeId) const;
         size_t size() const {
             return nodes.size();
+        }
+
+        void checkSize() const {
+            if (nodes.size() == NONE_NODE_ID) {
+                common::Logger::devPanic("Nodes count exceeded");
+            }
         }
 
     private:
