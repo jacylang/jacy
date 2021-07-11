@@ -1109,12 +1109,12 @@ namespace jc::parser {
     opt_expr_ptr Parser::memberAccess() {
         auto lhs = primary();
 
-        if (not lhs) {
+        if (lhs.none()) {
             return None;
         }
 
         auto begin = cspan();
-        while (skipOpt(TokenKind::Dot)) {
+        while (skipOpt(TokenKind::Dot).some()) {
             logParse("MemberAccess");
 
             auto name = parseId("field name");
