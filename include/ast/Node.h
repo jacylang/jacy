@@ -108,7 +108,7 @@ namespace jc::ast {
             if (err()) {
                 return ParseResult<N<B>>(std::move(std::get<E>(state)));
             }
-            return ParseResult<N<B>>(std::move(std::static_pointer_cast<B>(std::get<T>(state))));
+            return ParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(state).release())));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
