@@ -91,28 +91,28 @@ namespace jc::ast {
 
         T take(const std::string & msg = "") {
             if (this->err()) {
-                throw std::logic_error(msg.empty() ? "Called `NParseResult::take` on an `Err` NParseResult" : msg);
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::take` on an `Err` ParseResult" : msg);
             }
             return std::get<T>(std::move(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {
             if (this->err()) {
-                throw std::logic_error(msg.empty() ? "Called `NParseResult::unwrap` on an `Err` NParseResult" : msg);
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
             return std::get<T>(state);
         }
 
         const E & asErr() const {
             if (this->ok()) {
-                throw std::logic_error("Called `NParseResult::asErr` on an non-error NParseResult");
+                throw std::logic_error("Called `ParseResult::asErr` on an non-error ParseResult");
             }
             return std::get<E>(state);
         }
 
         const T & asValue() const {
             if (this->err()) {
-                throw std::logic_error("Called `NParseResult::asValue` on an `Err` NParseResult");
+                throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
             }
             return std::get<T>(state);
         }
