@@ -1192,7 +1192,7 @@ namespace jc::parser {
     }
 
     id_ptr Parser::parseIdent(const std::string & expected) {
-        logParse("Identifier");
+        logParse("Ident");
 
         // Note: We don't make `span.to(span)`,
         //  because then we could capture white-spaces and of course ident is just a one token
