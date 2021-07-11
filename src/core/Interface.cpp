@@ -136,7 +136,7 @@ namespace jc::core {
 
         parsedFile->id = sess->nodeMap.addNode(parsedFile.get());
 
-        return parsedFile;
+        return std::move(parsedFile);
     }
 
     // Debug //
