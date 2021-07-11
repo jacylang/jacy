@@ -13,6 +13,12 @@ namespace jc::ast {
     template<typename T>
     using N = std::unique_ptr<T>;
 
+    template<class T>
+    struct is_n : std::false_type {};
+
+    template<class T>
+    struct is_n<N<T>> : std::true_type {};
+
     struct Node;
     struct ErrorNode;
     using span::Span;
@@ -153,8 +159,9 @@ namespace jc::ast {
     template<class T>
     class ParseResult : public BaseParseResult<T> {};
 
-    template<class U>
-    class NParseResult : public BaseParseResult<U> {
+    template<template<class> class C, class U>
+    typename std::enable_if<is_shared_ptr<decltype(std::declval<T>().value)>::value, void>::type
+    class NParseResult : public BaseParseResult<C<U>> {
     protected:
         using T = N<U>;
         using E = typename BaseParseResult<T>::E;
@@ -190,8 +197,13 @@ namespace jc::ast {
     }
 
     template<class T>
-    inline BaseParseResult<T> OkPR(T && ok) {
-        return BaseParseResult<T>(std::move(ok));
+    inline NParseResult<T> OkPR(N<T> && ok) {
+        return NParseResult<T>(std::move(ok));
+    }
+
+    template<class T>
+    inline ParseResult<T> OkPR(T && ok) {
+        return ParseResult<T>(std::move(ok));
     }
 
     template<class T>
