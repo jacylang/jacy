@@ -887,7 +887,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
-        if (not lhs) {
+        if (lhs.none()) {
             return None;
         }
 
@@ -943,13 +943,13 @@ namespace jc::parser {
 
             // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
 
-            if (not maybeOp) {
-                if (maybeLhs) {
+            if (maybeOp.none()) {
+                if (maybeLhs.some()) {
                     return maybeLhs.unwrap("`precParse` -> not maybeOp -> `single`");
                 }
             }
 
-            if (not maybeLhs) {
+            if (maybeLhs.none()) {
                 // TODO: Prefix range operators
                 // Left-hand side is none, and there's no range operator
                 return None; // FIXME: CHECK FOR PREFIX
@@ -963,7 +963,7 @@ namespace jc::parser {
             justSkip(op.kind, op.toString(), "`precParse`");
 
             auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
-            if (not maybeRhs) {
+            if (maybeRhs.none()) {
                 // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
                 // and `precParse` already generated error suggestion
                 continue;
