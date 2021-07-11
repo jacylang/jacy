@@ -44,6 +44,7 @@ namespace jc::ast {
     // NOTE: Since there's no generic constraints, `ParseResult` MUST only be used with T = `shared_ptr<{any node}>`
     template<class T>
     class ParseResult {
+        // FIXME: Don't box ErrorNode
         using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
 
