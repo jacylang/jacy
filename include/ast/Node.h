@@ -178,7 +178,7 @@ namespace jc::ast {
     };
 
     template<class T>
-    inline NParseResult<T> ErrPR(N<ErrorNode> && err) {
+    inline NParseResult<T> ErrPR(ErrorNode && err) {
         return NParseResult<T>(std::move(err));
     }
 
