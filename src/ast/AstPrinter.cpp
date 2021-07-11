@@ -251,6 +251,7 @@ namespace jc::ast {
     void AstPrinter::visit(const UseTreeSpecific & useTree) {
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
+            log.raw("::");
         }
         printDelim(useTree.specifics, "{", "}");
 
