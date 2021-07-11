@@ -51,7 +51,7 @@ namespace jc::resolve {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
         enterModule(getItemVis(func), func.name, DefKind::Func);
-        if (func.body) {
+        if (func.body.some()) {
             func.body.unwrap().autoAccept(*this);
         }
         exitMod();
@@ -85,7 +85,7 @@ namespace jc::resolve {
         addDef(getItemVis(typeAlias), typeAlias.name, DefKind::TypeAlias);
 
         typeAlias.type.then([&](const auto & type) {
-            type.accept(*this);
+            type.autoAccept(*this);
         });
     }
 
@@ -124,7 +124,7 @@ namespace jc::resolve {
             "Trying to add def '",
             name,
             "'",
-            (curModuleName ? " in module '" + curModuleName.unwrap() + "'" : ""),
+            (curModuleName.some() ? " in module '" + curModuleName.unwrap() + "'" : ""),
             " with defId [",
             defId,
             "] in ",
@@ -133,7 +133,7 @@ namespace jc::resolve {
 
         // Try to emplace definition in namespace, and if it is already defined suggest an error
         const auto & oldDefId = mod->tryDefine(ns, name, defId);
-        if (oldDefId) {
+        if (oldDefId.some()) {
             log.dev(
                 "Tried to redefine '",
                 name,
@@ -141,14 +141,14 @@ namespace jc::resolve {
                 Def::kindStr(defKind),
                 ", previously defined with id #",
                 oldDefId);
-            suggestCannotRedefine(ident, defKind, oldDefId);
+            suggestCannotRedefine(ident, defKind, oldDefId.unwrap());
         }
 
         // If type is defined then check if its name shadows one of primitive types
         if (ns == Namespace::Type) {
             // TODO: Add warning suggestion
             const auto maybePrimType = getPrimTypeBitMask(name);
-            if (maybePrimType) {
+            if (maybePrimType.some()) {
                 // Set primitive type shadow flag
                 mod->shadowedPrimTypes |= maybePrimType.unwrap();
             }
