@@ -21,8 +21,8 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
-        // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
-        // TODO!!!: `pub use...` reexports, now all `use`s are public
+        // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw.
+        // TODO!!!: `pub use...` re-exporting, now all `use`s are public
 
         define(resolvePath(PathResKind::Prefix, *useTree.path), None);
     }
