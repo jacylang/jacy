@@ -44,8 +44,8 @@ namespace jc::resolve {
         // Module where `use` appeared
         module_ptr _useDeclModule;
 
-//         Module that `use` now in
-//        module_ptr _importModule;
+        // Module that `use` now in
+        module_ptr _importModule;
 
         // Resolutions //
     private:

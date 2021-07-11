@@ -16,6 +16,7 @@ namespace jc::resolve {
         log.dev("Import `use` with module ", useDeclModule->toString());
 
         _useDeclModule = useDeclModule;
+        _importModule = _useDeclModule;
         useDecl.useTree.accept(*this);
     }
 
