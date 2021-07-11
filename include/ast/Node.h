@@ -57,43 +57,43 @@ namespace jc::ast {
             : state(std::move(other.state)) {}
 
         T unwrap(const std::string & msg = "") {
-            if (isErr()) {
+            if (err()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
             return std::move(std::get<T>(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {
-            if (isErr()) {
+            if (err()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
             }
             return std::get<T>(state);
         }
 
-        bool isOk() const {
-            return not isErr();
+        bool ok() const {
+            return not err();
         }
 
-        bool isErr() const {
+        bool err() const {
             return state.index() != 0;
         }
 
         const Span & span() const {
-            if (isErr()) {
+            if (err()) {
                 return std::get<E>(state)->span;
             }
             return std::get<T>(state)->span;
         }
 
         const E & asErr() const {
-            if (not isErr()) {
+            if (not err()) {
                 throw std::logic_error("Called `ParseResult::asErr` on an non-error ParseResult");
             }
             return std::get<E>(state);
         }
 
         const T & asValue() const {
-            if (isErr()) {
+            if (err()) {
                 throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
             }
             return std::get<T>(state);
@@ -101,14 +101,14 @@ namespace jc::ast {
 
         template<class B>
         ParseResult<N<B>> as() {
-            if (isErr()) {
+            if (err()) {
                 return ParseResult<N<B>>(std::move(std::get<E>(state)));
             }
             return ParseResult<N<B>>(std::move(std::static_pointer_cast<B>(std::get<T>(state))));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
-            if (other.isErr()) {
+            if (other.err()) {
                 state = std::get<E>(other.state);
             } else {
                 state = std::get<T>(other.state);
@@ -137,21 +137,21 @@ namespace jc::ast {
         }
 
         const T * operator->() const {
-            if (isErr()) {
+            if (err()) {
                 throw std::logic_error("Called `const T * ParseResult::operator->` on an `Err` ParseResult");
             }
             return &std::get<T>(state);
         }
 
         const T & operator*() const {
-            if (isErr()) {
+            if (err()) {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
             }
             return *std::get<T>(state);
         }
 
         void autoAccept(BaseVisitor & visitor) const {
-            if (isErr()) {
+            if (err()) {
                 return std::get<E>(state)->accept(visitor);
             } else {
                 return std::get<T>(state)->accept(visitor);
