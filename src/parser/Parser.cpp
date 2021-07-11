@@ -2014,7 +2014,11 @@ namespace jc::parser {
             } else {
                 if (tupleElements.empty()) {
                     return makePRNode<UnitType, Type>(closeSpan(begin));
-                } else if (tupleElements.size() == 1 and not tupleElements.at(0)->name and tupleElements.at(0)->type) {
+                } else if (
+                    tupleElements.size() == 1 and
+                    tupleElements.at(0)->name.none() and
+                    tupleElements.at(0)->type.some()
+                ) {
                     return makePRNode<ParenType, Type>(
                             std::move(tupleElements.at(0)->type.unwrap()),
                             closeSpan(begin));
