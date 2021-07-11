@@ -27,9 +27,7 @@ namespace jc::ast {
         }
 
     private:
-        // FIXME: Just use vector
-        node_id currentNodeId{0};
-        std::map<node_id, const Node*> nodes;
+        std::vector<const Node*> nodes;
     };
 }
 
