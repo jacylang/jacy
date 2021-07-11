@@ -1704,7 +1704,7 @@ namespace jc::parser {
 
     func_param_list Parser::parseFuncParamList() {
         const auto maybeParenToken = peek();
-        if (not skipOpt(TokenKind::LParen)) {
+        if (skipOpt(TokenKind::LParen).none()) {
             return {};
         }
 
@@ -1745,7 +1745,7 @@ namespace jc::parser {
             TokenKind::Colon,
             "`func` parameters without type are not allowed, please put `:` here and specify type",
             Recovery::Once
-        );
+        ).some();
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
         opt_expr_ptr defaultValue{None};
