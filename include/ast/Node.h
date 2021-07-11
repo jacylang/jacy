@@ -57,8 +57,6 @@ namespace jc::ast {
         ParseResult() : state(std::monostate{}) {}
         ParseResult(T && value) : state(std::move(value)) {}
         ParseResult(E && error) : state(std::move(error)) {}
-        ParseResult(const ParseResult<T> & other)
-            : state(other.state) {}
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
 
