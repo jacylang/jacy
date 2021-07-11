@@ -29,4 +29,4 @@ namespace jc::ast {
     };
 }
 
-#endif //JACY_AST_NODEMAP_H
+#endif // JACY_AST_NODEMAP_H
