@@ -44,7 +44,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
-        if (useTree.path) {
+        if (useTree.path.some()) {
             resolvePath(PathResKind::Full, *useTree.path.unwrap());
         }
 
@@ -89,7 +89,7 @@ namespace jc::resolve {
                     }
                 });
 
-                if (unresSeg) {
+                if (unresSeg.some()) {
                     break;
                 }
             } else if (resKind == PathResKind::Prefix) {
@@ -133,7 +133,7 @@ namespace jc::resolve {
             }
         }
 
-        if (unresSeg) {
+        if (unresSeg.some()) {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)->ident.unwrap().unwrap();
@@ -161,7 +161,7 @@ namespace jc::resolve {
     void Importer::define(PathResult && pathResult, const Option<std::string> & rebind) {
         const auto & seg = pathResult.lastSeg;
         std::string name;
-        if (rebind) {
+        if (rebind.some()) {
             name = rebind.unwrap();
         } else {
             name = seg->ident.unwrap().unwrap()->getValue();
