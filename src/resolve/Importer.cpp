@@ -26,7 +26,8 @@ namespace jc::resolve {
         const auto & pathResult = resolvePath(PathResKind::Prefix, *useTree.path);
         pathResult.defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
             optDefId.then([&](def_id defId) {
-                const auto & segName = pathResult.lastSeg->ident.unwrap().unwrap()->getValue();
+                const auto & seg = pathResult.lastSeg;
+                const auto & segName = seg->ident.unwrap().unwrap()->getValue();
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
@@ -35,7 +36,7 @@ namespace jc::resolve {
                     suggest(
                         std::make_unique<sugg::MsgSpanLinkSugg>(
                             "Cannot `use` '" + segName + "'",
-                            seg.span,
+                            seg->span,
                             "Because it is already declared as " + oldDef.kindStr() + " here",
                             oldDefSpan,
                             sugg::SuggKind::Error));
