@@ -24,7 +24,7 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
-        const auto & pathResult = resolvePath(PathResKind::Prefix, *useTree.path);
+        define(resolvePath(PathResKind::Prefix, *useTree.path));
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
@@ -145,7 +145,7 @@ namespace jc::resolve {
         return PathResult{defPerNs, path.segments.at(path.segments.size() - 1)};
     }
 
-    void Importer::define(PathResult && pathResult) {
+    void Importer::define(PathResult && pathResult, const std::string & rebind) {
         pathResult.defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
             optDefId.then([&](def_id defId) {
                 const auto & seg = pathResult.lastSeg;
