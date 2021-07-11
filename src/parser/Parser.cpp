@@ -824,7 +824,7 @@ namespace jc::parser {
             suggestErrorMsg(suggMsg, begin);
             return makeErrorNode(closeSpan(begin));
         }
-        return std::move(expr.unwrap("parseExpr -> expr"));
+        return expr.take("parseExpr -> expr");
     }
 
     expr_ptr Parser::parseLambda() {
