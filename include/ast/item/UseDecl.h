@@ -48,11 +48,11 @@ namespace jc::ast {
     };
 
     struct UseTreeRebind : UseTree {
-        UseTreeRebind(simple_path_ptr && path, id_ptr && as, const Span & span)
+        UseTreeRebind(simple_path_ptr && path, ident_pr && as, const Span & span)
             : UseTree(Kind::Rebind, span), path(std::move(path)), as(std::move(as)) {}
 
         simple_path_ptr path;
-        id_ptr as;
+        ident_pr as;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
