@@ -23,6 +23,13 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
+    }
+
+    void Importer::visit(const ast::UseTreeSpecific & useTree) {
+
+    }
+
+    void Importer::resolvePath(const ast::SimplePath & path, const std::function<void ()> & targetCb) {
         module_ptr searchMod = sess->defStorage.getModule(_declModule->nearestModDef.unwrap());
 
         std::string pathStr;
@@ -111,7 +118,7 @@ namespace jc::resolve {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = useTree.path->segments.at(unresSeg.unwrap().segIndex)->ident
-                                                .unwrap().unwrap();
+                                                     .unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
@@ -129,9 +136,5 @@ namespace jc::resolve {
                 suggestErrorMsg(msg, unresolvedSegIdent->span);
             }
         }
-    }
-
-    void Importer::visit(const ast::UseTreeSpecific & useTree) {
-
     }
 }
