@@ -142,7 +142,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const UseTreeAll & useTree) {
-        if (useTree.path) {
+        if (useTree.path.some()) {
             useTree.path.unwrap()->accept(*this);
         }
     }
@@ -150,10 +150,10 @@ namespace jc::ast {
     // Statements //
     void StubVisitor::visit(const LetStmt & letStmt) {
         letStmt.pat.autoAccept(*this);
-        if (letStmt.type) {
+        if (letStmt.type.some()) {
             letStmt.type.unwrap().autoAccept(*this);
         }
-        if (letStmt.assignExpr) {
+        if (letStmt.assignExpr.some()) {
             letStmt.assignExpr.unwrap().autoAccept(*this);
         }
     }
