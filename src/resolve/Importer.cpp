@@ -23,9 +23,11 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
-        resolvePath(PathResKind::Prefix, *useTree.path, [&](const DefPerNS & defPerNs, const std::string & segName) {
+        resolvePath(PathResKind::Prefix, *useTree.path, [&](const DefPerNS & defPerNs, const ast::SimplePathSeg & seg) {
             defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
                 optDefId.then([&](def_id defId) {
+                    const auto & segSpan = seg.span;
+                    const auto & segName = seg.ident.unwrap().unwrap()->getValue();
                     _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                         // Note: If some definition can be redefined -- it is always named definition,
                         //  so we can safely get its name node span
@@ -34,7 +36,7 @@ namespace jc::resolve {
                         suggest(
                             std::make_unique<sugg::MsgSpanLinkSugg>(
                                 "Cannot `use` '" + segName + "'",
-                                seg->span,
+                                seg.span,
                                 "Because it is already declared as " + oldDef.kindStr() + " here",
                                 oldDefSpan,
                                 sugg::SuggKind::Error));
