@@ -115,7 +115,7 @@ namespace jc::dt {
 
     template<class T>
     inline Option<T> Some(T && some) {
-        return Option<T>(some);
+        return Option<T>(std::move(some));
     }
 }
 
