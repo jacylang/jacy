@@ -1696,7 +1696,7 @@ namespace jc::parser {
                 skipOpt(TokenKind::Mut).some() or
                 skipOpt(TokenKind::Static).some()
             ) {
-                logParse("Modifier:'"+ modifier.kindToString() +"'");
+                logParse("Modifier:'" + modifier.kindToString() + "'");
                 modifiers.push_back(modifier);
             } else {
                 break;
