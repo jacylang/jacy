@@ -1017,7 +1017,7 @@ namespace jc::parser {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
                 return quest(); // FIXME: CHECK!!!
             }
-            auto rhs = maybeRhs.unwrap();
+            auto rhs = maybeRhs.take();
             if (op.is(TokenKind::Ampersand) or op.is(TokenKind::Mut)) {
                 logParse("Borrow");
 
