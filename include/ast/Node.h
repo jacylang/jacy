@@ -34,7 +34,7 @@ namespace jc::ast {
 
         template<class T>
         static const T * cast(const Node * node) {
-            return static_cast<T*>(node);
+            return static_cast<const T*>(node);
         }
     };
 
