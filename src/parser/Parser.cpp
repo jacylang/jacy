@@ -1182,7 +1182,7 @@ namespace jc::parser {
         return None;
     }
 
-    id_ptr Parser::justParseId(const std::string & panicIn) {
+    id_ptr Parser::justParseIdent(const std::string & panicIn) {
         logParse("[just] id");
 
         const auto & begin = cspan();
@@ -1345,7 +1345,7 @@ namespace jc::parser {
 
         // `field: expr` or `field` cases
         if (is(TokenKind::Id)) {
-            auto name = justParseId("`parseStructExprField`");
+            auto name = justParseIdent("`parseStructExprField`");
             if (skipOpt(TokenKind::Colon).some()) {
                 // `field: expr` case
                 auto expr = parseExpr("Expression expected after `:` in struct field");
@@ -1660,7 +1660,7 @@ namespace jc::parser {
             const auto & argBegin = cspan();
 
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto identifier = justParseId("`parseArgList`");
+                auto identifier = justParseIdent("`parseArgList`");
                 justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
                 auto value = parseExpr("Expected value after `:`");
                 args.emplace_back(
@@ -1824,7 +1824,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             if (is(TokenKind::Id)) {
-                auto ident = justParseId("`parseOptSimplePath`");
+                auto ident = justParseIdent("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Super).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
@@ -1879,7 +1879,7 @@ namespace jc::parser {
             auto kind = PathSeg::getKind(peek());
             if (kind == ast::PathSeg::Kind::Ident) {
                 kind = PathSeg::Kind::Ident;
-                ident = justParseId("`parsePath`");
+                ident = justParseIdent("`parsePath`");
             } else if (kind == ast::PathSeg::Kind::Error) {
                 const auto & errorToken = peek();
                 // TODO: Dynamic message for first or following segments (self and party can be only first)
@@ -1956,7 +1956,7 @@ namespace jc::parser {
 
             auto elBegin = cspan();
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto name = justParseId("`parseTupleFields`");
+                auto name = justParseIdent("`parseTupleFields`");
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
@@ -2053,7 +2053,7 @@ namespace jc::parser {
             const auto & elBegin = cspan();
             opt_id_ptr name{None};
             if (is(TokenKind::Id)) {
-                name = justParseId("`parenType`");
+                name = justParseIdent("`parenType`");
             }
 
             opt_type_ptr type{None};
@@ -2164,7 +2164,7 @@ namespace jc::parser {
                 auto name = parseIdent("lifetime parameter name");
                 generics.push_back(makeNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
-                auto name = justParseId("`parseOptGenerics`");
+                auto name = justParseIdent("`parseOptGenerics`");
                 opt_type_ptr type{None};
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
