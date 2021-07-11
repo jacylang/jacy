@@ -268,7 +268,7 @@ namespace jc::core {
         for (size_t i = 0; i < sess->defStorage.getDefinitions().size(); i++) {
             const auto & def = sess->defStorage.getDef(i);
             log.raw("#", i, ": ", def.kindStr());
-            if (def.nameNodeId) {
+            if (def.nameNodeId.some()) {
                 log.raw(" with name node #", def.nameNodeId.unwrap());
             }
             log.raw(" depth=", def.depth);
@@ -344,7 +344,7 @@ namespace jc::core {
         if (not eachStageBenchmarks) {
             return;
         }
-        if (not lastBench) {
+        if (lastBench.none()) {
             common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
         }
         std::string formatted = name;
