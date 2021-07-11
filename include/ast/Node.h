@@ -52,21 +52,54 @@ namespace jc::ast {
         }
     };
 
-    /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
-    /// Defines common methods
     template<class T>
-    class NParseResult {
+    class BaseParseResult {
     public:
-        // FIXME: Don't box ErrorNode
         using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
 
-    public:
-        NParseResult() : state(std::monostate{}) {}
-        NParseResult(T && value) : state(std::move(value)) {}
-        NParseResult(E && error) : state(std::move(error)) {}
-        NParseResult(NParseResult<T> && other)
+        BaseParseResult() : state(std::monostate{}) {}
+        BaseParseResult(T && value) : state(std::move(value)) {}
+        BaseParseResult(E && error) : state(std::move(error)) {}
+        BaseParseResult(BaseParseResult<T> && other)
             : state(std::move(other.state)) {}
+
+        BaseParseResult<T> & operator=(BaseParseResult<T> && other) {
+            state = std::move(other.state);
+            return *this;
+        }
+
+        BaseParseResult<T> & operator=(T && rawT) {
+            state = std::move(rawT);
+            return *this;
+        }
+
+        BaseParseResult<T> & operator=(E && rawE) {
+            state = std::move(rawE);
+            return *this;
+        }
+
+    private:
+        S state;
+    };
+
+    /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
+    /// Defines common methods
+    template<class T>
+    class NParseResult : public BaseParseResult<T> {
+        using BaseParseResult<T>::BaseParseResult;
+
+    public:
+        // FIXME: Don't box ErrorNode
+        using E = typename BaseParseResult<T>::E;
+        using S = typename BaseParseResult<T>::S;
+
+    public:
+//        NParseResult() : state(std::monostate{}) {}
+//        NParseResult(T && value) : state(std::move(value)) {}
+//        NParseResult(E && error) : state(std::move(error)) {}
+//        NParseResult(NParseResult<T> && other)
+//            : state(std::move(other.state)) {}
 
         T take(const std::string & msg = "") {
             if (err()) {
@@ -102,21 +135,6 @@ namespace jc::ast {
                 throw std::logic_error("Called `NParseResult::asValue` on an `Err` NParseResult");
             }
             return std::get<T>(state);
-        }
-
-        NParseResult<T> & operator=(NParseResult<T> && other) {
-            state = std::move(other.state);
-            return *this;
-        }
-
-        NParseResult<T> & operator=(T && rawT) {
-            state = std::move(rawT);
-            return *this;
-        }
-
-        NParseResult<T> & operator=(E && rawE) {
-            state = std::move(rawE);
-            return *this;
         }
 
         template<class B>

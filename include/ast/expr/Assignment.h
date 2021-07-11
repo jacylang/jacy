@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Assignment : Expr {
-        Assignment(expr_ptr lhs, const parser::Token & op, expr_ptr rhs, const span::Span & span)
+        Assignment(expr_ptr && lhs, const parser::Token & op, expr_ptr && rhs, const span::Span & span)
             : Expr(span, ExprKind::Assign), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
 
         expr_ptr lhs;
