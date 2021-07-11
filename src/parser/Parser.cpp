@@ -1039,7 +1039,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto lhs = call();
 
-        if (not lhs) {
+        if (lhs.none()) {
             return None;
         }
 
