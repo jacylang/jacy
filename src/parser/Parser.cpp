@@ -1727,9 +1727,7 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
             }
 
-            auto param = parseFuncParam();
-
-            params.push_back(param);
+            params.emplace_back(parseFuncParam());
         }
         skip(TokenKind::RParen, "Missing closing `)` after `func` parameter list");
 
