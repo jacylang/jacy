@@ -98,11 +98,7 @@ namespace jc::core {
             }
         }
 
-        auto dirModule = std::make_unique<ast::Dir>(name, std::move(nestedEntries));
-
-        dirModule->id = sess->nodeMap.makeNode(dirModule.get());
-
-        return dirModule;
+        return sess->nodeMap.makeNode<ast::Dir>(name, std::move(nestedEntries));
     }
 
     ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {
@@ -133,8 +129,6 @@ namespace jc::core {
         collectSuggestions(std::move(parserSuggestions));
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
-
-        parsedFile->id = sess->nodeMap.makeNode(parsedFile.get());
 
         return std::move(parsedFile);
     }
