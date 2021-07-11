@@ -101,7 +101,21 @@ namespace jc::ast {
             return std::get<T>(state);
         }
 
-    private:
+        const E & asErr() const {
+            if (this->ok()) {
+                throw std::logic_error("Called `NParseResult::asErr` on an non-error NParseResult");
+            }
+            return std::get<E>(state);
+        }
+
+        const T & asValue() const {
+            if (this->err()) {
+                throw std::logic_error("Called `NParseResult::asValue` on an `Err` NParseResult");
+            }
+            return std::get<T>(state);
+        }
+
+    protected:
         S state;
     };
 
@@ -122,20 +136,6 @@ namespace jc::ast {
 //        NParseResult(E && error) : state(std::move(error)) {}
 //        NParseResult(NParseResult<T> && other)
 //            : state(std::move(other.state)) {}
-
-        const E & asErr() const {
-            if (this->ok()) {
-                throw std::logic_error("Called `NParseResult::asErr` on an non-error NParseResult");
-            }
-            return std::get<E>(state);
-        }
-
-        const T & asValue() const {
-            if (this->err()) {
-                throw std::logic_error("Called `NParseResult::asValue` on an `Err` NParseResult");
-            }
-            return std::get<T>(state);
-        }
 
         template<class B>
         NParseResult<N<B>> as() {
@@ -159,9 +159,6 @@ namespace jc::ast {
             }
             return std::get<T>(this->state)->span;
         }
-
-    protected:
-        S state;
     };
 
     template<class T>
