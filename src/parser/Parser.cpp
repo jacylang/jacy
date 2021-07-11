@@ -233,12 +233,12 @@ namespace jc::parser {
             }
 
             auto item = parseOptItem();
-            if (item) {
+            if (item.some()) {
                 items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
             } else {
                 const auto & exprToken = peek();
                 auto expr = parseOptExpr();
-                if (expr) {
+                if (expr.some()) {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
