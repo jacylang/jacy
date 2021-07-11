@@ -111,7 +111,7 @@ namespace jc::parser {
         }
 
         inline ErrorNode makeErrorNode(const Span & span) {
-            return sess->nodeMap.makeBoxNode<ErrorNode>(span);
+            return sess->nodeMap.addNode()
         }
 
         parse_sess_ptr parseSess;

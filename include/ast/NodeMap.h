@@ -15,10 +15,11 @@ namespace jc::ast {
             return node;
         }
 
-        void addNode(Node * node) {
+        Node * addNode(Node * node) {
             checkSize();
             node->id = static_cast<node_id>(nodes.size());
             nodes.emplace_back(node);
+            return node;
         }
 
         const Node & getNode(node_id nodeId) const;
