@@ -53,18 +53,18 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Func & func) {
-        if (func.generics) {
+        if (func.generics.some()) {
             visitEach(func.generics.unwrap());
         }
         func.name.autoAccept(*this);
 
         visitEach(func.params);
 
-        if (func.returnType) {
+        if (func.returnType.some()) {
             func.returnType.unwrap().autoAccept(*this);
         }
 
-        if (func.body) {
+        if (func.body.some()) {
             func.body.unwrap().autoAccept(*this);
         }
     }
@@ -72,17 +72,17 @@ namespace jc::ast {
     void StubVisitor::visit(const FuncParam & funcParam) {
         funcParam.name.autoAccept(*this);
         funcParam.type.autoAccept(*this);
-        if (funcParam.defaultValue) {
+        if (funcParam.defaultValue.some()) {
             funcParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
 
     void StubVisitor::visit(const Impl & impl) {
-        if (impl.generics) {
+        if (impl.generics.some()) {
             visitEach(impl.generics.unwrap());
         }
         impl.traitTypePath.autoAccept(*this);
-        if (impl.forType) {
+        if (impl.forType.some()) {
             impl.forType.unwrap().autoAccept(*this);
         }
         visitEach(impl.members);
