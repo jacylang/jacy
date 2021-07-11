@@ -144,7 +144,7 @@ namespace jc::ast {
 
         funcParam.defaultValue.then([&](const auto & defaultValue) {
             log.raw(" = ");
-            funcParam.defaultValue->autoAccept(*this);
+            defaultValue.autoAccept(*this);
         });
 
         printNodeId(funcParam);
