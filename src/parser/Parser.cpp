@@ -202,7 +202,7 @@ namespace jc::parser {
 
         if (maybeItem.some()) {
             if (maybeItem->ok()) {
-                auto item = std::move(maybeItem.take().take());
+                auto item = maybeItem.take().take();
                 item->setAttributes(std::move(attributes));
                 item->setVis(std::move(vis));
                 return Some(OkPR(std::move(item)));
