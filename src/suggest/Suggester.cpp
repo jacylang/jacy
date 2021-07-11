@@ -51,7 +51,7 @@ namespace jc::sugg {
     }
 
     void Suggester::visit(HelpSugg * helpSugg) {
-        if (helpSugg->sugg) {
+        if (helpSugg->sugg.some()) {
             helpSugg->sugg.unwrap()->accept(*this);
         }
         // Note: 6 = "help: "
