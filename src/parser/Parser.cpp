@@ -271,7 +271,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Enum, "`enum`", "`parseEnum`");
 
-        auto name = parseId("`enum` name");
+        auto name = parseIdent("`enum` name");
         auto generics = parseOptGenerics();
 
         enum_entry_list entries;
@@ -314,7 +314,7 @@ namespace jc::parser {
         enterEntity("EnumEntry");
 
         const auto & begin = cspan();
-        auto name = parseId("`enum` entry name");
+        auto name = parseIdent("`enum` entry name");
 
         if (skipOpt(TokenKind::Assign).some()) {
             auto discriminant = parseExpr("Expected constant expression after `=`");
@@ -353,7 +353,7 @@ namespace jc::parser {
         justSkip(TokenKind::Func, "`func`", "`parseFunc`");
 
         auto generics = parseOptGenerics();
-        auto name = parseId("`func` name");
+        auto name = parseIdent("`func` name");
 
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenKind::LParen);
@@ -429,7 +429,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Struct, "`struct`", "`parseStruct`");
 
-        auto name = parseId("`struct` name");
+        auto name = parseIdent("`struct` name");
         auto generics = parseOptGenerics();
 
         struct_field_list fields;
@@ -477,7 +477,7 @@ namespace jc::parser {
 
             const auto & begin = cspan();
             attr_list attributes = parseAttrList();
-            auto id = parseId("field name");
+            auto id = parseIdent("field name");
 
             // TODO: Hint field name
             skip(TokenKind::Colon, "Missing `:` to annotate field type");
@@ -499,7 +499,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Trait, "`trait`", "`parseTrait`");
 
-        auto name = parseId("`trait` name");
+        auto name = parseIdent("`trait` name");
         auto generics = parseOptGenerics();
 
         type_path_list superTraits;
@@ -540,7 +540,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Type, "`type`", "`parseTypeAlias`");
 
-        auto name = parseId("`type` name");
+        auto name = parseIdent("`type` name");
 
         opt_type_ptr type{None};
         if (skipOpt(TokenKind::Assign).some()) {
@@ -563,7 +563,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Module, "`mod`", "`parseMod`");
 
-        auto name = parseId("`mod` name");
+        auto name = parseIdent("`mod` name");
 
         skip(TokenKind::LBrace, "Expected opening `{` for `mod` body", Recovery::Once);
 
@@ -653,7 +653,7 @@ namespace jc::parser {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
-            auto as = parseId("binding name after `as`");
+            auto as = parseIdent("binding name after `as`");
             exitEntity();
             return makePRNode<UseTreeRebind, UseTree>(std::move(maybePath.unwrap()), std::move(as), closeSpan(begin));
         }
@@ -1117,7 +1117,7 @@ namespace jc::parser {
         while (skipOpt(TokenKind::Dot).some()) {
             logParse("MemberAccess");
 
-            auto name = parseId("field name");
+            auto name = parseIdent("field name");
 
             lhs = makePRNode<MemberAccess, Expr>(lhs.unwrap(), std::move(name), closeSpan(begin));
             begin = cspan();
@@ -1191,7 +1191,7 @@ namespace jc::parser {
         return makeNode<Ident>(token, closeSpan(begin));
     }
 
-    id_ptr Parser::parseId(const std::string & expected) {
+    id_ptr Parser::parseIdent(const std::string & expected) {
         logParse("Identifier");
 
         // Note: We don't make `span.to(span)`,
@@ -1199,7 +1199,7 @@ namespace jc::parser {
         const auto & span = cspan();
         auto maybeIdToken = skip(TokenKind::Id, expected, Recovery::Any);
         if (maybeIdToken.some()) {
-            return makeNode<Ident>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
+            return makeNode<Ident>(maybeIdToken.unwrap("parseIdent -> maybeIdToken"), span);
         }
         return makeErrorNode(span);
     }
@@ -1631,7 +1631,7 @@ namespace jc::parser {
 
         enterEntity("Attribute");
 
-        auto name = parseId("attribute name");
+        auto name = parseIdent("attribute name");
         auto params = parseArgList("attribute");
 
         exitEntity();
@@ -1739,7 +1739,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        auto name = parseId("`func` parameter name");
+        auto name = parseIdent("`func` parameter name");
 
         const auto colonSkipped = skip(
             TokenKind::Colon,
@@ -2161,7 +2161,7 @@ namespace jc::parser {
             const auto & genBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick).some()) {
-                auto name = parseId("lifetime parameter name");
+                auto name = parseIdent("lifetime parameter name");
                 generics.push_back(makeNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
@@ -2173,7 +2173,7 @@ namespace jc::parser {
                     makeNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
                 );
             } else if (skipOpt(TokenKind::Const).some()) {
-                auto name = parseId("`const` parameter name");
+                auto name = parseIdent("`const` parameter name");
                 skip(
                     TokenKind::Colon,
                     "Expected `:` to annotate `const` generic type",
@@ -2292,7 +2292,7 @@ namespace jc::parser {
         bool ref = skipOpt(TokenKind::Ref).some();
         bool mut = skipOpt(TokenKind::Mut).some();
 
-        auto id = parseId("Missing identifier");
+        auto id = parseIdent("Missing identifier");
 
         Option<pat_ptr> pat{None};
         if (skipOpt(TokenKind::At).some()) {
@@ -2347,7 +2347,7 @@ namespace jc::parser {
             const auto & ref = skipOpt(TokenKind::Ref);
             const auto & mut = skipOpt(TokenKind::Mut);
 
-            id_ptr ident = parseId("Field name expected");
+            id_ptr ident = parseIdent("Field name expected");
 
             if (skipOpt(TokenKind::Colon).some()) {
                 // `field: pattern` case
