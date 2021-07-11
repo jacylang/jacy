@@ -8,13 +8,14 @@ namespace jc::ast {
     public:
         NodeMap() = default;
 
-        template<class T>
-        node_id addNode(const T * node) {
+        template<class T, class ...Args>
+        T addNode(Args && ...args) {
             if (nodes.size() == NONE_NODE_ID) {
                 common::Logger::devPanic("Nodes count exceeded");
             }
-            nodes.emplace_back(node);
-            return static_cast<node_id>(nodes.size() - 1);
+            auto node = std::make_unique<T>(std::forward<T>(args)...);
+            nodes.emplace_back(node.get());
+            return node;
         }
 
         const Node & getNode(node_id nodeId) const;
