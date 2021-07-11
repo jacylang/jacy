@@ -43,7 +43,7 @@ namespace jc::resolve {
 
         // Resolutions //
     private:
-        void resolvePath(const ast::SimplePath & path, const std::function<void()> & targetCb);
+        void resolvePath(PathResKind resKind, const ast::SimplePath & path, const std::function<void()> & targetCb);
     };
 }
 

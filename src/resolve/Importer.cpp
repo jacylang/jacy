@@ -29,7 +29,11 @@ namespace jc::resolve {
 
     }
 
-    void Importer::resolvePath(const ast::SimplePath & path, const std::function<void ()> & targetCb) {
+    void Importer::resolvePath(
+        PathResKind resKind,
+        const ast::SimplePath & path,
+        const std::function<void ()> & targetCb
+    ) {
         module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
         std::string pathStr;
