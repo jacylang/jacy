@@ -8,6 +8,8 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
+    using DefPerNS = PerNS<opt_def_id>;
+
     /// Path resolution style
     /// `Prefix`
     ///   - Resolve all path segments except last one
@@ -46,7 +48,7 @@ namespace jc::resolve {
         void resolvePath(
             PathResKind resKind,
             const ast::SimplePath & path,
-            const std::function<void(const PerNS<opt_def_id> & defsPerNS)> & cb
+            const std::function<void(const DefPerNS&)> & cb
         );
     };
 }

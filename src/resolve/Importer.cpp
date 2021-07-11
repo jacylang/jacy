@@ -32,7 +32,7 @@ namespace jc::resolve {
     void Importer::resolvePath(
         PathResKind resKind,
         const ast::SimplePath & path,
-        const std::function<void(const PerNS<opt_def_id> & defsPerNS)> & cb
+        const std::function<void(const DefPerNS&)> & cb
     ) {
         module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
@@ -61,6 +61,11 @@ namespace jc::resolve {
                         pathStr += "::";
                     }
                     pathStr += segName;
+
+                    if (i == path.segments.size() - 1) {
+
+                        cb(PerNS<opt_def_id>);
+                    }
                 });
 
                 if (unresSeg) {
