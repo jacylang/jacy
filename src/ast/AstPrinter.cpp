@@ -369,13 +369,15 @@ namespace jc::ast {
         log.raw("if ");
         ifExpr.condition.accept(*this);
         log.raw(" ");
-        if (ifExpr.ifBranch) {
-            ifExpr.ifBranch.unwrap().accept(*this);
-        }
-        if (ifExpr.elseBranch) {
+
+        ifExpr.ifBranch.then([&](const auto & ifBranch) {
+            ifBranch.accept(*this);
+        });
+
+        ifExpr.elseBranch.then([&](const auto & elseBranch) {
             log.raw(" else ");
-            ifExpr.elseBranch.unwrap().accept(*this);
-        }
+            elseBranch.accept(*this);
+        });
 
         printNodeId(ifExpr);
     }
