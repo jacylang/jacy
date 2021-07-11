@@ -26,7 +26,6 @@ namespace jc::resolve {
         resolvePath(PathResKind::Prefix, *useTree.path, [&](const DefPerNS & defPerNs, const ast::SimplePathSeg & seg) {
             defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
                 optDefId.then([&](def_id defId) {
-                    const auto & segSpan = seg.span;
                     const auto & segName = seg.ident.unwrap().unwrap()->getValue();
                     _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                         // Note: If some definition can be redefined -- it is always named definition,
