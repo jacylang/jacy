@@ -112,6 +112,11 @@ namespace jc::dt {
         T value;
         bool hasValue{false};
     };
+
+    template<class T>
+    inline Option<T> Some(T && some) {
+        return Option<T>(some);
+    }
 }
 
 namespace jc {
