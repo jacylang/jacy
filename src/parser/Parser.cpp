@@ -1055,7 +1055,7 @@ namespace jc::parser {
     Option<expr_ptr> Parser::call() {
         auto maybeLhs = memberAccess();
 
-        if (not maybeLhs) {
+        if (maybeLhs.none()) {
             return None;
         }
 
