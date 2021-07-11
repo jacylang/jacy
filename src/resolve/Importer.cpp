@@ -36,12 +36,12 @@ namespace jc::resolve {
         bool inaccessible = false;
         dt::Option<UnresSeg> unresSeg{None};
 
-        for (size_t i = 0; i < useTree.path->segments.size(); i++) {
-            const auto & seg = useTree.path->segments.at(i);
+        for (size_t i = 0; i < path.segments.size(); i++) {
+            const auto & seg = path.segments.at(i);
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
             bool isFirstSeg = i == 0;
-            bool isPrefixSeg = i < useTree.path->segments.size() - 1;
+            bool isPrefixSeg = i < path.segments.size() - 1;
 
             if (isPrefixSeg) {
                 searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
@@ -117,8 +117,7 @@ namespace jc::resolve {
         if (unresSeg) {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
-            const auto & unresolvedSegIdent = useTree.path->segments.at(unresSeg.unwrap().segIndex)->ident
-                                                     .unwrap().unwrap();
+            const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)->ident.unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
