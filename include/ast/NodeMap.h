@@ -14,6 +14,7 @@ namespace jc::ast {
                 common::Logger::devPanic("Nodes count exceeded");
             }
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
+            node->id = nodes.size();
             nodes.emplace_back(node.get());
             return node;
         }
