@@ -90,7 +90,7 @@ namespace jc::ast {
             }
         }
 
-        if (func.generics) {
+        if (func.generics.some()) {
             lintEach(func.generics.unwrap());
         }
 
@@ -98,12 +98,12 @@ namespace jc::ast {
 
         lintEach(func.params);
 
-        if (func.returnType) {
+        if (func.returnType.some()) {
             func.returnType.unwrap().accept(*this);
         }
 
         pushContext(ValidatorCtx::Func);
-        if (func.body) {
+        if (func.body.some()) {
             func.body->accept(*this);
         }
         popContext();
@@ -112,7 +112,7 @@ namespace jc::ast {
     void Validator::visit(const FuncParam & funcParam) {
         funcParam.name.accept(*this);
         funcParam.type.accept(*this);
-        if (funcParam.defaultValue) {
+        if (funcParam.defaultValue.some()) {
             funcParam.defaultValue.unwrap().accept(*this);
         }
     }
@@ -120,13 +120,13 @@ namespace jc::ast {
     void Validator::visit(const Impl & impl) {
         // TODO: lint attributes
 
-        if (impl.generics) {
+        if (impl.generics.some()) {
             lintEach(impl.generics.unwrap());
         }
 
         impl.traitTypePath.accept(*this);
 
-        if (impl.forType) {
+        if (impl.forType.some()) {
             impl.forType.unwrap().accept(*this);
         }
 
@@ -147,7 +147,7 @@ namespace jc::ast {
 
         _struct.name.accept(*this);
 
-        if (_struct.generics) {
+        if (_struct.generics.some()) {
             lintEach(_struct.generics.unwrap());
         }
 
@@ -166,7 +166,7 @@ namespace jc::ast {
 
         trait.name.accept(*this);
 
-        if (trait.generics) {
+        if (trait.generics.some()) {
             lintEach(trait.generics.unwrap());
         }
 
@@ -198,7 +198,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const UseTreeSpecific & useTree) {
-        if (useTree.path) {
+        if (useTree.path.some()) {
             useTree.path.unwrap()->accept(*this);
         }
         lintEach(useTree.specifics);
@@ -210,7 +210,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const UseTreeAll & useTree) {
-        if (useTree.path) {
+        if (useTree.path.some()) {
             useTree.path.unwrap()->accept(*this);
         }
     }
@@ -218,11 +218,11 @@ namespace jc::ast {
     void Validator::visit(const LetStmt & letStmt) {
         letStmt.pat.accept(*this);
 
-        if (letStmt.type) {
+        if (letStmt.type.some()) {
             letStmt.type.unwrap().accept(*this);
         }
 
-        if (letStmt.assignExpr) {
+        if (letStmt.assignExpr.some()) {
             letStmt.assignExpr.unwrap().accept(*this);
         }
     }
@@ -290,7 +290,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const BreakExpr & breakExpr) {
-        if (breakExpr.expr) {
+        if (breakExpr.expr.some()) {
             breakExpr.expr.unwrap().accept(*this);
         }
 
@@ -312,11 +312,11 @@ namespace jc::ast {
     void Validator::visit(const IfExpr & ifExpr) {
         ifExpr.condition.accept(*this);
 
-        if (ifExpr.ifBranch) {
+        if (ifExpr.ifBranch.some()) {
             ifExpr.ifBranch.unwrap().accept(*this);
         }
 
-        if (ifExpr.elseBranch) {
+        if (ifExpr.elseBranch.some()) {
             ifExpr.elseBranch.unwrap().accept(*this);
         }
     }
@@ -371,7 +371,7 @@ namespace jc::ast {
     void Validator::visit(const Lambda & lambdaExpr) {
         lintEach(lambdaExpr.params);
 
-        if (lambdaExpr.returnType) {
+        if (lambdaExpr.returnType.some()) {
             lambdaExpr.returnType.unwrap().accept(*this);
         }
 
@@ -382,7 +382,7 @@ namespace jc::ast {
 
     void Validator::visit(const LambdaParam & param) {
         param.pat.accept(*this);
-        if (param.type) {
+        if (param.type.some()) {
             param.type.unwrap().accept(*this);
         }
     }
@@ -446,7 +446,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ReturnExpr & returnExpr) {
-        if (returnExpr.expr) {
+        if (returnExpr.expr.some()) {
             returnExpr.expr.unwrap().accept(*this);
         }
 
@@ -520,7 +520,7 @@ namespace jc::ast {
 
     void Validator::visit(const TupleType & tupleType) {
         const auto & els = tupleType.elements;
-        if (els.size() == 1 and els.at(0)->name and els.at(0)->type) {
+        if (els.size() == 1 and els.at(0)->name.some() and els.at(0)->type.some()) {
             suggestErrorMsg("Cannot declare single-element named tuple type", tupleType.span);
         }
 
@@ -529,10 +529,10 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TupleTypeEl & el) {
-        if (el.name) {
+        if (el.name.some()) {
             el.name.unwrap().accept(*this);
         }
-        if (el.type) {
+        if (el.type.some()) {
             el.type.unwrap().accept(*this);
         }
     }
@@ -562,7 +562,7 @@ namespace jc::ast {
     // Type params //
     void Validator::visit(const TypeParam & typeParam) {
         typeParam.name.accept(*this);
-        if (typeParam.boundType) {
+        if (typeParam.boundType.some()) {
             typeParam.boundType.unwrap().accept(*this);
         }
     }
@@ -574,7 +574,7 @@ namespace jc::ast {
     void Validator::visit(const ConstParam & constParam) {
         constParam.name.accept(*this);
         constParam.type.accept(*this);
-        if (constParam.defaultValue) {
+        if (constParam.defaultValue.some()) {
             constParam.defaultValue.unwrap().accept(*this);
         }
     }
@@ -588,12 +588,10 @@ namespace jc::ast {
     void Validator::visit(const Identifier&) {}
 
     void Validator::visit(const Arg & el) {
-        if (el.name) {
+        if (el.name.some()) {
             el.name.unwrap().accept(*this);
         }
-        if (el.value) {
-            el.value.unwrap()->accept(*this);
-        }
+        el.value.accept(*this);
     }
 
     void Validator::visit(const Path & path) {
@@ -605,7 +603,7 @@ namespace jc::ast {
             case PathSeg::Kind::Super:
             case PathSeg::Kind::Self:
             case PathSeg::Kind::Party: {
-                if (seg.ident) {
+                if (seg.ident.some()) {
                     log.devPanic("`ident` exists in non-Ident `PathSeg`");
                 }
                 break;
@@ -618,7 +616,7 @@ namespace jc::ast {
                 log.devPanic("Unexpected `PathSeg::Kind` in `Validator`");
             }
         }
-        if (seg.generics) {
+        if (seg.generics.some()) {
             lintEach(seg.generics.unwrap());
         }
     }
@@ -632,7 +630,7 @@ namespace jc::ast {
             case SimplePathSeg::Kind::Super:
             case SimplePathSeg::Kind::Self:
             case SimplePathSeg::Kind::Party: {
-                if (seg.ident) {
+                if (seg.ident.some()) {
                     log.devPanic("`ident` exists in non-Ident `SimplePathSeg`");
                 }
                 break;
@@ -654,7 +652,7 @@ namespace jc::ast {
     void Validator::visit(const BorrowPat & pat) {
         pat.name.accept(*this);
 
-        if (pat.pat) {
+        if (pat.pat.some()) {
             pat.pat.unwrap().accept(*this);
         }
     }
