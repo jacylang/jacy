@@ -1793,7 +1793,7 @@ namespace jc::parser {
 
         auto simplePath = parseOptSimplePath();
 
-        if (not simplePath) {
+        if (simplePath.some()) {
             suggestErrorMsg(
                 "Expected identifier, `super`, `self` or `party` in " + construction + " path",
                 cspan()
