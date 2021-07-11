@@ -122,6 +122,7 @@ namespace jc::dt {
 namespace jc {
     using dt::Option;
     using dt::None;
+    using dt::Some;
 }
 
 #endif // JACY_DATA_TYPES_OPTIONAL_H
