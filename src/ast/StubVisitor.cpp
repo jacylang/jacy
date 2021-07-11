@@ -182,7 +182,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const BreakExpr & breakExpr) {
-        if (breakExpr.expr) {
+        if (breakExpr.expr.some()) {
             breakExpr.expr.unwrap().autoAccept(*this);
         }
     }
@@ -195,10 +195,10 @@ namespace jc::ast {
 
     void StubVisitor::visit(const IfExpr & ifExpr) {
         ifExpr.condition.autoAccept(*this);
-        if (ifExpr.ifBranch) {
+        if (ifExpr.ifBranch.some()) {
             ifExpr.ifBranch.unwrap().autoAccept(*this);
         }
-        if (ifExpr.elseBranch) {
+        if (ifExpr.elseBranch.some()) {
             ifExpr.elseBranch.unwrap().autoAccept(*this);
         }
     }
@@ -216,7 +216,7 @@ namespace jc::ast {
     void StubVisitor::visit(const Lambda & lambdaExpr) {
         visitEach(lambdaExpr.params);
 
-        if (lambdaExpr.returnType) {
+        if (lambdaExpr.returnType.some()) {
             lambdaExpr.returnType.unwrap().autoAccept(*this);
         }
 
@@ -225,7 +225,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const LambdaParam & param) {
         param.pat.autoAccept(*this);
-        if (param.type) {
+        if (param.type.some()) {
             param.type.unwrap().autoAccept(*this);
         }
     }
@@ -325,10 +325,10 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TupleTypeEl & el) {
-        if (el.name) {
+        if (el.name.some()) {
             el.name.unwrap().autoAccept(*this);
         }
-        if (el.type) {
+        if (el.type.some()) {
             el.type.unwrap().autoAccept(*this);
         }
     }
@@ -356,7 +356,7 @@ namespace jc::ast {
     // Type params //
     void StubVisitor::visit(const TypeParam & typeParam) {
         typeParam.name.autoAccept(*this);
-        if (typeParam.boundType) {
+        if (typeParam.boundType.some()) {
             typeParam.boundType.unwrap().autoAccept(*this);
         }
     }
@@ -368,7 +368,7 @@ namespace jc::ast {
     void StubVisitor::visit(const ConstParam & constParam) {
         constParam.name.autoAccept(*this);
         constParam.type.autoAccept(*this);
-        if (constParam.defaultValue) {
+        if (constParam.defaultValue.some()) {
             constParam.defaultValue.unwrap().autoAccept(*this);
         }
     }
@@ -382,12 +382,10 @@ namespace jc::ast {
     void StubVisitor::visit(const Identifier&) {}
 
     void StubVisitor::visit(const Arg & el) {
-        if (el.name) {
+        if (el.name.some()) {
             el.name.unwrap().autoAccept(*this);
         }
-        if (el.value) {
-            el.value.unwrap()->accept(*this);
-        }
+        el.value.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Path & path) {
@@ -402,7 +400,7 @@ namespace jc::ast {
             }
             default:;
         }
-        if (seg.generics) {
+        if (seg.generics.some()) {
             visitEach(seg.generics.unwrap());
         }
     }
@@ -431,7 +429,7 @@ namespace jc::ast {
     void StubVisitor::visit(const BorrowPat & pat) {
         pat.name.autoAccept(*this);
 
-        if (pat.pat) {
+        if (pat.pat.some()) {
             pat.pat.unwrap().autoAccept(*this);
         }
     }
