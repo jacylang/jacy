@@ -243,7 +243,7 @@ namespace jc::ast {
         assign.rhs.autoAccept(*this);
 
         const auto & span = assign.op.span;
-        switch (assign.lhs.take()->kind) {
+        switch (assign.lhs.unwrap()->kind) {
             case ExprKind::Assign: {
                 suggestErrorMsg("Chained assignment is not allowed", span);
                 break;
@@ -407,14 +407,14 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ParenExpr & parenExpr) {
-        if (parenExpr.expr.take()->kind == ExprKind::Paren) {
+        if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
                     "Useless double-wrapped parenthesized expression", parenExpr.span, sugg::SuggKind::Warn
                 )
             );
         }
-        if (parenExpr.expr.take()->isSimple()) {
+        if (parenExpr.expr.unwrap()->isSimple()) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
                     "Useless parentheses around simple expression", parenExpr.span, sugg::SuggKind::Warn
