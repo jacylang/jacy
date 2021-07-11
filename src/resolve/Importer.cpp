@@ -145,7 +145,7 @@ namespace jc::resolve {
         return PathResult{defPerNs, path.segments.at(path.segments.size() - 1)};
     }
 
-    void Importer::define(PathResult && pathResult, const std::string & rebind) {
+    void Importer::define(PathResult && pathResult, const dt::Option<std::string> & rebind) {
         pathResult.defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
             optDefId.then([&](def_id defId) {
                 const auto & seg = pathResult.lastSeg;
