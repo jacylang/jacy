@@ -52,10 +52,12 @@ namespace jc::ast {
         }
     };
 
+    /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
+    /// Defines common methods
     template<class T>
     class BaseParseResult {
     public:
-        using E = N<ErrorNode>;
+        using E = ErrorNode;
         using S = std::variant<T, E, std::monostate>;
 
         BaseParseResult() : state(std::monostate{}) {}
@@ -119,8 +121,6 @@ namespace jc::ast {
         S state;
     };
 
-    /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
-    /// Defines common methods
     template<class T>
     class NParseResult : public BaseParseResult<T> {
     public:
@@ -139,7 +139,7 @@ namespace jc::ast {
 
         void autoAccept(BaseVisitor & visitor) const {
             if (this->err()) {
-                return std::get<E>(this->state)->accept(visitor);
+                return std::get<E>(this->state).accept(visitor);
             } else {
                 return std::get<T>(this->state)->accept(visitor);
             }
@@ -147,7 +147,7 @@ namespace jc::ast {
 
         const Span & span() const {
             if (this->err()) {
-                return std::get<E>(this->state)->span;
+                return std::get<E>(this->state).span;
             }
             return std::get<T>(this->state)->span;
         }
