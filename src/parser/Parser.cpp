@@ -2306,8 +2306,8 @@ namespace jc::parser {
         logParse("RefPattern");
 
         const auto & begin = cspan();
-        bool ref = skipOpt(TokenKind::BitOr);
-        bool mut = skipOpt(TokenKind::Mut);
+        bool ref = skipOpt(TokenKind::BitOr).some();
+        bool mut = skipOpt(TokenKind::Mut).some();
         auto pat = parsePat();
 
         return makePRNode<RefPat, Pattern>(ref, mut, std::move(pat), closeSpan(begin));
@@ -2338,7 +2338,7 @@ namespace jc::parser {
             }
 
             // `...` case
-            if (const auto & spread = skipOpt(TokenKind::Spread); spread) {
+            if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
                 elements.emplace_back(spread.unwrap().span);
                 continue;
             }
@@ -2353,10 +2353,10 @@ namespace jc::parser {
                 // `field: pattern` case
 
                 // It is an error having `ref/mut field: pattern`
-                if (ref) {
+                if (ref.some()) {
                     suggestErrorMsg("Unexpected `ref` in field destructuring pattern", ref.unwrap().span);
                 }
-                if (mut) {
+                if (mut.some()) {
                     suggestErrorMsg("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
                 }
 
@@ -2365,7 +2365,7 @@ namespace jc::parser {
                 elements.emplace_back(StructPatternDestructEl{std::move(ident), std::move(pat)});
             } else {
                 // `ref? mut? field` case
-                elements.emplace_back(StructPatBorrowEl{ref, mut, std::move(ident)});
+                elements.emplace_back(StructPatBorrowEl{ref.some(), mut.some(), std::move(ident)});
             }
         }
 
