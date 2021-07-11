@@ -164,6 +164,13 @@ namespace jc::parser {
         return false;
     }
 
+    bool Token::isPathIdent() const {
+        return kind == TokenKind::Id
+            or kind == TokenKind::Super
+            or kind == TokenKind::Party
+            or kind == TokenKind::Self;
+    }
+
     std::string Token::kindToString(TokenKind kind) {
         const auto found = tokenKindStrings.find(kind);
         if (found != tokenKindStrings.end()) {

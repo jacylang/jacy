@@ -1,5 +1,5 @@
 mod m {
-    use b::foo;
+    use b::{foo};
 
     mod b {
         pub func foo {}
