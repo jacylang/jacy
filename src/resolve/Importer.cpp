@@ -66,7 +66,7 @@ namespace jc::resolve {
                 if (unresSeg) {
                     break;
                 }
-            } else {
+            } else if (resKind == PathResKind::Prefix) {
                 auto defsPerNS = searchMod->findAll(segName);
 
                 // Save count of found definitions in module
