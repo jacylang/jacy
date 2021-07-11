@@ -19,7 +19,8 @@ namespace jc::ast {
             Ident,
         } kind;
 
-        SimplePathSeg(ident_ptr && ident, const Span & span) : Node(span), kind(Kind::Ident), ident(ident) {}
+        SimplePathSeg(ident_ptr && ident, const Span & span)
+            : Node(span), kind(Kind::Ident), ident(std::move(ident)) {}
         SimplePathSeg(Kind kind, const Span & span) : Node(span), kind(kind) {}
 
         opt_ident ident{None};
