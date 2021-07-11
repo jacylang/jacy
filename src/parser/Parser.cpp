@@ -1619,7 +1619,7 @@ namespace jc::parser {
     attr_list Parser::parseAttrList() {
         attr_list attributes;
         for (auto attr = parseAttr(); attr.some();) {
-            attributes.push_back(attr.unwrap());
+            attributes.push_back(attr.take());
         }
 
         return attributes;
