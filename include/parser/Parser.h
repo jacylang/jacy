@@ -97,9 +97,7 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args ...args) {
-            auto node = std::make_unique<T>(std::forward<Args>(args)...);
-            node->id = sess->nodeMap.makeNode(node.get());
-            return node;
+            return sess->nodeMap.makeNode<T>(std::forward<Args>(args)...);
         }
 
         template<class T, class B, class ...Args>
@@ -115,9 +113,7 @@ namespace jc::parser {
         }
 
         inline N<ErrorNode> makeErrorNode(const Span & span) {
-            auto errorNode = std::make_unique<ErrorNode>(span);
-            errorNode->id = sess->nodeMap.makeNode(errorNode.get());
-            return errorNode;
+            return sess->nodeMap.makeNode<ErrorNode>(span);
         }
 
         parse_sess_ptr parseSess;
