@@ -503,7 +503,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
 
         type_path_list superTraits;
-        if (skipOpt(TokenKind::Colon)) {
+        if (skipOpt(TokenKind::Colon).some()) {
             bool first = true;
             while (not eof()) {
                 if (is(TokenKind::LBrace) or is(TokenKind::Semi)) {
@@ -543,7 +543,7 @@ namespace jc::parser {
         auto name = parseId("`type` name");
 
         opt_type_ptr type{None};
-        if (skipOpt(TokenKind::Assign)) {
+        if (skipOpt(TokenKind::Assign).some()) {
             type = parseType("Expected type");
         }
 
@@ -598,14 +598,14 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto maybePath = parseOptSimplePath();
 
-        if (skipOpt(TokenKind::Path)) {
+        if (skipOpt(TokenKind::Path).some()) {
             // `*` case
-            if (skipOpt(TokenKind::Mul)) {
+            if (skipOpt(TokenKind::Mul).some()) {
                 exitEntity();
                 return makePRNode<UseTreeAll, UseTree>(std::move(maybePath), closeSpan(begin));
             }
 
-            if (skipOpt(TokenKind::LBrace)) {
+            if (skipOpt(TokenKind::LBrace).some()) {
                 // `{...}` case
                 use_tree_list specifics;
 
@@ -747,12 +747,12 @@ namespace jc::parser {
         auto pat = parsePat();
 
         opt_type_ptr type{None};
-        if (skipOpt(TokenKind::Colon)) {
+        if (skipOpt(TokenKind::Colon).some()) {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
         opt_expr_ptr assignExpr{None};
-        if (skipOpt(TokenKind::Assign)) {
+        if (skipOpt(TokenKind::Assign).some()) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
 
@@ -784,7 +784,7 @@ namespace jc::parser {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
-        if (skipOpt(TokenKind::Return)) {
+        if (skipOpt(TokenKind::Return).some()) {
             enterEntity("ReturnExpr");
 
             auto expr = parseOptExpr();
@@ -793,7 +793,7 @@ namespace jc::parser {
             return makePRNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin));
         }
 
-        if (skipOpt(TokenKind::Break)) {
+        if (skipOpt(TokenKind::Break).some()) {
             enterEntity("BreakExpr");
 
             auto expr = parseOptExpr();
@@ -832,7 +832,7 @@ namespace jc::parser {
 
         bool allowReturnType = false;
         lambda_param_list params;
-        if (skipOpt(TokenKind::LParen)) {
+        if (skipOpt(TokenKind::LParen).some()) {
             bool first = true;
             while (not eof()) {
                 if (is(TokenKind::RParen)) {
@@ -852,7 +852,7 @@ namespace jc::parser {
                 const auto & paramBegin = cspan();
                 auto pat = parsePat();
                 opt_type_ptr type{None};
-                if (skipOpt(TokenKind::Colon)) {
+                if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
 
@@ -1043,7 +1043,7 @@ namespace jc::parser {
             return None;
         }
 
-        if (skipOpt(TokenKind::Quest)) {
+        if (skipOpt(TokenKind::Quest).some()) {
             logParse("Quest");
 
             return makePRNode<QuestExpr, Expr>(lhs.unwrap(), closeSpan(begin));
@@ -1064,7 +1064,7 @@ namespace jc::parser {
 
         while (not eof()) {
             auto maybeOp = peek();
-            if (skipOpt(TokenKind::LBracket)) {
+            if (skipOpt(TokenKind::LBracket).some()) {
                 enterEntity("Subscript");
 
                 expr_list indices;
@@ -1237,12 +1237,12 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in list expression");
             }
 
-            if (skipOpt(TokenKind::RBracket)) {
+            if (skipOpt(TokenKind::RBracket).some()) {
                 break;
             }
 
             const auto & maybeSpreadOp = peek();
-            if (skipOpt(TokenKind::Spread)) {
+            if (skipOpt(TokenKind::Spread).some()) {
                 elements.push_back(
                     makePRNode<SpreadExpr, Expr>(
                         maybeSpreadOp,
@@ -1265,7 +1265,7 @@ namespace jc::parser {
         justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
 
         // Empty tuple //
-        if (skipOpt(TokenKind::RParen)) {
+        if (skipOpt(TokenKind::RParen).some()) {
             logParse("UnitExpr");
             return makePRNode<UnitExpr, Expr>(closeSpan(begin));
         }
@@ -1346,7 +1346,7 @@ namespace jc::parser {
         // `field: expr` or `field` cases
         if (is(TokenKind::Id)) {
             auto name = justParseId("`parseStructExprField`");
-            if (skipOpt(TokenKind::Colon)) {
+            if (skipOpt(TokenKind::Colon).some()) {
                 // `field: expr` case
                 auto expr = parseExpr("Expression expected after `:` in struct field");
                 exitEntity();
@@ -1361,7 +1361,7 @@ namespace jc::parser {
         // Note: We parse `...exp` case even it always must go last, because this can be just a mistake
         //  and we want pretty error like "...expr must go last", but not error like "Unexpected token `...`".
         //  So this case is handled by Validator
-        if (skipOpt(TokenKind::Spread)) {
+        if (skipOpt(TokenKind::Spread).some()) {
             auto expr = parseExpr("Expression expected after `...`");
             exitEntity();
             return makeNode<StructExprField>(std::move(expr), closeSpan(begin));
@@ -1380,7 +1380,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
-        if (skipOpt(TokenKind::DoubleArrow)) {
+        if (skipOpt(TokenKind::DoubleArrow).some()) {
             if (arrow == BlockArrow::NotAllowed) {
                 suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
             } else if (arrow == BlockArrow::Useless) {
@@ -1476,9 +1476,9 @@ namespace jc::parser {
             ifBranch = parseBlock("if", BlockArrow::Allow);
         }
 
-        if (skipOpt(TokenKind::Else)) {
+        if (skipOpt(TokenKind::Else).some()) {
             auto maybeSemi = peek();
-            if (skipOpt(TokenKind::Semi)) {
+            if (skipOpt(TokenKind::Semi).some()) {
                 // Note: cover case when user writes `if {} else;`
                 suggest(
                     std::make_unique<ParseErrSugg>(
@@ -1524,7 +1524,7 @@ namespace jc::parser {
 
         auto subject = parseExpr("Expected subject expression in `match` expression");
 
-        if (skipOpt(TokenKind::Semi)) {
+        if (skipOpt(TokenKind::Semi).some()) {
             // `match` body is ignored with `;`
             exitEntity();
             return makePRNode<MatchExpr, Expr>(std::move(subject), match_arm_list{}, closeSpan(begin));
@@ -1548,7 +1548,7 @@ namespace jc::parser {
                 );
             }
 
-            if (skipOpt(TokenKind::RBrace)) {
+            if (skipOpt(TokenKind::RBrace).some()) {
                 break;
             }
 
@@ -1604,7 +1604,7 @@ namespace jc::parser {
             return None;
         }
 
-        if (skipOpt(TokenKind::Assign)) {
+        if (skipOpt(TokenKind::Assign).some()) {
             auto expr = parseExpr("Missing expression after `=`");
             return Ok(makeNode<Block>(std::move(expr), expr.span()));
         }
@@ -1767,7 +1767,7 @@ namespace jc::parser {
                 TokenKind::LBrace,
                 "To start `" + construction + "` body put `{` here or `;` to ignore body"
             );
-            if (skipOpt(TokenKind::RBrace)) {
+            if (skipOpt(TokenKind::RBrace).some()) {
                 return {};
             }
 
@@ -1823,11 +1823,11 @@ namespace jc::parser {
             if (is(TokenKind::Id)) {
                 auto ident = justParseId("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Super)) {
+            } else if (skipOpt(TokenKind::Super).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Party)) {
+            } else if (skipOpt(TokenKind::Party).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Self)) {
+            } else if (skipOpt(TokenKind::Self).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
@@ -2006,7 +2006,7 @@ namespace jc::parser {
         if (is(TokenKind::LParen)) {
             auto tupleElements = parseParenType();
 
-            if (skipOpt(TokenKind::Arrow)) {
+            if (skipOpt(TokenKind::Arrow).some()) {
                 return parseFuncType(std::move(tupleElements), begin);
             } else {
                 if (tupleElements.empty()) {
@@ -2028,7 +2028,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
 
-        if (skipOpt(TokenKind::RParen)) {
+        if (skipOpt(TokenKind::RParen).some()) {
             exitEntity();
             return {};
         }
@@ -2086,7 +2086,7 @@ namespace jc::parser {
         justSkip(TokenKind::LBracket, "`LBracket`", "`parseArrayType`");
         auto type = parseType("Expected type");
 
-        if (skipOpt(TokenKind::Semi)) {
+        if (skipOpt(TokenKind::Semi).some()) {
             auto sizeExpr = parseExpr("Expected constant size expression in array type");
             skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
@@ -2153,19 +2153,19 @@ namespace jc::parser {
 
             const auto & genBegin = cspan();
 
-            if (skipOpt(TokenKind::Backtick)) {
+            if (skipOpt(TokenKind::Backtick).some()) {
                 auto name = parseId("lifetime parameter name");
                 generics.push_back(makeNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
                 opt_type_ptr type{None};
-                if (skipOpt(TokenKind::Colon)) {
+                if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
                 generics.push_back(
                     makeNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
                 );
-            } else if (skipOpt(TokenKind::Const)) {
+            } else if (skipOpt(TokenKind::Const).some()) {
                 auto name = parseId("`const` parameter name");
                 skip(
                     TokenKind::Colon,
@@ -2174,7 +2174,7 @@ namespace jc::parser {
                 );
                 auto type = parseType("Expected `const` generic type");
                 opt_expr_ptr defaultValue{None};
-                if (skipOpt(TokenKind::Assign)) {
+                if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
                 generics.push_back(
@@ -2288,7 +2288,7 @@ namespace jc::parser {
         auto id = parseId("Missing identifier");
 
         Option<pat_ptr> pat{None};
-        if (skipOpt(TokenKind::At)) {
+        if (skipOpt(TokenKind::At).some()) {
             pat = parsePat();
         }
 
@@ -2342,7 +2342,7 @@ namespace jc::parser {
 
             id_ptr ident = parseId("Field name expected");
 
-            if (skipOpt(TokenKind::Colon)) {
+            if (skipOpt(TokenKind::Colon).some()) {
                 // `field: pattern` case
 
                 // It is an error having `ref/mut field: pattern`
