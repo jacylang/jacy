@@ -27,7 +27,7 @@ namespace jc::core {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
-                dt::SuggResult<None_t>::dump(sess, suggestions, "No suggestions extracted");
+                dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printBenchmarks();
             } else {
                 throw e;
@@ -316,7 +316,7 @@ namespace jc::core {
             return;
         }
         // Use `none_t` as stub
-        dt::SuggResult<None_t>::check(sess, suggestions, stageName);
+        dt::SuggResult<dt::none_t>::check(sess, suggestions, stageName);
         suggestions.clear();
     }
 

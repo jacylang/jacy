@@ -1,7 +1,7 @@
 #include "resolve/Importer.h"
 
 namespace jc::resolve {
-    dt::SuggResult<None_t> Importer::declare(sess::sess_ptr sess, const ast::Party & party) {
+    dt::SuggResult<dt::none_t> Importer::declare(sess::sess_ptr sess, const ast::Party & party) {
         this->sess = sess;
 
         party.getRootFile()->accept(*this);

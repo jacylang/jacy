@@ -31,7 +31,7 @@ namespace jc::resolve {
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        dt::SuggResult<None_t> declare(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> declare(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;

@@ -25,7 +25,7 @@ namespace jc::ast {
     public:
         Validator();
 
-        dt::SuggResult<None_t> lint(const Party & party);
+        dt::SuggResult<dt::none_t> lint(const Party & party);
 
     private:
         void visit(const ErrorNode & errorNode) override;

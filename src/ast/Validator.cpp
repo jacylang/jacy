@@ -3,7 +3,7 @@
 namespace jc::ast {
     Validator::Validator() = default;
 
-    dt::SuggResult<None_t> Validator::lint(const Party & party) {
+    dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
         party.getRootFile()->accept(*this);
         party.getRootDir()->accept(*this);
 

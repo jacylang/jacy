@@ -13,7 +13,7 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        dt::SuggResult<None_t> build(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> build(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::File & file) override;
         void visit(const ast::Dir & dir) override;
