@@ -15,8 +15,8 @@ namespace jc::dt {
     template<class T>
     class SuggResult {
     public:
-        SuggResult(const T & value, sugg::sugg_list suggestions)
-            : value(value), suggestions(std::move(suggestions)) {}
+        SuggResult(T && value, sugg::sugg_list suggestions)
+            : value(std::move(value)), suggestions(std::move(suggestions)) {}
 
         std::tuple<T, sugg::sugg_list> extract() {
             return {std::move(value), std::move(suggestions)};
