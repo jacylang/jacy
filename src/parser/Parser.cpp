@@ -1806,7 +1806,7 @@ namespace jc::parser {
     dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
         logParseExtra("[opt] SimplePath");
 
-        if (not is({TokenKind::Path, TokenKind::Id, TokenKind::Super, TokenKind::Party, TokenKind::Self})) {
+        if (not is(TokenKind::Path) and not peek().isPathIdent()) {
             return dt::None;
         }
 
