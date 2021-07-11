@@ -596,11 +596,11 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleTypeEl & el) {
-        if (el.name) {
-            el.name.unwrap().accept(*this);
-        }
-        if (el.type) {
-            if (el.name) {
+        el.name.then([&](const auto & name) {
+            name.accept(*this);
+        });
+        if (el.type.some()) {
+            if (el.name.some()) {
                 log.raw(": ");
             }
             el.type.unwrap().accept(*this);
@@ -648,7 +648,7 @@ namespace jc::ast {
     // Generics //
     void AstPrinter::visit(const TypeParam & typeParam) {
         typeParam.name.accept(*this);
-        if (typeParam.boundType) {
+        if (typeParam.boundType.some()) {
             log.raw(": ");
             typeParam.boundType.unwrap().accept(*this);
         }
@@ -668,7 +668,7 @@ namespace jc::ast {
         constParam.name.accept(*this);
         log.raw(": ");
         constParam.type.accept(*this);
-        if (constParam.defaultValue) {
+        if (constParam.defaultValue.some()) {
             log.raw(" = ");
             constParam.defaultValue.unwrap().accept(*this);
         }
@@ -693,7 +693,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Arg & el) {
-        if (el.name) {
+        if (el.name.some()) {
             el.name.unwrap().accept(*this);
             if (el.value) {
                 log.raw(": ");
@@ -809,7 +809,7 @@ namespace jc::ast {
 
         colorizeDef(pat.name);
 
-        if (pat.pat) {
+        if (pat.pat.some()) {
             log.raw(" @ ");
             pat.pat.unwrap().accept(*this);
         }
