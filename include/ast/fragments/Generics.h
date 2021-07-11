@@ -28,14 +28,14 @@ namespace jc::ast {
 
     struct TypeParam : GenericParam {
         TypeParam(
-            id_ptr name,
+            ident_pr name,
             opt_type_ptr type,
             const Span & span
         ) : GenericParam(GenericParamKind::Type, span),
             name(std::move(name)),
             boundType(std::move(type)) {}
 
-        id_ptr name;
+        ident_pr name;
         opt_type_ptr boundType;
 
         void accept(BaseVisitor & visitor) const override {
@@ -44,11 +44,11 @@ namespace jc::ast {
     };
 
     struct Lifetime : GenericParam {
-        Lifetime(id_ptr name, const Span & span)
+        Lifetime(ident_pr name, const Span & span)
             : GenericParam(GenericParamKind::Lifetime, span),
               name(std::move(name)) {}
 
-        id_ptr name;
+        ident_pr name;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -57,7 +57,7 @@ namespace jc::ast {
 
     struct ConstParam : GenericParam {
         ConstParam(
-            id_ptr name,
+            ident_pr name,
             type_ptr type,
             opt_expr_ptr defaultValue,
             const Span & span
@@ -66,7 +66,7 @@ namespace jc::ast {
             type(std::move(type)),
             defaultValue(std::move(defaultValue)) {}
 
-        id_ptr name;
+        ident_pr name;
         type_ptr type;
         opt_expr_ptr defaultValue;
 

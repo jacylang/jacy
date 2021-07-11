@@ -11,14 +11,14 @@ namespace jc::ast {
 
     struct StructField : Node {
         StructField(
-            id_ptr name,
+            ident_pr name,
             type_ptr type,
             const Span & span
         ) : Node(span),
             name(std::move(name)),
             type(std::move(type)) {}
 
-        id_ptr name;
+        ident_pr name;
         type_ptr type;
 
         void accept(BaseVisitor & visitor) const override {
@@ -28,7 +28,7 @@ namespace jc::ast {
 
     struct Struct : Item {
         Struct(
-            id_ptr name,
+            ident_pr name,
             opt_gen_params generics,
             struct_field_list fields,
             const Span & span
@@ -37,7 +37,7 @@ namespace jc::ast {
             generics(std::move(generics)),
             fields(std::move(fields)) {}
 
-        id_ptr name;
+        ident_pr name;
         opt_gen_params generics;
         struct_field_list fields;
 

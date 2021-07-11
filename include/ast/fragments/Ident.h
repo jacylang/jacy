@@ -7,8 +7,8 @@
 
 namespace jc::ast {
     struct Ident;
-    using id_ptr = PR<Ident>;
-    using opt_id_ptr = Option<id_ptr>;
+    using ident_pr = PR<Ident>;
+    using opt_id_ptr = Option<ident_pr>;
 
     struct Ident : Node {
         explicit Ident(parser::Token token, const Span & span)
