@@ -959,7 +959,7 @@ namespace jc::parser {
                 return None; // FIXME: CHECK FOR PREFIX
             }
 
-            auto lhs = maybeLhs.unwrap("precParse -> maybeLhs");
+            auto lhs = maybeLhs.take("precParse -> maybeLhs");
 
             auto op = maybeOp.unwrap("precParse -> maybeOp");
             logParse("precParse -> " + op.kindToString());
@@ -972,7 +972,7 @@ namespace jc::parser {
                 // and `precParse` already generated error suggestion
                 continue;
             }
-            auto rhs = maybeRhs.unwrap("`precParse` -> `rhs`");
+            auto rhs = maybeRhs.take("`precParse` -> `rhs`");
             maybeLhs = makePRNode<Infix, Expr>(std::move(lhs), op, std::move(rhs), closeSpan(begin));
             if (not multiple) {
                 break;
