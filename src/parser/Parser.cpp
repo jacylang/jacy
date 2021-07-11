@@ -1788,7 +1788,7 @@ namespace jc::parser {
         return members;
     }
 
-    PR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
+    NPR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
         enterEntity("SimplePath");
 
         const auto & begin = cspan();

@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct PathExpr;
-    using path_expr_ptr = PR<N<PathExpr>>;
+    using path_expr_ptr = NPR<N<PathExpr>>;
 
     struct PathExpr : Expr {
         PathExpr(path_ptr && path) : Expr(path->span, ExprKind::Path), path(std::move(path)) {}

@@ -101,12 +101,12 @@ namespace jc::parser {
         }
 
         template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRNode(Args && ...args) {
+        inline NPR<N<B>> makePRNode(Args && ...args) {
             return OkPR(N<B>(static_cast<B*>(sess->nodeMap.makeBoxNode<T>(std::forward<Args>(args)...).release())));
         }
 
         template<class B, class T>
-        inline PR<N<B>> nodeAsPR(N<T> && node) const {
+        inline NPR<N<B>> nodeAsPR(N<T> && node) const {
             return OkPR(N<B>(static_cast<B*>(node.release())));
         }
 
@@ -205,7 +205,7 @@ namespace jc::parser {
         func_param_list parseFuncParamList();
         func_param_ptr parseFuncParam();
         item_list parseMembers(const std::string & construction);
-        PR<simple_path_ptr> parseSimplePath(const std::string & construction);
+        NPR<simple_path_ptr> parseSimplePath(const std::string & construction);
         Option<simple_path_ptr> parseOptSimplePath();
         path_ptr parsePath(bool inExpr);
 

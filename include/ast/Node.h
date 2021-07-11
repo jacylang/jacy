@@ -192,7 +192,7 @@ namespace jc::ast {
     }
 
     template<class T>
-    using PR = BaseParseResult<T>;
+    using NPR = NParseResult<T>;
 }
 
 #endif // JACY_AST_NODE_H
