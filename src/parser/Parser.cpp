@@ -643,7 +643,7 @@ namespace jc::parser {
 
             if (maybePath.some()) {
                 exitEntity();
-                return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), closeSpan(begin));
+                return makePRNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
@@ -659,12 +659,12 @@ namespace jc::parser {
 
             auto as = parseIdent("binding name after `as`");
             exitEntity();
-            return makePRNode<UseTreeRebind, UseTree>(std::move(maybePath.unwrap()), std::move(as), closeSpan(begin));
+            return makePRNode<UseTreeRebind, UseTree>(maybePath.take(), std::move(as), closeSpan(begin));
         }
 
         if (maybePath.some()) {
             exitEntity();
-            return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), closeSpan(begin));
+            return makePRNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
         }
 
         if (is(TokenKind::As)) {
