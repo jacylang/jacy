@@ -187,11 +187,6 @@ namespace jc::ast {
         return ParseResult<T>(std::move(ok));
     }
 
-//    template<class T>
-//    inline ParseResult<T> OkPR(T && ok) {
-//        return ParseResult<T>(std::move(ok));
-//    }
-
     template<class T>
     using NPR = NParseResult<T>;
 
