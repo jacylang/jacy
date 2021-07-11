@@ -163,12 +163,12 @@ namespace jc::ast {
     };
 
     template<class T>
-    inline ParseResult<T> Err(N<ErrorNode> && err) {
+    inline ParseResult<T> ErrPR(N<ErrorNode> && err) {
         return ParseResult<T>(std::move(err));
     }
 
     template<class T>
-    inline ParseResult<T> Ok(T && ok) {
+    inline ParseResult<T> OkPR(T && ok) {
         return ParseResult<T>(std::move(ok));
     }
 

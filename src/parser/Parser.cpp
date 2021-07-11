@@ -204,7 +204,7 @@ namespace jc::parser {
             auto item = std::move(maybeItem.unwrap().unwrap());
             item->setAttributes(std::move(attributes));
             item->setVis(std::move(vis));
-            return Some(Ok(std::move(item)));
+            return Some(OkPR(std::move(item)));
         }
 
         if (not attributes.empty()) {
@@ -1606,7 +1606,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Assign).some()) {
             auto expr = parseExpr("Missing expression after `=`");
-            return Ok(makeNode<Block>(std::move(expr), expr.span()));
+            return OkPR(makeNode<Block>(std::move(expr), expr.span()));
         }
 
         return parseBlock("func", BlockArrow::NotAllowed);
