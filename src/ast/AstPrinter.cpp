@@ -494,9 +494,9 @@ namespace jc::ast {
 
     void AstPrinter::visit(const ReturnExpr & returnExpr) {
         log.raw("return ");
-        if (returnExpr.expr) {
-            returnExpr.expr.unwrap().accept(*this);
-        }
+        returnExpr.expr.then([&](const auto & expr) {
+            expr.accept(*this);
+        });
 
         printNodeId(returnExpr);
     }
