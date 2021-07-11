@@ -11,7 +11,7 @@ namespace jc::ast {
     struct Dir;
     struct File;
     struct FsModule;
-    using party_ptr = std::unique_ptr<Party>;
+    using party_ptr = N<Party>;
     using dir_ptr = N<Dir>;
     using file_ptr = N<File>;
     using fs_module_ptr = N<FsModule>;
