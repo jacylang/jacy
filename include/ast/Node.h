@@ -55,29 +55,29 @@ namespace jc::ast {
     /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
     /// Defines common methods
     template<class T>
-    class BaseParseResult {
+    class NParseResult {
     public:
         // FIXME: Don't box ErrorNode
         using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
 
     public:
-        BaseParseResult() : state(std::monostate{}) {}
-        BaseParseResult(T && value) : state(std::move(value)) {}
-        BaseParseResult(E && error) : state(std::move(error)) {}
-        BaseParseResult(BaseParseResult<T> && other)
+        NParseResult() : state(std::monostate{}) {}
+        NParseResult(T && value) : state(std::move(value)) {}
+        NParseResult(E && error) : state(std::move(error)) {}
+        NParseResult(NParseResult<T> && other)
             : state(std::move(other.state)) {}
 
         T take(const std::string & msg = "") {
             if (err()) {
-                throw std::logic_error(msg.empty() ? "Called `BaseParseResult::take` on an `Err` BaseParseResult" : msg);
+                throw std::logic_error(msg.empty() ? "Called `NParseResult::take` on an `Err` NParseResult" : msg);
             }
             return std::get<T>(std::move(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {
             if (err()) {
-                throw std::logic_error(msg.empty() ? "Called `BaseParseResult::unwrap` on an `Err` BaseParseResult" : msg);
+                throw std::logic_error(msg.empty() ? "Called `NParseResult::unwrap` on an `Err` NParseResult" : msg);
             }
             return std::get<T>(state);
         }
@@ -92,19 +92,19 @@ namespace jc::ast {
 
         const E & asErr() const {
             if (not err()) {
-                throw std::logic_error("Called `BaseParseResult::asErr` on an non-error BaseParseResult");
+                throw std::logic_error("Called `NParseResult::asErr` on an non-error NParseResult");
             }
             return std::get<E>(state);
         }
 
         const T & asValue() const {
             if (err()) {
-                throw std::logic_error("Called `BaseParseResult::asValue` on an `Err` BaseParseResult");
+                throw std::logic_error("Called `NParseResult::asValue` on an `Err` NParseResult");
             }
             return std::get<T>(state);
         }
 
-        BaseParseResult<T> & operator=(const BaseParseResult<T> & other) {
+        NParseResult<T> & operator=(const NParseResult<T> & other) {
             if (other.err()) {
                 state = std::get<E>(other.state);
             } else {
@@ -113,27 +113,27 @@ namespace jc::ast {
             return *this;
         }
 
-        BaseParseResult<T> & operator=(BaseParseResult<T> && other) {
+        NParseResult<T> & operator=(NParseResult<T> && other) {
             state = std::move(other.state);
             return *this;
         }
 
-        BaseParseResult<T> & operator=(const T & rawT) {
+        NParseResult<T> & operator=(const T & rawT) {
             state = rawT;
             return *this;
         }
 
-        BaseParseResult<T> & operator=(const E & rawE) {
+        NParseResult<T> & operator=(const E & rawE) {
             state = rawE;
             return *this;
         }
 
-        BaseParseResult<T> & operator=(T && rawT) {
+        NParseResult<T> & operator=(T && rawT) {
             state = std::move(rawT);
             return *this;
         }
 
-        BaseParseResult<T> & operator=(E && rawE) {
+        NParseResult<T> & operator=(E && rawE) {
             state = std::move(rawE);
             return *this;
         }
@@ -152,26 +152,12 @@ namespace jc::ast {
             return *std::get<T>(this->state);
         }
 
-    protected:
-        S state;
-    };
-
-    template<class T>
-    class ParseResult : public BaseParseResult<T> {};
-
-    template<typename U, typename IsBoxed = void>
-    class NParseResult : public BaseParseResult<U> {
-    protected:
-        using T = N<U>;
-        using E = typename BaseParseResult<T>::E;
-
-    public:
         template<class B>
         NParseResult<N<B>> as() {
             if (this->err()) {
-                return BaseParseResult<N<B>>(std::move(std::get<E>(this->state)));
+                return NParseResult<N<B>>(std::move(std::get<E>(this->state)));
             }
-            return BaseParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(this->state).release())));
+            return NParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(this->state).release())));
         }
 
         void autoAccept(BaseVisitor & visitor) const {
@@ -188,14 +174,14 @@ namespace jc::ast {
             }
             return std::get<T>(this->state)->span;
         }
+
+    protected:
+        S state;
     };
 
-    template<typename U>
-    class NParseResult<U, typename std::enable_if<std::is_same<typename std::remove_cv<U>::type, std::weak_ptr<typename U::element_type>>::value>::type> {};
-
     template<class T>
-    inline BaseParseResult<T> ErrPR(N<ErrorNode> && err) {
-        return BaseParseResult<T>(std::move(err));
+    inline NParseResult<T> ErrPR(N<ErrorNode> && err) {
+        return NParseResult<T>(std::move(err));
     }
 
     template<class T>
@@ -203,10 +189,10 @@ namespace jc::ast {
         return NParseResult<N<T>>(std::move(ok));
     }
 
-    template<class T>
-    inline ParseResult<T> OkPR(T && ok) {
-        return ParseResult<T>(std::move(ok));
-    }
+//    template<class T>
+//    inline ParseResult<T> OkPR(T && ok) {
+//        return ParseResult<T>(std::move(ok));
+//    }
 
     template<class T>
     using NPR = NParseResult<T>;
