@@ -269,6 +269,7 @@ namespace jc::ast {
     void AstPrinter::visit(const UseTreeAll & useTree) {
         if (useTree.path) {
             useTree.path.unwrap()->accept(*this);
+            log.raw("::");
         }
         log.raw("*");
 
