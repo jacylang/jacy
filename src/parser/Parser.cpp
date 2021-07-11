@@ -201,10 +201,14 @@ namespace jc::parser {
         }
 
         if (maybeItem.some()) {
-            auto item = std::move(maybeItem.unwrap().unwrap());
-            item->setAttributes(std::move(attributes));
-            item->setVis(std::move(vis));
-            return Some(OkPR(std::move(item)));
+            if (maybeItem->ok()) {
+                auto item = std::move(maybeItem.take().unwrap());
+                item->setAttributes(std::move(attributes));
+                item->setVis(std::move(vis));
+                return Some(OkPR(std::move(item)));
+            } else {
+                return maybeItem.take();
+            }
         }
 
         if (not attributes.empty()) {
