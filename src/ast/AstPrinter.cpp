@@ -225,7 +225,7 @@ namespace jc::ast {
 
         typeAlias.type.then([&](const auto & type) {
             log.raw(" = ");
-            type.accept(*this);
+            type.autoAccept(*this);
         });
 
         log.raw(";");
@@ -287,11 +287,11 @@ namespace jc::ast {
 
         letStmt.type.then([&](const auto & type) {
             log.raw(": ");
-            type.accept(*this);
+            type.autoAccept(*this);
         });
         letStmt.assignExpr.then([&](const auto & assignExpr) {
             log.raw(" = ");
-            assignExpr.accept(*this);
+            assignExpr.autoAccept(*this);
         });
         log.raw(";");
 
@@ -346,7 +346,7 @@ namespace jc::ast {
     void AstPrinter::visit(const BreakExpr & breakExpr) {
         log.raw("break ");
         breakExpr.expr.then([&](const auto & expr) {
-            expr.accept(*this);
+            expr.autoAccept(*this);
         });
 
         printNodeId(breakExpr);
@@ -371,12 +371,12 @@ namespace jc::ast {
         log.raw(" ");
 
         ifExpr.ifBranch.then([&](const auto & ifBranch) {
-            ifBranch.accept(*this);
+            ifBranch.autoAccept(*this);
         });
 
         ifExpr.elseBranch.then([&](const auto & elseBranch) {
             log.raw(" else ");
-            elseBranch.accept(*this);
+            elseBranch.autoAccept(*this);
         });
 
         printNodeId(ifExpr);
@@ -416,7 +416,7 @@ namespace jc::ast {
 
         lambdaExpr.returnType.then([&](const auto & returnType) {
             log.raw(": ");
-            returnType.accept(*this);
+            returnType.autoAccept(*this);
         });
 
         log.raw(" -> ");
@@ -429,7 +429,7 @@ namespace jc::ast {
         param.pat.autoAccept(*this);
         param.type.then([&](const auto & type) {
             log.raw(": ");
-            type.accept(*this);
+            type.autoAccept(*this);
         });
 
         printNodeId(param);
@@ -495,7 +495,7 @@ namespace jc::ast {
     void AstPrinter::visit(const ReturnExpr & returnExpr) {
         log.raw("return ");
         returnExpr.expr.then([&](const auto & expr) {
-            expr.accept(*this);
+            expr.autoAccept(*this);
         });
 
         printNodeId(returnExpr);
@@ -597,7 +597,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const TupleTypeEl & el) {
         el.name.then([&](const auto & name) {
-            name.accept(*this);
+            name.autoAccept(*this);
         });
         if (el.type.some()) {
             if (el.name.some()) {
@@ -695,9 +695,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Arg & el) {
         if (el.name.some()) {
             el.name.unwrap().autoAccept(*this);
-            if (el.value) {
-                log.raw(": ");
-            }
+            log.raw(": ");
         }
         el.value.autoAccept(*this);
 
