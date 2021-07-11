@@ -68,25 +68,6 @@ namespace jc::ast {
         BaseParseResult(BaseParseResult<T> && other)
             : state(std::move(other.state)) {}
 
-        BaseParseResult<T> & operator=(BaseParseResult<T> && other) {
-            if (other.err()) {
-                state = std::get<E>(std::move(other.state));
-            } else {
-                state = std::get<T>(std::move(other.state));
-            }
-            return *this;
-        }
-
-        BaseParseResult<T> & operator=(T && rawT) {
-            state = std::move(rawT);
-            return *this;
-        }
-
-        BaseParseResult<T> & operator=(E && rawE) {
-            state = std::move(rawE);
-            return *this;
-        }
-
         bool ok() const {
             return not err();
         }
@@ -135,6 +116,41 @@ namespace jc::ast {
         using S = typename BaseParseResult<T>::S;
 
     public:
+        NParseResult(T && value) : BaseParseResult<T>(std::move(value)) {}
+        NParseResult(E && error) : BaseParseResult<T>(std::move(error)) {}
+        NParseResult(const NParseResult<T> & other)
+            : BaseParseResult<T>(std::move(other.state)) {}
+        NParseResult(NParseResult<T> && other)
+            : BaseParseResult<T>(std::move(other.state)) {}
+
+        NParseResult<T> & operator=(const NParseResult<T> & other) {
+            if (other.err()) {
+                this->state = std::get<E>(other.state);
+            } else {
+                this->state = std::get<T>(other.state);
+            }
+            return *this;
+        }
+
+        NParseResult<T> & operator=(NParseResult<T> && other) {
+            if (other.err()) {
+                this->state = std::get<E>(std::move(other.state));
+            } else {
+                this->state = std::get<T>(std::move(other.state));
+            }
+            return *this;
+        }
+
+        NParseResult<T> & operator=(T && rawT) {
+            this->state = std::move(rawT);
+            return *this;
+        }
+
+        NParseResult<T> & operator=(E && rawE) {
+            this->state = std::move(rawE);
+            return *this;
+        }
+
         template<class B>
         NParseResult<N<B>> as() {
             if (this->err()) {
