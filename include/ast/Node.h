@@ -123,20 +123,12 @@ namespace jc::ast {
     /// Defines common methods
     template<class T>
     class NParseResult : public BaseParseResult<T> {
-        using BaseParseResult<T>::BaseParseResult;
-
     public:
-        // FIXME: Don't box ErrorNode
+        using BaseParseResult<T>::BaseParseResult;
         using E = typename BaseParseResult<T>::E;
         using S = typename BaseParseResult<T>::S;
 
     public:
-//        NParseResult() : state(std::monostate{}) {}
-//        NParseResult(T && value) : state(std::move(value)) {}
-//        NParseResult(E && error) : state(std::move(error)) {}
-//        NParseResult(NParseResult<T> && other)
-//            : state(std::move(other.state)) {}
-
         template<class B>
         NParseResult<N<B>> as() {
             if (this->err()) {
