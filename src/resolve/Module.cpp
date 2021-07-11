@@ -49,7 +49,7 @@ namespace jc::resolve {
         const auto & def = sess->defStorage.getDef(defId);
         log.raw(def.kindStr());
 
-        if (def.nameNodeId) {
+        if (def.nameNodeId.some()) {
             log.raw(" (#", def.nameNodeId.unwrap(), ")");
         }
 
