@@ -405,7 +405,7 @@ namespace jc::resolve {
                 "Found alternative for unresolved name '",
                 name,
                 "' as def #",
-                defId,
+                defId.unwrap(),
                 " in ",
                 Module::nsToString(nsKind),
                 " namespace");
