@@ -85,7 +85,7 @@ namespace jc::resolve {
                     if (i == path.segments.size() - 1) {
                         DefPerNS defPerNs{None, None, None};
                         defPerNs.set(Namespace::Type, defId);
-                        cb(defPerNs);
+                        cb(defPerNs, *seg);
                     }
                 });
 
@@ -130,7 +130,7 @@ namespace jc::resolve {
                         });
                     });
 
-                    cb(defsPerNS);
+                    cb(defsPerNS, *seg);
                 }
             }
         }
