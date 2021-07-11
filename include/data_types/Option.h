@@ -43,12 +43,6 @@ namespace jc::dt {
             return *this;
         }
 
-        void thenMove(const std::function<void(T&&)> & f) const {
-            if (some()) {
-                f(std::move(value));
-            }
-        }
-
         const Option<T> & otherwise(const std::function<void()> & f) const {
             if (none()) {
                 f();
