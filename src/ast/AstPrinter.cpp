@@ -285,14 +285,14 @@ namespace jc::ast {
 
         letStmt.pat.accept(*this);
 
-        if (letStmt.type) {
+        letStmt.type.then([&](const auto & type) {
             log.raw(": ");
-            letStmt.type.unwrap().accept(*this);
-        }
-        if (letStmt.assignExpr) {
+            type.accept(*this);
+        });
+        letStmt.assignExpr.then([&](const auto & assignExpr) {
             log.raw(" = ");
-            letStmt.assignExpr.unwrap().accept(*this);
-        }
+            assignExpr.accept(*this);
+        });
         log.raw(";");
 
         printNodeId(letStmt);
