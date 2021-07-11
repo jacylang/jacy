@@ -23,7 +23,7 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
-        resolvePath(PathResKind::Prefix, *useTree.path, [&](DefPerNS defPerNs) {
+        resolvePath(PathResKind::Prefix, *useTree.path, [&](const DefPerNS & defPerNs, const std::string & segName) {
             defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
                 optDefId.then([&](def_id defId) {
                     _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
