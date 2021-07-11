@@ -80,7 +80,7 @@ namespace jc::core {
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
-        astValidator.lint(*party.unwrap()).unwrap(sess, "validation");
+        astValidator.lint(*party.unwrap()).take(sess, "validation");
     }
 
     ast::dir_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
@@ -224,7 +224,7 @@ namespace jc::core {
 
         log.dev("Building module tree...");
         beginBench();
-        moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
+        moduleTreeBuilder.build(sess, *party.unwrap()).take(sess, "module tree building");
         endBench("module-tree-building");
 
         printModTree("module tree building");
@@ -232,14 +232,14 @@ namespace jc::core {
 
         log.dev("Resolve imports...");
         beginBench();
-        importer.declare(sess, *party.unwrap()).unwrap(sess, "imports resolution");
+        importer.declare(sess, *party.unwrap()).take(sess, "imports resolution");
         endBench("import-resolution");
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
         beginBench();
-        nameResolver.resolve(sess, *party.unwrap()).unwrap(sess, "name resolution");
+        nameResolver.resolve(sess, *party.unwrap()).take(sess, "name resolution");
         endBench("name-resolution");
 
         printResolutions();

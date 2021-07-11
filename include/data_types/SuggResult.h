@@ -22,9 +22,9 @@ namespace jc::dt {
             return {std::move(value), std::move(suggestions)};
         }
 
-        T unwrap(sess::sess_ptr sess, const std::string & stageName = "") {
+        T take(sess::sess_ptr sess, const std::string & stageName = "") {
             check(sess, suggestions, stageName);
-            return value;
+            return std::move(value);
         }
 
         static void check(
