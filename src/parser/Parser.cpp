@@ -1198,7 +1198,7 @@ namespace jc::parser {
         //  because then we could capture white-spaces and of course ident is just a one token
         const auto & span = cspan();
         auto maybeIdToken = skip(TokenKind::Id, expected, Recovery::Any);
-        if (maybeIdToken) {
+        if (maybeIdToken.some()) {
             return makeNode<Identifier>(maybeIdToken.unwrap("parseId -> maybeIdToken"), span);
         }
         return makeErrorNode(span);
