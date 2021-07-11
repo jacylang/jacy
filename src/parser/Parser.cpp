@@ -405,7 +405,7 @@ namespace jc::parser {
         auto traitTypePath = parseTypePath();
 
         opt_type_ptr forType{None};
-        if (skipOpt(TokenKind::For)) {
+        if (skipOpt(TokenKind::For).some()) {
             forType = parseType("Missing type");
         }
 
