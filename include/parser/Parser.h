@@ -98,14 +98,14 @@ namespace jc::parser {
         template<class T, class ...Args>
         inline N<T> makeNode(Args ...args) {
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(node);
+            node->id = sess->nodeMap.addNode(node.get());
             return node;
         }
 
         template<class T, class B, class ...Args>
         inline PR<N<B>> makePRNode(Args ...args) {
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
-            sess->nodeMap.addNode(node);
+            node->id = sess->nodeMap.addNode(node.get());
             return std::static_pointer_cast<B>(node);
         }
 
@@ -116,7 +116,7 @@ namespace jc::parser {
 
         inline N<ErrorNode> makeErrorNode(const Span & span) {
             auto errorNode = std::make_unique<ErrorNode>(span);
-            sess->nodeMap.addNode(errorNode);
+            errorNode->id = sess->nodeMap.addNode(errorNode.get());
             return errorNode;
         }
 
