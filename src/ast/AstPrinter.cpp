@@ -142,10 +142,10 @@ namespace jc::ast {
         log.raw(": ");
         funcParam.type.accept(*this);
 
-        if (funcParam.defaultValue) {
+        funcParam.defaultValue.then([&](const auto & defaultValue) {
             log.raw(" = ");
-            funcParam.defaultValue.unwrap().accept(*this);
-        }
+            funcParam.defaultValue->accept(*this);
+        });
 
         printNodeId(funcParam);
     }
