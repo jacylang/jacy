@@ -23,10 +23,28 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
+        resolvePath(PathResKind::Prefix, *useTree.path, [&](DefPerNS defPerNs) {
+            defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
+                optDefId.then([&](def_id defId) {
+                    _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
+                        // Note: If some definition can be redefined -- it is always named definition,
+                        //  so we can safely get its name node span
+                        const auto & oldDef = sess->defStorage.getDef(oldDefId);
+                        const auto & oldDefSpan = sess->nodeMap.getNodeSpan(oldDef.nameNodeId.unwrap());
+                        suggest(
+                            std::make_unique<sugg::MsgSpanLinkSugg>(
+                                "Cannot `use` '" + segName + "'",
+                                seg->span,
+                                "Because it is already declared as " + oldDef.kindStr() + " here",
+                                oldDefSpan,
+                                sugg::SuggKind::Error));
+                    });
+                });
+            });
+        });
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
-
     }
 
     void Importer::resolvePath(
