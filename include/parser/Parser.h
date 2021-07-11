@@ -22,7 +22,7 @@
  *
  * ## `just` parsers and `justSkip`
  * `just` prefix in parser functions means that you want to parse something you know that will be next.
- * For example, if you checked that `peek()` is `TokenKind::Id`, then you use `justParseId` and there
+ * For example, if you checked that `peek()` is `TokenKind::Id`, then you use `justParseIdent` and there
  * will be `devPanic` if no `Id` found.
  * `just` parsers don't return the pointer to type that it parses, it returns (in all cases for now)
  * a pointer to expression (that's to avoid static_cast to `Option` type of entities that will `just`
@@ -185,8 +185,8 @@ namespace jc::parser {
         opt_expr_ptr primary();
 
         // Atomic expressions //
-        id_ptr justParseId(const std::string & panicIn);
-        id_ptr parseId(const std::string & expected);
+        id_ptr justParseIdent(const std::string & panicIn);
+        id_ptr parseIdent(const std::string & expected);
         path_expr_ptr parsePathExpr();
         expr_ptr parseLiteral();
         expr_ptr parseListExpr();
