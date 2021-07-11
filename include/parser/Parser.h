@@ -103,10 +103,10 @@ namespace jc::parser {
         }
 
         template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRNode(Args ...args) {
+        inline PR<N<B>> makePRNode(Args  && ...args) {
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
             node->id = sess->nodeMap.addNode(node.get());
-            return std::static_pointer_cast<B>(node);
+            return static_cast<B>(node.take());
         }
 
         template<class B, class T>
