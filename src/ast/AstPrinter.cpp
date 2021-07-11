@@ -250,7 +250,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeSpecific & useTree) {
-        useTree.path.then([&](const simple_path_ptr & path) {
+        useTree.path.then([&](const auto & path) {
             path->accept(*this);
             log.raw("::");
         });
@@ -268,10 +268,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeAll & useTree) {
-        if (useTree.path) {
-            useTree.path.unwrap()->accept(*this);
+        useTree.path.then([&](const auto & path) {
+            path->accept(*this);
             log.raw("::");
-        }
+        });
         log.raw("*");
 
         printNodeId(useTree);
