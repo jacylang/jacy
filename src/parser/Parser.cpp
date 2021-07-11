@@ -1614,7 +1614,7 @@ namespace jc::parser {
 
     attr_list Parser::parseAttrList() {
         attr_list attributes;
-        while (auto attr = parseAttr()) {
+        for (auto attr = parseAttr(); attr.some();) {
             attributes.push_back(attr.unwrap());
         }
 
