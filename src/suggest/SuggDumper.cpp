@@ -34,7 +34,7 @@ namespace jc::sugg {
     }
 
     void SuggDumper::visit(HelpSugg * helpSugg) {
-        if (helpSugg->sugg) {
+        if (helpSugg->sugg.some()) {
             helpSugg->sugg.unwrap()->accept(*this);
             Logger::nl();
         }
