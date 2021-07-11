@@ -2126,7 +2126,7 @@ namespace jc::parser {
             if (tupleEl->type.none()) {
                 common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
             }
-            params.push_back(tupleEl->type.unwrap(""));
+            params.push_back(tupleEl->type.take());
         }
 
         auto returnType = parseType("Expected return type in function type after `->`");
