@@ -173,11 +173,6 @@ namespace jc::ast {
     }
 
     template<class T>
-    inline Option<T> Some(T && some) {
-        return Option<T>(some);
-    }
-
-    template<class T>
     using PR = ParseResult<T>;
 }
 
