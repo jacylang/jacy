@@ -637,7 +637,7 @@ namespace jc::parser {
                     closeSpan(begin));
             }
 
-            if (maybePath) {
+            if (maybePath.some()) {
                 exitEntity();
                 return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), closeSpan(begin));
             }
@@ -646,10 +646,10 @@ namespace jc::parser {
             advance();
         }
 
-        if (maybePath and skipOpt(TokenKind::As)) {
+        if (maybePath.some() and skipOpt(TokenKind::As).some()) {
             // `as ...` case
 
-            if (not maybePath) {
+            if (maybePath.none()) {
                 suggestErrorMsg("Expected path before `as`", begin);
             }
 
@@ -658,7 +658,7 @@ namespace jc::parser {
             return makePRNode<UseTreeRebind, UseTree>(std::move(maybePath.unwrap()), std::move(as), closeSpan(begin));
         }
 
-        if (maybePath) {
+        if (maybePath.some()) {
             exitEntity();
             return makePRNode<UseTreeRaw, UseTree>(std::move(maybePath.unwrap()), closeSpan(begin));
         }
