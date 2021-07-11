@@ -23,7 +23,7 @@ namespace jc::resolve {
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
-        // TODO: `pub use...` reexports, now all `use`s are public
+        // TODO!!!: `pub use...` reexports, now all `use`s are public
 
         module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
 
@@ -131,5 +131,9 @@ namespace jc::resolve {
                 suggestErrorMsg(msg, unresolvedSegIdent->span);
             }
         }
+    }
+
+    void Importer::visit(const ast::UseTreeSpecific & useTree) {
+
     }
 }

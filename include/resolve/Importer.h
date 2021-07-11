@@ -17,6 +17,7 @@ namespace jc::resolve {
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;
+        void visit(const ast::UseTreeSpecific & useTree) override;
 
     private:
         common::Logger log{"importer"};
