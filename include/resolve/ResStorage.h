@@ -64,11 +64,11 @@ namespace jc::resolve {
 
     inline Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
         const auto primType = getPrimType(typeName);
-        if (not primType) {
+        if (primType.none()) {
             return None;
         }
         // Return mask with 1 at found primitive type offset
-        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType));
+        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType.unwrap()));
     }
 
     /// [Debug noly] get list of shadowed primitive type names by mask
