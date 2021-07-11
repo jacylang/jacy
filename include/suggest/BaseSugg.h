@@ -97,7 +97,7 @@ namespace jc::sugg {
         opt_sugg_ptr sugg;
 
         SuggKind getKind() const override {
-            return sugg ? sugg.unwrap()->getKind() : SuggKind::None;
+            return sugg.some() ? sugg.unwrap()->getKind() : SuggKind::None;
         }
 
         void accept(BaseSuggester & suggester) override {
