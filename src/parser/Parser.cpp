@@ -1064,7 +1064,7 @@ namespace jc::parser {
         }
 
         auto begin = cspan();
-        auto lhs = maybeLhs.unwrap();
+        auto lhs = maybeLhs.take();
 
         while (not eof()) {
             auto maybeOp = peek();
