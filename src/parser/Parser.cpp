@@ -700,7 +700,7 @@ namespace jc::parser {
             default: {
                 auto item = parseOptItem();
                 if (item.some()) {
-                    return makePRNode<ItemStmt, Stmt>(std::move(item.unwrap()), closeSpan(begin));
+                    return makePRNode<ItemStmt, Stmt>(item.take(), closeSpan(begin));
                 }
 
                 // FIXME: Hardly parse expression but recover unexpected token
@@ -711,7 +711,7 @@ namespace jc::parser {
                     return makeErrorNode(closeSpan(begin));
                 }
 
-                auto exprStmt = makePRNode<ExprStmt, Stmt>(expr.unwrap("`parseStmt` -> `expr`"), closeSpan(begin));
+                auto exprStmt = makePRNode<ExprStmt, Stmt>(expr.take("`parseStmt` -> `expr`"), closeSpan(begin));
                 skipSemi();
                 return exprStmt;
             }
