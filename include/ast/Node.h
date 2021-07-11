@@ -50,7 +50,7 @@ namespace jc::ast {
     /// Defines common methods
     template<class T>
     class BaseParseResult {
-    protected:
+    public:
         // FIXME: Don't box ErrorNode
         using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
@@ -154,9 +154,11 @@ namespace jc::ast {
     class ParseResult : public BaseParseResult<T> {};
 
     template<class U>
-    class NParseResult : public BaseParseResult<N<U>> {
+    class NParseResult : public BaseParseResult<U> {
+    protected:
         using T = N<U>;
         using E = typename BaseParseResult<T>::E;
+
     public:
         template<class B>
         NParseResult<N<B>> as() {
