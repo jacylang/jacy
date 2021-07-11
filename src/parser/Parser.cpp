@@ -949,7 +949,7 @@ namespace jc::parser {
 
             if (maybeOp.none()) {
                 if (maybeLhs.some()) {
-                    return maybeLhs.unwrap("`precParse` -> not maybeOp -> `single`");
+                    return maybeLhs.take("`precParse` -> not maybeOp -> `single`");
                 }
             }
 
