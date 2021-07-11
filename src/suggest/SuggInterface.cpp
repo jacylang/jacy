@@ -27,6 +27,6 @@ namespace jc::sugg {
     }
 
     void SuggInterface::suggestHelp(const std::string & helpMsg) {
-        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, dt::None));
+        suggest(std::make_unique<sugg::HelpSugg>(helpMsg, None));
     }
 }

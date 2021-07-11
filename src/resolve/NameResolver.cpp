@@ -1,7 +1,7 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
+    dt::SuggResult<None_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
         printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 

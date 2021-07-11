@@ -35,7 +35,7 @@ namespace jc::ast {
             const Span & span
         ) : Node(span),
             kind(kind),
-            ident(dt::None),
+            ident(None),
             generics(std::move(generics)) {}
 
         opt_id_ptr ident;

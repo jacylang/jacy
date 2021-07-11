@@ -1,7 +1,7 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
+    dt::SuggResult<None_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
         this->sess = sess;
 
         // Enter root module
@@ -13,7 +13,7 @@ namespace jc::resolve {
         sess->defStorage = std::move(_defStorage);
         sess->modTreeRoot = std::move(mod);
 
-        return {dt::None, extractSuggestions()};
+        return {None, extractSuggestions()};
     }
 
     void ModuleTreeBuilder::visit(const ast::File & file) {
@@ -186,7 +186,7 @@ namespace jc::resolve {
         enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
-        curModuleName = dt::None;
+        curModuleName = None;
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
@@ -212,7 +212,7 @@ namespace jc::resolve {
         log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
 
         // Note: Fictive modules are always public
-        const auto defId = _defStorage.define(_modDepth, DefVis::Pub, defKind, dt::None, dt::None);
+        const auto defId = _defStorage.define(_modDepth, DefVis::Pub, defKind, None, None);
         auto child = _defStorage.addModule(
             defId, Module::newFictiveModule(ModuleKind::Fictive, mod, defId)
         );

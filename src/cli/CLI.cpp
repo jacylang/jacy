@@ -23,7 +23,7 @@ namespace jc::cli {
         if (utils::arr::has(Args::boolArgFalseValues, val)) {
             return false;
         }
-        return dt::None;
+        return None;
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {

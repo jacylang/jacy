@@ -52,7 +52,7 @@ std::ostream & operator<<(std::ostream & os, Color color) {
     return os;
 }
 
-inline std::ostream & operator<<(std::ostream & os, const dt::none_t&) {
+inline std::ostream & operator<<(std::ostream & os, const None_t&) {
     return os;
 }
 

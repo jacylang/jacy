@@ -6,7 +6,7 @@ namespace jc::resolve {
         const auto & found = locals.find(name);
         if (found == locals.end()) {
             locals.emplace(name, ident.unwrap()->id);
-            return dt::None;
+            return None;
         }
         return found->second;
     }

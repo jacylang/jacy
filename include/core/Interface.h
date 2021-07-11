@@ -45,7 +45,7 @@ namespace jc::core {
         ast::DirTreePrinter dirTreePrinter;
         ast::AstPrinter astPrinter;
         ast::Validator astValidator;
-        dt::Option<ast::party_ptr> party{dt::None};
+        dt::Option<ast::party_ptr> party{None};
 
         void parse();
         void validateAST();
@@ -96,7 +96,7 @@ namespace jc::core {
         };
         bench_t finalBenchStart;
         std::map<std::string, double> benchmarks;
-        dt::Option<bench_t> lastBench{dt::None};
+        dt::Option<bench_t> lastBench{None};
         bool eachStageBenchmarks;
         void beginFinalBench();
         void printFinalBench();

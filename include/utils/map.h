@@ -63,7 +63,7 @@ namespace jc::utils::map {
     dt::Option<V> getOpt(const std::map<K, V> & map, const K & key) {
         const auto & found = map.find(key);
         if (found == map.end()) {
-            return dt::None;
+            return None;
         }
         return found->second;
     }

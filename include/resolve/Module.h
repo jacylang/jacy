@@ -9,7 +9,6 @@ namespace jc::resolve {
     struct Module;
     using ast::node_id;
     using mod_ns_map = std::map<std::string, def_id>;
-    using dt::None;
 
     enum class ModuleKind {
         Root,
@@ -70,7 +69,7 @@ namespace jc::resolve {
             const auto & ns = getNS(nsKind);
             const auto & def = ns.find(name);
             if (def == ns.end()) {
-                return dt::None;
+                return None;
             }
             return def->second;
         }

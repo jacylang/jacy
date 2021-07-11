@@ -41,8 +41,8 @@ namespace jc::ast {
             kind(Kind::Base),
             expr(std::move(expr)) {}
 
-        opt_id_ptr name{dt::None};
-        opt_expr_ptr expr{dt::None};
+        opt_id_ptr name{None};
+        opt_expr_ptr expr{None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

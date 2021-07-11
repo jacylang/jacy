@@ -14,7 +14,7 @@ namespace jc::cli {
 
     const std::map<std::string, key_value_arg> Args::allowedKeyValueArgs = {
         {"print", {
-            dt::None, {
+            None, {
                 "dir-tree",
                 "tokens",
                 "ast",
@@ -88,7 +88,7 @@ namespace jc::cli {
         }
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end()) {
-            return dt::None;
+            return None;
         }
         return found->second;
     }
@@ -100,7 +100,7 @@ namespace jc::cli {
         }
         const auto & found = keyValueArgs.find(kvArgName);
         if (found == keyValueArgs.end() or found->second.empty()) {
-            return dt::None;
+            return None;
         }
         if (found->second.size() > 1) {
             throw std::logic_error("Unexpected count for key-value cli argument '" + kvArgName + "', more than 1");

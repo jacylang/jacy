@@ -59,7 +59,7 @@ namespace jc::parser {
     }
 
     opt_token Parser::skip(TokenKind kind, const std::string & expected, Recovery recovery) {
-        opt_token found{dt::None};
+        opt_token found{None};
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
@@ -134,7 +134,7 @@ namespace jc::parser {
             advance();
             return last;
         }
-        return dt::None;
+        return None;
     }
 
     // Parsers //
@@ -160,7 +160,7 @@ namespace jc::parser {
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
-        dt::Option<item_ptr> maybeItem{dt::None};
+        dt::Option<item_ptr> maybeItem{None};
 
         auto vis = parseVis();
 
@@ -220,7 +220,7 @@ namespace jc::parser {
             }
         }
 
-        return dt::None;
+        return None;
     }
 
     item_list Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
@@ -255,7 +255,7 @@ namespace jc::parser {
         const auto & pub = skipOpt(TokenKind::Pub);
 
         VisKind kind{VisKind::Unset};
-        span::opt_span span{dt::None};
+        span::opt_span span{None};
         if (pub) {
             kind = ast::VisKind::Pub;
             span = pub.unwrap().span;
@@ -404,7 +404,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath();
 
-        opt_type_ptr forType{dt::None};
+        opt_type_ptr forType{None};
         if (skipOpt(TokenKind::For)) {
             forType = parseType("Missing type");
         }
@@ -542,7 +542,7 @@ namespace jc::parser {
 
         auto name = parseId("`type` name");
 
-        opt_type_ptr type{dt::None};
+        opt_type_ptr type{None};
         if (skipOpt(TokenKind::Assign)) {
             type = parseType("Expected type");
         }
@@ -746,12 +746,12 @@ namespace jc::parser {
 
         auto pat = parsePat();
 
-        opt_type_ptr type{dt::None};
+        opt_type_ptr type{None};
         if (skipOpt(TokenKind::Colon)) {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        opt_expr_ptr assignExpr{dt::None};
+        opt_expr_ptr assignExpr{None};
         if (skipOpt(TokenKind::Assign)) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
@@ -851,7 +851,7 @@ namespace jc::parser {
 
                 const auto & paramBegin = cspan();
                 auto pat = parsePat();
-                opt_type_ptr type{dt::None};
+                opt_type_ptr type{None};
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
@@ -866,7 +866,7 @@ namespace jc::parser {
             skip(TokenKind::RParen, "Closing `)`");
         }
 
-        opt_type_ptr returnType{dt::None};
+        opt_type_ptr returnType{None};
 
         if (allowReturnType and skipOpt(TokenKind::Colon)) {
             returnType = parseType("Return type for lambda after `:`");
@@ -888,7 +888,7 @@ namespace jc::parser {
         auto lhs = precParse(0);
 
         if (not lhs) {
-            return dt::None;
+            return None;
         }
 
         const auto maybeAssignOp = peek();
@@ -933,7 +933,7 @@ namespace jc::parser {
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
-            dt::Option<Token> maybeOp{dt::None};
+            dt::Option<Token> maybeOp{None};
             for (const auto & op : parser.ops) {
                 if (is(op)) {
                     maybeOp = peek();
@@ -952,7 +952,7 @@ namespace jc::parser {
             if (not maybeLhs) {
                 // TODO: Prefix range operators
                 // Left-hand side is none, and there's no range operator
-                return dt::None; // FIXME: CHECK FOR PREFIX
+                return None; // FIXME: CHECK FOR PREFIX
             }
 
             auto lhs = maybeLhs.unwrap("precParse -> maybeLhs");
@@ -1040,7 +1040,7 @@ namespace jc::parser {
         auto lhs = call();
 
         if (not lhs) {
-            return dt::None;
+            return None;
         }
 
         if (skipOpt(TokenKind::Quest)) {
@@ -1056,7 +1056,7 @@ namespace jc::parser {
         auto maybeLhs = memberAccess();
 
         if (not maybeLhs) {
-            return dt::None;
+            return None;
         }
 
         auto begin = cspan();
@@ -1110,7 +1110,7 @@ namespace jc::parser {
         auto lhs = primary();
 
         if (not lhs) {
-            return dt::None;
+            return None;
         }
 
         auto begin = cspan();
@@ -1179,7 +1179,7 @@ namespace jc::parser {
         suggestErrorMsg("Unexpected token " + peek().toString(), cspan());
         advance();
 
-        return dt::None;
+        return None;
     }
 
     id_ptr Parser::justParseId(const std::string & panicIn) {
@@ -1468,8 +1468,8 @@ namespace jc::parser {
         }
 
         // Check if user ignored `if` branch using `;` or parse body
-        opt_block_ptr ifBranch = dt::None;
-        opt_block_ptr elseBranch = dt::None;
+        opt_block_ptr ifBranch = None;
+        opt_block_ptr elseBranch = None;
 
         if (not skipOpt(TokenKind::Semi)) {
             // TODO!: Add `parseBlockMaybeNone`
@@ -1601,7 +1601,7 @@ namespace jc::parser {
 
         if (isSemis()) {
             advance();
-            return dt::None;
+            return None;
         }
 
         if (skipOpt(TokenKind::Assign)) {
@@ -1624,7 +1624,7 @@ namespace jc::parser {
     dt::Option<attr_ptr> Parser::parseAttr() {
         const auto & begin = cspan();
         if (not is(TokenKind::At)) {
-            return dt::None;
+            return None;
         }
 
         justSkip(TokenKind::At, "`@`", "`parseAttr`");
@@ -1672,7 +1672,7 @@ namespace jc::parser {
                 );
             } else {
                 auto value = parseExpr("Expression expected");
-                args.emplace_back(makeNode<Arg>(dt::None, std::move(value), closeSpan(argBegin)));
+                args.emplace_back(makeNode<Arg>(None, std::move(value), closeSpan(argBegin)));
             }
         }
 
@@ -1745,7 +1745,7 @@ namespace jc::parser {
         );
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        opt_expr_ptr defaultValue{dt::None};
+        opt_expr_ptr defaultValue{None};
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
@@ -1807,7 +1807,7 @@ namespace jc::parser {
         logParseExtra("[opt] SimplePath");
 
         if (not is(TokenKind::Path) and not peek().isPathIdent()) {
-            return dt::None;
+            return None;
         }
 
         enterEntity("SimplePath");
@@ -1843,7 +1843,7 @@ namespace jc::parser {
                 suggestErrorMsg("Expected path after `::`", begin);
             }
             exitEntity();
-            return dt::None;
+            return None;
         }
 
         exitEntity();
@@ -1872,7 +1872,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             bool isUnrecoverableError = false;
-            opt_id_ptr ident{dt::None};
+            opt_id_ptr ident{None};
             auto kind = PathSeg::getKind(peek());
             if (kind == ast::PathSeg::Kind::Ident) {
                 kind = PathSeg::Kind::Ident;
@@ -1892,7 +1892,7 @@ namespace jc::parser {
                 }
             }
 
-            opt_gen_params generics{dt::None};
+            opt_gen_params generics{None};
             bool pathNotGeneric = false;
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
@@ -1962,7 +1962,7 @@ namespace jc::parser {
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeEl>(dt::None, std::move(type), closeSpan(elBegin))
+                    makeNode<TupleTypeEl>(None, std::move(type), closeSpan(elBegin))
                 );
             }
         }
@@ -2020,7 +2020,7 @@ namespace jc::parser {
             }
         }
 
-        return dt::None;
+        return None;
     }
 
     tuple_t_el_list Parser::parseParenType() {
@@ -2044,12 +2044,12 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            opt_id_ptr name{dt::None};
+            opt_id_ptr name{None};
             if (is(TokenKind::Id)) {
                 name = justParseId("`parenType`");
             }
 
-            opt_type_ptr type{dt::None};
+            opt_type_ptr type{None};
             if (name and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
@@ -2130,7 +2130,7 @@ namespace jc::parser {
         logParseExtra("[opt] Generics");
 
         if (not is(TokenKind::LAngle)) {
-            return dt::None;
+            return None;
         }
 
         enterEntity("Generics");
@@ -2158,7 +2158,7 @@ namespace jc::parser {
                 generics.push_back(makeNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseId("`parseOptGenerics`");
-                opt_type_ptr type{dt::None};
+                opt_type_ptr type{None};
                 if (skipOpt(TokenKind::Colon)) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
@@ -2173,7 +2173,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                opt_expr_ptr defaultValue{dt::None};
+                opt_expr_ptr defaultValue{None};
                 if (skipOpt(TokenKind::Assign)) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
@@ -2287,7 +2287,7 @@ namespace jc::parser {
 
         auto id = parseId("Missing identifier");
 
-        dt::Option<pat_ptr> pat{dt::None};
+        dt::Option<pat_ptr> pat{None};
         if (skipOpt(TokenKind::At)) {
             pat = parsePat();
         }

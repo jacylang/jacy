@@ -15,7 +15,7 @@ namespace jc::resolve {
     // if segment is resolved but it is private
     struct UnresSeg {
         size_t segIndex;
-        opt_def_id defId{dt::None};
+        opt_def_id defId{None};
     };
 
     /// One bit for each `PrimType` variant
@@ -57,7 +57,7 @@ namespace jc::resolve {
 
         const auto & found = primTypesNames.find(typeName);
         if (found == primTypesNames.end()) {
-            return dt::None;
+            return None;
         }
         return found->second;
     }
@@ -65,7 +65,7 @@ namespace jc::resolve {
     inline dt::Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
         const auto primType = getPrimType(typeName);
         if (not primType) {
-            return dt::None;
+            return None;
         }
         // Return mask with 1 at found primitive type offset
         return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType));
@@ -144,9 +144,9 @@ namespace jc::resolve {
         Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
 
         ResKind kind;
-        dt::Option<def_id> def{dt::None};
-        dt::Option<node_id> nodeId{dt::None};
-        dt::Option<PrimType> primType{dt::None};
+        dt::Option<def_id> def{None};
+        dt::Option<node_id> nodeId{None};
+        dt::Option<PrimType> primType{None};
 
         bool isErr() const {
             return kind == ResKind::Error;

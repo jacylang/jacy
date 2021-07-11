@@ -13,7 +13,7 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        dt::SuggResult<dt::none_t> build(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<None_t> build(sess::sess_ptr sess, const ast::Party & party);
 
         void visit(const ast::File & file) override;
         void visit(const ast::Dir & dir) override;
@@ -50,7 +50,7 @@ namespace jc::resolve {
     private:
         def_depth _modDepth{0};
         module_ptr mod;
-        opt_def_id nearestModDef{dt::None};
+        opt_def_id nearestModDef{None};
         void enterBlock(node_id nodeId);
         void enterModule(DefVis vis, const ast::id_ptr & ident, DefKind defKind);
         void enterFictiveModule(const std::string & name, DefKind defKind);
@@ -67,7 +67,7 @@ namespace jc::resolve {
 
         // Debug //
     private:
-        dt::Option<std::string> curModuleName{dt::None};
+        dt::Option<std::string> curModuleName{None};
     };
 }
 

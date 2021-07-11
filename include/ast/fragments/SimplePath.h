@@ -22,7 +22,7 @@ namespace jc::ast {
         SimplePathSeg(id_ptr && ident, const Span & span) : Node(span), kind(Kind::Ident), ident(ident) {}
         SimplePathSeg(Kind kind, const Span & span) : Node(span), kind(kind) {}
 
-        opt_id_ptr ident{dt::None};
+        opt_id_ptr ident{None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

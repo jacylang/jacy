@@ -24,7 +24,7 @@ namespace jc::resolve {
         } kind;
 
         std::map<std::string, node_id> locals;
-        dt::Option<module_ptr> boundModule{dt::None};
+        dt::Option<module_ptr> boundModule{None};
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
