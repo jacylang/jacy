@@ -43,6 +43,18 @@ namespace jc::resolve {
         define(resolvePath(PathResKind::Prefix, *useTree.path), useTree.as.unwrap()->getValue());
     }
 
+    void Importer::visit(const ast::UseTreeAll & useTree) {
+        if (useTree.path) {
+            resolvePath(PathResKind::Full, *useTree.path.unwrap());
+        }
+
+        _importModule->perNS.each([&](const mod_ns_map & ns, Namespace nsKind) {
+            for (const auto & def : ns) {
+                _useDeclModule->tryDefine(nsKind, def.first, def.second);
+            }
+        });
+    }
+
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         std::string pathStr;
         bool inaccessible = false;
