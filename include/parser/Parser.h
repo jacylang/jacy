@@ -97,7 +97,7 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) {
-            return sess->nodeMap.makeNode<T>(args...);
+            return sess->nodeMap.makeNode<T>(std::forward<Args>(args)...);
         }
 
         template<class T, class B, class ...Args>
