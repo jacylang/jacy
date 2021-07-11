@@ -31,12 +31,12 @@ namespace jc::resolve {
 
         for (const auto & param : func.params) {
             param->type.autoAccept(*this);
-            if (param->defaultValue) {
+            if (param->defaultValue.some()) {
                 param->defaultValue.unwrap().autoAccept(*this);
             }
         }
 
-        if (func.returnType) {
+        if (func.returnType.some()) {
             func.returnType.unwrap().autoAccept(*this);
         }
 
@@ -46,7 +46,7 @@ namespace jc::resolve {
             define(param->name);
         }
 
-        if (func.body) {
+        if (func.body.some()) {
             func.body.unwrap().autoAccept(*this);
         }
 
@@ -72,11 +72,11 @@ namespace jc::resolve {
         enterRib();
         letStmt.pat.autoAccept(*this);
 
-        if (letStmt.type) {
+        if (letStmt.type.some()) {
             letStmt.type.unwrap().autoAccept(*this);
         }
 
-        if (letStmt.assignExpr) {
+        if (letStmt.assignExpr.some()) {
             letStmt.assignExpr.unwrap().autoAccept(*this);
         }
     }
@@ -103,12 +103,12 @@ namespace jc::resolve {
 
         for (const auto & param : lambda.params) {
             param->pat.autoAccept(*this);
-            if (param->type) {
+            if (param->type.some()) {
                 param->type.unwrap().autoAccept(*this);
             }
         }
 
-        if (lambda.returnType) {
+        if (lambda.returnType.some()) {
             lambda.returnType.unwrap().autoAccept(*this);
         }
 
@@ -225,7 +225,7 @@ namespace jc::resolve {
         if (getDepth() == 0) {
             Logger::devPanic("NameResolver: Tried to exit from empty rib stack");
         }
-        if (curRib()->boundModule) {
+        if (curRib()->boundModule.some()) {
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");
         }
         printRib();
@@ -250,7 +250,7 @@ namespace jc::resolve {
 
         const auto & redecl = curRib()->define(ident);
 
-        if (redecl) {
+        if (redecl.some()) {
             const auto & name = ident.unwrap()->getValue();
             suggestErrorMsg("'" + name + "' has been already declared", ident.span());
         }
@@ -273,7 +273,7 @@ namespace jc::resolve {
         // If path is one segment long then it can be a local variable
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
-            if (seg->ident) {
+            if (seg->ident.some()) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
                 auto resolved = resolveLocal(targetNS, identStr, path.id);
                 if (not resolved) {
@@ -336,7 +336,7 @@ namespace jc::resolve {
                 altDefs = searchMod->findAll(segName);
             });
 
-            if (unresSeg) {
+            if (unresSeg.some()) {
                 break;
             }
 
@@ -348,7 +348,7 @@ namespace jc::resolve {
             }
         }
 
-        if (unresSeg) {
+        if (unresSeg.some()) {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)
