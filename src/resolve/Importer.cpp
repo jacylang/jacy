@@ -114,6 +114,8 @@ namespace jc::resolve {
                             });
                         });
                     });
+
+                    cb(defsPerNS);
                 }
             }
         }
