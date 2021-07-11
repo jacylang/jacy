@@ -256,7 +256,7 @@ namespace jc::parser {
 
         VisKind kind{VisKind::Unset};
         span::opt_span span{None};
-        if (pub) {
+        if (pub.some()) {
             kind = ast::VisKind::Pub;
             span = pub.unwrap().span;
         }
