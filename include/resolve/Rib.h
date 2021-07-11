@@ -13,7 +13,7 @@ namespace jc::resolve {
 
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
-    using opt_rib = dt::Option<rib_ptr>;
+    using opt_rib = Option<rib_ptr>;
     using rib_stack = std::vector<rib_ptr>;
 
     struct Rib {
@@ -24,7 +24,7 @@ namespace jc::resolve {
         } kind;
 
         std::map<std::string, node_id> locals;
-        dt::Option<module_ptr> boundModule{None};
+        Option<module_ptr> boundModule{None};
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was

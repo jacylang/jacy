@@ -12,7 +12,7 @@
 namespace jc::cli {
     using str_vec = std::vector<std::string>;
     // Pair of count (None means any count) and values expected
-    using key_value_arg = std::pair<dt::Option<size_t>, str_vec>;
+    using key_value_arg = std::pair<Option<size_t>, str_vec>;
 
     struct Args {
         const static std::string delimiters;
@@ -50,8 +50,8 @@ namespace jc::cli {
         // Check if key-value argument is specified or bool-arg is true
         bool specified(const std::string & argName) const;
 
-        dt::Option<str_vec> getValues(const std::string & kvArgName) const;
-        dt::Option<std::string> getSingleValue(const std::string & kvArgName) const;
+        Option<str_vec> getValues(const std::string & kvArgName) const;
+        Option<std::string> getSingleValue(const std::string & kvArgName) const;
 
         const std::string & getRootFile() const;
 

@@ -12,7 +12,7 @@ namespace jc::span {
     using span_pos_t = uint32_t;
     using span_len_t = uint16_t;
     using file_id_t = size_t;
-    using opt_span = dt::Option<Span>;
+    using opt_span = Option<Span>;
 
     struct Span {
         Span() = default;

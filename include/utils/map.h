@@ -60,7 +60,7 @@ namespace jc::utils::map {
     }
 
     template<class K, class V>
-    dt::Option<V> getOpt(const std::map<K, V> & map, const K & key) {
+    Option<V> getOpt(const std::map<K, V> & map, const K & key) {
         const auto & found = map.find(key);
         if (found == map.end()) {
             return None;

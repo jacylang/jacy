@@ -18,7 +18,7 @@ namespace jc::sess {
     struct Session {
         SourceMap sourceMap;
         ast::NodeMap nodeMap;
-        dt::Option<resolve::module_ptr> modTreeRoot{None};
+        Option<resolve::module_ptr> modTreeRoot{None};
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
     };

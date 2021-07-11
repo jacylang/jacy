@@ -36,7 +36,7 @@ namespace jc::sess {
         std::string sliceBySpan(const span::Span & span);
 
     private:
-        std::map<file_id_t, dt::Option<SourceFile>> sources;
+        std::map<file_id_t, Option<SourceFile>> sources;
     };
 }
 

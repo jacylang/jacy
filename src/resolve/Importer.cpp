@@ -59,7 +59,7 @@ namespace jc::resolve {
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         std::string pathStr;
         bool inaccessible = false;
-        dt::Option<UnresSeg> unresSeg{None};
+        Option<UnresSeg> unresSeg{None};
         DefPerNS defPerNs{None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
@@ -102,7 +102,7 @@ namespace jc::resolve {
                 // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we skip private items
                 uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
-                PerNS<dt::Option<DefVis>> defsPerNSVis{None, None, None};
+                PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
                 defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
@@ -158,7 +158,7 @@ namespace jc::resolve {
         return PathResult{defPerNs, path.segments.at(path.segments.size() - 1)};
     }
 
-    void Importer::define(PathResult && pathResult, const dt::Option<std::string> & rebind) {
+    void Importer::define(PathResult && pathResult, const Option<std::string> & rebind) {
         const auto & seg = pathResult.lastSeg;
         std::string name;
         if (rebind) {

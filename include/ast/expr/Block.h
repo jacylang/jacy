@@ -7,7 +7,7 @@
 namespace jc::ast {
     struct Block;
     using block_ptr = PR<N<Block>>;
-    using opt_block_ptr = dt::Option<block_ptr>;
+    using opt_block_ptr = Option<block_ptr>;
     using block_list = std::vector<block_ptr>;
 
     enum class BlockKind {
@@ -28,7 +28,7 @@ namespace jc::ast {
 
         BlockKind blockKind;
         opt_expr_ptr oneLine{None};
-        dt::Option<stmt_list> stmts{None};
+        Option<stmt_list> stmts{None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

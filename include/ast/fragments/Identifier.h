@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct Identifier;
     using id_ptr = PR<N<Identifier>>;
-    using opt_id_ptr = dt::Option<id_ptr>;
+    using opt_id_ptr = Option<id_ptr>;
 
     struct Identifier : Node {
         explicit Identifier(parser::Token token, const Span & span)

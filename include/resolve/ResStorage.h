@@ -38,7 +38,7 @@ namespace jc::resolve {
         Str, // Note!!!: Order matters -- keep Str last
     };
 
-    inline dt::Option<PrimType> getPrimType(const std::string & typeName) {
+    inline Option<PrimType> getPrimType(const std::string & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
             {"bool", PrimType::Bool},
             {"int8", PrimType::Int8},
@@ -62,7 +62,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    inline dt::Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
+    inline Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
         const auto primType = getPrimType(typeName);
         if (not primType) {
             return None;
@@ -144,9 +144,9 @@ namespace jc::resolve {
         Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
 
         ResKind kind;
-        dt::Option<def_id> def{None};
-        dt::Option<node_id> nodeId{None};
-        dt::Option<PrimType> primType{None};
+        Option<def_id> def{None};
+        Option<node_id> nodeId{None};
+        Option<PrimType> primType{None};
 
         bool isErr() const {
             return kind == ResKind::Error;

@@ -36,10 +36,10 @@ namespace jc::ast {
     };
 
     struct UseTreeSpecific : UseTree {
-        UseTreeSpecific(dt::Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
+        UseTreeSpecific(Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
             : UseTree(Kind::Specific, span), path(std::move(path)), specifics(std::move(specifics)) {}
 
-        dt::Option<simple_path_ptr> path;
+        Option<simple_path_ptr> path;
         use_tree_list specifics;
 
         void accept(BaseVisitor & visitor) const override {
@@ -60,10 +60,10 @@ namespace jc::ast {
     };
 
     struct UseTreeAll : UseTree {
-        UseTreeAll(dt::Option<simple_path_ptr> && path, const Span & span)
+        UseTreeAll(Option<simple_path_ptr> && path, const Span & span)
             : UseTree(Kind::All, span), path(std::move(path)) {}
 
-        dt::Option<simple_path_ptr> path;
+        Option<simple_path_ptr> path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

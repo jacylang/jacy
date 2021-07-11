@@ -19,7 +19,7 @@ namespace jc::ast {
     using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
     using node_id = uint32_t;
-    using opt_node_id = dt::Option<ast::node_id>;
+    using opt_node_id = Option<ast::node_id>;
 
     const node_id NONE_NODE_ID = UINT32_MAX;
 
@@ -177,8 +177,8 @@ namespace jc::ast {
     }
 
     template<class T>
-    inline dt::Option<T> Some(T && some) {
-        return dt::Option<T>(some);
+    inline Option<T> Some(T && some) {
+        return Option<T>(some);
     }
 
     template<class T>

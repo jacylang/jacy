@@ -10,7 +10,7 @@ namespace jc::sugg {
     struct HelpSugg;
 
     using sugg_ptr = std::unique_ptr<BaseSugg>;
-    using opt_sugg_ptr = dt::Option<sugg_ptr>;
+    using opt_sugg_ptr = Option<sugg_ptr>;
     using sugg_list = std::vector<sugg_ptr>;
 
     class BaseSuggester {

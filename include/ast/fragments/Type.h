@@ -17,7 +17,7 @@ namespace jc::ast {
     using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
     using id_t_list = std::vector<N<TypePathSeg>>;
     using type_path_ptr = N<TypePath>;
-    using opt_type_path_ptr = dt::Option<type_path_ptr>;
+    using opt_type_path_ptr = Option<type_path_ptr>;
     using type_path_list = std::vector<type_path_ptr>;
 
     enum class TypeKind {

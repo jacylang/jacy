@@ -16,7 +16,7 @@ namespace jc::cli {
         return args;
     }
 
-    dt::Option<bool> CLI::parseBool(const std::string & val) {
+    Option<bool> CLI::parseBool(const std::string & val) {
         if (utils::arr::has(Args::boolArgTrueValues, val)) {
             return true;
         }

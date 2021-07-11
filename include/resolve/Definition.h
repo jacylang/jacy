@@ -7,9 +7,9 @@
 namespace jc::resolve {
     struct Module;
     using module_ptr = std::shared_ptr<Module>;
-    using opt_module_ptr = dt::Option<module_ptr>;
+    using opt_module_ptr = Option<module_ptr>;
     using def_id = size_t;
-    using opt_def_id = dt::Option<def_id>;
+    using opt_def_id = Option<def_id>;
     using def_depth = uint32_t;
 
     enum class Namespace {
@@ -90,7 +90,7 @@ namespace jc::resolve {
             def_depth depth,
             DefVis vis,
             DefKind kind,
-            const dt::Option<span::Span> & nameSpan,
+            const Option<span::Span> & nameSpan,
             ast::opt_node_id nameNodeId
         ) : depth(depth),
             vis(vis),
@@ -102,7 +102,7 @@ namespace jc::resolve {
         DefVis vis;
         DefKind kind;
         const ast::opt_node_id nameNodeId;
-        const dt::Option<span::Span> nameSpan;
+        const Option<span::Span> nameSpan;
 
         static inline Namespace getNS(DefKind kind) {
             switch (kind) {

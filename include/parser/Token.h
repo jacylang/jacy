@@ -20,7 +20,7 @@
 namespace jc::parser {
     struct Token;
     using token_list = std::vector<Token>;
-    using opt_token = dt::Option<Token>;
+    using opt_token = Option<Token>;
 
     struct Location {
         uint32_t line{0};

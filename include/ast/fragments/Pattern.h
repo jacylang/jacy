@@ -9,7 +9,7 @@ namespace jc::ast {
     struct Pattern;
     struct BorrowPat;
     using pat_ptr = PR<N<Pattern>>;
-    using opt_pat = dt::Option<pat_ptr>;
+    using opt_pat = Option<pat_ptr>;
     using pat_list = std::vector<pat_ptr>;
 
     enum class PatternKind {

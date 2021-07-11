@@ -7,9 +7,9 @@ namespace jc::ast {
     struct Type;
     struct GenericParam;
     using gen_param_list = std::vector<N<GenericParam>>;
-    using opt_gen_params = dt::Option<gen_param_list>;
+    using opt_gen_params = Option<gen_param_list>;
     using type_ptr = PR<N<Type>>;
-    using opt_type_ptr = dt::Option<type_ptr>;
+    using opt_type_ptr = Option<type_ptr>;
 
     enum class GenericParamKind {
         Type,

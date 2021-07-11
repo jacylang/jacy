@@ -125,8 +125,8 @@ namespace jc::parser {
         advance();
     }
 
-    dt::Option<Token> Parser::skipOpt(TokenKind kind) {
-        auto last = dt::Option<Token>(peek());
+    Option<Token> Parser::skipOpt(TokenKind kind) {
+        auto last = Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
                 devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek().toString(true));
@@ -155,12 +155,12 @@ namespace jc::parser {
     ///////////
     // Items //
     ///////////
-    dt::Option<item_ptr> Parser::parseOptItem() {
+    Option<item_ptr> Parser::parseOptItem() {
         logParseExtra("[opt] Item");
 
         attr_list attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
-        dt::Option<item_ptr> maybeItem{None};
+        Option<item_ptr> maybeItem{None};
 
         auto vis = parseVis();
 
@@ -933,7 +933,7 @@ namespace jc::parser {
         auto begin = cspan();
         opt_expr_ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
-            dt::Option<Token> maybeOp{None};
+            Option<Token> maybeOp{None};
             for (const auto & op : parser.ops) {
                 if (is(op)) {
                     maybeOp = peek();
@@ -1052,7 +1052,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    dt::Option<expr_ptr> Parser::call() {
+    Option<expr_ptr> Parser::call() {
         auto maybeLhs = memberAccess();
 
         if (not maybeLhs) {
@@ -1621,7 +1621,7 @@ namespace jc::parser {
         return attributes;
     }
 
-    dt::Option<attr_ptr> Parser::parseAttr() {
+    Option<attr_ptr> Parser::parseAttr() {
         const auto & begin = cspan();
         if (not is(TokenKind::At)) {
             return None;
@@ -1803,7 +1803,7 @@ namespace jc::parser {
         return simplePath.take();
     }
 
-    dt::Option<simple_path_ptr> Parser::parseOptSimplePath() {
+    Option<simple_path_ptr> Parser::parseOptSimplePath() {
         logParseExtra("[opt] SimplePath");
 
         if (not is(TokenKind::Path) and not peek().isPathIdent()) {
@@ -2287,7 +2287,7 @@ namespace jc::parser {
 
         auto id = parseId("Missing identifier");
 
-        dt::Option<pat_ptr> pat{None};
+        Option<pat_ptr> pat{None};
         if (skipOpt(TokenKind::At)) {
             pat = parsePat();
         }

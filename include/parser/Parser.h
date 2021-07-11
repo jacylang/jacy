@@ -135,7 +135,7 @@ namespace jc::parser {
 
         // Skippers //
         void skipSemi();
-        dt::Option<Token> skip(
+        Option<Token> skip(
             TokenKind kind,
             const std::string & expected,
             Recovery recovery = Recovery::None
@@ -147,7 +147,7 @@ namespace jc::parser {
     private:
 
         // Items //
-        dt::Option<item_ptr> parseOptItem();
+        Option<item_ptr> parseOptItem();
         item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
         Vis parseVis();
@@ -205,14 +205,14 @@ namespace jc::parser {
         // Fragments //
         opt_block_ptr parseFuncBody();
         attr_list parseAttrList();
-        dt::Option<attr_ptr> parseAttr();
+        Option<attr_ptr> parseAttr();
         arg_list parseArgList(const std::string & construction);
         parser::token_list parseModifiers();
         func_param_list parseFuncParamList();
         func_param_ptr parseFuncParam();
         item_list parseMembers(const std::string & construction);
         PR<simple_path_ptr> parseSimplePath(const std::string & construction);
-        dt::Option<simple_path_ptr> parseOptSimplePath();
+        Option<simple_path_ptr> parseOptSimplePath();
         path_ptr parsePath(bool inExpr);
 
         // Types //
@@ -237,7 +237,7 @@ namespace jc::parser {
         // Helpers //
     private:
         template<class T>
-        T errorForNone(const dt::Option<T> & option, const std::string & suggMsg, const Span & span) {
+        T errorForNone(const Option<T> & option, const std::string & suggMsg, const Span & span) {
             if (option.none()) {
                 suggestErrorMsg(suggMsg, span);
                 return option.getValueUnsafe();
