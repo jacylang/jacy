@@ -9,8 +9,12 @@
 
 namespace jc::resolve {
     /// Path resolution style
-    /// Prefix - Resolve all path segments except last one
-    /// Full - Resolve full path
+    /// `Prefix`
+    ///   - Resolve all path segments except last one
+    ///   - used for `use a::b` and `a::b as c`
+    /// `Full`
+    ///   - Resolve full path searching for each segment in Type namespace
+    ///   - used for `use a::{}` and `use a::*`
     enum class PathResKind {
         Prefix,
         Full,
