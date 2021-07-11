@@ -1471,7 +1471,7 @@ namespace jc::parser {
         opt_block_ptr ifBranch = None;
         opt_block_ptr elseBranch = None;
 
-        if (not skipOpt(TokenKind::Semi)) {
+        if (skipOpt(TokenKind::Semi).some()) {
             // TODO!: Add `parseBlockMaybeNone`
             ifBranch = parseBlock("if", BlockArrow::Allow);
         }
