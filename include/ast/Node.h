@@ -87,6 +87,20 @@ namespace jc::ast {
             return state.index() != 0;
         }
 
+        T take(const std::string & msg = "") {
+            if (this->err()) {
+                throw std::logic_error(msg.empty() ? "Called `NParseResult::take` on an `Err` NParseResult" : msg);
+            }
+            return std::get<T>(std::move(state));
+        }
+
+        const T & unwrap(const std::string & msg = "") const {
+            if (this->err()) {
+                throw std::logic_error(msg.empty() ? "Called `NParseResult::unwrap` on an `Err` NParseResult" : msg);
+            }
+            return std::get<T>(state);
+        }
+
     private:
         S state;
     };
@@ -108,20 +122,6 @@ namespace jc::ast {
 //        NParseResult(E && error) : state(std::move(error)) {}
 //        NParseResult(NParseResult<T> && other)
 //            : state(std::move(other.state)) {}
-
-        T take(const std::string & msg = "") {
-            if (this->err()) {
-                throw std::logic_error(msg.empty() ? "Called `NParseResult::take` on an `Err` NParseResult" : msg);
-            }
-            return std::get<T>(std::move(state));
-        }
-
-        const T & unwrap(const std::string & msg = "") const {
-            if (this->err()) {
-                throw std::logic_error(msg.empty() ? "Called `NParseResult::unwrap` on an `Err` NParseResult" : msg);
-            }
-            return std::get<T>(state);
-        }
 
         const E & asErr() const {
             if (this->ok()) {
