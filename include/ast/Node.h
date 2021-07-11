@@ -159,9 +159,8 @@ namespace jc::ast {
     template<class T>
     class ParseResult : public BaseParseResult<T> {};
 
-    template<template<class> class C, class U>
-    typename std::enable_if<is_shared_ptr<decltype(std::declval<T>().value)>::value, void>::type
-    class NParseResult : public BaseParseResult<C<U>> {
+    template<typename U, typename IsBoxed = void>
+    class NParseResult : public BaseParseResult<U> {
     protected:
         using T = N<U>;
         using E = typename BaseParseResult<T>::E;
@@ -190,6 +189,9 @@ namespace jc::ast {
             return std::get<T>(this->state)->span;
         }
     };
+
+    template<typename U>
+    class NParseResult<U, typename std::enable_if<std::is_same<typename std::remove_cv<U>::type, std::weak_ptr<typename U::element_type>>::value>::type> {};
 
     template<class T>
     inline BaseParseResult<T> ErrPR(N<ErrorNode> && err) {
