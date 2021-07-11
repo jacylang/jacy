@@ -1050,7 +1050,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Quest).some()) {
             logParse("Quest");
 
-            return makePRNode<QuestExpr, Expr>(lhs.unwrap(), closeSpan(begin));
+            return makePRNode<QuestExpr, Expr>(lhs.take(), closeSpan(begin));
         }
 
         return lhs;
