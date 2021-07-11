@@ -163,20 +163,21 @@ namespace jc::ast {
     template<class U>
     class NParseResult : public BaseParseResult<N<U>> {
         using T = N<U>;
+        using E = typename BaseParseResult<T>::E;
     public:
         template<class B>
         NParseResult<N<B>> as() {
-            if (err()) {
-                return BaseParseResult<N<B>>(std::move(std::get<E>(state)));
+            if (this->err()) {
+                return BaseParseResult<N<B>>(std::move(std::get<E>(this->state)));
             }
-            return BaseParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(state).release())));
+            return BaseParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(this->state).release())));
         }
 
         void autoAccept(BaseVisitor & visitor) const {
-            if (err()) {
-                return std::get<E>(state)->accept(visitor);
+            if (this->err()) {
+                return std::get<E>(this->state)->accept(visitor);
             } else {
-                return std::get<T>(state)->accept(visitor);
+                return std::get<T>(this->state)->accept(visitor);
             }
         }
     };
