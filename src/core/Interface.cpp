@@ -227,13 +227,15 @@ namespace jc::core {
         moduleTreeBuilder.build(sess, *party.unwrap()).unwrap(sess, "module tree building");
         endBench("module-tree-building");
 
-        printModTree();
+        printModTree("module tree building");
         printDefinitions();
 
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, *party.unwrap()).unwrap(sess, "imports resolution");
         endBench("import-resolution");
+
+        printModTree("imports resolution");
 
         log.dev("Resolving names...");
         beginBench();
