@@ -2270,7 +2270,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        bool neg = skipOpt(TokenKind::Sub);
+        bool neg = skipOpt(TokenKind::Sub).some();
 
         // Note: Allowed negative literals are checked in `Validator`
         if (neg and not peek().isLiteral()) {
