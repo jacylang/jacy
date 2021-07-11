@@ -157,10 +157,12 @@ namespace jc::ast {
         printGenerics(impl.generics);
         log.raw(" ");
         impl.traitTypePath.accept(*this);
-        if (impl.forType) {
+
+        impl.forType.then([&](const auto & forType) {
             log.raw(" for ");
-            impl.forType.unwrap().accept(*this);
-        }
+            impl.forType->accept(*this);
+        });
+
         printBodyLike(impl.members, "\n");
 
         printNodeId(impl);
