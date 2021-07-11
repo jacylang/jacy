@@ -1002,14 +1002,14 @@ namespace jc::parser {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
-            skipOpt(TokenKind::Not) or
-            skipOpt(TokenKind::Sub) or
-            skipOpt(TokenKind::Ampersand) or
-            skipOpt(TokenKind::Mul)
+            skipOpt(TokenKind::Not).some() or
+            skipOpt(TokenKind::Sub).some() or
+            skipOpt(TokenKind::Ampersand).some() or
+            skipOpt(TokenKind::Mul).some()
         ) {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
-            if (not maybeRhs) {
+            if (maybeRhs.none()) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
                 return quest(); // FIXME: CHECK!!!
             }
@@ -1017,8 +1017,8 @@ namespace jc::parser {
             if (op.is(TokenKind::Ampersand) or op.is(TokenKind::Mut)) {
                 logParse("Borrow");
 
-                bool ref = skipOpt(TokenKind::Ampersand);
-                bool mut = skipOpt(TokenKind::Mut);
+                bool ref = skipOpt(TokenKind::Ampersand).some();
+                bool mut = skipOpt(TokenKind::Mut).some();
                 // TODO!!!: Swap `&` and `mut` suggestion
                 return makePRNode<BorrowExpr, Expr>(ref, mut, std::move(rhs), closeSpan(begin));
             } else if (op.is(TokenKind::Mul)) {
