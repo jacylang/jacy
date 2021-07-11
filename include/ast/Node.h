@@ -50,6 +50,7 @@ namespace jc::ast {
     /// Defines common methods
     template<class T>
     class BaseParseResult {
+    protected:
         // FIXME: Don't box ErrorNode
         using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
@@ -152,8 +153,17 @@ namespace jc::ast {
             return std::get<T>(state)->span;
         }
 
+    protected:
+        S state;
+    };
+
+    template<class T>
+    class ParseResult : public BaseParseResult<T> {};
+
+    template<class T>
+    class NParseResult : public BaseParseResult<N<T>> {
         template<class B>
-        BaseParseResult<N<B>> as() {
+        NParseResult<N<B>> as() {
             if (err()) {
                 return BaseParseResult<N<B>>(std::move(std::get<E>(state)));
             }
@@ -167,17 +177,6 @@ namespace jc::ast {
                 return std::get<T>(state)->accept(visitor);
             }
         }
-
-    protected:
-        S state;
-    };
-
-    template<class T>
-    class ParseResult : public BaseParseResult<T> {};
-
-    template<class T>
-    class NParseResult : public BaseParseResult<N<T>> {
-
     };
 
     template<class T>
