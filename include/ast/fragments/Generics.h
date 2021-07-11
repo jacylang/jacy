@@ -1,7 +1,7 @@
 #ifndef JACY_AST_FRAGMENTS_GENERICS_H
 #define JACY_AST_FRAGMENTS_GENERICS_H
 
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 
 namespace jc::ast {
     struct Type;

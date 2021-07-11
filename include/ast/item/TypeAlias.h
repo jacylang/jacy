@@ -2,7 +2,7 @@
 #define JACY_AST_ITEM_TYPEALIAS_H
 
 #include "ast/item/Item.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {

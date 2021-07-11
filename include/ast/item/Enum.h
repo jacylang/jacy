@@ -5,7 +5,7 @@
 #include <variant>
 
 #include "ast/item/Item.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 #include "ast/item/Struct.h"
 
 namespace jc::ast {

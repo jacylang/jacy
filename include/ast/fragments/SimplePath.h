@@ -2,7 +2,7 @@
 #define JACY_AST_FRAGMENTS_SIMPLEPATH_H
 
 #include "ast/Node.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 #include "data_types/Option.h"
 
 namespace jc::ast {

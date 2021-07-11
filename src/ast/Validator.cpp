@@ -585,7 +585,7 @@ namespace jc::ast {
         lintEach(attr.params);
     }
 
-    void Validator::visit(const Identifier&) {}
+    void Validator::visit(const Ident&) {}
 
     void Validator::visit(const Arg & el) {
         if (el.name.some()) {

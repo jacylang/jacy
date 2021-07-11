@@ -6,12 +6,12 @@
 #include "ast/Node.h"
 
 namespace jc::ast {
-    struct Identifier;
-    using id_ptr = PR<N<Identifier>>;
+    struct Ident;
+    using id_ptr = PR<N<Ident>>;
     using opt_id_ptr = Option<id_ptr>;
 
-    struct Identifier : Node {
-        explicit Identifier(parser::Token token, const Span & span)
+    struct Ident : Node {
+        explicit Ident(parser::Token token, const Span & span)
             : Node(span), token(token) {}
 
         parser::Token token;

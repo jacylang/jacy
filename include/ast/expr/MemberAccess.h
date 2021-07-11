@@ -2,7 +2,7 @@
 #define JACY_AST_EXPR_MEMBERACCESS_H
 
 #include "ast/expr/Expr.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 
 namespace jc::ast {
     struct MemberAccess : Expr {

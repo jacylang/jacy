@@ -379,7 +379,7 @@ namespace jc::ast {
         visitEach(attr.params);
     }
 
-    void StubVisitor::visit(const Identifier&) {}
+    void StubVisitor::visit(const Ident&) {}
 
     void StubVisitor::visit(const Arg & el) {
         if (el.name.some()) {

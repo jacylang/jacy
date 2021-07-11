@@ -2,7 +2,7 @@
 #define JACY_AST_STMT_LETSTMT_H
 
 #include "ast/stmt/Stmt.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 #include "ast/fragments/Type.h"
 #include "ast/fragments/Pattern.h"
 

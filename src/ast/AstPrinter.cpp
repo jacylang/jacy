@@ -686,7 +686,7 @@ namespace jc::ast {
         printNodeId(attr);
     }
 
-    void AstPrinter::visit(const Identifier & id) {
+    void AstPrinter::visit(const Ident & id) {
         log.raw(id.getValue());
 
         printNodeId(id);

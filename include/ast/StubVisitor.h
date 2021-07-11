@@ -87,7 +87,7 @@ namespace jc::ast {
 
         // Fragments //
         virtual void visit(const Attribute & attr) override;
-        virtual void visit(const Identifier & id) override;
+        virtual void visit(const Ident & id) override;
         virtual void visit(const Arg & el) override;
         virtual void visit(const Path & path) override;
         virtual void visit(const PathSeg & seg) override;

@@ -2,7 +2,7 @@
 #define JACY_AST_FRAGMENTS_ATTRIBUTE_H
 
 #include "ast/Node.h"
-#include "ast/fragments/Identifier.h"
+#include "ast/fragments/Ident.h"
 #include "ast/fragments/Arg.h"
 
 namespace jc::ast {

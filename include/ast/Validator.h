@@ -104,7 +104,7 @@ namespace jc::ast {
 
         // Fragments //
         void visit(const Attribute & attr) override;
-        void visit(const Identifier & id) override;
+        void visit(const Ident & id) override;
         void visit(const Arg & el) override;
         void visit(const Path & path) override;
         void visit(const PathSeg & seg) override;
