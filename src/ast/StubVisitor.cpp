@@ -106,7 +106,7 @@ namespace jc::ast {
     void StubVisitor::visit(const Trait & trait) {
         trait.name.autoAccept(*this);
 
-        if (trait.generics) {
+        if (trait.generics.some()) {
             visitEach(trait.generics.unwrap());
         }
 
@@ -117,7 +117,7 @@ namespace jc::ast {
     void StubVisitor::visit(const TypeAlias & typeAlias) {
         typeAlias.name.autoAccept(*this);
         typeAlias.type.then([&](const auto & type) {
-            type.accept(*this);
+            type.autoAccept(*this);
         });
     }
 
@@ -130,7 +130,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const UseTreeSpecific & useTree) {
-        if (useTree.path) {
+        if (useTree.path.some()) {
             useTree.path.unwrap()->accept(*this);
         }
         visitEach(useTree.specifics);
