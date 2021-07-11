@@ -898,7 +898,7 @@ namespace jc::parser {
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
             auto checkedLhs = errorForNone(
-                lhs, "Unexpected empty left-hand side in assignment", maybeAssignOp.span
+                lhs.take(), "Unexpected empty left-hand side in assignment", maybeAssignOp.span
             );
 
             advance();

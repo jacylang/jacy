@@ -230,15 +230,6 @@ namespace jc::parser {
 
         // Helpers //
     private:
-        template<class T>
-        PR<T> errorForNone(Option<T> && option, const std::string & suggMsg, const Span & span) {
-            if (option.none()) {
-                suggestErrorMsg(suggMsg, span);
-                return makeErrorNode(span);
-            }
-            return option.take();
-        }
-
         /// Shortcut for `peek().span`
         Span cspan() const;
         Span nspan() const;
