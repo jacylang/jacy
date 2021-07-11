@@ -113,24 +113,23 @@ namespace jc::ast {
 
         printDelim(func.params, "(", ")");
 
-        if (func.returnType) {
+        func.returnType.then([&](const auto & returnType) {
             log.raw(": ");
-            func.returnType.unwrap().accept(*this);
-        }
+            returnType.accept(*this);
+        });
 
-        if (func.body) {
-            if (func.body.unwrap().isOk()) {
-                const auto & body = func.body.unwrap().unwrap();
-                if (body->blockKind == BlockKind::OneLine) {
+        func.body.then([&](const auto & body) {
+            if (body.isOk()) {
+                if (body.unwrap()->blockKind == BlockKind::OneLine) {
                     log.raw(" = ");
-                } else if (body->blockKind == BlockKind::Raw and body->stmts.unwrap().size() == 0) {
+                } else if (body.unwrap()->blockKind == BlockKind::Raw and body.unwrap()->stmts.unwrap().size() == 0) {
                     log.raw(" ");
                 }
             }
-            func.body.unwrap().accept(*this);
-        } else {
+            body.accept(*this);
+        }).otherwise([&]() {
             log.raw(";");
-        }
+        });
 
         printNodeId(func);
     }
