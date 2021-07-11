@@ -229,7 +229,7 @@ namespace jc::resolve {
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Def & def) {
             os << def.kindStr();
-            if (def.nameNodeId) {
+            if (def.nameNodeId.some()) {
                 os << " [nameNode: #" << def.nameNodeId.unwrap() << "]";
             }
             return os;
