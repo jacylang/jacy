@@ -414,10 +414,10 @@ namespace jc::ast {
     void AstPrinter::visit(const Lambda & lambdaExpr) {
         printDelim(lambdaExpr.params, "\\(", ")");
 
-        if (lambdaExpr.returnType) {
+        lambdaExpr.returnType.then([&](const auto & returnType) {
             log.raw(": ");
-            lambdaExpr.returnType.unwrap().accept(*this);
-        }
+            returnType.accept(*this);
+        });
 
         log.raw(" -> ");
         lambdaExpr.body.accept(*this);
