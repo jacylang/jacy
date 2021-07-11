@@ -116,6 +116,11 @@ namespace jc::ast {
             return *this;
         }
 
+        ParseResult<T> & operator=(ParseResult<T> && other) {
+            state = std::move(other.state);
+            return *this;
+        }
+
         ParseResult<T> & operator=(const T & rawT) {
             state = rawT;
             return *this;
