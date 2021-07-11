@@ -2118,7 +2118,7 @@ namespace jc::parser {
                 //  'cause we want to check for problem like (name: string) -> type
                 suggestErrorMsg(
                     "Cannot declare function type with named parameter",
-                    tupleEl->name.unwrap().unwrap()->span
+                    tupleEl->name.unwrap().span()
                 );
             }
             if (tupleEl->type.none()) {
