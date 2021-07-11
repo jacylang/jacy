@@ -154,6 +154,30 @@ namespace jc::ast {
     };
 
     template<class T>
+    class ParseResult : public BaseParseResult<T> {
+    public:
+        using BaseParseResult<T>::BaseParseResult;
+        using E = typename BaseParseResult<T>::E;
+        using S = typename BaseParseResult<T>::S;
+
+    public:
+        void autoAccept(BaseVisitor & visitor) const {
+            if (this->err()) {
+                return std::get<E>(this->state)->accept(visitor);
+            } else {
+                return std::get<T>(this->state).accept(visitor);
+            }
+        }
+
+        const Span & span() const {
+            if (this->err()) {
+                return std::get<E>(this->state)->span;
+            }
+            return std::get<T>(this->state).span;
+        }
+    };
+
+    template<class T>
     inline NParseResult<T> ErrPR(N<ErrorNode> && err) {
         return NParseResult<T>(std::move(err));
     }
