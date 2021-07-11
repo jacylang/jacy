@@ -100,7 +100,7 @@ namespace jc::core {
 
         auto dirModule = std::make_unique<ast::Dir>(name, std::move(nestedEntries));
 
-        dirModule->id = sess->nodeMap.addNode(dirModule.get());
+        dirModule->id = sess->nodeMap.makeNode(dirModule.get());
 
         return dirModule;
     }
@@ -134,7 +134,7 @@ namespace jc::core {
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        parsedFile->id = sess->nodeMap.addNode(parsedFile.get());
+        parsedFile->id = sess->nodeMap.makeNode(parsedFile.get());
 
         return std::move(parsedFile);
     }
