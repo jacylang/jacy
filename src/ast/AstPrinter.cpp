@@ -345,9 +345,9 @@ namespace jc::ast {
 
     void AstPrinter::visit(const BreakExpr & breakExpr) {
         log.raw("break ");
-        if (breakExpr.expr) {
-            breakExpr.expr.unwrap().accept(*this);
-        }
+        breakExpr.expr.then([&](const auto & expr) {
+            expr.accept(*this);
+        });
 
         printNodeId(breakExpr);
     }
