@@ -700,7 +700,7 @@ namespace jc::ast {
     bool Validator::isPlaceExpr(const expr_ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
-            return isPlaceExpr(std::static_pointer_cast<ParenExpr>(expr)->expr);
+            return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);
         }
         return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }
