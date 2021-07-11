@@ -1776,7 +1776,7 @@ namespace jc::parser {
 
             members = parseItemList("Unexpected expression in " + construction + " body", TokenKind::RBrace);
 
-            if (braceSkipped) {
+            if (braceSkipped.some()) {
                 skip(TokenKind::RBrace, "Expected closing `}`");
             }
         } else if (not eof()) {
