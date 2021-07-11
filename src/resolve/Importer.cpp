@@ -48,16 +48,13 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
     }
 
-    void Importer::resolvePath(
-        PathResKind resKind,
-        const ast::SimplePath & path,
-        const PathResCB & cb
-    ) {
+    void Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
         std::string pathStr;
         bool inaccessible = false;
         dt::Option<UnresSeg> unresSeg{None};
+        DefPerNS defPerNs{None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i);
@@ -82,9 +79,7 @@ namespace jc::resolve {
                     pathStr += segName;
 
                     if (i == path.segments.size() - 1) {
-                        DefPerNS defPerNs{None, None, None};
                         defPerNs.set(Namespace::Type, defId);
-                        cb(defPerNs, *seg);
                     }
                 });
 
@@ -92,7 +87,7 @@ namespace jc::resolve {
                     break;
                 }
             } else if (resKind == PathResKind::Prefix) {
-                auto defsPerNS = searchMod->findAll(segName);
+                defPerNs = searchMod->findAll(segName);
 
                 // Save count of found definitions in module
                 // It is useful because
@@ -102,7 +97,7 @@ namespace jc::resolve {
                 uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
                 PerNS<dt::Option<DefVis>> defsPerNSVis{None, None, None};
-                defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
+                defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
                         const auto & defVis = sess->defStorage.getDefVis(optDefId.unwrap());
@@ -119,7 +114,7 @@ namespace jc::resolve {
                 } else {
                     // Note: We check visibility for definitions
                     //  and invoke callback even if some definitions are private
-                    defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
+                    defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
                             // Report "Cannot access" only if this is the only one inaccessible item
                             if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
@@ -128,8 +123,6 @@ namespace jc::resolve {
                             }
                         });
                     });
-
-                    cb(defsPerNS, *seg);
                 }
             }
         }

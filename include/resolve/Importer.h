@@ -46,11 +46,7 @@ namespace jc::resolve {
 
         // Resolutions //
     private:
-        void resolvePath(
-            PathResKind resKind,
-            const ast::SimplePath & path,
-            const PathResCB & cb
-        );
+        void resolvePath(PathResKind resKind, const ast::SimplePath & path);
     };
 }
 
