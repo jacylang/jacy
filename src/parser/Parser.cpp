@@ -1123,7 +1123,7 @@ namespace jc::parser {
 
             auto name = parseIdent("field name");
 
-            lhs = makePRNode<MemberAccess, Expr>(lhs.unwrap(), std::move(name), closeSpan(begin));
+            lhs = makePRNode<MemberAccess, Expr>(lhs.take(), std::move(name), closeSpan(begin));
             begin = cspan();
         }
 
