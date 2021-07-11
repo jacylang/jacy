@@ -68,7 +68,7 @@ namespace jc::core {
         void resolveNames();
 
         // Debug //
-        void printModTree();
+        void printModTree(const std::string & afterStage);
         void printDefinitions();
         void printResolutions();
 

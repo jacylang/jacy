@@ -246,12 +246,12 @@ namespace jc::core {
     }
 
     // Debug //
-    void Interface::printModTree() {
+    void Interface::printModTree(const std::string & afterStage) {
         if (not config.checkPrint(Config::PrintKind::ModTree)) {
             return;
         }
 
-        log.info("Printing module tree (`-print=mod-tree`)");
+        log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
         modulePrinter.print(sess);
         common::Logger::nl();
     }
