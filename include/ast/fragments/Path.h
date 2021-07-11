@@ -38,7 +38,7 @@ namespace jc::ast {
             ident(None),
             generics(std::move(generics)) {}
 
-        opt_id_ptr ident;
+        opt_ident_pr ident;
         opt_gen_params generics;
 
         static inline constexpr Kind getKind(const parser::Token & token) {

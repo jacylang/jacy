@@ -1875,7 +1875,7 @@ namespace jc::parser {
             const auto & segBegin = cspan();
 
             bool isUnrecoverableError = false;
-            opt_id_ptr ident{None};
+            opt_ident_pr ident{None};
             auto kind = PathSeg::getKind(peek());
             if (kind == ast::PathSeg::Kind::Ident) {
                 kind = PathSeg::Kind::Ident;
@@ -2051,7 +2051,7 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            opt_id_ptr name{None};
+            opt_ident_pr name{None};
             if (is(TokenKind::Id)) {
                 name = justParseIdent("`parenType`");
             }
