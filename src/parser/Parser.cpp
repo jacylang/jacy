@@ -897,18 +897,18 @@ namespace jc::parser {
 
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
-            auto checkedLhs = errorForNone(
-                lhs.take(), "Unexpected empty left-hand side in assignment", maybeAssignOp.span
-            );
+            if (lhs.none()) {
+                suggestErrorMsg("Unexpected empty left-hand side in assignment", maybeAssignOp.span);
+            }
 
             advance();
 
             auto rhs = parseExpr("Expected expression in assignment");
 
             return makePRNode<Assignment, Expr>(
-                std::move(checkedLhs),
+                lhs.take(),
                 maybeAssignOp,
-                std::move(rhs),
+                rhs.take(),
                 closeSpan(begin));
         }
 
