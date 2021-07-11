@@ -47,10 +47,12 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
+        // If path given -- descend to module it points to
         if (useTree.path.some()) {
             resolvePath(PathResKind::Full, *useTree.path.unwrap());
         }
 
+        // Here, we resolve specifics relatively to current path
         for (const auto & specific : useTree.specifics) {
             specific.accept(*this);
         }
