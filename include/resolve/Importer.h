@@ -36,6 +36,7 @@ namespace jc::resolve {
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;
         void visit(const ast::UseTreeSpecific & useTree) override;
+        void visit(const ast::UseTreeRebind & useTree) override;
 
     private:
         common::Logger log{"importer"};
@@ -50,6 +51,7 @@ namespace jc::resolve {
         // Resolutions //
     private:
         PathResult resolvePath(PathResKind resKind, const ast::SimplePath & path);
+        void define(PathResult && pathResult);
     };
 }
 
