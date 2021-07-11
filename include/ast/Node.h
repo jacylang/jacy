@@ -31,6 +31,11 @@ namespace jc::ast {
         const Span span;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
+
+        template<class T>
+        static const T * cast(const node_ptr & node) {
+            return static_cast<T*>(node.get());
+        }
     };
 
     struct ErrorNode : Node {
