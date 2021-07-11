@@ -1992,7 +1992,7 @@ namespace jc::parser {
             }
             return makeErrorNode(closeSpan(begin));
         }
-        return type.unwrap("`parseType` -> `type`");
+        return type.take("`parseType` -> `type`");
     }
 
     opt_type_ptr Parser::parseOptType() {
