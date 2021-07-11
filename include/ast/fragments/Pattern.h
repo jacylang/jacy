@@ -160,8 +160,8 @@ namespace jc::ast {
     };
 
     struct StructPat : Pattern {
-        StructPat(path_expr_ptr path, std::vector<StructPatEl> && elements, const Span & span)
-            : Pattern(PatternKind::Struct, span), path(path), elements(std::move(elements)) {}
+        StructPat(path_expr_ptr && path, std::vector<StructPatEl> && elements, const Span & span)
+            : Pattern(PatternKind::Struct, span), path(std::move(path)), elements(std::move(elements)) {}
 
         path_expr_ptr path;
         std::vector<StructPatEl> elements;
