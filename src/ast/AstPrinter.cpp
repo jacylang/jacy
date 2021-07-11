@@ -699,9 +699,7 @@ namespace jc::ast {
                 log.raw(": ");
             }
         }
-        if (el.value) {
-            el.value.unwrap()->accept(*this);
-        }
+        el.value.accept(*this);
 
         printNodeId(el);
     }
