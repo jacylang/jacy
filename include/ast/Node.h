@@ -78,10 +78,6 @@ namespace jc::ast {
             return state.index() != 0;
         }
 
-        operator bool() const {
-            return not isErr();
-        }
-
         const Span & span() const {
             if (isErr()) {
                 return std::get<E>(state)->span;
