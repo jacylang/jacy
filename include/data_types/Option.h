@@ -66,10 +66,6 @@ namespace jc::dt {
             return hasValue;
         }
 
-        operator bool() const {
-            return hasValue;
-        }
-
         Option<T> & operator=(T && rawT) {
             hasValue = true;
             value = std::move(rawT);
