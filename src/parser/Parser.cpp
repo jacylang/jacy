@@ -365,9 +365,9 @@ namespace jc::parser {
 
         bool typeAnnotated = false;
         const auto & maybeColonToken = peek();
-        if (skipOpt(TokenKind::Colon)) {
+        if (skipOpt(TokenKind::Colon).some()) {
             typeAnnotated = true;
-        } else if (skipOpt(TokenKind::Arrow)) {
+        } else if (skipOpt(TokenKind::Arrow).some()) {
             suggestErrorMsg(
                 "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
             );
@@ -375,7 +375,7 @@ namespace jc::parser {
 
         const auto & returnTypeToken = peek();
         auto returnType = parseOptType();
-        if (typeAnnotated and not returnType) {
+        if (typeAnnotated and returnType.none()) {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
