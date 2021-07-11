@@ -183,7 +183,7 @@ namespace jc::ast {
         typeAlias.name.autoAccept(*this);
 
         typeAlias.type.then([&](const auto & type) {
-            type.accept(*this);
+            type.autoAccept(*this);
         });
     }
 
