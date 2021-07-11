@@ -63,6 +63,8 @@ namespace jc::ast {
         BaseParseResult() : state(std::monostate{}) {}
         BaseParseResult(T && value) : state(std::move(value)) {}
         BaseParseResult(E && error) : state(std::move(error)) {}
+        BaseParseResult(const BaseParseResult<T> & other)
+            : state(std::move(other.state)) {}
         BaseParseResult(BaseParseResult<T> && other)
             : state(std::move(other.state)) {}
 
