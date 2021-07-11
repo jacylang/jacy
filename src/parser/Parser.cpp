@@ -1831,7 +1831,7 @@ namespace jc::parser {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
-            if (not is(TokenKind::Path)) {
+            if (not is(TokenKind::Path) and not lookup().isPathIdent()) {
                 break;
             }
 
