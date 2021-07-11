@@ -61,7 +61,7 @@ namespace jc::ast {
             if (err()) {
                 throw std::logic_error(msg.empty() ? "Called `ParseResult::take` on an `Err` ParseResult" : msg);
             }
-            return std::move(std::get<T>(state));
+            return std::get<T>(std::move(state));
         }
 
         const T & unwrap(const std::string & msg = "") const {
