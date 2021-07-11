@@ -98,6 +98,8 @@ namespace jc::resolve {
                     // No target found
                     unresSeg = {i, None};
                 } else {
+                    // Note: We check visibility for definitions
+                    //  and invoke callback even if some definitions are private
                     defsPerNS.each([&](opt_def_id optDefId, Namespace nsKind) {
                         optDefId.then([&](def_id defId) {
                             // Report "Cannot access" only if this is the only one inaccessible item
@@ -105,19 +107,6 @@ namespace jc::resolve {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
-                            _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
-                                // Note: If some definition can be redefined -- it is always named definition,
-                                //  so we can safely get its name node span
-                                const auto & oldDef = sess->defStorage.getDef(oldDefId);
-                                const auto & oldDefSpan = sess->nodeMap.getNodeSpan(oldDef.nameNodeId.unwrap());
-                                suggest(
-                                    std::make_unique<sugg::MsgSpanLinkSugg>(
-                                        "Cannot `use` '" + segName + "'",
-                                        seg->span,
-                                        "Because it is already declared as " + oldDef.kindStr() + " here",
-                                        oldDefSpan,
-                                        sugg::SuggKind::Error));
-                            });
                         });
                     });
 
