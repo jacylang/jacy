@@ -316,11 +316,11 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto name = parseId("`enum` entry name");
 
-        if (skipOpt(TokenKind::Assign)) {
+        if (skipOpt(TokenKind::Assign).some()) {
             auto discriminant = parseExpr("Expected constant expression after `=`");
             exitEntity();
             return makeNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), closeSpan(begin));
-        } else if (skipOpt(TokenKind::LParen)) {
+        } else if (skipOpt(TokenKind::LParen).some()) {
             auto tupleFields = parseTupleFields();
             exitEntity();
             skip(TokenKind::RParen, "closing `)`");
@@ -330,7 +330,7 @@ namespace jc::parser {
                 std::move(tupleFields),
                 closeSpan(begin)
             );
-        } else if (skipOpt(TokenKind::LBrace)) {
+        } else if (skipOpt(TokenKind::LBrace).some()) {
             auto fields = parseStructFields();
 
             skip(TokenKind::RParen, "Expected closing `}`");
