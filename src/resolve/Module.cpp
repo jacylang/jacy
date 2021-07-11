@@ -31,43 +31,15 @@ namespace jc::resolve {
         log.raw("{").nl();
         indent++;
 
-        if (not noValues) {
-            printIndent();
-            log.raw("values: ");
-            printNS(module->perNS.value);
-            log.nl();
-        }
-        if (not noTypes) {
-            printIndent();
-            log.raw("types: ");
-            printNS(module->perNS.type);
-            log.nl();
-        }
-        if (not noLifetimes) {
-            printIndent();
-            log.raw("lifetimes: ");
-            printNS(module->perNS.lifetime);
-            log.nl();
-        }
+        module->perNS.each([&](const mod_ns_map & ns, Namespace nsKind) {
+            for (const auto & [name, defId] : ns) {
+                printIndent();
+                log.raw("'", name, "' (", Module::nsToString(nsKind), ") ");
+                printDef(defId);
+                log.nl();
+            }
+        });
 
-        indent--;
-        printIndent();
-        log.raw("}");
-    }
-
-    void ModulePrinter::printNS(const mod_ns_map & ns) {
-        if (ns.empty()) {
-            log.raw("{}");
-            return;
-        }
-        log.raw("{").nl();
-        indent++;
-        for (const auto & [name, defId] : ns) {
-            printIndent();
-            log.raw("'", name, "' ");
-            printDef(defId);
-            log.nl();
-        }
         indent--;
         printIndent();
         log.raw("}");
