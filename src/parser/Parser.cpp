@@ -238,7 +238,7 @@ namespace jc::parser {
 
             auto item = parseOptItem();
             if (item.some()) {
-                items.emplace_back(item.unwrap("`parseItemList` -> `item`"));
+                items.emplace_back(item.take("`parseItemList` -> `item`"));
             } else {
                 const auto & exprToken = peek();
                 auto expr = parseOptExpr();
