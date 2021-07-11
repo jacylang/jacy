@@ -1405,7 +1405,7 @@ namespace jc::parser {
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
             brace = true;
         } else {
-            brace = skipOpt(TokenKind::LBrace);
+            brace = skipOpt(TokenKind::LBrace).some();
         }
 
         stmt_list stmts;
