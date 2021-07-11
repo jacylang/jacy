@@ -202,7 +202,7 @@ namespace jc::parser {
 
         if (maybeItem.some()) {
             if (maybeItem->ok()) {
-                auto item = std::move(maybeItem.take().unwrap());
+                auto item = std::move(maybeItem.take().take());
                 item->setAttributes(std::move(attributes));
                 item->setVis(std::move(vis));
                 return Some(OkPR(std::move(item)));
@@ -1151,7 +1151,7 @@ namespace jc::parser {
                 if (pathExpr.err()) {
                     return parseStructExpr(makeErrorNode(pathExpr.span()));
                 }
-                return parseStructExpr(pathExpr.unwrap());
+                return parseStructExpr(pathExpr.take());
             }
             return pathExpr.as<Expr>();
         }
@@ -1467,7 +1467,7 @@ namespace jc::parser {
         const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
-        if (not condition.err() and condition.unwrap()->is(ExprKind::Paren)) {
+        if (not condition.err() and condition.take()->is(ExprKind::Paren)) {
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
         }
 

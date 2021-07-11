@@ -57,9 +57,9 @@ namespace jc::ast {
         ParseResult(ParseResult<T> && other)
             : state(std::move(other.state)) {}
 
-        T unwrap(const std::string & msg = "") {
+        T take(const std::string & msg = "") {
             if (err()) {
-                throw std::logic_error(msg.empty() ? "Called `ParseResult::unwrap` on an `Err` ParseResult" : msg);
+                throw std::logic_error(msg.empty() ? "Called `ParseResult::take` on an `Err` ParseResult" : msg);
             }
             return std::move(std::get<T>(state));
         }

@@ -58,7 +58,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
         if (itemStmt.item.ok()) {
-            printAttributes(itemStmt.item.unwrap()->attributes);
+            printAttributes(itemStmt.item.take()->attributes);
         }
         itemStmt.item.autoAccept(*this);
 

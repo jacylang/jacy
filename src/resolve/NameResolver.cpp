@@ -27,7 +27,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterModule(func.name.unwrap()->getValue(), Namespace::Value); // -> `func` mod rib
+        enterModule(func.name.take()->getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param->type.autoAccept(*this);
@@ -56,7 +56,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterModule(mod.name.unwrap()->getValue());
+        enterModule(mod.name.take()->getValue());
         visitEach(mod.items);
         exitRib();
     }
@@ -140,7 +140,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::StructExpr & _struct) {
-        resolvePath(Namespace::Type, *_struct.path.unwrap()->path);
+        resolvePath(Namespace::Type, *_struct.path.take()->path);
         visitEach(_struct.fields);
     }
 
@@ -163,7 +163,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::StructPat & pat) {
         // Note: Path in StructPat is always a type
-        resolvePath(Namespace::Type, *pat.path.unwrap()->path);
+        resolvePath(Namespace::Type, *pat.path.take()->path);
 
         for (const auto & el : pat.elements) {
             switch (el.kind) {
@@ -272,7 +272,7 @@ namespace jc::resolve {
         // Resolve local //
         // If path is one segment long then it can be a local variable
         if (path.segments.size() == 1) {
-            const auto & seg = path.segments.at(0).unwrap();
+            const auto & seg = path.segments.at(0).take();
             if (seg->ident.some()) {
                 const auto & identStr = seg->ident.unwrap().unwrap()->getValue();
                 auto resolved = resolveLocal(targetNS, identStr, path.id);
@@ -297,7 +297,7 @@ namespace jc::resolve {
         PerNS<opt_def_id> altDefs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
-            const auto & seg = path.segments.at(i).unwrap();
+            const auto & seg = path.segments.at(i).take();
             const auto & segName = seg->ident.unwrap().unwrap()->getValue();
 
             // TODO: Resolve segment generics
@@ -351,8 +351,9 @@ namespace jc::resolve {
         if (unresSeg.some()) {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
-            const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)
-                                                .unwrap()->ident.unwrap().unwrap();
+            const auto & unresolvedSegIdent = path.segments
+                                                  .at(unresSeg.unwrap().segIndex)
+                                                  .take()->ident.unwrap().unwrap();
             const auto & unresolvedSegName = unresolvedSegIdent->getValue();
 
             if (inaccessible) {
