@@ -22,7 +22,12 @@ namespace jc::resolve {
     private:
         common::Logger log{"importer"};
         sess::sess_ptr sess;
-        module_ptr _module;
+
+        // Module where `use` appeared
+        module_ptr _declModule;
+
+        // Module that `use` now in
+        module_ptr _importModule;
     };
 }
 

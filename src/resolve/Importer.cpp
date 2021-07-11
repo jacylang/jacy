@@ -11,21 +11,19 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
-        auto prevModule = _module;
         const auto & useDeclModule = sess->defStorage.getUseDeclModule(useDecl.id);
 
         log.dev("Import `use` with module ", useDeclModule->toString());
 
-        _module = useDeclModule;
+        _declModule = useDeclModule;
         useDecl.useTree.accept(*this);
-        _module = prevModule;
     }
 
     void Importer::visit(const ast::UseTreeRaw & useTree) {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw
         // TODO!!!: `pub use...` reexports, now all `use`s are public
 
-        module_ptr searchMod = sess->defStorage.getModule(_module->nearestModDef.unwrap());
+        module_ptr searchMod = sess->defStorage.getModule(_declModule->nearestModDef.unwrap());
 
         std::string pathStr;
         bool inaccessible = false;
@@ -90,7 +88,7 @@ namespace jc::resolve {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
-                            _module->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
+                            _declModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                                 // Note: If some definition can be redefined -- it is always named definition,
                                 //  so we can safely get its name node span
                                 const auto & oldDef = sess->defStorage.getDef(oldDefId);
