@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
-        define(resolvePath(PathResKind::Prefix, *useTree.path), useTree.as.take()->getValue());
+        define(resolvePath(PathResKind::Prefix, *useTree.path), useTree.as.unwrap()->getValue());
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
