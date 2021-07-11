@@ -82,13 +82,6 @@ namespace jc::ast {
             return state.index() != 0;
         }
 
-        const Span & span() const {
-            if (err()) {
-                return std::get<E>(state)->span;
-            }
-            return std::get<T>(state)->span;
-        }
-
         const E & asErr() const {
             if (not err()) {
                 throw std::logic_error("Called `ParseResult::asErr` on an non-error ParseResult");
@@ -101,14 +94,6 @@ namespace jc::ast {
                 throw std::logic_error("Called `ParseResult::asValue` on an `Err` ParseResult");
             }
             return std::get<T>(state);
-        }
-
-        template<class B>
-        ParseResult<N<B>> as() {
-            if (err()) {
-                return ParseResult<N<B>>(std::move(std::get<E>(state)));
-            }
-            return ParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(state).release())));
         }
 
         ParseResult<T> & operator=(const ParseResult<T> & other) {
@@ -157,6 +142,21 @@ namespace jc::ast {
                 throw std::logic_error("Called `const T & ParseResult::operator*` on an `Err` ParseResult");
             }
             return *std::get<T>(state);
+        }
+
+        const Span & span() const {
+            if (err()) {
+                return std::get<E>(state)->span;
+            }
+            return std::get<T>(state)->span;
+        }
+
+        template<class B>
+        ParseResult<N<B>> as() {
+            if (err()) {
+                return ParseResult<N<B>>(std::move(std::get<E>(state)));
+            }
+            return ParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(state).release())));
         }
 
         void autoAccept(BaseVisitor & visitor) const {
