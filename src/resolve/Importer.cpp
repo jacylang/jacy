@@ -63,8 +63,9 @@ namespace jc::resolve {
                     pathStr += segName;
 
                     if (i == path.segments.size() - 1) {
-
-                        cb(PerNS<opt_def_id>);
+                        DefPerNS defPerNs{None, None, None};
+                        defPerNs.set(Namespace::Type, defId);
+                        cb(defPerNs);
                     }
                 });
 
