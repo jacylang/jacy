@@ -57,7 +57,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
-        if (itemStmt.item) {
+        if (itemStmt.item.ok()) {
             printAttributes(itemStmt.item.unwrap()->attributes);
         }
         itemStmt.item.autoAccept(*this);
@@ -115,18 +115,18 @@ namespace jc::ast {
 
         func.returnType.then([&](const auto & returnType) {
             log.raw(": ");
-            returnType.accept(*this);
+            returnType.autoAccept(*this);
         });
 
         func.body.then([&](const auto & body) {
-            if (body.isOk()) {
+            if (body.ok()) {
                 if (body.unwrap()->blockKind == BlockKind::OneLine) {
                     log.raw(" = ");
                 } else if (body.unwrap()->blockKind == BlockKind::Raw and body.unwrap()->stmts.unwrap().size() == 0) {
                     log.raw(" ");
                 }
             }
-            body.accept(*this);
+            body.autoAccept(*this);
         }).otherwise([&]() {
             log.raw(";");
         });
