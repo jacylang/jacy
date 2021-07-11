@@ -9,6 +9,7 @@
 
 namespace jc::resolve {
     using DefPerNS = PerNS<opt_def_id>;
+    using PathResCB = std::function<void(const DefPerNS&, const std::string & segName)>;
 
     /// Path resolution style
     /// `Prefix`
@@ -48,7 +49,7 @@ namespace jc::resolve {
         void resolvePath(
             PathResKind resKind,
             const ast::SimplePath & path,
-            const std::function<void(const DefPerNS&)> & cb
+            const PathResCB & cb
         );
     };
 }
