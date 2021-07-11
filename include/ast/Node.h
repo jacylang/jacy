@@ -160,8 +160,10 @@ namespace jc::ast {
     template<class T>
     class ParseResult : public BaseParseResult<T> {};
 
-    template<class T>
-    class NParseResult : public BaseParseResult<N<T>> {
+    template<class U>
+    class NParseResult : public BaseParseResult<N<U>> {
+        using T = N<U>;
+    public:
         template<class B>
         NParseResult<N<B>> as() {
             if (err()) {
