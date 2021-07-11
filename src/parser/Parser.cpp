@@ -1688,7 +1688,10 @@ namespace jc::parser {
 
         while (not eof()) {
             const auto & modifier = peek();
-            if (skipOpt(TokenKind::Move) or skipOpt(TokenKind::Mut) or skipOpt(TokenKind::Static)) {
+            if (skipOpt(TokenKind::Move).some() or
+                skipOpt(TokenKind::Mut).some() or
+                skipOpt(TokenKind::Static).some()
+            ) {
                 logParse("Modifier:'"+ modifier.kindToString() +"'");
                 modifiers.push_back(modifier);
             } else {
