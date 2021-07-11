@@ -9,7 +9,10 @@
 
 namespace jc::resolve {
     using DefPerNS = PerNS<opt_def_id>;
-    using PathResCB = std::function<void(const DefPerNS&, const ast::SimplePathSeg&)>;
+    struct PathResult {
+        DefPerNS defPerNs;
+        ast::simple_path_seg_ptr lastSeg;
+    };
 
     /// Path resolution style
     /// `Prefix`
