@@ -1,5 +1,5 @@
 mod m {
-    pub func foo {}
+    func foo {}
 }
 
 func main {

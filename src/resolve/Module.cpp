@@ -33,19 +33,19 @@ namespace jc::resolve {
 
         if (not noValues) {
             printIndent();
-            log.raw("[value NS]: ");
+            log.raw("values: ");
             printNS(module->perNS.value);
             log.nl();
         }
         if (not noTypes) {
             printIndent();
-            log.raw("[type NS]: ");
+            log.raw("types: ");
             printNS(module->perNS.type);
             log.nl();
         }
         if (not noLifetimes) {
             printIndent();
-            log.raw("[lifetime NS]: ");
+            log.raw("lifetimes: ");
             printNS(module->perNS.lifetime);
             log.nl();
         }
