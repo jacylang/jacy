@@ -1817,7 +1817,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        bool global = skipOpt(TokenKind::Path);
+        bool global = skipOpt(TokenKind::Path).some();
         std::vector<simple_path_seg_ptr> segments;
         while (not eof()) {
             logParse("SimplePathSeg:'" + peek().kindToString() + "'");
