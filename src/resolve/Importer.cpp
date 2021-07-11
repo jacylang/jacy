@@ -16,7 +16,7 @@ namespace jc::resolve {
         log.dev("Import `use` with module ", useDeclModule->toString());
 
         _useDeclModule = useDeclModule;
-        _importModule = _useDeclModule;
+        _importModule = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
         useDecl.useTree.accept(*this);
     }
 
@@ -50,8 +50,6 @@ namespace jc::resolve {
     }
 
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
-        module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
-
         std::string pathStr;
         bool inaccessible = false;
         dt::Option<UnresSeg> unresSeg{None};
@@ -65,7 +63,7 @@ namespace jc::resolve {
             bool isPrefixSeg = i < path.segments.size() - 1;
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
-                searchMod->find(Namespace::Type, segName).then([&](def_id defId) {
+                _importModule->find(Namespace::Type, segName).then([&](def_id defId) {
                     if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresSeg = {i, defId};
@@ -73,7 +71,7 @@ namespace jc::resolve {
                     }
 
                     // Only items from type namespace can be descended to
-                    searchMod = sess->defStorage.getModule(defId);
+                    _importModule = sess->defStorage.getModule(defId);
                     if (not isFirstSeg) {
                         pathStr += "::";
                     }
@@ -88,7 +86,7 @@ namespace jc::resolve {
                     break;
                 }
             } else if (resKind == PathResKind::Prefix) {
-                defPerNs = searchMod->findAll(segName);
+                defPerNs = _importModule->findAll(segName);
 
                 // Save count of found definitions in module
                 // It is useful because
