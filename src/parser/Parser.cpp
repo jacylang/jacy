@@ -2053,7 +2053,7 @@ namespace jc::parser {
             }
 
             opt_type_ptr type{None};
-            if (name and is(TokenKind::Colon)) {
+            if (name.some() and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
                 type = parseType("Expected type in named tuple type after `:`");
