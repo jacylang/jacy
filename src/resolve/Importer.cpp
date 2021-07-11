@@ -15,7 +15,7 @@ namespace jc::resolve {
 
         log.dev("Import `use` with module ", useDeclModule->toString());
 
-        _declModule = useDeclModule;
+        _useDeclModule = useDeclModule;
         useDecl.useTree.accept(*this);
     }
 
@@ -30,7 +30,7 @@ namespace jc::resolve {
     }
 
     void Importer::resolvePath(const ast::SimplePath & path, const std::function<void ()> & targetCb) {
-        module_ptr searchMod = sess->defStorage.getModule(_declModule->nearestModDef.unwrap());
+        module_ptr searchMod = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
 
         std::string pathStr;
         bool inaccessible = false;
@@ -95,7 +95,7 @@ namespace jc::resolve {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
-                            _declModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
+                            _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
                                 // Note: If some definition can be redefined -- it is always named definition,
                                 //  so we can safely get its name node span
                                 const auto & oldDef = sess->defStorage.getDef(oldDefId);
