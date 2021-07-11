@@ -15,7 +15,8 @@ namespace jc::ast {
             return node;
         }
 
-        Node * addNode(Node * node) {
+        template<class T>
+        T * addNode(T * node) {
             checkSize();
             node->id = static_cast<node_id>(nodes.size());
             nodes.emplace_back(node);
