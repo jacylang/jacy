@@ -200,12 +200,12 @@ namespace jc::parser {
             default: {}
         }
 
-        if (maybeItem) {
+        maybeItem.then([&](const item_ptr & pure) {
             auto item = std::move(maybeItem.unwrap().unwrap());
             item->setAttributes(std::move(attributes));
             item->setVis(std::move(vis));
             return Some(Ok(std::move(item)));
-        }
+        });
 
         if (not attributes.empty()) {
             for (const auto & attr : attributes) {

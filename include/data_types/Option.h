@@ -37,10 +37,16 @@ namespace jc::dt {
         }
 
         const Option<T> & then(const std::function<void(const T&)> & f) const {
-            if (not none()) {
+            if (some()) {
                 f(unwrap());
             }
             return *this;
+        }
+
+        void thenMove(const std::function<void(T&&)> & f) const {
+            if (some()) {
+                f(std::move(value));
+            }
         }
 
         const Option<T> & otherwise(const std::function<void()> & f) const {
