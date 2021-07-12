@@ -277,11 +277,9 @@ namespace jc::dt {
             m_storage = Ok(T());
         }
 
-        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {
-        }
+        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
 
-        constexpr Result(Err<E> value) : m_storage(std::move(value)) {
-        }
+        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
 
         template<typename... Args>
         constexpr Result(ok_tag_t, Args && ... args)
@@ -394,71 +392,6 @@ namespace jc::dt {
 
         constexpr E && err_unchecked() && noexcept {
             return std::move(m_storage).template get<E>();
-        }
-
-    public:
-        template<typename F,
-            typename T2 = std::invoke_result_t<F, T>,
-                std::enable_if_t<std::is_invocable_r<T2, F, T>::value, int> = 0>
-        Result<T2, E> map(F && map_fn) const {
-            if(ok()) {
-                return Result<T2, E>(Ok(map_fn(std::move(*this).ok_unchecked())));
-            } else {
-                return Result<T2, E>(Err(std::move(*this).err_unchecked()));
-            }
-        }
-
-        template<typename F,
-            typename E2 = std::invoke_result_t<F, E>,
-                std::enable_if_t<std::is_invocable_r<E2, F, E>::value, int> = 0>
-        Result<T, E2> map_err(F && map_fn) {
-            if(ok()) {
-                return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
-            } else {
-                return Result<T, E2>(Err(map_fn(std::move(*this).err_unchecked())));
-            }
-        }
-
-        template <typename T2>
-        Result<T2, E> and_(Result<T2, E> other) {
-            if(ok()) {
-                return other;
-            } else {
-                return Result<T2, E>(Err(std::move(*this).err_unchecked()));
-            }
-        }
-
-        template <typename F,
-            typename T2 = typename std::invoke_result_t<F, T>::value_type,
-            std::enable_if_t<std::is_invocable_r<Result<T2, E>, F, T>::value,
-                int> = 0>
-        Result<T2, E> and_then(F && fn) {
-            if(ok()) {
-                return fn(std::move(*this).ok_unchecked());
-            } else {
-                return Result<T2, E>(Err(std::move(*this).err_unchecked()));
-            }
-        }
-
-        template <typename E2>
-        Result<T, E2> or_(Result<T, E2> other) {
-            if(err()) {
-                return other;
-            } else {
-                return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
-            }
-        }
-
-        template <typename F,
-            typename E2 = typename std::invoke_result_t<F, E>::error_type,
-            std::enable_if_t<std::is_invocable_r<Result<T, E2>, F, E>::value,
-                int> = 0>
-        Result<T, E2> or_else(F && fn) {
-            if(err()) {
-                return fn(std::move(*this).err_unchecked());
-            } else {
-                return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
-            }
         }
 
     private:
