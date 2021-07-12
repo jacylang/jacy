@@ -35,12 +35,6 @@ namespace jc::dt {
         return false;
     }
 
-    template <typename T>
-    struct is_result : std::false_type {};
-
-    template <typename T, typename E>
-    struct is_result<Result<T, E>> : std::true_type {};
-
     template<typename T>
     class Err {
     public:
@@ -104,9 +98,7 @@ namespace jc::dt {
 
     Ok()->Ok<unit_t>;
 
-
     namespace details {
-
         inline void terminate(const std::string_view& msg) {
             std::cerr << msg << std::endl;
             std::terminate();
@@ -278,7 +270,6 @@ namespace jc::dt {
         }
 
         constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
-
         constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
 
         template<typename... Args>
