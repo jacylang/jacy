@@ -350,14 +350,14 @@ namespace jc::dt {
             if (!ok()) {
                 details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
-            return std::move(*this).ok_unchecked();
+            return ok_unchecked();
         }
 
-        constexpr const T & unwrapErr(const std::string & msg = "") const {
+        constexpr const E & unwrapErr(const std::string & msg = "") const {
             if (!err()) {
                 details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
             }
-            return std::move(*this).err_unchecked();
+            return err_unchecked();
         }
 
         constexpr T && take(const std::string & msg = "") {
@@ -365,6 +365,13 @@ namespace jc::dt {
                 details::terminate("Called `take` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
             return std::move(*this).ok_unchecked();
+        }
+
+        constexpr E && takeErr(const std::string & msg = "") {
+            if (!err()) {
+                details::terminate("Called `takeErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
+            }
+            return std::move(*this).err_unchecked();
         }
 
     private:
