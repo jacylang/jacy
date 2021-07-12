@@ -50,13 +50,16 @@ namespace jc::ast {
     /// Defines common methods
 
     template<class U>
-    class NParseResult : public dt::Result<U, N<ErrorNode>> {
-        using E = typename dt::Result<U, N<ErrorNode>>::error_type;
-        using T = typename dt::Result<U, N<ErrorNode>>::value_type;
+    class NParseResult : public dt::Result<U, ErrorNode> {
+        using E = typename dt::Result<U, ErrorNode>::error_type;
+        using T = typename dt::Result<U, ErrorNode>::value_type;
 
     public:
         template<class B>
-        NParseResult<N<B>> as() {
+        NParseResult<N<B>> as() noexcept(
+            std::is_pointer<T>::value &&
+            std::is_pointer<E>::value
+        ) {
             if (this->err()) {
                 return NParseResult<N<B>>(std::move(std::get<E>(this->state)));
             }
@@ -64,18 +67,11 @@ namespace jc::ast {
         }
 
         void autoAccept(BaseVisitor & visitor) const {
-            if (this->err()) {
-                return std::get<E>(this->state).accept(visitor);
-            } else {
-                return std::get<T>(this->state)->accept(visitor);
-            }
+            return this->ptr()->accept(visitor);
         }
 
         const Span & span() const {
-            if (this->err()) {
-                return std::get<E>(this->state).span;
-            }
-            return std::get<T>(this->state)->span;
+            return this->ptr()->span;
         }
     };
 
