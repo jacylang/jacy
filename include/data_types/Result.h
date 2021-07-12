@@ -399,11 +399,19 @@ namespace jc::dt {
             return std::move(m_storage).template get<E>();
         }
 
-        constexpr T * ptr() const {
+        constexpr const T * ptr() const {
             if (std::is_pointer<T>::value) {
                 return ok_unchecked();
             } else {
                 return *ok_unchecked();
+            }
+        }
+
+        constexpr T * ptr() {
+            if (std::is_pointer<T>::value) {
+                return std::move(ok_unchecked());
+            } else {
+                return *std::move(ok_unchecked());
             }
         }
 
