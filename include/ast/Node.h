@@ -61,9 +61,9 @@ namespace jc::ast {
             std::is_pointer<E>::value
         ) {
             if (this->err()) {
-                return NParseResult<N<B>>(std::move(std::get<E>(this->state)));
+                return NParseResult<N<B>>(this->ptr());
             }
-            return NParseResult<N<B>>(N<B>(static_cast<B*>(std::get<T>(this->state).release())));
+            return NParseResult<N<B>>(N<B>(static_cast<B*>(this->ptr())));
         }
 
         void autoAccept(BaseVisitor & visitor) const {
