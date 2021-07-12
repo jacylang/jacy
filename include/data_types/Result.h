@@ -353,6 +353,13 @@ namespace jc::dt {
             return std::move(*this).ok_unchecked();
         }
 
+        constexpr const T & unwrapErr(const std::string & msg = "") const {
+            if (!err()) {
+                details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
+            }
+            return std::move(*this).err_unchecked();
+        }
+
         constexpr T && take(const std::string & msg = "") {
             if (!ok()) {
                 details::terminate("Called `take` on an Err value" + (msg.empty() ? " " + msg : msg));
