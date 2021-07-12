@@ -77,7 +77,7 @@ namespace jc::dt {
             if (other.none()) {
                 hasValue = false;
             } else {
-                value = std::move(other.getValueUnsafe());
+                value = std::move(other.value);
             }
             return *this;
         }
