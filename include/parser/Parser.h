@@ -110,8 +110,8 @@ namespace jc::parser {
             return OkPR(N<B>(static_cast<B*>(node.release())));
         }
 
-        inline ErrorNode makeErrorNode(const Span & span) {
-            return *sess->nodeMap.addNode(new ErrorNode(span));
+        inline N<ErrorNode> makeErrorNode(const Span & span) {
+            return sess->nodeMap.makeBoxNode<ErrorNode>(span);
         }
 
         parse_sess_ptr parseSess;
