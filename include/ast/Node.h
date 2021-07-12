@@ -52,15 +52,13 @@ namespace jc::ast {
     template<class T>
     class NParseResult {
     public:
-        using E = ErrorNode;
+        using E = N<ErrorNode>;
         using S = std::variant<T, E, std::monostate>;
 
     public:
         NParseResult() : state(std::monostate{}) {}
         NParseResult(T && value) : state(std::move(value)) {}
         NParseResult(E && error) : state(std::move(error)) {}
-        NParseResult(const NParseResult<T> & other)
-            : state(std::move(other.state)) {}
         NParseResult(NParseResult<T> && other)
             : state(std::move(other.state)) {}
 
@@ -68,7 +66,7 @@ namespace jc::ast {
             if (other.err()) {
                 this->state = std::get<E>(other.state).release();
             } else {
-                this->state = std::get<T>(other.state).relear();
+                this->state = std::get<T>(other.state).release();
             }
             return *this;
         }
@@ -138,7 +136,7 @@ namespace jc::ast {
 
         void autoAccept(BaseVisitor & visitor) const {
             if (this->err()) {
-                return std::get<E>(this->state).accept(visitor);
+                return std::get<E>(this->state)->accept(visitor);
             } else {
                 return std::get<T>(this->state)->accept(visitor);
             }
@@ -146,7 +144,7 @@ namespace jc::ast {
 
         const Span & span() const {
             if (this->err()) {
-                return std::get<E>(this->state).span;
+                return std::get<E>(this->state)->span;
             }
             return std::get<T>(this->state)->span;
         }
