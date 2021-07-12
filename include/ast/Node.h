@@ -50,9 +50,9 @@ namespace jc::ast {
     /// Defines common methods
 
     template<class U>
-    class NParseResult : public dt::Result<U, ErrorNode> {
-        using E = typename dt::Result<U, ErrorNode>::error_type;
-        using T = typename dt::Result<U, ErrorNode>::value_type;
+    class NParseResult : public dt::Result<U, N<ErrorNode>> {
+        using E = typename dt::Result<U, N<ErrorNode>>::error_type;
+        using T = typename dt::Result<U, N<ErrorNode>>::value_type;
 
     public:
         template<class B>

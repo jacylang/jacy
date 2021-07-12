@@ -676,7 +676,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeErrorNode(closeSpan(begin));
+        return makeErrorNode<N<UseTree>>(closeSpan(begin));
     }
 
     ////////////////
