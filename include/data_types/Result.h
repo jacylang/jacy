@@ -3,8 +3,44 @@
 
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 namespace jc::dt {
+    namespace inner {
+        template<class T>
+        struct Ok {
+            Ok(const T & val) : val(val) {}
+            Ok(T && val) : val(std::move(val)) {}
+
+            T val;
+        };
+
+        template<>
+        struct Ok<void> {};
+
+        template<class E>
+        struct Err {
+            Err(const E & val) : val(val) {}
+            Err(E && val) : val(std::move(val)) {}
+
+            E val;
+        };
+    }
+
+    template<typename T, typename CleanT = typename std::decay<T>::type>
+    inner::Ok<CleanT> Ok(T && val) {
+        return inner::Ok<CleanT>(std::forward<T>(val));
+    }
+
+    inline inner::Ok<void> Ok() {
+        return inner::Ok<void>();
+    }
+
+    template<typename E, typename CleanE = typename std::decay<E>::type>
+    inner::Err<CleanE> Err(E && val) {
+        return inner::Err<CleanE>(std::forward<E>(val));
+    }
+
     template<class T, class E>
     class Result {
     public:
