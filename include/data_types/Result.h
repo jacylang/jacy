@@ -305,11 +305,11 @@ namespace jc::dt {
             return *this;
         }
 
-        constexpr bool is_ok() const noexcept {
+        constexpr bool ok() const noexcept {
             return m_storage.kind() == ResultKind::Ok;
         }
 
-        constexpr bool is_err() const noexcept {
+        constexpr bool err() const noexcept {
             return m_storage.kind() == ResultKind::Err;
         }
 
@@ -318,7 +318,7 @@ namespace jc::dt {
         }
 
         constexpr operator bool() const noexcept {
-            return is_ok();
+            return ok();
         }
 
         constexpr bool operator==(const Ok<T> & other) const noexcept {
@@ -362,42 +362,42 @@ namespace jc::dt {
         }
 
         constexpr const E & try_err() const {
-            if (!is_err()) {
+            if (!err()) {
                 details::terminate("Called `try_err` on an Ok value");
             }
             return err_unchecked();
         }
 
         constexpr E & try_err() {
-            if (!is_err()) {
+            if (!err()) {
                 details::terminate("Called `try_err` on an Ok value");
             }
             return err_unchecked();
         }
 
         constexpr const T & try_ok() const {
-            if (!is_ok()) {
+            if (!ok()) {
                 details::terminate("Called `try_ok` on an Err value");
             }
             return ok_unchecked();
         }
 
         constexpr T & try_ok() {
-            if (!is_ok()) {
+            if (!ok()) {
                 details::terminate("Called `try_ok` on an Err value");
             }
             return ok_unchecked();
         }
 
         constexpr T && unwrap() {
-            if (!is_ok()) {
+            if (!ok()) {
                 details::terminate("Called `unwrap` on an Err value");
             }
             return std::move(*this).ok_unchecked();
         }
 
         constexpr T && unwrap_or(T && value) {
-            if (!is_ok()) {
+            if (!ok()) {
                 return value;
             }
             return std::move(*this).ok_unchecked();
@@ -406,21 +406,21 @@ namespace jc::dt {
         constexpr T && unwrap_or_default() {
             static_assert(
                 std::is_default_constructible<T>::value, "`unwrap_or_default` requires T to be default constructible");
-            if (!is_ok()) {
+            if (!ok()) {
                 return T();
             }
             return std::move(*this).ok_unchecked();
         }
 
         constexpr E && unwrap_err() {
-            if (!is_err()) {
+            if (!err()) {
                 details::terminate("Called `unwrap_err` on an Err value");
             }
             return std::move(*this).err_unchecked();
         }
 
         constexpr E && unwrap_err_or(E && error) {
-            if (!is_err()) {
+            if (!err()) {
                 return error;
             }
             return std::move(*this).err_unchecked();
@@ -430,21 +430,21 @@ namespace jc::dt {
             static_assert(
                 std::is_default_constructible<T>::value, "`unwrap_err_or_default` requires E to be default "
                                                          "constructible");
-            if (!is_err()) {
+            if (!err()) {
                 return E();
             }
             return std::move(*this).err_unchecked();
         }
 
         constexpr T && expect(const std::string_view & message) {
-            if (!is_ok()) {
+            if (!ok()) {
                 details::terminate(message);
             }
             return std::move(*this).ok_unchecked();
         }
 
         constexpr E && expect_err(const std::string_view & message) {
-            if (!is_err()) {
+            if (!err()) {
                 details::terminate(message);
             }
             return std::move(*this).err_unchecked();
@@ -480,7 +480,7 @@ namespace jc::dt {
             typename T2 = std::invoke_result_t<F, T>,
                 std::enable_if_t<std::is_invocable_r<T2, F, T>::value, int> = 0>
         Result<T2, E> map(F && map_fn) const {
-            if(is_ok()) {
+            if(ok()) {
                 return Result<T2, E>(Ok(map_fn(std::move(*this).ok_unchecked())));
             } else {
                 return Result<T2, E>(Err(std::move(*this).err_unchecked()));
@@ -491,7 +491,7 @@ namespace jc::dt {
             typename E2 = std::invoke_result_t<F, E>,
                 std::enable_if_t<std::is_invocable_r<E2, F, E>::value, int> = 0>
         Result<T, E2> map_err(F && map_fn) {
-            if(is_ok()) {
+            if(ok()) {
                 return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
             } else {
                 return Result<T, E2>(Err(map_fn(std::move(*this).err_unchecked())));
@@ -500,7 +500,7 @@ namespace jc::dt {
 
         template <typename T2>
         Result<T2, E> and_(Result<T2, E> other) {
-            if(is_ok()) {
+            if(ok()) {
                 return other;
             } else {
                 return Result<T2, E>(Err(std::move(*this).err_unchecked()));
@@ -512,7 +512,7 @@ namespace jc::dt {
             std::enable_if_t<std::is_invocable_r<Result<T2, E>, F, T>::value,
                 int> = 0>
         Result<T2, E> and_then(F && fn) {
-            if(is_ok()) {
+            if(ok()) {
                 return fn(std::move(*this).ok_unchecked());
             } else {
                 return Result<T2, E>(Err(std::move(*this).err_unchecked()));
@@ -521,7 +521,7 @@ namespace jc::dt {
 
         template <typename E2>
         Result<T, E2> or_(Result<T, E2> other) {
-            if(is_err()) {
+            if(err()) {
                 return other;
             } else {
                 return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
@@ -533,7 +533,7 @@ namespace jc::dt {
             std::enable_if_t<std::is_invocable_r<Result<T, E2>, F, E>::value,
                 int> = 0>
         Result<T, E2> or_else(F && fn) {
-            if(is_err()) {
+            if(err()) {
                 return fn(std::move(*this).err_unchecked());
             } else {
                 return Result<T, E2>(Ok(std::move(*this).ok_unchecked()));
