@@ -399,6 +399,14 @@ namespace jc::dt {
             return std::move(m_storage).template get<E>();
         }
 
+        constexpr T * ptr() const {
+            if (std::is_pointer<T>::value) {
+                return ok_unchecked();
+            } else {
+                return *ok_unchecked();
+            }
+        }
+
     private:
         details::ResultStorage<T, E> m_storage;
     };

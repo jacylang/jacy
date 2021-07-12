@@ -65,7 +65,7 @@ namespace jc::ast {
 
         void autoAccept(BaseVisitor & visitor) const {
             if (this->err()) {
-                return std::get<E>(this->state)->accept(visitor);
+                return std::get<E>(this->state).accept(visitor);
             } else {
                 return std::get<T>(this->state)->accept(visitor);
             }
@@ -73,7 +73,7 @@ namespace jc::ast {
 
         const Span & span() const {
             if (this->err()) {
-                return std::get<E>(this->state)->span;
+                return std::get<E>(this->state).span;
             }
             return std::get<T>(this->state)->span;
         }
