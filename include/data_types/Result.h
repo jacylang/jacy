@@ -273,7 +273,7 @@ namespace jc::dt {
         constexpr Result() {
             static_assert(std::is_default_constructible<T>::value,
                           "Result<T, E> may only be default constructed if T is default "
-                          "constructible.");
+                          "constructable.");
             m_storage = Ok(T());
         }
 
@@ -317,10 +317,6 @@ namespace jc::dt {
             return m_storage.kind();
         }
 
-        constexpr operator bool() const noexcept {
-            return ok();
-        }
-
         constexpr bool operator==(const Ok<T> & other) const noexcept {
             if constexpr(std::is_same<T, unit_t>::value) {
                 return true;
@@ -361,93 +357,11 @@ namespace jc::dt {
             return !(*this == other);
         }
 
-        constexpr const E & try_err() const {
-            if (!err()) {
-                details::terminate("Called `try_err` on an Ok value");
-            }
-            return err_unchecked();
-        }
-
-        constexpr E & try_err() {
-            if (!err()) {
-                details::terminate("Called `try_err` on an Ok value");
-            }
-            return err_unchecked();
-        }
-
-        constexpr const T & try_ok() const {
+        constexpr T && unwrap(const std::string & msg) const {
             if (!ok()) {
-                details::terminate("Called `try_ok` on an Err value");
-            }
-            return ok_unchecked();
-        }
-
-        constexpr T & try_ok() {
-            if (!ok()) {
-                details::terminate("Called `try_ok` on an Err value");
-            }
-            return ok_unchecked();
-        }
-
-        constexpr T && unwrap() {
-            if (!ok()) {
-                details::terminate("Called `unwrap` on an Err value");
+                details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
             return std::move(*this).ok_unchecked();
-        }
-
-        constexpr T && unwrap_or(T && value) {
-            if (!ok()) {
-                return value;
-            }
-            return std::move(*this).ok_unchecked();
-        }
-
-        constexpr T && unwrap_or_default() {
-            static_assert(
-                std::is_default_constructible<T>::value, "`unwrap_or_default` requires T to be default constructible");
-            if (!ok()) {
-                return T();
-            }
-            return std::move(*this).ok_unchecked();
-        }
-
-        constexpr E && unwrap_err() {
-            if (!err()) {
-                details::terminate("Called `unwrap_err` on an Err value");
-            }
-            return std::move(*this).err_unchecked();
-        }
-
-        constexpr E && unwrap_err_or(E && error) {
-            if (!err()) {
-                return error;
-            }
-            return std::move(*this).err_unchecked();
-        }
-
-        constexpr E && unwrap_err_or_default() {
-            static_assert(
-                std::is_default_constructible<T>::value, "`unwrap_err_or_default` requires E to be default "
-                                                         "constructible");
-            if (!err()) {
-                return E();
-            }
-            return std::move(*this).err_unchecked();
-        }
-
-        constexpr T && expect(const std::string_view & message) {
-            if (!ok()) {
-                details::terminate(message);
-            }
-            return std::move(*this).ok_unchecked();
-        }
-
-        constexpr E && expect_err(const std::string_view & message) {
-            if (!err()) {
-                details::terminate(message);
-            }
-            return std::move(*this).err_unchecked();
         }
 
     private:
