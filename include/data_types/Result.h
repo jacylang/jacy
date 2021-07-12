@@ -357,14 +357,14 @@ namespace jc::dt {
             return !(*this == other);
         }
 
-        constexpr const T & unwrap(const std::string & msg) const {
+        constexpr const T & unwrap(const std::string & msg = "") const {
             if (!ok()) {
                 details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
             return std::move(*this).ok_unchecked();
         }
 
-        constexpr T && take(const std::string & msg) {
+        constexpr T && take(const std::string & msg = "") {
             if (!ok()) {
                 details::terminate("Called `take` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
