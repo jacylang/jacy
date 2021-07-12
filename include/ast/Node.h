@@ -13,12 +13,6 @@ namespace jc::ast {
     template<typename T>
     using N = std::unique_ptr<T>;
 
-    template<class T>
-    struct is_n : std::false_type {};
-
-    template<class T>
-    struct is_n<N<T>> : std::true_type {};
-
     struct Node;
     struct ErrorNode;
     using span::Span;
