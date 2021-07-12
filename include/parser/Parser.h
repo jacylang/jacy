@@ -112,7 +112,7 @@ namespace jc::parser {
 
         template<class B>
         inline dt::Err<B> makeErrorNode(const Span & span) {
-            return sess->nodeMap.makeBoxNode<ErrorNode>(span);
+            return sess->nodeMap.addNode(new ErrorNode(span));
         }
 
         parse_sess_ptr parseSess;

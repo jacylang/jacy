@@ -51,8 +51,10 @@ namespace jc::ast {
 
     template<class U>
     class NParseResult : public dt::Result<U, ErrorNode> {
+    public:
         using E = typename dt::Result<U, ErrorNode>::error_type;
         using T = typename dt::Result<U, ErrorNode>::value_type;
+        using dt::Result<T, E>::Result;
 
     public:
         template<class B>

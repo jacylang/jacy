@@ -271,6 +271,8 @@ namespace jc::dt {
 
         constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
         constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
+        constexpr Result(Ok<T> && value) : m_storage(std::move(value)) {}
+        constexpr Result(Err<E> && value) : m_storage(std::move(value)) {}
 
         template<typename... Args>
         constexpr Result(ok_tag_t, Args && ... args)
