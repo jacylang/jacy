@@ -794,7 +794,7 @@ namespace jc::parser {
             auto expr = parseOptExpr();
 
             exitEntity();
-            return makePRNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin));
+            return Some(makePRNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin)));
         }
 
         if (skipOpt(TokenKind::Break).some()) {

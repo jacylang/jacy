@@ -101,7 +101,7 @@ namespace jc::parser {
         }
 
         template<class T, class B, class ...Args>
-        inline Ok<N<B>> makePRNode(Args && ...args) const {
+        inline PR<N<B>> makePRNode(Args && ...args) const {
             return Ok<N<B>>(std::static_pointer_cast<B>(makeNode<T>(std::forward<Args>(args)...)));
         }
 
