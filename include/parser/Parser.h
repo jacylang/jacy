@@ -95,15 +95,18 @@ namespace jc::parser {
 
         sess::sess_ptr sess;
 
-        inline
+        template<class T, class ...Args>
+        inline N<T> make(Args && ...args) const {
+            return std::make_unique<T>(std::forward<Args>(args)...);
+        }
 
         template<class T, class B, class ...Args>
-        inline NPR<N<B>> makePRNode(Args && ...args) {
+        inline PR<N<B>> makePRNode(Args && ...args) {
             return OkPR(N<B>(static_cast<B*>(std::make_unique<T>(std::forward<Args>(args)...).release())));
         }
 
         template<class B, class T>
-        inline NPR<N<B>> nodeAsPR(N<T> && node) const {
+        inline PR<N<B>> nodeAsPR(N<T> && node) const {
             return OkPR(N<B>(static_cast<B*>(std::move(node).release())));
         }
 
