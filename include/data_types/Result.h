@@ -401,7 +401,12 @@ namespace jc::dt {
             return std::move(m_storage).template get<E>();
         }
 
+    public:
         constexpr const T * ptr() const {
+            if (!ok()) {
+                details::terminate("Called `ptr` on an Err value");
+            }
+
             if (std::is_pointer<T>::value) {
                 return ok_unchecked();
             } else {
@@ -410,6 +415,10 @@ namespace jc::dt {
         }
 
         constexpr T * ptr() {
+            if (!ok()) {
+                details::terminate("Called `ptr` on an Err value");
+            }
+
             if (std::is_pointer<T>::value) {
                 return std::move(ok_unchecked());
             } else {
