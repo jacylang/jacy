@@ -419,7 +419,7 @@ namespace jc::parser {
 
         return makePRNode<Impl, Item>(
             std::move(generics),
-            std::move(traitTypePath),
+            Ok(std::move(traitTypePath)),
             std::move(forType),
             std::move(members),
             closeSpan(begin)
