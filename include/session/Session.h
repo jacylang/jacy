@@ -8,7 +8,6 @@
 
 #include "common/Logger.h"
 #include "session/SourceMap.h"
-#include "ast/NodeMap.h"
 #include "resolve/DefStorage.h"
 
 namespace jc::sess {
@@ -17,7 +16,6 @@ namespace jc::sess {
 
     struct Session {
         SourceMap sourceMap;
-        ast::NodeMap nodeMap;
         Option<resolve::module_ptr> modTreeRoot{None};
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
