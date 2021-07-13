@@ -96,7 +96,7 @@ namespace jc::parser {
         sess::sess_ptr sess;
 
         template<class T, class ...Args>
-        inline N<T> make(Args && ...args) const {
+        inline N<T> makeNode(Args && ...args) const {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
