@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct ReturnExpr : Expr {
-        ReturnExpr(opt_expr_ptr expr, const Span & span)
+        ReturnExpr(opt_expr_ptr && expr, const Span & span)
             : Expr(span, ExprKind::Return),
               expr(std::move(expr)) {}
 

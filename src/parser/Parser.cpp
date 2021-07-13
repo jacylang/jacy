@@ -676,7 +676,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeErrNode(closeSpan(begin));
+        return makeErrPR<N<UseTree>>(closeSpan(begin));
     }
 
     ////////////////
@@ -708,7 +708,7 @@ namespace jc::parser {
                 if (expr.none()) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
-                    return makeErrNode(closeSpan(begin));
+                    return makeErrPR<N<Stmt>>(closeSpan(begin));
                 }
 
                 auto exprStmt = makePRNode<ExprStmt, Stmt>(expr.take("`parseStmt` -> `expr`"), closeSpan(begin));
