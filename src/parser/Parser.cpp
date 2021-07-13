@@ -908,7 +908,7 @@ namespace jc::parser {
             return Some(makePRNode<Assignment, Expr>(
                 lhs.take(),
                 maybeAssignOp,
-                rhs.take(),
+                std::move(rhs),
                 closeSpan(begin)));
         }
 
