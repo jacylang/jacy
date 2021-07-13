@@ -102,7 +102,7 @@ namespace jc::parser {
 
         template<class B, class T>
         inline NPR<N<B>> nodeAsPR(N<T> && node) const {
-            return OkPR(N<B>(static_cast<B*>(node.release())));
+            return OkPR(N<B>(static_cast<B*>(std::move(node).release())));
         }
 
         parse_sess_ptr parseSess;
