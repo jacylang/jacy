@@ -822,7 +822,7 @@ namespace jc::parser {
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
             suggestErrorMsg(suggMsg, begin);
-            return makeErrNode(closeSpan(begin));
+            return makeErrPR<N<Expr>>(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");
     }
@@ -905,11 +905,11 @@ namespace jc::parser {
 
             auto rhs = parseExpr("Expected expression in assignment");
 
-            return makePRNode<Assignment, Expr>(
+            return Some(makePRNode<Assignment, Expr>(
                 lhs.take(),
                 maybeAssignOp,
                 rhs.take(),
-                closeSpan(begin));
+                closeSpan(begin)));
         }
 
         return lhs;
