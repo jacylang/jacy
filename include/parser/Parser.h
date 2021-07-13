@@ -100,6 +100,11 @@ namespace jc::parser {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
+        template<class ...Args>
+        inline dt::Err<ErrorNode> makeErrNode(Args && ...args) const {
+            return dt::Err<ErrorNode>(ErrorNode(std::forward<Args>(args)...));
+        }
+
         parse_sess_ptr parseSess;
 
         Token peek() const;
