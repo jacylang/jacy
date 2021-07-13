@@ -100,16 +100,6 @@ namespace jc::parser {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
-        template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRNode(Args && ...args) {
-            return OkPR(N<B>(static_cast<B*>(std::make_unique<T>(std::forward<Args>(args)...).release())));
-        }
-
-        template<class B, class T>
-        inline PR<N<B>> nodeAsPR(N<T> && node) const {
-            return OkPR(N<B>(static_cast<B*>(std::move(node).release())));
-        }
-
         parse_sess_ptr parseSess;
 
         Token peek() const;
