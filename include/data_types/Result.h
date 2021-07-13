@@ -269,8 +269,8 @@ namespace jc::dt {
             m_storage = Ok(T());
         }
 
-        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
-        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
+//        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
+//        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
         constexpr Result(Ok<T> && value) : m_storage(std::move(value)) {}
         constexpr Result(Err<E> && value) : m_storage(std::move(value)) {}
 
