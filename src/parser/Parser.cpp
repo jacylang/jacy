@@ -311,7 +311,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return Ok<N<Item>>(makeNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin)));
+        return makePRNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {

@@ -97,17 +97,12 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) const {
-            return std::make_unique<T>(std::forward<Args>(args)...);
+            return std::make_shared<T>(std::forward<Args>(args)...);
         }
 
         template<class T, class B, class ...Args>
-        inline N<B> makeNode(Args && ...args) const {
-            return static_cast<B*>(makeNode<T>(std::forward<Args>(args)...));
-        }
-
-        template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRNode(Args && ...args) const {
-            return Ok<N<B>>(makeNode<T, B>(std::forward<Args>(args)...));
+        inline Ok<N<B>> makePRNode(Args && ...args) const {
+            return Ok<N<B>>(std::static_pointer_cast<B>(makeNode<T>(std::forward<Args>(args)...)));
         }
 
         template<class T>
