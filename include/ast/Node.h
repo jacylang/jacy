@@ -49,40 +49,8 @@ namespace jc::ast {
         }
     };
 
-    template<class U>
-    class ParseResult : public dt::Result<U, ErrorNode> {
-    public:
-        using E = typename dt::Result<U, ErrorNode>::error_type;
-        using T = typename dt::Result<U, ErrorNode>::value_type;
-        using dt::Result<T, E>::Result;
-
-    public:
-        ParseResult(E) = delete;
-        ParseResult(T) = delete;
-        ParseResult(ParseResult<T>) = delete;
-
-        template<class B>
-        ParseResult<N<B>> as() noexcept(
-            std::is_pointer<T>::value &&
-            std::is_pointer<E>::value
-        ) {
-            if (this->err()) {
-                return ParseResult<N<B>>(this->ptr());
-            }
-            return ParseResult<N<B>>(N<B>(static_cast<B*>(this->ptr())));
-        }
-
-        void autoAccept(BaseVisitor & visitor) const {
-            return this->ptr()->accept(visitor);
-        }
-
-        const Span & span() const {
-            return this->ptr()->span;
-        }
-    };
-
     template<class T>
-    using PR = ParseResult<T>;
+    using PR = Result<T, ErrorNode>;
 
     template<class T>
     inline PR<N<T>> OkPR(N<T> && ok) {

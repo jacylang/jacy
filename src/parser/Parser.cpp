@@ -246,7 +246,7 @@ namespace jc::parser {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
-                items.emplace_back(makeErrNode(exprToken.span));
+                items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `primary`
             }
         }
@@ -311,7 +311,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
+        return Ok<N<Item>>(makeNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin)));
     }
 
     enum_entry_ptr Parser::parseEnumEntry() {
