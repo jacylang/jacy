@@ -376,14 +376,6 @@ namespace jc::dt {
             return std::move(*this).err_unchecked();
         }
 
-        constexpr const T * operator->() const {
-            return std::__addressof(ok_unchecked());
-        }
-
-        constexpr const T & operator*() const& {
-            return ok_unchecked();
-        }
-
     private:
         constexpr const T & ok_unchecked() const & noexcept {
             return m_storage.template get<T>();
