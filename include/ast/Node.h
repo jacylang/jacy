@@ -31,7 +31,7 @@ namespace jc::ast {
         virtual ~Node() = default;
 
         node_id id{NONE_NODE_ID};
-        const Span span;
+        Span span;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
 
