@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct Pattern;
     struct BorrowPat;
-    using pat_ptr = NPR<N<Pattern>>;
+    using pat_ptr = PR<N<Pattern>>;
     using opt_pat = Option<pat_ptr>;
     using pat_list = std::vector<pat_ptr>;
 

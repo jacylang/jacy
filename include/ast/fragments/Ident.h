@@ -7,7 +7,7 @@
 
 namespace jc::ast {
     struct Ident;
-    using ident_ptr = NPR<N<Ident>>;
+    using ident_ptr = PR<N<Ident>>;
     using opt_ident = Option<ident_ptr>;
 
     struct Ident : Node {

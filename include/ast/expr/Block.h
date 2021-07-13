@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct Block;
-    using block_ptr = NPR<N<Block>>;
+    using block_ptr = PR<N<Block>>;
     using opt_block_ptr = Option<block_ptr>;
     using block_list = std::vector<block_ptr>;
 

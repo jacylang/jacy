@@ -133,7 +133,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        void lintEach(const std::vector<NPR<T>> & entities) {
+        void lintEach(const std::vector<PR<T>> & entities) {
             for (const auto & entity : entities) {
                 entity.autoAccept(*this);
             }

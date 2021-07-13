@@ -246,7 +246,7 @@ namespace jc::parser {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
-                items.emplace_back(ErrorNode(exprToken.span));
+                items.emplace_back(makeErrNode(exprToken.span));
                 // If expr is `None` we already made an error in `primary`
             }
         }
@@ -676,7 +676,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return ErrorNode(closeSpan(begin));
+        return makeErrNode(closeSpan(begin));
     }
 
     ////////////////
@@ -708,7 +708,7 @@ namespace jc::parser {
                 if (expr.none()) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
-                    return ErrorNode(closeSpan(begin));
+                    return makeErrNode(closeSpan(begin));
                 }
 
                 auto exprStmt = makePRNode<ExprStmt, Stmt>(expr.take("`parseStmt` -> `expr`"), closeSpan(begin));
@@ -822,7 +822,7 @@ namespace jc::parser {
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
             suggestErrorMsg(suggMsg, begin);
-            return ErrorNode(closeSpan(begin));
+            return makeErrNode(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");
     }
@@ -1149,7 +1149,7 @@ namespace jc::parser {
             auto pathExpr = parsePathExpr();
             if (is(TokenKind::LBrace)) {
                 if (pathExpr.err()) {
-                    return parseStructExpr(ErrorNode(pathExpr.span()));
+                    return parseStructExpr(makeErrNode(pathExpr.span()));
                 }
                 return parseStructExpr(pathExpr.take());
             }
@@ -1205,7 +1205,7 @@ namespace jc::parser {
         if (maybeIdToken.some()) {
             return makeNode<Ident>(maybeIdToken.unwrap("parseIdent -> maybeIdToken"), span);
         }
-        return ErrorNode(span);
+        return makeErrNode(span);
     }
 
     path_expr_ptr Parser::parsePathExpr() {
@@ -1375,7 +1375,7 @@ namespace jc::parser {
         advance();
 
         exitEntity();
-        return ErrorNode(begin);
+        return makeErrNode(begin);
     }
 
     block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
@@ -1446,7 +1446,7 @@ namespace jc::parser {
             }
             suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
             exitEntity();
-            return ErrorNode(closeSpan(begin));
+            return makeErrNode(closeSpan(begin));
         }
 
         exitEntity();
@@ -1788,7 +1788,7 @@ namespace jc::parser {
         return members;
     }
 
-    NPR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
+    PR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
         enterEntity("SimplePath");
 
         const auto & begin = cspan();
@@ -1801,7 +1801,7 @@ namespace jc::parser {
                 cspan()
             );
             exitEntity();
-            return ErrorNode(closeSpan(begin));
+            return makeErrNode(closeSpan(begin));
         }
 
         exitEntity();
@@ -1913,7 +1913,7 @@ namespace jc::parser {
                     makeNode<PathSeg>(ident.take(), std::move(generics), closeSpan(segBegin))
                 );
             } else if (kind == PathSeg::Kind::Error) {
-                segments.emplace_back(ErrorNode(closeSpan(segBegin)));
+                segments.emplace_back(makeErrNode(closeSpan(segBegin)));
                 if (isUnrecoverableError) {
                     break;
                 }
@@ -1988,7 +1988,7 @@ namespace jc::parser {
             if (not suggMsg.empty()) {
                 suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             }
-            return ErrorNode(closeSpan(begin));
+            return makeErrNode(closeSpan(begin));
         }
         return type.take("`parseType` -> `type`");
     }
@@ -2264,7 +2264,7 @@ namespace jc::parser {
         }
 
         suggestErrorMsg("Expected pattern, got " + peek().toString(), cspan());
-        return ErrorNode(cspan());
+        return makeErrNode(cspan());
     }
 
     pat_ptr Parser::parseLitPat() {

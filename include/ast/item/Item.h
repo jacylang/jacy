@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Item;
-    using item_ptr = NPR<N<Item>>;
+    using item_ptr = PR<N<Item>>;
     using item_list = std::vector<item_ptr>;
 
     enum class ItemKind {

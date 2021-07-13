@@ -8,7 +8,7 @@
 
 namespace jc::ast {
     struct StructExprField;
-    using struct_expr_field_ptr = NPR<N<StructExprField>>;
+    using struct_expr_field_ptr = PR<N<StructExprField>>;
     using struct_expr_field_list = std::vector<struct_expr_field_ptr>;
 
     struct StructExprField : Node {
