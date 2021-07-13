@@ -18,9 +18,9 @@ namespace jc::span {
         Span() = default;
 
         /// Constructor for file span (points to start)
-        explicit Span(Span && rhs)
-            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
-        explicit Span(const Span & rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
+//        explicit Span(Span && rhs)
+//            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
+//        explicit Span(const Span & rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
         explicit Span(file_id_t fileId) : fileId(fileId) {}
         explicit Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
             pos = lowBound;
