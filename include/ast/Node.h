@@ -49,11 +49,8 @@ namespace jc::ast {
         }
     };
 
-    /// Base class for ParseResult (for non-boxed nodes) and NParseResult (for boxed nodes)
-    /// Defines common methods
-
     template<class U>
-    class NParseResult : public dt::Result<U, ErrorNode> {
+    class ParseResult : public dt::Result<U, ErrorNode> {
     public:
         using E = typename dt::Result<U, ErrorNode>::error_type;
         using T = typename dt::Result<U, ErrorNode>::value_type;
@@ -61,14 +58,14 @@ namespace jc::ast {
 
     public:
         template<class B>
-        NParseResult<N<B>> as() noexcept(
+        ParseResult<N<B>> as() noexcept(
             std::is_pointer<T>::value &&
             std::is_pointer<E>::value
         ) {
             if (this->err()) {
-                return NParseResult<N<B>>(this->ptr());
+                return ParseResult<N<B>>(this->ptr());
             }
-            return NParseResult<N<B>>(N<B>(static_cast<B*>(this->ptr())));
+            return ParseResult<N<B>>(N<B>(static_cast<B*>(this->ptr())));
         }
 
         void autoAccept(BaseVisitor & visitor) const {
@@ -81,20 +78,12 @@ namespace jc::ast {
     };
 
     template<class T>
-    inline NParseResult<N<T>> OkPR(N<T> && ok) {
-        return NParseResult<N<T>>(std::move(ok));
+    inline ParseResult<N<T>> OkPR(N<T> && ok) {
+        return ParseResult<N<T>>(std::move(ok));
     }
-//
-//    template<class T>
-//    inline ParseResult<T> OkPR(T && ok) {
-//        return ParseResult<T>(std::move(ok));
-//    }
 
     template<class T>
-    using NPR = NParseResult<T>;
-
-//    template<class T>
-//    using PR = ParseResult<T>;
+    using PR = ParseResult<T>;
 }
 
 #endif // JACY_AST_NODE_H

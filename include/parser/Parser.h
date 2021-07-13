@@ -95,6 +95,8 @@ namespace jc::parser {
 
         sess::sess_ptr sess;
 
+        inline
+
         template<class T, class B, class ...Args>
         inline NPR<N<B>> makePRNode(Args && ...args) {
             return OkPR(N<B>(static_cast<B*>(std::make_unique<T>(std::forward<Args>(args)...).release())));
