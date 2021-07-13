@@ -443,4 +443,10 @@ namespace jc::dt {
     }
 }
 
+namespace jc {
+    using dt::Result;
+    using dt::Ok;
+    using dt::Err;
+}
+
 #endif // JACY_DATA_TYPES_RESULT_H

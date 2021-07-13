@@ -57,6 +57,10 @@ namespace jc::ast {
         using dt::Result<T, E>::Result;
 
     public:
+        ParseResult(E) = delete;
+        ParseResult(T) = delete;
+        ParseResult(ParseResult<T>) = delete;
+
         template<class B>
         ParseResult<N<B>> as() noexcept(
             std::is_pointer<T>::value &&
@@ -78,12 +82,12 @@ namespace jc::ast {
     };
 
     template<class T>
-    inline ParseResult<N<T>> OkPR(N<T> && ok) {
-        return ParseResult<N<T>>(std::move(ok));
-    }
+    using PR = ParseResult<T>;
 
     template<class T>
-    using PR = ParseResult<T>;
+    inline PR<N<T>> OkPR(N<T> && ok) {
+        return PR<N<T>>(std::move(ok));
+    }
 }
 
 #endif // JACY_AST_NODE_H
