@@ -376,6 +376,14 @@ namespace jc::dt {
             return std::move(*this).err_unchecked();
         }
 
+        constexpr const T * operator->() const {
+            return std::__addressof(ok_unchecked());
+        }
+
+        constexpr const T & operator*() const& {
+            return ok_unchecked();
+        }
+
     private:
         constexpr const T & ok_unchecked() const & noexcept {
             return m_storage.template get<T>();
@@ -399,31 +407,6 @@ namespace jc::dt {
 
         constexpr E && err_unchecked() && noexcept {
             return std::move(m_storage).template get<E>();
-        }
-
-    public:
-        constexpr const T * ptr() const {
-            if (!ok()) {
-                details::terminate("Called `ptr` on an Err value");
-            }
-
-            if (std::is_pointer<T>::value) {
-                return ok_unchecked();
-            } else {
-                return *ok_unchecked();
-            }
-        }
-
-        constexpr T * ptr() {
-            if (!ok()) {
-                details::terminate("Called `ptr` on an Err value");
-            }
-
-            if (std::is_pointer<T>::value) {
-                return std::move(ok_unchecked());
-            } else {
-                return *std::move(ok_unchecked());
-            }
         }
 
     private:
