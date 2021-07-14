@@ -63,8 +63,10 @@ namespace jc::ast {
         const Span & span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
-            } else if (dt::is_unique_ptr<T>::value or dt::is_shared_ptr<T>::value or std::is_pointer<T>::value) {
+            } else if constexpr(dt::is_unique_ptr<T>::value or dt::is_shared_ptr<T>::value or std::is_pointer<T>::value) {
                 return this->ok_unchecked()->span;
+            } else {
+                return this->ok_unchecked().span;
             }
         }
 
