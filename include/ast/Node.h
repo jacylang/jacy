@@ -65,16 +65,13 @@ namespace jc::ast {
         }
 
         template<class U>
-        constexpr ParseResult<U> && as() const noexcept {
+        constexpr ParseResult<N<U>> as() noexcept {
             if (this->err()) {
-                return ParseResult<U>(Err(std::move(*this).err_unchecked()));
-            } else if constexpr(
-                dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
-                dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
-                return ParseResult<U>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
-            } else if constexpr(dt::are_unique_ptrs<T, U>()) {
-                constexpr auto ptr = std::move(*this).ok_unchecked().get();
-                return ParseResult<U>(std::unique_ptr(static_cast<U*>(ptr)));
+                return ParseResult<N<U>>(Err(std::move(*this).err_unchecked()));
+            } else if constexpr(dt::is_shared_ptr<T>::value) {
+                return ParseResult<N<U>>(Ok(std::static_pointer_cast<U>(std::move(*this).ok_unchecked())));
+            } else if constexpr(dt::is_unique_ptr<T>()) {
+                return ParseResult<N<U>>(Ok(std::unique_ptr(static_cast<U*>(std::move(*this).ok_unchecked().release()))));
             } else {
                 static_assert(true, "Invalid types given for `Result::as`");
             }
@@ -84,10 +81,10 @@ namespace jc::ast {
             if (this->err()) {
                 return visitor.visit(this->err_unchecked());
             } else {
-                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value) {
-                    return visitor.visit(*this->ok_unchecked());
+                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value or std::is_pointer<T>::value) {
+                    return this->ok_unchecked()->accept(visitor);
                 } else {
-                    return visitor.visit(this->ok_unchecked());
+                    return this->ok_unchecked().accept(visitor);
                 }
             }
         }
