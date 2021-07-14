@@ -1209,7 +1209,7 @@ namespace jc::parser {
     }
 
     path_expr_ptr Parser::parsePathExpr() {
-        return makeNode<PathExpr>(parsePath(true));
+        return Ok(makeNode<PathExpr>(parsePath(true)));
     }
 
     expr_ptr Parser::parseLiteral() {
