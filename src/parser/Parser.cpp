@@ -1910,16 +1910,16 @@ namespace jc::parser {
 
             if (kind == PathSeg::Kind::Ident) {
                 segments.push_back(
-                    makeNode<PathSeg>(ident.take(), std::move(generics), closeSpan(segBegin))
+                    Ok(makeNode<PathSeg>(ident.take(), std::move(generics), closeSpan(segBegin)))
                 );
             } else if (kind == PathSeg::Kind::Error) {
-                segments.emplace_back(makeErrNode(closeSpan(segBegin)));
+                segments.emplace_back(makeErrPR<N<PathSeg>>(closeSpan(segBegin)));
                 if (isUnrecoverableError) {
                     break;
                 }
             } else {
                 segments.push_back(
-                    makeNode<PathSeg>(kind, std::move(generics), closeSpan(segBegin))
+                    Ok(makeNode<PathSeg>(kind, std::move(generics), closeSpan(segBegin)))
                 );
             }
 
