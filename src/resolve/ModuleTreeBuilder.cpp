@@ -116,8 +116,8 @@ namespace jc::resolve {
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
     def_id ModuleTreeBuilder::addDef(DefVis vis, const ast::ident_pr & ident, DefKind defKind) {
-        const auto & name = ident.unwrap()->getValue();
-        const auto defId = _defStorage.define(_modDepth, vis, defKind, ident.span(), ident.unwrap()->id);
+        const auto & name = ident.unwrap().getValue();
+        const auto defId = _defStorage.define(_modDepth, vis, defKind, ident.span(), ident.unwrap().id);
         const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
 
         log.dev(
@@ -192,7 +192,7 @@ namespace jc::resolve {
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
     void ModuleTreeBuilder::enterModule(DefVis vis, const ast::ident_pr & ident, DefKind defKind) {
         const auto defId = addDef(vis, ident, defKind);
-        const auto & name = ident.unwrap()->getValue();
+        const auto & name = ident.unwrap().getValue();
         log.dev("Enter [DEF] module '", name, "' defined with id #", defId);
 
         // We entered a new `mod`, so update `nearestModDef`
@@ -252,7 +252,7 @@ namespace jc::resolve {
         const auto & prevDefSpan = sess->nodeStorage.getNodeSpan(prevDef.nameNodeId.unwrap());
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
-                "Cannot redeclare '" + ident.unwrap()->getValue() + "' as " + Def::kindStr(as),
+                "Cannot redeclare '" + ident.unwrap().getValue() + "' as " + Def::kindStr(as),
                 ident.span(),
                 "Because it is already declared as " + prevDef.kindStr() + " here",
                 prevDefSpan,
