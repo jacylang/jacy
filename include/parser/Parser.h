@@ -107,7 +107,7 @@ namespace jc::parser {
 
         template<class T>
         inline PR<T> makeErrPR(const Span & span) const {
-            return ErrorNode(span);
+            return Err(ErrorNode(span));
         }
 
         template<class T, class B>
