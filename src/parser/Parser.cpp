@@ -1192,7 +1192,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto token = peek();
         justSkip(TokenKind::Id, "[identifier]", "`" + panicIn + "`");
-        return Ok(makeNode<Ident>(token, closeSpan(begin)));
+        return Ok(Ident(token, closeSpan(begin)));
     }
 
     ident_pr Parser::parseIdent(const std::string & expected) {
