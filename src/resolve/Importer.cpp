@@ -40,7 +40,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
-        define(resolvePath(PathResKind::Prefix, *useTree.path), useTree.as.unwrap()->getValue());
+        define(resolvePath(PathResKind::Prefix, *useTree.path), useTree.as.unwrap().getValue());
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
@@ -64,7 +64,7 @@ namespace jc::resolve {
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i);
-            const auto & segName = seg->ident.unwrap().unwrap()->getValue();
+            const auto & segName = seg->ident.unwrap().unwrap().getValue();
 
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
@@ -137,27 +137,27 @@ namespace jc::resolve {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex)->ident.unwrap().unwrap();
-            const auto & unresolvedSegName = unresolvedSegIdent->getValue();
+            const auto & unresolvedSegName = unresolvedSegIdent.getValue();
 
             if (inaccessible) {
                 const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
-                    unresolvedSegIdent->span);
+                    unresolvedSegIdent.span);
             } else {
                 // Report "Not defined" error
                 auto msg = "'" + unresolvedSegName + "' is not defined";
                 if (not pathStr.empty()) {
                     msg += " in '" + pathStr + "'";
                 }
-                suggestErrorMsg(msg, unresolvedSegIdent->span);
+                suggestErrorMsg(msg, unresolvedSegIdent.span);
             }
         }
 
         const auto & lastSeg = path.segments.at(path.segments.size() - 1);
 
-        return PathResult{defPerNs, lastSeg->ident.unwrap().unwrap()->getValue(), lastSeg->span};
+        return PathResult{defPerNs, lastSeg->ident.unwrap().unwrap().getValue(), lastSeg->span};
     }
 
     void Importer::define(PathResult && pathResult, const Option<std::string> & rebind) {
