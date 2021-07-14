@@ -394,7 +394,7 @@ namespace jc::dt {
             return std::move(*this).err_unchecked();
         }
 
-    private:
+    protected:
         constexpr const T & ok_unchecked() const & noexcept {
             return m_storage.template get<T>();
         }
