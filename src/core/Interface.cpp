@@ -98,7 +98,7 @@ namespace jc::core {
             }
         }
 
-        return sess->nodeMap.makeBoxNode<ast::Dir>(name, std::move(nestedEntries));
+        return std::make_shared<ast::Dir>(name, std::move(nestedEntries));
     }
 
     ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {
@@ -203,9 +203,8 @@ namespace jc::core {
             modeStr,
             "] (`-print=",
             cliParam,
-            "`) [count of nodes=",
-            sess->nodeMap.size(),
-            "]");
+            "`)");
+        // TODO: Add count of nodes when replacement for NodeMap will be implemented
         astPrinter.print(sess, *party.unwrap(), mode);
         common::Logger::nl();
     }
