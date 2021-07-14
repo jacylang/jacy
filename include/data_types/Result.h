@@ -301,11 +301,6 @@ namespace jc::dt {
 
         constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(std::is_nothrow_move_assignable<details::ResultStorage<T, E>>::value) = default;
 
-        // Covariant constructors //
-    public:
-        template<class U, typename = std::enable_if<std::is_constructible<Result<T, E>>::value>>
-        constexpr Result(Result<U, E> && other) : Result(std::move(other)) {}
-
     public:
         constexpr Result<T, E> clone() const {
             return *this;
