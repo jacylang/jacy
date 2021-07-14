@@ -1169,7 +1169,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Some(parseBlock("Block expression", BlockArrow::Just));
+            return Some(parseBlock("Block expression", BlockArrow::Just).as<N<Expr>>());
         }
 
         if (is(TokenKind::Match)) {

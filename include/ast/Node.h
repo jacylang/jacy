@@ -51,6 +51,8 @@ namespace jc::ast {
 
     template<class T>
     class ParseResult : public Result<T, ErrorNode> {
+        using E = ErrorNode;
+
     public:
         using Result<T, ErrorNode>::Result;
 
@@ -59,6 +61,22 @@ namespace jc::ast {
                 return this->err_unchecked().span;
             } else if (dt::is_smart_ptr<T>::value or std::is_pointer<T>::value) {
                 return this->ok_unchecked()->span;
+            }
+        }
+
+        template<class U>
+        constexpr Result<U, E> && as() const noexcept {
+            if (this->err()) {
+                return Result<U, E>(std::move(*this).err_unchecked());
+            } else if (
+                dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
+                dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
+                return Result<U, E>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
+            } else if (dt::are_unique_ptr<T, U>()) {
+                constexpr auto ptr = std::move(*this).ok_unchecked().get();
+                return Result<U, E>(std::unique_ptr(static_cast<U*>(ptr)));
+            } else {
+                static_assert(true, "Invalid types given for `Result::as`");
             }
         }
     };

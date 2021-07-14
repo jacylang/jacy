@@ -17,13 +17,21 @@ namespace jc::dt {
     };
 
     template<class T>
-    struct is_smart_ptr : std::false_type {};
+    struct is_unique_ptr : std::false_type {};
 
     template<class T>
-    struct is_smart_ptr<std::shared_ptr<T>> : std::true_type {};
+    struct is_unique_ptr<std::unique_ptr<T>> : std::true_type {};
 
     template<class T>
-    struct is_smart_ptr<std::unique_ptr<T>> : std::true_type {};
+    struct is_shared_ptr : std::false_type {};
+
+    template<class T>
+    struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
+
+    template<class ...Args>
+    constexpr bool are_unique_ptr() {
+        return ((is_unique_ptr<decltype(std::declval<Args>().value)>::value), ...);
+    }
 
     template <typename T, typename E>
     class Result;
