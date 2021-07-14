@@ -97,7 +97,9 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) const {
-            return std::make_shared<T>(std::forward<Args>(args)...)->setNodeId(sess->getNextNodeId());
+            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+            node->setNodeId(sess->getNextNodeId());
+            return node;
         }
 
         template<class T, class B, class ...Args>
