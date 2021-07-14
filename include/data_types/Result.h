@@ -376,6 +376,14 @@ namespace jc::dt {
             return std::move(*this).err_unchecked();
         }
 
+        const T * ptr() const {
+            if (std::is_pointer<T>::value) {
+                return *unwrap();
+            } else {
+                return unwrap();
+            }
+        }
+
     private:
         constexpr const T & ok_unchecked() const & noexcept {
             return m_storage.template get<T>();
