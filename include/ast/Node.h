@@ -68,11 +68,11 @@ namespace jc::ast {
         constexpr ParseResult<U> && as() const noexcept {
             if (this->err()) {
                 return ParseResult<U>(Err(std::move(*this).err_unchecked()));
-            } else if (
+            } else if constexpr(
                 dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
                 dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
                 return ParseResult<U>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
-            } else if (dt::are_unique_ptrs<T, U>()) {
+            } else if constexpr(dt::are_unique_ptrs<T, U>()) {
                 constexpr auto ptr = std::move(*this).ok_unchecked().get();
                 return ParseResult<U>(std::unique_ptr(static_cast<U*>(ptr)));
             } else {
@@ -82,9 +82,13 @@ namespace jc::ast {
 
         constexpr void autoAccept(BaseVisitor & visitor) const noexcept {
             if (this->err()) {
-                return visitor.visit(this->unwrap());
+                return visitor.visit(this->err_unchecked());
             } else {
-                return visitor.visit(this->unwrapErr());
+                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value) {
+                    return visitor.visit(*this->ok_unchecked());
+                } else {
+                    return visitor.visit(this->ok_unchecked());
+                }
             }
         }
     };
