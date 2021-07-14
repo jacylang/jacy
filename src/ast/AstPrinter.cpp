@@ -135,7 +135,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncParam & funcParam) {
-        colorizeName(funcParam.name.err() ? funcParam.name.unwrapErr()->id : funcParam.name.unwrap()->id);
+        colorizeName(funcParam.name);
         funcParam.name.autoAccept(*this);
         resetNameColor();
 
