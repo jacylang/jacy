@@ -97,7 +97,7 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeNode(Args && ...args) const {
-            return std::make_shared<T>(std::forward<Args>(args)...)->setNodeId();
+            return std::make_shared<T>(std::forward<Args>(args)...)->setNodeId(sess->getNextNodeId());
         }
 
         template<class T, class B, class ...Args>
@@ -107,7 +107,9 @@ namespace jc::parser {
 
         template<class T>
         inline PR<T> makeErrPR(const Span & span) const {
-            return Err(ErrorNode(span));
+            ErrorNode node(span);
+            node.setNodeId(sess->getNextNodeId());
+            return Err(node);
         }
 
         template<class T, class B>
