@@ -50,7 +50,19 @@ namespace jc::ast {
     };
 
     template<class T>
-    using PR = Result<T, ErrorNode>;
+    class ParseResult : public Result<T, ErrorNode> {
+    public:
+        const Span & span() const {
+            if (this->err()) {
+                return this->err_unchecked().span;
+            } else if (dt::is_smart_ptr<T>::value or std::is_pointer<T>::value) {
+                return this->ok_unchecked()->span;
+            }
+        }
+    };
+
+    template<class T>
+    using PR = ParseResult<T>;
 
     template<class T>
     inline PR<N<T>> OkPR(N<T> && ok) {
