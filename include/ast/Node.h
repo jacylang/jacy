@@ -65,16 +65,16 @@ namespace jc::ast {
         }
 
         template<class U>
-        constexpr Result<U, E> && as() const noexcept {
+        constexpr ParseResult<U> && as() const noexcept {
             if (this->err()) {
-                return Result<U, E>(std::move(*this).err_unchecked());
+                return ParseResult<U>(std::move(*this).err_unchecked());
             } else if (
                 dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
                 dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
-                return Result<U, E>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
+                return ParseResult<U>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
             } else if (dt::are_unique_ptrs<T, U>()) {
                 constexpr auto ptr = std::move(*this).ok_unchecked().get();
-                return Result<U, E>(std::unique_ptr(static_cast<U*>(ptr)));
+                return ParseResult<U>(std::unique_ptr(static_cast<U*>(ptr)));
             } else {
                 static_assert(true, "Invalid types given for `Result::as`");
             }
