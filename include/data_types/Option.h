@@ -65,15 +65,15 @@ namespace jc::dt {
             return *this;
         }
 
-        template<class U>
-        Option<T> & operator=(Option<U> && other) {
-            if (other.none()) {
-                hasValue = false;
-            } else {
-                value = std::move(other.value);
-            }
-            return *this;
-        }
+//        template<class U>
+//        Option<T> & operator=(Option<U> && other) {
+//            if (other.none()) {
+//                hasValue = false;
+//            } else {
+//                value = std::move(other).value;
+//            }
+//            return *this;
+//        }
 
         Option<T> & operator=(none_t) {
             hasValue = false;
