@@ -14,6 +14,7 @@ namespace jc::dt {
     enum class ResultKind : uint8_t {
         Ok = 0,
         Err = 1,
+        Uninited = 2, // Should never be used as Result API value
     };
 
     template<class T>
@@ -125,13 +126,15 @@ namespace jc::dt {
         class ResultStorage {
             using DecayT = std::decay_t<T>;
             using DecayE = std::decay_t<E>;
+            static constexpr size_t Size = sizeof(T) > sizeof(E) ? sizeof(T) : sizeof(E);
+            static constexpr size_t Align = sizeof(T) > sizeof(E) ? alignof(T) : alignof(E);
 
         public:
             using value_type = T;
             using error_type = E;
-            using data_type = std::aligned_union_t<1, T, E>;
+            using data_type = std::aligned_storage<Size, Align>;
 
-            ResultStorage() {}
+            ResultStorage() : m_tag(ResultKind::Uninited) {}
 
             template<typename... Args>
             constexpr ResultStorage(ok_tag_t, Args && ... args) {
@@ -252,6 +255,7 @@ namespace jc::dt {
                     case ResultKind::Err:
                         get<E>().~E();
                         break;
+                    case ResultKind::Uninited: break;
                 }
             }
 
