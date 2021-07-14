@@ -110,6 +110,11 @@ namespace jc::parser {
             return ErrorNode(span);
         }
 
+        template<class T, class B>
+        inline N<B> nodeCast(N<T> && node) const {
+            return std::static_pointer_cast<B>(node);
+        }
+
         parse_sess_ptr parseSess;
 
         Token peek() const;
