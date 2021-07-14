@@ -14,17 +14,29 @@ namespace jc::sess {
     struct Session;
     using sess_ptr = std::shared_ptr<Session>;
 
+    struct NodeStorage {
+        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
+        ast::node_map<span::Span> nodeSpanMap;
+
+        template<class T>
+        void addNode(T & node) {
+            node.id = nextNodeId++;
+            nodeSpanMap.emplace(node.id, node.span);
+        }
+
+        template<class T>
+        void addNode(ast::N<T> & node) {
+            node->id = nextNodeId++;
+            nodeSpanMap.emplace(node->id, node->span);
+        }
+    };
+
     struct Session {
         SourceMap sourceMap;
         Option<resolve::module_ptr> modTreeRoot{None};
-        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
-        ast::node_map<span::Span> nodeSpanMap;
+        NodeStorage nodeStorage;
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
-
-        ast::node_id getNextNodeId() {
-            return nextNodeId++;
-        }
     };
 }
 
