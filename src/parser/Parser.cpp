@@ -1151,9 +1151,9 @@ namespace jc::parser {
                 if (pathExpr.err()) {
                     return parseStructExpr(makeErrPR<N<PathExpr>>(pathExpr.span()));
                 }
-                return parseStructExpr(Ok(pathExpr.take()));
+                return parseStructExpr(std::move(pathExpr));
             }
-            return pathExpr.as<Expr>();
+            return Some(std::move(pathExpr));
         }
 
         if (is(TokenKind::If)) {
