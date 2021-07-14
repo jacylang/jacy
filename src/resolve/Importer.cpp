@@ -175,7 +175,7 @@ namespace jc::resolve {
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
                     const auto & oldDef = sess->defStorage.getDef(oldDefId);
-                    const auto & oldDefSpan = sess->nodeSpanMap.at(oldDef.nameNodeId.unwrap());
+                    const auto & oldDefSpan = sess->nodeStorage.getNodeSpan(oldDef.nameNodeId.unwrap());
                     suggest(
                         std::make_unique<sugg::MsgSpanLinkSugg>(
                             "Cannot `use` '" + segName + "'",
