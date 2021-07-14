@@ -14,10 +14,8 @@ namespace jc::sess {
     struct Session;
     using sess_ptr = std::shared_ptr<Session>;
 
-    struct NodeStorage {
-        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
-        ast::node_map<span::Span> nodeSpanMap;
-
+    class NodeStorage {
+    public:
         template<class T>
         void addNode(T & node) {
             node.id = nextNodeId++;
@@ -29,6 +27,10 @@ namespace jc::sess {
             node->id = nextNodeId++;
             nodeSpanMap.emplace(node->id, node->span);
         }
+
+    private:
+        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
+        ast::node_map<span::Span> nodeSpanMap;
     };
 
     struct Session {
