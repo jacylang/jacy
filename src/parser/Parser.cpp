@@ -1495,7 +1495,7 @@ namespace jc::parser {
             stmt_list elif;
             const auto & elifBegin = cspan();
             elif.push_back(makePRNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
-            elseBranch = makeNode<Block>(std::move(elif), closeSpan(elifBegin));
+            elseBranch = Some(makeNode<Block>(std::move(elif), closeSpan(elifBegin)));
         }
 
         exitEntity();
