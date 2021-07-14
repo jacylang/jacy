@@ -1801,11 +1801,11 @@ namespace jc::parser {
                 cspan()
             );
             exitEntity();
-            return makeErrNode(closeSpan(begin));
+            return makeErrPR<N<SimplePath>>(closeSpan(begin));
         }
 
         exitEntity();
-        return simplePath.take();
+        return Ok(simplePath.take());
     }
 
     Option<simple_path_ptr> Parser::parseOptSimplePath() {
