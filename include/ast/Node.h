@@ -67,7 +67,7 @@ namespace jc::ast {
         template<class U>
         constexpr ParseResult<U> && as() const noexcept {
             if (this->err()) {
-                return ParseResult<U>(std::move(*this).err_unchecked());
+                return ParseResult<U>(Err(std::move(*this).err_unchecked()));
             } else if (
                 dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
                 dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
