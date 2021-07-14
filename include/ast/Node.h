@@ -79,6 +79,14 @@ namespace jc::ast {
                 static_assert(true, "Invalid types given for `Result::as`");
             }
         }
+
+        constexpr void autoAccept(BaseVisitor & visitor) const noexcept {
+            if (this->err()) {
+                return visitor.visit(this->unwrap());
+            } else {
+                return visitor.visit(this->unwrapErr());
+            }
+        }
     };
 
     template<class T>
