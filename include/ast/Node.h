@@ -104,11 +104,6 @@ namespace jc::ast {
 
     template<class T>
     using PR = ParseResult<T>;
-
-//    template<class T>
-//    inline PR<N<T>> OkPR(N<T> && ok) {
-//        return PR<N<T>>(std::move(ok));
-//    }
 }
 
 #endif // JACY_AST_NODE_H
