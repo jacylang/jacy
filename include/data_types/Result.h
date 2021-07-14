@@ -29,7 +29,7 @@ namespace jc::dt {
     struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
 
     template<class ...Args>
-    constexpr bool are_unique_ptr() {
+    constexpr bool are_unique_ptrs() {
         return ((is_unique_ptr<decltype(std::declval<Args>().value)>::value), ...);
     }
 

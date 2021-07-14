@@ -59,7 +59,7 @@ namespace jc::ast {
         const Span & span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
-            } else if (dt::is_smart_ptr<T>::value or std::is_pointer<T>::value) {
+            } else if (dt::is_unique_ptr<T>::value or dt::is_shared_ptr<T>::value or std::is_pointer<T>::value) {
                 return this->ok_unchecked()->span;
             }
         }
@@ -72,7 +72,7 @@ namespace jc::ast {
                 dt::is_shared_ptr<decltype(std::declval<T>().value)>::value and
                 dt::is_shared_ptr<decltype(std::declval<U>().value)>::value) {
                 return Result<U, E>(std::static_pointer_cast<U>(std::move(*this).ok_unchecked()));
-            } else if (dt::are_unique_ptr<T, U>()) {
+            } else if (dt::are_unique_ptrs<T, U>()) {
                 constexpr auto ptr = std::move(*this).ok_unchecked().get();
                 return Result<U, E>(std::unique_ptr(static_cast<U*>(ptr)));
             } else {
