@@ -21,11 +21,6 @@ namespace jc::dt {
         Option(const T & value) : value(value), hasValue(true) {}
         Option(T && value) : value(std::move(value)), hasValue(true) {}
 
-//        // Covariant constructors //
-//    public:
-//        template<class U, typename = std::enable_if<std::is_constructible<Option<T>>::value>>
-//        constexpr Option(Option<U> && other) : Option(std::move(other)) {}
-
     public:
         const T & unwrap(const std::string & msg = "") const {
             if (none()) {
