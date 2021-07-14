@@ -52,6 +52,8 @@ namespace jc::ast {
     template<class T>
     class ParseResult : public Result<T, ErrorNode> {
     public:
+        using Result<T, ErrorNode>::Result;
+
         const Span & span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
