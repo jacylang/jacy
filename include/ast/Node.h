@@ -35,6 +35,11 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) const = 0;
 
+        Node & setNodeId(node_id nodeId) {
+            this->id = nodeId;
+            return *this;
+        }
+
         template<class T>
         static const T * cast(const Node * node) {
             return static_cast<const T*>(node);
