@@ -1149,7 +1149,7 @@ namespace jc::parser {
             auto pathExpr = parsePathExpr();
             if (is(TokenKind::LBrace)) {
                 if (pathExpr.err()) {
-                    return parseStructExpr(makeErrNode(pathExpr.span()));
+                    return parseStructExpr(makeErrPR<N<PathExpr>>(pathExpr.span()));
                 }
                 return parseStructExpr(pathExpr.take());
             }
