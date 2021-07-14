@@ -205,7 +205,7 @@ namespace jc::parser {
                 auto item = maybeItem.take().take();
                 item->setAttributes(std::move(attributes));
                 item->setVis(std::move(vis));
-                return Some(OkPR(std::move(item)));
+                return Some(PR<N<Item>>(Ok(std::move(item))));
             } else {
                 return maybeItem.take();
             }
@@ -1610,7 +1610,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Assign).some()) {
             auto expr = parseExpr("Missing expression after `=`");
-            return OkPR(makeNode<Block>(std::move(expr), expr.span()));
+            return Some(PR<N<Block>>(Ok(makeNode<Block>(std::move(expr), expr.span()))));
         }
 
         return parseBlock("func", BlockArrow::NotAllowed);
