@@ -131,7 +131,7 @@ namespace jc::dt {
             using error_type = E;
             using data_type = std::aligned_union_t<1, T, E>;
 
-            ResultStorage() = delete;
+            ResultStorage() {}
 
             template<typename... Args>
             constexpr ResultStorage(ok_tag_t, Args && ... args) {
@@ -281,7 +281,8 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
+        Result() {}
+//        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
 //        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
 //        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
