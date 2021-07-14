@@ -2264,7 +2264,7 @@ namespace jc::parser {
         }
 
         suggestErrorMsg("Expected pattern, got " + peek().toString(), cspan());
-        return makeErrNode(cspan());
+        return makeErrPR<N<Pattern>>(cspan());
     }
 
     pat_ptr Parser::parseLitPat() {
