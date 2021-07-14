@@ -1437,7 +1437,7 @@ namespace jc::parser {
             auto expr = parseExpr("Expected expression in one-line block in " + construction);
             // Note: Don't require semis for one-line body
             exitEntity();
-            return makeNode<Block>(std::move(expr), closeSpan(begin));
+            return Ok(makeNode<Block>(std::move(expr), closeSpan(begin)));
         } else {
             std::string suggMsg = "Likely you meant to put `{}`";
             if (arrow == BlockArrow::Allow) {
@@ -1446,11 +1446,11 @@ namespace jc::parser {
             }
             suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
             exitEntity();
-            return makeErrNode(closeSpan(begin));
+            return makeErrPR<N<Block>>(closeSpan(begin));
         }
 
         exitEntity();
-        return makeNode<Block>(std::move(stmts), closeSpan(begin));
+        return Ok(makeNode<Block>(std::move(stmts), closeSpan(begin)));
     }
 
     expr_ptr Parser::parseIfExpr(bool isElif) {
