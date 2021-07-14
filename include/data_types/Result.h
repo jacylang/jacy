@@ -215,6 +215,8 @@ namespace jc::dt {
                     E & val = get<E>();
                     val = std::move(rhs).template get<E>();
                 }
+
+                return *this;
             }
 
             template<typename U>
@@ -279,12 +281,12 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        constexpr Result() {
-            static_assert(std::is_default_constructible<T>::value,
-                          "Result<T, E> may only be default constructed if T is default "
-                          "constructable.");
-            m_storage = Ok(T());
-        }
+//        constexpr Result() {
+//            static_assert(std::is_default_constructible<T>::value,
+//                          "Result<T, E> may only be default constructed if T is default "
+//                          "constructable.");
+//            m_storage = Ok(T());
+//        }
 
 //        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
 //        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
