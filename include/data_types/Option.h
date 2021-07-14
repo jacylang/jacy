@@ -51,14 +51,6 @@ namespace jc::dt {
             return *this;
         }
 
-        const T & getValueUnsafe() const {
-            return value;
-        }
-
-        T & getValueUnsafe() {
-            return value;
-        }
-
         bool none() const {
             return !hasValue;
         }
