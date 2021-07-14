@@ -1186,7 +1186,7 @@ namespace jc::parser {
         return None;
     }
 
-    ident_ptr Parser::justParseIdent(const std::string & panicIn) {
+    ident_pr Parser::justParseIdent(const std::string & panicIn) {
         logParse("[just] id");
 
         const auto & begin = cspan();
@@ -1195,7 +1195,7 @@ namespace jc::parser {
         return Ok(makeNode<Ident>(token, closeSpan(begin)));
     }
 
-    ident_ptr Parser::parseIdent(const std::string & expected) {
+    ident_pr Parser::parseIdent(const std::string & expected) {
         logParse("Ident");
 
         // Note: We don't make `span.to(span)`,
@@ -2349,7 +2349,7 @@ namespace jc::parser {
             const auto & ref = skipOpt(TokenKind::Ref);
             const auto & mut = skipOpt(TokenKind::Mut);
 
-            ident_ptr ident = parseIdent("Field name expected");
+            ident_pr ident = parseIdent("Field name expected");
 
             if (skipOpt(TokenKind::Colon).some()) {
                 // `field: pattern` case

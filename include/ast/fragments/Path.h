@@ -21,7 +21,7 @@ namespace jc::ast {
         } kind;
 
         PathSeg(
-            ident_ptr ident,
+            ident_pr ident,
             opt_gen_params generics,
             const Span & span
         ) : Node(span),

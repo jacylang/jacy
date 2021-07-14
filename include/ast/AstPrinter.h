@@ -234,7 +234,7 @@ namespace jc::ast {
         };
         std::map<node_id, Color> namesColors;
         uint8_t lastColor;
-        void colorizeDef(const ident_ptr & ident);
+        void colorizeDef(const ident_pr & ident);
         void colorizeName(node_id nodeId);
         void resetNameColor();
         Color getNameColor(node_id defId);

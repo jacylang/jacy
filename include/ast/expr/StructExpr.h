@@ -19,7 +19,7 @@ namespace jc::ast {
         } kind;
 
         StructExprField(
-            ident_ptr && field,
+            ident_pr && field,
             expr_ptr && expr,
             const Span & span
         ) : Node(span),
@@ -28,7 +28,7 @@ namespace jc::ast {
             expr(std::move(expr)) {}
 
         StructExprField(
-            ident_ptr && field,
+            ident_pr && field,
             const Span & span
         ) : Node(span),
             kind(Kind::Shortcut),

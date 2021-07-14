@@ -8,14 +8,14 @@
 namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
-            ident_ptr name,
+            ident_pr name,
             opt_type_ptr type,
             const Span & span
         ) : Item(span, ItemKind::TypeAlias),
             name(std::move(name)),
             type(std::move(type)) {}
 
-        ident_ptr name;
+        ident_pr name;
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) const override {
