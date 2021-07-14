@@ -1988,7 +1988,7 @@ namespace jc::parser {
             if (not suggMsg.empty()) {
                 suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             }
-            return makeErrNode(closeSpan(begin));
+            return makeErrPR<N<Type>>(closeSpan(begin));
         }
         return type.take("`parseType` -> `type`");
     }
