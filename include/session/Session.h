@@ -17,9 +17,14 @@ namespace jc::sess {
     struct Session {
         SourceMap sourceMap;
         Option<resolve::module_ptr> modTreeRoot{None};
+        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
         ast::node_map<span::Span> nodeSpanMap;
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
+
+        ast::node_id getNextNodeId() {
+            return nextNodeId++;
+        }
     };
 }
 
