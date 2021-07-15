@@ -1,6 +1,7 @@
 #ifndef JACY_INCLUDE_UTILS_TYPE_H
 #define JACY_INCLUDE_UTILS_TYPE_H
 
+#ifdef __GNUG__
 #include <string>
 #include <cstdlib>
 #include <memory>
@@ -21,5 +22,16 @@ namespace jc::type {
         return (status == 0) ? res.get() : name;
     }
 }
+
+#else
+
+namespace jc::type {
+    template<class T>
+    std::string demangle(const T & t) {
+        return typeid(t).name();
+    }
+}
+
+#endif
 
 #endif // JACY_INCLUDE_UTILS_TYPE_H
