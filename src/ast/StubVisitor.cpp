@@ -262,7 +262,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ReturnExpr & returnExpr) {
-        returnExpr.expr->autoAccept(*this);
+        returnExpr.expr.unwrap().autoAccept(*this);
     }
 
     void StubVisitor::visit(const SpreadExpr & spreadExpr) {
