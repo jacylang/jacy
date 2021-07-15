@@ -38,6 +38,8 @@ namespace jc::ast {
         opt_ident ident{None};
         opt_gen_params generics{None};
 
+        PathSeg(PathSeg&&) = default;
+
         static inline constexpr Kind getKind(const parser::Token & token) {
             switch (token.kind) {
                 case parser::TokenKind::Super: return Kind::Super;

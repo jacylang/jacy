@@ -158,9 +158,9 @@ namespace jc::dt {
             }
             _kind = other._kind;
             if (other.kind() == ResultKind::Ok) {
-                storage = std::get<T>(std::move(other).storage);
+                storage = std::get<T>(std::move(other.storage));
             } else {
-                storage = std::get<E>(std::move(other).storage);
+                storage = std::get<E>(std::move(other.storage));
             }
         }
 
@@ -171,9 +171,9 @@ namespace jc::dt {
                 details::useOfUninited("move operator=");
             }
             if (other.kind() == ResultKind::Ok) {
-                storage = std::get<T>(std::move(other).storage);
+                storage = std::get<T>(std::move(other.storage));
             } else {
-                storage = std::get<E>(std::move(other).storage);
+                storage = std::get<E>(std::move(other.storage));
             }
             return *this;
         }
