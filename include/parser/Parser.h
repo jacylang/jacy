@@ -107,6 +107,13 @@ namespace jc::parser {
             return Ok<N<B>>(std::static_pointer_cast<B>(makeBoxNode<T>(std::forward<Args>(args)...)));
         }
 
+        template<class T, class ...Args>
+        inline T makeNode(Args && ...args) const {
+            auto node = T(std::forward<Args>(args)...);
+            sess->nodeStorage.addNode(node);
+            return node;
+        }
+
         template<class T>
         inline PR<T> makeErrPR(const Span & span) const {
             ErrorNode node(span);
