@@ -250,7 +250,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const PathExpr & pathExpr) {
-        pathExpr.path->accept(*this);
+        pathExpr.path.accept(*this);
     }
 
     void StubVisitor::visit(const Prefix & prefix) {
@@ -348,7 +348,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TypePath & typePath) {
-        typePath.path->accept(*this);
+        typePath.path.accept(*this);
     }
 
     void StubVisitor::visit(const UnitType&) {}
