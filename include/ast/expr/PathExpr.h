@@ -9,9 +9,9 @@ namespace jc::ast {
     using path_expr_ptr = PR<N<PathExpr>>;
 
     struct PathExpr : Expr {
-        PathExpr(path_ptr && path) : Expr(path->span, ExprKind::Path), path(std::move(path)) {}
+        PathExpr(Path && path) : Expr(path.span, ExprKind::Path), path(std::move(path)) {}
 
-        path_ptr path;
+        Path path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
