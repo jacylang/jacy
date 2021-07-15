@@ -34,22 +34,6 @@ namespace jc::dt {
     template <typename T, typename E>
     class Result;
 
-    struct ok_tag_t {};
-    struct err_tag_t {};
-    struct unit_t {};
-
-    inline constexpr ok_tag_t ok_tag = ok_tag_t{};
-    inline constexpr err_tag_t err_tag = err_tag_t{};
-    inline constexpr unit_t unit = unit_t{};
-
-    inline constexpr bool operator==(unit_t, unit_t) {
-        return true;
-    }
-
-    inline constexpr bool operator!=(unit_t, unit_t) {
-        return false;
-    }
-
     template<typename T>
     class Err {
     public:
@@ -99,19 +83,6 @@ namespace jc::dt {
     private:
         T m_value;
     };
-
-    template<>
-    class Ok<unit_t> {
-    public:
-        using value_type = unit_t;
-
-        constexpr Ok() = default;
-        constexpr Ok(unit_t) {}
-
-        constexpr const unit_t value() const { return {}; }
-    };
-
-    Ok()->Ok<unit_t>;
 
     namespace details {
         inline void terminate(const std::string_view& msg) {
@@ -210,11 +181,7 @@ namespace jc::dt {
         }
 
         constexpr bool operator==(const Ok<T> & other) const noexcept {
-            if constexpr(std::is_same<T, unit_t>::value) {
-                return true;
-            } else {
-                return kind() == ResultKind::Ok && ok_unchecked() == other.value();
-            }
+            return kind() == ResultKind::Ok && ok_unchecked() == other.value();
         }
 
         constexpr bool operator!=(const Ok<T> & other) const noexcept {
@@ -234,11 +201,7 @@ namespace jc::dt {
                 return false;
             }
             if (kind() == ResultKind::Ok) {
-                if constexpr(std::is_same<T, unit_t>::value) {
-                    return true;
-                } else {
-                    return ok_unchecked() == other.ok_unchecked();
-                }
+                return ok_unchecked() == other.ok_unchecked();
             } else if (kind() == ResultKind::Err) {
                 return err_unchecked() == other.err_unchecked();
             } else {
@@ -310,18 +273,8 @@ namespace jc::dt {
     };
 
     template <typename T>
-    inline std::ostream& operator<<(std::ostream& stream, unit_t) {
-        stream << "()";
-        return stream;
-    }
-
-    template <typename T>
     inline std::ostream& operator<<(std::ostream& stream, const Ok<T>& ok) {
-        if constexpr(std::is_same<T, unit_t>::value) {
-            stream << "Ok()" << std::endl;
-        } else {
-            stream << "Ok(" << ok.value() << ")";
-        }
+        stream << "Ok(" << ok.value() << ")";
         return stream;
     }
     template <typename T>
