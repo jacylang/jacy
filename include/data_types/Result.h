@@ -126,6 +126,7 @@ namespace jc::dt {
     public:
         using value_type = T;
         using error_type = E;
+        using storage_type = std::variant<std::monostate, T, E>;
 
         static_assert(std::is_same<std::remove_reference_t<T>, T>::value,
                       "Result<T, E> cannot store reference types."
@@ -147,26 +148,16 @@ namespace jc::dt {
 
 //        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
 //        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
-        constexpr Result(Ok<T> && value) : m_storage(std::move(value)) {}
-        constexpr Result(Err<E> && value) : m_storage(std::move(value)) {}
+        constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value)) {}
+        constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value)) {}
 
-        template<typename... Args>
-        constexpr Result(ok_tag_t, Args && ... args)
-            : m_storage(ok_tag, std::forward<Args>(args)...) {
-        }
+        constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) = default;
 
-        template<typename... Args>
-        constexpr Result(err_tag_t, Args && ... args)
-            : m_storage(err_tag, std::forward<Args>(args)...) {
-        }
+        constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(std::is_nothrow_copy_assignable<storage_type>::value) = default;
 
-        constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<details::ResultStorage<T, E>>::value) = default;
+        constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
 
-        constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(std::is_nothrow_copy_assignable<details::ResultStorage<T, E>>::value) = default;
-
-        constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<details::ResultStorage<T, E>>::value) = default;
-
-        constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(std::is_nothrow_move_assignable<details::ResultStorage<T, E>>::value) = default;
+        constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(std::is_nothrow_move_assignable<storage_type>::value) = default;
 
     public:
         constexpr Result<T, E> clone() const {
@@ -282,7 +273,7 @@ namespace jc::dt {
 
     private:
         ResultKind _kind;
-        std::variant<std::monostate, T, E> storage;
+        storage_type storage;
     };
 
     template <typename T>
