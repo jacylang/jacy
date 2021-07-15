@@ -85,13 +85,13 @@ namespace jc::dt {
     };
 
     namespace details {
-        inline void terminate(const std::string_view& msg) {
+        inline void terminate(const std::string_view & msg) {
             std::cerr << msg << std::endl;
             std::terminate();
         }
 
-        inline void useOfUninited() {
-            terminate("Use of uninitialized Result");
+        inline void useOfUninited(const std::string & msg) {
+            terminate("Use of uninitialized Result in " + msg);
         }
     }
 
@@ -127,7 +127,7 @@ namespace jc::dt {
 
         constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) {
             if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
-                details::useOfUninited();
+                details::useOfUninited("copy constructor");
             }
             _kind = other._kind;
             storage = other.storage;
@@ -137,7 +137,7 @@ namespace jc::dt {
             std::is_nothrow_copy_assignable<storage_type>::value
         ) {
             if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
-                details::useOfUninited();
+                details::useOfUninited("copy operator=");
             }
             _kind = other._kind;
             storage = other.storage;
@@ -146,7 +146,7 @@ namespace jc::dt {
 
         constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) {
             if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
-                details::useOfUninited();
+                details::useOfUninited("move constructor");
             }
             _kind = other._kind;
             storage = std::move(other.storage);
@@ -156,7 +156,7 @@ namespace jc::dt {
             std::is_nothrow_move_assignable<storage_type>::value
         ) {
             if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
-                details::useOfUninited();
+                details::useOfUninited("move operator=");
             }
             _kind = other._kind;
             storage = std::move(other.storage);
