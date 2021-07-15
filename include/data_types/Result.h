@@ -91,7 +91,7 @@ namespace jc::dt {
         }
 
         inline void useOfUninited(const std::string & msg) {
-            terminate("Use of uninitialized Result in " + msg);
+//            terminate("Use of uninitialized Result in " + msg);
         }
     }
 
@@ -126,7 +126,7 @@ namespace jc::dt {
         constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value).value()) {}
 
         constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) {
-            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+            if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("copy constructor");
             }
             _kind = other._kind;
@@ -136,7 +136,7 @@ namespace jc::dt {
         constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(
             std::is_nothrow_copy_assignable<storage_type>::value
         ) {
-            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+            if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("copy operator=");
             }
             _kind = other._kind;
@@ -145,7 +145,7 @@ namespace jc::dt {
         }
 
         constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) {
-            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+            if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move constructor");
             }
             _kind = other._kind;
@@ -155,7 +155,7 @@ namespace jc::dt {
         constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(
             std::is_nothrow_move_assignable<storage_type>::value
         ) {
-            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+            if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move operator=");
             }
             _kind = other._kind;
@@ -205,7 +205,7 @@ namespace jc::dt {
             } else if (kind() == ResultKind::Err) {
                 return err_unchecked() == other.err_unchecked();
             } else {
-                details::terminate("Use of uninitialized Result");
+                details::useOfUninited("operator==");
             }
             return false;
         }
@@ -215,6 +215,9 @@ namespace jc::dt {
         }
 
         constexpr const T & unwrap(const std::string & msg = "") const {
+            if (kind() == ResultKind::Uninited) {
+                details::useOfUninited("unwrap");
+            }
             if (!ok()) {
                 details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
@@ -222,6 +225,9 @@ namespace jc::dt {
         }
 
         constexpr const E & unwrapErr(const std::string & msg = "") const {
+            if (kind() == ResultKind::Uninited) {
+                details::useOfUninited("unwrap");
+            }
             if (!err()) {
                 details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
             }
@@ -229,6 +235,9 @@ namespace jc::dt {
         }
 
         constexpr T && take(const std::string & msg = "") {
+            if (kind() == ResultKind::Uninited) {
+                details::useOfUninited("unwrap");
+            }
             if (!ok()) {
                 details::terminate("Called `take` on an Err value" + (msg.empty() ? " " + msg : msg));
             }
@@ -236,6 +245,9 @@ namespace jc::dt {
         }
 
         constexpr E && takeErr(const std::string & msg = "") {
+            if (kind() == ResultKind::Uninited) {
+                details::useOfUninited("unwrap");
+            }
             if (!err()) {
                 details::terminate("Called `takeErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
             }
