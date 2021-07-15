@@ -18,26 +18,27 @@ namespace jc::dt {
 
     template<class T>
     struct Option {
-        using storage_type = std::variant<std::monostate, T>;
+        constexpr static size_t NoneIndex = 0;
+        constexpr static size_t SomeIndex = 0;
+        using storage_type = std::variant<none_t, T>;
 
-        Option(none_t) : hasValue(false) {}
-        Option(const T & value) : value(value), hasValue(true) {}
-        Option(T && value) : value(std::move(value)), hasValue(true) {}
+        Option(none_t) : storage(None) {}
+        Option(const T & value) : storage(value) {}
+        Option(T && value) : storage(std::move(value)) {}
 
     public:
         const T & unwrap(const std::string & msg = "") const {
             if (none()) {
                 throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
-            return value;
+            return unchecked();
         }
 
         T take(const std::string & msg = "") {
             if (none()) {
                 throw std::logic_error("Called `Option::take` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
-            hasValue = false;
-            return std::move(value);
+            return std::move(storage);
         }
 
         const Option<T> & then(const std::function<void(const T&)> & f) const {
@@ -55,39 +56,31 @@ namespace jc::dt {
         }
 
         bool none() const {
-            return !hasValue;
+            return storage.index() == NoneIndex;
         }
 
         bool some() const {
-            return hasValue;
+            return storage.index() == SomeIndex;
         }
 
         Option<T> & operator=(T && rawT) {
-            hasValue = true;
-            value = std::move(rawT);
+            storage = std::move(rawT);
             return *this;
         }
 
         template<class U>
         Option<T> & operator=(Option<U> && other) {
             if (other.none()) {
-                hasValue = false;
+                storage = None;
             } else {
-                value = std::move(other).value;
+                storage = std::get<T>(std::move(other));
             }
             return *this;
         }
 
         Option<T> & operator=(none_t) {
-            hasValue = false;
+            storage = None;
             return *this;
-        }
-
-        const T & operator*() const {
-            if (none()) {
-                throw std::logic_error("Called `const T & Option::operator*` on a `None` value");
-            }
-            return value;
         }
 
     private:
