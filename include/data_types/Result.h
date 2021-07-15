@@ -118,8 +118,11 @@ namespace jc::dt {
             std::cerr << msg << std::endl;
             std::terminate();
         }
-    }
 
+        inline void useOfUninited() {
+            terminate("Use of uninitialized Result");
+        }
+    }
 
     template <typename T, typename E>
     class Result {
@@ -143,7 +146,7 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        Result() {}
+        Result() : _kind(ResultKind::Uninited) {}
 //        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
 //        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
@@ -151,7 +154,13 @@ namespace jc::dt {
         constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value)) {}
         constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value)) {}
 
-        constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) = default;
+        constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) {
+            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+                details::useOfUninited();
+            }
+            _kind = other._kind;
+            storage = other.storage;
+        }
 
         constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(std::is_nothrow_copy_assignable<storage_type>::value) = default;
 
