@@ -46,8 +46,8 @@ namespace jc::cli {
                         );
                     }
                     const auto boolValue = parseBool(utils::str::toLower(args.at(argIndex)));
-                    if (not boolValue.none()) {
-                        argsStorage.boolArgs[argName] = boolValue.unwrap();
+                    if (boolValue.some()) {
+                        argsStorage.boolArgs[argName] = boolValue.unwrap("CLI::applyArgs::boolValue");
                     } else {
                         throw CLIError(
                             "Invalid boolean parameter for bool CLI argument '" + arg +
@@ -166,7 +166,7 @@ namespace jc::cli {
 
             // Check for parameters count
             const auto & allowedCount = Args::allowedKeyValueArgs.at(arg.first).first;
-            if (allowedCount.some() and allowedCount.unwrap() != arg.second.size()) {
+            if (allowedCount.some() and allowedCount.unwrap("CLI::applyArgs::allowedCount") != arg.second.size()) {
                 throw CLIError(
                     common::Logger::format(
                         "Expected ",

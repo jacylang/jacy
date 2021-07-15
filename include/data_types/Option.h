@@ -21,7 +21,7 @@ namespace jc::dt {
     template<class T>
     struct Option {
         constexpr static size_t NoneIndex = 0;
-        constexpr static size_t SomeIndex = 0;
+        constexpr static size_t SomeIndex = 1;
         using storage_type = std::variant<none_t, T>;
 
         Option(none_t) : storage(None) {}
