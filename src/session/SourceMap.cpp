@@ -54,7 +54,7 @@ namespace jc::sess {
 
     std::string SourceMap::sliceBySpan(const span::Span & span) {
         const auto & src = getSourceFile(span.fileId).src;
-        return src->substr(span.pos, span.len);
+        return src.unwrap().substr(span.pos, span.len);
     }
 
     std::vector<Line> SourceMap::getLines(const span::Span & span) {
