@@ -36,7 +36,7 @@ namespace jc::core {
     }
 
     void Interface::init() {
-        log.dev("Initialization...");
+        log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
     }
 
