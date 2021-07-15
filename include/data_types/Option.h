@@ -27,16 +27,16 @@ namespace jc::dt {
         Option(T && value) : storage(std::move(value)) {}
 
     public:
-        const T & unwrap(const std::string & msg = "") const {
+        const T & unwrap(const std::string & place = "") const {
             if (none()) {
-                throw std::logic_error("Called `Option::unwrap` on a `None` value" + (msg.empty() ? "" : ": " + msg));
+                nonePanic("unwrap", place);
             }
             return unchecked();
         }
 
-        T take(const std::string & msg = "") {
+        T take(const std::string & place = "") {
             if (none()) {
-                throw std::logic_error("Called `Option::take` on a `None` value" + (msg.empty() ? "" : ": " + msg));
+                nonePanic("take", place);
             }
             return std::get<T>(std::move(storage));
         }
@@ -100,9 +100,10 @@ namespace jc::dt {
             return typeid(T).name();
         }
 
-        constexpr void panic(const std::string & method, const std::string & additional) const noexcept {
+        constexpr void nonePanic(const std::string & method, const std::string & place) const {
             throw std::logic_error(
-                "Called Option<" + typeName() + "> " + method + (additional.empty() ? "" : ": " + additional)
+                "Called `Option<" + typeName() + ">::" + method + "` on a `None` value"
+                    + (place.empty() ? "" : " in " + place)
             );
         }
 
