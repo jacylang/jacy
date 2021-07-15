@@ -96,6 +96,10 @@ namespace jc::dt {
             return std::get<T>(std::move(storage));
         }
 
+        constexpr const char * typeName() const noexcept {
+            return typeid(T).name();
+        }
+
     private:
         storage_type storage;
     };
