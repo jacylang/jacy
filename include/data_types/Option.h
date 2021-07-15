@@ -8,6 +8,8 @@
 #include <functional>
 #include <variant>
 
+#include "utils/type.h"
+
 namespace jc::dt {
     struct none_t {
         struct init {};
@@ -102,7 +104,7 @@ namespace jc::dt {
 
         constexpr void nonePanic(const std::string & method, const std::string & place) const {
             throw std::logic_error(
-                "Called `Option<" + typeName() + ">::" + method + "` on a `None` value"
+                "Called `" + type::demangle(*this) + "::" + method + "` on a `None` value"
                     + (place.empty() ? "" : " in " + place)
             );
         }
