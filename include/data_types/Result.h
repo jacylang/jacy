@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <string>
 #include <type_traits>
+#include <variant>
 
 /**
  * Thanks https://github.com/tylerreisinger
@@ -29,10 +30,6 @@ namespace jc::dt {
     template<class T>
     struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
 
-    template<class ...Args>
-    constexpr bool are_unique_ptrs() {
-        return ((is_unique_ptr<decltype(std::declval<Args>().value)>::value), ...);
-    }
 
     template <typename T, typename E>
     class Result;
@@ -121,148 +118,8 @@ namespace jc::dt {
             std::cerr << msg << std::endl;
             std::terminate();
         }
-
-        template<typename T, typename E>
-        class ResultStorage {
-            using DecayT = std::decay_t<T>;
-            using DecayE = std::decay_t<E>;
-            static constexpr size_t Size = sizeof(T) > sizeof(E) ? sizeof(T) : sizeof(E);
-            static constexpr size_t Align = sizeof(T) > sizeof(E) ? alignof(T) : alignof(E);
-
-        public:
-            using value_type = T;
-            using error_type = E;
-            using data_type = std::aligned_storage<Size, Align>;
-
-            ResultStorage() : m_tag(ResultKind::Uninited) {}
-
-            template<typename... Args>
-            constexpr ResultStorage(ok_tag_t, Args && ... args) {
-                if constexpr(!std::is_same<T, unit_t>::value) {
-                    new(&m_data) DecayT(std::forward<Args>(args)...);
-                }
-                m_tag = ResultKind::Ok;
-            }
-
-            template<typename... Args>
-            constexpr ResultStorage(err_tag_t, Args && ... args) {
-                new(&m_data) DecayE(std::forward<Args>(args)...);
-                m_tag = ResultKind::Err;
-            }
-
-            constexpr ResultStorage(Ok<T> val) {
-                if constexpr(!std::is_same<T, unit_t>::value) {
-                    new(&m_data) DecayT(std::move(val).value());
-                }
-                m_tag = ResultKind::Ok;
-            }
-
-            constexpr ResultStorage(Err<E> val) {
-                new(&m_data) DecayE(std::move(val).value());
-                m_tag = ResultKind::Err;
-            }
-
-            constexpr ResultStorage(const ResultStorage<T, E> & rhs) noexcept(
-                std::is_nothrow_copy_constructible<T>::value &&
-                std::is_nothrow_copy_constructible<E>::value
-            ) : m_tag(rhs.m_tag) {
-                if (kind() == ResultKind::Ok) {
-                    if constexpr(!std::is_same<T, unit_t>::value) {
-                        new(&m_data) DecayT(rhs.get<T>());
-                    }
-                } else {
-                    new(&m_data) DecayE(rhs.get<E>());
-                }
-            }
-
-            constexpr ResultStorage(ResultStorage<T, E> && rhs) noexcept(
-                std::is_nothrow_move_constructible<T>::value &&
-                std::is_nothrow_move_constructible<E>::value
-            ) : m_tag(rhs.m_tag) {
-                if (kind() == ResultKind::Ok) {
-                    if constexpr(!std::is_same<T, unit_t>::value) {
-                        new(&m_data) DecayT(std::move(rhs).template get<T>());
-                    }
-                } else {
-                    new(&m_data) DecayE(std::move(rhs).template get<E>());
-                }
-            }
-
-            constexpr ResultStorage & operator=(const ResultStorage<T, E> & rhs) noexcept(
-                std::is_nothrow_copy_assignable<T>::value &&
-                std::is_nothrow_copy_assignable<E>::value
-            ) {
-                destroy();
-                m_tag = rhs.m_tag;
-
-                if (kind() == ResultKind::Ok) {
-                    T & val = get<T>();
-                    val = rhs.get<T>();
-                } else {
-                    E & val = get<E>();
-                    val = rhs.get<E>();
-                }
-            }
-
-            constexpr ResultStorage & operator=(ResultStorage<T, E> && rhs) noexcept(
-                std::is_nothrow_move_assignable<T>::value &&
-                std::is_nothrow_move_assignable<E>::value
-            ) {
-                destroy();
-                m_tag = rhs.m_tag;
-
-                if (kind() == ResultKind::Ok) {
-                    T & val = get<T>();
-                    val = std::move(rhs).template get<T>();
-                } else {
-                    E & val = get<E>();
-                    val = std::move(rhs).template get<E>();
-                }
-
-                return *this;
-            }
-
-            template<typename U>
-            constexpr const U & get() const & noexcept {
-                static_assert(std::is_same<T, U>::value || std::is_same<E, U>::value);
-                return *reinterpret_cast<const U *>(&m_data);
-            }
-
-            template<typename U>
-            constexpr U & get() & noexcept {
-                static_assert(std::is_same<T, U>::value || std::is_same<E, U>::value);
-                return *reinterpret_cast<U *>(&m_data);
-            }
-
-            template<typename U>
-            constexpr U && get() && noexcept {
-                static_assert(std::is_same<T, U>::value || std::is_same<E, U>::value);
-                return std::move(*reinterpret_cast<U *>(&m_data));
-            }
-
-            constexpr ResultKind kind() const noexcept { return m_tag; }
-
-            ~ResultStorage() {
-                destroy();
-            }
-
-        private:
-            void destroy() {
-                switch(m_tag) {
-                    case ResultKind::Ok:
-                        get<T>().~T();
-                        break;
-                    case ResultKind::Err:
-                        get<E>().~E();
-                        break;
-                    case ResultKind::Uninited: break;
-                }
-            }
-
-            data_type m_data;
-            ResultKind m_tag;
-        };
     }
+
 
     template <typename T, typename E>
     class Result {
@@ -317,22 +174,22 @@ namespace jc::dt {
         }
 
         constexpr bool ok() const noexcept {
-            return m_storage.kind() == ResultKind::Ok;
+            return _kind == ResultKind::Ok;
         }
 
         constexpr bool err() const noexcept {
-            return m_storage.kind() == ResultKind::Err;
+            return _kind == ResultKind::Err;
         }
 
         constexpr ResultKind kind() const noexcept {
-            return m_storage.kind();
+            return _kind;
         }
 
         constexpr bool operator==(const Ok<T> & other) const noexcept {
             if constexpr(std::is_same<T, unit_t>::value) {
                 return true;
             } else {
-                return kind() == ResultKind::Ok && m_storage.template get<T>() == other.value();
+                return kind() == ResultKind::Ok && ok_unchecked() == other.value();
             }
         }
 
@@ -341,7 +198,7 @@ namespace jc::dt {
         }
 
         constexpr bool operator==(const Err<E> & other) const noexcept {
-            return kind() == ResultKind::Err && m_storage.template get<E>() == other.value();
+            return kind() == ResultKind::Err && err_unchecked() == other.value();
         }
 
         constexpr bool operator!=(const Err<E> & other) const noexcept {
@@ -356,10 +213,12 @@ namespace jc::dt {
                 if constexpr(std::is_same<T, unit_t>::value) {
                     return true;
                 } else {
-                    return m_storage.template get<T>() == other.m_storage.template get<T>();
+                    return ok_unchecked() == other.ok_unchecked();
                 }
+            } else if (kind() == ResultKind::Err) {
+                return err_unchecked() == other.err_unchecked();
             } else {
-                return m_storage.template get<E>() == other.m_storage.template get<E>();
+                details::terminate("Use of uninitialized Result");
             }
             return false;
         }
@@ -398,31 +257,32 @@ namespace jc::dt {
 
     protected:
         constexpr const T & ok_unchecked() const & noexcept {
-            return m_storage.template get<T>();
+            return std::get<T>(storage);
         }
 
         constexpr const E & err_unchecked() const & noexcept {
-            return m_storage.template get<E>();
+            return std::get<E>(storage);
         }
 
         constexpr T & ok_unchecked() & noexcept {
-            return m_storage.template get<T>();
+            return std::get<T>(storage);
         }
 
         constexpr E & err_unchecked() & noexcept {
-            return m_storage.template get<E>();
+            return std::get<E>(storage);
         }
 
         constexpr T && ok_unchecked() && noexcept {
-            return std::move(m_storage).template get<T>();
+            return std::get<T>(std::move(storage));
         }
 
         constexpr E && err_unchecked() && noexcept {
-            return std::move(m_storage).template get<E>();
+            return std::get<E>(std::move(storage));
         }
 
     private:
-        details::ResultStorage<T, E> m_storage;
+        ResultKind _kind;
+        std::variant<std::monostate, T, E> storage;
     };
 
     template <typename T>
