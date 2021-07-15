@@ -38,7 +38,7 @@ namespace jc::dt {
             if (none()) {
                 throw std::logic_error("Called `Option::take` on a `None` value" + (msg.empty() ? "" : ": " + msg));
             }
-            return std::move(storage);
+            return std::get<T>(std::move(storage));
         }
 
         const Option<T> & then(const std::function<void(const T&)> & f) const {
