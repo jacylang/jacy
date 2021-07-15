@@ -1168,7 +1168,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         auto token = peek();
         justSkip(TokenKind::Id, "[identifier]", "`" + panicIn + "`");
-        return Ok(Ident(token, closeSpan(begin)));
+        return Ok(makeNode<Ident>(token, closeSpan(begin)));
     }
 
     ident_pr Parser::parseIdent(const std::string & expected) {
@@ -1179,7 +1179,7 @@ namespace jc::parser {
         const auto & span = cspan();
         auto maybeIdToken = skip(TokenKind::Id, expected, Recovery::Any);
         if (maybeIdToken.some()) {
-            return Ok(Ident(maybeIdToken.unwrap("parseIdent -> maybeIdToken"), span));
+            return Ok(makeNode<Ident>(maybeIdToken.unwrap("parseIdent -> maybeIdToken"), span));
         }
         return makeErrPR<Ident>(span);
     }
