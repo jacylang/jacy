@@ -96,15 +96,15 @@ namespace jc::parser {
         sess::sess_ptr sess;
 
         template<class T, class ...Args>
-        inline N<T> makeNode(Args && ...args) const {
+        inline N<T> makeBoxNode(Args && ...args) const {
             auto node = std::make_shared<T>(std::forward<Args>(args)...);
             sess->nodeStorage.addNode(node);
             return node;
         }
 
         template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRNode(Args && ...args) const {
-            return Ok<N<B>>(std::static_pointer_cast<B>(makeNode<T>(std::forward<Args>(args)...)));
+        inline PR<N<B>> makePRBoxNode(Args && ...args) const {
+            return Ok<N<B>>(std::static_pointer_cast<B>(makeBoxNode<T>(std::forward<Args>(args)...)));
         }
 
         template<class T>
