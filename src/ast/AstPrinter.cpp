@@ -160,7 +160,7 @@ namespace jc::ast {
 
         impl.forType.then([&](const auto & forType) {
             log.raw(" for ");
-            impl.forType->autoAccept(*this);
+            forType.autoAccept(*this);
         });
 
         printBodyLike(impl.members, "\n");
@@ -520,7 +520,7 @@ namespace jc::ast {
             case StructExprField::Kind::Raw: {
                 field.name.unwrap().autoAccept(*this);
                 log.raw(": ");
-                field.expr->autoAccept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Shortcut: {
@@ -529,7 +529,7 @@ namespace jc::ast {
             }
             case StructExprField::Kind::Base: {
                 log.raw("...");
-                field.expr->autoAccept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
         }
