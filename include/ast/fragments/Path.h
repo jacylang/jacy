@@ -5,7 +5,6 @@
 
 namespace jc::ast {
     struct PathSeg;
-    using path_seg_ptr = PR<N<PathSeg>>;
     using path_seg_list = std::vector<path_seg_ptr>;
 
     struct PathSeg : Node {
