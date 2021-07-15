@@ -130,7 +130,11 @@ namespace jc::dt {
                 details::useOfUninited("copy constructor");
             }
             _kind = other._kind;
-            storage = other.storage;
+            if (other.kind() == ResultKind::Ok) {
+                storage = std::get<T>(other.storage);
+            } else {
+                storage = std::get<E>(other.storage);
+            }
         }
 
         constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(
@@ -140,7 +144,11 @@ namespace jc::dt {
                 details::useOfUninited("copy operator=");
             }
             _kind = other._kind;
-            storage = other.storage;
+            if (other.kind() == ResultKind::Ok) {
+                storage = std::get<T>(other.storage);
+            } else {
+                storage = std::get<E>(other.storage);
+            }
             return *this;
         }
 
@@ -149,7 +157,11 @@ namespace jc::dt {
                 details::useOfUninited("move constructor");
             }
             _kind = other._kind;
-            storage = std::move(other.storage);
+            if (other.kind() == ResultKind::Ok) {
+                storage = std::get<T>(std::move(other).storage);
+            } else {
+                storage = std::get<E>(std::move(other).storage);
+            }
         }
 
         constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(
@@ -158,8 +170,11 @@ namespace jc::dt {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move operator=");
             }
-            _kind = other._kind;
-            storage = std::move(other.storage);
+            if (other.kind() == ResultKind::Ok) {
+                storage = std::get<T>(std::move(other).storage);
+            } else {
+                storage = std::get<E>(std::move(other).storage);
+            }
             return *this;
         }
 
