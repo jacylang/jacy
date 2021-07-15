@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <functional>
+#include <variant>
 
 namespace jc::dt {
     struct none_t {
@@ -17,6 +18,8 @@ namespace jc::dt {
 
     template<class T>
     struct Option {
+        using storage_type = std::variant<std::monostate, T>;
+
         Option(none_t) : hasValue(false) {}
         Option(const T & value) : value(value), hasValue(true) {}
         Option(T && value) : value(std::move(value)), hasValue(true) {}
@@ -102,8 +105,20 @@ namespace jc::dt {
         }
 
     private:
-        T value;
-        bool hasValue{false};
+        constexpr const T & unchecked() const & noexcept {
+            return std::get<T>(storage);
+        }
+
+        constexpr T & unchecked() & noexcept {
+            return std::get<T>(storage);
+        }
+
+        constexpr T && unchecked() && noexcept {
+            return std::get<T>(std::move(storage));
+        }
+
+    private:
+        storage_type storage;
     };
 
     template<class T>
