@@ -1825,7 +1825,7 @@ namespace jc::parser {
         return makeBoxNode<SimplePath>(global, std::move(segments), closeSpan(begin));
     }
 
-    path_ptr Parser::parsePath(bool inExpr) {
+    Path Parser::parsePath(bool inExpr) {
         enterEntity("Path");
 
         const auto & begin = cspan();
@@ -1902,7 +1902,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeBoxNode<Path>(global, std::move(segments), closeSpan(begin));
+        return makeNode<Path>(global, std::move(segments), closeSpan(begin));
     }
 
     tuple_t_el_list Parser::parseTupleFields() {

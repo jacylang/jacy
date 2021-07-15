@@ -219,7 +219,7 @@ namespace jc::parser {
         item_list parseMembers(const std::string & construction);
         PR<simple_path_ptr> parseSimplePath(const std::string & construction);
         Option<simple_path_ptr> parseOptSimplePath();
-        path_ptr parsePath(bool inExpr);
+        Path parsePath(bool inExpr);
 
         // Types //
         type_ptr parseType(const std::string & suggMsg);
