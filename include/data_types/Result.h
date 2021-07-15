@@ -146,13 +146,13 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        Result() : _kind(ResultKind::Uninited) {}
+        Result() : _kind(ResultKind::Uninited), storage(std::monostate{}) {}
 //        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
 //        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
 //        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
-        constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value)) {}
-        constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value)) {}
+        constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value).value()) {}
+        constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value).value()) {}
 
         constexpr Result(const Result<T, E> & other) noexcept(std::is_nothrow_copy_constructible<storage_type>::value) {
             if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
