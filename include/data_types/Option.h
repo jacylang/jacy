@@ -100,6 +100,12 @@ namespace jc::dt {
             return typeid(T).name();
         }
 
+        constexpr void panic(const std::string & method, const std::string & additional) const noexcept {
+            throw std::logic_error(
+                "Called Option<" + typeName() + "> " + method + (additional.empty() ? "" : ": " + additional)
+            );
+        }
+
     private:
         storage_type storage;
     };
