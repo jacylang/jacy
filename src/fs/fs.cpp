@@ -10,7 +10,6 @@ namespace jc::fs {
             common::Logger::devPanic("Called `fs::readfile` with non-existent file");
         }
 
-        const auto & entry = std_fs::directory_entry(path);
         std::fstream file(path);
 
         if (!file.is_open()) {
@@ -31,7 +30,7 @@ namespace jc::fs {
             const auto & entryPath = std_fs::relative(entry.path());
             if (entry.is_directory()) {
                 entries.emplace_back(
-                    std::make_shared<Entry>(entryPath, std::move(readdirRecEntries(entryPath)))
+                    std::make_shared<Entry>(entryPath, readdirRecEntries(entryPath))
                 );
             } else if (entry.is_regular_file()) {
                 if (entryPath.extension() != allowedExt) {
