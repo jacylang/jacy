@@ -162,11 +162,35 @@ namespace jc::dt {
             storage = other.storage;
         }
 
-        constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(std::is_nothrow_copy_assignable<storage_type>::value) = default;
+        constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(
+            std::is_nothrow_copy_assignable<storage_type>::value
+        ) {
+            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+                details::useOfUninited();
+            }
+            _kind = other._kind;
+            storage = other.storage;
+            return *this;
+        }
 
-        constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
+        constexpr Result(Result<T, E> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) {
+            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+                details::useOfUninited();
+            }
+            _kind = other._kind;
+            storage = std::move(other.storage);
+        }
 
-        constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(std::is_nothrow_move_assignable<storage_type>::value) = default;
+        constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(
+            std::is_nothrow_move_assignable<storage_type>::value
+        ) {
+            if (kind() == ResultKind::Uninited or other.kind() == ResultKind::Uninited) {
+                details::useOfUninited();
+            }
+            _kind = other._kind;
+            storage = std::move(other.storage);
+            return *this;
+        }
 
     public:
         constexpr Result<T, E> clone() const {
