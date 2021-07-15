@@ -104,7 +104,7 @@ namespace jc::ast {
 
         pushContext(ValidatorCtx::Func);
         if (func.body.some()) {
-            func.body->autoAccept(*this);
+            func.body.unwrap().autoAccept(*this);
         }
         popContext();
     }
@@ -470,7 +470,7 @@ namespace jc::ast {
         switch (field.kind) {
             case StructExprField::Kind::Raw: {
                 field.name.unwrap().autoAccept(*this);
-                field.expr->autoAccept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
             case StructExprField::Kind::Shortcut: {
@@ -478,7 +478,7 @@ namespace jc::ast {
                 break;
             }
             case StructExprField::Kind::Base: {
-                field.expr->autoAccept(*this);
+                field.expr.unwrap().autoAccept(*this);
                 break;
             }
         }
