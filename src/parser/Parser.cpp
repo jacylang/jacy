@@ -1755,7 +1755,7 @@ namespace jc::parser {
         return members;
     }
 
-    PR<simple_path_ptr> Parser::parseSimplePath(const std::string & construction) {
+    PR<SimplePath> Parser::parseSimplePath(const std::string & construction) {
         enterEntity("SimplePath");
 
         const auto & begin = cspan();
@@ -1775,7 +1775,7 @@ namespace jc::parser {
         return Ok(simplePath.take());
     }
 
-    Option<simple_path_ptr> Parser::parseOptSimplePath() {
+    Option<SimplePath> Parser::parseOptSimplePath() {
         logParseExtra("[opt] SimplePath");
 
         if (not is(TokenKind::Path) and not peek().isPathIdent()) {
