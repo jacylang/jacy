@@ -391,7 +391,7 @@ namespace jc::ast {
         lintEach(listExpr.elements);
     }
 
-    void Validator::visit(const LiteralConstant&) {
+    void Validator::visit(const Literal&) {
         // What's here?
     }
 

@@ -4,8 +4,8 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct LiteralConstant : Expr {
-        explicit LiteralConstant(const parser::Token & token, const Span & span)
+    struct Literal : Expr {
+        explicit Literal(const parser::Token & token, const Span & span)
             : Expr(span, ExprKind::LiteralConstant), token(token) {}
 
         parser::Token token;
