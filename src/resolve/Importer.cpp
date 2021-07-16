@@ -70,7 +70,7 @@ namespace jc::resolve {
             bool isPrefixSeg = i < path.segments.size() - 1;
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
-                _importModule->find(Namespace::Type, segName).then([&](def_id defId) {
+                _importModule->find(Namespace::Type, segName).then([&](const auto & defId) {
                     if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresSeg = {i, defId};
@@ -121,7 +121,7 @@ namespace jc::resolve {
                     // Note: We check visibility for definitions
                     //  and invoke callback even if some definitions are private
                     defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
-                        optDefId.then([&](def_id defId) {
+                        optDefId.then([&](const auto & defId) {
                             // Report "Cannot access" only if this is the only one inaccessible item
                             if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
                                 inaccessible = true;
@@ -170,8 +170,8 @@ namespace jc::resolve {
             name = segName;
         }
         pathResult.defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
-            optDefId.then([&](def_id defId) {
-                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](def_id oldDefId) {
+            optDefId.then([&](const auto & defId) {
+                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const auto & oldDefId) {
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
                     const auto & oldDef = sess->defStorage.getDef(oldDefId);
