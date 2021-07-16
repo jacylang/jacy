@@ -129,7 +129,7 @@ namespace jc::dt {
 
         constexpr Result(const Result<T, E> & other) noexcept(
             std::is_nothrow_copy_constructible<storage_type>::value
-        ) : storage(other.storage), _kind(other.kind()) {
+        ) : _kind(other.kind()), storage(other.storage) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("copy constructor");
             }
@@ -152,7 +152,7 @@ namespace jc::dt {
 
         constexpr Result(Result<T, E> && other) noexcept(
             std::is_nothrow_move_constructible<storage_type>::value
-        ) : storage(std::move(other).storage), _kind(other.kind()) {
+        ) : _kind(other.kind()), storage(std::move(other).storage) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move constructor");
             }
