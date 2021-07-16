@@ -841,7 +841,7 @@ namespace jc::parser {
                 }
 
                 params.push_back(
-                    makeBoxNode<LambdaParam>(
+                    makeNode<LambdaParam>(
                         std::move(pat), std::move(type), closeSpan(paramBegin))
                 );
             }
