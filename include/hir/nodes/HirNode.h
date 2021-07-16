@@ -1,5 +1,5 @@
-#ifndef JACY_HIR_NODES_NODE_H
-#define JACY_HIR_NODES_NODE_H
+#ifndef JACY_HIR_NODES_HIRNODE_H
+#define JACY_HIR_NODES_HIRNODE_H
 
 #include "span/Span.h"
 
@@ -13,4 +13,4 @@ namespace jc::hir {
     };
 }
 
-#endif // JACY_HIR_NODES_NODE_H
+#endif // JACY_HIR_NODES_HIRNODE_H
