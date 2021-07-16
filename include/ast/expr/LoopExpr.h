@@ -8,7 +8,7 @@
 
 namespace jc::ast {
     struct LoopExpr : Expr {
-        LoopExpr(block_ptr body, const Span & span)
+        LoopExpr(block_ptr && body, const Span & span)
             : Expr(span, ExprKind::Loop), body(std::move(body)) {}
 
         block_ptr body;
