@@ -1768,7 +1768,7 @@ namespace jc::parser {
                 cspan()
             );
             exitEntity();
-            return makeErrPR<N<SimplePath>>(closeSpan(begin));
+            return makeErrPR<SimplePath>(closeSpan(begin));
         }
 
         exitEntity();
@@ -1787,20 +1787,20 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         bool global = skipOpt(TokenKind::Path).some();
-        std::vector<simple_path_seg_ptr> segments;
+        std::vector<SimplePathSeg> segments;
         while (not eof()) {
             logParse("SimplePathSeg:'" + peek().kindToString() + "'");
             const auto & segBegin = cspan();
 
             if (is(TokenKind::Id)) {
                 auto ident = justParseIdent("`parseOptSimplePath`");
-                segments.emplace_back(makeBoxNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
+                segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Super).some()) {
-                segments.emplace_back(makeBoxNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Party).some()) {
-                segments.emplace_back(makeBoxNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
             } else if (skipOpt(TokenKind::Self).some()) {
-                segments.emplace_back(makeBoxNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
+                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
             if (not is(TokenKind::Path) or not lookup().isPathIdent()) {
@@ -1819,7 +1819,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return makeBoxNode<SimplePath>(global, std::move(segments), closeSpan(begin));
+        return makeNode<SimplePath>(global, std::move(segments), closeSpan(begin));
     }
 
     Path Parser::parsePath(bool inExpr) {
