@@ -97,7 +97,7 @@ namespace jc::parser {
 
         template<class T, class ...Args>
         inline N<T> makeBoxNode(Args && ...args) const {
-            auto node = std::make_shared<T>(std::forward<Args>(args)...);
+            auto node = std::make_unique<T>(std::forward<Args>(args)...);
             sess->nodeStorage.addNode(node);
             return node;
         }
