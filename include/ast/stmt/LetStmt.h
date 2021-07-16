@@ -9,9 +9,9 @@
 namespace jc::ast {
     struct LetStmt : Stmt {
         LetStmt(
-            pat_ptr pat,
-            opt_type_ptr type,
-            opt_expr_ptr assignExpr,
+            pat_ptr && pat,
+            opt_type_ptr && type,
+            opt_expr_ptr && assignExpr,
             const Span & span
         ) : Stmt(span, StmtKind::Var),
             pat(std::move(pat)),
