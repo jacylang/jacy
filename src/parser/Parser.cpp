@@ -2073,23 +2073,23 @@ namespace jc::parser {
         return makePRBoxNode<SliceType, Type>(std::move(type), closeSpan(begin));
     }
 
-    type_ptr Parser::parseFuncType(tuple_t_el_list tupleElements, const Span & span) {
+    type_ptr Parser::parseFuncType(tuple_field_list tupleElements, const Span & span) {
         enterEntity("FuncType");
 
         type_list params;
-        for (const auto & tupleEl : tupleElements) {
-            if (tupleEl->name.some()) {
+        for (auto & tupleEl : tupleElements) {
+            if (tupleEl.name.some()) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
                 suggestErrorMsg(
                     "Cannot declare function type with named parameter",
-                    tupleEl->name.unwrap().span()
+                    tupleEl.name.unwrap().span()
                 );
             }
-            if (tupleEl->type.none()) {
+            if (tupleEl.type.none()) {
                 common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
             }
-            params.push_back(tupleEl->type.take());
+            params.push_back(tupleEl.type.take());
         }
 
         auto returnType = parseType("Expected return type in function type after `->`");
