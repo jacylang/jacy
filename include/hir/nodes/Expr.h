@@ -9,7 +9,7 @@ namespace jc::hir {
     };
 
     struct Expr : HirNode {
-        Expr(ExprKind kind, const Span & span) : HirNode(span), kind(kind) {}
+        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode(hirId, span), kind(kind) {}
 
         ExprKind kind;
     };
