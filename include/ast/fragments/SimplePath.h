@@ -6,9 +6,7 @@
 #include "data_types/Option.h"
 
 namespace jc::ast {
-    struct SimplePathSeg;
     struct SimplePath;
-    using simple_path_seg_ptr = N<SimplePathSeg>;
     using simple_path_ptr = N<SimplePath>;
 
     struct SimplePathSeg : Node {
