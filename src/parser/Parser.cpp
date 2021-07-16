@@ -1985,11 +1985,11 @@ namespace jc::parser {
                     return makePRBoxNode<UnitType, Type>(closeSpan(begin));
                 } else if (
                     tupleElements.size() == 1 and
-                    tupleElements.at(0)->name.none() and
-                    tupleElements.at(0)->type.some()
+                    tupleElements.at(0).name.none() and
+                    tupleElements.at(0).type.some()
                 ) {
                     return makePRBoxNode<ParenType, Type>(
-                        tupleElements.at(0)->type.take(), closeSpan(begin));
+                        tupleElements.at(0).type.take(), closeSpan(begin));
                 }
                 return makePRBoxNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
             }
