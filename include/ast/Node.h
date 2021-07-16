@@ -63,7 +63,7 @@ namespace jc::ast {
         const Span & span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
-            } else if constexpr(dt::is_unique_ptr<T>::value or dt::is_shared_ptr<T>::value or std::is_pointer<T>::value) {
+            } else if constexpr(dt::is_ptr_like<T>::value) {
                 return this->ok_unchecked()->span;
             } else {
                 return this->ok_unchecked().span;
@@ -87,7 +87,7 @@ namespace jc::ast {
             if (this->err()) {
                 return visitor.visit(this->err_unchecked());
             } else {
-                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value or std::is_pointer<T>::value) {
+                if constexpr(dt::is_ptr_like<T>::value) {
                     return this->ok_unchecked()->accept(visitor);
                 } else {
                     return this->ok_unchecked().accept(visitor);
@@ -99,7 +99,7 @@ namespace jc::ast {
             if (this->err()) {
                 return this->err_unchecked().id;
             } else {
-                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value or std::is_pointer<T>::value) {
+                if constexpr(dt::is_ptr_like<T>::value) {
                     return this->ok_unchecked()->id;
                 } else {
                     return this->ok_unchecked().id;
