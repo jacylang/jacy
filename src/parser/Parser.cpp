@@ -1934,7 +1934,7 @@ namespace jc::parser {
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeBoxNode<TupleTypeEl>(None, std::move(type), closeSpan(elBegin))
+                    makeNode<TupleTypeEl>(None, std::move(type), closeSpan(elBegin))
                 );
             }
         }
