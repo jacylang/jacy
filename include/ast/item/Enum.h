@@ -20,16 +20,16 @@ namespace jc::ast {
     };
 
     struct EnumEntry : Node {
-        EnumEntry(EnumEntryKind kind, ident_pr name, const Span & span)
+        EnumEntry(EnumEntryKind kind, ident_pr && name, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::monostate{}) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr name, expr_ptr discriminant, const Span & span)
+        EnumEntry(EnumEntryKind kind, ident_pr && name, expr_ptr && discriminant, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(discriminant)) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr name, tuple_field_list tupleFields, const Span & span)
+        EnumEntry(EnumEntryKind kind, ident_pr && name, tuple_field_list && tupleFields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(tupleFields)) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr name, struct_field_list fields, const Span & span)
+        EnumEntry(EnumEntryKind kind, ident_pr && name, struct_field_list && fields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(fields)) {}
 
         EnumEntryKind kind;
