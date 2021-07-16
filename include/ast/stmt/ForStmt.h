@@ -9,9 +9,9 @@
 namespace jc::ast {
     struct ForStmt : Stmt {
         ForStmt(
-            pat_ptr pat,
-            expr_ptr inExpr,
-            block_ptr body,
+            pat_ptr && pat,
+            expr_ptr && inExpr,
+            block_ptr && body,
             const Span & span
         ) : Stmt(span, StmtKind::For),
             pat(std::move(pat)),
