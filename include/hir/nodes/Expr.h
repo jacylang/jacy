@@ -2,6 +2,7 @@
 #define JACY_HIR_NODES_EXPR_H
 
 #include "hir/nodes/HirNode.h"
+#include "hir/nodes/fragments.h"
 
 namespace jc::hir {
     // It would be nice to have Expr and all other nodes as value types,
@@ -13,6 +14,7 @@ namespace jc::hir {
 
     enum class ExprKind {
         Array,
+        Invoke,
     };
 
     struct Expr : HirNode {
@@ -26,6 +28,14 @@ namespace jc::hir {
             : Expr(ExprKind::Array, hirId, span), elements(std::move(elements)) {}
 
         expr_list elements;
+    };
+
+    struct Invoke : Expr {
+        Invoke(expr_ptr && lhs, arg_list && args, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Invoke, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
+
+        expr_ptr lhs;
+        arg_list args;
     };
 }
 
