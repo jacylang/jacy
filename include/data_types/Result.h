@@ -31,13 +31,13 @@ namespace jc::dt {
     struct is_shared_ptr<std::shared_ptr<T>> : std::true_type {};
 
     template<class T>
-    struct is_smart_ptr : std::false_type {};
+    struct is_ptr_like : std::is_pointer<T> {};
 
     template<class T>
-    struct is_smart_ptr<std::shared_ptr<T>> : std::true_type {};
+    struct is_ptr_like<std::shared_ptr<T>> : std::true_type {};
 
     template<class T>
-    struct is_smart_ptr<std::unique_ptr<T>> : std::true_type {};
+    struct is_ptr_like<std::unique_ptr<T>> : std::true_type {};
 
     template <typename T, typename E>
     class Result;

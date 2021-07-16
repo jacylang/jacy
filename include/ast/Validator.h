@@ -128,7 +128,7 @@ namespace jc::ast {
         template<class T>
         void lintEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
-                if constexpr(dt::is_smart_ptr<T>::value) {
+                if constexpr(dt::is_ptr_like<T>::value) {
                     entity->accept(*this);
                 } else {
                     entity.accept(*this);
