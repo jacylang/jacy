@@ -6,9 +6,6 @@
 #include "data_types/Option.h"
 
 namespace jc::ast {
-    struct SimplePath;
-    using simple_path_ptr = N<SimplePath>;
-
     struct SimplePathSeg : Node {
         const enum class Kind {
             Super,
