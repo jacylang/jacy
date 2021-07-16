@@ -108,7 +108,11 @@ namespace jc::ast {
         template<typename T>
         void visitEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
-                entity->accept(*this);
+                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value) {
+                    entity->accept(*this);
+                } else {
+                    entity.accept(*this);
+                }
             }
         }
 
