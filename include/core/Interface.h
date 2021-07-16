@@ -45,7 +45,7 @@ namespace jc::core {
         ast::DirTreePrinter dirTreePrinter;
         ast::AstPrinter astPrinter;
         ast::Validator astValidator;
-        Option<ast::party_ptr> party{None};
+        Option<ast::Party> party{None};
 
         void parse();
         void validateAST();
