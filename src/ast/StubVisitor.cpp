@@ -28,7 +28,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                visitEach(std::get<tuple_t_el_list>(enumEntry.body));
+                visitEach(std::get<tuple_field_list>(enumEntry.body));
                 break;
             }
             case EnumEntryKind::Struct: {
