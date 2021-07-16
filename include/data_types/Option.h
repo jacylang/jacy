@@ -34,7 +34,7 @@ namespace jc::dt {
             std::is_nothrow_copy_constructible_v<storage_type>
         ) = default;
 
-        constexpr Option<T> operator=(const Option<T> & other) noexcept(
+        constexpr Option<T> & operator=(const Option<T> & other) noexcept(
             std::is_nothrow_copy_assignable_v<storage_type>
         ) {
             if (other.none()) {
@@ -49,7 +49,7 @@ namespace jc::dt {
             std::is_nothrow_move_constructible_v<storage_type>
         ) = default;
 
-        constexpr Option<T> operator=(Option<T> && other) noexcept(
+        constexpr Option<T> & operator=(Option<T> && other) noexcept(
             std::is_nothrow_move_assignable_v<storage_type>
         ) {
             if (other.none()) {
