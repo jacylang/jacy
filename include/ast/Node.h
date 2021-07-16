@@ -11,7 +11,7 @@
 
 namespace jc::ast {
     template<typename T>
-    using N = std::shared_ptr<T>;
+    using N = std::unique_ptr<T>;
 
     struct Node;
     struct ErrorNode;
