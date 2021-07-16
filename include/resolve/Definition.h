@@ -11,16 +11,17 @@ namespace jc::resolve {
     using opt_module_ptr = Option<module_ptr>;
     using opt_def_id = Option<DefId>;
     using def_depth = uint32_t;
+    using DefIndex = size_t;
 
     struct DefId {
-        explicit DefId(size_t index) : index(index) {}
+        explicit DefId(DefIndex index) : index(index) {}
 
-        size_t getIndex() const {
+        DefIndex getIndex() const {
             return index;
         }
 
     private:
-        size_t index;
+        DefIndex index;
     };
 
     enum class Namespace {

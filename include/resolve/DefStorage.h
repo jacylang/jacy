@@ -5,29 +5,29 @@
 
 namespace jc::resolve {
     struct DefStorage {
-        const Def & getDef(def_id defId) const {
+        const Def & getDef(const DefId & defId) const {
             try {
-                return defs.at(defId);
+                return defs.at(defId.getIndex());
             } catch (std::out_of_range & e) {
                 common::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
         }
 
-        DefVis getDefVis(def_id defId) const {
+        DefVis getDefVis(const DefId & defId) const {
             return getDef(defId).vis;
         }
 
         template<class ...Args>
-        def_id define(Args ...args) {
+        DefId define(Args ...args) {
             defs.emplace_back(Def(args...));
-            return defs.size() - 1;
+            return DefId(defs.size() - 1);
         }
 
         const std::vector<Def> & getDefinitions() const {
             return defs;
         }
 
-        module_ptr addModule(def_id defId, module_ptr module) {
+        module_ptr addModule(const DefId & defId, module_ptr module) {
             const auto & added = modules.emplace(defId, module);
             if (not added.second) {
                 common::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
@@ -43,7 +43,7 @@ namespace jc::resolve {
             return added.first->second;
         }
 
-        const module_ptr & getModule(def_id defId) const {
+        const module_ptr & getModule(const DefId & defId) const {
             return modules.at(defId);
         }
 
@@ -61,7 +61,7 @@ namespace jc::resolve {
 
     private:
         std::vector<Def> defs;
-        std::map<def_id, module_ptr> modules;
+        std::map<DefId, module_ptr> modules;
         std::map<ast::node_id, module_ptr> blocks;
         std::map<ast::node_id, module_ptr> useDeclModules;
     };
