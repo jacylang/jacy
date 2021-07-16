@@ -1599,7 +1599,7 @@ namespace jc::parser {
         return attributes;
     }
 
-    Option<attr_ptr> Parser::parseAttr() {
+    Option<Attr> Parser::parseAttr() {
         const auto & begin = cspan();
         if (not is(TokenKind::At)) {
             return None;
@@ -1613,7 +1613,7 @@ namespace jc::parser {
         auto params = parseArgList("attribute");
 
         exitEntity();
-        return makeBoxNode<Attr>(std::move(name), std::move(params), closeSpan(begin));
+        return makeNode<Attr>(std::move(name), std::move(params), closeSpan(begin));
     }
 
     arg_list Parser::parseArgList(const std::string & construction) {
