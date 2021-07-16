@@ -30,27 +30,32 @@ namespace jc::dt {
         Option(T && value) : storage(std::move(value)) {}
 
     public:
-        constexpr Option(Option<T> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
-        constexpr Option(const Option<T> & other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
-
-        constexpr Option<T> operator=(Option<T> && other) noexcept(
-            std::is_nothrow_move_constructible<storage_type>::value
-        ) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<T>(std::move(other).storage);
-            }
-            return *this;
-        }
+        constexpr Option(const Option<T> & other) noexcept(
+            std::is_nothrow_copy_constructible_v<storage_type>
+        ) = default;
 
         constexpr Option<T> operator=(const Option<T> & other) noexcept(
-            std::is_nothrow_move_constructible<storage_type>::value
+            std::is_nothrow_copy_assignable_v<storage_type>
         ) {
             if (other.none()) {
                 storage = None;
             } else {
                 storage = std::get<T>(other.storage);
+            }
+            return *this;
+        }
+
+        constexpr Option(Option<T> && other) noexcept(
+            std::is_nothrow_move_constructible_v<storage_type>
+        ) = default;
+
+        constexpr Option<T> operator=(Option<T> && other) noexcept(
+            std::is_nothrow_move_assignable_v<storage_type>
+        ) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(std::move(other).storage);
             }
             return *this;
         }
