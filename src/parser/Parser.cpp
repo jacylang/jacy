@@ -1902,10 +1902,10 @@ namespace jc::parser {
         return makeNode<Path>(global, std::move(segments), closeSpan(begin));
     }
 
-    tuple_t_el_list Parser::parseTupleFields() {
+    tuple_field_list Parser::parseTupleFields() {
         enterEntity("TupleFields");
 
-        tuple_t_el_list tupleFields;
+        tuple_field_list tupleFields;
 
         bool first = true;
         while (not eof()) {

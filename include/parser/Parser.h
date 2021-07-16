@@ -227,7 +227,7 @@ namespace jc::parser {
         tuple_t_el_list parseParenType();
         type_ptr parseArrayType();
         type_ptr parseFuncType(tuple_t_el_list paramTypes, const Span & span);
-        tuple_t_el_list parseTupleFields();
+        tuple_field_list parseTupleFields();
 
         // Type fragments //
         opt_gen_params parseOptGenerics();
