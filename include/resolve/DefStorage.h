@@ -28,7 +28,7 @@ namespace jc::resolve {
         }
 
         module_ptr addModule(const DefId & defId, module_ptr module) {
-            const auto & added = modules.emplace(defId, module);
+            const auto & added = modules.emplace(defId.getIndex(), module);
             if (not added.second) {
                 common::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
             }
@@ -44,7 +44,7 @@ namespace jc::resolve {
         }
 
         const module_ptr & getModule(const DefId & defId) const {
-            return modules.at(defId);
+            return modules.at(defId.getIndex());
         }
 
         const module_ptr & getBlock(ast::node_id nodeId) const {
@@ -61,7 +61,7 @@ namespace jc::resolve {
 
     private:
         std::vector<Def> defs;
-        std::map<DefId, module_ptr> modules;
+        std::map<DefIndex, module_ptr> modules;
         std::map<ast::node_id, module_ptr> blocks;
         std::map<ast::node_id, module_ptr> useDeclModules;
     };
