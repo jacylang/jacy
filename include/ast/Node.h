@@ -96,12 +96,10 @@ namespace jc::ast {
         constexpr node_id nodeId() const noexcept {
             if (this->err()) {
                 return this->err_unchecked().id;
+            } else if constexpr(dt::is_ptr_like<T>::value) {
+                return this->ok_unchecked()->id;
             } else {
-                if constexpr(dt::is_ptr_like<T>::value) {
-                    return this->ok_unchecked()->id;
-                } else {
-                    return this->ok_unchecked().id;
-                }
+                return this->ok_unchecked().id;
             }
         }
     };
