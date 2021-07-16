@@ -80,7 +80,7 @@ namespace jc::core {
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
-        astValidator.lint(*party.unwrap()).take(sess, "validation");
+        astValidator.lint(party.unwrap()).take(sess, "validation");
     }
 
     ast::dir_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
@@ -139,7 +139,7 @@ namespace jc::core {
             return;
         }
         log.info("Printing directory tree (`-print=dir-tree`)");
-        dirTreePrinter.print(sess, *party.unwrap());
+        dirTreePrinter.print(sess, party.unwrap());
     }
 
     void Interface::printSource(const parser::parse_sess_ptr & parseSess) {
@@ -205,7 +205,7 @@ namespace jc::core {
             cliParam,
             "`)");
         // TODO: Add count of nodes when replacement for NodeMap will be implemented
-        astPrinter.print(sess, *party.unwrap(), mode);
+        astPrinter.print(sess, party.unwrap(), mode);
         common::Logger::nl();
     }
 
@@ -217,7 +217,7 @@ namespace jc::core {
 
         log.dev("Building module tree...");
         beginBench();
-        moduleTreeBuilder.build(sess, *party.unwrap()).take(sess, "module tree building");
+        moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
         endBench("module-tree-building");
 
         printModTree("module tree building");
@@ -225,14 +225,14 @@ namespace jc::core {
 
         log.dev("Resolve imports...");
         beginBench();
-        importer.declare(sess, *party.unwrap()).take(sess, "imports resolution");
+        importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
         endBench("import-resolution");
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
         beginBench();
-        nameResolver.resolve(sess, *party.unwrap()).take(sess, "name resolution");
+        nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
         endBench("name-resolution");
 
         printResolutions();
