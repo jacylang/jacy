@@ -7,8 +7,8 @@ namespace jc::resolve {
         // Enter root module
         mod = Module::newRootModule();
 
-        party.getRootFile()->accept(*this);
-        party.getRootDir()->accept(*this);
+        party.getRootFile().accept(*this);
+        party.getRootDir().accept(*this);
 
         sess->defStorage = std::move(_defStorage);
         sess->modTreeRoot = std::move(mod);
