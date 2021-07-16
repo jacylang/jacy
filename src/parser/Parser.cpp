@@ -214,7 +214,7 @@ namespace jc::parser {
         if (not attributes.empty()) {
             for (const auto & attr : attributes) {
                 // FIXME: Span from Location
-                suggestErrorMsg("Unexpected attribute", attr->span);
+                suggestErrorMsg("Unexpected attribute", attr.span);
             }
         }
 
