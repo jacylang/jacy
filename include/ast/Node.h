@@ -76,7 +76,7 @@ namespace jc::ast {
                 return ParseResult<N<U>>(Err(std::move(*this).err_unchecked()));
             } else if constexpr(dt::is_unique_ptr<T>()) {
                 return ParseResult<N<U>>(Ok(
-                    std::unique_ptr<U>(static_cast<U *>(std::move(*this).ok_unchecked().release()))
+                    std::unique_ptr<U>(static_cast<U*>(std::move(*this).ok_unchecked().release()))
                 ));
             } else {
                 static_assert(true, "Invalid types given for `Result::as`");
