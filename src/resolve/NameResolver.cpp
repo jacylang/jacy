@@ -156,7 +156,7 @@ namespace jc::resolve {
         define(pat.name);
     }
 
-    void NameResolver::visit(const ast::PathPat & pat) {
+    void NameResolver::visit(const ast::PathPat&) {
         // Complex case, as path in pattern can be const, variant or some associated item.
         // All these names are stored in different namespaces, so we need to find both in value and type namespaces
     }
