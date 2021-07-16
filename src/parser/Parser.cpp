@@ -1329,11 +1329,11 @@ namespace jc::parser {
                 // `field: expr` case
                 auto expr = parseExpr("Expression expected after `:` in struct field");
                 exitEntity();
-                return Ok(makeBoxNode<StructExprField>(std::move(name), std::move(expr), closeSpan(begin)));
+                return Ok(makeNode<StructExprField>(std::move(name), std::move(expr), closeSpan(begin)));
             }
             // `field` case (shortcut)
             exitEntity();
-            return Ok(makeBoxNode<StructExprField>(std::move(name), closeSpan(begin)));
+            return Ok(makeNode<StructExprField>(std::move(name), closeSpan(begin)));
         }
 
         // `...expr` case
@@ -1343,14 +1343,14 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Spread).some()) {
             auto expr = parseExpr("Expression expected after `...`");
             exitEntity();
-            return Ok(makeBoxNode<StructExprField>(std::move(expr), closeSpan(begin)));
+            return Ok(makeNode<StructExprField>(std::move(expr), closeSpan(begin)));
         }
 
         suggestErrorMsg("Expected struct field", cspan());
         advance();
 
         exitEntity();
-        return makeErrPR<N<StructExprField>>(begin);
+        return makeErrPR<StructExprField>(begin);
     }
 
     block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
