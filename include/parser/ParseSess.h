@@ -11,7 +11,7 @@ namespace jc::parser {
 
     struct SourceFile {
         SourceFile() {}
-        SourceFile(const fs::path & path, const std::string & src) : path(path), src(std::move(src)) {}
+        SourceFile(const fs::path & path, std::string && src) : path(path), src(std::move(src)) {}
 
         fs::path path;
         Option<std::string> src{None};

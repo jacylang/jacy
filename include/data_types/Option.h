@@ -19,27 +19,50 @@ namespace jc::dt {
     const none_t None((none_t::init()));
 
     template<class T>
-    struct Option {
+    class Option {
         constexpr static size_t NoneIndex = 0;
         constexpr static size_t SomeIndex = 1;
         using storage_type = std::variant<none_t, T>;
 
+    public:
         Option(none_t) : storage(None) {}
         Option(const T & value) : storage(value) {}
         Option(T && value) : storage(std::move(value)) {}
-        Option(const Option<T> & other) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<T>(other.storage);
-            }
-        }
-        Option(Option<T> && other) {
+
+    public:
+        constexpr Option(Option<T> && other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
+        constexpr Option(const Option<T> & other) noexcept(std::is_nothrow_move_constructible<storage_type>::value) = default;
+
+        constexpr Option<T> operator=(Option<T> && other) noexcept(
+            std::is_nothrow_move_constructible<storage_type>::value
+        ) {
             if (other.none()) {
                 storage = None;
             } else {
                 storage = std::get<T>(std::move(other).storage);
             }
+            return *this;
+        }
+
+        constexpr Option<T> operator=(const Option<T> & other) noexcept(
+            std::is_nothrow_move_constructible<storage_type>::value
+        ) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(other.storage);
+            }
+            return *this;
+        }
+
+        Option<T> & operator=(T && rawT) {
+            storage = std::move(rawT);
+            return *this;
+        }
+
+        Option<T> & operator=(none_t) {
+            storage = None;
+            return *this;
         }
 
     public:
@@ -77,54 +100,6 @@ namespace jc::dt {
 
         bool some() const {
             return storage.index() == SomeIndex;
-        }
-
-        Option<T> & operator=(T && rawT) {
-            storage = std::move(rawT);
-            return *this;
-        }
-
-        Option<T> & operator=(const Option<T> & other) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<T>(other);
-            }
-            return *this;
-        }
-
-        template<class U>
-        Option<U> & operator=(const Option<U> & other) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<U>(other);
-            }
-            return *this;
-        }
-
-        Option<T> & operator=(Option<T> && other) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<T>(std::move(other));
-            }
-            return *this;
-        }
-
-        template<class U>
-        Option<T> & operator=(Option<U> && other) {
-            if (other.none()) {
-                storage = None;
-            } else {
-                storage = std::get<T>(std::move(other));
-            }
-            return *this;
-        }
-
-        Option<T> & operator=(none_t) {
-            storage = None;
-            return *this;
         }
 
     private:
