@@ -6,8 +6,8 @@ namespace jc::ast {
     void DirTreePrinter::print(sess::sess_ptr sess, const Party & party) {
         this->sess = sess;
 
-        party.getRootFile()->accept(*this);
-        party.getRootDir()->accept(*this);
+        party.getRootFile().accept(*this);
+        party.getRootDir().accept(*this);
     }
 
     void DirTreePrinter::visit(const Dir & dir) {
