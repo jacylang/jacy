@@ -4,8 +4,8 @@ namespace jc::ast {
     Validator::Validator() = default;
 
     dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
-        party.getRootFile()->accept(*this);
-        party.getRootDir()->accept(*this);
+        party.getRootFile().accept(*this);
+        party.getRootDir().accept(*this);
 
         return {None, extractSuggestions()};
     }
@@ -194,24 +194,24 @@ namespace jc::ast {
     }
 
     void Validator::visit(const UseTreeRaw & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
     }
 
     void Validator::visit(const UseTreeSpecific & useTree) {
         if (useTree.path.some()) {
-            useTree.path.unwrap()->accept(*this);
+            useTree.path.unwrap().accept(*this);
         }
         lintEach(useTree.specifics);
     }
 
     void Validator::visit(const UseTreeRebind & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
         useTree.as.autoAccept(*this);
     }
 
     void Validator::visit(const UseTreeAll & useTree) {
         if (useTree.path.some()) {
-            useTree.path.unwrap()->accept(*this);
+            useTree.path.unwrap().accept(*this);
         }
     }
 
@@ -520,7 +520,7 @@ namespace jc::ast {
 
     void Validator::visit(const TupleType & tupleType) {
         const auto & els = tupleType.elements;
-        if (els.size() == 1 and els.at(0)->name.some() and els.at(0)->type.some()) {
+        if (els.size() == 1 and els.at(0).name.some() and els.at(0).type.some()) {
             suggestErrorMsg("Cannot declare single-element named tuple type", tupleType.span);
         }
 
