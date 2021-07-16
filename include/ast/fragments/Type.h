@@ -12,9 +12,8 @@ namespace jc::ast {
     struct Type;
     struct TupleTypeEl;
     using type_list = std::vector<type_ptr>;
-    using tuple_t_el_ptr = N<TupleTypeEl>;
-    using tuple_t_el_list = std::vector<tuple_t_el_ptr>;
     using type_path_ptr = N<TypePath>;
+    using tuple_field_list = std::vector<TupleTypeEl>;
     using opt_type_path_ptr = Option<type_path_ptr>;
     using type_path_list = std::vector<type_path_ptr>;
 
@@ -62,10 +61,10 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        TupleType(tuple_t_el_list elements, const Span & span)
+        TupleType(tuple_field_list elements, const Span & span)
             : Type(span, TypeKind::Tuple), elements(std::move(elements)) {}
 
-        tuple_t_el_list elements;
+        tuple_field_list elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
