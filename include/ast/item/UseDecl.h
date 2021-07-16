@@ -25,10 +25,10 @@ namespace jc::ast {
     };
 
     struct UseTreeRaw : UseTree {
-        UseTreeRaw(simple_path_ptr && path, const Span & span)
+        UseTreeRaw(SimplePath && path, const Span & span)
             : UseTree(Kind::Raw, span), path(std::move(path)) {}
 
-        simple_path_ptr path;
+        SimplePath path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -36,10 +36,10 @@ namespace jc::ast {
     };
 
     struct UseTreeSpecific : UseTree {
-        UseTreeSpecific(Option<simple_path_ptr> && path, use_tree_list && specifics, const Span & span)
+        UseTreeSpecific(Option<SimplePath> && path, use_tree_list && specifics, const Span & span)
             : UseTree(Kind::Specific, span), path(std::move(path)), specifics(std::move(specifics)) {}
 
-        Option<simple_path_ptr> path;
+        Option<SimplePath> path;
         use_tree_list specifics;
 
         void accept(BaseVisitor & visitor) const override {
@@ -48,10 +48,10 @@ namespace jc::ast {
     };
 
     struct UseTreeRebind : UseTree {
-        UseTreeRebind(simple_path_ptr && path, ident_pr && as, const Span & span)
+        UseTreeRebind(SimplePath && path, ident_pr && as, const Span & span)
             : UseTree(Kind::Rebind, span), path(std::move(path)), as(std::move(as)) {}
 
-        simple_path_ptr path;
+        SimplePath path;
         ident_pr as;
 
         void accept(BaseVisitor & visitor) const override {
@@ -60,10 +60,10 @@ namespace jc::ast {
     };
 
     struct UseTreeAll : UseTree {
-        UseTreeAll(Option<simple_path_ptr> && path, const Span & span)
+        UseTreeAll(Option<SimplePath> && path, const Span & span)
             : UseTree(Kind::All, span), path(std::move(path)) {}
 
-        Option<simple_path_ptr> path;
+        Option<SimplePath> path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
