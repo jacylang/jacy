@@ -1638,16 +1638,13 @@ namespace jc::parser {
             const auto & argBegin = cspan();
 
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto identifier = justParseIdent("`parseArgList`");
+                auto ident = justParseIdent("`parseArgList`");
                 justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
                 auto value = parseExpr("Expected value after `:`");
-                args.emplace_back(
-                    makeBoxNode<Arg>(
-                        std::move(identifier), std::move(value), closeSpan(argBegin))
-                );
+                args.emplace_back(makeNode<Arg>(std::move(ident), std::move(value), closeSpan(argBegin)));
             } else {
                 auto value = parseExpr("Expression expected");
-                args.emplace_back(makeBoxNode<Arg>(None, std::move(value), closeSpan(argBegin)));
+                args.emplace_back(makeNode<Arg>(None, std::move(value), closeSpan(argBegin)));
             }
         }
 
