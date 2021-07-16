@@ -4,9 +4,6 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct LiteralConstant;
-    using literal_ptr = N<LiteralConstant>;
-
     struct LiteralConstant : Expr {
         explicit LiteralConstant(const parser::Token & token, const Span & span)
             : Expr(span, ExprKind::LiteralConstant), token(token) {}
