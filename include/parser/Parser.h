@@ -198,7 +198,7 @@ namespace jc::parser {
         expr_ptr parseListExpr();
         expr_ptr parseParenLikeExpr();
         expr_ptr parseStructExpr(path_expr_ptr && path);
-        struct_expr_field_ptr parseStructExprField();
+        struct_expr_field_pr parseStructExprField();
 
         block_ptr parseBlock(const std::string & construction, BlockArrow arrow);
 

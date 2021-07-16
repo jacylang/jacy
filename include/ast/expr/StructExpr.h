@@ -8,8 +8,8 @@
 
 namespace jc::ast {
     struct StructExprField;
-    using struct_expr_field_ptr = PR<N<StructExprField>>;
-    using struct_expr_field_list = std::vector<struct_expr_field_ptr>;
+    using struct_expr_field_pr = PR<StructExprField>;
+    using struct_expr_field_list = std::vector<struct_expr_field_pr>;
 
     struct StructExprField : Node {
         enum class Kind {
