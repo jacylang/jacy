@@ -83,7 +83,7 @@ namespace jc::resolve {
         // Resolution //
     private:
         ResStorage _resStorage;
-        void resolveSimplePath(const ast::simple_path_ptr & simplePath);
+        void resolveSimplePath(const ast::SimplePath & simplePath);
         void resolvePath(Namespace targetNS, const ast::Path & path);
         bool resolveLocal(Namespace ns, const std::string & name, node_id refNodeId);
 

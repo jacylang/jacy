@@ -257,7 +257,7 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void NameResolver::resolveSimplePath(const ast::simple_path_ptr&) {
+    void NameResolver::resolveSimplePath(const ast::SimplePath&) {
         // TODO
         // Simple-dimple LOL
     }
