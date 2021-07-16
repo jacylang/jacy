@@ -12,8 +12,9 @@ namespace jc::hir {
     };
 
     struct HirNode {
-        HirNode(const Span & span) : span(span) {}
+        HirNode(const HirId & hirId, const Span & span) : hirId(hirId), span(span) {}
 
+        HirId hirId;
         Span span;
     };
 }
