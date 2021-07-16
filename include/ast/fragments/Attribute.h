@@ -7,8 +7,7 @@
 
 namespace jc::ast {
     struct Attribute;
-    using attr_ptr = N<Attribute>;
-    using attr_list = std::vector<attr_ptr>;
+    using attr_list = std::vector<Attribute>;
 
     struct Attribute : Node {
         Attribute(ident_pr name, arg_list params, const Span & span)
