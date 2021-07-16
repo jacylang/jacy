@@ -1929,7 +1929,7 @@ namespace jc::parser {
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
-                    makeBoxNode<TupleTypeEl>(std::move(name), std::move(type), closeSpan(elBegin))
+                    makeNode<TupleTypeEl>(std::move(name), std::move(type), closeSpan(elBegin))
                 );
             } else {
                 auto type = parseType("Expected tuple field type");
