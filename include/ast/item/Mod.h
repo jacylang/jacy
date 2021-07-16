@@ -6,8 +6,8 @@
 namespace jc::ast {
     struct Mod : Item {
         Mod(
-            ident_pr name,
-            item_list items,
+            ident_pr && name,
+            item_list && items,
             const Span & span
         ) : Item(span, ItemKind::Mod),
             name(std::move(name)),
