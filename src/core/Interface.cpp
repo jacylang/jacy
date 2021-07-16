@@ -69,7 +69,7 @@ namespace jc::core {
             rootFileName
         );
 
-        party = std::make_unique<ast::Party>(std::move(rootFile), std::move(rootDir));
+        party = std::make_unique<ast::Party>(std::move(*rootFile), std::move(*rootDir));
 
         printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
