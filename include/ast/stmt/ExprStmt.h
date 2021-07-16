@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct ExprStmt : Stmt {
-        ExprStmt(expr_ptr expr, const Span & span) : Stmt(span, StmtKind::Expr), expr(std::move(expr)) {}
+        ExprStmt(expr_ptr && expr, const Span & span) : Stmt(span, StmtKind::Expr), expr(std::move(expr)) {}
 
         expr_ptr expr;
 
