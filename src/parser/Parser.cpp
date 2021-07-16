@@ -1540,7 +1540,7 @@ namespace jc::parser {
         return makePRBoxNode<MatchExpr, Expr>(std::move(subject), std::move(arms), closeSpan(begin));
     }
 
-    match_arm_ptr Parser::parseMatchArm() {
+    MatchArm Parser::parseMatchArm() {
         enterEntity("MatchArm");
 
         const auto & begin = cspan();
@@ -1571,7 +1571,7 @@ namespace jc::parser {
         block_ptr body = parseBlock("match", BlockArrow::Require);
 
         exitEntity();
-        return makeBoxNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
+        return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
     }
 
     opt_block_ptr Parser::parseFuncBody() {
