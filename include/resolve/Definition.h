@@ -6,11 +6,22 @@
 
 namespace jc::resolve {
     struct Module;
+    struct DefId;
     using module_ptr = std::shared_ptr<Module>;
     using opt_module_ptr = Option<module_ptr>;
-    using def_id = size_t;
-    using opt_def_id = Option<def_id>;
+    using opt_def_id = Option<DefId>;
     using def_depth = uint32_t;
+
+    struct DefId {
+        DefId(size_t index) : index(index) {}
+
+        size_t getIndex() const {
+            return index;
+        }
+
+    private:
+        size_t index;
+    };
 
     enum class Namespace {
         Value,
