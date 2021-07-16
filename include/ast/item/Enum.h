@@ -10,8 +10,7 @@
 
 namespace jc::ast {
     struct EnumEntry;
-    using enum_entry_ptr = N<EnumEntry>;
-    using enum_entry_list = std::vector<enum_entry_ptr>;
+    using enum_entry_list = std::vector<EnumEntry>;
 
     enum class EnumEntryKind {
         Raw, // `A`
