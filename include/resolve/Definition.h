@@ -24,6 +24,11 @@ namespace jc::resolve {
         DefIndex index;
     };
 
+    inline std::ostream & operator<<(std::ostream & os, const DefId & defId) {
+        std::cout << defId.getIndex();
+        return os;
+    }
+
     enum class Namespace {
         Value,
         Type,
