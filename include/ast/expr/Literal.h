@@ -1,5 +1,5 @@
-#ifndef JACY_AST_EXPR_LITERALCONSTANT_H
-#define JACY_AST_EXPR_LITERALCONSTANT_H
+#ifndef JACY_AST_EXPR_LITERAL_H
+#define JACY_AST_EXPR_LITERAL_H
 
 #include "ast/expr/Expr.h"
 
@@ -16,4 +16,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_EXPR_LITERALCONSTANT_H
+#endif // JACY_AST_EXPR_LITERAL_H
