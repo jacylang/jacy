@@ -9,6 +9,7 @@ namespace jc::hir {
     // so many types. Thus I'll just box Expr.
     struct Expr;
     using expr_ptr = N<Expr>;
+    using expr_list = std::vector<expr_ptr>;
 
     enum class ExprKind {
         Array,
