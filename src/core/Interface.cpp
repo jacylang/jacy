@@ -98,7 +98,7 @@ namespace jc::core {
             }
         }
 
-        return std::make_shared<ast::Dir>(name, std::move(nestedEntries));
+        return parser.makeBoxNode<ast::Dir>(name, std::move(nestedEntries));
     }
 
     ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {

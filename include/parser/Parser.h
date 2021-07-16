@@ -95,6 +95,7 @@ namespace jc::parser {
 
         sess::sess_ptr sess;
 
+    public:
         template<class T, class ...Args>
         inline N<T> makeBoxNode(Args && ...args) const {
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
@@ -126,6 +127,7 @@ namespace jc::parser {
             return N<B>(static_cast<B*>(std::move(node).release()));
         }
 
+    private:
         parse_sess_ptr parseSess;
 
         Token peek() const;
