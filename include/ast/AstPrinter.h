@@ -175,7 +175,11 @@ namespace jc::ast {
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
             basePrintDelim<T>(elements, begin, end, delim, chopTH, [&](const T & el) -> void {
-                el->accept(*this);
+                if constexpr(dt::is_shared_ptr<T>::value or dt::is_unique_ptr<T>::value) {
+                    el->accept(*this);
+                } else {
+                    el.accept(*this);
+                }
             });
         }
 
