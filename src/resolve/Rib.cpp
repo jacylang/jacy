@@ -25,8 +25,8 @@ namespace jc::resolve {
         // Try to find name in bound module
         bool resolved = false;
         boundModule.then([&](const auto & mod) {
-            mod->find(ns, name).then([&](auto defId) {
-                common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", defId);
+            mod->find(ns, name).then([&](const auto & defId) {
+                common::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", defId.getIndex());
                 resStorage.setRes(refNodeId, Res{defId});
                 resolved = true;
             });
