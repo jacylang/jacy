@@ -8,8 +8,8 @@
 namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
-            ident_pr name,
-            opt_type_ptr type,
+            ident_pr && name,
+            opt_type_ptr && type,
             const Span & span
         ) : Item(span, ItemKind::TypeAlias),
             name(std::move(name)),
