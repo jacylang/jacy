@@ -7,6 +7,9 @@
 namespace jc::hir {
     using span::Span;
 
+    template<class T>
+    using N = std::unique_ptr<T>;
+
     struct HirId {
         resolve::DefId defId;
     };
