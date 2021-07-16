@@ -1613,7 +1613,7 @@ namespace jc::parser {
         auto params = parseArgList("attribute");
 
         exitEntity();
-        return makeBoxNode<Attribute>(std::move(name), std::move(params), closeSpan(begin));
+        return makeBoxNode<Attr>(std::move(name), std::move(params), closeSpan(begin));
     }
 
     arg_list Parser::parseArgList(const std::string & construction) {

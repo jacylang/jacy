@@ -1,16 +1,16 @@
-#ifndef JACY_AST_FRAGMENTS_ATTRIBUTE_H
-#define JACY_AST_FRAGMENTS_ATTRIBUTE_H
+#ifndef JACY_AST_FRAGMENTS_ATTR_H
+#define JACY_AST_FRAGMENTS_ATTR_H
 
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
 #include "ast/fragments/Arg.h"
 
 namespace jc::ast {
-    struct Attribute;
-    using attr_list = std::vector<Attribute>;
+    struct Attr;
+    using attr_list = std::vector<Attr>;
 
-    struct Attribute : Node {
-        Attribute(ident_pr name, arg_list params, const Span & span)
+    struct Attr : Node {
+        Attr(ident_pr name, arg_list params, const Span & span)
             : Node(span), name(std::move(name)), params(std::move(params)) {}
 
         ident_pr name;
@@ -22,4 +22,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_FRAGMENTS_ATTRIBUTE_H
+#endif // JACY_AST_FRAGMENTS_ATTR_H

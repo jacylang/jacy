@@ -374,7 +374,7 @@ namespace jc::ast {
     }
 
     // Fragments //
-    void StubVisitor::visit(const Attribute & attr) {
+    void StubVisitor::visit(const Attr & attr) {
         attr.name.autoAccept(*this);
         visitEach(attr.params);
     }

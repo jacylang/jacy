@@ -1,7 +1,7 @@
 #ifndef JACY_AST_ITEM_ITEM_H
 #define JACY_AST_ITEM_ITEM_H
 
-#include "ast/fragments/Attribute.h"
+#include "ast/fragments/Attr.h"
 
 namespace jc::ast {
     struct Item;

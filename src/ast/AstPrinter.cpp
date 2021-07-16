@@ -677,7 +677,7 @@ namespace jc::ast {
     }
 
     // Fragments //
-    void AstPrinter::visit(const Attribute & attr) {
+    void AstPrinter::visit(const Attr & attr) {
         log.raw("@");
         attr.name.autoAccept(*this);
         printDelim(attr.params, "(", ")");

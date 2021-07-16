@@ -78,7 +78,7 @@ namespace jc::ast {
     struct ConstParam;
 
     // Fragments //
-    struct Attribute;
+    struct Attr;
     struct Ident;
     struct Arg;
     struct Path;
@@ -175,7 +175,7 @@ namespace jc::ast {
         virtual void visit(const ConstParam&) = 0;
 
         // Fragments //
-        virtual void visit(const Attribute&) = 0;
+        virtual void visit(const Attr&) = 0;
         virtual void visit(const Ident&) = 0;
         virtual void visit(const Arg&) = 0;
         virtual void visit(const Path&) = 0;

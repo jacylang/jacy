@@ -580,7 +580,7 @@ namespace jc::ast {
     }
 
     // Fragments //
-    void Validator::visit(const Attribute & attr) {
+    void Validator::visit(const Attr & attr) {
         attr.name.autoAccept(*this);
         lintEach(attr.params);
     }

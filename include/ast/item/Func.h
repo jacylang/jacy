@@ -4,7 +4,7 @@
 #include "ast/item/Item.h"
 #include "ast/fragments/Ident.h"
 #include "ast/fragments/Generics.h"
-#include "ast/fragments/Attribute.h"
+#include "ast/fragments/Attr.h"
 #include "ast/expr/Block.h"
 
 namespace jc::ast {
