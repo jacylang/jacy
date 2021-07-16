@@ -8,7 +8,7 @@
 namespace jc::resolve {
     struct Module;
     using ast::node_id;
-    using mod_ns_map = std::map<std::string, def_id>;
+    using mod_ns_map = std::map<std::string, DefId>;
 
     enum class ModuleKind {
         Root,
@@ -61,7 +61,7 @@ namespace jc::resolve {
         }
 
         // `Def` module
-        static inline module_ptr newDefModule(def_id defId, module_ptr parent, opt_def_id nearestModDef) {
+        static inline module_ptr newDefModule(const DefId & defId, module_ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
@@ -102,7 +102,7 @@ namespace jc::resolve {
             common::Logger::notImplemented("Module::getNS");
         }
 
-        opt_def_id tryDefine(Namespace ns, const std::string & name, def_id defId) {
+        opt_def_id tryDefine(Namespace ns, const std::string & name, const DefId & defId) {
             const auto & defined = getNS(ns).emplace(name, defId);
             // Note: emplace returns `pair<new element iterator, true>` if emplaced new element
             //  and `pair<old element iterator, false>` if tried to re-emplace
@@ -119,7 +119,7 @@ namespace jc::resolve {
             if (kind == ModuleKind::Block) {
                 repr += "block #" + std::to_string(nodeId.unwrap());
             } else if (kind == ModuleKind::Def) {
-                repr += "module #" + std::to_string(defId.unwrap());
+                repr += "module #" + std::to_string(defId.unwrap().getIndex());
             }
             return repr;
         }
