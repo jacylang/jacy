@@ -11,8 +11,8 @@ namespace jc::ast {
         this->sess = sess;
         this->mode = mode;
 
-        party.getRootFile()->accept(*this);
-        party.getRootDir()->accept(*this);
+        party.getRootFile().accept(*this);
+        party.getRootDir().accept(*this);
     }
 
     void AstPrinter::visit(const ErrorNode&) {
@@ -244,14 +244,14 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeRaw & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
 
         printNodeId(useTree);
     }
 
     void AstPrinter::visit(const UseTreeSpecific & useTree) {
         useTree.path.then([&](const auto & path) {
-            path->accept(*this);
+            path.accept(*this);
             log.raw("::");
         });
         printDelim(useTree.specifics, "{", "}");
@@ -260,7 +260,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTreeRebind & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
         log.raw(" as ");
         useTree.as.autoAccept(*this);
 
@@ -269,7 +269,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const UseTreeAll & useTree) {
         useTree.path.then([&](const auto & path) {
-            path->accept(*this);
+            path.accept(*this);
             log.raw("::");
         });
         log.raw("*");
@@ -894,7 +894,7 @@ namespace jc::ast {
 
     void AstPrinter::printAttributes(const ast::attr_list & attributes) {
         for (const auto & attr : attributes) {
-            attr->accept(*this);
+            attr.accept(*this);
         }
     }
 
