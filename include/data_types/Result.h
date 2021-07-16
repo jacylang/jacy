@@ -98,6 +98,8 @@ namespace jc::dt {
     template <typename T, typename E>
     class Result {
     public:
+        static constexpr size_t ValueIndex = 1;
+        static constexpr size_t ErrorIndex = 2;
         using value_type = T;
         using error_type = E;
         using storage_type = std::variant<std::monostate, T, E>;

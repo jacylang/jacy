@@ -27,6 +27,20 @@ namespace jc::dt {
         Option(none_t) : storage(None) {}
         Option(const T & value) : storage(value) {}
         Option(T && value) : storage(std::move(value)) {}
+        Option(const Option<T> & other) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(other.storage);
+            }
+        }
+        Option(Option<T> && other) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(std::move(other).storage);
+            }
+        }
 
     public:
         const T & unwrap(const std::string & place = "") const {
@@ -67,6 +81,34 @@ namespace jc::dt {
 
         Option<T> & operator=(T && rawT) {
             storage = std::move(rawT);
+            return *this;
+        }
+
+        Option<T> & operator=(const Option<T> & other) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(other);
+            }
+            return *this;
+        }
+
+        template<class U>
+        Option<U> & operator=(const Option<U> & other) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<U>(other);
+            }
+            return *this;
+        }
+
+        Option<T> & operator=(Option<T> && other) {
+            if (other.none()) {
+                storage = None;
+            } else {
+                storage = std::get<T>(std::move(other));
+            }
             return *this;
         }
 

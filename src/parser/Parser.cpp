@@ -1879,7 +1879,7 @@ namespace jc::parser {
             }
 
             if (kind == PathSeg::Kind::Ident) {
-                segments.push_back(
+                segments.emplace_back(
                     Ok(makeNode<PathSeg>(ident.take(), std::move(generics), closeSpan(segBegin)))
                 );
             } else if (kind == PathSeg::Kind::Error) {
@@ -1888,7 +1888,7 @@ namespace jc::parser {
                     break;
                 }
             } else {
-                segments.push_back(
+                segments.emplace_back(
                     Ok(makeNode<PathSeg>(kind, std::move(generics), closeSpan(segBegin)))
                 );
             }
