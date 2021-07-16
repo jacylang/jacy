@@ -6,8 +6,7 @@
 
 namespace jc::ast {
     struct Arg;
-    using arg_ptr = N<Arg>;
-    using arg_list = std::vector<arg_ptr>;
+    using arg_list = std::vector<Arg>;
 
     struct Arg : Node {
         Arg(opt_ident name, expr_ptr value, const Span & span)
