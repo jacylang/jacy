@@ -7,8 +7,8 @@ namespace jc::resolve {
 
         enterRootRib();
 
-        party.getRootFile()->accept(*this);
-        party.getRootDir()->accept(*this);
+        party.getRootFile().accept(*this);
+        party.getRootDir().accept(*this);
 
         sess->resStorage = std::move(_resStorage);
         return {None, extractSuggestions()};
@@ -30,9 +30,9 @@ namespace jc::resolve {
         enterModule(func.name.unwrap().getValue(), Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
-            param->type.autoAccept(*this);
-            if (param->defaultValue.some()) {
-                param->defaultValue.unwrap().autoAccept(*this);
+            param.type.autoAccept(*this);
+            if (param.defaultValue.some()) {
+                param.defaultValue.unwrap().autoAccept(*this);
             }
         }
 
@@ -43,7 +43,7 @@ namespace jc::resolve {
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.params) {
-            define(param->name);
+            define(param.name);
         }
 
         if (func.body.some()) {
@@ -63,7 +63,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Struct & _struct) {
         for (const auto & field : _struct.fields) {
-            field->type.autoAccept(*this);
+            field.type.autoAccept(*this);
         }
     }
 
@@ -102,9 +102,9 @@ namespace jc::resolve {
         enterRib(); // -> (lambda params)
 
         for (const auto & param : lambda.params) {
-            param->pat.autoAccept(*this);
-            if (param->type.some()) {
-                param->type.unwrap().autoAccept(*this);
+            param.pat.autoAccept(*this);
+            if (param.type.some()) {
+                param.type.unwrap().autoAccept(*this);
             }
         }
 
