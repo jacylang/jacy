@@ -77,7 +77,9 @@ namespace jc::ast {
             } else if constexpr(dt::is_shared_ptr<T>::value) {
                 return ParseResult<N<U>>(Ok(std::static_pointer_cast<U>(std::move(*this).ok_unchecked())));
             } else if constexpr(dt::is_unique_ptr<T>()) {
-                return ParseResult<N<U>>(Ok(std::unique_ptr(static_cast<U*>(std::move(*this).ok_unchecked().release()))));
+                return ParseResult<N<U>>(Ok(
+                    std::unique_ptr<U>(static_cast<U *>(std::move(*this).ok_unchecked().release()))
+                ));
             } else {
                 static_assert(true, "Invalid types given for `Result::as`");
             }
