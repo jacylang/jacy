@@ -126,24 +126,24 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const UseTreeRaw & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
     }
 
     void StubVisitor::visit(const UseTreeSpecific & useTree) {
         if (useTree.path.some()) {
-            useTree.path.unwrap()->accept(*this);
+            useTree.path.unwrap().accept(*this);
         }
         visitEach(useTree.specifics);
     }
 
     void StubVisitor::visit(const UseTreeRebind & useTree) {
-        useTree.path->accept(*this);
+        useTree.path.accept(*this);
         useTree.as.autoAccept(*this);
     }
 
     void StubVisitor::visit(const UseTreeAll & useTree) {
         if (useTree.path.some()) {
-            useTree.path.unwrap()->accept(*this);
+            useTree.path.unwrap().accept(*this);
         }
     }
 
