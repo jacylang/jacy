@@ -43,7 +43,7 @@ namespace jc::resolve {
         DefStorage _defStorage;
 
         DefVis getItemVis(const ast::Item & item);
-        def_id addDef(DefVis vis, const ast::ident_pr & ident, DefKind defKind);
+        DefId addDef(DefVis vis, const ast::ident_pr & ident, DefKind defKind);
         void defineGenerics(const ast::opt_gen_params & maybeGenerics);
 
         // Modules //
@@ -62,7 +62,7 @@ namespace jc::resolve {
         void suggestCannotRedefine(
             const ast::ident_pr & ident,
             DefKind as,
-            def_id prevDefId
+            const DefId & prevDefId
         );
 
         // Debug //
