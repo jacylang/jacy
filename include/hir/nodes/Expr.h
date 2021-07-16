@@ -1,15 +1,15 @@
 #ifndef JACY_HIR_NODES_EXPR_H
 #define JACY_HIR_NODES_EXPR_H
 
-#include "hir/nodes/Node.h"
+#include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
     enum class ExprKind {
 
     };
 
-    struct Expr : Node {
-        Expr(ExprKind kind, const Span & span) : Node(span), kind(kind) {}
+    struct Expr : HirNode {
+        Expr(ExprKind kind, const Span & span) : HirNode(span), kind(kind) {}
 
         ExprKind kind;
     };

@@ -6,8 +6,8 @@
 namespace jc::hir {
     using span::Span;
 
-    struct Node {
-        Node(const Span & span) : span(span) {}
+    struct HirNode {
+        HirNode(const Span & span) : span(span) {}
 
         Span span;
     };
