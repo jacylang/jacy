@@ -1702,7 +1702,7 @@ namespace jc::parser {
         return params;
     }
 
-    func_param_ptr Parser::parseFuncParam() {
+    FuncParam Parser::parseFuncParam() {
         enterEntity("FuncParams");
 
         const auto & begin = cspan();
@@ -1724,8 +1724,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeBoxNode<FuncParam>(
-            std::move(name), std::move(type), std::move(defaultValue), closeSpan(begin));
+        return makeNode<FuncParam>(std::move(name), std::move(type), std::move(defaultValue), closeSpan(begin));
     }
 
     item_list Parser::parseMembers(const std::string & construction) {
