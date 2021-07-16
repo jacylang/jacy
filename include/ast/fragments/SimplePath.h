@@ -31,14 +31,14 @@ namespace jc::ast {
     struct SimplePath : Node {
         SimplePath(
             bool global,
-            std::vector<simple_path_seg_ptr> && segments,
+            std::vector<SimplePathSeg> && segments,
             const Span & span
         ) : Node(span),
             global(global),
             segments(std::move(segments)) {}
 
         bool global;
-        std::vector<simple_path_seg_ptr> segments;
+        std::vector<SimplePathSeg> segments;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
