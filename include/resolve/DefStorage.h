@@ -5,12 +5,16 @@
 
 namespace jc::resolve {
     struct DefStorage {
-        const Def & getDef(const DefId & defId) const {
+        const Def & getDef(const DefIndex & index) const {
             try {
-                return defs.at(defId.getIndex());
+                return defs.at(index);
             } catch (std::out_of_range & e) {
                 common::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
+        }
+
+        const Def & getDef(const DefId & defId) const {
+            return getDef(defId.getIndex());
         }
 
         DefVis getDefVis(const DefId & defId) const {
