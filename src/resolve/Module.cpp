@@ -45,7 +45,7 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printDef(def_id defId) {
+    void ModulePrinter::printDef(const DefId & defId) {
         const auto & def = sess->defStorage.getDef(defId);
         log.raw(def.kindStr());
 

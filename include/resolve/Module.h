@@ -154,7 +154,7 @@ namespace jc::resolve {
         common::Logger log{"ModulePrinter"};
 
         void printMod(module_ptr module);
-        void printDef(def_id defId);
+        void printDef(const DefId & defId);
         void printIndent();
         uint32_t indent{0};
     };
