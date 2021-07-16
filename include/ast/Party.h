@@ -63,20 +63,20 @@ namespace jc::ast {
 
     class Party {
     public:
-        explicit Party(file_ptr && rootFile, dir_ptr && rootDir)
+        explicit Party(File && rootFile, Dir && rootDir)
             : rootFile(std::move(rootFile)), rootDir(std::move(rootDir)) {}
 
-        const file_ptr & getRootFile() const {
+        const File & getRootFile() const {
             return rootFile;
         }
 
-        const dir_ptr & getRootDir() const {
+        const Dir & getRootDir() const {
             return rootDir;
         }
 
     private:
-        file_ptr rootFile;
-        dir_ptr rootDir;
+        File rootFile;
+        Dir rootDir;
     };
 }
 
