@@ -314,7 +314,7 @@ namespace jc::parser {
         return makePRBoxNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
     }
 
-    enum_entry_ptr Parser::parseEnumEntry() {
+    EnumEntry Parser::parseEnumEntry() {
         enterEntity("EnumEntry");
 
         const auto & begin = cspan();
@@ -323,25 +323,23 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Assign).some()) {
             auto discriminant = parseExpr("Expected constant expression after `=`");
             exitEntity();
-            return makeBoxNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), closeSpan(begin));
+            return makeNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), closeSpan(begin));
         } else if (skipOpt(TokenKind::LParen).some()) {
             auto tupleFields = parseTupleFields();
             exitEntity();
             skip(TokenKind::RParen, "closing `)`");
-            return makeBoxNode<EnumEntry>(
-                EnumEntryKind::Tuple, std::move(name), std::move(tupleFields), closeSpan(begin));
+            return makeNode<EnumEntry>(EnumEntryKind::Tuple, std::move(name), std::move(tupleFields), closeSpan(begin));
         } else if (skipOpt(TokenKind::LBrace).some()) {
             auto fields = parseStructFields();
 
             skip(TokenKind::RParen, "Expected closing `}`");
 
             exitEntity();
-            return makeBoxNode<EnumEntry>(
-                EnumEntryKind::Struct, std::move(name), std::move(fields), closeSpan(begin));
+            return makeNode<EnumEntry>(EnumEntryKind::Struct, std::move(name), std::move(fields), closeSpan(begin));
         }
 
         exitEntity();
-        return makeBoxNode<EnumEntry>(EnumEntryKind::Raw, std::move(name), closeSpan(begin));
+        return makeNode<EnumEntry>(EnumEntryKind::Raw, std::move(name), closeSpan(begin));
     }
 
     item_ptr Parser::parseFunc(parser::token_list && modifiers) {

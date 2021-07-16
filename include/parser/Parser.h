@@ -158,7 +158,7 @@ namespace jc::parser {
 
         Vis parseVis();
         item_ptr parseEnum();
-        enum_entry_ptr parseEnumEntry();
+        EnumEntry parseEnumEntry();
         item_ptr parseFunc(parser::token_list && modifiers);
         item_ptr parseImpl();
         item_ptr parseStruct();
