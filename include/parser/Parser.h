@@ -224,7 +224,7 @@ namespace jc::parser {
         // Types //
         type_ptr parseType(const std::string & suggMsg);
         opt_type_ptr parseOptType();
-        tuple_t_el_list parseParenType();
+        tuple_field_list parseParenType();
         type_ptr parseArrayType();
         type_ptr parseFuncType(tuple_field_list paramTypes, const Span & span);
         tuple_field_list parseTupleFields();
