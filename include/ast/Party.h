@@ -7,11 +7,9 @@
 #include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
-    class Party;
     struct Dir;
     struct File;
     struct FsModule;
-    using party_ptr = N<Party>;
     using dir_ptr = N<Dir>;
     using file_ptr = N<File>;
     using fs_module_ptr = N<FsModule>;
