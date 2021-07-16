@@ -123,7 +123,7 @@ namespace jc::parser {
 
         template<class T, class B>
         inline N<B> nodeCast(N<T> && node) const {
-            return std::static_pointer_cast<B>(node);
+            return N<B>(static_cast<B*>(std::move(node).release()));
         }
 
         parse_sess_ptr parseSess;
