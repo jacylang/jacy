@@ -13,7 +13,7 @@ namespace jc::resolve {
     using def_depth = uint32_t;
 
     struct DefId {
-        DefId(size_t index) : index(index) {}
+        explicit DefId(size_t index) : index(index) {}
 
         size_t getIndex() const {
             return index;
