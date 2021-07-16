@@ -139,12 +139,12 @@ namespace jc::resolve {
 
     struct Res {
         Res() : kind(ResKind::Error) {}
-        Res(def_id def) : kind(ResKind::Def), def(def) {}
+        Res(const DefId & def) : kind(ResKind::Def), def(def) {}
         Res(node_id nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
         Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
 
         ResKind kind;
-        Option<def_id> def{None};
+        Option<DefId> def{None};
         Option<node_id> nodeId{None};
         Option<PrimType> primType{None};
 
@@ -152,7 +152,7 @@ namespace jc::resolve {
             return kind == ResKind::Error;
         }
 
-        def_id asDef() const {
+        DefId asDef() const {
             return def.unwrap();
         }
 

@@ -308,7 +308,7 @@ namespace jc::resolve {
             bool isPrefixSeg = i < path.segments.size() - 1;
             Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
-            searchMod->find(ns, segName).then([&](def_id defId) {
+            searchMod->find(ns, segName).then([&](const DefId & defId) {
                 // Check visibility
                 // Note: We check if current segment is not the first one,
                 //  because items in a module are visible for other items in it, and we already found the name
