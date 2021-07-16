@@ -4,10 +4,12 @@
 #include "span/Span.h"
 
 namespace jc::hir {
-    struct Node {
-        Node(const span::Span & span) : span(span) {}
+    using span::Span;
 
-        span::Span span;
+    struct Node {
+        Node(const Span & span) : span(span) {}
+
+        Span span;
     };
 }
 
