@@ -475,7 +475,7 @@ namespace jc::parser {
             // TODO: Hint field type
             auto type = parseType("Expected type for field after `:`");
 
-            fields.emplace_back(makeBoxNode<StructField>(std::move(id), std::move(type), closeSpan(begin)));
+            fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), closeSpan(begin)));
         }
 
         exitEntity();
