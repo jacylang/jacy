@@ -9,7 +9,7 @@ namespace jc::hir {
         auto expr = exprPr.unwrap().get();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
-                return lowerAssignExpr(*expr->as<ast::Assignment>(expr));
+                return lowerAssignExpr(expr->as<ast::Assignment>(expr));
             case ast::ExprKind::Block:
                 break;
             case ast::ExprKind::Borrow:
