@@ -65,4 +65,8 @@ namespace jc::hir {
                 break;
         }
     }
+
+    expr_ptr Lowering::lowerAssignExpr(const ast::Assignment & assign) {
+
+    }
 }
