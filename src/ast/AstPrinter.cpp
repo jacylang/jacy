@@ -687,7 +687,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Ident & id) {
-        log.raw(id.getValue());
+        log.raw(id.name);
 
         printNodeId(id);
     }
@@ -943,7 +943,7 @@ namespace jc::ast {
             ident.unwrap().accept(*this);
             return;
         }
-        log.raw(getNameColor(ident.unwrap().id));
+        log.raw(getNameColor(ident.unwrap().nodeId));
         ident.unwrap().accept(*this);
         resetNameColor();
     }

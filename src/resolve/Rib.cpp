@@ -2,10 +2,10 @@
 
 namespace jc::resolve {
     opt_node_id Rib::define(const ast::ident_pr & ident) {
-        const auto & name = ident.unwrap().getValue();
+        const auto & name = ident.unwrap().name;
         const auto & found = locals.find(name);
         if (found == locals.end()) {
-            locals.emplace(name, ident.unwrap().id);
+            locals.emplace(name, ident.unwrap().nodeId);
             return None;
         }
         return found->second;
