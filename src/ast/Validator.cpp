@@ -238,7 +238,7 @@ namespace jc::ast {
     /////////////////
     // Expressions //
     /////////////////
-    void Validator::visit(const Assignment & assign) {
+    void Validator::visit(const Assign & assign) {
         assign.lhs.autoAccept(*this);
         assign.rhs.autoAccept(*this);
 

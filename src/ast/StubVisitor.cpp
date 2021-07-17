@@ -164,7 +164,7 @@ namespace jc::ast {
     }
 
     // Expressions //
-    void StubVisitor::visit(const Assignment & assign) {
+    void StubVisitor::visit(const Assign & assign) {
         assign.lhs.autoAccept(*this);
         assign.rhs.autoAccept(*this);
     }

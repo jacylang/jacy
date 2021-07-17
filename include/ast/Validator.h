@@ -57,7 +57,7 @@ namespace jc::ast {
         void visit(const WhileStmt & whileStmt) override;
 
         // Expressions //
-        void visit(const Assignment & assign) override;
+        void visit(const Assign & assign) override;
         void visit(const Block & block) override;
         void visit(const BorrowExpr & borrowExpr) override;
         void visit(const BreakExpr & breakExpr) override;

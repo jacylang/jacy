@@ -310,7 +310,7 @@ namespace jc::ast {
     /////////////////
     // Expressions //
     /////////////////
-    void AstPrinter::visit(const Assignment & assignment) {
+    void AstPrinter::visit(const Assign & assignment) {
         assignment.lhs.autoAccept(*this);
         log.raw(" = ");
         assignment.rhs.autoAccept(*this);

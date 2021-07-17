@@ -40,7 +40,7 @@ namespace jc::ast {
         virtual void visit(const WhileStmt & whileStmt) override;
 
         // Expressions //
-        virtual void visit(const Assignment & assign) override;
+        virtual void visit(const Assign & assign) override;
         virtual void visit(const Block & block) override;
         virtual void visit(const BorrowExpr & borrowExpr) override;
         virtual void visit(const BreakExpr & breakExpr) override;

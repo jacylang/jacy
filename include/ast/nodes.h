@@ -2,7 +2,7 @@
 #define JACY_NODES_H
 
 // Expressions //
-#include "ast/expr/Assignment.h"
+#include "ast/expr/Assign.h"
 #include "ast/expr/Block.h"
 #include "ast/expr/BorrowExpr.h"
 #include "ast/expr/BreakExpr.h"

@@ -12,7 +12,7 @@ namespace jc::hir {
         auto expr = exprPr.unwrap().get();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
-                return lowerAssignExpr(expr->as<ast::Assignment>(expr));
+                return lowerAssignExpr(expr->as<ast::Assign>(expr));
             case ast::ExprKind::Block:
                 break;
             case ast::ExprKind::Borrow:
@@ -70,7 +70,7 @@ namespace jc::hir {
         }
     }
 
-    expr_ptr Lowering::lowerAssignExpr(const ast::Assignment & assign) {
+    expr_ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
         return makeBoxNode<Assign>(
             lowerExpr(assign.lhs),
             assign.op,

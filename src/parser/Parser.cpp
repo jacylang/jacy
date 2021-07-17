@@ -882,7 +882,7 @@ namespace jc::parser {
             auto rhs = parseExpr("Expected expression in assignment");
 
             return Some(
-                makePRBoxNode<Assignment, Expr>(
+                makePRBoxNode<Assign, Expr>(
                     lhs.take(), maybeAssignOp, std::move(rhs), closeSpan(begin)));
         }
 

@@ -32,7 +32,7 @@ namespace jc::ast {
     struct WhileStmt;
 
     // Expressions //
-    struct Assignment;
+    struct Assign;
     struct Block;
     struct BorrowExpr;
     struct BreakExpr;
@@ -129,7 +129,7 @@ namespace jc::ast {
         virtual void visit(const WhileStmt&) = 0;
 
         // Expressions //
-        virtual void visit(const Assignment&) = 0;
+        virtual void visit(const Assign&) = 0;
         virtual void visit(const Block&) = 0;
         virtual void visit(const BorrowExpr&) = 0;
         virtual void visit(const BreakExpr&) = 0;

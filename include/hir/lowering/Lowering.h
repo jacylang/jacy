@@ -22,7 +22,7 @@ namespace jc::hir {
         // Expressions //
     private:
         expr_ptr lowerExpr(const ast::expr_ptr & expr);
-        expr_ptr lowerAssignExpr(const ast::Assignment & assign);
+        expr_ptr lowerAssignExpr(const ast::Assign & assign);
         expr_ptr lowerBlockExpr(const ast::Block & block);
 
         // Statements //
