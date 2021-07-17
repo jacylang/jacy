@@ -14,8 +14,15 @@ namespace jc::hir {
 
     enum class ExprKind {
         Array,
+        Assign,
+        If,
+        Prefix,
+        Infix,
         Invoke,
         Literal,
+        Loop,
+        Match,
+        Return,
         Tuple,
     };
 
@@ -30,6 +37,14 @@ namespace jc::hir {
             : Expr(ExprKind::Array, hirId, span), elements(std::move(elements)) {}
 
         expr_list elements;
+    };
+
+    struct Assign : Expr {
+        Assign(expr_ptr && lhs, expr_list && args, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Assign, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
+
+        expr_ptr lhs;
+        expr_list args;
     };
 
     struct Invoke : Expr {
