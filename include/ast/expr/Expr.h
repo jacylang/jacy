@@ -39,7 +39,7 @@ namespace jc::ast {
         This,
         Tuple,
         Unit,
-        When,
+        Match,
     };
 
     struct Expr : Node {

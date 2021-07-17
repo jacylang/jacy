@@ -65,7 +65,7 @@ namespace jc::hir {
                 break;
             case ast::ExprKind::Unit:
                 break;
-            case ast::ExprKind::When:
+            case ast::ExprKind::Match:
                 break;
         }
     }
