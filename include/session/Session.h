@@ -32,6 +32,11 @@ namespace jc::sess {
             return nodeSpanMap.at(nodeId);
         }
 
+        void addNode(ast::Ident & ident) {
+            ident.nodeId = nextNodeId++;
+            nodeSpanMap.emplace(ident.nodeId, ident.span);
+        }
+
     private:
         ast::node_id nextNodeId = 1; // Reserve `0` for something :)
         ast::node_map<span::Span> nodeSpanMap;
