@@ -686,10 +686,10 @@ namespace jc::ast {
         printNodeId(attr);
     }
 
-    void AstPrinter::visit(const Ident & id) {
-        log.raw(id.name);
+    void AstPrinter::visit(const Ident & ident) {
+        log.raw(ident.name);
 
-        printNodeId(id);
+        printNodeId(ident.id);
     }
 
     void AstPrinter::visit(const Arg & el) {
