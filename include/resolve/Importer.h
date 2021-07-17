@@ -27,7 +27,7 @@ namespace jc::resolve {
         Full,
     };
 
-    class Importer : public ast::StubVisitor, public sugg::SuggInterface {
+    class Importer : public ast::StubVisitor<void>, public sugg::SuggInterface {
     public:
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
