@@ -25,7 +25,10 @@ namespace jc::hir {
         expr_ptr lowerBlockExpr(const ast::Block & block);
 
     private:
-        expr_ptr blockAsExpr(const ast::Block & block);
+        stmt_ptr lowerStmt(const ast::stmt_ptr & stmt);
+
+    private:
+        Block lowerBlock(const ast::Block & block);
     };
 }
 

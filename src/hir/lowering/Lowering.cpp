@@ -77,10 +77,17 @@ namespace jc::hir {
         );
     }
 
-    expr_ptr Lowering::lowerBlockExpr(const ast::Block & block) {
+    expr_ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
+        auto block = lowerBlock(astBlock);
+        return makeBoxNode<BlockExpr>(block, block.hirId, block.span);
     }
 
-    expr_ptr Lowering::blockAsExpr(const ast::Block & block) {
-
+    Block Lowering::lowerBlock(const ast::Block & block) {
+        // FIXME: One-line blocks will be removed!
+        stmt_list stmts;
+        for (const auto & stmt : block.stmts.unwrap()) {
+            stmts.emplace_back(lowerStmt(stmt));
+        }
+        return Block(std::move(stmts), NONE_HIR_ID, block.span);
     }
 }
