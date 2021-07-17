@@ -10,13 +10,12 @@ namespace jc::hir {
     struct Expr;
     using expr_ptr = N<Expr>;
 
-    struct Arg {
-        Arg(const span::Ident & ident, expr_ptr && value, const Span & span)
-            : ident(ident), value(std::move(value)), span(span) {}
+    struct Arg : HirNode {
+        Arg(const span::Ident & ident, expr_ptr && value, const HirId & hirId, const Span & span)
+            : HirNode(hirId, span), ident(ident), value(std::move(value)) {}
 
         span::Ident ident;
         expr_ptr value;
-        Span span;
     };
 }
 
