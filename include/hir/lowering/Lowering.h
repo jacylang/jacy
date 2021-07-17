@@ -22,6 +22,10 @@ namespace jc::hir {
     private:
         expr_ptr lowerExpr(const ast::expr_ptr & expr);
         expr_ptr lowerAssignExpr(const ast::Assignment & assign);
+        expr_ptr lowerBlockExpr(const ast::Block & block);
+
+    private:
+        expr_ptr blockAsExpr(const ast::Block & block);
     };
 }
 

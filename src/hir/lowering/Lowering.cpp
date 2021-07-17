@@ -76,4 +76,11 @@ namespace jc::hir {
             assign.span
         );
     }
+
+    expr_ptr Lowering::lowerBlockExpr(const ast::Block & block) {
+    }
+
+    expr_ptr Lowering::blockAsExpr(const ast::Block & block) {
+
+    }
 }
