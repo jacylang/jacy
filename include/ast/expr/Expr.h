@@ -58,8 +58,8 @@ namespace jc::ast {
         }
 
         template<class T>
-        static T as(N<Expr> expr) {
-            return *N<T>(static_cast<T*>(expr.release()));
+        static N<T> as(const Expr * expr) {
+            return N<T>(static_cast<T*>(expr));
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;

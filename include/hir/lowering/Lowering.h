@@ -20,8 +20,8 @@ namespace jc::hir {
         }
 
     private:
-        expr_ptr lowerExpr(ast::expr_ptr && expr);
-        expr_ptr lowerAssignExpr(ast::Assignment && assign);
+        expr_ptr lowerExpr(const ast::expr_ptr & expr);
+        expr_ptr lowerAssignExpr(const ast::Assignment & assign);
     };
 }
 
