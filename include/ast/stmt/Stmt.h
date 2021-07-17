@@ -29,6 +29,11 @@ namespace jc::ast {
             return this->kind == kind;
         }
 
+        template<class T>
+        static T as(Stmt * stmt) {
+            return *N<T>(static_cast<T*>(stmt));
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
