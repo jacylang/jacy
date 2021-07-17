@@ -7,7 +7,8 @@
 #include "span/Ident.h"
 
 namespace jc::ast {
-    using ident_pr = PR<span::Ident>;
+    struct Ident;
+    using ident_pr = PR<Ident>;
     using opt_ident = Option<ident_pr>;
 
     struct Ident : span::Ident {
