@@ -16,12 +16,13 @@ namespace jc::hir {
         Array,
         Assign,
         If,
-        Prefix,
         Infix,
         Invoke,
         Literal,
         Loop,
         Match,
+        Path,
+        Prefix,
         Return,
         Tuple,
     };
@@ -61,6 +62,13 @@ namespace jc::hir {
             : Expr(ExprKind::Literal, hirId, span), token(token) {}
 
         parser::Token token;
+    };
+
+    struct Return : Expr {
+        Return(expr_ptr && expr, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Return, hirId, span), expr(std::move(expr)) {}
+
+        expr_ptr expr;
     };
 
     struct Tuple : Expr {
