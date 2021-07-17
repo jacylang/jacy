@@ -5,10 +5,12 @@ namespace jc::hir {
 
     }
 
-    expr_ptr Lowering::lowerExpr(const ast::expr_ptr & expr) {
-        switch (expr.unwrap()->kind) {
-            case ast::ExprKind::Assign:
+    expr_ptr Lowering::lowerExpr(const ast::N<ast::Expr> & expr) {
+        switch (expr->kind) {
+            case ast::ExprKind::Assign: {
+
                 break;
+            }
             case ast::ExprKind::Block:
                 break;
             case ast::ExprKind::Borrow:

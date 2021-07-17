@@ -14,7 +14,7 @@ namespace jc::hir {
         void lower(const sess::sess_ptr & sess, const ast::Party & party);
 
     private:
-        expr_ptr lowerExpr(const ast::expr_ptr & expr);
+        expr_ptr lowerExpr(const ast::N<ast::Expr> & expr);
     };
 }
 
