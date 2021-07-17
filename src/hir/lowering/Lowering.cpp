@@ -86,6 +86,21 @@ namespace jc::hir {
     }
 
     // Statements //
+    stmt_ptr Lowering::lowerStmt(const ast::stmt_ptr & astStmt) {
+        const auto & stmt = astStmt.unwrap();
+        switch (stmt->kind) {
+            case ast::StmtKind::Expr:
+                break;
+            case ast::StmtKind::For:
+                break;
+            case ast::StmtKind::Var:
+                break;
+            case ast::StmtKind::While:
+                break;
+            case ast::StmtKind::Item:
+                break;
+        }
+    }
 
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {

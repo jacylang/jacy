@@ -27,7 +27,7 @@ namespace jc::hir {
 
         // Statements //
     private:
-        stmt_ptr lowerStmt(const ast::stmt_ptr & stmt);
+        stmt_ptr lowerStmt(const ast::stmt_ptr & astStmt);
 
         // Fragments //
     private:
