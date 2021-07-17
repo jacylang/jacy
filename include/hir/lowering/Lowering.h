@@ -3,6 +3,7 @@
 
 #include "ast/nodes.h"
 #include "session/Session.h"
+#include "hir/nodes/nodes.h"
 
 namespace jc::hir {
     class Lowering {
@@ -13,7 +14,7 @@ namespace jc::hir {
         void lower(const sess::sess_ptr & sess, const ast::Party & party);
 
     private:
-        
+        expr_ptr lowerExpr(const ast::expr_ptr & expr);
     };
 }
 
