@@ -50,6 +50,13 @@ namespace jc::hir {
             expr_ptr rhs;
         };
 
+        struct Block : Expr {
+            Block(hir::Block && block, const HirId & hirId, const Span & span)
+                : Expr(ExprKind::Block, hirId, span), block(std::move(block)) {}
+
+            hir::Block block;
+        };
+
         struct Invoke : Expr {
             Invoke(expr_ptr && lhs, arg_list && args, const HirId & hirId, const Span & span)
                 : Expr(ExprKind::Invoke, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
