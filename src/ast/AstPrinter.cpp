@@ -947,7 +947,7 @@ namespace jc::ast {
             ident.unwrap().accept(*this);
             return;
         }
-        log.raw(getNameColor(ident.unwrap().nodeId));
+        log.raw(getNameColor(ident.unwrap().id));
         ident.unwrap().accept(*this);
         resetNameColor();
     }

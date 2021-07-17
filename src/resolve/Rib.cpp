@@ -5,7 +5,7 @@ namespace jc::resolve {
         const auto & name = ident.unwrap().name;
         const auto & found = locals.find(name);
         if (found == locals.end()) {
-            locals.emplace(name, ident.unwrap().nodeId);
+            locals.emplace(name, ident.unwrap().id);
             return None;
         }
         return found->second;

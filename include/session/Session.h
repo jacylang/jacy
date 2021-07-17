@@ -33,8 +33,8 @@ namespace jc::sess {
         }
 
         void addNode(ast::Ident & ident) {
-            ident.nodeId = nextNodeId++;
-            nodeSpanMap.emplace(ident.nodeId, ident.span);
+            ident.id = nextNodeId++;
+            nodeSpanMap.emplace(ident.id, ident.span);
         }
 
     private:
