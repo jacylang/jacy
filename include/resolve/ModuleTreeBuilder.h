@@ -9,7 +9,7 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    class ModuleTreeBuilder : public ast::StubVisitor, public sugg::SuggInterface {
+    class ModuleTreeBuilder : public ast::StubVisitor<void>, public sugg::SuggInterface {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
@@ -31,7 +31,7 @@ namespace jc::resolve {
         void visit(const ast::Block & block) override;
 
     private:
-        using ast::StubVisitor::visit;
+        using ast::StubVisitor<void>::visit;
 
     private:
         sess::sess_ptr sess;
