@@ -11,7 +11,7 @@ namespace jc::hir {
     struct Stmt;
     using expr_ptr = N<Expr>;
     using stmt_ptr = N<Stmt>;
-    using stmt_list = N<stmt_ptr>;
+    using stmt_list = std::vector<stmt_ptr>;
 
     struct Arg : HirNode {
         Arg(const span::Ident & ident, expr_ptr && value, const HirId & hirId, const Span & span)
