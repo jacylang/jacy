@@ -96,102 +96,103 @@ namespace jc::ast {
     struct SpreadPat;
     struct StructPat;
 
+    template<class T>
     class BaseVisitor {
     public:
         virtual ~BaseVisitor() = default;
 
-        virtual void visit(const ErrorNode&) = 0;
-        virtual void visit(const File&) = 0;
-        virtual void visit(const Dir&) = 0;
+        virtual T visit(const ErrorNode&) = 0;
+        virtual T visit(const File&) = 0;
+        virtual T visit(const Dir&) = 0;
 
         // Items //
-        virtual void visit(const Enum&) = 0;
-        virtual void visit(const EnumEntry&) = 0;
-        virtual void visit(const Func&) = 0;
-        virtual void visit(const FuncParam&) = 0;
-        virtual void visit(const Impl&) = 0;
-        virtual void visit(const Mod&) = 0;
-        virtual void visit(const Struct&) = 0;
-        virtual void visit(const StructField&) = 0;
-        virtual void visit(const Trait&) = 0;
-        virtual void visit(const TypeAlias&) = 0;
-        virtual void visit(const UseDecl&) = 0;
-        virtual void visit(const UseTreeRaw&) = 0;
-        virtual void visit(const UseTreeSpecific&) = 0;
-        virtual void visit(const UseTreeRebind&) = 0;
-        virtual void visit(const UseTreeAll&) = 0;
+        virtual T visit(const Enum&) = 0;
+        virtual T visit(const EnumEntry&) = 0;
+        virtual T visit(const Func&) = 0;
+        virtual T visit(const FuncParam&) = 0;
+        virtual T visit(const Impl&) = 0;
+        virtual T visit(const Mod&) = 0;
+        virtual T visit(const Struct&) = 0;
+        virtual T visit(const StructField&) = 0;
+        virtual T visit(const Trait&) = 0;
+        virtual T visit(const TypeAlias&) = 0;
+        virtual T visit(const UseDecl&) = 0;
+        virtual T visit(const UseTreeRaw&) = 0;
+        virtual T visit(const UseTreeSpecific&) = 0;
+        virtual T visit(const UseTreeRebind&) = 0;
+        virtual T visit(const UseTreeAll&) = 0;
 
         // Statements //
-        virtual void visit(const ExprStmt&) = 0;
-        virtual void visit(const ForStmt&) = 0;
-        virtual void visit(const ItemStmt&) = 0;
-        virtual void visit(const LetStmt&) = 0;
-        virtual void visit(const WhileStmt&) = 0;
+        virtual T visit(const ExprStmt&) = 0;
+        virtual T visit(const ForStmt&) = 0;
+        virtual T visit(const ItemStmt&) = 0;
+        virtual T visit(const LetStmt&) = 0;
+        virtual T visit(const WhileStmt&) = 0;
 
         // Expressions //
-        virtual void visit(const Assignment&) = 0;
-        virtual void visit(const Block&) = 0;
-        virtual void visit(const BorrowExpr&) = 0;
-        virtual void visit(const BreakExpr&) = 0;
-        virtual void visit(const ContinueExpr&) = 0;
-        virtual void visit(const DerefExpr&) = 0;
-        virtual void visit(const IfExpr&) = 0;
-        virtual void visit(const Infix&) = 0;
-        virtual void visit(const Invoke&) = 0;
-        virtual void visit(const Lambda&) = 0;
-        virtual void visit(const LambdaParam&) = 0;
-        virtual void visit(const ListExpr&) = 0;
-        virtual void visit(const Literal&) = 0;
-        virtual void visit(const LoopExpr&) = 0;
-        virtual void visit(const MemberAccess&) = 0;
-        virtual void visit(const ParenExpr&) = 0;
-        virtual void visit(const PathExpr&) = 0;
-        virtual void visit(const Prefix&) = 0;
-        virtual void visit(const QuestExpr&) = 0;
-        virtual void visit(const ReturnExpr&) = 0;
-        virtual void visit(const SpreadExpr&) = 0;
-        virtual void visit(const StructExpr&) = 0;
-        virtual void visit(const StructExprField&) = 0;
-        virtual void visit(const Subscript&) = 0;
-        virtual void visit(const SelfExpr&) = 0;
-        virtual void visit(const TupleExpr&) = 0;
-        virtual void visit(const UnitExpr&) = 0;
-        virtual void visit(const MatchExpr&) = 0;
-        virtual void visit(const MatchArm&) = 0;
+        virtual T visit(const Assignment&) = 0;
+        virtual T visit(const Block&) = 0;
+        virtual T visit(const BorrowExpr&) = 0;
+        virtual T visit(const BreakExpr&) = 0;
+        virtual T visit(const ContinueExpr&) = 0;
+        virtual T visit(const DerefExpr&) = 0;
+        virtual T visit(const IfExpr&) = 0;
+        virtual T visit(const Infix&) = 0;
+        virtual T visit(const Invoke&) = 0;
+        virtual T visit(const Lambda&) = 0;
+        virtual T visit(const LambdaParam&) = 0;
+        virtual T visit(const ListExpr&) = 0;
+        virtual T visit(const Literal&) = 0;
+        virtual T visit(const LoopExpr&) = 0;
+        virtual T visit(const MemberAccess&) = 0;
+        virtual T visit(const ParenExpr&) = 0;
+        virtual T visit(const PathExpr&) = 0;
+        virtual T visit(const Prefix&) = 0;
+        virtual T visit(const QuestExpr&) = 0;
+        virtual T visit(const ReturnExpr&) = 0;
+        virtual T visit(const SpreadExpr&) = 0;
+        virtual T visit(const StructExpr&) = 0;
+        virtual T visit(const StructExprField&) = 0;
+        virtual T visit(const Subscript&) = 0;
+        virtual T visit(const SelfExpr&) = 0;
+        virtual T visit(const TupleExpr&) = 0;
+        virtual T visit(const UnitExpr&) = 0;
+        virtual T visit(const MatchExpr&) = 0;
+        virtual T visit(const MatchArm&) = 0;
 
         // Types //
-        virtual void visit(const ParenType&) = 0;
-        virtual void visit(const TupleType&) = 0;
-        virtual void visit(const TupleTypeEl&) = 0;
-        virtual void visit(const FuncType&) = 0;
-        virtual void visit(const SliceType&) = 0;
-        virtual void visit(const ArrayType&) = 0;
-        virtual void visit(const TypePath&) = 0;
-        virtual void visit(const UnitType&) = 0;
+        virtual T visit(const ParenType&) = 0;
+        virtual T visit(const TupleType&) = 0;
+        virtual T visit(const TupleTypeEl&) = 0;
+        virtual T visit(const FuncType&) = 0;
+        virtual T visit(const SliceType&) = 0;
+        virtual T visit(const ArrayType&) = 0;
+        virtual T visit(const TypePath&) = 0;
+        virtual T visit(const UnitType&) = 0;
 
         // Type params //
-        virtual void visit(const TypeParam&) = 0;
-        virtual void visit(const Lifetime&) = 0;
-        virtual void visit(const ConstParam&) = 0;
+        virtual T visit(const TypeParam&) = 0;
+        virtual T visit(const Lifetime&) = 0;
+        virtual T visit(const ConstParam&) = 0;
 
         // Fragments //
-        virtual void visit(const Attr&) = 0;
-        virtual void visit(const Ident&) = 0;
-        virtual void visit(const Arg&) = 0;
-        virtual void visit(const Path&) = 0;
-        virtual void visit(const PathSeg&) = 0;
-        virtual void visit(const SimplePath&) = 0;
-        virtual void visit(const SimplePathSeg&) = 0;
+        virtual T visit(const Attr&) = 0;
+        virtual T visit(const Ident&) = 0;
+        virtual T visit(const Arg&) = 0;
+        virtual T visit(const Path&) = 0;
+        virtual T visit(const PathSeg&) = 0;
+        virtual T visit(const SimplePath&) = 0;
+        virtual T visit(const SimplePathSeg&) = 0;
 
         // Patterns //
-        virtual void visit(const ParenPat&) = 0;
-        virtual void visit(const LitPat&) = 0;
-        virtual void visit(const BorrowPat&) = 0;
-        virtual void visit(const RefPat&) = 0;
-        virtual void visit(const PathPat&) = 0;
-        virtual void visit(const WCPat&) = 0;
-        virtual void visit(const SpreadPat&) = 0;
-        virtual void visit(const StructPat&) = 0;
+        virtual T visit(const ParenPat&) = 0;
+        virtual T visit(const LitPat&) = 0;
+        virtual T visit(const BorrowPat&) = 0;
+        virtual T visit(const RefPat&) = 0;
+        virtual T visit(const PathPat&) = 0;
+        virtual T visit(const WCPat&) = 0;
+        virtual T visit(const SpreadPat&) = 0;
+        virtual T visit(const StructPat&) = 0;
     };
 }
 
