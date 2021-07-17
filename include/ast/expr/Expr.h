@@ -57,6 +57,11 @@ namespace jc::ast {
                    or kind == ExprKind::Id;
         }
 
+        template<class T, class B>
+        static N<B> as(N<T> && expr) {
+            return N<B>(static_cast<B*>(expr.release()));
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 }
