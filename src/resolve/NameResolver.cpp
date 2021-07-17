@@ -27,7 +27,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterModule(func.name.unwrap().getValue(), Namespace::Value); // -> `func` mod rib
+        enterModule(func.name.unwrap().name, Namespace::Value); // -> `func` mod rib
 
         for (const auto & param : func.params) {
             param.type.autoAccept(*this);
@@ -56,7 +56,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterModule(mod.name.unwrap().getValue());
+        enterModule(mod.name.unwrap().name);
         visitEach(mod.items);
         exitRib();
     }
@@ -246,12 +246,12 @@ namespace jc::resolve {
 
     // Definitions //
     void NameResolver::define(const ast::ident_pr & ident) {
-        log.dev("Define '", ident.unwrap().getValue(), "' local");
+        log.dev("Define '", ident.unwrap().name, "' local");
 
         const auto & redecl = curRib()->define(ident);
 
         if (redecl.some()) {
-            const auto & name = ident.unwrap().getValue();
+            const auto & name = ident.unwrap().name;
             suggestErrorMsg("'" + name + "' has been already declared", ident.span());
         }
     }
@@ -274,7 +274,7 @@ namespace jc::resolve {
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
             if (seg.ident.some()) {
-                const auto & identStr = seg.ident.unwrap().unwrap().getValue();
+                const auto & identStr = seg.ident.unwrap().unwrap().name;
                 auto resolved = resolveLocal(targetNS, identStr, path.id);
                 if (not resolved) {
                     log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
@@ -298,7 +298,7 @@ namespace jc::resolve {
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
-            const auto & segName = seg.ident.unwrap().unwrap().getValue();
+            const auto & segName = seg.ident.unwrap().unwrap().name;
 
             // TODO: Resolve segment generics
 
@@ -354,7 +354,7 @@ namespace jc::resolve {
             const auto & unresolvedSegIdent = path.segments
                                                   .at(unresSeg.unwrap().segIndex)
                                                   .unwrap().ident.unwrap().unwrap();
-            const auto & unresolvedSegName = unresolvedSegIdent.getValue();
+            const auto & unresolvedSegName = unresolvedSegIdent.name;
 
             if (inaccessible) {
                 const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
