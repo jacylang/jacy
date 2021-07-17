@@ -13,6 +13,8 @@ namespace jc::ast {
     struct Ident : span::Ident {
         Ident(const parser::Token & token) : span::Ident(token) {}
 
+        node_id nodeId;
+
         void accept(BaseVisitor & visitor) const {
             visitor.visit(*this);
         }
