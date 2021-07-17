@@ -930,11 +930,15 @@ namespace jc::ast {
     }
 
     // NodeMap mode //
-    void AstPrinter::printNodeId(const Node & node) const {
+    void AstPrinter::printNodeId(node_id id) const {
         if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
             return;
         }
-        log.raw(Color::LightGray, "#", node.id, Color::Reset);
+        log.raw(Color::LightGray, "#", id, Color::Reset);
+    }
+
+    void AstPrinter::printNodeId(const Node & node) const {
+        printNodeId(node.id);
     }
 
     // Names mode //

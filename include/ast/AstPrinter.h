@@ -222,6 +222,7 @@ namespace jc::ast {
         // NodeMap mode //
     private:
         bool printAstNodeMap{false};
+        void printNodeId(node_id id) const;
         void printNodeId(const Node & node) const;
 
         // Names mode //
