@@ -102,6 +102,10 @@ namespace jc::hir {
         }
     }
 
+    stmt_ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
+        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), NONE_HIR_ID, exprStmt.span);
+    }
+
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
