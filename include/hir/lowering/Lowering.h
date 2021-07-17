@@ -19,6 +19,7 @@ namespace jc::hir {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
+
     private:
         expr_ptr lowerExpr(const ast::expr_ptr & expr);
         expr_ptr lowerAssignExpr(const ast::Assignment & assign);
@@ -29,6 +30,9 @@ namespace jc::hir {
 
     private:
         Block lowerBlock(const ast::Block & block);
+
+    private:
+        sess::sess_ptr sess;
     };
 }
 
