@@ -5,7 +5,9 @@
 
 namespace jc::hir {
     enum class StmtKind {
-
+        Let,
+        Item,
+        Expr,
     };
 
     struct Stmt : HirNode {
