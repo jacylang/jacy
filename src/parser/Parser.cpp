@@ -1176,7 +1176,7 @@ namespace jc::parser {
         const auto & span = cspan();
         auto maybeIdToken = skip(TokenKind::Id, expected, Recovery::Any);
         if (maybeIdToken.some()) {
-            return Ok(makeNode<Ident>(maybeIdToken.unwrap("parseIdent -> maybeIdToken"), span));
+            return Ok(makeNode<Ident>(maybeIdToken.unwrap("parseIdent -> maybeIdToken")));
         }
         return makeErrPR<Ident>(span);
     }
