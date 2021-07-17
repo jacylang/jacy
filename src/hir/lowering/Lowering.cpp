@@ -7,6 +7,7 @@ namespace jc::hir {
 
     }
 
+    // Expressions //
     expr_ptr Lowering::lowerExpr(const ast::expr_ptr & exprPr) {
         auto expr = exprPr.unwrap().get();
         switch (expr->kind) {
@@ -84,6 +85,9 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(block, block.hirId, block.span);
     }
 
+    // Statements //
+
+    // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
         stmt_list stmts;

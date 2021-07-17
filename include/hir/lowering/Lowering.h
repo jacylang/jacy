@@ -19,15 +19,17 @@ namespace jc::hir {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
-
+        // Expressions //
     private:
         expr_ptr lowerExpr(const ast::expr_ptr & expr);
         expr_ptr lowerAssignExpr(const ast::Assignment & assign);
         expr_ptr lowerBlockExpr(const ast::Block & block);
 
+        // Statements //
     private:
         stmt_ptr lowerStmt(const ast::stmt_ptr & stmt);
 
+        // Fragments //
     private:
         Block lowerBlock(const ast::Block & block);
 
