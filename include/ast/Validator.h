@@ -21,7 +21,7 @@ namespace jc::ast {
         Struct,
     };
 
-    class Validator : public BaseVisitor<void>, public sugg::SuggInterface {
+    class Validator : public BaseVisitor, public sugg::SuggInterface {
     public:
         Validator();
 

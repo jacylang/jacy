@@ -7,7 +7,7 @@ namespace jc::ast {
     using common::Logger;
 
     template<class R>
-    class StubVisitor : public BaseVisitor<R> {
+    class StubVisitor : public BaseVisitor {
     public:
         StubVisitor(std::string owner) : owner(std::move(owner)) {}
         virtual ~StubVisitor() = default;

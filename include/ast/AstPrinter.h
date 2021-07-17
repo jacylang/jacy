@@ -17,7 +17,7 @@ namespace jc::ast {
         Names, // Print tree after name resolution
     };
 
-    class AstPrinter : public BaseVisitor<void> {
+    class AstPrinter : public BaseVisitor {
     public:
         AstPrinter();
 
