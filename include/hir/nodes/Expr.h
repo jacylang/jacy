@@ -15,6 +15,7 @@ namespace jc::hir {
     enum class ExprKind {
         Array,
         Invoke,
+        Tuple,
     };
 
     struct Expr : HirNode {
@@ -36,6 +37,13 @@ namespace jc::hir {
 
         expr_ptr lhs;
         arg_list args;
+    };
+
+    struct Tuple : Expr {
+        Tuple(expr_list && values, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Tuple, hirId, span), values(std::move(values)) {}
+
+        expr_list values;
     };
 }
 
