@@ -2,6 +2,7 @@
 #define JACY_HIR_NODES_FRAGMENTS_H
 
 #include "hir/nodes/HirNode.h"
+#include "span/Ident.h"
 
 namespace jc::hir {
     struct Arg;
@@ -10,11 +11,10 @@ namespace jc::hir {
     using expr_ptr = N<Expr>;
 
     struct Arg {
-        // FIXME: Use `Ident` when it will be unified for both ast and hir
-        Arg(const std::string & name, expr_ptr && value, const Span & span)
-            : name(name), value(std::move(value)), span(span) {}
+        Arg(const span::Ident & ident, expr_ptr && value, const Span & span)
+            : ident(ident), value(std::move(value)), span(span) {}
 
-        std::string name;
+        span::Ident ident;
         expr_ptr value;
         Span span;
     };
