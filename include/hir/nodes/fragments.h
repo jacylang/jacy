@@ -20,6 +20,13 @@ namespace jc::hir {
         span::Ident ident;
         expr_ptr value;
     };
+
+    struct Block : HirNode {
+        Block(stmt_list && stmts, const HirId & hirId, const Span & span)
+            : HirNode(hirId, span), stmts(std::move(stmts)) {}
+
+        stmt_list stmts;
+    };
 }
 
 #endif // JACY_HIR_NODES_FRAGMENTS_H
