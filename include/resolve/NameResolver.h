@@ -13,7 +13,7 @@ namespace jc::resolve {
     using sugg::SuggKind;
     using sugg::eid_t;
 
-    class NameResolver : public ast::StubVisitor<void>, public sugg::SuggInterface {
+    class NameResolver : public ast::StubVisitor, public sugg::SuggInterface {
     public:
         NameResolver() : StubVisitor("NameResolver") {}
         ~NameResolver() override = default;
@@ -52,7 +52,7 @@ namespace jc::resolve {
         void visit(const ast::StructPat & pat) override;
 
     private:
-        using ast::StubVisitor<void>::visit;
+        using ast::StubVisitor::visit;
 
     private:
         common::Logger log{"NameResolver"};
