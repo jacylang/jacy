@@ -15,6 +15,7 @@ namespace jc::hir {
     enum class ExprKind {
         Array,
         Invoke,
+        Literal,
         Tuple,
     };
 
@@ -37,6 +38,14 @@ namespace jc::hir {
 
         expr_ptr lhs;
         arg_list args;
+    };
+
+    struct Literal : Expr {
+        // FIXME: Unify `Literal` usage for AST and HIR
+        Literal(const parser::Token & token, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Literal, hirId, span), token(token) {}
+
+        parser::Token token;
     };
 
     struct Tuple : Expr {
