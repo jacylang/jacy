@@ -40,11 +40,11 @@ namespace jc::hir {
     };
 
     struct Assign : Expr {
-        Assign(expr_ptr && lhs, expr_list && args, const HirId & hirId, const Span & span)
-            : Expr(ExprKind::Assign, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
+        Assign(expr_ptr && lhs, expr_ptr && rhs, const HirId & hirId, const Span & span)
+            : Expr(ExprKind::Assign, hirId, span), lhs(std::move(lhs)), rhs(std::move(rhs)) {}
 
         expr_ptr lhs;
-        expr_list args;
+        expr_ptr rhs;
     };
 
     struct Invoke : Expr {
