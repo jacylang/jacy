@@ -92,7 +92,7 @@ namespace jc::hir {
             case ast::StmtKind::Expr: return lowerExprStmt(stmt->as<ast::ExprStmt>(stmt.get()));
             case ast::StmtKind::For:
                 break;
-            case ast::StmtKind::Var:
+            case ast::StmtKind::Let:
                 break;
             case ast::StmtKind::While:
                 break;

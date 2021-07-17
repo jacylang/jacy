@@ -15,7 +15,7 @@ namespace jc::ast {
     enum class StmtKind {
         Expr,
         For,
-        Var,
+        Let,
         While,
         Item,
     };
