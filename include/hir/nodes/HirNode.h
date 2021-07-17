@@ -11,8 +11,12 @@ namespace jc::hir {
     using N = std::unique_ptr<T>;
 
     struct HirId {
+        HirId(const resolve::DefId & defId) : defId(defId) {}
+
         resolve::DefId defId;
     };
+
+    const auto & NONE_HIR_ID = HirId(resolve::DefId(0));
 
     struct HirNode {
         HirNode(const HirId & hirId, const Span & span) : hirId(hirId), span(span) {}

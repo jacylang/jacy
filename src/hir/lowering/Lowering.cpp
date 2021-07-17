@@ -5,7 +5,8 @@ namespace jc::hir {
 
     }
 
-    expr_ptr Lowering::lowerExpr(ast::N<ast::Expr> expr) {
+    expr_ptr Lowering::lowerExpr(ast::expr_ptr && exprPr) {
+        auto expr = exprPr.take();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
                 return lowerAssignExpr(expr->as<ast::Assignment>(std::move(expr)));
@@ -66,7 +67,13 @@ namespace jc::hir {
         }
     }
 
-    expr_ptr Lowering::lowerAssignExpr(const ast::Assignment & assign) {
-
+    expr_ptr Lowering::lowerAssignExpr(ast::Assignment && assign) {
+        return makeBoxNode<Assign>(
+            lowerExpr(std::move(assign.lhs)),
+            assign.op,
+            lowerExpr(std::move(assign.rhs)),
+            NONE_HIR_ID,
+            assign.span
+        );
     }
 }

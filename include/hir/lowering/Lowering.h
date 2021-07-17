@@ -14,8 +14,14 @@ namespace jc::hir {
         void lower(const sess::sess_ptr & sess, const ast::Party & party);
 
     private:
-        expr_ptr lowerExpr(ast::N<ast::Expr> expr);
-        expr_ptr lowerAssignExpr(const ast::Assignment & assign);
+        template<class T, class ...Args>
+        N<T> makeBoxNode(Args ...args) {
+            return std::make_unique<T>(std::forward<Args>(args)...);
+        }
+
+    private:
+        expr_ptr lowerExpr(ast::expr_ptr && expr);
+        expr_ptr lowerAssignExpr(ast::Assignment && assign);
     };
 }
 
