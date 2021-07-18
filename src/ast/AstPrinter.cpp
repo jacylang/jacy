@@ -11,29 +11,11 @@ namespace jc::ast {
         this->sess = sess;
         this->mode = mode;
 
-        party.getRootFile().accept(*this);
-        party.getRootDir().accept(*this);
+        printDelim(party.items, "", "", "\n");
     }
 
     void AstPrinter::visit(const ErrorNode&) {
         log.raw("[ERROR]");
-    }
-
-    void AstPrinter::visit(const File & file) {
-        // We don't use `printBodyLike` to avoid increasing indent on top-level
-        log.raw("--- file ", sess->sourceMap.getSourceFile(file.fileId).filename()).nl();
-        for (const auto & item : file.items) {
-            item.autoAccept(*this);
-            log.nl();
-        }
-    }
-
-    void AstPrinter::visit(const Dir & dir) {
-        log.raw("--- dir ", dir.name).nl();
-        for (const auto & module : dir.modules) {
-            module->accept(*this);
-            log.nl();
-        }
     }
 
     ////////////////

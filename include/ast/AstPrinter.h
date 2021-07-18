@@ -24,8 +24,6 @@ namespace jc::ast {
         void print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
 
         void visit(const ErrorNode & errorNode) override;
-        void visit(const File & file) override;
-        void visit(const Dir & dir) override;
 
         // Items //
         void visit(const Enum & enumDecl) override;
