@@ -315,7 +315,9 @@ namespace jc::core {
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
         endBench("import-resolution", common::Config::Benchmark::EachSubStage);
 
+        beginBench();
         printModTree("imports resolution");
+        endBench("Module tree printing after imports resolution", common::Config::Benchmark::Verbose);
 
         log.dev("Resolving names...");
         beginBench();
