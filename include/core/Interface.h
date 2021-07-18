@@ -27,6 +27,12 @@ namespace jc::core {
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
+    struct FSEntry {
+        bool isDir;
+        std::string name;
+        std::vector<FSEntry> subEntries;
+    };
+
     class Interface {
     public:
         Interface();
