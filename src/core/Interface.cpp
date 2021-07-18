@@ -161,7 +161,7 @@ namespace jc::core {
     void Interface::printDirTree(const fs_entry_ptr & entry) {
         log.raw(common::Indent<2>(fsTreeIndent));
         if (entry->name.empty()) {
-            log.raw(".");
+            log.raw(".").nl();
         } else {
             log.raw("|-- ", entry->name, entry->isDir ? "/" : "").nl();
         }
