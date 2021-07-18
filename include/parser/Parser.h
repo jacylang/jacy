@@ -81,7 +81,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<file_ptr> parse(
+        dt::SuggResult<item_list> parse(
             const sess::sess_ptr & sess,
             const parse_sess_ptr & parseSess,
             const token_list & tokens

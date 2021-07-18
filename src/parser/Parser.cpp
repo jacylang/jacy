@@ -138,7 +138,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<file_ptr> Parser::parse(
+    dt::SuggResult<item_list> Parser::parse(
         const sess::sess_ptr & sess,
         const parse_sess_ptr & parseSess,
         const token_list & tokens
@@ -149,7 +149,7 @@ namespace jc::parser {
 
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {makeBoxNode<File>(parseSess->fileId, std::move(items)), extractSuggestions()};
+        return {std::move(items), extractSuggestions()};
     }
 
     ///////////
