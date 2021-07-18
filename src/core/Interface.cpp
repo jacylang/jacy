@@ -40,7 +40,9 @@ namespace jc::core {
     }
 
     void Interface::workflow() {
+        beginBench();
         parse();
+        endBench("Parsing stage processes");
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
