@@ -76,6 +76,7 @@ namespace jc::core {
 
         // Parse root directory, ignoring root file using its stem part,
         // as we 100% know that root file is inside this directory
+        // FIXME: Don't use parseDir, just extract contents to root module
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
             fs::path(rootFileName).filename().stem().string()

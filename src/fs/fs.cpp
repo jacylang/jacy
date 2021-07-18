@@ -29,9 +29,9 @@ namespace jc::fs {
         for (const auto & entry : std_fs::directory_iterator(path)) {
             const auto & entryPath = entry.path();
             if (entry.is_directory()) {
-                entries.emplace_back(entryPath, readdirRecEntries(entryPath));
+                entries.emplace_back(entryPath, readdirRecEntries(entryPath, allowedExt));
             } else if (entry.is_regular_file()) {
-                if (entryPath.extension() != allowedExt) {
+                if (not allowedExt.empty() and entryPath.extension() != allowedExt) {
                     continue;
                 }
 
