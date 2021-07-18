@@ -25,11 +25,11 @@ namespace jc::common {
         {"name-resolution", Config::CompileDepth::NameResolution},
     };
 
-    key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
-        {"verbose",        Config::Benchmark::Verbose},
-        {"each-sub-stage", Config::Benchmark::SubStage},
-        {"each-stage",     Config::Benchmark::Stage},
-        {"final",          Config::Benchmark::Final},
+    key_value_arg_map<Config::BenchmarkKind> Config::benchmarkKinds = {
+        {"verbose",        Config::BenchmarkKind::Verbose},
+        {"each-sub-stage", Config::BenchmarkKind::SubStage},
+        {"each-stage",     Config::BenchmarkKind::Stage},
+        {"final",          Config::BenchmarkKind::Final},
     };
 
     key_value_arg_map<Config::LogLevel> Config::logLevelKinds = {
@@ -113,7 +113,7 @@ namespace jc::common {
         return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
     }
 
-    bool Config::checkBenchmark(Benchmark benchmark) const {
+    bool Config::checkBenchmark(BenchmarkKind benchmark) const {
         return static_cast<uint8_t>(this->benchmark) <= static_cast<uint8_t>(benchmark);
     }
 
@@ -202,10 +202,10 @@ namespace jc::common {
         }
 
         switch (benchmark) {
-            case Benchmark::Final:
+            case BenchmarkKind::Final:
                 res["benchmark"].emplace_back("final");
                 break;
-            case Benchmark::Stage:
+            case BenchmarkKind::Stage:
                 res["benchmark"].emplace_back("each-stage");
                 break;
         }

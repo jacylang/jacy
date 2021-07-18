@@ -59,14 +59,14 @@ namespace jc::common {
         static key_value_arg_map<CompileDepth> compileDepthKinds;
 
         // Note: Order matters
-        enum class Benchmark : uint8_t {
+        enum class BenchmarkKind : uint8_t {
             Verbose, /// Each process, e.g. printing some debug info. Used to check if some debug process runs too long
             SubStage, /// E.g. Lexing at Parsing stage
             Stage, /// The whole one stage, e.g. full Parsing stage
             Final,
         };
 
-        static key_value_arg_map<Benchmark> benchmarkKinds;
+        static key_value_arg_map<BenchmarkKind> benchmarkKinds;
 
         // General for `Config` and `Logger`
         // Note: Order matters
@@ -95,7 +95,7 @@ namespace jc::common {
         // Key-value args //
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
-        bool checkBenchmark(Benchmark benchmark) const;
+        bool checkBenchmark(BenchmarkKind benchmark) const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
@@ -113,7 +113,7 @@ namespace jc::common {
         // Key-value args //
         Mode mode{Mode::Source};
         std::set<PrintKind> print{};
-        Benchmark benchmark{Benchmark::Final};
+        BenchmarkKind benchmark{BenchmarkKind::Final};
         CompileDepth compileDepth{CompileDepth::Full};
         ParserExtraDebug parserExtraDebug{ParserExtraDebug::No};
 

@@ -111,7 +111,7 @@ namespace jc::core {
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
-        void endBench(const std::string & name, Config::Benchmark kind);
+        void endBench(const std::string & name, Config::BenchmarkKind kind);
         void printBenchmarks() noexcept;
     };
 }
