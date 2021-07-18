@@ -29,9 +29,8 @@ namespace jc::core {
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printBenchmarks();
-            } else {
-                throw e;
             }
+            throw;
         }
     }
 
