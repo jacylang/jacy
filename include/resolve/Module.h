@@ -11,10 +11,8 @@ namespace jc::resolve {
     using mod_ns_map = std::map<std::string, DefId>;
 
     enum class ModuleKind {
-        Root,
         Block,
         Def,
-        Fictive,
     };
 
     struct Module {
