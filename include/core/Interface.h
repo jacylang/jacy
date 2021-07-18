@@ -52,7 +52,6 @@ namespace jc::core {
         ast::N<ast::Mod> parseFile(const fs::entry_ptr & file);
 
         // Debug //
-        void printDirTree();
         void printSource(const parser::parse_sess_ptr & parseSess);
         void printTokens(const fs::path & path, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);

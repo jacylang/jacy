@@ -136,14 +136,6 @@ namespace jc::core {
     }
 
     // Debug //
-    void Interface::printDirTree() {
-        if (not config.checkPrint(Config::PrintKind::DirTree)) {
-            return;
-        }
-        log.info("Printing directory tree (`-print=dir-tree`)");
-        dirTreePrinter.print(sess, party.unwrap());
-    }
-
     void Interface::printSource(const parser::parse_sess_ptr & parseSess) {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
