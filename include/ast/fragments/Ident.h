@@ -12,6 +12,7 @@ namespace jc::ast {
     using opt_ident = Option<ident_pr>;
 
     struct Ident : span::Ident {
+        Ident(const std::string & name, const Span & span) : span::Ident(name, span) {}
         Ident(const parser::Token & token) : span::Ident(token) {}
 
         node_id id;

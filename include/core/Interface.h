@@ -42,14 +42,13 @@ namespace jc::core {
     private:
         parser::Lexer lexer;
         parser::Parser parser;
-        ast::DirTreePrinter dirTreePrinter;
         ast::AstPrinter astPrinter;
         ast::Validator astValidator;
         Option<ast::Party> party{None};
 
         void parse();
         void validateAST();
-        ast::dir_ptr parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
+        ast::N<ast::Mod> parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
         ast::file_ptr parseFile(const fs::entry_ptr & file);
 
         // Debug //

@@ -83,22 +83,22 @@ namespace jc::core {
         astValidator.lint(party.unwrap()).take(sess, "validation");
     }
 
-    ast::dir_ptr Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
+    ast::N<ast::Mod> Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
         if (not dir->isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
-        const auto & name = dir->getPath().filename().string();
-        std::vector<ast::fs_module_ptr> nestedEntries;
+        const auto & synthName = ast::Ident(dir->getPath().filename().string(), span::Span{});
+        ast::item_list nestedEntries;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
-                nestedEntries.emplace_back(parseDir(entry));
+                nestedEntries.push_back(parseDir(entry));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
                 nestedEntries.emplace_back(parseFile(entry));
             }
         }
 
-        return parser.makeBoxNode<ast::Dir>(name, std::move(nestedEntries));
+        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
 
     ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {
