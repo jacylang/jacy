@@ -30,7 +30,7 @@ namespace jc::core {
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printBenchmarks();
             }
-            throw;
+            throw e;
         }
     }
 
@@ -135,8 +135,6 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
-        log.dev("Parse file ", file.getPath());
-
         curFsEntry->addChild(false, file.getPath().stem().string());
 
         const auto fileId = sess->sourceMap.registerSource(file.getPath());
@@ -156,6 +154,8 @@ namespace jc::core {
 
         printSource(parseSess);
         printTokens(file.getPath(), tokens);
+
+        log.dev("Parse file ", file.getPath());
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();

@@ -16,7 +16,7 @@ namespace jc::core {
             common::Logger log{"jacy"};
             log.error(e.message);
             if (common::Config::getInstance().checkDev()) {
-                throw;
+                throw e;
             }
             return 1;
         }
