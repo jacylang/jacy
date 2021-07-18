@@ -27,10 +27,6 @@ namespace jc::core {
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
-    enum class BenchmarkEntity {
-        Node,
-    };
-
     struct Benchmark {
         Benchmark(const std::string & name, double time, const Option<BenchmarkEntity> & entity)
             : name(name), time(time), entity(entity) {}
