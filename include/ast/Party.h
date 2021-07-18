@@ -7,58 +7,6 @@
 #include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
-    struct Dir;
-    struct File;
-    struct FsModule;
-    using dir_ptr = N<Dir>;
-    using file_ptr = N<File>;
-    using fs_module_ptr = N<FsModule>;
-
-    struct FsModule : Node {
-        FsModule() : Node(Span{}) {}
-
-        virtual void accept(BaseVisitor & visitor) const = 0;
-        virtual void accept(DirTreePrinter & visitor) const = 0;
-    };
-
-    struct Dir : FsModule {
-        Dir(
-            const std::string & name,
-            std::vector<fs_module_ptr> && modules
-        ) : name(name),
-            modules(std::move(modules)) {}
-
-        std::string name;
-        std::vector<fs_module_ptr> modules;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-
-        void accept(DirTreePrinter & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct File : FsModule {
-        File(
-            span::file_id_t fileId,
-            item_list items
-        ) : fileId(fileId),
-            items(std::move(items)) {}
-
-        span::file_id_t fileId;
-        item_list items;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-
-        void accept(DirTreePrinter & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
     class Party {
     public:
         explicit Party(File && rootFile, Dir && rootDir)
