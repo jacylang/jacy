@@ -102,7 +102,7 @@ namespace jc::core {
 
         beginBench();
         printAst(ast::AstPrinterMode::Parsing);
-        endBench("Printing AST after parsing", common::Config::Benchmark::Verbose);
+        endBench("AST printing after parsing", common::Config::Benchmark::Verbose);
 
         checkSuggestions("parsing");
 
