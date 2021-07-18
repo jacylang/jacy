@@ -105,12 +105,6 @@ namespace jc::core {
         using milli_ratio = std::ratio<1, 1000>;
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
-        enum class BenchmarkKind {
-            None,
-
-            Lexing,
-            Parsing,
-        };
         bench_t finalBenchStart;
         std::vector<std::pair<std::string, double>> benchmarks;
         std::vector<bench_t> benchmarkStack;
@@ -118,7 +112,7 @@ namespace jc::core {
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
-        void endBench(const std::string & name, BenchmarkKind kind = BenchmarkKind::None);
+        void endBench(const std::string & name);
         void printBenchmarks() noexcept;
     };
 }

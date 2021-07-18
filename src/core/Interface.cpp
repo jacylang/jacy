@@ -404,28 +404,16 @@ namespace jc::core {
         benchmarkStack.emplace_back(bench());
     }
 
-    void Interface::endBench(const std::string & name, BenchmarkKind kind) {
+    void Interface::endBench(const std::string & name) {
         if (not eachStageBenchmarks) {
             return;
         }
         if (benchmarkStack.empty()) {
             common::Logger::devPanic("Called `Interface::endBench` with empty benchmark stack");
         }
-        std::string formatted = name;
-        switch (kind) {
-            case BenchmarkKind::Lexing: {
-                formatted += " lexing";
-                break;
-            }
-            case BenchmarkKind::Parsing: {
-                formatted += " parsing";
-                break;
-            }
-            case BenchmarkKind::None: break;
-        }
         auto end = bench();
         benchmarks.emplace_back(
-            formatted,
+            name,
             std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count()
         );
         benchmarkStack.pop_back();
