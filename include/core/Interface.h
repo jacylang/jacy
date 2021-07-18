@@ -113,7 +113,7 @@ namespace jc::core {
         };
         bench_t finalBenchStart;
         std::map<std::string, double> benchmarks;
-        Option<bench_t> lastBench{None};
+        std::vector<bench_t> benchmarkStack;
         bool eachStageBenchmarks;
         void beginFinalBench();
         void printFinalBench();
