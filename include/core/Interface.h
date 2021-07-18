@@ -108,7 +108,6 @@ namespace jc::core {
         bench_t finalBenchStart;
         std::vector<std::pair<std::string, double>> benchmarks;
         std::vector<bench_t> benchmarkStack;
-        Config::Benchmark benchmarkLevel;
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
