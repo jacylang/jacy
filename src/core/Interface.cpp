@@ -418,11 +418,9 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
-        if (eachStageBenchmarks) {
-            for (const auto & it : benchmarks) {
-                common::Logger::print(it.first, " done in ", it.second, "ms");
-                common::Logger::nl();
-            }
+        for (const auto & it : benchmarks) {
+            common::Logger::print(it.first, " done in ", it.second, "ms");
+            common::Logger::nl();
         }
     }
 }
