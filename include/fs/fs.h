@@ -13,11 +13,11 @@ namespace jc::fs {
      */
     bool exists(const std_fs::path & path);
 
-    entry_ptr readfile(const std_fs::path & path);
+    Entry readfile(const std_fs::path & path);
 
     entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt = "");
 
-    entry_ptr readDirRec(const std_fs::path & path, const std::string & allowedExt = "");
+    Entry readDirRec(const std_fs::path & path, const std::string & allowedExt = "");
 }
 
 #endif // JACY_UTILS_HASH_H

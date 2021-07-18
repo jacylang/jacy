@@ -5,7 +5,7 @@ namespace jc::fs {
         return std_fs::exists(std_fs::relative(path));
     }
 
-    entry_ptr readfile(const std_fs::path & path) {
+    Entry readfile(const std_fs::path & path) {
         if (not fs::exists(path)) {
             common::Logger::devPanic("Called `fs::readfile` with non-existent file");
         }
@@ -21,7 +21,7 @@ namespace jc::fs {
         auto data = ss.str();
         file.close();
 
-        return std::make_shared<Entry>(path, std::move(data));
+        return Entry(path, std::move(data));
     }
 
     entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
@@ -29,9 +29,7 @@ namespace jc::fs {
         for (const auto & entry : std_fs::directory_iterator(path)) {
             const auto & entryPath = std_fs::relative(entry.path());
             if (entry.is_directory()) {
-                entries.emplace_back(
-                    std::make_shared<Entry>(entryPath, readdirRecEntries(entryPath))
-                );
+                entries.emplace_back(entryPath, readdirRecEntries(entryPath));
             } else if (entry.is_regular_file()) {
                 if (entryPath.extension() != allowedExt) {
                     continue;
@@ -43,7 +41,7 @@ namespace jc::fs {
         return entries;
     }
 
-    entry_ptr readDirRec(const std_fs::path & path, const std::string & allowedExt) {
-        return std::make_shared<Entry>(path, readdirRecEntries(path, allowedExt));
+    Entry readDirRec(const std_fs::path & path, const std::string & allowedExt) {
+        return Entry(path, readdirRecEntries(path, allowedExt));
     }
 }
