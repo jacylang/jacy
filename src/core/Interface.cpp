@@ -449,6 +449,22 @@ namespace jc::core {
     void Interface::printBenchmarks() noexcept {
         for (const auto & it : benchmarks) {
             common::Logger::print(it.name, " done in ", it.time, "ms");
+
+            if (it.entity.some()) {
+                const auto entity = it.entity.unwrap();
+                size_t entityCount;
+                switch (entity) {
+                    case BenchmarkEntity::Node: {
+                        entityCount = sess->nodeStorage.size();
+                        break;
+                    }
+                    default: {
+                        log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
+                    }
+                }
+
+                common::Logger::print(" speed: ", static_cast<double>(entityCount) / it.time, Benchmark::entityStr(entity), "/s");
+            }
             common::Logger::nl();
         }
     }
