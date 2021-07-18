@@ -26,6 +26,7 @@ namespace jc::common {
     };
 
     key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
+        {"verbose",    Config::Benchmark::Verbose},
         {"each-stage", Config::Benchmark::EachStage},
         {"final",      Config::Benchmark::Final},
     };
