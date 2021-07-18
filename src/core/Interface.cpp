@@ -66,7 +66,7 @@ namespace jc::core {
         auto rootFile = parseFile(std::move(rootFileEntry));
 
         auto rootDir = parseDir(
-            fs::readDirRec(rootFileEntry.getPath().parent_path(), ".jc"),
+            fs::readDirRec(rootDirPath, ".jc"),
             rootFileName
         );
 
