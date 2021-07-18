@@ -101,7 +101,7 @@ namespace jc::core {
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
 
-    ast::item_list Interface::parseFile(const fs::entry_ptr & file) {
+    ast::N<ast::Mod> Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
@@ -123,14 +123,16 @@ namespace jc::core {
         log.dev("Parse file ", file->getPath(), "");
 
         beginBench();
-        auto [parsedFile, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
+        auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
         endBench(file->getPath().string(), BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        return std::move(parsedFile);
+        auto synthName = ast::Ident(file->getPath().string(), span::Span{});
+
+        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span{});
     }
 
     // Debug //
