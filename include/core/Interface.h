@@ -16,6 +16,7 @@
 #include "resolve/ModuleTreeBuilder.h"
 #include "resolve/Importer.h"
 #include "resolve/NameResolver.h"
+#include "resolve/ModulePrinter.h"
 #include "common/Config.h"
 #include "ast/Party.h"
 #include "fs/fs.h"
