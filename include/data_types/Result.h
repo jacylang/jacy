@@ -294,12 +294,12 @@ namespace jc::dt {
     };
 
     template <typename T>
-    inline std::ostream& operator<<(std::ostream& stream, const Ok<T>& ok) {
+    inline std::ostream & operator<<(std::ostream & stream, const Ok<T> & ok) {
         stream << "Ok(" << ok.value() << ")";
         return stream;
     }
     template <typename T>
-    inline std::ostream& operator<<(std::ostream& stream, const Err<T>& err) {
+    inline std::ostream & operator<<(std::ostream & stream, const Err<T> & err) {
         stream << "Err(" << err.value() << ")";
         return stream;
     }
