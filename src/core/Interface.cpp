@@ -67,6 +67,8 @@ namespace jc::core {
 
         auto rootFile = parseFile(std::move(rootFileEntry));
 
+        log.dev("Root directory is ", rootDirPath);
+
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
             rootFileName
@@ -94,7 +96,7 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const std::string & ignore) {
-        log.dev("Parse directory ", dir.getPath());
+        log.dev("Parse directory ", dir.getPath(), ", ignore ", ignore);
         if (not dir.isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
@@ -107,12 +109,13 @@ namespace jc::core {
 
         ast::item_list nestedEntries;
         for (auto entry : dir.extractEntries()) {
+            log.dev("Dir entry: ", entry.getPath().string());
             if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry))));
-            } else if (not ignore.empty() and entry.getPath().filename() == ignore) {
+            } else if (not ignore.empty() and entry.getPath().filename() != ignore) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
-                log.dev("Ignore parsing '", ignore, "'");
+                log.dev("Ignore parsing '", entry.getPath().string(), "'");
             }
         }
 
