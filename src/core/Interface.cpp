@@ -83,6 +83,7 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
+        log.dev("Parse directory ", dir->getPath());
         if (not dir->isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
@@ -101,6 +102,8 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseFile(const fs::entry_ptr & file) {
+        log.dev("Parse file ", file->getPath());
+
         const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
@@ -118,8 +121,6 @@ namespace jc::core {
 
         printSource(parseSess);
         printTokens(file->getPath(), tokens);
-
-        log.dev("Parse file ", file->getPath(), "");
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
