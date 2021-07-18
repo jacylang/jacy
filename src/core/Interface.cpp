@@ -97,7 +97,7 @@ namespace jc::core {
         log.dev("Synthesized ident for dir: ", synthName);
 
         ast::item_list nestedEntries;
-        for (const auto & entry : dir->getSubModules()) {
+        for (const auto & entry : dir->getEntries()) {
             if (entry->isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(entry)));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {

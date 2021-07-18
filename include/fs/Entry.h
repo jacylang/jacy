@@ -38,9 +38,9 @@ namespace jc::fs {
             return path;
         }
 
-        const entry_list & getSubModules() const {
+        const entry_list & getEntries() const {
             if (not isDir()) {
-                common::Logger::devPanic("Called `fs::Entry::getSubModules` on non-dir entry");
+                common::Logger::devPanic("Called `fs::Entry::getEntries` on non-dir entry");
             }
             return std::get<entry_list>(content);
         }
