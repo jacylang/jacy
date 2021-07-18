@@ -14,8 +14,7 @@
 
 namespace jc::fs {
     struct Entry;
-    using entry_ptr = std::shared_ptr<Entry>;
-    using entry_list = std::vector<entry_ptr>;
+    using entry_list = std::vector<Entry>;
     namespace std_fs = std::filesystem;
 
     struct Entry {
