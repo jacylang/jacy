@@ -6,8 +6,6 @@ namespace jc::core {
     Interface::Interface() : config(Config::getInstance()) {}
 
     void Interface::compile() {
-        eachStageBenchmarks = config.checkBenchmark(Config::Benchmark::EachStage);
-
         log.dev("Config options: ", config.getOptionsMap());
 
         try {
@@ -404,7 +402,7 @@ namespace jc::core {
         benchmarkStack.emplace_back(bench());
     }
 
-    void Interface::endBench(const std::string & name) {
+    void Interface::endBench(const std::string & name, Config::Benchmark kind) {
         if (not eachStageBenchmarks) {
             return;
         }
