@@ -64,6 +64,8 @@ namespace jc::core {
         auto rootFileEntry = fs::readfile(rootFileName);
         const auto & rootDirPath = rootFileEntry.getPath().parent_path();
         auto rootFile = parseFile(std::move(rootFileEntry));
+        curFsEntry = std::make_shared<FSEntry>(true, rootDirPath.string());
+        curFsEntry->addChild(false, rootFileName);
 
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
@@ -95,6 +97,8 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
+        curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
+
         const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
         log.dev("Synthesized ident for dir: ", synthName);
 
@@ -108,6 +112,8 @@ namespace jc::core {
                 log.dev("Ignore parsing '", ignore, "'");
             }
         }
+
+        curFsEntry = curFsEntry->parent;
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }

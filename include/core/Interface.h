@@ -27,10 +27,22 @@ namespace jc::core {
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
+    struct FSEntry;
+    using fs_entry_ptr = std::shared_ptr<FSEntry>;
     struct FSEntry {
+        FSEntry(bool isDir, const std::string & name) : isDir(isDir), name(name) {}
+
+        fs_entry_ptr parent;
         bool isDir;
         std::string name;
-        std::vector<FSEntry> subEntries;
+        std::vector<fs_entry_ptr> subEntries;
+
+        template<class ...Args>
+        fs_entry_ptr addChild(Args ...args) {
+            subEntries.emplace_back(std::make_shared<FSEntry>(std::forward<Args>(args)...));
+            parent = std::shared_ptr<FSEntry>(this);
+            return subEntries.back();
+        }
     };
 
     class Interface {
@@ -59,6 +71,7 @@ namespace jc::core {
         ast::N<ast::Mod> parseFile(fs::Entry && file);
 
         // Debug //
+        fs_entry_ptr curFsEntry;
         void printSource(const parser::parse_sess_ptr & parseSess);
         void printTokens(const fs::path & path, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);
