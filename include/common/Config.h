@@ -61,7 +61,7 @@ namespace jc::common {
         // Note: Order matters
         enum class Benchmark : uint8_t {
             Verbose,
-            EachJump,
+            EachJump, /// Strange name, actually, means sub-stage in each stage
             EachStage,
             Final,
         };
