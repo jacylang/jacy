@@ -30,8 +30,8 @@ namespace jc::ast {
         }
 
         template<class T>
-        static T as(Stmt * stmt) {
-            return *N<T>(static_cast<T*>(stmt));
+        static T * as(const N<Stmt> & stmt) {
+            return static_cast<T*>(stmt.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
