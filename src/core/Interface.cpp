@@ -176,6 +176,10 @@ namespace jc::core {
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry, const std::string & prefix) {
         // Imitate `tree` UNIX like command
+        if (prefix.empty()) {
+            log.raw(".").nl();
+        }
+
         static constexpr const char * innerBranches[] = {"├── ", "│   "};
         static constexpr const char * finalBranches[] = {"└── ", "    "};
 
