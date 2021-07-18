@@ -326,7 +326,7 @@ namespace jc::core {
 
         beginBench();
         printResolutions();
-        endBench("Resolutions printing", common::Config::Benchmark::EachSubStage);
+        endBench("Resolutions printing", common::Config::Benchmark::Verbose);
 
         beginBench();
         printAst(ast::AstPrinterMode::Names);
