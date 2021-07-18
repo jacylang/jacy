@@ -92,7 +92,7 @@ namespace jc::core {
 
         if (config.checkPrint(Config::PrintKind::DirTree)) {
             log.info("Printing directory tree (`--print=dir-tree`)");
-            printDirTree(curFsEntry, 0, true);
+            printDirTree(curFsEntry, "");
         }
 
         printAst(ast::AstPrinterMode::Parsing);
@@ -174,28 +174,24 @@ namespace jc::core {
     }
 
     // Debug //
-    void Interface::printDirTree(const fs_entry_ptr & entry, size_t depth, bool lastEntry) {
-        std::vector<fs_entry_ptr> sortedEntries;
-        std::sort(entry->subEntries.begin(), entry->subEntries.end(), [](const auto & lhs, const auto & rhs) {
-            return lhs.path().filename() < rhs.path().filename();
+    void Interface::printDirTree(const fs_entry_ptr & entry, const std::string & prefix) {
+        // Imitate `tree` UNIX like command
+        static constexpr const char * innerBranches[] = {"├── ", "│   "};
+        static constexpr const char * finalBranches[] = {"└── ", "    "};
+
+        std::vector<fs_entry_ptr> entries = entry->subEntries;
+        std::sort(entries.begin(), entries.end(), [](const auto & lhs, const auto & rhs) {
+            return lhs->name < rhs->name;
         });
-        // Emulate `tree` UNIX command style
-        for (size_t i = 1; i < depth; i++) {
-            log.raw("|");
-            log.raw("   ");
-        }
-        if (entry->name.empty()) {
-            log.raw(".").nl();
-        } else {
-            if (lastEntry) {
-                log.raw("`");
-            } else {
-                log.raw("|");
+
+        for (size_t i = 0; i < entries.size(); i++) {
+            const auto & entry = entries.at(i);
+            const auto & branches = i == entries.size() - 1 ? finalBranches : innerBranches;
+            log.raw(prefix, branches[0], entry->name).nl();
+
+            if (entry->isDir) {
+                printDirTree(entry, prefix + branches[1]);
             }
-            log.raw("-- ", entry->name, entry->isDir ? "/" : "").nl();
-        }
-        for (size_t i = 0; i < entry->subEntries.size(); i++) {
-            printDirTree(entry->subEntries.at(i), depth + 1, i == entry->subEntries.size() - 1);
         }
     }
 
