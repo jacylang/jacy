@@ -32,12 +32,12 @@ namespace jc::core {
     };
 
     struct Benchmark {
-        Benchmark(const std::string & name, double time, const Option<BenchmarkEntity> & entity)
-            : name(name), time(time), entity(entity) {}
+        Benchmark(const std::string & name, double time, size_t entityCount)
+            : name(name), time(time), entityCount(entityCount) {}
 
         std::string name;
         double time;
-        Option<BenchmarkEntity> entity;
+        size_t entityCount;
 
         static std::string entityStr(BenchmarkEntity entity) {
             switch (entity) {
