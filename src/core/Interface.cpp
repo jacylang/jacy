@@ -94,7 +94,7 @@ namespace jc::core {
             if (entry->isDir()) {
                 nestedEntries.push_back(Ok<ast::N<ast::Item>>(parseDir(entry)));
             } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
-                nestedEntries.emplace_back(parseFile(entry));
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(entry)));
             }
         }
 
