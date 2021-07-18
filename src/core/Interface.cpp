@@ -153,6 +153,9 @@ namespace jc::core {
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
         curFsEntry->addChild(false, file.getPath().stem().string());
 
+        const auto & rootFilePath = config.getRootFile();
+        const auto & filePathRootRel = fs::std_fs::proximate(file.getPath(), rootFilePath).string();
+
         const auto fileId = sess->sourceMap.registerSource(file.getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
@@ -164,7 +167,7 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(file.getPath().string(), BenchmarkKind::Lexing);
+        endBench(filePathRootRel, BenchmarkKind::Lexing);
 
         log.dev("Tokenize file ", file.getPath());
 
@@ -175,7 +178,7 @@ namespace jc::core {
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(file.getPath().string(), BenchmarkKind::Parsing);
+        endBench(filePathRootRel, BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
 
