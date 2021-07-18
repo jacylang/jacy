@@ -160,14 +160,14 @@ namespace jc::core {
         assert(entry.get() != nullptr);
         log.raw(common::Indent<2>(fsTreeIndent));
         if (entry->isDir) {
-            log.raw("|-- ", entry->name, "/");
+            log.raw("|-- ", entry->name, "/").nl();
             fsTreeIndent++;
             for (const auto & subEntry : entry->subEntries) {
                 printDirTree(subEntry);
             }
             fsTreeIndent--;
         } else {
-            log.raw("|-- ", entry->name);
+            log.raw("|-- ", entry->name).nl();
         }
     }
 
