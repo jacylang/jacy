@@ -185,24 +185,6 @@ namespace jc::resolve {
         curModuleName = name;
     }
 
-    void ModuleTreeBuilder::enterFictiveModule(const std::string & name, DefKind defKind) {
-        curModuleName = name;
-
-        log.dev("Enter [FICTIVE] module '", name, "' ", Def::kindStr(defKind));
-
-        // Note: Fictive modules are always public
-        const auto defId = _defStorage.define(_modDepth, DefVis::Pub, defKind, None, None);
-        auto child = _defStorage.addModule(
-            defId, Module::newFictiveModule(ModuleKind::Fictive, mod, defId)
-        );
-        if (utils::map::has(mod->perNS.type, name)) {
-            log.devPanic("Tried to redefine fictive module '", name, "'");
-        }
-        mod->perNS.type.emplace(name, defId);
-
-        enterChildModule(child);
-    }
-
     void ModuleTreeBuilder::enterChildModule(module_ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
