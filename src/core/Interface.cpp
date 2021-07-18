@@ -98,7 +98,10 @@ namespace jc::core {
             printDirTree(curFsEntry, "");
         }
 
+        beginBench();
         printAst(ast::AstPrinterMode::Parsing);
+        endBench("Printing AST after parsing", common::Config::Benchmark::Verbose);
+
         checkSuggestions("parsing");
         validateAST();
     }
