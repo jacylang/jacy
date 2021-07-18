@@ -159,6 +159,11 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry) {
+        if (not config.checkPrint(Config::PrintKind::DirTree)) {
+            return;
+        }
+
+        log.info("Printing directory tree (`--print=dir-tree`)");
         log.raw(common::Indent<2>(fsTreeIndent));
         if (entry->name.empty()) {
             log.raw(".").nl();
