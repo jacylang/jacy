@@ -328,7 +328,9 @@ namespace jc::core {
         printResolutions();
         endBench("Resolutions printing", common::Config::Benchmark::EachSubStage);
 
+        beginBench();
         printAst(ast::AstPrinterMode::Names);
+        endBench("AST Printing after name resolution", common::Config::Benchmark::Verbose);
     }
 
     // Debug //
