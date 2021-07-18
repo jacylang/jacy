@@ -324,7 +324,9 @@ namespace jc::core {
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
         endBench("name-resolution", common::Config::Benchmark::EachSubStage);
 
+        beginBench();
         printResolutions();
+        endBench("Resolutions printing", common::Config::Benchmark::EachSubStage);
 
         printAst(ast::AstPrinterMode::Names);
     }
