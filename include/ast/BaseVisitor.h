@@ -4,9 +4,6 @@
 namespace jc::ast {
     struct ErrorNode;
 
-    struct File;
-    struct Dir;
-
     // Items //
     struct Enum;
     struct EnumEntry;
@@ -101,8 +98,6 @@ namespace jc::ast {
         virtual ~BaseVisitor() = default;
 
         virtual void visit(const ErrorNode&) = 0;
-        virtual void visit(const File&) = 0;
-        virtual void visit(const Dir&) = 0;
 
         // Items //
         virtual void visit(const Enum&) = 0;
