@@ -60,20 +60,28 @@ namespace jc::core {
     void Interface::parse() {
         log.printTitleDev("Parsing");
 
-        const auto & rootFilePath = config.getRootFile();
-        auto rootFileEntry = fs::readfile(rootFilePath);
-        const auto & rootDirPath = rootFileEntry.getPath().parent_path();
+        const auto & rootFileName = config.getRootFile();
+        auto rootFileEntry = fs::readfile(rootFileName);
+        const auto & rootFilePath = fs::std_fs::absolute(rootFileEntry.getPath());
+        log.dev("Root file path: ", rootFilePath);
+
+        // Make root directory entry, it is not either a file or directory,
+        // but has `isDir = false` flag to print its items on the same level as root file
         curFsEntry = std::make_shared<FSEntry>(false, "");
 
+        // Parse root file separately to use at as Party root module
         auto rootFile = parseFile(std::move(rootFileEntry));
 
-        log.dev("Root directory is ", rootDirPath);
+        const auto & rootDirPath = rootFilePath.parent_path();
+        log.dev("Root directory path: ", rootDirPath);
 
+        // Parse root directory, ignoring root file
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
-            fs::path(rootFilePath).filename().stem().string()
+            fs::path(rootFileName).filename().stem().string()
         );
 
+        // Transfer all items (actually directory/file modules) to root file (Party module)
         rootFile->items
                 .insert(
                     rootFile->items.end(),
@@ -101,6 +109,7 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
+        // Save previous fs entry to lift to it after directory parsed
         auto parent = curFsEntry;
         curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
 
@@ -114,7 +123,9 @@ namespace jc::core {
             } else if (not ignore.empty() and entry.getPath().stem().string() != ignore) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
-                log.dev("Ignore parsing '", entry.getPath().string(), "'");
+                // File is ignored, only used for root file ignorance,
+                // as it is parsed separately but located in the same directory
+                log.dev("Ignore parsing '", entry.getPath(), "'");
             }
         }
 
