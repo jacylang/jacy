@@ -4,8 +4,7 @@ namespace jc::resolve {
     dt::SuggResult<dt::none_t> Importer::declare(sess::sess_ptr sess, const ast::Party & party) {
         this->sess = sess;
 
-        party.getRootFile().accept(*this);
-        party.getRootDir().accept(*this);
+        visitEach(party.items);
 
         return {None, extractSuggestions()};
     }
