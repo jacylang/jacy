@@ -80,6 +80,9 @@ namespace jc::core {
 
         party = ast::Party(std::move(rootFile->items));
 
+        assert(not curFsEntry->parent);
+        printDirTree(curFsEntry);
+
         printAst(ast::AstPrinterMode::Parsing);
         checkSuggestions("parsing");
         validateAST();
@@ -153,6 +156,20 @@ namespace jc::core {
     }
 
     // Debug //
+    void Interface::printDirTree(const fs_entry_ptr & entry) {
+        log.raw(common::Indent<2>(fsTreeIndent));
+        if (entry->isDir) {
+            log.raw("|-- ", entry->name, "/");
+            fsTreeIndent++;
+            for (const auto & subEntry : entry->subEntries) {
+                printDirTree(subEntry);
+            }
+            fsTreeIndent--;
+        } else {
+            log.raw("|-- ", entry->name);
+        }
+    }
+
     void Interface::printSource(const parser::parse_sess_ptr & parseSess) {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
