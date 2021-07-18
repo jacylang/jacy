@@ -396,14 +396,14 @@ namespace jc::core {
     }
 
     void Interface::beginBench() {
-        if (not eachStageBenchmarks) {
-            return;
-        }
         benchmarkStack.emplace_back(bench());
     }
 
     void Interface::endBench(const std::string & name, Config::Benchmark kind) {
-        if (not eachStageBenchmarks) {
+        // Note: Not the best solution, but we pop last benchmark
+        //  even if pushed benchmark is have low level than configured.
+        if (not config.checkBenchmark(kind)) {
+            benchmarkStack.pop_back();
             return;
         }
         if (benchmarkStack.empty()) {
