@@ -95,7 +95,9 @@ namespace jc::core {
 
         if (config.checkPrint(Config::PrintKind::DirTree)) {
             log.info("Printing directory tree (`--print=dir-tree`)");
+            beginBench();
             printDirTree(curFsEntry, "");
+            endBench("Directory tree printing", common::Config::Benchmark::Verbose);
         }
 
         beginBench();
