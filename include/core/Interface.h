@@ -112,7 +112,7 @@ namespace jc::core {
             Parsing,
         };
         bench_t finalBenchStart;
-        std::map<std::string, double> benchmarks;
+        std::vector<std::pair<std::string, double>> benchmarks;
         std::vector<bench_t> benchmarkStack;
         bool eachStageBenchmarks;
         void beginFinalBench();

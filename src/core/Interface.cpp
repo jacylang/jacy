@@ -424,7 +424,7 @@ namespace jc::core {
             case BenchmarkKind::None: break;
         }
         auto end = bench();
-        benchmarks.emplace(
+        benchmarks.emplace_back(
             formatted,
             std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count()
         );
