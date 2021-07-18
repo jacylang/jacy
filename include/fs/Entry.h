@@ -37,11 +37,11 @@ namespace jc::fs {
             return path;
         }
 
-        const entry_list & getEntries() const {
+        entry_list && extractEntries() {
             if (not isDir()) {
-                common::Logger::devPanic("Called `fs::Entry::getEntries` on non-dir entry");
+                common::Logger::devPanic("Called `fs::Entry::extractEntries` on non-dir entry");
             }
-            return std::get<entry_list>(content);
+            return std::get<entry_list>(std::move(content));
         }
 
         std::string && extractContent() {

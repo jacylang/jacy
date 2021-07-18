@@ -61,8 +61,10 @@ namespace jc::core {
         log.printTitleDev("Parsing");
 
         const auto & rootFileName = config.getRootFile();
-        const auto & rootFileEntry = fs::readfile(rootFileName);
-        auto rootFile = parseFile(rootFileEntry);
+        auto rootFileEntry = fs::readfile(rootFileName);
+        const auto & rootDirPath = rootFileEntry.getPath().parent_path();
+        auto rootFile = parseFile(std::move(rootFileEntry));
+
         auto rootDir = parseDir(
             fs::readDirRec(rootFileEntry.getPath().parent_path(), ".jc"),
             rootFileName
@@ -87,7 +89,7 @@ namespace jc::core {
         astValidator.lint(party.unwrap()).take(sess, "validation");
     }
 
-    ast::N<ast::Mod> Interface::parseDir(const fs::Entry & dir, const std::string & ignore) {
+    ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const std::string & ignore) {
         log.dev("Parse directory ", dir.getPath());
         if (not dir.isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
@@ -97,11 +99,11 @@ namespace jc::core {
         log.dev("Synthesized ident for dir: ", synthName);
 
         ast::item_list nestedEntries;
-        for (const auto & entry : dir.getEntries()) {
+        for (auto entry : dir.extractEntries()) {
             if (entry.isDir()) {
-                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(entry)));
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry))));
             } else if (not ignore.empty() and entry.getPath().filename() == ignore) {
-                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(entry)));
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
                 log.dev("Ignore parsing '", ignore, "'");
             }
@@ -110,7 +112,7 @@ namespace jc::core {
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
 
-    ast::N<ast::Mod> Interface::parseFile(const fs::Entry & file) {
+    ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
         log.dev("Parse file ", file.getPath());
 
         const auto fileId = sess->sourceMap.registerSource(file.getPath());
