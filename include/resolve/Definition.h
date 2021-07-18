@@ -13,6 +13,8 @@ namespace jc::resolve {
     using def_depth = uint32_t;
     using DefIndex = size_t;
 
+    const DefIndex ROOT_DEF_INDEX = 0;
+
     struct DefId {
         explicit DefId(DefIndex index) : index(index) {}
 
@@ -23,6 +25,8 @@ namespace jc::resolve {
     private:
         DefIndex index;
     };
+
+    const DefId ROOT_DEF_ID = DefId(ROOT_DEF_INDEX);
 
     inline std::ostream & operator<<(std::ostream & os, const DefId & defId) {
         std::cout << defId.getIndex();
