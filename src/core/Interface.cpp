@@ -129,12 +129,13 @@ namespace jc::core {
         for (auto entry : dir.extractEntries()) {
             if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry), None)));
-            } else if (rootFile.some() and entry.getPath().stem().string() != rootFile.unwrap()) {
-                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
-            } else {
+            } else if (rootFile.some() and entry.getPath().stem().string() == rootFile.unwrap()) {
                 // File is ignored, only used for root file ignorance,
                 // as it is parsed separately but located in the same directory
                 log.dev("Ignore parsing '", entry.getPath(), "'");
+                continue;
+            } else {
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             }
         }
 
