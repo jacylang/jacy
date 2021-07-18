@@ -3,7 +3,7 @@
 namespace jc::sess {
     file_id_t SourceMap::registerSource(const fs::path & path) {
         file_id_t fileId = utils::hash::hash(path.string());
-        common::Logger::devDebug("Add source ", path, " with fileId [", fileId, "]");
+        common::Logger::devDebug("Add source ", path.string(), " with fileId [", fileId, "]");
         sources.emplace(fileId, None);
         return fileId;
     }

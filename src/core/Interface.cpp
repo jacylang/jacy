@@ -60,8 +60,8 @@ namespace jc::core {
     void Interface::parse() {
         log.printTitleDev("Parsing");
 
-        const auto & rootFileName = config.getRootFile();
-        auto rootFileEntry = fs::readfile(rootFileName);
+        const auto & rootFilePath = config.getRootFile();
+        auto rootFileEntry = fs::readfile(rootFilePath);
         const auto & rootDirPath = rootFileEntry.getPath().parent_path();
         curFsEntry = std::make_shared<FSEntry>(false, "");
 
@@ -71,7 +71,7 @@ namespace jc::core {
 
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
-            rootFileName
+            fs::path(rootFilePath).filename().stem().string()
         );
 
         rootFile->items
@@ -109,10 +109,9 @@ namespace jc::core {
 
         ast::item_list nestedEntries;
         for (auto entry : dir.extractEntries()) {
-            log.dev("Dir entry: ", entry.getPath().string());
             if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry))));
-            } else if (not ignore.empty() and entry.getPath().filename() != ignore) {
+            } else if (not ignore.empty() and entry.getPath().stem().string() != ignore) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
                 log.dev("Ignore parsing '", entry.getPath().string(), "'");
@@ -125,7 +124,7 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
-        log.dev("Parse file ", file.getPath());
+        log.dev("Parse file ", file.getPath().string());
 
         curFsEntry->addChild(false, file.getPath().stem().string());
 
@@ -133,7 +132,7 @@ namespace jc::core {
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
             parser::SourceFile(
-                file.getPath(),
+                file.getPath().string(),
                 file.extractContent()
             )
         );
