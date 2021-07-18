@@ -40,7 +40,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBench("- Parsing stage", common::Config::BenchmarkKind::Stage);
+        endBench("- Parsing stage", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -48,7 +48,7 @@ namespace jc::core {
 
         beginBench();
         resolveNames();
-        endBench("- Name resolution stage", common::Config::BenchmarkKind::Stage);
+        endBench("- Name resolution stage", None, common::Config::BenchmarkKind::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
@@ -97,18 +97,18 @@ namespace jc::core {
             log.info("Printing directory tree (`--print=dir-tree`)");
             beginBench();
             printDirTree(curFsEntry, "");
-            endBench("Directory tree printing", common::Config::BenchmarkKind::Verbose);
+            endBench("Directory tree printing", None, common::Config::BenchmarkKind::Verbose);
         }
 
         beginBench();
         printAst(ast::AstPrinterMode::Parsing);
-        endBench("AST printing after parsing", common::Config::BenchmarkKind::Verbose);
+        endBench("AST printing after parsing", BenchmarkEntity::Node, common::Config::BenchmarkKind::Verbose);
 
         checkSuggestions("parsing");
 
         beginBench();
         validateAST();
-        endBench("AST Validation", common::Config::BenchmarkKind::Stage);
+        endBench("AST Validation", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
     }
 
     void Interface::validateAST() {
@@ -173,23 +173,23 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(filePathRootRel, common::Config::BenchmarkKind::SubStage);
+        endBench(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
 
         log.dev("Tokenize file ", file.getPath());
 
         beginBench();
         printSource(parseSess);
-        endBench("Printing " + filePathRootRel + " source", common::Config::BenchmarkKind::Verbose);
+        endBench("Printing " + filePathRootRel + " source", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printTokens(file.getPath(), tokens);
-        endBench("Printing " + filePathRootRel + " tokens", common::Config::BenchmarkKind::Verbose);
+        endBench("Printing " + filePathRootRel + " tokens", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Parse file ", file.getPath());
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(filePathRootRel, common::Config::BenchmarkKind::SubStage);
+        endBench(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -300,37 +300,37 @@ namespace jc::core {
         log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBench("module-tree-building", common::Config::BenchmarkKind::SubStage);
+        endBench("module-tree-building", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printModTree("module tree building");
-        endBench("Module tree printing after building", common::Config::BenchmarkKind::Verbose);
+        endBench("Module tree printing after building", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printDefinitions();
-        endBench("Definitions printing", common::Config::BenchmarkKind::Verbose);
+        endBench("Definitions printing", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBench("import-resolution", common::Config::BenchmarkKind::SubStage);
+        endBench("import-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printModTree("imports resolution");
-        endBench("Module tree printing after imports resolution", common::Config::BenchmarkKind::Verbose);
+        endBench("Module tree printing after imports resolution", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBench("name-resolution", common::Config::BenchmarkKind::SubStage);
+        endBench("name-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printResolutions();
-        endBench("Resolutions printing", common::Config::BenchmarkKind::Verbose);
+        endBench("Resolutions printing", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printAst(ast::AstPrinterMode::Names);
-        endBench("AST Printing after name resolution", common::Config::BenchmarkKind::Verbose);
+        endBench("AST Printing after name resolution", None, common::Config::BenchmarkKind::Verbose);
     }
 
     // Debug //
