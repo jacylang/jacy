@@ -69,9 +69,8 @@ namespace jc::core {
             rootFileName
         );
 
-        party = ast::Party(std::move(*rootFile), std::move(*rootDir));
+        party = ast::Party(std::move(rootFile->items));
 
-        printDirTree();
         printAst(ast::AstPrinterMode::Parsing);
         checkSuggestions("parsing");
         validateAST();
