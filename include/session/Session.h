@@ -37,6 +37,10 @@ namespace jc::sess {
             nodeSpanMap.emplace(ident.id, ident.span);
         }
 
+        ast::node_id size() const {
+            return nextNodeId;
+        }
+
     private:
         ast::node_id nextNodeId = 1; // Reserve `0` for something :)
         ast::node_map<span::Span> nodeSpanMap;
