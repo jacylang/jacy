@@ -61,7 +61,7 @@ namespace jc::common {
         // Note: Order matters
         enum class Benchmark : uint8_t {
             Verbose, /// Each process, e.g. printing some debug info. Used to check if some debug process runs too long
-            EachJump, /// E.g. Lexing at Parsing stage
+            EachSubStage, /// E.g. Lexing at Parsing stage
             EachStage, /// The whole one stage, e.g. full Parsing stage
             Final,
         };
