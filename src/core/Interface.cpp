@@ -75,7 +75,8 @@ namespace jc::core {
         const auto & rootDirPath = rootFilePath.parent_path();
         log.dev("Root directory path: ", rootDirPath);
 
-        // Parse root directory, ignoring root file
+        // Parse root directory, ignoring root file using its stem part,
+        // as we 100% know that root file is inside this directory
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
             fs::path(rootFileName).filename().stem().string()
@@ -135,7 +136,7 @@ namespace jc::core {
     }
 
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
-        log.dev("Parse file ", file.getPath().string());
+        log.dev("Parse file ", file.getPath());
 
         curFsEntry->addChild(false, file.getPath().stem().string());
 
@@ -143,7 +144,7 @@ namespace jc::core {
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
             parser::SourceFile(
-                file.getPath().string(),
+                file.getPath(),
                 file.extractContent()
             )
         );
