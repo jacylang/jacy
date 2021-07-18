@@ -129,7 +129,7 @@ namespace jc::core {
         ast::item_list nestedEntries;
         for (auto entry : dir.extractEntries()) {
             if (entry.isDir()) {
-                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry))));
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry), None)));
             } else if (rootFile.some() and entry.getPath().stem().string() != rootFile.unwrap()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
