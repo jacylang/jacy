@@ -45,10 +45,6 @@ namespace jc::resolve {
     };
 
     enum class DefKind {
-        Dir,
-        File,
-        Root,
-
         Const,
         ConstParam,
         Enum,
