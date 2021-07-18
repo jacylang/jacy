@@ -119,8 +119,6 @@ namespace jc::core {
             // Only do it if this is not the root directory -- Some `rootFile` flags that it is
             parent = curFsEntry;
             curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
-        } else {
-            curFsEntry->addChild(true, dir.getPath().stem().string());
         }
 
         const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
