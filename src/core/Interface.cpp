@@ -63,9 +63,9 @@ namespace jc::core {
         const auto & rootFileName = config.getRootFile();
         auto rootFileEntry = fs::readfile(rootFileName);
         const auto & rootDirPath = rootFileEntry.getPath().parent_path();
+        curFsEntry = std::make_shared<FSEntry>(false, "");
+
         auto rootFile = parseFile(std::move(rootFileEntry));
-        curFsEntry = std::make_shared<FSEntry>(true, rootDirPath.string());
-        curFsEntry->addChild(false, rootFileName);
 
         auto rootDir = parseDir(
             fs::readDirRec(rootDirPath, ".jc"),
@@ -124,6 +124,8 @@ namespace jc::core {
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
         log.dev("Parse file ", file.getPath());
 
+        curFsEntry->addChild(false, file.getPath().stem().string());
+
         const auto fileId = sess->sourceMap.registerSource(file.getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
@@ -157,17 +159,20 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry) {
-        assert(entry.get() != nullptr);
         log.raw(common::Indent<2>(fsTreeIndent));
-        if (entry->isDir) {
-            log.raw("|-- ", entry->name, "/").nl();
-            fsTreeIndent++;
-            for (const auto & subEntry : entry->subEntries) {
-                printDirTree(subEntry);
-            }
-            fsTreeIndent--;
+        if (entry->name.empty()) {
+            log.raw(".");
         } else {
-            log.raw("|-- ", entry->name).nl();
+            log.raw("|-- ", entry->name, entry->isDir ? "/" : "").nl();
+        }
+        if (entry->isDir) {
+            fsTreeIndent++;
+        }
+        for (const auto & subEntry : entry->subEntries) {
+            printDirTree(subEntry);
+        }
+        if (entry->isDir) {
+            fsTreeIndent--;
         }
     }
 
