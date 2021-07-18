@@ -124,7 +124,11 @@ namespace jc::core {
         void beginFinalBench();
         void printFinalBench();
         void beginBench();
-        void endBench(const std::string & name, Option<size_t> entityCount, Config::BenchmarkKind kind);
+        void endBench(
+            const std::string & name,
+            const Option<BenchmarkEntity> & entity,
+            Config::BenchmarkKind kind
+        );
         void printBenchmarks() noexcept;
     };
 }
