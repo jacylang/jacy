@@ -9,10 +9,10 @@ namespace jc::hir {
 
     // Expressions //
     expr_ptr Lowering::lowerExpr(const ast::expr_ptr & exprPr) {
-        auto expr = exprPr.unwrap().get();
+        const auto & expr = exprPr.unwrap();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
-                return lowerAssignExpr(expr->as<ast::Assign>(expr));
+                return lowerAssignExpr(*expr->as<ast::Assign>(expr));
             case ast::ExprKind::Block:
                 break;
             case ast::ExprKind::Borrow:
