@@ -7,23 +7,10 @@ namespace jc::resolve {
 
         enterRootRib();
 
-        party.getRootFile().accept(*this);
-        party.getRootDir().accept(*this);
+        visitEach(party.items);
 
         sess->resStorage = std::move(_resStorage);
         return {None, extractSuggestions()};
-    }
-
-    void NameResolver::visit(const ast::Dir & dir) {
-        enterModule(dir.name);
-        visitEach(dir.modules);
-        exitRib();
-    }
-
-    void NameResolver::visit(const ast::File & file) {
-        enterModule(sess->sourceMap.getSourceFile(file.fileId).filename());
-        visitEach(file.items);
-        exitRib();
     }
 
     void NameResolver::visit(const ast::Func & func) {

@@ -20,9 +20,6 @@ namespace jc::resolve {
 
         dt::SuggResult<dt::none_t> resolve(const sess::sess_ptr & sess, const ast::Party & party);
 
-        void visit(const ast::Dir & dir) override;
-        void visit(const ast::File & file) override;
-
         // Items //
 //        void visit(const ast::Enum & enumDecl) override;
         void visit(const ast::Func & func) override;
