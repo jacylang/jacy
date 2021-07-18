@@ -106,15 +106,22 @@ namespace jc::core {
         astValidator.lint(party.unwrap()).take(sess, "validation");
     }
 
-    ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const std::string & ignore) {
-        log.dev("Parse directory ", dir.getPath(), ", ignore '", ignore, "'");
+    ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
+        log.dev("Parse directory ", dir.getPath(), ", ignore '", rootFile, "'");
         if (not dir.isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
-        // Save previous fs entry to lift to it after directory parsed
-        auto parent = curFsEntry;
-        curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
+        bool notRootDir = rootFile.none();
+        fs_entry_ptr parent;
+        if (notRootDir) {
+            // Save previous fs entry to lift to it after directory parsed
+            // Only do it if this is not the root directory -- Some `rootFile` flags that it is
+            parent = curFsEntry;
+            curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
+        } else {
+            curFsEntry->addChild(true, dir.getPath().stem().string());
+        }
 
         const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
         log.dev("Synthesized ident for dir: ", synthName);
@@ -123,7 +130,7 @@ namespace jc::core {
         for (auto entry : dir.extractEntries()) {
             if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry))));
-            } else if (not ignore.empty() and entry.getPath().stem().string() != ignore) {
+            } else if (rootFile.some() and entry.getPath().stem().string() != rootFile.unwrap()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             } else {
                 // File is ignored, only used for root file ignorance,
@@ -132,7 +139,9 @@ namespace jc::core {
             }
         }
 
-        curFsEntry = parent;
+        if (notRootDir) {
+            curFsEntry = parent;
+        }
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
