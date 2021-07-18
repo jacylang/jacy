@@ -80,7 +80,6 @@ namespace jc::core {
 
         party = ast::Party(std::move(rootFile->items));
 
-        assert(not curFsEntry->parent);
         printDirTree(curFsEntry);
 
         printAst(ast::AstPrinterMode::Parsing);
@@ -100,6 +99,7 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
+        auto parent = curFsEntry;
         curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
 
         const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
@@ -116,7 +116,7 @@ namespace jc::core {
             }
         }
 
-        curFsEntry = curFsEntry->parent;
+        curFsEntry = parent;
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
@@ -157,6 +157,7 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry) {
+        assert(entry.get() != nullptr);
         log.raw(common::Indent<2>(fsTreeIndent));
         if (entry->isDir) {
             log.raw("|-- ", entry->name, "/");

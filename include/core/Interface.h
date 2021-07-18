@@ -32,15 +32,13 @@ namespace jc::core {
     struct FSEntry {
         FSEntry(bool isDir, const std::string & name) : isDir(isDir), name(name) {}
 
-        fs_entry_ptr parent;
         bool isDir;
         std::string name;
         std::vector<fs_entry_ptr> subEntries;
 
         template<class ...Args>
         fs_entry_ptr addChild(Args ...args) {
-            subEntries.emplace_back(std::make_shared<FSEntry>(std::forward<Args>(args)...));
-            parent = std::shared_ptr<FSEntry>(this);
+            subEntries.push_back(std::make_shared<FSEntry>(std::forward<Args>(args)...));
             return subEntries.back();
         }
     };
