@@ -425,7 +425,7 @@ namespace jc::core {
             formatted,
             std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count()
         );
-        benchmarkStack.pop_back()
+        benchmarkStack.pop_back();
     }
 
     void Interface::printBenchmarks() noexcept {
