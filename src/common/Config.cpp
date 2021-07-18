@@ -26,9 +26,10 @@ namespace jc::common {
     };
 
     key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
-        {"verbose",    Config::Benchmark::Verbose},
-        {"each-stage", Config::Benchmark::EachStage},
-        {"final",      Config::Benchmark::Final},
+        {"verbose",        Config::Benchmark::Verbose},
+        {"each-sub-stage", Config::Benchmark::EachSubStage},
+        {"each-stage",     Config::Benchmark::EachStage},
+        {"final",          Config::Benchmark::Final},
     };
 
     key_value_arg_map<Config::LogLevel> Config::logLevelKinds = {
