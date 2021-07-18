@@ -40,7 +40,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBench("- Parsing stage", common::Config::Benchmark::EachStage);
+        endBench("- Parsing stage", common::Config::Benchmark::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -48,7 +48,7 @@ namespace jc::core {
 
         beginBench();
         resolveNames();
-        endBench("- Name resolution stage", common::Config::Benchmark::EachStage);
+        endBench("- Name resolution stage", common::Config::Benchmark::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
@@ -108,7 +108,7 @@ namespace jc::core {
 
         beginBench();
         validateAST();
-        endBench("AST Validation", common::Config::Benchmark::EachStage);
+        endBench("AST Validation", common::Config::Benchmark::Stage);
     }
 
     void Interface::validateAST() {
@@ -173,7 +173,7 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(filePathRootRel, common::Config::Benchmark::EachSubStage);
+        endBench(filePathRootRel, common::Config::Benchmark::SubStage);
 
         log.dev("Tokenize file ", file.getPath());
 
@@ -189,7 +189,7 @@ namespace jc::core {
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(filePathRootRel, common::Config::Benchmark::EachSubStage);
+        endBench(filePathRootRel, common::Config::Benchmark::SubStage);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -300,7 +300,7 @@ namespace jc::core {
         log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBench("module-tree-building", common::Config::Benchmark::EachSubStage);
+        endBench("module-tree-building", common::Config::Benchmark::SubStage);
 
         beginBench();
         printModTree("module tree building");
@@ -313,7 +313,7 @@ namespace jc::core {
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBench("import-resolution", common::Config::Benchmark::EachSubStage);
+        endBench("import-resolution", common::Config::Benchmark::SubStage);
 
         beginBench();
         printModTree("imports resolution");
@@ -322,7 +322,7 @@ namespace jc::core {
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBench("name-resolution", common::Config::Benchmark::EachSubStage);
+        endBench("name-resolution", common::Config::Benchmark::SubStage);
 
         beginBench();
         printResolutions();

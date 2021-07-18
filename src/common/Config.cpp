@@ -27,8 +27,8 @@ namespace jc::common {
 
     key_value_arg_map<Config::Benchmark> Config::benchmarkKinds = {
         {"verbose",        Config::Benchmark::Verbose},
-        {"each-sub-stage", Config::Benchmark::EachSubStage},
-        {"each-stage",     Config::Benchmark::EachStage},
+        {"each-sub-stage", Config::Benchmark::SubStage},
+        {"each-stage",     Config::Benchmark::Stage},
         {"final",          Config::Benchmark::Final},
     };
 
@@ -205,7 +205,7 @@ namespace jc::common {
             case Benchmark::Final:
                 res["benchmark"].emplace_back("final");
                 break;
-            case Benchmark::EachStage:
+            case Benchmark::Stage:
                 res["benchmark"].emplace_back("each-stage");
                 break;
         }
