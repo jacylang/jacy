@@ -217,7 +217,7 @@ namespace jc::core {
             if (i < sourceFile.linesIndices.size() - 1) {
                 line = src.substr(pos, sourceFile.linesIndices.at(i + 1) - pos - 1);
             } else {
-                line = src.substr(pos, src.size() - pos - 1);
+                line = src.substr(pos, src.size() - pos);
             }
             log.raw(maxIndent - std::to_string(i + 1).size() + 1, i + 1, " | ", line).nl();
         }
