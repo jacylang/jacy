@@ -193,9 +193,7 @@ namespace jc::core {
             const auto & branches = i == entries.size() - 1 ? finalBranches : innerBranches;
             log.raw(prefix, branches[0], entry->name).nl();
 
-            if (entry->isDir) {
-                printDirTree(entry, prefix + branches[1]);
-            }
+            printDirTree(entry, prefix + branches[1]);
         }
     }
 
