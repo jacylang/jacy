@@ -5,7 +5,7 @@ namespace jc::sugg {
         return std::move(suggestions);
     }
 
-    void SuggInterface::clear() {
+    void SuggInterface::clearSuggestions() {
         suggestions.clear();
     }
 

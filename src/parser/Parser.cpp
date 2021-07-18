@@ -146,6 +146,7 @@ namespace jc::parser {
         this->tokens.clear();
         this->index = 0;
         entitiesEntries.clear();
+        clearSuggestions();
 
         this->sess = sess;
         this->parseSess = parseSess;
