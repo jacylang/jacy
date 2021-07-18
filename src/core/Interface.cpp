@@ -90,7 +90,10 @@ namespace jc::core {
 
         party = ast::Party(std::move(rootFile->items));
 
-        printDirTree(curFsEntry);
+        if (config.checkPrint(Config::PrintKind::DirTree)) {
+            log.info("Printing directory tree (`--print=dir-tree`)");
+            printDirTree(curFsEntry);
+        }
 
         printAst(ast::AstPrinterMode::Parsing);
         checkSuggestions("parsing");
@@ -172,11 +175,6 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry) {
-        if (not config.checkPrint(Config::PrintKind::DirTree)) {
-            return;
-        }
-
-        log.info("Printing directory tree (`--print=dir-tree`)");
         log.raw(common::Indent<2>(fsTreeIndent));
         if (entry->name.empty()) {
             log.raw(".").nl();
