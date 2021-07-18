@@ -9,20 +9,9 @@
 namespace jc::ast {
     class Party {
     public:
-        explicit Party(File && rootFile, Dir && rootDir)
-            : rootFile(std::move(rootFile)), rootDir(std::move(rootDir)) {}
+        explicit Party(item_list && items) : items(std::move(items)) {}
 
-        const File & getRootFile() const {
-            return rootFile;
-        }
-
-        const Dir & getRootDir() const {
-            return rootDir;
-        }
-
-    private:
-        File rootFile;
-        Dir rootDir;
+        item_list items;
     };
 }
 
