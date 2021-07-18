@@ -22,7 +22,7 @@ namespace jc::resolve {
             log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
         }
 
-        log.raw("[nearestModDef: #", module->nearestModDef, "]");
+        log.raw("[nearestModDef: #", module->nearestModDef, "] ");
 
         if (noValues and noTypes and noLifetimes) {
             log.raw("{}");
