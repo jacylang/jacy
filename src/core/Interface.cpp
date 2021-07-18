@@ -105,7 +105,10 @@ namespace jc::core {
         endBench("Printing AST after parsing", common::Config::Benchmark::Verbose);
 
         checkSuggestions("parsing");
+
+        beginBench();
         validateAST();
+        endBench("AST Validation", common::Config::Benchmark::EachStage);
     }
 
     void Interface::validateAST() {
