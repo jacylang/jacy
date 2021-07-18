@@ -60,9 +60,9 @@ namespace jc::common {
 
         // Note: Order matters
         enum class Benchmark : uint8_t {
-            Final,
-            EachStage,
             Verbose,
+            EachStage,
+            Final,
         };
 
         static key_value_arg_map<Benchmark> benchmarkKinds;
