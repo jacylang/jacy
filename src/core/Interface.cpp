@@ -139,7 +139,7 @@ namespace jc::core {
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto synthName = ast::Ident(file->getPath().string(), span::Span{});
+        auto synthName = ast::Ident(file->getPath().stem().string(), span::Span{});
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span{});
     }
