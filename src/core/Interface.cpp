@@ -176,7 +176,9 @@ namespace jc::core {
         printSource(parseSess);
         endBench("Printing " + file.getPath().string() + " source", common::Config::Benchmark::Verbose);
 
+        beginBench();
         printTokens(file.getPath(), tokens);
+        endBench("Printing " + file.getPath().string() + " tokens", common::Config::Benchmark::Verbose);
 
         log.dev("Parse file ", file.getPath());
 
