@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <functional>
 #include <variant>
+#include <iostream>
 
 #include "utils/type.h"
 
@@ -138,6 +139,16 @@ namespace jc::dt {
     template<class T>
     inline Option<T> Some(T && some) {
         return Option<T>(std::move(some));
+    }
+
+    template <typename T>
+    inline std::ostream & operator<<(std::ostream & os, const Option<T> & opt) {
+        if (opt.some()) {
+            os << "Some(" << opt.unwrap() << ")";
+        } else {
+            os << "None";
+        }
+        return os;
     }
 }
 

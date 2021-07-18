@@ -298,6 +298,7 @@ namespace jc::dt {
         stream << "Ok(" << ok.value() << ")";
         return stream;
     }
+
     template <typename T>
     inline std::ostream & operator<<(std::ostream & stream, const Err<T> & err) {
         stream << "Err(" << err.value() << ")";
