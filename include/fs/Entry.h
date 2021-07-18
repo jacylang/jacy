@@ -44,11 +44,11 @@ namespace jc::fs {
             return std::get<entry_list>(content);
         }
 
-        std::string extractContent() {
+        std::string && extractContent() {
             if (isDir()) {
                 common::Logger::devPanic("Called `fs::Entry::extractContent` on non-file entry");
             }
-            return std::get<std::string>(content);
+            return std::get<std::string>(std::move(content));
         }
 
     private:
