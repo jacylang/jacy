@@ -21,6 +21,7 @@ namespace jc::span {
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
             os << "Ident(" << ident.name + ")";
+            return os;
         }
     };
 }

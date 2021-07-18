@@ -20,6 +20,12 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) const {
             visitor.visit(*this);
         }
+
+        // Debug //
+        friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
+            os << "Ident(" << ident.name << ")#" << ident.id;
+            return os;
+        }
     };
 }
 
