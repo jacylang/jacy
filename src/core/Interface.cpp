@@ -93,7 +93,9 @@ namespace jc::core {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
-        const auto & synthName = ast::Ident(dir->getPath().filename().string(), span::Span{});
+        const auto & synthName = ast::Ident(dir->getPath().stem().string(), span::Span{});
+        log.dev("Synthesized ident for dir: ", synthName);
+
         ast::item_list nestedEntries;
         for (const auto & entry : dir->getSubModules()) {
             if (entry->isDir()) {
