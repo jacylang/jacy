@@ -304,7 +304,7 @@ namespace jc::core {
 
         beginBench();
         printModTree("module tree building");
-        endBench("Module tree printing", common::Config::Benchmark::Verbose);
+        endBench("Module tree printing after building", common::Config::Benchmark::Verbose);
 
         beginBench();
         printDefinitions();
