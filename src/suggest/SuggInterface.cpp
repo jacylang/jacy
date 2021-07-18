@@ -5,6 +5,10 @@ namespace jc::sugg {
         return std::move(suggestions);
     }
 
+    void SuggInterface::clear() {
+        suggestions.clear();
+    }
+
     void SuggInterface::suggest(sugg::sugg_ptr && suggestion) {
         // TODO: Maybe add dev log?
         suggestions.emplace_back(std::move(suggestion));

@@ -11,6 +11,8 @@ namespace jc::sugg {
         sugg::sugg_list extractSuggestions();
 
     protected:
+        void clear();
+
         void suggest(sugg::sugg_ptr && suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
