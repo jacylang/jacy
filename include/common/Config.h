@@ -58,7 +58,7 @@ namespace jc::common {
 
         static key_value_arg_map<CompileDepth> compileDepthKinds;
 
-        enum class Benchmark {
+        enum class Benchmark : uint8_t {
             Final,
             EachStage,
             Verbose,

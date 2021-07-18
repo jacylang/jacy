@@ -113,7 +113,7 @@ namespace jc::common {
     }
 
     bool Config::checkBenchmark(Benchmark benchmark) const {
-        return this->benchmark == benchmark;
+        return static_cast<uint8_t>(this->benchmark) <= static_cast<uint8_t>(benchmark);
     }
 
     bool Config::checkCompileDepth(CompileDepth compileDepth) const {
