@@ -398,7 +398,7 @@ namespace jc::core {
         if (not eachStageBenchmarks) {
             return;
         }
-        lastBench = bench();
+        benchmarkStack.emplace_back(bench());
     }
 
     void Interface::endBench(const std::string & name, BenchmarkKind kind) {
