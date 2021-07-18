@@ -87,7 +87,7 @@ namespace jc::dt {
 
         const Option<T> & then(const std::function<void(const T&)> & f) const {
             if (some()) {
-                f(unwrap());
+                f(unchecked());
             }
             return *this;
         }
