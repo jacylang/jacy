@@ -304,11 +304,11 @@ namespace jc::core {
 
         beginBench();
         printModTree("module tree building");
-        endBench("Module tree printing");
+        endBench("Module tree printing", common::Config::Benchmark::Verbose);
 
         beginBench();
         printDefinitions();
-        endBench("Definitions printing");
+        endBench("Definitions printing", common::Config::Benchmark::Verbose);
 
         log.dev("Resolve imports...");
         beginBench();
