@@ -143,6 +143,10 @@ namespace jc::parser {
         const parse_sess_ptr & parseSess,
         const token_list & tokens
     ) {
+        this->tokens.clear();
+        this->index = 0;
+        entitiesEntries.clear();
+
         this->sess = sess;
         this->parseSess = parseSess;
         this->tokens = tokens;
