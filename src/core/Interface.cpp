@@ -175,7 +175,7 @@ namespace jc::core {
 
     // Debug //
     void Interface::printDirTree(const fs_entry_ptr & entry) {
-        log.raw(common::Indent<2>(fsTreeIndent));
+        log.raw(common::Indent<4>(fsTreeIndent));
         if (entry->name.empty()) {
             log.raw(".").nl();
         } else {
