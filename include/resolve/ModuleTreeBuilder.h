@@ -1,6 +1,8 @@
 #ifndef JACY_RESOLVE_MODULETREEBUILDER_H
 #define JACY_RESOLVE_MODULETREEBUILDER_H
 
+#include <cassert>
+
 #include "ast/StubVisitor.h"
 #include "session/Session.h"
 #include "suggest/SuggInterface.h"
