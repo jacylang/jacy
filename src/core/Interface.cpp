@@ -167,7 +167,7 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(filePathRootRel, BenchmarkKind::Lexing);
+        endBench(filePathRootRel);
 
         log.dev("Tokenize file ", file.getPath());
 
@@ -178,7 +178,7 @@ namespace jc::core {
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(filePathRootRel, BenchmarkKind::Parsing);
+        endBench(filePathRootRel);
 
         collectSuggestions(std::move(parserSuggestions));
 
