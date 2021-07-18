@@ -15,9 +15,6 @@ namespace jc::resolve {
 
         dt::SuggResult<dt::none_t> build(sess::sess_ptr sess, const ast::Party & party);
 
-        void visit(const ast::File & file) override;
-        void visit(const ast::Dir & dir) override;
-
         void visit(const ast::Enum & _enum) override;
         void visit(const ast::EnumEntry & enumEntry) override;
         void visit(const ast::Func & func) override;

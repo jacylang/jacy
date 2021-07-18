@@ -7,33 +7,12 @@ namespace jc::resolve {
         // Enter root module
         mod = Module::newRootModule();
 
-        party.getRootFile().accept(*this);
-        party.getRootDir().accept(*this);
+        visitEach(party.items);
 
         sess->defStorage = std::move(_defStorage);
         sess->modTreeRoot = std::move(mod);
 
         return {None, extractSuggestions()};
-    }
-
-    void ModuleTreeBuilder::visit(const ast::File & file) {
-        // That is actually impossible to redeclare file, filesystem does not allow it
-
-        // Note: Here we define file through `DefStorage`, but not through `define` method
-        //  as files are not presented in any namespace
-        enterFictiveModule(sess->sourceMap.getSourceFile(file.fileId).filename(), DefKind::File);
-
-        visitEach(file.items);
-
-        exitMod();
-    }
-
-    void ModuleTreeBuilder::visit(const ast::Dir & dir) {
-        enterFictiveModule(dir.name, DefKind::Dir);
-        for (const auto & module : dir.modules) {
-            module->accept(*this);
-        }
-        exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
