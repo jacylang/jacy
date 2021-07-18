@@ -17,6 +17,11 @@ namespace jc::span {
 
         std::string name;
         Span span;
+
+        // Debug //
+        friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
+            os << "Ident(" << ident.name + ")";
+        }
     };
 }
 
