@@ -306,7 +306,9 @@ namespace jc::core {
         printModTree("module tree building");
         endBench("Module tree printing");
 
+        beginBench();
         printDefinitions();
+        endBench("Definitions printing");
 
         log.dev("Resolve imports...");
         beginBench();
