@@ -235,12 +235,13 @@ namespace jc::ast {
             Color::Pink,
             Color::Yellow,
         };
+        const static Color noneNodeColor = Color::Black;
         std::map<node_id, Color> namesColors;
         uint8_t lastColor;
         void colorizeDef(const ident_pr & ident);
         void colorizeName(node_id nodeId);
         void resetNameColor();
-        Color getNameColor(node_id defId);
+        Color getNameColor(node_id nodeId);
 
     private:
         // DEBUG //
