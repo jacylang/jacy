@@ -128,8 +128,6 @@ namespace jc::resolve {
                 case DefKind::Trait:
                 case DefKind::TypeAlias:
                 case DefKind::TypeParam:
-                case DefKind::Dir:
-                case DefKind::File:
                 case DefKind::Struct:
                 case DefKind::Variant: {
                     return Namespace::Type;
@@ -168,12 +166,6 @@ namespace jc::resolve {
                     return "`enum`";
                 case DefKind::TypeAlias:
                     return "`type` alias";
-                case DefKind::Dir:
-                    return "[DIR]";
-                case DefKind::File:
-                    return "[FILE]";
-                case DefKind::Root:
-                    return "[ROOT]";
                 case DefKind::Impl:
                     return "`impl`";
                 case DefKind::Mod:
