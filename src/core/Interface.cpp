@@ -63,11 +63,16 @@ namespace jc::core {
         const auto & rootFileName = config.getRootFile();
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = parseFile(rootFileEntry);
-        log.dev("Project directory: ", rootFileEntry->getPath().parent_path());
         auto rootDir = parseDir(
             fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
             rootFileName
         );
+
+        rootFile->items
+                .insert(
+                    rootFile->items.end(),
+                    std::make_move_iterator(rootDir->items.begin()),
+                    std::make_move_iterator(rootDir->items.end()));
 
         party = ast::Party(std::move(rootFile->items));
 
