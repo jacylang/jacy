@@ -48,7 +48,11 @@ namespace jc::resolve {
         }
 
         const module_ptr & getModule(const DefId & defId) const {
-            return modules.at(defId.getIndex());
+            try {
+                return modules.at(defId.getIndex());
+            } catch (std::out_of_range & e) {
+                common::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
+            }
         }
 
         const module_ptr & getBlock(ast::node_id nodeId) const {
