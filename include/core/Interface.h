@@ -38,6 +38,12 @@ namespace jc::core {
         std::string name;
         double time;
         Option<BenchmarkEntity> entity;
+
+        static std::string entityStr(BenchmarkEntity entity) {
+            switch (entity) {
+                case BenchmarkEntity::Node: return "Node";
+            }
+        }
     };
 
     struct FSEntry;
