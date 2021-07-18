@@ -446,6 +446,15 @@ namespace jc::core {
         benchmarkStack.pop_back();
     }
 
+    void Interface::endBench(
+        const std::string & name,
+        size_t entityCount,
+        const std::string & entity,
+        Config::BenchmarkKind kind
+    ) {
+        // Agenda
+    }
+
     void Interface::printBenchmarks() noexcept {
         for (const auto & it : benchmarks) {
             common::Logger::print(it.name, " done in ", it.time, "ms");
