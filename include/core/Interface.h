@@ -115,7 +115,7 @@ namespace jc::core {
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
         bench_t finalBenchStart;
-        std::vector<std::pair<std::string, double>> benchmarks;
+        std::vector<Benchmark> benchmarks;
         std::vector<bench_t> benchmarkStack;
         void beginFinalBench();
         void printFinalBench();

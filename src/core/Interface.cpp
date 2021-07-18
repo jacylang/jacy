@@ -436,14 +436,15 @@ namespace jc::core {
         auto end = bench();
         benchmarks.emplace_back(
             name,
-            std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count()
+            std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count(),
+            None
         );
         benchmarkStack.pop_back();
     }
 
     void Interface::printBenchmarks() noexcept {
         for (const auto & it : benchmarks) {
-            common::Logger::print(it.first, " done in ", it.second, "ms");
+            common::Logger::print(it.name, " done in ", it.time, "ms");
             common::Logger::nl();
         }
     }
