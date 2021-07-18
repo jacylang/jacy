@@ -8,6 +8,7 @@ namespace jc::resolve {
         const auto & rootModuleDef = _defStorage.define(_modDepth, DefVis::Pub, DefKind::Mod, None, None);
         assert(rootModuleDef.getIndex() == ROOT_DEF_INDEX);
         auto rootModule = std::make_shared<Module>(ModuleKind::Def, None, None, rootModuleDef, ROOT_DEF_ID);
+        mod = _defStorage.addModule(rootModuleDef, rootModule);
 
         visitEach(party.items);
 
