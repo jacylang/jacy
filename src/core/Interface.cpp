@@ -405,8 +405,8 @@ namespace jc::core {
         if (not eachStageBenchmarks) {
             return;
         }
-        if (lastBench.none()) {
-            common::Logger::devPanic("Called `Interface::endBench` with None beginning bench");
+        if (benchmarkStack.empty()) {
+            common::Logger::devPanic("Called `Interface::endBench` with empty benchmark stack");
         }
         std::string formatted = name;
         switch (kind) {
@@ -423,9 +423,9 @@ namespace jc::core {
         auto end = bench();
         benchmarks.emplace(
             formatted,
-            std::chrono::duration<double, milli_ratio>(end - lastBench.unwrap()).count()
+            std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count()
         );
-        lastBench = None;
+        benchmarkStack.pop_back()
     }
 
     void Interface::printBenchmarks() noexcept {
