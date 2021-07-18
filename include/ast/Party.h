@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "ast/nodes.h"
-#include "ast/DirTreePrinter.h"
 
 namespace jc::ast {
     class Party {
