@@ -30,7 +30,7 @@ namespace jc::cli {
             }
         }},
         {"compile-depth", {1, {"parser", "name-resolution"}}},
-        {"benchmark", {1, {"verbose", "each-sub-stage", "each-stage", "final"}}},
+        {"benchmark", {1, {"final", "each-stage", "each-sub-stage", "verbose"}}},
         {"log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"lexer-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
         {"parser-log-level", {1, {"dev", "debug", "info", "warn", "error"}}},
