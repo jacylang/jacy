@@ -55,9 +55,6 @@ namespace jc::resolve {
         }
 
         switch (def.kind) {
-            case DefKind::Dir:
-            case DefKind::File:
-            case DefKind::Root:
             case DefKind::Enum:
             case DefKind::Impl:
             case DefKind::Mod:
