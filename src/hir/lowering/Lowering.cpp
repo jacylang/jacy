@@ -82,7 +82,9 @@ namespace jc::hir {
 
     expr_ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
         auto block = lowerBlock(astBlock);
-        return makeBoxNode<BlockExpr>(block, block.hirId, block.span);
+        const auto hirId = block.hirId;
+        const auto span = block.span;
+        return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
     // Statements //
@@ -108,10 +110,10 @@ namespace jc::hir {
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
-        stmt_list stmts;
-        for (const auto & stmt : block.stmts.unwrap()) {
-            stmts.emplace_back(lowerStmt(stmt));
-        }
-        return Block(std::move(stmts), NONE_HIR_ID, block.span);
+//        stmt_list stmts;
+//        for (const auto & stmt : block.stmts.unwrap()) {
+//            stmts.emplace_back(lowerStmt(stmt));
+//        }
+//        return Block(std::move(stmts), NONE_HIR_ID, block.span);
     }
 }
