@@ -101,7 +101,7 @@ namespace jc::core {
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
 
-    ast::file_ptr Interface::parseFile(const fs::entry_ptr & file) {
+    ast::item_list Interface::parseFile(const fs::entry_ptr & file) {
         const auto fileId = sess->sourceMap.registerSource(file->getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,

@@ -49,7 +49,7 @@ namespace jc::core {
         void parse();
         void validateAST();
         ast::N<ast::Mod> parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
-        ast::file_ptr parseFile(const fs::entry_ptr & file);
+        ast::item_list parseFile(const fs::entry_ptr & file);
 
         // Debug //
         void printDirTree();
