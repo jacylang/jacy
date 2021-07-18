@@ -172,7 +172,10 @@ namespace jc::core {
 
         log.dev("Tokenize file ", file.getPath());
 
+        beginBench();
         printSource(parseSess);
+        endBench("Printing " + file.getPath().string() + " source", common::Config::Benchmark::Verbose);
+
         printTokens(file.getPath(), tokens);
 
         log.dev("Parse file ", file.getPath());
