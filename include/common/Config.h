@@ -61,6 +61,7 @@ namespace jc::common {
         enum class Benchmark {
             Final,
             EachStage,
+            Verbose,
         };
 
         static key_value_arg_map<Benchmark> benchmarkKinds;
