@@ -509,6 +509,13 @@ namespace jc::parser {
     //
 
     token_list Lexer::lex(const parse_sess_ptr & parseSess) {
+        source.clear();
+        tokens.clear();
+        tokenStartIndex = 0;
+        index = 0;
+        loc = {0, 0};
+        linesIndices.clear();
+
         this->parseSess = parseSess;
         this->source = parseSess->sourceFile.src.unwrap();
 
