@@ -58,6 +58,7 @@ namespace jc::common {
 
         static key_value_arg_map<CompileDepth> compileDepthKinds;
 
+        // Note: Order matters
         enum class Benchmark : uint8_t {
             Final,
             EachStage,
@@ -67,6 +68,7 @@ namespace jc::common {
         static key_value_arg_map<Benchmark> benchmarkKinds;
 
         // General for `Config` and `Logger`
+        // Note: Order matters
         enum class LogLevel : uint8_t {
             Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
             Debug,
