@@ -302,7 +302,10 @@ namespace jc::core {
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
         endBench("module-tree-building", common::Config::Benchmark::EachSubStage);
 
+        beginBench();
         printModTree("module tree building");
+        endBench("Module tree printing");
+
         printDefinitions();
 
         log.dev("Resolve imports...");
