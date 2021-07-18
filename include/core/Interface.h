@@ -27,6 +27,15 @@ namespace jc::core {
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
+    struct Benchmark {
+        Benchmark(const std::string & name, double time, const Option<size_t> & entityCount)
+            : name(name), time(time), entityCount(entityCount) {}
+
+        std::string name;
+        double time;
+        Option<size_t> entityCount;
+    };
+
     struct FSEntry;
     using fs_entry_ptr = std::shared_ptr<FSEntry>;
     struct FSEntry {
