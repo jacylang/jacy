@@ -468,7 +468,7 @@ namespace jc::core {
                     static_cast<double>(entityCount) / it.time,
                     " ",
                     Benchmark::entityStr(entity),
-                    "/s");
+                    "/ms");
             }
             common::Logger::nl();
         }
