@@ -12,8 +12,6 @@ namespace jc::ast {
         virtual ~StubVisitor() = default;
 
         virtual void visit(const ErrorNode & errorNode) override;
-        virtual void visit(const File & file) override;
-        virtual void visit(const Dir & dir) override;
 
         // Items //
         virtual void visit(const Enum & enumDecl) override;

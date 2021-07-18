@@ -5,14 +5,6 @@ namespace jc::ast {
         common::Logger::devPanic("[ERROR] node in ", owner, " at ", errorNode.span.toString());
     }
 
-    void StubVisitor::visit(const File & file) {
-        visitEach(file.items);
-    }
-
-    void StubVisitor::visit(const Dir & dir) {
-        visitEach(dir.modules);
-    }
-
     // Statements //
     void StubVisitor::visit(const Enum & enumDecl) {
         enumDecl.name.autoAccept(*this);
