@@ -29,8 +29,6 @@ namespace jc::ast {
 
     private:
         void visit(const ErrorNode & errorNode) override;
-        void visit(const File & file) override;
-        void visit(const Dir & dir) override;
 
         // Items //
         void visit(const Enum & enumDecl) override;

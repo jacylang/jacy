@@ -4,22 +4,13 @@ namespace jc::ast {
     Validator::Validator() = default;
 
     dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
-        party.getRootFile().accept(*this);
-        party.getRootDir().accept(*this);
+        lintEach(party.items);
 
         return {None, extractSuggestions()};
     }
 
     void Validator::visit(const ErrorNode&) {
         common::Logger::devPanic("Unexpected [ERROR] node on ast validation stage");
-    }
-
-    void Validator::visit(const File & file) {
-        lintEach(file.items);
-    }
-
-    void Validator::visit(const Dir & dir) {
-        lintEach(dir.modules);
     }
 
     ////////////////
