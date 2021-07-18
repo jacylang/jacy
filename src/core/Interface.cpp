@@ -64,7 +64,7 @@ namespace jc::core {
         const auto & rootFileEntry = fs::readfile(rootFileName);
         auto rootFile = parseFile(rootFileEntry);
         auto rootDir = parseDir(
-            fs::readDirRec(rootFileEntry->getPath().parent_path(), ".jc"),
+            fs::readDirRec(rootFileEntry.getPath().parent_path(), ".jc"),
             rootFileName
         );
 
@@ -87,20 +87,20 @@ namespace jc::core {
         astValidator.lint(party.unwrap()).take(sess, "validation");
     }
 
-    ast::N<ast::Mod> Interface::parseDir(const fs::entry_ptr & dir, const std::string & ignore) {
-        log.dev("Parse directory ", dir->getPath());
-        if (not dir->isDir()) {
+    ast::N<ast::Mod> Interface::parseDir(const fs::Entry & dir, const std::string & ignore) {
+        log.dev("Parse directory ", dir.getPath());
+        if (not dir.isDir()) {
             common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
-        const auto & synthName = ast::Ident(dir->getPath().stem().string(), span::Span{});
+        const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
         log.dev("Synthesized ident for dir: ", synthName);
 
         ast::item_list nestedEntries;
-        for (const auto & entry : dir->getEntries()) {
-            if (entry->isDir()) {
+        for (const auto & entry : dir.getEntries()) {
+            if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(entry)));
-            } else if (not ignore.empty() and entry->getPath().filename() == ignore) {
+            } else if (not ignore.empty() and entry.getPath().filename() == ignore) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(entry)));
             } else {
                 log.dev("Ignore parsing '", ignore, "'");
@@ -110,36 +110,36 @@ namespace jc::core {
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
     }
 
-    ast::N<ast::Mod> Interface::parseFile(const fs::entry_ptr & file) {
-        log.dev("Parse file ", file->getPath());
+    ast::N<ast::Mod> Interface::parseFile(const fs::Entry & file) {
+        log.dev("Parse file ", file.getPath());
 
-        const auto fileId = sess->sourceMap.registerSource(file->getPath());
+        const auto fileId = sess->sourceMap.registerSource(file.getPath());
         auto parseSess = std::make_shared<parser::ParseSess>(
             fileId,
             parser::SourceFile(
-                file->getPath(),
-                file->extractContent()
+                file.getPath(),
+                file.extractContent()
             )
         );
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(file->getPath().string(), BenchmarkKind::Lexing);
+        endBench(file.getPath().string(), BenchmarkKind::Lexing);
 
-        log.dev("Tokenize file ", file->getPath());
+        log.dev("Tokenize file ", file.getPath());
 
         printSource(parseSess);
-        printTokens(file->getPath(), tokens);
+        printTokens(file.getPath(), tokens);
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(file->getPath().string(), BenchmarkKind::Parsing);
+        endBench(file.getPath().string(), BenchmarkKind::Parsing);
 
         collectSuggestions(std::move(parserSuggestions));
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto synthName = ast::Ident(file->getPath().stem().string(), span::Span{});
+        auto synthName = ast::Ident(file.getPath().stem().string(), span::Span{});
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span{});
     }

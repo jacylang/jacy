@@ -49,8 +49,8 @@ namespace jc::core {
 
         void parse();
         void validateAST();
-        ast::N<ast::Mod> parseDir(const fs::entry_ptr & dir, const std::string & ignore = "");
-        ast::N<ast::Mod> parseFile(const fs::entry_ptr & file);
+        ast::N<ast::Mod> parseDir(const fs::Entry & dir, const std::string & ignore = "");
+        ast::N<ast::Mod> parseFile(const fs::Entry & file);
 
         // Debug //
         void printSource(const parser::parse_sess_ptr & parseSess);
