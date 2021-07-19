@@ -476,14 +476,14 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
-        for (const auto & it : benchmarks) {
-            common::Logger::print(it.name, " done in ", it.time, "ms");
+        for (const auto & bnk : benchmarks) {
+            common::Logger::print(bnk.name, " done in ", bnk.time, "ms");
 
-            if (it.entity.some()) {
-                const auto entity = it.entity.unwrap();
+            if (bnk.entity.some()) {
+                const auto entity = bnk.entity.unwrap();
                 common::Logger::print(
                     ", ",
-                    static_cast<double>(entity.second) / it.time,
+                    static_cast<double>(entity.second) / bnk.time,
                     " ",
                     entity.first,
                     "/ms");
