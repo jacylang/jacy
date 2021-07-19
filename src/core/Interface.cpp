@@ -447,9 +447,8 @@ namespace jc::core {
 
     void Interface::endBench(
         const std::string & name,
-        const std::string & entity,
-        size_t entityCount,
-        Config::BenchmarkKind kind
+        Config::BenchmarkKind kind,
+        const Benchmark::entity_t & entity
     ) {
         // Note: Not the best solution, but we pop last benchmark
         //  even if pushed benchmark is have low level than configured.
@@ -464,7 +463,7 @@ namespace jc::core {
         benchmarks.emplace_back(
             name,
             std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count(),
-            std::pair<std::string, size_t>{entity, entityCount}
+            entity
         );
         benchmarkStack.pop_back();
     }
