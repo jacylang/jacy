@@ -479,7 +479,7 @@ namespace jc::core {
         // Table
         // | Benchmark name | Processed entity (e.g. AST) | time | speed
         // Wrap it to ~120 chars (idk how logger will print it actually), so the layout is following
-        // | 60 | 20 | 10 | 30 (there can be pretty long entity names)
+        // | 60 | 20 | 10 | 30 (there can be pretty long entity names) |
         // Note: Choose the shortest names for benchmarks!!!
 
         constexpr uint8_t BNK_NAME_WRAP_LEN = 60;
@@ -490,6 +490,7 @@ namespace jc::core {
         for (const auto & bnk : benchmarks) {
             Option<std::string> speed{None};
             Option<std::string> entityName{None};
+
             if (bnk.entity.some()) {
                 const auto & entity = bnk.entity.unwrap();
                 entityName = entity.first;
