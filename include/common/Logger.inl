@@ -127,6 +127,7 @@ const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
 
 template<class Arg>
 const Logger & Logger::tableRow(TC<Arg> && arg) const {
+    raw("| ");
     arg.print(std::cout);
     raw(" | ");
     return *this;
