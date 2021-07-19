@@ -483,9 +483,9 @@ namespace jc::core {
         // Note: Choose the shortest names for benchmarks!!!
 
         constexpr uint8_t BNK_NAME_WRAP_LEN = 60;
-        constexpr uint8_t ENTITY_NAME_WRAP_LEN = 60;
-        constexpr uint8_t TIME_WRAP_LEN = 60;
-        constexpr uint8_t SPEED_WRAP_LEN = 60;
+        constexpr uint8_t ENTITY_NAME_WRAP_LEN = 20;
+        constexpr uint8_t TIME_WRAP_LEN = 10;
+        constexpr uint8_t SPEED_WRAP_LEN = 30;
 
         for (const auto & bnk : benchmarks) {
             Option<std::string> speed{None};
