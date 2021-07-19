@@ -106,15 +106,15 @@ namespace jc::core {
 
         checkSuggestions("parsing");
 
-        beginBench();
         validateAST();
-        endBenchEntity("AST Validation", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
     }
 
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
+        beginBench();
         astValidator.lint(party.unwrap()).take(sess, "validation");
+        endBenchEntity("AST Validation", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
