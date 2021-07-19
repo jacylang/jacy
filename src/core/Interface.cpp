@@ -493,7 +493,7 @@ namespace jc::core {
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
             std::string speed = "N/A";
-            const auto & time = std::to_string(bnk.time) + "/ms";
+            const auto & time = std::to_string(bnk.time) + "ms";
 
             if (bnk.entity.some()) {
                 const auto & entity = bnk.entity.unwrap();
