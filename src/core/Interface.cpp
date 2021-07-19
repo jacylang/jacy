@@ -428,13 +428,15 @@ namespace jc::core {
         const Option<BenchmarkEntity> & entity,
         Config::BenchmarkKind kind
     ) {
-
+        if (entity.some()) {
+            endBench(name, Benchmark::entityStr(entity.unwrap()), 0, kind);
+        }
     }
 
     void Interface::endBench(
         const std::string & name,
-        size_t entityCount,
         const std::string & entity,
+        size_t entityCount,
         Config::BenchmarkKind kind
     ) {
         // Note: Not the best solution, but we pop last benchmark
