@@ -76,7 +76,8 @@ namespace jc::common {
         }
 
         std::ostream & print(std::ostream & os) const {
-            os << utils::str::hardWrap(string, wrapLen);
+            using namespace utils::str;
+            os << padEnd(padStart(string, (wrapLen + string.size()) / 2), wrapLen);
             return os;
         }
 
