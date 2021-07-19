@@ -484,10 +484,19 @@ namespace jc::core {
         // | 55 | 20 | 15 | 30 (there can be pretty long entity names) |
         // Note: Choose the shortest names for benchmarks!!!
 
+        log.printTitleDev("Benchmarks");
+
         constexpr uint8_t BNK_NAME_WRAP_LEN = 50;
         constexpr uint8_t ENTITY_NAME_WRAP_LEN = 20;
         constexpr uint8_t TIME_WRAP_LEN = 15;
         constexpr uint8_t SPEED_WRAP_LEN = 25;
+
+        log.tableHeaderLine(
+            TC("", BNK_NAME_WRAP_LEN),
+            TC("", ENTITY_NAME_WRAP_LEN),
+            TC("", TIME_WRAP_LEN),
+            TC("", SPEED_WRAP_LEN)
+        ).nl();
 
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";

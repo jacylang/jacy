@@ -82,7 +82,7 @@ namespace jc::common {
         }
 
         std::string string;
-        uint8_t wrapLen;
+        uint16_t wrapLen;
     };
 
     template<uint8_t S = 2>
@@ -162,15 +162,12 @@ namespace jc::common {
         const Logger & tableRow() const {return *this;}
 
         template<class Arg, class ...Args>
-        const Logger & tableHeader(TC<Arg> && first, TC<Args> && ...rest) const;
-
-        template<class Arg, class ...Args>
-        const Logger & _tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const;
+        const Logger & tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const;
 
         template<class Arg>
-        const Logger & _tableHeaderLine(TC<Arg> && arg) const;
+        const Logger & tableHeaderLine(TC<Arg> && arg) const;
 
-        const Logger & _tableHeaderLine() const {return *this;}
+        const Logger & tableHeaderLine() const {return *this;}
 
     public:
         template<class ...Args>
