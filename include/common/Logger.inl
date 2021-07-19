@@ -116,6 +116,22 @@ const Logger & Logger::raw(Args && ...args) const {
     return *this;
 }
 
+template<class Arg, class ...Args>
+const Logger & Logger::tableRow(Arg && first, Args && ...rest) const {
+    raw("| ");
+    tableRow(first);
+    tableRow(std::forward<Args>(rest)...);
+    return *this;
+}
+
+template<class Arg>
+const Logger & Logger::tableRow(Arg && arg) const {
+    raw("| ");
+    raw(arg);
+    raw(" |");
+    return *this;
+}
+
 template<class ...Args>
 void Logger::colorized(Color color, Args && ...args) {
     out(std::cout, std::forward<Color>(color), std::forward<Args>(args)..., Color::Reset);

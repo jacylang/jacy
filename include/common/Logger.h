@@ -131,6 +131,12 @@ namespace jc::common {
         template<class ...Args>
         const Logger & raw(Args && ...other) const;
 
+        template<class Arg, class ...Args>
+        const Logger & tableRow(Arg && first, Args && ...rest) const;
+
+        template<class Arg>
+        const Logger & tableRow(Arg && arg) const;
+
         template<class ...Args>
         static void colorized(Color color, Args && ...args);
 
