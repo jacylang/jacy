@@ -425,8 +425,8 @@ namespace jc::core {
 
     void Interface::endBench(
         const std::string & name,
-        const Option<BenchmarkEntity> & entity,
-        Config::BenchmarkKind kind
+        Config::BenchmarkKind kind,
+        const Option<BenchmarkEntity> & entity
     ) {
         if (entity.some()) {
             endBench(name, Benchmark::entityStr(entity.unwrap()), 0, kind);

@@ -131,11 +131,12 @@ namespace jc::core {
         std::vector<bench_t> benchmarkStack;
         void beginFinalBench();
         void printFinalBench();
+
         void beginBench();
         void endBench(
             const std::string & name,
-            const Option<BenchmarkEntity> & entity,
-            Config::BenchmarkKind kind
+            Config::BenchmarkKind kind,
+            const Option<BenchmarkEntity> & entity = None
         );
         void endBench(
             const std::string & name,
@@ -143,6 +144,7 @@ namespace jc::core {
             size_t entityCount,
             Config::BenchmarkKind kind
         );
+
         void printBenchmarks() noexcept;
     };
 }
