@@ -467,7 +467,8 @@ namespace jc::core {
         benchmarks.emplace_back(
             name,
             std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count(),
-            entity
+            entity,
+            kind
         );
         benchmarkStack.pop_back();
     }
