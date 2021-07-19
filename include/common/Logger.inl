@@ -134,15 +134,22 @@ const Logger & Logger::tableRow(TC<Arg> && arg) const {
     return *this;
 }
 
+template<class ...Args>
+const Logger & Logger::tableHeaderLine(TC<Args> && ...rest) const {
+    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
+    raw("-+");
+    return *this;
+}
+
 template<class Arg, class ...Args>
-const Logger & Logger::tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const {
-    tableHeaderLine(std::forward<TC<Arg>>(first));
-    tableHeaderLine(std::forward<TC<Args>>(rest)...);
+const Logger & Logger::_tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const {
+    _tableHeaderLine(std::forward<TC<Arg>>(first));
+    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
     return *this;
 }
 
 template<class Arg>
-const Logger & Logger::tableHeaderLine(TC<Arg> && arg) const {
+const Logger & Logger::_tableHeaderLine(TC<Arg> && arg) const {
     raw("+");
     for (size_t i = 0; i < arg.wrapLen + 1; i++) {
         raw("-");
