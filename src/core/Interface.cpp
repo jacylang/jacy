@@ -97,18 +97,18 @@ namespace jc::core {
             log.info("Printing directory tree (`--print=dir-tree`)");
             beginBench();
             printDirTree(curFsEntry, "");
-            endBenchWithEntity("Directory tree printing", None, common::Config::BenchmarkKind::Verbose);
+            endBench("Directory tree printing", common::Config::BenchmarkKind::Verbose, None);
         }
 
         beginBench();
         printAst(ast::AstPrinterMode::Parsing);
-        endBenchWithEntity("AST printing after parsing", BenchmarkEntity::Node, common::Config::BenchmarkKind::Verbose);
+        endBench("AST printing after parsing", common::Config::BenchmarkKind::Verbose, BenchmarkEntity::Node);
 
         checkSuggestions("parsing");
 
         beginBench();
         validateAST();
-        endBenchWithEntity("AST Validation", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
+        endBench("AST Validation", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
     }
 
     void Interface::validateAST() {
@@ -173,23 +173,23 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBenchWithEntity(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
+        endBench(filePathRootRel, common::Config::BenchmarkKind::SubStage, None);
 
         log.dev("Tokenize file ", file.getPath());
 
         beginBench();
         printSource(parseSess);
-        endBenchWithEntity("Printing " + filePathRootRel + " source", None, common::Config::BenchmarkKind::Verbose);
+        endBench("Printing " + filePathRootRel + " source", common::Config::BenchmarkKind::Verbose, None);
 
         beginBench();
         printTokens(file.getPath(), tokens);
-        endBenchWithEntity("Printing " + filePathRootRel + " tokens", None, common::Config::BenchmarkKind::Verbose);
+        endBench("Printing " + filePathRootRel + " tokens", common::Config::BenchmarkKind::Verbose, None);
 
         log.dev("Parse file ", file.getPath());
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBenchWithEntity(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
+        endBench(filePathRootRel, common::Config::BenchmarkKind::SubStage, None);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -300,40 +300,38 @@ namespace jc::core {
         log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBenchWithEntity("module-tree-building", None, common::Config::BenchmarkKind::SubStage);
+        endBench("module-tree-building", common::Config::BenchmarkKind::SubStage, None);
 
         beginBench();
         printModTree("module tree building");
-        endBenchWithEntity("Module tree printing after building", None, common::Config::BenchmarkKind::Verbose);
+        endBench("Module tree printing after building", common::Config::BenchmarkKind::Verbose, None);
 
         beginBench();
         printDefinitions();
-        endBenchWithEntity("Definitions printing", None, common::Config::BenchmarkKind::Verbose);
+        endBench("Definitions printing", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBenchWithEntity("import-resolution", None, common::Config::BenchmarkKind::SubStage);
+        endBench("import-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printModTree("imports resolution");
-        endBenchWithEntity(
-            "Module tree printing after imports resolution",
-            None,
-            common::Config::BenchmarkKind::Verbose);
+        endBench(
+            "Module tree printing after imports resolution", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBenchWithEntity("name-resolution", None, common::Config::BenchmarkKind::SubStage);
+        endBench("name-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printResolutions();
-        endBenchWithEntity("Resolutions printing", None, common::Config::BenchmarkKind::Verbose);
+        endBench("Resolutions printing", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printAst(ast::AstPrinterMode::Names);
-        endBenchWithEntity("AST Printing after name resolution", None, common::Config::BenchmarkKind::Verbose);
+        endBench("AST Printing after name resolution", None, common::Config::BenchmarkKind::Verbose);
     }
 
     // Debug //
@@ -426,29 +424,28 @@ namespace jc::core {
         benchmarkStack.emplace_back(bench());
     }
 
-    void Interface::endBench(
+    void Interface::endBenchSimple(
         const std::string & name,
-        Config::BenchmarkKind kind,
-        const Option<BenchmarkEntity> & entity
+        Config::BenchmarkKind kind
     ) {
-        if (entity.some()) {
-            size_t entityCount;
-            switch (entity.unwrap()) {
-                case BenchmarkEntity::Node: {
-                    entityCount = sess->nodeStorage.size();
-                    break;
-                }
-                default: {
-                    log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
-                }
-            }
-            endBenchWithEntity(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity.unwrap()), entityCount});
-        } else {
-
-        }
+        endBenchCustom(name, kind, None);
     }
 
-    void Interface::endBench(
+    void Interface::endBenchEntity(const std::string & name, Config::BenchmarkKind kind, BenchmarkEntity entity) {
+        size_t entityCount;
+        switch (entity) {
+            case BenchmarkEntity::Node: {
+                entityCount = sess->nodeStorage.size();
+                break;
+            }
+            default: {
+                log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
+            }
+        }
+        endBenchCustom(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity), entityCount});
+    }
+
+    void Interface::endBenchCustom(
         const std::string & name,
         Config::BenchmarkKind kind,
         const Benchmark::opt_entity_t & entity

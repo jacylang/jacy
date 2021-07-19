@@ -134,12 +134,16 @@ namespace jc::core {
         void printFinalBench();
 
         void beginBench();
-        void endBench(
+        void endBenchSimple(
+            const std::string & name,
+            Config::BenchmarkKind kind
+        );
+        void endBenchEntity(
             const std::string & name,
             Config::BenchmarkKind kind,
-            const Option<BenchmarkEntity> & entity = None
+            BenchmarkEntity entity
         );
-        void endBenchWithEntity(
+        void endBenchCustom(
             const std::string & name,
             Config::BenchmarkKind kind,
             const Benchmark::opt_entity_t & entity
