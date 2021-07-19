@@ -66,20 +66,20 @@ namespace jc::common {
     };
 
     /// Table cell for `tableRow` Logger method
-    template<class T>
+    template<uint8_t W, class T>
     struct TC {
-        TC(T && value) : value(value) {
-            init();
-        }
-
-        void init() {
+        TC(const T & value) {
             std::stringstream ss;
             ss << value;
-            size = ss.str().size();
+            string = ss.str();
         }
 
-        T && value;
-        size_t size;
+        std::ostream & print(std::ostream & os) const {
+            os << utils::str::hardWrap(string, W);
+            return os;
+        }
+
+        std::string string;
     };
 
     template<uint8_t S = 2>
@@ -149,10 +149,10 @@ namespace jc::common {
         const Logger & raw(Args && ...other) const;
 
         template<class Arg, class ...Args>
-        const Logger & tableRow(Arg && first, Args && ...rest) const;
+        const Logger & tableRow(TC<Arg> && first, TC<Args> && ...rest) const;
 
         template<class Arg>
-        const Logger & tableRow(Arg && arg) const;
+        const Logger & tableRow(TC<Arg> && arg) const;
 
         template<class ...Args>
         static void colorized(Color color, Args && ...args);
