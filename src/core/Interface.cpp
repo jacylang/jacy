@@ -513,7 +513,7 @@ namespace jc::core {
             ).nl();
 
             if (bnk.kind == common::Config::BenchmarkKind::Stage) {
-                log.tableRow(
+                log.tableHeaderLine(
                     TC("", BNK_NAME_WRAP_LEN),
                     TC("", ENTITY_NAME_WRAP_LEN),
                     TC("", TIME_WRAP_LEN),
