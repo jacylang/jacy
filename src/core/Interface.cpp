@@ -428,6 +428,14 @@ namespace jc::core {
         const Option<BenchmarkEntity> & entity,
         Config::BenchmarkKind kind
     ) {
+    }
+
+    void Interface::endBench(
+        const std::string & name,
+        size_t entityCount,
+        const std::string & entity,
+        Config::BenchmarkKind kind
+    ) {
         // Note: Not the best solution, but we pop last benchmark
         //  even if pushed benchmark is have low level than configured.
         if (not config.checkBenchmark(kind)) {
@@ -444,15 +452,6 @@ namespace jc::core {
             entity
         );
         benchmarkStack.pop_back();
-    }
-
-    void Interface::endBench(
-        const std::string & name,
-        size_t entityCount,
-        const std::string & entity,
-        Config::BenchmarkKind kind
-    ) {
-        // Agenda
     }
 
     void Interface::printBenchmarks() noexcept {
