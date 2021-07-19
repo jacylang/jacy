@@ -490,17 +490,18 @@ namespace jc::core {
         for (const auto & bnk : benchmarks) {
             Option<std::string> speed{None};
             Option<std::string> entityName{None};
+            const auto & time = std::to_string(bnk.time) + "/ms";
 
             if (bnk.entity.some()) {
                 const auto & entity = bnk.entity.unwrap();
                 entityName = entity.first;
-                speed = std::to_string(static_cast<double>(entity.second) / bnk.time);
+                speed = std::to_string(static_cast<double>(entity.second) / bnk.time) + "/ms";
             }
 
             log.tableRow(
                 common::TC(bnk.name, BNK_NAME_WRAP_LEN),
                 common::TC(entityName, ENTITY_NAME_WRAP_LEN),
-                common::TC(bnk.time, TIME_WRAP_LEN),
+                common::TC(time, TIME_WRAP_LEN),
                 common::TC(speed, SPEED_WRAP_LEN)
             );
         }
