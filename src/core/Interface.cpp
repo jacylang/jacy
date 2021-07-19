@@ -309,9 +309,7 @@ namespace jc::core {
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
         endBenchSimple("module-tree-building", common::Config::BenchmarkKind::SubStage);
 
-        beginBench();
         printModTree("module tree building");
-        endBenchSimple("Module tree printing after building", common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printDefinitions();
@@ -322,10 +320,7 @@ namespace jc::core {
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
         endBenchSimple("import-resolution", common::Config::BenchmarkKind::SubStage);
 
-        beginBench();
         printModTree("imports resolution");
-        endBenchSimple(
-            "Module tree printing after imports resolution", common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolving names...");
         beginBench();
@@ -348,7 +343,11 @@ namespace jc::core {
         }
 
         log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
+
+        beginBench();
         modulePrinter.print(sess);
+        endBenchSimple("Module tree printing after building", common::Config::BenchmarkKind::Verbose);
+
         common::Logger::nl();
     }
 
