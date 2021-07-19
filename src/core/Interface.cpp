@@ -187,7 +187,10 @@ namespace jc::core {
 
         beginBench();
         printTokens(file.getPath(), tokens);
-        endBenchSimple("Printing " + filePathRootRel + " tokens", common::Config::BenchmarkKind::Verbose);
+        endBenchSimple(
+            "Printing " + filePathRootRel + " tokens",
+            common::Config::BenchmarkKind::Verbose,
+            Benchmark::entity_t{"Token", tokens.size()});
 
         log.dev("Parse file ", file.getPath());
 
