@@ -439,7 +439,7 @@ namespace jc::core {
                     log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
                 }
             }
-            endBench(name, {Benchmark::entityStr(entity.unwrap()), entityCount}, kind);
+            endBench(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity.unwrap()), entityCount});
         } else {
 
         }
@@ -448,7 +448,7 @@ namespace jc::core {
     void Interface::endBench(
         const std::string & name,
         Config::BenchmarkKind kind,
-        const Benchmark::entity_t & entity
+        const Benchmark::opt_entity_t & entity
     ) {
         // Note: Not the best solution, but we pop last benchmark
         //  even if pushed benchmark is have low level than configured.

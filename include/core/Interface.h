@@ -142,7 +142,7 @@ namespace jc::core {
         void endBench(
             const std::string & name,
             Config::BenchmarkKind kind,
-            const Benchmark::entity_t & entity,
+            const Benchmark::opt_entity_t & entity,
         );
 
         void printBenchmarks() noexcept;
