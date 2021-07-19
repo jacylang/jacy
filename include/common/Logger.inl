@@ -121,6 +121,7 @@ const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
     raw("| ");
     tableRow(std::forward<TC<Arg>>(first));
     tableRow(std::forward<TC<Args>>(rest)...);
+    nl();
     return *this;
 }
 
