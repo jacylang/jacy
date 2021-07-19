@@ -179,7 +179,7 @@ namespace jc::core {
 
         beginBench();
         printSource(parseSess);
-        const auto & fileCharCount = sess->sourceMap.getSourceFile(parseSess->fileId).src.unwrap().size();
+        const auto & fileCharCount = parseSess->sourceFile.src.unwrap().size();
         endBenchCustom(
             "Printing " + filePathRootRel + " source",
             common::Config::BenchmarkKind::Verbose,
