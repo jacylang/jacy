@@ -100,9 +100,7 @@ namespace jc::core {
             endBenchSimple("Directory tree printing", common::Config::BenchmarkKind::Verbose);
         }
 
-        beginBench();
         printAst(ast::AstPrinterMode::Parsing);
-        endBenchEntity("AST printing after parsing", common::Config::BenchmarkKind::Verbose, BenchmarkEntity::Node);
 
         checkSuggestions("parsing");
 
