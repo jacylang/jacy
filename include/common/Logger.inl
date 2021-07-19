@@ -119,7 +119,7 @@ const Logger & Logger::raw(Args && ...args) const {
 template<class Arg, class ...Args>
 const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
     raw("| ");
-    tableRow(std::forward<TC<Arg>>(first));
+    first.print(std::cout);
     tableRow(std::forward<TC<Args>>(rest)...);
     nl();
     return *this;
@@ -127,7 +127,6 @@ const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
 
 template<class Arg>
 const Logger & Logger::tableRow(TC<Arg> && arg) const {
-    raw("| ");
     arg.print(std::cout);
     raw(" |");
     return *this;
