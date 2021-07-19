@@ -513,6 +513,10 @@ namespace jc::core {
                 TC(time, TIME_WRAP_LEN),
                 TC(speed, SPEED_WRAP_LEN)
             ).nl();
+
+            if (bnk.kind == common::Config::BenchmarkKind::Stage) {
+                log.raw(utils::str::repeat(" ", common::Logger::wrapLen));
+            }
         }
     }
 }
