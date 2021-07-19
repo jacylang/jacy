@@ -287,14 +287,18 @@ namespace jc::core {
             modeStr = "name resolution";
             cliParam = "names";
         }
+        // TODO: Add count of nodes when replacement for NodeMap will be implemented
         log.info(
             "Printing AST after [",
             modeStr,
             "] (`-print=",
             cliParam,
             "`)");
-        // TODO: Add count of nodes when replacement for NodeMap will be implemented
+
+        beginBench();
         astPrinter.print(sess, party.unwrap(), mode);
+        endBenchSimple("AST Printing after " + modeStr, common::Config::BenchmarkKind::Verbose);
+
         common::Logger::nl();
     }
 
@@ -331,9 +335,7 @@ namespace jc::core {
         printResolutions();
         endBenchSimple("Resolutions printing", common::Config::BenchmarkKind::Verbose);
 
-        beginBench();
         printAst(ast::AstPrinterMode::Names);
-        endBenchSimple("AST Printing after name resolution", common::Config::BenchmarkKind::Verbose);
     }
 
     // Debug //
