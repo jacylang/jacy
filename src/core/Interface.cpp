@@ -40,7 +40,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBench("- Parsing stage", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
+        endBench("- Parsing stage", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -48,7 +48,7 @@ namespace jc::core {
 
         beginBench();
         resolveNames();
-        endBench("- Name resolution stage", None, common::Config::BenchmarkKind::Stage);
+        endBench("- Name resolution stage", common::Config::BenchmarkKind::Stage, None);
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
@@ -97,18 +97,18 @@ namespace jc::core {
             log.info("Printing directory tree (`--print=dir-tree`)");
             beginBench();
             printDirTree(curFsEntry, "");
-            endBench("Directory tree printing", None, common::Config::BenchmarkKind::Verbose);
+            endBenchWithEntity("Directory tree printing", None, common::Config::BenchmarkKind::Verbose);
         }
 
         beginBench();
         printAst(ast::AstPrinterMode::Parsing);
-        endBench("AST printing after parsing", BenchmarkEntity::Node, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("AST printing after parsing", BenchmarkEntity::Node, common::Config::BenchmarkKind::Verbose);
 
         checkSuggestions("parsing");
 
         beginBench();
         validateAST();
-        endBench("AST Validation", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
+        endBenchWithEntity("AST Validation", BenchmarkEntity::Node, common::Config::BenchmarkKind::Stage);
     }
 
     void Interface::validateAST() {
@@ -173,23 +173,23 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBench(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
+        endBenchWithEntity(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
 
         log.dev("Tokenize file ", file.getPath());
 
         beginBench();
         printSource(parseSess);
-        endBench("Printing " + filePathRootRel + " source", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("Printing " + filePathRootRel + " source", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printTokens(file.getPath(), tokens);
-        endBench("Printing " + filePathRootRel + " tokens", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("Printing " + filePathRootRel + " tokens", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Parse file ", file.getPath());
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBench(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
+        endBenchWithEntity(filePathRootRel, None, common::Config::BenchmarkKind::SubStage);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -300,37 +300,40 @@ namespace jc::core {
         log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBench("module-tree-building", None, common::Config::BenchmarkKind::SubStage);
+        endBenchWithEntity("module-tree-building", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printModTree("module tree building");
-        endBench("Module tree printing after building", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("Module tree printing after building", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printDefinitions();
-        endBench("Definitions printing", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("Definitions printing", None, common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBench("import-resolution", None, common::Config::BenchmarkKind::SubStage);
+        endBenchWithEntity("import-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printModTree("imports resolution");
-        endBench("Module tree printing after imports resolution", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity(
+            "Module tree printing after imports resolution",
+            None,
+            common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBench("name-resolution", None, common::Config::BenchmarkKind::SubStage);
+        endBenchWithEntity("name-resolution", None, common::Config::BenchmarkKind::SubStage);
 
         beginBench();
         printResolutions();
-        endBench("Resolutions printing", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("Resolutions printing", None, common::Config::BenchmarkKind::Verbose);
 
         beginBench();
         printAst(ast::AstPrinterMode::Names);
-        endBench("AST Printing after name resolution", None, common::Config::BenchmarkKind::Verbose);
+        endBenchWithEntity("AST Printing after name resolution", None, common::Config::BenchmarkKind::Verbose);
     }
 
     // Debug //
@@ -439,7 +442,7 @@ namespace jc::core {
                     log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
                 }
             }
-            endBench(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity.unwrap()), entityCount});
+            endBenchWithEntity(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity.unwrap()), entityCount});
         } else {
 
         }
@@ -457,7 +460,7 @@ namespace jc::core {
             return;
         }
         if (benchmarkStack.empty()) {
-            common::Logger::devPanic("Called `Interface::endBench` with empty benchmark stack");
+            common::Logger::devPanic("Called `Interface::endBenchWithEntity` with empty benchmark stack");
         }
         auto end = bench();
         benchmarks.emplace_back(
