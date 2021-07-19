@@ -35,12 +35,13 @@ namespace jc::core {
         using entity_t = std::pair<std::string, size_t>;
         using opt_entity_t = Option<entity_t>;
 
-        Benchmark(const std::string & name, double time, opt_entity_t entity)
-            : name(name), time(time), entity(entity) {}
+        Benchmark(const std::string & name, double time, opt_entity_t entity, Config::BenchmarkKind kind)
+            : name(name), time(time), entity(entity), kind(kind) {}
 
         std::string name;
         double time;
         opt_entity_t entity;
+        Config::BenchmarkKind kind;
 
         static std::string entityStr(BenchmarkEntity entity) {
             switch (entity) {
