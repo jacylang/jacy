@@ -116,6 +116,8 @@ const Logger & Logger::raw(Args && ...args) const {
     return *this;
 }
 
+// Tables //
+
 template<class Arg, class ...Args>
 const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
     raw("| ");
@@ -131,6 +133,34 @@ const Logger & Logger::tableRow(TC<Arg> && arg) const {
     raw(" | ");
     return *this;
 }
+
+template<class Arg, class ...Args>
+const Logger & Logger::tableHeader(TC<Arg> && first, TC<Args> && ...rest) const {
+    _tableHeaderLine(std::forward<TC<Arg>>(first));
+    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
+
+    tableRow(std::forward<TC<Arg>>(first));
+    tableRow(std::forward<TC<Args>>(rest)...);
+    return *this;
+}
+
+template<class Arg, class ...Args>
+const Logger & Logger::_tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const {
+    _tableHeaderLine(std::forward<TC<Arg>>(first));
+    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
+    return *this;
+}
+
+template<class Arg>
+const Logger & Logger::_tableHeaderLine(TC<Arg> && arg) const {
+    raw("+");
+    for (size_t i = 2; i < arg.string.size(); i++) {
+        raw("-");
+    }
+    raw("+");
+    return *this;
+}
+
 
 template<class ...Args>
 void Logger::colorized(Color color, Args && ...args) {

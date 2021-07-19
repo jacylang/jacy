@@ -151,12 +151,25 @@ namespace jc::common {
         template<class ...Args>
         const Logger & raw(Args && ...other) const;
 
+        // Tables //
+    public:
         template<class Arg, class ...Args>
         const Logger & tableRow(TC<Arg> && first, TC<Args> && ...rest) const;
 
         template<class Arg>
         const Logger & tableRow(TC<Arg> && arg) const;
 
+        template<class Arg, class ...Args>
+        const Logger & tableHeader(TC<Arg> && first, TC<Args> && ...rest) const;
+
+        template<class Arg, class ...Args>
+        const Logger & _tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const;
+
+        template<class Arg>
+        const Logger & _tableHeaderLine(TC<Arg> && arg) const;
+
+
+    public:
         template<class ...Args>
         static void colorized(Color color, Args && ...args);
 
