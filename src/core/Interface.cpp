@@ -505,7 +505,7 @@ namespace jc::core {
                 TC(entityName, ENTITY_NAME_WRAP_LEN),
                 TC(time, TIME_WRAP_LEN),
                 TC(speed, SPEED_WRAP_LEN)
-            );
+            ).nl();
         }
     }
 }
