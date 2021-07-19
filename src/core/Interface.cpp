@@ -439,7 +439,7 @@ namespace jc::core {
                     log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
                 }
             }
-            endBench(name, Benchmark::entityStr(entity.unwrap()), entityCount, kind);
+            endBench(name, {Benchmark::entityStr(entity.unwrap()), entityCount}, kind);
         } else {
 
         }
