@@ -490,8 +490,8 @@ namespace jc::core {
         constexpr uint8_t SPEED_WRAP_LEN = 30;
 
         for (const auto & bnk : benchmarks) {
-            Option<std::string> speed{None};
-            Option<std::string> entityName{None};
+            std::string entityName = "N/A";
+            std::string speed = "N/A";
             const auto & time = std::to_string(bnk.time) + "/ms";
 
             if (bnk.entity.some()) {
