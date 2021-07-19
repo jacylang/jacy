@@ -428,6 +428,7 @@ namespace jc::core {
         const Option<BenchmarkEntity> & entity,
         Config::BenchmarkKind kind
     ) {
+
     }
 
     void Interface::endBench(
