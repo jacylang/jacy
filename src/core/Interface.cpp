@@ -474,19 +474,11 @@ namespace jc::core {
 
             if (it.entity.some()) {
                 const auto entity = it.entity.unwrap();
-                size_t entityCount;
-                switch (entity) {
-                    case BenchmarkEntity::Node: {
-                        entityCount = sess->nodeStorage.size();
-                        break;
-                    }
-                }
-
                 common::Logger::print(
                     ", ",
-                    static_cast<double>(entityCount) / it.time,
+                    static_cast<double>(entity.second) / it.time,
                     " ",
-                    Benchmark::entityStr(entity),
+                    entity.first,
                     "/ms");
             }
             common::Logger::nl();
