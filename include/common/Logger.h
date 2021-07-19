@@ -68,7 +68,7 @@ namespace jc::common {
     /// Table cell for `tableRow` Logger method
     template<class T>
     struct TC {
-        TC(uint8_t wrapLen, const T & value) {
+        TC(const T & value, uint8_t wrapLen) {
             std::stringstream ss;
             ss << value;
             string = ss.str();

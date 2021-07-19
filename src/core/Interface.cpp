@@ -476,19 +476,32 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
-        for (const auto & bnk : benchmarks) {
-            common::Logger::print(bnk.name, " done in ", bnk.time, "ms");
+        // Table
+        // | Benchmark name | Processed entity (e.g. AST) | time | speed
+        // Wrap it to ~120 chars (idk how logger will print it actually), so the layout is following
+        // | 60 | 20 | 10 | 30 (there can be pretty long entity names)
+        // Note: Choose the shortest names for benchmarks!!!
 
+        constexpr uint8_t BNK_NAME_WRAP_LEN = 60;
+        constexpr uint8_t ENTITY_NAME_WRAP_LEN = 60;
+        constexpr uint8_t TIME_WRAP_LEN = 60;
+        constexpr uint8_t SPEED_WRAP_LEN = 60;
+
+        for (const auto & bnk : benchmarks) {
+            Option<std::string> speed{None};
+            Option<std::string> entityName{None};
             if (bnk.entity.some()) {
-                const auto entity = bnk.entity.unwrap();
-                common::Logger::print(
-                    ", ",
-                    static_cast<double>(entity.second) / bnk.time,
-                    " ",
-                    entity.first,
-                    "/ms");
+                const auto & entity = bnk.entity.unwrap();
+                entityName = entity.first;
+                speed = std::to_string(static_cast<double>(entity.second) / bnk.time);
             }
-            common::Logger::nl();
+
+            log.tableRow(
+                common::TC(bnk.name, BNK_NAME_WRAP_LEN),
+                common::TC(entityName, ENTITY_NAME_WRAP_LEN),
+                common::TC(bnk.time, TIME_WRAP_LEN),
+                common::TC(speed, SPEED_WRAP_LEN)
+            );
         }
     }
 }
