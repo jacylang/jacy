@@ -348,7 +348,7 @@ namespace jc::core {
 
         beginBench();
         modulePrinter.print(sess);
-        endBenchSimple("Module tree printing after building", common::Config::BenchmarkKind::Verbose);
+        endBenchSimple("Module tree printing after " + afterStage, common::Config::BenchmarkKind::Verbose);
 
         common::Logger::nl();
     }
