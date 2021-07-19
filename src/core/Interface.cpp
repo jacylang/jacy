@@ -521,12 +521,5 @@ namespace jc::core {
                 ).nl();
             }
         }
-
-        log.tableHeaderLine(
-            TC("", BNK_NAME_WRAP_LEN),
-            TC("", ENTITY_NAME_WRAP_LEN),
-            TC("", TIME_WRAP_LEN),
-            TC("", SPEED_WRAP_LEN)
-        ).nl();
     }
 }
