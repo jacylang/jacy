@@ -159,6 +159,8 @@ namespace jc::common {
         template<class Arg>
         const Logger & tableRow(TC<Arg> && arg) const;
 
+        const Logger & tableRow() const {return *this;}
+
         template<class Arg, class ...Args>
         const Logger & tableHeader(TC<Arg> && first, TC<Args> && ...rest) const;
 
@@ -168,6 +170,7 @@ namespace jc::common {
         template<class Arg>
         const Logger & _tableHeaderLine(TC<Arg> && arg) const;
 
+        const Logger & _tableHeaderLine() const {return *this;}
 
     public:
         template<class ...Args>

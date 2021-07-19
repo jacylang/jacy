@@ -477,7 +477,6 @@ namespace jc::core {
 
     void Interface::printBenchmarks() noexcept {
         using common::TC;
-        log.printTitleDev("Benchmarks");
 
         // Table
         // | Benchmark name | Processed entity (e.g. AST) | time | speed
