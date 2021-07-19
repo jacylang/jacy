@@ -65,6 +65,23 @@ namespace jc::common {
         Block,
     };
 
+    /// Table cell for `tableRow` Logger method
+    template<class T>
+    struct TC {
+        TC(T && value) : value(value) {
+            init();
+        }
+
+        void init() {
+            std::stringstream ss;
+            ss << value;
+            size = ss.str().size();
+        }
+
+        T && value;
+        size_t size;
+    };
+
     template<uint8_t S = 2>
     struct Indent {
         Indent(size_t inner) : inner(inner) {}
