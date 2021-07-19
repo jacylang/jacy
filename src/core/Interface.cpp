@@ -476,6 +476,8 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
+        using common::TC;
+
         // Table
         // | Benchmark name | Processed entity (e.g. AST) | time | speed
         // Wrap it to ~120 chars (idk how logger will print it actually), so the layout is following
@@ -499,10 +501,10 @@ namespace jc::core {
             }
 
             log.tableRow(
-                common::TC(bnk.name, BNK_NAME_WRAP_LEN),
-                common::TC(entityName, ENTITY_NAME_WRAP_LEN),
-                common::TC(time, TIME_WRAP_LEN),
-                common::TC(speed, SPEED_WRAP_LEN)
+                TC(bnk.name, BNK_NAME_WRAP_LEN),
+                TC(entityName, ENTITY_NAME_WRAP_LEN),
+                TC(time, TIME_WRAP_LEN),
+                TC(speed, SPEED_WRAP_LEN)
             );
         }
     }
