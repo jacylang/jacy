@@ -315,9 +315,7 @@ namespace jc::core {
 
         printModTree("module tree building");
 
-        beginBench();
         printDefinitions();
-        endBenchSimple("Definitions printing", common::Config::BenchmarkKind::Verbose);
 
         log.dev("Resolve imports...");
         beginBench();
@@ -358,6 +356,7 @@ namespace jc::core {
 
         log.info("Printing definitions (`-print=definitions`)");
 
+        // Linear, no benchmark needed
         for (size_t i = 0; i < sess->defStorage.getDefinitions().size(); i++) {
             const auto & def = sess->defStorage.getDef(i);
             log.raw("#", i, ": ", def.kindStr());
