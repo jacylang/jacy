@@ -331,9 +331,7 @@ namespace jc::core {
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
         endBenchSimple("name-resolution", common::Config::BenchmarkKind::SubStage);
 
-        beginBench();
         printResolutions();
-        endBenchSimple("Resolutions printing", common::Config::BenchmarkKind::Verbose);
 
         printAst(ast::AstPrinterMode::Names);
     }
@@ -378,6 +376,7 @@ namespace jc::core {
 
         log.info("Printing resolutions (`-print=resolutions`)");
 
+        // Linear, no benchmark needed
         for (const auto & res : sess->resStorage.getResolutions()) {
             log.raw("#", res.first, " -> ");
             switch (res.second.kind) {
