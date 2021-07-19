@@ -429,7 +429,19 @@ namespace jc::core {
         const Option<BenchmarkEntity> & entity
     ) {
         if (entity.some()) {
-            endBench(name, Benchmark::entityStr(entity.unwrap()), 0, kind);
+            size_t entityCount;
+            switch (entity.unwrap()) {
+                case BenchmarkEntity::Node: {
+                    entityCount = sess->nodeStorage.size();
+                    break;
+                }
+                default: {
+                    log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
+                }
+            }
+            endBench(name, Benchmark::entityStr(entity.unwrap()), entityCount, kind);
+        } else {
+
         }
     }
 
@@ -468,9 +480,6 @@ namespace jc::core {
                     case BenchmarkEntity::Node: {
                         entityCount = sess->nodeStorage.size();
                         break;
-                    }
-                    default: {
-                        log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
                     }
                 }
 
