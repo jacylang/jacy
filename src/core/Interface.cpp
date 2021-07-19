@@ -40,7 +40,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBenchEntity("- Parsing stage", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
+        endBenchEntity("Parsing stage", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -48,7 +48,7 @@ namespace jc::core {
 
         beginBench();
         resolveNames();
-        endBenchSimple("- Name resolution stage", common::Config::BenchmarkKind::Stage);
+        endBenchSimple("Name resolution stage", common::Config::BenchmarkKind::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
