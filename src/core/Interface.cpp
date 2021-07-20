@@ -473,8 +473,6 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
-        using log::TC;
-
         if (benchmarks.empty()) {
             return;
         }
@@ -492,12 +490,12 @@ namespace jc::core {
         constexpr uint8_t TIME_WRAP_LEN = 15;
         constexpr uint8_t SPEED_WRAP_LEN = 25;
 
-        log.tableHeaderLine(
-            TC("", BNK_NAME_WRAP_LEN),
-            TC("", ENTITY_NAME_WRAP_LEN),
-            TC("", TIME_WRAP_LEN),
-            TC("", SPEED_WRAP_LEN)
-        ).nl();
+        log::Table<4> table{
+            {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
+            120
+        };
+
+        table.addLine();
 
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
@@ -510,21 +508,13 @@ namespace jc::core {
                 speed = std::to_string(static_cast<double>(entity.second) / bnk.time) + "/ms";
             }
 
-            log.tableRow(
-                TC(bnk.name, BNK_NAME_WRAP_LEN),
-                TC(entityName, ENTITY_NAME_WRAP_LEN),
-                TC(time, TIME_WRAP_LEN),
-                TC(speed, SPEED_WRAP_LEN)
-            ).nl();
+            table.addRow(bnk.name, entityName, time, speed);
 
             if (bnk.kind == common::Config::BenchmarkKind::Stage) {
-                log.tableHeaderLine(
-                    TC("", BNK_NAME_WRAP_LEN),
-                    TC("", ENTITY_NAME_WRAP_LEN),
-                    TC("", TIME_WRAP_LEN),
-                    TC("", SPEED_WRAP_LEN)
-                ).nl();
+                table.addLine();
             }
         }
+
+        log.raw(table);
     }
 }
