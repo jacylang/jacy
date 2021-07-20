@@ -17,7 +17,7 @@
 #include "cli/Args.h"
 
 namespace jc::cli {
-    struct CLIError : log::Error {
+    struct CLIError : common::Error {
         explicit CLIError(const std::string & msg) : Error(msg) {}
     };
 

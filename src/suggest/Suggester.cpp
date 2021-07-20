@@ -30,7 +30,7 @@ namespace jc::sugg {
         Logger::nl();
 
         if (errorAppeared) {
-            throw log::Error("Stop due to errors above");
+            throw common::Error("Stop due to errors above");
         }
     }
 

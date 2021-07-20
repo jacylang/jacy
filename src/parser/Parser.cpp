@@ -1,7 +1,7 @@
 #include "parser/Parser.h"
 
 namespace jc::parser {
-    using log::Config;
+    using common::Config;
 
     Parser::Parser() {
         log.getConfig().printOwner = false;

@@ -3,7 +3,7 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
-        printRibsFlag = log::Config::getInstance().checkPrint(log::Config::PrintKind::Ribs);
+        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
         enterRootRib();
 
