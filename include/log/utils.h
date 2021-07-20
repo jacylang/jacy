@@ -142,6 +142,9 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg, CellKind kind) {
             auto str = string(arg);
+            if (index == 0) {
+                rows.emplace_back(row_t{});
+            }
             if (index == Cols - 1) {
                 rows.emplace_back(row_t{str});
                 cellKinds.emplace_back({kind});
@@ -155,17 +158,9 @@ namespace jc::log {
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
-            if (index == 0) {
-                rows.emplace_back(row_t{});
-            }
             for (s_t i = index; i < Cols; i++) {
-                auto & cell = rows.back().at(i);
-                cell = "+" + repeat("-", layout.at(i));
-                if (i == Cols - 1) {
-                    cell += "+";
-                }
+                addCell("", CellKind::Line);
             }
-            index = 0;
         }
 
     public:
