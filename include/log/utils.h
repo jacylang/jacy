@@ -178,6 +178,8 @@ namespace jc::log {
                 if (not row.empty()) {
                     os << " |";
                 }
+
+                os << "\n";
             }
 
             return os;
