@@ -122,7 +122,7 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
-    template<uint16_t Width>
+    template<uint16_t Cols>
     class Table {
         using s_t = uint16_t;
 
@@ -142,7 +142,7 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg) {
             const auto & str = string(arg);
-            if (index == Width - 1) {
+            if (index == Cols - 1) {
                 table.emplace_back({str});
             } else {
                 table.at(index++) = str;
@@ -152,7 +152,7 @@ namespace jc::log {
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
-            for (s_t i = index; i < Width; i++) {
+            for (s_t i = index; i < Cols; i++) {
                 table.back().at(index) = utils::str::repeat("-", layout.at(i) - 2);
             }
         }
@@ -194,8 +194,8 @@ namespace jc::log {
 
         s_t index{0};
 
-        std::array<s_t, Width> layout;
-        std::vector<std::array<std::string, Width>> table;
+        std::array<s_t, Cols> layout;
+        std::vector<std::array<std::string, Cols>> table;
     };
 
     /// Table cell for `tableRow` Logger method
