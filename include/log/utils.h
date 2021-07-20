@@ -169,7 +169,15 @@ namespace jc::log {
             for (const auto & row : tbl.rows) {
                 for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
-                    os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+                    os << "| " << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+
+                    if (i < TW - 1) {
+                        os << " | ";
+                    }
+                }
+
+                if (not row.empty()) {
+                    os << " |";
                 }
 
                 os << "\n";
