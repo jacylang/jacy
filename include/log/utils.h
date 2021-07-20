@@ -89,13 +89,39 @@ namespace jc::log {
     }
 }
 
+// Elementary utils/helpers //
 namespace jc::log {
     // TODO
     enum class TitleKind {
         Line,
         Block,
     };
+}
 
+// Indentation //
+namespace jc::log {
+    template<uint8_t S = 2>
+    struct Indent {
+        Indent(size_t inner) : inner(inner) {}
+
+        size_t inner;
+
+        friend std::ostream & operator<<(std::ostream & os, const Indent<S> & indent) {
+            return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
+        }
+
+        Indent<S> operator+(size_t add) const {
+            return Indent<S>(inner + add);
+        }
+
+        Indent<S> operator-(size_t sub) const {
+            return Indent<S>(inner - sub);
+        }
+    };
+}
+
+// Tables //
+namespace jc::log {
     /// Table cell for `tableRow` Logger method
     template<class T>
     struct TC {
@@ -114,25 +140,6 @@ namespace jc::log {
 
         std::string string;
         uint16_t wrapLen;
-    };
-
-    template<uint8_t S = 2>
-    struct Indent {
-        Indent(size_t inner) : inner(inner) {}
-
-        size_t inner;
-
-        friend std::ostream & operator<<(std::ostream & os, const Indent<S> & indent) {
-            return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
-        }
-
-        Indent<S> operator+(size_t add) const {
-            return Indent<S>(inner + add);
-        }
-
-        Indent<S> operator-(size_t sub) const {
-            return Indent<S>(inner - sub);
-        }
     };
 }
 
