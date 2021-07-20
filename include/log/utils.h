@@ -126,11 +126,12 @@ namespace jc::log {
     class Table {
         static_assert(Cols > 0);
 
+        using row_t = std::array<std::string, Cols>;
         using s_t = uint16_t;
 
     public:
         Table(
-            const std::initializer_list<s_t> & layout,
+            const std::array<s_t, Cols> & layout,
             uint16_t wrapLen = DEFAULT_WRAP_LEN
         ) : layout(layout),
             wrapLen(wrapLen) {
@@ -159,10 +160,11 @@ namespace jc::log {
         void addCell(Arg && arg) {
             const auto & str = string(arg);
             if (index == Cols - 1) {
-                table.emplace_back({str});
+                table.emplace_back(str);
             } else {
-                table.at(index++) = str;
+                table.back().at(index) = str;
             }
+            index++;
         }
 
         // Add line separator
@@ -214,7 +216,7 @@ namespace jc::log {
         s_t index{0};
 
         std::array<s_t, Cols> layout;
-        std::vector<std::array<std::string, Cols>> table;
+        std::vector<row_t> table;
     };
 }
 
