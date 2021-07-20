@@ -129,8 +129,9 @@ namespace jc::log {
         virtual ~Table() = default;
 
         template<class Arg, class ...Args>
-        void addRow(Arg && first, Args && ...args) {
-
+        void addRow(Arg && first, Args && rest...) {
+            addCell(std::forward<Arg>(first));
+            addRow(std::forward<Args>(rest)...);
         }
 
         template<class Arg>
