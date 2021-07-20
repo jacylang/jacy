@@ -1,15 +1,6 @@
 #ifndef JACY_COMMON_LOGGER_H
 #define JACY_COMMON_LOGGER_H
 
-#include <cstdint>
-#include <iostream>
-#include <utility>
-#include <map>
-#include <string>
-#include <sstream>
-#include <sstream>
-#include <vector>
-
 #include "log/utils.h"
 #include "common/Error.h"
 #include "common/Config.h"

@@ -4,6 +4,15 @@
 // Note: Don't put each logger utility/helper to separate file (if it isn't actually large).
 //  Use `namespace jc::log` for each one to split definitions.
 
+#include <cstdint>
+#include <iostream>
+#include <utility>
+#include <map>
+#include <string>
+#include <sstream>
+#include <sstream>
+#include <vector>
+
 #include "utils/str.h"
 
 // Color //
