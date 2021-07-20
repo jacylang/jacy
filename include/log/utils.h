@@ -122,6 +122,8 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
+    using namespace utils::str;
+
     template<uint16_t Cols>
     class Table {
         static_assert(Cols > 0);
@@ -171,7 +173,7 @@ namespace jc::log {
         // Note: Supports starting not from first column
         void addLine() {
             for (s_t i = index; i < Cols; i++) {
-                table.back().at(index) = "+" + utils::str::repeat("-", layout.at(i) - 2);
+                table.back().at(index) = "+" + repeat("-", layout.at(i) - 2);
                 if (i == Cols - 1) {
                     table.back().at(i) += "+";
                 }
@@ -186,7 +188,7 @@ namespace jc::log {
 
                 for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
-                    os << utils::str::padEnd(utils::str::padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+                    os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
                     if (i < TW - 1) {
                         os << " | ";
