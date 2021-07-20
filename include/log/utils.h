@@ -137,17 +137,11 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg) {
             auto str = string(arg);
-            if (index == 0) {
-                str = "| " + str;
+            if (index == Cols - 1) {
                 rows.emplace_back(row_t{str});
-            } else if (index < Cols - 1) {
-                str += " | ";
+            } else {
                 rows.back().at(index) = str;
                 index++;
-            } else {
-                str = str + " |";
-                rows.emplace_back(row_t{str});
-                index = 0;
             }
         }
 
