@@ -25,6 +25,7 @@ namespace jc::parser {
         {"mod",         TokenKind::Module},
         {"move",        TokenKind::Move},
         {"mut",         TokenKind::Mut},
+        {"not",         TokenKind::Not},
         {"return",      TokenKind::Return},
         {"or",          TokenKind::Or},
         {"party",       TokenKind::Party},

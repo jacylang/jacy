@@ -67,7 +67,6 @@ namespace jc::parser {
         BitOr,                      // |
         Xor,                        // ^
         Inv,                        // ~
-        Not,                        // !
         Eq,                         // ==
         NotEq,                      // !=
         LAngle,                     // <
@@ -125,6 +124,7 @@ namespace jc::parser {
         Module,
         Move,
         Mut,
+        Not,
         Return,
         Party,
         Pub,
