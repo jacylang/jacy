@@ -169,6 +169,7 @@ namespace jc::log {
             for (const auto & row : tbl.rows) {
                 for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
+                    std::string corner;
                     os << "| " << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
                     if (i < TW - 1) {
@@ -205,6 +206,11 @@ namespace jc::log {
         std::array<s_t, Cols> layout;
         std::vector<row_t> rows;
         std::vector<std::array<CellKind, Cols>> cellKinds;
+
+        static const std::map<CellKind, std::array<std::string, 3>> corners = {
+            {CellKind::Value, "| ", " | ", " |"},
+            {CellKind::Line, "+-", "-+-", "-+"},
+        };
     };
 }
 
