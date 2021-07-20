@@ -122,6 +122,40 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
+    template<size_t Width>
+    class Table {
+    public:
+        Table() {}
+        virtual ~Table() = default;
+
+        template<class Arg, class ...Args>
+        void addRow(Arg && first, Args && ...args) {
+
+        }
+
+        template<class Arg>
+        void addCell(Arg && arg) {
+            const auto & str = string(arg);
+            if (curWidth == Width) {
+                table.emplace_back({str});
+            } else {
+                table.at(curWidth++) = str;
+            }
+        }
+
+    private:
+        template<class Arg>
+        std::string string(Arg && arg) const {
+            std::stringstream ss;
+            ss << arg;
+            return ss.str();
+        }
+
+    private:
+        size_t curWidth;
+        std::vector<std::array<std::string, Width>> table;
+    };
+
     /// Table cell for `tableRow` Logger method
     template<class T>
     struct TC {
