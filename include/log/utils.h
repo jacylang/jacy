@@ -129,8 +129,17 @@ namespace jc::log {
         using s_t = uint16_t;
 
     public:
-        Table(const std::initializer_list<s_t> & layout, uint16_t wrapLen = DEFAULT_WRAP_LEN)
-            : layout(layout), wrapLen(wrapLen) {}
+        Table(
+            const std::initializer_list<s_t> & layout,
+            uint16_t wrapLen = DEFAULT_WRAP_LEN
+        ) : layout(layout),
+            wrapLen(wrapLen) {
+            for (const auto & width : layout) {
+                if (width <= 2) {
+                    throw std::logic_error("Each table layout width must be greater than 2");
+                }
+            }
+        }
         virtual ~Table() = default;
 
         // API //
