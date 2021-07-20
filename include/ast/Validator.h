@@ -1,7 +1,7 @@
 #ifndef JACY_AST_VALIDATOR_H
 #define JACY_AST_VALIDATOR_H
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "ast/BaseVisitor.h"
 #include "ast/Party.h"
 #include "suggest/BaseSugg.h"

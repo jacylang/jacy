@@ -257,7 +257,7 @@ namespace jc::common {
         static const std::map<Config::LogLevel, Color> levelColors;
     };
 
-#include "common/Logger.inl"
+#include "Logger.inl"
 
 }
 

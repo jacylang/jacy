@@ -13,7 +13,7 @@
 #include "utils/map.h"
 #include "utils/arr.h"
 #include "common/Error.h"
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "cli/Args.h"
 
 namespace jc::cli {

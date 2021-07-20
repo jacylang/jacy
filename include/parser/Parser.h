@@ -4,7 +4,7 @@
 #include <tuple>
 #include <functional>
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "parser/Token.h"
 #include "parser/ParserSugg.h"
 #include "parser/ParseSess.h"

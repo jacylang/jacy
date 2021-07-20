@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 
 namespace jc::span {
     struct Span;

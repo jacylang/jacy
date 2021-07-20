@@ -4,7 +4,7 @@
 #include <random>
 #include <chrono>
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 
 namespace jc::utils::rand {
     // TODO

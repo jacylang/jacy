@@ -1,7 +1,7 @@
 #ifndef JACY_SUGGEST_SUGGESTER_H
 #define JACY_SUGGEST_SUGGESTER_H
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "common/Error.h"
 #include "suggest/BaseSugg.h"
 #include "utils/str.h"

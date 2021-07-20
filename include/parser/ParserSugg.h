@@ -1,7 +1,7 @@
 #ifndef JACY_PARSERSUGG_H
 #define JACY_PARSERSUGG_H
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "suggest/BaseSugg.h"
 
 /**

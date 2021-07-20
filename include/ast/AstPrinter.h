@@ -6,7 +6,7 @@
 
 #include "ast/BaseVisitor.h"
 #include "ast/nodes.h"
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "session/Session.h"
 
 namespace jc::ast {

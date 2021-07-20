@@ -3,7 +3,7 @@
 
 #include "Token.h"
 #include "common/Error.h"
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "parser/ParseSess.h"
 #include "session/SourceMap.h"
 

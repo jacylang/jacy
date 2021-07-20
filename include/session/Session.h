@@ -6,7 +6,7 @@
 #include <vector>
 #include <random>
 
-#include "common/Logger.h"
+#include "log/Logger.h"
 #include "session/SourceMap.h"
 #include "resolve/DefStorage.h"
 
