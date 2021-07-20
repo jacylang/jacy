@@ -179,6 +179,8 @@ namespace jc::log {
                     os << " |";
                 }
             }
+
+            return os;
         }
 
     private:
