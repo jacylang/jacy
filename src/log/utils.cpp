@@ -40,11 +40,8 @@ namespace jc::log {
     }
 }
 
-//
+// Common data structures std::ostream overloads //
 namespace jc::log {
-    /**
-     * std::ostream overloads
-     */
     template<class T>
     std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
         os << "[";
