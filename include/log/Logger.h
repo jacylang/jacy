@@ -59,6 +59,8 @@ namespace jc::log {
 }
 
 namespace jc::log {
+    using common::Config;
+
     // TODO
     enum class TitleKind {
         Line,
