@@ -122,10 +122,10 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
-    template<size_t Width>
+    template<uint16_t Width>
     class Table {
     public:
-        Table() {}
+        Table(uint16_t wrapLen) : wrapLen(wrapLen) {}
         virtual ~Table() = default;
 
         template<class Arg, class ...Args>
@@ -153,7 +153,10 @@ namespace jc::log {
         }
 
     private:
-        size_t curWidth;
+        const static uint16_t DEFAULT_WRAP_LEN = 120;
+
+        uint16_t curWidth;
+        uint16_t wrapLen{DEFAULT_WRAP_LEN};
         std::vector<std::array<std::string, Width>> table;
     };
 
