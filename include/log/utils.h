@@ -154,12 +154,17 @@ namespace jc::log {
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
+            if (index == 0) {
+                table.emplace_back(row_t{});
+            }
             for (s_t i = index; i < Cols; i++) {
-                addCell("+" + repeat("-", layout.at(i)));
+                auto & cell = table.back().at(i);
+                cell = "+" + repeat("-", layout.at(i));
                 if (i == Cols - 1) {
-                    table.back().at(i) += "+";
+                    cell += "+";
                 }
             }
+            index = 0;
         }
 
     public:
