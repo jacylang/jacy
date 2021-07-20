@@ -97,6 +97,7 @@ namespace jc::log {
 // Tables //
 namespace jc::log {
     using namespace utils::str;
+    using table_size_t = uint16_t;
 
     enum class CellKind {
         Value,
@@ -108,11 +109,10 @@ namespace jc::log {
         static_assert(Cols > 0);
 
         using row_t = std::array<std::string, Cols>;
-        using s_t = uint16_t;
 
     public:
         Table(
-            const std::array<s_t, Cols> & layout,
+            const std::array<table_size_t, Cols> & layout,
             uint16_t wrapLen = DEFAULT_WRAP_LEN
         ) : layout(layout),
             wrapLen(wrapLen) {
@@ -158,22 +158,22 @@ namespace jc::log {
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
-            for (s_t i = index; i < Cols; i++) {
+            for (table_size_t i = index; i < Cols; i++) {
                 addCell("", CellKind::Line);
             }
         }
 
     public:
-        template<s_t TW>
+        template<table_size_t TW>
         friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
-            for (s_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
+            for (table_size_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
-                for (s_t cellIndex = 0; cellIndex < TW; cellIndex++) {
+                for (table_size_t cellIndex = 0; cellIndex < TW; cellIndex++) {
                     const auto & cell = row.at(cellIndex);
 
-                    const auto & leftCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex));
-                    const auto & middleCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex));
+                    const auto & leftCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex)).at(0);
+                    const auto & middleCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex)).at(1);
 
                     os << leftCorner << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
@@ -183,7 +183,7 @@ namespace jc::log {
                 }
 
                 if (not row.empty()) {
-                    os << corners.at(tbl.cellKinds.at(rowIndex).back());
+                    os << corners.at(tbl.cellKinds.at(rowIndex).back()).at(2);
                 }
 
                 os << "\n";
@@ -201,14 +201,14 @@ namespace jc::log {
         }
 
     public:
-        const s_t wrapLen;
+        const table_size_t wrapLen;
 
     private:
-        const static s_t DEFAULT_WRAP_LEN = 120;
+        const static table_size_t DEFAULT_WRAP_LEN = 120;
 
-        s_t index{0};
+        table_size_t index{0};
 
-        std::array<s_t, Cols> layout;
+        std::array<table_size_t, Cols> layout;
         std::vector<row_t> rows;
         std::vector<std::array<CellKind, Cols>> cellKinds;
 
