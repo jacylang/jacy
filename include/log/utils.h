@@ -149,6 +149,14 @@ namespace jc::log {
             }
         }
 
+        // Add line separator
+        // Note: Supports starting not from first column
+        void addLine() {
+            for (s_t i = curWidth; i < Width; i++) {
+                table.back().at(curWidth) = utils::str::repeat("-", layout.at(i) - 2);
+            }
+        }
+
     public:
         template<s_t TW>
         friend std::ostream & print(std::ostream & os, const Table<TW> & tbl) {
