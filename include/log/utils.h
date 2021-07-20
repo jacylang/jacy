@@ -124,6 +124,8 @@ namespace jc::log {
 namespace jc::log {
     template<uint16_t Cols>
     class Table {
+        static_assert(Cols > 0);
+
         using s_t = uint16_t;
 
     public:
