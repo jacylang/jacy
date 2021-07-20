@@ -98,17 +98,17 @@ namespace jc::log {
 namespace jc::log {
     using namespace utils::str;
 
+    enum class CellKind {
+        Value,
+        Line,
+    };
+
     template<uint16_t Cols>
     class Table {
         static_assert(Cols > 0);
 
         using row_t = std::array<std::string, Cols>;
         using s_t = uint16_t;
-
-        enum class CellKind {
-            Value,
-            Line,
-        };
 
     public:
         Table(
@@ -212,10 +212,7 @@ namespace jc::log {
         std::vector<row_t> rows;
         std::vector<std::array<CellKind, Cols>> cellKinds;
 
-        static const std::map<CellKind, std::array<std::string, 3>> corners = {
-            {CellKind::Value, {"| ", " | ", " |"}},
-            {CellKind::Line, {"+-", "-+-", "-+"}},
-        };
+        static const std::map<CellKind, std::array<std::string, 3>> corners;
     };
 }
 
