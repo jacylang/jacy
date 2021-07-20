@@ -60,48 +60,6 @@ const Logger & Logger::raw(Args && ...args) const {
     return *this;
 }
 
-// Tables //
-
-template<class Arg, class ...Args>
-const Logger & Logger::tableRow(TC<Arg> && first, TC<Args> && ...rest) const {
-    raw("| ");
-    first.print(std::cout);
-    tableRow(std::forward<TC<Args>>(rest)...);
-    return *this;
-}
-
-template<class Arg>
-const Logger & Logger::tableRow(TC<Arg> && arg) const {
-    raw("| ");
-    arg.print(std::cout);
-    raw(" | ");
-    return *this;
-}
-
-template<class ...Args>
-const Logger & Logger::tableHeaderLine(TC<Args> && ...rest) const {
-    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
-    raw("-+");
-    return *this;
-}
-
-template<class Arg, class ...Args>
-const Logger & Logger::_tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const {
-    _tableHeaderLine(std::forward<TC<Arg>>(first));
-    _tableHeaderLine(std::forward<TC<Args>>(rest)...);
-    return *this;
-}
-
-template<class Arg>
-const Logger & Logger::_tableHeaderLine(TC<Arg> && arg) const {
-    raw("+");
-    for (size_t i = 0; i < arg.wrapLen + 1; i++) {
-        raw("-");
-    }
-    return *this;
-}
-
-
 template<class ...Args>
 void Logger::colorized(Color color, Args && ...args) {
     out(std::cout, std::forward<Color>(color), std::forward<Args>(args)..., Color::Reset);

@@ -52,27 +52,6 @@ namespace jc::log {
         template<class ...Args>
         const Logger & raw(Args && ...other) const;
 
-        // Tables //
-    public:
-        template<class Arg, class ...Args>
-        const Logger & tableRow(TC<Arg> && first, TC<Args> && ...rest) const;
-
-        template<class Arg>
-        const Logger & tableRow(TC<Arg> && arg) const;
-
-        const Logger & tableRow() const {return *this;}
-
-        template<class ...Args>
-        const Logger & tableHeaderLine(TC<Args> && ...rest) const;
-
-        template<class Arg, class ...Args>
-        const Logger & _tableHeaderLine(TC<Arg> && first, TC<Args> && ...rest) const;
-
-        template<class Arg>
-        const Logger & _tableHeaderLine(TC<Arg> && arg) const;
-
-        const Logger & _tableHeaderLine() const {return *this;}
-
     public:
         template<class ...Args>
         static void colorized(Color color, Args && ...args);
