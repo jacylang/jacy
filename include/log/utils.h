@@ -160,7 +160,7 @@ namespace jc::log {
         void addCell(Arg && arg) {
             const auto & str = string(arg);
             if (index == Cols - 1) {
-                table.emplace_back(str);
+                table.emplace_back(row_t{str});
             } else {
                 table.back().at(index) = str;
             }
