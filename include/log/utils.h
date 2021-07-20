@@ -180,8 +180,15 @@ namespace jc::log {
 
                     os << leftCorner;
                     switch (cellKind) {
+                        case CellKind::Value: {
+                            os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+                            break;
+                        }
+                        case CellKind::Line: {
+                            os << cell;
+                            break;
+                        }
                     }
-                    padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
                     if (cellIndex < TW - 1) {
                         os << middleCorner;
