@@ -166,19 +166,24 @@ namespace jc::log {
     public:
         template<s_t TW>
         friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
-            for (const auto & row : tbl.rows) {
-                for (s_t i = 0; i < TW; i++) {
-                    const auto & cell = row.at(i);
-                    std::string corner;
-                    os << "| " << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+            for (s_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
+                const auto & row = tbl.rows.at(rowIndex);
 
-                    if (i < TW - 1) {
-                        os << " | ";
+                for (s_t cellIndex = 0; cellIndex < TW; cellIndex++) {
+                    const auto & cell = row.at(cellIndex);
+
+                    const auto & leftCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex));
+                    const auto & middleCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex));
+
+                    os << leftCorner << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+
+                    if (cellIndex < TW - 1) {
+                        os << middleCorner;
                     }
                 }
 
                 if (not row.empty()) {
-                    os << " |";
+                    os << corners.at(tbl.cellKinds.at(rowIndex).back());
                 }
 
                 os << "\n";
