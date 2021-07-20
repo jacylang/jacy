@@ -117,7 +117,7 @@ namespace jc::log {
                 }
             }
         }
-        virtual ~Table() = default;
+        ~Table() = default;
 
         // API //
     public:
@@ -147,7 +147,7 @@ namespace jc::log {
         // Note: Supports starting not from first column
         void addLine() {
             for (s_t i = index; i < Cols; i++) {
-                table.back().at(index) = "+" + repeat("-", layout.at(i) - 2);
+                addCell("+" + repeat("-", layout.at(i)));
                 if (i == Cols - 1) {
                     table.back().at(i) += "+";
                 }
