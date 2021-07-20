@@ -152,8 +152,7 @@ namespace jc::utils::str {
     std::string toLower(const std::string & str) {
         std::string res;
         res.resize(str.size());
-        // Note: `towlower`, not `tolower`
-        std::transform(str.begin(), str.end(), res.begin(), ::towlower);
+        std::transform(str.begin(), str.end(), res.begin(), ::tolower);
         return res;
     }
 }
