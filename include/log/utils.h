@@ -213,8 +213,8 @@ namespace jc::log {
         std::vector<std::array<CellKind, Cols>> cellKinds;
 
         static const std::map<CellKind, std::array<std::string, 3>> corners = {
-            {CellKind::Value, "| ", " | ", " |"},
-            {CellKind::Line, "+-", "-+-", "-+"},
+            {CellKind::Value, {"| ", " | ", " |"}},
+            {CellKind::Line, {"+-", "-+-", "-+"}},
         };
     };
 }
