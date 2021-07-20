@@ -180,7 +180,7 @@ namespace jc::log {
 
     public:
         template<s_t TW>
-        friend std::ostream & print(std::ostream & os, const Table<TW> & tbl) {
+        friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
             for (const auto & row : tbl.table) {
                 os << "| ";
 
