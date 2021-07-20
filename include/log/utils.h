@@ -142,18 +142,18 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg) {
             const auto & str = string(arg);
-            if (curWidth == Width) {
+            if (index == Width - 1) {
                 table.emplace_back({str});
             } else {
-                table.at(curWidth++) = str;
+                table.at(index++) = str;
             }
         }
 
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
-            for (s_t i = curWidth; i < Width; i++) {
-                table.back().at(curWidth) = utils::str::repeat("-", layout.at(i) - 2);
+            for (s_t i = index; i < Width; i++) {
+                table.back().at(index) = utils::str::repeat("-", layout.at(i) - 2);
             }
         }
 
@@ -192,7 +192,7 @@ namespace jc::log {
     private:
         const static s_t DEFAULT_WRAP_LEN = 120;
 
-        s_t curWidth{0};
+        s_t index{0};
 
         std::array<s_t, Width> layout;
         std::vector<std::array<std::string, Width>> table;
