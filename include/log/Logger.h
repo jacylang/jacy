@@ -45,19 +45,6 @@ namespace jc::log {
         bool colorize{true};
     };
 
-    template<class T>
-    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec);
-
-    template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map);
-
-    template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
-
-    inline std::ostream & operator<<(std::ostream & os, Color color);
-
-    inline std::ostream & operator<<(std::ostream & os, const dt::none_t&);
-
     class Logger {
     public:
         explicit Logger(const std::string & owner) : owner(std::move(owner)) {

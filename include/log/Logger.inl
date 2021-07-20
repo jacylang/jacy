@@ -41,17 +41,6 @@ inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, 
     return os << "}";
 }
 
-std::ostream & operator<<(std::ostream & os, Color color) {
-#if defined(WIN)
-    static const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    const auto colorNum = static_cast<uint8_t>(color);
-    SetConsoleTextAttribute(handle, colorNum);
-#elif defined(UNIX)
-    os << "\x1b[" << Logger::unixColors.at(color) << "m";
-#endif
-    return os;
-}
-
 inline std::ostream & operator<<(std::ostream & os, const dt::none_t&) {
     return os;
 }
