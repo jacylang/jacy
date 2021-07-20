@@ -140,10 +140,11 @@ namespace jc::log {
             }
             if (index == Cols - 1) {
                 table.emplace_back(row_t{str});
+                index = 0;
             } else {
                 table.back().at(index) = str;
+                index++;
             }
-            index++;
         }
 
         // Add line separator
