@@ -125,8 +125,7 @@ namespace jc::log {
         static const std::map<Config::LogLevel, Color> levelColors;
     };
 
-#include "Logger.inl"
-
+    #include "Logger.inl"
 }
 
 #endif // JACY_COMMON_LOGGER_H
