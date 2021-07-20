@@ -208,4 +208,8 @@ namespace jc::log {
     inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
 }
 
+namespace jc::log {
+    #include "log/utils.inl"
+}
+
 #endif // JACY_LOG_UTILS_H
