@@ -41,7 +41,7 @@ namespace jc::resolve {
         void visit(const ast::UseTreeAll & useTree) override;
 
     private:
-        common::Logger log{"importer"};
+        log::Logger log{"importer"};
         sess::sess_ptr sess;
 
         // Module where `use` appeared

@@ -88,7 +88,7 @@ namespace jc::parser {
         );
 
     private:
-        common::Logger log{"parser"};
+        log::Logger log{"parser"};
 
         token_list tokens;
         size_t index{0};
@@ -263,7 +263,7 @@ namespace jc::parser {
         template<class ...Args>
         void devLogWithIndent(Args && ...args) const {
             const auto indent = entitiesEntries.size();
-            log.dev(common::Indent(indent), args...);
+            log.dev(log::Indent(indent), args...);
         }
     };
 }

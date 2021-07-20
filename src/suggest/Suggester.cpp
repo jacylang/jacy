@@ -5,7 +5,7 @@ namespace jc::sugg {
 
     void Suggester::apply(sess::sess_ptr sess, const sugg_list & suggestions) {
         if (suggestions.empty()) {
-            common::Logger::devDebug("No suggestions");
+            log::Logger::devDebug("No suggestions");
             return;
         }
 
@@ -30,7 +30,7 @@ namespace jc::sugg {
         Logger::nl();
 
         if (errorAppeared) {
-            throw common::Error("Stop due to errors above");
+            throw log::Error("Stop due to errors above");
         }
     }
 
@@ -70,7 +70,7 @@ namespace jc::sugg {
         printLine(fileId, line.index);
 
         if (span.pos < line.pos) {
-            common::Logger::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
+            log::Logger::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
         }
 
         const auto & point = span.pos - line.pos;

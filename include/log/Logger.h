@@ -33,7 +33,7 @@
 #include <windows.h>
 #endif // WIN
 
-namespace jc::common {
+namespace jc::log {
     // Note: Discriminants are Windows only (!)
     enum class Color : uint8_t {
         Black           = 0,
@@ -58,7 +58,7 @@ namespace jc::common {
     // TODO: Background colors
 }
 
-namespace jc::common {
+namespace jc::log {
     // TODO
     enum class TitleKind {
         Line,

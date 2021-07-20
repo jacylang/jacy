@@ -92,7 +92,7 @@ void Logger::devPanic(Args && ...args) {
     );
     nl();
 
-    throw common::Error("Stop after dev panic!");
+    throw log::Error("Stop after dev panic!");
 }
 
 template<class ...Args>

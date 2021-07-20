@@ -34,7 +34,7 @@ namespace jc::resolve {
 
     private:
         sess::sess_ptr sess;
-        common::Logger log{"ModuleTreeBuilder"};
+        log::Logger log{"ModuleTreeBuilder"};
 
         // Definitions //
     private:

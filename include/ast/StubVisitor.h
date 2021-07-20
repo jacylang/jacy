@@ -4,7 +4,7 @@
 #include "ast/Party.h"
 
 namespace jc::ast {
-    using common::Logger;
+    using log::Logger;
 
     class StubVisitor : public BaseVisitor {
     public:

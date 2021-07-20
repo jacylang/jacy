@@ -7,13 +7,13 @@ namespace jc::fs {
 
     Entry readfile(const std_fs::path & path) {
         if (not fs::exists(path)) {
-            common::Logger::devPanic("Called `fs::readfile` with non-existent file");
+            log::Logger::devPanic("Called `fs::readfile` with non-existent file");
         }
 
         std::fstream file(path);
 
         if (!file.is_open()) {
-            common::Logger::devPanic("File " + path.string() + " not found");
+            log::Logger::devPanic("File " + path.string() + " not found");
         }
 
         std::stringstream ss;

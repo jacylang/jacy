@@ -4,7 +4,7 @@ namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
         lastColor = static_cast<uint8_t>(allowedNamesColors.size());
-        printAstNodeMap = common::Config::getInstance().checkPrint(common::Config::PrintKind::AstNodeMap);
+        printAstNodeMap = log::Config::getInstance().checkPrint(log::Config::PrintKind::AstNodeMap);
     }
 
     void AstPrinter::print(const sess::sess_ptr & sess, const Party & party, AstPrinterMode mode) {
@@ -900,7 +900,7 @@ namespace jc::ast {
 
     // Indentation //
     void AstPrinter::printIndent() const {
-        log.raw(common::Indent<4>(indent));
+        log.raw(log::Indent<4>(indent));
     }
 
     void AstPrinter::incIndent() {
@@ -967,7 +967,7 @@ namespace jc::ast {
         log.raw(Color::Reset);
     }
 
-    common::Color AstPrinter::getNameColor(node_id nodeId) {
+    log::Color AstPrinter::getNameColor(node_id nodeId) {
         // Note: Functionality is common for name declaration and name usage,
         //  because AstPrinter does not do forward declarations
         if (nodeId == NONE_NODE_ID) {

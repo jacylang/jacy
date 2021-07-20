@@ -552,10 +552,10 @@ namespace jc::parser {
     }
 
     void Lexer::unexpectedTokenError() {
-        throw common::UnexpectedTokenError(std::to_string(peek()));
+        throw log::UnexpectedTokenError(std::to_string(peek()));
     }
 
     void Lexer::unexpectedEof() {
-        throw common::UnexpectedEof();
+        throw log::UnexpectedEof();
     }
 }

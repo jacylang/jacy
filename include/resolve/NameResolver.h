@@ -9,7 +9,7 @@
 #include "resolve/ResStorage.h"
 
 namespace jc::resolve {
-    using common::Logger;
+    using log::Logger;
     using sugg::SuggKind;
     using sugg::eid_t;
 
@@ -52,7 +52,7 @@ namespace jc::resolve {
         using ast::StubVisitor::visit;
 
     private:
-        common::Logger log{"NameResolver"};
+        log::Logger log{"NameResolver"};
         sess::sess_ptr sess;
 
         // Ribs //

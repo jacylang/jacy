@@ -45,7 +45,7 @@ namespace jc::span {
 
         Span to(const Span & end) const {
             if (end.fileId != fileId) {
-                common::Logger::devPanic("Called `Span::to` with spans from different files");
+                log::Logger::devPanic("Called `Span::to` with spans from different files");
             }
             // FIXME: Here may be problems with different lines
             // FIXME: This does not work

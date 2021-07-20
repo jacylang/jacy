@@ -3,7 +3,7 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
-        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
+        printRibsFlag = log::Config::getInstance().checkPrint(log::Config::PrintKind::Ribs);
 
         enterRootRib();
 
@@ -178,7 +178,7 @@ namespace jc::resolve {
     const rib_ptr & NameResolver::curRib() const {
         const auto depth = getDepth();
         if (depth == 0) {
-            common::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
+            log::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
         }
         return ribStack.at(depth - 1);
     }
@@ -221,7 +221,7 @@ namespace jc::resolve {
 
     void NameResolver::liftToDepth(size_t prevDepth) {
         if (prevDepth > getDepth()) {
-            common::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
+            log::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
         }
 
         // Note: Save depth when we started, because it will be changed in `exitRib`
@@ -376,7 +376,7 @@ namespace jc::resolve {
         }
         log.dev("Failed to resolve local '", name, "'");
 
-        common::Logger::devDebug("Set error resolution for node #", refNodeId);
+        log::Logger::devDebug("Set error resolution for node #", refNodeId);
         // Set error resolution
         _resStorage.setRes(refNodeId, Res{});
 

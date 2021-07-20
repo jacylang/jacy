@@ -7,15 +7,15 @@ namespace jc::core {
         try {
             cli::CLI cli;
             cli.applyArgs(argc, argv);
-            common::Config::getInstance().applyCliConfig(cli.getConfig());
+            log::Config::getInstance().applyCliConfig(cli.getConfig());
 
             Interface interface; // Initialize interface here to allow do something in constructors after Config inited
             interface.compile();
             return 0;
-        } catch (common::Error & e) {
-            common::Logger log{"jacy"};
+        } catch (log::Error & e) {
+            log::Logger log{"jacy"};
             log.error(e.message);
-            if (common::Config::getInstance().checkDev()) {
+            if (log::Config::getInstance().checkDev()) {
                 throw e;
             }
             return 1;

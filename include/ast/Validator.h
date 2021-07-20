@@ -9,7 +9,7 @@
 #include "suggest/SuggInterface.h"
 
 namespace jc::ast {
-    using common::Logger;
+    using log::Logger;
 
     /// ValidatorCtx - collection of contexts for validation that only needed for context-dependent constructions,
     /// for example, `break` can appear only inside loop-like context, but `if` does not bring any kind of this
@@ -149,7 +149,7 @@ namespace jc::ast {
         void pushContext(ValidatorCtx ctx);
         void popContext();
 
-        common::Logger log{"ast-validator"};
+        log::Logger log{"ast-validator"};
     };
 }
 

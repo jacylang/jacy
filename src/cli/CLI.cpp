@@ -119,12 +119,12 @@ namespace jc::cli {
             }
 
             log.colorized(
-                common::Color::Magenta, "Run jacy " + argsStorage.rootFile, ' ', boolArgsStr, ' ', keyValueArgsStr
+                log::Color::Magenta, "Run jacy " + argsStorage.rootFile, ' ', boolArgsStr, ' ', keyValueArgsStr
             );
         }
 
         if (not unexpectedArgs.empty()) {
-            throw CLIError("Unexpected cli arguments: '" + common::Logger::format(unexpectedArgs) + "'");
+            throw CLIError("Unexpected cli arguments: '" + log::Logger::format(unexpectedArgs) + "'");
         }
 
         // Check arguments and apply aliases //
@@ -154,7 +154,7 @@ namespace jc::cli {
                     const auto & allowed = Args::allowedKeyValueArgs.at(arg.first).second;
                     if (not utils::arr::has(allowed, argParam)) {
                         throw CLIError(
-                            common::Logger::format(
+                            log::Logger::format(
                                 "Unknown parameter '" + argParam + "' for argument '" + arg.first + "'. ",
                                 "Try one of this: ",
                                 utils::arr::join(allowed)
@@ -168,7 +168,7 @@ namespace jc::cli {
             const auto & allowedCount = Args::allowedKeyValueArgs.at(arg.first).first;
             if (allowedCount.some() and allowedCount.unwrap("CLI::applyArgs::allowedCount") != arg.second.size()) {
                 throw CLIError(
-                    common::Logger::format(
+                    log::Logger::format(
                         "Expected ",
                         allowedCount.unwrap(),
                         " count of parameters for argument ",

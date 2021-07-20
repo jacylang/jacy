@@ -17,7 +17,7 @@
 #include "cli/Args.h"
 
 namespace jc::cli {
-    struct CLIError : common::Error {
+    struct CLIError : log::Error {
         explicit CLIError(const std::string & msg) : Error(msg) {}
     };
 
@@ -34,7 +34,7 @@ namespace jc::cli {
 
     private:
         // Note: This logger cannot be configure via cli
-        common::Logger log{"cli"};
+        log::Logger log{"cli"};
 
         Args argsStorage{};
 

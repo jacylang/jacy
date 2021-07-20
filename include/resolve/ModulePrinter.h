@@ -12,7 +12,7 @@ namespace jc::resolve {
 
     private:
         sess::sess_ptr sess;
-        common::Logger log{"ModulePrinter"};
+        log::Logger log{"ModulePrinter"};
 
         void printMod(module_ptr module);
         void printDef(const DefId & defId);

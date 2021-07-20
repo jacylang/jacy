@@ -10,7 +10,7 @@
 #include "session/Session.h"
 
 namespace jc::ast {
-    using Color = common::Color;
+    using Color = log::Color;
 
     enum class AstPrinterMode {
         Parsing, // Print tree after parsing
@@ -116,7 +116,7 @@ namespace jc::ast {
 
     private:
         sess::sess_ptr sess;
-        common::Logger log{"ast_printer"};
+        log::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
         // Helpers //

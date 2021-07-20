@@ -41,7 +41,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBenchEntity("Parsing stage", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
+        endBenchEntity("Parsing stage", log::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -49,7 +49,7 @@ namespace jc::core {
 
         beginBench();
         resolveNames();
-        endBenchSimple("Name resolution stage", common::Config::BenchmarkKind::Stage);
+        endBenchSimple("Name resolution stage", log::Config::BenchmarkKind::Stage);
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
@@ -111,13 +111,13 @@ namespace jc::core {
 
         beginBench();
         astValidator.lint(party.unwrap()).take(sess, "validation");
-        endBenchEntity("AST Validation", common::Config::BenchmarkKind::SubStage, BenchmarkEntity::Node);
+        endBenchEntity("AST Validation", log::Config::BenchmarkKind::SubStage, BenchmarkEntity::Node);
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
         log.dev("Parse directory ", dir.getPath(), ", ignore '", rootFile, "'");
         if (not dir.isDir()) {
-            common::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
+            log::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
         bool notRootDir = rootFile.none();
@@ -170,7 +170,7 @@ namespace jc::core {
 
         beginBench();
         auto tokens = lexer.lex(parseSess);
-        endBenchSimple(filePathRootRel + " lexing", common::Config::BenchmarkKind::SubStage);
+        endBenchSimple(filePathRootRel + " lexing", log::Config::BenchmarkKind::SubStage);
 
         log.dev("Tokenize file ", file.getPath());
 
@@ -179,21 +179,21 @@ namespace jc::core {
         const auto & fileCharCount = parseSess->sourceFile.src.unwrap().size();
         endBenchCustom(
             "Printing " + filePathRootRel + " source",
-            common::Config::BenchmarkKind::Verbose,
+            log::Config::BenchmarkKind::Verbose,
             Benchmark::entity_t{"Char", fileCharCount});
 
         beginBench();
         printTokens(file.getPath(), tokens);
         endBenchCustom(
             "Printing " + filePathRootRel + " tokens",
-            common::Config::BenchmarkKind::Verbose,
+            log::Config::BenchmarkKind::Verbose,
             Benchmark::entity_t{"Token", tokens.size()});
 
         log.dev("Parse file ", file.getPath());
 
         beginBench();
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBenchSimple(filePathRootRel + " parsing", common::Config::BenchmarkKind::SubStage);
+        endBenchSimple(filePathRootRel + " parsing", log::Config::BenchmarkKind::SubStage);
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -243,7 +243,7 @@ namespace jc::core {
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
-        const auto & maxIndent = common::Indent<1>(std::to_string(sourceFile.linesIndices.size()).size());
+        const auto & maxIndent = log::Indent<1>(std::to_string(sourceFile.linesIndices.size()).size());
         for (size_t i = 0; i < sourceFile.linesIndices.size(); i++) {
             std::string line;
             const auto & pos = sourceFile.linesIndices.at(i);
@@ -260,21 +260,21 @@ namespace jc::core {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }
-        common::Logger::nl();
+        log::Logger::nl();
         log.info("Printing tokens for file [", path, "] (`-print=tokens`) [Count of tokens: ", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
-        common::Logger::nl();
+        log::Logger::nl();
     }
 
     void Interface::printAst(ast::AstPrinterMode mode) {
         if ((mode == ast::AstPrinterMode::Parsing and not config.checkPrint(Config::PrintKind::Ast))
-        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(common::Config::PrintKind::AstNames))
+        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(log::Config::PrintKind::AstNames))
         ) {
             return;
         }
-        common::Logger::nl();
+        log::Logger::nl();
         std::string modeStr;
         std::string cliParam;
         if (mode == ast::AstPrinterMode::Parsing) {
@@ -294,9 +294,9 @@ namespace jc::core {
 
         beginBench();
         astPrinter.print(sess, party.unwrap(), mode);
-        endBenchSimple("AST Printing after " + modeStr, common::Config::BenchmarkKind::Verbose);
+        endBenchSimple("AST Printing after " + modeStr, log::Config::BenchmarkKind::Verbose);
 
-        common::Logger::nl();
+        log::Logger::nl();
     }
 
     /////////////////////
@@ -308,7 +308,7 @@ namespace jc::core {
         log.dev("Building module tree...");
         beginBench();
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBenchSimple("module-tree-building", common::Config::BenchmarkKind::SubStage);
+        endBenchSimple("module-tree-building", log::Config::BenchmarkKind::SubStage);
 
         printModTree("module tree building");
 
@@ -317,14 +317,14 @@ namespace jc::core {
         log.dev("Resolve imports...");
         beginBench();
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBenchSimple("import-resolution", common::Config::BenchmarkKind::SubStage);
+        endBenchSimple("import-resolution", log::Config::BenchmarkKind::SubStage);
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
         beginBench();
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBenchSimple("name-resolution", common::Config::BenchmarkKind::SubStage);
+        endBenchSimple("name-resolution", log::Config::BenchmarkKind::SubStage);
 
         printResolutions();
 
@@ -341,13 +341,13 @@ namespace jc::core {
 
         beginBench();
         modulePrinter.print(sess);
-        endBenchSimple("Module tree printing after " + afterStage, common::Config::BenchmarkKind::Verbose);
+        endBenchSimple("Module tree printing after " + afterStage, log::Config::BenchmarkKind::Verbose);
 
-        common::Logger::nl();
+        log::Logger::nl();
     }
 
     void Interface::printDefinitions() {
-        if (not config.checkPrint(common::Config::PrintKind::Definitions)) {
+        if (not config.checkPrint(log::Config::PrintKind::Definitions)) {
             return;
         }
 
@@ -366,7 +366,7 @@ namespace jc::core {
     }
 
     void Interface::printResolutions() {
-        if (not config.checkPrint(common::Config::PrintKind::Resolutions)) {
+        if (not config.checkPrint(log::Config::PrintKind::Resolutions)) {
             return;
         }
 
@@ -416,7 +416,7 @@ namespace jc::core {
     }
 
     void Interface::printFinalBench() {
-        common::Logger::print(
+        log::Logger::print(
             "Full compilation done in ",
             std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
             "ms"
@@ -460,7 +460,7 @@ namespace jc::core {
             return;
         }
         if (benchmarkStack.empty()) {
-            common::Logger::devPanic("Called `Interface::endBenchWithEntity` with empty benchmark stack");
+            log::Logger::devPanic("Called `Interface::endBenchWithEntity` with empty benchmark stack");
         }
         auto end = bench();
         benchmarks.emplace_back(
@@ -473,7 +473,7 @@ namespace jc::core {
     }
 
     void Interface::printBenchmarks() noexcept {
-        using common::TC;
+        using log::TC;
 
         if (benchmarks.empty()) {
             return;
@@ -517,7 +517,7 @@ namespace jc::core {
                 TC(speed, SPEED_WRAP_LEN)
             ).nl();
 
-            if (bnk.kind == common::Config::BenchmarkKind::Stage) {
+            if (bnk.kind == log::Config::BenchmarkKind::Stage) {
                 log.tableHeaderLine(
                     TC("", BNK_NAME_WRAP_LEN),
                     TC("", ENTITY_NAME_WRAP_LEN),

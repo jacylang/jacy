@@ -3,20 +3,20 @@
 namespace jc::sess {
     file_id_t SourceMap::registerSource(const fs::path & path) {
         file_id_t fileId = utils::hash::hash(path.string());
-        common::Logger::devDebug("Add source ", path.string(), " with fileId [", fileId, "]");
+        log::Logger::devDebug("Add source ", path.string(), " with fileId [", fileId, "]");
         sources.emplace(fileId, None);
         return fileId;
     }
 
     void SourceMap::setSourceFile(parser::parse_sess_ptr && parseSess) {
         if (sources.find(parseSess->fileId) == sources.end()) {
-            common::Logger::devPanic(
+            log::Logger::devPanic(
                 "No source found by fileId [",
                 parseSess->fileId,
                 "] in SourceMap::setSource, existent files: ",
                 utils::map::keys(sources));
         }
-        common::Logger::devDebug(
+        log::Logger::devDebug(
             "Set source lines for file [",
             parseSess->sourceFile.path,
             "] by fileId [",
@@ -28,7 +28,7 @@ namespace jc::sess {
 
     const SourceFile & SourceMap::getSourceFile(file_id_t fileId) {
         if (sources.find(fileId) == sources.end()) {
-            common::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
+            log::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
         }
         return sources.at(fileId).unwrap("SourceMap::getSourceFile");
     }
@@ -40,7 +40,7 @@ namespace jc::sess {
     std::string SourceMap::getLine(file_id_t fileId, size_t index) {
         const auto & sf = getSourceFile(fileId);
         if (sf.linesIndices.size() <= index) {
-            common::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
+            log::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
         size_t begin = sf.linesIndices.at(index);
         size_t end = sf.src.unwrap().size();

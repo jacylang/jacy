@@ -35,7 +35,7 @@ namespace jc::dt {
             const std::string & stageName = ""
         ) {
             if (suggestions.empty()) {
-                common::Logger::devDebug("No suggestions", (stageName.empty() ? "" : " after " + stageName));
+                log::Logger::devDebug("No suggestions", (stageName.empty() ? "" : " after " + stageName));
                 return;
             }
             dump(sess, suggestions);
@@ -48,15 +48,15 @@ namespace jc::dt {
             const sugg::sugg_list & suggestions,
             const std::string & emptyMessage = ""
         ) noexcept {
-            if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
+            if (log::Config::getInstance().checkPrint(log::Config::PrintKind::Suggestions)) {
                 if (suggestions.empty()) {
                     if (not emptyMessage.empty()) {
-                        common::Logger::devDebug(emptyMessage);
+                        log::Logger::devDebug(emptyMessage);
                     }
                     return;
                 }
-                common::Logger::nl();
-                common::Logger::devDebug("Printing suggestions (`-print=sugg`)");
+                log::Logger::nl();
+                log::Logger::devDebug("Printing suggestions (`-print=sugg`)");
                 sugg::SuggDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }

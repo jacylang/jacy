@@ -23,7 +23,7 @@
 #include "session/Session.h"
 
 namespace jc::core {
-    using common::Config;
+    using log::Config;
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
@@ -113,7 +113,7 @@ namespace jc::core {
         void printResolutions();
 
     private:
-        common::Logger log{"Interface"};
+        log::Logger log{"Interface"};
 
         sess::sess_ptr sess;
 

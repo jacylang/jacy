@@ -1,7 +1,7 @@
 #include "parser/Parser.h"
 
 namespace jc::parser {
-    using common::Config;
+    using log::Config;
 
     Parser::Parser() {
         log.getConfig().printOwner = false;
@@ -902,7 +902,7 @@ namespace jc::parser {
         if (precTable.size() == index) {
             return prefix();
         } else if (index > precTable.size()) {
-            common::Logger::devPanic(
+            log::Logger::devPanic(
                 "`precParse` with index > precTable.size, index =", static_cast<int>(index),
                 "precTable.size =", precTable.size()
             );
@@ -1111,7 +1111,7 @@ namespace jc::parser {
 
     opt_expr_ptr Parser::primary() {
         if (eof()) {
-            common::Logger::devPanic("Called parse `primary` on `EOF`");
+            log::Logger::devPanic("Called parse `primary` on `EOF`");
         }
 
         if (peek().isLiteral()) {
@@ -1195,7 +1195,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         if (not peek().isLiteral()) {
-            common::Logger::devPanic("Expected literal in `parseLiteral`");
+            log::Logger::devPanic("Expected literal in `parseLiteral`");
         }
         auto token = peek();
         advance();
@@ -1836,7 +1836,7 @@ namespace jc::parser {
                     "Invalid path `::`", maybePathToken.span
                 );
             } else {
-                common::Logger::devPanic("parsePath -> not id -> not global");
+                log::Logger::devPanic("parsePath -> not id -> not global");
             }
         }
 
@@ -2088,7 +2088,7 @@ namespace jc::parser {
                 );
             }
             if (tupleEl.type.none()) {
-                common::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
+                log::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
             }
             params.push_back(tupleEl.type.take());
         }
@@ -2377,8 +2377,8 @@ namespace jc::parser {
     }
 
     void Parser::logEntry(bool enter, const std::string & entity) {
-        using common::Color;
-        using common::Indent;
+        using log::Color;
+        using log::Indent;
         const auto & msg = std::string(enter ? "> Enter" : "< Exit") +" `" + entity + "`";
         const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
@@ -2387,7 +2387,7 @@ namespace jc::parser {
             Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
-                common::Logger::wrapLen - msg.size() - depth * 2 - 1,
+                log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
             )
@@ -2395,8 +2395,8 @@ namespace jc::parser {
     }
 
     void Parser::logParse(const std::string & entity) {
-        using common::Indent;
-        using common::Color;
+        using log::Indent;
+        using log::Color;
         if (not extraDebugEntities) {
             return;
         }
@@ -2408,7 +2408,7 @@ namespace jc::parser {
             Color::Reset,
             utils::str::padStartOverflow(
                 " peek: " + peek().dump(true),
-                common::Logger::wrapLen - msg.size() - depth * 2 - 1,
+                log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
             )

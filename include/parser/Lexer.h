@@ -11,7 +11,7 @@ namespace jc::parser {
     using source_lines = std::vector<std::string>;
 
     // TODO: Suggestions instead of errors
-    struct LexerError : common::Error {
+    struct LexerError : log::Error {
         explicit LexerError(const std::string & msg) : Error(msg) {}
     };
 
@@ -23,7 +23,7 @@ namespace jc::parser {
         token_list lex(const parse_sess_ptr & parseSess);
 
     private:
-        common::Logger log{"lexer"};
+        log::Logger log{"lexer"};
 
         std::string source;
         token_list tokens;

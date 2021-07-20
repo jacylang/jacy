@@ -4,7 +4,7 @@
 #include "suggest/BaseSugg.h"
 
 namespace jc::sugg {
-    using common::Logger;
+    using log::Logger;
 
     class SuggDumper : public BaseSuggester {
     public:

@@ -78,7 +78,7 @@ namespace jc::resolve {
                 case Namespace::Type: return perNS.type;
                 case Namespace::Lifetime: return perNS.lifetime;
             }
-            common::Logger::notImplemented("Module::getNS");
+            log::Logger::notImplemented("Module::getNS");
         }
 
         mod_ns_map & getNS(Namespace ns) {
@@ -87,7 +87,7 @@ namespace jc::resolve {
                 case Namespace::Type: return perNS.type;
                 case Namespace::Lifetime: return perNS.lifetime;
             }
-            common::Logger::notImplemented("Module::getNS");
+            log::Logger::notImplemented("Module::getNS");
         }
 
         opt_def_id tryDefine(Namespace ns, const std::string & name, const DefId & defId) {

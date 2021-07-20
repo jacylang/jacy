@@ -10,7 +10,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ErrorNode&) {
-        common::Logger::devPanic("Unexpected [ERROR] node on ast validation stage");
+        log::Logger::devPanic("Unexpected [ERROR] node on ast validation stage");
     }
 
     ////////////////

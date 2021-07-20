@@ -147,7 +147,7 @@ namespace jc::resolve {
                 default:;
             }
 
-            common::Logger::notImplemented("Definition::getNS");
+            log::Logger::notImplemented("Definition::getNS");
         }
 
         static std::string kindStr(DefKind kind) {
@@ -216,7 +216,7 @@ namespace jc::resolve {
                 }
             }
 
-            common::Logger::notImplemented("Definition::isUsableAs");
+            log::Logger::notImplemented("Definition::isUsableAs");
         }
 
         bool isUsableAs(NameUsage usage) const {

@@ -9,7 +9,7 @@ namespace jc::resolve {
             try {
                 return defs.at(index);
             } catch (std::out_of_range & e) {
-                common::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
+                log::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
         }
 
@@ -34,7 +34,7 @@ namespace jc::resolve {
         module_ptr addModule(const DefId & defId, module_ptr module) {
             const auto & added = modules.emplace(defId.getIndex(), module);
             if (not added.second) {
-                common::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
+                log::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
             }
             return added.first->second;
         }
@@ -42,7 +42,7 @@ namespace jc::resolve {
         module_ptr addBlock(ast::node_id nodeId, module_ptr module) {
             const auto & added = blocks.emplace(nodeId, module);
             if (not added.second) {
-                common::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
+                log::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
             }
             return added.first->second;
         }
@@ -51,7 +51,7 @@ namespace jc::resolve {
             try {
                 return modules.at(defId.getIndex());
             } catch (std::out_of_range & e) {
-                common::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
+                log::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
             }
         }
 

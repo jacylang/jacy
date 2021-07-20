@@ -7,8 +7,8 @@
 #include "utils/str.h"
 
 namespace jc::sugg {
-    using common::Color;
-    using common::Logger;
+    using log::Color;
+    using log::Logger;
     using sess::file_id_t;
 
     class Suggester : public BaseSuggester {
