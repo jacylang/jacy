@@ -135,6 +135,9 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg) {
             const auto & str = string(arg);
+            if (index == 0) {
+                table.emplace_back(row_t{});
+            }
             if (index == Cols - 1) {
                 table.emplace_back(row_t{str});
             } else {
