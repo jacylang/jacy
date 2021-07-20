@@ -173,11 +173,15 @@ namespace jc::log {
 
                 for (table_size_t cellIndex = 0; cellIndex < TW; cellIndex++) {
                     const auto & cell = row.at(cellIndex);
+                    const auto & cellKind = tbl.cellKinds.at(rowIndex).at(cellIndex);
 
-                    const auto & leftCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex)).at(0);
-                    const auto & middleCorner = corners.at(tbl.cellKinds.at(rowIndex).at(cellIndex)).at(1);
+                    const auto & leftCorner = corners.at(cellKind).at(0);
+                    const auto & middleCorner = corners.at(cellKind).at(1);
 
-                    os << leftCorner << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+                    os << leftCorner;
+                    switch (cellKind) {
+                    }
+                    padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
                     if (cellIndex < TW - 1) {
                         os << middleCorner;
