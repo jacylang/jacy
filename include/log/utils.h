@@ -161,7 +161,7 @@ namespace jc::log {
         // Note: Supports starting not from first column
         void addLine() {
             for (table_size_t i = index; i < Cols; i++) {
-                addCell("", CellKind::Line);
+                addCell(repeat("-", layout.at(i)), CellKind::Line);
             }
         }
 
