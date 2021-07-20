@@ -147,7 +147,7 @@ namespace jc::log {
             }
             if (index == Cols - 1) {
                 rows.emplace_back(row_t{str});
-                cellKinds.emplace_back({kind});
+                cellKinds.emplace_back(std::array<CellKind, Cols>{kind});
             } else {
                 rows.back().at(index) = str;
                 cellKinds.back().at(index) = kind;
