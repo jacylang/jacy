@@ -194,12 +194,18 @@ namespace jc::log {
         const s_t wrapLen;
 
     private:
+        enum class CellKind {
+            Value,
+            Line,
+        };
+
         const static s_t DEFAULT_WRAP_LEN = 120;
 
         s_t index{0};
 
         std::array<s_t, Cols> layout;
         std::vector<row_t> rows;
+        std::vector<std::array<CellKind, Cols>> cellKinds;
     };
 }
 
