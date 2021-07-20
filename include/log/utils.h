@@ -139,14 +139,14 @@ namespace jc::log {
             auto str = string(arg);
             if (index == 0) {
                 str = "| " + str;
-                table.emplace_back(row_t{str});
+                rows.emplace_back(row_t{str});
             } else if (index < Cols - 1) {
                 str += " | ";
-                table.back().at(index) = str;
+                rows.back().at(index) = str;
                 index++;
             } else {
                 str = str + " |";
-                table.emplace_back(row_t{str});
+                rows.emplace_back(row_t{str});
                 index = 0;
             }
         }
@@ -155,10 +155,10 @@ namespace jc::log {
         // Note: Supports starting not from first column
         void addLine() {
             if (index == 0) {
-                table.emplace_back(row_t{});
+                rows.emplace_back(row_t{});
             }
             for (s_t i = index; i < Cols; i++) {
-                auto & cell = table.back().at(i);
+                auto & cell = rows.back().at(i);
                 cell = "+" + repeat("-", layout.at(i));
                 if (i == Cols - 1) {
                     cell += "+";
@@ -170,7 +170,7 @@ namespace jc::log {
     public:
         template<s_t TW>
         friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
-            for (const auto & row : tbl.table) {
+            for (const auto & row : tbl.rows) {
                 for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
                     os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
@@ -199,7 +199,7 @@ namespace jc::log {
         s_t index{0};
 
         std::array<s_t, Cols> layout;
-        std::vector<row_t> table;
+        std::vector<row_t> rows;
     };
 }
 
