@@ -82,7 +82,6 @@ namespace jc::parser {
         {TokenKind::BitOr,           "|"},
         {TokenKind::Xor,             "^"},
         {TokenKind::Inv,             "~"},
-        {TokenKind::Not,             "!"},
         {TokenKind::Eq,              "=="},
         {TokenKind::NotEq,           "!="},
         {TokenKind::LAngle,          "<"},
