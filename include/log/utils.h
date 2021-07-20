@@ -136,16 +136,18 @@ namespace jc::log {
 
         template<class Arg>
         void addCell(Arg && arg) {
-            const auto & str = string(arg);
+            auto str = string(arg);
             if (index == 0) {
-                table.emplace_back(row_t{});
-            }
-            if (index == Cols - 1) {
+                str = "| " + str;
                 table.emplace_back(row_t{str});
-                index = 0;
-            } else {
+            } else if (index < Cols - 1) {
+                str += " | ";
                 table.back().at(index) = str;
                 index++;
+            } else {
+                str = str + " |";
+                table.emplace_back(row_t{str});
+                index = 0;
             }
         }
 
@@ -164,19 +166,9 @@ namespace jc::log {
         template<s_t TW>
         friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
             for (const auto & row : tbl.table) {
-                os << "| ";
-
                 for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
                     os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
-
-                    if (i < TW - 1) {
-                        os << " | ";
-                    }
-                }
-
-                if (not row.empty()) {
-                    os << " |";
                 }
 
                 os << "\n";
