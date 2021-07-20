@@ -127,7 +127,8 @@ namespace jc::log {
         using s_t = uint16_t;
 
     public:
-        Table(uint16_t wrapLen = DEFAULT_WRAP_LEN) : wrapLen(wrapLen) {}
+        Table(const std::initializer_list<s_t> & layout, uint16_t wrapLen = DEFAULT_WRAP_LEN)
+            : layout(layout), wrapLen(wrapLen) {}
         virtual ~Table() = default;
 
         // API //
@@ -183,7 +184,9 @@ namespace jc::log {
     private:
         const static s_t DEFAULT_WRAP_LEN = 120;
 
-        s_t curWidth;
+        s_t curWidth{0};
+
+        std::array<s_t, Width> layout;
         std::vector<std::array<std::string, Width>> table;
     };
 
