@@ -164,8 +164,10 @@ namespace jc::log {
         // Note: Supports starting not from first column
         void addLine() {
             for (s_t i = index; i < Cols; i++) {
-                // Note: -2 because we automatically add `+` at corners
-                table.back().at(index) = utils::str::repeat("-", layout.at(i) - 2);
+                table.back().at(index) = "+" + utils::str::repeat("-", layout.at(i) - 2);
+                if (i == Cols - 1) {
+                    table.back().at(i) += "+";
+                }
             }
         }
 
