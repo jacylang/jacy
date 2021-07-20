@@ -211,26 +211,6 @@ namespace jc::log {
         std::array<s_t, Cols> layout;
         std::vector<std::array<std::string, Cols>> table;
     };
-
-    /// Table cell for `tableRow` Logger method
-    template<class T>
-    struct TC {
-        TC(const T & value, uint8_t wrapLen) {
-            std::stringstream ss;
-            ss << value;
-            string = ss.str();
-            this->wrapLen = wrapLen;
-        }
-
-        std::ostream & print(std::ostream & os) const {
-            using namespace utils::str;
-            os << padEnd(padStart(string, (wrapLen + string.size()) / 2), wrapLen);
-            return os;
-        }
-
-        std::string string;
-        uint16_t wrapLen;
-    };
 }
 
 // Common data structures std::ostream overloads //
