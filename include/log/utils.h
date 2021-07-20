@@ -128,7 +128,7 @@ namespace jc::log {
     public:
         template<class Arg, class ...Args>
         void addRow(Arg && first, Args && ...rest) {
-            addCell(std::forward<Arg>(first));
+            addCell(std::forward<Arg>(first), CellKind::Value);
             addRow(std::forward<Args>(rest)...);
         }
 
