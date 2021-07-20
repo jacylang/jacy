@@ -124,10 +124,14 @@ namespace jc::log {
 namespace jc::log {
     template<uint16_t Width>
     class Table {
+        using s_t = uint16_t;
+
     public:
         Table(uint16_t wrapLen = DEFAULT_WRAP_LEN) : wrapLen(wrapLen) {}
         virtual ~Table() = default;
 
+        // API //
+    public:
         template<class Arg, class ...Args>
         void addRow(Arg && first, Args && ...rest) {
             addCell(std::forward<Arg>(first));
@@ -145,12 +149,12 @@ namespace jc::log {
         }
 
     public:
-        template<uint16_t TW>
+        template<s_t TW>
         friend std::ostream & print(std::ostream & os, const Table<TW> & tbl) {
             for (const auto & row : tbl.table) {
                 os << "| ";
 
-                for (uint16_t i = 0; i < TW; i++) {
+                for (s_t i = 0; i < TW; i++) {
                     const auto & cell = row.at(i);
                     os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
 
@@ -174,12 +178,12 @@ namespace jc::log {
         }
 
     public:
-        const uint16_t wrapLen;
+        const s_t wrapLen;
 
     private:
-        const static uint16_t DEFAULT_WRAP_LEN = 120;
+        const static s_t DEFAULT_WRAP_LEN = 120;
 
-        uint16_t curWidth;
+        s_t curWidth;
         std::vector<std::array<std::string, Width>> table;
     };
 
