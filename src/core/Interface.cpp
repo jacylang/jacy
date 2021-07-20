@@ -27,6 +27,7 @@ namespace jc::core {
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printBenchmarks();
+                printFinalBench();
             }
             throw e;
         }
@@ -473,6 +474,10 @@ namespace jc::core {
 
     void Interface::printBenchmarks() noexcept {
         using common::TC;
+
+        if (benchmarks.empty()) {
+            return;
+        }
 
         // Table
         // | Benchmark name | Processed entity (e.g. AST) | time | speed
