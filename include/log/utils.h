@@ -148,8 +148,19 @@ namespace jc::log {
         template<uint16_t TW>
         friend std::ostream & print(std::ostream & os, const Table<TW> & tbl) {
             for (const auto & row : tbl.table) {
-                for (const auto & cell : row) {
+                os << "| ";
+
+                for (uint16_t i = 0; i < TW; i++) {
+                    const auto & cell = row.at(i);
                     os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+
+                    if (i < TW - 1) {
+                        os << " | ";
+                    }
+                }
+
+                if (not row.empty()) {
+                    os << " |";
                 }
             }
         }
