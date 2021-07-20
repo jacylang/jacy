@@ -144,10 +144,12 @@ namespace jc::log {
             auto str = string(arg);
             if (index == 0) {
                 rows.emplace_back(row_t{});
+                cellKinds.emplace_back(std::array<CellKind, Cols>{});
             }
             if (index == Cols - 1) {
                 rows.emplace_back(row_t{str});
                 cellKinds.emplace_back(std::array<CellKind, Cols>{kind});
+                index = 0;
             } else {
                 rows.back().at(index) = str;
                 cellKinds.back().at(index) = kind;
