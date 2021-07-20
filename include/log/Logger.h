@@ -150,9 +150,6 @@ namespace jc::log {
             }
         }
 
-    public:
-        static const std::map<Color, std::string> unixColors;
-
     private:
         static const std::map<Config::LogLevel, std::string> levelNames;
         static const std::map<Config::LogLevel, Color> levelColors;
