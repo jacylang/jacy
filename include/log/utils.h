@@ -7,6 +7,26 @@
 #include "utils/str.h"
 
 // Color //
+
+#if defined(__unix__) \
+    || defined(__unix) \
+    || defined(__linux__) \
+    || defined(__APPLE__) \
+    || defined(__MACH__) \
+    || defined(__MINGW32__) \
+    || defined(__MINGW64__) \
+    || defined(__GNUC__)
+#define UNIX
+#elif defined(WIN32) || defined(_WIN32) || defined(_WIN64)
+#define WIN
+#else
+#error "Unknown platform"
+#endif // OS definitions
+
+#ifdef WIN
+#include <windows.h>
+#endif // WIN
+
 namespace jc::log {
     // TODO: Background colors, if needed
 
