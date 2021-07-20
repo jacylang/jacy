@@ -105,6 +105,11 @@ namespace jc::log {
         using row_t = std::array<std::string, Cols>;
         using s_t = uint16_t;
 
+        enum class CellKind {
+            Value,
+            Line,
+        };
+
     public:
         Table(
             const std::array<s_t, Cols> & layout,
@@ -135,12 +140,14 @@ namespace jc::log {
         void addRow() {}
 
         template<class Arg>
-        void addCell(Arg && arg) {
+        void addCell(Arg && arg, CellKind kind) {
             auto str = string(arg);
             if (index == Cols - 1) {
                 rows.emplace_back(row_t{str});
+                cellKinds.emplace_back({kind});
             } else {
                 rows.back().at(index) = str;
+                cellKinds.back().at(index) = kind;
                 index++;
             }
         }
@@ -188,11 +195,6 @@ namespace jc::log {
         const s_t wrapLen;
 
     private:
-        enum class CellKind {
-            Value,
-            Line,
-        };
-
         const static s_t DEFAULT_WRAP_LEN = 120;
 
         s_t index{0};
