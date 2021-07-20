@@ -132,6 +132,8 @@ namespace jc::log {
             addRow(std::forward<Args>(rest)...);
         }
 
+        void addRow() {}
+
         template<class Arg>
         void addCell(Arg && arg) {
             const auto & str = string(arg);
