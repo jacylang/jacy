@@ -199,7 +199,7 @@ namespace jc::log {
                     os << corners.at(tbl.cellKinds.at(rowIndex).back()).at(2);
                 }
 
-                os << "\n";
+                os << std::endl;
             }
 
             return os;
