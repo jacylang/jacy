@@ -4,9 +4,10 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
+    struct ItemNode;
     struct Item;
     using item_ptr = std::unique_ptr<Item>;
-    using item_list = std::vector<item_ptr>;
+    using item_node_list = std::vector<ItemNode>;
 
     // Wrapper for type strictness
     struct ItemId {
