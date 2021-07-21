@@ -48,7 +48,7 @@ namespace jc::ast {
         ident_pr name;
         enum_entry_list entries{};
 
-        Ident getName() const override {
+        span::Ident getName() const override {
             return name.unwrap();
         }
 

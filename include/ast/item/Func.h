@@ -55,7 +55,7 @@ namespace jc::ast {
         opt_type_ptr returnType;
         opt_block_ptr body;
 
-        Ident getName() const override {
+        span::Ident getName() const override {
             return name.unwrap();
         }
 

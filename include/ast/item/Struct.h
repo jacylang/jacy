@@ -40,7 +40,7 @@ namespace jc::ast {
         opt_gen_params generics;
         struct_field_list fields;
 
-        Ident getName() const override {
+        span::Ident getName() const override {
             return name.unwrap();
         }
 

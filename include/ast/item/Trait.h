@@ -23,7 +23,7 @@ namespace jc::ast {
         type_path_list superTraits;
         item_list members;
 
-        Ident getName() const override {
+        span::Ident getName() const override {
             return name.unwrap();
         }
 
