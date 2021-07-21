@@ -112,20 +112,11 @@ namespace jc::log {
         using row_t = std::array<cell_t, Cols>;
 
     public:
-        Table(
-            const std::array<table_size_t, Cols> & layout,
-            uint16_t wrapLen = DEFAULT_WRAP_LEN
-        ) : layout(layout),
-            wrapLen(wrapLen) {
-            size_t layoutWidth = 0;
+        Table(const std::array<table_size_t, Cols> & layout) : layout(layout) {
             for (const auto & width : layout) {
-                layoutWidth += width;
                 if (width <= 2) {
                     throw std::logic_error("Each table layout width must be greater than 2");
                 }
-            }
-            if (layoutWidth < wrapLen) {
-                throw std::logic_error("Invalid layout for `log::Table`, sum of widths in layout is less than `wrapLen`");
             }
         }
         ~Table() = default;
@@ -219,10 +210,6 @@ namespace jc::log {
             ss << arg;
             return ss.str();
         }
-
-    public:
-        const table_size_t wrapLen;
-        const static table_size_t DEFAULT_WRAP_LEN = 120;
 
     private:
         table_size_t index{0};
