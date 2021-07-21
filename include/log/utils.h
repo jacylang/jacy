@@ -175,10 +175,11 @@ namespace jc::log {
                     const auto & str = row.at(cellIndex).second;
                     const auto & colWidth = tbl.layout.at(cellIndex);
 
-                    const auto & leftCorner = corners.at(kind).at(0);
-                    const auto & middleCorner = corners.at(kind).at(1);
+                    if (cellIndex == 0) {
+                        // Left corner
+                        os << corners.at(kind).at(0);
+                    }
 
-                    os << leftCorner;
                     switch (kind) {
                         case CellKind::Value: {
                             os << padEnd(padStart(str, (colWidth + str.size()) / 2), colWidth);
@@ -190,8 +191,9 @@ namespace jc::log {
                         }
                     }
 
-                    if (cellIndex < Cols - 1) {
-                        os << middleCorner;
+                    if (cellIndex > 0 and cellIndex < Cols - 1) {
+                        // Middle corner
+                        os << corners.at(kind).at(1);
                     }
                 }
 
