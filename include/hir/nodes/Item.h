@@ -24,11 +24,16 @@ namespace jc::hir {
         Use,
     };
 
-    struct Item : HirNode {
-        Item(ItemKind kind, span::Ident && name, const HirId & hirId, const Span & span)
-            : HirNode(hirId, span), kind(kind), name(std::move(name)) {}
+    struct Item {
+        Item(ItemKind kind) : kind(kind) {}
 
         ItemKind kind;
+    };
+
+    struct ItemNode : HirNode {
+        ItemNode(span::Ident && name, const HirId & hirId, const Span & span)
+            : HirNode(hirId, span), name(std::move(name)) {}
+
         span::Ident name;
     };
 }
