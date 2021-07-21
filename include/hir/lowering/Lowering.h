@@ -4,14 +4,16 @@
 #include "ast/nodes.h"
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
+#include "data_types/SuggResult.h"
+#include "suggest/SuggInterface.h"
 
 namespace jc::hir {
-    class Lowering {
+    class Lowering : public sugg::SuggInterface {
     public:
         Lowering() = default;
         virtual ~Lowering() = default;
 
-        void lower(const sess::sess_ptr & sess, const ast::Party & party);
+        dt::SuggResult<Party> lower(const sess::sess_ptr & sess, const ast::Party & party);
 
     private:
         template<class T, class ...Args>

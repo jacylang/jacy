@@ -15,8 +15,7 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(std::vector<Variant> && variants)
-            : Item(ItemKind::Enum), variants(std::move(variants)) {}
+        Enum(std::vector<Variant> && variants) : Item(ItemKind::Enum), variants(std::move(variants)) {}
 
         std::vector<Variant> variants;
     };
@@ -26,8 +25,7 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(item_list && items)
-            : Item(ItemKind::Mod), items(std::move(items)) {}
+        Mod(item_list && items) : Item(ItemKind::Mod), items(std::move(items)) {}
 
         item_list items;
     };

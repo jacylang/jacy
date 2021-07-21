@@ -1,7 +1,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    void Lowering::lower(const sess::sess_ptr & sess, const ast::Party & party) {
+    dt::SuggResult<Party> Lowering::lower(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
         item_list items;
@@ -9,7 +9,10 @@ namespace jc::hir {
             items.emplace_back(lowerItem(item));
         }
 
-        return Party();
+        return {
+            Party(Mod(std::move(items))),
+            extractSuggestions()
+        };
     }
 
     // Items //
