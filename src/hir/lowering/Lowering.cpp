@@ -59,6 +59,14 @@ namespace jc::hir {
         }
     }
 
+    Mod Lowering::lowerMod(const ast::item_list & astItems) {
+        item_list items;
+        for (const auto & item : astItems) {
+            items.emplace_back(lowerItem(item));
+        }
+        return Mod(std::move(items));
+    }
+
     // Statements //
     stmt_ptr Lowering::lowerStmt(const ast::stmt_ptr & astStmt) {
         const auto & stmt = astStmt.unwrap();
