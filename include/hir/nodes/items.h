@@ -21,6 +21,20 @@ namespace jc::hir {
         span::Ident name;
         std::vector<Variant> variants;
     };
+
+    struct Func : Item {};
+
+    struct Impl : Item {};
+
+    struct Mod : Item {};
+
+    struct Struct : Item {};
+
+    struct Trait : Item {};
+
+    struct TypeAlias : Item {};
+
+    struct UseDecl : Item {};
 }
 
 #endif // JACY_HIR_NODES_ITEMS_H
