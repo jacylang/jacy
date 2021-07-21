@@ -6,11 +6,11 @@ namespace jc::hir {
 
     }
 
+    // Items //
     item_ptr Lowering::lowerItem(const ast::item_ptr & astItem) {
         const auto & item = astItem.unwrap();
         switch (item->kind) {
-            case ast::ItemKind::Enum:
-                break;
+            case ast::ItemKind::Enum: return lowerEnum(*item->as<ast::Enum>(item));
             case ast::ItemKind::Func:
                 break;
             case ast::ItemKind::Impl:
@@ -26,6 +26,9 @@ namespace jc::hir {
             case ast::ItemKind::Use:
                 break;
         }
+    }
+
+    item_ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
     }
 
     // Statements //
