@@ -195,7 +195,22 @@ namespace jc::log {
 
                     switch (kind) {
                         case CellKind::Value: {
-                            os << padEnd(padStart(str, (colWidth + str.size()) / 2), colWidth);
+                            std::string aligned;
+                            switch (tbl.alignment.at(colIndex)) {
+                                case Align::Left: {
+                                    aligned = padEnd(str, colWidth);
+                                    break;
+                                }
+                                case Align::Right: {
+                                    aligned = padStart(str, colWidth);
+                                    break;
+                                }
+                                case Align::Center: {
+                                    aligned = padEnd(padStart(str, (colWidth + str.size()) / 2), colWidth);
+                                    break;
+                                }
+                            }
+                            os << aligned;
                             break;
                         }
                         case CellKind::Line: {
