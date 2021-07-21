@@ -52,6 +52,8 @@ namespace jc::span {
             return Span(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);
         }
     };
+
+    const Span NONE_SPAN {0, static_cast<span_len_t>(0), 0};
 }
 
 #endif // JACY_SPAN_H
