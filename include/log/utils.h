@@ -170,20 +170,20 @@ namespace jc::log {
                 const auto & row = tbl.rows.at(rowIndex);
 
                 for (table_size_t cellIndex = 0; cellIndex < TW; cellIndex++) {
-                    const auto & cell = row.at(cellIndex);
-                    const auto & cellKind = tbl.cellKinds.at(rowIndex).at(cellIndex);
+                    const auto & kind = row.at(cellIndex).first;
+                    const auto & str = row.at(cellIndex).second;
 
-                    const auto & leftCorner = corners.at(cellKind).at(0);
-                    const auto & middleCorner = corners.at(cellKind).at(1);
+                    const auto & leftCorner = corners.at(kind).at(0);
+                    const auto & middleCorner = corners.at(kind).at(1);
 
                     os << leftCorner;
-                    switch (cellKind) {
+                    switch (kind) {
                         case CellKind::Value: {
-                            os << padEnd(padStart(cell, (tbl.wrapLen + cell.size()) / 2), tbl.wrapLen);
+                            os << padEnd(padStart(str, (tbl.wrapLen + str.size()) / 2), tbl.wrapLen);
                             break;
                         }
                         case CellKind::Line: {
-                            os << cell;
+                            os << str;
                             break;
                         }
                     }
@@ -194,7 +194,7 @@ namespace jc::log {
                 }
 
                 if (not row.empty()) {
-                    os << corners.at(tbl.cellKinds.at(rowIndex).back()).at(2);
+                    os << corners.at(row.back().first).at(2);
                 }
 
                 os << std::endl;
