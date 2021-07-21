@@ -104,6 +104,12 @@ namespace jc::log {
         Line,
     };
 
+    enum class Align {
+        Left,
+        Center,
+        Right,
+    };
+
     // Rows-count-dynamic table for logs
     template<uint16_t Cols>
     class Table {
@@ -113,7 +119,14 @@ namespace jc::log {
         using row_t = std::array<cell_t, Cols>;
 
     public:
-        Table(const std::array<table_size_t, Cols> & layout) : layout(layout) {
+        Table(
+            const std::array<table_size_t, Cols> & layout,
+            const std::array<Align, Cols> & alignment
+        ) : layout(layout), alignment(alignment) {
+            if (alignment.size() != layout.size()) {
+                throw std::logic_error("Layout and Alignment sizes must be equal");
+            }
+
             for (const auto & width : layout) {
                 if (width <= 2) {
                     throw std::logic_error("Each table layout width must be greater than 2");
@@ -198,6 +211,7 @@ namespace jc::log {
                 }
 
                 if (not row.empty()) {
+                    // Right corner
                     os << getCorner(row.back().first, rowIndex, tbl.rows.size(), 1);
                 }
 
@@ -240,6 +254,7 @@ namespace jc::log {
         table_size_t index{0};
 
         std::array<table_size_t, Cols> layout;
+        std::array<Align, Cols> alignment;
         std::vector<row_t> rows;
 
         using corner_line_t = std::array<std::string, 3>;
