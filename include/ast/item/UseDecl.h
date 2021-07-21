@@ -79,6 +79,10 @@ namespace jc::ast {
 
         use_tree_ptr useTree;
 
+        span::Ident getName() const override {
+            return Ident::empty();
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }

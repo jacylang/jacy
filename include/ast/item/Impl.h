@@ -23,6 +23,10 @@ namespace jc::ast {
         opt_type_ptr forType;
         item_list members;
 
+        span::Ident getName() const override {
+            return Ident::empty();
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
