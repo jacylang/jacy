@@ -16,6 +16,10 @@ namespace jc::ast {
         ident_pr name;
         item_list items;
 
+        Ident getName() const override {
+            return name.unwrap();
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }

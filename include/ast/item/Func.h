@@ -55,6 +55,10 @@ namespace jc::ast {
         opt_type_ptr returnType;
         opt_block_ptr body;
 
+        Ident getName() const override {
+            return name.unwrap();
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }

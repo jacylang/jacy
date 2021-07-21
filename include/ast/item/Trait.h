@@ -23,6 +23,10 @@ namespace jc::ast {
         type_path_list superTraits;
         item_list members;
 
+        Ident getName() const override {
+            return name.unwrap();
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
