@@ -43,7 +43,7 @@ namespace jc::hir {
         for (const auto & variant : astEnum.entries) {
             variants.emplace_back(lowerVariant(variant));
         }
-        return makeBoxNode<Enum>(std::move(name), std::move(variants), NONE_HIR_ID, astEnum.span);
+        return makeBoxNode<Enum>(std::move(variants));
     }
 
     Variant Lowering::lowerVariant(const ast::EnumEntry & enumEntry) {
