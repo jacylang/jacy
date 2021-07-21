@@ -45,10 +45,14 @@ namespace jc::log {
     template<table_size_t Cols>
     const std::map<CellKind, std::array<std::array<std::string, 3>, 3>> Table<Cols>::corners = {
         {CellKind::Value, {
-            corner_line_t{"| ", " | ", " |"},
+            corner_line_t{"│ ", " │ ", " │"},
+            corner_line_t{"│ ", " │ ", " │"},
+            corner_line_t{"│ ", " │ ", " │"},
         }},
         {CellKind::Line, {
-            corner_line_t{"+-", "-+-", "-+"}
+            corner_line_t{"┌", "┬", "┐"},
+            corner_line_t{"├", "┼", "┤"},
+            corner_line_t{"└", "┴", "┘"}
         }},
     };
 }
