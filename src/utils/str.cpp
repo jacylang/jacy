@@ -56,11 +56,11 @@ namespace jc::utils::str {
 
     std::string pointLine(size_t lineLen, size_t pos, size_t spanLen) {
         size_t targetLen = pos + spanLen <= lineLen ? lineLen - pos - spanLen : 0;
-        std::string str = pos > 0 ? padStart("", pos, '-') : "";
+        std::string str = pos > 0 ? padStart("", pos, "-") : "";
         for (size_t i = 0; i < spanLen; i++) {
             str += "^";
         }
-        str += padEnd("", targetLen, '-');
+        str += padEnd("", targetLen, "-");
         return str;
     }
 
