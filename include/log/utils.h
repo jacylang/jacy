@@ -150,6 +150,13 @@ namespace jc::log {
 
         void addRow() {}
 
+        template<class ...Args>
+        void addHeader(Args && ...args) {
+            addLine();
+            addRow(std::forward<Args>(args)...);
+            addLine();
+        }
+
         template<class Arg>
         void addCell(Arg && arg, CellKind kind) {
             auto str = string(arg);
