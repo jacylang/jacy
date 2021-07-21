@@ -170,14 +170,14 @@ namespace jc::log {
             for (table_size_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
-                for (table_size_t cellIndex = 0; cellIndex < Cols; cellIndex++) {
-                    const auto & kind = row.at(cellIndex).first;
-                    const auto & str = row.at(cellIndex).second;
-                    const auto & colWidth = tbl.layout.at(cellIndex);
+                for (table_size_t colIndex = 0; colIndex < Cols; colIndex++) {
+                    const auto & kind = row.at(colIndex).first;
+                    const auto & str = row.at(colIndex).second;
+                    const auto & colWidth = tbl.layout.at(colIndex);
 
-                    if (cellIndex == 0) {
+                    if (colIndex == 0) {
                         // Left corner
-                        os << getCorner(kind, rowIndex, tbl.rows.size(), cellIndex);
+                        os << getCorner(kind, rowIndex, tbl.rows.size(), colIndex);
                     }
 
                     switch (kind) {
@@ -191,9 +191,9 @@ namespace jc::log {
                         }
                     }
 
-                    if (cellIndex < Cols - 1) {
+                    if (colIndex < Cols - 1) {
                         // Middle corner
-                        os << getCorner(kind, rowIndex, tbl.rows.size(), cellIndex);
+                        os << getCorner(kind, rowIndex, tbl.rows.size(), colIndex);
                     }
                 }
 
@@ -225,7 +225,8 @@ namespace jc::log {
             table_size_t colIndex
         ) {
             return corners.at(kind)
-                    .at(clampCornerIndex(rowIndex, rowsCnt)).at(clampCornerIndex(colIndex, Cols));
+                    .at(clampCornerIndex(rowIndex, rowsCnt))
+                    .at(clampCornerIndex(colIndex, Cols));
         }
 
         template<class Arg>
