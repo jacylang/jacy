@@ -5,7 +5,14 @@
 
 namespace jc::hir {
     enum class ItemKind {
-
+        Enum,
+        Func,
+        Impl,
+        Mod,
+        Struct,
+        Trait,
+        TypeAlias,
+        Use,
     };
 
     struct Item : HirNode {

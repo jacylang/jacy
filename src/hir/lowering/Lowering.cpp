@@ -4,7 +4,6 @@ namespace jc::hir {
     void Lowering::lower(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
-
     }
 
     // Expressions //
