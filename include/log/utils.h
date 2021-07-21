@@ -109,7 +109,7 @@ namespace jc::log {
         static_assert(Cols > 0);
 
         using cell_t = std::pair<CellKind, std::string>;
-        using row_t = std::array<std::string, Cols>;
+        using row_t = std::array<cell_t, Cols>;
 
     public:
         Table(
@@ -145,15 +145,12 @@ namespace jc::log {
             auto str = string(arg);
             if (index == 0) {
                 rows.emplace_back(row_t{});
-                cellKinds.emplace_back(std::array<CellKind, Cols>{});
             }
             if (index == Cols - 1) {
-                rows.emplace_back(row_t{str});
-                cellKinds.emplace_back(std::array<CellKind, Cols>{kind});
+                rows.emplace_back(row_t{cell_t{kind, str}});
                 index = 0;
             } else {
-                rows.back().at(index) = str;
-                cellKinds.back().at(index) = kind;
+                rows.back().at(index) = cell_t{kind, str};
                 index++;
             }
         }
@@ -224,7 +221,6 @@ namespace jc::log {
 
         std::array<table_size_t, Cols> layout;
         std::vector<row_t> rows;
-        std::vector<std::array<CellKind, Cols>> cellKinds;
 
         static const std::map<CellKind, std::array<std::string, 3>> corners;
     };
