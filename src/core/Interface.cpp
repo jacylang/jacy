@@ -495,7 +495,7 @@ namespace jc::core {
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
 
-        table.addLine();
+        table.addHeader("Name", "Entity", "Time", "Speed");
 
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
