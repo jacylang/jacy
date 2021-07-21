@@ -19,6 +19,10 @@ namespace jc::hir {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
+        // Items //
+    private:
+        item_ptr lowerItem(const ast::item_ptr & astItem);
+
         // Statements //
     private:
         stmt_ptr lowerStmt(const ast::stmt_ptr & astStmt);

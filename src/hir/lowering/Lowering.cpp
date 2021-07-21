@@ -6,6 +6,28 @@ namespace jc::hir {
 
     }
 
+    item_ptr Lowering::lowerItem(const ast::item_ptr & astItem) {
+        const auto & item = astItem.unwrap();
+        switch (item->kind) {
+            case ast::ItemKind::Enum:
+                break;
+            case ast::ItemKind::Func:
+                break;
+            case ast::ItemKind::Impl:
+                break;
+            case ast::ItemKind::Mod:
+                break;
+            case ast::ItemKind::Struct:
+                break;
+            case ast::ItemKind::Trait:
+                break;
+            case ast::ItemKind::TypeAlias:
+                break;
+            case ast::ItemKind::Use:
+                break;
+        }
+    }
+
     // Statements //
     stmt_ptr Lowering::lowerStmt(const ast::stmt_ptr & astStmt) {
         const auto & stmt = astStmt.unwrap();
