@@ -108,6 +108,7 @@ namespace jc::log {
     class Table {
         static_assert(Cols > 0);
 
+        using cell_t = std::pair<CellKind, std::string>;
         using row_t = std::array<std::string, Cols>;
 
     public:
