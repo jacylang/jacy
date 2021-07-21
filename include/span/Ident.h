@@ -18,6 +18,10 @@ namespace jc::span {
         std::string name;
         Span span;
 
+        static Ident empty() {
+            static const Ident ident{"", NONE_SPAN};
+        }
+
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
             os << "Ident(" << ident.name + ")";
