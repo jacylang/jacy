@@ -22,12 +22,12 @@ namespace jc::utils::str {
         return str;
     }
 
-    std::string padStart(const std::string & str, size_t targetLen, char ch) {
+    std::string padStart(const std::string & str, size_t targetLen, const std::string & rep) {
         if (targetLen <= str.size()) {
             return str;
         }
         size_t pad = targetLen - str.size();
-        return repeat(std::string(1, ch), pad) + str;
+        return repeat(rep, pad) + str;
     }
 
     std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
@@ -38,12 +38,12 @@ namespace jc::utils::str {
         return repeat(std::string(1, ch), pad) + str;
     }
 
-    std::string padEnd(const std::string & str, size_t targetLen, char ch) {
+    std::string padEnd(const std::string & str, size_t targetLen, const std::string & rep) {
         if (targetLen <= str.size()) {
             return str;
         }
         size_t pad = targetLen - str.size();
-        return str + repeat(std::string(1, ch), pad);
+        return str + repeat(rep, pad);
     }
 
     std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
