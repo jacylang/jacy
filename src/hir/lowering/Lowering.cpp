@@ -29,6 +29,23 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
+        const auto & name = astEnum.name.unwrap();
+        for (const auto & variant : astEnum.entries) {
+
+        }
+    }
+
+    Variant Lowering::lowerVariant(const ast::EnumEntry & enumEntry) {
+        switch (enumEntry.kind) {
+            case ast::EnumEntryKind::Raw:
+                break;
+            case ast::EnumEntryKind::Discriminant:
+                break;
+            case ast::EnumEntryKind::Tuple:
+                break;
+            case ast::EnumEntryKind::Struct:
+                break;
+        }
     }
 
     // Statements //
