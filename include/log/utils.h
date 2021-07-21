@@ -149,17 +149,17 @@ namespace jc::log {
         // API //
     public:
         template<class Arg, class ...Args>
-        void addRow(Arg && first, Args && ...rest) {
-            addCell(std::forward<Arg>(first), CellKind::Value);
-            addRow(std::forward<Args>(rest)...);
+        void addRow(Arg && first, Args && ...rest, CellKind kind = CellKind::Value) {
+            addCell(std::forward<Arg>(first), kind);
+            addRow(std::forward<Args>(rest)..., kind);
         }
 
         template<class ...Args>
-        void addRow(Args && ...rest) {
-            addRow(std::forward<Args>(rest)...);
+        void addRow(Args && ...rest, CellKind kind = CellKind::Value) {
+            addRow(std::forward<Args>(rest)..., kind);
         }
 
-        void addRow() {}
+        void addRow(CellKind) {}
 
         template<class ...Args>
         void addHeader(Args && ...args) {
