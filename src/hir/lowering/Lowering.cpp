@@ -4,13 +4,10 @@ namespace jc::hir {
     dt::SuggResult<Party> Lowering::lower(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
-        item_list items;
-        for (const auto & item : party.items) {
-            items.emplace_back(lowerItem(item));
-        }
+        auto rootMod = lowerMod(party.items);
 
         return {
-            Party(Mod(std::move(items))),
+            Party(std::move(rootMod)),
             extractSuggestions()
         };
     }
