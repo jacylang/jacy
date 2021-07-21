@@ -8,6 +8,11 @@ namespace jc::hir {
     using item_ptr = std::unique_ptr<Item>;
     using item_list = std::vector<item_ptr>;
 
+    // Wrapper for type strictness
+    struct ItemId {
+        resolve::DefId defId;
+    };
+
     enum class ItemKind {
         Enum,
         Func,
