@@ -4,6 +4,9 @@ namespace jc::hir {
     void Lowering::lower(const sess::sess_ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
+        for (const auto & item : party.items) {
+            lowerItem(item);
+        }
     }
 
     // Items //
