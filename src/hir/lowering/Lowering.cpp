@@ -7,7 +7,7 @@ namespace jc::hir {
         auto rootMod = lowerMod(party.items);
 
         return {
-            Party(std::move(rootMod)),
+            Party(std::move(*static_cast<Mod*>(rootMod.get()))),
             extractSuggestions()
         };
     }
