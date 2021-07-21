@@ -15,7 +15,7 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(span::Ident && name, std::vector<Variant> && variants, const HirId & hirId, const Span & span)
+        Enum(span::Ident && name, std::vector<Variant> && variants)
             : Item(ItemKind::Enum), name(std::move(name)), variants(std::move(variants)) {}
 
         span::Ident name;
@@ -27,7 +27,7 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(span::Ident && name, item_list && items, const HirId & hirId, const Span & span)
+        Mod(span::Ident && name, item_list && items)
             : Item(ItemKind::Mod), name(std::move(name)), items(std::move(items)) {}
 
         span::Ident name;
