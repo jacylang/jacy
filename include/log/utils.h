@@ -176,7 +176,8 @@ namespace jc::log {
 
                     if (cellIndex == 0) {
                         // Left corner
-                        os << corners.at(kind).at(0);
+                        os << corners.at(kind).at(clampCorner(rowIndex, tbl.rows.size()))
+                            .at(clampCorner(cellIndex, Cols));
                     }
 
                     switch (kind) {
@@ -192,7 +193,7 @@ namespace jc::log {
 
                     if (cellIndex < Cols - 1) {
                         // Middle corner
-                        os << corners.at(kind).at(1);
+                        os << corners.at(kind).at(clampCorner(rowIndex));
                     }
                 }
 
@@ -207,6 +208,26 @@ namespace jc::log {
         }
 
     private:
+        static table_size_t clampCornerIndex(table_size_t index, table_size_t size) {
+            if (index <= 0) {
+                return 0;
+            }
+            if (index >= (size - 1)) {
+                return 2;
+            }
+            return 1;
+        }
+
+        static std::string getCorner(
+            CellKind kind,
+            table_size_t rowIndex,
+            table_size_t rowsCnt,
+            table_size_t colIndex
+        ) {
+            return corners.at(kind)
+                    .at(clampCornerIndex(rowIndex, rowsCnt)).at(clampCornerIndex(colIndex, Cols));
+        }
+
         template<class Arg>
         std::string string(Arg && arg) const {
             std::stringstream ss;
