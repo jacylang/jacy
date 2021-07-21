@@ -117,10 +117,15 @@ namespace jc::log {
             uint16_t wrapLen = DEFAULT_WRAP_LEN
         ) : layout(layout),
             wrapLen(wrapLen) {
+            size_t layoutWidth = 0;
             for (const auto & width : layout) {
+                layoutWidth += width;
                 if (width <= 2) {
                     throw std::logic_error("Each table layout width must be greater than 2");
                 }
+            }
+            if (layoutWidth < wrapLen) {
+                throw std::logic_error("Invalid layout for `log::Table`, sum of widths in layout is less than `wrapLen`");
             }
         }
         ~Table() = default;
