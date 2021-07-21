@@ -515,6 +515,8 @@ namespace jc::core {
             }
         }
 
+        table.addLine();
+
         log.raw(table);
     }
 }
