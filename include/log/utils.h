@@ -166,14 +166,14 @@ namespace jc::log {
         }
 
     public:
-        template<table_size_t TW>
-        friend std::ostream & operator<<(std::ostream & os, const Table<TW> & tbl) {
+        friend std::ostream & operator<<(std::ostream & os, const Table<Cols> & tbl) {
             for (table_size_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
-                for (table_size_t cellIndex = 0; cellIndex < TW; cellIndex++) {
+                for (table_size_t cellIndex = 0; cellIndex < Cols; cellIndex++) {
                     const auto & kind = row.at(cellIndex).first;
                     const auto & str = row.at(cellIndex).second;
+                    const auto & colWidth = tbl.layout.at(cellIndex);
 
                     const auto & leftCorner = corners.at(kind).at(0);
                     const auto & middleCorner = corners.at(kind).at(1);
@@ -181,7 +181,7 @@ namespace jc::log {
                     os << leftCorner;
                     switch (kind) {
                         case CellKind::Value: {
-                            os << padEnd(padStart(str, (tbl.wrapLen + str.size()) / 2), tbl.wrapLen);
+                            os << padEnd(padStart(str, (colWidth + str.size()) / 2), colWidth);
                             break;
                         }
                         case CellKind::Line: {
@@ -190,7 +190,7 @@ namespace jc::log {
                         }
                     }
 
-                    if (cellIndex < TW - 1) {
+                    if (cellIndex < Cols - 1) {
                         os << middleCorner;
                     }
                 }
