@@ -25,9 +25,9 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(item_list && items) : Item(ItemKind::Mod), items(std::move(items)) {}
+        Mod(item_node_list && items) : Item(ItemKind::Mod), items(std::move(items)) {}
 
-        item_list items;
+        item_node_list items;
     };
 
     struct Struct : Item {};

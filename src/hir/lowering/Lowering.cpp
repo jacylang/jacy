@@ -63,12 +63,12 @@ namespace jc::hir {
         }
     }
 
-    Mod Lowering::lowerMod(const ast::item_list & astItems) {
-        item_list items;
+    item_ptr Lowering::lowerMod(const ast::item_list & astItems) {
+        item_node_list items;
         for (const auto & item : astItems) {
             items.emplace_back(lowerItem(item));
         }
-        return Mod(std::move(items));
+        return makeBoxNode<Mod>(std::move(items));
     }
 
     // Statements //
