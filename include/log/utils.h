@@ -191,7 +191,7 @@ namespace jc::log {
                         }
                     }
 
-                    if (cellIndex > 0 and cellIndex < Cols - 1) {
+                    if (cellIndex < Cols - 1) {
                         // Middle corner
                         os << corners.at(kind).at(1);
                     }
