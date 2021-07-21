@@ -26,7 +26,13 @@ namespace jc::hir {
 
     struct Impl : Item {};
 
-    struct Mod : Item {};
+    struct Mod : Item {
+        Mod(span::Ident && name, item_list && items, const HirId & hirId, const Span & span)
+            : Item(ItemKind::Mod, hirId, span), name(std::move(name)), items(std::move(items)) {}
+
+        span::Ident name;
+        item_list items;
+    };
 
     struct Struct : Item {};
 

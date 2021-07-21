@@ -6,6 +6,7 @@
 namespace jc::hir {
     struct Item;
     using item_ptr = std::unique_ptr<Item>;
+    using item_list = std::vector<item_ptr>;
 
     enum class ItemKind {
         Enum,
