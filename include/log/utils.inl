@@ -50,9 +50,9 @@ namespace jc::log {
             corner_line_t{"│ ", " │ ", " │"},
         }},
         {CellKind::Line, {
-            corner_line_t{"┌", "┬", "┐"},
-            corner_line_t{"├", "┼", "┤"},
-            corner_line_t{"└", "┴", "┘"}
+            corner_line_t{"┌─", "─┬─", "─┐"},
+            corner_line_t{"├─", "─┼─", "─┤"},
+            corner_line_t{"└─", "─┴─", "─┘"}
         }},
     };
 }

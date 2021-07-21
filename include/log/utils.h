@@ -104,6 +104,7 @@ namespace jc::log {
         Line,
     };
 
+    // Rows-count-dynamic table for logs
     template<uint16_t Cols>
     class Table {
         static_assert(Cols > 0);
@@ -160,7 +161,7 @@ namespace jc::log {
                 index = 0;
             }
             for (table_size_t i = index; i < Cols; i++) {
-                addCell(repeat("-", layout.at(i)), CellKind::Line);
+                addCell(repeat("─", layout.at(i)), CellKind::Line);
             }
         }
 
