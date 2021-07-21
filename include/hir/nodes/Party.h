@@ -5,6 +5,8 @@
 
 namespace jc::hir {
     struct Party {
+        Party(Mod && rootMod) : rootMod(std::move(rootMod)) {}
+
         Mod rootMod;
     };
 }
