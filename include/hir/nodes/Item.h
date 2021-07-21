@@ -25,10 +25,11 @@ namespace jc::hir {
     };
 
     struct Item : HirNode {
-        Item(ItemKind kind, const HirId & hirId, const Span & span)
-            : HirNode(hirId, span), kind(kind) {}
+        Item(ItemKind kind, span::Ident && name, const HirId & hirId, const Span & span)
+            : HirNode(hirId, span), kind(kind), name(std::move(name)) {}
 
         ItemKind kind;
+        span::Ident name;
     };
 }
 
