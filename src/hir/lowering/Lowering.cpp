@@ -19,6 +19,7 @@ namespace jc::hir {
             case ast::ItemKind::Enum: {
                 return ItemNode {
                     item->getName(),
+                    lowerEnum(*item->as<ast::Enum>(item)),
                     NONE_HIR_ID,
                     item->span
                 };
