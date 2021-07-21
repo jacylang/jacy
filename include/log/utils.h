@@ -63,6 +63,15 @@ namespace jc::log {
     inline std::ostream & operator<<(std::ostream & os, Color color);
 }
 
+// Font styles //
+namespace jc::log {
+    enum class Style : uint8_t {
+        Bold,
+    };
+
+    inline std::ostream & operator<<(std::ostream & os, Style style);
+}
+
 // Elementary utils/helpers //
 namespace jc::log {
     // TODO
