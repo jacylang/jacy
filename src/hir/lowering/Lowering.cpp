@@ -13,10 +13,16 @@ namespace jc::hir {
     }
 
     // Items //
-    item_ptr Lowering::lowerItem(const ast::item_ptr & astItem) {
+    ItemNode Lowering::lowerItem(const ast::item_ptr & astItem) {
         const auto & item = astItem.unwrap();
         switch (item->kind) {
-            case ast::ItemKind::Enum: return lowerEnum(*item->as<ast::Enum>(item));
+            case ast::ItemKind::Enum: {
+                return ItemNode {
+                    item->getName(),
+                    NONE_HIR_ID,
+                    item->span
+                };
+            }
             case ast::ItemKind::Func:
                 break;
             case ast::ItemKind::Impl:
