@@ -220,7 +220,8 @@ namespace jc::log {
         std::array<table_size_t, Cols> layout;
         std::vector<row_t> rows;
 
-        static const std::map<CellKind, std::array<std::string, 3>> corners;
+        using corner_line_t = std::array<std::string, 3>;
+        static const std::map<CellKind, std::array<corner_line_t , 3>> corners;
     };
 }
 
