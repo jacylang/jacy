@@ -176,8 +176,7 @@ namespace jc::log {
 
                     if (cellIndex == 0) {
                         // Left corner
-                        os << corners.at(kind).at(clampCorner(rowIndex, tbl.rows.size()))
-                            .at(clampCorner(cellIndex, Cols));
+                        os << getCorner(kind, rowIndex, tbl.rows.size(), cellIndex);
                     }
 
                     switch (kind) {
@@ -193,12 +192,12 @@ namespace jc::log {
 
                     if (cellIndex < Cols - 1) {
                         // Middle corner
-                        os << corners.at(kind).at(clampCorner(rowIndex));
+                        os << getCorner(kind, rowIndex, tbl.rows.size(), cellIndex);
                     }
                 }
 
                 if (not row.empty()) {
-                    os << corners.at(row.back().first).at(2);
+                    os << getCorner(row.back().first, rowIndex, tbl.rows.size(), Cols - 1);
                 }
 
                 os << std::endl;
