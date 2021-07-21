@@ -22,6 +22,7 @@ namespace jc::hir {
         // Items //
     private:
         item_ptr lowerItem(const ast::item_ptr & astItem);
+        item_ptr lowerEnum(const ast::Enum & astEnum);
 
         // Statements //
     private:
