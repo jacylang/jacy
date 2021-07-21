@@ -483,8 +483,6 @@ namespace jc::core {
         // | 55 | 20 | 15 | 30 (there can be pretty long entity names) |
         // Note: Choose the shortest names for benchmarks!!!
 
-        log.printTitleDev("Benchmarks");
-
         constexpr uint8_t BNK_NAME_WRAP_LEN = 50;
         constexpr uint8_t ENTITY_NAME_WRAP_LEN = 20;
         constexpr uint8_t TIME_WRAP_LEN = 15;
@@ -494,6 +492,8 @@ namespace jc::core {
             {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
+
+        table.addSectionName("Benchmarks");
 
         table.addHeader("Name", "Entity", "Time", "Speed");
 

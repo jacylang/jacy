@@ -158,6 +158,12 @@ namespace jc::log {
         }
 
         template<class Arg>
+        void addSectionName(Arg && arg) {
+            addCell(padEnd(string(arg), layout.at(index)), CellKind::Line);
+            addLine();
+        }
+
+        template<class Arg>
         void addCell(Arg && arg, CellKind kind) {
             auto str = string(arg);
             if (index == Cols) {
