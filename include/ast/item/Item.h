@@ -47,6 +47,8 @@ namespace jc::ast {
             this->vis = std::move(vis);
         }
 
+        virtual Ident getName() const = 0;
+
         template<class T>
         static T * as(const N<Item> & item) {
             return static_cast<T*>(item.get());
