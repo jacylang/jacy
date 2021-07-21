@@ -67,7 +67,7 @@ namespace jc::log {
     // Note: Discriminants are Windows only (!)
     // Note: Use `Color::Reset` to reset styles too
     enum class Style : uint8_t {
-        Bold = 0x0080,
+        Bold = 128,
     };
 
     inline std::ostream & operator<<(std::ostream & os, Style style);
@@ -112,6 +112,7 @@ namespace jc::log {
     enum class CellKind {
         Value,
         Line,
+        SectionName,
     };
 
     enum class Align {
@@ -169,7 +170,7 @@ namespace jc::log {
 
         template<class Arg>
         void addSectionName(Arg && arg) {
-            addCell(padEnd(" " + string(arg) + " ", layout.at(index), "─"), CellKind::Line);
+            addCell(padEnd(" " + string(arg) + " ", layout.at(index), "─"), CellKind::SectionName);
             addLine();
         }
 
@@ -238,6 +239,10 @@ namespace jc::log {
                         }
                         case CellKind::Line: {
                             os << str;
+                            break;
+                        }
+                        case CellKind::SectionName: {
+                            os << Style::Bold << str << Color::Reset;
                             break;
                         }
                     }

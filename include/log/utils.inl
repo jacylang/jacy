@@ -41,7 +41,7 @@ namespace jc::log {
 }
 
 namespace jc::log {
-    inline std::ostream & operator<<(std::ostream & os, Style style) {
+    std::ostream & operator<<(std::ostream & os, Style style) {
         #if defined(WIN)
 
         static const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -57,6 +57,8 @@ namespace jc::log {
         os << "\x1b[" << unixStyles.at(style) << "m";
 
         #endif
+
+        return os;
     }
 }
 
