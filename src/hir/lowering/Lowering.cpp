@@ -29,10 +29,12 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
-        const auto & name = astEnum.name.unwrap();
+        auto name = astEnum.name.unwrap();
+        std::vector<Variant> variants;
         for (const auto & variant : astEnum.entries) {
-
+            variants.emplace_back(lowerVariant(variant));
         }
+        return makeBoxNode<Enum>(std::move(name), std::move(variants), NONE_HIR_ID, astEnum.span);
     }
 
     Variant Lowering::lowerVariant(const ast::EnumEntry & enumEntry) {

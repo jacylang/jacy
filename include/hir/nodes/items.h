@@ -15,9 +15,10 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(std::vector<Variant> && variants, const HirId & hirId, const Span & span)
-            : Item(ItemKind::Enum, hirId, span), variants(std::move(variants)) {}
+        Enum(span::Ident && name, std::vector<Variant> && variants, const HirId & hirId, const Span & span)
+            : Item(ItemKind::Enum, hirId, span), name(std::move(name)), variants(std::move(variants)) {}
 
+        span::Ident name;
         std::vector<Variant> variants;
     };
 }
