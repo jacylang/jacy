@@ -491,8 +491,7 @@ namespace jc::core {
         constexpr uint8_t SPEED_WRAP_LEN = 25;
 
         log::Table<4> table{
-            {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
-            120
+            {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN}
         };
 
         table.addLine();
