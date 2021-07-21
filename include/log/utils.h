@@ -143,16 +143,18 @@ namespace jc::log {
         template<class Arg>
         void addCell(Arg && arg, CellKind kind) {
             auto str = string(arg);
-            if (index == 0) {
-                rows.emplace_back(row_t{});
-            }
-            if (index == Cols - 1) {
-                rows.emplace_back(row_t{cell_t{kind, str}});
+            if (index == Cols) {
                 index = 0;
-            } else {
-                rows.back().at(index) = cell_t{kind, str};
-                index++;
+            } else if (index > Cols) {
+                std::logic_error("`log::Table::addCell` -> `index > Cols`");
             }
+
+            if (index == 0) {
+                rows.emplace_back(row_t{cell_t{kind, str}});
+            } else if (index < Cols) {
+                rows.back().at(index) = cell_t{kind, str};
+            }
+            index++;
         }
 
         // Add line separator
@@ -213,10 +215,9 @@ namespace jc::log {
 
     public:
         const table_size_t wrapLen;
-
-    private:
         const static table_size_t DEFAULT_WRAP_LEN = 120;
 
+    private:
         table_size_t index{0};
 
         std::array<table_size_t, Cols> layout;
