@@ -76,6 +76,11 @@ namespace jc::log {
             corner_line_t{"├─", "─┼─", "─┤"},
             corner_line_t{"└─", "─┴─", "─┘"}
         }},
+        {CellKind::SectionName, {
+            corner_line_t{"┌─", "─┬─", "─┐"},
+            corner_line_t{"├─", "─┼─", "─┤"},
+            corner_line_t{"└─", "─┴─", "─┘"}
+        }},
     };
 }
 
