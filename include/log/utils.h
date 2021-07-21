@@ -159,7 +159,7 @@ namespace jc::log {
 
         template<class Arg>
         void addSectionName(Arg && arg) {
-            addCell(padEnd(string(arg), layout.at(index)), CellKind::Line);
+            addCell(padEnd(string(arg), layout.at(index), "─"), CellKind::Line);
             addLine();
         }
 

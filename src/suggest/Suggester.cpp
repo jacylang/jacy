@@ -84,7 +84,7 @@ namespace jc::sugg {
             // We can put message before ` --^`
 
             // Here we put our message before `^` and fill empty space with `-`
-            std::string pointLine = utils::str::padStart(msg, point - 3, ' ');
+            std::string pointLine = utils::str::padStart(msg, point - 3, " ");
             pointLine += " --";
             pointLine += utils::str::repeat("^", span.len);
 
