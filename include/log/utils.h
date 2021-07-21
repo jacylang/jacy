@@ -15,8 +15,6 @@
 
 #include "utils/str.h"
 
-// Color //
-
 #if defined(__unix__) \
     || defined(__unix) \
     || defined(__linux__) \
@@ -36,6 +34,7 @@
 #include <windows.h>
 #endif // WIN
 
+// Color //
 namespace jc::log {
     // TODO: Background colors, if needed
 
@@ -65,8 +64,10 @@ namespace jc::log {
 
 // Font styles //
 namespace jc::log {
+    // Note: Discriminants are Windows only (!)
+    // Note: Use `Color::Reset` to reset styles too
     enum class Style : uint8_t {
-        Bold,
+        Bold = 0x0080,
     };
 
     inline std::ostream & operator<<(std::ostream & os, Style style);

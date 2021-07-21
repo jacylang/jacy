@@ -40,6 +40,26 @@ namespace jc::log {
     }
 }
 
+namespace jc::log {
+    inline std::ostream & operator<<(std::ostream & os, Style style) {
+        #if defined(WIN)
+
+        static const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        const auto styleNum = static_cast<uint8_t>(style);
+        SetConsoleTextAttribute(handle, styleNum);
+
+        #elif defined(UNIX)
+
+        static const std::map<Style, std::string> unixStyles = {
+            {Style::Bold, "1"},
+        };
+
+        os << "\x1b[" << unixStyles.at(style) << "m";
+
+        #endif
+    }
+}
+
 // Tables //
 namespace jc::log {
     template<table_size_t Cols>
