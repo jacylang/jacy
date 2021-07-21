@@ -156,6 +156,9 @@ namespace jc::log {
         // Add line separator
         // Note: Supports starting not from first column
         void addLine() {
+            if (index == Cols) {
+                index = 0;
+            }
             for (table_size_t i = index; i < Cols; i++) {
                 addCell(repeat("-", layout.at(i)), CellKind::Line);
             }
