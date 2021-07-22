@@ -184,12 +184,17 @@ namespace jc::resolve {
             resolutions.emplace(name, res);
         }
 
-        const std::map<node_id, Res> getResolutions() const {
+        const std::map<node_id, Res> & getResolutions() const {
             return resolutions;
         }
 
+        DefId getDefRes(node_id nodeId) const {
+            // TODO: Error resolutions recovery
+            return resolutions.at(nodeId).asDef();
+        }
+
     private:
-        /// Map of Identifier node id -> resolution
+        /// Map of Ident node id -> resolution
         std::map<node_id, Res> resolutions;
     };
 }
