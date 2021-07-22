@@ -12,6 +12,10 @@ namespace jc::hir {
     // Wrapper for type strictness
     struct ItemId {
         resolve::DefId defId;
+
+        constexpr bool operator<(const ItemId & other) const {
+            return defId < other.defId;
+        }
     };
 
     enum class ItemKind {
