@@ -43,6 +43,10 @@ namespace jc::hir {
     private:
         Block lowerBlock(const ast::Block & block);
 
+        // States //
+    private:
+        item_map items;
+
     private:
         sess::sess_ptr sess;
     };
