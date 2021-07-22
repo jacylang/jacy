@@ -8,6 +8,7 @@ namespace jc::hir {
         Party(Mod && rootMod) : rootMod(std::move(rootMod)) {}
 
         Mod rootMod;
+        std::map<ItemId, item_ptr> items;
     };
 }
 
