@@ -67,9 +67,11 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerMod(const ast::item_list & astItems) {
-        item_node_list items;
+        item_id_list itemIds;
         for (const auto & item : astItems) {
-            items.emplace_back(lowerItem(item));
+            party.items.insert(
+                sess->getResDef(item.unwrap()->getName()),
+            );
         }
         return makeBoxNode<Mod>(std::move(items));
     }
