@@ -35,12 +35,12 @@ namespace jc::hir {
         expr_ptr size;
     };
 
-//    struct TypePath : Type {
-//        TypePath(ast::node_id resNodeId, const HirId & hirId, const Span & span)
-//            : Type(TypeKind::Path, ) {}
-//
-//        ast::node_id resNodeId;
-//    };
+    struct TypePath : Type {
+        TypePath(Path && path, const HirId & hirId, const Span & span)
+            : Type(TypeKind::Path, hirId, span), path(std::move(path)) {}
+
+        Path path;
+    };
 }
 
 #endif // JACY_HIR_NODES_TYPES_H
