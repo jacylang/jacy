@@ -31,8 +31,14 @@ namespace jc::hir {
                 break;
             case ast::ItemKind::Impl:
                 break;
-            case ast::ItemKind::Mod:
-                break;
+            case ast::ItemKind::Mod: {
+                return ItemNode {
+                    item->getName(),
+                    lowerMod(item->as<ast::Mod>(item)->items),
+                    NONE_HIR_ID,
+                    item->span
+                };
+            }
             case ast::ItemKind::Struct:
                 break;
             case ast::ItemKind::Trait:
