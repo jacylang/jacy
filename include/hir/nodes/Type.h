@@ -14,7 +14,6 @@ namespace jc::hir {
         Slice,
         Array,
         Path,
-        Unit,
     };
 
     struct Type : HirNode {

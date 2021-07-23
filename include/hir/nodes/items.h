@@ -4,6 +4,7 @@
 #include "hir/nodes/Item.h"
 #include "hir/nodes/Expr.h"
 #include "span/Ident.h"
+#include "hir/nodes/Type.h"
 
 namespace jc::hir {
     struct Variant : HirNode {
@@ -22,7 +23,12 @@ namespace jc::hir {
 
     /// Function signature used for raw `func`
     /// and `func` signatures without implementations (in traits)
-    struct FuncSig : Item {};
+    struct FuncSig {
+        FuncSig(type_list && inputs, type_ptr && ret) : inputs(std::move(inputs)), ret(std::move(ret)) {}
+
+        type_list inputs;
+        type_ptr ret;
+    };
 
     struct Func : Item {
         Func(FuncSig && sig) : Item(ItemKind::Func), sig(std::move(sig)) {}
