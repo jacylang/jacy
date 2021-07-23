@@ -2,6 +2,7 @@
 #define JACY_HIR_NODES_TYPES_H
 
 #include "hir/nodes/Type.h"
+#include "hir/nodes/Expr.h"
 
 namespace jc::hir {
     struct TupleType : Type {
@@ -19,11 +20,19 @@ namespace jc::hir {
         type_ptr ret;
     };
 
-    struct Slice : Type {
-        Slice(type_ptr && type, const HirId & hirId, const Span & span)
+    struct SliceType : Type {
+        SliceType(type_ptr && type, const HirId & hirId, const Span & span)
             : Type(TypeKind::Slice, hirId, span), type(std::move(type)) {}
 
         type_ptr type;
+    };
+
+    struct ArrayType : Type {
+        ArrayType(type_ptr && type, expr_ptr && size, const HirId & hirId, const Span & span)
+            : Type(TypeKind::Array, hirId, span), type(std::move(type)), size(std::move(size)) {}
+
+        type_ptr type;
+        expr_ptr size;
     };
 }
 
