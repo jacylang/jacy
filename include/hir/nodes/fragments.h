@@ -23,6 +23,14 @@ namespace jc::hir {
 
         stmt_list stmts;
     };
+
+    /// General path fragment used for type and expression paths
+    // TODO: Add generic args
+    struct Path {
+        Path(Res res) : res(res) {}
+
+        Res res;
+    };
 }
 
 #endif // JACY_HIR_NODES_FRAGMENTS_H
