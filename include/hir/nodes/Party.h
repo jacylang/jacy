@@ -4,7 +4,7 @@
 #include "hir/nodes/items.h"
 
 namespace jc::hir {
-    using item_map = std::map<ItemId, item_ptr>;
+    using item_map = std::map<ItemId, ItemNode>;
 
     struct Party {
         Party(

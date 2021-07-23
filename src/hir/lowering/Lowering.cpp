@@ -69,11 +69,20 @@ namespace jc::hir {
     item_ptr Lowering::lowerMod(const ast::item_list & astItems) {
         item_id_list itemIds;
         for (const auto & item : astItems) {
-            party.items.insert(
-                sess->getResDef(item.unwrap()->getName()),
-            );
+            auto nameNodeId = item.unwrap()->getNameNodeId();
+            auto loweredItem = lowerItem(item);
+            auto itemId = ItemId {
+                sess->resStorage.getDefRes(nameNodeId.unwrap())
+            };
+            if (nameNodeId.some()) {
+                items.emplace(
+                    itemId,
+                    std::move(loweredItem)
+                );
+            }
+            itemIds.emplace_back(itemId);
         }
-        return makeBoxNode<Mod>(std::move(items));
+        return makeBoxNode<Mod>(std::move(itemIds));
     }
 
     // Statements //
