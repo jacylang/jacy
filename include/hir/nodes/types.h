@@ -10,6 +10,14 @@ namespace jc::hir {
 
         type_list types;
     };
+
+    struct FuncType : Type {
+        FuncType(type_list && inputs, type_ptr && ret, const HirId & hirId, const Span & span)
+            : Type(TypeKind::Func, hirId, span), inputs(std::move(inputs)), ret(std::move(ret)) {}
+
+        type_list inputs;
+        type_ptr ret;
+    };
 }
 
 #endif // JACY_HIR_NODES_TYPES_H
