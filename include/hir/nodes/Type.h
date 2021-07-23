@@ -5,11 +5,18 @@
 
 namespace jc::hir {
     enum class TypeKind {
-
+        Tuple,
+        Func,
+        Slice,
+        Array,
+        Path,
+        Unit,
     };
 
     struct Type : HirNode {
+        Type(TypeKind kind, const HirId & hirId, const Span & span) : HirNode(hirId, span), kind(kind) {}
 
+        TypeKind kind;
     };
 }
 
