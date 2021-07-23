@@ -20,7 +20,15 @@ namespace jc::hir {
         std::vector<Variant> variants;
     };
 
-    struct Func : Item {};
+    /// Function signature used for raw `func`
+    /// and `func` signatures without implementations (in traits)
+    struct FuncSig : Item {};
+
+    struct Func : Item {
+        Func(FuncSig && sig) : Item(ItemKind::Func), sig(std::move(sig)) {}
+
+        FuncSig sig;
+    };
 
     struct Impl : Item {};
 
