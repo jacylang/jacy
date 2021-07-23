@@ -45,7 +45,6 @@ namespace jc::hir {
 
         // States //
     private:
-        Party party;
         item_map items;
 
     private:

@@ -48,7 +48,7 @@ namespace jc::ast {
         }
 
         virtual span::Ident getName() const = 0;
-        virtual node_id getNameNodeId() const = 0;
+        virtual opt_node_id getNameNodeId() const = 0;
 
         template<class T>
         static T * as(const N<Item> & item) {

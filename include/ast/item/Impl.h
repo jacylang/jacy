@@ -27,6 +27,10 @@ namespace jc::ast {
             return Ident::empty();
         }
 
+        opt_node_id getNameNodeId() const override {
+            return None;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }

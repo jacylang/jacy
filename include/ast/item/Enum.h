@@ -52,6 +52,10 @@ namespace jc::ast {
             return name.unwrap();
         }
 
+        opt_node_id getNameNodeId() const override {
+            return name.unwrap().id;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
