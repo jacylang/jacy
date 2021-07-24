@@ -99,11 +99,11 @@ namespace jc::hir {
 
     item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         type_list inputs;
-        for (const auto & param : astFunc.params) {
+        for (const auto & param : astFunc.sig.params) {
             inputs.emplace_back(lowerType(param.type));
         }
         // TODO: Use `infer` type, if no return type present
-        type_ptr ret = lowerType(astFunc.returnType.unwrap());
+        type_ptr ret = lowerType(astFunc.sig.returnType.unwrap());
 
         return makeBoxNode<Func>(
             FuncSig {std::move(inputs), std::move(ret)}
@@ -235,15 +235,13 @@ namespace jc::hir {
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
         stmt_list stmts;
-        for (const auto & stmt : block.stmts.unwrap()) {
+        for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
         return Block(std::move(stmts), NONE_HIR_ID, block.span);
     }
 
-    Body Lowering::lowerBody(const ast::Block & astBlock) {
-        if (astBlock.blockKind == ast::BlockKind::OneLine) {
-            return Body {true, lowerExpr(astBlock.oneLine.unwrap())};
-        }
+    Body Lowering::lowerBody(const ast::Body & astBody) {
+        return Body {astBody.exprBody, lowerExpr(astBody.value)};
     }
 }

@@ -47,7 +47,7 @@ namespace jc::hir {
         // Fragments //
     private:
         Block lowerBlock(const ast::Block & block);
-        Body lowerBody(const ast::Block & astBlock);
+        Body lowerBody(const ast::Body & astBody);
 
         // States //
     private:
