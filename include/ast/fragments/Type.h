@@ -33,6 +33,11 @@ namespace jc::ast {
 
         TypeKind kind;
 
+        template<class T>
+        static T * as(const N<Type> & item) {
+            return static_cast<T*>(item.get());
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
