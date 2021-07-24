@@ -31,6 +31,13 @@ namespace jc::ast {
         }
     };
 
+    struct Body {
+        Body(bool exprBody, expr_ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+
+        bool exprBody;
+        expr_ptr value;
+    };
+
     struct FuncSig {
         FuncSig(
             const parser::token_list & modifiers,
