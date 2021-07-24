@@ -27,8 +27,14 @@ namespace jc::hir {
                     item->span
                 };
             }
-            case ast::ItemKind::Func:
-                break;
+            case ast::ItemKind::Func: {
+                return ItemNode {
+                    item->getName(),
+                    lowerFunc(*item->as<ast::Func>(item)),
+                    NONE_HIR_ID,
+                    item->span
+                };
+            }
             case ast::ItemKind::Impl:
                 break;
             case ast::ItemKind::Mod: {
@@ -89,6 +95,10 @@ namespace jc::hir {
             itemIds.emplace_back(itemId);
         }
         return makeBoxNode<Mod>(std::move(itemIds));
+    }
+
+    item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+
     }
 
     // Statements //
