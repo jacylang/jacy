@@ -34,7 +34,7 @@ namespace jc::resolve {
         //  Func module stores type parameters but body is a nested block
         enterModule(getItemVis(func), func.name, DefKind::Func);
         if (func.body.some()) {
-            func.body.unwrap().autoAccept(*this);
+            func.body.unwrap().value.autoAccept(*this);
         }
         exitMod();
     }
