@@ -21,6 +21,16 @@ namespace jc::hir {
         std::vector<Variant> variants;
     };
 
+    /// Function body
+    /// Separated from `Func` as it is type checked apart
+    struct Body {
+        /// Denotes that `func`'s body was defined with `=`
+        bool exprBody;
+
+        /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
+        expr_ptr value;
+    };
+
     /// Function signature used for raw `func`
     /// and `func` signatures without implementations (in traits)
     struct FuncSig {
