@@ -497,6 +497,7 @@ namespace jc::core {
 
         table.addHeader("Name", "Entity", "Time", "Speed");
 
+        bool lastIsStage = false;
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
             std::string speed = "N/A";
@@ -512,7 +513,14 @@ namespace jc::core {
 
             if (bnk.kind == common::Config::BenchmarkKind::Stage) {
                 table.addLine();
+                lastIsStage = true;
+            } else {
+                lastIsStage = false;
             }
+        }
+
+        if (not lastIsStage) {
+            table.addLine();
         }
 
         log.raw(table);
