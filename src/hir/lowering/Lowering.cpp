@@ -105,8 +105,11 @@ namespace jc::hir {
         // TODO: Use `infer` type, if no return type present
         type_ptr ret = lowerType(astFunc.sig.returnType.unwrap());
 
+        Body body = lowerBody(astFunc.body.unwrap());
+
         return makeBoxNode<Func>(
-            FuncSig {std::move(inputs), std::move(ret)}
+            FuncSig {std::move(inputs), std::move(ret)},
+            std::move(body)
         );
     }
 
