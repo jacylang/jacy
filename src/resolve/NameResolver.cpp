@@ -16,25 +16,25 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Func & func) {
         enterModule(func.name.unwrap().name, Namespace::Value); // -> `func` mod rib
 
-        for (const auto & param : func.params) {
+        for (const auto & param : func.sig.params) {
             param.type.autoAccept(*this);
             if (param.defaultValue.some()) {
                 param.defaultValue.unwrap().autoAccept(*this);
             }
         }
 
-        if (func.returnType.some()) {
-            func.returnType.unwrap().autoAccept(*this);
+        if (func.sig.returnType.some()) {
+            func.sig.returnType.unwrap().autoAccept(*this);
         }
 
         enterRib(); // -> (params) rib
 
-        for (const auto & param : func.params) {
+        for (const auto & param : func.sig.params) {
             define(param.name);
         }
 
         if (func.body.some()) {
-            func.body.unwrap().autoAccept(*this);
+            func.body.unwrap().value.autoAccept(*this);
         }
 
         exitRib(); // <- (params) rib
