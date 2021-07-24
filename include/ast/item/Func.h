@@ -57,7 +57,7 @@ namespace jc::ast {
             FuncSig && sig,
             opt_gen_params generics,
             ident_pr name,
-            opt_block_ptr body,
+            Option<Body> && body,
             const Span & span
         ) : Item(span, ItemKind::Func),
             sig(std::move(sig)),
@@ -68,7 +68,7 @@ namespace jc::ast {
         FuncSig sig;
         opt_gen_params generics;
         ident_pr name;
-        opt_block_ptr body;
+        Option<Body> body;
 
         span::Ident getName() const override {
             return name.unwrap();
