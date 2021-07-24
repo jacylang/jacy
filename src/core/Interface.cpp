@@ -416,11 +416,11 @@ namespace jc::core {
     }
 
     void Interface::printFinalBench() {
-        log::Logger::print(
+        log.raw(
             "Full compilation done in ",
             std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
             "ms"
-        );
+        ).nl();
     }
 
     void Interface::beginBench() {
