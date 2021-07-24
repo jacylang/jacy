@@ -204,8 +204,9 @@ namespace jc::hir {
     type_ptr Lowering::lowerType(const ast::type_ptr & astType) {
         const auto & type = astType.unwrap();
         switch (type->kind) {
-            case ast::TypeKind::Paren:
-                break;
+            case ast::TypeKind::Paren: {
+                return lowerType(type->as<ast::ParenType>(type)->type);
+            }
             case ast::TypeKind::Tuple:
                 break;
             case ast::TypeKind::Func:
