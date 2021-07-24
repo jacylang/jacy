@@ -41,9 +41,10 @@ namespace jc::hir {
     };
 
     struct Func : Item {
-        Func(FuncSig && sig) : Item(ItemKind::Func), sig(std::move(sig)) {}
+        Func(FuncSig && sig, Body && body) : Item(ItemKind::Func), sig(std::move(sig)), body(std::move(body)) {}
 
         FuncSig sig;
+        Body body;
     };
 
     struct Impl : Item {};
