@@ -63,11 +63,8 @@ namespace jc::parser {
     };
 
     enum class BlockParsing : int8_t {
-        Just, // Block as standalone expression
-        NotAllowed, // Arrow not allowed (error)
-        Allow, // Allow for one-line body
-        Require, // Require `=>` for either `{}` either one-line block
-        Useless, // `=>` is useless (unambiguous case)
+        Raw, // Raw block parsing (we expected it but do not know if it is already present)
+        Just, // We encountered `{` and it is a bug having not a block
     };
 
     enum class Recovery {
