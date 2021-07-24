@@ -162,11 +162,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Block & block) {
-        if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().autoAccept(*this);
-        } else {
-            visitEach(block.stmts.unwrap());
-        }
+        visitEach(block.stmts);
     }
 
     void StubVisitor::visit(const BorrowExpr & borrowExpr) {
