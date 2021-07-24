@@ -47,18 +47,18 @@ namespace jc::ast {
 
     struct Func : Item {
         Func(
-            parser::token_list modifiers,
+            FuncSig && sig,
             opt_gen_params generics,
             ident_pr name,
-            func_param_list params,
-            opt_type_ptr returnType,
             opt_block_ptr body,
             const Span & span
         ) : Item(span, ItemKind::Func),
+            sig(std::move(sig)),
             generics(std::move(generics)),
             name(std::move(name)),
             body(std::move(body)) {}
 
+        FuncSig sig;
         opt_gen_params generics;
         ident_pr name;
         opt_block_ptr body;
