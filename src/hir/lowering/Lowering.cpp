@@ -98,7 +98,16 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+        type_list inputs;
+        for (const auto & param : astFunc.params) {
+            inputs.emplace_back(lowerType(param.type));
+        }
+        // TODO: Use `infer` type, if no return type present
+        type_ptr ret = lowerType(astFunc.returnType.unwrap());
 
+        return makeBoxNode<Func>(
+            FuncSig {std::move(inputs), std::move(ret)}
+        );
     }
 
     // Statements //
