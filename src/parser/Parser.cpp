@@ -721,7 +721,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", BlockArrow::Allow);
+        auto body = parseBlock("for", BlockParsing::Allow);
 
         exitEntity();
 
@@ -761,7 +761,7 @@ namespace jc::parser {
         justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", BlockArrow::Allow);
+        auto body = parseBlock("while", BlockParsing::Allow);
 
         exitEntity();
 
@@ -1152,7 +1152,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Some(parseBlock("Block expression", BlockArrow::Just).as<Expr>());
+            return Some(parseBlock("Block expression", BlockParsing::Just).as<Expr>());
         }
 
         if (is(TokenKind::Match)) {
@@ -1359,33 +1359,33 @@ namespace jc::parser {
         return makeErrPR<StructExprField>(begin);
     }
 
-    block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
+    block_ptr Parser::parseBlock(const std::string & construction, BlockParsing arrow) {
         enterEntity("Block:" + construction);
 
         const auto & begin = cspan();
         bool allowOneLine = false;
         const auto & maybeDoubleArrow = peek();
         if (skipOpt(TokenKind::DoubleArrow).some()) {
-            if (arrow == BlockArrow::NotAllowed) {
+            if (arrow == BlockParsing::NotAllowed) {
                 suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
-            } else if (arrow == BlockArrow::Useless) {
+            } else if (arrow == BlockParsing::Useless) {
                 suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span);
             }
             allowOneLine = true;
 
-            if (arrow == BlockArrow::Just) {
+            if (arrow == BlockParsing::Just) {
                 suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span);
             }
-        } else if (arrow == BlockArrow::Require) {
+        } else if (arrow == BlockParsing::Require) {
             suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span);
             allowOneLine = true;
-        } else if (arrow == BlockArrow::Useless) {
+        } else if (arrow == BlockParsing::Useless) {
             // Allow one-line even if no `=>` given for optional
             allowOneLine = true;
         }
 
         bool brace = false;
-        if (arrow == BlockArrow::Just) {
+        if (arrow == BlockParsing::Just) {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
             brace = true;
@@ -1396,7 +1396,7 @@ namespace jc::parser {
         stmt_list stmts;
         if (brace) {
             // Suggest to remove useless `=>` if brace given in case unambiguous case
-            if (maybeDoubleArrow.is(TokenKind::DoubleArrow) and arrow == BlockArrow::Allow) {
+            if (maybeDoubleArrow.is(TokenKind::DoubleArrow) and arrow == BlockParsing::Allow) {
                 suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span);
             }
 
@@ -1421,7 +1421,7 @@ namespace jc::parser {
             return Ok(makeBoxNode<Block>(std::move(expr), closeSpan(begin)));
         } else {
             std::string suggMsg = "Likely you meant to put `{}`";
-            if (arrow == BlockArrow::Allow) {
+            if (arrow == BlockParsing::Allow) {
                 // Suggest putting `=>` only if construction allows
                 suggMsg += " or write one one-line body with `=>`";
             }
@@ -1458,7 +1458,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Semi).some()) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock("if", BlockArrow::Allow);
+            ifBranch = parseBlock("if", BlockParsing::Allow);
         }
 
         if (skipOpt(TokenKind::Else).some()) {
@@ -1471,7 +1471,7 @@ namespace jc::parser {
                     )
                 );
             }
-            elseBranch = parseBlock("else", BlockArrow::Useless);
+            elseBranch = parseBlock("else", BlockParsing::Useless);
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
@@ -1492,7 +1492,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Loop, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock("loop", BlockArrow::Allow);
+        auto body = parseBlock("loop", BlockParsing::Allow);
 
         exitEntity();
 
@@ -1574,7 +1574,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        block_ptr body = parseBlock("match", BlockArrow::Require);
+        block_ptr body = parseBlock("match", BlockParsing::Require);
 
         exitEntity();
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));

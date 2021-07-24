@@ -62,7 +62,7 @@ namespace jc::parser {
         const std::vector<TokenKind> ops;
     };
 
-    enum class BlockArrow : int8_t {
+    enum class BlockParsing : int8_t {
         Just, // Block as standalone expression
         NotAllowed, // Arrow not allowed (error)
         Allow, // Allow for one-line body
@@ -202,7 +202,7 @@ namespace jc::parser {
         expr_ptr parseStructExpr(path_expr_ptr && path);
         struct_expr_field_pr parseStructExprField();
 
-        block_ptr parseBlock(const std::string & construction, BlockArrow arrow);
+        block_ptr parseBlock(const std::string & construction, BlockParsing arrow);
 
         // Control-flow expressions //
         expr_ptr parseIfExpr(bool isElif = false);
