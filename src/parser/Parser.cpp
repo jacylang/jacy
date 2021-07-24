@@ -1359,75 +1359,31 @@ namespace jc::parser {
         return makeErrPR<StructExprField>(begin);
     }
 
-    block_ptr Parser::parseBlock(const std::string & construction, BlockParsing arrow) {
+    block_ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
         enterEntity("Block:" + construction);
 
         const auto & begin = cspan();
-        bool allowOneLine = false;
-        const auto & maybeDoubleArrow = peek();
-        if (skipOpt(TokenKind::DoubleArrow).some()) {
-            if (arrow == BlockParsing::NotAllowed) {
-                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
-            } else if (arrow == BlockParsing::Useless) {
-                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span);
-            }
-            allowOneLine = true;
 
-            if (arrow == BlockParsing::Just) {
-                suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span);
-            }
-        } else if (arrow == BlockParsing::Require) {
-            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span);
-            allowOneLine = true;
-        } else if (arrow == BlockParsing::Useless) {
-            // Allow one-line even if no `=>` given for optional
-            allowOneLine = true;
-        }
-
-        bool brace = false;
-        if (arrow == BlockParsing::Just) {
+        if (parsing == BlockParsing::Just) {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
-            brace = true;
         } else {
-            brace = skipOpt(TokenKind::LBrace).some();
+            skip(TokenKind::LBrace, "`{`").some();
         }
 
         stmt_list stmts;
-        if (brace) {
-            // Suggest to remove useless `=>` if brace given in case unambiguous case
-            if (maybeDoubleArrow.is(TokenKind::DoubleArrow) and arrow == BlockParsing::Allow) {
-                suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span);
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::RBrace)) {
+                break;
             }
 
-            bool first = true;
-            while (not eof()) {
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                }
-                // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
-
-                stmts.push_back(parseStmt());
+            if (first) {
+                first = false;
             }
-            skip(TokenKind::RBrace, "Missing closing `}` at the end of " + construction + " body");
-        } else if (allowOneLine) {
-            auto expr = parseExpr("Expected expression in one-line block in " + construction);
-            // Note: Don't require semis for one-line body
-            exitEntity();
-            return Ok(makeBoxNode<Block>(std::move(expr), closeSpan(begin)));
-        } else {
-            std::string suggMsg = "Likely you meant to put `{}`";
-            if (arrow == BlockParsing::Allow) {
-                // Suggest putting `=>` only if construction allows
-                suggMsg += " or write one one-line body with `=>`";
-            }
-            suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
-            exitEntity();
-            return makeErrPR<N<Block>>(closeSpan(begin));
+            // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
+
+            stmts.push_back(parseStmt());
         }
 
         exitEntity();

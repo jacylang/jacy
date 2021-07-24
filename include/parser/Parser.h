@@ -199,7 +199,7 @@ namespace jc::parser {
         expr_ptr parseStructExpr(path_expr_ptr && path);
         struct_expr_field_pr parseStructExprField();
 
-        block_ptr parseBlock(const std::string & construction, BlockParsing arrow);
+        block_ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
         expr_ptr parseIfExpr(bool isElif = false);
