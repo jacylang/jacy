@@ -1550,10 +1550,10 @@ namespace jc::parser {
         }
 
         // FIXME!!!
-//        return Body {
-//            false,
-//            parseBlock("func", BlockArrow::NotAllowed)
-//        };
+        return Body {
+            false,
+            parseBlock("func", BlockParsing::Raw).as<Expr>()
+        };
     }
 
     attr_list Parser::parseAttrList() {
