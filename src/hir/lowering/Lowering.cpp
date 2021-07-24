@@ -240,4 +240,11 @@ namespace jc::hir {
         }
         return Block(std::move(stmts), NONE_HIR_ID, block.span);
     }
+
+    Body Lowering::lowerBody(const ast::Block & astBlock) {
+        if (astBlock.blockKind == ast::BlockKind::OneLine) {
+            return Body {true, lowerExpr(astBlock.oneLine.unwrap())};
+        }
+
+    }
 }

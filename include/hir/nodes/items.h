@@ -24,6 +24,8 @@ namespace jc::hir {
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
+        Body(bool exprBody, expr_ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+
         /// Denotes that `func`'s body was defined with `=`
         bool exprBody;
 
