@@ -27,9 +27,9 @@ namespace jc::hir {
     /// General path fragment used for type and expression paths
     // TODO: Add generic args
     struct Path {
-        Path(Res res) : res(res) {}
+        Path(resolve::Res res) : res(res) {}
 
-        Res res;
+        resolve::Res res;
     };
 }
 
