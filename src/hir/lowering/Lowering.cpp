@@ -245,6 +245,5 @@ namespace jc::hir {
         if (astBlock.blockKind == ast::BlockKind::OneLine) {
             return Body {true, lowerExpr(astBlock.oneLine.unwrap())};
         }
-
     }
 }

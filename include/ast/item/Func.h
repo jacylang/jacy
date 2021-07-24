@@ -31,6 +31,20 @@ namespace jc::ast {
         }
     };
 
+    struct FuncSig {
+        FuncSig(
+            const parser::token_list & modifiers,
+            func_param_list params,
+            opt_type_ptr returnType
+        ) : modifiers(modifiers),
+            params(std::move(params)),
+            returnType(std::move(returnType)) {}
+
+        parser::token_list modifiers;
+        func_param_list params;
+        opt_type_ptr returnType;
+    };
+
     struct Func : Item {
         Func(
             parser::token_list modifiers,
@@ -41,18 +55,12 @@ namespace jc::ast {
             opt_block_ptr body,
             const Span & span
         ) : Item(span, ItemKind::Func),
-            modifiers(std::move(modifiers)),
             generics(std::move(generics)),
             name(std::move(name)),
-            params(std::move(params)),
-            returnType(std::move(returnType)),
             body(std::move(body)) {}
 
-        parser::token_list modifiers;
         opt_gen_params generics;
         ident_pr name;
-        func_param_list params;
-        opt_type_ptr returnType;
         opt_block_ptr body;
 
         span::Ident getName() const override {
