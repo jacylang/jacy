@@ -86,29 +86,30 @@ namespace jc::ast {
     void AstPrinter::visit(const Func & func) {
         printVis(func.vis);
 
-        printModifiers(func.modifiers);
+        printModifiers(func.sig.modifiers);
         log.raw("func");
         printGenerics(func.generics);
         log.raw(" ");
 
         colorizeDef(func.name);
 
-        printDelim(func.params, "(", ")");
+        printDelim(func.sig.params, "(", ")");
 
-        func.returnType.then([&](const auto & returnType) {
+        func.sig.returnType.then([&](const auto & returnType) {
             log.raw(": ");
             returnType.autoAccept(*this);
         });
 
-        func.body.then([&](const auto & body) {
-            if (body.ok()) {
-                if (body.unwrap()->blockKind == BlockKind::OneLine) {
-                    log.raw(" = ");
-                } else if (body.unwrap()->blockKind == BlockKind::Raw and body.unwrap()->stmts.unwrap().size() == 0) {
+        func.body.then([&](const Body & body) {
+            if (body.exprBody) {
+                log.raw(" = ");
+            } else if (body.value.ok()) {
+                const auto & unwrapped = body.value.unwrap();
+                if (unwrapped->as<Block>(unwrapped)->stmts.size() == 0) {
                     log.raw(" ");
                 }
             }
-            body.autoAccept(*this);
+            body.value.autoAccept(*this);
         }).otherwise([&]() {
             log.raw(";");
         });
