@@ -721,7 +721,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", BlockParsing::Allow);
+        auto body = parseBlock("for", BlockParsing::Raw);
 
         exitEntity();
 
@@ -761,7 +761,7 @@ namespace jc::parser {
         justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", BlockParsing::Allow);
+        auto body = parseBlock("while", BlockParsing::Raw);
 
         exitEntity();
 
@@ -1414,7 +1414,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Semi).some()) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock("if", BlockParsing::Allow);
+            ifBranch = parseBlock("if", BlockParsing::Raw);
         }
 
         if (skipOpt(TokenKind::Else).some()) {
@@ -1427,7 +1427,7 @@ namespace jc::parser {
                     )
                 );
             }
-            elseBranch = parseBlock("else", BlockParsing::Useless);
+            elseBranch = parseBlock("else", BlockParsing::Raw);
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
@@ -1448,7 +1448,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Loop, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock("loop", BlockParsing::Allow);
+        auto body = parseBlock("loop", BlockParsing::Raw);
 
         exitEntity();
 
@@ -1530,7 +1530,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        block_ptr body = parseBlock("match", BlockParsing::Require);
+        block_ptr body = parseBlock("match", BlockParsing::Raw);
 
         exitEntity();
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
