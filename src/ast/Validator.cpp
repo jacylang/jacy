@@ -269,11 +269,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Block & block) {
-        if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().autoAccept(*this);
-        } else {
-            lintEach(block.stmts.unwrap());
-        }
+        lintEach(block.stmts);
     }
 
     void Validator::visit(const BorrowExpr & borrowExpr) {
