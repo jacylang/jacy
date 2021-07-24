@@ -1368,7 +1368,7 @@ namespace jc::parser {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
         } else {
-            skip(TokenKind::LBrace, "`{`").some();
+            skip(TokenKind::LBrace, "`{`");
         }
 
         stmt_list stmts;
@@ -1385,6 +1385,8 @@ namespace jc::parser {
 
             stmts.push_back(parseStmt());
         }
+
+        skip(TokenKind::RBrace, "`}`");
 
         exitEntity();
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
