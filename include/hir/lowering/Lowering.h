@@ -40,6 +40,10 @@ namespace jc::hir {
         expr_ptr lowerAssignExpr(const ast::Assign & assign);
         expr_ptr lowerBlockExpr(const ast::Block & block);
 
+        // Types //
+    private:
+        type_ptr lowerType(const ast::type_ptr & astType);
+
         // Fragments //
     private:
         Block lowerBlock(const ast::Block & block);

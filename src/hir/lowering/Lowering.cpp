@@ -201,6 +201,26 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
+    type_ptr Lowering::lowerType(const ast::type_ptr & astType) {
+        const auto & type = astType.unwrap();
+        switch (type->kind) {
+            case ast::TypeKind::Paren:
+                break;
+            case ast::TypeKind::Tuple:
+                break;
+            case ast::TypeKind::Func:
+                break;
+            case ast::TypeKind::Slice:
+                break;
+            case ast::TypeKind::Array:
+                break;
+            case ast::TypeKind::Path:
+                break;
+            case ast::TypeKind::Unit:
+                break;
+        }
+    }
+
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
