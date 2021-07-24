@@ -140,7 +140,7 @@ namespace jc::hir {
             case ast::ExprKind::Assign:
                 return lowerAssignExpr(*expr->as<ast::Assign>(expr));
             case ast::ExprKind::Block:
-                break;
+                return lowerBlockExpr(*expr->as<ast::Block>(expr));
             case ast::ExprKind::Borrow:
                 break;
             case ast::ExprKind::Break:
