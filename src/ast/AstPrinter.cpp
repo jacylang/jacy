@@ -302,15 +302,11 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Block & block) {
-        if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().autoAccept(*this);
-            return;
-        }
-        if (block.stmts.unwrap().empty()) {
+        if (block.stmts.empty()) {
             log.raw("{}");
             return;
         }
-        printBodyLike(block.stmts.unwrap(), "\n");
+        printBodyLike(block.stmts, "\n");
 
         printNodeId(block);
     }
