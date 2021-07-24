@@ -70,15 +70,9 @@ namespace jc::resolve {
 
     // Expressions //
     void NameResolver::visit(const ast::Block & block) {
-        if (block.blockKind == ast::BlockKind::OneLine) {
-            // Note: One-line block as it is an expression does not open new scope
-            block.oneLine.unwrap().autoAccept(*this);
-            return;
-        }
-
         const auto prevDepth = getDepth();
         enterBlock(block.id); // -> block rib
-        for (const auto & stmt : block.stmts.unwrap()) {
+        for (const auto & stmt : block.stmts) {
             stmt.autoAccept(*this);
         }
 
