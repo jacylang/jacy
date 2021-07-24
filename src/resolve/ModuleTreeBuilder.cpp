@@ -76,16 +76,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Block & block) {
-        if (block.blockKind == ast::BlockKind::OneLine) {
-            // Note: One line block does not open module,
-            //  anyway it can contain another Block which could be a multi-line
-            block.oneLine.unwrap().autoAccept(*this);
-        } else {
-            // Note: Block is not a definition, it is a pure anonymous module
-            enterBlock(block.id);
-            visitEach(block.stmts.unwrap());
-            exitMod();
-        }
+        enterBlock(block.id);
+        visitEach(block.stmts);
+        exitMod();
     }
 
     // Definitions //
