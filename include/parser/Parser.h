@@ -211,7 +211,7 @@ namespace jc::parser {
         MatchArm parseMatchArm();
 
         // Fragments //
-        opt_block_ptr parseFuncBody();
+        Option<Body> parseFuncBody();
         attr_list parseAttrList();
         Option<Attr> parseAttr();
         arg_list parseArgList(const std::string & construction);

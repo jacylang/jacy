@@ -1580,7 +1580,7 @@ namespace jc::parser {
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
     }
 
-    opt_block_ptr Parser::parseFuncBody() {
+    Option<Body> Parser::parseFuncBody() {
         logParse("FuncBody");
 
         if (isSemis()) {
@@ -1590,10 +1590,14 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Assign).some()) {
             auto expr = parseExpr("Missing expression after `=`");
-            return Some(PR<N<Block>>(Ok(makeBoxNode<Block>(std::move(expr), expr.span()))));
+            return Some(Body {true, std::move(expr)});
         }
 
-        return parseBlock("func", BlockArrow::NotAllowed);
+        // FIXME!!!
+//        return Body {
+//            false,
+//            parseBlock("func", BlockArrow::NotAllowed)
+//        };
     }
 
     attr_list Parser::parseAttrList() {
