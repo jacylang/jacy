@@ -381,16 +381,20 @@ namespace jc::parser {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
+        FuncSig sig {
+            modifiers,
+            std::move(params),
+            std::move(returnType)
+        };
+
         auto body = parseFuncBody();
 
         exitEntity();
 
         return makePRBoxNode<Func, Item>(
-            std::move(modifiers),
+            std::move(sig),
             std::move(generics),
             std::move(name),
-            std::move(params),
-            std::move(returnType),
             std::move(body),
             closeSpan(begin));
     }
