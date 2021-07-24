@@ -50,14 +50,14 @@ namespace jc::ast {
         }
         func.name.autoAccept(*this);
 
-        visitEach(func.params);
+        visitEach(func.sig.params);
 
-        if (func.returnType.some()) {
-            func.returnType.unwrap().autoAccept(*this);
+        if (func.sig.returnType.some()) {
+            func.sig.returnType.unwrap().autoAccept(*this);
         }
 
         if (func.body.some()) {
-            func.body.unwrap().autoAccept(*this);
+            func.body.unwrap().value.autoAccept(*this);
         }
     }
 
