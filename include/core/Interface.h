@@ -21,6 +21,7 @@
 #include "ast/Party.h"
 #include "fs/fs.h"
 #include "session/Session.h"
+#include "hir/lowering/Lowering.h"
 
 namespace jc::core {
     using common::Config;
@@ -111,6 +112,12 @@ namespace jc::core {
         void printModTree(const std::string & afterStage);
         void printDefinitions();
         void printResolutions();
+
+        // Lowering //
+    private:
+        hir::Lowering lowering;
+
+        void lower();
 
     private:
         log::Logger log{"Interface"};

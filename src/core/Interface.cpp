@@ -396,6 +396,11 @@ namespace jc::core {
         }
     }
 
+    // Lowering //
+    void Interface::lower() {
+        lowering.lower(sess, party.unwrap());
+    }
+
     // Suggestions //
     void Interface::collectSuggestions(sugg::sugg_list && additional) {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
