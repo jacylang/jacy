@@ -54,6 +54,10 @@ namespace jc::core {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
         }
+
+        beginBench();
+        lower();
+        endBenchSimple("Lowering stage", common::Config::BenchmarkKind::Stage);
     }
 
     /////////////
