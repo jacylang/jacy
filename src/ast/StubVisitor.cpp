@@ -50,14 +50,14 @@ namespace jc::ast {
         }
         func.name.autoAccept(*this);
 
-        visitEach(func.params);
+        visitEach(func.sig.params);
 
-        if (func.returnType.some()) {
-            func.returnType.unwrap().autoAccept(*this);
+        if (func.sig.returnType.some()) {
+            func.sig.returnType.unwrap().autoAccept(*this);
         }
 
         if (func.body.some()) {
-            func.body.unwrap().autoAccept(*this);
+            func.body.unwrap().value.autoAccept(*this);
         }
     }
 
@@ -162,11 +162,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Block & block) {
-        if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().autoAccept(*this);
-        } else {
-            visitEach(block.stmts.unwrap());
-        }
+        visitEach(block.stmts);
     }
 
     void StubVisitor::visit(const BorrowExpr & borrowExpr) {

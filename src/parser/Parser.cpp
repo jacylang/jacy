@@ -381,16 +381,20 @@ namespace jc::parser {
             suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
+        FuncSig sig {
+            modifiers,
+            std::move(params),
+            std::move(returnType)
+        };
+
         auto body = parseFuncBody();
 
         exitEntity();
 
         return makePRBoxNode<Func, Item>(
-            std::move(modifiers),
+            std::move(sig),
             std::move(generics),
             std::move(name),
-            std::move(params),
-            std::move(returnType),
             std::move(body),
             closeSpan(begin));
     }
@@ -717,7 +721,7 @@ namespace jc::parser {
         );
 
         auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", BlockArrow::Allow);
+        auto body = parseBlock("for", BlockParsing::Raw);
 
         exitEntity();
 
@@ -757,7 +761,7 @@ namespace jc::parser {
         justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
 
         auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", BlockArrow::Allow);
+        auto body = parseBlock("while", BlockParsing::Raw);
 
         exitEntity();
 
@@ -1148,7 +1152,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::LBrace)) {
-            return Some(parseBlock("Block expression", BlockArrow::Just).as<Expr>());
+            return Some(parseBlock("Block expression", BlockParsing::Just).as<Expr>());
         }
 
         if (is(TokenKind::Match)) {
@@ -1355,76 +1359,34 @@ namespace jc::parser {
         return makeErrPR<StructExprField>(begin);
     }
 
-    block_ptr Parser::parseBlock(const std::string & construction, BlockArrow arrow) {
+    block_ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
         enterEntity("Block:" + construction);
 
         const auto & begin = cspan();
-        bool allowOneLine = false;
-        const auto & maybeDoubleArrow = peek();
-        if (skipOpt(TokenKind::DoubleArrow).some()) {
-            if (arrow == BlockArrow::NotAllowed) {
-                suggestErrorMsg("`" + construction + "` body cannot start with `=>`", maybeDoubleArrow.span);
-            } else if (arrow == BlockArrow::Useless) {
-                suggestWarnMsg("Useless `=>` for `" + construction + "` body", maybeDoubleArrow.span);
-            }
-            allowOneLine = true;
 
-            if (arrow == BlockArrow::Just) {
-                suggestErrorMsg("Unexpected `=>` token", maybeDoubleArrow.span);
-            }
-        } else if (arrow == BlockArrow::Require) {
-            suggestErrorMsg("Expected `=>` to start `" + construction + "` body", maybeDoubleArrow.span);
-            allowOneLine = true;
-        } else if (arrow == BlockArrow::Useless) {
-            // Allow one-line even if no `=>` given for optional
-            allowOneLine = true;
-        }
-
-        bool brace = false;
-        if (arrow == BlockArrow::Just) {
+        if (parsing == BlockParsing::Just) {
             // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
-            brace = true;
         } else {
-            brace = skipOpt(TokenKind::LBrace).some();
+            skip(TokenKind::LBrace, "`{`");
         }
 
         stmt_list stmts;
-        if (brace) {
-            // Suggest to remove useless `=>` if brace given in case unambiguous case
-            if (maybeDoubleArrow.is(TokenKind::DoubleArrow) and arrow == BlockArrow::Allow) {
-                suggestWarnMsg("Remove unnecessary `=>` before `{`", maybeDoubleArrow.span);
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::RBrace)) {
+                break;
             }
 
-            bool first = true;
-            while (not eof()) {
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                }
-                // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
-
-                stmts.push_back(parseStmt());
+            if (first) {
+                first = false;
             }
-            skip(TokenKind::RBrace, "Missing closing `}` at the end of " + construction + " body");
-        } else if (allowOneLine) {
-            auto expr = parseExpr("Expected expression in one-line block in " + construction);
-            // Note: Don't require semis for one-line body
-            exitEntity();
-            return Ok(makeBoxNode<Block>(std::move(expr), closeSpan(begin)));
-        } else {
-            std::string suggMsg = "Likely you meant to put `{}`";
-            if (arrow == BlockArrow::Allow) {
-                // Suggest putting `=>` only if construction allows
-                suggMsg += " or write one one-line body with `=>`";
-            }
-            suggest(std::make_unique<ParseErrSugg>(suggMsg, begin));
-            exitEntity();
-            return makeErrPR<N<Block>>(closeSpan(begin));
+            // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
+
+            stmts.push_back(parseStmt());
         }
+
+        skip(TokenKind::RBrace, "`}`");
 
         exitEntity();
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
@@ -1454,7 +1416,7 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Semi).some()) {
             // TODO!: Add `parseBlockMaybeNone`
-            ifBranch = parseBlock("if", BlockArrow::Allow);
+            ifBranch = parseBlock("if", BlockParsing::Raw);
         }
 
         if (skipOpt(TokenKind::Else).some()) {
@@ -1467,7 +1429,7 @@ namespace jc::parser {
                     )
                 );
             }
-            elseBranch = parseBlock("else", BlockArrow::Useless);
+            elseBranch = parseBlock("else", BlockParsing::Raw);
         } else if (is(TokenKind::Elif)) {
             stmt_list elif;
             const auto & elifBegin = cspan();
@@ -1488,7 +1450,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::Loop, "`loop`", "`parseLoopExpr`");
 
-        auto body = parseBlock("loop", BlockArrow::Allow);
+        auto body = parseBlock("loop", BlockParsing::Raw);
 
         exitEntity();
 
@@ -1570,13 +1532,13 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        block_ptr body = parseBlock("match", BlockArrow::Require);
+        block_ptr body = parseBlock("match", BlockParsing::Raw);
 
         exitEntity();
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
     }
 
-    opt_block_ptr Parser::parseFuncBody() {
+    Option<Body> Parser::parseFuncBody() {
         logParse("FuncBody");
 
         if (isSemis()) {
@@ -1586,10 +1548,14 @@ namespace jc::parser {
 
         if (skipOpt(TokenKind::Assign).some()) {
             auto expr = parseExpr("Missing expression after `=`");
-            return Some(PR<N<Block>>(Ok(makeBoxNode<Block>(std::move(expr), expr.span()))));
+            return Some(Body {true, std::move(expr)});
         }
 
-        return parseBlock("func", BlockArrow::NotAllowed);
+        // FIXME!!!
+        return Body {
+            false,
+            parseBlock("func", BlockParsing::Raw).as<Expr>()
+        };
     }
 
     attr_list Parser::parseAttrList() {

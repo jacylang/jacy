@@ -7,7 +7,10 @@ namespace jc::hir {
         auto rootMod = lowerMod(party.items);
 
         return {
-            Party(std::move(*static_cast<Mod*>(rootMod.get()))),
+            Party(
+                std::move(*static_cast<Mod*>(rootMod.get())),
+                std::move(items)
+            ),
             extractSuggestions()
         };
     }
@@ -24,12 +27,24 @@ namespace jc::hir {
                     item->span
                 };
             }
-            case ast::ItemKind::Func:
-                break;
+            case ast::ItemKind::Func: {
+                return ItemNode {
+                    item->getName(),
+                    lowerFunc(*item->as<ast::Func>(item)),
+                    NONE_HIR_ID,
+                    item->span
+                };
+            }
             case ast::ItemKind::Impl:
                 break;
-            case ast::ItemKind::Mod:
-                break;
+            case ast::ItemKind::Mod: {
+                return ItemNode {
+                    item->getName(),
+                    lowerMod(item->as<ast::Mod>(item)->items),
+                    NONE_HIR_ID,
+                    item->span
+                };
+            }
             case ast::ItemKind::Struct:
                 break;
             case ast::ItemKind::Trait:
@@ -64,11 +79,38 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerMod(const ast::item_list & astItems) {
-        item_node_list items;
+        item_id_list itemIds;
         for (const auto & item : astItems) {
-            items.emplace_back(lowerItem(item));
+            auto nameNodeId = item.unwrap()->getNameNodeId();
+            auto loweredItem = lowerItem(item);
+            auto itemId = ItemId {
+                sess->resStorage.getDefRes(nameNodeId.unwrap())
+            };
+            if (nameNodeId.some()) {
+                items.emplace(
+                    itemId,
+                    std::move(loweredItem)
+                );
+            }
+            itemIds.emplace_back(itemId);
         }
-        return makeBoxNode<Mod>(std::move(items));
+        return makeBoxNode<Mod>(std::move(itemIds));
+    }
+
+    item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+        type_list inputs;
+        for (const auto & param : astFunc.sig.params) {
+            inputs.emplace_back(lowerType(param.type));
+        }
+        // TODO: Use `infer` type, if no return type present
+        type_ptr ret = lowerType(astFunc.sig.returnType.unwrap());
+
+        Body body = lowerBody(astFunc.body.unwrap());
+
+        return makeBoxNode<Func>(
+            FuncSig {std::move(inputs), std::move(ret)},
+            std::move(body)
+        );
     }
 
     // Statements //
@@ -98,7 +140,7 @@ namespace jc::hir {
             case ast::ExprKind::Assign:
                 return lowerAssignExpr(*expr->as<ast::Assign>(expr));
             case ast::ExprKind::Block:
-                break;
+                return lowerBlockExpr(*expr->as<ast::Block>(expr));
             case ast::ExprKind::Borrow:
                 break;
             case ast::ExprKind::Break:
@@ -171,13 +213,38 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
+    type_ptr Lowering::lowerType(const ast::type_ptr & astType) {
+        const auto & type = astType.unwrap();
+        switch (type->kind) {
+            case ast::TypeKind::Paren: {
+                return lowerType(type->as<ast::ParenType>(type)->type);
+            }
+            case ast::TypeKind::Tuple:
+                break;
+            case ast::TypeKind::Func:
+                break;
+            case ast::TypeKind::Slice:
+                break;
+            case ast::TypeKind::Array:
+                break;
+            case ast::TypeKind::Path:
+                break;
+            case ast::TypeKind::Unit:
+                break;
+        }
+    }
+
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
         stmt_list stmts;
-        for (const auto & stmt : block.stmts.unwrap()) {
+        for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
         return Block(std::move(stmts), NONE_HIR_ID, block.span);
+    }
+
+    Body Lowering::lowerBody(const ast::Body & astBody) {
+        return Body {astBody.exprBody, lowerExpr(astBody.value)};
     }
 }

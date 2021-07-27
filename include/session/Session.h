@@ -52,6 +52,11 @@ namespace jc::sess {
         NodeStorage nodeStorage;
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;
+
+        // TODO!: Move to separate wrapper for name resolution stage
+        resolve::Def getResDef(ast::node_id nodeId) const {
+            return defStorage.getDef(resStorage.getDefRes(nodeId));
+        }
     };
 }
 

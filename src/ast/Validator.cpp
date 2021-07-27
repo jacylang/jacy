@@ -64,7 +64,7 @@ namespace jc::ast {
     void Validator::visit(const Func & func) {
         // TODO: lint attributes
 
-        for (const auto & modifier : func.modifiers) {
+        for (const auto & modifier : func.sig.modifiers) {
             if (!isInside(ValidatorCtx::Struct)) {
                 switch (modifier.kind) {
                     case parser::TokenKind::Static:
@@ -87,15 +87,15 @@ namespace jc::ast {
 
         func.name.autoAccept(*this);
 
-        lintEach(func.params);
+        lintEach(func.sig.params);
 
-        if (func.returnType.some()) {
-            func.returnType.unwrap().autoAccept(*this);
+        if (func.sig.returnType.some()) {
+            func.sig.returnType.unwrap().autoAccept(*this);
         }
 
         pushContext(ValidatorCtx::Func);
         if (func.body.some()) {
-            func.body.unwrap().autoAccept(*this);
+            func.body.unwrap().value.autoAccept(*this);
         }
         popContext();
     }
@@ -269,11 +269,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Block & block) {
-        if (block.blockKind == BlockKind::OneLine) {
-            block.oneLine.unwrap().autoAccept(*this);
-        } else {
-            lintEach(block.stmts.unwrap());
-        }
+        lintEach(block.stmts);
     }
 
     void Validator::visit(const BorrowExpr & borrowExpr) {

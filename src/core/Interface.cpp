@@ -54,6 +54,10 @@ namespace jc::core {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
         }
+
+        beginBench();
+        lower();
+        endBenchSimple("Lowering stage", common::Config::BenchmarkKind::Stage);
     }
 
     /////////////
@@ -396,6 +400,11 @@ namespace jc::core {
         }
     }
 
+    // Lowering //
+    void Interface::lower() {
+        lowering.lower(sess, party.unwrap());
+    }
+
     // Suggestions //
     void Interface::collectSuggestions(sugg::sugg_list && additional) {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
@@ -416,11 +425,11 @@ namespace jc::core {
     }
 
     void Interface::printFinalBench() {
-        log::Logger::print(
+        log.raw(
             "Full compilation done in ",
             std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
             "ms"
-        );
+        ).nl();
     }
 
     void Interface::beginBench() {
@@ -497,6 +506,7 @@ namespace jc::core {
 
         table.addHeader("Name", "Entity", "Time", "Speed");
 
+        bool lastIsStage = false;
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
             std::string speed = "N/A";
@@ -512,7 +522,14 @@ namespace jc::core {
 
             if (bnk.kind == common::Config::BenchmarkKind::Stage) {
                 table.addLine();
+                lastIsStage = true;
+            } else {
+                lastIsStage = false;
             }
+        }
+
+        if (not lastIsStage) {
+            table.addLine();
         }
 
         log.raw(table);

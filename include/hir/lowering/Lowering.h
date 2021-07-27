@@ -27,6 +27,7 @@ namespace jc::hir {
         item_ptr lowerEnum(const ast::Enum & astEnum);
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
         item_ptr lowerMod(const ast::item_list & astItems);
+        item_ptr lowerFunc(const ast::Func & astFunc);
 
         // Statements //
     private:
@@ -39,9 +40,18 @@ namespace jc::hir {
         expr_ptr lowerAssignExpr(const ast::Assign & assign);
         expr_ptr lowerBlockExpr(const ast::Block & block);
 
+        // Types //
+    private:
+        type_ptr lowerType(const ast::type_ptr & astType);
+
         // Fragments //
     private:
         Block lowerBlock(const ast::Block & block);
+        Body lowerBody(const ast::Body & astBody);
+
+        // States //
+    private:
+        item_map items;
 
     private:
         sess::sess_ptr sess;

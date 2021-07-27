@@ -4,10 +4,17 @@
 #include "hir/nodes/items.h"
 
 namespace jc::hir {
+    using item_map = std::map<ItemId, ItemNode>;
+
     struct Party {
-        Party(Mod && rootMod) : rootMod(std::move(rootMod)) {}
+        Party(
+            Mod && rootMod,
+            item_map && items
+        ) : rootMod(std::move(rootMod)),
+            items(std::move(items)) {}
 
         Mod rootMod;
+        item_map items;
     };
 }
 

@@ -60,6 +60,11 @@ namespace jc::sugg {
 
     void Suggester::pointMsgTo(const std::string & msg, const Span & span, SuggKind) {
         const auto & fileId = span.fileId;
+
+        // Print suggestion source file path
+        const auto & spanFilePath = sess->sourceMap.getSourceFile(fileId).path;
+        printWithIndent("   ", "> " + spanFilePath.string());
+
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
         const auto & lines = sess->sourceMap.getLines(span);

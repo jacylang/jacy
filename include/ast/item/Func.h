@@ -31,32 +31,51 @@ namespace jc::ast {
         }
     };
 
-    struct Func : Item {
-        Func(
-            parser::token_list modifiers,
-            opt_gen_params generics,
-            ident_pr name,
+    struct Body {
+        Body(bool exprBody, expr_ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+
+        bool exprBody;
+        expr_ptr value;
+    };
+
+    struct FuncSig {
+        FuncSig(
+            const parser::token_list & modifiers,
             func_param_list params,
-            opt_type_ptr returnType,
-            opt_block_ptr body,
-            const Span & span
-        ) : Item(span, ItemKind::Func),
-            modifiers(std::move(modifiers)),
-            generics(std::move(generics)),
-            name(std::move(name)),
+            opt_type_ptr returnType
+        ) : modifiers(modifiers),
             params(std::move(params)),
-            returnType(std::move(returnType)),
-            body(std::move(body)) {}
+            returnType(std::move(returnType)) {}
 
         parser::token_list modifiers;
-        opt_gen_params generics;
-        ident_pr name;
         func_param_list params;
         opt_type_ptr returnType;
-        opt_block_ptr body;
+    };
+
+    struct Func : Item {
+        Func(
+            FuncSig && sig,
+            opt_gen_params generics,
+            ident_pr name,
+            Option<Body> && body,
+            const Span & span
+        ) : Item(span, ItemKind::Func),
+            sig(std::move(sig)),
+            generics(std::move(generics)),
+            name(std::move(name)),
+            body(std::move(body)) {}
+
+        FuncSig sig;
+        opt_gen_params generics;
+        ident_pr name;
+        Option<Body> body;
 
         span::Ident getName() const override {
             return name.unwrap();
+        }
+
+        opt_node_id getNameNodeId() const override {
+            return name.unwrap().id;
         }
 
         void accept(BaseVisitor & visitor) const override {

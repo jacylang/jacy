@@ -62,12 +62,9 @@ namespace jc::parser {
         const std::vector<TokenKind> ops;
     };
 
-    enum class BlockArrow : int8_t {
-        Just, // Block as standalone expression
-        NotAllowed, // Arrow not allowed (error)
-        Allow, // Allow for one-line body
-        Require, // Require `=>` for either `{}` either one-line block
-        Useless, // `=>` is useless (unambiguous case)
+    enum class BlockParsing : int8_t {
+        Raw, // Raw block parsing (we expected it but do not know if it is already present)
+        Just, // We encountered `{` and it is a bug having not a block
     };
 
     enum class Recovery {
@@ -202,7 +199,7 @@ namespace jc::parser {
         expr_ptr parseStructExpr(path_expr_ptr && path);
         struct_expr_field_pr parseStructExprField();
 
-        block_ptr parseBlock(const std::string & construction, BlockArrow arrow);
+        block_ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
         expr_ptr parseIfExpr(bool isElif = false);
@@ -211,7 +208,7 @@ namespace jc::parser {
         MatchArm parseMatchArm();
 
         // Fragments //
-        opt_block_ptr parseFuncBody();
+        Option<Body> parseFuncBody();
         attr_list parseAttrList();
         Option<Attr> parseAttr();
         arg_list parseArgList(const std::string & construction);

@@ -6,12 +6,17 @@
 namespace jc::hir {
     struct ItemNode;
     struct Item;
+    struct ItemId;
     using item_ptr = std::unique_ptr<Item>;
-    using item_node_list = std::vector<ItemNode>;
+    using item_id_list = std::vector<ItemId>;
 
     // Wrapper for type strictness
     struct ItemId {
         resolve::DefId defId;
+
+        constexpr bool operator<(const ItemId & other) const {
+            return defId < other.defId;
+        }
     };
 
     enum class ItemKind {
