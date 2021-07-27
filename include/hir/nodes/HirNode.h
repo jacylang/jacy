@@ -16,7 +16,7 @@ namespace jc::hir {
         resolve::DefId defId;
     };
 
-    const auto & NONE_HIR_ID = HirId(resolve::DefId(0));
+    const HirId NONE_HIR_ID = HirId(resolve::DefId(0));
 
     struct HirNode {
         HirNode(const HirId & hirId, const Span & span) : hirId(hirId), span(span) {}
