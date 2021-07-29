@@ -3,7 +3,9 @@
 // Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
 
 namespace jc::core {
-    Interface::Interface() : config(Config::getInstance()) {}
+    Interface::Interface() : config(Config::getInstance()) {
+        log.getConfig().printOwner = false;
+    }
 
     void Interface::compile() {
         log.dev("Config options: ", config.getOptionsMap());
@@ -23,8 +25,6 @@ namespace jc::core {
         } catch (sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (std::exception & e) {
-            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
-
             if (config.checkDev()) {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
@@ -32,6 +32,12 @@ namespace jc::core {
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printBenchmarks();
                 printFinalBench();
+            }
+
+            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
+
+            if (config.checkDev()) {
+                throw e;
             }
         }
     }

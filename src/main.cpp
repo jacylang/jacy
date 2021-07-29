@@ -6,6 +6,10 @@ int main(int argc, const char ** argv) {
         return jacy->meow(argc, argv);
     } catch (std::exception & e) {
         std::cout << "Uncaught error: " << e.what() << std::endl;
+        
+        if (jc::common::Config::getInstance().checkDev()) {
+            throw e;
+        }
     }
     return 0;
 }
