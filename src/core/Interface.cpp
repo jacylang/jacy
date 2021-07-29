@@ -462,6 +462,12 @@ namespace jc::core {
 
         printStepsDevMode();
 
+        // Print final benchmark
+        log.raw(
+            "Full compilation done in ",
+            step->getBenchmark(),
+            "ms"
+        ).nl();
     }
 
     void Interface::printStepsDevMode() {

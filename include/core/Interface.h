@@ -81,6 +81,10 @@ namespace jc::core {
             return parent;
         }
 
+        double getBenchmark() const {
+            return benchmark.unwrap();
+        }
+
         ptr end(size_t procUnitCount) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
