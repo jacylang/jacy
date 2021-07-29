@@ -23,6 +23,7 @@ namespace jc::common {
     key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
         {"parser",          Config::CompileDepth::Parser},
         {"name-resolution", Config::CompileDepth::NameResolution},
+        {"lowering", Config::CompileDepth::Lowering},
     };
 
     key_value_arg_map<Config::BenchmarkKind> Config::benchmarkKinds = {

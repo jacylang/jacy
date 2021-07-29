@@ -53,6 +53,7 @@ namespace jc::common {
         enum class CompileDepth : uint8_t {
             Parser,
             NameResolution,
+            Lowering,
             Full,
         };
 
