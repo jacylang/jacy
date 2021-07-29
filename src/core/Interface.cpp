@@ -67,6 +67,10 @@ namespace jc::core {
         beginBench();
         lower();
         endBenchSimple("Lowering stage", common::Config::BenchmarkKind::Stage);
+        if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
+            log.info("Stop after lowering due to `-compile-depth=lowering`");
+            return;
+        }
     }
 
     /////////////
