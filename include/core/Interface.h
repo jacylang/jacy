@@ -35,17 +35,30 @@ namespace jc::core {
     };
 
     class Step {
+    public:
         using ptr = std::shared_ptr<Step>;
-
         using milli_ratio = std::ratio<1, 1000>;
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
     public:
-        Step(const Option<ptr> & parent) : parent(parent) {}
+        Step(
+            const Option<ptr> & parent,
+            const std::string & name,
+            MeasUnit measUnit,
+            size_t procUnitCount
+        ) : parent(parent),
+            name(name),
+            measUnit(measUnit),
+            procUnitCount(procUnitCount),
+            benchStart(bench()) {}
 
     public:
         void end() {
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+        }
+
+        const std::string & getName() const {
+            return name;
         }
 
         // Check if entity exists globally and not bound to something specific like file, etc.
@@ -66,10 +79,10 @@ namespace jc::core {
         }
 
     private:
-        std::string name;
-
         const Option<ptr> parent{None};
         std::vector<ptr> children{};
+
+        std::string name;
 
         MeasUnit measUnit;
         size_t procUnitCount{0};
@@ -161,7 +174,7 @@ namespace jc::core {
 
         // Debug info //
     private:
-        std::unique_ptr<Step> step;
+        Step::ptr step;
         void beginStep(const std::string & name);
         void endStep();
 
