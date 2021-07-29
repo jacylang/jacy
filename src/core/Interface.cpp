@@ -30,7 +30,7 @@ namespace jc::core {
                 printSteps();
             }
 
-            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
+            log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
 
             if (config.checkDev()) {
                 throw;
