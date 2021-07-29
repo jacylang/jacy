@@ -492,7 +492,9 @@ namespace jc::core {
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
 
-        const auto & printStep = [&table](const Step::ptr & step, uint8_t depth) {
+        std::function<void(const Step::ptr&, uint8_t)> printStep;
+
+        printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
             const auto time = std::to_string(step->getBenchmark()) + "ms";
             const auto speed =
                 std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
