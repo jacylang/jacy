@@ -197,6 +197,9 @@ namespace jc::common {
             case CompileDepth::NameResolution:
                 res["compile-depth"].emplace_back("name-resolution");
                 break;
+            case CompileDepth::Lowering:
+                res["compile-depth"].emplace_back("lowering");
+                break;
             case CompileDepth::Full:
                 res["compile-depth"].emplace_back("full");
                 break;
