@@ -34,14 +34,14 @@ namespace jc::core {
         Node,
     };
 
-    struct Step {
-        const Option<Step*> parent{None};
-        std::string name;
-        MeasUnit measUnit;
-        size_t procUnitCount{0};
-        Option<double> benchmark{None};
+    class Step {
+        using milli_ratio = std::ratio<1, 1000>;
+        using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
-        std::vector<Step> children{};
+    public:
+        void end() {
+            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+        }
 
         // Check if entity exists globally and not bound to something specific like file, etc.
         static constexpr bool entityIsGlobal(MeasUnit entity) {
@@ -59,6 +59,18 @@ namespace jc::core {
                 case MeasUnit::Token: return "token";
             }
         }
+
+    private:
+        std::string name;
+
+        const Option<Step*> parent{None};
+        std::vector<Step> children{};
+
+        MeasUnit measUnit;
+        size_t procUnitCount{0};
+
+        bench_t benchStart;
+        Option<double> benchmark{None};
     };
 
     struct FSEntry;
@@ -150,8 +162,6 @@ namespace jc::core {
 
         // Benchmarks //
     private:
-        using milli_ratio = std::ratio<1, 1000>;
-        using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
         bench_t finalBenchStart;
         std::vector<Benchmark> benchmarks;
