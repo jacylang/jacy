@@ -99,13 +99,13 @@ namespace jc::core {
             return incomplete;
         }
 
-        ptr end(size_t procUnitCount, bool incomplete = false) {
+        ptr end(Option<size_t> procUnitCount, bool incomplete = false) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
 
             this->incomplete = incomplete;
 
-            if (stage) {
+            if (stage or incomplete) {
                 return parent.unwrap("`Step::end`");
             }
             return shared_from_this();

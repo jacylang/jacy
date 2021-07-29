@@ -463,7 +463,7 @@ namespace jc::core {
         // Unwind root step if compiler crashed
         auto rootStep = step;
         while (rootStep->getParent().some()) {
-            rootStep = rootStep->getParent().unwrap();
+            rootStep = rootStep->end(None, true);
         }
 
         printStepsDevMode();
