@@ -3,19 +3,12 @@
 namespace jc::core {
     Jacy::Jacy() {}
 
-    int Jacy::meow(int argc, const char ** argv) {
-        try {
-            cli::CLI cli;
-            cli.applyArgs(argc, argv);
-            common::Config::getInstance().applyCliConfig(cli.getConfig());
+    void Jacy::meow(int argc, const char ** argv) {
+        cli::CLI cli;
+        cli.applyArgs(argc, argv);
+        common::Config::getInstance().applyCliConfig(cli.getConfig());
 
-            Interface interface; // Initialize interface here to allow do something in constructors after Config inited
-            interface.compile();
-            return 0;
-        } catch (common::Error & e) {
-            log::Logger log{"jacy"};
-            log.error(e.message);
-            return 1;
-        }
+        Interface interface; // Initialize interface here to allow do something in constructors after Config inited
+        interface.compile();
     }
 }

@@ -23,7 +23,7 @@ namespace jc::core {
         Jacy();
         ~Jacy() = default;
 
-        int meow(int argc, const char ** argv);
+        void meow(int argc, const char ** argv);
     };
 }
 
