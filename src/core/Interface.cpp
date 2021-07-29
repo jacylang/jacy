@@ -472,12 +472,12 @@ namespace jc::core {
         do {
             for (const auto & child : rootStep->getChildren()) {
                 if (not child->isComplete()) {
-                    child->forceComplete();
+                    child->endFailed();
                 }
             }
 
             if (not rootStep->isComplete()) {
-                rootStep->forceComplete();
+                rootStep->endFailed();
             }
 
             if (rootStep->getParent().some()) {

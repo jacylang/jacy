@@ -98,10 +98,9 @@ namespace jc::core {
             return parent.unwrap("`Step::end`");
         }
 
-        void forceComplete() {
+        void endFailed() {
             procUnitCount = None;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
-            complete = true;
         }
 
         constexpr const char * unitStr() const {
