@@ -449,9 +449,9 @@ namespace jc::core {
                 }
                 default: {
                     log.devPanic(
-                        "Called `Interface::endStep` with step containing non-global measurement unit",
+                        "Called `Interface::endStep` with step containing non-global measurement unit [",
                         step->unitStr(),
-                        " without `procUnitCount`");
+                        "] without `procUnitCount`");
                 }
             }
         }
@@ -533,6 +533,7 @@ namespace jc::core {
 
             table.addRow(step->getName(), step->unitStr(), time, speed);
 
+            // AGENDA
 //            if (step->stage) {
 //                table.addLine();
 //            }
