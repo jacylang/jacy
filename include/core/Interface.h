@@ -35,12 +35,13 @@ namespace jc::core {
     };
 
     struct Step {
-        const Option<Step*> parent;
+        const Option<Step*> parent{None};
         std::string name;
-        std::vector<Step> children;
         MeasUnit measUnit;
-        size_t procUnitCount;
-        Option<double> benchmark;
+        size_t procUnitCount{0};
+        Option<double> benchmark{None};
+
+        std::vector<Step> children{};
 
         // Check if entity exists globally and not bound to something specific like file, etc.
         static constexpr bool entityIsGlobal(MeasUnit entity) {
@@ -143,11 +144,9 @@ namespace jc::core {
 
         // Debug info //
     private:
-        std::unique_ptr<Step> currentStage;
-        void beginStage(const std::string & name);
-        void endStage();
-        void beginSubStage(const std::string & name);
-        void endSubStage();
+        std::unique_ptr<Step> step;
+        void beginStep(const std::string & name);
+        void endStep();
 
         // Benchmarks //
     private:
