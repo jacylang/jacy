@@ -438,9 +438,23 @@ namespace jc::core {
     }
 
     void Interface::endStep(Option<size_t> procUnitCount) {
-        if (procUnitCount.none() and not Step::entityIsGlobal(step->getUnit())) {
-
+        const auto unit = step->getUnit();
+        if (procUnitCount.none()) {
+            switch (unit) {
+                case MeasUnit::Node: {
+                    procUnitCount = sess->nodeStorage.size();
+                    break;
+                }
+                default: {
+                    log.devPanic(
+                        "Called `Interface::endStep` with step containing non-global measurement unit",
+                        Step::entityStr(unit),
+                        " without `procUnitCount`");
+                }
+            }
         }
+
+        step = step->end(procUnitCount.unwrap());
     }
 
     void Interface::beginSubStage(const std::string & name) {
