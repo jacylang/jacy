@@ -34,24 +34,13 @@ namespace jc::core {
         Node,
     };
 
-    struct Benchmark {
-        using entity_t = std::pair<std::string, size_t>;
-        using opt_entity_t = Option<entity_t>;
-
-        Benchmark(const std::string & name, double time, opt_entity_t entity, Config::BenchmarkKind kind)
-            : name(name), time(time), entity(entity), kind(kind) {}
-
-        std::string name;
-        double time;
-        opt_entity_t entity;
-        Config::BenchmarkKind kind;
-    };
-
     struct Step {
         const Option<Step*> parent;
         std::string name;
         std::vector<Step> children;
-        MeasUnit benchmarkEntity;
+        MeasUnit measUnit;
+        size_t procUnitCount;
+        Option<double> benchmark;
 
         // Check if entity exists globally and not bound to something specific like file, etc.
         static constexpr bool entityIsGlobal(MeasUnit entity) {
