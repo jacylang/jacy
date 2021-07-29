@@ -20,6 +20,8 @@ namespace jc::core {
 
             printBenchmarks();
             printFinalBench();
+        } catch (sugg::SuggestionError & suggError) {
+            log.raw(suggError.what());
         } catch (std::exception & e) {
             if (config.checkDev()) {
                 log.nl();
