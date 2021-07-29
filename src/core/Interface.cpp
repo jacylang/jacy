@@ -301,9 +301,9 @@ namespace jc::core {
             cliParam,
             "`)");
 
-        beginBench();
+        beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, party.unwrap(), mode);
-        endBenchSimple("AST Printing after " + modeStr, common::Config::BenchmarkKind::Verbose);
+        endStep();
 
         log::Logger::nl();
     }
@@ -315,25 +315,25 @@ namespace jc::core {
         log.printTitleDev("Name resolution");
 
         log.dev("Building module tree...");
-        beginBench();
+        beginStep("Module tree building", MeasUnit::Node);
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endBenchSimple("Module tree building", common::Config::BenchmarkKind::SubStage);
+        endStep();
 
         printModTree("module tree building");
 
         printDefinitions();
 
         log.dev("Resolve imports...");
-        beginBench();
+        beginStep("Import resolution", MeasUnit::Node);
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endBenchSimple("Import resolution", common::Config::BenchmarkKind::SubStage);
+        endStep();
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
-        beginBench();
+        beginStep("Name resolution", MeasUnit::Node);
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endBenchSimple("Name resolution", common::Config::BenchmarkKind::SubStage);
+        endStep();
 
         printResolutions();
 
