@@ -64,6 +64,13 @@ namespace jc::core {
         }
     };
 
+    struct Step {
+        const Option<Step*> parent;
+        std::string name;
+        std::vector<Step> children;
+        BenchmarkEntity benchmarkEntity;
+    };
+
     struct FSEntry;
     using fs_entry_ptr = std::shared_ptr<FSEntry>;
     struct FSEntry {
@@ -147,14 +154,7 @@ namespace jc::core {
 
         // Debug info //
     private:
-        struct Stage {
-            const Option<Stage*> parent;
-            std::string name;
-            std::vector<Stage> subStages;
-            BenchmarkEntity benchmarkEntity;
-        };
-
-        std::unique_ptr<Stage> currentStage;
+        std::unique_ptr<Step> currentStage;
         void beginStage(const std::string & name);
         void endStage();
         void beginSubStage(const std::string & name);
