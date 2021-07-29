@@ -444,7 +444,7 @@ namespace jc::core {
                 default: {
                     log.devPanic(
                         "Called `Interface::endStep` with step containing non-global measurement unit",
-                        Step::unitStr(unit),
+                        step->unitStr(),
                         " without `procUnitCount`");
                 }
             }

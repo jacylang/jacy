@@ -97,17 +97,6 @@ namespace jc::core {
         }
 
         // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
-        constexpr bool unitIsGlobal() const {
-            switch (measUnit) {
-                case MeasUnit::Char:
-                case MeasUnit::Token:
-                    return false;
-
-                case MeasUnit::Node:
-                case MeasUnit::Def:
-                    return true;
-            }
-        }
 
         std::string unitStr() const {
             switch (measUnit) {
