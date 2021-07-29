@@ -44,12 +44,10 @@ namespace jc::core {
         Step(
             const Option<ptr> & parent,
             const std::string & name,
-            MeasUnit measUnit,
-            size_t procUnitCount
+            MeasUnit measUnit
         ) : parent(parent),
             name(name),
             measUnit(measUnit),
-            procUnitCount(procUnitCount),
             benchStart(bench()) {}
 
     public:
@@ -60,6 +58,10 @@ namespace jc::core {
                 return parent.unwrap("`Step::end`");
             }
             return None;
+        }
+
+        void setUnitCount(size_t count) {
+            procUnitCount = count;
         }
 
         template<class ...Args>
@@ -96,7 +98,7 @@ namespace jc::core {
         std::string name;
 
         MeasUnit measUnit;
-        size_t procUnitCount{0};
+        Option<size_t> procUnitCount{None};
 
         bench_t benchStart;
         Option<double> benchmark{None};
@@ -184,7 +186,7 @@ namespace jc::core {
         // Debug info //
     private:
         Step::ptr step;
-        void beginStep(const std::string & name);
+        void beginStep(const std::string & name, MeasUnit measUnit);
         void endStep();
 
         void printBenchmarks() noexcept;

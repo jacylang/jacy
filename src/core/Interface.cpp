@@ -433,7 +433,7 @@ namespace jc::core {
     }
 
     // Debug info //
-    void Interface::beginStep(const std::string & name) {
+    void Interface::beginStep(const std::string & name, MeasUnit measUnit) {
 
     }
 
