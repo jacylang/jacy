@@ -42,7 +42,7 @@ namespace jc::core {
 
     public:
         Step(
-            const Option<ptr> & parent,
+            const Option<Step*> & parent,
             const std::string & name,
             MeasUnit measUnit,
             size_t procUnitCount
@@ -53,13 +53,19 @@ namespace jc::core {
             benchStart(bench()) {}
 
     public:
-        Option<ptr> end(bool endStage = false) {
+        Option<const Step*> end(bool endStage = false) {
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
 
             if (endStage) {
                 return parent.unwrap("`Step::end`");
             }
             return None;
+        }
+
+        template<class ...Args>
+        ptr beginChild(Args && ...args) {
+            children.emplace_back(this, std::forward<Args>(args)...);
+            return children.back();
         }
 
         const std::string & getName() const {
@@ -84,7 +90,7 @@ namespace jc::core {
         }
 
     private:
-        const Option<ptr> parent{None};
+        Option<const Step*> parent{None};
         std::vector<ptr> children{};
 
         std::string name;
