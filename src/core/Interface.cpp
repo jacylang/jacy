@@ -122,9 +122,9 @@ namespace jc::core {
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
-        beginBench();
+        beginStep("AST Validation", MeasUnit::Node);
         astValidator.lint(party.unwrap()).take(sess, "validation");
-        endBenchEntity("AST Validation", common::Config::BenchmarkKind::SubStage, MeasUnit::Node);
+        endStep();
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
