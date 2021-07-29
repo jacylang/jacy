@@ -28,7 +28,6 @@ namespace jc::core {
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
                 printSteps();
-                printFinalBench();
             }
 
             log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
@@ -455,8 +454,17 @@ namespace jc::core {
     }
 
     void Interface::printSteps() noexcept {
-        if (step->childrenCount() == 0) {
+
+    }
+
+    void Interface::printStepsDevMode() {
+        if (not config.checkDev()) {
             return;
+        }
+
+        auto rootStep = step;
+        while (rootStep->getParent().some()) {
+            rootStep = rootStep->getParent().unwrap();
         }
 
         // Table

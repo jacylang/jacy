@@ -77,6 +77,10 @@ namespace jc::core {
             return children.size();
         }
 
+        Option<ptr> getParent() const {
+            return parent;
+        }
+
         ptr end(size_t procUnitCount) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
@@ -206,6 +210,7 @@ namespace jc::core {
         void endStep(Option<size_t> procUnitCount = None);
 
         void printSteps() noexcept;
+        void printStepsDevMode();
     };
 }
 
