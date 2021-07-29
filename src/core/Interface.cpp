@@ -31,7 +31,7 @@ namespace jc::core {
                 printBenchmarks();
                 printFinalBench();
             }
-            log.error("[ICE] 🥶 Compiler crashed");
+            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
         }
     }
 
