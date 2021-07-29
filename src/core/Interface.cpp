@@ -434,8 +434,7 @@ namespace jc::core {
 
     // Debug info //
     void Interface::beginStep(const std::string & name) {
-        stageStack.emplace_back(Step{name, {}});
-        beginBench();
+
     }
 
     void Interface::endStep() {

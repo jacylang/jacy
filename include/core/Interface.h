@@ -53,8 +53,13 @@ namespace jc::core {
             benchStart(bench()) {}
 
     public:
-        void end() {
+        Option<ptr> end(bool endStage = false) {
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+
+            if (endStage) {
+                return parent.unwrap("`Step::end`");
+            }
+            return None;
         }
 
         const std::string & getName() const {
@@ -170,38 +175,11 @@ namespace jc::core {
         void collectSuggestions(sugg::sugg_list && additional);
         void checkSuggestions(const std::string & stageName);
 
-        // DEV SECTION //
-
         // Debug info //
     private:
         Step::ptr step;
         void beginStep(const std::string & name);
         void endStep();
-
-        // Benchmarks //
-    private:
-
-        bench_t finalBenchStart;
-        std::vector<Benchmark> benchmarks;
-        std::vector<bench_t> benchmarkStack;
-        void beginFinalBench();
-        void printFinalBench();
-
-        void beginBench();
-        void endBenchSimple(
-            const std::string & name,
-            Config::BenchmarkKind kind
-        );
-        void endBenchEntity(
-            const std::string & name,
-            Config::BenchmarkKind kind,
-            MeasUnit entity
-        );
-        void endBenchCustom(
-            const std::string & name,
-            Config::BenchmarkKind kind,
-            const Benchmark::opt_entity_t & entity
-        );
 
         void printBenchmarks() noexcept;
     };
