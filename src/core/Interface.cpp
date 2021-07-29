@@ -462,10 +462,12 @@ namespace jc::core {
     void Interface::printSteps() noexcept {
         // Unwind steps if compiler crashed
         log.dev(
-            "Unwind steps, current [",
+            "Unwind steps, current step [",
             step->getName(),
-            "] step parent is ",
+            "] is ", step->isComplete() ? "complete" : "incomplete",
+            " and its parent is parent is ",
             step->getParent().some() ? step->getParent().unwrap()->getName() : "None");
+
         auto rootStep = step;
         do {
             for (const auto & child : rootStep->getChildren()) {
