@@ -21,6 +21,10 @@ namespace jc::resolve {
             return getDef(defId).vis;
         }
 
+        auto size() const {
+            return defs.size();
+        }
+
         template<class ...Args>
         DefId define(Args ...args) {
             defs.emplace_back(Def(args...));

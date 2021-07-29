@@ -32,6 +32,7 @@ namespace jc::core {
         Char,
         Token,
         Node,
+        Def,
     };
 
     class Step : public std::enable_shared_from_this<Step> {

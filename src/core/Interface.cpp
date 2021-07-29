@@ -348,9 +348,9 @@ namespace jc::core {
 
         log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
 
-        beginBench();
+        beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         modulePrinter.print(sess);
-        endBenchSimple("Module tree printing after " + afterStage, common::Config::BenchmarkKind::Verbose);
+        endStep();
 
         log::Logger::nl();
     }
@@ -435,6 +435,10 @@ namespace jc::core {
             switch (unit) {
                 case MeasUnit::Node: {
                     procUnitCount = sess->nodeStorage.size();
+                    break;
+                }
+                case MeasUnit::Def: {
+                    procUnitCount = sess->defStorage.size();
                     break;
                 }
                 default: {
