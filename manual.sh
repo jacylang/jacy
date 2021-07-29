@@ -1,1 +1,1 @@
-cmake -B cmake-build-debug && make ./cmake-build-debug/ && ./cmake-build-debug/bin/Jacy "$@"
+cmake -B cmake-build-debug && make -C ./cmake-build-debug && ./cmake-build-debug/bin/Jacy "$@"
