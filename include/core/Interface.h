@@ -96,12 +96,16 @@ namespace jc::core {
             return shared_from_this();
         }
 
-        // Check if entity exists globally and not bound to something specific like file, etc.
-        static constexpr bool entityIsGlobal(MeasUnit entity) {
-            switch (entity) {
+        // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
+        constexpr bool unitIsGlobal() const {
+            switch (measUnit) {
                 case MeasUnit::Char:
-                case MeasUnit::Token: return false;
-                case MeasUnit::Node: return true;
+                case MeasUnit::Token:
+                    return false;
+
+                case MeasUnit::Node:
+                case MeasUnit::Def:
+                    return true;
             }
         }
 
