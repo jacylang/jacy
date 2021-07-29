@@ -11,6 +11,10 @@ namespace jc::sugg {
     using log::Logger;
     using sess::file_id_t;
 
+    struct SuggestionError : std::logic_error {
+        SuggestionError(const std::string & msg) : std::logic_error(msg) {}
+    };
+
     class Suggester : public BaseSuggester {
     public:
         Suggester();
