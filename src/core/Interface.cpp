@@ -29,7 +29,6 @@ namespace jc::core {
                 printBenchmarks();
                 printFinalBench();
             }
-            throw e;
         }
     }
 
