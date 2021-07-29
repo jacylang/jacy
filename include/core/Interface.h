@@ -28,7 +28,7 @@ namespace jc::core {
 
     const auto bench = std::chrono::high_resolution_clock::now;
 
-    enum class BenchmarkEntity {
+    enum class MeasUnit {
         Char,
         Token,
         Node,
@@ -45,30 +45,30 @@ namespace jc::core {
         double time;
         opt_entity_t entity;
         Config::BenchmarkKind kind;
-
-        // Check if entity exists globally and not bound to something specific like file, etc.
-        static constexpr bool entityIsGlobal(BenchmarkEntity entity) {
-            switch (entity) {
-                case BenchmarkEntity::Char:
-                case BenchmarkEntity::Token: return false;
-                case BenchmarkEntity::Node: return true;
-            }
-        }
-
-        static std::string entityStr(BenchmarkEntity entity) {
-            switch (entity) {
-                case BenchmarkEntity::Node: return "node";
-                case BenchmarkEntity::Char: return "char";
-                case BenchmarkEntity::Token: return "token";
-            }
-        }
     };
 
     struct Step {
         const Option<Step*> parent;
         std::string name;
         std::vector<Step> children;
-        BenchmarkEntity benchmarkEntity;
+        MeasUnit benchmarkEntity;
+
+        // Check if entity exists globally and not bound to something specific like file, etc.
+        static constexpr bool entityIsGlobal(MeasUnit entity) {
+            switch (entity) {
+                case MeasUnit::Char:
+                case MeasUnit::Token: return false;
+                case MeasUnit::Node: return true;
+            }
+        }
+
+        static std::string entityStr(MeasUnit entity) {
+            switch (entity) {
+                case MeasUnit::Node: return "node";
+                case MeasUnit::Char: return "char";
+                case MeasUnit::Token: return "token";
+            }
+        }
     };
 
     struct FSEntry;
@@ -179,7 +179,7 @@ namespace jc::core {
         void endBenchEntity(
             const std::string & name,
             Config::BenchmarkKind kind,
-            BenchmarkEntity entity
+            MeasUnit entity
         );
         void endBenchCustom(
             const std::string & name,

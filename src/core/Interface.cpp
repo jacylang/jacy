@@ -50,7 +50,7 @@ namespace jc::core {
     void Interface::workflow() {
         beginBench();
         parse();
-        endBenchEntity("Parsing stage", common::Config::BenchmarkKind::Stage, BenchmarkEntity::Node);
+        endBenchEntity("Parsing stage", common::Config::BenchmarkKind::Stage, MeasUnit::Node);
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
@@ -128,7 +128,7 @@ namespace jc::core {
 
         beginBench();
         astValidator.lint(party.unwrap()).take(sess, "validation");
-        endBenchEntity("AST Validation", common::Config::BenchmarkKind::SubStage, BenchmarkEntity::Node);
+        endBenchEntity("AST Validation", common::Config::BenchmarkKind::SubStage, MeasUnit::Node);
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
@@ -474,10 +474,10 @@ namespace jc::core {
         endBenchCustom(name, kind, None);
     }
 
-    void Interface::endBenchEntity(const std::string & name, Config::BenchmarkKind kind, BenchmarkEntity entity) {
+    void Interface::endBenchEntity(const std::string & name, Config::BenchmarkKind kind, MeasUnit entity) {
         size_t entityCount;
         switch (entity) {
-            case BenchmarkEntity::Node: {
+            case MeasUnit::Node: {
                 entityCount = sess->nodeStorage.size();
                 break;
             }
