@@ -34,7 +34,7 @@ namespace jc::core {
         Node,
     };
 
-    class Step {
+    class Step : public std::enable_shared_from_this<Step> {
     public:
         using ptr = std::shared_ptr<Step>;
         using milli_ratio = std::ratio<1, 1000>;
@@ -42,7 +42,7 @@ namespace jc::core {
 
     public:
         Step(
-            const Option<Step*> & parent,
+            const Option<ptr> & parent,
             const std::string & name,
             MeasUnit measUnit,
             size_t procUnitCount
@@ -53,7 +53,7 @@ namespace jc::core {
             benchStart(bench()) {}
 
     public:
-        Option<const Step*> end(bool endStage = false) {
+        Option<ptr> end(bool endStage = false) {
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
 
             if (endStage) {
@@ -64,7 +64,7 @@ namespace jc::core {
 
         template<class ...Args>
         ptr beginChild(Args && ...args) {
-            children.emplace_back(this, std::forward<Args>(args)...);
+            children.emplace_back(shared_from_this(), std::forward<Args>(args)...);
             return children.back();
         }
 
@@ -90,7 +90,7 @@ namespace jc::core {
         }
 
     private:
-        Option<const Step*> parent{None};
+        Option<ptr> parent{None};
         std::vector<ptr> children{};
 
         std::string name;
