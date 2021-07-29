@@ -432,6 +432,7 @@ namespace jc::core {
     void Interface::endStep(Option<size_t> procUnitCount) {
         const auto unit = step->getUnit();
         if (procUnitCount.none()) {
+            // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
             switch (unit) {
                 case MeasUnit::Node: {
                     procUnitCount = sess->nodeStorage.size();
@@ -493,36 +494,21 @@ namespace jc::core {
 
         const auto & printStep = [&table](const Step::ptr & step, uint8_t depth) {
             const auto time = std::to_string(step->getBenchmark()) + "ms";
-            const auto speed = std::to_string(static_cast<double>(entity.second) / bnk.time) + "/ms";
+            const auto speed =
+                std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
+                "/ms";
+
+            table.addRow(step->getName(), step->unitStr(), time, speed);
+
+            if (step->stage) {
+                table.addLine();
+            }
         };
 
         table.addSectionName("Summary");
-
         table.addHeader("Name", "Entity", "Time", "Speed");
 
-        bool lastIsStage = false;
-        for (const auto & bnk : benchmarks) {
-            std::string entityName = "N/A";
-            std::string speed = "N/A";
-
-            if (bnk.entity.some()) {
-                const auto & entity = bnk.entity.unwrap();
-                entityName = entity.first;
-            }
-
-            table.addRow(bnk.name, entityName, time, speed);
-
-            if (bnk.kind == common::Config::BenchmarkKind::Stage) {
-                table.addLine();
-                lastIsStage = true;
-            } else {
-                lastIsStage = false;
-            }
-        }
-
-        if (not lastIsStage) {
-            table.addLine();
-        }
+        printStep(step, 0);
 
         log.raw(table);
     }

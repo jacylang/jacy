@@ -86,6 +86,10 @@ namespace jc::core {
             return benchmark.unwrap();
         }
 
+        auto getUnitCount() const {
+            return procUnitCount.unwrap();
+        }
+
         ptr end(size_t procUnitCount) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
@@ -95,8 +99,6 @@ namespace jc::core {
             }
             return shared_from_this();
         }
-
-        // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
 
         std::string unitStr() const {
             switch (measUnit) {
