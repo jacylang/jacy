@@ -57,7 +57,9 @@ namespace jc::core {
 
         static std::string entityStr(BenchmarkEntity entity) {
             switch (entity) {
-                case BenchmarkEntity::Node: return "Node";
+                case BenchmarkEntity::Node: return "node";
+                case BenchmarkEntity::Char: return "char";
+                case BenchmarkEntity::Token: return "token";
             }
         }
     };
