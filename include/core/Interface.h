@@ -57,8 +57,10 @@ namespace jc::core {
         ptr beginChild(Args && ...args) {
             children.emplace_back(std::make_shared<Step>(shared_from_this(), std::forward<Args>(args)...));
             if (children.back()->stage) {
+                // If it is a stage child, then called nests to it
                 return children.back();
             } else {
+                // If it is a non-stage child we just return "self", thus, just adding a child
                 return children.back()->parent.unwrap();
             }
         }
@@ -71,14 +73,14 @@ namespace jc::core {
             return name;
         }
 
-        Option<ptr> end(size_t procUnitCount, bool endStage = false) {
+        ptr end(size_t procUnitCount) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
 
-            if (endStage) {
+            if (stage) {
                 return parent.unwrap("`Step::end`");
             }
-            return None;
+            return shared_from_this();
         }
 
         // Check if entity exists globally and not bound to something specific like file, etc.
