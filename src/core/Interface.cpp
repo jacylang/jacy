@@ -37,7 +37,7 @@ namespace jc::core {
             log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
 
             if (config.checkDev()) {
-                throw e;
+                throw;
             }
         }
     }
