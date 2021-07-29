@@ -130,6 +130,21 @@ namespace jc::core {
         void collectSuggestions(sugg::sugg_list && additional);
         void checkSuggestions(const std::string & stageName);
 
+        // DEV SECTION //
+
+        // Debug info //
+    private:
+        struct Stage {
+            std::string name;
+            std::vector<std::string> subStages;
+        };
+
+        std::vector<Stage> stageStack;
+        void beginStage(const std::string & name);
+        void endStage();
+        void beginSubStage(const std::string & name);
+        void endSubStage();
+
         // Benchmarks //
     private:
         using milli_ratio = std::ratio<1, 1000>;

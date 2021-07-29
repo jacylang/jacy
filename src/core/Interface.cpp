@@ -432,6 +432,23 @@ namespace jc::core {
         suggestions.clear();
     }
 
+    // Debug info //
+    void Interface::beginStage(const std::string & name) {
+        stageStack.emplace_back(Stage{name});
+    }
+
+    void Interface::endStage() {
+        stageStack.pop_back();
+    }
+
+    void Interface::beginSubStage(const std::string & name) {
+        stageStack.back().subStages.emplace_back(name);
+    }
+
+    void Interface::endSubStage() {
+        stageStack.back().subStages.pop_back();
+    }
+
     // Benchmarks //
     void Interface::beginFinalBench() {
         finalBenchStart = bench();
