@@ -205,7 +205,7 @@ namespace jc::core {
         void beginStep(const std::string & name, MeasUnit measUnit, bool stage = false);
         void endStep(Option<size_t> procUnitCount = None);
 
-        void printBenchmarks() noexcept;
+        void printSteps() noexcept;
     };
 }
 

@@ -11,8 +11,6 @@ namespace jc::core {
         log.dev("Config options: ", config.getOptionsMap());
 
         try {
-            beginFinalBench();
-
             init();
 
             // Note: AstPrinter is a debug tool, so it allows to accept ill-formed AST
@@ -20,8 +18,7 @@ namespace jc::core {
 
             workflow();
 
-            printBenchmarks();
-            printFinalBench();
+            printSteps();
         } catch (const sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (const std::exception & e) {
@@ -30,7 +27,7 @@ namespace jc::core {
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
-                printBenchmarks();
+                printSteps();
                 printFinalBench();
             }
 
@@ -457,7 +454,7 @@ namespace jc::core {
         step = step->end(procUnitCount.unwrap());
     }
 
-    void Interface::printBenchmarks() noexcept {
+    void Interface::printSteps() noexcept {
         if (step->childrenCount() == 0) {
             return;
         }
