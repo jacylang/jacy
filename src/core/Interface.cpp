@@ -503,6 +503,10 @@ namespace jc::core {
             if (step->stage) {
                 table.addLine();
             }
+
+            for (const auto & child : step->getChildren()) {
+                printStep(child, depth + 1);
+            }
         };
 
         table.addSectionName("Summary");
