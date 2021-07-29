@@ -29,6 +29,7 @@ namespace jc::core {
     const auto bench = std::chrono::high_resolution_clock::now;
 
     enum class MeasUnit {
+        NA,
         Char,
         Token,
         Node,

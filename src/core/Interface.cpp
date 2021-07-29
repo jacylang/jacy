@@ -41,6 +41,7 @@ namespace jc::core {
     void Interface::init() {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
+        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA, true);
     }
 
     void Interface::workflow() {
