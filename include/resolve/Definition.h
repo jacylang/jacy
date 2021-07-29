@@ -22,11 +22,11 @@ namespace jc::resolve {
             return index;
         }
 
-        constexpr bool operator==(const DefId & other) const {
+        bool operator==(const DefId & other) const {
             return other.getIndex() == index;
         }
 
-        constexpr bool operator<(const DefId & other) const {
+        bool operator<(const DefId & other) const {
             return index < other.index;
         }
     private:

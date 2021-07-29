@@ -14,7 +14,7 @@ namespace jc::hir {
     struct ItemId {
         resolve::DefId defId;
 
-        constexpr bool operator<(const ItemId & other) const {
+        bool operator<(const ItemId & other) const {
             return defId < other.defId;
         }
     };
