@@ -57,6 +57,10 @@ namespace jc::core {
             return children.back();
         }
 
+        MeasUnit getUnit() const {
+            return measUnit;
+        }
+
         const std::string & getName() const {
             return name;
         }
@@ -184,7 +188,7 @@ namespace jc::core {
     private:
         Step::ptr step;
         void beginStep(const std::string & name, MeasUnit measUnit);
-        void endStep();
+        void endStep(Option<size_t> procUnitCount = None);
 
         void printBenchmarks() noexcept;
     };

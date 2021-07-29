@@ -437,8 +437,10 @@ namespace jc::core {
         step = step->beginChild(name, measUnit);
     }
 
-    void Interface::endStep() {
-        stageStack.pop_back();
+    void Interface::endStep(Option<size_t> procUnitCount) {
+        if (procUnitCount.none() and not Step::entityIsGlobal(step->getUnit())) {
+
+        }
     }
 
     void Interface::beginSubStage(const std::string & name) {
