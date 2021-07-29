@@ -103,10 +103,18 @@ namespace jc::core {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
 
+            complete = true;
+
             if (stage) {
                 return parent.unwrap("`Step::end`");
             }
             return shared_from_this();
+        }
+
+        void forceComplete() {
+            procUnitCount = None;
+            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+            complete = true;
         }
 
         constexpr const char * unitStr() const {
