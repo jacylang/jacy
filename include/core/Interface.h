@@ -29,6 +29,8 @@ namespace jc::core {
     const auto bench = std::chrono::high_resolution_clock::now;
 
     enum class BenchmarkEntity {
+        Char,
+        Token,
         Node,
     };
 
@@ -43,6 +45,15 @@ namespace jc::core {
         double time;
         opt_entity_t entity;
         Config::BenchmarkKind kind;
+
+        // Check if entity exists globally and not bound to something specific like file, etc.
+        static constexpr bool entityIsGlobal(BenchmarkEntity entity) {
+            switch (entity) {
+                case BenchmarkEntity::Char:
+                case BenchmarkEntity::Token: return false;
+                case BenchmarkEntity::Node: return true;
+            }
+        }
 
         static std::string entityStr(BenchmarkEntity entity) {
             switch (entity) {
@@ -135,8 +146,10 @@ namespace jc::core {
         // Debug info //
     private:
         struct Stage {
+            const Stage * parent;
             std::string name;
             std::vector<std::string> subStages;
+            BenchmarkEntity benchmarkEntity;
         };
 
         std::vector<Stage> stageStack;
