@@ -454,17 +454,18 @@ namespace jc::core {
     }
 
     void Interface::printSteps() noexcept {
+        // Unwind root step if compiler crashed
+        auto rootStep = step;
+        while (rootStep->getParent().some()) {
+            rootStep = rootStep->getParent().unwrap();
+        }
 
+        printStepsDevMode();
     }
 
     void Interface::printStepsDevMode() {
         if (not config.checkDev()) {
             return;
-        }
-
-        auto rootStep = step;
-        while (rootStep->getParent().some()) {
-            rootStep = rootStep->getParent().unwrap();
         }
 
         // Table
