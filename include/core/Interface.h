@@ -105,11 +105,12 @@ namespace jc::core {
             }
         }
 
-        std::string entityStr() const {
+        std::string unitStr() const {
             switch (measUnit) {
                 case MeasUnit::Node: return "node";
                 case MeasUnit::Char: return "char";
                 case MeasUnit::Token: return "token";
+                case MeasUnit::Def: return "def";
             }
         }
 
