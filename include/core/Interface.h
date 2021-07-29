@@ -105,7 +105,7 @@ namespace jc::core {
             return shared_from_this();
         }
 
-        std::string unitStr() const {
+        constexpr const char * unitStr() const {
             switch (measUnit) {
                 case MeasUnit::Node: return "node";
                 case MeasUnit::Char: return "char";
