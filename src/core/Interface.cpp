@@ -23,6 +23,8 @@ namespace jc::core {
         } catch (sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (std::exception & e) {
+            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
+
             if (config.checkDev()) {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
@@ -31,7 +33,6 @@ namespace jc::core {
                 printBenchmarks();
                 printFinalBench();
             }
-            log.error("[ICE] 🥶 Compiler crashed, reason: ", e.what());
         }
     }
 
