@@ -457,78 +457,8 @@ namespace jc::core {
         step = step->end(procUnitCount.unwrap());
     }
 
-    void Interface::beginSubStage(const std::string & name) {
-        stageStack.back().subStages.emplace_back(name);
-    }
-
-    void Interface::endSubStage() {
-        stageStack.back().subStages.pop_back();
-    }
-
-    // Benchmarks //
-    void Interface::beginFinalBench() {
-        finalBenchStart = bench();
-    }
-
-    void Interface::printFinalBench() {
-        log.raw(
-            "Full compilation done in ",
-            std::chrono::duration<double, milli_ratio>(bench() - finalBenchStart).count(),
-            "ms"
-        ).nl();
-    }
-
-    void Interface::beginBench() {
-        benchmarkStack.emplace_back(bench());
-    }
-
-    void Interface::endBenchSimple(
-        const std::string & name,
-        Config::BenchmarkKind kind
-    ) {
-        endBenchCustom(name, kind, None);
-    }
-
-    void Interface::endBenchEntity(const std::string & name, Config::BenchmarkKind kind, MeasUnit entity) {
-        size_t entityCount;
-        switch (entity) {
-            case MeasUnit::Node: {
-                entityCount = sess->nodeStorage.size();
-                break;
-            }
-            default: {
-                log.devPanic("Unhandled `BenchmarkEntity` kind in `Interface::printBenchmarks`");
-            }
-        }
-        endBenchCustom(name, kind, Benchmark::entity_t{Benchmark::entityStr(entity), entityCount});
-    }
-
-    void Interface::endBenchCustom(
-        const std::string & name,
-        Config::BenchmarkKind kind,
-        const Benchmark::opt_entity_t & entity
-    ) {
-        // Note: Not the best solution, but we pop last benchmark
-        //  even if pushed benchmark is have low level than configured.
-        if (not config.checkBenchmark(kind)) {
-            benchmarkStack.pop_back();
-            return;
-        }
-        if (benchmarkStack.empty()) {
-            log::Logger::devPanic("Called `Interface::endBenchWithEntity` with empty benchmark stack");
-        }
-        auto end = bench();
-        benchmarks.emplace_back(
-            name,
-            std::chrono::duration<double, milli_ratio>(end - benchmarkStack.back()).count(),
-            entity,
-            kind
-        );
-        benchmarkStack.pop_back();
-    }
-
     void Interface::printBenchmarks() noexcept {
-        if (benchmarks.empty()) {
+        if (step->childrenCount() == 0) {
             return;
         }
 

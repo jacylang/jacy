@@ -73,6 +73,10 @@ namespace jc::core {
             return name;
         }
 
+        auto childrenCount() const {
+            return children.size();
+        }
+
         ptr end(size_t procUnitCount) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
