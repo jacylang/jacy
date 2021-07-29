@@ -111,6 +111,7 @@ namespace jc::core {
                 case MeasUnit::Char: return "char";
                 case MeasUnit::Token: return "token";
                 case MeasUnit::Def: return "def";
+                case MeasUnit::NA: return "N/A";
             }
         }
 
