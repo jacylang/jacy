@@ -502,7 +502,7 @@ namespace jc::core {
         printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
             const auto time = std::to_string(step->getBenchmark()) + "ms";
             std::string speed = "N/A";
-            if (step->getUnit() != MeasUnit::NA) {
+            if (step->getUnit() != MeasUnit::NA and not step->isIncomplete()) {
                 speed =
                     std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
                     "/ms";
