@@ -45,7 +45,9 @@ namespace jc::core {
     }
 
     void Interface::workflow() {
-        beginStep("Parsing stage", MeasUnit::Token);
+        // TODO: Node is invalid as it is what parsing produce but not process,
+        //  add `MeasUnit::Stage` to calculate the whole benchmark of children
+        beginStep("Parsing stage", MeasUnit::Node);
         parse();
         endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
