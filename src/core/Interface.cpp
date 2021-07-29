@@ -44,25 +44,25 @@ namespace jc::core {
     }
 
     void Interface::workflow() {
-        beginBench();
+        beginStep("Parsing stage", MeasUnit::Token, true);
         parse();
-        endBenchEntity("Parsing stage", common::Config::BenchmarkKind::Stage, MeasUnit::Node);
+        endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
         }
 
-        beginBench();
+        beginStep("Name resolution stage", MeasUnit::Node, true);
         resolveNames();
-        endBenchSimple("Name resolution stage", common::Config::BenchmarkKind::Stage);
+        endStep();
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
         }
 
-        beginBench();
+        beginStep("Lowering stage", MeasUnit::Node, true);
         lower();
-        endBenchSimple("Lowering stage", common::Config::BenchmarkKind::Stage);
+        endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
             log.info("Stop after lowering due to `-compile-depth=lowering`");
             return;
