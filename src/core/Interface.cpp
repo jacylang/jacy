@@ -181,32 +181,28 @@ namespace jc::core {
             )
         );
 
-        beginBench();
+        const auto & fileSize = parseSess->sourceFile.src.unwrap().size();
+
+        beginStep(filePathRootRel + " lexing", MeasUnit::Char);
         auto tokens = lexer.lex(parseSess);
-        endBenchSimple(filePathRootRel + " lexing", common::Config::BenchmarkKind::SubStage);
+        endStep(fileSize);
 
         log.dev("Tokenize file ", file.getPath());
 
-        beginBench();
+        beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
         printSource(parseSess);
         const auto & fileCharCount = parseSess->sourceFile.src.unwrap().size();
-        endBenchCustom(
-            "Printing " + filePathRootRel + " source",
-            common::Config::BenchmarkKind::Verbose,
-            Benchmark::entity_t{"Char", fileCharCount});
+        endStep(fileSize);
 
-        beginBench();
+        beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
         printTokens(file.getPath(), tokens);
-        endBenchCustom(
-            "Printing " + filePathRootRel + " tokens",
-            common::Config::BenchmarkKind::Verbose,
-            Benchmark::entity_t{"Token", tokens.size()});
+        endStep(tokens.size());
 
         log.dev("Parse file ", file.getPath());
 
-        beginBench();
+        beginStep(filePathRootRel + " parsing", MeasUnit::Token);
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endBenchSimple(filePathRootRel + " parsing", common::Config::BenchmarkKind::SubStage);
+        endStep(tokens.size());
 
         collectSuggestions(std::move(parserSuggestions));
 
