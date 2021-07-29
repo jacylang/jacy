@@ -51,19 +51,6 @@ namespace jc::core {
             benchStart(bench()) {}
 
     public:
-        Option<ptr> end(bool endStage = false) {
-            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
-
-            if (endStage) {
-                return parent.unwrap("`Step::end`");
-            }
-            return None;
-        }
-
-        void setUnitCount(size_t count) {
-            procUnitCount = count;
-        }
-
         template<class ...Args>
         ptr beginChild(Args && ...args) {
             children.emplace_back(std::make_shared<Step>(shared_from_this(), std::forward<Args>(args)...));
@@ -72,6 +59,16 @@ namespace jc::core {
 
         const std::string & getName() const {
             return name;
+        }
+
+        Option<ptr> end(size_t procUnitCount, bool endStage = false) {
+            this->procUnitCount = procUnitCount;
+            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+
+            if (endStage) {
+                return parent.unwrap("`Step::end`");
+            }
+            return None;
         }
 
         // Check if entity exists globally and not bound to something specific like file, etc.
