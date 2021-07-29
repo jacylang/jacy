@@ -105,8 +105,8 @@ namespace jc::core {
             }
         }
 
-        static std::string entityStr(MeasUnit entity) {
-            switch (entity) {
+        std::string entityStr() const {
+            switch (measUnit) {
                 case MeasUnit::Node: return "node";
                 case MeasUnit::Char: return "char";
                 case MeasUnit::Token: return "token";
