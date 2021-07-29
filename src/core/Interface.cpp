@@ -433,8 +433,8 @@ namespace jc::core {
     }
 
     // Debug info //
-    void Interface::beginStep(const std::string & name, MeasUnit measUnit) {
-        step = step->beginChild(name, measUnit);
+    void Interface::beginStep(const std::string & name, MeasUnit measUnit, bool stage) {
+        step = step->beginChild(name, measUnit, stage);
     }
 
     void Interface::endStep(Option<size_t> procUnitCount) {

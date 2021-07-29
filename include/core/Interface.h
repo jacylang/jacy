@@ -44,17 +44,23 @@ namespace jc::core {
         Step(
             Option<ptr> parent,
             const std::string & name,
-            MeasUnit measUnit
+            MeasUnit measUnit,
+            bool stage
         ) : parent(parent),
             name(name),
             measUnit(measUnit),
-            benchStart(bench()) {}
+            benchStart(bench()),
+            stage(stage) {}
 
     public:
         template<class ...Args>
         ptr beginChild(Args && ...args) {
             children.emplace_back(std::make_shared<Step>(shared_from_this(), std::forward<Args>(args)...));
-            return children.back();
+            if (children.back()->stage) {
+                return children.back();
+            } else {
+                return children.back()->parent.unwrap();
+            }
         }
 
         MeasUnit getUnit() const {
@@ -103,6 +109,9 @@ namespace jc::core {
 
         bench_t benchStart;
         Option<double> benchmark{None};
+
+    public:
+        const bool stage;
     };
 
     struct FSEntry;
@@ -187,7 +196,7 @@ namespace jc::core {
         // Debug info //
     private:
         Step::ptr step;
-        void beginStep(const std::string & name, MeasUnit measUnit);
+        void beginStep(const std::string & name, MeasUnit measUnit, bool stage = false);
         void endStep(Option<size_t> procUnitCount = None);
 
         void printBenchmarks() noexcept;
