@@ -146,13 +146,13 @@ namespace jc::core {
         // Debug info //
     private:
         struct Stage {
-            const Stage * parent;
+            const Option<Stage*> parent;
             std::string name;
-            std::vector<std::string> subStages;
+            std::vector<Stage> subStages;
             BenchmarkEntity benchmarkEntity;
         };
 
-        std::vector<Stage> stageStack;
+        std::unique_ptr<Stage> currentStage;
         void beginStage(const std::string & name);
         void endStage();
         void beginSubStage(const std::string & name);
