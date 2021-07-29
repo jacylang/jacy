@@ -460,11 +460,13 @@ namespace jc::core {
     }
 
     void Interface::printSteps() noexcept {
-        // Unwind root step if compiler crashed
+        // Unwind steps if compiler crashed
         auto rootStep = step;
         while (rootStep->getParent().some()) {
-            rootStep = rootStep->end(None, true);
+            rootStep->end(None);
+            rootStep = rootStep->getParent().unwrap();
         }
+        step = rootStep;
 
         printStepsDevMode();
 
@@ -502,7 +504,7 @@ namespace jc::core {
         printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
             const auto time = std::to_string(step->getBenchmark()) + "ms";
             std::string speed = "N/A";
-            if (step->getUnit() != MeasUnit::NA and not step->isIncomplete()) {
+            if (step->getUnit() != MeasUnit::NA and step->isComplete()) {
                 speed =
                     std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
                     "/ms";
