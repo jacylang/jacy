@@ -42,7 +42,7 @@ namespace jc::core {
 
     public:
         Step(
-            const Option<ptr> & parent,
+            Option<ptr> parent,
             const std::string & name,
             MeasUnit measUnit
         ) : parent(parent),
@@ -66,7 +66,7 @@ namespace jc::core {
 
         template<class ...Args>
         ptr beginChild(Args && ...args) {
-            children.emplace_back(shared_from_this(), std::forward<Args>(args)...);
+            children.emplace_back(std::make_shared<Step>(shared_from_this(), std::forward<Args>(args)...));
             return children.back();
         }
 
