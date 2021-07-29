@@ -41,11 +41,11 @@ namespace jc::core {
     void Interface::init() {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
-        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA, false);
+        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA);
     }
 
     void Interface::workflow() {
-        beginStep("Parsing stage", MeasUnit::Token, true);
+        beginStep("Parsing stage", MeasUnit::Token);
         parse();
         endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
@@ -53,7 +53,7 @@ namespace jc::core {
             return;
         }
 
-        beginStep("Name resolution stage", MeasUnit::Node, true);
+        beginStep("Name resolution stage", MeasUnit::Node);
         resolveNames();
         endStep();
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
@@ -61,7 +61,7 @@ namespace jc::core {
             return;
         }
 
-        beginStep("Lowering stage", MeasUnit::Node, true);
+        beginStep("Lowering stage", MeasUnit::Node);
         lower();
         endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
@@ -425,8 +425,8 @@ namespace jc::core {
     }
 
     // Debug info //
-    void Interface::beginStep(const std::string & name, MeasUnit measUnit, bool stage) {
-        step = step->beginChild(name, measUnit, stage);
+    void Interface::beginStep(const std::string & name, MeasUnit measUnit) {
+        step = step->addChild(name, measUnit);
     }
 
     void Interface::endStep(Option<size_t> procUnitCount) {
@@ -533,9 +533,9 @@ namespace jc::core {
 
             table.addRow(step->getName(), step->unitStr(), time, speed);
 
-            if (step->stage) {
-                table.addLine();
-            }
+//            if (step->stage) {
+//                table.addLine();
+//            }
 
             for (const auto & child : step->getChildren()) {
                 printStep(child, depth + 1);
