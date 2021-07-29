@@ -191,7 +191,6 @@ namespace jc::core {
 
         beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
         printSource(parseSess);
-        const auto & fileCharCount = parseSess->sourceFile.src.unwrap().size();
         endStep(fileSize);
 
         beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
