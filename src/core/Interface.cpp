@@ -491,7 +491,12 @@ namespace jc::core {
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
 
-        table.addSectionName("Benchmarks");
+        const auto & printStep = [&table](const Step::ptr & step, uint8_t depth) {
+            const auto time = std::to_string(step->getBenchmark()) + "ms";
+            const auto speed = std::to_string(static_cast<double>(entity.second) / bnk.time) + "/ms";
+        };
+
+        table.addSectionName("Summary");
 
         table.addHeader("Name", "Entity", "Time", "Speed");
 
@@ -499,12 +504,10 @@ namespace jc::core {
         for (const auto & bnk : benchmarks) {
             std::string entityName = "N/A";
             std::string speed = "N/A";
-            const auto & time = std::to_string(bnk.time) + "ms";
 
             if (bnk.entity.some()) {
                 const auto & entity = bnk.entity.unwrap();
                 entityName = entity.first;
-                speed = std::to_string(static_cast<double>(entity.second) / bnk.time) + "/ms";
             }
 
             table.addRow(bnk.name, entityName, time, speed);
