@@ -8,7 +8,7 @@ namespace jc::resolve {
         const Def & getDef(const DefIndex & index) const {
             try {
                 return defs.at(index);
-            } catch (std::out_of_range & e) {
+            } catch (const std::out_of_range & e) {
                 log::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
         }
@@ -50,7 +50,7 @@ namespace jc::resolve {
         const module_ptr & getModule(const DefId & defId) const {
             try {
                 return modules.at(defId.getIndex());
-            } catch (std::out_of_range & e) {
+            } catch (const std::out_of_range & e) {
                 log::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
             }
         }

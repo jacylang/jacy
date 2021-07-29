@@ -22,9 +22,9 @@ namespace jc::core {
 
             printBenchmarks();
             printFinalBench();
-        } catch (sugg::SuggestionError & suggError) {
+        } catch (const sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
-        } catch (std::exception & e) {
+        } catch (const std::exception & e) {
             if (config.checkDev()) {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
