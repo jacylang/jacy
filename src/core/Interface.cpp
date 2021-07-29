@@ -442,6 +442,11 @@ namespace jc::core {
                     procUnitCount = sess->defStorage.size();
                     break;
                 }
+                case MeasUnit::NA: {
+                    // Don't use this value, check for `MeasUnit::NA`
+                    procUnitCount = 0;
+                    break;
+                }
                 default: {
                     log.devPanic(
                         "Called `Interface::endStep` with step containing non-global measurement unit",
@@ -496,9 +501,12 @@ namespace jc::core {
 
         printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
             const auto time = std::to_string(step->getBenchmark()) + "ms";
-            const auto speed =
-                std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
-                "/ms";
+            std::string speed = "N/A";
+            if (step->getUnit() != MeasUnit::NA) {
+                speed =
+                    std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
+                    "/ms";
+            }
 
             table.addRow(step->getName(), step->unitStr(), time, speed);
 
