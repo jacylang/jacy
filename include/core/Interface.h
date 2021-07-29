@@ -35,8 +35,13 @@ namespace jc::core {
     };
 
     class Step {
+        using ptr = std::shared_ptr<Step>;
+
         using milli_ratio = std::ratio<1, 1000>;
         using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
+
+    public:
+        Step(const Option<ptr> & parent) : parent(parent) {}
 
     public:
         void end() {
@@ -63,8 +68,8 @@ namespace jc::core {
     private:
         std::string name;
 
-        const Option<Step*> parent{None};
-        std::vector<Step> children{};
+        const Option<ptr> parent{None};
+        std::vector<ptr> children{};
 
         MeasUnit measUnit;
         size_t procUnitCount{0};
