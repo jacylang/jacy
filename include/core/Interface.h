@@ -95,9 +95,15 @@ namespace jc::core {
             return children;
         }
 
-        ptr end(size_t procUnitCount) {
+        auto isIncomplete() const {
+            return incomplete;
+        }
+
+        ptr end(size_t procUnitCount, bool incomplete = false) {
             this->procUnitCount = procUnitCount;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+
+            this->incomplete = incomplete;
 
             if (stage) {
                 return parent.unwrap("`Step::end`");
@@ -126,6 +132,8 @@ namespace jc::core {
 
         bench_t benchStart;
         Option<double> benchmark{None};
+
+        bool incomplete;
 
     public:
         const bool stage;
