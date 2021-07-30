@@ -35,8 +35,7 @@ namespace jc::utils::str {
         if (targetLen <= utf8Size(str)) {
             return str;
         }
-        size_t pad = targetLen - utf8Size(str);
-        return repeat(rep, pad) + str;
+        return repeat(rep, targetLen - utf8Size(str)) + str;
     }
 
     std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
@@ -51,8 +50,7 @@ namespace jc::utils::str {
         if (targetLen <= utf8Size(str)) {
             return str;
         }
-        size_t pad = targetLen - utf8Size(str);
-        return str + repeat(rep, pad);
+        return str + repeat(rep, targetLen - utf8Size(str));
     }
 
     std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
