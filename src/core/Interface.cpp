@@ -539,17 +539,18 @@ namespace jc::core {
             }
 
             std::string preparedName;
-            if (not step->isComplete()) {
-                preparedName += "🔥";
-            }
 
             if (depth > 0) {
-                preparedName += std::string(depth, ' ') + "> ";
+                preparedName += utils::str::repeat(" ", depth - 1) + "> ";
             } else {
                 table.addLine(true);
             }
 
             preparedName += step->getName();
+
+            if (not step->isComplete()) {
+                preparedName += " 🔥";
+            }
 
             table.addRow(preparedName, step->unitStr(), time, speed);
 
