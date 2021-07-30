@@ -36,6 +36,61 @@ namespace jc::utils::str {
         return len;
     }
 
+    uint32_t codepoint(const std::string & us) {
+        static const auto & invalidCodepoint = [](const std::string & msg) {
+            throw std::runtime_error("Called `utils::str::codepoint` with string containing invalid code points: " + msg);
+        };
+
+        auto len = us.size();
+
+        // ASCII
+        if (len < 1) {
+            invalidCodepoint("len < 1");
+        }
+
+        uint8_t u0 = us[0];
+        if (u0 >= 0 and u0 <= 127) {
+            return u0;
+        }    
+    
+        if (len < 2) {
+            invalidCodepoint("len < 2");
+        }
+
+        uint8_t u1 = us[1];
+        if (u0 >= 192 and u0 <= 223) {
+            return (u0 - 192) * 64 + (u1 - 128);
+        }
+
+        if (u0 == 0xed and (u1 & 0xa0) == 0xa0 or len < 3) {
+            invalidCodepoint("len < 3");
+        }
+
+        uint8_t u2 = us[2];
+
+        if (u0 >= 224 and u0 <= 239) {
+            return (u0 - 224) * 4096 + (u1 - 128) * 64 + (u2 - 128);
+        }
+
+        if (len < 4) {
+            invalidCodepoint("len < 4");
+        }
+
+        uint8_t u3 = us[3];
+
+        if (u0 >= 240 and u0 <= 247) {
+            return (u0 - 240) * 262144 + (u1 - 128) * 4096 + (u2 - 128) * 0x40 + (u3 - 128);
+        }
+
+        invalidCodepoint("len > 4");
+    }
+
+    /// Approximated length of a string
+    /// with keeping in mind how much place each unicode symbol takes in console 
+    size_t unicodeMonospaceLength(const std::string & str) {
+
+    }
+
     bool startsWith(const std::string & str, const std::string & prefix) {
         return str.size() >= prefix.size()
             and 0 == str.compare(0, prefix.size(), prefix);
