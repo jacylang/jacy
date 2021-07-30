@@ -514,7 +514,7 @@ namespace jc::core {
         constexpr uint8_t TIME_WRAP_LEN = 15;
         constexpr uint8_t SPEED_WRAP_LEN = 25;
 
-        log::Table<4> table{
+        log::Table<4> table {
             {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
@@ -540,12 +540,16 @@ namespace jc::core {
 
             std::string preparedName;
             if (depth > 0) {
-                preparedName = std::string(depth, '>') + ' ';
+                preparedName = std::string(depth, ' ') + "> ";
             } else {
                 table.addLine(true);
             }
 
             preparedName += step->getName();
+
+            if (not step->isComplete()) {
+                preparedName += " [x]";
+            }
 
             table.addRow(preparedName, step->unitStr(), time, speed);
 
