@@ -32,10 +32,10 @@ namespace jc::utils::str {
     }
 
     std::string padStart(const std::string & str, size_t targetLen, const std::string & rep) {
-        if (targetLen <= str.size()) {
+        if (targetLen <= utf8Size(str)) {
             return str;
         }
-        size_t pad = targetLen - str.size();
+        size_t pad = targetLen - utf8Size(str);
         return repeat(rep, pad) + str;
     }
 
@@ -48,10 +48,10 @@ namespace jc::utils::str {
     }
 
     std::string padEnd(const std::string & str, size_t targetLen, const std::string & rep) {
-        if (targetLen <= str.size()) {
+        if (targetLen <= utf8Size(str)) {
             return str;
         }
-        size_t pad = targetLen - str.size();
+        size_t pad = targetLen - utf8Size(str);
         return str + repeat(rep, pad);
     }
 
