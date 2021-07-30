@@ -7,6 +7,7 @@
 namespace jc::utils::str {
     using str_vec = std::vector<std::string>;
 
+    size_t utf8Size(const std::strign & str);
     bool startsWith(const std::string & str, const std::string & prefix);
     bool endsWith(const std::string & str, const std::string & suffix);
     std::string repeat(const std::string & rep, size_t count);

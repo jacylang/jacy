@@ -1,6 +1,15 @@
 #include "utils/str.h"
 
 namespace jc::utils::str {
+    size_t utf8Size(const std::string & str) {
+        auto cstr = str.c_str();
+        size_t len = 0;
+        while (*cstr) {
+            len += (*cstr++ & 0xc0) != 0x80;
+        }
+        return len;
+    }
+
     bool startsWith(const std::string & str, const std::string & prefix) {
         return str.size() >= prefix.size()
             and 0 == str.compare(0, prefix.size(), prefix);
