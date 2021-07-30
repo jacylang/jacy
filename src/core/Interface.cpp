@@ -525,6 +525,14 @@ namespace jc::core {
         std::function<void(const Step::ptr&, uint8_t)> printStep;
 
         printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
+            for (const auto & child : step->getChildren()) {
+                printStep(child, depth + 1);
+            }
+
+            if (depth == 0) {
+                return;
+            }
+
             const auto time = std::to_string(step->getBenchmark()) + "ms";
             std::string speed = "N/A";
             if (step->getUnit() != MeasUnit::NA and step->isComplete()) {
@@ -544,10 +552,6 @@ namespace jc::core {
 
             if (depth == 0 or depth == 1) {
                 table.addLine(true);
-            }
-
-            for (const auto & child : step->getChildren()) {
-                printStep(child, depth + 1);
             }
         };
 
