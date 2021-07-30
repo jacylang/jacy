@@ -516,7 +516,7 @@ namespace jc::core {
 
         log::Table<4> table {
             {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
-            {log::Align::Right, log::Align::Center, log::Align::Center, log::Align::Center}
+            {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
 
         std::function<void(const Step::ptr&, uint8_t)> printStep;
