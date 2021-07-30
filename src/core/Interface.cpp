@@ -550,6 +550,8 @@ namespace jc::core {
 
         printStep(step, 0);
 
+        table.addLine();
+
         log.raw(table);
     }
 }
