@@ -134,10 +134,10 @@ namespace jc::utils::str {
     }
 
     std::string padStart(const std::string & str, size_t targetLen, const std::string & rep) {
-        if (targetLen <= utf8Size(str)) {
+        if (targetLen <= utf8DisplayLen(str)) {
             return str;
         }
-        return repeat(rep, targetLen - utf8Size(str)) + str;
+        return repeat(rep, targetLen - utf8DisplayLen(str)) + str;
     }
 
     std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
@@ -149,10 +149,10 @@ namespace jc::utils::str {
     }
 
     std::string padEnd(const std::string & str, size_t targetLen, const std::string & rep) {
-        if (targetLen <= utf8Size(str)) {
+        if (targetLen <= utf8DisplayLen(str)) {
             return str;
         }
-        return str + repeat(rep, targetLen - utf8Size(str));
+        return str + repeat(rep, targetLen - utf8DisplayLen(str));
     }
 
     std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch) {
