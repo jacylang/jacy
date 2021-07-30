@@ -226,6 +226,7 @@ namespace jc::log {
                             std::string aligned;
                             switch (tbl.alignment.at(colIndex)) {
                                 case Align::Left: {
+                                    std::cout << "str: '" << str << "' Width: '" << colWidth << "'" << std::endl;
                                     aligned = padEnd(str, colWidth);
                                     break;
                                 }

@@ -521,7 +521,7 @@ namespace jc::core {
 
         std::function<void(const Step::ptr&, uint8_t)> printStep;
 
-        printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
+        printStep = [&table, &printStep, this](const Step::ptr & step, uint8_t depth) -> void {
             for (const auto & child : step->getChildren()) {
                 printStep(child, depth + 1);
             }
@@ -551,9 +551,6 @@ namespace jc::core {
             if (not step->isComplete()) {
                 preparedName += " 🔥";
             }
-
-        return {data, success};
-    }
 
             table.addRow(preparedName, step->unitStr(), time, speed);
 

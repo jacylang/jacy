@@ -2,10 +2,36 @@
 
 namespace jc::utils::str {
     size_t utf8Size(const std::string & str) {
-        auto cstr = str.c_str();
         size_t len = 0;
-        while (*cstr) {
-            len += (*cstr++ & 0xc0) != 0x80;
+        auto begin = str.begin();
+        auto end = str.end();
+        while (begin != end) {
+            auto c = *begin;
+            uint8_t actLen;
+            if ((c & 0x80) == 0) {
+                actLen = 1;
+            } else if ((c & 0xE0) == 0xC0) {
+                actLen = 2;
+            } else if ((c & 0xF0) == 0xE0) {
+                actLen = 3;
+            } else if ((c & 0xF8) == 0xF0) {
+                actLen = 4;
+            } else {
+                throw std::runtime_error("Called `utils::str::utf8Size` with invalid UTF-8 string");
+            }
+
+            if (end - begin < actLen) {
+                throw std::runtime_error("utf8Size got too short string");
+            }
+
+
+            for (long i = 1; i < actLen; i++) {
+                if ((begin[i] & 0xC0) != 0x80) {
+                    throw std::runtime_error("utf8_length: expected continuation byte");
+                }
+            }
+            len += actLen;
+            begin += actLen;
         }
         return len;
     }
