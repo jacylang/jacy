@@ -193,9 +193,13 @@ namespace jc::log {
 
         // Add line separator
         // Note: Supports starting not from first column
-        void addLine() {
+        void addLine(bool addIfNoTop = false) {
             if (index == Cols) {
                 index = 0;
+            }
+            // If `addIfNoTop` is true, check that previous row is not of Line kindaddLine
+            if (addIfNoTop and rows.size() > 0 and rows.back().at(0).first == CellKind::Line) {
+                return;
             }
             for (table_size_t i = index; i < Cols; i++) {
                 addCell(repeat("─", layout.at(i)), CellKind::Line);

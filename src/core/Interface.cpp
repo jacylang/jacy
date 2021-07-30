@@ -543,7 +543,7 @@ namespace jc::core {
             table.addRow(preparedName, step->unitStr(), time, speed);
 
             if (depth == 0 or depth == 1) {
-                table.addLine();
+                table.addLine(true);
             }
 
             for (const auto & child : step->getChildren()) {
@@ -556,7 +556,7 @@ namespace jc::core {
 
         printStep(step, 0);
 
-        table.addLine();
+        table.addLine(true);
 
         log.raw(table);
     }
