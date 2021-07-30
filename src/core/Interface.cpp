@@ -544,6 +544,8 @@ namespace jc::core {
             std::string preparedName;
             if (depth > 1) {
                 preparedName = std::string(depth, '>') + ' ';
+            } else {
+                table.addLine(true);
             }
 
             preparedName += step->getName();
