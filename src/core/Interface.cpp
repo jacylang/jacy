@@ -533,12 +533,18 @@ namespace jc::core {
                     "/ms";
             }
 
-            table.addRow(step->getName(), step->unitStr(), time, speed);
+            std::string preparedName;
+            if (depth > 1) {
+                preparedName = std::string(depth, '>') + ' ';
+            }
 
-            // AGENDA
-//            if (step->stage) {
-//                table.addLine();
-//            }
+            preparedName += step->getName();
+
+            table.addRow(preparedName, step->unitStr(), time, speed);
+
+            if (depth == 0 or depth == 1) {
+                table.addLine();
+            }
 
             for (const auto & child : step->getChildren()) {
                 printStep(child, depth + 1);
