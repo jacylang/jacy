@@ -470,26 +470,26 @@ namespace jc::core {
             " and its parent is ",
             step->getParent().some() ? step->getParent().unwrap()->getName() : "None");
 
-        auto rootStep = step;
+        auto unwindStep = step;
         do {
-            for (const auto & child : rootStep->getChildren()) {
+            for (const auto & child : unwindStep->getChildren()) {
                 if (not child->isComplete()) {
                     child->endFailed();
                 }
             }
 
-            if (not rootStep->isComplete()) {
-                rootStep->endFailed();
+            if (not unwindStep->isComplete()) {
+                unwindStep->endFailed();
             }
 
-            if (rootStep->getParent().some()) {
-                rootStep = rootStep->getParent().unwrap();
+            if (unwindStep->getParent().some()) {
+                unwindStep = unwindStep->getParent().unwrap();
             } else {
                 break;
             }
-        } while (rootStep->getParent().some());
+        } while (unwindStep->getParent().some());
 
-        step = rootStep;
+        step = unwindStep;
 
         printStepsDevMode();
 
