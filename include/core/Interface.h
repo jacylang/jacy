@@ -76,11 +76,11 @@ namespace jc::core {
         }
 
         double getBenchmark() const {
-            return benchmark.unwrap();
+            return benchmark.unwrap("`Step::getBenchmark`");
         }
 
         auto getUnitCount() const {
-            return procUnitCount.unwrap();
+            return procUnitCount.unwrap("`Step::getUnitCount`");
         }
 
         const auto & getChildren() const {
@@ -99,6 +99,7 @@ namespace jc::core {
         }
 
         void endFailed() {
+            log::Logger::devDebug("End as failed '", name, "'");
             procUnitCount = None;
             benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
         }
