@@ -537,12 +537,12 @@ namespace jc::core {
             std::string speed = "N/A";
             if (step->getUnit() != MeasUnit::NA and step->isComplete()) {
                 speed =
-                    std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
+                    std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + " " + step->unitStr() +
                     "/ms";
             }
 
             std::string preparedName;
-            if (depth > 1) {
+            if (depth > 0) {
                 preparedName = std::string(depth, '>') + ' ';
             } else {
                 table.addLine(true);
