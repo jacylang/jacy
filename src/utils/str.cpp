@@ -88,13 +88,13 @@ namespace jc::utils::str {
     /// Approximated length of a string
     /// with keeping in mind how much place each unicode symbol takes in console 
     size_t utf8DisplayLen(const std::string & str) {
-        static const auto in(uint32_t num, uint32_t begin, uint32_t end) -> bool {
+        static const auto & in = [](uint32_t num, uint32_t begin, uint32_t end) -> bool {
             return num >= begin and num <= end;
         };
 
         size_t len = 0;
         for (size_t i = 0; i < str.size();) {
-            auto cp = codepoint(str.at(i));
+            auto cp = codepoint(str.substr(i));
             if (in(cp.second, 0x1F600, 0x1F64F)
              or in(cp.second, 0x1F300, 0x1F5FF)
              or in(cp.second, 0x1F680, 0x1F6FF)
@@ -110,6 +110,8 @@ namespace jc::utils::str {
             }
             i += cp.first;
         }
+
+        return len;
     }
 
     bool startsWith(const std::string & str, const std::string & prefix) {
