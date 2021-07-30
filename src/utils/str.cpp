@@ -92,6 +92,10 @@ namespace jc::utils::str {
             return num >= begin and num <= end;
         };
 
+        if (str.empty()) {
+            return 0;
+        }
+
         size_t len = 0;
         for (size_t i = 0; i < str.size();) {
             auto cp = codepoint(str.substr(i));
