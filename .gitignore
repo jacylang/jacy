@@ -2,3 +2,4 @@ cmake*
 .vscode
 .vscode/settings.json
 .idea
+build

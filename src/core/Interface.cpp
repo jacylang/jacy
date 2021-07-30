@@ -467,7 +467,7 @@ namespace jc::core {
             "Unwind steps, current step [",
             step->getName(),
             "] is ", step->isComplete() ? "complete" : "incomplete",
-            " and its parent is parent is ",
+            " and its parent is ",
             step->getParent().some() ? step->getParent().unwrap()->getName() : "None");
 
         auto rootStep = step;
