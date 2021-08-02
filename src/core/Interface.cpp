@@ -48,25 +48,25 @@ namespace jc::core {
     void Interface::workflow() {
         // TODO: Node is invalid as it is what parsing produce but not process,
         //  add `MeasUnit::Stage` to calculate the whole benchmark of children
-        beginStep("Parsing stage", MeasUnit::Node);
+        sess->beginStep("Parsing stage", MeasUnit::Node);
         parse();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
         }
 
-        beginStep("Name resolution stage", MeasUnit::Node);
+        sess->beginStep("Name resolution stage", MeasUnit::Node);
         resolveNames();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
         }
 
-        beginStep("Lowering stage", MeasUnit::Node);
+        sess->beginStep("Lowering stage", MeasUnit::Node);
         lower();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
             log.info("Stop after lowering due to `-compile-depth=lowering`");
             return;
@@ -126,9 +126,9 @@ namespace jc::core {
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
-        beginStep("AST Validation", MeasUnit::Node);
+        sess->beginStep("AST Validation", MeasUnit::Node);
         astValidator.lint(party.unwrap()).take(sess, "validation");
-        endStep();
+        sess->endStep();
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
@@ -187,25 +187,25 @@ namespace jc::core {
 
         const auto & fileSize = parseSess->sourceFile.src.unwrap().size();
 
-        beginStep(filePathRootRel + " lexing", MeasUnit::Char);
+        sess->beginStep(filePathRootRel + " lexing", MeasUnit::Char);
         auto tokens = lexer.lex(parseSess);
-        endStep(fileSize);
+        sess->endStep(fileSize);
 
         log.dev("Tokenize file ", file.getPath());
 
-        beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
+        sess->beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
         printSource(parseSess);
-        endStep(fileSize);
+        sess->endStep(fileSize);
 
-        beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
+        sess->beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
         printTokens(file.getPath(), tokens);
-        endStep(tokens.size());
+        sess->endStep(tokens.size());
 
         log.dev("Parse file ", file.getPath());
 
-        beginStep(filePathRootRel + " parsing", MeasUnit::Token);
+        sess->beginStep(filePathRootRel + " parsing", MeasUnit::Token);
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endStep(tokens.size());
+        sess->endStep(tokens.size());
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -304,9 +304,9 @@ namespace jc::core {
             cliParam,
             "`)");
 
-        beginStep("AST Printing after " + modeStr, MeasUnit::Node);
+        sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, party.unwrap(), mode);
-        endStep();
+        sess->endStep();
 
         log::Logger::nl();
     }
@@ -318,25 +318,25 @@ namespace jc::core {
         log.printTitleDev("Name resolution");
 
         log.dev("Building module tree...");
-        beginStep("Module tree building", MeasUnit::Node);
+        sess->beginStep("Module tree building", MeasUnit::Node);
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endStep();
+        sess->endStep();
 
         printModTree("module tree building");
 
         printDefinitions();
 
         log.dev("Resolve imports...");
-        beginStep("Import resolution", MeasUnit::Node);
+        sess->beginStep("Import resolution", MeasUnit::Node);
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endStep();
+        sess->endStep();
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
-        beginStep("Name resolution", MeasUnit::Node);
+        sess->beginStep("Name resolution", MeasUnit::Node);
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endStep();
+        sess->endStep();
 
         printResolutions();
 
@@ -351,9 +351,9 @@ namespace jc::core {
 
         log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
 
-        beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
+        sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         modulePrinter.print(sess);
-        endStep();
+        sess->endStep();
 
         log::Logger::nl();
     }
