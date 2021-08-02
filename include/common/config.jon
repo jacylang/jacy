@@ -1,0 +1,23 @@
+extensions: ['jc']
+
+flags: {
+    print: {
+        required: false
+        description: 'Debug option that prints intermediate representation'
+        type: 'string'
+        options: [
+            'dir-tree'
+            'tokens'
+            'ast'
+            'sugg'
+            'source'
+            'mod-tree'
+            'ast-names'
+            'ast-node-map'
+            'ribs'
+            'resolutions'
+            'definitions'
+            'all'
+        ]
+    }
+}
