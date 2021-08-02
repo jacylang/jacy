@@ -3,6 +3,8 @@
 // Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
 
 namespace jc::core {
+    using sess::MeasUnit;
+
     Interface::Interface() : config(Config::getInstance()) {
         log.getConfig().printOwner = false;
     }
@@ -18,7 +20,7 @@ namespace jc::core {
 
             workflow();
 
-            printSteps();
+            sess->printSteps();
         } catch (const sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (const std::exception & e) {
@@ -27,7 +29,7 @@ namespace jc::core {
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
-                printSteps();
+                sess->printSteps();
             }
 
             log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
@@ -41,7 +43,6 @@ namespace jc::core {
     void Interface::init() {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
-        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA);
     }
 
     void Interface::workflow() {
