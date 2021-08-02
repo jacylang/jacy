@@ -1,6 +1,10 @@
 #include "session/Session.h"
 
 namespace jc::sess {
+    Session::Session() {
+        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA);
+    }
+
     // Debug info //
     void Session::beginStep(const std::string & name, MeasUnit measUnit) {
         step = step->addChild(name, measUnit);

@@ -48,6 +48,8 @@ namespace jc::sess {
     };
 
     struct Session {
+        Session();
+
         SourceMap sourceMap;
         Option<resolve::module_ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
