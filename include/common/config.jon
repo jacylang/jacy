@@ -2,9 +2,8 @@ extensions: ['jc']
 
 flags: {
     print: {
-        required: false
-        description: 'Debug option that prints intermediate representation'
         type: 'string'
+        description: 'Debug option that prints different intermediate representations'
         options: [
             'dir-tree'
             'tokens'
@@ -18,6 +17,27 @@ flags: {
             'resolutions'
             'definitions'
             'all'
+        ]
+    }
+    compile-depth: {
+        type: 'string'
+        options: [
+            'parser'
+            'name-resolution'
+            'lowering'
+        ]
+    }
+    dev: {
+        type: 'bool'
+    }
+    log-level: {
+        type: 'string'
+        options: [
+            'dev'
+            'debug'
+            'info'
+            'warn'
+            'error'
         ]
     }
 }
