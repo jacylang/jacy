@@ -3,6 +3,8 @@
 // Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
 
 namespace jc::core {
+    using sess::MeasUnit;
+
     Interface::Interface() : config(Config::getInstance()) {
         log.getConfig().printOwner = false;
     }
@@ -18,7 +20,7 @@ namespace jc::core {
 
             workflow();
 
-            printSteps();
+            sess->printSteps();
         } catch (const sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (const std::exception & e) {
@@ -27,7 +29,7 @@ namespace jc::core {
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
                 dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
-                printSteps();
+                sess->printSteps();
             }
 
             log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
@@ -41,31 +43,30 @@ namespace jc::core {
     void Interface::init() {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
-        step = std::make_shared<Step>(None, "compilation", MeasUnit::NA);
     }
 
     void Interface::workflow() {
         // TODO: Node is invalid as it is what parsing produce but not process,
         //  add `MeasUnit::Stage` to calculate the whole benchmark of children
-        beginStep("Parsing stage", MeasUnit::Node);
+        sess->beginStep("Parsing stage", MeasUnit::Node);
         parse();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Parser)) {
             log.info("Stop after parsing due to `-compile-depth=parser`");
             return;
         }
 
-        beginStep("Name resolution stage", MeasUnit::Node);
+        sess->beginStep("Name resolution stage", MeasUnit::Node);
         resolveNames();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::NameResolution)) {
             log.info("Stop after name-resolution due to `-compile-depth=name-resolution`");
             return;
         }
 
-        beginStep("Lowering stage", MeasUnit::Node);
+        sess->beginStep("Lowering stage", MeasUnit::Node);
         lower();
-        endStep();
+        sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
             log.info("Stop after lowering due to `-compile-depth=lowering`");
             return;
@@ -125,9 +126,9 @@ namespace jc::core {
     void Interface::validateAST() {
         log.printTitleDev("AST validation");
 
-        beginStep("AST Validation", MeasUnit::Node);
+        sess->beginStep("AST Validation", MeasUnit::Node);
         astValidator.lint(party.unwrap()).take(sess, "validation");
-        endStep();
+        sess->endStep();
     }
 
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
@@ -186,25 +187,25 @@ namespace jc::core {
 
         const auto & fileSize = parseSess->sourceFile.src.unwrap().size();
 
-        beginStep(filePathRootRel + " lexing", MeasUnit::Char);
+        sess->beginStep(filePathRootRel + " lexing", MeasUnit::Char);
         auto tokens = lexer.lex(parseSess);
-        endStep(fileSize);
+        sess->endStep(fileSize);
 
         log.dev("Tokenize file ", file.getPath());
 
-        beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
+        sess->beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
         printSource(parseSess);
-        endStep(fileSize);
+        sess->endStep(fileSize);
 
-        beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
+        sess->beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
         printTokens(file.getPath(), tokens);
-        endStep(tokens.size());
+        sess->endStep(tokens.size());
 
         log.dev("Parse file ", file.getPath());
 
-        beginStep(filePathRootRel + " parsing", MeasUnit::Token);
+        sess->beginStep(filePathRootRel + " parsing", MeasUnit::Token);
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
-        endStep(tokens.size());
+        sess->endStep(tokens.size());
 
         collectSuggestions(std::move(parserSuggestions));
 
@@ -303,9 +304,9 @@ namespace jc::core {
             cliParam,
             "`)");
 
-        beginStep("AST Printing after " + modeStr, MeasUnit::Node);
+        sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, party.unwrap(), mode);
-        endStep();
+        sess->endStep();
 
         log::Logger::nl();
     }
@@ -317,25 +318,25 @@ namespace jc::core {
         log.printTitleDev("Name resolution");
 
         log.dev("Building module tree...");
-        beginStep("Module tree building", MeasUnit::Node);
+        sess->beginStep("Module tree building", MeasUnit::Node);
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
-        endStep();
+        sess->endStep();
 
         printModTree("module tree building");
 
         printDefinitions();
 
         log.dev("Resolve imports...");
-        beginStep("Import resolution", MeasUnit::Node);
+        sess->beginStep("Import resolution", MeasUnit::Node);
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
-        endStep();
+        sess->endStep();
 
         printModTree("imports resolution");
 
         log.dev("Resolving names...");
-        beginStep("Name resolution", MeasUnit::Node);
+        sess->beginStep("Name resolution", MeasUnit::Node);
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
-        endStep();
+        sess->endStep();
 
         printResolutions();
 
@@ -350,9 +351,9 @@ namespace jc::core {
 
         log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
 
-        beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
+        sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         modulePrinter.print(sess);
-        endStep();
+        sess->endStep();
 
         log::Logger::nl();
     }
@@ -424,132 +425,5 @@ namespace jc::core {
         // Use `none_t` as stub
         dt::SuggResult<dt::none_t>::check(sess, suggestions, stageName);
         suggestions.clear();
-    }
-
-    // Debug info //
-    void Interface::beginStep(const std::string & name, MeasUnit measUnit) {
-        step = step->addChild(name, measUnit);
-    }
-
-    void Interface::endStep(Option<size_t> procUnitCount) {
-        const auto unit = step->getUnit();
-        if (procUnitCount.none()) {
-            // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
-            switch (unit) {
-                case MeasUnit::Node: {
-                    procUnitCount = sess->nodeStorage.size();
-                    break;
-                }
-                case MeasUnit::Def: {
-                    procUnitCount = sess->defStorage.size();
-                    break;
-                }
-                case MeasUnit::NA: {
-                    // Don't use this value, check for `MeasUnit::NA`
-                    procUnitCount = 0;
-                    break;
-                }
-                default: {
-                    log.devPanic(
-                        "Called `Interface::endStep` with step containing non-global measurement unit [",
-                        step->unitStr(),
-                        "] without `procUnitCount`");
-                }
-            }
-        }
-
-        step = step->end(procUnitCount.unwrap());
-    }
-
-    void Interface::printSteps() noexcept {
-        // Unwind steps if compiler crashed
-        log.dev(
-            "Unwind steps, current step [",
-            step->getName(),
-            "] is ", step->isComplete() ? "complete" : "incomplete",
-            " and its parent is parent is ",
-            step->getParent().some() ? step->getParent().unwrap()->getName() : "None");
-
-        auto rootStep = step;
-        do {
-            for (const auto & child : rootStep->getChildren()) {
-                if (not child->isComplete()) {
-                    child->endFailed();
-                }
-            }
-
-            if (not rootStep->isComplete()) {
-                rootStep->endFailed();
-            }
-
-            if (rootStep->getParent().some()) {
-                rootStep = rootStep->getParent().unwrap();
-            } else {
-                break;
-            }
-        } while (rootStep->getParent().some());
-
-        step = rootStep;
-
-        printStepsDevMode();
-
-        // Print final benchmark
-        log.raw(
-            "Full compilation done in ",
-            step->getBenchmark(),
-            "ms"
-        ).nl();
-    }
-
-    void Interface::printStepsDevMode() {
-        if (not config.checkDev()) {
-            return;
-        }
-
-        // Table
-        // | Benchmark name | Processed entity (e.g. AST) | time | speed
-        // Wrap it to ~120 chars (limit was found by typing), so the layout is following
-        // | 55 | 20 | 15 | 30 (there can be pretty long entity names) |
-        // Note: Choose the shortest names for benchmarks!!!
-
-        constexpr uint8_t BNK_NAME_WRAP_LEN = 50;
-        constexpr uint8_t ENTITY_NAME_WRAP_LEN = 20;
-        constexpr uint8_t TIME_WRAP_LEN = 15;
-        constexpr uint8_t SPEED_WRAP_LEN = 25;
-
-        log::Table<4> table{
-            {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
-            {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
-        };
-
-        std::function<void(const Step::ptr&, uint8_t)> printStep;
-
-        printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
-            const auto time = std::to_string(step->getBenchmark()) + "ms";
-            std::string speed = "N/A";
-            if (step->getUnit() != MeasUnit::NA and step->isComplete()) {
-                speed =
-                    std::to_string(static_cast<double>(step->getUnitCount()) / step->getBenchmark()) + step->unitStr() +
-                    "/ms";
-            }
-
-            table.addRow(step->getName(), step->unitStr(), time, speed);
-
-            // AGENDA
-//            if (step->stage) {
-//                table.addLine();
-//            }
-
-            for (const auto & child : step->getChildren()) {
-                printStep(child, depth + 1);
-            }
-        };
-
-        table.addSectionName("Summary");
-        table.addHeader("Name", "Entity", "Time", "Speed");
-
-        printStep(step, 0);
-
-        log.raw(table);
     }
 }

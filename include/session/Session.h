@@ -9,6 +9,7 @@
 #include "log/Logger.h"
 #include "session/SourceMap.h"
 #include "resolve/DefStorage.h"
+#include "session/diagnostics.h"
 
 namespace jc::sess {
     struct Session;
@@ -47,6 +48,8 @@ namespace jc::sess {
     };
 
     struct Session {
+        Session();
+
         SourceMap sourceMap;
         Option<resolve::module_ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
@@ -57,6 +60,15 @@ namespace jc::sess {
         resolve::Def getResDef(ast::node_id nodeId) const {
             return defStorage.getDef(resStorage.getDefRes(nodeId));
         }
+
+        // Diagnostics //
+    public:
+        Step::ptr step;
+        void beginStep(const std::string & name, MeasUnit measUnit);
+        void endStep(Option<size_t> procUnitCount = None);
+
+        void printSteps() noexcept;
+        void printStepsDevMode();
     };
 }
 
