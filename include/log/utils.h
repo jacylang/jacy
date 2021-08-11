@@ -324,6 +324,11 @@ namespace jc::log {
 
 // Animation //
 namespace jc::log {
+    enum class AnimKind {
+        Classic,
+        Dots,
+    };
+
     class Anim {
     public:
         using interval_t = std::size_t;
