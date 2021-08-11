@@ -325,6 +325,7 @@ namespace jc::log {
 // Animation //
 namespace jc::log {
     class Anim {
+    public:
         using interval_t = std::size_t;
         using frames_t = std::vector<std::string>;
 
@@ -370,13 +371,34 @@ namespace jc::log {
         }
 
         void finish() {
+            finished = true;
             thread.join();
+        }
+
+        void operator()() const {
+            size_t iteration = 0;
+            Anim::interval_t interval;
+            while (not finished) {
+                interval = anim.getInterval();
+                {
+                    clearLine(std::cout);
+                    std::cout << "\r" << anim.getFrame(iteration) << " " << content;
+                    std::flush(std::cout);
+                }
+                iteration++;
+                std::this_thread::sleep_for(std::chrono::milliseconds(inteval));
+            }
+
+            clearLine(std::cout);
+
+            std::cout << "Done: " << content << std::endl;
         }
 
     private:
         std::thread thread;
         content_t content;
         Anim & anim;
+        bool finished{false};
 
         std::ostream & clearLine(std::ostream & os) const {
             return os << "\33[2K";
