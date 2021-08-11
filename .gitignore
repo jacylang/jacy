@@ -3,3 +3,6 @@ cmake*
 .vscode/settings.json
 .idea
 build
+
+# This file you can use to run some quick checks
+src/check.cpp
