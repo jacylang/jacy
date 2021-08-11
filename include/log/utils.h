@@ -12,6 +12,7 @@
 #include <sstream>
 #include <sstream>
 #include <vector>
+#include <thread>
 
 #include "utils/str.h"
 
@@ -319,6 +320,104 @@ namespace jc::log {
 
     template<class K, class V>
     inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
+}
+
+// Animation //
+namespace jc::log {
+    enum class AnimKind {
+        Classic,
+        Dots,
+    };
+
+    class Anim {
+    public:
+        using interval_t = std::size_t;
+        using frames_t = std::vector<std::string>;
+
+    public:
+        Anim() = delete;
+        Anim(const interval_t interval, const frames_t & frames)
+            : interval(interval), frames(frames) {}
+
+        Anim & operator=(const Anim & other) {
+            interval = other.interval;
+            frames = other.frames;
+            return *this;
+        }
+
+        interval_t getInterval() const noexcept {
+            return interval;
+        }
+
+        const frames_t & getFrames() const noexcept {
+            return frames;
+        }
+
+        const std::string getFrame(size_t iteration) const noexcept {
+            // This is an entry point of future `Anim` enhancements
+            // If we would add, for example, animation direction (forward, backward, back-&-forth) this logic will be here
+            return frames[iteration % frames.size()];
+        }
+
+        static const Anim & getAnim(AnimKind kind) {
+            static const std::map<AnimKind, Anim> animations = {
+                {AnimKind::Classic, {100, {"-", "\\", "|", "/"}}},
+                {AnimKind::Dots, {90, {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"}}},
+            };
+
+            return animations.at(kind);
+        }
+
+    private:
+        interval_t interval;
+        frames_t frames;
+    };
+
+
+    class Spinner {
+        using content_t = std::string;
+
+    public:
+        Spinner(const content_t & content, const Anim & anim) : content(content), anim(anim) {}
+
+        void start() {
+            thread = std::thread(std::ref(*this));
+        }
+
+        void finish() {
+            finished = true;
+            thread.join();
+        }
+
+        void operator()() const {
+            size_t iteration = 0;
+            Anim::interval_t interval;
+            while (not finished) {
+                interval = anim.getInterval();
+                {
+                    clearLine(std::cout);
+                    std::cout << "\r" << anim.getFrame(iteration) << " " << content;
+                    std::flush(std::cout);
+                }
+                iteration++;
+                std::this_thread::sleep_for(std::chrono::milliseconds(interval));
+            }
+
+            clearLine(std::cout);
+
+            std::cout << "\r" << "Done: " << content << std::endl;
+        }
+
+    private:
+        std::thread thread;
+        content_t content;
+        Anim anim;
+        bool finished{false};
+
+        std::ostream & clearLine(std::ostream & os) const {
+            return os << "\33[2K";
+        }
+    };
 }
 
 #include "log/utils.inl"

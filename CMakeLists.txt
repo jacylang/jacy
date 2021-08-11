@@ -16,7 +16,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS "-std=c++17")
+set(CMAKE_CXX_FLAGS "-std=c++17 -pthread")
 
 add_compile_options(
         # WARNINGS #
@@ -71,7 +71,7 @@ message("Running on ${CMAKE_SYSTEM_NAME}")
 
 FetchContent_Declare(jon
     GIT_REPOSITORY https://github.com/jacylang/jon
-    GIT_TAG v0.0.6)
+    GIT_TAG v0.0.7)
 
 FetchContent_GetProperties(jon)
 if (NOT jon_POPULATED)

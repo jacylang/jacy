@@ -12,6 +12,16 @@ namespace jc::core {
     void Interface::compile() {
         log.dev("Config options: ", config.getOptionsMap());
 
+
+        jc::log::Spinner s1{"Doing...", log::Anim::getAnim(log::AnimKind::Classic)};
+        s1.start();
+        for (uint64_t i = 0; i < __UINT64_MAX__; i++) {
+            log.debug("Kek").nl();
+        }
+        s1.finish();
+
+        return;
+
         try {
             init();
 
