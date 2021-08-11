@@ -123,6 +123,10 @@ namespace jc::log {
             }
         }
 
+        // Advances features //
+    private:
+
+
     private:
         std::string owner;
         LoggerConfig config;

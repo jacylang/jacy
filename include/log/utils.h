@@ -335,7 +335,6 @@ namespace jc::log {
         using frames_t = std::vector<std::string>;
 
     public:
-        Anim() = delete;
         Anim(const interval_t interval, const frames_t & frames)
             : interval(interval), frames(frames) {}
 
@@ -374,11 +373,11 @@ namespace jc::log {
     };
 
 
-    class Spinner {
+    class AnimPlayer {
         using content_t = std::string;
 
     public:
-        Spinner(const content_t & content, const Anim & anim) : content(content), anim(anim) {}
+        AnimPlayer(const content_t & content, const Anim & anim) : content(content), anim(anim) {}
 
         void start() {
             thread = std::thread(std::ref(*this));
