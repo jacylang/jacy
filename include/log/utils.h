@@ -359,6 +359,15 @@ namespace jc::log {
             return frames[iteration % frames.size()];
         }
 
+        static const Anim & getAnim(AnimKind kind) {
+            static const std::map<AnimKind, Anim> animations = {
+                {AnimKind::Classic, {100, {"-", "\\", "|", "/"}}},
+                {AnimKind::Dots, {90, {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"}}},
+            };
+
+            return animations.at(kind);
+        }
+
     private:
         interval_t interval;
         frames_t frames;
