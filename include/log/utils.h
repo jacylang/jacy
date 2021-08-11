@@ -324,11 +324,12 @@ namespace jc::log {
 // Animation //
 namespace jc::log {
     class Anim {
-        using frames_t = std::vector<std::string>
+        using interval_t = std::size_t;
+        using frames_t = std::vector<std::string>;
 
     public:
         Anim() = delete;
-        Anim(const size_t interval, const frames_t & frames)
+        Anim(const interval_t interval, const frames_t & frames)
             : interval(interval), frames(frames) {}
 
         Anim & operator=(const Anim & other) {
@@ -337,8 +338,16 @@ namespace jc::log {
             return *this;
         }
 
+        interval_t getInterval() const noexcept {
+            return interval;
+        }
+
+        const frames_t & getFrames() const noexcept {
+            return frames;
+        }
+
     private:
-        size_t interval;
+        interval_t interval;
         frames_t frames;
     };
 }
