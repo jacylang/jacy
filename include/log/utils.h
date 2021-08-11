@@ -361,7 +361,7 @@ namespace jc::log {
         static const Anim & getAnim(AnimKind kind) {
             static const std::map<AnimKind, Anim> animations = {
                 {AnimKind::Classic, {100, {"-", "\\", "|", "/"}}},
-                {AnimKind::Dots, {90, {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"}}},
+                {AnimKind::Dots, {90, {"⣷", "⣯", "⣟", "⡿", "⢿", "⣻", "⣽", "⣾"}}},
             };
 
             return animations.at(kind);
