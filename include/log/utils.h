@@ -365,6 +365,14 @@ namespace jc::log {
     public:
         Snipper(const content_t & content, Anim & anim) : content{content}, anim{anim} {}
 
+        void start() {
+            thread = std::thread(std::ref(*this));
+        }
+
+        void finish() {
+            thread.join();
+        }
+
     private:
         std::thread thread;
         content_t content;
