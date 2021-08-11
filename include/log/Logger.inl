@@ -1,5 +1,6 @@
 #include "log/Logger.h"
 
+// Basic Interface //
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
     return log(Config::LogLevel::Debug, std::forward<Args>(args)...);
@@ -25,6 +26,26 @@ const Logger & Logger::dev(Args && ...args) const {
     return log(Config::LogLevel::Dev, std::forward<Args>(args)...);
 }
 
+template<class ...Args>
+const Logger & Logger::raw(Args && ...args) const {
+    print(std::forward<Args>(args)...);
+    return *this;
+}
+
+// Static Interface //
+template<class ...Args>
+void Logger::print(Args && ...args)  {
+    out(std::cout, std::forward<Args>(args)...);
+}
+
+template<class ...Args>
+std::string Logger::format(Args && ...args) {
+    std::stringstream ss;
+    out(ss, std::forward<Args>(args)...);
+    return ss.str();
+}
+
+// DEV //
 template<class ...Args>
 void Logger::devPanic(Args && ...args) {
     out(
@@ -54,12 +75,7 @@ void Logger::devDebug(Args && ...args) {
     nl();
 }
 
-template<class ...Args>
-const Logger & Logger::raw(Args && ...args) const {
-    print(std::forward<Args>(args)...);
-    return *this;
-}
-
+// Pretty printing //
 template<class ...Args>
 void Logger::colorized(Color color, Args && ...args) {
     out(std::cout, std::forward<Color>(color), std::forward<Args>(args)..., Color::Reset);
@@ -83,18 +99,7 @@ void Logger::printTitleDev(Args && ...args) {
     std::cout << indent << (indentSize % 2 == 1 ? "= " : " ") << title << " " << indent << std::endl;
 }
 
-template<class ...Args>
-void Logger::print(Args && ...args)  {
-    out(std::cout, std::forward<Args>(args)...);
-}
-
-template<class ...Args>
-std::string Logger::format(Args && ...args) {
-    std::stringstream ss;
-    out(ss, std::forward<Args>(args)...);
-    return ss.str();
-}
-
+// Details //
 template<class ...Rest>
 const Logger & Logger::log(Config::LogLevel level, Rest && ...rest) const {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {

@@ -23,8 +23,16 @@ namespace jc::log {
             config.level = Config::getInstance().getLogLevel(owner);
         }
 
-        virtual ~Logger() = default;
+        ~Logger() = default;
 
+        // Common //
+    public:
+        LoggerConfig & getConfig() {
+            return config;
+        }
+
+        // Basic Interface //
+    public:
         template<class ...Args>
         const Logger & debug(Args && ...args) const;
 
@@ -43,27 +51,17 @@ namespace jc::log {
         template<class ...Args>
         const Logger & raw(Args && ...other) const;
 
+        // Static Interface //
     public:
         template<class ...Args>
-        static void colorized(Color color, Args && ...args);
-
-        /// Prints text as title, used only for one-line messages which are not long
-        template<class ...Args>
-        static void printTitleDev(Args && ...args);
+        static void print(Args && ...args);
 
         static inline void nl() {
             std::cout << std::endl;
         }
 
         template<class ...Args>
-        static void print(Args && ...args);
-
-        template<class ...Args>
         static std::string format(Args && ...args);
-
-        LoggerConfig & getConfig() {
-            return config;
-        }
 
         // DEV //
         template<class ...Args>
@@ -76,12 +74,17 @@ namespace jc::log {
         template<class ...Args>
         static void devDebug(Args && ...args);
 
-        static constexpr uint8_t wrapLen{120};
+        // Pretty printing //
+    public:
+        template<class ...Args>
+        static void colorized(Color color, Args && ...args);
 
+        /// Prints text as title, used only for one-line messages which are not long
+        template<class ...Args>
+        static void printTitleDev(Args && ...args);
+
+    // Details //
     private:
-        std::string owner;
-        LoggerConfig config;
-
         template<class ...Rest>
         const Logger & log(Config::LogLevel level, Rest && ...rest) const;
 
@@ -121,6 +124,11 @@ namespace jc::log {
         }
 
     private:
+        std::string owner;
+        LoggerConfig config;
+
+    private:
+        static constexpr uint8_t wrapLen{120};
         static const std::map<Config::LogLevel, std::string> levelNames;
         static const std::map<Config::LogLevel, Color> levelColors;
     };
