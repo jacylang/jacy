@@ -1,6 +1,10 @@
 #include "log/Logger.h"
 
 namespace jc::log {
+    // Cursor //
+
+
+    // Constants //
     const std::map<Config::LogLevel, std::string> Logger::levelNames = {
         {Config::LogLevel::Debug, "debug"},
         {Config::LogLevel::Info,  "info"},

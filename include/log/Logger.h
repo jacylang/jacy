@@ -127,6 +127,7 @@ namespace jc::log {
         std::string owner;
         LoggerConfig config;
 
+        // Constants //
     private:
         static constexpr uint8_t wrapLen{120};
         static const std::map<Config::LogLevel, std::string> levelNames;
