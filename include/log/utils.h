@@ -347,6 +347,12 @@ namespace jc::log {
             return frames;
         }
 
+        const std::string getFrame(size_t iteration) const noexcept {
+            // This is an entry point of future `Anim` enhancements
+            // If we would add, for example, animation direction (forward, backward, back-&-forth) this logic will be here
+            return frames[iteration % frames.size()];
+        }
+
     private:
         interval_t interval;
         frames_t frames;
