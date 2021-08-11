@@ -15,11 +15,10 @@ namespace jc::core {
 
         jc::log::Spinner s1{"Doing...", log::Anim::getAnim(log::AnimKind::Classic)};
         s1.start();
-        jc::log::Spinner s2{"Keking...", log::Anim::getAnim(log::AnimKind::Dots)};
-        s2.start();
-        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+        for (uint64_t i = 0; i < __UINT64_MAX__; i++) {
+            log.debug("Kek").nl();
+        }
         s1.finish();
-        s2.finish();
 
         return;
 
