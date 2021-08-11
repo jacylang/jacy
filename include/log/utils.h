@@ -12,6 +12,7 @@
 #include <sstream>
 #include <sstream>
 #include <vector>
+#include <thread>
 
 #include "utils/str.h"
 
@@ -349,6 +350,23 @@ namespace jc::log {
     private:
         interval_t interval;
         frames_t frames;
+    };
+
+
+    class Spinner {
+        using content_t = std::string;
+
+    public:
+        Snipper(const content_t & content, Anim & anim) : content{content}, anim{anim} {}
+
+    private:
+        std::thread thread;
+        content_t content;
+        Anim & anim;
+
+        std::ostream & clearLine(std::ostream & os) const {
+            return os << "\33[2K";
+        }
     };
 }
 
