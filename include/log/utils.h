@@ -372,7 +372,6 @@ namespace jc::log {
         frames_t frames;
     };
 
-
     class AnimPlayer {
         using content_t = std::string;
 
@@ -465,13 +464,13 @@ namespace jc::log {
         if (move.x > 0) {
             os << "\033[" << move.x << "C";
         } else if (move.x < 0) {
-            os << "\033[" << move.x * -1 << "D";
+            os << "\033[" << -move.x << "D";
         }
 
         if (move.y > 0) {
             os << "\033[" << move.y << "B";
         } else if (move.y < 0) {
-            os << "\033[" << move.y * -1 << "A";
+            os << "\033[" << -move.y << "A";
         }
 
         #endif
