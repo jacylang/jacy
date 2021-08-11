@@ -43,16 +43,6 @@ namespace jc::log {
         template<class ...Args>
         const Logger & raw(Args && ...other) const;
 
-        // Spinners //
-    public:
-        static constexpr const char * = "⣾⣽⣻⢿⡿⣟⣯⣷";
-
-        static void indicateProcessStart(const std::string & msg) const {
-            print("")
-        }
-
-        static void indicateProcessEnd() const;
-
     public:
         template<class ...Args>
         static void colorized(Color color, Args && ...args);
