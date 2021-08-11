@@ -364,7 +364,7 @@ namespace jc::log {
         using content_t = std::string;
 
     public:
-        Snipper(const content_t & content, Anim & anim) : content{content}, anim{anim} {}
+        Spinner(const content_t & content, const Anim & anim) : content(content), anim(anim) {}
 
         void start() {
             thread = std::thread(std::ref(*this));
@@ -386,18 +386,18 @@ namespace jc::log {
                     std::flush(std::cout);
                 }
                 iteration++;
-                std::this_thread::sleep_for(std::chrono::milliseconds(inteval));
+                std::this_thread::sleep_for(std::chrono::milliseconds(interval));
             }
 
             clearLine(std::cout);
 
-            std::cout << "Done: " << content << std::endl;
+            std::cout << "\r" << "Done: " << content << std::endl;
         }
 
     private:
         std::thread thread;
         content_t content;
-        Anim & anim;
+        Anim anim;
         bool finished{false};
 
         std::ostream & clearLine(std::ostream & os) const {

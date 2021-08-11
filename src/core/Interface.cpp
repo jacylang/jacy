@@ -12,6 +12,14 @@ namespace jc::core {
     void Interface::compile() {
         log.dev("Config options: ", config.getOptionsMap());
 
+
+        jc::log::Spinner spinner{"Compiling...", jc::log::Anim{80, {"⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"}}};
+        spinner.start();
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+        spinner.finish();
+
+        return;
+
         try {
             init();
 
