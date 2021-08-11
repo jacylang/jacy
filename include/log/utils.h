@@ -321,6 +321,28 @@ namespace jc::log {
     inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
 }
 
+// Animation //
+namespace jc::log {
+    class Anim {
+        using frames_t = std::vector<std::string>
+
+    public:
+        Anim() = delete;
+        Anim(const size_t interval, const frames_t & frames)
+            : interval(interval), frames(frames) {}
+
+        Anim & operator=(const Anim & other) {
+            interval = other.interval;
+            frames = other.frames;
+            return *this;
+        }
+
+    private:
+        size_t interval;
+        frames_t frames;
+    };
+}
+
 #include "log/utils.inl"
 
 #endif // JACY_LOG_UTILS_H
