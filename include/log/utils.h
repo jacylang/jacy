@@ -455,20 +455,14 @@ namespace jc::log {
             thread.join();
         }
 
-        void move(const Move & move) {
-
-        }
-
         void operator()() const {
             size_t iteration = 0;
             Anim::interval_t interval;
             while (not finished) {
                 interval = anim.getInterval();
-                {
-                    clearLine(std::cout);
-                    std::cout << "\r" << anim.getFrame(iteration) << " " << content;
-                    std::flush(std::cout);
-                }
+                clearLine(std::cout);
+                std::cout << "\r" << anim.getFrame(iteration) << " " << content;
+                std::cout.flush();
                 iteration++;
                 std::this_thread::sleep_for(std::chrono::milliseconds(interval));
             }
