@@ -156,68 +156,86 @@ namespace jc::common {
 
         // Key-value args //
         switch (mode) {
-            case Mode::Repl:
+            case Mode::Repl: {
                 res["mode"].emplace_back("REPL");
                 break;
-            case Mode::Source:
+            }
+            case Mode::Source: {
                 res["mode"].emplace_back("Source");
                 break;
+            }
         }
 
         for (const auto & printKind : print) {
             switch (printKind) {
-                case PrintKind::DirTree:
+                case PrintKind::DirTree: {
                     res["print"].emplace_back("dir-tree");
                     break;
-                case PrintKind::Ast:
+                }
+                case PrintKind::Ast: {
                     res["print"].emplace_back("ast");
                     break;
-                case PrintKind::Tokens:
+                }
+                case PrintKind::Tokens: {
                     res["print"].emplace_back("token");
                     break;
-                case PrintKind::Suggestions:
+                }
+                case PrintKind::Suggestions: {
                     res["print"].emplace_back("suggestions");
                     break;
-                case PrintKind::Source:
+                }
+                case PrintKind::Source: {
                     res["print"].emplace_back("source");
                     break;
-                case PrintKind::AstNames:
+                }
+                case PrintKind::AstNames: {
                     res["print"].emplace_back("ast-names");
                     break;
-                case PrintKind::ModTree:
+                }
+                case PrintKind::ModTree: {
                     res["print"].emplace_back("mod-tree");
                     break;
-                case PrintKind::AstNodeMap:
+                }
+                case PrintKind::AstNodeMap: {
                     res["print"].emplace_back("ast-node-map");
                     break;
-                case PrintKind::Ribs:
+                }
+                case PrintKind::Ribs: {
                     res["print"].emplace_back("ribs");
                     break;
-                case PrintKind::Resolutions:
+                }
+                case PrintKind::Resolutions: {
                     res["print"].emplace_back("resolutions");
                     break;
-                case PrintKind::Definitions:
+                }
+                case PrintKind::Definitions: {
                     res["print"].emplace_back("definitions");
                     break;
-                case PrintKind::All:
+                }
+                case PrintKind::All: {
                     res["print"].emplace_back("all");
                     break;
+                }
             }
         }
 
         switch (compileDepth) {
-            case CompileDepth::Parser:
+            case CompileDepth::Parser: {
                 res["compile-depth"].emplace_back("parser");
                 break;
-            case CompileDepth::NameResolution:
+            }
+            case CompileDepth::NameResolution: {
                 res["compile-depth"].emplace_back("name-resolution");
                 break;
-            case CompileDepth::Lowering:
+            }
+            case CompileDepth::Lowering: {
                 res["compile-depth"].emplace_back("lowering");
                 break;
-            case CompileDepth::Full:
+            }
+            case CompileDepth::Full: {
                 res["compile-depth"].emplace_back("full");
                 break;
+            }
         }
 
         switch (benchmark) {
@@ -242,21 +260,26 @@ namespace jc::common {
         const auto addLogLevel = [&](const std::string & owner) {
             const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? "log-level" : owner + "-log-level";
             switch (loggerLevels.at(owner)) {
-                case LogLevel::Dev:
+                case LogLevel::Dev: {
                     res[fieldName].emplace_back("dev");
                     break;
-                case LogLevel::Debug:
+                }
+                case LogLevel::Debug: {
                     res[fieldName].emplace_back("debug");
                     break;
-                case LogLevel::Info:
+                }
+                case LogLevel::Info: {
                     res[fieldName].emplace_back("info");
                     break;
-                case LogLevel::Warn:
+                }
+                case LogLevel::Warn: {
                     res[fieldName].emplace_back("warn");
                     break;
-                case LogLevel::Error:
+                }
+                case LogLevel::Error: {
                     res[fieldName].emplace_back("error");
                     break;
+                }
                 case LogLevel::Unknown: {
                     throw std::logic_error("[Config] `Unknown` log-level found in `Config::getOptionsMap`");
                 }
