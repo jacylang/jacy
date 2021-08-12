@@ -324,6 +324,13 @@ namespace jc::log {
 
 // Cursor //
 namespace jc::log {
+    struct Cursor {
+        using pos_t = int64_t;
+
+        pos_t x;
+        pos_t y;
+    };
+
     /// Cursor movement offset
     /// Left - (-x), Right - (+x), Down - (+y), Up - (-y)
     ///           ^
@@ -446,6 +453,10 @@ namespace jc::log {
         void finish() {
             finished = true;
             thread.join();
+        }
+
+        void move(const Move & move) {
+
         }
 
         void operator()() const {
