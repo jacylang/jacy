@@ -56,6 +56,8 @@ namespace jc::sess {
                 }
             }
 
+            // Note!: If `compile-depth` cli flag used, that is, compilation was interrupted
+            //  the main step (compilation) will be ended as incomplete, so don't be surprised
             if (not step->isComplete()) {
                 step->endFailed();
             }
