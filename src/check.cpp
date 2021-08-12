@@ -8,8 +8,9 @@ int main() {
     AnimPlayer player {"Check", Anim::getAnim(AnimKind::Classic)};
 
     player.start();
-    for (int i = 0; i < 1000; i++) {
-        std::cout << "kek" << std::endl;
+    for (uint32_t i = 0; i < UINT32_MAX; i++) {
+        std::this_thread::sleep_for(std::chrono::microseconds(1000));
+        std::cout << "\r" << "[LOG]: KEK";
     }
     player.finish();
 
