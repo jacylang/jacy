@@ -221,12 +221,22 @@ namespace jc::common {
         }
 
         switch (benchmark) {
-            case BenchmarkKind::Final:
+            case BenchmarkKind::Final: {
                 res["benchmark"].emplace_back("final");
                 break;
-            case BenchmarkKind::Stage:
-                res["benchmark"].emplace_back("each-stage");
+            }
+            case BenchmarkKind::Stage: {
+                res["benchmark"].emplace_back("stage");
                 break;
+            }
+            case BenchmarkKind::SubStage: {
+                res["benchmark"].emplace_back("sub-stage");
+                break;
+            }
+            case BenchmarkKind::Verbose: {
+                res["benchmark"].emplace_back("verbose");
+                break;
+            }
         }
 
         const auto addLogLevel = [&](const std::string & owner) {
