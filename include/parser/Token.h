@@ -117,6 +117,7 @@ namespace jc::parser {
         Func,
         If,
         Impl,
+        Import,
         In,
         Infix,
         Loop,

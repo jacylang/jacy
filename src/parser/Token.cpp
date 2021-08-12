@@ -18,6 +18,7 @@ namespace jc::parser {
         {"func",        TokenKind::Func},
         {"if",          TokenKind::If},
         {"impl",        TokenKind::Impl},
+        {"import",      TokenKind::Import},
         {"in",          TokenKind::In},
         {"infix",       TokenKind::Infix},
         {"loop",        TokenKind::Loop},
