@@ -3,6 +3,7 @@
 
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 
 namespace jc::utils::str {
     using str_vec = std::vector<std::string>;

@@ -8,6 +8,7 @@ cmake_minimum_required(VERSION 3.16)
 project(Jacy)
 
 if (JACY_BUILD_CHECK)
+    include_directories(include)
     add_executable(check src/check.cpp)
     return()
 endif()
