@@ -23,7 +23,7 @@ namespace jc::common {
     key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
         {"parser",          Config::CompileDepth::Parser},
         {"name-resolution", Config::CompileDepth::NameResolution},
-        {"lowering", Config::CompileDepth::Lowering},
+        {"lowering",        Config::CompileDepth::Lowering},
     };
 
     key_value_arg_map<Config::BenchmarkKind> Config::benchmarkKinds = {
@@ -182,7 +182,22 @@ namespace jc::common {
                     res["print"].emplace_back("source");
                     break;
                 case PrintKind::AstNames:
-                    res["print"].emplace_back("names");
+                    res["print"].emplace_back("ast-names");
+                    break;
+                case PrintKind::ModTree:
+                    res["print"].emplace_back("mod-tree");
+                    break;
+                case PrintKind::AstNodeMap:
+                    res["print"].emplace_back("ast-node-map");
+                    break;
+                case PrintKind::Ribs:
+                    res["print"].emplace_back("ribs");
+                    break;
+                case PrintKind::Resolutions:
+                    res["print"].emplace_back("resolutions");
+                    break;
+                case PrintKind::Definitions:
+                    res["print"].emplace_back("definitions");
                     break;
                 case PrintKind::All:
                     res["print"].emplace_back("all");
