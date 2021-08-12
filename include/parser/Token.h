@@ -126,6 +126,7 @@ namespace jc::parser {
         Move,
         Mut,
         Not,
+        Of,
         Return,
         Party,
         Pub,
