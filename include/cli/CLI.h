@@ -25,20 +25,20 @@ namespace jc::cli {
     };
 
     struct Flag {
-        using values_t = std::vector<std::string>;
-        using values_cnt_t = uint8_t;
+        using options_t = std::vector<std::string>;
+        using options_cnt_t = uint8_t;
 
         enum class Type {
             Bool,
             Str,
         };
 
-        Flag(Type type, values_cnt_t valuesCount, const values_t & values)
+        Flag(Type type, options_cnt_t valuesCount, const options_t & values)
             : type{type}, valuesCount{valuesCount}, values{values} {}
 
         const Type type;
-        const values_cnt_t valuesCount;
-        const values_t values;
+        const options_cnt_t valuesCount;
+        const options_t values;
     };
 
     class Command {
