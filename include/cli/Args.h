@@ -38,9 +38,6 @@ namespace jc::cli {
         // The dependency structure is `the 'first' can be specified if all of right dependencies are specified`
         const static std::map<std::string, str_vec> argsDependencies;
 
-        const static str_vec boolArgTrueValues;
-        const static str_vec boolArgFalseValues;
-
         // Check for boolean arg
         bool is(const std::string & argName) const;
 

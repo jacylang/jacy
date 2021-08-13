@@ -40,6 +40,10 @@ namespace jc::cli {
 
         str_vec prepareArgs(int argc, const char ** argv);
         Option<bool> parseBool(const std::string & val);
+
+    private:
+        const static str_vec boolArgTrueValues;
+        const static str_vec boolArgFalseValues;
     };
 }
 

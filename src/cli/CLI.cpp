@@ -3,6 +3,22 @@
 namespace jc::cli {
     CLI::CLI() {}
 
+    const str_vec CLI::boolArgTrueValues = {
+        "yes",
+        "y",
+        "true",
+        "1",
+        "on",
+    };
+
+    const str_vec CLI::boolArgFalseValues = {
+        "no",
+        "n",
+        "false",
+        "0",
+        "off",
+    };
+
     str_vec CLI::prepareArgs(int argc, const char ** argv) {
         str_vec args;
         // Start from 1 to skip bin file path
@@ -16,10 +32,10 @@ namespace jc::cli {
     }
 
     Option<bool> CLI::parseBool(const std::string & val) {
-        if (utils::arr::has(Args::boolArgTrueValues, val)) {
+        if (utils::arr::has(boolArgTrueValues, val)) {
             return true;
         }
-        if (utils::arr::has(Args::boolArgFalseValues, val)) {
+        if (utils::arr::has(boolArgFalseValues, val)) {
             return false;
         }
         return None;
@@ -28,6 +44,8 @@ namespace jc::cli {
     void CLI::applyArgs(int argc, const char ** argv) {
         const auto & args = prepareArgs(argc, argv);
 
+        for (const auto & arg : args) {
 
+        }
     }
 }
