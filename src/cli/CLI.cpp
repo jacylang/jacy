@@ -51,6 +51,8 @@ namespace jc::cli {
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {
+        using namespace utils::str;
+
         const auto & args = prepareArgs(argc, argv);
 
         for (const auto & arg : args) {
