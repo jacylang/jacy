@@ -15,6 +15,9 @@
 #include "common/Error.h"
 #include "log/Logger.h"
 #include "cli/Args.h"
+#include "jon/jon.h"
+
+using jon = jacylang::jon;
 
 namespace jc::cli {
     struct CLIError : common::Error {
@@ -40,6 +43,15 @@ namespace jc::cli {
 
         str_vec prepareArgs(int argc, const char ** argv);
         Option<bool> parseBool(const std::string & val);
+
+    private:
+        jon config;
+
+        void loadConfig();
+
+        // Storage //
+    private:
+        Option<std::string> entryFile{None};
 
     private:
         const static str_vec boolArgTrueValues;

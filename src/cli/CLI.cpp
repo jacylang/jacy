@@ -51,12 +51,32 @@ namespace jc::cli {
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {
+        loadConfig();
+
         using namespace utils::str;
 
         const auto & args = prepareArgs(argc, argv);
 
+        const auto & extensions = config.at<jon::arr_t>("extensions");
         for (const auto & arg : args) {
+            bool sourceFile = false;
+            for (const auto & ext : extensions) {
+                if (endsWith(arg, "." + ext.get<std::string>())) {
+                    sourceFile = true;
+                }
+            }
 
+            if (sourceFile) {
+                if (entryFile.some()) {
+                    throw std::runtime_error("Entry file cannot be specified twice");
+                }
+                entryFile = arg;
+                continue;
+            }
         }
+    }
+
+    void CLI::loadConfig() {
+        config = jon::fromFile("./config.jon");
     }
 }
