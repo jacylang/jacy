@@ -24,19 +24,25 @@ namespace jc::cli {
         explicit CLIError(const std::string & msg) : Error(msg) {}
     };
 
-    class Command {
-    public:
+    struct Flag {
         enum class Type {
             Bool,
             Str,
         };
 
-        using flags_t = std::vector<std::string>;
+        Flag(Type type) : type{type} {}
+
+        const Type type;
+    };
+
+    class Command {
+    public:
+        using flags_t = std::vector<Flag>;
         using deps_t = std::vector<std::string>;
 
     public:
-        Command(Type type, const flags_t & flags, const deps_t & dependsOn)
-            : type {type}, flags{flags}, dependsOn{dependsOn} {}
+        Command(const flags_t & flags, const deps_t & dependsOn)
+            : flags{flags}, dependsOn{dependsOn} {}
 
     public:
         static Command fromJon(const jon & j) {
@@ -44,7 +50,6 @@ namespace jc::cli {
         }
 
     private:
-        const Type type;
         const flags_t flags;
         const deps_t dependsOn;
     };
