@@ -115,7 +115,7 @@ namespace jc::cli {
                 flags.emplace_back(type, optionsCount, options, deps);
             }
 
-            commands.emplace(command.at<jon::str_t>("name"), );
+            commands.emplace(command.at<jon::str_t>("name"), flags);
         }
     }
 }
