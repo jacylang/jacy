@@ -25,14 +25,17 @@ namespace jc::cli {
     };
 
     struct Flag {
+        using values_t = std::vector<std::string>;
+
         enum class Type {
             Bool,
             Str,
         };
 
-        Flag(Type type) : type{type} {}
+        Flag(Type type, const values_t & values) : type{type}, values{values} {}
 
         const Type type;
+        const values_t values;
     };
 
     class Command {
