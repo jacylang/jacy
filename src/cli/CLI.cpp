@@ -80,8 +80,14 @@ namespace jc::cli {
         config = jon::fromFile("./config.jon");
 
         for (const auto & command : config.at<jon::arr_t>("commands")) {
-            const auto type = command.at<jon::str_t>("type") == "string";
-            commands.emplace(command.at<jon::str_t>("name"));
+            if (not command.has("flags")) {
+                continue;
+            }
+
+            for (const auto & flag : command.at<jon::arr_t>("flags")) {
+                const auto type = Flag::typeFromString(flag.at<jon::str_t>("type"));
+                commands.emplace(command.at<jon::str_t>("name"));
+            }
         }
     }
 }

@@ -5,8 +5,9 @@ defaultCommand: 'compile'
 commands: [
     {
         name: 'compile'
-        flags: {
-            print: {
+        flags: [
+            {
+                name: 'print'
                 type: 'string'
                 description: 'Debug option that prints different intermediate representations'
                 options: [
@@ -24,7 +25,8 @@ commands: [
                     'all'
                 ]
             }
-            compile-depth: {
+            {
+                name: 'compile-depth'
                 type: 'string'
                 options: [
                     'parser'
@@ -32,10 +34,12 @@ commands: [
                     'lowering'
                 ]
             }
-            dev: {
+            {
+                name: 'dev'
                 type: 'bool'
             }
-            log-level: {
+            {
+                name: 'log-level'
                 type: 'string'
                 options: [
                     'dev'
@@ -45,6 +49,6 @@ commands: [
                     'error'
                 ]
             }
-        }
+        ]
     }
 ]
