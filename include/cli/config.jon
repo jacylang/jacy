@@ -7,43 +7,43 @@ commands: {
         flags: {
             print: {
                 type: 'string'
-                    description: 'Debug option that prints different intermediate representations'
-                    options: [
-                        'dir-tree'
-                        'tokens'
-                        'ast'
-                        'sugg'
-                        'source'
-                        'mod-tree'
-                        'ast-names'
-                        'ast-node-map'
-                        'ribs'
-                        'resolutions'
-                        'definitions'
-                        'all'
-                    ]
+                description: 'Debug option that prints different intermediate representations'
+                options: [
+                    'dir-tree'
+                    'tokens'
+                    'ast'
+                    'sugg'
+                    'source'
+                    'mod-tree'
+                    'ast-names'
+                    'ast-node-map'
+                    'ribs'
+                    'resolutions'
+                    'definitions'
+                    'all'
+                ]
             }
-                compile-depth: {
-                    type: 'string'
-                        options: [
-                            'parser'
-                            'name-resolution'
-                            'lowering'
-                        ]
-                }
-                dev: {
-                    type: 'bool'
-                }
-                log-level: {
-                    type: 'string'
-                        options: [
-                            'dev'
-                            'debug'
-                            'info'
-                            'warn'
-                            'error'
-                        ]
-                }
+            compile-depth: {
+                type: 'string'
+                options: [
+                    'parser'
+                    'name-resolution'
+                    'lowering'
+                ]
+            }
+            dev: {
+                type: 'bool'
+            }
+            log-level: {
+                type: 'string'
+                options: [
+                    'dev'
+                    'debug'
+                    'info'
+                    'warn'
+                    'error'
+                ]
+            }
         }
     }
 }
