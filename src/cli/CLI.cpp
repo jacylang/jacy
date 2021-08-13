@@ -28,5 +28,6 @@ namespace jc::cli {
     void CLI::applyArgs(int argc, const char ** argv) {
         const auto & args = prepareArgs(argc, argv);
 
+
     }
 }

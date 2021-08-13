@@ -249,6 +249,7 @@ namespace jc::utils::str {
         return result;
     }
 
+    /// Splits string by delimiters keeping them in collection
     str_vec splitKeep(const std::string & str, const std::string & delimiters) {
         str_vec result;
         size_t begin;
