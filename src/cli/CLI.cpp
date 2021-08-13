@@ -78,5 +78,10 @@ namespace jc::cli {
 
     void CLI::loadConfig() {
         config = jon::fromFile("./config.jon");
+
+        for (const auto & command : config.at<jon::arr_t>("commands")) {
+            const auto type = command.at<jon::str_t>("type") == "string";
+            commands.emplace(command.at<jon::str_t>("name"));
+        }
     }
 }

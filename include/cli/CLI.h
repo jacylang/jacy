@@ -36,6 +36,17 @@ namespace jc::cli {
         Flag(Type type, options_cnt_t valuesCount, const options_t & values)
             : type{type}, valuesCount{valuesCount}, values{values} {}
 
+        static Type typeFromString(const std::string & str) {
+            if (str == "string") {
+                return Type::Str;
+            }
+            if (str == "bool") {
+                return Type::Bool;
+            }
+
+            throw CLIError("Invalid flag type '" + str + "'");
+        }
+
         const Type type;
         const options_cnt_t valuesCount;
         const options_t values;

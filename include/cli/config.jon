@@ -2,8 +2,9 @@ extensions: ['jc']
 
 defaultCommand: 'compile'
 
-commands: {
-    compile: {
+commands: [
+    {
+        name: 'compile'
         flags: {
             print: {
                 type: 'string'
@@ -46,4 +47,4 @@ commands: {
             }
         }
     }
-}
+]
