@@ -12,6 +12,7 @@
 #include "utils/str.h"
 #include "utils/map.h"
 #include "utils/arr.h"
+#include "utils/num.h"
 #include "common/Error.h"
 #include "log/Logger.h"
 #include "cli/Args.h"
@@ -27,14 +28,15 @@ namespace jc::cli {
     struct Flag {
         using options_t = std::vector<std::string>;
         using options_cnt_t = uint8_t;
+        using deps_t = std::vector<std::string>;
 
         enum class Type {
             Bool,
             Str,
         };
 
-        Flag(Type type, options_cnt_t valuesCount, const options_t & values)
-            : type{type}, valuesCount{valuesCount}, values{values} {}
+        Flag(Type type, Option<options_cnt_t> valuesCount, const options_t & values, const deps_t & dependsOn)
+            : type{type}, valuesCount{valuesCount}, values{values}, dependsOn{dependsOn} {}
 
         static Type typeFromString(const std::string & str) {
             if (str == "string") {
@@ -48,18 +50,18 @@ namespace jc::cli {
         }
 
         const Type type;
-        const options_cnt_t valuesCount;
+        const Option<options_cnt_t> valuesCount;
         const options_t values;
+        const deps_t dependsOn;
     };
 
     class Command {
     public:
         using flags_t = std::vector<Flag>;
-        using deps_t = std::vector<std::string>;
 
     public:
-        Command(const flags_t & flags, const deps_t & dependsOn)
-            : flags{flags}, dependsOn{dependsOn} {}
+        Command(const flags_t & flags)
+            : flags{flags} {}
 
     public:
         static Command fromJon(const jon & j) {
@@ -68,7 +70,6 @@ namespace jc::cli {
 
     private:
         const flags_t flags;
-        const deps_t dependsOn;
     };
 
     class CLI {
