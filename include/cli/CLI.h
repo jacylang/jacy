@@ -25,11 +25,18 @@ namespace jc::cli {
     };
 
     class Command {
+    public:
+        enum class Type {
+            Bool,
+            Str,
+        };
+
         using flags_t = std::vector<std::string>;
         using deps_t = std::vector<std::string>;
 
     public:
-        Command(const flags_t & flags, const deps_t & dependsOn) : flags{flags}, dependsOn{dependsOn} {}
+        Command(Type type, const flags_t & flags, const deps_t & dependsOn)
+            : type {type}, flags{flags}, dependsOn{dependsOn} {}
 
     public:
         static Command fromJon(const jon & j) {
@@ -37,6 +44,7 @@ namespace jc::cli {
         }
 
     private:
+        const Type type;
         const flags_t flags;
         const deps_t dependsOn;
     };
