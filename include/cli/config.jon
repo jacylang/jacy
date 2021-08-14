@@ -19,7 +19,7 @@ bool-values: {
     ]
 }
 
-commonFlags: [
+common-flags: [
     {
         name: 'help'
         type: 'bool'
@@ -35,6 +35,7 @@ commands: [
                 name: 'print'
                 type: 'string'
                 description: 'Debug option that prints different intermediate representations'
+                duplicates: 'combine'
                 values: [
                     'dir-tree'
                     'tokens'

@@ -112,6 +112,7 @@ namespace jc::cli {
                 auto name = peek().substr(isAlias ? 1 : 2);
                 auto uncheckedFlag = passedCom.unwrap().findFlag(name);
 
+                // TODO: Allow common-flags
                 if (uncheckedFlag.none()) {
                     error("Invalid option '", peek(), "'");
                 }
@@ -132,7 +133,11 @@ namespace jc::cli {
 
                     advance(); // Skip bool value
 
-                    passedFlags.emplace_back(val.unwrap());
+                    auto addResult = passedFlags.emplace(name, val.unwrap());
+
+                    if (not addResult.second) {
+
+                    }
                 } else {
                     // Parse key-value option values
                     PassedFlag::values_t values;

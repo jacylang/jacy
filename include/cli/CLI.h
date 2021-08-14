@@ -35,6 +35,13 @@ namespace jc::cli {
         using value_count_t = uint8_t;
         using deps_t = std::vector<std::string>;
 
+        /// Possible kinds of duplications allowed for flag
+        enum class Duplication {
+            Denied,
+            Combine,
+            Merge,
+        };
+
         enum class Type {
             Bool,
             Str,
@@ -45,12 +52,14 @@ namespace jc::cli {
             Type type,
             Option<value_count_t> valuesCount,
             const values_t & values,
-            const deps_t & dependsOn
+            const deps_t & dependsOn,
+            Duplication duplication
         ) : name{name},
             type{type},
             valuesCount{valuesCount},
             values{values},
-            dependsOn{dependsOn} {}
+            dependsOn{dependsOn},
+            duplication{duplication} {}
 
         static Type typeFromString(const std::string & str) {
             if (str == "string") {
@@ -61,6 +70,22 @@ namespace jc::cli {
             }
 
             throw CLIError("Invalid flag type '" + str + "'");
+        }
+
+        static Duplication duplFromString(const std::string & str) {
+            if (str == "denied") {
+                return Duplication::Denied;
+            }
+
+            if (str == "combine") {
+                return Duplication::Combine;
+            }
+
+            if (str == "merge") {
+                return Duplication::Merge;
+            }
+
+            log::Logger::devPanic("Invalid `duplicates` value");
         }
 
         static Flag fromJon(const jon & j) {
@@ -90,7 +115,13 @@ namespace jc::cli {
                 }
             }
 
-            return Flag {j.strAt("name"), type, valCount, values, deps};
+            Duplication dupl{Duplication::Denied};
+
+            if (j.has("duplicates")) {
+                dupl = duplFromString(j.strAt("duplicates"));
+            }
+
+            return Flag {j.strAt("name"), type, valCount, values, deps, dupl};
         }
 
         const std::string name;
@@ -98,6 +129,7 @@ namespace jc::cli {
         const Option<value_count_t> valuesCount;
         const values_t values;
         const deps_t dependsOn;
+        const Duplication duplication;
     };
 
     class Command {
@@ -166,7 +198,7 @@ namespace jc::cli {
     };
 
     struct PassedCommand {
-        using flags_t = std::vector<PassedFlag>;
+        using flags_t = std::map<std::string, PassedFlag>;
 
         PassedCommand(const std::string & name, const flags_t & flags)
             : name{name}, flags{flags} {}
