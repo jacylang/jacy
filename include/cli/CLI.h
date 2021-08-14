@@ -145,12 +145,14 @@ namespace jc::cli {
 
     /// Flag passed to cli
     struct PassedFlag {
+        using values_t = std::vector<std::string>;
+
         enum class Kind {
             Bool,
             Str,
         };
 
-        PassedFlag(const std::vector<std::string> & value) : value{value} {}
+        PassedFlag(const values_t & value) : value{value} {}
         PassedFlag(bool value) : value{value} {}
 
         Kind kind() const {
@@ -160,7 +162,7 @@ namespace jc::cli {
             return Kind::Str;
         }
 
-        std::variant<bool, std::vector<std::string>> value;
+        std::variant<bool, values_t> value;
     };
 
     struct PassedCommand {

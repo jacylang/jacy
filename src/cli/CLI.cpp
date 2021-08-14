@@ -74,7 +74,11 @@ namespace jc::cli {
             return args.at(index);
         };
 
-        for (index = 0; index < args.size(); advance()) {
+        auto eof = [&]() {
+            return index >= args.size();
+        };
+
+       while (not eof()) {
             const auto & arg = peek();
 
             bool sourceFile = false;
@@ -89,6 +93,7 @@ namespace jc::cli {
                     error("Entry file cannot be specified twice");
                 }
                 entryFile = arg;
+                advance();
                 continue;
             }
 
@@ -114,10 +119,14 @@ namespace jc::cli {
 
                 auto eqSign = skipOpt("=");
 
-                if (not startsWith(peek(), "-")) {
 
-                } else if (eqSign) {
-                    error("Expected value after `=`");
+                PassedFlag::values_t values;
+                while (not eof()) {
+                    if (not startsWith(peek(), "-")) {
+                        break;
+                    }
+
+                    values.emplace_back(peek());
                 }
             }
 
@@ -135,6 +144,7 @@ namespace jc::cli {
                 error("Command already specified as '", passedCom.unwrap().getName(), "'");
             }
             passedCom = getCommand(arg);
+            advance();
         }
 
         return PassedCommand {passedCom.unwrap().getName(), flags};
