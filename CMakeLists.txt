@@ -78,7 +78,7 @@ message("Running on ${CMAKE_SYSTEM_NAME}")
 
 FetchContent_Declare(jon
         GIT_REPOSITORY https://github.com/jacylang/jon
-        GIT_TAG v0.0.8)
+        GIT_TAG v0.0.9)
 
 FetchContent_GetProperties(jon)
 if (NOT jon_POPULATED)
