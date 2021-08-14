@@ -149,6 +149,16 @@ namespace jc::cli {
         std::variant<bool, std::vector<std::string>> value;
     };
 
+    struct PassedCommand {
+        using flags_t = std::vector<PassedFlag>;
+
+        PassedCommand(const std::string & name, const flags_t & flags)
+            : name{name}, flags{flags} {}
+
+        std::string name;
+        flags_t flags;
+    };
+
     class CLI {
     public:
         CLI();
