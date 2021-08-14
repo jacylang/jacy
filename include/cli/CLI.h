@@ -62,19 +62,19 @@ namespace jc::cli {
             using namespace utils::num;
 
             const auto type = Flag::typeFromString(j.at<jon::str_t>("type"));
-            Option<Flag::value_count_t> optionsCount{None};
+            Option<Flag::value_count_t> valCount{None};
 
             if (j.has("value-count")) {
                 const auto cnt = j.at<jon::int_t>("value-count");
                 if (cnt > 0) {
-                    optionsCount = safeAs<Flag::value_count_t, jon::int_t>(cnt);
+                    valCount = safeAs<Flag::value_count_t, jon::int_t>(cnt);
                 }
             }
 
-            Flag::values_t options;
+            Flag::values_t values;
             if (j.has("values")) {
-                for (const auto & opt : j.at<jon::arr_t>("values")) {
-                    options.emplace_back(opt.get<jon::str_t>());
+                for (const auto & val : j.at<jon::arr_t>("values")) {
+                    values.emplace_back(val.get<jon::str_t>());
                 }
             }
 
@@ -85,7 +85,7 @@ namespace jc::cli {
                 }
             }
 
-            return Flag {j.strAt("name"), type, optionsCount, options, deps};
+            return Flag {j.strAt("name"), type, valCount, values, deps};
         }
 
         const std::string name;
