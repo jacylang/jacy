@@ -135,8 +135,8 @@ namespace jc::cli {
 
                     auto addResult = passedFlags.emplace(name, val.unwrap());
 
-                    if (not addResult.second) {
-
+                    if (not addResult.second and flag.duplication == Flag::Duplication::Denied) {
+                        error("Duplicate option '", flag.name, "'");
                     }
                 } else {
                     // Parse key-value option values
@@ -174,7 +174,11 @@ namespace jc::cli {
                             " given");
                     }
 
-                    passedFlags.emplace_back(std::move(values));
+                    auto addResult = passedFlags.emplace(name, std::move(values));
+
+                    if (not addResult.second and flag.duplication == Flag::Duplication::Denied) {
+                        error("Duplicate option '", flag.name, "'");
+                    }
                 }
             }
 
