@@ -111,14 +111,14 @@ namespace jc::cli {
     };
 
     /// Option passed to cli
-    struct PassedOptions {
+    struct PassedOption {
         enum class Kind {
             Bool,
             Str,
         };
 
-        PassedOptions(const std::vector<std::string> & value) : value{value} {}
-        PassedOptions(bool value) : value{value} {}
+        PassedOption(const std::vector<std::string> & value) : value{value} {}
+        PassedOption(bool value) : value{value} {}
 
         Kind kind() const {
             if (value.index() == 0) {
