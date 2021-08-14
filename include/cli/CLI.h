@@ -150,6 +150,7 @@ namespace jc::cli {
 
         str_vec prepareArgs(int argc, const char ** argv);
         Option<bool> parseBool(const std::string & val);
+        const Command & getCommand(const std::string & name) const;
 
     private:
         jon config;

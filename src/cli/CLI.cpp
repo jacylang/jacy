@@ -36,13 +36,21 @@ namespace jc::cli {
         return None;
     }
 
+    const Command & CLI::getCommand(const std::string & name) const {
+        const auto & found = commands.find(name);
+        if (found == commands.end()) {
+            throw CLIError("Command '" + name + "' does not exists");
+        }
+        return found->second;
+    }
+
     void CLI::applyArgs(int argc, const char ** argv) {
         using namespace utils::str;
 
         const auto & args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
-        Option<std::string> passedCom{None};
+        Option<Command> passedCom{None};
         std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
         for (size_t i = 0; i < args.size(); i++) {
