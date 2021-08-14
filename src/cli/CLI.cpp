@@ -58,14 +58,24 @@ namespace jc::cli {
         // Simple parser-like interface
         size_t index = 0;
 
-        auto skipOpt = [&](const std::string & str) -> void {
+        auto skipOpt = [&](const std::string & str) -> bool {
             if (args.at(index) == str) {
                 index++;
+                return true;
             }
+            return false;
         };
 
-        for (index = 0; index < args.size(); index++) {
-            const auto & arg = args.at(index);
+        auto advance = [&]() -> void {
+            index++;
+        };
+
+        auto peek = [&]() {
+            return args.at(index);
+        };
+
+        for (index = 0; index < args.size(); advance()) {
+            const auto & arg = peek();
 
             bool sourceFile = false;
             for (const auto & ext : extensions) {
@@ -90,17 +100,25 @@ namespace jc::cli {
                     passedCom = getCommand(config.strAt("default-command"));
                 }
 
-                bool isAlias = not startsWith(arg, "--");
+                bool isAlias = not startsWith(peek(), "--");
 
                 // Get flag name removing `-` or `--`
-                auto name = arg.substr(isAlias ? 1 : 2);
+                auto name = peek().substr(isAlias ? 1 : 2);
                 auto flag = passedCom.unwrap().findFlag(name);
 
                 if (flag.none()) {
                     error("Invalid option '", flag, "'");
                 }
 
-                skipOpt("=");
+                advance();
+
+                auto eqSign = skipOpt("=");
+
+                if (not startsWith(peek(), "-")) {
+
+                } else if (eqSign) {
+                    error("Expected value after `=`");
+                }
             }
 
             // If it is not a source file or flag, then it might me a command
