@@ -44,8 +44,9 @@ namespace jc::cli {
         Option<std::string> passedCom{None};
         std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
-        size_t index{0};
-        for (const auto & arg : args) {
+        for (size_t i = 0; i < args.size(); i++) {
+            const auto & arg = args.at(i);
+
             bool sourceFile = false;
             for (const auto & ext : extensions) {
                 if (endsWith(arg, "." + ext.get<std::string>())) {
@@ -58,19 +59,24 @@ namespace jc::cli {
                     throw std::runtime_error("Entry file cannot be specified twice");
                 }
                 entryFile = arg;
-            } else if (startsWith(arg, "--")) {
-
-            } else if (startsWith(arg, "-")) {
-
-            } else {
-                passedCom = arg;
+                continue;
             }
 
-            index++;
+            if (startsWith(arg, "--")) {
+
+            }
+
+            if (startsWith(arg, "-")) {
+
+            }
+
+            // If it is not a source file or flag, then it might me a command
+            passedCom = arg;
         }
     }
 
     void CLI::loadConfig() {
+        // TODO: Add config validation, unique flags, etc.
 
         config = jon::fromFile("./config.jon");
 
