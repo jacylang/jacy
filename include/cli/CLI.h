@@ -8,6 +8,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <set>
 
 #include "utils/str.h"
 #include "utils/map.h"
@@ -177,7 +178,7 @@ namespace jc::cli {
 
     /// Flag passed to cli
     struct PassedFlag {
-        using values_t = std::vector<std::string>;
+        using values_t = std::set<std::string>;
 
         enum class Kind {
             Bool,

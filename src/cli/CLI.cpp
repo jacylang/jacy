@@ -183,8 +183,13 @@ namespace jc::cli {
 
                     auto addResult = passedFlags.emplace(name, std::move(values));
 
-                    if (not addResult.second and flag.duplication == Flag::Duplication::Denied) {
-                        error("Duplicate option '", flag.name, "'");
+                    if (not addResult.second) {
+                        if (flag.duplication == Flag::Duplication::Denied) {
+                            error("Duplicate option '", flag.name, "'");
+                        }
+                        if (flag.duplication == Flag::Duplication::Merge) {
+                            addResult.first->second.value = std::set_union(addResult.first->second.value, values);
+                        }
                     }
                 }
             }
