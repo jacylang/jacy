@@ -81,7 +81,7 @@ namespace jc::cli {
         config = jon::fromFile("./config.jon");
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
-            commands.emplace(j.at<jon::str_t>("name"), j.getAs<Command>());
+            commands.emplace(j.at<jon::str_t>("name"), j.as<Command>());
         }
     }
 }
