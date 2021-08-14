@@ -121,8 +121,13 @@ namespace jc::cli {
 
                 PassedFlag::values_t values;
                 while (not eof()) {
-                    if (not startsWith(peek(), "-")) {
+                    if (startsWith(peek(), "-")) {
                         break;
+                    }
+
+                    if (peek() == ",") {
+                        advance();
+                        continue;
                     }
 
                     values.emplace_back(peek());
