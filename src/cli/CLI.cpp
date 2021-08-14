@@ -54,8 +54,25 @@ namespace jc::cli {
         PassedCommand::flags_t flags;
 
         const auto & extensions = config.at<jon::arr_t>("extensions");
-        for (size_t i = 0; i < args.size(); i++) {
-            const auto & arg = args.at(i);
+
+        // Simple parser-like interface
+        size_t index = 0;
+
+        auto lookupIs = [&](const std::string & str) -> bool {
+            if (index < args.size() - 1) {
+                return args.at(index + 1) == str;
+            }
+            return false;
+        };
+
+        auto skipOpt = [&](const std::string & str) -> void {
+            if (args.at(index) == str) {
+                index++;
+            }
+        };
+
+        for (index = 0; index < args.size(); index++) {
+            const auto & arg = args.at(index);
 
             bool sourceFile = false;
             for (const auto & ext : extensions) {
@@ -89,6 +106,8 @@ namespace jc::cli {
                 if (flag.none()) {
                     error("Invalid option '", flag, "'");
                 }
+
+                skipOpt("=");
             }
 
             // If it is not a source file or flag, then it might me a command
