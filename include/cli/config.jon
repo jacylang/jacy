@@ -1,6 +1,6 @@
 extensions: ['jc']
 
-defaultCommand: 'compile'
+default-command: 'compile'
 
 bool-options: {
     true: [

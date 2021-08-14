@@ -41,6 +41,7 @@ namespace jc::cli {
 
         const auto & args = prepareArgs(argc, argv);
 
+        bool commandDefaulted = false;
         Option<std::string> passedCom{None};
         std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
@@ -62,15 +63,29 @@ namespace jc::cli {
                 continue;
             }
 
-            if (startsWith(arg, "--")) {
-
+            // Check if we encountered first passed flag and set command to default if not specified
+            // Flags start with `-`, it might be `--` or `-`, does not matter
+            if (startsWith(arg, "-") and passedCom.none()) {
+                commandDefaulted = true;
+                passedCom = config.strAt("default-command");
             }
 
-            if (startsWith(arg, "-")) {
+            if (startsWith(arg, "--")) {
+
+            } else if (startsWith(arg, "-")) {
 
             }
 
             // If it is not a source file or flag, then it might me a command
+            if (passedCom.some()) {
+                if (commandDefaulted) {
+                    // Give different error message if command was defaulted, for readability :)
+                    throw CLIError(
+                        "Command defaulted to '" + passedCom.unwrap()
+                        + "', specify command '" + arg + "' as first argument");
+                }
+                throw CLIError("Command already specified as '" + passedCom.unwrap() + "'");
+            }
             passedCom = arg;
         }
     }
