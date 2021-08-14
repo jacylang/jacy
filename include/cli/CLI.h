@@ -129,15 +129,15 @@ namespace jc::cli {
         flags_t flags;
     };
 
-    /// Option passed to cli
-    struct PassedOption {
+    /// Flag passed to cli
+    struct PassedFlag {
         enum class Kind {
             Bool,
             Str,
         };
 
-        PassedOption(const std::vector<std::string> & value) : value{value} {}
-        PassedOption(bool value) : value{value} {}
+        PassedFlag(const std::vector<std::string> & value) : value{value} {}
+        PassedFlag(bool value) : value{value} {}
 
         Kind kind() const {
             if (value.index() == 0) {
