@@ -110,6 +110,26 @@ namespace jc::cli {
         const flags_t flags;
     };
 
+    /// Option passed to cli
+    struct PassedOptions {
+        enum class Kind {
+            Bool,
+            Str,
+        };
+
+        PassedOptions(const std::vector<std::string> & value) : value{value} {}
+        PassedOptions(bool value) : value{value} {}
+
+        Kind kind() const {
+            if (value.index() == 0) {
+                return Kind::Bool;
+            }
+            return Kind::Str;
+        }
+
+        std::variant<bool, std::vector<std::string>> value;
+    };
+
     class CLI {
     public:
         CLI();
@@ -133,7 +153,6 @@ namespace jc::cli {
     private:
         jon config;
         std::map<std::string, Command> commands;
-        std::map<std::string, std::string> aliases;
 
         void loadConfig();
 
