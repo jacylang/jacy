@@ -195,6 +195,18 @@ namespace jc::cli {
             return Kind::Str;
         }
 
+        auto getBool() {
+            return std::get<bool>(value);
+        }
+
+        const auto & getArgs() const {
+            return std::get<values_t>(value);
+        }
+
+        auto & getArgs() {
+            return std::get<values_t>(value);
+        }
+
         std::variant<bool, values_t> value;
     };
 

@@ -163,7 +163,7 @@ namespace jc::cli {
                             error("Invalid value for '", flag.name, "' - '", peek(), "'");
                         }
 
-                        values.emplace_back(peek());
+                        values.emplace(peek());
                     }
 
                     if (values.empty() and eqSign) {
@@ -188,7 +188,7 @@ namespace jc::cli {
                             error("Duplicate option '", flag.name, "'");
                         }
                         if (flag.duplication == Flag::Duplication::Merge) {
-                            addResult.first->second.value = std::set_union(addResult.first->second.value, values);
+                            addResult.first->second.getArgs().insert(values.begin(), values.end());
                         }
                     }
                 }
