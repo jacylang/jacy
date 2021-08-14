@@ -135,8 +135,15 @@ namespace jc::cli {
 
                     auto addResult = passedFlags.emplace(name, val.unwrap());
 
-                    if (not addResult.second and flag.duplication == Flag::Duplication::Denied) {
-                        error("Duplicate option '", flag.name, "'");
+                    if (not addResult.second) {
+                        if (flag.duplication == Flag::Duplication::Denied) {
+                            error("Duplicate option '", flag.name, "'");
+                        }
+                        if (flag.duplication == Flag::Duplication::Merge) {
+                            // Update value of boolean option
+                            addResult.first->second.value = val.unwrap();
+                        }
+                        // Do nothing in case of `Combine` for boolean option
                     }
                 } else {
                     // Parse key-value option values
