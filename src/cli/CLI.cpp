@@ -79,7 +79,7 @@ namespace jc::cli {
             return index >= args.size();
         };
 
-       while (not eof()) {
+        while (not eof()) {
             const auto & arg = peek();
 
             bool sourceFile = false;
