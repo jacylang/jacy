@@ -39,7 +39,7 @@ namespace jc::cli {
     const Command & CLI::getCommand(const std::string & name) const {
         const auto & found = commands.find(name);
         if (found == commands.end()) {
-            throw CLIError("Command '" + name + "' does not exists");
+            error("Command '", name, "' does not exists");
         }
         return found->second;
     }
@@ -64,7 +64,7 @@ namespace jc::cli {
 
             if (sourceFile) {
                 if (entryFile.some()) {
-                    throw std::runtime_error("Entry file cannot be specified twice");
+                    error("Entry file cannot be specified twice");
                 }
                 entryFile = arg;
                 continue;
@@ -94,11 +94,14 @@ namespace jc::cli {
             if (passedCom.some()) {
                 if (commandDefaulted) {
                     // Give different error message if command was defaulted, for readability :)
-                    throw CLIError(
-                        "Command defaulted to '" + passedCom.unwrap().getName()
-                        + "', specify command '" + arg + "' as first argument");
+                    error(
+                        "Command defaulted to '",
+                        passedCom.unwrap().getName(),
+                        "', specify command '",
+                        arg,
+                        "' as first argument");
                 }
-                throw CLIError("Command already specified as '" + passedCom.unwrap().getName() + "'");
+                error("Command already specified as '", passedCom.unwrap().getName(), "'");
             }
             passedCom = getCommand(arg);
         }
