@@ -57,7 +57,8 @@ namespace jc::cli {
 
         const auto & args = prepareArgs(argc, argv);
 
-        std::vector<std::string> options;
+        Option<std::string> passedCom{None};
+        std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
         for (const auto & arg : args) {
             bool sourceFile = false;
@@ -79,6 +80,8 @@ namespace jc::cli {
 
             } else if (startsWith(arg, "-")) {
 
+            } else {
+                passedCom = arg;
             }
         }
     }
