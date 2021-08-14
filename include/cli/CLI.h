@@ -20,6 +20,11 @@
 
 using jon = jacylang::jon;
 
+/**
+ * Note[Important]: We call cli options "flags" to avoid name conflicts with `Option` type,
+ *  but in error messages and user interface we call them "options"
+ */
+
 namespace jc::cli {
     struct CLIError : common::Error {
         explicit CLIError(const std::string & msg) : Error(msg) {}
@@ -124,6 +129,15 @@ namespace jc::cli {
             return flags;
         }
 
+        Option<Flag> findFlag(const std::string & name) const {
+            for (const auto & flag : flags) {
+                if (flag.name == name) {
+                    return flag;
+                }
+            }
+            return None;
+        }
+
     private:
         std::string name;
         flags_t flags;
@@ -164,7 +178,7 @@ namespace jc::cli {
         CLI();
         ~CLI() = default;
 
-        void applyArgs(int argc, const char ** argv);
+        PassedCommand applyArgs(int argc, const char ** argv);
 
         const Args & getConfig() const {
             return argsStorage;

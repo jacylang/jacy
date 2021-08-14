@@ -44,13 +44,15 @@ namespace jc::cli {
         return found->second;
     }
 
-    void CLI::applyArgs(int argc, const char ** argv) {
+    PassedCommand CLI::applyArgs(int argc, const char ** argv) {
         using namespace utils::str;
 
         const auto & args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
         Option<Command> passedCom{None};
+        PassedCommand::flags_t flags;
+
         const auto & extensions = config.at<jon::arr_t>("extensions");
         for (size_t i = 0; i < args.size(); i++) {
             const auto & arg = args.at(i);
@@ -82,11 +84,10 @@ namespace jc::cli {
 
                 // Get flag name removing `-` or `--`
                 auto name = arg.substr(isAlias ? 1 : 2);
+                auto flag = passedCom.unwrap().findFlag(name);
 
-                for (const auto & flag : passedCom.unwrap().getFlags()) {
-                    if (flag.name != name) {
-
-                    }
+                if (flag.none()) {
+                    error("Invalid option '", flag, "'");
                 }
             }
 
@@ -105,6 +106,8 @@ namespace jc::cli {
             }
             passedCom = getCommand(arg);
         }
+
+        return PassedCommand {passedCom.unwrap().getName(), flags};
     }
 
     void CLI::loadConfig() {
