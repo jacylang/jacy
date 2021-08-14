@@ -71,17 +71,19 @@ namespace jc::cli {
                 continue;
             }
 
-            // Check if we encountered first passed flag and set command to default if not specified
             // Flags start with `-`, it might be `--` or `-`, does not matter
-            if (startsWith(arg, "-") and passedCom.none()) {
-                commandDefaulted = true;
-                passedCom = getCommand(config.strAt("default-command"));
-            }
+            if (startsWith(arg, "-")) {
+                // Check if we encountered first passed flag and set command to default if not specified
+                if (passedCom.none()) {
+                    commandDefaulted = true;
+                    passedCom = getCommand(config.strAt("default-command"));
+                }
 
-            if (startsWith(arg, "--")) {
+                bool isAlias = not startsWith(arg, "--");
 
-            } else if (startsWith(arg, "-")) {
+                for (const auto & flag : passedCom.unwrap().getFlags()) {
 
+                }
             }
 
             // If it is not a source file or flag, then it might me a command
