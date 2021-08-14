@@ -119,7 +119,6 @@ namespace jc::cli {
 
                 auto eqSign = skipOpt("=");
 
-
                 PassedFlag::values_t values;
                 while (not eof()) {
                     if (not startsWith(peek(), "-")) {
@@ -127,6 +126,10 @@ namespace jc::cli {
                     }
 
                     values.emplace_back(peek());
+                }
+
+                if (values.empty() and eqSign) {
+                    error("Expected value after `=`");
                 }
             }
 
