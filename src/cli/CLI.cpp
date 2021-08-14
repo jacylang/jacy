@@ -84,7 +84,7 @@ namespace jc::cli {
                 auto name = arg.substr(isAlias ? 1 : 2);
 
                 for (const auto & flag : passedCom.unwrap().getFlags()) {
-                    if (flag.name == name) {
+                    if (flag.name != name) {
 
                     }
                 }

@@ -193,6 +193,12 @@ namespace jc::cli {
     private:
         str_vec boolArgTrueValues;
         str_vec boolArgFalseValues;
+
+    private:
+        template<class ...Args>
+        void error(Args && ...args) const {
+            throw CLIError(log::Logger::format(std::forward<Args>(args)...));
+        }
     };
 }
 
