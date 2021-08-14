@@ -147,6 +147,10 @@ namespace jc::cli {
                             continue;
                         }
 
+                        if (not has(flag.values, peek())) {
+                            error("Invalid value for '", flag.name, "' - '", peek(), "'");
+                        }
+
                         values.emplace_back(peek());
                     }
 
@@ -155,12 +159,21 @@ namespace jc::cli {
                     }
 
                     if (flag.valuesCount.some() and values.size() != flag.valuesCount.unwrap()) {
-                        error("Option '", flag.name, "' requires ", flag.valuesCount.unwrap());
+                        error(
+                            "Option '",
+                            flag.name,
+                            "' requires ",
+                            flag.valuesCount.unwrap(),
+                            ", ",
+                            values.size(),
+                            " given");
                     }
 
                     passedFlags.emplace_back(std::move(values));
                 }
             }
+
+            // TODO[Important]: Check if file is a word-like
 
             // If it is not a source file or flag, then it might me a command
             if (passedCom.some()) {
