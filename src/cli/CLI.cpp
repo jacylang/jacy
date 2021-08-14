@@ -110,22 +110,24 @@ namespace jc::cli {
 
                 // Get flag name removing `-` or `--`
                 auto name = peek().substr(isAlias ? 1 : 2);
-                auto flag = passedCom.unwrap().findFlag(name);
+                auto uncheckedFlag = passedCom.unwrap().findFlag(name);
 
-                if (flag.none()) {
-                    error("Invalid option '", flag, "'");
+                if (uncheckedFlag.none()) {
+                    error("Invalid option '", peek(), "'");
                 }
+
+                const auto & flag = uncheckedFlag.unwrap();
 
                 advance();
 
                 auto eqSign = skipOpt("=");
 
-                if (flag.unwrap().type == Flag::Type::Bool) {
+                if (flag.type == Flag::Type::Bool) {
                     // Parse boolean option value
                     auto val = parseBool(peek());
 
                     if (val.none()) {
-                        error("Invalid value for boolean option '", flag.unwrap().name, "' - '", peek(), "'");
+                        error("Invalid value for boolean option '", flag.name, "' - '", peek(), "'");
                     }
 
                     advance(); // Skip bool value
@@ -150,6 +152,10 @@ namespace jc::cli {
 
                     if (values.empty() and eqSign) {
                         error("Expected value after `=`");
+                    }
+
+                    if (flag.valuesCount.some() and values.size() != flag.valuesCount.unwrap()) {
+                        error("Option '", flag.name, "' requires ", flag.valuesCount.unwrap());
                     }
 
                     passedFlags.emplace_back(std::move(values));
