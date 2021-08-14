@@ -90,8 +90,8 @@ namespace jc::cli {
         using flags_t = std::vector<Flag>;
 
     public:
-        Command(const flags_t & flags)
-            : flags{flags} {}
+        Command(const std::string & name, const flags_t & flags)
+            : name{name}, flags{flags} {}
 
     public:
         static Command fromJon(const jon & j) {
@@ -103,10 +103,11 @@ namespace jc::cli {
                 }
             }
 
-            return Command {flags};
+            return Command {j.strAt("name"), flags};
         }
 
     private:
+        const std::string name;
         const flags_t flags;
     };
 
