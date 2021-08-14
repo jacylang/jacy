@@ -35,7 +35,7 @@ commands: [
                 name: 'print'
                 type: 'string'
                 description: 'Debug option that prints different intermediate representations'
-                duplicates: 'combine'
+                duplicates: 'merge'
                 values: [
                     'dir-tree'
                     'tokens'

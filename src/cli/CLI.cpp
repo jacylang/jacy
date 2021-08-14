@@ -51,7 +51,7 @@ namespace jc::cli {
         const auto & args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
-        Option<Command> passedCom{None};
+        Option<Command> command{None};
         PassedCommand::flags_t passedFlags;
 
         const auto & extensions = config.at<jon::arr_t>("extensions");
@@ -101,16 +101,16 @@ namespace jc::cli {
             // Flags start with `-`, it might be `--` or `-`, does not matter
             if (startsWith(arg, "-")) {
                 // Check if we encountered first passed flag and set command to default if not specified
-                if (passedCom.none()) {
+                if (command.none()) {
                     commandDefaulted = true;
-                    passedCom = getCommand(config.strAt("default-command"));
+                    command = getCommand(config.strAt("default-command"));
                 }
 
                 bool isAlias = not startsWith(peek(), "--");
 
                 // Get flag name removing `-` or `--`
                 auto name = peek().substr(isAlias ? 1 : 2);
-                auto uncheckedFlag = passedCom.unwrap().findFlag(name);
+                auto uncheckedFlag = command.unwrap().findFlag(name);
 
                 // TODO: Allow common-flags
                 if (uncheckedFlag.none()) {
@@ -196,23 +196,25 @@ namespace jc::cli {
             // TODO[Important]: Check if file is a word-like
 
             // If it is not a source file or flag, then it might me a command
-            if (passedCom.some()) {
+            if (command.some()) {
                 if (commandDefaulted) {
                     // Give different error message if command was defaulted, for readability :)
                     error(
                         "Command defaulted to '",
-                        passedCom.unwrap().getName(),
+                        command.unwrap().getName(),
                         "', specify command '",
                         arg,
                         "' as first argument");
                 }
-                error("Command already specified as '", passedCom.unwrap().getName(), "'");
+                error("Command already specified as '", command.unwrap().getName(), "'");
             }
-            passedCom = getCommand(arg);
+            command = getCommand(arg);
             advance();
         }
 
-        return PassedCommand {passedCom.unwrap().getName(), passedFlags};
+        auto com = PassedCommand {command.unwrap().getName(), passedFlags};
+
+        return com;
     }
 
     void CLI::loadConfig() {
