@@ -58,13 +58,6 @@ namespace jc::cli {
         // Simple parser-like interface
         size_t index = 0;
 
-        auto lookupIs = [&](const std::string & str) -> bool {
-            if (index < args.size() - 1) {
-                return args.at(index + 1) == str;
-            }
-            return false;
-        };
-
         auto skipOpt = [&](const std::string & str) -> void {
             if (args.at(index) == str) {
                 index++;
