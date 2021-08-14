@@ -1,7 +1,9 @@
 #include "cli/CLI.h"
 
 namespace jc::cli {
-    CLI::CLI() {}
+    CLI::CLI() {
+        loadConfig();
+    }
 
     str_vec CLI::prepareArgs(int argc, const char ** argv) {
         using namespace utils::str;
@@ -35,8 +37,6 @@ namespace jc::cli {
     }
 
     void CLI::applyArgs(int argc, const char ** argv) {
-        loadConfig();
-
         using namespace utils::str;
 
         const auto & args = prepareArgs(argc, argv);
