@@ -39,7 +39,6 @@ namespace jc::cli {
         /// Possible kinds of duplications allowed for flag
         enum class Duplication {
             Denied,
-            Combine,
             Merge,
         };
 
@@ -76,10 +75,6 @@ namespace jc::cli {
         static Duplication duplFromString(const std::string & str) {
             if (str == "denied") {
                 return Duplication::Denied;
-            }
-
-            if (str == "combine") {
-                return Duplication::Combine;
             }
 
             if (str == "merge") {

@@ -143,7 +143,6 @@ namespace jc::cli {
                             // Update value of boolean option
                             addResult.first->second.value = val.unwrap();
                         }
-                        // Do nothing in case of `Combine` for boolean option
                     }
                 } else {
                     // Parse key-value option values
