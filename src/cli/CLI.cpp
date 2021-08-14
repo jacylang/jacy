@@ -51,7 +51,6 @@ namespace jc::cli {
 
         bool commandDefaulted = false;
         Option<Command> passedCom{None};
-        std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
         for (size_t i = 0; i < args.size(); i++) {
             const auto & arg = args.at(i);
@@ -81,8 +80,13 @@ namespace jc::cli {
 
                 bool isAlias = not startsWith(arg, "--");
 
-                for (const auto & flag : passedCom.unwrap().getFlags()) {
+                // Get flag name removing `-` or `--`
+                auto name = arg.substr(isAlias ? 1 : 2);
 
+                for (const auto & flag : passedCom.unwrap().getFlags()) {
+                    if (flag.name == name) {
+
+                    }
                 }
             }
 
@@ -109,11 +113,11 @@ namespace jc::cli {
             commands.emplace(j.at<jon::str_t>("name"), j.as<Command>());
         }
 
-        for (const auto & j : config.at("bool-options").arrAt("true")) {
+        for (const auto & j : config.at("bool-values").arrAt("true")) {
             boolArgTrueValues.emplace_back(j.getStr());
         }
 
-        for (const auto & j : config.at("bool-options").arrAt("false")) {
+        for (const auto & j : config.at("bool-values").arrAt("false")) {
             boolArgFalseValues.emplace_back(j.getStr());
         }
     }

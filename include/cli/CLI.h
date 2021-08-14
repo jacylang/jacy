@@ -26,8 +26,8 @@ namespace jc::cli {
     };
 
     struct Flag {
-        using options_t = std::vector<std::string>;
-        using options_cnt_t = uint8_t;
+        using values_t = std::vector<std::string>;
+        using value_count_t = uint8_t;
         using deps_t = std::vector<std::string>;
 
         enum class Type {
@@ -38,8 +38,8 @@ namespace jc::cli {
         Flag(
             const std::string & name,
             Type type,
-            Option<options_cnt_t> valuesCount,
-            const options_t & values,
+            Option<value_count_t> valuesCount,
+            const values_t & values,
             const deps_t & dependsOn
         ) : name{name},
             type{type},
@@ -62,18 +62,18 @@ namespace jc::cli {
             using namespace utils::num;
 
             const auto type = Flag::typeFromString(j.at<jon::str_t>("type"));
-            Option<Flag::options_cnt_t> optionsCount{None};
+            Option<Flag::value_count_t> optionsCount{None};
 
-            if (j.has("options-count")) {
-                const auto cnt = j.at<jon::int_t>("options-count");
+            if (j.has("value-count")) {
+                const auto cnt = j.at<jon::int_t>("value-count");
                 if (cnt > 0) {
-                    optionsCount = safeAs<Flag::options_cnt_t, jon::int_t>(cnt);
+                    optionsCount = safeAs<Flag::value_count_t, jon::int_t>(cnt);
                 }
             }
 
-            Flag::options_t options;
-            if (j.has("options")) {
-                for (const auto & opt : j.at<jon::arr_t>("options")) {
+            Flag::values_t options;
+            if (j.has("values")) {
+                for (const auto & opt : j.at<jon::arr_t>("values")) {
                     options.emplace_back(opt.get<jon::str_t>());
                 }
             }
@@ -90,8 +90,8 @@ namespace jc::cli {
 
         const std::string name;
         const Type type;
-        const Option<options_cnt_t> valuesCount;
-        const options_t values;
+        const Option<value_count_t> valuesCount;
+        const values_t values;
         const deps_t dependsOn;
     };
 
