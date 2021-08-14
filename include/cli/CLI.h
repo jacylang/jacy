@@ -35,8 +35,17 @@ namespace jc::cli {
             Str,
         };
 
-        Flag(Type type, Option<options_cnt_t> valuesCount, const options_t & values, const deps_t & dependsOn)
-            : type{type}, valuesCount{valuesCount}, values{values}, dependsOn{dependsOn} {}
+        Flag(
+            const std::string & name,
+            Type type,
+            Option<options_cnt_t> valuesCount,
+            const options_t & values,
+            const deps_t & dependsOn
+        ) : name{name},
+            type{type},
+            valuesCount{valuesCount},
+            values{values},
+            dependsOn{dependsOn} {}
 
         static Type typeFromString(const std::string & str) {
             if (str == "string") {
@@ -76,9 +85,10 @@ namespace jc::cli {
                 }
             }
 
-            return Flag {type, optionsCount, options, deps};
+            return Flag {j.strAt("name"), type, optionsCount, options, deps};
         }
 
+        const std::string name;
         const Type type;
         const Option<options_cnt_t> valuesCount;
         const options_t values;
