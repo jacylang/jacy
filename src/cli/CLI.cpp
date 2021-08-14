@@ -77,45 +77,11 @@ namespace jc::cli {
     }
 
     void CLI::loadConfig() {
-        using namespace utils::num;
 
         config = jon::fromFile("./config.jon");
 
-        for (const auto & command : config.at<jon::arr_t>("commands")) {
-            if (not command.has("flags")) {
-                continue;
-            }
-
-            Command::flags_t flags;
-            for (const auto & flag : command.at<jon::arr_t>("flags")) {
-                const auto type = Flag::typeFromString(flag.at<jon::str_t>("type"));
-                Option<Flag::options_cnt_t> optionsCount{None};
-
-                if (flag.has("options-count")) {
-                    const auto cnt = flag.at<jon::int_t>("options-count");
-                    if (cnt > 0) {
-                        optionsCount = safeAs<Flag::options_cnt_t, jon::int_t>(cnt);
-                    }
-                }
-
-                Flag::options_t options;
-                if (flag.has("options")) {
-                    for (const auto & opt : flag.at<jon::arr_t>("options")) {
-                        options.emplace_back(opt.get<jon::str_t>());
-                    }
-                }
-
-                Flag::deps_t deps;
-                if (flag.has("deps")) {
-                    for (const auto & dep : flag.at<jon::arr_t>("deps")) {
-                        deps.emplace_back(dep.get<jon::str_t>());
-                    }
-                }
-
-                flags.emplace_back(type, optionsCount, options, deps);
-            }
-
-            commands.emplace(command.at<jon::str_t>("name"), flags);
+        for (const auto & j : config.at<jon::arr_t>("commands")) {
+            commands.emplace(j.at<jon::str_t>("name"), j.getAs<Command>());
         }
     }
 }
