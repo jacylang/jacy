@@ -2,6 +2,31 @@ extensions: ['jc']
 
 defaultCommand: 'compile'
 
+bool-options: {
+    true: [
+        'yes'
+        'y'
+        'true'
+        '1'
+        'on'
+    ]
+    false: [
+        'no'
+        'n'
+        'false'
+        '0'
+        'off'
+    ]
+}
+
+commonFlags: [
+    {
+        name: 'help'
+        type: 'bool'
+        aliases: ['h']
+    }
+]
+
 commands: [
     {
         name: 'compile'

@@ -3,22 +3,6 @@
 namespace jc::cli {
     CLI::CLI() {}
 
-    const str_vec CLI::boolArgTrueValues = {
-        "yes",
-        "y",
-        "true",
-        "1",
-        "on",
-    };
-
-    const str_vec CLI::boolArgFalseValues = {
-        "no",
-        "n",
-        "false",
-        "0",
-        "off",
-    };
-
     str_vec CLI::prepareArgs(int argc, const char ** argv) {
         using namespace utils::str;
 
@@ -60,6 +44,7 @@ namespace jc::cli {
         Option<std::string> passedCom{None};
         std::vector<PassedOption> options;
         const auto & extensions = config.at<jon::arr_t>("extensions");
+        size_t index{0};
         for (const auto & arg : args) {
             bool sourceFile = false;
             for (const auto & ext : extensions) {
@@ -73,16 +58,15 @@ namespace jc::cli {
                     throw std::runtime_error("Entry file cannot be specified twice");
                 }
                 entryFile = arg;
-                continue;
-            }
-
-            if (startsWith(arg, "--")) {
+            } else if (startsWith(arg, "--")) {
 
             } else if (startsWith(arg, "-")) {
 
             } else {
                 passedCom = arg;
             }
+
+            index++;
         }
     }
 
@@ -92,6 +76,10 @@ namespace jc::cli {
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
             commands.emplace(j.at<jon::str_t>("name"), j.as<Command>());
+        }
+
+        for (const auto & j : config.at("bool-options").arrAt("true")) {
+            boolArgTrueValues.emplace_back(j.getStr());
         }
     }
 }

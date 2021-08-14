@@ -161,8 +161,8 @@ namespace jc::cli {
         Option<std::string> entryFile{None};
 
     private:
-        const static str_vec boolArgTrueValues;
-        const static str_vec boolArgFalseValues;
+        str_vec boolArgTrueValues;
+        str_vec boolArgFalseValues;
     };
 }
 
