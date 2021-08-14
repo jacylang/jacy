@@ -75,7 +75,7 @@ namespace jc::cli {
             // Flags start with `-`, it might be `--` or `-`, does not matter
             if (startsWith(arg, "-") and passedCom.none()) {
                 commandDefaulted = true;
-                passedCom = config.strAt("default-command");
+                passedCom = getCommand(config.strAt("default-command"));
             }
 
             if (startsWith(arg, "--")) {
@@ -89,12 +89,12 @@ namespace jc::cli {
                 if (commandDefaulted) {
                     // Give different error message if command was defaulted, for readability :)
                     throw CLIError(
-                        "Command defaulted to '" + passedCom.unwrap()
+                        "Command defaulted to '" + passedCom.unwrap().getName()
                         + "', specify command '" + arg + "' as first argument");
                 }
-                throw CLIError("Command already specified as '" + passedCom.unwrap() + "'");
+                throw CLIError("Command already specified as '" + passedCom.unwrap().getName() + "'");
             }
-            passedCom = arg;
+            passedCom = getCommand(arg);
         }
     }
 

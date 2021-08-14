@@ -106,9 +106,17 @@ namespace jc::cli {
             return Command {j.strAt("name"), flags};
         }
 
+        auto getName() const {
+            return name;
+        }
+
+        auto getFlags() const {
+            return flags;
+        }
+
     private:
-        const std::string name;
-        const flags_t flags;
+        std::string name;
+        flags_t flags;
     };
 
     /// Option passed to cli
