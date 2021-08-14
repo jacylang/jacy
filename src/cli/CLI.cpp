@@ -81,5 +81,9 @@ namespace jc::cli {
         for (const auto & j : config.at("bool-options").arrAt("true")) {
             boolArgTrueValues.emplace_back(j.getStr());
         }
+
+        for (const auto & j : config.at("bool-options").arrAt("false")) {
+            boolArgFalseValues.emplace_back(j.getStr());
+        }
     }
 }
