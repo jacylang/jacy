@@ -46,12 +46,13 @@ namespace jc::cli {
 
     PassedCommand CLI::applyArgs(int argc, const char ** argv) {
         using namespace utils::str;
+        using namespace utils::arr;
 
         const auto & args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
         Option<Command> passedCom{None};
-        PassedCommand::flags_t flags;
+        PassedCommand::flags_t passedFlags;
 
         const auto & extensions = config.at<jon::arr_t>("extensions");
 
@@ -119,22 +120,39 @@ namespace jc::cli {
 
                 auto eqSign = skipOpt("=");
 
-                PassedFlag::values_t values;
-                while (not eof()) {
-                    if (startsWith(peek(), "-")) {
-                        break;
+                if (flag.unwrap().type == Flag::Type::Bool) {
+                    // Parse boolean option value
+                    auto val = parseBool(peek());
+
+                    if (val.none()) {
+                        error("Invalid value for boolean option '", flag.unwrap().name, "' - '", peek(), "'");
                     }
 
-                    if (peek() == ",") {
-                        advance();
-                        continue;
+                    advance(); // Skip bool value
+
+                    passedFlags.emplace_back(val.unwrap());
+                } else {
+                    // Parse key-value option values
+                    PassedFlag::values_t values;
+
+                    while (not eof()) {
+                        if (startsWith(peek(), "-")) {
+                            break;
+                        }
+
+                        if (peek() == ",") {
+                            advance();
+                            continue;
+                        }
+
+                        values.emplace_back(peek());
                     }
 
-                    values.emplace_back(peek());
-                }
+                    if (values.empty() and eqSign) {
+                        error("Expected value after `=`");
+                    }
 
-                if (values.empty() and eqSign) {
-                    error("Expected value after `=`");
+                    passedFlags.emplace_back(std::move(values));
                 }
             }
 
@@ -155,7 +173,7 @@ namespace jc::cli {
             advance();
         }
 
-        return PassedCommand {passedCom.unwrap().getName(), flags};
+        return PassedCommand {passedCom.unwrap().getName(), passedFlags};
     }
 
     void CLI::loadConfig() {

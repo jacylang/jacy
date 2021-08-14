@@ -152,7 +152,7 @@ namespace jc::cli {
             Str,
         };
 
-        PassedFlag(const values_t & value) : value{value} {}
+        PassedFlag(values_t && value) : value{std::move(values)} {}
         PassedFlag(bool value) : value{value} {}
 
         Kind kind() const {
