@@ -55,8 +55,8 @@ namespace jc::common {
         "lexer", "parser", "name-resolver"
     };
 
-    void Config::applyCliCommand(const cli::PassedCommand & command) {
-        rootFile = cliConfig.getRootFile();
+    void Config::applyCLIArgs(const cli::PassedCommand & args) {
+        rootFile = args.entryFile.unwrap();
 
         // Apply bool args //
         dev = cliConfig.is("dev");

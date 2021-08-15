@@ -24,7 +24,7 @@ namespace jc::common {
             return instance;
         }
 
-        void applyCliCommand(const cli::PassedCommand & command);
+        void applyCLIArgs(const cli::PassedCommand & args);
 
         // Key-value args variants //
         enum class Mode {

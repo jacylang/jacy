@@ -179,7 +179,7 @@ namespace jc::cli {
             return Kind::Str;
         }
 
-        auto getBool() {
+        auto getBool() const {
             return std::get<bool>(value);
         }
 
@@ -200,6 +200,26 @@ namespace jc::cli {
         PassedCommand(const flags_t & flags, const Option<std::string> & entryFile)
             : flags{flags}, entryFile{entryFile} {}
 
+        const auto & getFlags() const {
+            return flags;
+        }
+
+        const auto & getEntryFile() const {
+            return entryFile;
+        }
+
+        auto checkBoolFlag(const std::string & name) const {
+            const auto & found = flags.find(name);
+            if (found == flags.end()) {
+                return false;
+            }
+            if (found->second.kind() != PassedFlag::Kind::Bool) {
+                throw std::logic_error("'" + name + "' is not a boolean flag");
+            }
+            return found->second.getBool();
+        }
+
+    private:
         flags_t flags;
         Option<std::string> entryFile;
     };
