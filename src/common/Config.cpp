@@ -71,22 +71,22 @@ namespace jc::common {
         });
 
         // `compile-depth`
-        cliConfig.getSingleValue("compile-depth").then([&](const auto & value) {
+        args.getFlagSingleValue("compile-depth").then([&](const auto & value) {
             compileDepth = compileDepthKinds.at(value);
         });
 
         // `benchmark`
-        cliConfig.getSingleValue("benchmark").then([&](const auto & value) {
+        args.getFlagSingleValue("benchmark").then([&](const auto & value) {
             benchmark = benchmarkKinds.at(value);
         });
 
         // `parser-extra-debug`
-        cliConfig.getSingleValue("parser-extra-debug").then([&](const auto & value) {
+        args.getFlagSingleValue("parser-extra-debug").then([&](const auto & value) {
             parserExtraDebug = parserExtraDebugKinds.at(value);
         });
 
         // `log-level`
-        cliConfig.getSingleValue("log-level").then([&](const auto & value) {
+        args.getFlagSingleValue("log-level").then([&](const auto & value) {
             loggerLevels[GLOBAL_LOG_LEVEL_NAME] = loggerLevels.at(value);
         }).otherwise([&]() {
             loggerLevels[GLOBAL_LOG_LEVEL_NAME] = dev ? LogLevel::Dev : DEFAULT_LOG_LEVEL;
@@ -95,7 +95,7 @@ namespace jc::common {
         // `*-log-level`
         for (const auto & owner : loggerOwners) {
             const auto & argName = owner + "-log-level";
-            cliConfig.getSingleValue(argName).then([&](const auto & value) {
+            args.getFlagSingleValue(argName).then([&](const auto & value) {
                 loggerLevels[owner] = logLevelKinds.at(value);
             }).otherwise([&]() {
                 loggerLevels[owner] = loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
