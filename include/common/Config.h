@@ -3,7 +3,12 @@
 
 #include <set>
 
+#include "cli/Command.h"
+
 namespace jc::common {
+    template<class T>
+    using key_value_arg_map = const std::map<const std::string, const T>;
+
     class Config {
     public:
         Config();
@@ -18,7 +23,7 @@ namespace jc::common {
             return instance;
         }
 
-        void applyCliCommand(const cli:: & cliConfig);
+        void applyCliCommand(const cli::PassedCommand & command);
 
         // Key-value args variants //
         enum class Mode {
