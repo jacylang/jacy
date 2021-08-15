@@ -212,9 +212,22 @@ namespace jc::cli {
             advance();
         }
 
-        auto com = PassedCommand {command.unwrap().getName(), passedFlags};
+        auto passedCom = PassedCommand {command.unwrap().getName(), passedFlags};
 
-        return com;
+        // Post-check flags
+        for (const auto & flag : command.unwrap().getFlags()) {
+            // Check if flag is passed
+            if (passedFlags.find(flag.name) != passedFlags.end()) {
+                // Check if flag depends on some other
+                for (const auto & dep : flag.dependsOn) {
+                    if (passedFlags.find(dep) == passedFlags.end()) {
+                        error("Flag '", flag.name, "' requires '", dep, "' to be specified");
+                    }
+                }
+            }
+        }
+
+        return passedCom;
     }
 
     void CLI::loadConfig() {
