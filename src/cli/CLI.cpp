@@ -231,7 +231,7 @@ namespace jc::cli {
     void CLI::loadConfig() {
         // TODO: Add config validation, unique flags, etc.
 
-        config = jon::fromFile("./config.jon");
+        std::cout << "Current path: " << std::filesystem::current_path() << std::endl;
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
             configCommands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());

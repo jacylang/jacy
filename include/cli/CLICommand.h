@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <set>
 
 #include "common/Error.h"
 #include "utils/str.h"

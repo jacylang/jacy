@@ -12,6 +12,7 @@
 
 #include "log/Logger.h"
 #include "cli/CLICommand.h"
+#include "cli/config.h"
 
 #include "cli/commands/CommandList.h"
 
@@ -34,7 +35,6 @@ namespace jc::cli {
         const CLICommand & getCommand(const std::string & name) const;
 
     private:
-        jon config;
         // Configured commands
         std::map<std::string, CLICommand> configCommands;
 

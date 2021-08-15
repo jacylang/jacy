@@ -1,3 +1,9 @@
+#include "jon/jon.h"
+
+using namespace jacylang::literal;
+
+namespace jc::cli {
+    const static auto config = R"(
 extensions: ['jc']
 
 default-command: 'compile'
@@ -80,3 +86,5 @@ commands: [
         ]
     }
 ]
+    )"_jon;
+}
