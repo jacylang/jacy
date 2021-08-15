@@ -99,7 +99,7 @@ namespace jc::dt {
         }
 
         inline void useOfUninited(const std::string & msg) {
-//            terminate("Use of uninitialized Result in " + msg);
+            terminate("Use of uninitialized Result in " + msg);
         }
     }
 

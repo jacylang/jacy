@@ -20,6 +20,7 @@ namespace jc::span {
 
         static Ident empty() {
             static const Ident ident{"", NONE_SPAN};
+            return ident;
         }
 
         // Debug //

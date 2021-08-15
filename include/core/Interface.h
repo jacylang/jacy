@@ -95,7 +95,7 @@ namespace jc::core {
         void lower();
 
     private:
-        log::Logger log{"Interface"};
+        log::Logger log{"interface"};
 
         sess::sess_ptr sess;
 
