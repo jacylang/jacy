@@ -1,5 +1,5 @@
-#ifndef JACY_CLI_COMMAND_H
-#define JACY_CLI_COMMAND_H
+#ifndef JACY_CLI_CLICOMMAND_H
+#define JACY_CLI_CLICOMMAND_H
 
 #include <string>
 #include <vector>
@@ -20,7 +20,7 @@ namespace jc::cli {
         explicit CLIError(const std::string & msg) : Error(msg) {}
     };
 
-    struct Flag {
+    struct CLIFlag {
         using values_t = std::vector<std::string>;
         using value_count_t = uint8_t;
         using deps_t = std::vector<std::string>;
@@ -36,7 +36,7 @@ namespace jc::cli {
             Str,
         };
 
-        Flag(
+        CLIFlag(
             const std::string & name,
             Type type,
             Option<value_count_t> valuesCount,
@@ -73,27 +73,27 @@ namespace jc::cli {
             throw std::logic_error("Invalid `duplicates` value");
         }
 
-        static Flag fromJon(const jon & j) {
+        static CLIFlag fromJon(const jon & j) {
             using namespace utils::num;
 
-            const auto type = Flag::typeFromString(j.at<jon::str_t>("type"));
-            Option<Flag::value_count_t> valCount{None};
+            const auto type = CLIFlag::typeFromString(j.at<jon::str_t>("type"));
+            Option<CLIFlag::value_count_t> valCount{None};
 
             if (j.has("value-count")) {
                 const auto cnt = j.at<jon::int_t>("value-count");
                 if (cnt > 0) {
-                    valCount = safeAs<Flag::value_count_t, jon::int_t>(cnt);
+                    valCount = safeAs<CLIFlag::value_count_t, jon::int_t>(cnt);
                 }
             }
 
-            Flag::values_t values;
+            CLIFlag::values_t values;
             if (j.has("values")) {
                 for (const auto & val : j.at<jon::arr_t>("values")) {
                     values.emplace_back(val.get<jon::str_t>());
                 }
             }
 
-            Flag::deps_t deps;
+            CLIFlag::deps_t deps;
             if (j.has("deps")) {
                 for (const auto & dep : j.at<jon::arr_t>("deps")) {
                     deps.emplace_back(dep.get<jon::str_t>());
@@ -106,7 +106,7 @@ namespace jc::cli {
                 dupl = duplFromString(j.strAt("duplicates"));
             }
 
-            return Flag {j.strAt("name"), type, valCount, values, deps, dupl};
+            return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl};
         }
 
         const std::string name;
@@ -117,25 +117,25 @@ namespace jc::cli {
         const Duplication duplication;
     };
 
-    class Command {
+    class CLICommand {
     public:
-        using flags_t = std::vector<Flag>;
+        using flags_t = std::vector<CLIFlag>;
 
     public:
-        Command(const std::string & name, const flags_t & flags)
+        CLICommand(const std::string & name, const flags_t & flags)
             : name{name}, flags{flags} {}
 
     public:
-        static Command fromJon(const jon & j) {
-            Command::flags_t flags;
+        static CLICommand fromJon(const jon & j) {
+            CLICommand::flags_t flags;
 
             if (j.has("flags")) {
                 for (const auto & flag : j.at<jon::arr_t>("flags")) {
-                    flags.emplace_back(flag.as<Flag>());
+                    flags.emplace_back(flag.as<CLIFlag>());
                 }
             }
 
-            return Command {j.strAt("name"), flags};
+            return CLICommand {j.strAt("name"), flags};
         }
 
         auto getName() const {
@@ -146,7 +146,7 @@ namespace jc::cli {
             return flags;
         }
 
-        Option<Flag> findFlag(const std::string & name) const {
+        Option<CLIFlag> findFlag(const std::string & name) const {
             for (const auto & flag : flags) {
                 if (flag.name == name) {
                     return flag;
@@ -206,4 +206,4 @@ namespace jc::cli {
     };
 }
 
-#endif // JACY_CLI_COMMAND_H
+#endif // JACY_CLI_CLICOMMAND_H

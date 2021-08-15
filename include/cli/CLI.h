@@ -10,7 +10,7 @@
 #include <vector>
 #include <set>
 
-#include "cli/Command.h"
+#include "cli/CLICommand.h"
 
 /**
  * Note[Important]: We call cli options "flags" to avoid name conflicts with `Option` type,
@@ -31,11 +31,11 @@ namespace jc::cli {
 
         std::vector<std::string> prepareArgs(int argc, const char ** argv);
         Option<bool> parseBool(const std::string & val);
-        const Command & getCommand(const std::string & name) const;
+        const CLICommand & getCommand(const std::string & name) const;
 
     private:
         jon config;
-        std::map<std::string, Command> commands;
+        std::map<std::string, CLICommand> commands;
 
         void loadConfig();
 

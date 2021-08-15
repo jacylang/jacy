@@ -36,7 +36,7 @@ namespace jc::cli {
         return None;
     }
 
-    const Command & CLI::getCommand(const std::string & name) const {
+    const CLICommand & CLI::getCommand(const std::string & name) const {
         const auto & found = commands.find(name);
         if (found == commands.end()) {
             error("Command '", name, "' does not exists");
@@ -51,7 +51,7 @@ namespace jc::cli {
         const auto & args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
-        Option<Command> command{None};
+        Option<CLICommand> command{None};
         PassedCommand::flags_t passedFlags;
 
         const auto & extensions = config.at<jon::arr_t>("extensions");
@@ -123,7 +123,7 @@ namespace jc::cli {
 
                 auto eqSign = skipOpt("=");
 
-                if (flag.type == Flag::Type::Bool) {
+                if (flag.type == CLIFlag::Type::Bool) {
                     // Parse boolean option value
                     auto val = parseBool(peek());
 
@@ -136,10 +136,10 @@ namespace jc::cli {
                     auto addResult = passedFlags.emplace(name, val.unwrap());
 
                     if (not addResult.second) {
-                        if (flag.duplication == Flag::Duplication::Denied) {
+                        if (flag.duplication == CLIFlag::Duplication::Denied) {
                             error("Duplicate option '", flag.name, "'");
                         }
-                        if (flag.duplication == Flag::Duplication::Merge) {
+                        if (flag.duplication == CLIFlag::Duplication::Merge) {
                             // Update value of boolean option
                             addResult.first->second.value = val.unwrap();
                         }
@@ -183,10 +183,10 @@ namespace jc::cli {
                     auto addResult = passedFlags.emplace(name, std::move(values));
 
                     if (not addResult.second) {
-                        if (flag.duplication == Flag::Duplication::Denied) {
+                        if (flag.duplication == CLIFlag::Duplication::Denied) {
                             error("Duplicate option '", flag.name, "'");
                         }
-                        if (flag.duplication == Flag::Duplication::Merge) {
+                        if (flag.duplication == CLIFlag::Duplication::Merge) {
                             addResult.first->second.getArgs().insert(values.begin(), values.end());
                         }
                     }
@@ -234,7 +234,7 @@ namespace jc::cli {
         config = jon::fromFile("./config.jon");
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
-            commands.emplace(j.at<jon::str_t>("name"), j.as<Command>());
+            commands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());
         }
 
         for (const auto & j : config.at("bool-values").arrAt("true")) {

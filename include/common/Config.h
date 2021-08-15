@@ -3,12 +3,13 @@
 
 #include <set>
 
-#include "cli/Command.h"
+#include "cli/CLICommand.h"
 
 namespace jc::common {
     template<class T>
     using key_value_arg_map = const std::map<const std::string, const T>;
 
+    // Compilation config
     class Config {
     public:
         Config();
