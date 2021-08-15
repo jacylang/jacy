@@ -5,14 +5,14 @@ namespace jc::cli {
         loadConfig();
     }
 
-    str_vec CLI::prepareArgs(int argc, const char ** argv) {
+    std::vector<std::string> CLI::prepareArgs(int argc, const char ** argv) {
         using namespace utils::str;
 
         str_vec args;
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; i++) {
             const std::string arg(argv[i]);
-            for (const auto & part : splitKeep(arg, Args::delimiters)) {
+            for (const auto & part : splitKeep(arg, config.strAt("arg-delimiters"))) {
                 if (part.size() > 2 and part.at(0) == '-' and part.at(1) != '-') {
                     // If arg starts with `-` then it is a one-letter alias, so we can split it.
                     // For example, for `-O0` it will produce `-0`, `0`
