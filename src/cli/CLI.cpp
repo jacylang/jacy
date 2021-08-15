@@ -225,7 +225,7 @@ namespace jc::cli {
             }
         }
 
-        auto passedCommand = PassedCommand {command.unwrap().getName(), passedFlags, entryFile};
+        auto passedCommand = PassedCommand {passedFlags, entryFile};
 
 
     }

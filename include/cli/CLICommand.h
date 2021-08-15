@@ -197,10 +197,9 @@ namespace jc::cli {
     struct PassedCommand {
         using flags_t = std::map<std::string, PassedFlag>;
 
-        PassedCommand(const std::string & name, const flags_t & flags, const Option<std::string> & entryFile)
-            : name{name}, flags{flags}, entryFile{entryFile} {}
+        PassedCommand(const flags_t & flags, const Option<std::string> & entryFile)
+            : flags{flags}, entryFile{entryFile} {}
 
-        std::string name;
         flags_t flags;
         Option<std::string> entryFile;
     };

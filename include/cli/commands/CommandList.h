@@ -10,6 +10,10 @@ namespace jc::cli {
             list.emplace("compile", std::make_unique<Compile>());
         }
 
+        const auto & getList() const {
+            return list;
+        }
+
     private:
         std::map<std::string, command_ptr> list;
     };
