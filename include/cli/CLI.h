@@ -26,9 +26,6 @@ namespace jc::cli {
         PassedCommand applyArgs(int argc, const char ** argv);
 
     private:
-        // Note: This logger cannot be configure via cli
-        log::Logger log{"cli"};
-
         std::vector<std::string> prepareArgs(int argc, const char ** argv);
         Option<bool> parseBool(const std::string & val);
         const CLICommand & getCommand(const std::string & name) const;
