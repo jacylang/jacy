@@ -59,12 +59,12 @@ namespace jc::common {
         rootFile = args.getEntryFile().unwrap();
 
         // Apply bool args //
-        dev = cliConfig.is("dev");
+        dev = args.checkBoolFlag("dev");
 
         // Apply key-value args //
 
         // `print`
-        cliConfig.getValues("print").then([&](const auto & values) {
+        args.getFlagValues("print").then([&](const auto & values) {
             for (const auto & val : values) {
                 print.insert(printKinds.at(val));
             }

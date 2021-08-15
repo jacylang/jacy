@@ -230,6 +230,22 @@ namespace jc::cli {
             return found->second.getArgs();
         }
 
+        Option<std::string> getFlagSingleValue(const std::string & name) const {
+            const auto & found = flags.find(name);
+            if (found == flags.end()) {
+                return None;
+            }
+            if (found->second.kind() != PassedFlag::Kind::Str) {
+                throw std::logic_error("'" + name + "' is not a string flag");
+            }
+
+            if (found->second.getArgs().size() != 1) {
+                throw std::logic_error("Option '" + name + "' must have a single value or none");
+            }
+
+            return *found->second.getArgs().begin();
+        }
+
     private:
         flags_t flags;
         Option<std::string> entryFile;
