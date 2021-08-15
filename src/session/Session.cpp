@@ -103,7 +103,7 @@ namespace jc::sess {
 
         std::function<void(const Step::ptr&, uint8_t)> printStep;
 
-        printStep = [&table, &printStep, this](const Step::ptr & step, uint8_t depth) -> void {
+        printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
             for (const auto & child : step->getChildren()) {
                 printStep(child, depth + 1);
             }
@@ -136,7 +136,7 @@ namespace jc::sess {
 
             table.addRow(preparedName, step->unitStr(), time, speed);
 
-            if (depth == 0 or depth == 1) {
+            if (depth == 1) {
                 table.addLine(true);
             }
         };
