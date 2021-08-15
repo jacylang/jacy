@@ -406,12 +406,6 @@ namespace jc::log {
         Anim(const interval_t interval, const frames_t & frames)
             : interval(interval), frames(frames) {}
 
-        Anim & operator=(const Anim & other) {
-            interval = other.interval;
-            frames = other.frames;
-            return *this;
-        }
-
         interval_t getInterval() const noexcept {
             return interval;
         }
