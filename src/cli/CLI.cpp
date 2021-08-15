@@ -212,8 +212,6 @@ namespace jc::cli {
             advance();
         }
 
-        auto passedCom = PassedCommand {command.unwrap().getName(), passedFlags};
-
         // Post-check flags
         for (const auto & flag : command.unwrap().getFlags()) {
             // Check if flag is passed
@@ -227,7 +225,7 @@ namespace jc::cli {
             }
         }
 
-        return passedCom;
+        return PassedCommand {command.unwrap().getName(), passedFlags};
     }
 
     void CLI::loadConfig() {
