@@ -26,7 +26,7 @@ namespace jc::cli {
         CLI();
         ~CLI() = default;
 
-        PassedCommand applyArgs(int argc, const char ** argv);
+        void applyArgs(int argc, const char ** argv);
 
     private:
         std::vector<std::string> prepareArgs(int argc, const char ** argv);
@@ -39,6 +39,9 @@ namespace jc::cli {
         std::map<std::string, CLICommand> configCommands;
 
         void loadConfig();
+
+    private:
+        CommandList commandList;
 
         // Storage //
     private:

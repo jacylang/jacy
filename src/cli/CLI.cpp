@@ -44,7 +44,7 @@ namespace jc::cli {
         return found->second;
     }
 
-    PassedCommand CLI::applyArgs(int argc, const char ** argv) {
+    void CLI::applyArgs(int argc, const char ** argv) {
         using namespace utils::str;
         using namespace utils::arr;
 
@@ -225,7 +225,9 @@ namespace jc::cli {
             }
         }
 
-        return PassedCommand {command.unwrap().getName(), passedFlags, entryFile};
+        auto passedCommand = PassedCommand {command.unwrap().getName(), passedFlags, entryFile};
+
+
     }
 
     void CLI::loadConfig() {
