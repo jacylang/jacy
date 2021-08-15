@@ -11,7 +11,7 @@ namespace jc::cli {
     public:
         Compile() = default;
 
-        int run(PassedCommand && command) override;
+        int run(PassedCommand && args) override;
     };
 }
 

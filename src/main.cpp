@@ -3,7 +3,7 @@
 int main(int argc, const char ** argv) {
     const auto jacy = new jc::core::Jacy();
     try {
-        jacy->meow(argc, argv);
+        return jacy->meow(argc, argv);
     } catch (const std::exception & e) {
         std::cout << "Uncaught error: " << e.what() << std::endl;
 

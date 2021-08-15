@@ -26,7 +26,7 @@ namespace jc::cli {
         CLI();
         ~CLI() = default;
 
-        void applyArgs(int argc, const char ** argv);
+        int applyArgs(int argc, const char ** argv);
 
     private:
         std::vector<std::string> prepareArgs(int argc, const char ** argv);
