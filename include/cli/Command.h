@@ -6,7 +6,6 @@
 #include <cstdint>
 
 #include "common/Error.h"
-#include "log/Logger.h"
 #include "utils/str.h"
 #include "utils/map.h"
 #include "utils/arr.h"
@@ -71,7 +70,7 @@ namespace jc::cli {
                 return Duplication::Merge;
             }
 
-            log::Logger::devPanic("Invalid `duplicates` value");
+            throw std::logic_error("Invalid `duplicates` value");
         }
 
         static Flag fromJon(const jon & j) {
