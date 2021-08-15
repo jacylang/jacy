@@ -1,9 +1,9 @@
 #include "core/Jacy.h"
 
 int main(int argc, const char ** argv) {
-    const auto jacy = new jc::core::Jacy();
+    jc::core::Jacy jacy;
     try {
-        return jacy->meow(argc, argv);
+        return jacy.meow(argc, argv);
     } catch (const std::exception & e) {
         std::cout << "Uncaught error: " << e.what() << std::endl;
 
