@@ -4,7 +4,8 @@
 namespace jc::cli {
     class BaseCommand {
     public:
-        BaseCommand() {}
+        BaseCommand() = default;
+        virtual ~BaseCommand() = default;
 
         virtual int run() = 0;
     };
