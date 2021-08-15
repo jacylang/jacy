@@ -225,7 +225,7 @@ namespace jc::cli {
             }
         }
 
-        return PassedCommand {command.unwrap().getName(), passedFlags};
+        return PassedCommand {command.unwrap().getName(), passedFlags, entryFile};
     }
 
     void CLI::loadConfig() {
