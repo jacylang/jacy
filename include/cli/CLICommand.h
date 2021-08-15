@@ -219,6 +219,17 @@ namespace jc::cli {
             return found->second.getBool();
         }
 
+        Option<PassedFlag::values_t> getFlagValues(const std::string & name) const {
+            const auto & found = flags.find(name);
+            if (found == flags.end()) {
+                return None;
+            }
+            if (found->second.kind() != PassedFlag::Kind::Str) {
+                throw std::logic_error("'" + name + "' is not a string flag");
+            }
+            return found->second.getArgs();
+        }
+
     private:
         flags_t flags;
         Option<std::string> entryFile;

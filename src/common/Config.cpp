@@ -56,7 +56,7 @@ namespace jc::common {
     };
 
     void Config::applyCLIArgs(const cli::PassedCommand & args) {
-        rootFile = args.entryFile.unwrap();
+        rootFile = args.getEntryFile().unwrap();
 
         // Apply bool args //
         dev = cliConfig.is("dev");
