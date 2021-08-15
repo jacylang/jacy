@@ -3,12 +3,15 @@
 
 #include "cli/commands/BaseCommand.h"
 
+#include "common/Config.h"
+#include "core/Interface.h"
+
 namespace jc::cli {
     class Compile : public BaseCommand {
     public:
         Compile() = default;
 
-        int run() override;
+        int run(PassedCommand && command) override;
     };
 }
 
