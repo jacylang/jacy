@@ -1,4 +1,8 @@
 #ifndef JACY_CLI_COMMANDS_COMPILE_H
 #define JACY_CLI_COMMANDS_COMPILE_H
 
+namespace jc::cli {
+
+}
+
 #endif // JACY_CLI_COMMANDS_COMPILE_H
