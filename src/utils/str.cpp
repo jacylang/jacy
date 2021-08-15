@@ -48,7 +48,7 @@ namespace jc::utils::str {
             invalidCodepoint("len < 1");
         }
 
-        uint8_t u0 = us[0];
+        uint8_t u0 = static_cast<uint8_t>(us[0]);
         if (u0 >= 0 and u0 <= 127) {
             return {1, u0};
         }    
@@ -57,7 +57,7 @@ namespace jc::utils::str {
             invalidCodepoint("len < 2");
         }
 
-        uint8_t u1 = us[1];
+        uint8_t u1 = static_cast<uint8_t>(us[1]);
         if (u0 >= 192 and u0 <= 223) {
             return {2, (u0 - 192) * 64 + (u1 - 128)};
         }
@@ -66,7 +66,7 @@ namespace jc::utils::str {
             invalidCodepoint("len < 3");
         }
 
-        uint8_t u2 = us[2];
+        uint8_t u2 = static_cast<uint8_t>(us[2]);
 
         if (u0 >= 224 and u0 <= 239) {
             return {3, (u0 - 224) * 4096 + (u1 - 128) * 64 + (u2 - 128)};
@@ -76,7 +76,7 @@ namespace jc::utils::str {
             invalidCodepoint("len < 4");
         }
 
-        uint8_t u3 = us[3];
+        uint8_t u3 = static_cast<uint8_t>(us[3]);
 
         if (u0 >= 240 and u0 <= 247) {
             return {4, (u0 - 240) * 262144 + (u1 - 128) * 4096 + (u2 - 128) * 0x40 + (u3 - 128)};
