@@ -13,6 +13,8 @@
 #include "log/Logger.h"
 #include "cli/CLICommand.h"
 
+#include "cli/commands/CommandList.h"
+
 /**
  * Note[Important]: We call cli options "flags" to avoid name conflicts with `Option` type,
  *  but in error messages and user interface we call them "options"
@@ -33,7 +35,8 @@ namespace jc::cli {
 
     private:
         jon config;
-        std::map<std::string, CLICommand> commands;
+        // Configured commands
+        std::map<std::string, CLICommand> configCommands;
 
         void loadConfig();
 

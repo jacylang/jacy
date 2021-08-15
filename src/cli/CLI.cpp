@@ -37,8 +37,8 @@ namespace jc::cli {
     }
 
     const CLICommand & CLI::getCommand(const std::string & name) const {
-        const auto & found = commands.find(name);
-        if (found == commands.end()) {
+        const auto & found = configCommands.find(name);
+        if (found == configCommands.end()) {
             error("Command '", name, "' does not exists");
         }
         return found->second;
@@ -234,7 +234,7 @@ namespace jc::cli {
         config = jon::fromFile("./config.jon");
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
-            commands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());
+            configCommands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());
         }
 
         for (const auto & j : config.at("bool-values").arrAt("true")) {
