@@ -3,6 +3,8 @@
 
 #include <memory>
 
+#include "cli/CLICommand.h"
+
 namespace jc::cli {
     class BaseCommand;
     using command_ptr = std::unique_ptr<BaseCommand>;
@@ -12,7 +14,7 @@ namespace jc::cli {
         BaseCommand() = default;
         virtual ~BaseCommand() = default;
 
-        virtual int run() = 0;
+        virtual int run(PassedCommand && command) = 0;
     };
 }
 

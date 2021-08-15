@@ -225,9 +225,7 @@ namespace jc::cli {
             }
         }
 
-        auto passedCommand = PassedCommand {passedFlags, entryFile};
-
-
+        commandList.getList().at(command.unwrap().getName())->run({passedFlags, entryFile});
     }
 
     void CLI::loadConfig() {
