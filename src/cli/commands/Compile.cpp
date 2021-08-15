@@ -7,5 +7,7 @@ namespace jc::cli {
         // Initialize interface here to allow do something in constructors after Config inited
         core::Interface interface;
         interface.compile();
+
+        return 1;
     }
 }
