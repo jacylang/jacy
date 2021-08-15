@@ -10,6 +10,7 @@
 #include <vector>
 #include <set>
 
+#include "log/Logger.h"
 #include "cli/CLICommand.h"
 
 /**
