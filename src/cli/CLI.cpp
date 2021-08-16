@@ -54,7 +54,7 @@ namespace jc::cli {
         Option<CLICommand> command{None};
         PassedCommand::flags_t passedFlags;
 
-        const auto & extensions = getConfig().at<jon::arr_t>("extensions");
+        const auto & extensions = getConfig().arrAt("extensions");
 
         // Simple parser-like interface
         size_t index = 0;
@@ -233,8 +233,8 @@ namespace jc::cli {
 
         const auto & config = getConfig();
 
-        for (const auto & j : config.at<jon::arr_t>("commands")) {
-            configCommands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());
+        for (const auto & j : config.arrAt("commands")) {
+            configCommands.emplace(j.strAt("name"), j.as<CLICommand>());
         }
 
         for (const auto & j : config.at("bool-values").arrAt("true")) {
