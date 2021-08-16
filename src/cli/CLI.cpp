@@ -12,7 +12,7 @@ namespace jc::cli {
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; i++) {
             const std::string arg(argv[i]);
-            for (const auto & part : splitKeep(arg, config.strAt("arg-delimiters"))) {
+            for (const auto & part : splitKeep(arg, getConfig().strAt("arg-delimiters"))) {
                 if (part.size() > 2 and part.at(0) == '-' and part.at(1) != '-') {
                     // If arg starts with `-` then it is a one-letter alias, so we can split it.
                     // For example, for `-O0` it will produce `-0`, `0`
@@ -54,7 +54,7 @@ namespace jc::cli {
         Option<CLICommand> command{None};
         PassedCommand::flags_t passedFlags;
 
-        const auto & extensions = config.at<jon::arr_t>("extensions");
+        const auto & extensions = getConfig().at<jon::arr_t>("extensions");
 
         // Simple parser-like interface
         size_t index = 0;
@@ -103,7 +103,7 @@ namespace jc::cli {
                 // Check if we encountered first passed flag and set command to default if not specified
                 if (command.none()) {
                     commandDefaulted = true;
-                    command = getCommand(config.strAt("default-command"));
+                    command = getCommand(getConfig().strAt("default-command"));
                 }
 
                 bool isAlias = not startsWith(peek(), "--");
@@ -230,6 +230,8 @@ namespace jc::cli {
 
     void CLI::loadConfig() {
         // TODO: Add config validation, unique flags, etc.
+
+        const auto & config = getConfig();
 
         for (const auto & j : config.at<jon::arr_t>("commands")) {
             configCommands.emplace(j.at<jon::str_t>("name"), j.as<CLICommand>());

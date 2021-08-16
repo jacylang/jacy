@@ -5,6 +5,7 @@ namespace jc::core {
 
     int Jacy::meow(int argc, const char ** argv) {
         cli::CLI cli;
+
         return cli.applyArgs(argc, argv);
     }
 }

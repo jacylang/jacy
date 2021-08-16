@@ -24,7 +24,6 @@ namespace jc::utils::str {
                 throw std::runtime_error("utf8Size got too short string");
             }
 
-
             for (long i = 1; i < actLen; i++) {
                 if ((begin[i] & 0xC0) != 0x80) {
                     throw std::runtime_error("utf8_length: expected continuation byte");
