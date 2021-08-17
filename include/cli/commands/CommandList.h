@@ -9,7 +9,7 @@ namespace jc::cli {
     public:
         CommandList() {
             list.emplace("compile", std::make_unique<Compile>());
-            list.emplace("help", std::make_unique<Compile>());
+            list.emplace("help", std::make_unique<Help>());
         }
 
         const auto & getList() const {
