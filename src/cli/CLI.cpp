@@ -193,7 +193,7 @@ namespace jc::cli {
                 }
             }
 
-            // TODO[Important]: Check if file is a word-like
+            // TODO[Important]: Check if file is word-like
 
             // If it is not a source file or flag, then it might me a command
             if (command.some()) {
