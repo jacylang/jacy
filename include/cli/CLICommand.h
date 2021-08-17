@@ -109,7 +109,13 @@ namespace jc::cli {
                 dupl = duplFromString(j.strAt("duplicates"));
             }
 
-            return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl, j.strAt("magic-method")};
+            Option<std::string> magicMethod = None;
+
+            if (j.has("magic-method")) {
+                magicMethod = j.strAt("magic-method");
+            }
+
+            return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl, magicMethod};
         }
 
         std::string name;

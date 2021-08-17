@@ -6,7 +6,9 @@
 namespace jc::cli {
     class Help : public BaseCommand {
     public:
-
+        int run(PassedCommand && args) override {
+            std::cout << "HELP";
+        }
     };
 }
 
