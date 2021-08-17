@@ -94,7 +94,7 @@ namespace jc::cli {
                     error("Entry file cannot be specified twice");
                 }
                 entryFile = arg;
-                advance();
+                advance(); // Skip file
                 continue;
             }
 
@@ -119,7 +119,7 @@ namespace jc::cli {
 
                 auto flag = uncheckedFlag.unwrap();
 
-                advance();
+                advance(); // Skip option
 
                 auto eqSign = skipOpt("=");
 
@@ -167,6 +167,7 @@ namespace jc::cli {
                         }
 
                         values.emplace(peek());
+                        advance();
                     }
 
                     if (values.empty() and eqSign) {
