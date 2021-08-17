@@ -132,6 +132,10 @@ namespace jc::cli {
 
                 auto flag = uncheckedFlag.unwrap();
 
+                if (flag.magicMethod.some()) {
+                    magicFlag = flag.name;
+                }
+
                 advance(); // Skip option
 
                 auto eqSign = skipOpt("=");
