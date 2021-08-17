@@ -255,8 +255,13 @@ namespace jc::cli {
 
         std::string commandName = command.unwrap().getName();
 
+        if (magicFlag.some()) {
+            commandName = magicFlag.unwrap();
+        }
+
+        // Note: We pass here `command` name, but not `commandName` because `commandName` is important for magic flags
         return commandList.getList().at(commandName)->run({
-            commandName,
+            command.unwrap().getName(),
             passedFlags,
             entryFile
         });
