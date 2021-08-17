@@ -37,7 +37,7 @@ namespace jc::cli {
     }
 
     const CLICommand & CLI::getCommand(const std::string & name) const {
-        const auto & found = configCommands.find(name);
+        auto found = configCommands.find(name);
         if (found == configCommands.end()) {
             error("Command '", name, "' does not exists");
         }
@@ -208,6 +208,7 @@ namespace jc::cli {
                 }
                 error("Command already specified as '", command.unwrap().getName(), "'");
             }
+            std::cout << "command name: " << getConfig().strAt("default-command") << std::endl;
             command = getCommand(arg);
             advance();
         }
