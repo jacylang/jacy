@@ -63,6 +63,7 @@ commands: [
             {
                 name: 'compile-depth'
                 type: 'string'
+                description: ''
                 values: [
                     'parser'
                     'name-resolution'

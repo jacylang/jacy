@@ -44,6 +44,15 @@ namespace jc::cli {
         return found->second;
     }
 
+    Option<CLIFlag> CLI::findCommonFlag(const std::string & name) const {
+        for (const auto & flag : getConfig().arrAt("common-flags")) {
+            if (flag.strAt("name") == name) {
+                return flag.as<CLIFlag>();
+            }
+        }
+        return None;
+    }
+
     int CLI::applyArgs(int argc, const char ** argv) {
         using namespace utils::str;
         using namespace utils::arr;
@@ -112,7 +121,6 @@ namespace jc::cli {
                 auto name = peek().substr(isAlias ? 1 : 2);
                 auto uncheckedFlag = command.unwrap().findFlag(name);
 
-                // TODO: Allow common-flags
                 if (uncheckedFlag.none()) {
                     error("Invalid option '", peek(), "'");
                 }
