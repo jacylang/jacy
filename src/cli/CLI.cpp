@@ -117,13 +117,13 @@ namespace jc::cli {
                     error("Invalid option '", peek(), "'");
                 }
 
-                const auto & flag = uncheckedFlag.unwrap();
+                auto flag = uncheckedFlag.unwrap();
 
                 advance();
 
                 auto eqSign = skipOpt("=");
 
-                if (flag.type == CLIFlag::Type::Bool) {
+                if (flag.type == CLIFlag::Type::Bool and eqSign) {
                     // Parse boolean option value
                     auto val = parseBool(peek());
 
@@ -191,26 +191,26 @@ namespace jc::cli {
                         }
                     }
                 }
-            }
+            } else {
+                // TODO[Important]: Check if file is word-like
 
-            // TODO[Important]: Check if file is word-like
-
-            // If it is not a source file or flag, then it might me a command
-            if (command.some()) {
-                if (commandDefaulted) {
-                    // Give different error message if command was defaulted, for readability :)
-                    error(
-                        "Command defaulted to '",
-                        command.unwrap().getName(),
-                        "', specify command '",
-                        arg,
-                        "' as first argument");
+                // If it is not a source file or flag, then it might me a command
+                if (command.some()) {
+                    if (commandDefaulted) {
+                        // Give different error message if command was defaulted, for readability :)
+                        error(
+                            "Command defaulted to '",
+                            command.unwrap().getName(),
+                            "', specify command '",
+                            arg,
+                            "' as first argument");
+                    }
+                    error("Command already specified as '", command.unwrap().getName(), "'");
                 }
-                error("Command already specified as '", command.unwrap().getName(), "'");
+                std::cout << "command name: " << getConfig().strAt("default-command") << std::endl;
+                command = getCommand(arg);
+                advance();
             }
-            std::cout << "command name: " << getConfig().strAt("default-command") << std::endl;
-            command = getCommand(arg);
-            advance();
         }
 
         // Post-check flags
