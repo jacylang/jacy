@@ -3,8 +3,8 @@
 using namespace jacylang::literal;
 
 namespace jc::cli {
-    static inline auto getConfig() {
-        const static auto config = R"(
+    static inline auto & getConfig() {
+        static auto config = R"(
 extensions: ['jc']
 
 default-command: 'compile'
