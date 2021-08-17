@@ -110,12 +110,12 @@ namespace jc::cli {
             return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl};
         }
 
-        const std::string name;
-        const Type type;
-        const Option<value_count_t> valuesCount;
-        const values_t values;
-        const deps_t dependsOn;
-        const Duplication duplication;
+        std::string name;
+        Type type;
+        Option<value_count_t> valuesCount;
+        values_t values;
+        deps_t dependsOn;
+        Duplication duplication;
     };
 
     class CLICommand {

@@ -122,7 +122,11 @@ namespace jc::cli {
                 auto uncheckedFlag = command.unwrap().findFlag(name);
 
                 if (uncheckedFlag.none()) {
-                    error("Invalid option '", peek(), "'");
+                    auto commonFlag = findCommonFlag(name);
+                    if (commonFlag.none()) {
+                        error("Invalid option '", peek(), "'");
+                    }
+                    uncheckedFlag = commonFlag;
                 }
 
                 auto flag = uncheckedFlag.unwrap();
