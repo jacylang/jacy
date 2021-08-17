@@ -250,7 +250,14 @@ namespace jc::cli {
             }
         }
 
-        return commandList.getList().at(command.unwrap().getName())->run({passedFlags, entryFile});
+        // Note: Magic methods invert functionality,
+        //  they are called as commands
+
+        return commandList.getList().at(command.unwrap().getName())->run({
+            command.unwrap().getName(),
+            passedFlags,
+            entryFile
+        });
     }
 
     void CLI::loadConfig() {
