@@ -69,8 +69,12 @@ namespace jc::cli {
         // Simple parser-like interface
         size_t index = 0;
 
+        auto eof = [&]() {
+            return index >= args.size();
+        };
+
         auto skipOpt = [&](const std::string & str) -> bool {
-            if (args.at(index) == str) {
+            if (not eof() and args.at(index) == str) {
                 index++;
                 return true;
             }
@@ -83,10 +87,6 @@ namespace jc::cli {
 
         auto peek = [&]() {
             return args.at(index);
-        };
-
-        auto eof = [&]() {
-            return index >= args.size();
         };
 
         while (not eof()) {
