@@ -29,6 +29,7 @@ namespace jc::resolve {
         bool operator<(const DefId & other) const {
             return index < other.index;
         }
+
     private:
         DefIndex index;
     };

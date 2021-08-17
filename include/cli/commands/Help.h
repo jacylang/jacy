@@ -8,6 +8,7 @@ namespace jc::cli {
     public:
         int run(PassedCommand && args) override {
             std::cout << "HELP";
+            return 0;
         }
     };
 }
