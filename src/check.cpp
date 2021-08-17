@@ -1,17 +1,16 @@
-#include "log/utils.h"
-
 #include <iostream>
 
-using namespace jc::log;
+struct S {
+    std::string field;
+};
+
+static inline const S & get() {
+    static S s{"pwierewriewrobweorienwoi"};
+    return s;
+}
 
 int main() {
-    AnimPlayer player {"Check", Anim::getAnim(AnimKind::Classic)};
-
-    player.start();
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(10000));
-
-    player.finish();
+    std::cout << get().field;
 
     return 0;
 }

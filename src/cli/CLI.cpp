@@ -48,13 +48,13 @@ namespace jc::cli {
         using namespace utils::str;
         using namespace utils::arr;
 
-        const auto & args = prepareArgs(argc, argv);
+        auto args = prepareArgs(argc, argv);
 
         bool commandDefaulted = false;
         Option<CLICommand> command{None};
         PassedCommand::flags_t passedFlags;
 
-        const auto & extensions = getConfig().arrAt("extensions");
+        auto extensions = getConfig().arrAt("extensions");
 
         // Simple parser-like interface
         size_t index = 0;
