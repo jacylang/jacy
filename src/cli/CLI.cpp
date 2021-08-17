@@ -157,17 +157,19 @@ namespace jc::cli {
                             break;
                         }
 
-                        if (peek() == ",") {
-                            advance();
-                            continue;
-                        }
-
                         if (not has(flag.values, peek())) {
                             error("Invalid value for '", flag.name, "' - '", peek(), "'");
                         }
 
                         values.emplace(peek());
                         advance();
+
+                        if (not eof() and peek() == ",") {
+                            advance();
+                            continue;
+                        }
+
+                        break;
                     }
 
                     if (values.empty() and eqSign) {
