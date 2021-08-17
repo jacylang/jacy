@@ -59,6 +59,7 @@ namespace jc::cli {
 
         auto args = prepareArgs(argc, argv);
 
+        Option<std::string> magicFlag = None;
         bool commandDefaulted = false;
         Option<CLICommand> command{None};
         PassedCommand::flags_t passedFlags;

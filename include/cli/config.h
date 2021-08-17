@@ -33,6 +33,7 @@ common-flags: [
         name: 'help'
         type: 'bool'
         aliases: ['h']
+        magic-method: 'help'
     }
 ]
 

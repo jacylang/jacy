@@ -43,13 +43,15 @@ namespace jc::cli {
             Option<value_count_t> valuesCount,
             const values_t & values,
             const deps_t & dependsOn,
-            Duplication duplication
+            Duplication duplication,
+            Option<std::string> magicMethod
         ) : name{name},
             type{type},
             valuesCount{valuesCount},
             values{values},
             dependsOn{dependsOn},
-            duplication{duplication} {}
+            duplication{duplication},
+            magicMethod{magicMethod} {}
 
         static Type typeFromString(const std::string & str) {
             if (str == "string") {
@@ -107,7 +109,7 @@ namespace jc::cli {
                 dupl = duplFromString(j.strAt("duplicates"));
             }
 
-            return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl};
+            return CLIFlag {j.strAt("name"), type, valCount, values, deps, dupl, j.strAt("magic-method")};
         }
 
         std::string name;
@@ -116,6 +118,7 @@ namespace jc::cli {
         values_t values;
         deps_t dependsOn;
         Duplication duplication;
+        Option<std::string> magicMethod;
     };
 
     class CLICommand {
