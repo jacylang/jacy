@@ -123,17 +123,21 @@ namespace jc::cli {
 
                 auto eqSign = skipOpt("=");
 
-                if (flag.type == CLIFlag::Type::Bool and eqSign) {
-                    // Parse boolean option value
-                    auto val = parseBool(peek());
+                if (flag.type == CLIFlag::Type::Bool) {
+                    bool val = true;
+                    if (eqSign) {
+                        // Parse boolean option value
+                        auto parsedVal = parseBool(peek());
 
-                    if (val.none()) {
-                        error("Invalid value for boolean option '", flag.name, "' - '", peek(), "'");
+                        if (parsedVal.none()) {
+                            error("Invalid value for boolean option '", flag.name, "' - '", peek(), "'");
+                        }
+
+                        advance(); // Skip bool value
+                        val = parsedVal.unwrap();
                     }
 
-                    advance(); // Skip bool value
-
-                    auto addResult = passedFlags.emplace(name, val.unwrap());
+                    auto addResult = passedFlags.emplace(name, val);
 
                     if (not addResult.second) {
                         if (flag.duplication == CLIFlag::Duplication::Denied) {
@@ -141,7 +145,7 @@ namespace jc::cli {
                         }
                         if (flag.duplication == CLIFlag::Duplication::Merge) {
                             // Update value of boolean option
-                            addResult.first->second.value = val.unwrap();
+                            addResult.first->second.value = val;
                         }
                     }
                 } else {
