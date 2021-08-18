@@ -17,7 +17,7 @@ namespace jc::cli {
 
             log.raw("OPTIONS").nl();
             incIndent();
-            for (const auto & flag : getConfig().arrAt("flags")) {
+            for (const auto & flag : comConfig.arrAt("flags")) {
                 printIndent();
                 log.raw(flag.strAt("name")).nl();
             }

@@ -44,6 +44,7 @@ help: {
 
 commands: {
     compile: {
+        name: 'compile'
         description: 'Compile project (Default command)'
         flags: [
             {
