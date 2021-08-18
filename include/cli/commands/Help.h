@@ -13,14 +13,16 @@ namespace jc::cli {
 
             const auto & comConfig = getConfig().at("commands").at(args.getName());
 
-            log.raw(comConfig.strAt("name"), " - ", comConfig.strAt("description")).nl().nl();
+            log.raw(comConfig.strAt("name"), " - ", comConfig.strAt("description")).nl();
+            log.nl();
 
-            log.raw("Other commands: ", utils::arr::join(utils::map::keys(getConfig().objAt("commands")), ", "));
+            log.raw("Other commands: ", utils::arr::join(utils::map::keys(getConfig().objAt("commands")), ", ")).nl();
 
-            log.nl().raw("USAGE").nl();
+            log.raw("USAGE").nl();
             log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
+            log.nl();
 
-            log.nl().raw("OPTIONS").nl();
+            log.raw("OPTIONS").nl();
             incIndent();
             for (const auto & flag : comConfig.arrAt("flags")) {
                 printIndent();
