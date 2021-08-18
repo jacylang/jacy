@@ -272,8 +272,8 @@ namespace jc::cli {
 
         const auto & config = getConfig();
 
-        for (const auto & j : config.arrAt("commands")) {
-            configCommands.emplace(j.strAt("name"), j.as<CLICommand>());
+        for (const auto & j : config.objAt("commands")) {
+            configCommands.emplace(j.first, j.second.as<CLICommand>());
         }
 
         for (const auto & j : config.at("bool-values").arrAt("true")) {
