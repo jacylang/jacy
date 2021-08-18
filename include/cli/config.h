@@ -42,9 +42,8 @@ help: {
     basic-usage: '$ jc [FILENAME.jc]'
 }
 
-commands: [
-    {
-        name: 'compile'
+commands: {
+    compile: {
         description: 'Compile project (Default command)'
         flags: [
             {
@@ -94,7 +93,7 @@ commands: [
             }
         ]
     }
-]
+}
     )"_jon;
 
         return config;
