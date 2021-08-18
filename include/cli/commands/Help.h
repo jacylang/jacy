@@ -17,6 +17,7 @@ namespace jc::cli {
             log.nl();
 
             log.raw("Other commands: ", utils::arr::join(utils::map::keys(getConfig().objAt("commands")), ", ")).nl();
+            log.nl();
 
             log.raw("USAGE").nl();
             log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
