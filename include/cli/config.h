@@ -40,6 +40,7 @@ common-flags: [
 commands: [
     {
         name: 'compile'
+        description: 'Compile project (Default command)'
         flags: [
             {
                 name: 'print'
