@@ -11,7 +11,7 @@ namespace jc::cli {
             log.raw("USAGE").nl();
             log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
 
-            const auto & comConfig = getConfig().at(args.getName());
+            const auto & comConfig = getConfig().at("commands").at(args.getName());
 
             log.raw(comConfig.strAt("name"), " - ", comConfig.strAt("description")).nl();
 
