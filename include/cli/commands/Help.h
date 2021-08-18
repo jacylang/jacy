@@ -8,18 +8,26 @@ namespace jc::cli {
     class Help : public BaseCommand {
     public:
         int run(PassedCommand && args) override {
-            log.raw("USAGE").nl();
-            log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
+            using namespace utils::arr;
+            using namespace utils::map;
 
             const auto & comConfig = getConfig().at("commands").at(args.getName());
 
             log.raw(comConfig.strAt("name"), " - ", comConfig.strAt("description")).nl();
+
+            log.raw("Other commands: ", utils::arr::join(utils::map::keys(getConfig().objAt("commands")), ", "));
+
+            log.raw("USAGE").nl();
+            log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
 
             log.raw("OPTIONS").nl();
             incIndent();
             for (const auto & flag : comConfig.arrAt("flags")) {
                 printIndent();
                 log.raw(flag.strAt("name")).nl();
+                if (flag.has("description")) {
+                    log.raw(" - ", flag.strAt("description"));
+                }
             }
             decIndent();
 
