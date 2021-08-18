@@ -29,7 +29,7 @@ namespace jc::cli {
     private:
         log::Logger log {"help-command"};
 
-        log::Indent<2> indent;
+        log::Indent<2> indent {0};
 
         void printIndent() {
             log.raw(indent);
