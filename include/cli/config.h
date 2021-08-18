@@ -37,6 +37,11 @@ common-flags: [
     }
 ]
 
+// Additional help info
+help: {
+    basic-usage: '$ jc [FILENAME.jc]'
+}
+
 commands: [
     {
         name: 'compile'

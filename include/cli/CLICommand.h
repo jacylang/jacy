@@ -218,6 +218,10 @@ namespace jc::cli {
             return entryFile;
         }
 
+        const auto & getName() const {
+            return name;
+        }
+
         auto checkBoolFlag(const std::string & name) const {
             const auto & found = flags.find(name);
             if (found == flags.end()) {
