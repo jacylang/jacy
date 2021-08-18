@@ -24,10 +24,11 @@ namespace jc::cli {
             incIndent();
             for (const auto & flag : comConfig.arrAt("flags")) {
                 printIndent();
-                log.raw(flag.strAt("name")).nl();
+                log.raw(flag.strAt("name"));
                 if (flag.has("description")) {
                     log.raw(" - ", flag.strAt("description"));
                 }
+                log.nl();
             }
             decIndent();
 
