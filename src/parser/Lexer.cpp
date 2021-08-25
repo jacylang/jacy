@@ -229,18 +229,30 @@ namespace jc::parser {
             advance();
         }
 
-        std::string str;
-
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
         const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
+        std::string str;
+
         // TODO: String templates
-        while (not eof() and peek() != quote) {
+        bool closed = false;
+        while (not eof()) {
+            if (
+                isMultiline and isSeq(quote, quote, quote)
+                or isNL() and peek() == quote
+            ) {
+                closed = true;
+                break;
+            }
+
             str += forward();
         }
 
-        if (peek() != quote) {
-            unexpectedEof();
+        if (not closed) {
+            if (isMultiline) {
+                error("Expected closing token `" + log.format(quote, quote, quote) + "` in string");
+            }
+            error(log.format("Expected closing token `", quote, "` in string"));
         }
 
         advance();
