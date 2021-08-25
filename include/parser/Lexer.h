@@ -60,6 +60,12 @@ namespace jc::parser {
         bool isIdPart();
         bool isQuote();
 
+        template<class ...Args>
+        bool isSeq(Args && ...chars) {
+            uint8_t offset{0};
+            return (... and (lookup(offset++) == chars));
+        }
+
         // Lexers
         void lexNumber();
         void lexBinLiteral();
