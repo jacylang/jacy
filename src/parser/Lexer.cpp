@@ -221,6 +221,9 @@ namespace jc::parser {
     void Lexer::lexString() {
         bool isMultiline = false;
 
+        // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
+        const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
+
         const auto quote = peek();
         if (isSeq(quote, quote, quote)) {
             advance(3);
@@ -228,9 +231,6 @@ namespace jc::parser {
         } else {
             advance();
         }
-
-        // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
-        const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
         std::string str;
 
@@ -255,7 +255,7 @@ namespace jc::parser {
             error(log.format("Expected closing token `", quote, "` in string"));
         }
 
-        advance();
+        advance(isMultiline ? 3 : 1);
 
         addToken(kind, str);
     }
