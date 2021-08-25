@@ -237,11 +237,37 @@ namespace jc::parser {
         // TODO: String templates
         bool closed = false;
         while (not eof()) {
-
+            if (is('\\')) {
+                advance();
+                switch (peek()) {
+                    case '\\':
+                    case '\'':
+                    case '\"': {
+                        str += peek();
+                        break;
+                    }
+                    case '\n': {
+                        str += '\n';
+                        break;
+                    }
+                    case '\r': {
+                        str += '\r';
+                        break;
+                    }
+                    case '\t': {
+                        str += '\t';
+                        break;
+                    }
+                    case '\v': {
+                        str += '\v';
+                        break;
+                    }
+                }
+            }
 
             if (
                 isMultiline and isSeq(quote, quote, quote)
-                or (not isMultiline and (isNL() or is(quote))
+                or not isMultiline and (isNL() or is(quote))
             ) {
                 closed = true;
                 break;
