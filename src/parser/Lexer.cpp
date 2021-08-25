@@ -237,9 +237,11 @@ namespace jc::parser {
         // TODO: String templates
         bool closed = false;
         while (not eof()) {
+
+
             if (
                 isMultiline and isSeq(quote, quote, quote)
-                or isNL() and peek() == quote
+                or (not isMultiline and (isNL() or is(quote))
             ) {
                 closed = true;
                 break;
