@@ -219,7 +219,16 @@ namespace jc::parser {
     }
 
     void Lexer::lexString() {
-        const auto quote = forward();
+        bool isMultiline = false;
+
+        const auto quote = peek();
+        if (isSeq(quote, quote, quote)) {
+            advance(3);
+            isMultiline = true;
+        } else {
+            advance();
+        }
+
         std::string str;
 
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
