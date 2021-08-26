@@ -49,7 +49,7 @@ namespace jc::resolve {
         log.raw(def.kindStr());
 
         if (def.nameNodeId.some()) {
-            log.raw(" (#", def.nameNodeId.unwrap(), ")");
+            log.raw(" (", def.nameNodeId.unwrap(), ")");
         }
 
         switch (def.kind) {
