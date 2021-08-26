@@ -237,34 +237,48 @@ namespace jc::parser {
             advance();
         }
 
-        std::string str;
+        std::string val;
 
-        // TODO: String templates
+        // TODO: String interpolation
         bool closed = false;
         while (not eof()) {
             if (is('\\')) {
                 advance();
                 switch (peek()) {
-                    case '\\':
                     case '\'':
-                    case '\"': {
-                        str += peek();
+                    case '\\':
+                    case '"': {
+                        val += advance();
                         break;
                     }
-                    case '\n': {
-                        str += '\n';
+                    case 'n': {
+                        val += '\n';
+                        advance();
                         break;
                     }
-                    case '\r': {
-                        str += '\r';
+                    case 'r': {
+                        val += '\r';
+                        advance();
                         break;
                     }
-                    case '\t': {
-                        str += '\t';
+                    case 't': {
+                        val += '\t';
+                        advance();
                         break;
                     }
-                    case '\v': {
-                        str += '\v';
+                    case 'b': {
+                        val += '\b';
+                        advance();
+                        break;
+                    }
+                    case 'f': {
+                        val += '\f';
+                        advance();
+                        break;
+                    }
+                    case 'v': {
+                        val += '\v';
+                        advance();
                         break;
                     }
                 }
@@ -278,7 +292,7 @@ namespace jc::parser {
                 break;
             }
 
-            str += forward();
+            val += forward();
         }
 
         if (not closed) {
@@ -290,7 +304,7 @@ namespace jc::parser {
 
         advance(isMultiline ? 3 : 1);
 
-        addToken(kind, str);
+        addToken(kind, val);
     }
 
     void Lexer::lexOp() {
