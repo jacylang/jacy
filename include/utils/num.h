@@ -9,6 +9,10 @@ namespace jc::utils::num {
         DistinctInt(IntT val) : val(val) {}
 
         IntT val;
+
+        friend std::ostream & operator<<(std::ostream & os, const DistinctInt & distinctInt) {
+            return os << distinctInt.val;
+        }
     };
 
     template<class T, class F, typename = typename std::enable_if<std::is_integral<F>::value>::type>
