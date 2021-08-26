@@ -40,8 +40,6 @@ namespace jc::ast {
         }
     };
 
-    const auto NodeId::DUMMY = NodeId {UINT32_MAX};
-
     template<typename T>
     using N = std::unique_ptr<T>;
 
