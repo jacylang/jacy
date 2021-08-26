@@ -87,14 +87,22 @@ namespace jc::parser {
         return isAnyOf('0', '1');
     }
 
+    bool Lexer::isOctDigit(char c) {
+        return c >= '0' and c <= '7';
+    }
+
     bool Lexer::isOctDigit() {
-        return peek() >= '0' and peek() <= '7';
+        return isOctDigit(peek());
+    }
+
+    bool Lexer::isHexDigit(char c) {
+        return (c >= '0' and c <= '9')
+            or (c >= 'a' and c >= 'z')
+            or (c >= 'A' and c <= 'Z');
     }
 
     bool Lexer::isHexDigit() {
-        return (peek() >= '0' and peek() <= '9')
-            or (peek() >= 'a' and peek() >= 'z')
-            or (peek() >= 'A' and peek() <= 'Z');
+        return isHexDigit(peek());
     }
 
     bool Lexer::isAlpha(char c) {

@@ -52,7 +52,9 @@ namespace jc::parser {
         bool isDigit();
         bool isDigit(char c);
         bool isBinDigit();
+        bool isOctDigit(char c);
         bool isOctDigit();
+        bool isHexDigit(char c);
         bool isHexDigit();
         static bool isAlpha(char c);
         bool isExpSign();
