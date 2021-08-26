@@ -242,7 +242,7 @@ namespace jc::parser {
         // TODO: String templates
         bool closed = false;
         while (not eof()) {
-            if (peek() == '\\') {
+            if (is('\\')) {
                 advance();
                 switch (peek()) {
                     case '\\':
@@ -361,7 +361,7 @@ namespace jc::parser {
                 } else if (lookup() == '*') {
                     while (not eof()) {
                         advance();
-                        if (peek() == '*' and lookup() == '/') {
+                        if (is('*') and lookup() == '/') {
                             break;
                         }
                     }
