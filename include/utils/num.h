@@ -40,6 +40,16 @@ namespace jc::utils::num {
             --*this;
             return tmp;
         }
+
+        DistinctInt & operator+=(IntT delta) {
+            val += delta;
+            return *this;
+        }
+
+        DistinctInt & operator-=(IntT delta) {
+            val -= delta;
+            return *this;
+        }
     };
 
     template<class T, class F, typename = typename std::enable_if<std::is_integral<F>::value>::type>
