@@ -18,6 +18,8 @@ namespace jc::utils::num {
             return os << distinctInt.val;
         }
 
+        DistinctInt & operator=(const DistinctInt & other) = default;
+
         DistinctInt & operator=(IntT val) {
             this->val = val;
             return *this;

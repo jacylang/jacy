@@ -16,7 +16,7 @@ namespace jc::sess {
             // Check if unit exists globally (e.g. node) and not bound to something specific like file, etc.
             switch (unit) {
                 case MeasUnit::Node: {
-                    procUnitCount = nodeStorage.size();
+                    procUnitCount = nodeStorage.size().val;
                     break;
                 }
                 case MeasUnit::Def: {
