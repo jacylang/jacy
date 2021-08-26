@@ -270,4 +270,20 @@ namespace jc::utils::str {
         std::transform(str.begin(), str.end(), res.begin(), ::tolower);
         return res;
     }
+
+    uint8_t hexCharToInt(char c) {
+        if (c >= '0' and c <= '9') {
+            return static_cast<uint8_t>(c - '0');
+        }
+
+        if (c >= 'a' and c <= 'f') {
+            return static_cast<uint8_t>(c - 'a') + 10;
+        }
+
+        if (c >= 'A' and c <= 'F') {
+            return static_cast<uint8_t>(c - 'A') + 10;
+        }
+
+        throw std::logic_error("Called `hexChar2Int` with not a hex digit char");
+    }
 }

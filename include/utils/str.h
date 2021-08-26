@@ -26,6 +26,7 @@ namespace jc::utils::str {
     str_vec split(const std::string & str, const std::string & delimiters);
     str_vec splitKeep(const std::string & str, const std::string & delimiters);
     std::string toLower(const std::string & str);
+    uint8_t hexCharToInt(char c);
 }
 
 #endif // JACY_STR_H
