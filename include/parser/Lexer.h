@@ -34,7 +34,7 @@ namespace jc::parser {
         Location loc;
         std::vector<uint32_t> linesIndices;
 
-        char peek();
+        char peek() const;
         char lookup(uint8_t distance = 1);
         char advance(uint8_t distance = 1);
         char forward();
@@ -44,11 +44,11 @@ namespace jc::parser {
         void addToken(TokenKind kind, span::span_len_t len);
 
         // Checkers
-        bool eof();
-        bool hidden();
-        bool hidden(char c);
+        bool eof() const;
+        bool hidden() const;
+        bool hidden(char c) const;
         bool is(char c) const;
-        bool isNL();
+        bool isNL() const;
         bool isDigit();
         bool isDigit(char c);
         bool isBinDigit();

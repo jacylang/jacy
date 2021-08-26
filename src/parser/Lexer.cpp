@@ -20,7 +20,7 @@ namespace jc::parser {
         addToken(Token(kind, ""), len);
     }
 
-    char Lexer::peek() {
+    char Lexer::peek() const {
         if (eof()) {
             return 0;
         }
@@ -55,15 +55,15 @@ namespace jc::parser {
     }
 
     //
-    bool Lexer::eof() {
+    bool Lexer::eof() const {
         return index >= source.size();
     }
 
-    bool Lexer::hidden() {
+    bool Lexer::hidden() const {
         return hidden(peek()) or isNL();
     }
 
-    bool Lexer::hidden(char c) {
+    bool Lexer::hidden(char c) const {
         return c == '\t' or c == ' ' or c == '\r';
     }
 
@@ -71,8 +71,8 @@ namespace jc::parser {
         return peek() == c;
     }
 
-    bool Lexer::isNL() {
-        return peek() == '\n';
+    bool Lexer::isNL() const {
+        return is('\n');
     }
 
     bool Lexer::isDigit() {
