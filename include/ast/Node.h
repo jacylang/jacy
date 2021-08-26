@@ -26,12 +26,18 @@ namespace jc::ast {
     using node_map = std::map<NodeId, T>;
 
     struct NodeId : utils::num::DistinctInt<uint32_t> {
+        static const NodeId DUMMY;
+
+        auto isDummy() const {
+            return *this == DUMMY;
+        }
+
         friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
             return os << "#" << nodeId.val;
         }
     };
 
-    const NodeId NONE_NODE_ID = NodeId {UINT32_MAX};
+    const auto NodeId::DUMMY = NodeId {UINT32_MAX};
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}

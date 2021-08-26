@@ -913,7 +913,7 @@ namespace jc::ast {
         if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
             return;
         }
-        log.raw(Color::LightGray, "#", id, Color::Reset);
+        log.raw(Color::LightGray, id, Color::Reset);
     }
 
     void AstPrinter::printNodeId(const Node & node) const {
