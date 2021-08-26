@@ -290,7 +290,38 @@ namespace jc::parser {
                         break;
                     }
                     default: {
+                        using namespace utils::str;
 
+                        if (isOctDigit() and isOctDigit(lookup()) and isOctDigit(lookup(2))) {
+                            // Octal representation of ASCII character
+                            val += static_cast<char>(
+                                (advance() - '0') * 64 + (advance() - '0') * 8 + (advance() - '0')
+                            );
+                        } else if (is('x') and isHexDigit(lookup()) and isHexDigit(lookup(2))) {
+                            // Hex representation of ASCII character
+                            advance(); // Skip `x`
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                        } else if (is('u') and isHexDigit(lookup()) and isHexDigit(lookup(2))) {
+                            advance(); // Skip `u`
+                            // Hex representation of unicode point below 10000
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                        } else if (
+                            is('U')
+                            and isHexDigit(lookup())
+                            and isHexDigit(lookup(2))
+                            and isHexDigit(lookup(3))
+                            and isHexDigit(lookup(4))
+                            ) {
+                            advance(); // Skip `U`
+                            // Hex representation of unicode point
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                            val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
+                        } else {
+                            val += peek();
+                        }
                     }
                 }
             }
