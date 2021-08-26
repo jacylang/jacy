@@ -8,6 +8,7 @@
 #include "parser/Token.h"
 #include "data_types/Result.h"
 #include "ast/BaseVisitor.h"
+#include "utils/num.h"
 
 namespace jc::ast {
     template<typename T>
@@ -18,7 +19,7 @@ namespace jc::ast {
     using span::Span;
     using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
-    using NodeId = uint32_t;
+    using NodeId = utils::num::DistinctInt<uint32_t>;
     using opt_node_id = Option<ast::NodeId>;
 
     template<class T>
