@@ -18,6 +18,11 @@ namespace jc::utils::num {
             return os << distinctInt.val;
         }
 
+        DistinctInt & operator=(IntT val) {
+            this->val = val;
+            return *this;
+        }
+
         // Basic math operators //
         DistinctInt & operator++() {
             ++val;
@@ -52,15 +57,15 @@ namespace jc::utils::num {
         }
 
         bool operator<(const DistinctInt & other) const {
-            return val < other;
+            return val < other.val;
         }
 
         bool operator>(const DistinctInt & other) const {
-            return val > other;
+            return val > other.val;
         }
 
         bool operator==(const DistinctInt & other) const {
-            return val == other;
+            return val == other.val;
         }
     };
 
