@@ -26,6 +26,9 @@ namespace jc::ast {
     using node_map = std::map<NodeId, T>;
 
     struct NodeId : utils::num::DistinctInt<uint32_t> {
+        template<class OtherIntT>
+        NodeId(const utils::num::DistinctInt<OtherIntT> & other) : DistinctInt(other) {}
+
         using utils::num::DistinctInt<uint32_t>::DistinctInt;
 
         static const NodeId DUMMY;

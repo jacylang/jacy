@@ -43,7 +43,7 @@ namespace jc::sess {
         }
 
     private:
-        ast::NodeId nextNodeId = 1; // Reserve `0` for something :)
+        ast::NodeId nextNodeId{1}; // Reserve `0` for something :)
         ast::node_map<span::Span> nodeSpanMap;
     };
 

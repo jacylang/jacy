@@ -8,6 +8,27 @@ namespace jc::utils::num {
     struct DistinctInt {
         DistinctInt(IntT val) : val{val} {}
         DistinctInt(const DistinctInt<IntT> & other) : val{other.val} {}
+        DistinctInt(DistinctInt<IntT> && other) : val{std::move(other).val} {}
+
+        template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
+        DistinctInt(DistinctInt<OtherIntT> otherVal) {
+            if (std::numeric_limits<IntT>::max() < otherVal) {
+                throw std::logic_error("DistinctInt overflow with value " + std::to_string(otherVal));
+            }
+
+            val = otherVal;
+            return *this;
+        }
+
+        template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
+        DistinctInt(OtherIntT otherVal) {
+            if (std::numeric_limits<IntT>::max() < otherVal) {
+                throw std::logic_error("DistinctInt overflow with value " + std::to_string(otherVal));
+            }
+
+            val = otherVal;
+            return *this;
+        }
 
         IntT val;
 
@@ -20,6 +41,17 @@ namespace jc::utils::num {
         }
 
         DistinctInt & operator=(const DistinctInt & other) = default;
+        DistinctInt & operator=(DistinctInt && other) = default;
+
+        template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
+        DistinctInt & operator=(const DistinctInt<OtherIntT> & otherVal) {
+            if (std::numeric_limits<IntT>::max() < otherVal) {
+                throw std::logic_error("DistinctInt overflow with value " + std::to_string(otherVal));
+            }
+
+            val = otherVal;
+            return *this;
+        }
 
         template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
         DistinctInt & operator=(OtherIntT otherVal) {
