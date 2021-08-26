@@ -8,7 +8,7 @@
 #include "resolve/ResStorage.h"
 
 namespace jc::resolve {
-    using ast::node_id;
+    using ast::NodeId;
     using ast::opt_node_id;
 
     struct Rib;
@@ -23,7 +23,7 @@ namespace jc::resolve {
             Mod,
         } kind;
 
-        std::map<std::string, node_id> locals;
+        std::map<std::string, NodeId> locals;
         Option<module_ptr> boundModule{None};
 
         /// Define new local.
@@ -32,7 +32,7 @@ namespace jc::resolve {
 
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool find(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage);
+        bool find(Namespace ns, const std::string & name, NodeId refNodeId, ResStorage & resStorage);
 
         void bindMod(module_ptr module);
 

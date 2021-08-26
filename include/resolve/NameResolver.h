@@ -63,7 +63,7 @@ namespace jc::resolve {
         void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
         void enterModule(const std::string & name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
-        void enterBlock(node_id nodeId, Rib::Kind kind = Rib::Kind::Raw);
+        void enterBlock(NodeId nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);
 
@@ -82,7 +82,7 @@ namespace jc::resolve {
         ResStorage _resStorage;
         void resolveSimplePath(const ast::SimplePath & simplePath);
         void resolvePath(Namespace targetNS, const ast::Path & path);
-        bool resolveLocal(Namespace ns, const std::string & name, node_id refNodeId);
+        bool resolveLocal(Namespace ns, const std::string & name, NodeId refNodeId);
 
         // Suggestions //
     private:

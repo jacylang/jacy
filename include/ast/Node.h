@@ -18,24 +18,24 @@ namespace jc::ast {
     using span::Span;
     using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
-    using node_id = uint32_t;
-    using opt_node_id = Option<ast::node_id>;
+    using NodeId = uint32_t;
+    using opt_node_id = Option<ast::NodeId>;
 
     template<class T>
-    using node_map = std::map<node_id, T>;
+    using node_map = std::map<NodeId, T>;
 
-    const node_id NONE_NODE_ID = UINT32_MAX;
+    const NodeId NONE_NODE_ID = UINT32_MAX;
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}
         virtual ~Node() = default;
 
-        node_id id{NONE_NODE_ID};
+        NodeId id{NONE_NODE_ID};
         Span span;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
 
-        void setNodeId(node_id nodeId) {
+        void setNodeId(NodeId nodeId) {
             this->id = nodeId;
         }
 
@@ -93,7 +93,7 @@ namespace jc::ast {
             }
         }
 
-        constexpr node_id nodeId() const noexcept {
+        constexpr NodeId nodeId() const noexcept {
             if (this->err()) {
                 return this->err_unchecked().id;
             } else if constexpr(dt::is_ptr_like<T>::value) {

@@ -29,7 +29,7 @@ namespace jc::sess {
             nodeSpanMap.emplace(node->id, node->span);
         }
 
-        const span::Span & getNodeSpan(ast::node_id nodeId) const {
+        const span::Span & getNodeSpan(ast::NodeId nodeId) const {
             return nodeSpanMap.at(nodeId);
         }
 
@@ -38,12 +38,12 @@ namespace jc::sess {
             nodeSpanMap.emplace(ident.id, ident.span);
         }
 
-        ast::node_id size() const {
+        ast::NodeId size() const {
             return nextNodeId;
         }
 
     private:
-        ast::node_id nextNodeId = 1; // Reserve `0` for something :)
+        ast::NodeId nextNodeId = 1; // Reserve `0` for something :)
         ast::node_map<span::Span> nodeSpanMap;
     };
 
@@ -57,7 +57,7 @@ namespace jc::sess {
         resolve::ResStorage resStorage;
 
         // TODO!: Move to separate wrapper for name resolution stage
-        resolve::Def getResDef(ast::node_id nodeId) const {
+        resolve::Def getResDef(ast::NodeId nodeId) const {
             return defStorage.getDef(resStorage.getDefRes(nodeId));
         }
 

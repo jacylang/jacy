@@ -220,7 +220,7 @@ namespace jc::ast {
         // NodeMap mode //
     private:
         bool printAstNodeMap{false};
-        void printNodeId(node_id id) const;
+        void printNodeId(NodeId id) const;
         void printNodeId(const Node & node) const;
 
         // Names mode //
@@ -236,12 +236,12 @@ namespace jc::ast {
             Color::Yellow,
         };
         const static Color noneNodeColor = Color::LightGray;
-        std::map<node_id, Color> namesColors;
+        std::map<NodeId, Color> namesColors;
         uint8_t lastColor;
         void colorizeDef(const ident_pr & ident);
-        void colorizeName(node_id nodeId);
+        void colorizeName(NodeId nodeId);
         void resetNameColor();
-        Color getNameColor(node_id nodeId);
+        Color getNameColor(NodeId nodeId);
 
     private:
         // DEBUG //

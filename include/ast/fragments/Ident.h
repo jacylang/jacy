@@ -15,7 +15,7 @@ namespace jc::ast {
         Ident(const std::string & name, const Span & span) : span::Ident(name, span) {}
         Ident(const parser::Token & token) : span::Ident(token) {}
 
-        node_id id{NONE_NODE_ID};
+        NodeId id{NONE_NODE_ID};
 
         void accept(BaseVisitor & visitor) const {
             visitor.visit(*this);

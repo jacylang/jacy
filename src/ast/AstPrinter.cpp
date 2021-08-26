@@ -909,7 +909,7 @@ namespace jc::ast {
     }
 
     // NodeMap mode //
-    void AstPrinter::printNodeId(node_id id) const {
+    void AstPrinter::printNodeId(NodeId id) const {
         if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
             return;
         }
@@ -931,7 +931,7 @@ namespace jc::ast {
         resetNameColor();
     }
 
-    void AstPrinter::colorizeName(node_id nodeId) {
+    void AstPrinter::colorizeName(NodeId nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
@@ -964,7 +964,7 @@ namespace jc::ast {
         log.raw(Color::Reset);
     }
 
-    log::Color AstPrinter::getNameColor(node_id nodeId) {
+    log::Color AstPrinter::getNameColor(NodeId nodeId) {
         // Note: Functionality is common for name declaration and name usage,
         //  because AstPrinter does not do forward declarations
         if (nodeId == NONE_NODE_ID) {

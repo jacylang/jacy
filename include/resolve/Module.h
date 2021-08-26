@@ -7,7 +7,7 @@
 
 namespace jc::resolve {
     struct Module;
-    using ast::node_id;
+    using ast::NodeId;
     using mod_ns_map = std::map<std::string, DefId>;
 
     enum class ModuleKind {
@@ -44,7 +44,7 @@ namespace jc::resolve {
         prim_type_set_t shadowedPrimTypes{0};
 
         // `Block` module
-        static inline module_ptr newBlockModule(node_id nodeId, module_ptr parent, opt_def_id nearestModDef) {
+        static inline module_ptr newBlockModule(NodeId nodeId, module_ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 

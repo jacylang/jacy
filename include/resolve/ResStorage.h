@@ -6,7 +6,7 @@
 #include "ast/Node.h"
 
 namespace jc::resolve {
-    using ast::node_id;
+    using ast::NodeId;
     using ast::opt_node_id;
     using prim_type_set_t = uint16_t;
 
@@ -140,12 +140,12 @@ namespace jc::resolve {
     struct Res {
         Res() : kind(ResKind::Error) {}
         Res(const DefId & def) : kind(ResKind::Def), def(def) {}
-        Res(node_id nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
+        Res(NodeId nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
         Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
 
         ResKind kind;
         Option<DefId> def{None};
-        Option<node_id> nodeId{None};
+        Option<NodeId> nodeId{None};
         Option<PrimType> primType{None};
 
         bool isErr() const {
@@ -156,7 +156,7 @@ namespace jc::resolve {
             return def.unwrap();
         }
 
-        node_id asLocal() const {
+        NodeId asLocal() const {
             return nodeId.unwrap();
         }
 
@@ -171,7 +171,7 @@ namespace jc::resolve {
     public:
         ResStorage() = default;
 
-        Res getRes(node_id name) const {
+        Res getRes(NodeId name) const {
             if (resolutions.find(name) == resolutions.end()) {
                 log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name node id #", name);
             }
@@ -180,22 +180,22 @@ namespace jc::resolve {
             return resolutions.at(name);
         }
 
-        void setRes(node_id name, Res res) {
+        void setRes(NodeId name, Res res) {
             resolutions.emplace(name, res);
         }
 
-        const std::map<node_id, Res> & getResolutions() const {
+        const std::map<NodeId, Res> & getResolutions() const {
             return resolutions;
         }
 
-        DefId getDefRes(node_id nodeId) const {
+        DefId getDefRes(NodeId nodeId) const {
             // TODO!: Error resolutions recovery
             return resolutions.at(nodeId).asDef();
         }
 
     private:
         /// Map of Ident node id -> resolution
-        std::map<node_id, Res> resolutions;
+        std::map<NodeId, Res> resolutions;
     };
 }
 

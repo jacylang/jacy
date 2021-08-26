@@ -156,7 +156,7 @@ namespace jc::resolve {
     // Modules //
 
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
-    void ModuleTreeBuilder::enterBlock(node_id nodeId) {
+    void ModuleTreeBuilder::enterBlock(NodeId nodeId) {
         log.dev("Enter [BLOCK] module #", nodeId);
         enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 

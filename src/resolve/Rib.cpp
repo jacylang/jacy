@@ -11,7 +11,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    bool Rib::find(Namespace ns, const std::string & name, node_id refNodeId, ResStorage & resStorage) {
+    bool Rib::find(Namespace ns, const std::string & name, NodeId refNodeId, ResStorage & resStorage) {
         // Try to find local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);

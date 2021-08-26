@@ -50,7 +50,7 @@ namespace jc::resolve {
         def_depth _modDepth{0};
         module_ptr mod;
         opt_def_id nearestModDef{None};
-        void enterBlock(node_id nodeId);
+        void enterBlock(NodeId nodeId);
         void enterModule(DefVis vis, const ast::ident_pr & ident, DefKind defKind);
         void enterChildModule(module_ptr child);
         void exitMod();

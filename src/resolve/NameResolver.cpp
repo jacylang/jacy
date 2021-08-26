@@ -196,7 +196,7 @@ namespace jc::resolve {
         curRib()->bindMod(currentModule);
     }
 
-    void NameResolver::enterBlock(node_id nodeId, Rib::Kind kind) {
+    void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
         currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
@@ -355,7 +355,7 @@ namespace jc::resolve {
         }
     }
 
-    bool NameResolver::resolveLocal(Namespace ns, const std::string & name, node_id refNodeId) {
+    bool NameResolver::resolveLocal(Namespace ns, const std::string & name, NodeId refNodeId) {
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {

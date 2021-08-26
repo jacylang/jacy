@@ -43,7 +43,7 @@ namespace jc::resolve {
             return added.first->second;
         }
 
-        module_ptr addBlock(ast::node_id nodeId, module_ptr module) {
+        module_ptr addBlock(ast::NodeId nodeId, module_ptr module) {
             const auto & added = blocks.emplace(nodeId, module);
             if (not added.second) {
                 log::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
@@ -59,23 +59,23 @@ namespace jc::resolve {
             }
         }
 
-        const module_ptr & getBlock(ast::node_id nodeId) const {
+        const module_ptr & getBlock(ast::NodeId nodeId) const {
             return blocks.at(nodeId);
         }
 
-        void setUseDeclModule(ast::node_id nodeId, module_ptr module) {
+        void setUseDeclModule(ast::NodeId nodeId, module_ptr module) {
             useDeclModules.emplace(nodeId, module);
         }
 
-        const module_ptr & getUseDeclModule(ast::node_id nodeId) const {
+        const module_ptr & getUseDeclModule(ast::NodeId nodeId) const {
             return useDeclModules.at(nodeId);
         }
 
     private:
         std::vector<Def> defs;
         std::map<DefIndex, module_ptr> modules;
-        std::map<ast::node_id, module_ptr> blocks;
-        std::map<ast::node_id, module_ptr> useDeclModules;
+        std::map<ast::NodeId, module_ptr> blocks;
+        std::map<ast::NodeId, module_ptr> useDeclModules;
     };
 }
 
