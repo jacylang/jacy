@@ -67,6 +67,11 @@ namespace jc::parser {
             return (... and (lookup(offset++) == chars));
         }
 
+        template<class ...Args>
+        bool isCharAnyOf(char c, Args && ...chars) {
+            return (... or (c == chars));
+        }
+
         // Lexers
         void lexNumber();
         void lexBinLiteral();
