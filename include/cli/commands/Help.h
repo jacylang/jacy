@@ -16,7 +16,10 @@ namespace jc::cli {
             log.raw(comConfig.strAt("name"), " - ", comConfig.strAt("description")).nl();
             log.nl();
 
-            log.raw("Other commands: ", utils::arr::join(utils::map::keys(getConfig().objAt("commands")), ", ")).nl();
+            // Exclude current command from command list and display it
+            auto otherCommands = getConfig().objAt("commands");
+            otherCommands.erase(otherCommands.find(args.getName()));
+            log.raw("Other commands: ", join(keys(otherCommands), ", ")).nl();
             log.nl();
 
             log.raw("USAGE").nl();
