@@ -17,6 +17,18 @@ namespace jc::utils::num {
         friend std::ostream & operator<<(std::ostream & os, const DistinctInt & distinctInt) {
             return os << distinctInt.val;
         }
+
+        // Basic math operators //
+        DistinctInt & operator++() {
+            ++val;
+            return *this;
+        }
+
+        DistinctInt operator++(int) {
+            auto tmp = *this;
+            ++*this;
+            return tmp;
+        }
     };
 
     template<class T, class F, typename = typename std::enable_if<std::is_integral<F>::value>::type>
