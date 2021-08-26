@@ -50,6 +50,18 @@ namespace jc::utils::num {
             val -= delta;
             return *this;
         }
+
+        bool operator<(const DistinctInt & other) const {
+            return val < other;
+        }
+
+        bool operator>(const DistinctInt & other) const {
+            return val > other;
+        }
+
+        bool operator==(const DistinctInt & other) const {
+            return val == other;
+        }
     };
 
     template<class T, class F, typename = typename std::enable_if<std::is_integral<F>::value>::type>
