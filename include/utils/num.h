@@ -6,7 +6,8 @@
 namespace jc::utils::num {
     template<class IntT, typename = typename std::enable_if<std::is_integral<IntT>::value>::type>
     struct DistinctInt {
-        DistinctInt(IntT val) : val(val) {}
+        DistinctInt(IntT val) : val{val} {}
+        DistinctInt(const DistinctInt<IntT> & other) : val{other.val} {}
 
         IntT val;
 
@@ -20,17 +21,13 @@ namespace jc::utils::num {
 
         DistinctInt & operator=(const DistinctInt & other) = default;
 
-        DistinctInt & operator=(IntT val) {
-            this->val = val;
-            return *this;
-        }
-
-        DistinctInt & operator=(std::size_t size) {
-            if (std::numeric_limits<IntT>::max() < size) {
-                throw std::logic_error("DistinctInt overflow with value of `size_t` " + std::to_string(size));
+        template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
+        DistinctInt & operator=(OtherIntT otherVal) {
+            if (std::numeric_limits<IntT>::max() < otherVal) {
+                throw std::logic_error("DistinctInt overflow with value " + std::to_string(otherVal));
             }
 
-            val = size;
+            val = otherVal;
             return *this;
         }
 
