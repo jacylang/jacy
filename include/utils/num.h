@@ -23,6 +23,15 @@ namespace jc::utils::num {
             return *this;
         }
 
+        DistinctInt & operator=(std::size_t size) {
+            if (std::numeric_limits<IntT>::max() < size) {
+                throw std::logic_error("DistinctInt overflow with value of `size_t` " + std::to_string(size));
+            }
+
+            val = size;
+            return *this;
+        }
+
         // Basic math operators //
         DistinctInt & operator++() {
             ++val;
