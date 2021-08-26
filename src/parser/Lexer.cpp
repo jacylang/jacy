@@ -84,7 +84,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isBinDigit() {
-        return peek() == '0' or peek() == '1';
+        return isAnyOf('0', '1');
     }
 
     bool Lexer::isOctDigit() {
@@ -102,7 +102,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isExpSign() {
-        return peek() == 'e' or peek() == 'E';
+        return isAnyOf('e', 'E');
     }
 
     bool Lexer::isIdFirst() {
@@ -118,7 +118,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isQuote() {
-        return peek() == '\'' or peek() == '"';
+        return isAnyOf('\'', '"');
     }
 
     // Lexers //
