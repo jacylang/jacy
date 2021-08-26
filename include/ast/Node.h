@@ -16,8 +16,20 @@ namespace jc::ast {
 
         static const NodeId DUMMY;
 
+        bool operator==(const NodeId & other) const {
+            return val == other.val;
+        }
+
+        bool operator<(const NodeId & other) const {
+            return val < other.val;
+        }
+
         auto isDummy() const {
             return val == DUMMY.val;
+        }
+
+        auto toString() const {
+            return std::to_string(val);
         }
 
         friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
