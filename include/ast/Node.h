@@ -33,6 +33,9 @@ namespace jc::ast {
         }
 
         friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
+            if (nodeId.isDummy()) {
+                return os << "#" << "_";
+            }
             return os << "#" << nodeId.val;
         }
     };
