@@ -221,10 +221,11 @@ namespace jc::parser {
     void Lexer::lexString() {
         bool isMultiline = false;
 
+        const auto quote = peek();
+
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
         const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
-        const auto quote = peek();
         if (isSeq(quote, quote, quote)) {
             advance(3);
             isMultiline = true;
@@ -237,7 +238,7 @@ namespace jc::parser {
         // TODO: String templates
         bool closed = false;
         while (not eof()) {
-            if (is('\\')) {
+            if (peek() == '\\') {
                 advance();
                 switch (peek()) {
                     case '\\':
@@ -266,8 +267,8 @@ namespace jc::parser {
             }
 
             if (
-                isMultiline and isSeq(quote, quote, quote)
-                or not isMultiline and (isNL() or is(quote))
+                (isMultiline and isSeq(quote, quote, quote))
+                or (not isMultiline and (isNL() or peek() == quote))
             ) {
                 closed = true;
                 break;
