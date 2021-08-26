@@ -19,13 +19,13 @@ namespace jc::sess {
     public:
         template<class T>
         void addNode(T & node) {
-            node.id = nextNodeId++;
+            node.id.val = nextNodeId.val++;
             nodeSpanMap.emplace(node.id, node.span);
         }
 
         template<class T>
         void addNode(ast::N<T> & node) {
-            node->id = nextNodeId++;
+            node->id.val = nextNodeId.val++;
             nodeSpanMap.emplace(node->id, node->span);
         }
 
@@ -34,7 +34,7 @@ namespace jc::sess {
         }
 
         void addNode(ast::Ident & ident) {
-            ident.id = nextNodeId++;
+            ident.id.val = nextNodeId.val++;
             nodeSpanMap.emplace(ident.id, ident.span);
         }
 

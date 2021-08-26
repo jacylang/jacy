@@ -11,30 +11,13 @@
 #include "utils/num.h"
 
 namespace jc::ast {
-    template<typename T>
-    using N = std::unique_ptr<T>;
-
-    struct Node;
-    struct ErrorNode;
-    struct NodeId;
-    using span::Span;
-    using node_ptr = N<Node>;
-    using node_list = std::vector<node_ptr>;
-    using opt_node_id = Option<NodeId>;
-
-    template<class T>
-    using node_map = std::map<NodeId, T>;
-
-    struct NodeId : utils::num::DistinctInt<uint32_t> {
-        template<class OtherIntT>
-        NodeId(const utils::num::DistinctInt<OtherIntT> & other) : DistinctInt(other) {}
-
-        using utils::num::DistinctInt<uint32_t>::DistinctInt;
+    struct NodeId {
+        uint32_t val;
 
         static const NodeId DUMMY;
 
         auto isDummy() const {
-            return *this == DUMMY;
+            return val == DUMMY.val;
         }
 
         friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
@@ -46,6 +29,19 @@ namespace jc::ast {
     };
 
     const auto NodeId::DUMMY = NodeId {UINT32_MAX};
+
+    template<typename T>
+    using N = std::unique_ptr<T>;
+
+    struct Node;
+    struct ErrorNode;
+    using span::Span;
+    using node_ptr = N<Node>;
+    using node_list = std::vector<node_ptr>;
+    using opt_node_id = Option<NodeId>;
+
+    template<class T>
+    using node_map = std::map<NodeId, T>;
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}

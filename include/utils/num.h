@@ -17,7 +17,6 @@ namespace jc::utils::num {
             }
 
             val = otherVal;
-            return *this;
         }
 
         template<class OtherIntT, typename = typename std::enable_if<std::is_integral<OtherIntT>::value>::type>
@@ -27,7 +26,6 @@ namespace jc::utils::num {
             }
 
             val = otherVal;
-            return *this;
         }
 
         IntT val;
