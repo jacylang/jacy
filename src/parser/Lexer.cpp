@@ -124,7 +124,7 @@ namespace jc::parser {
     // Lexers //
     void Lexer::lexNumber() {
         std::string num;
-        const bool allowBase = peek() == '0';
+        const bool allowBase = is('0');
 
         if (allowBase) {
             switch (peek()) {
@@ -150,7 +150,7 @@ namespace jc::parser {
             num += forward();
         }
 
-        if (peek() == '.') {
+        if (is('.')) {
             if (not isDigit(lookup())) {
                 addToken(TokenKind::DecLiteral, num);
                 return;
@@ -228,7 +228,7 @@ namespace jc::parser {
         const auto quote = peek();
 
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
-        const auto kind = quote == '"' ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
+        const auto kind = is('"') ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
         if (isSeq(quote, quote, quote)) {
             advance(3);
@@ -272,7 +272,7 @@ namespace jc::parser {
 
             if (
                 (isMultiline and isSeq(quote, quote, quote))
-                or (not isMultiline and (isNL() or peek() == quote))
+                or (not isMultiline and (isNL() or is(quote)))
             ) {
                 closed = true;
                 break;
