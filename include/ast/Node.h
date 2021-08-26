@@ -16,14 +16,20 @@ namespace jc::ast {
 
     struct Node;
     struct ErrorNode;
+    struct NodeId;
     using span::Span;
     using node_ptr = N<Node>;
     using node_list = std::vector<node_ptr>;
-    using NodeId = utils::num::DistinctInt<uint32_t>;
-    using opt_node_id = Option<ast::NodeId>;
+    using opt_node_id = Option<NodeId>;
 
     template<class T>
     using node_map = std::map<NodeId, T>;
+
+    struct NodeId : utils::num::DistinctInt<uint32_t> {
+        friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
+            return os << "#" << nodeId.val;
+        }
+    };
 
     const NodeId NONE_NODE_ID = NodeId {UINT32_MAX};
 
