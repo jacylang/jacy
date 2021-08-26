@@ -5,8 +5,9 @@
 
 namespace jc::utils::num {
     template<class IntT, typename = typename std::enable_if<std::is_integral<IntT>::value>::type>
-    class DistinctInt {
-        DistinctInt(IntT val)  {}
+    struct DistinctInt {
+        DistinctInt(IntT val) : val(val) {}
+
         IntT val;
     };
 
