@@ -19,8 +19,10 @@ namespace jc::cli {
             // Exclude current command from command list and display it
             auto otherCommands = getConfig().objAt("commands");
             otherCommands.erase(otherCommands.find(args.getName()));
-            log.raw("Other commands: ", join(keys(otherCommands), ", ")).nl();
-            log.nl();
+            if (not otherCommands.empty()) {
+                log.raw("Other commands: ", join(keys(otherCommands), ", ")).nl();
+                log.nl();
+            }
 
             log.raw("USAGE").nl();
             log.raw(indent + 1, getConfig().at("help").strAt("basic-usage")).nl();
