@@ -72,6 +72,11 @@ namespace jc::parser {
             return (... or (c == chars));
         }
 
+        template<class ...Args>
+        bool isAnyOf(Args && ...chars) {
+            return isCharAnyOf(peek(), std::forward<Args>(chars)...);
+        }
+
         // Lexers
         void lexNumber();
         void lexBinLiteral();
