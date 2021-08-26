@@ -10,6 +10,10 @@ namespace jc::utils::num {
 
         IntT val;
 
+        std::string toString() const {
+            return std::to_string(val);
+        }
+
         friend std::ostream & operator<<(std::ostream & os, const DistinctInt & distinctInt) {
             return os << distinctInt.val;
         }
