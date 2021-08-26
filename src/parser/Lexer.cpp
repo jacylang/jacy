@@ -67,6 +67,10 @@ namespace jc::parser {
         return c == '\t' or c == ' ' or c == '\r';
     }
 
+    bool Lexer::is(char c) const {
+        return peek() == c;
+    }
+
     bool Lexer::isNL() {
         return peek() == '\n';
     }

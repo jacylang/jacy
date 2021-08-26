@@ -47,6 +47,7 @@ namespace jc::parser {
         bool eof();
         bool hidden();
         bool hidden(char c);
+        bool is(char c) const;
         bool isNL();
         bool isDigit();
         bool isDigit(char c);
