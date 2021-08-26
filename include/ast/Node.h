@@ -25,7 +25,7 @@ namespace jc::ast {
     template<class T>
     using node_map = std::map<NodeId, T>;
 
-    const NodeId NONE_NODE_ID = UINT32_MAX;
+    const NodeId NONE_NODE_ID = NodeId {UINT32_MAX};
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}
