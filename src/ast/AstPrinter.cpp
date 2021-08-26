@@ -967,7 +967,7 @@ namespace jc::ast {
     log::Color AstPrinter::getNameColor(NodeId nodeId) {
         // Note: Functionality is common for name declaration and name usage,
         //  because AstPrinter does not do forward declarations
-        if (nodeId == NONE_NODE_ID) {
+        if (nodeId == NodeId::DUMMY) {
             return noneNodeColor;
         }
 
