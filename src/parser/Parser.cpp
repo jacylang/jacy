@@ -585,7 +585,7 @@ namespace jc::parser {
         return makePRBoxNode<UseDecl, Item>(std::move(useTree), closeSpan(begin));
     }
 
-    use_tree_ptr Parser::parseUseTree() {
+    UseTree::Ptr Parser::parseUseTree() {
         enterEntity("UseTree");
 
         const auto & begin = cspan();

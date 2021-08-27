@@ -166,7 +166,7 @@ namespace jc::parser {
         Item::Ptr parseTypeAlias();
         Item::Ptr parseMod();
         Item::Ptr parseUseDecl();
-        use_tree_ptr parseUseTree();
+        UseTree::Ptr parseUseTree();
 
         // Statements //
         StmtPtr parseStmt();

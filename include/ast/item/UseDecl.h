@@ -71,12 +71,12 @@ namespace jc::ast {
 
     struct UseDecl : Item {
         UseDecl(
-            use_tree_ptr && useTree,
+            UseTree::Ptr && useTree,
             const Span & span
         ) : Item(span, ItemKind::Use),
             useTree(std::move(useTree)) {}
 
-        use_tree_ptr useTree;
+        UseTree::Ptr useTree;
 
         span::Ident getName() const override {
             return Ident::empty();
