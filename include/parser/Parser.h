@@ -152,20 +152,20 @@ namespace jc::parser {
     private:
 
         // Items //
-        Option<item_ptr> parseOptItem();
+        Option<Item::Ptr> parseOptItem();
         item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
         Vis parseVis();
-        item_ptr parseEnum();
+        Item::Ptr parseEnum();
         EnumEntry parseEnumEntry();
-        item_ptr parseFunc(parser::token_list && modifiers);
-        item_ptr parseImpl();
-        item_ptr parseStruct();
+        Item::Ptr parseFunc(parser::token_list && modifiers);
+        Item::Ptr parseImpl();
+        Item::Ptr parseStruct();
         struct_field_list parseStructFields();
-        item_ptr parseTrait();
-        item_ptr parseTypeAlias();
-        item_ptr parseMod();
-        item_ptr parseUseDecl();
+        Item::Ptr parseTrait();
+        Item::Ptr parseTypeAlias();
+        Item::Ptr parseMod();
+        Item::Ptr parseUseDecl();
         use_tree_ptr parseUseTree();
 
         // Statements //

@@ -16,7 +16,7 @@ namespace jc::hir {
     }
 
     // Items //
-    ItemNode Lowering::lowerItem(const ast::item_ptr & astItem) {
+    ItemNode Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap();
         switch (item->kind) {
             case ast::ItemKind::Enum: {
@@ -56,7 +56,7 @@ namespace jc::hir {
         }
     }
 
-    item_ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
+    Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
         auto name = astEnum.name.unwrap();
         std::vector<Variant> variants;
         for (const auto & variant : astEnum.entries) {
@@ -78,7 +78,7 @@ namespace jc::hir {
         }
     }
 
-    item_ptr Lowering::lowerMod(const ast::item_list & astItems) {
+    Item::Ptr Lowering::lowerMod(const ast::item_list & astItems) {
         item_id_list itemIds;
         for (const auto & item : astItems) {
             auto nameNodeId = item.unwrap()->getNameNodeId();
@@ -97,7 +97,7 @@ namespace jc::hir {
         return makeBoxNode<Mod>(std::move(itemIds));
     }
 
-    item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+    Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         Type::List inputs;
         for (const auto & param : astFunc.sig.params) {
             inputs.emplace_back(lowerType(param.type));

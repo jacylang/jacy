@@ -23,11 +23,11 @@ namespace jc::hir {
 
         // Items //
     private:
-        ItemNode lowerItem(const ast::item_ptr & astItem);
-        item_ptr lowerEnum(const ast::Enum & astEnum);
+        ItemNode lowerItem(const ast::Item::Ptr & astItem);
+        Item::Ptr lowerEnum(const ast::Enum & astEnum);
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
-        item_ptr lowerMod(const ast::item_list & astItems);
-        item_ptr lowerFunc(const ast::Func & astFunc);
+        Item::Ptr lowerMod(const ast::item_list & astItems);
+        Item::Ptr lowerFunc(const ast::Func & astFunc);
 
         // Statements //
     private:

@@ -7,7 +7,7 @@ namespace jc::hir {
     struct ItemNode;
     struct Item;
     struct ItemId;
-    using item_ptr = std::unique_ptr<Item>;
+    using Item::Ptr = std::unique_ptr<Item>;
     using item_id_list = std::vector<ItemId>;
 
     // Wrapper for type strictness
@@ -37,11 +37,11 @@ namespace jc::hir {
     };
 
     struct ItemNode : HirNode {
-        ItemNode(span::Ident && name, item_ptr && item, const HirId & hirId, const Span & span)
+        ItemNode(span::Ident && name, Item::Ptr && item, const HirId & hirId, const Span & span)
             : HirNode(hirId, span), name(std::move(name)), item(std::move(item)) {}
 
         span::Ident name;
-        item_ptr item;
+        Item::Ptr item;
     };
 }
 
