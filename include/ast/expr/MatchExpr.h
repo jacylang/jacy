@@ -6,10 +6,9 @@
 #include "ast/fragments/Pattern.h"
 
 namespace jc::ast {
-    struct MatchArm;
-    using match_arm_list = std::vector<MatchArm>;
-
     struct MatchArm : Node {
+        using List = std::vector<MatchArm>;
+
         MatchArm(
             Pattern::List patterns,
             Block::Ptr body,
@@ -29,14 +28,14 @@ namespace jc::ast {
     struct MatchExpr : Expr {
         MatchExpr(
             Expr::Ptr subject,
-            match_arm_list entries,
+            MatchArm::List entries,
             const Span & span
         ) : Expr(span, ExprKind::Match),
             subject(std::move(subject)),
             entries(std::move(entries)) {}
 
         Expr::Ptr subject;
-        match_arm_list entries;
+        MatchArm::List entries;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
