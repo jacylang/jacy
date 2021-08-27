@@ -163,7 +163,7 @@ namespace jc::parser {
     Option<item_ptr> Parser::parseOptItem() {
         logParseExtra("[opt] Item");
 
-        attr_list attributes = parseAttrList();
+        Attr::List attributes = parseAttrList();
         parser::token_list modifiers = parseModifiers();
         Option<item_ptr> maybeItem{None};
 
@@ -475,7 +475,7 @@ namespace jc::parser {
             }
 
             const auto & begin = cspan();
-            attr_list attributes = parseAttrList();
+            Attr::List attributes = parseAttrList();
             auto id = parseIdent("field name");
 
             // TODO: Hint field name
@@ -1558,8 +1558,8 @@ namespace jc::parser {
         };
     }
 
-    attr_list Parser::parseAttrList() {
-        attr_list attributes;
+    Attr::List Parser::parseAttrList() {
+        Attr::List attributes;
         for (auto attr = parseAttr(); attr.some();) {
             attributes.push_back(attr.take());
         }

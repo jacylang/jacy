@@ -122,7 +122,7 @@ namespace jc::ast {
         // Helpers //
     private:
         void printVis(const Vis & vis);
-        void printAttributes(const attr_list & attributes);
+        void printAttributes(const Attr::List & attributes);
         void printModifiers(const parser::token_list & modifiers);
         void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
 

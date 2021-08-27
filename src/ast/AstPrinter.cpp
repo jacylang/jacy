@@ -871,7 +871,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printAttributes(const ast::attr_list & attributes) {
+    void AstPrinter::printAttributes(const ast::Attr::List & attributes) {
         for (const auto & attr : attributes) {
             attr.accept(*this);
         }

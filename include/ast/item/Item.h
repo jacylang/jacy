@@ -35,11 +35,11 @@ namespace jc::ast {
     struct Item : Node {
         Item(const Span & span, ItemKind kind) : Node(span), kind(kind) {}
 
-        attr_list attributes;
+        Attr::List attributes;
         ItemKind kind;
         Vis vis;
 
-        void setAttributes(attr_list && attributes) {
+        void setAttributes(Attr::List && attributes) {
             this->attributes = std::move(attributes);
         }
 
