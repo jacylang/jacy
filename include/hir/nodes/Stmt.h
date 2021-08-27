@@ -14,7 +14,7 @@ namespace jc::hir {
         using Ptr = N<Stmt>;
         using List = std::vector<Stmt::Ptr>;
 
-        Stmt(StmtKind kind, const HirId & hirId, const Span & span) : HirNode(hirId, span), kind{kind} {}
+        Stmt(StmtKind kind, const HirId & hirId, const Span & span) : HirNode{hirId, span}, kind{kind} {}
 
         StmtKind kind;
     };
