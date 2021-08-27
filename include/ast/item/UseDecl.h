@@ -35,11 +35,11 @@ namespace jc::ast {
     };
 
     struct UseTreeSpecific : UseTree {
-        UseTreeSpecific(Option<SimplePath> && path, use_tree_list && specifics, const Span & span)
+        UseTreeSpecific(Option<SimplePath> && path, UseTree::List && specifics, const Span & span)
             : UseTree(Kind::Specific, span), path(std::move(path)), specifics(std::move(specifics)) {}
 
         Option<SimplePath> path;
-        use_tree_list specifics;
+        UseTree::List specifics;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

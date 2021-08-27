@@ -600,7 +600,7 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::LBrace).some()) {
                 // `{...}` case
-                use_tree_list specifics;
+                UseTree::List specifics;
 
                 bool first = true;
                 while (not eof()) {
