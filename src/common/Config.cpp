@@ -13,7 +13,7 @@ namespace jc::common {
         {"source",       Config::PrintKind::Source},
         {"mod-tree",     Config::PrintKind::ModTree},
         {"ast-names",    Config::PrintKind::AstNames},
-        {"ast-node-map", Config::PrintKind::AstNodeMap},
+        {"ast-node-map", Config::PrintKind::AstNodeId::NodeMap},
         {"ribs",         Config::PrintKind::Ribs},
         {"resolutions",  Config::PrintKind::Resolutions},
         {"definitions",  Config::PrintKind::Definitions},
@@ -196,7 +196,7 @@ namespace jc::common {
                     res["print"].emplace_back("mod-tree");
                     break;
                 }
-                case PrintKind::AstNodeMap: {
+                case PrintKind::AstNodeId::NodeMap: {
                     res["print"].emplace_back("ast-node-map");
                     break;
                 }

@@ -296,7 +296,7 @@ namespace jc::core {
             modeStr = "name resolution";
             cliParam = "names";
         }
-        // TODO: Add count of nodes when replacement for NodeMap will be implemented
+        // TODO: Add count of nodes when replacement for NodeId::NodeMap will be implemented
         log.info(
             "Printing AST after [",
             modeStr,

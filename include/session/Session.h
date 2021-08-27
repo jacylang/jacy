@@ -41,7 +41,7 @@ namespace jc::sess {
 
     private:
         ast::NodeId nextNodeId{1}; // Reserve `0` for something :)
-        ast::NodeMap<span::Span> nodeSpanMap;
+        ast::NodeId::NodeMap<span::Span> nodeSpanMap;
     };
 
     struct Session {

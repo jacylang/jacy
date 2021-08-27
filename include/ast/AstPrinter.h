@@ -218,9 +218,9 @@ namespace jc::ast {
         void decIndent();
         uint16_t indent{0};
 
-        // NodeMap mode //
+        // NodeId::NodeMap mode //
     private:
-        bool printAstNodeMap{false};
+        bool printAstNodeId::NodeMap{false};
         void printNodeId(NodeId id) const;
         void printNodeId(const Node & node) const;
 

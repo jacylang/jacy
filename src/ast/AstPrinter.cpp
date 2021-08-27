@@ -4,7 +4,7 @@ namespace jc::ast {
     AstPrinter::AstPrinter() {
         log.getConfig().printOwner = false;
         lastColor = static_cast<uint8_t>(allowedNamesColors.size());
-        printAstNodeMap = common::Config::getInstance().checkPrint(common::Config::PrintKind::AstNodeMap);
+        printAstNodeId::NodeMap = common::Config::getInstance().checkPrint(common::Config::PrintKind::AstNodeId::NodeMap);
     }
 
     void AstPrinter::print(const sess::Session::Ptr & sess, const Party & party, AstPrinterMode mode) {
@@ -937,9 +937,9 @@ namespace jc::ast {
         --indent;
     }
 
-    // NodeMap mode //
+    // NodeId::NodeMap mode //
     void AstPrinter::printNodeId(NodeId id) const {
-        if (not printAstNodeMap or mode != AstPrinterMode::Parsing) {
+        if (not printAstNodeId::NodeMap or mode != AstPrinterMode::Parsing) {
             return;
         }
         log.raw(Color::LightGray, id, Color::Reset);
