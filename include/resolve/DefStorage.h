@@ -35,7 +35,7 @@ namespace jc::resolve {
             return defs;
         }
 
-        module_ptr addModule(const DefId & defId, module_ptr module) {
+        Module::Ptr addModule(const DefId & defId, Module::Ptr module) {
             const auto & added = modules.emplace(defId.getIndex(), module);
             if (not added.second) {
                 log::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
@@ -43,7 +43,7 @@ namespace jc::resolve {
             return added.first->second;
         }
 
-        module_ptr addBlock(ast::NodeId nodeId, module_ptr module) {
+        Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module) {
             const auto & added = blocks.emplace(nodeId, module);
             if (not added.second) {
                 log::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
@@ -51,7 +51,7 @@ namespace jc::resolve {
             return added.first->second;
         }
 
-        const module_ptr & getModule(const DefId & defId) const {
+        const Module::Ptr & getModule(const DefId & defId) const {
             try {
                 return modules.at(defId.getIndex());
             } catch (const std::out_of_range & e) {
@@ -59,23 +59,23 @@ namespace jc::resolve {
             }
         }
 
-        const module_ptr & getBlock(ast::NodeId nodeId) const {
+        const Module::Ptr & getBlock(ast::NodeId nodeId) const {
             return blocks.at(nodeId);
         }
 
-        void setUseDeclModule(ast::NodeId nodeId, module_ptr module) {
+        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
             useDeclModules.emplace(nodeId, module);
         }
 
-        const module_ptr & getUseDeclModule(ast::NodeId nodeId) const {
+        const Module::Ptr & getUseDeclModule(ast::NodeId nodeId) const {
             return useDeclModules.at(nodeId);
         }
 
     private:
         std::vector<Def> defs;
-        std::map<DefIndex, module_ptr> modules;
-        std::map<ast::NodeId, module_ptr> blocks;
-        std::map<ast::NodeId, module_ptr> useDeclModules;
+        std::map<DefIndex, Module::Ptr> modules;
+        std::map<ast::NodeId, Module::Ptr> blocks;
+        std::map<ast::NodeId, Module::Ptr> useDeclModules;
     };
 }
 

@@ -35,7 +35,7 @@ namespace jc::resolve {
         return resolved;
     }
 
-    void Rib::bindMod(module_ptr module) {
+    void Rib::bindMod(Module::Ptr module) {
         boundModule = module;
     }
 }

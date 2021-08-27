@@ -11,7 +11,7 @@ namespace jc::resolve {
         printMod(sess->modTreeRoot.unwrap());
     }
 
-    void ModulePrinter::printMod(module_ptr module) {
+    void ModulePrinter::printMod(Module::Ptr module) {
         const auto noValues = module->perNS.value.empty();
         const auto noTypes = module->perNS.type.empty();
         const auto noLifetimes = module->perNS.lifetime.empty();

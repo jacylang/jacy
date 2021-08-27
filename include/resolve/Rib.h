@@ -24,7 +24,7 @@ namespace jc::resolve {
         } kind;
 
         std::map<std::string, NodeId> locals;
-        Option<module_ptr> boundModule{None};
+        Option<Module::Ptr> boundModule{None};
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
@@ -34,7 +34,7 @@ namespace jc::resolve {
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
         bool find(Namespace ns, const std::string & name, NodeId refNodeId, ResStorage & resStorage);
 
-        void bindMod(module_ptr module);
+        void bindMod(Module::Ptr module);
 
         explicit Rib(Kind kind) : kind(kind) {}
     };

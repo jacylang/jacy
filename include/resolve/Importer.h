@@ -45,10 +45,10 @@ namespace jc::resolve {
         sess::Session::Ptr sess;
 
         // Module where `use` appeared
-        module_ptr _useDeclModule;
+        Module::Ptr _useDeclModule;
 
         // Module that `use` now in
-        module_ptr _importModule;
+        Module::Ptr _importModule;
 
         // Resolutions //
     private:

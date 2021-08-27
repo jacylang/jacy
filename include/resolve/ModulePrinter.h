@@ -14,7 +14,7 @@ namespace jc::resolve {
         sess::Session::Ptr sess;
         log::Logger log{"ModulePrinter"};
 
-        void printMod(module_ptr module);
+        void printMod(Module::Ptr module);
         void printDef(const DefId & defId);
         void printIndent();
         uint32_t indent{0};

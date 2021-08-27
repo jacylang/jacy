@@ -7,8 +7,6 @@
 namespace jc::resolve {
     struct Module;
     struct DefId;
-    using module_ptr = std::shared_ptr<Module>;
-    using opt_module_ptr = Option<module_ptr>;
     using opt_def_id = Option<DefId>;
     using def_depth = uint32_t;
     using DefIndex = size_t;

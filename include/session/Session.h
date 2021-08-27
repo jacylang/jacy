@@ -50,7 +50,7 @@ namespace jc::sess {
         Session();
 
         SourceMap sourceMap;
-        Option<resolve::module_ptr> modTreeRoot{None};
+        Option<resolve::Module::Ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
         resolve::DefStorage defStorage;
         resolve::ResStorage resStorage;

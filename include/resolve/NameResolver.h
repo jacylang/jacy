@@ -71,7 +71,7 @@ namespace jc::resolve {
     private:
         /// Last met module
         /// We need to store it because some ribs do not bind modules
-        module_ptr currentModule;
+        Module::Ptr currentModule;
 
         // Definitions //
     private:

@@ -16,9 +16,12 @@ namespace jc::resolve {
     };
 
     struct Module {
+        using Ptr = std::shared_ptr<Module>;
+        using OptPtr = Option<Ptr>;
+
         Module(
             ModuleKind kind,
-            opt_module_ptr parent,
+            Ptr parent,
             OptNodeId nodeId,
             opt_def_id defId,
             opt_def_id nearestModDef
@@ -29,7 +32,7 @@ namespace jc::resolve {
             nearestModDef(nearestModDef) {}
 
         ModuleKind kind;
-        opt_module_ptr parent{None};
+        OptPtr parent{None};
 
         // Node id for `Block` module
         OptNodeId nodeId{None};
@@ -44,12 +47,12 @@ namespace jc::resolve {
         PrimTypeSet shadowedPrimTypes{0};
 
         // `Block` module
-        static inline module_ptr newBlockModule(NodeId nodeId, module_ptr parent, opt_def_id nearestModDef) {
+        static inline Module::Ptr newBlockModule(NodeId nodeId, Module::Ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 
         // `Def` module
-        static inline module_ptr newDefModule(const DefId & defId, module_ptr parent, opt_def_id nearestModDef) {
+        static inline Module::Ptr newDefModule(const DefId & defId, Module::Ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 

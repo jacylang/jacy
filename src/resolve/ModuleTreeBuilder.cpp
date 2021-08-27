@@ -181,7 +181,7 @@ namespace jc::resolve {
         curModuleName = name;
     }
 
-    void ModuleTreeBuilder::enterChildModule(module_ptr child) {
+    void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
         if (_modDepth == UINT32_MAX) {
