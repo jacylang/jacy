@@ -43,17 +43,17 @@ namespace jc::ast {
     template<typename T>
     using N = std::unique_ptr<T>;
 
-    struct Node;
     struct ErrorNode;
     using span::Span;
-    using NodePtr = N<Node>;
-    using NodeList = std::vector<NodePtr>;
     using OptNodeId = Option<NodeId>;
 
     template<class T>
     using NodeMap = std::map<NodeId, T>;
 
     struct Node {
+        using Ptr = N<Node>;
+        using List = std::vector<Ptr>;
+
         explicit Node(const Span & span) : span(span) {}
         virtual ~Node() = default;
 
