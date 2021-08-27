@@ -6,11 +6,12 @@
 #include "cli/CLICommand.h"
 
 namespace jc::common {
-    template<class T>
-    using key_value_arg_map = const std::map<const std::string, const T>;
 
     // Compilation config
     class Config {
+        template<class T>
+        using FlagValueMap = const std::map<const std::string, const T>;
+
     public:
         Config();
         ~Config() = default;
@@ -48,7 +49,7 @@ namespace jc::common {
             All,
         };
 
-        static key_value_arg_map<PrintKind> printKinds;
+        static FlagValueMap<PrintKind> printKinds;
 
         // Note: Order matters (!), we compare discriminants
         enum class CompileDepth : uint8_t {
@@ -58,7 +59,7 @@ namespace jc::common {
             Full,
         };
 
-        static key_value_arg_map<CompileDepth> compileDepthKinds;
+        static FlagValueMap<CompileDepth> compileDepthKinds;
 
         // Note: Order matters
         enum class BenchmarkKind : uint8_t {
@@ -68,7 +69,7 @@ namespace jc::common {
             Final,
         };
 
-        static key_value_arg_map<BenchmarkKind> benchmarkKinds;
+        static FlagValueMap<BenchmarkKind> benchmarkKinds;
 
         // General for `Config` and `Logger`
         // Note: Order matters
@@ -82,7 +83,7 @@ namespace jc::common {
             Unknown,
         };
 
-        static key_value_arg_map<LogLevel> logLevelKinds;
+        static FlagValueMap<LogLevel> logLevelKinds;
 
         enum class ParserExtraDebug : uint8_t {
             No,
@@ -90,7 +91,7 @@ namespace jc::common {
             All,
         };
 
-        static key_value_arg_map<ParserExtraDebug> parserExtraDebugKinds;
+        static FlagValueMap<ParserExtraDebug> parserExtraDebugKinds;
 
         // Checkers //
     public:
