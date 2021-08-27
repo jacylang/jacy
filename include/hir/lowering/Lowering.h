@@ -42,7 +42,7 @@ namespace jc::hir {
 
         // Types //
     private:
-        type_ptr lowerType(const ast::type_ptr & astType);
+        Type::Ptr lowerType(const ast::Type::Ptr & astType);
 
         // Fragments //
     private:

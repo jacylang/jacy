@@ -14,7 +14,7 @@ namespace jc::ast {
     struct FuncParam : Node {
         FuncParam(
             Ident::PR name,
-            type_ptr type,
+            Type::Ptr type,
             Expr::OptPtr defaultValue,
             const Span & span
         ) : Node(span),
@@ -23,7 +23,7 @@ namespace jc::ast {
             defaultValue(std::move(defaultValue)) {}
 
         Ident::PR name;
-        type_ptr type;
+        Type::Ptr type;
         Expr::OptPtr defaultValue;
 
         void accept(BaseVisitor & visitor) const override {

@@ -1913,7 +1913,7 @@ namespace jc::parser {
     ///////////
     // Types //
     ///////////
-    type_ptr Parser::parseType(const std::string & suggMsg) {
+    Type::Ptr Parser::parseType(const std::string & suggMsg) {
         logParse("Type");
 
         const auto & begin = cspan();
@@ -2019,7 +2019,7 @@ namespace jc::parser {
         return tupleElements;
     }
 
-    type_ptr Parser::parseArrayType() {
+    Type::Ptr Parser::parseArrayType() {
         enterEntity("SliceType");
 
         const auto & begin = cspan();
@@ -2040,7 +2040,7 @@ namespace jc::parser {
         return makePRBoxNode<SliceType, Type>(std::move(type), closeSpan(begin));
     }
 
-    type_ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, const Span & span) {
+    Type::Ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, const Span & span) {
         enterEntity("FuncType");
 
         Type::List params;

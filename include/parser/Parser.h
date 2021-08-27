@@ -221,11 +221,11 @@ namespace jc::parser {
         Path parsePath(bool inExpr);
 
         // Types //
-        type_ptr parseType(const std::string & suggMsg);
+        Type::Ptr parseType(const std::string & suggMsg);
         Type::OptPtr parseOptType();
         TupleTypeEl::List parseParenType();
-        type_ptr parseArrayType();
-        type_ptr parseFuncType(TupleTypeEl::List paramTypes, const Span & span);
+        Type::Ptr parseArrayType();
+        Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, const Span & span);
         TupleTypeEl::List parseTupleFields();
 
         // Type fragments //

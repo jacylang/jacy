@@ -38,9 +38,9 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(type_ptr type, const Span & span) : Type(span, TypeKind::Paren), type(std::move(type)) {}
+        ParenType(Type::Ptr type, const Span & span) : Type(span, TypeKind::Paren), type(std::move(type)) {}
 
-        type_ptr type;
+        Type::Ptr type;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -78,14 +78,14 @@ namespace jc::ast {
     struct FuncType : Type {
         FuncType(
             Type::List params,
-            type_ptr returnType,
+            Type::Ptr returnType,
             const Span & span
         ) : Type(span, TypeKind::Func),
             params(std::move(params)),
             returnType(std::move(returnType)) {}
 
         Type::List params;
-        type_ptr returnType;
+        Type::Ptr returnType;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -93,10 +93,10 @@ namespace jc::ast {
     };
 
     struct SliceType : Type {
-        SliceType(type_ptr type, const Span & span)
+        SliceType(Type::Ptr type, const Span & span)
             : Type(span, TypeKind::Slice), type(std::move(type)) {}
 
-        type_ptr type;
+        Type::Ptr type;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -104,12 +104,12 @@ namespace jc::ast {
     };
 
     struct ArrayType : Type {
-        ArrayType(type_ptr type, Expr::Ptr sizeExpr, const Span & span)
+        ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, const Span & span)
             : Type(span, TypeKind::Array),
               type(std::move(type)),
               sizeExpr(std::move(sizeExpr)) {}
 
-        type_ptr type;
+        Type::Ptr type;
         Expr::Ptr sizeExpr;
 
         void accept(BaseVisitor & visitor) const override {

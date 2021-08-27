@@ -11,14 +11,14 @@ namespace jc::ast {
     struct StructField : Node {
         StructField(
             Ident::PR name,
-            type_ptr type,
+            Type::Ptr type,
             const Span & span
         ) : Node(span),
             name(std::move(name)),
             type(std::move(type)) {}
 
         Ident::PR name;
-        type_ptr type;
+        Type::Ptr type;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

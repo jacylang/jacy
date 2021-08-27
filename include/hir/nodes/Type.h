@@ -5,8 +5,8 @@
 
 namespace jc::hir {
     struct Type;
-    using type_ptr = std::unique_ptr<Type>;
-    using Type::List = std::vector<type_ptr>;
+    using Type::Ptr = std::unique_ptr<Type>;
+    using Type::List = std::vector<Type::Ptr>;
 
     enum class TypeKind {
         Tuple,

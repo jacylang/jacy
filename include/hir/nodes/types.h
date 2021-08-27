@@ -13,25 +13,25 @@ namespace jc::hir {
     };
 
     struct FuncType : Type {
-        FuncType(Type::List && inputs, type_ptr && ret, const HirId & hirId, const Span & span)
+        FuncType(Type::List && inputs, Type::Ptr && ret, const HirId & hirId, const Span & span)
             : Type(TypeKind::Func, hirId, span), inputs(std::move(inputs)), ret(std::move(ret)) {}
 
         Type::List inputs;
-        type_ptr ret;
+        Type::Ptr ret;
     };
 
     struct SliceType : Type {
-        SliceType(type_ptr && type, const HirId & hirId, const Span & span)
+        SliceType(Type::Ptr && type, const HirId & hirId, const Span & span)
             : Type(TypeKind::Slice, hirId, span), type(std::move(type)) {}
 
-        type_ptr type;
+        Type::Ptr type;
     };
 
     struct ArrayType : Type {
-        ArrayType(type_ptr && type, expr_ptr && size, const HirId & hirId, const Span & span)
+        ArrayType(Type::Ptr && type, expr_ptr && size, const HirId & hirId, const Span & span)
             : Type(TypeKind::Array, hirId, span), type(std::move(type)), size(std::move(size)) {}
 
-        type_ptr type;
+        Type::Ptr type;
         expr_ptr size;
     };
 

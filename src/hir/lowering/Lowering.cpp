@@ -103,7 +103,7 @@ namespace jc::hir {
             inputs.emplace_back(lowerType(param.type));
         }
         // TODO: Use `infer` type, if no return type present
-        type_ptr ret = lowerType(astFunc.sig.returnType.unwrap());
+        Type::Ptr ret = lowerType(astFunc.sig.returnType.unwrap());
 
         Body body = lowerBody(astFunc.body.unwrap());
 
@@ -213,7 +213,7 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
-    type_ptr Lowering::lowerType(const ast::type_ptr & astType) {
+    Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap();
         switch (type->kind) {
             case ast::TypeKind::Paren: {

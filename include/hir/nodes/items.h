@@ -36,10 +36,10 @@ namespace jc::hir {
     /// Function signature used for raw `func`
     /// and `func` signatures without implementations (in traits)
     struct FuncSig {
-        FuncSig(Type::List && inputs, type_ptr && ret) : inputs(std::move(inputs)), ret(std::move(ret)) {}
+        FuncSig(Type::List && inputs, Type::Ptr && ret) : inputs(std::move(inputs)), ret(std::move(ret)) {}
 
         Type::List inputs;
-        type_ptr ret;
+        Type::Ptr ret;
     };
 
     struct Func : Item {
