@@ -1806,7 +1806,7 @@ namespace jc::parser {
             }
         }
 
-        path_seg_list segments;
+        PathSeg::List segments;
         while (not eof()) {
             const auto & segBegin = cspan();
 

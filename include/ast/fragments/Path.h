@@ -4,10 +4,9 @@
 #include "ast/fragments/Generics.h"
 
 namespace jc::ast {
-    struct PathSeg;
-    using path_seg_list = std::vector<PR<PathSeg>>;
-
     struct PathSeg : Node {
+        using List = std::vector<PR<PathSeg>>;
+
         const enum class Kind {
             Super,
             Self,
@@ -55,11 +54,11 @@ namespace jc::ast {
     };
 
     struct Path : Node {
-        Path(bool global, path_seg_list && segments, const Span & span)
+        Path(bool global, PathSeg::List && segments, const Span & span)
             : Node(span), global(global), segments(std::move(segments)) {}
 
         bool global;
-        path_seg_list segments;
+        PathSeg::List segments;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
