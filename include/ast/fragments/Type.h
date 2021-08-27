@@ -38,7 +38,7 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(Type::Ptr type, const Span & span) : Type(span, TypeKind::Paren), type(std::move(type)) {}
+        ParenType(Type::Ptr type, const Span & span) : Type{span, TypeKind::Paren}, type(std::move(type)) {}
 
         Type::Ptr type;
 
@@ -66,7 +66,7 @@ namespace jc::ast {
     struct TupleType : Type {
 
         TupleType(TupleTypeEl::List elements, const Span & span)
-            : Type(span, TypeKind::Tuple), elements(std::move(elements)) {}
+            : Type{span, TypeKind::Tuple}, elements(std::move(elements)) {}
 
         TupleTypeEl::List elements;
 
@@ -80,7 +80,7 @@ namespace jc::ast {
             Type::List params,
             Type::Ptr returnType,
             const Span & span
-        ) : Type(span, TypeKind::Func),
+        ) : Type{span, TypeKind::Func},
             params(std::move(params)),
             returnType(std::move(returnType)) {}
 
@@ -94,7 +94,7 @@ namespace jc::ast {
 
     struct SliceType : Type {
         SliceType(Type::Ptr type, const Span & span)
-            : Type(span, TypeKind::Slice), type(std::move(type)) {}
+            : Type{span, TypeKind::Slice}, type(std::move(type)) {}
 
         Type::Ptr type;
 
@@ -105,7 +105,7 @@ namespace jc::ast {
 
     struct ArrayType : Type {
         ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, const Span & span)
-            : Type(span, TypeKind::Array),
+            : Type{span, TypeKind::Array},
               type(std::move(type)),
               sizeExpr{std::move(sizeExpr)} {}
 
@@ -132,7 +132,7 @@ namespace jc::ast {
     };
 
     struct UnitType : Type {
-        explicit UnitType(const Span & span) : Type(span, TypeKind::Unit) {}
+        explicit UnitType(const Span & span) : Type{span, TypeKind::Unit} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
