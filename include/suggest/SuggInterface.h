@@ -13,11 +13,11 @@ namespace jc::sugg {
     protected:
         void clearSuggestions();
 
-        void suggest(sugg::sugg_ptr && suggestion);
+        void suggest(sugg::BaseSugg::Ptr && suggestion);
         void suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid = sugg::NoneEID);
         void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
         void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
-        void suggestHelp(const std::string & helpMsg, sugg::sugg_ptr sugg);
+        void suggestHelp(const std::string & helpMsg, sugg::BaseSugg::Ptr sugg);
         void suggestHelp(const std::string & helpMsg);
 
     private:
