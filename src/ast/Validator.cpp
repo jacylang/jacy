@@ -101,7 +101,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const FuncParam & funcParam) {
-        funcParam.name.autoAccept(*this);
+        funcParam.pat.autoAccept(*this);
         funcParam.type.autoAccept(*this);
         if (funcParam.defaultValue.some()) {
             funcParam.defaultValue.unwrap().autoAccept(*this);
@@ -206,6 +206,37 @@ namespace jc::ast {
         }
     }
 
+    void Validator::visit(const Init & init) {
+        for (const auto & modifier : init.sig.modifiers) {
+            if (!isInside(ValidatorCtx::Struct)) {
+                switch (modifier.kind) {
+                    default: {
+                        // No modifiers for `init` (may be changed in the future)
+                        suggestErrorMsg(
+                            "`init` methods do not allow any modifiers so far",
+                            modifier.span
+                        );
+                    }
+                }
+            }
+        }
+
+        lintEach(init.sig.params);
+
+        if (init.sig.returnType.some()) {
+            init.sig.returnType.unwrap().autoAccept(*this);
+        }
+
+        pushContext(ValidatorCtx::Func);
+        if (init.body.some()) {
+            init.body.unwrap().value.autoAccept(*this);
+        }
+        popContext();
+    }
+
+    ///////////////
+    // Statement //
+    ///////////////
     void Validator::visit(const LetStmt & letStmt) {
         letStmt.pat.autoAccept(*this);
 
