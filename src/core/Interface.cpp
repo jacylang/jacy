@@ -386,7 +386,7 @@ namespace jc::core {
 
         // Linear, no benchmark needed
         for (const auto & res : sess->resStorage.getResolutions()) {
-            log.raw("#", res.first, " -> ");
+            log.raw(res.first, " -> ");
             switch (res.second.kind) {
                 case resolve::ResKind::Error: {
                     log.raw("[ERROR]");

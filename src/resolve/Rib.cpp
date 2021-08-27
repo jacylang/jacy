@@ -16,7 +16,7 @@ namespace jc::resolve {
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
-                log::Logger::devDebug("Set resolution for node #", refNodeId, " as local #", local->second);
+                log::Logger::devDebug("Set resolution for node ", refNodeId, " as local #", local->second);
                 resStorage.setRes(refNodeId, Res{local->second});
                 return true;
             }
