@@ -138,7 +138,7 @@ namespace jc::core {
         }
 
         bool notRootDir = rootFile.none();
-        fs_entry_ptr parent;
+        FSEntry::Ptr parent;
         if (notRootDir) {
             // Save previous fs entry to lift to it after directory parsed
             // Only do it if this is not the root directory -- Some `rootFile` flags that it is
@@ -217,7 +217,7 @@ namespace jc::core {
     }
 
     // Debug //
-    void Interface::printDirTree(const fs_entry_ptr & entry, const std::string & prefix) {
+    void Interface::printDirTree(const FSEntry::Ptr & entry, const std::string & prefix) {
         // Imitate `tree` UNIX like command
         if (prefix.empty()) {
             log.raw(".").nl();
@@ -226,7 +226,7 @@ namespace jc::core {
         static constexpr const char * innerBranches[] = {"├── ", "│   "};
         static constexpr const char * finalBranches[] = {"└── ", "    "};
 
-        std::vector<fs_entry_ptr> entries = entry->subEntries;
+        std::vector<FSEntry::Ptr> entries = entry->subEntries;
         std::sort(entries.begin(), entries.end(), [](const auto & lhs, const auto & rhs) {
             return lhs->name < rhs->name;
         });

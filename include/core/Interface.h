@@ -26,17 +26,17 @@
 namespace jc::core {
     using common::Config;
 
-    struct FSEntry;
-    using fs_entry_ptr = std::shared_ptr<FSEntry>;
     struct FSEntry {
+        using Ptr = std::shared_ptr<FSEntry>;
+
         FSEntry(bool isDir, const std::string & name) : isDir(isDir), name(name) {}
 
         bool isDir;
         std::string name;
-        std::vector<fs_entry_ptr> subEntries;
+        std::vector<FSEntry::Ptr> subEntries;
 
         template<class ...Args>
-        fs_entry_ptr addChild(Args ...args) {
+        FSEntry::Ptr addChild(Args ...args) {
             subEntries.push_back(std::make_shared<FSEntry>(std::forward<Args>(args)...));
             return subEntries.back();
         }
@@ -68,8 +68,8 @@ namespace jc::core {
         ast::N<ast::Mod> parseFile(fs::Entry && file);
 
         // Debug //
-        fs_entry_ptr curFsEntry;
-        void printDirTree(const fs_entry_ptr & entry, const std::string & prefix);
+        FSEntry::Ptr curFsEntry;
+        void printDirTree(const FSEntry::Ptr & entry, const std::string & prefix);
         void printSource(const parser::parse_sess_ptr & parseSess);
         void printTokens(const fs::path & path, const parser::token_list & tokens);
         void printAst(ast::AstPrinterMode mode);
