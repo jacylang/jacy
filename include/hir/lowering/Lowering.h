@@ -31,14 +31,14 @@ namespace jc::hir {
 
         // Statements //
     private:
-        Stmt::Ptr lowerStmt{const ast::Stmt::Ptr & astStmt};
-        Stmt::Ptr lowerExprStmt{const ast::ExprStmt & exprStmt};
+        Stmt::Ptr lowerStmt(const ast::Stmt::Ptr & astStmt);
+        Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
         // Expressions //
     private:
-        Expr::Ptr lowerExpr{const ast::Expr::Ptr & expr};
-        Expr::Ptr lowerAssignExpr{const ast::Assign & assign};
-        Expr::Ptr lowerBlockExpr{const ast::Block & block};
+        Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
+        Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
+        Expr::Ptr lowerBlockExpr(const ast::Block & block);
 
         // Types //
     private:
