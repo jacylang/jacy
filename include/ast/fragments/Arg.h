@@ -5,10 +5,9 @@
 #include "ast/fragments/Ident.h"
 
 namespace jc::ast {
-    struct Arg;
-    using arg_list = std::vector<Arg>;
-
     struct Arg : Node {
+        using List = std::vector<Arg>;
+
         Arg(Ident::OptPR && name, Expr::Ptr && value, const Span & span)
             : Node(span), name(std::move(name)), value(std::move(value)) {}
 

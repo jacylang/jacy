@@ -7,7 +7,7 @@
 
 namespace jc::hir {
     struct Arg;
-    using arg_list = std::vector<Arg>;
+    using Arg::List = std::vector<Arg>;
 
     struct Arg : HirNode {
         Arg(const span::Ident & ident, expr_ptr && value, const HirId & hirId, const Span & span)

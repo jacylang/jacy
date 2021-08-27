@@ -28,11 +28,11 @@ namespace jc::hir {
     };
 
     struct Invoke : Expr {
-        Invoke(expr_ptr && lhs, arg_list && args, const HirId & hirId, const Span & span)
+        Invoke(expr_ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Invoke, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
 
         expr_ptr lhs;
-        arg_list args;
+        Arg::List args;
     };
 
     struct Literal : Expr {

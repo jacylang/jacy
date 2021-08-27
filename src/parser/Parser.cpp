@@ -1584,12 +1584,12 @@ namespace jc::parser {
         return makeNode<Attr>(std::move(name), std::move(params), closeSpan(begin));
     }
 
-    arg_list Parser::parseArgList(const std::string & construction) {
+    Arg::List Parser::parseArgList(const std::string & construction) {
         enterEntity("ArgList:" + construction);
 
         justSkip(TokenKind::LParen, "`(`", "`parseArgList`");
 
-        arg_list args;
+        Arg::List args;
 
         bool first = true;
         while (not eof()) {
