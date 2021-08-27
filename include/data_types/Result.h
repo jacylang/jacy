@@ -45,7 +45,7 @@ namespace jc::dt {
     template<typename T>
     class Err {
     public:
-        using value_type = T;
+        using ValueT = T;
 
         explicit constexpr Err(const T & val) : m_value(val) {}
         explicit constexpr Err(T && val) : m_value(std::move(val)) {}
@@ -65,7 +65,7 @@ namespace jc::dt {
     template<typename T>
     class Ok {
     public:
-        using value_type = T;
+        using ValueT = T;
 
         explicit constexpr Ok(const T & val) : m_value(val) {}
         explicit constexpr Ok(T && val) : m_value(std::move(val)) {}
@@ -108,9 +108,9 @@ namespace jc::dt {
     public:
         static constexpr size_t ValueIndex = 1;
         static constexpr size_t ErrorIndex = 2;
-        using value_type = T;
-        using error_type = E;
-        using storage_type = std::variant<std::monostate, T, E>;
+        using ValueT = T;
+        using ErrorT = E;
+        using StorageT = std::variant<std::monostate, T, E>;
 
         static_assert(std::is_same<std::remove_reference_t<T>, T>::value,
                       "Result<T, E> cannot store reference types."
@@ -136,11 +136,11 @@ namespace jc::dt {
         constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value).value()) {}
 
         constexpr Result(const Result<T, E> & other) noexcept(
-            std::is_nothrow_copy_constructible<storage_type>::value
+            std::is_nothrow_copy_constructible<StorageT>::value
         ) = default;
 
         constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(
-            std::is_nothrow_copy_assignable<storage_type>::value
+            std::is_nothrow_copy_assignable<StorageT>::value
         ) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("copy operator=");
@@ -155,11 +155,11 @@ namespace jc::dt {
         }
 
         constexpr Result(Result<T, E> && other) noexcept(
-            std::is_nothrow_move_constructible<storage_type>::value
+            std::is_nothrow_move_constructible<StorageT>::value
         ) = default;
 
         constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(
-            std::is_nothrow_move_assignable<storage_type>::value
+            std::is_nothrow_move_assignable<StorageT>::value
         ) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move operator=");
@@ -290,7 +290,7 @@ namespace jc::dt {
 
     private:
         ResultKind _kind;
-        storage_type storage;
+        StorageT storage;
     };
 
     template <typename T>
