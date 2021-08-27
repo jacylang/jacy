@@ -1,5 +1,5 @@
-#ifndef JACY_INCLUDE_UTILS_TYPE_H
-#define JACY_INCLUDE_UTILS_TYPE_H
+#ifndef JACY_UTILS_TYPE_H
+#define JACY_UTILS_TYPE_H
 
 #ifdef __GNUG__
 #include <string>
@@ -34,4 +34,4 @@ namespace jc::type {
 
 #endif
 
-#endif // JACY_INCLUDE_UTILS_TYPE_H
+#endif // JACY_UTILS_TYPE_H
