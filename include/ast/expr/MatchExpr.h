@@ -28,14 +28,14 @@ namespace jc::ast {
 
     struct MatchExpr : Expr {
         MatchExpr(
-            ExprPtr subject,
+            Expr::Ptr subject,
             match_arm_list entries,
             const Span & span
         ) : Expr(span, ExprKind::Match),
             subject(std::move(subject)),
             entries(std::move(entries)) {}
 
-        ExprPtr subject;
+        Expr::Ptr subject;
         match_arm_list entries;
 
         void accept(BaseVisitor & visitor) const override {

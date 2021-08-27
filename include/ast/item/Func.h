@@ -15,7 +15,7 @@ namespace jc::ast {
         FuncParam(
             ident_pr name,
             type_ptr type,
-            OptExprPtr defaultValue,
+            OptExpr::Ptr defaultValue,
             const Span & span
         ) : Node(span),
             name(std::move(name)),
@@ -24,7 +24,7 @@ namespace jc::ast {
 
         ident_pr name;
         type_ptr type;
-        OptExprPtr defaultValue;
+        OptExpr::Ptr defaultValue;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -32,10 +32,10 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, ExprPtr && value) : exprBody(exprBody), value(std::move(value)) {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody(exprBody), value(std::move(value)) {}
 
         bool exprBody;
-        ExprPtr value;
+        Expr::Ptr value;
     };
 
     struct FuncSig {

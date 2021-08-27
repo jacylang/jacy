@@ -5,12 +5,12 @@
 
 namespace jc::ast {
     struct Assign : Expr {
-        Assign(ExprPtr && lhs, const parser::Token & op, ExprPtr && rhs, const span::Span & span)
+        Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, const span::Span & span)
             : Expr(span, ExprKind::Assign), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
 
-        ExprPtr lhs;
+        Expr::Ptr lhs;
         parser::Token op;
-        ExprPtr rhs;
+        Expr::Ptr rhs;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

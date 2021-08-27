@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct Subscript : Expr {
-        Subscript(ExprPtr && lhs, ExprList && indices, const Span & span)
+        Subscript(Expr::Ptr && lhs, ExprList && indices, const Span & span)
             : Expr(span, ExprKind::Subscript), lhs(std::move(lhs)), indices(std::move(indices)) {}
 
-        ExprPtr lhs;
+        Expr::Ptr lhs;
         ExprList indices;
 
         void accept(BaseVisitor & visitor) const override {

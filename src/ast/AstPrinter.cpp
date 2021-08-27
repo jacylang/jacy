@@ -67,7 +67,7 @@ namespace jc::ast {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
                 log.raw(" = ");
-                std::get<ExprPtr>(enumEntry.body).autoAccept(*this);
+                std::get<Expr::Ptr>(enumEntry.body).autoAccept(*this);
                 break;
             }
             case EnumEntryKind::Tuple: {

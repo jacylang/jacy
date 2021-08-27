@@ -6,12 +6,12 @@
 namespace jc::ast {
     struct QuestExpr : Expr {
         QuestExpr(
-            ExprPtr && expr,
+            Expr::Ptr && expr,
             const Span & span
         ) : Expr(span, ExprKind::Quest),
             expr(std::move(expr)) {}
 
-        ExprPtr expr;
+        Expr::Ptr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

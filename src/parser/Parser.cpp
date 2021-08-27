@@ -742,7 +742,7 @@ namespace jc::parser {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        OptExprPtr assignExpr{None};
+        OptExpr::Ptr assignExpr{None};
         if (skipOpt(TokenKind::Assign).some()) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
@@ -771,7 +771,7 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
-    OptExprPtr Parser::parseOptExpr() {
+    OptExpr::Ptr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
@@ -801,7 +801,7 @@ namespace jc::parser {
         return assignment();
     }
 
-    ExprPtr Parser::parseExpr(const std::string & suggMsg) {
+    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
@@ -814,7 +814,7 @@ namespace jc::parser {
         return expr.take("parseExpr -> expr");
     }
 
-    ExprPtr Parser::parseLambda() {
+    Expr::Ptr Parser::parseLambda() {
         enterEntity("Lambda:" + peek().toString());
 
         const auto & begin = cspan();
@@ -864,7 +864,7 @@ namespace jc::parser {
 
         skip(TokenKind::Arrow, "`->` in lambda");
 
-        ExprPtr body = parseExpr("lambda body expression");
+        Expr::Ptr body = parseExpr("lambda body expression");
 
         exitEntity();
 
@@ -872,7 +872,7 @@ namespace jc::parser {
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
     }
 
-    OptExprPtr Parser::assignment() {
+    OptExpr::Ptr Parser::assignment() {
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
@@ -898,7 +898,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExprPtr Parser::precParse(uint8_t index) {
+    OptExpr::Ptr Parser::precParse(uint8_t index) {
         if (extraDebugAll) {
             logParse("precParse:" + std::to_string(index));
         }
@@ -918,7 +918,7 @@ namespace jc::parser {
         const auto rightAssoc = flags & 1;
 
         auto begin = cspan();
-        OptExprPtr maybeLhs = precParse(index + 1);
+        OptExpr::Ptr maybeLhs = precParse(index + 1);
         while (not eof()) {
             Option<Token> maybeOp{None};
             for (const auto & op : parser.ops) {
@@ -985,7 +985,7 @@ namespace jc::parser {
         {0b11, {TokenKind::As}},
     };
 
-    OptExprPtr Parser::prefix() {
+    OptExpr::Ptr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
@@ -1022,7 +1022,7 @@ namespace jc::parser {
         return quest();
     }
 
-    OptExprPtr Parser::quest() {
+    OptExpr::Ptr Parser::quest() {
         const auto & begin = cspan();
         auto lhs = call();
 
@@ -1039,7 +1039,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    Option<ExprPtr> Parser::call() {
+    Option<Expr::Ptr> Parser::call() {
         auto maybeLhs = memberAccess();
 
         if (maybeLhs.none()) {
@@ -1093,7 +1093,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExprPtr Parser::memberAccess() {
+    OptExpr::Ptr Parser::memberAccess() {
         auto lhs = primary();
 
         if (lhs.none()) {
@@ -1113,7 +1113,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExprPtr Parser::primary() {
+    OptExpr::Ptr Parser::primary() {
         if (eof()) {
             log::Logger::devPanic("Called parse `primary` on `EOF`");
         }
@@ -1194,7 +1194,7 @@ namespace jc::parser {
         return Ok(makeBoxNode<PathExpr>(parsePath(true)));
     }
 
-    ExprPtr Parser::parseLiteral() {
+    Expr::Ptr Parser::parseLiteral() {
         logParse("literal");
 
         const auto & begin = cspan();
@@ -1206,7 +1206,7 @@ namespace jc::parser {
         return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
     }
 
-    ExprPtr Parser::parseListExpr() {
+    Expr::Ptr Parser::parseListExpr() {
         enterEntity("ListExpr");
 
         const auto & begin = cspan();
@@ -1244,7 +1244,7 @@ namespace jc::parser {
         return makePRBoxNode<ListExpr, Expr>(std::move(elements), closeSpan(begin));
     }
 
-    ExprPtr Parser::parseParenLikeExpr() {
+    Expr::Ptr Parser::parseParenLikeExpr() {
         const auto & begin = cspan();
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
@@ -1291,7 +1291,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
-    ExprPtr Parser::parseStructExpr(PathExpr::Ptr && path) {
+    Expr::Ptr Parser::parseStructExpr(PathExpr::Ptr && path) {
         enterEntity("StructExpr");
 
         const auto & begin = cspan();
@@ -1392,7 +1392,7 @@ namespace jc::parser {
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
     }
 
-    ExprPtr Parser::parseIfExpr(bool isElif) {
+    Expr::Ptr Parser::parseIfExpr(bool isElif) {
         enterEntity("IfExpr");
 
         const auto & begin = cspan();
@@ -1443,7 +1443,7 @@ namespace jc::parser {
             std::move(condition), std::move(ifBranch), std::move(elseBranch), closeSpan(begin));
     }
 
-    ExprPtr Parser::parseLoopExpr() {
+    Expr::Ptr Parser::parseLoopExpr() {
         enterEntity("LoopExpr");
 
         const auto & begin = cspan();
@@ -1457,7 +1457,7 @@ namespace jc::parser {
         return makePRBoxNode<LoopExpr, Expr>(std::move(body), closeSpan(begin));
     }
 
-    ExprPtr Parser::parseMatchExpr() {
+    Expr::Ptr Parser::parseMatchExpr() {
         enterEntity("MatchExpr");
 
         const auto & begin = cspan();
@@ -1686,7 +1686,7 @@ namespace jc::parser {
         ).some();
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        OptExprPtr defaultValue{None};
+        OptExpr::Ptr defaultValue{None};
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
@@ -2112,7 +2112,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                OptExprPtr defaultValue{None};
+                OptExpr::Ptr defaultValue{None};
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }

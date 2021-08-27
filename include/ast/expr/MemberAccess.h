@@ -7,14 +7,14 @@
 namespace jc::ast {
     struct MemberAccess : Expr {
         MemberAccess(
-            ExprPtr && lhs,
+            Expr::Ptr && lhs,
             ident_pr && field,
             const Span & span
         ) : Expr(span, ExprKind::MemberAccess),
             lhs(std::move(lhs)),
             field(std::move(field)) {}
 
-        ExprPtr lhs;
+        Expr::Ptr lhs;
         ident_pr field;
 
         void accept(BaseVisitor & visitor) const override {

@@ -5,11 +5,11 @@
 
 namespace jc::ast {
     struct Prefix : Expr {
-        Prefix(const parser::Token & op, ExprPtr && rhs, const Span & span)
+        Prefix(const parser::Token & op, Expr::Ptr && rhs, const Span & span)
             : Expr(span, ExprKind::Prefix), op(op), rhs(std::move(rhs)) {}
 
         parser::Token op;
-        ExprPtr rhs;
+        Expr::Ptr rhs;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

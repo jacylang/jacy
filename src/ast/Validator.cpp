@@ -29,7 +29,7 @@ namespace jc::ast {
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
-                std::get<ExprPtr>(enumEntry.body).autoAccept(*this);
+                std::get<Expr::Ptr>(enumEntry.body).autoAccept(*this);
                 break;
             }
             case EnumEntryKind::Tuple: {
@@ -684,7 +684,7 @@ namespace jc::ast {
     }
 
     // Helpers //
-    bool Validator::isPlaceExpr(const ExprPtr & maybeExpr) {
+    bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
             return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);

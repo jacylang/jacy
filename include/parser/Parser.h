@@ -175,36 +175,36 @@ namespace jc::parser {
         StmtPtr parseWhileStmt();
 
         // Expressions //
-        OptExprPtr parseOptExpr();
-        ExprPtr parseExpr(const std::string & suggMsg);
-        ExprPtr parseLambda();
-        OptExprPtr assignment();
-        OptExprPtr precParse(uint8_t index);
+        OptExpr::Ptr parseOptExpr();
+        Expr::Ptr parseExpr(const std::string & suggMsg);
+        Expr::Ptr parseLambda();
+        OptExpr::Ptr assignment();
+        OptExpr::Ptr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
 
-        OptExprPtr prefix();
-        OptExprPtr quest();
-        OptExprPtr call();
-        OptExprPtr memberAccess();
-        OptExprPtr primary();
+        OptExpr::Ptr prefix();
+        OptExpr::Ptr quest();
+        OptExpr::Ptr call();
+        OptExpr::Ptr memberAccess();
+        OptExpr::Ptr primary();
 
         // Atomic expressions //
         ident_pr justParseIdent(const std::string & panicIn);
         ident_pr parseIdent(const std::string & expected);
         PathExpr::Ptr parsePathExpr();
-        ExprPtr parseLiteral();
-        ExprPtr parseListExpr();
-        ExprPtr parseParenLikeExpr();
-        ExprPtr parseStructExpr(PathExpr::Ptr && path);
+        Expr::Ptr parseLiteral();
+        Expr::Ptr parseListExpr();
+        Expr::Ptr parseParenLikeExpr();
+        Expr::Ptr parseStructExpr(PathExpr::Ptr && path);
         struct_expr_field_pr parseStructExprField();
 
         BlockPtr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
-        ExprPtr parseIfExpr(bool isElif = false);
-        ExprPtr parseLoopExpr();
-        ExprPtr parseMatchExpr();
+        Expr::Ptr parseIfExpr(bool isElif = false);
+        Expr::Ptr parseLoopExpr();
+        Expr::Ptr parseMatchExpr();
         MatchArm parseMatchArm();
 
         // Fragments //

@@ -6,12 +6,12 @@
 namespace jc::ast {
     struct DerefExpr : Expr {
         DerefExpr(
-            ExprPtr expr,
+            Expr::Ptr expr,
             const Span & span
         ) : Expr(span, ExprKind::Deref),
             expr(std::move(expr)) {}
 
-        ExprPtr expr;
+        Expr::Ptr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
