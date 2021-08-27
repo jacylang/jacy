@@ -11,10 +11,8 @@
 #include "utils/num.h"
 
 namespace jc::ast {
-    struct NodeId;
     template<typename T>
     using N = std::unique_ptr<T>;
-
     using span::Span;
 
     struct NodeId {
