@@ -42,7 +42,7 @@ namespace jc::resolve {
         DefStorage _defStorage;
 
         DefVis getItemVis(const ast::Item & item);
-        DefId addDef(DefVis vis, const ast::ident_pr & ident, DefKind defKind);
+        DefId addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind);
         void defineGenerics(const ast::GenericParam::OptList & maybeGenerics);
 
         // Modules //
@@ -51,14 +51,14 @@ namespace jc::resolve {
         module_ptr mod;
         opt_def_id nearestModDef{None};
         void enterBlock(NodeId nodeId);
-        void enterModule(DefVis vis, const ast::ident_pr & ident, DefKind defKind);
+        void enterModule(DefVis vis, const ast::Ident::PR & ident, DefKind defKind);
         void enterChildModule(module_ptr child);
         void exitMod();
 
         // Suggestions //
     private:
         void suggestCannotRedefine(
-            const ast::ident_pr & ident,
+            const ast::Ident::PR & ident,
             DefKind as,
             const DefId & prevDefId
         );

@@ -1,7 +1,7 @@
 #include "resolve/Rib.h"
 
 namespace jc::resolve {
-    OptNodeId Rib::define(const ast::ident_pr & ident) {
+    OptNodeId Rib::define(const ast::Ident::PR & ident) {
         const auto & name = ident.unwrap().name;
         const auto & found = locals.find(name);
         if (found == locals.end()) {

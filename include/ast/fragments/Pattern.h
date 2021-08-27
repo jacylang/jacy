@@ -56,7 +56,7 @@ namespace jc::ast {
         BorrowPat(
             bool ref,
             bool mut,
-            ident_pr && name,
+            Ident::PR && name,
             Pattern::OptPtr && pat,
             const Span & span
         ) : Pattern(PatternKind::Borrow, span),
@@ -67,7 +67,7 @@ namespace jc::ast {
 
         bool ref;
         bool mut;
-        ident_pr name;
+        Ident::PR name;
         Pattern::OptPtr pat;
 
         void accept(BaseVisitor & visitor) const override {
@@ -122,19 +122,19 @@ namespace jc::ast {
 
     /// Struct nested pattern like `IDENT: pattern`
     struct StructPatternDestructEl {
-        StructPatternDestructEl(ident_pr && name, Pattern::Ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
+        StructPatternDestructEl(Ident::PR && name, Pattern::Ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
 
-        ident_pr name;
+        Ident::PR name;
         Pattern::Ptr pat;
     };
 
     /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding
     struct StructPatBorrowEl {
-        StructPatBorrowEl(bool ref, bool mut, ident_pr && name) : ref(ref), mut(mut), name(std::move(name)) {}
+        StructPatBorrowEl(bool ref, bool mut, Ident::PR && name) : ref(ref), mut(mut), name(std::move(name)) {}
 
         bool ref;
         bool mut;
-        ident_pr name;
+        Ident::PR name;
     };
 
     struct StructPatEl {

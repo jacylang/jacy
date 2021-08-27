@@ -226,7 +226,7 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    void NameResolver::define(const ast::ident_pr & ident) {
+    void NameResolver::define(const ast::Ident::PR & ident) {
         log.dev("Define '", ident.unwrap().name, "' local");
 
         const auto & redecl = curRib()->define(ident);

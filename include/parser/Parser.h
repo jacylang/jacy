@@ -190,8 +190,8 @@ namespace jc::parser {
         Expr::OptPtr primary();
 
         // Atomic expressions //
-        ident_pr justParseIdent(const std::string & panicIn);
-        ident_pr parseIdent(const std::string & expected);
+        Ident::PR justParseIdent(const std::string & panicIn);
+        Ident::PR parseIdent(const std::string & expected);
         PathExpr::Ptr parsePathExpr();
         Expr::Ptr parseLiteral();
         Expr::Ptr parseListExpr();

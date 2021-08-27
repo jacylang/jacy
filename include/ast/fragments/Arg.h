@@ -9,10 +9,10 @@ namespace jc::ast {
     using arg_list = std::vector<Arg>;
 
     struct Arg : Node {
-        Arg(opt_ident && name, Expr::Ptr && value, const Span & span)
+        Arg(Ident::OptPR && name, Expr::Ptr && value, const Span & span)
             : Node(span), name(std::move(name)), value(std::move(value)) {}
 
-        opt_ident name;
+        Ident::OptPR name;
         Expr::Ptr value;
 
         void accept(BaseVisitor & visitor) const override {

@@ -20,20 +20,20 @@ namespace jc::ast {
     };
 
     struct EnumEntry : Node {
-        EnumEntry(EnumEntryKind kind, ident_pr && name, const Span & span)
+        EnumEntry(EnumEntryKind kind, Ident::PR && name, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::monostate{}) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr && name, Expr::Ptr && discriminant, const Span & span)
+        EnumEntry(EnumEntryKind kind, Ident::PR && name, Expr::Ptr && discriminant, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(discriminant)) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr && name, tuple_field_list && tupleFields, const Span & span)
+        EnumEntry(EnumEntryKind kind, Ident::PR && name, tuple_field_list && tupleFields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(tupleFields)) {}
 
-        EnumEntry(EnumEntryKind kind, ident_pr && name, struct_field_list && fields, const Span & span)
+        EnumEntry(EnumEntryKind kind, Ident::PR && name, struct_field_list && fields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(fields)) {}
 
         EnumEntryKind kind;
-        ident_pr name;
+        Ident::PR name;
         std::variant<std::monostate, Expr::Ptr, tuple_field_list, struct_field_list> body;
 
         void accept(BaseVisitor & visitor) const override {
@@ -42,10 +42,10 @@ namespace jc::ast {
     };
 
     struct Enum : Item {
-        Enum(ident_pr && name, enum_entry_list && entries, const Span & span)
+        Enum(Ident::PR && name, enum_entry_list && entries, const Span & span)
             : Item(span, ItemKind::Enum), name(std::move(name)), entries(std::move(entries)) {}
 
-        ident_pr name;
+        Ident::PR name;
         enum_entry_list entries{};
 
         span::Ident getName() const override {

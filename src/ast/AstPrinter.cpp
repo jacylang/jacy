@@ -921,7 +921,7 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::colorizeDef(const ident_pr & ident) {
+    void AstPrinter::colorizeDef(const Ident::PR & ident) {
         if (mode != AstPrinterMode::Names) {
             ident.unwrap().accept(*this);
             return;

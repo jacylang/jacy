@@ -19,7 +19,7 @@ namespace jc::ast {
         } kind;
 
         StructExprField(
-            ident_pr && field,
+            Ident::PR && field,
             Expr::Ptr && expr,
             const Span & span
         ) : Node(span),
@@ -28,7 +28,7 @@ namespace jc::ast {
             expr(std::move(expr)) {}
 
         StructExprField(
-            ident_pr && field,
+            Ident::PR && field,
             const Span & span
         ) : Node(span),
             kind(Kind::Shortcut),
@@ -41,7 +41,7 @@ namespace jc::ast {
             kind(Kind::Base),
             expr(std::move(expr)) {}
 
-        opt_ident name{None};
+        Ident::OptPR name{None};
         Expr::OptPtr expr{None};
 
         void accept(BaseVisitor & visitor) const override {

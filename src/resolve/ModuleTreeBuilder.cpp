@@ -90,7 +90,7 @@ namespace jc::resolve {
     }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    DefId ModuleTreeBuilder::addDef(DefVis vis, const ast::ident_pr & ident, DefKind defKind) {
+    DefId ModuleTreeBuilder::addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
         const auto & name = ident.unwrap().name;
         const auto defId = _defStorage.define(_modDepth, vis, defKind, ident.span(), ident.unwrap().id);
         const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
@@ -165,7 +165,7 @@ namespace jc::resolve {
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
-    void ModuleTreeBuilder::enterModule(DefVis vis, const ast::ident_pr & ident, DefKind defKind) {
+    void ModuleTreeBuilder::enterModule(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
         const auto defId = addDef(vis, ident, defKind);
         const auto & name = ident.unwrap().name;
         log.dev("Enter [DEF] module '", name, "' defined with id #", defId);
@@ -201,7 +201,7 @@ namespace jc::resolve {
 
     // Suggestions //
     void ModuleTreeBuilder::suggestCannotRedefine(
-        const ast::ident_pr & ident,
+        const ast::Ident::PR & ident,
         DefKind as,
         const DefId & prevDefId
     ) {

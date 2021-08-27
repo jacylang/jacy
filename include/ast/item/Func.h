@@ -13,7 +13,7 @@ namespace jc::ast {
 
     struct FuncParam : Node {
         FuncParam(
-            ident_pr name,
+            Ident::PR name,
             type_ptr type,
             Expr::OptPtr defaultValue,
             const Span & span
@@ -22,7 +22,7 @@ namespace jc::ast {
             type(std::move(type)),
             defaultValue(std::move(defaultValue)) {}
 
-        ident_pr name;
+        Ident::PR name;
         type_ptr type;
         Expr::OptPtr defaultValue;
 
@@ -56,7 +56,7 @@ namespace jc::ast {
         Func(
             FuncSig && sig,
             GenericParam::OptList generics,
-            ident_pr name,
+            Ident::PR name,
             Option<Body> && body,
             const Span & span
         ) : Item(span, ItemKind::Func),
@@ -67,7 +67,7 @@ namespace jc::ast {
 
         FuncSig sig;
         GenericParam::OptList generics;
-        ident_pr name;
+        Ident::PR name;
         Option<Body> body;
 
         span::Ident getName() const override {

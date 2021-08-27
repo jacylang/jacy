@@ -52,12 +52,12 @@ namespace jc::ast {
     };
 
     struct TupleTypeEl : Node {
-        TupleTypeEl(opt_ident name, opt_type_ptr type, const Span & span)
+        TupleTypeEl(Ident::OptPR name, opt_type_ptr type, const Span & span)
             : Node(span),
               name(std::move(name)),
               type(std::move(type)) {}
 
-        opt_ident name;
+        Ident::OptPR name;
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) const override {
