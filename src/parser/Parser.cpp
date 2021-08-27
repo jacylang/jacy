@@ -58,8 +58,8 @@ namespace jc::parser {
         advance();
     }
 
-    opt_token Parser::skip(TokenKind kind, const std::string & expected, Recovery recovery) {
-        opt_token found{None};
+    Token::Opt Parser::skip(TokenKind kind, const std::string & expected, Recovery recovery) {
+        Token::Opt found{None};
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
