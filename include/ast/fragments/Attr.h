@@ -10,7 +10,7 @@ namespace jc::ast {
         using List = std::vector<Attr>;
 
         Attr(Ident::PR name, Arg::List params, const Span & span)
-            : Node{span), name(std::move(name)}, params(std::move(params)) {}
+            : Node{span}, name{std::move(name)}, params{std::move(params)} {}
 
         Ident::PR name;
         Arg::List params;
