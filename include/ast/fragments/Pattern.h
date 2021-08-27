@@ -30,9 +30,9 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pattern {
-        ParenPat(pat_ptr && pat, const Span & span) : Pattern(PatternKind::Paren, span), pat(std::move(pat)) {}
+        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern(PatternKind::Paren, span), pat(std::move(pat)) {}
 
-        pat_ptr pat;
+        Pattern::Ptr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -77,12 +77,12 @@ namespace jc::ast {
 
     /// `&mut pattern`
     struct RefPat : Pattern {
-        RefPat(bool ref, bool mut, pat_ptr && pat, const Span & span)
+        RefPat(bool ref, bool mut, Pattern::Ptr && pat, const Span & span)
             : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
 
         bool ref;
         bool mut;
-        pat_ptr pat;
+        Pattern::Ptr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -122,10 +122,10 @@ namespace jc::ast {
 
     /// Struct nested pattern like `IDENT: pattern`
     struct StructPatternDestructEl {
-        StructPatternDestructEl(ident_pr && name, pat_ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
+        StructPatternDestructEl(ident_pr && name, Pattern::Ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
 
         ident_pr name;
-        pat_ptr pat;
+        Pattern::Ptr pat;
     };
 
     /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding

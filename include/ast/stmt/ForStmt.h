@@ -9,7 +9,7 @@
 namespace jc::ast {
     struct ForStmt : Stmt {
         ForStmt(
-            pat_ptr && pat,
+            Pattern::Ptr && pat,
             Expr::Ptr && inExpr,
             Block::Ptr && body,
             const Span & span
@@ -18,7 +18,7 @@ namespace jc::ast {
             inExpr(std::move(inExpr)),
             body(std::move(body)) {}
 
-        pat_ptr pat;
+        Pattern::Ptr pat;
         Expr::Ptr inExpr;
         Block::Ptr body;
 

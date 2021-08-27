@@ -9,12 +9,12 @@ namespace jc::ast {
     using lambda_param_list = std::vector<LambdaParam>;
 
     struct LambdaParam : Node {
-        LambdaParam(pat_ptr pat, opt_type_ptr type, const Span & span)
+        LambdaParam(Pattern::Ptr pat, opt_type_ptr type, const Span & span)
             : Node(span),
               pat(std::move(pat)),
               type(std::move(type)) {}
 
-        pat_ptr pat;
+        Pattern::Ptr pat;
         opt_type_ptr type;
 
         void accept(BaseVisitor & visitor) const override {
