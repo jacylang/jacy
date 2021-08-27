@@ -12,7 +12,7 @@ namespace jc::ast {
             Type::OptPtr && forType,
             Item::List && members,
             const Span & span
-        ) : Item(span, ItemKind::Impl),
+        ) : Item{span, ItemKind::Impl},
             generics(std::move(generics)),
             traitTypePath(std::move(traitTypePath)),
             forType(std::move(forType)),

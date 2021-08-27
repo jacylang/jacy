@@ -42,7 +42,7 @@ namespace jc::ast {
 
     struct Enum : Item {
         Enum(Ident::PR && name, EnumEntry::List && entries, const Span & span)
-            : Item(span, ItemKind::Enum), name{std::move(name)}, entries{std::move(entries)} {}
+            : Item{span, ItemKind::Enum}, name{std::move(name)}, entries{std::move(entries)} {}
 
         Ident::PR name;
         EnumEntry::List entries{};

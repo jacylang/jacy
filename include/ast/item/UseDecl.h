@@ -73,7 +73,7 @@ namespace jc::ast {
         UseDecl(
             UseTree::Ptr && useTree,
             const Span & span
-        ) : Item(span, ItemKind::Use),
+        ) : Item{span, ItemKind::Use},
             useTree(std::move(useTree)) {}
 
         UseTree::Ptr useTree;

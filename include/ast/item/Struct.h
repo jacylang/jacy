@@ -30,7 +30,7 @@ namespace jc::ast {
             GenericParam::OptList generics,
             StructField::List fields,
             const Span & span
-        ) : Item(span, ItemKind::Struct),
+        ) : Item{span, ItemKind::Struct},
             name(std::move(name)),
             generics(std::move(generics)),
             fields(std::move(fields)) {}
