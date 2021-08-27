@@ -49,7 +49,7 @@ namespace jc::resolve {
         log.raw(def.kindStr());
 
         if (def.nameNodeId.some()) {
-            log.raw(" (", def.nameNodeId.unwrap(), ")");
+            log.raw(def.nameNodeId.unwrap());
         }
 
         switch (def.kind) {
@@ -58,6 +58,7 @@ namespace jc::resolve {
             case DefKind::Mod:
             case DefKind::Struct:
             case DefKind::Func:
+            case DefKind::Init:
             case DefKind::Trait: {
                 log.raw(" ");
                 printMod(sess->defStorage.getModule(defId));
