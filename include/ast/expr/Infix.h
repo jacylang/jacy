@@ -4,9 +4,6 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct Infix;
-    using infix_ptr = N<Infix>;
-
     struct Infix : Expr {
         Infix(ExprPtr lhs, const parser::Token & op, ExprPtr rhs, const Span & span)
             : Expr(span, ExprKind::Infix), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
