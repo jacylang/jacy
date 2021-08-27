@@ -18,10 +18,6 @@
  */
 
 namespace jc::parser {
-    struct Token;
-    using token_list = std::vector<Token>;
-    using opt_token = Option<Token>;
-
     struct Location {
         uint32_t line{0};
         uint32_t col{0};
@@ -149,6 +145,9 @@ namespace jc::parser {
     };
 
     struct Token {
+        using List = std::vector<Token>;
+        using Opt = Option<Token>;
+
         Token() {}
         Token(
             TokenKind kind,
@@ -176,7 +175,7 @@ namespace jc::parser {
         static std::string kindToString(const Token & token);
         std::string kindToString() const;
 
-        static std::string listKindToString(const token_list & tokens);
+        static std::string listKindToString(const Token::List & tokens);
 
         // Debug //
         std::string dump(bool withLoc = false) const;

@@ -83,7 +83,7 @@ namespace jc::parser {
                 // Recovery::Any
                 // TODO: Add dev logs
                 const auto & begin = cspan();
-                token_list errorTokens;
+                Token::List errorTokens;
                 while (not eof()) {
                     errorTokens.emplace_back(peek());
                     advance();
@@ -141,7 +141,7 @@ namespace jc::parser {
     dt::SuggResult<Item::List> Parser::parse(
         const sess::sess_ptr & sess,
         const parse_sess_ptr & parseSess,
-        const token_list & tokens
+        const Token::List & tokens
     ) {
         this->tokens.clear();
         this->index = 0;
@@ -164,7 +164,7 @@ namespace jc::parser {
         logParseExtra("[opt] Item");
 
         Attr::List attributes = parseAttrList();
-        parser::token_list modifiers = parseModifiers();
+        parser::Token::List modifiers = parseModifiers();
         Option<Item::Ptr> maybeItem{None};
 
         auto vis = parseVis();
@@ -347,7 +347,7 @@ namespace jc::parser {
         return makeNode<EnumEntry>(EnumEntryKind::Raw, std::move(name), closeSpan(begin));
     }
 
-    Item::Ptr Parser::parseFunc(parser::token_list && modifiers) {
+    Item::Ptr Parser::parseFunc(parser::Token::List && modifiers) {
         enterEntity("Func");
 
         const auto & begin = cspan();
@@ -1623,8 +1623,8 @@ namespace jc::parser {
         return args;
     }
 
-    parser::token_list Parser::parseModifiers() {
-        parser::token_list modifiers;
+    parser::Token::List Parser::parseModifiers() {
+        parser::Token::List modifiers;
 
         while (not eof()) {
             const auto & modifier = peek();

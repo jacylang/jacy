@@ -20,13 +20,13 @@ namespace jc::parser {
         Lexer();
         virtual ~Lexer() = default;
 
-        token_list lex(const parse_sess_ptr & parseSess);
+        Token::List lex(const parse_sess_ptr & parseSess);
 
     private:
         log::Logger log{"lexer"};
 
         std::string source;
-        token_list tokens;
+        Token::List tokens;
 
         // Lexer current position
         uint32_t tokenStartIndex{0};

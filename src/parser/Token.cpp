@@ -196,7 +196,7 @@ namespace jc::parser {
         return kindToString(*this);
     }
 
-    std::string Token::listKindToString(const token_list & tokens) {
+    std::string Token::listKindToString(const Token::List & tokens) {
         std::string str;
         for (const auto & token : tokens) {
             str += token.kindToString();

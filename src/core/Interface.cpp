@@ -268,7 +268,7 @@ namespace jc::core {
         }
     }
 
-    void Interface::printTokens(const fs::path & path, const parser::token_list & tokens) {
+    void Interface::printTokens(const fs::path & path, const parser::Token::List & tokens) {
         if (not config.checkPrint(Config::PrintKind::Tokens)) {
             return;
         }

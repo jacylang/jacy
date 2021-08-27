@@ -81,13 +81,13 @@ namespace jc::parser {
         dt::SuggResult<Item::List> parse(
             const sess::sess_ptr & sess,
             const parse_sess_ptr & parseSess,
-            const token_list & tokens
+            const Token::List & tokens
         );
 
     private:
         log::Logger log{"parser"};
 
-        token_list tokens;
+        Token::List tokens;
         size_t index{0};
 
         sess::sess_ptr sess;
@@ -158,7 +158,7 @@ namespace jc::parser {
         Vis parseVis();
         Item::Ptr parseEnum();
         EnumEntry parseEnumEntry();
-        Item::Ptr parseFunc(parser::token_list && modifiers);
+        Item::Ptr parseFunc(parser::Token::List && modifiers);
         Item::Ptr parseImpl();
         Item::Ptr parseStruct();
         StructField::List parseStructFields();
@@ -212,7 +212,7 @@ namespace jc::parser {
         Attr::List parseAttrList();
         Option<Attr> parseAttr();
         Arg::List parseArgList(const std::string & construction);
-        parser::token_list parseModifiers();
+        parser::Token::List parseModifiers();
         FuncParam::List parseFuncParamList();
         FuncParam parseFuncParam();
         Item::List parseMembers(const std::string & construction);

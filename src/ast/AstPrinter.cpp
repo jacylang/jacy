@@ -877,7 +877,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printModifiers(const parser::token_list & modifiers) {
+    void AstPrinter::printModifiers(const parser::Token::List & modifiers) {
         for (const auto & mod : modifiers) {
             log.raw(mod.kindToString());
         }

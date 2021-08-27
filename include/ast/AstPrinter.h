@@ -123,7 +123,7 @@ namespace jc::ast {
     private:
         void printVis(const Vis & vis);
         void printAttributes(const Attr::List & attributes);
-        void printModifiers(const parser::token_list & modifiers);
+        void printModifiers(const parser::Token::List & modifiers);
         void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
