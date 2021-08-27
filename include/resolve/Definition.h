@@ -5,11 +5,35 @@
 #include "ast/Node.h"
 
 namespace jc::resolve {
+    struct DefIndex {
+        size_t val;
+
+        static const DefIndex ROOT_INDEX;
+
+        bool operator==(const DefIndex & other) const {
+            return val == other.val;
+        }
+
+        bool operator<(const DefIndex & other) const {
+            return val < other.val;
+        }
+
+        auto isRoot() const {
+            return val == ROOT_INDEX.val;
+        }
+
+        auto toString() const {
+            return std::to_string(val);
+        }
+
+        friend std::ostream & operator<<(std::ostream & os, const DefIndex & nodeId) {
+            return os << "#" << nodeId.val;
+        }
+    };
+
     struct DefId {
         using Opt = Option<DefId>;
-        using DefIndex = size_t;
 
-        static const DefIndex ROOT_DEF_INDEX;
         static const DefId ROOT_DEF_ID;
 
         explicit DefId(DefIndex index) : index(index) {}
