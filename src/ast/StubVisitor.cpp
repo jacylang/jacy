@@ -62,7 +62,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const FuncParam & funcParam) {
-        funcParam.name.autoAccept(*this);
+        funcParam.pat.autoAccept(*this);
         funcParam.type.autoAccept(*this);
         if (funcParam.defaultValue.some()) {
             funcParam.defaultValue.unwrap().autoAccept(*this);

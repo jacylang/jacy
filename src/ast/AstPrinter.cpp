@@ -890,10 +890,6 @@ namespace jc::ast {
     }
 
     // Helpers //
-    void AstPrinter::printFuncSig(const FuncSig & sig) {
-
-    }
-
     void AstPrinter::printVis(const Vis & vis) {
         switch (vis.kind) {
             case VisKind::Pub: {
