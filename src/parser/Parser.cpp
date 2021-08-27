@@ -360,7 +360,7 @@ namespace jc::parser {
         const auto & maybeParenToken = peek();
         bool isParen = maybeParenToken.is(TokenKind::LParen);
 
-        func_param_list params;
+        FuncParam::List params;
         if (isParen) {
             params = parseFuncParamList();
         }
@@ -1642,7 +1642,7 @@ namespace jc::parser {
         return modifiers;
     }
 
-    func_param_list Parser::parseFuncParamList() {
+    FuncParam::List Parser::parseFuncParamList() {
         const auto maybeParenToken = peek();
         if (skipOpt(TokenKind::LParen).none()) {
             return {};
@@ -1650,7 +1650,7 @@ namespace jc::parser {
 
         enterEntity("FuncParams");
 
-        func_param_list params;
+        FuncParam::List params;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::RParen)) {

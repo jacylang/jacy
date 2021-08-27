@@ -213,7 +213,7 @@ namespace jc::parser {
         Option<Attr> parseAttr();
         Arg::List parseArgList(const std::string & construction);
         parser::token_list parseModifiers();
-        func_param_list parseFuncParamList();
+        FuncParam::List parseFuncParamList();
         FuncParam parseFuncParam();
         item_list parseMembers(const std::string & construction);
         PR<SimplePath> parseSimplePath(const std::string & construction);

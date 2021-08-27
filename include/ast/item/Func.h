@@ -8,10 +8,9 @@
 #include "ast/expr/Block.h"
 
 namespace jc::ast {
-    struct FuncParam;
-    using func_param_list = std::vector<FuncParam>;
-
     struct FuncParam : Node {
+        using List = std::vector<FuncParam>;
+
         FuncParam(
             Ident::PR name,
             Type::Ptr type,
@@ -41,14 +40,14 @@ namespace jc::ast {
     struct FuncSig {
         FuncSig(
             const parser::token_list & modifiers,
-            func_param_list params,
+            FuncParam::List params,
             Type::OptPtr returnType
         ) : modifiers(modifiers),
             params(std::move(params)),
             returnType(std::move(returnType)) {}
 
         parser::token_list modifiers;
-        func_param_list params;
+        FuncParam::List params;
         Type::OptPtr returnType;
     };
 
