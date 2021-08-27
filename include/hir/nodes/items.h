@@ -16,7 +16,7 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(std::vector<Variant> && variants) : Item(ItemKind::Enum), variants{std::move(variants)} {}
+        Enum(std::vector<Variant> && variants) : Item{ItemKind::Enum}, variants{std::move(variants)} {}
 
         std::vector<Variant> variants;
     };
@@ -43,7 +43,7 @@ namespace jc::hir {
     };
 
     struct Func : Item {
-        Func(FuncSig && sig, Body && body) : Item(ItemKind::Func), sig{std::move(sig)}, body{std::move(body)} {}
+        Func(FuncSig && sig, Body && body) : Item{ItemKind::Func}, sig{std::move(sig)}, body{std::move(body)} {}
 
         FuncSig sig;
         Body body;
@@ -52,7 +52,7 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(ItemId::List && items) : Item(ItemKind::Mod), items{std::move(items)} {}
+        Mod(ItemId::List && items) : Item{ItemKind::Mod}, items{std::move(items)} {}
 
         ItemId::List items;
     };
