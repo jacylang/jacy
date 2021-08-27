@@ -667,6 +667,10 @@ namespace jc::parser {
 
         justSkip(TokenKind::Init, "`init`", "`parseInit`");
 
+        auto params = parseFuncParamList();
+
+
+
         exitEntity();
     }
 
