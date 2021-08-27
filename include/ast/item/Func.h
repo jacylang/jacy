@@ -16,7 +16,7 @@ namespace jc::ast {
             Type::Ptr type,
             Expr::OptPtr defaultValue,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             name(std::move(name)),
             type(std::move(type)),
             defaultValue(std::move(defaultValue)) {}

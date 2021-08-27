@@ -15,8 +15,8 @@ namespace jc::ast {
         } kind;
 
         SimplePathSeg(Ident::PR && ident, const Span & span)
-            : Node(span), kind(Kind::Ident), ident(std::move(ident)) {}
-        SimplePathSeg(Kind kind, const Span & span) : Node(span), kind(kind) {}
+            : Node{span), kind(Kind::Ident}, ident(std::move(ident)) {}
+        SimplePathSeg(Kind kind, const Span & span) : Node{span}, kind(kind) {}
 
         Ident::OptPR ident{None};
 
@@ -30,7 +30,7 @@ namespace jc::ast {
             bool global,
             std::vector<SimplePathSeg> && segments,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             global(global),
             segments(std::move(segments)) {}
 

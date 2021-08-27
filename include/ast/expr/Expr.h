@@ -42,7 +42,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Expr(const Span & span, ExprKind kind) : Node(span), kind(kind) {}
+        Expr(const Span & span, ExprKind kind) : Node{span}, kind(kind) {}
         virtual ~Expr() = default;
 
         ExprKind kind;

@@ -22,7 +22,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pattern(PatternKind kind, const Span & span) : Node(span), kind(kind) {}
+        Pattern(PatternKind kind, const Span & span) : Node{span}, kind(kind) {}
 
         PatternKind kind;
 

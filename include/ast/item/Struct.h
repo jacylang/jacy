@@ -12,7 +12,7 @@ namespace jc::ast {
             Ident::PR name,
             Type::Ptr type,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             name(std::move(name)),
             type(std::move(type)) {}
 

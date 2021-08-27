@@ -9,7 +9,7 @@ namespace jc::ast {
         using List = std::vector<Arg>;
 
         Arg(Ident::OptPR && name, Expr::Ptr && value, const Span & span)
-            : Node(span), name(std::move(name)), value(std::move(value)) {}
+            : Node{span), name(std::move(name)}, value(std::move(value)) {}
 
         Ident::OptPR name;
         Expr::Ptr value;

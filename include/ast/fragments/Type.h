@@ -24,7 +24,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Type(const Span & span, TypeKind kind) : Node(span), kind(kind) {}
+        Type(const Span & span, TypeKind kind) : Node{span}, kind(kind) {}
         virtual ~Type() = default;
 
         TypeKind kind;
@@ -51,7 +51,7 @@ namespace jc::ast {
         using List = std::vector<TupleTypeEl>;
 
         TupleTypeEl(Ident::OptPR name, Type::OptPtr type, const Span & span)
-            : Node(span),
+            : Node{span},
               name(std::move(name)),
               type(std::move(type)) {}
 

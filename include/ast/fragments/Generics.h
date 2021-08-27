@@ -16,7 +16,7 @@ namespace jc::ast {
         using List = std::vector<N<GenericParam>>;
         using OptList = Option<List>;
 
-        explicit GenericParam(GenericParamKind kind, const Span & span) : Node(span), kind(kind) {}
+        explicit GenericParam(GenericParamKind kind, const Span & span) : Node{span}, kind(kind) {}
         virtual ~GenericParam() = default;
 
         GenericParamKind kind;

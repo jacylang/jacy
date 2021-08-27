@@ -9,7 +9,7 @@ namespace jc::ast {
         using List = std::vector<LambdaParam>;
 
         LambdaParam(Pattern::Ptr pat, Type::OptPtr type, const Span & span)
-            : Node(span),
+            : Node{span},
               pat(std::move(pat)),
               type(std::move(type)) {}
 

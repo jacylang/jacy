@@ -21,7 +21,7 @@ namespace jc::ast {
             Ident::PR && field,
             Expr::Ptr && expr,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             kind(Kind::Raw),
             name(std::move(field)),
             Expr{std::move(expr)} {}
@@ -29,14 +29,14 @@ namespace jc::ast {
         StructExprField(
             Ident::PR && field,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             kind(Kind::Shortcut),
             name(std::move(field)) {}
 
         StructExprField(
             Expr::Ptr && expr,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             kind(Kind::Base),
             Expr{std::move(expr)} {}
 

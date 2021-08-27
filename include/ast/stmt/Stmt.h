@@ -20,7 +20,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Stmt{const Span & span, StmtKind kind) : Node(span), kind(kind} {}
+        Stmt(const Span & span, StmtKind kind) : Node{span}, kind{kind} {}
 
         StmtKind kind;
 

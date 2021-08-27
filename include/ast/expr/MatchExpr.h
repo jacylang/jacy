@@ -13,7 +13,7 @@ namespace jc::ast {
             Pattern::List patterns,
             Block::Ptr body,
             const Span & span
-        ) : Node(span),
+        ) : Node{span},
             patterns(std::move(patterns)),
             body(std::move(body)) {}
 
