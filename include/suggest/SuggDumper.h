@@ -10,7 +10,7 @@ namespace jc::sugg {
     public:
         SuggDumper() = default;
 
-        void apply(sess::sess_ptr sess, const sugg_list & suggestions) override;
+        void apply(sess::Sess::Ptr sess, const sugg_list & suggestions) override;
 
         void visit(MsgSugg * msgSugg) override;
         void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;

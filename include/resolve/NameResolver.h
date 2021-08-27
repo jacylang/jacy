@@ -18,7 +18,7 @@ namespace jc::resolve {
         NameResolver() : StubVisitor("NameResolver") {}
         ~NameResolver() override = default;
 
-        dt::SuggResult<dt::none_t> resolve(const sess::sess_ptr & sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> resolve(const sess::Sess::Ptr & sess, const ast::Party & party);
 
         // Items //
 //        void visit(const ast::Enum & enumDecl) override;
@@ -53,7 +53,7 @@ namespace jc::resolve {
 
     private:
         log::Logger log{"NameResolver"};
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
 
         // Ribs //
     private:

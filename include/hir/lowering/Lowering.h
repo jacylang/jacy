@@ -13,7 +13,7 @@ namespace jc::hir {
         Lowering() = default;
         virtual ~Lowering() = default;
 
-        dt::SuggResult<Party> lower(const sess::sess_ptr & sess, const ast::Party & party);
+        dt::SuggResult<Party> lower(const sess::Sess::Ptr & sess, const ast::Party & party);
 
     private:
         template<class T, class ...Args>
@@ -54,7 +54,7 @@ namespace jc::hir {
         item_map items;
 
     private:
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
     };
 }
 

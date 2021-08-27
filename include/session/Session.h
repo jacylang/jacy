@@ -12,9 +12,6 @@
 #include "session/diagnostics.h"
 
 namespace jc::sess {
-    struct Session;
-    using sess_ptr = std::shared_ptr<Session>;
-
     class NodeStorage {
     public:
         template<class T>
@@ -48,6 +45,8 @@ namespace jc::sess {
     };
 
     struct Session {
+        using Ptr = std::shared_ptr<Session>;
+
         Session();
 
         SourceMap sourceMap;

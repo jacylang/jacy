@@ -17,7 +17,7 @@ namespace jc::sugg {
     public:
         virtual ~BaseSuggester() = default;
 
-        virtual void apply(sess::sess_ptr sess, const sugg::sugg_list & suggestions) = 0;
+        virtual void apply(sess::Sess::Ptr sess, const sugg::sugg_list & suggestions) = 0;
 
         virtual void visit(MsgSugg * msgSugg) = 0;
         virtual void visit(MsgSpanLinkSugg * msgSpanLinkSugg) = 0;

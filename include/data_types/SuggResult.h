@@ -24,13 +24,13 @@ namespace jc::dt {
             return {std::move(value), std::move(suggestions)};
         }
 
-        T take(sess::sess_ptr sess, const std::string & stageName = "") {
+        T take(sess::Sess::Ptr sess, const std::string & stageName = "") {
             check(sess, suggestions, stageName);
             return std::move(value);
         }
 
         static void check(
-            sess::sess_ptr sess,
+            sess::Sess::Ptr sess,
             const sugg::sugg_list & suggestions,
             const std::string & stageName = ""
         ) {
@@ -44,7 +44,7 @@ namespace jc::dt {
         }
 
         static void dump(
-            sess::sess_ptr sess,
+            sess::Sess::Ptr sess,
             const sugg::sugg_list & suggestions,
             const std::string & emptyMessage = ""
         ) noexcept {

@@ -1,7 +1,7 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::sess_ptr sess, const ast::Party & party) {
+    dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::Sess::Ptr sess, const ast::Party & party) {
         this->sess = sess;
 
         // Enter root module

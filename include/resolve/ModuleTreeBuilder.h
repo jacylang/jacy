@@ -15,7 +15,7 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        dt::SuggResult<dt::none_t> build(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> build(sess::Sess::Ptr sess, const ast::Party & party);
 
         void visit(const ast::Enum & _enum) override;
         void visit(const ast::EnumEntry & enumEntry) override;
@@ -33,7 +33,7 @@ namespace jc::resolve {
         using ast::StubVisitor::visit;
 
     private:
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
         log::Logger log{"ModuleTreeBuilder"};
 
         // Definitions //

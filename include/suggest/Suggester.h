@@ -19,14 +19,14 @@ namespace jc::sugg {
     public:
         Suggester();
 
-        void apply(sess::sess_ptr sess, const sugg_list & suggestions) override;
+        void apply(sess::Sess::Ptr sess, const sugg_list & suggestions) override;
 
         void visit(MsgSugg * msgSugg) override;
         void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;
         void visit(HelpSugg * helpSugg) override;
 
     private:
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
 
         void pointMsgTo(const std::string & msg, const Span & span, SuggKind kind);
         void printPrevLine(file_id_t fileId, size_t index);

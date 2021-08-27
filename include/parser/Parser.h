@@ -80,7 +80,7 @@ namespace jc::parser {
         virtual ~Parser() = default;
 
         dt::SuggResult<Item::List> parse(
-            const sess::sess_ptr & sess,
+            const sess::Sess::Ptr & sess,
             const ParseSess::Ptr & parseSess,
             const Token::List & tokens
         );
@@ -91,7 +91,7 @@ namespace jc::parser {
         Token::List tokens;
         size_t index{0};
 
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
 
     public:
         template<class T, class ...Args>

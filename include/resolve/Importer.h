@@ -32,7 +32,7 @@ namespace jc::resolve {
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        dt::SuggResult<dt::none_t> declare(sess::sess_ptr sess, const ast::Party & party);
+        dt::SuggResult<dt::none_t> declare(sess::Sess::Ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTreeRaw & useTree) override;
@@ -42,7 +42,7 @@ namespace jc::resolve {
 
     private:
         log::Logger log{"importer"};
-        sess::sess_ptr sess;
+        sess::Sess::Ptr sess;
 
         // Module where `use` appeared
         module_ptr _useDeclModule;

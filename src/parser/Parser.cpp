@@ -139,7 +139,7 @@ namespace jc::parser {
 
     // Parsers //
     dt::SuggResult<Item::List> Parser::parse(
-        const sess::sess_ptr & sess,
+        const sess::Sess::Ptr & sess,
         const ParseSess::Ptr & parseSess,
         const Token::List & tokens
     ) {
