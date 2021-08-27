@@ -43,7 +43,7 @@ namespace jc::sugg {
         eid_t eid{NoneEID}; // Explanation ID, -1 if no exists
 
         SpanSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : span{span}, kind{kind}, eid(eid) {}
+            : span{span}, kind{kind}, eid{eid} {}
 
         SuggKind getKind() const override {
             return kind;
@@ -65,7 +65,7 @@ namespace jc::sugg {
 
     struct SpanLinkSugg : SpanSugg {
         SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : SpanSugg(span, kind, eid), link(link) {}
+            : SpanSugg(span, kind, eid), link{link} {}
 
         Span link;
     };

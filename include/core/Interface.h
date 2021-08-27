@@ -29,7 +29,7 @@ namespace jc::core {
     struct FSEntry {
         using Ptr = std::shared_ptr<FSEntry>;
 
-        FSEntry(bool isDir, const std::string & name) : isDir(isDir), name(name) {}
+        FSEntry(bool isDir, const std::string & name) : isDir{isDir}, name{name} {}
 
         bool isDir;
         std::string name;

@@ -16,7 +16,7 @@ namespace jc::dt {
     class SuggResult {
     public:
         SuggResult(const T & value, sugg::BaseSugg::List && suggestions)
-            : value(value), suggestions{std::move(suggestions)} {}
+            : value{value}, suggestions{std::move(suggestions)} {}
         SuggResult(T && value, sugg::BaseSugg::List && suggestions)
             : value{std::move(value)}, suggestions{std::move(suggestions)} {}
 

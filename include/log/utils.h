@@ -87,7 +87,7 @@ namespace jc::log {
 namespace jc::log {
     template<uint8_t S = 2>
     struct Indent {
-        Indent(size_t inner) : inner(inner) {}
+        Indent(size_t inner) : inner{inner} {}
 
         size_t inner;
 
@@ -135,7 +135,7 @@ namespace jc::log {
         Table(
             const std::array<TableSizeT, Cols> & layout,
             const std::array<Align, Cols> & alignment
-        ) : layout(layout), alignment(alignment) {
+        ) : layout{layout}, alignment{alignment} {
             if (alignment.size() != layout.size()) {
                 throw std::logic_error("Layout and Alignment sizes must be equal");
             }
@@ -404,7 +404,7 @@ namespace jc::log {
 
     public:
         Anim(const Interval interval, const FrameList & frames)
-            : interval(interval), frames(frames) {}
+            : interval{interval}, frames{frames} {}
 
         Interval getInterval() const noexcept {
             return interval;
@@ -438,7 +438,7 @@ namespace jc::log {
         using Content = std::string;
 
     public:
-        AnimPlayer(const Content & content, const Anim & anim) : content(content), anim(anim) {}
+        AnimPlayer(const Content & content, const Anim & anim) : content{content}, anim{anim} {}
 
         void start() {
             thread = std::thread(std::ref(*this));

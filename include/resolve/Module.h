@@ -26,10 +26,10 @@ namespace jc::resolve {
             DefId::Opt defId,
             DefId::Opt nearestModDef
         ) : kind{kind},
-            parent(parent),
-            nodeId(nodeId),
-            defId(defId),
-            nearestModDef(nearestModDef) {}
+            parent{parent},
+            nodeId{nodeId},
+            defId{defId},
+            nearestModDef{nearestModDef} {}
 
         ModuleKind kind;
         OptPtr parent{None};

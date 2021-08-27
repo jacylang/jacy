@@ -24,10 +24,10 @@ namespace jc::fs {
         };
 
         Entry(const std_fs::path & path, Entry::List && files)
-            : kind(Kind::Dir), path(path), content{std::move(files)} {}
+            : kind(Kind::Dir), path{path}, content{std::move(files)} {}
 
         Entry(const std_fs::path & path, std::string && content)
-            : kind(Kind::File), path(path), content{std::move(content)} {}
+            : kind(Kind::File), path{path}, content{std::move(content)} {}
 
         bool isDir() const {
             return kind == Kind::Dir;

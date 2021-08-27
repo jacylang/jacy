@@ -20,7 +20,7 @@ namespace jc::span {
 //        explicit Span(Span && rhs)
 //            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
 //        explicit Span(const Span & rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
-        explicit Span(FileId fileId) : fileId(fileId) {}
+        explicit Span(FileId fileId) : fileId{fileId} {}
         explicit Span(Pos lowBound, Pos highBound, FileId fileId) {
             pos = lowBound;
             len = static_cast<Len>(highBound - lowBound);
@@ -28,7 +28,7 @@ namespace jc::span {
         }
 
         explicit Span(Pos pos, Len len, FileId fileId)
-            : pos(pos), len(len), fileId(fileId) {}
+            : pos{pos}, len{len}, fileId{fileId} {}
 
         Pos pos{0};
         Len len{0};

@@ -31,7 +31,7 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody(exprBody), value{std::move(value)} {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody{exprBody}, value{std::move(value)} {}
 
         bool exprBody;
         Expr::Ptr value;
@@ -42,7 +42,7 @@ namespace jc::ast {
             const parser::Token::List & modifiers,
             FuncParam::List params,
             Type::OptPtr returnType
-        ) : modifiers(modifiers),
+        ) : modifiers{modifiers},
             params{std::move(params)},
             returnType{std::move(returnType)} {}
 

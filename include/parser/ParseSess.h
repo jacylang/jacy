@@ -9,7 +9,7 @@ namespace jc::parser {
         using LinePos = uint32_t;
 
         SourceFile() {}
-        SourceFile(const fs::path & path, std::string && src) : path(path), src{std::move(src)} {}
+        SourceFile(const fs::path & path, std::string && src) : path{path}, src{std::move(src)} {}
 
         fs::path path;
         Option<std::string> src{None};
@@ -24,7 +24,7 @@ namespace jc::parser {
         using Ptr = std::shared_ptr<ParseSess>;
 
         ParseSess(span::Span::FileId fileId, SourceFile && sourceFile)
-            : fileId(fileId), sourceFile{std::move(sourceFile)} {}
+            : fileId{fileId}, sourceFile{std::move(sourceFile)} {}
 
         span::Span::FileId fileId;
         SourceFile sourceFile;

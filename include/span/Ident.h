@@ -13,7 +13,7 @@ namespace jc::span {
             name = token.val;
             span = token.span;
         }
-        Ident(const std::string & name, const Span & span) : name(name), span{span} {}
+        Ident(const std::string & name, const Span & span) : name{name}, span{span} {}
 
         std::string name;
         Span span;

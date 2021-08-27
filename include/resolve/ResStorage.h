@@ -139,9 +139,9 @@ namespace jc::resolve {
 
     struct Res {
         Res() : kind(ResKind::Error) {}
-        Res(const DefId & def) : kind(ResKind::Def), def(def) {}
-        Res(NodeId nodeId) : kind(ResKind::Local), nodeId(nodeId) {}
-        Res(PrimType primType) : kind(ResKind::PrimType), primType(primType) {}
+        Res(const DefId & def) : kind(ResKind::Def), def{def} {}
+        Res(NodeId nodeId) : kind(ResKind::Local), nodeId{nodeId} {}
+        Res(PrimType primType) : kind(ResKind::PrimType), primType{primType} {}
 
         ResKind kind;
         Option<DefId> def{None};

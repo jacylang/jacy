@@ -38,7 +38,7 @@ namespace jc::resolve {
 
         static const DefId ROOT_DEF_ID;
 
-        explicit DefId(DefIndex index) : index(index) {}
+        explicit DefId(DefIndex index) : index{index} {}
 
         DefIndex getIndex() const {
             return index;
@@ -139,11 +139,11 @@ namespace jc::resolve {
             DefKind kind,
             const Option<span::Span> & nameSpan,
             ast::OptNodeId nameNodeId
-        ) : depth(depth),
-            vis(vis),
+        ) : depth{depth},
+            vis{vis},
             kind{kind},
-            nameNodeId(nameNodeId),
-            nameSpan(nameSpan) {}
+            nameNodeId{nameNodeId},
+            nameSpan{nameSpan} {}
 
         Depth depth;
         DefVis vis;

@@ -31,9 +31,9 @@ namespace jc::sess {
             Option<Ptr> parent,
             const std::string & name,
             MeasUnit measUnit
-        ) : parent(parent),
-            name(name),
-            measUnit(measUnit),
+        ) : parent{parent},
+            name{name},
+            measUnit{measUnit},
             benchStart(bench()) {}
 
     public:
