@@ -13,17 +13,17 @@
 #include "log/Logger.h"
 
 namespace jc::fs {
-    struct Entry;
-    using entry_list = std::vector<Entry>;
     namespace std_fs = std::filesystem;
 
     struct Entry {
+        using List = std::vector<Entry>;
+
         enum class Kind {
             File,
             Dir,
         };
 
-        Entry(const std_fs::path & path, entry_list && files)
+        Entry(const std_fs::path & path, Entry::List && files)
             : kind(Kind::Dir), path(path), content(std::move(files)) {}
 
         Entry(const std_fs::path & path, std::string && content)
@@ -37,11 +37,11 @@ namespace jc::fs {
             return path;
         }
 
-        entry_list && extractEntries() {
+        Entry::List && extractEntries() {
             if (not isDir()) {
                 log::Logger::devPanic("Called `fs::Entry::extractEntries` on non-dir entry");
             }
-            return std::get<entry_list>(std::move(content));
+            return std::get<Entry::List>(std::move(content));
         }
 
         std::string && extractContent() {
@@ -54,7 +54,7 @@ namespace jc::fs {
     private:
         Kind kind;
         std_fs::path path;
-        std::variant<entry_list, std::string> content;
+        std::variant<Entry::List, std::string> content;
     };
 }
 

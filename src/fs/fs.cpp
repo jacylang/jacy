@@ -24,8 +24,8 @@ namespace jc::fs {
         return Entry(path, std::move(data));
     }
 
-    entry_list readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
-        entry_list entries;
+    Entry::List readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
+        Entry::List entries;
         for (const auto & entry : std_fs::directory_iterator(path)) {
             const auto & entryPath = entry.path();
             if (entry.is_directory()) {
