@@ -6,7 +6,7 @@ namespace jc::resolve {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(sess::Sess::Ptr sess) {
+    void ModulePrinter::print(sess::Session::Ptr sess) {
         this->sess = sess;
         printMod(sess->modTreeRoot.unwrap());
     }

@@ -97,7 +97,7 @@ namespace jc::core {
     private:
         log::Logger log{"interface"};
 
-        sess::Sess::Ptr sess;
+        sess::Session::Ptr sess;
 
         // Suggestions //
     private:

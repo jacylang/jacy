@@ -21,7 +21,7 @@ namespace jc::ast {
     public:
         AstPrinter();
 
-        void print(const sess::Sess::Ptr & sess, const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
+        void print(const sess::Session::Ptr & sess, const Party & party, AstPrinterMode mode = AstPrinterMode::Parsing);
 
         void visit(const ErrorNode & errorNode) override;
 
@@ -115,7 +115,7 @@ namespace jc::ast {
         void visit(const StructPat & pat) override;
 
     private:
-        sess::Sess::Ptr sess;
+        sess::Session::Ptr sess;
         log::Logger log{"ast_printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 

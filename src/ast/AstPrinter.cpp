@@ -7,7 +7,7 @@ namespace jc::ast {
         printAstNodeMap = common::Config::getInstance().checkPrint(common::Config::PrintKind::AstNodeMap);
     }
 
-    void AstPrinter::print(const sess::Sess::Ptr & sess, const Party & party, AstPrinterMode mode) {
+    void AstPrinter::print(const sess::Session::Ptr & sess, const Party & party, AstPrinterMode mode) {
         this->sess = sess;
         this->mode = mode;
 

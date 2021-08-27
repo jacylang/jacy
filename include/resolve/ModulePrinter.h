@@ -8,10 +8,10 @@ namespace jc::resolve {
     struct ModulePrinter {
         ModulePrinter();
 
-        void print(sess::Sess::Ptr sess);
+        void print(sess::Session::Ptr sess);
 
     private:
-        sess::Sess::Ptr sess;
+        sess::Session::Ptr sess;
         log::Logger log{"ModulePrinter"};
 
         void printMod(module_ptr module);

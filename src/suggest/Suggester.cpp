@@ -3,7 +3,7 @@
 namespace jc::sugg {
     Suggester::Suggester() = default;
 
-    void Suggester::apply(sess::Sess::Ptr sess, const sugg_list & suggestions) {
+    void Suggester::apply(sess::Session::Ptr sess, const sugg_list & suggestions) {
         if (suggestions.empty()) {
             log::Logger::devDebug("No suggestions");
             return;
