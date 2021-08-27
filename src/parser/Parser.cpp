@@ -1831,7 +1831,7 @@ namespace jc::parser {
                 }
             }
 
-            opt_gen_params generics{None};
+            GenericParam::OptList generics{None};
             bool pathNotGeneric = false;
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
@@ -2065,7 +2065,7 @@ namespace jc::parser {
         return makePRBoxNode<FuncType, Type>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
-    opt_gen_params Parser::parseOptGenerics() {
+    GenericParam::OptList Parser::parseOptGenerics() {
         logParseExtra("[opt] Generics");
 
         if (not is(TokenKind::LAngle)) {

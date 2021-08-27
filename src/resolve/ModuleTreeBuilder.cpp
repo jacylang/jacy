@@ -132,7 +132,7 @@ namespace jc::resolve {
         return defId;
     }
 
-    void ModuleTreeBuilder::defineGenerics(const ast::opt_gen_params & maybeGenerics) {
+    void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
         maybeGenerics.then([&](const ast::gen_param_list & generics) {
             for (const auto & gen : generics) {
                 switch (gen->kind) {

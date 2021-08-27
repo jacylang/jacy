@@ -55,7 +55,7 @@ namespace jc::ast {
     struct Func : Item {
         Func(
             FuncSig && sig,
-            opt_gen_params generics,
+            GenericParam::OptList generics,
             ident_pr name,
             Option<Body> && body,
             const Span & span
@@ -66,7 +66,7 @@ namespace jc::ast {
             body(std::move(body)) {}
 
         FuncSig sig;
-        opt_gen_params generics;
+        GenericParam::OptList generics;
         ident_pr name;
         Option<Body> body;
 

@@ -19,7 +19,7 @@ namespace jc::ast {
 
         PathSeg(
             ident_pr ident,
-            opt_gen_params generics,
+            GenericParam::OptList generics,
             const Span & span
         ) : Node(span),
             kind(Kind::Ident),
@@ -28,7 +28,7 @@ namespace jc::ast {
 
         PathSeg(
             Kind kind,
-            opt_gen_params generics,
+            GenericParam::OptList generics,
             const Span & span
         ) : Node(span),
             kind(kind),
@@ -36,7 +36,7 @@ namespace jc::ast {
             generics(std::move(generics)) {}
 
         opt_ident ident{None};
-        opt_gen_params generics{None};
+        GenericParam::OptList generics{None};
 
         static inline constexpr Kind getKind(const parser::Token & token) {
             switch (token.kind) {

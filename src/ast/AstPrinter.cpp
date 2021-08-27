@@ -883,7 +883,7 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printGenerics(const ast::opt_gen_params & generics, bool pathPrefix) {
+    void AstPrinter::printGenerics(const ast::GenericParam::OptList & generics, bool pathPrefix) {
         generics.then([&](const auto & generics) {
             if (generics.empty()) {
                 return;

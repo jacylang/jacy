@@ -229,7 +229,7 @@ namespace jc::parser {
         tuple_field_list parseTupleFields();
 
         // Type fragments //
-        opt_gen_params parseOptGenerics();
+        GenericParam::OptList parseOptGenerics();
         type_path_ptr parseTypePath();
 
         // Patterns //

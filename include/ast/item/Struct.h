@@ -28,7 +28,7 @@ namespace jc::ast {
     struct Struct : Item {
         Struct(
             ident_pr name,
-            opt_gen_params generics,
+            GenericParam::OptList generics,
             struct_field_list fields,
             const Span & span
         ) : Item(span, ItemKind::Struct),
@@ -37,7 +37,7 @@ namespace jc::ast {
             fields(std::move(fields)) {}
 
         ident_pr name;
-        opt_gen_params generics;
+        GenericParam::OptList generics;
         struct_field_list fields;
 
         span::Ident getName() const override {
