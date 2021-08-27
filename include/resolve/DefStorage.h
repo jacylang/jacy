@@ -7,7 +7,7 @@ namespace jc::resolve {
     struct DefStorage {
         const Def & getDef(const DefIndex & index) const {
             try {
-                return defs.at(index);
+                return defs.at(index.val);
             } catch (const std::out_of_range & e) {
                 log::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
@@ -28,7 +28,7 @@ namespace jc::resolve {
         template<class ...Args>
         DefId define(Args ...args) {
             defs.emplace_back(Def(args...));
-            return DefId(defs.size() - 1);
+            return DefId(DefIndex {defs.size() - 1});
         }
 
         const std::vector<Def> & getDefinitions() const {
