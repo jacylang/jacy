@@ -44,6 +44,8 @@
  */
 
 namespace jc::parser {
+    using namespace ast;
+
     // Note: Usage
     //  0b00000011 - `0` are unused
     //  0. --
@@ -54,11 +56,10 @@ namespace jc::parser {
     //  5. --
     //  6. Multiple?
     //  7. Right-assoc?
-    using prec_parser_flags = uint8_t;
-    using namespace ast;
-
     struct PrecParser {
-        const prec_parser_flags flags;
+        using Flags = uint8_t;
+
+        const Flags flags;
         const std::vector<TokenKind> ops;
     };
 
