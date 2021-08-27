@@ -8,8 +8,6 @@
 #include "session/SourceMap.h"
 
 namespace jc::parser {
-    using source_lines = std::vector<std::string>;
-
     // TODO: Suggestions instead of errors
     struct LexerError : common::Error {
         explicit LexerError(const std::string & msg) : Error(msg) {}

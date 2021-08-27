@@ -23,7 +23,7 @@ namespace jc::dt {
     class Option {
         constexpr static size_t NoneIndex = 0;
         constexpr static size_t SomeIndex = 1;
-        using storage_type = std::variant<none_t, T>;
+        using StorageT = std::variant<none_t, T>;
 
     public:
         Option(none_t) : storage(None) {}
@@ -32,11 +32,11 @@ namespace jc::dt {
 
     public:
         constexpr Option(const Option<T> & other) noexcept(
-            std::is_nothrow_copy_constructible_v<storage_type>
+            std::is_nothrow_copy_constructible_v<StorageT>
         ) = default;
 
         constexpr Option<T> & operator=(const Option<T> & other) noexcept(
-            std::is_nothrow_copy_assignable_v<storage_type>
+            std::is_nothrow_copy_assignable_v<StorageT>
         ) {
             if (other.none()) {
                 storage = None;
@@ -47,11 +47,11 @@ namespace jc::dt {
         }
 
         constexpr Option(Option<T> && other) noexcept(
-            std::is_nothrow_move_constructible_v<storage_type>
+            std::is_nothrow_move_constructible_v<StorageT>
         ) = default;
 
         constexpr Option<T> & operator=(Option<T> && other) noexcept(
-            std::is_nothrow_move_assignable_v<storage_type>
+            std::is_nothrow_move_assignable_v<StorageT>
         ) {
             if (other.none()) {
                 storage = None;
@@ -133,7 +133,7 @@ namespace jc::dt {
         }
 
     private:
-        storage_type storage;
+        StorageT storage;
     };
 
     template<class T>
