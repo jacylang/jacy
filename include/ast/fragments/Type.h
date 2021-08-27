@@ -20,7 +20,7 @@ namespace jc::ast {
     };
 
     struct Type : Node {
-        using Ptr = N<Type>;
+        using Ptr = PR<N<Type>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
