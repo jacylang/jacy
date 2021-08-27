@@ -1054,7 +1054,7 @@ namespace jc::parser {
             if (skipOpt(TokenKind::LBracket).some()) {
                 enterEntity("Subscript");
 
-                expr_list indices;
+                ExprList indices;
 
                 bool first = true;
                 while (not eof()) {
@@ -1213,7 +1213,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LBracket, "`[`", "`parseListExpr`");
 
-        expr_list elements;
+        ExprList elements;
 
         bool first = true;
         while (not eof()) {
@@ -1257,7 +1257,7 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        expr_list values;
+        ExprList values;
         bool first = true;
         bool forceTuple = false;
         while (not eof()) {
