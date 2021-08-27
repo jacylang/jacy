@@ -357,13 +357,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
 
-        const auto & maybeParenToken = peek();
-        bool isParen = maybeParenToken.is(TokenKind::LParen);
-
-        FuncParam::List params;
-        if (isParen) {
-            params = parseFuncParamList();
-        }
+        auto params = parseFuncParamList();
 
         bool typeAnnotated = false;
         const auto & maybeColonToken = peek();
