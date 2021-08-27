@@ -6,8 +6,6 @@
 namespace jc::ast {
     struct Type;
     struct GenericParam;
-    using gen_param_list = std::vector<N<GenericParam>>;
-    using opt_gen_params = Option<gen_param_list>;
     using type_ptr = PR<N<Type>>;
     using opt_type_ptr = Option<type_ptr>;
 
@@ -18,6 +16,9 @@ namespace jc::ast {
     };
 
     struct GenericParam : Node {
+        using List = std::vector<N<GenericParam>>;
+        using OptList = Option<List>;
+
         explicit GenericParam(GenericParamKind kind, const Span & span) : Node(span), kind(kind) {}
         virtual ~GenericParam() = default;
 
