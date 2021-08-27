@@ -23,7 +23,7 @@ namespace jc::hir {
                 return ItemNode {
                     item->getName(),
                     lowerEnum(*item->as<ast::Enum>(item)),
-                    NONE_HIR_ID,
+                    HirId::DUMMY,
                     item->span
                 };
             }
@@ -31,7 +31,7 @@ namespace jc::hir {
                 return ItemNode {
                     item->getName(),
                     lowerFunc(*item->as<ast::Func>(item)),
-                    NONE_HIR_ID,
+                    HirId::DUMMY,
                     item->span
                 };
             }
@@ -41,7 +41,7 @@ namespace jc::hir {
                 return ItemNode {
                     item->getName(),
                     lowerMod(item->as<ast::Mod>(item)->items),
-                    NONE_HIR_ID,
+                    HirId::DUMMY,
                     item->span
                 };
             }
@@ -130,7 +130,7 @@ namespace jc::hir {
     }
 
     Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
-        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), NONE_HIR_ID, exprStmt.span);
+        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), HirId::DUMMY, exprStmt.span);
     }
 
     // Expressions //
@@ -201,7 +201,7 @@ namespace jc::hir {
             lowerExpr(assign.lhs),
             assign.op,
             lowerExpr(assign.rhs),
-            NONE_HIR_ID,
+            HirId::DUMMY,
             assign.span
         );
     }
@@ -241,7 +241,7 @@ namespace jc::hir {
         for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
-        return Block(std::move(stmts), NONE_HIR_ID, block.span);
+        return Block(std::move(stmts), HirId::DUMMY, block.span);
     }
 
     Body Lowering::lowerBody(const ast::Body & astBody) {
