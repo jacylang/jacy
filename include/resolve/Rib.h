@@ -11,12 +11,11 @@ namespace jc::resolve {
     using ast::NodeId;
     using ast::OptNodeId;
 
-    struct Rib;
-    using rib_ptr = std::shared_ptr<Rib>;
-    using opt_rib = Option<rib_ptr>;
-    using rib_stack = std::vector<rib_ptr>;
-
     struct Rib {
+        using Ptr = std::shared_ptr<Rib>;
+        using OptPtr = Option<Ptr>;
+        using Stack = std::vector<Ptr>;
+
         enum class Kind {
             Raw,
             Root,

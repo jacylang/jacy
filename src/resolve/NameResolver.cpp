@@ -169,7 +169,7 @@ namespace jc::resolve {
         return ribStack.size();
     }
 
-    const rib_ptr & NameResolver::curRib() const {
+    const Rib::Ptr & NameResolver::curRib() const {
         const auto depth = getDepth();
         if (depth == 0) {
             log::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);

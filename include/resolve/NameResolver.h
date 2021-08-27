@@ -57,9 +57,9 @@ namespace jc::resolve {
 
         // Ribs //
     private:
-        rib_stack ribStack;
+        Rib::Stack ribStack;
         size_t getDepth() const;
-        const rib_ptr & curRib() const;
+        const Rib::Ptr & curRib() const;
         void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
         void enterModule(const std::string & name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
