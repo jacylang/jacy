@@ -638,18 +638,19 @@ namespace jc::parser {
         return makeErrPR<N<UseTree>>(closeSpan(begin));
     }
 
-    Item::Ptr Parser::parseInit() {
+    Item::Ptr Parser::parseInit(parser::Token::List && modifiers) {
         enterEntity("Init");
 
         const auto & begin = cspan();
 
         justSkip(TokenKind::Init, "`init`", "`parseInit`");
 
-        auto params = parseFuncParamList();
-
-
+        auto sig = parseFuncSig(std::move(modifiers));
+        auto body = parseFuncBody();
 
         exitEntity();
+
+        return makePRBoxNode<Init, Item>(std::move(sig), std::move(body), closeSpan(begin));
     }
 
     ////////////////
@@ -1544,7 +1545,7 @@ namespace jc::parser {
         }
 
         return FuncSig {
-            modifiers,
+            std::move(modifiers),
             std::move(params),
             std::move(returnType)
         };

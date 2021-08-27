@@ -8,16 +8,13 @@ namespace jc::ast {
     struct Init : Item {
         Init(
             FuncSig && sig,
-            Ident::PR name,
             Option<Body> && body,
             const Span & span
         ) : Item{span, ItemKind::Init},
             sig{std::move(sig)},
-            name{std::move(name)},
             body{std::move(body)} {}
 
         FuncSig sig;
-        Ident::PR name;
         Option<Body> body;
 
         void accept(BaseVisitor & visitor) const override {

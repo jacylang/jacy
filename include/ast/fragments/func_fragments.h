@@ -37,7 +37,7 @@ namespace jc::ast {
 
     struct FuncSig {
         FuncSig(
-            const parser::Token::List & modifiers,
+            parser::Token::List && modifiers,
             FuncParam::List params,
             Type::OptPtr returnType
         ) : modifiers{modifiers},
