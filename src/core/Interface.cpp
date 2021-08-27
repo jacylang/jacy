@@ -35,8 +35,10 @@ namespace jc::core {
             log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
 
             if (config.checkDev()) {
-                throw;
+                throw std::logic_error("Suicide (✖╭╮✖)");
             }
+        } catch (...) {
+            log.devPanic("Uh-oh, caught a non-exception object");
         }
     }
 
