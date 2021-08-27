@@ -1411,8 +1411,8 @@ namespace jc::parser {
         }
 
         // Check if user ignored `if` branch using `;` or parse body
-        opt_block_ptr ifBranch = None;
-        opt_block_ptr elseBranch = None;
+        OptBlockPtr ifBranch = None;
+        OptBlockPtr elseBranch = None;
 
         if (skipOpt(TokenKind::Semi).some()) {
             // TODO!: Add `parseBlockMaybeNone`
