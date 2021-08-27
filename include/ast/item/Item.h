@@ -22,7 +22,7 @@ namespace jc::ast {
 
     struct Vis {
         Vis() : kind(VisKind::Unset), span(None) {}
-        Vis(VisKind kind, const span::Span::Opt & span) : kind{kind}, span(span) {}
+        Vis(VisKind kind, const span::Span::Opt & span) : kind{kind}, span{span} {}
 
         VisKind kind;
         span::Span::Opt span;

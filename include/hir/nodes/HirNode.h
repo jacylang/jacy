@@ -11,7 +11,7 @@ namespace jc::hir {
     using N = std::unique_ptr<T>;
 
     struct HirId {
-        HirId(const resolve::DefId & defId) : defId(defId) {}
+        HirId(const resolve::DefId & defId) : defId{defId} {}
 
         static const HirId DUMMY;
 
@@ -19,7 +19,7 @@ namespace jc::hir {
     };
 
     struct HirNode {
-        HirNode(const HirId & hirId, const Span & span) : hirId(hirId), span(span) {}
+        HirNode(const HirId & hirId, const Span & span) : hirId{hirId}, span{span} {}
 
         HirId hirId;
         Span span;

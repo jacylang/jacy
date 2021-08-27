@@ -55,7 +55,7 @@ namespace jc::ast {
         using Ptr = N<Node>;
         using List = std::vector<Ptr>;
 
-        explicit Node(const Span & span) : span(span) {}
+        explicit Node(const Span & span) : span{span} {}
         virtual ~Node() = default;
 
         NodeId id{NodeId::DUMMY};
