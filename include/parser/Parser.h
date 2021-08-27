@@ -192,11 +192,11 @@ namespace jc::parser {
         // Atomic expressions //
         ident_pr justParseIdent(const std::string & panicIn);
         ident_pr parseIdent(const std::string & expected);
-        path_expr_ptr parsePathExpr();
+        PathExprPtr parsePathExpr();
         ExprPtr parseLiteral();
         ExprPtr parseListExpr();
         ExprPtr parseParenLikeExpr();
-        ExprPtr parseStructExpr(path_expr_ptr && path);
+        ExprPtr parseStructExpr(PathExprPtr && path);
         struct_expr_field_pr parseStructExprField();
 
         BlockPtr parseBlock(const std::string & construction, BlockParsing parsing);
@@ -237,7 +237,7 @@ namespace jc::parser {
         pat_ptr parseLitPat();
         pat_ptr parseBorrowPat();
         pat_ptr parseRefPat();
-        pat_ptr parseStructPat(path_expr_ptr && path);
+        pat_ptr parseStructPat(PathExprPtr && path);
 
         // Helpers //
     private:

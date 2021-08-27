@@ -1190,7 +1190,7 @@ namespace jc::parser {
         return makeErrPR<Ident>(span);
     }
 
-    path_expr_ptr Parser::parsePathExpr() {
+    PathExprPtr Parser::parsePathExpr() {
         return Ok(makeBoxNode<PathExpr>(parsePath(true)));
     }
 
@@ -1291,7 +1291,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
-    ExprPtr Parser::parseStructExpr(path_expr_ptr && path) {
+    ExprPtr Parser::parseStructExpr(PathExprPtr && path) {
         enterEntity("StructExpr");
 
         const auto & begin = cspan();
@@ -2244,7 +2244,7 @@ namespace jc::parser {
         return makePRBoxNode<RefPat, Pattern>(ref, mut, std::move(pat), closeSpan(begin));
     }
 
-    pat_ptr Parser::parseStructPat(path_expr_ptr && path) {
+    pat_ptr Parser::parseStructPat(PathExprPtr && path) {
         logParse("StructPattern");
 
         justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
