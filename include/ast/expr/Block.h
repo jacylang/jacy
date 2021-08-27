@@ -11,11 +11,11 @@ namespace jc::ast {
     using BlockList = std::vector<BlockPtr>;
 
     struct Block : Expr {
-        Block(stmt_list && stmts, const Span & span)
+        Block(StmtList && stmts, const Span & span)
             : Expr(span, ExprKind::Block),
               stmts(std::move(stmts)) {}
 
-        stmt_list stmts;
+        StmtList stmts;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

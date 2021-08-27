@@ -1371,7 +1371,7 @@ namespace jc::parser {
             skip(TokenKind::LBrace, "`{`");
         }
 
-        stmt_list stmts;
+        StmtList stmts;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::RBrace)) {
@@ -1431,7 +1431,7 @@ namespace jc::parser {
             }
             elseBranch = parseBlock("else", BlockParsing::Raw);
         } else if (is(TokenKind::Elif)) {
-            stmt_list elif;
+            StmtList elif;
             const auto & elifBegin = cspan();
             elif.push_back(makePRBoxNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
             elseBranch = Some(PR<N<Block>>(Ok(makeBoxNode<Block>(std::move(elif), closeSpan(elifBegin)))));

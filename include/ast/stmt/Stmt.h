@@ -10,7 +10,7 @@ namespace jc::ast {
     struct Stmt;
     using StmtPtr = PR<N<Stmt>>;
     using OptStmtPtr = Option<StmtPtr>;
-    using stmt_list = std::vector<StmtPtr>;
+    using StmtList = std::vector<StmtPtr>;
 
     enum class StmtKind {
         Expr,
