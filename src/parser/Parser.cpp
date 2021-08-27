@@ -1469,7 +1469,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi).some()) {
             // `match` body is ignored with `;`
             exitEntity();
-            return makePRBoxNode<MatchExpr, Expr>(std::move(subject), match_arm_list{}, closeSpan(begin));
+            return makePRBoxNode<MatchExpr, Expr>(std::move(subject), MatchArm::List{}, closeSpan(begin));
         }
 
         skip(
@@ -1478,7 +1478,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        match_arm_list arms;
+        MatchArm::List arms;
         bool first = true;
         while (not eof()) {
             if (first) {
