@@ -21,7 +21,7 @@ namespace jc::resolve {
 
         Module(
             ModuleKind kind,
-            Ptr parent,
+            OptPtr parent,
             OptNodeId nodeId,
             DefId::Opt defId,
             DefId::Opt nearestModDef
