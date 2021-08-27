@@ -77,6 +77,8 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Init & init) {
         // `Init` has pretty same logic as `Func`, for help look at `Func` visitor
+        auto synthName = ast::Ident("init", );
+
         enterModule(getItemVis(init), "init", DefKind::Func);
         if (init.body.some()) {
             init.body.unwrap().value.autoAccept(*this);
