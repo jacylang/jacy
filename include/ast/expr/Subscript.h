@@ -5,11 +5,11 @@
 
 namespace jc::ast {
     struct Subscript : Expr {
-        Subscript(Expr::Ptr && lhs, ExprList && indices, const Span & span)
+        Subscript(Expr::Ptr && lhs, Expr::List && indices, const Span & span)
             : Expr(span, ExprKind::Subscript), lhs(std::move(lhs)), indices(std::move(indices)) {}
 
         Expr::Ptr lhs;
-        ExprList indices;
+        Expr::List indices;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

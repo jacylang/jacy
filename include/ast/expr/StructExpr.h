@@ -42,7 +42,7 @@ namespace jc::ast {
             expr(std::move(expr)) {}
 
         opt_ident name{None};
-        OptExpr::Ptr expr{None};
+        Expr::OptPtr expr{None};
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

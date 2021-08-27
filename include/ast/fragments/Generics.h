@@ -59,7 +59,7 @@ namespace jc::ast {
         ConstParam(
             ident_pr name,
             type_ptr type,
-            OptExpr::Ptr defaultValue,
+            Expr::OptPtr defaultValue,
             const Span & span
         ) : GenericParam(GenericParamKind::Const, span),
             name(std::move(name)),
@@ -68,7 +68,7 @@ namespace jc::ast {
 
         ident_pr name;
         type_ptr type;
-        OptExpr::Ptr defaultValue;
+        Expr::OptPtr defaultValue;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

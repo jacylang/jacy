@@ -742,7 +742,7 @@ namespace jc::parser {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        OptExpr::Ptr assignExpr{None};
+        Expr::OptPtr assignExpr{None};
         if (skipOpt(TokenKind::Assign).some()) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
@@ -771,7 +771,7 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
-    OptExpr::Ptr Parser::parseOptExpr() {
+    Expr::OptPtr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
@@ -872,7 +872,7 @@ namespace jc::parser {
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
     }
 
-    OptExpr::Ptr Parser::assignment() {
+    Expr::OptPtr Parser::assignment() {
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
@@ -898,7 +898,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExpr::Ptr Parser::precParse(uint8_t index) {
+    Expr::OptPtr Parser::precParse(uint8_t index) {
         if (extraDebugAll) {
             logParse("precParse:" + std::to_string(index));
         }
@@ -918,7 +918,7 @@ namespace jc::parser {
         const auto rightAssoc = flags & 1;
 
         auto begin = cspan();
-        OptExpr::Ptr maybeLhs = precParse(index + 1);
+        Expr::OptPtr maybeLhs = precParse(index + 1);
         while (not eof()) {
             Option<Token> maybeOp{None};
             for (const auto & op : parser.ops) {
@@ -985,7 +985,7 @@ namespace jc::parser {
         {0b11, {TokenKind::As}},
     };
 
-    OptExpr::Ptr Parser::prefix() {
+    Expr::OptPtr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
@@ -1022,7 +1022,7 @@ namespace jc::parser {
         return quest();
     }
 
-    OptExpr::Ptr Parser::quest() {
+    Expr::OptPtr Parser::quest() {
         const auto & begin = cspan();
         auto lhs = call();
 
@@ -1054,7 +1054,7 @@ namespace jc::parser {
             if (skipOpt(TokenKind::LBracket).some()) {
                 enterEntity("Subscript");
 
-                ExprList indices;
+                Expr::List indices;
 
                 bool first = true;
                 while (not eof()) {
@@ -1093,7 +1093,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExpr::Ptr Parser::memberAccess() {
+    Expr::OptPtr Parser::memberAccess() {
         auto lhs = primary();
 
         if (lhs.none()) {
@@ -1113,7 +1113,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    OptExpr::Ptr Parser::primary() {
+    Expr::OptPtr Parser::primary() {
         if (eof()) {
             log::Logger::devPanic("Called parse `primary` on `EOF`");
         }
@@ -1213,7 +1213,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LBracket, "`[`", "`parseListExpr`");
 
-        ExprList elements;
+        Expr::List elements;
 
         bool first = true;
         while (not eof()) {
@@ -1257,7 +1257,7 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        ExprList values;
+        Expr::List values;
         bool first = true;
         bool forceTuple = false;
         while (not eof()) {
@@ -1686,7 +1686,7 @@ namespace jc::parser {
         ).some();
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        OptExpr::Ptr defaultValue{None};
+        Expr::OptPtr defaultValue{None};
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
@@ -2112,7 +2112,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                OptExpr::Ptr defaultValue{None};
+                Expr::OptPtr defaultValue{None};
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }

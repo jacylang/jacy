@@ -175,19 +175,19 @@ namespace jc::parser {
         StmtPtr parseWhileStmt();
 
         // Expressions //
-        OptExpr::Ptr parseOptExpr();
+        Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
         Expr::Ptr parseLambda();
-        OptExpr::Ptr assignment();
-        OptExpr::Ptr precParse(uint8_t index);
+        Expr::OptPtr assignment();
+        Expr::OptPtr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
 
-        OptExpr::Ptr prefix();
-        OptExpr::Ptr quest();
-        OptExpr::Ptr call();
-        OptExpr::Ptr memberAccess();
-        OptExpr::Ptr primary();
+        Expr::OptPtr prefix();
+        Expr::OptPtr quest();
+        Expr::OptPtr call();
+        Expr::OptPtr memberAccess();
+        Expr::OptPtr primary();
 
         // Atomic expressions //
         ident_pr justParseIdent(const std::string & panicIn);

@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct ListExpr : Expr {
-        ListExpr(ExprList && elements, const Span & span)
+        ListExpr(Expr::List && elements, const Span & span)
             : Expr(span, ExprKind::List), elements(std::move(elements)) {}
 
-        ExprList elements;
+        Expr::List elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
