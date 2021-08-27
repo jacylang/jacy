@@ -40,6 +40,7 @@
 #include "ast/item/Enum.h"
 #include "ast/item/Func.h"
 #include "ast/item/Impl.h"
+#include "ast/item/Init.h"
 #include "ast/item/Item.h"
 #include "ast/item/Mod.h"
 #include "ast/item/Struct.h"

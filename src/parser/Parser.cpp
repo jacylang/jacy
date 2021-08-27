@@ -666,6 +666,16 @@ namespace jc::parser {
         return makeErrPR<N<UseTree>>(closeSpan(begin));
     }
 
+    Item::Ptr Parser::parseInit() {
+        enterEntity("Init");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Init, "`init`", "`parseInit`");
+
+        exitEntity();
+    }
+
     ////////////////
     // Statements //
     ////////////////
