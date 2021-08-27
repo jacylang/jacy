@@ -16,9 +16,9 @@ namespace jc::ast {
     };
 
     struct Stmt : Node {
-        using StmtPtr = PR<N<Stmt>>;
-        using OptStmtPtr = Option<StmtPtr>;
-        using StmtList = std::vector<StmtPtr>;
+        using Ptr = PR<N<Stmt>>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
 
         Stmt(const Span & span, StmtKind kind) : Node(span), kind(kind) {}
 
