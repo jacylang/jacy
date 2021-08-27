@@ -9,7 +9,6 @@
 namespace jc::sugg {
     using log::Color;
     using log::Logger;
-    using sess::Span::FileId;
 
     struct SuggestionError : std::logic_error {
         SuggestionError(const std::string & msg) : std::logic_error(msg) {}
@@ -19,7 +18,7 @@ namespace jc::sugg {
     public:
         Suggester();
 
-        void apply(sess::Session::Ptr sess, const sugg_list & suggestions) override;
+        void apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) override;
 
         void visit(MsgSugg * msgSugg) override;
         void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;

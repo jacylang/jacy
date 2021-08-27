@@ -8,7 +8,7 @@ namespace jc::sugg {
     public:
         SuggInterface() = default;
 
-        sugg::sugg_list extractSuggestions();
+        sugg::BaseSugg::List extractSuggestions();
 
     protected:
         void clearSuggestions();
@@ -21,7 +21,7 @@ namespace jc::sugg {
         void suggestHelp(const std::string & helpMsg);
 
     private:
-        sugg::sugg_list suggestions;
+        sugg::BaseSugg::List suggestions;
     };
 }
 

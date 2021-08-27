@@ -414,7 +414,7 @@ namespace jc::core {
     }
 
     // Suggestions //
-    void Interface::collectSuggestions(sugg::sugg_list && additional) {
+    void Interface::collectSuggestions(sugg::BaseSugg::List && additional) {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
     }
 

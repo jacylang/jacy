@@ -15,12 +15,12 @@ namespace jc::dt {
     template<class T>
     class SuggResult {
     public:
-        SuggResult(const T & value, sugg::sugg_list && suggestions)
+        SuggResult(const T & value, sugg::BaseSugg::List && suggestions)
             : value(value), suggestions(std::move(suggestions)) {}
-        SuggResult(T && value, sugg::sugg_list && suggestions)
+        SuggResult(T && value, sugg::BaseSugg::List && suggestions)
             : value(std::move(value)), suggestions(std::move(suggestions)) {}
 
-        std::tuple<T, sugg::sugg_list> extract() {
+        std::tuple<T, sugg::BaseSugg::List> extract() {
             return {std::move(value), std::move(suggestions)};
         }
 
@@ -31,7 +31,7 @@ namespace jc::dt {
 
         static void check(
             sess::Session::Ptr sess,
-            const sugg::sugg_list & suggestions,
+            const sugg::BaseSugg::List & suggestions,
             const std::string & stageName = ""
         ) {
             if (suggestions.empty()) {
@@ -45,7 +45,7 @@ namespace jc::dt {
 
         static void dump(
             sess::Session::Ptr sess,
-            const sugg::sugg_list & suggestions,
+            const sugg::BaseSugg::List & suggestions,
             const std::string & emptyMessage = ""
         ) noexcept {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
@@ -64,7 +64,7 @@ namespace jc::dt {
 
     private:
         T value;
-        sugg::sugg_list suggestions;
+        sugg::BaseSugg::List suggestions;
     };
 }
 
