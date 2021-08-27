@@ -75,6 +75,15 @@ namespace jc::resolve {
         _defStorage.setUseDeclModule(useDecl.id, mod);
     }
 
+    void ModuleTreeBuilder::visit(const ast::Init & init) {
+        // `Init` has pretty same logic as `Func`, for help look at `Func` visitor
+        enterModule(getItemVis(init), "init", DefKind::Func);
+        if (init.body.some()) {
+            init.body.unwrap().value.autoAccept(*this);
+        }
+        exitMod();
+    }
+
     void ModuleTreeBuilder::visit(const ast::Block & block) {
         enterBlock(block.id);
         visitEach(block.stmts);

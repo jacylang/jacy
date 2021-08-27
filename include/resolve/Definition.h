@@ -78,6 +78,7 @@ namespace jc::resolve {
         Enum,
         Func,
         Impl,
+        Init,
         Lifetime,
         Mod,
         Struct,
