@@ -370,7 +370,7 @@ namespace jc::core {
             const auto & def = sess->defStorage.getDef(i);
             log.raw("#", i, ": ", def.kindStr());
             if (def.nameNodeId.some()) {
-                log.raw(" with name node #", def.nameNodeId.unwrap());
+                log.raw(" with name node ", def.nameNodeId.unwrap());
             }
             log.raw(" depth=", def.depth);
             log.nl();
@@ -393,7 +393,7 @@ namespace jc::core {
                     break;
                 }
                 case resolve::ResKind::Local: {
-                    log.raw("local #", res.second.asLocal());
+                    log.raw("local ", res.second.asLocal());
                     break;
                 }
                 case resolve::ResKind::Def: {

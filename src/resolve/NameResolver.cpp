@@ -297,17 +297,17 @@ namespace jc::resolve {
                 if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
                     inaccessible = true;
                     unresSeg = {i, defId};
-                    log.dev("Failed to resolve '", segName, "' as it is a private def #", defId);
+                    log.dev("Failed to resolve '", segName, "' as it is a private def ", defId);
                     return;
                 }
 
                 if (isPrefixSeg) {
                     // Resolve prefix path, `a::b::` (before target)
                     searchMod = sess->defStorage.getModule(defId);
-                    log.dev("Enter module by path segment '", pathStr, "' with def id #", defId);
+                    log.dev("Enter module by path segment '", pathStr, "' with def id ", defId);
                 } else {
                     // Resolve last segment
-                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id #", defId);
+                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
                     _resStorage.setRes(path.id, Res{defId});
                 }
             }).otherwise([&]() {
@@ -386,7 +386,7 @@ namespace jc::resolve {
             log.dev(
                 "Found alternative for unresolved name '",
                 name,
-                "' as def #",
+                "' as def ",
                 defId.unwrap(),
                 " in ",
                 Module::nsToString(nsKind),

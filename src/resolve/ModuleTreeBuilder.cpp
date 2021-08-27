@@ -114,7 +114,7 @@ namespace jc::resolve {
                 name,
                 "' as ",
                 Def::kindStr(defKind),
-                ", previously defined with id #",
+                ", previously defined with id ",
                 oldDefId.unwrap());
             suggestCannotRedefine(ident, defKind, oldDefId.unwrap());
         }
@@ -168,7 +168,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterModule(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
         const auto defId = addDef(vis, ident, defKind);
         const auto & name = ident.unwrap().name;
-        log.dev("Enter [DEF] module '", name, "' defined with id #", defId);
+        log.dev("Enter [DEF] module '", name, "' defined with id ", defId);
 
         // We entered a new `mod`, so update `nearestModDef`
         if (defKind == DefKind::Mod) {

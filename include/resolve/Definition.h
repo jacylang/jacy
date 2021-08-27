@@ -28,8 +28,8 @@ namespace jc::resolve {
             return std::to_string(val);
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const DefIndex & nodeId) {
-            return os << "#" << nodeId.val;
+        friend std::ostream & operator<<(std::ostream & os, const DefIndex & defIndex) {
+            return os << "#" << defIndex.val;
         }
     };
 
@@ -270,7 +270,7 @@ namespace jc::resolve {
         friend std::ostream & operator<<(std::ostream & os, const Def & def) {
             os << def.kindStr();
             if (def.nameNodeId.some()) {
-                os << " [nameNode: #" << def.nameNodeId.unwrap() << "]";
+                os << " [nameNode: " << def.nameNodeId.unwrap() << "]";
             }
             return os;
         }

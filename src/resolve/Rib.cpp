@@ -16,7 +16,7 @@ namespace jc::resolve {
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
             if (local != locals.end()) {
-                log::Logger::devDebug("Set resolution for node ", refNodeId, " as local #", local->second);
+                log::Logger::devDebug("Set resolution for node ", refNodeId, " as local ", local->second);
                 resStorage.setRes(refNodeId, Res{local->second});
                 return true;
             }
@@ -26,7 +26,7 @@ namespace jc::resolve {
         bool resolved = false;
         boundModule.then([&](const auto & mod) {
             mod->find(ns, name).then([&](const auto & defId) {
-                log::Logger::devDebug("Set resolution for node #", refNodeId, " as def #", defId);
+                log::Logger::devDebug("Set resolution for node ", refNodeId, " as def ", defId);
                 resStorage.setRes(refNodeId, Res{defId});
                 resolved = true;
             });
