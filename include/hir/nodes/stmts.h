@@ -6,8 +6,8 @@
 
 namespace jc::hir {
     struct ExprStmt : Stmt {
-        ExprStmt{Expr::Ptr && expr, const HirId & hirId, const Span & span}
-            : Stmt{StmtKind::Expr, hirId, span), Expr{std::move(expr}} {}
+        ExprStmt(Expr::Ptr && expr, const HirId & hirId, const Span & span)
+            : Stmt{StmtKind::Expr, hirId, span}, expr{std::move(expr)} {}
 
         Expr::Ptr expr;
     };

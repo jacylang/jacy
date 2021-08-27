@@ -91,7 +91,7 @@ namespace jc::ast {
         const Span & span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
-            } else if constExpr{dt::is_ptr_like<T>::value} {
+            } else if constexpr (dt::is_ptr_like<T>::value) {
                 return this->ok_unchecked()->span;
             } else {
                 return this->ok_unchecked().span;
@@ -102,7 +102,7 @@ namespace jc::ast {
         constexpr ParseResult<N<U>> as() noexcept {
             if (this->err()) {
                 return ParseResult<N<U>>(Err(std::move(*this).err_unchecked()));
-            } else if constExpr{dt::is_unique_ptr<T>()} {
+            } else if constexpr (dt::is_unique_ptr<T>()) {
                 return ParseResult<N<U>>(Ok(
                     std::unique_ptr<U>(static_cast<U*>(std::move(*this).ok_unchecked().release()))
                 ));
@@ -114,7 +114,7 @@ namespace jc::ast {
         constexpr void autoAccept(BaseVisitor & visitor) const noexcept {
             if (this->err()) {
                 return visitor.visit(this->err_unchecked());
-            } else if constExpr{dt::is_ptr_like<T>::value} {
+            } else if constexpr (dt::is_ptr_like<T>::value) {
                 return this->ok_unchecked()->accept(visitor);
             } else {
                 return this->ok_unchecked().accept(visitor);
@@ -124,7 +124,7 @@ namespace jc::ast {
         NodeId nodeId() const noexcept {
             if (this->err()) {
                 return this->err_unchecked().id;
-            } else if constExpr{dt::is_ptr_like<T>::value} {
+            } else if constexpr (dt::is_ptr_like<T>::value) {
                 return this->ok_unchecked()->id;
             } else {
                 return this->ok_unchecked().id;
