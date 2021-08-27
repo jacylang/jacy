@@ -1,103 +1,11 @@
-#include "jon/jon.h"
+#include "log/Logger.h"
 
-#include <iostream>
-
-using namespace jacylang::literal;
-
-static inline auto & getConfig() {
-    static auto config = R"(
-extensions: ['jc']
-
-default-command: 'compile'
-
-arg-delimiters: '=,'
-
-bool-values: {
-    true: [
-        'yes'
-        'y'
-        'true'
-        '1'
-        'on'
-    ]
-    false: [
-        'no'
-        'n'
-        'false'
-        '0'
-        'off'
-    ]
-}
-
-common-flags: [
-    {
-        name: 'help'
-        type: 'bool'
-        aliases: ['h']
-        magic-method: 'help'
-    }
-]
-
-commands: [
-    {
-        name: 'compile'
-        flags: [
-            {
-                name: 'print'
-                type: 'string'
-                description: 'Debug option that prints different intermediate representations'
-                duplicates: 'merge'
-                values: [
-                    'dir-tree'
-                    'tokens'
-                    'ast'
-                    'sugg'
-                    'source'
-                    'mod-tree'
-                    'ast-names'
-                    'ast-node-map'
-                    'ribs'
-                    'resolutions'
-                    'definitions'
-                    'all'
-                ]
-            }
-            {
-                name: 'compile-depth'
-                type: 'string'
-                description: ''
-                values: [
-                    'parser'
-                    'name-resolution'
-                    'lowering'
-                ]
-            }
-            {
-                name: 'dev'
-                type: 'bool'
-            }
-            {
-                name: 'log-level'
-                type: 'string'
-                values: [
-                    'dev'
-                    'debug'
-                    'info'
-                    'warn'
-                    'error'
-                ]
-            }
-        ]
-    }
-]
-    )"_jon;
-
-    return config;
-}
+using namespace jc::log;
 
 int main() {
-    for (const auto & flag : getConfig().arrAt("common-flags")) {
-        std::cout << flag.dump(2) << std::endl;
+    for (int i = 0; i <= static_cast<int>(Color::White); i++) {
+        Logger::print(i, static_cast<Color>(i), "TEXT", Color::Reset);
+        Logger::nl();
     }
 
     return 0;

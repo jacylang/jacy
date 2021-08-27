@@ -29,7 +29,7 @@ namespace jc::resolve {
         }
 
         friend std::ostream & operator<<(std::ostream & os, const DefIndex & defIndex) {
-            return os << "#" << defIndex.val;
+            return os << log::Color::Green << "#" << defIndex.val << log::Color::Reset;
         }
     };
 
@@ -57,8 +57,7 @@ namespace jc::resolve {
     };
 
     inline std::ostream & operator<<(std::ostream & os, const DefId & defId) {
-        std::cout << defId.getIndex();
-        return os;
+        return os << defId.getIndex();
     }
 
     enum class Namespace {
