@@ -202,6 +202,10 @@ namespace jc::parser {
                 maybeItem = parseUseDecl();
                 break;
             }
+            case TokenKind::Init: {
+                maybeItem = parseInit(std::move(modifiers));
+                break;
+            }
             default: {}
         }
 
