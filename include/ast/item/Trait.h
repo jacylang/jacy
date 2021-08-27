@@ -9,7 +9,7 @@ namespace jc::ast {
         Trait(
             Ident::PR && name,
             GenericParam::OptList && generics,
-            type_path_list && superTraits,
+            TypePath::List && superTraits,
             item_list && members,
             const Span & span
         ) : Item(span, ItemKind::Trait),
@@ -20,7 +20,7 @@ namespace jc::ast {
 
         Ident::PR name;
         GenericParam::OptList generics;
-        type_path_list superTraits;
+        TypePath::List superTraits;
         item_list members;
 
         span::Ident getName() const override {

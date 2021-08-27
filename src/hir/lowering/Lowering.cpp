@@ -98,7 +98,7 @@ namespace jc::hir {
     }
 
     item_ptr Lowering::lowerFunc(const ast::Func & astFunc) {
-        type_list inputs;
+        Type::List inputs;
         for (const auto & param : astFunc.sig.params) {
             inputs.emplace_back(lowerType(param.type));
         }

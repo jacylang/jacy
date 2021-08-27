@@ -6,17 +6,17 @@
 
 namespace jc::hir {
     struct TupleType : Type {
-        TupleType(type_list && types, const HirId & hirId, const Span & span)
+        TupleType(Type::List && types, const HirId & hirId, const Span & span)
             : Type(TypeKind::Tuple, hirId, span), types(std::move(types)) {}
 
-        type_list types;
+        Type::List types;
     };
 
     struct FuncType : Type {
-        FuncType(type_list && inputs, type_ptr && ret, const HirId & hirId, const Span & span)
+        FuncType(Type::List && inputs, type_ptr && ret, const HirId & hirId, const Span & span)
             : Type(TypeKind::Func, hirId, span), inputs(std::move(inputs)), ret(std::move(ret)) {}
 
-        type_list inputs;
+        Type::List inputs;
         type_ptr ret;
     };
 

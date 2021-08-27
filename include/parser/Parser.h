@@ -230,7 +230,7 @@ namespace jc::parser {
 
         // Type fragments //
         GenericParam::OptList parseOptGenerics();
-        type_path_ptr parseTypePath();
+        TypePath::Ptr parseTypePath();
 
         // Patterns //
         Pattern::Ptr parsePat();

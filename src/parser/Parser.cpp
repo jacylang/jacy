@@ -501,7 +501,7 @@ namespace jc::parser {
         auto name = parseIdent("`trait` name");
         auto generics = parseOptGenerics();
 
-        type_path_list superTraits;
+        TypePath::List superTraits;
         if (skipOpt(TokenKind::Colon).some()) {
             bool first = true;
             while (not eof()) {
@@ -2043,7 +2043,7 @@ namespace jc::parser {
     type_ptr Parser::parseFuncType(tuple_field_list tupleElements, const Span & span) {
         enterEntity("FuncType");
 
-        type_list params;
+        Type::List params;
         for (auto & tupleEl : tupleElements) {
             if (tupleEl.name.some()) {
                 // Note: We don't ignore `->` if there're named elements in tuple type
@@ -2131,7 +2131,7 @@ namespace jc::parser {
         return generics;
     }
 
-    type_path_ptr Parser::parseTypePath() {
+    TypePath::Ptr Parser::parseTypePath() {
         return makeBoxNode<TypePath>(parsePath(false));
     }
 

@@ -8,7 +8,7 @@ namespace jc::ast {
     struct Impl : Item {
         Impl(
             GenericParam::OptList && generics,
-            PR<type_path_ptr> && traitTypePath,
+            PR<TypePath::Ptr> && traitTypePath,
             opt_type_ptr && forType,
             item_list && members,
             const Span & span
@@ -19,7 +19,7 @@ namespace jc::ast {
             members(std::move(members)) {}
 
         GenericParam::OptList generics;
-        PR<type_path_ptr> traitTypePath;
+        PR<TypePath::Ptr> traitTypePath;
         opt_type_ptr forType;
         item_list members;
 

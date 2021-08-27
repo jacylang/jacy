@@ -11,11 +11,7 @@
 namespace jc::ast {
     struct Type;
     struct TupleTypeEl;
-    using type_list = std::vector<type_ptr>;
-    using type_path_ptr = N<TypePath>;
     using tuple_field_list = std::vector<TupleTypeEl>;
-    using opt_type_path_ptr = Option<type_path_ptr>;
-    using type_path_list = std::vector<type_path_ptr>;
 
     enum class TypeKind {
         Paren,
@@ -28,6 +24,9 @@ namespace jc::ast {
     };
 
     struct Type : Node {
+        using Ptr = N<Type>;
+        using List = std::vector<Ptr>;
+
         Type(const Span & span, TypeKind kind) : Node(span), kind(kind) {}
         virtual ~Type() = default;
 
@@ -78,14 +77,14 @@ namespace jc::ast {
 
     struct FuncType : Type {
         FuncType(
-            type_list params,
+            Type::List params,
             type_ptr returnType,
             const Span & span
         ) : Type(span, TypeKind::Func),
             params(std::move(params)),
             returnType(std::move(returnType)) {}
 
-        type_list params;
+        Type::List params;
         type_ptr returnType;
 
         void accept(BaseVisitor & visitor) const override {
@@ -119,6 +118,10 @@ namespace jc::ast {
     };
 
     struct TypePath : Type {
+        using Ptr = N<TypePath>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         TypePath(Path && path) : Type(path.span, TypeKind::Path), path(std::move(path)) {}
 
         Path path;
