@@ -118,8 +118,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncParam & funcParam) {
-        colorizeName(funcParam.name.nodeId());
-        funcParam.name.autoAccept(*this);
+        funcParam.pat.autoAccept(*this);
         resetNameColor();
 
         log.raw(": ");
@@ -258,6 +257,36 @@ namespace jc::ast {
         log.raw("*");
 
         printNodeId(useTree);
+    }
+
+    void AstPrinter::visit(const Init & init) {
+        printVis(init.vis);
+
+        printModifiers(init.sig.modifiers);
+        log.raw("init");
+
+        printDelim(init.sig.params, "(", ")");
+
+        init.sig.returnType.then([&](const auto & returnType) {
+            log.raw(": ");
+            returnType.autoAccept(*this);
+        });
+
+        init.body.then([&](const Body & body) {
+            if (body.exprBody) {
+                log.raw(" = ");
+            } else if (body.value.ok()) {
+                const auto & unwrapped = body.value.unwrap();
+                if (unwrapped->as<Block>(unwrapped)->stmts.size() == 0) {
+                    log.raw(" ");
+                }
+            }
+            body.value.autoAccept(*this);
+        }).otherwise([&]() {
+            log.raw(";");
+        });
+
+        printNodeId(init);
     }
 
     ////////////////
@@ -861,6 +890,10 @@ namespace jc::ast {
     }
 
     // Helpers //
+    void AstPrinter::printFuncSig(const FuncSig & sig) {
+
+    }
+
     void AstPrinter::printVis(const Vis & vis) {
         switch (vis.kind) {
             case VisKind::Pub: {
