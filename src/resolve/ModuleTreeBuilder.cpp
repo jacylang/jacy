@@ -212,6 +212,19 @@ namespace jc::resolve {
         _modDepth--;
     }
 
+    // Initializers //
+    std::string ModuleTreeBuilder::nextInitIndex() {
+        /// I suppose we would have initializers overloading, even if not this mechanisms makes new unique initializer.
+        /// Initializer name must be syntactically inexpressible to avoid collisions with user-defined names.
+        /// Name is kind of mangled, must start with non-alpha symbol (including `_`).
+        /// Current form is `%init_{INDEX}` where `INDEX` is unique (per module) index of initializer.
+
+        /// We don't put initializer index to `Module` as it a side-off info,
+        /// and modules don't need to share this info after
+        /// module-tree-building ends -- only thing we need is an unique name.
+        return "%init_" + std::to_string(++lastInitializerIndex.back());
+    }
+
     // Suggestions //
     void ModuleTreeBuilder::suggestCannotRedefine(
         const ast::Ident::PR & ident,

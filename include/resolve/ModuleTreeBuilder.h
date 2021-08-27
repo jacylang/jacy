@@ -56,6 +56,17 @@ namespace jc::resolve {
         void enterChildModule(Module::Ptr child);
         void exitMod();
 
+        // Initializers //
+    private:
+        using InitializerIndex = uint16_t;
+
+        /// Stack of initializer indices per module
+        using InitIndexStack = std::vector<InitializerIndex>;
+
+        InitIndexStack lastInitializerIndex {};
+
+        std::string nextInitIndex();
+
         // Suggestions //
     private:
         void suggestCannotRedefine(

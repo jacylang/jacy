@@ -16,7 +16,6 @@ namespace jc::resolve {
     struct Module {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
-
         using NSMap = std::map<std::string, DefId>;
 
         Module(
