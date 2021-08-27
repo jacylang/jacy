@@ -28,7 +28,7 @@ namespace jc::dt {
     public:
         Option(none_t) : storage(None) {}
         Option(const T & value) : storage(value) {}
-        Option(T && value) : storage(std::move(value)) {}
+        Option(T && value) : storage{std::move(value)} {}
 
     public:
         constexpr Option(const Option<T> & other) noexcept(

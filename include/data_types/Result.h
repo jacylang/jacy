@@ -48,7 +48,7 @@ namespace jc::dt {
         using ValueT = T;
 
         explicit constexpr Err(const T & val) : m_value(val) {}
-        explicit constexpr Err(T && val) : m_value(std::move(val)) {}
+        explicit constexpr Err(T && val) : m_value{std::move(val)} {}
 
         constexpr const T & value() const & {
             return m_value;
@@ -68,7 +68,7 @@ namespace jc::dt {
         using ValueT = T;
 
         explicit constexpr Ok(const T & val) : m_value(val) {}
-        explicit constexpr Ok(T && val) : m_value(std::move(val)) {}
+        explicit constexpr Ok(T && val) : m_value{std::move(val)} {}
 
         constexpr const T & value() const & {
             return m_value;
@@ -85,7 +85,7 @@ namespace jc::dt {
 
         template<typename E>
         constexpr operator Result<T, E>() && {
-            return Result<T, E>(Ok(std::move(m_value)));
+            return Result<T, E>(Ok{std::move(m_value)});
         }
 
     private:
@@ -130,8 +130,8 @@ namespace jc::dt {
         Result() : _kind(ResultKind::Uninited), storage(std::monostate{}) {}
 //        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
-//        constexpr Result(Ok<T> value) : m_storage(std::move(value)) {}
-//        constexpr Result(Err<E> value) : m_storage(std::move(value)) {}
+//        constexpr Result(Ok<T> value) : m_storage{std::move(value)} {}
+//        constexpr Result(Err<E> value) : m_storage{std::move(value)} {}
         constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value).value()) {}
         constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value).value()) {}
 

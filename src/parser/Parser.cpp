@@ -171,7 +171,7 @@ namespace jc::parser {
 
         switch (peek().kind) {
             case TokenKind::Func: {
-                maybeItem = parseFunc(std::move(modifiers));
+                maybeItem = parseFunc{std::move(modifiers)};
                 break;
             }
             case TokenKind::Enum: {
@@ -208,9 +208,9 @@ namespace jc::parser {
         if (maybeItem.some()) {
             if (maybeItem.unwrap().ok()) {
                 auto item = maybeItem.take().take();
-                item->setAttributes(std::move(attributes));
-                item->setVis(std::move(vis));
-                return Some(PR<N<Item>>(Ok(std::move(item))));
+                item->setAttributes{std::move(attributes)};
+                item->setVis{std::move(vis)};
+                return Some(PR<N<Item>>(Ok{std::move(item)}));
             } else {
                 return maybeItem.take();
             }
@@ -419,7 +419,7 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Impl, Item>(
-            std::move(generics), Ok(std::move(traitTypePath)), std::move(forType), std::move(members), closeSpan(begin));
+            std::move(generics), Ok{std::move(traitTypePath)}, std::move(forType), std::move(members), closeSpan(begin));
     }
 
     Item::Ptr Parser::parseStruct() {
@@ -2184,7 +2184,7 @@ namespace jc::parser {
             if (is(TokenKind::LBrace)) {
                 // `path::to::something {...}`
 
-                return parseStructPat(std::move(path));
+                return parseStructPat{std::move(path)};
             }
 
             // TODO: Range from

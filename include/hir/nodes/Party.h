@@ -10,8 +10,8 @@ namespace jc::hir {
         Party(
             Mod && rootMod,
             ItemMap && items
-        ) : rootMod(std::move(rootMod)),
-            items(std::move(items)) {}
+        ) : rootMod{std::move(rootMod)},
+            items{std::move(items)} {}
 
         Mod rootMod;
         ItemMap items;

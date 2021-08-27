@@ -17,9 +17,9 @@ namespace jc::ast {
             Expr::OptPtr defaultValue,
             const Span & span
         ) : Node{span},
-            name(std::move(name)),
-            type(std::move(type)),
-            defaultValue(std::move(defaultValue)) {}
+            name{std::move(name)},
+            type{std::move(type)},
+            defaultValue{std::move(defaultValue)} {}
 
         Ident::PR name;
         Type::Ptr type;
@@ -31,7 +31,7 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody(exprBody), value{std::move(value)} {}
 
         bool exprBody;
         Expr::Ptr value;
@@ -43,8 +43,8 @@ namespace jc::ast {
             FuncParam::List params,
             Type::OptPtr returnType
         ) : modifiers(modifiers),
-            params(std::move(params)),
-            returnType(std::move(returnType)) {}
+            params{std::move(params)},
+            returnType{std::move(returnType)} {}
 
         parser::Token::List modifiers;
         FuncParam::List params;
@@ -59,10 +59,10 @@ namespace jc::ast {
             Option<Body> && body,
             const Span & span
         ) : Item{span, ItemKind::Func},
-            sig(std::move(sig)),
-            generics(std::move(generics)),
-            name(std::move(name)),
-            body(std::move(body)) {}
+            sig{std::move(sig)},
+            generics{std::move(generics)},
+            name{std::move(name)},
+            body{std::move(body)} {}
 
         FuncSig sig;
         GenericParam::OptList generics;

@@ -8,7 +8,7 @@ namespace jc::ast {
 
     class StubVisitor : public BaseVisitor {
     public:
-        StubVisitor(std::string owner) : owner(std::move(owner)) {}
+        StubVisitor(std::string owner) : owner{std::move(owner)} {}
         virtual ~StubVisitor() = default;
 
         virtual void visit(const ErrorNode & errorNode) override;

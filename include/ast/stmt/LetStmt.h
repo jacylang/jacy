@@ -14,8 +14,8 @@ namespace jc::ast {
             Expr::OptPtr && assignExpr,
             const Span & span
         ) : Stmt{span, StmtKind::Let},
-            pat(std::move(pat)),
-            type(std::move(type)),
+            pat{std::move(pat)},
+            type{std::move(type)},
             assignExpr{std::move(assignExpr)} {}
 
         Pattern::Ptr pat;

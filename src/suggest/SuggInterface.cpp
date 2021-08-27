@@ -11,7 +11,7 @@ namespace jc::sugg {
 
     void SuggInterface::suggest(sugg::BaseSugg::Ptr && suggestion) {
         // TODO: Maybe add dev log?
-        suggestions.emplace_back(std::move(suggestion));
+        suggestions.emplace_back{std::move(suggestion)};
     }
 
     void SuggInterface::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {

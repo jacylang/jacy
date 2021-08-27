@@ -25,7 +25,7 @@ namespace jc::ast {
 
     struct UseTreeRaw : UseTree {
         UseTreeRaw(SimplePath && path, const Span & span)
-            : UseTree(Kind::Raw, span), path(std::move(path)) {}
+            : UseTree(Kind::Raw, span), path{std::move(path)} {}
 
         SimplePath path;
 
@@ -36,7 +36,7 @@ namespace jc::ast {
 
     struct UseTreeSpecific : UseTree {
         UseTreeSpecific(Option<SimplePath> && path, UseTree::List && specifics, const Span & span)
-            : UseTree(Kind::Specific, span), path(std::move(path)), specifics(std::move(specifics)) {}
+            : UseTree(Kind::Specific, span), path{std::move(path)}, specifics{std::move(specifics)} {}
 
         Option<SimplePath> path;
         UseTree::List specifics;
@@ -48,7 +48,7 @@ namespace jc::ast {
 
     struct UseTreeRebind : UseTree {
         UseTreeRebind(SimplePath && path, Ident::PR && as, const Span & span)
-            : UseTree(Kind::Rebind, span), path(std::move(path)), as(std::move(as)) {}
+            : UseTree(Kind::Rebind, span), path{std::move(path)}, as{std::move(as)} {}
 
         SimplePath path;
         Ident::PR as;
@@ -60,7 +60,7 @@ namespace jc::ast {
 
     struct UseTreeAll : UseTree {
         UseTreeAll(Option<SimplePath> && path, const Span & span)
-            : UseTree(Kind::All, span), path(std::move(path)) {}
+            : UseTree(Kind::All, span), path{std::move(path)} {}
 
         Option<SimplePath> path;
 
@@ -74,7 +74,7 @@ namespace jc::ast {
             UseTree::Ptr && useTree,
             const Span & span
         ) : Item{span, ItemKind::Use},
-            useTree(std::move(useTree)) {}
+            useTree{std::move(useTree)} {}
 
         UseTree::Ptr useTree;
 

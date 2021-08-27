@@ -12,8 +12,8 @@ namespace jc::ast {
             Block::Ptr && body,
             const Span & span
         ) : Stmt{span, StmtKind::While},
-            condition(std::move(condition)),
-            body(std::move(body)) {}
+            condition{std::move(condition)},
+            body{std::move(body)} {}
 
         Expr::Ptr condition;
         Block::Ptr body;

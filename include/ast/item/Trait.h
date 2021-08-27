@@ -13,10 +13,10 @@ namespace jc::ast {
             Item::List && members,
             const Span & span
         ) : Item{span, ItemKind::Trait},
-            name(std::move(name)),
-            generics(std::move(generics)),
-            superTraits(std::move(superTraits)),
-            members(std::move(members)) {}
+            name{std::move(name)},
+            generics{std::move(generics)},
+            superTraits{std::move(superTraits)},
+            members{std::move(members)} {}
 
         Ident::PR name;
         GenericParam::OptList generics;

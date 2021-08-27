@@ -38,7 +38,7 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(Type::Ptr type, const Span & span) : Type{span, TypeKind::Paren}, type(std::move(type)) {}
+        ParenType(Type::Ptr type, const Span & span) : Type{span, TypeKind::Paren}, type{std::move(type)} {}
 
         Type::Ptr type;
 
@@ -52,8 +52,8 @@ namespace jc::ast {
 
         TupleTypeEl(Ident::OptPR name, Type::OptPtr type, const Span & span)
             : Node{span},
-              name(std::move(name)),
-              type(std::move(type)) {}
+              name{std::move(name)},
+              type{std::move(type)} {}
 
         Ident::OptPR name;
         Type::OptPtr type;
@@ -66,7 +66,7 @@ namespace jc::ast {
     struct TupleType : Type {
 
         TupleType(TupleTypeEl::List elements, const Span & span)
-            : Type{span, TypeKind::Tuple}, elements(std::move(elements)) {}
+            : Type{span, TypeKind::Tuple}, elements{std::move(elements)} {}
 
         TupleTypeEl::List elements;
 
@@ -81,8 +81,8 @@ namespace jc::ast {
             Type::Ptr returnType,
             const Span & span
         ) : Type{span, TypeKind::Func},
-            params(std::move(params)),
-            returnType(std::move(returnType)) {}
+            params{std::move(params)},
+            returnType{std::move(returnType)} {}
 
         Type::List params;
         Type::Ptr returnType;
@@ -94,7 +94,7 @@ namespace jc::ast {
 
     struct SliceType : Type {
         SliceType(Type::Ptr type, const Span & span)
-            : Type{span, TypeKind::Slice}, type(std::move(type)) {}
+            : Type{span, TypeKind::Slice}, type{std::move(type)} {}
 
         Type::Ptr type;
 
@@ -106,7 +106,7 @@ namespace jc::ast {
     struct ArrayType : Type {
         ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, const Span & span)
             : Type{span, TypeKind::Array},
-              type(std::move(type)),
+              type{std::move(type)},
               sizeExpr{std::move(sizeExpr)} {}
 
         Type::Ptr type;
@@ -122,7 +122,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        TypePath(Path && path) : Type(path.span, TypeKind::Path), path(std::move(path)) {}
+        TypePath(Path && path) : Type(path.span, TypeKind::Path), path{std::move(path)} {}
 
         Path path;
 

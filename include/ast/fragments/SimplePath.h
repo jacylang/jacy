@@ -32,7 +32,7 @@ namespace jc::ast {
             const Span & span
         ) : Node{span},
             global(global),
-            segments(std::move(segments)) {}
+            segments{std::move(segments)} {}
 
         bool global;
         std::vector<SimplePathSeg> segments;

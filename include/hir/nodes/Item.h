@@ -36,7 +36,7 @@ namespace jc::hir {
 
     struct ItemNode : HirNode {
         ItemNode(span::Ident && name, Item::Ptr && item, const HirId & hirId, const Span & span)
-            : HirNode(hirId, span), name(std::move(name)), item(std::move(item)) {}
+            : HirNode(hirId, span), name{std::move(name)}, item{std::move(item)} {}
 
         span::Ident name;
         Item::Ptr item;

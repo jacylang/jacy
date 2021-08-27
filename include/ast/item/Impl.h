@@ -13,10 +13,10 @@ namespace jc::ast {
             Item::List && members,
             const Span & span
         ) : Item{span, ItemKind::Impl},
-            generics(std::move(generics)),
-            traitTypePath(std::move(traitTypePath)),
-            forType(std::move(forType)),
-            members(std::move(members)) {}
+            generics{std::move(generics)},
+            traitTypePath{std::move(traitTypePath)},
+            forType{std::move(forType)},
+            members{std::move(members)} {}
 
         GenericParam::OptList generics;
         PR<TypePath::Ptr> traitTypePath;

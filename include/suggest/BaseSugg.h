@@ -54,7 +54,7 @@ namespace jc::sugg {
 
     struct MsgSugg : SpanSugg {
         MsgSugg(std::string msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
-            : SpanSugg(span, kind, eid), msg(std::move(msg)) {}
+            : SpanSugg(span, kind, eid), msg{std::move(msg)} {}
 
         const std::string msg;
 
@@ -79,8 +79,8 @@ namespace jc::sugg {
             SuggKind kind,
             eid_t eid = NoneEID
         ) : SpanLinkSugg(link, span, kind, eid),
-            spanMsg(std::move(spanMsg)),
-            linkMsg(std::move(linkMsg)) {}
+            spanMsg{std::move(spanMsg)},
+            linkMsg{std::move(linkMsg)} {}
 
         const std::string spanMsg;
         const std::string linkMsg;
@@ -94,8 +94,8 @@ namespace jc::sugg {
         HelpSugg(
             std::string helpMsg,
             BaseSugg::OptPtr sugg
-        ) : helpMsg(std::move(helpMsg)),
-            sugg(std::move(sugg)) {}
+        ) : helpMsg{std::move(helpMsg)},
+            sugg{std::move(sugg)} {}
 
         std::string helpMsg;
         BaseSugg::OptPtr sugg;

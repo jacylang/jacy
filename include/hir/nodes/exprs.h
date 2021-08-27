@@ -13,7 +13,7 @@ namespace jc::hir {
 
     struct Assign : Expr {
         Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
-            : Expr{ExprKind::Assign, hirId, span), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)} {}
+            : Expr{ExprKind::Assign, hirId, span), lhs{std::move(lhs)}, op(op), rhs(std::move(rhs)} {}
 
         Expr::Ptr lhs;
         parser::Token op;
@@ -29,7 +29,7 @@ namespace jc::hir {
 
     struct Invoke : Expr {
         Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
-            : Expr{ExprKind::Invoke, hirId, span), lhs(std::move(lhs)), args(std::move(args)} {}
+            : Expr{ExprKind::Invoke, hirId, span), lhs{std::move(lhs)}, args(std::move(args)} {}
 
         Expr::Ptr lhs;
         Arg::List args;
