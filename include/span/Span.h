@@ -8,38 +8,37 @@
 #include "log/Logger.h"
 
 namespace jc::span {
-    struct Span;
-    using span_pos_t = uint32_t;
-    using span_len_t = uint16_t;
-    using file_id_t = size_t;
-    using opt_span = Option<Span>;
-
     struct Span {
+        using Pos = uint32_t;
+        using Len = uint16_t;
+        using FileId = size_t;
+        using Opt = Option<Span>;
+
         Span() = default;
 
         /// Constructor for file span (points to start)
 //        explicit Span(Span && rhs)
 //            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
 //        explicit Span(const Span & rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
-        explicit Span(file_id_t fileId) : fileId(fileId) {}
-        explicit Span(span_pos_t lowBound, span_pos_t highBound, file_id_t fileId) {
+        explicit Span(FileId fileId) : fileId(fileId) {}
+        explicit Span(Pos lowBound, Pos highBound, FileId fileId) {
             pos = lowBound;
-            len = static_cast<span_len_t>(highBound - lowBound);
+            len = static_cast<Len>(highBound - lowBound);
             this->fileId = fileId;
         }
 
-        explicit Span(span_pos_t pos, span_len_t len, file_id_t fileId)
+        explicit Span(Pos pos, Len len, FileId fileId)
             : pos(pos), len(len), fileId(fileId) {}
 
-        span_pos_t pos{0};
-        span_len_t len{0};
-        file_id_t fileId{0};
+        Pos pos{0};
+        Len len{0};
+        FileId fileId{0};
 
         std::string toString() const {
             return std::to_string(pos) + "; len = " + std::to_string(static_cast<unsigned long>(len));
         }
 
-        span_pos_t getHighBound() const {
+        Pos getHighBound() const {
             return pos + len;
         }
 
@@ -53,7 +52,7 @@ namespace jc::span {
         }
     };
 
-    const Span NONE_SPAN {0, static_cast<span_len_t>(0), 0};
+    const Span NONE_SPAN {0, static_cast<Len>(0), 0};
 }
 
 #endif // JACY_SPAN_H
