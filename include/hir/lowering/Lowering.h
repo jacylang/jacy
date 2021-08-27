@@ -36,9 +36,9 @@ namespace jc::hir {
 
         // Expressions //
     private:
-        expr_ptr lowerExpr(const ast::Expr::Ptr & expr);
-        expr_ptr lowerAssignExpr(const ast::Assign & assign);
-        expr_ptr lowerBlockExpr(const ast::Block & block);
+        Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
+        Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
+        Expr::Ptr lowerBlockExpr(const ast::Block & block);
 
         // Types //
     private:

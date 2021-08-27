@@ -24,13 +24,13 @@ namespace jc::hir {
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
-        Body(bool exprBody, expr_ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody(exprBody), value(std::move(value)) {}
 
         /// Denotes that `func`'s body was defined with `=`
         bool exprBody;
 
         /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
-        expr_ptr value;
+        Expr::Ptr value;
     };
 
     /// Function signature used for raw `func`

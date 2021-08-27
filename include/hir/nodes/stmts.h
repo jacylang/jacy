@@ -6,10 +6,10 @@
 
 namespace jc::hir {
     struct ExprStmt : Stmt {
-        ExprStmt(expr_ptr && expr, const HirId & hirId, const Span & span)
+        ExprStmt(Expr::Ptr && expr, const HirId & hirId, const Span & span)
             : Stmt(StmtKind::Expr, hirId, span), expr(std::move(expr)) {}
 
-        expr_ptr expr;
+        Expr::Ptr expr;
     };
 }
 

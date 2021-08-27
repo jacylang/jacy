@@ -5,19 +5,19 @@
 
 namespace jc::hir {
     struct Array : Expr {
-        Array(expr_list && elements, const HirId & hirId, const Span & span)
+        Array(Expr::List && elements, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Array, hirId, span), elements(std::move(elements)) {}
 
-        expr_list elements;
+        Expr::List elements;
     };
 
     struct Assign : Expr {
-        Assign(expr_ptr && lhs, const parser::Token & op, expr_ptr && rhs, const HirId & hirId, const Span & span)
+        Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Assign, hirId, span), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
 
-        expr_ptr lhs;
+        Expr::Ptr lhs;
         parser::Token op;
-        expr_ptr rhs;
+        Expr::Ptr rhs;
     };
 
     struct BlockExpr : Expr {
@@ -28,10 +28,10 @@ namespace jc::hir {
     };
 
     struct Invoke : Expr {
-        Invoke(expr_ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
+        Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Invoke, hirId, span), lhs(std::move(lhs)), args(std::move(args)) {}
 
-        expr_ptr lhs;
+        Expr::Ptr lhs;
         Arg::List args;
     };
 
@@ -44,17 +44,17 @@ namespace jc::hir {
     };
 
     struct Return : Expr {
-        Return(expr_ptr && expr, const HirId & hirId, const Span & span)
+        Return(Expr::Ptr && expr, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Return, hirId, span), expr(std::move(expr)) {}
 
-        expr_ptr expr;
+        Expr::Ptr expr;
     };
 
     struct Tuple : Expr {
-        Tuple(expr_list && values, const HirId & hirId, const Span & span)
+        Tuple(Expr::List && values, const HirId & hirId, const Span & span)
             : Expr(ExprKind::Tuple, hirId, span), values(std::move(values)) {}
 
-        expr_list values;
+        Expr::List values;
     };
 }
 
