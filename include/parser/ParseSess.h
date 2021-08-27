@@ -5,15 +5,15 @@
 #include "fs/fs.h"
 
 namespace jc::parser {
-    using line_pos_t = uint32_t;
-
     struct SourceFile {
+        using LinePos = uint32_t;
+
         SourceFile() {}
         SourceFile(const fs::path & path, std::string && src) : path(path), src(std::move(src)) {}
 
         fs::path path;
         Option<std::string> src{None};
-        std::vector<line_pos_t> linesIndices;
+        std::vector<SourceFile::LinePos> linesIndices;
 
         std::string filename() const {
             return path.filename().string();

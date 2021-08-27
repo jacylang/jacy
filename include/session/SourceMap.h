@@ -17,7 +17,7 @@ namespace jc::sess {
 
     struct Line {
         size_t index;
-        parser::line_pos_t pos;
+        parser::SourceFile::LinePos pos;
     };
 
     struct SourceMap {
