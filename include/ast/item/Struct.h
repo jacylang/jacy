@@ -44,7 +44,7 @@ namespace jc::ast {
             return name.unwrap();
         }
 
-        opt_node_id getNameNodeId() const override {
+        OptNodeId getNameNodeId() const override {
             return name.unwrap().id;
         }
 

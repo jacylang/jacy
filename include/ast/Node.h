@@ -48,7 +48,7 @@ namespace jc::ast {
     using span::Span;
     using NodePtr = N<Node>;
     using NodeList = std::vector<NodePtr>;
-    using opt_node_id = Option<NodeId>;
+    using OptNodeId = Option<NodeId>;
 
     template<class T>
     using node_map = std::map<NodeId, T>;

@@ -9,7 +9,7 @@
 
 namespace jc::resolve {
     using ast::NodeId;
-    using ast::opt_node_id;
+    using ast::OptNodeId;
 
     struct Rib;
     using rib_ptr = std::shared_ptr<Rib>;
@@ -28,7 +28,7 @@ namespace jc::resolve {
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
-        opt_node_id define(const ast::ident_pr & ident);
+        OptNodeId define(const ast::ident_pr & ident);
 
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success

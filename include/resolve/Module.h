@@ -19,7 +19,7 @@ namespace jc::resolve {
         Module(
             ModuleKind kind,
             opt_module_ptr parent,
-            opt_node_id nodeId,
+            OptNodeId nodeId,
             opt_def_id defId,
             opt_def_id nearestModDef
         ) : kind(kind),
@@ -32,7 +32,7 @@ namespace jc::resolve {
         opt_module_ptr parent{None};
 
         // Node id for `Block` module
-        opt_node_id nodeId{None};
+        OptNodeId nodeId{None};
 
         // Definition id for `Def` module
         opt_def_id defId{None};

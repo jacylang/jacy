@@ -116,7 +116,7 @@ namespace jc::resolve {
             DefVis vis,
             DefKind kind,
             const Option<span::Span> & nameSpan,
-            ast::opt_node_id nameNodeId
+            ast::OptNodeId nameNodeId
         ) : depth(depth),
             vis(vis),
             kind(kind),
@@ -126,7 +126,7 @@ namespace jc::resolve {
         def_depth depth;
         DefVis vis;
         DefKind kind;
-        const ast::opt_node_id nameNodeId;
+        const ast::OptNodeId nameNodeId;
         const Option<span::Span> nameSpan;
 
         static inline Namespace getNS(DefKind kind) {
