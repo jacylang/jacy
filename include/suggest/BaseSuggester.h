@@ -9,15 +9,13 @@ namespace jc::sugg {
     struct MsgSpanLinkSugg;
     struct HelpSugg;
 
-    using sugg_ptr = std::unique_ptr<BaseSugg>;
-    using opt_sugg_ptr = Option<sugg_ptr>;
-    using sugg_list = std::vector<sugg_ptr>;
-
     class BaseSuggester {
+        using SuggList = std::vector<std::unique_ptr<BaseSugg>>;
+
     public:
         virtual ~BaseSuggester() = default;
 
-        virtual void apply(sess::Sess::Ptr sess, const sugg::sugg_list & suggestions) = 0;
+        virtual void apply(sess::Session::Ptr sess, const SuggList & suggestions) = 0;
 
         virtual void visit(MsgSugg * msgSugg) = 0;
         virtual void visit(MsgSpanLinkSugg * msgSpanLinkSugg) = 0;

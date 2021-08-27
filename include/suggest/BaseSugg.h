@@ -28,6 +28,10 @@ namespace jc::sugg {
      * Does not contain any useful information except `eid`
      */
     struct BaseSugg {
+        using Ptr = std::unique_ptr<BaseSugg>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         virtual ~BaseSugg() = default;
         virtual SuggKind getKind() const = 0;
         virtual void accept(BaseSuggester & suggester) = 0;
@@ -89,12 +93,12 @@ namespace jc::sugg {
     struct HelpSugg : BaseSugg {
         HelpSugg(
             std::string helpMsg,
-            opt_sugg_ptr sugg
+            BaseSugg::OptPtr sugg
         ) : helpMsg(std::move(helpMsg)),
             sugg(std::move(sugg)) {}
 
         std::string helpMsg;
-        opt_sugg_ptr sugg;
+        BaseSugg::OptPtr sugg;
 
         SuggKind getKind() const override {
             return sugg.some() ? sugg.unwrap()->getKind() : SuggKind::None;
