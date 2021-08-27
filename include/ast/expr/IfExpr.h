@@ -10,8 +10,8 @@ namespace jc::ast {
     struct IfExpr : Expr {
         IfExpr(
             Expr::Ptr condition,
-            OptBlockPtr ifBranch,
-            OptBlockPtr elseBranch,
+            Block::OptPtr ifBranch,
+            Block::OptPtr elseBranch,
             const Span & span
         ) : Expr(span, ExprKind::If),
             condition(std::move(condition)),
@@ -19,8 +19,8 @@ namespace jc::ast {
             elseBranch(std::move(elseBranch)) {}
 
         Expr::Ptr condition;
-        OptBlockPtr ifBranch;
-        OptBlockPtr elseBranch;
+        Block::OptPtr ifBranch;
+        Block::OptPtr elseBranch;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
