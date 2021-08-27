@@ -2184,7 +2184,7 @@ namespace jc::parser {
             if (is(TokenKind::LBrace)) {
                 // `path::to::something {...}`
 
-                return parseStructPat{std::move(path)};
+                return parseStructPat(std::move(path));
             }
 
             // TODO: Range from

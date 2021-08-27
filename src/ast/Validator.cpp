@@ -684,10 +684,10 @@ namespace jc::ast {
     }
 
     // Helpers //
-    bool Validator::isPlaceExpr{const Expr::Ptr & maybeExpr} {
+    bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
-            return isPlaceExpr{(*static_cast<ParenExpr*>(expr.get())).expr};
+            return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);
         }
         return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }

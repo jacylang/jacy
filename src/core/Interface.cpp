@@ -89,7 +89,7 @@ namespace jc::core {
         curFsEntry = std::make_shared<FSEntry>(false, "");
 
         // Parse root file separately to use at as Party root module
-        auto rootFile = parseFile{std::move(rootFileEntry)};
+        auto rootFile = parseFile(std::move(rootFileEntry));
 
         const auto & rootDirPath = rootFilePath.parent_path();
         log.dev("Root directory path: ", rootDirPath);
@@ -159,7 +159,7 @@ namespace jc::core {
                 log.dev("Ignore parsing '", entry.getPath(), "'");
                 continue;
             } else {
-                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile{std::move(entry)}));
+                nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseFile(std::move(entry))));
             }
         }
 
@@ -207,9 +207,9 @@ namespace jc::core {
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
         sess->endStep(tokens.size());
 
-        collectSuggestions{std::move(parserSuggestions)};
+        collectSuggestions(std::move(parserSuggestions));
 
-        sess->sourceMap.setSourceFile{std::move(parseSess)};
+        sess->sourceMap.setSourceFile(std::move(parseSess));
 
         auto synthName = ast::Ident(file.getPath().stem().string(), span::Span{});
 
