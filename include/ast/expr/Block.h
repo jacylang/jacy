@@ -10,11 +10,11 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Block(StmtList && stmts, const Span & span)
+        Block(Stmt::List && stmts, const Span & span)
             : Expr(span, ExprKind::Block),
               stmts(std::move(stmts)) {}
 
-        StmtList stmts;
+        Stmt::List stmts;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
