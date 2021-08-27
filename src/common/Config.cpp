@@ -5,7 +5,7 @@
 namespace jc::common {
     Config::Config() = default;
 
-    key_value_arg_map<Config::PrintKind> Config::printKinds = {
+    Config::FlagValueMap<Config::PrintKind> Config::printKinds = {
         {"dir-tree",     Config::PrintKind::DirTree},
         {"ast",          Config::PrintKind::Ast},
         {"tokens",       Config::PrintKind::Tokens},
@@ -20,20 +20,20 @@ namespace jc::common {
         {"all",          Config::PrintKind::All},
     };
 
-    key_value_arg_map<Config::CompileDepth> Config::compileDepthKinds = {
+    Config::FlagValueMap<Config::CompileDepth> Config::compileDepthKinds = {
         {"parser",          Config::CompileDepth::Parser},
         {"name-resolution", Config::CompileDepth::NameResolution},
         {"lowering",        Config::CompileDepth::Lowering},
     };
 
-    key_value_arg_map<Config::BenchmarkKind> Config::benchmarkKinds = {
+    Config::FlagValueMap<Config::BenchmarkKind> Config::benchmarkKinds = {
         {"verbose",        Config::BenchmarkKind::Verbose},
         {"each-sub-stage", Config::BenchmarkKind::SubStage},
         {"each-stage",     Config::BenchmarkKind::Stage},
         {"final",          Config::BenchmarkKind::Final},
     };
 
-    key_value_arg_map<Config::LogLevel> Config::logLevelKinds = {
+    Config::FlagValueMap<Config::LogLevel> Config::logLevelKinds = {
         {"dev",   Config::LogLevel::Dev},
         {"debug", Config::LogLevel::Debug},
         {"info",  Config::LogLevel::Info},
@@ -41,7 +41,7 @@ namespace jc::common {
         {"error", Config::LogLevel::Error},
     };
 
-    key_value_arg_map<Config::ParserExtraDebug> Config::parserExtraDebugKinds = {
+    Config::FlagValueMap<Config::ParserExtraDebug> Config::parserExtraDebugKinds = {
         {"no",      Config::ParserExtraDebug::No},
         {"entries", Config::ParserExtraDebug::Entries},
         {"all",     Config::ParserExtraDebug::All},
