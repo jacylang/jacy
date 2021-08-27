@@ -44,8 +44,8 @@ namespace jc::utils::arr {
         const std::vector<std::string> & encloseElementInto = {}
     );
 
-    template<class T>
-    const T & expectAt(const std::vector<T> & vec, typename std::vector<T>::size_t index, const std::string & place) {
+    template<class T, typename SizeT = typename std::vector<T>::size_t>
+    const T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
         if (index < vec.size()) {
             std::stringstream ss;
             ss << "vector `expectedAt` '" << index << "' in " << place;
