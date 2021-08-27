@@ -236,8 +236,8 @@ namespace jc::utils::str {
         return trimStart(trimEnd(str, remove), remove);
     }
 
-    str_vec split(const std::string & str, const std::string & delimiters) {
-        str_vec result;
+    StrVec split(const std::string & str, const std::string & delimiters) {
+        StrVec result;
         size_t begin;
         size_t pos = 0;
         while ((begin = str.find_first_not_of(delimiters, pos)) != std::string::npos) {
@@ -249,8 +249,8 @@ namespace jc::utils::str {
     }
 
     /// Splits string by delimiters keeping them in collection
-    str_vec splitKeep(const std::string & str, const std::string & delimiters) {
-        str_vec result;
+    StrVec splitKeep(const std::string & str, const std::string & delimiters) {
+        StrVec result;
         size_t begin;
         size_t pos = 0;
         while ((begin = str.find_first_not_of(delimiters, pos)) != std::string::npos) {

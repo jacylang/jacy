@@ -8,7 +8,7 @@ namespace jc::cli {
     std::vector<std::string> CLI::prepareArgs(int argc, const char ** argv) {
         using namespace utils::str;
 
-        str_vec args;
+        StrVec args;
         // Start from 1 to skip bin file path
         for (int i = 1; i < argc; i++) {
             const std::string arg(argv[i]);

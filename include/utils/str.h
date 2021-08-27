@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 namespace jc::utils::str {
-    using str_vec = std::vector<std::string>;
+    using StrVec = std::vector<std::string>;
 
     size_t utf8Size(const std::string & str);
     bool startsWith(const std::string & str, const std::string & prefix);
@@ -23,8 +23,8 @@ namespace jc::utils::str {
     std::string trimStart(const std::string & str, char remove = ' ');
     std::string trimEnd(const std::string & str, char remove = ' ');
     std::string trim(const std::string & str, char remove = ' ');
-    str_vec split(const std::string & str, const std::string & delimiters);
-    str_vec splitKeep(const std::string & str, const std::string & delimiters);
+    StrVec split(const std::string & str, const std::string & delimiters);
+    StrVec splitKeep(const std::string & str, const std::string & delimiters);
     std::string toLower(const std::string & str);
     uint8_t hexCharToInt(char c);
 }
