@@ -6,12 +6,6 @@
 #include "ast/expr/PathExpr.h"
 
 namespace jc::ast {
-    struct Pattern;
-    struct BorrowPat;
-    using pat_ptr = PR<N<Pattern>>;
-    using opt_pat = Option<pat_ptr>;
-    using pat_list = std::vector<pat_ptr>;
-
     enum class PatternKind {
         Paren,
         Literal,
@@ -24,6 +18,10 @@ namespace jc::ast {
     };
 
     struct Pattern : Node {
+        using Ptr = PR<N<Pattern>>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         Pattern(PatternKind kind, const Span & span) : Node(span), kind(kind) {}
 
         PatternKind kind;
