@@ -160,18 +160,19 @@ namespace jc::resolve {
                 case DefKind::TypeAlias:
                 case DefKind::TypeParam:
                 case DefKind::Struct:
+                case DefKind::Impl:
                 case DefKind::Variant: {
                     return Namespace::Type;
                 }
                 case DefKind::Const: {
                 case DefKind::ConstParam:
                 case DefKind::Func:
+                case DefKind::Init:
                     return Namespace::Value;
                 }
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
                 }
-                default:;
             }
 
             log::Logger::notImplemented("Definition::getNS");
@@ -199,13 +200,15 @@ namespace jc::resolve {
                 case DefKind::TypeAlias:
                     return "`type` alias";
                 case DefKind::Impl:
-                    return "`impl`";
+                    return "`impl` (implementation)";
                 case DefKind::Mod:
                     return "`mod`";
                 case DefKind::Variant:
                     return "`enum` variant";
-                default: return "[NO REPRESENTATION (bug)]";
+                case DefKind::Init:
+                    return "`init` (initializer)";
             }
+            return "[NO REPRESENTATION (bug)]";
         }
 
         std::string kindStr() const {
