@@ -1297,7 +1297,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         justSkip(TokenKind::LBrace, "`{`", "`parseStructExpr`");
 
-        struct_expr_field_list fields;
+        StructExprField::List fields;
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::RBrace)) {

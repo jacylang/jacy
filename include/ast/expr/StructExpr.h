@@ -51,14 +51,14 @@ namespace jc::ast {
     struct StructExpr : Expr {
         StructExpr(
             PathExpr::Ptr && path,
-            struct_expr_field_list && fields,
+            StructExprField::List && fields,
             const Span & span
         ) : Expr(span, ExprKind::Struct),
             path(std::move(path)),
             fields(std::move(fields)) {}
 
         PathExpr::Ptr path;
-        struct_expr_field_list fields;
+        StructExprField::List fields;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
