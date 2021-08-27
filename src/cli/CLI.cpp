@@ -62,7 +62,7 @@ namespace jc::cli {
         Option<std::string> magicFlag = None;
         bool commandDefaulted = false;
         Option<CLICommand> command{None};
-        PassedCommand::flags_t passedFlags;
+        PassedCommand::FlagList passedFlags;
 
         auto extensions = getConfig().arrAt("extensions");
 
@@ -167,7 +167,7 @@ namespace jc::cli {
                     }
                 } else {
                     // Parse key-value option values
-                    PassedFlag::values_t values;
+                    PassedFlag::ValueList values;
 
                     while (not eof()) {
                         if (startsWith(peek(), "-")) {

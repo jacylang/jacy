@@ -22,9 +22,9 @@ namespace jc::cli {
     };
 
     struct CLIFlag {
-        using values_t = std::vector<std::string>;
-        using value_count_t = uint8_t;
-        using deps_t = std::vector<std::string>;
+        using ValueList = std::vector<std::string>;
+        using ValueCount = uint8_t;
+        using Deps = std::vector<std::string>;
 
         /// Possible kinds of duplications allowed for flag
         enum class Duplication {
@@ -40,9 +40,9 @@ namespace jc::cli {
         CLIFlag(
             const std::string & name,
             Type type,
-            Option<value_count_t> valuesCount,
-            const values_t & values,
-            const deps_t & dependsOn,
+            Option<ValueCount> valuesCount,
+            const ValueList & values,
+            const Deps & dependsOn,
             Duplication duplication,
             Option<std::string> magicMethod
         ) : name{name},
@@ -80,23 +80,23 @@ namespace jc::cli {
             using namespace utils::num;
 
             const auto type = CLIFlag::typeFromString(j.at<jon::str_t>("type"));
-            Option<CLIFlag::value_count_t> valCount{None};
+            Option<CLIFlag::ValueCount> valCount{None};
 
             if (j.has("value-count")) {
                 const auto cnt = j.at<jon::int_t>("value-count");
                 if (cnt > 0) {
-                    valCount = safeAs<CLIFlag::value_count_t, jon::int_t>(cnt);
+                    valCount = safeAs<CLIFlag::ValueCount, jon::int_t>(cnt);
                 }
             }
 
-            CLIFlag::values_t values;
+            CLIFlag::ValueList values;
             if (j.has("values")) {
                 for (const auto & val : j.at<jon::arr_t>("values")) {
                     values.emplace_back(val.get<jon::str_t>());
                 }
             }
 
-            CLIFlag::deps_t deps;
+            CLIFlag::Deps deps;
             if (j.has("deps")) {
                 for (const auto & dep : j.at<jon::arr_t>("deps")) {
                     deps.emplace_back(dep.get<jon::str_t>());
@@ -120,24 +120,24 @@ namespace jc::cli {
 
         std::string name;
         Type type;
-        Option<value_count_t> valuesCount;
-        values_t values;
-        deps_t dependsOn;
+        Option<ValueCount> valuesCount;
+        ValueList values;
+        Deps dependsOn;
         Duplication duplication;
         Option<std::string> magicMethod;
     };
 
     class CLICommand {
     public:
-        using flags_t = std::vector<CLIFlag>;
+        using FlagList = std::vector<CLIFlag>;
 
     public:
-        CLICommand(const std::string & name, const flags_t & flags)
+        CLICommand(const std::string & name, const FlagList & flags)
             : name{name}, flags{flags} {}
 
     public:
         static CLICommand fromJon(const jon & j) {
-            CLICommand::flags_t flags;
+            CLICommand::FlagList flags;
 
             if (j.has("flags")) {
                 for (const auto & flag : j.at<jon::arr_t>("flags")) {
@@ -167,19 +167,19 @@ namespace jc::cli {
 
     private:
         std::string name;
-        flags_t flags;
+        FlagList flags;
     };
 
     /// Flag passed to cli
     struct PassedFlag {
-        using values_t = std::set<std::string>;
+        using ValueList = std::set<std::string>;
 
         enum class Kind {
             Bool,
             Str,
         };
 
-        PassedFlag(values_t && value) : value{std::move(value)} {}
+        PassedFlag(ValueList && value) : value{std::move(value)} {}
         PassedFlag(bool value) : value{value} {}
 
         Kind kind() const {
@@ -194,20 +194,20 @@ namespace jc::cli {
         }
 
         const auto & getArgs() const {
-            return std::get<values_t>(value);
+            return std::get<ValueList>(value);
         }
 
         auto & getArgs() {
-            return std::get<values_t>(value);
+            return std::get<ValueList>(value);
         }
 
-        std::variant<bool, values_t> value;
+        std::variant<bool, ValueList> value;
     };
 
     struct PassedCommand {
-        using flags_t = std::map<std::string, PassedFlag>;
+        using FlagList = std::map<std::string, PassedFlag>;
 
-        PassedCommand(const std::string & name, const flags_t & flags, const Option<std::string> & entryFile)
+        PassedCommand(const std::string & name, const FlagList & flags, const Option<std::string> & entryFile)
             : name{name}, flags{flags}, entryFile{entryFile} {}
 
         const auto & getFlags() const {
@@ -233,7 +233,7 @@ namespace jc::cli {
             return found->second.getBool();
         }
 
-        Option<PassedFlag::values_t> getFlagValues(const std::string & name) const {
+        Option<PassedFlag::ValueList> getFlagValues(const std::string & name) const {
             const auto & found = flags.find(name);
             if (found == flags.end()) {
                 return None;
@@ -262,7 +262,7 @@ namespace jc::cli {
 
     private:
         std::string name;
-        flags_t flags;
+        FlagList flags;
         Option<std::string> entryFile;
     };
 }
