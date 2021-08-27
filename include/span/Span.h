@@ -42,7 +42,7 @@ namespace jc::span {
             return pos + len;
         }
 
-        Span fromStartTo(Len len) const {
+        Span fromStartWithLen(Len len) const {
             return Span {pos, len, fileId};
         }
 
