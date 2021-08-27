@@ -1359,7 +1359,7 @@ namespace jc::parser {
         return makeErrPR<StructExprField>(begin);
     }
 
-    BlockPtr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
+    Block::Ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
         enterEntity("Block:" + construction);
 
         const auto & begin = cspan();
@@ -1532,7 +1532,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        BlockPtr body = parseBlock("match", BlockParsing::Raw);
+        Block::Ptr body = parseBlock("match", BlockParsing::Raw);
 
         exitEntity();
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));

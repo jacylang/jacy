@@ -9,14 +9,14 @@ namespace jc::ast {
     struct WhileStmt : Stmt {
         WhileStmt(
             Expr::Ptr && condition,
-            BlockPtr && body,
+            Block::Ptr && body,
             const Span & span
         ) : Stmt(span, StmtKind::While),
             condition(std::move(condition)),
             body(std::move(body)) {}
 
         Expr::Ptr condition;
-        BlockPtr body;
+        Block::Ptr body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
