@@ -11,7 +11,7 @@ namespace jc::ast {
         using List = std::vector<Ptr>;
 
         Block(Stmt::List && stmts, const Span & span)
-            : Expr(span, ExprKind::Block),
+            : Expr{span, ExprKind::Block},
               stmts(std::move(stmts)) {}
 
         Stmt::List stmts;

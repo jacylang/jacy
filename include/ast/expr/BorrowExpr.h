@@ -10,10 +10,10 @@ namespace jc::ast {
             bool mut,
             Expr::Ptr expr,
             const Span & span
-        ) : Expr(span, ExprKind::Borrow),
+        ) : Expr{span, ExprKind::Borrow},
             ref(ref),
             mut(mut),
-            expr(std::move(expr)) {}
+            Expr{std::move(expr)} {}
 
         // TODO: Bool storing optimization
         bool ref;

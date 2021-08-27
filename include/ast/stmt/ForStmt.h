@@ -15,7 +15,7 @@ namespace jc::ast {
             const Span & span
         ) : Stmt(span, StmtKind::For),
             pat(std::move(pat)),
-            inExpr(std::move(inExpr)),
+            inExpr{std::move(inExpr)},
             body(std::move(body)) {}
 
         Pattern::Ptr pat;

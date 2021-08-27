@@ -176,8 +176,8 @@ namespace jc::parser {
         Stmt::Ptr parseWhileStmt();
 
         // Expressions //
-        Expr::OptPtr parseOptExpr();
-        Expr::Ptr parseExpr(const std::string & suggMsg);
+        Expr::OptPtr parseOptExpr{};
+        Expr::Ptr parseExpr{const std::string & suggMsg};
         Expr::Ptr parseLambda();
         Expr::OptPtr assignment();
         Expr::OptPtr precParse(uint8_t index);
@@ -193,19 +193,19 @@ namespace jc::parser {
         // Atomic expressions //
         Ident::PR justParseIdent(const std::string & panicIn);
         Ident::PR parseIdent(const std::string & expected);
-        PathExpr::Ptr parsePathExpr();
+        PathExpr::Ptr parsePathExpr{};
         Expr::Ptr parseLiteral();
-        Expr::Ptr parseListExpr();
-        Expr::Ptr parseParenLikeExpr();
-        Expr::Ptr parseStructExpr(PathExpr::Ptr && path);
+        Expr::Ptr parseListExpr{};
+        Expr::Ptr parseParenLikeExpr{};
+        Expr::Ptr parseStructExpr{PathExpr::Ptr && path};
         StructExprField::PR parseStructExprField();
 
         Block::Ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
-        Expr::Ptr parseIfExpr(bool isElif = false);
-        Expr::Ptr parseLoopExpr();
-        Expr::Ptr parseMatchExpr();
+        Expr::Ptr parseIfExpr{bool isElif = false};
+        Expr::Ptr parseLoopExpr{};
+        Expr::Ptr parseMatchExpr{};
         MatchArm parseMatchArm();
 
         // Fragments //

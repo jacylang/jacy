@@ -8,8 +8,8 @@ namespace jc::ast {
         QuestExpr(
             Expr::Ptr && expr,
             const Span & span
-        ) : Expr(span, ExprKind::Quest),
-            expr(std::move(expr)) {}
+        ) : Expr{span, ExprKind::Quest},
+            Expr{std::move(expr)} {}
 
         Expr::Ptr expr;
 

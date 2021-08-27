@@ -246,7 +246,7 @@ namespace jc::parser {
                 items.emplace_back(item.take("`parseItemList` -> `item`"));
             } else {
                 const auto & exprToken = peek();
-                auto expr = parseOptExpr();
+                auto expr = parseOptExpr{};
                 if (expr.some()) {
                     // FIXME!: Use range span.to(span)
                     suggestErrorMsg(gotExprSugg, exprToken.span);
@@ -326,7 +326,7 @@ namespace jc::parser {
         auto name = parseIdent("`enum` entry name");
 
         if (skipOpt(TokenKind::Assign).some()) {
-            auto discriminant = parseExpr("Expected constant expression after `=`");
+            auto discriminant = parseExpr{"Expected constant expression after `=`"};
             exitEntity();
             return makeNode<EnumEntry>(EnumEntryKind::Discriminant, std::move(name), closeSpan(begin));
         } else if (skipOpt(TokenKind::LParen).some()) {
@@ -691,7 +691,7 @@ namespace jc::parser {
                 }
 
                 // FIXME: Hardly parse expression but recover unexpected token
-                auto expr = parseOptExpr();
+                auto expr = parseOptExpr{};
                 if (expr.none()) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
                     suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
@@ -720,7 +720,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
+        auto inExpr = parseExpr{"Expected iterator expression after `in` in `for` loop"};
         auto body = parseBlock("for", BlockParsing::Raw);
 
         exitEntity();
@@ -744,7 +744,7 @@ namespace jc::parser {
 
         Expr::OptPtr assignExpr{None};
         if (skipOpt(TokenKind::Assign).some()) {
-            assignExpr = parseExpr("Expected expression after `=`");
+            assignExpr = parseExpr{"Expected expression after `=`"};
         }
 
         exitEntity();
@@ -760,7 +760,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
 
-        auto condition = parseExpr("Expected condition in `while`");
+        auto condition = parseExpr{"Expected condition in `while`"};
         auto body = parseBlock("while", BlockParsing::Raw);
 
         exitEntity();
@@ -771,14 +771,14 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
-    Expr::OptPtr Parser::parseOptExpr() {
+    Expr::OptPtr Parser::parseOptExpr{} {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return).some()) {
             enterEntity("ReturnExpr");
 
-            auto expr = parseOptExpr();
+            auto expr = parseOptExpr{};
 
             exitEntity();
             return Some(makePRBoxNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin)));
@@ -787,7 +787,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Break).some()) {
             enterEntity("BreakExpr");
 
-            auto expr = parseOptExpr();
+            auto expr = parseOptExpr{};
 
             exitEntity();
 
@@ -801,11 +801,11 @@ namespace jc::parser {
         return assignment();
     }
 
-    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
+    Expr::Ptr Parser::parseExpr{const std::string & suggMsg} {
         logParse("Expr");
 
         const auto & begin = cspan();
-        auto expr = parseOptExpr();
+        auto expr = parseOptExpr{};
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
             suggestErrorMsg(suggMsg, begin);
@@ -864,7 +864,7 @@ namespace jc::parser {
 
         skip(TokenKind::Arrow, "`->` in lambda");
 
-        Expr::Ptr body = parseExpr("lambda body expression");
+        Expr::Ptr body = parseExpr{"lambda body expression"};
 
         exitEntity();
 
@@ -888,7 +888,7 @@ namespace jc::parser {
 
             advance();
 
-            auto rhs = parseExpr("Expected expression in assignment");
+            auto rhs = parseExpr{"Expected expression in assignment"};
 
             return Some(
                 makePRBoxNode<Assign, Expr>(
@@ -1068,7 +1068,7 @@ namespace jc::parser {
                         skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
                     }
 
-                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
+                    indices.push_back(parseExpr{"Expected index in subscript operator inside `[]`")};
                 }
                 skip(TokenKind::RParen, "Missing closing `]` in array expression");
 
@@ -1129,26 +1129,26 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
-            auto pathExpr = parsePathExpr();
+            auto pathExpr = parsePathExpr{};
             if (is(TokenKind::LBrace)) {
                 if (pathExpr.err()) {
-                    return parseStructExpr(makeErrPR<N<PathExpr>>(pathExpr.span()));
+                    return parseStructExpr{makeErrPR<N<PathExpr>>(pathExpr.span())};
                 }
-                return parseStructExpr(std::move(pathExpr));
+                return parseStructExpr{std::move(pathExpr)};
             }
             return Some(PR<N<Expr>>(Ok(nodeCast<PathExpr, Expr>(pathExpr.take()))));
         }
 
         if (is(TokenKind::If)) {
-            return parseIfExpr();
+            return parseIfExpr{};
         }
 
         if (is(TokenKind::LParen)) {
-            return parseParenLikeExpr();
+            return parseParenLikeExpr{};
         }
 
         if (is(TokenKind::LBracket)) {
-            return parseListExpr();
+            return parseListExpr{};
         }
 
         if (is(TokenKind::LBrace)) {
@@ -1156,11 +1156,11 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Match)) {
-            return parseMatchExpr();
+            return parseMatchExpr{};
         }
 
         if (is(TokenKind::Loop)) {
-            return parseLoopExpr();
+            return parseLoopExpr{};
         }
 
         suggestErrorMsg("Unexpected token " + peek().toString(), cspan());
@@ -1190,7 +1190,7 @@ namespace jc::parser {
         return makeErrPR<Ident>(span);
     }
 
-    PathExpr::Ptr Parser::parsePathExpr() {
+    PathExpr::Ptr Parser::parsePathExpr{} {
         return Ok(makeBoxNode<PathExpr>(parsePath(true)));
     }
 
@@ -1206,7 +1206,7 @@ namespace jc::parser {
         return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseListExpr() {
+    Expr::Ptr Parser::parseListExpr{} {
         enterEntity("ListExpr");
 
         const auto & begin = cspan();
@@ -1232,11 +1232,11 @@ namespace jc::parser {
                 elements.push_back(
                     makePRBoxNode<SpreadExpr, Expr>(
                         maybeSpreadOp,
-                        parseExpr("Expected expression after spread operator `...` in list expression"),
+                        parseExpr{"Expected expression after spread operator `...` in list expression"},
                         maybeSpreadOp.span.to(cspan()))
                 );
             } else {
-                elements.push_back(parseExpr("Expression expected"));
+                elements.push_back(parseExpr{"Expression expected")};
             }
         }
 
@@ -1244,7 +1244,7 @@ namespace jc::parser {
         return makePRBoxNode<ListExpr, Expr>(std::move(elements), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseParenLikeExpr() {
+    Expr::Ptr Parser::parseParenLikeExpr{} {
         const auto & begin = cspan();
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
@@ -1277,7 +1277,7 @@ namespace jc::parser {
                 break;
             }
 
-            values.emplace_back(parseExpr("Expression expected"));
+            values.emplace_back(parseExpr{"Expression expected")};
         }
 
         skip(TokenKind::RParen, "Expected closing `)`");
@@ -1291,7 +1291,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseStructExpr(PathExpr::Ptr && path) {
+    Expr::Ptr Parser::parseStructExpr{PathExpr::Ptr && path} {
         enterEntity("StructExpr");
 
         const auto & begin = cspan();
@@ -1333,7 +1333,7 @@ namespace jc::parser {
             auto name = justParseIdent("`parseStructExprField`");
             if (skipOpt(TokenKind::Colon).some()) {
                 // `field: expr` case
-                auto expr = parseExpr("Expression expected after `:` in struct field");
+                auto expr = parseExpr{"Expression expected after `:` in struct field"};
                 exitEntity();
                 return Ok(makeNode<StructExprField>(std::move(name), std::move(expr), closeSpan(begin)));
             }
@@ -1347,7 +1347,7 @@ namespace jc::parser {
         //  and we want pretty error like "...expr must go last", but not error like "Unexpected token `...`".
         //  So this case is handled by Validator
         if (skipOpt(TokenKind::Spread).some()) {
-            auto expr = parseExpr("Expression expected after `...`");
+            auto expr = parseExpr{"Expression expected after `...`"};
             exitEntity();
             return Ok(makeNode<StructExprField>(std::move(expr), closeSpan(begin)));
         }
@@ -1392,7 +1392,7 @@ namespace jc::parser {
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
     }
 
-    Expr::Ptr Parser::parseIfExpr(bool isElif) {
+    Expr::Ptr Parser::parseIfExpr{bool isElif} {
         enterEntity("IfExpr");
 
         const auto & begin = cspan();
@@ -1404,7 +1404,7 @@ namespace jc::parser {
         }
 
         const auto & maybeParen = peek();
-        auto condition = parseExpr("Expected condition in `if` expression");
+        auto condition = parseExpr{"Expected condition in `if` expression"};
 
         if (not condition.err() and condition.take()->is(ExprKind::Paren)) {
             suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
@@ -1433,7 +1433,7 @@ namespace jc::parser {
         } else if (is(TokenKind::Elif)) {
             Stmt::List elif;
             const auto & elifBegin = cspan();
-            elif.push_back(makePRBoxNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
+            elif.push_back(makePRBoxNode<ExprStmt, Stmt>(parseIfExpr{true), closeSpan(elifBegin))};
             elseBranch = Some(PR<N<Block>>(Ok(makeBoxNode<Block>(std::move(elif), closeSpan(elifBegin)))));
         }
 
@@ -1443,7 +1443,7 @@ namespace jc::parser {
             std::move(condition), std::move(ifBranch), std::move(elseBranch), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseLoopExpr() {
+    Expr::Ptr Parser::parseLoopExpr{} {
         enterEntity("LoopExpr");
 
         const auto & begin = cspan();
@@ -1457,14 +1457,14 @@ namespace jc::parser {
         return makePRBoxNode<LoopExpr, Expr>(std::move(body), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseMatchExpr() {
+    Expr::Ptr Parser::parseMatchExpr{} {
         enterEntity("MatchExpr");
 
         const auto & begin = cspan();
 
         justSkip(TokenKind::Match, "`match`", "`parseMatchExpr`");
 
-        auto subject = parseExpr("Expected subject expression in `match` expression");
+        auto subject = parseExpr{"Expected subject expression in `match` expression"};
 
         if (skipOpt(TokenKind::Semi).some()) {
             // `match` body is ignored with `;`
@@ -1547,7 +1547,7 @@ namespace jc::parser {
         }
 
         if (skipOpt(TokenKind::Assign).some()) {
-            auto expr = parseExpr("Missing expression after `=`");
+            auto expr = parseExpr{"Missing expression after `=`"};
             return Some(Body {true, std::move(expr)});
         }
 
@@ -1608,10 +1608,10 @@ namespace jc::parser {
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
                 auto ident = justParseIdent("`parseArgList`");
                 justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
-                auto value = parseExpr("Expected value after `:`");
+                auto value = parseExpr{"Expected value after `:`"};
                 args.emplace_back(makeNode<Arg>(std::move(ident), std::move(value), closeSpan(argBegin)));
             } else {
-                auto value = parseExpr("Expression expected");
+                auto value = parseExpr{"Expression expected"};
                 args.emplace_back(makeNode<Arg>(None, std::move(value), closeSpan(argBegin)));
             }
         }
@@ -1689,7 +1689,7 @@ namespace jc::parser {
         Expr::OptPtr defaultValue{None};
         if (peek().isAssignOp()) {
             advance();
-            defaultValue = parseExpr("Expression expected as default value of function parameter");
+            defaultValue = parseExpr{"Expression expected as default value of function parameter"};
         }
 
         exitEntity();
@@ -2027,7 +2027,7 @@ namespace jc::parser {
         auto type = parseType("Expected type");
 
         if (skipOpt(TokenKind::Semi).some()) {
-            auto sizeExpr = parseExpr("Expected constant size expression in array type");
+            auto sizeExpr = parseExpr{"Expected constant size expression in array type"};
             skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
             return makePRBoxNode<ArrayType, Type>(
@@ -2114,7 +2114,7 @@ namespace jc::parser {
                 auto type = parseType("Expected `const` generic type");
                 Expr::OptPtr defaultValue{None};
                 if (skipOpt(TokenKind::Assign).some()) {
-                    defaultValue = parseExpr("Expected `const` generic default value after `=`");
+                    defaultValue = parseExpr{"Expected `const` generic default value after `=`"};
                 }
                 generics.push_back(
                     makeBoxNode<ConstParam>(
@@ -2179,7 +2179,7 @@ namespace jc::parser {
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
             const auto & begin = cspan();
-            auto path = parsePathExpr();
+            auto path = parsePathExpr{};
 
             if (is(TokenKind::LBrace)) {
                 // `path::to::something {...}`

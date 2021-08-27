@@ -121,12 +121,12 @@ namespace jc::ast {
 
         // Helpers //
     private:
-        bool isPlaceExpr(const Expr::Ptr & expr);
+        bool isPlaceExpr{const Expr::Ptr & expr};
 
         template<class T>
         void lintEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
-                if constexpr(dt::is_ptr_like<T>::value) {
+                if constExpr{dt::is_ptr_like<T>::value} {
                     entity->accept(*this);
                 } else {
                     entity.accept(*this);

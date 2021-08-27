@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct ParenExpr : Expr {
-        ParenExpr(Expr::Ptr && expr, const Span & span)
-            : Expr(span, ExprKind::Paren), expr(std::move(expr)) {}
+        ParenExpr{Expr::Ptr && expr, const Span & span}
+            : Expr{span, ExprKind::Paren), expr(std::move(expr)} {}
 
         Expr::Ptr expr;
 

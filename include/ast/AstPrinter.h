@@ -173,7 +173,7 @@ namespace jc::ast {
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
             basePrintDelim<T>(elements, begin, end, delim, chopTH, [&](const T & el) -> void {
-                if constexpr(dt::is_ptr_like<T>::value) {
+                if constExpr{dt::is_ptr_like<T>::value} {
                     el->accept(*this);
                 } else {
                     el.accept(*this);

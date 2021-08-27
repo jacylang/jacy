@@ -8,8 +8,8 @@ namespace jc::ast {
         DerefExpr(
             Expr::Ptr expr,
             const Span & span
-        ) : Expr(span, ExprKind::Deref),
-            expr(std::move(expr)) {}
+        ) : Expr{span, ExprKind::Deref},
+            Expr{std::move(expr)} {}
 
         Expr::Ptr expr;
 

@@ -130,17 +130,17 @@ namespace jc::hir {
     }
 
     Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
-        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), HirId::DUMMY, exprStmt.span);
+        return makeBoxNode<ExprStmt>(lowerExpr{exprStmt.expr), HirId::DUMMY, exprStmt.span};
     }
 
     // Expressions //
-    Expr::Ptr Lowering::lowerExpr(const ast::Expr::Ptr & exprPr) {
+    Expr::Ptr Lowering::lowerExpr{const ast::Expr::Ptr & exprPr} {
         const auto & expr = exprPr.unwrap();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
-                return lowerAssignExpr(*expr->as<ast::Assign>(expr));
+                return lowerAssignExpr{*expr->as<ast::Assign>(expr)};
             case ast::ExprKind::Block:
-                return lowerBlockExpr(*expr->as<ast::Block>(expr));
+                return lowerBlockExpr{*expr->as<ast::Block>(expr)};
             case ast::ExprKind::Borrow:
                 break;
             case ast::ExprKind::Break:
@@ -196,17 +196,17 @@ namespace jc::hir {
         }
     }
 
-    Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
+    Expr::Ptr Lowering::lowerAssignExpr{const ast::Assign & assign} {
         return makeBoxNode<Assign>(
-            lowerExpr(assign.lhs),
+            lowerExpr{assign.lhs},
             assign.op,
-            lowerExpr(assign.rhs),
+            lowerExpr{assign.rhs},
             HirId::DUMMY,
             assign.span
         );
     }
 
-    Expr::Ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
+    Expr::Ptr Lowering::lowerBlockExpr{const ast::Block & astBlock} {
         auto block = lowerBlock(astBlock);
         const auto hirId = block.hirId;
         const auto span = block.span;
@@ -245,6 +245,6 @@ namespace jc::hir {
     }
 
     Body Lowering::lowerBody(const ast::Body & astBody) {
-        return Body {astBody.exprBody, lowerExpr(astBody.value)};
+        return Body {astBody.exprBody, lowerExpr{astBody.value}};
     }
 }

@@ -30,7 +30,7 @@ namespace jc::ast {
             Expr::Ptr subject,
             MatchArm::List entries,
             const Span & span
-        ) : Expr(span, ExprKind::Match),
+        ) : Expr{span, ExprKind::Match},
             subject(std::move(subject)),
             entries(std::move(entries)) {}
 

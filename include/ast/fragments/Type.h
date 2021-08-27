@@ -107,7 +107,7 @@ namespace jc::ast {
         ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, const Span & span)
             : Type(span, TypeKind::Array),
               type(std::move(type)),
-              sizeExpr(std::move(sizeExpr)) {}
+              sizeExpr{std::move(sizeExpr)} {}
 
         Type::Ptr type;
         Expr::Ptr sizeExpr;
