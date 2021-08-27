@@ -822,7 +822,7 @@ namespace jc::parser {
         justSkip(TokenKind::Backslash, "\\", "`parseLambda`");
 
         bool allowReturnType = false;
-        lambda_param_list params;
+        LambdaParam::List params;
         if (skipOpt(TokenKind::LParen).some()) {
             bool first = true;
             while (not eof()) {

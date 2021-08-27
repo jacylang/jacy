@@ -5,10 +5,9 @@
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
-    struct LambdaParam;
-    using lambda_param_list = std::vector<LambdaParam>;
-
     struct LambdaParam : Node {
+        using List = std::vector<LambdaParam>;
+
         LambdaParam(Pattern::Ptr pat, Type::OptPtr type, const Span & span)
             : Node(span),
               pat(std::move(pat)),
@@ -24,7 +23,7 @@ namespace jc::ast {
 
     struct Lambda : Expr {
         Lambda(
-            lambda_param_list params,
+            LambdaParam::List params,
             Type::OptPtr returnType,
             Expr::Ptr body,
             const Span & span
@@ -33,7 +32,7 @@ namespace jc::ast {
             returnType(std::move(returnType)),
             body(std::move(body)) {}
 
-        lambda_param_list params;
+        LambdaParam::List params;
         Type::OptPtr returnType;
         Expr::Ptr body;
 
