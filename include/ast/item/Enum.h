@@ -28,12 +28,12 @@ namespace jc::ast {
         EnumEntry(EnumEntryKind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(tupleFields)) {}
 
-        EnumEntry(EnumEntryKind kind, Ident::PR && name, struct_field_list && fields, const Span & span)
+        EnumEntry(EnumEntryKind kind, Ident::PR && name, StructField::List && fields, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::move(fields)) {}
 
         EnumEntryKind kind;
         Ident::PR name;
-        std::variant<std::monostate, Expr::Ptr, TupleTypeEl::List, struct_field_list> body;
+        std::variant<std::monostate, Expr::Ptr, TupleTypeEl::List, StructField::List> body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

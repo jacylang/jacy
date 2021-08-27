@@ -161,7 +161,7 @@ namespace jc::parser {
         Item::Ptr parseFunc(parser::token_list && modifiers);
         Item::Ptr parseImpl();
         Item::Ptr parseStruct();
-        struct_field_list parseStructFields();
+        StructField::List parseStructFields();
         Item::Ptr parseTrait();
         Item::Ptr parseTypeAlias();
         Item::Ptr parseMod();

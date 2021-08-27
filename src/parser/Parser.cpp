@@ -432,7 +432,7 @@ namespace jc::parser {
         auto name = parseIdent("`struct` name");
         auto generics = parseOptGenerics();
 
-        struct_field_list fields;
+        StructField::List fields;
         if (not isSemis()) {
             skip(
                 TokenKind::LBrace,
@@ -453,10 +453,10 @@ namespace jc::parser {
             std::move(name), std::move(generics), std::move(fields), closeSpan(begin));
     }
 
-    struct_field_list Parser::parseStructFields() {
+    StructField::List Parser::parseStructFields() {
         enterEntity("StructFields");
 
-        struct_field_list fields;
+        StructField::List fields;
 
         bool first = true;
         while (not eof()) {

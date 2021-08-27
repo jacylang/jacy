@@ -37,7 +37,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Struct: {
-                lintEach(std::get<struct_field_list>(enumEntry.body));
+                lintEach(std::get<StructField::List>(enumEntry.body));
                 break;
             }
         }

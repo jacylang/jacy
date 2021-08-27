@@ -5,10 +5,9 @@
 #include "ast/fragments/Generics.h"
 
 namespace jc::ast {
-    struct StructField;
-    using struct_field_list = std::vector<StructField>;
-
     struct StructField : Node {
+        using List = std::vector<StructField>;
+
         StructField(
             Ident::PR name,
             Type::Ptr type,
@@ -29,7 +28,7 @@ namespace jc::ast {
         Struct(
             Ident::PR name,
             GenericParam::OptList generics,
-            struct_field_list fields,
+            StructField::List fields,
             const Span & span
         ) : Item(span, ItemKind::Struct),
             name(std::move(name)),
@@ -38,7 +37,7 @@ namespace jc::ast {
 
         Ident::PR name;
         GenericParam::OptList generics;
-        struct_field_list fields;
+        StructField::List fields;
 
         span::Ident getName() const override {
             return name.unwrap();

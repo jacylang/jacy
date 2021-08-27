@@ -75,7 +75,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Struct: {
-                printBodyLike(std::get<struct_field_list>(enumEntry.body));
+                printBodyLike(std::get<StructField::List>(enumEntry.body));
                 break;
             }
         }

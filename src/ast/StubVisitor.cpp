@@ -24,7 +24,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Struct: {
-                visitEach(std::get<struct_field_list>(enumEntry.body));
+                visitEach(std::get<StructField::List>(enumEntry.body));
                 break;
             }
         }
