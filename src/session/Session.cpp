@@ -101,9 +101,9 @@ namespace jc::sess {
             {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
         };
 
-        std::function<void(const Step::ptr&, uint8_t)> printStep;
+        std::function<void(const Step::Ptr&, uint8_t)> printStep;
 
-        printStep = [&table, &printStep](const Step::ptr & step, uint8_t depth) -> void {
+        printStep = [&table, &printStep](const Step::Ptr & step, uint8_t depth) -> void {
             for (const auto & child : step->getChildren()) {
                 printStep(child, depth + 1);
             }

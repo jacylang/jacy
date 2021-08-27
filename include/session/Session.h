@@ -63,7 +63,7 @@ namespace jc::sess {
 
         // Diagnostics //
     public:
-        Step::ptr step;
+        Step::Ptr step;
         void beginStep(const std::string & name, MeasUnit measUnit);
         void endStep(Option<size_t> procUnitCount = None);
 

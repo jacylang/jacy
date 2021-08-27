@@ -22,13 +22,13 @@ namespace jc::sess {
 
     class Step : public std::enable_shared_from_this<Step> {
     public:
-        using ptr = std::shared_ptr<Step>;
-        using milli_ratio = std::ratio<1, 1000>;
-        using bench_t = std::chrono::time_point<std::chrono::high_resolution_clock>;
+        using Ptr = std::shared_ptr<Step>;
+        using TimeRatio = std::ratio<1, 1000>; // Milliseconds
+        using BenchT = std::chrono::time_point<std::chrono::high_resolution_clock>;
 
     public:
         Step(
-            Option<ptr> parent,
+            Option<Ptr> parent,
             const std::string & name,
             MeasUnit measUnit
         ) : parent(parent),
@@ -38,7 +38,7 @@ namespace jc::sess {
 
     public:
         template<class ...Args>
-        ptr addChild(Args && ...args) {
+        Ptr addChild(Args && ...args) {
             children.emplace_back(std::make_shared<Step>(shared_from_this(), std::forward<Args>(args)...));
             return children.back();
         }
@@ -55,7 +55,7 @@ namespace jc::sess {
             return children.size();
         }
 
-        Option<ptr> getParent() const {
+        Option<Ptr> getParent() const {
             return parent;
         }
 
@@ -75,9 +75,9 @@ namespace jc::sess {
             return complete;
         }
 
-        ptr end(Option<size_t> procUnitCount) {
+        Ptr end(Option<size_t> procUnitCount) {
             this->procUnitCount = procUnitCount;
-            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+            benchmark = std::chrono::duration<double, TimeRatio>(bench() - benchStart).count();
             complete = true;
             return parent.unwrap("`Step::end`");
         }
@@ -85,7 +85,7 @@ namespace jc::sess {
         void endFailed() {
             log::Logger::devDebug("End as failed '", name, "'");
             procUnitCount = None;
-            benchmark = std::chrono::duration<double, milli_ratio>(bench() - benchStart).count();
+            benchmark = std::chrono::duration<double, TimeRatio>(bench() - benchStart).count();
         }
 
         constexpr const char * unitStr() const {
@@ -99,15 +99,15 @@ namespace jc::sess {
         }
 
     private:
-        Option<ptr> parent{None};
-        std::vector<ptr> children{};
+        Option<Ptr> parent{None};
+        std::vector<Ptr> children{};
 
         std::string name;
 
         MeasUnit measUnit;
         Option<size_t> procUnitCount{None};
 
-        bench_t benchStart;
+        BenchT benchStart;
         Option<double> benchmark{None};
 
         bool complete{false};
