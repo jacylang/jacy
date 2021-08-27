@@ -139,6 +139,18 @@ namespace jc::ast {
         }
     }
 
+    void StubVisitor::visit(const Init & init) {
+        visitEach(init.sig.params);
+
+        if (init.sig.returnType.some()) {
+            init.sig.returnType.unwrap().autoAccept(*this);
+        }
+
+        if (init.body.some()) {
+            init.body.unwrap().value.autoAccept(*this);
+        }
+    }
+
     // Statements //
     void StubVisitor::visit(const LetStmt & letStmt) {
         letStmt.pat.autoAccept(*this);

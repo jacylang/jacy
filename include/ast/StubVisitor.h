@@ -29,6 +29,7 @@ namespace jc::ast {
         virtual void visit(const UseTreeSpecific & useTree) override;
         virtual void visit(const UseTreeRebind & useTree) override;
         virtual void visit(const UseTreeAll & useTree) override;
+        virtual void visit(const Init & useTree) override;
 
         // Statements //
         virtual void visit(const ExprStmt & exprStmt) override;
