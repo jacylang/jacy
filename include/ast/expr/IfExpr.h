@@ -9,7 +9,7 @@
 namespace jc::ast {
     struct IfExpr : Expr {
         IfExpr(
-            expr_ptr condition,
+            ExprPtr condition,
             opt_block_ptr ifBranch,
             opt_block_ptr elseBranch,
             const Span & span
@@ -18,7 +18,7 @@ namespace jc::ast {
             ifBranch(std::move(ifBranch)),
             elseBranch(std::move(elseBranch)) {}
 
-        expr_ptr condition;
+        ExprPtr condition;
         opt_block_ptr ifBranch;
         opt_block_ptr elseBranch;
 

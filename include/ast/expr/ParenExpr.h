@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct ParenExpr : Expr {
-        ParenExpr(expr_ptr && expr, const Span & span)
+        ParenExpr(ExprPtr && expr, const Span & span)
             : Expr(span, ExprKind::Paren), expr(std::move(expr)) {}
 
-        expr_ptr expr;
+        ExprPtr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

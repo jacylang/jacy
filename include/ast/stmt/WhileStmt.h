@@ -8,14 +8,14 @@
 namespace jc::ast {
     struct WhileStmt : Stmt {
         WhileStmt(
-            expr_ptr && condition,
+            ExprPtr && condition,
             block_ptr && body,
             const Span & span
         ) : Stmt(span, StmtKind::While),
             condition(std::move(condition)),
             body(std::move(body)) {}
 
-        expr_ptr condition;
+        ExprPtr condition;
         block_ptr body;
 
         void accept(BaseVisitor & visitor) const override {

@@ -16,7 +16,7 @@ namespace jc::ast {
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;
             case EnumEntryKind::Discriminant: {
-                std::get<expr_ptr>(enumEntry.body).autoAccept(*this);
+                std::get<ExprPtr>(enumEntry.body).autoAccept(*this);
                 break;
             }
             case EnumEntryKind::Tuple: {

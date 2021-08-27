@@ -801,7 +801,7 @@ namespace jc::parser {
         return assignment();
     }
 
-    expr_ptr Parser::parseExpr(const std::string & suggMsg) {
+    ExprPtr Parser::parseExpr(const std::string & suggMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
@@ -814,7 +814,7 @@ namespace jc::parser {
         return expr.take("parseExpr -> expr");
     }
 
-    expr_ptr Parser::parseLambda() {
+    ExprPtr Parser::parseLambda() {
         enterEntity("Lambda:" + peek().toString());
 
         const auto & begin = cspan();
@@ -864,7 +864,7 @@ namespace jc::parser {
 
         skip(TokenKind::Arrow, "`->` in lambda");
 
-        expr_ptr body = parseExpr("lambda body expression");
+        ExprPtr body = parseExpr("lambda body expression");
 
         exitEntity();
 
@@ -1039,7 +1039,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    Option<expr_ptr> Parser::call() {
+    Option<ExprPtr> Parser::call() {
         auto maybeLhs = memberAccess();
 
         if (maybeLhs.none()) {
@@ -1194,7 +1194,7 @@ namespace jc::parser {
         return Ok(makeBoxNode<PathExpr>(parsePath(true)));
     }
 
-    expr_ptr Parser::parseLiteral() {
+    ExprPtr Parser::parseLiteral() {
         logParse("literal");
 
         const auto & begin = cspan();
@@ -1206,7 +1206,7 @@ namespace jc::parser {
         return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
     }
 
-    expr_ptr Parser::parseListExpr() {
+    ExprPtr Parser::parseListExpr() {
         enterEntity("ListExpr");
 
         const auto & begin = cspan();
@@ -1244,7 +1244,7 @@ namespace jc::parser {
         return makePRBoxNode<ListExpr, Expr>(std::move(elements), closeSpan(begin));
     }
 
-    expr_ptr Parser::parseParenLikeExpr() {
+    ExprPtr Parser::parseParenLikeExpr() {
         const auto & begin = cspan();
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
@@ -1291,7 +1291,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
-    expr_ptr Parser::parseStructExpr(path_expr_ptr && path) {
+    ExprPtr Parser::parseStructExpr(path_expr_ptr && path) {
         enterEntity("StructExpr");
 
         const auto & begin = cspan();
@@ -1392,7 +1392,7 @@ namespace jc::parser {
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
     }
 
-    expr_ptr Parser::parseIfExpr(bool isElif) {
+    ExprPtr Parser::parseIfExpr(bool isElif) {
         enterEntity("IfExpr");
 
         const auto & begin = cspan();
@@ -1443,7 +1443,7 @@ namespace jc::parser {
             std::move(condition), std::move(ifBranch), std::move(elseBranch), closeSpan(begin));
     }
 
-    expr_ptr Parser::parseLoopExpr() {
+    ExprPtr Parser::parseLoopExpr() {
         enterEntity("LoopExpr");
 
         const auto & begin = cspan();
@@ -1457,7 +1457,7 @@ namespace jc::parser {
         return makePRBoxNode<LoopExpr, Expr>(std::move(body), closeSpan(begin));
     }
 
-    expr_ptr Parser::parseMatchExpr() {
+    ExprPtr Parser::parseMatchExpr() {
         enterEntity("MatchExpr");
 
         const auto & begin = cspan();

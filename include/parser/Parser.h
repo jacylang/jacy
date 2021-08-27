@@ -176,8 +176,8 @@ namespace jc::parser {
 
         // Expressions //
         opt_expr_ptr parseOptExpr();
-        expr_ptr parseExpr(const std::string & suggMsg);
-        expr_ptr parseLambda();
+        ExprPtr parseExpr(const std::string & suggMsg);
+        ExprPtr parseLambda();
         opt_expr_ptr assignment();
         opt_expr_ptr precParse(uint8_t index);
 
@@ -193,18 +193,18 @@ namespace jc::parser {
         ident_pr justParseIdent(const std::string & panicIn);
         ident_pr parseIdent(const std::string & expected);
         path_expr_ptr parsePathExpr();
-        expr_ptr parseLiteral();
-        expr_ptr parseListExpr();
-        expr_ptr parseParenLikeExpr();
-        expr_ptr parseStructExpr(path_expr_ptr && path);
+        ExprPtr parseLiteral();
+        ExprPtr parseListExpr();
+        ExprPtr parseParenLikeExpr();
+        ExprPtr parseStructExpr(path_expr_ptr && path);
         struct_expr_field_pr parseStructExprField();
 
         block_ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
-        expr_ptr parseIfExpr(bool isElif = false);
-        expr_ptr parseLoopExpr();
-        expr_ptr parseMatchExpr();
+        ExprPtr parseIfExpr(bool isElif = false);
+        ExprPtr parseLoopExpr();
+        ExprPtr parseMatchExpr();
         MatchArm parseMatchArm();
 
         // Fragments //

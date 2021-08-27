@@ -121,7 +121,7 @@ namespace jc::ast {
 
         // Helpers //
     private:
-        bool isPlaceExpr(const expr_ptr & expr);
+        bool isPlaceExpr(const ExprPtr & expr);
 
         template<class T>
         void lintEach(const std::vector<T> & entities) {

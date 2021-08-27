@@ -105,13 +105,13 @@ namespace jc::ast {
     };
 
     struct ArrayType : Type {
-        ArrayType(type_ptr type, expr_ptr sizeExpr, const Span & span)
+        ArrayType(type_ptr type, ExprPtr sizeExpr, const Span & span)
             : Type(span, TypeKind::Array),
               type(std::move(type)),
               sizeExpr(std::move(sizeExpr)) {}
 
         type_ptr type;
-        expr_ptr sizeExpr;
+        ExprPtr sizeExpr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

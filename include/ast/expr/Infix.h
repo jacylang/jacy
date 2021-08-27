@@ -8,12 +8,12 @@ namespace jc::ast {
     using infix_ptr = N<Infix>;
 
     struct Infix : Expr {
-        Infix(expr_ptr lhs, const parser::Token & op, expr_ptr rhs, const Span & span)
+        Infix(ExprPtr lhs, const parser::Token & op, ExprPtr rhs, const Span & span)
             : Expr(span, ExprKind::Infix), lhs(std::move(lhs)), op(op), rhs(std::move(rhs)) {}
 
-        expr_ptr lhs;
+        ExprPtr lhs;
         parser::Token op;
-        expr_ptr rhs;
+        ExprPtr rhs;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

@@ -10,7 +10,7 @@ namespace jc::ast {
     struct ForStmt : Stmt {
         ForStmt(
             pat_ptr && pat,
-            expr_ptr && inExpr,
+            ExprPtr && inExpr,
             block_ptr && body,
             const Span & span
         ) : Stmt(span, StmtKind::For),
@@ -19,7 +19,7 @@ namespace jc::ast {
             body(std::move(body)) {}
 
         pat_ptr pat;
-        expr_ptr inExpr;
+        ExprPtr inExpr;
         block_ptr body;
 
         void accept(BaseVisitor & visitor) const override {

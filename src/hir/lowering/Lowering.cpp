@@ -134,7 +134,7 @@ namespace jc::hir {
     }
 
     // Expressions //
-    expr_ptr Lowering::lowerExpr(const ast::expr_ptr & exprPr) {
+    expr_ptr Lowering::lowerExpr(const ast::ExprPtr & exprPr) {
         const auto & expr = exprPr.unwrap();
         switch (expr->kind) {
             case ast::ExprKind::Assign:

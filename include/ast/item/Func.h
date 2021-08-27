@@ -32,10 +32,10 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, expr_ptr && value) : exprBody(exprBody), value(std::move(value)) {}
+        Body(bool exprBody, ExprPtr && value) : exprBody(exprBody), value(std::move(value)) {}
 
         bool exprBody;
-        expr_ptr value;
+        ExprPtr value;
     };
 
     struct FuncSig {

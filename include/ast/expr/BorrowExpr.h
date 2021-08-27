@@ -8,7 +8,7 @@ namespace jc::ast {
         BorrowExpr(
             bool ref,
             bool mut,
-            expr_ptr expr,
+            ExprPtr expr,
             const Span & span
         ) : Expr(span, ExprKind::Borrow),
             ref(ref),
@@ -18,7 +18,7 @@ namespace jc::ast {
         // TODO: Bool storing optimization
         bool ref;
         bool mut;
-        expr_ptr expr;
+        ExprPtr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
