@@ -5,15 +5,13 @@
 #include "ast/Node.h"
 
 namespace jc::resolve {
-    struct Module;
-    struct DefId;
-    using opt_def_id = Option<DefId>;
-    using def_depth = uint32_t;
-    using DefIndex = size_t;
-
-    const DefIndex ROOT_DEF_INDEX = 0;
-
     struct DefId {
+        using Opt = Option<DefId>;
+        using DefIndex = size_t;
+
+        static const DefIndex ROOT_DEF_INDEX;
+        static const DefId ROOT_DEF_ID;
+
         explicit DefId(DefIndex index) : index(index) {}
 
         DefIndex getIndex() const {
@@ -31,8 +29,6 @@ namespace jc::resolve {
     private:
         DefIndex index;
     };
-
-    const DefId ROOT_DEF_ID = DefId(ROOT_DEF_INDEX);
 
     inline std::ostream & operator<<(std::ostream & os, const DefId & defId) {
         std::cout << defId.getIndex();
@@ -109,8 +105,10 @@ namespace jc::resolve {
     };
 
     struct Def {
+        using Depth = uint32_t;
+
         Def(
-            def_depth depth,
+            Depth depth,
             DefVis vis,
             DefKind kind,
             const Option<span::Span> & nameSpan,
@@ -121,7 +119,7 @@ namespace jc::resolve {
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
 
-        def_depth depth;
+        Depth depth;
         DefVis vis;
         DefKind kind;
         const ast::OptNodeId nameNodeId;
