@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <sstream>
 
 #include "data_types/Option.h"
 
@@ -64,6 +65,17 @@ namespace jc::utils::map {
         const auto & found = map.find(key);
         if (found == map.end()) {
             return None;
+        }
+        return found->second;
+    }
+
+    template<class K, class V>
+    const V & expectAt(const std::map<K, V> & map, const K & key, const std::string & place) {
+        const auto & found = map.find(key);
+        if (found == map.end()) {
+            std::stringstream ss;
+            ss << "`expectedAt` '" << key << "' in " << place;
+            throw std::logic_error(ss.str());
         }
         return found->second;
     }

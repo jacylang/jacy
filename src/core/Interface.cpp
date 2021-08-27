@@ -326,7 +326,7 @@ namespace jc::core {
 
         printDefinitions();
 
-        log.dev("Resolve imports...");
+        log.dev("Resolving imports...");
         sess->beginStep("Import resolution", MeasUnit::Node);
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
         sess->endStep();
