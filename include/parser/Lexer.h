@@ -37,9 +37,9 @@ namespace jc::parser {
         char advance(uint8_t distance = 1);
         char forward();
 
-        void addToken(Token && t, span::span_len_t len);
+        void addToken(Token && t, span::Span::Len len);
         void addToken(TokenKind kind, const std::string & val);
-        void addToken(TokenKind kind, span::span_len_t len);
+        void addToken(TokenKind kind, span::Span::Len len);
 
         // Checkers
         bool eof() const;

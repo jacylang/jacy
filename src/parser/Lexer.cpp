@@ -3,7 +3,7 @@
 namespace jc::parser {
     Lexer::Lexer() = default;
 
-    void Lexer::addToken(Token && t, span::span_len_t len) {
+    void Lexer::addToken(Token && t, span::Span::Len len) {
         t.span = span::Span(
             tokenStartIndex,
             len,
@@ -13,10 +13,10 @@ namespace jc::parser {
     }
 
     void Lexer::addToken(TokenKind kind, const std::string & val) {
-        addToken(Token(kind, val), static_cast<span::span_len_t>(val.size()));
+        addToken(Token(kind, val), static_cast<span::Span::Len>(val.size()));
     }
 
-    void Lexer::addToken(TokenKind kind, span::span_len_t len) {
+    void Lexer::addToken(TokenKind kind, span::Span::Len len) {
         addToken(Token(kind, ""), len);
     }
 
@@ -224,7 +224,7 @@ namespace jc::parser {
 
         const auto kw = Token::keywords.find(id);
         if (kw != Token::keywords.end()) {
-            addToken(kw->second, static_cast<span::span_len_t>(kw->first.size()));
+            addToken(kw->second, static_cast<span::Span::Len>(kw->first.size()));
         } else {
             addToken(TokenKind::Id, id);
         }

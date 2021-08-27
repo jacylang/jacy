@@ -52,7 +52,7 @@ namespace jc::span {
         }
     };
 
-    const Span NONE_SPAN {0, static_cast<Len>(0), 0};
+    const Span NONE_SPAN {0, static_cast<Span::Len>(0), 0};
 }
 
 #endif // JACY_SPAN_H
