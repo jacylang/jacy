@@ -51,7 +51,7 @@ namespace jc::ast {
     using OptNodeId = Option<NodeId>;
 
     template<class T>
-    using node_map = std::map<NodeId, T>;
+    using NodeMap = std::map<NodeId, T>;
 
     struct Node {
         explicit Node(const Span & span) : span(span) {}
