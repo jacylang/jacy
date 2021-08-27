@@ -119,7 +119,7 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::printPrevLine(file_id_t fileId, size_t index) {
+    void Suggester::printPrevLine(Span::FileId fileId, size_t index) {
         if (index == 0) {
             return;
         }
@@ -127,7 +127,7 @@ namespace jc::sugg {
         printLine(fileId, index - 1);
     }
 
-    void Suggester::printLine(file_id_t fileId, size_t index) {
+    void Suggester::printLine(Span::FileId fileId, size_t index) {
         const auto & line = sess->sourceMap.getLine(fileId, index);
         // Print indent according to line number
         // FIXME: uint overflow can appear
@@ -137,7 +137,7 @@ namespace jc::sugg {
         Logger::nl();
     }
 
-    void Suggester::printWithIndent(file_id_t fileId, const std::string & msg) {
+    void Suggester::printWithIndent(Span::FileId fileId, const std::string & msg) {
         const auto & indent = getFileIndent(fileId);
         printWithIndent(utils::str::repeat(" ", indent.size() - 3) + " | ", msg);
     }
@@ -149,7 +149,7 @@ namespace jc::sugg {
         Logger::nl();
     }
 
-    const std::string & Suggester::getFileIndent(file_id_t fileId) {
+    const std::string & Suggester::getFileIndent(Span::FileId fileId) {
         const auto & found = filesIndents.find(fileId);
         if (found == filesIndents.end()) {
             const auto lastLineNum = sess->sourceMap.getLinesCount(fileId);

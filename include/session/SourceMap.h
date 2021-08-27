@@ -12,7 +12,7 @@
 #include "parser/ParseSess.h"
 
 namespace jc::sess {
-    using file_id_t = size_t;
+    using Span::FileId = size_t;
     using parser::SourceFile;
 
     struct Line {
@@ -23,12 +23,12 @@ namespace jc::sess {
     struct SourceMap {
         SourceMap() = default;
 
-        file_id_t registerSource(const fs::path & path);
+        Span::FileId registerSource(const fs::path & path);
         void setSourceFile(parser::ParseSess::Ptr && parseSess);
-        const SourceFile & getSourceFile(file_id_t fileId);
-        size_t getLinesCount(file_id_t);
+        const SourceFile & getSourceFile(Span::FileId fileId);
+        size_t getLinesCount(Span::FileId);
 
-        std::string getLine(file_id_t fileId, size_t index);
+        std::string getLine(Span::FileId fileId, size_t index);
 
         // As far as Span can capture multiple lines, we return all we found
         std::vector<Line> getLines(const span::Span & span);
@@ -36,7 +36,7 @@ namespace jc::sess {
         std::string sliceBySpan(const span::Span & span);
 
     private:
-        std::map<file_id_t, Option<SourceFile>> sources;
+        std::map<Span::FileId, Option<SourceFile>> sources;
     };
 }
 

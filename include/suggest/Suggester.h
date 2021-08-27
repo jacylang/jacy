@@ -9,7 +9,7 @@
 namespace jc::sugg {
     using log::Color;
     using log::Logger;
-    using sess::file_id_t;
+    using sess::Span::FileId;
 
     struct SuggestionError : std::logic_error {
         SuggestionError(const std::string & msg) : std::logic_error(msg) {}
@@ -29,15 +29,15 @@ namespace jc::sugg {
         sess::Sess::Ptr sess;
 
         void pointMsgTo(const std::string & msg, const Span & span, SuggKind kind);
-        void printPrevLine(file_id_t fileId, size_t index);
-        void printLine(file_id_t fileId, size_t index);
-        void printWithIndent(file_id_t fileId, const std::string & msg);
+        void printPrevLine(Span::FileId fileId, size_t index);
+        void printLine(Span::FileId fileId, size_t index);
+        void printWithIndent(Span::FileId fileId, const std::string & msg);
         void printWithIndent(const std::string & indent, const std::string & msg);
 
         const uint8_t wrapLen{120};
-        std::map<file_id_t, std::string> filesIndents;
+        std::map<Span::FileId, std::string> filesIndents;
 
-        const std::string & getFileIndent(file_id_t fileId);
+        const std::string & getFileIndent(Span::FileId fileId);
     };
 }
 

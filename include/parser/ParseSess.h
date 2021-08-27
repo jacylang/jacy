@@ -23,10 +23,10 @@ namespace jc::parser {
     struct ParseSess {
         using Ptr = std::shared_ptr<ParseSess>;
 
-        ParseSess(span::file_id_t fileId, SourceFile && sourceFile)
+        ParseSess(span::Span::FileId fileId, SourceFile && sourceFile)
             : fileId(fileId), sourceFile(std::move(sourceFile)) {}
 
-        span::file_id_t fileId;
+        span::Span::FileId fileId;
         SourceFile sourceFile;
     };
 }
