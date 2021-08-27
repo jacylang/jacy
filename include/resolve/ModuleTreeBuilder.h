@@ -61,9 +61,9 @@ namespace jc::resolve {
         using InitializerIndex = uint16_t;
 
         /// Stack of initializer indices per module
-        using InitIndexStack = std::vector<InitializerIndex>;
+        using InitIndexMap = std::map<DefId, InitializerIndex>;
 
-        InitIndexStack lastInitializerIndex {};
+        InitIndexMap initializerIndices{};
 
         std::string nextInitIndex();
 

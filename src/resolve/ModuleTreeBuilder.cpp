@@ -168,6 +168,10 @@ namespace jc::resolve {
 
     // Modules //
 
+    /// Important!: For API consistency -- keep two ends of module methods for entering and exiting.
+    ///  Much work is done on enter/exit, thus to avoid mistakes use `enterChildModule` and `exitMod`
+    ///  in custom aliases
+
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(NodeId nodeId) {
         log.dev("Enter [BLOCK] module ", nodeId);
@@ -201,6 +205,9 @@ namespace jc::resolve {
             log.devPanic("Exceeded definitions depth limit");
         }
         _modDepth++;
+
+        // Alter initializer index
+        last
     }
 
     void ModuleTreeBuilder::exitMod() {
@@ -222,7 +229,11 @@ namespace jc::resolve {
         /// We don't put initializer index to `Module` as it a side-off info,
         /// and modules don't need to share this info after
         /// module-tree-building ends -- only thing we need is an unique name.
-        return "%init_" + std::to_string(++lastInitializerIndex.back());
+
+        /// Indices stored as map `def_id -> index` where `def_id` is `DefId` of module
+        /// Having `init` in non-def module (block) means invalid AST and must be caught before name resolution
+        auto defId = mod->defId.unwrap("`ModuleTreeBuilder::nextInitIndex` -> `defId`");
+        return "%init_" + std::to_string(++initializerIndices.at(defId));
     }
 
     // Suggestions //
