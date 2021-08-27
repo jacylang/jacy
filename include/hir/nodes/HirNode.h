@@ -13,7 +13,7 @@ namespace jc::hir {
     struct HirId {
         HirId(const resolve::DefId & defId) : defId(defId) {}
 
-        static const HirId NONE_HIR_ID;
+        static const HirId DUMMY;
 
         resolve::DefId defId;
     };
