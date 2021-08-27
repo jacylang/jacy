@@ -7,11 +7,10 @@
 #include "ast/fragments/SimplePath.h"
 
 namespace jc::ast {
-    struct UseTree;
-    using use_tree_ptr = PR<N<UseTree>>;
-    using use_tree_list = std::vector<use_tree_ptr>;
-
     struct UseTree : Node {
+        using Ptr = PR<N<UseTree>>;
+        using List = std::vector<Ptr>;
+
         enum class Kind {
             Raw,
             All,
