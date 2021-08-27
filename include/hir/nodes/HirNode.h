@@ -13,10 +13,10 @@ namespace jc::hir {
     struct HirId {
         HirId(const resolve::DefId & defId) : defId(defId) {}
 
+        static const HirId NONE_HIR_ID;
+
         resolve::DefId defId;
     };
-
-    const HirId NONE_HIR_ID = HirId(resolve::DefId(0));
 
     struct HirNode {
         HirNode(const HirId & hirId, const Span & span) : hirId(hirId), span(span) {}
