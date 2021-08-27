@@ -122,7 +122,7 @@ namespace jc::resolve {
             }
         }
 
-        constexpr static inline const char * nsToString(Namespace ns) {
+        static inline std::string nsToString(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return "value";
                 case Namespace::Type: return "type";
