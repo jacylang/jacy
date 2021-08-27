@@ -22,10 +22,10 @@ namespace jc::ast {
 
     struct Vis {
         Vis() : kind(VisKind::Unset), span(None) {}
-        Vis(VisKind kind, const span::opt_span & span) : kind(kind), span(span) {}
+        Vis(VisKind kind, const span::Span::Opt & span) : kind(kind), span(span) {}
 
         VisKind kind;
-        span::opt_span span;
+        span::Span::Opt span;
     };
 
     struct Item : Node {

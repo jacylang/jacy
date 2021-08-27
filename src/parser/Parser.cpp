@@ -264,7 +264,7 @@ namespace jc::parser {
         const auto & pub = skipOpt(TokenKind::Pub);
 
         VisKind kind{VisKind::Unset};
-        span::opt_span span{None};
+        span::Span::Opt span{None};
         if (pub.some()) {
             kind = ast::VisKind::Pub;
             span = pub.unwrap().span;
