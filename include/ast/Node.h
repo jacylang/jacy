@@ -47,7 +47,7 @@ namespace jc::ast {
     struct ErrorNode;
     using span::Span;
     using NodePtr = N<Node>;
-    using node_list = std::vector<NodePtr>;
+    using NodeList = std::vector<NodePtr>;
     using opt_node_id = Option<NodeId>;
 
     template<class T>
