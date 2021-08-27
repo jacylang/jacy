@@ -7,11 +7,10 @@
 #include "ast/fragments/Path.h"
 
 namespace jc::ast {
-    struct StructExprField;
-    using struct_expr_field_pr = PR<StructExprField>;
-    using struct_expr_field_list = std::vector<struct_expr_field_pr>;
-
     struct StructExprField : Node {
+        using PR = PR<StructExprField>;
+        using List = std::vector<PR>;
+
         enum class Kind {
             Raw, // {field: expr}
             Shortcut, // {field}
