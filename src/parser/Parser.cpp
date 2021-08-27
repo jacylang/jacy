@@ -283,7 +283,7 @@ namespace jc::parser {
         auto name = parseIdent("`enum` name");
         auto generics = parseOptGenerics();
 
-        enum_entry_list entries;
+        EnumEntry::List entries;
         if (not isSemis()) {
             skip(TokenKind::LBrace, "`{` to start `enum` body here or `;` to ignore it", Recovery::Once);
 

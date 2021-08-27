@@ -9,9 +9,6 @@
 #include "ast/item/Struct.h"
 
 namespace jc::ast {
-    struct EnumEntry;
-    using enum_entry_list = std::vector<EnumEntry>;
-
     enum class EnumEntryKind {
         Raw, // `A`
         Discriminant, // `A = const expr`
@@ -20,6 +17,8 @@ namespace jc::ast {
     };
 
     struct EnumEntry : Node {
+        using List = std::vector<EnumEntry>;
+
         EnumEntry(EnumEntryKind kind, Ident::PR && name, const Span & span)
             : Node(span), kind(kind), name(std::move(name)), body(std::monostate{}) {}
 
@@ -42,11 +41,11 @@ namespace jc::ast {
     };
 
     struct Enum : Item {
-        Enum(Ident::PR && name, enum_entry_list && entries, const Span & span)
+        Enum(Ident::PR && name, EnumEntry::List && entries, const Span & span)
             : Item(span, ItemKind::Enum), name(std::move(name)), entries(std::move(entries)) {}
 
         Ident::PR name;
-        enum_entry_list entries{};
+        EnumEntry::List entries{};
 
         span::Ident getName() const override {
             return name.unwrap();
