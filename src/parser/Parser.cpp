@@ -669,20 +669,20 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    Stmt::Ptr Parser::parseStmt() {
+    Stmt::Ptr Parser::parseStmt{} {
         logParse("Stmt");
 
         const auto & begin = cspan();
 
         switch (peek().kind) {
             case TokenKind::While: {
-                return parseWhileStmt();
+                return parseWhileStmt{};
             }
             case TokenKind::For: {
-                return parseForStmt();
+                return parseForStmt{};
             }
             case TokenKind::Let: {
-                return parseLetStmt();
+                return parseLetStmt{};
             }
             default: {
                 auto item = parseOptItem();
@@ -705,7 +705,7 @@ namespace jc::parser {
         }
     }
 
-    Stmt::Ptr Parser::parseForStmt() {
+    Stmt::Ptr Parser::parseForStmt{} {
         enterEntity("ForStmt");
 
         const auto & begin = cspan();
@@ -728,7 +728,7 @@ namespace jc::parser {
         return makePRBoxNode<ForStmt, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
-    Stmt::Ptr Parser::parseLetStmt() {
+    Stmt::Ptr Parser::parseLetStmt{} {
         enterEntity("LetStmt");
 
         const auto & begin = cspan();
@@ -754,7 +754,7 @@ namespace jc::parser {
         return makePRBoxNode<LetStmt, Stmt>(std::move(pat), std::move(type), std::move(assignExpr), closeSpan(begin));
     }
 
-    Stmt::Ptr Parser::parseWhileStmt() {
+    Stmt::Ptr Parser::parseWhileStmt{} {
         enterEntity("WhileStmt");
         const auto & begin = cspan();
 
@@ -1383,7 +1383,7 @@ namespace jc::parser {
             }
             // Note: We don't need to skip semis here, because `parseStmt` handles semis itself
 
-            stmts.push_back(parseStmt());
+            stmts.push_back(parseStmt{)};
         }
 
         skip(TokenKind::RBrace, "`}`");

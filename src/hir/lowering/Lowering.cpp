@@ -114,10 +114,10 @@ namespace jc::hir {
     }
 
     // Statements //
-    Stmt::Ptr Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
+    Stmt::Ptr Lowering::lowerStmt{const ast::Stmt::Ptr & astStmt} {
         const auto & stmt = astStmt.unwrap();
         switch (stmt->kind) {
-            case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
+            case ast::StmtKind::Expr: return lowerExprStmt{*stmt->as<ast::ExprStmt>(stmt)};
             case ast::StmtKind::For:
                 break;
             case ast::StmtKind::Let:
@@ -129,7 +129,7 @@ namespace jc::hir {
         }
     }
 
-    Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
+    Stmt::Ptr Lowering::lowerExprStmt{const ast::ExprStmt & exprStmt} {
         return makeBoxNode<ExprStmt>(lowerExpr{exprStmt.expr), HirId::DUMMY, exprStmt.span};
     }
 
@@ -239,7 +239,7 @@ namespace jc::hir {
         // FIXME: One-line blocks will be removed!
         Stmt::List stmts;
         for (const auto & stmt : block.stmts) {
-            stmts.emplace_back(lowerStmt(stmt));
+            stmts.emplace_back(lowerStmt{stmt)};
         }
         return Block(std::move(stmts), HirId::DUMMY, block.span);
     }

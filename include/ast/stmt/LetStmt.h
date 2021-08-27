@@ -13,7 +13,7 @@ namespace jc::ast {
             Type::OptPtr && type,
             Expr::OptPtr && assignExpr,
             const Span & span
-        ) : Stmt(span, StmtKind::Let),
+        ) : Stmt{span, StmtKind::Let},
             pat(std::move(pat)),
             type(std::move(type)),
             assignExpr{std::move(assignExpr)} {}

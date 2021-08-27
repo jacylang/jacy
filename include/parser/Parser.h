@@ -170,10 +170,10 @@ namespace jc::parser {
         UseTree::Ptr parseUseTree();
 
         // Statements //
-        Stmt::Ptr parseStmt();
-        Stmt::Ptr parseForStmt();
-        Stmt::Ptr parseLetStmt();
-        Stmt::Ptr parseWhileStmt();
+        Stmt::Ptr parseStmt{};
+        Stmt::Ptr parseForStmt{};
+        Stmt::Ptr parseLetStmt{};
+        Stmt::Ptr parseWhileStmt{};
 
         // Expressions //
         Expr::OptPtr parseOptExpr{};

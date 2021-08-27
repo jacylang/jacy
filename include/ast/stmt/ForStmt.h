@@ -13,7 +13,7 @@ namespace jc::ast {
             Expr::Ptr && inExpr,
             Block::Ptr && body,
             const Span & span
-        ) : Stmt(span, StmtKind::For),
+        ) : Stmt{span, StmtKind::For},
             pat(std::move(pat)),
             inExpr{std::move(inExpr)},
             body(std::move(body)) {}
