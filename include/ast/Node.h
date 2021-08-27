@@ -11,6 +11,17 @@
 #include "utils/num.h"
 
 namespace jc::ast {
+    struct NodeId;
+    template<typename T>
+    using N = std::unique_ptr<T>;
+
+    using OptNodeId = Option<NodeId>;
+
+    template<class T>
+    using NodeMap = std::map<NodeId, T>;
+
+    using span::Span;
+
     struct NodeId {
         uint32_t val;
 
@@ -39,16 +50,6 @@ namespace jc::ast {
             return os << "#" << nodeId.val;
         }
     };
-
-    template<typename T>
-    using N = std::unique_ptr<T>;
-
-    struct ErrorNode;
-    using span::Span;
-    using OptNodeId = Option<NodeId>;
-
-    template<class T>
-    using NodeMap = std::map<NodeId, T>;
 
     struct Node {
         using Ptr = N<Node>;
