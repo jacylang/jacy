@@ -6,11 +6,6 @@
 #include "data_types/Option.h"
 
 namespace jc::ast {
-    struct Expr;
-    using ExprPtr = PR<N<Expr>>;
-    using OptExprPtr = Option<ExprPtr>;
-    using ExprList = std::vector<ExprPtr>;
-
     enum class ExprKind {
         Assign,
         Block,
@@ -43,6 +38,10 @@ namespace jc::ast {
     };
 
     struct Expr : Node {
+        using Ptr = PR<N<Expr>>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         Expr(const Span & span, ExprKind kind) : Node(span), kind(kind) {}
         virtual ~Expr() = default;
 
