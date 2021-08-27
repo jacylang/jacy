@@ -7,11 +7,6 @@
 #include "ast/BaseVisitor.h"
 
 namespace jc::ast {
-    struct Stmt;
-    using StmtPtr = PR<N<Stmt>>;
-    using OptStmtPtr = Option<StmtPtr>;
-    using StmtList = std::vector<StmtPtr>;
-
     enum class StmtKind {
         Expr,
         For,
@@ -21,6 +16,10 @@ namespace jc::ast {
     };
 
     struct Stmt : Node {
+        using StmtPtr = PR<N<Stmt>>;
+        using OptStmtPtr = Option<StmtPtr>;
+        using StmtList = std::vector<StmtPtr>;
+
         Stmt(const Span & span, StmtKind kind) : Node(span), kind(kind) {}
 
         StmtKind kind;
