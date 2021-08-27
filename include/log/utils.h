@@ -120,18 +120,20 @@ namespace jc::log {
         Right,
     };
 
+    using TableSizeT = uint16_t;
+
     // Rows-count-dynamic table for logs
-    template<uint16_t Cols>
+    template<TableSizeT Cols>
     class Table {
-        using SizeT = uint16_t;
         using Cell = std::pair<CellKind, std::string>;
         using Row = std::array<Cell, Cols>;
+        using CornerLine = std::array<std::string, 3>;
 
         static_assert(Cols > 0);
 
     public:
         Table(
-            const std::array<SizeT, Cols> & layout,
+            const std::array<TableSizeT, Cols> & layout,
             const std::array<Align, Cols> & alignment
         ) : layout(layout), alignment(alignment) {
             if (alignment.size() != layout.size()) {
@@ -201,17 +203,17 @@ namespace jc::log {
             if (addIfNoTop and rows.size() > 0 and rows.back().at(0).first == CellKind::Line) {
                 return;
             }
-            for (SizeT i = index; i < Cols; i++) {
+            for (TableSizeT i = index; i < Cols; i++) {
                 addCell(repeat("─", layout.at(i)), CellKind::Line);
             }
         }
 
     public:
         friend std::ostream & operator<<(std::ostream & os, const Table<Cols> & tbl) {
-            for (SizeT rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
+            for (TableSizeT rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
-                for (SizeT colIndex = 0; colIndex < Cols; colIndex++) {
+                for (TableSizeT colIndex = 0; colIndex < Cols; colIndex++) {
                     const auto & kind = row.at(colIndex).first;
                     const auto & str = row.at(colIndex).second;
                     const auto & colWidth = tbl.layout.at(colIndex);
@@ -269,7 +271,7 @@ namespace jc::log {
         }
 
     private:
-        static SizeT clampCornerIndex(SizeT index, SizeT size) {
+        static TableSizeT clampCornerIndex(TableSizeT index, TableSizeT size) {
             if (index <= 0) {
                 return 0;
             }
@@ -281,8 +283,8 @@ namespace jc::log {
 
         static std::string getCorner(
             CellKind kind,
-            SizeT rowIndex,
-            SizeT rowsCnt,
+            TableSizeT rowIndex,
+            TableSizeT rowsCnt,
             int8_t side
         ) {
             return corners.at(kind)
@@ -298,13 +300,12 @@ namespace jc::log {
         }
 
     private:
-        SizeT index{0};
+        TableSizeT index{0};
 
-        std::array<SizeT, Cols> layout;
+        std::array<TableSizeT, Cols> layout;
         std::array<Align, Cols> alignment;
         std::vector<Row> rows;
 
-        using CornerLine = std::array<std::string, 3>;
         static const std::map<CellKind, std::array<CornerLine , 3>> corners;
     };
 }
