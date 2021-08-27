@@ -7,14 +7,14 @@ namespace jc::ast {
     struct Mod : Item {
         Mod(
             Ident::PR && name,
-            item_list && items,
+            Item::List && items,
             const Span & span
         ) : Item(span, ItemKind::Mod),
             name(std::move(name)),
             items(std::move(items)) {}
 
         Ident::PR name;
-        item_list items;
+        Item::List items;
 
         span::Ident getName() const override {
             return name.unwrap();

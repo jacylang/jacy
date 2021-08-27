@@ -8,9 +8,9 @@
 namespace jc::ast {
     class Party {
     public:
-        explicit Party(item_list && items) : items(std::move(items)) {}
+        explicit Party(Item::List && items) : items(std::move(items)) {}
 
-        item_list items;
+        Item::List items;
     };
 }
 

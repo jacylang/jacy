@@ -10,7 +10,7 @@ namespace jc::ast {
             GenericParam::OptList && generics,
             PR<TypePath::Ptr> && traitTypePath,
             Type::OptPtr && forType,
-            item_list && members,
+            Item::List && members,
             const Span & span
         ) : Item(span, ItemKind::Impl),
             generics(std::move(generics)),
@@ -21,7 +21,7 @@ namespace jc::ast {
         GenericParam::OptList generics;
         PR<TypePath::Ptr> traitTypePath;
         Type::OptPtr forType;
-        item_list members;
+        Item::List members;
 
         span::Ident getName() const override {
             return Ident::empty();

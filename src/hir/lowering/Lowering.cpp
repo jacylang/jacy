@@ -78,7 +78,7 @@ namespace jc::hir {
         }
     }
 
-    Item::Ptr Lowering::lowerMod(const ast::item_list & astItems) {
+    Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         item_id_list itemIds;
         for (const auto & item : astItems) {
             auto nameNodeId = item.unwrap()->getNameNodeId();

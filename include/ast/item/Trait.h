@@ -10,7 +10,7 @@ namespace jc::ast {
             Ident::PR && name,
             GenericParam::OptList && generics,
             TypePath::List && superTraits,
-            item_list && members,
+            Item::List && members,
             const Span & span
         ) : Item(span, ItemKind::Trait),
             name(std::move(name)),
@@ -21,7 +21,7 @@ namespace jc::ast {
         Ident::PR name;
         GenericParam::OptList generics;
         TypePath::List superTraits;
-        item_list members;
+        Item::List members;
 
         span::Ident getName() const override {
             return name.unwrap();

@@ -26,7 +26,7 @@ namespace jc::hir {
         ItemNode lowerItem(const ast::Item::Ptr & astItem);
         Item::Ptr lowerEnum(const ast::Enum & astEnum);
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
-        Item::Ptr lowerMod(const ast::item_list & astItems);
+        Item::Ptr lowerMod(const ast::Item::List & astItems);
         Item::Ptr lowerFunc(const ast::Func & astFunc);
 
         // Statements //

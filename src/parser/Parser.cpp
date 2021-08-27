@@ -138,7 +138,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    dt::SuggResult<item_list> Parser::parse(
+    dt::SuggResult<Item::List> Parser::parse(
         const sess::sess_ptr & sess,
         const parse_sess_ptr & parseSess,
         const token_list & tokens
@@ -232,10 +232,10 @@ namespace jc::parser {
         return None;
     }
 
-    item_list Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
+    Item::List Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
         enterEntity("ItemList");
 
-        item_list items;
+        Item::List items;
         while (not eof()) {
             if (peek().is(stopToken)) {
                 break;
@@ -414,7 +414,7 @@ namespace jc::parser {
             forType = parseType("Missing type");
         }
 
-        item_list members = parseMembers("impl");
+        Item::List members = parseMembers("impl");
 
         exitEntity();
 
@@ -519,7 +519,7 @@ namespace jc::parser {
             }
         }
 
-        item_list members = parseMembers("trait");
+        Item::List members = parseMembers("trait");
 
         exitEntity();
 
@@ -1697,10 +1697,10 @@ namespace jc::parser {
         return makeNode<FuncParam>(std::move(name), std::move(type), std::move(defaultValue), closeSpan(begin));
     }
 
-    item_list Parser::parseMembers(const std::string & construction) {
+    Item::List Parser::parseMembers(const std::string & construction) {
         logParse("Members:" + construction);
 
-        item_list members;
+        Item::List members;
         if (not isSemis()) {
             auto braceSkipped = skip(
                 TokenKind::LBrace,

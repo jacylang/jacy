@@ -149,7 +149,7 @@ namespace jc::core {
         const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
         log.dev("Synthesized ident for dir: ", synthName);
 
-        ast::item_list nestedEntries;
+        ast::Item::List nestedEntries;
         for (auto entry : dir.extractEntries()) {
             if (entry.isDir()) {
                 nestedEntries.emplace_back(Ok<ast::N<ast::Item>>(parseDir(std::move(entry), None)));

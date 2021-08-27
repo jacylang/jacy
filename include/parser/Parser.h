@@ -78,7 +78,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<item_list> parse(
+        dt::SuggResult<Item::List> parse(
             const sess::sess_ptr & sess,
             const parse_sess_ptr & parseSess,
             const token_list & tokens
@@ -153,7 +153,7 @@ namespace jc::parser {
 
         // Items //
         Option<Item::Ptr> parseOptItem();
-        item_list parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
+        Item::List parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
 
         Vis parseVis();
         Item::Ptr parseEnum();
@@ -215,7 +215,7 @@ namespace jc::parser {
         parser::token_list parseModifiers();
         FuncParam::List parseFuncParamList();
         FuncParam parseFuncParam();
-        item_list parseMembers(const std::string & construction);
+        Item::List parseMembers(const std::string & construction);
         PR<SimplePath> parseSimplePath(const std::string & construction);
         Option<SimplePath> parseOptSimplePath();
         Path parsePath(bool inExpr);
