@@ -669,7 +669,7 @@ namespace jc::parser {
     ////////////////
     // Statements //
     ////////////////
-    StmtPtr Parser::parseStmt() {
+    Stmt::Ptr Parser::parseStmt() {
         logParse("Stmt");
 
         const auto & begin = cspan();
@@ -705,7 +705,7 @@ namespace jc::parser {
         }
     }
 
-    StmtPtr Parser::parseForStmt() {
+    Stmt::Ptr Parser::parseForStmt() {
         enterEntity("ForStmt");
 
         const auto & begin = cspan();
@@ -728,7 +728,7 @@ namespace jc::parser {
         return makePRBoxNode<ForStmt, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
-    StmtPtr Parser::parseLetStmt() {
+    Stmt::Ptr Parser::parseLetStmt() {
         enterEntity("LetStmt");
 
         const auto & begin = cspan();
@@ -754,7 +754,7 @@ namespace jc::parser {
         return makePRBoxNode<LetStmt, Stmt>(std::move(pat), std::move(type), std::move(assignExpr), closeSpan(begin));
     }
 
-    StmtPtr Parser::parseWhileStmt() {
+    Stmt::Ptr Parser::parseWhileStmt() {
         enterEntity("WhileStmt");
         const auto & begin = cspan();
 
