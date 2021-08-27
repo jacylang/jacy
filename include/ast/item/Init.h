@@ -17,6 +17,14 @@ namespace jc::ast {
         FuncSig sig;
         Option<Body> body;
 
+        span::Ident getName() const override {
+            return Ident::empty();
+        }
+
+        OptNodeId getNameNodeId() const override {
+            return None;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
