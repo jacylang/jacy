@@ -263,7 +263,7 @@ namespace jc::ast {
             default:;
         }
 
-        if (!isPlaceExpr{assign.lhs)} {
+        if (!isPlaceExpr(assign.lhs)) {
             suggestErrorMsg("Invalid left-hand side expression in assignment", span);
         }
     }
