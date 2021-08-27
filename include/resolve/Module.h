@@ -47,12 +47,12 @@ namespace jc::resolve {
         PrimTypeSet shadowedPrimTypes{0};
 
         // `Block` module
-        static inline Module::Ptr newBlockModule(NodeId nodeId, Module::Ptr parent, opt_def_id nearestModDef) {
+        static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 
         // `Def` module
-        static inline Module::Ptr newDefModule(const DefId & defId, Module::Ptr parent, opt_def_id nearestModDef) {
+        static inline Ptr newDefModule(const DefId & defId, Ptr parent, opt_def_id nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
@@ -75,22 +75,22 @@ namespace jc::resolve {
             };
         }
 
-        const Module::NSMap & getNS(Namespace ns) const {
+        const NSMap & getNS(Namespace ns) const {
             switch (ns) {
                 case Namespace::Value: return perNS.value;
                 case Namespace::Type: return perNS.type;
                 case Namespace::Lifetime: return perNS.lifetime;
             }
-            log::Logger::notImplemented("Module::getNS");
+            log::Logger::notImplemented("getNS");
         }
 
-        Module::NSMap & getNS(Namespace ns) {
+        NSMap & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return perNS.value;
                 case Namespace::Type: return perNS.type;
                 case Namespace::Lifetime: return perNS.lifetime;
             }
-            log::Logger::notImplemented("Module::getNS");
+            log::Logger::notImplemented("getNS");
         }
 
         opt_def_id tryDefine(Namespace ns, const std::string & name, const DefId & defId) {
