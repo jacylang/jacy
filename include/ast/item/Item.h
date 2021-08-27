@@ -4,10 +4,6 @@
 #include "ast/fragments/Attr.h"
 
 namespace jc::ast {
-    struct Item;
-    using item_ptr = PR<N<Item>>;
-    using item_list = std::vector<item_ptr>;
-
     enum class ItemKind {
         Enum,
         Func,
@@ -33,6 +29,9 @@ namespace jc::ast {
     };
 
     struct Item : Node {
+        using Ptr = PR<N<Item>>;
+        using List = std::vector<Ptr>;
+
         Item(const Span & span, ItemKind kind) : Node(span), kind(kind) {}
 
         Attr::List attributes;
