@@ -1509,7 +1509,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        pat_list patterns;
+        Pattern::List patterns;
         bool first = true;
         while (not eof()) {
             if (first) {
