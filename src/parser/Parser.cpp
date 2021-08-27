@@ -357,29 +357,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
 
-        auto params = parseFuncParamList();
-
-        bool typeAnnotated = false;
-        const auto & maybeColonToken = peek();
-        if (skipOpt(TokenKind::Colon).some()) {
-            typeAnnotated = true;
-        } else if (skipOpt(TokenKind::Arrow).some()) {
-            suggestErrorMsg(
-                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
-            );
-        }
-
-        const auto & returnTypeToken = peek();
-        auto returnType = parseOptType();
-        if (typeAnnotated and returnType.none()) {
-            suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
-        }
-
-        FuncSig sig {
-            modifiers,
-            std::move(params),
-            std::move(returnType)
-        };
+        auto sig = parseFuncSig(std::move(modifiers));
 
         auto body = parseFuncBody();
 
@@ -1544,6 +1522,32 @@ namespace jc::parser {
 
         exitEntity();
         return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
+    }
+
+    FuncSig Parser::parseFuncSig(parser::Token::List && modifiers) {
+        auto params = parseFuncParamList();
+
+        bool typeAnnotated = false;
+        const auto & maybeColonToken = peek();
+        if (skipOpt(TokenKind::Colon).some()) {
+            typeAnnotated = true;
+        } else if (skipOpt(TokenKind::Arrow).some()) {
+            suggestErrorMsg(
+                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
+            );
+        }
+
+        const auto & returnTypeToken = peek();
+        auto returnType = parseOptType();
+        if (typeAnnotated and returnType.none()) {
+            suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
+        }
+
+        return FuncSig {
+            modifiers,
+            std::move(params),
+            std::move(returnType)
+        };
     }
 
     Option<Body> Parser::parseFuncBody() {
