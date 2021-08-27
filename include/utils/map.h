@@ -74,7 +74,7 @@ namespace jc::utils::map {
         const auto & found = map.find(key);
         if (found == map.end()) {
             std::stringstream ss;
-            ss << "`expectedAt` '" << key << "' in " << place;
+            ss << "map `expectedAt` '" << key << "' in " << place;
             throw std::logic_error(ss.str());
         }
         return found->second;

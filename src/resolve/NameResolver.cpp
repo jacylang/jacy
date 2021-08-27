@@ -326,6 +326,7 @@ namespace jc::resolve {
         }
 
         if (unresSeg.some()) {
+            using namespace utils::map;
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments

@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <sstream>
 
 namespace jc::utils::arr {
     template<class T>
@@ -42,6 +43,16 @@ namespace jc::utils::arr {
         const std::vector<std::string> & encloseInto = {},
         const std::vector<std::string> & encloseElementInto = {}
     );
+
+    template<class T>
+    const T & expectAt(const std::vector<T> & vec, typename std::vector<T>::size_t index, const std::string & place) {
+        if (index < vec.size()) {
+            std::stringstream ss;
+            ss << "vector `expectedAt` '" << index << "' in " << place;
+            throw std::logic_error(ss.str());
+        }
+        return vec.at(index);
+    }
 }
 
 #endif // JACY_ARR_H
