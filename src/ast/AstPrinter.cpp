@@ -71,7 +71,7 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                printDelim(std::get<tuple_field_list>(enumEntry.body), "(", ")");
+                printDelim(std::get<TupleTypeEl::List>(enumEntry.body), "(", ")");
                 break;
             }
             case EnumEntryKind::Struct: {

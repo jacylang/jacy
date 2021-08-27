@@ -9,10 +9,6 @@
 // TODO: Separate Types by files in folder `type`
 
 namespace jc::ast {
-    struct Type;
-    struct TupleTypeEl;
-    using tuple_field_list = std::vector<TupleTypeEl>;
-
     enum class TypeKind {
         Paren,
         Tuple,
@@ -51,6 +47,8 @@ namespace jc::ast {
     };
 
     struct TupleTypeEl : Node {
+        using List = std::vector<TupleTypeEl>;
+
         TupleTypeEl(Ident::OptPR name, opt_type_ptr type, const Span & span)
             : Node(span),
               name(std::move(name)),
@@ -65,10 +63,11 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        TupleType(tuple_field_list elements, const Span & span)
+
+        TupleType(TupleTypeEl::List elements, const Span & span)
             : Type(span, TypeKind::Tuple), elements(std::move(elements)) {}
 
-        tuple_field_list elements;
+        TupleTypeEl::List elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

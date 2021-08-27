@@ -1869,10 +1869,10 @@ namespace jc::parser {
         return makeNode<Path>(global, std::move(segments), closeSpan(begin));
     }
 
-    tuple_field_list Parser::parseTupleFields() {
+    TupleTypeEl::List Parser::parseTupleFields() {
         enterEntity("TupleFields");
 
-        tuple_field_list tupleFields;
+        TupleTypeEl::List tupleFields;
 
         bool first = true;
         while (not eof()) {
@@ -1965,7 +1965,7 @@ namespace jc::parser {
         return None;
     }
 
-    tuple_field_list Parser::parseParenType() {
+    TupleTypeEl::List Parser::parseParenType() {
         enterEntity("ParenType");
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
@@ -1976,7 +1976,7 @@ namespace jc::parser {
         }
 
         std::vector<size_t> namedElements;
-        tuple_field_list tupleElements;
+        TupleTypeEl::List tupleElements;
 
         size_t elIndex = 0;
         bool first = true;
@@ -2040,7 +2040,7 @@ namespace jc::parser {
         return makePRBoxNode<SliceType, Type>(std::move(type), closeSpan(begin));
     }
 
-    type_ptr Parser::parseFuncType(tuple_field_list tupleElements, const Span & span) {
+    type_ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, const Span & span) {
         enterEntity("FuncType");
 
         Type::List params;
