@@ -4,10 +4,6 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Type;
-    using Type::Ptr = std::unique_ptr<Type>;
-    using Type::List = std::vector<Type::Ptr>;
-
     enum class TypeKind {
         Tuple,
         Func,
@@ -17,6 +13,9 @@ namespace jc::hir {
     };
 
     struct Type : HirNode {
+        using Ptr = std::unique_ptr<Type>;
+        using List = std::vector<Type::Ptr>;
+
         Type(TypeKind kind, const HirId & hirId, const Span & span) : HirNode(hirId, span), kind(kind) {}
 
         TypeKind kind;

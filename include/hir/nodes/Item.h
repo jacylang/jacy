@@ -4,14 +4,10 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct ItemNode;
-    struct Item;
-    struct ItemId;
-    using Item::Ptr = std::unique_ptr<Item>;
-    using item_id_list = std::vector<ItemId>;
-
     // Wrapper for type strictness
     struct ItemId {
+        using List = std::vector<ItemId>;
+
         resolve::DefId defId;
 
         bool operator<(const ItemId & other) const {
@@ -31,6 +27,8 @@ namespace jc::hir {
     };
 
     struct Item {
+        using Ptr = std::unique_ptr<Item>;
+
         Item(ItemKind kind) : kind(kind) {}
 
         ItemKind kind;
