@@ -8,7 +8,7 @@
 namespace jc::resolve {
     using ast::NodeId;
     using ast::OptNodeId;
-    using prim_type_set_t = uint16_t;
+    using PrimTypeSet = uint16_t;
 
     // Unresolved segment
     // Has index in path segments vector and optional definition id,
@@ -62,17 +62,17 @@ namespace jc::resolve {
         return found->second;
     }
 
-    inline Option<prim_type_set_t> getPrimTypeBitMask(const std::string & typeName) {
+    inline Option<PrimTypeSet> getPrimTypeBitMask(const std::string & typeName) {
         const auto primType = getPrimType(typeName);
         if (primType.none()) {
             return None;
         }
         // Return mask with 1 at found primitive type offset
-        return static_cast<prim_type_set_t>(1 << static_cast<prim_type_set_t>(primType.unwrap()));
+        return static_cast<PrimTypeSet>(1 << static_cast<PrimTypeSet>(primType.unwrap()));
     }
 
     /// [Debug noly] get list of shadowed primitive type names by mask
-    inline std::vector<std::string> getShadowedPrimTypes(prim_type_set_t mask) {
+    inline std::vector<std::string> getShadowedPrimTypes(PrimTypeSet mask) {
         static const std::map<PrimType, std::string> primTypesNames = {
             {PrimType::Bool, "bool"},
             {PrimType::Int8, "int8"},
@@ -88,10 +88,10 @@ namespace jc::resolve {
             {PrimType::Char, "char"},
             {PrimType::Str, "str"},
         };
-        static const auto leftmostBit = static_cast<prim_type_set_t>(PrimType::Str);
+        static const auto leftmostBit = static_cast<PrimTypeSet>(PrimType::Str);
 
         std::vector<std::string> shadowedTypes;
-        for (prim_type_set_t shift = 0; shift < leftmostBit; shift++) {
+        for (PrimTypeSet shift = 0; shift < leftmostBit; shift++) {
             if (mask << shift & 1) {
                 shadowedTypes.emplace_back(primTypesNames.at(static_cast<PrimType>(shift)));
             }

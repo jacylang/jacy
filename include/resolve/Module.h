@@ -41,7 +41,7 @@ namespace jc::resolve {
         opt_def_id nearestModDef;
 
         PerNS<mod_ns_map> perNS;
-        prim_type_set_t shadowedPrimTypes{0};
+        PrimTypeSet shadowedPrimTypes{0};
 
         // `Block` module
         static inline module_ptr newBlockModule(NodeId nodeId, module_ptr parent, opt_def_id nearestModDef) {
