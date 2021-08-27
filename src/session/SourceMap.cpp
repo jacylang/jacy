@@ -1,8 +1,8 @@
 #include "session/SourceMap.h"
 
 namespace jc::sess {
-    Span::FileId SourceMap::registerSource(const fs::path & path) {
-        Span::FileId fileId = utils::hash::hash(path.string());
+    span::Span::FileId SourceMap::registerSource(const fs::path & path) {
+        span::Span::FileId fileId = utils::hash::hash(path.string());
         log::Logger::devDebug("Add source ", path.string(), " with fileId [", fileId, "]");
         sources.emplace(fileId, None);
         return fileId;
@@ -26,18 +26,18 @@ namespace jc::sess {
         sources.at(parseSess->fileId) = std::move(parseSess->sourceFile);
     }
 
-    const SourceFile & SourceMap::getSourceFile(Span::FileId fileId) {
+    const SourceFile & SourceMap::getSourceFile(span::Span::FileId fileId) {
         if (sources.find(fileId) == sources.end()) {
             log::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
         }
         return sources.at(fileId).unwrap("SourceMap::getSourceFile");
     }
 
-    size_t SourceMap::getLinesCount(Span::FileId fileId) {
+    size_t SourceMap::getLinesCount(span::Span::FileId fileId) {
         return getSourceFile(fileId).linesIndices.size();
     }
 
-    std::string SourceMap::getLine(Span::FileId fileId, size_t index) {
+    std::string SourceMap::getLine(span::Span::FileId fileId, size_t index) {
         const auto & sf = getSourceFile(fileId);
         if (sf.linesIndices.size() <= index) {
             log::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
