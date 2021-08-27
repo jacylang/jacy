@@ -51,7 +51,7 @@ namespace jc::hir {
 
         // States //
     private:
-        item_map items;
+        Party::ItemMap items;
 
     private:
         sess::Session::Ptr sess;

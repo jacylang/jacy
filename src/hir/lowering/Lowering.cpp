@@ -79,7 +79,7 @@ namespace jc::hir {
     }
 
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
-        item_id_list itemIds;
+        ItemId::List itemIds;
         for (const auto & item : astItems) {
             auto nameNodeId = item.unwrap()->getNameNodeId();
             auto loweredItem = lowerItem(item);
@@ -134,7 +134,7 @@ namespace jc::hir {
     }
 
     // Expressions //
-    expr_ptr Lowering::lowerExpr(const ast::Expr::Ptr & exprPr) {
+    Expr::Ptr Lowering::lowerExpr(const ast::Expr::Ptr & exprPr) {
         const auto & expr = exprPr.unwrap();
         switch (expr->kind) {
             case ast::ExprKind::Assign:
@@ -196,7 +196,7 @@ namespace jc::hir {
         }
     }
 
-    expr_ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
+    Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
         return makeBoxNode<Assign>(
             lowerExpr(assign.lhs),
             assign.op,
@@ -206,7 +206,7 @@ namespace jc::hir {
         );
     }
 
-    expr_ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
+    Expr::Ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
         auto block = lowerBlock(astBlock);
         const auto hirId = block.hirId;
         const auto span = block.span;
