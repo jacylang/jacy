@@ -67,19 +67,19 @@ namespace jc::log {
     template<SizeT Cols>
     const std::map<CellKind, std::array<std::array<std::string, 3>, 3>> Table<Cols>::corners = {
         {CellKind::Value, {
-            corner_line_t{"│ ", " │ ", " │"},
-            corner_line_t{"│ ", " │ ", " │"},
-            corner_line_t{"│ ", " │ ", " │"},
+                              CornerLine{"│ ", " │ ", " │"},
+                              CornerLine{"│ ", " │ ", " │"},
+                              CornerLine{"│ ", " │ ", " │"},
         }},
         {CellKind::Line, {
-            corner_line_t{"┌─", "─┬─", "─┐"},
-            corner_line_t{"├─", "─┼─", "─┤"},
-            corner_line_t{"└─", "─┴─", "─┘"}
+                              CornerLine{"┌─", "─┬─", "─┐"},
+                              CornerLine{"├─", "─┼─", "─┤"},
+                              CornerLine{"└─", "─┴─", "─┘"}
         }},
         {CellKind::SectionName, {
-            corner_line_t{"┌─", "─┬─", "─┐"},
-            corner_line_t{"├─", "─┼─", "─┤"},
-            corner_line_t{"└─", "─┴─", "─┘"}
+                              CornerLine{"┌─", "─┬─", "─┐"},
+                              CornerLine{"├─", "─┼─", "─┤"},
+                              CornerLine{"└─", "─┴─", "─┘"}
         }},
     };
 }

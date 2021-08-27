@@ -304,8 +304,8 @@ namespace jc::log {
         std::array<Align, Cols> alignment;
         std::vector<Row> rows;
 
-        using corner_line_t = std::array<std::string, 3>;
-        static const std::map<CellKind, std::array<corner_line_t , 3>> corners;
+        using CornerLine = std::array<std::string, 3>;
+        static const std::map<CellKind, std::array<CornerLine , 3>> corners;
     };
 }
 
@@ -324,10 +324,10 @@ namespace jc::log {
 // Cursor //
 namespace jc::log {
     struct Cursor {
-        using pos_t = int64_t;
+        using Pos = int64_t;
 
-        pos_t x;
-        pos_t y;
+        Pos x;
+        Pos y;
     };
 
     /// Cursor movement offset
@@ -340,10 +340,10 @@ namespace jc::log {
     ///        (+y)
     ///         v
     struct Move {
-        using dist_t = int16_t;
+        using Dist = int16_t;
 
-        dist_t x;
-        dist_t y;
+        Dist x;
+        Dist y;
     };
 
     #ifdef WIN
@@ -398,18 +398,18 @@ namespace jc::log {
 
     class Anim {
     public:
-        using interval_t = std::size_t;
-        using frames_t = std::vector<std::string>;
+        using Interval = std::size_t;
+        using FrameList = std::vector<std::string>;
 
     public:
-        Anim(const interval_t interval, const frames_t & frames)
+        Anim(const Interval interval, const FrameList & frames)
             : interval(interval), frames(frames) {}
 
-        interval_t getInterval() const noexcept {
+        Interval getInterval() const noexcept {
             return interval;
         }
 
-        const frames_t & getFrames() const noexcept {
+        const FrameList & getFrames() const noexcept {
             return frames;
         }
 
@@ -429,15 +429,15 @@ namespace jc::log {
         }
 
     private:
-        interval_t interval;
-        frames_t frames;
+        Interval interval;
+        FrameList frames;
     };
 
     class AnimPlayer {
-        using content_t = std::string;
+        using Content = std::string;
 
     public:
-        AnimPlayer(const content_t & content, const Anim & anim) : content(content), anim(anim) {}
+        AnimPlayer(const Content & content, const Anim & anim) : content(content), anim(anim) {}
 
         void start() {
             thread = std::thread(std::ref(*this));
@@ -450,7 +450,7 @@ namespace jc::log {
 
         void operator()() const {
             size_t iteration = 0;
-            Anim::interval_t interval;
+            Anim::Interval interval;
             while (not finished) {
                 interval = anim.getInterval();
                 clearLine(std::cout);
@@ -467,7 +467,7 @@ namespace jc::log {
 
     private:
         std::thread thread;
-        content_t content;
+        Content content;
         Anim anim;
         bool finished{false};
 
