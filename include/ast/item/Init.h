@@ -19,6 +19,10 @@ namespace jc::ast {
         FuncSig sig;
         Ident::PR name;
         Option<Body> body;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 

@@ -10,6 +10,7 @@ namespace jc::ast {
     struct Func;
     struct FuncParam;
     struct Impl;
+    struct Init;
     struct Mod;
     struct Struct;
     struct StructField;
@@ -105,6 +106,7 @@ namespace jc::ast {
         virtual void visit(const Func&) = 0;
         virtual void visit(const FuncParam&) = 0;
         virtual void visit(const Impl&) = 0;
+        virtual void visit(const Init&) = 0;
         virtual void visit(const Mod&) = 0;
         virtual void visit(const Struct&) = 0;
         virtual void visit(const StructField&) = 0;
