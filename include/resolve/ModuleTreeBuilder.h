@@ -63,9 +63,11 @@ namespace jc::resolve {
         /// Stack of initializer indices per module
         using InitIndexMap = std::map<DefId, InitializerIndex>;
 
-        InitIndexMap initializerIndices{};
+        InitIndexMap initializerIndices {
+            /// Do not emplace party root index as it cannot be `struct`
+        };
 
-        std::string nextInitIndex();
+        std::string nextInitName();
 
         // Suggestions //
     private:
