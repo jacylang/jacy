@@ -18,10 +18,10 @@ namespace jc::hir {
     };
 
     struct Block : HirNode {
-        Block(stmt_list && stmts, const HirId & hirId, const Span & span)
+        Block(Stmt::List && stmts, const HirId & hirId, const Span & span)
             : HirNode(hirId, span), stmts(std::move(stmts)) {}
 
-        stmt_list stmts;
+        Stmt::List stmts;
     };
 
     /// General path fragment used for type and expression paths

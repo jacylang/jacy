@@ -6,7 +6,7 @@
 namespace jc::hir {
     struct Stmt;
     using Stmt::Ptr = N<Stmt>;
-    using stmt_list = std::vector<Stmt::Ptr>;
+    using Stmt::List = std::vector<Stmt::Ptr>;
 
     enum class StmtKind {
         Let,

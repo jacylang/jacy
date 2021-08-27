@@ -237,7 +237,7 @@ namespace jc::hir {
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
-        stmt_list stmts;
+        Stmt::List stmts;
         for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
