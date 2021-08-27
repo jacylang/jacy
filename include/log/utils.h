@@ -108,8 +108,6 @@ namespace jc::log {
 // Tables //
 namespace jc::log {
     using namespace utils::str;
-    using table_size_t = uint16_t;
-
     enum class CellKind {
         Value,
         Line,
@@ -125,14 +123,15 @@ namespace jc::log {
     // Rows-count-dynamic table for logs
     template<uint16_t Cols>
     class Table {
-        static_assert(Cols > 0);
+        using SizeT = uint16_t;
+        using Cell = std::pair<CellKind, std::string>;
+        using Row = std::array<Cell, Cols>;
 
-        using cell_t = std::pair<CellKind, std::string>;
-        using row_t = std::array<cell_t, Cols>;
+        static_assert(Cols > 0);
 
     public:
         Table(
-            const std::array<table_size_t, Cols> & layout,
+            const std::array<SizeT, Cols> & layout,
             const std::array<Align, Cols> & alignment
         ) : layout(layout), alignment(alignment) {
             if (alignment.size() != layout.size()) {
@@ -185,9 +184,9 @@ namespace jc::log {
             }
 
             if (index == 0) {
-                rows.emplace_back(row_t{cell_t{kind, str}});
+                rows.emplace_back(Row{Cell{kind, str}});
             } else if (index < Cols) {
-                rows.back().at(index) = cell_t{kind, str};
+                rows.back().at(index) = Cell{kind, str};
             }
             index++;
         }
@@ -202,17 +201,17 @@ namespace jc::log {
             if (addIfNoTop and rows.size() > 0 and rows.back().at(0).first == CellKind::Line) {
                 return;
             }
-            for (table_size_t i = index; i < Cols; i++) {
+            for (SizeT i = index; i < Cols; i++) {
                 addCell(repeat("─", layout.at(i)), CellKind::Line);
             }
         }
 
     public:
         friend std::ostream & operator<<(std::ostream & os, const Table<Cols> & tbl) {
-            for (table_size_t rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
+            for (SizeT rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
-                for (table_size_t colIndex = 0; colIndex < Cols; colIndex++) {
+                for (SizeT colIndex = 0; colIndex < Cols; colIndex++) {
                     const auto & kind = row.at(colIndex).first;
                     const auto & str = row.at(colIndex).second;
                     const auto & colWidth = tbl.layout.at(colIndex);
@@ -270,7 +269,7 @@ namespace jc::log {
         }
 
     private:
-        static table_size_t clampCornerIndex(table_size_t index, table_size_t size) {
+        static SizeT clampCornerIndex(SizeT index, SizeT size) {
             if (index <= 0) {
                 return 0;
             }
@@ -282,8 +281,8 @@ namespace jc::log {
 
         static std::string getCorner(
             CellKind kind,
-            table_size_t rowIndex,
-            table_size_t rowsCnt,
+            SizeT rowIndex,
+            SizeT rowsCnt,
             int8_t side
         ) {
             return corners.at(kind)
@@ -299,11 +298,11 @@ namespace jc::log {
         }
 
     private:
-        table_size_t index{0};
+        SizeT index{0};
 
-        std::array<table_size_t, Cols> layout;
+        std::array<SizeT, Cols> layout;
         std::array<Align, Cols> alignment;
-        std::vector<row_t> rows;
+        std::vector<Row> rows;
 
         using corner_line_t = std::array<std::string, 3>;
         static const std::map<CellKind, std::array<corner_line_t , 3>> corners;
