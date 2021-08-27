@@ -57,7 +57,7 @@ namespace jc::ast {
             bool ref,
             bool mut,
             ident_pr && name,
-            opt_pat && pat,
+            Pattern::OptPtr && pat,
             const Span & span
         ) : Pattern(PatternKind::Borrow, span),
             ref(ref),
@@ -68,7 +68,7 @@ namespace jc::ast {
         bool ref;
         bool mut;
         ident_pr name;
-        opt_pat pat;
+        Pattern::OptPtr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
