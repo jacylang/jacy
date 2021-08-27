@@ -1323,7 +1323,7 @@ namespace jc::parser {
         return makePRBoxNode<StructExpr, Expr>(std::move(path), std::move(fields), closeSpan(begin));
     }
 
-    struct_expr_field_pr Parser::parseStructExprField() {
+    StructExprField::PR Parser::parseStructExprField() {
         enterEntity("StructExprField");
 
         const auto & begin = cspan();
