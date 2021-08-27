@@ -5,12 +5,11 @@
 #include "ast/stmt/Stmt.h"
 
 namespace jc::ast {
-    struct Block;
-    using BlockPtr = PR<N<Block>>;
-    using OptBlockPtr = Option<BlockPtr>;
-    using BlockList = std::vector<BlockPtr>;
-
     struct Block : Expr {
+        using Ptr = PR<N<Block>>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         Block(StmtList && stmts, const Span & span)
             : Expr(span, ExprKind::Block),
               stmts(std::move(stmts)) {}
