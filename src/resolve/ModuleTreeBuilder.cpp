@@ -81,7 +81,7 @@ namespace jc::resolve {
             Ok<ast::Ident> {ast::Ident {nextInitName(), init.span.fromStartWithLen(4)}}
         };
 
-        enterModule(getItemVis(init), synthName, DefKind::Func);
+        enterModule(getItemVis(init), synthName, DefKind::Init);
         if (init.body.some()) {
             init.body.unwrap().value.autoAccept(*this);
         }
