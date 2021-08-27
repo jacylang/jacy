@@ -21,8 +21,8 @@ namespace jc::dt {
 
     template<class T>
     class Option {
-        constexpr static size_t NoneIndex = 0;
-        constexpr static size_t SomeIndex = 1;
+        constexpr static size_t NONE_INDEX = 0;
+        constexpr static size_t SOME_INDEX = 1;
         using StorageT = std::variant<none_t, T>;
 
     public:
@@ -101,11 +101,11 @@ namespace jc::dt {
         }
 
         bool none() const {
-            return storage.index() == NoneIndex;
+            return storage.index() == NONE_INDEX;
         }
 
         bool some() const {
-            return storage.index() == SomeIndex;
+            return storage.index() == SOME_INDEX;
         }
 
     private:

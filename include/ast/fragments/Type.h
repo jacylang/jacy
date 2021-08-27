@@ -122,7 +122,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        TypePath(Path && path) : Type(path.span, TypeKind::Path), path{std::move(path)} {}
+        TypePath(Path && path) : Type{path.span, TypeKind::Path}, path{std::move(path)} {}
 
         Path path;
 
