@@ -6,6 +6,8 @@
 
 namespace jc::resolve {
     struct DefIndex {
+        DefIndex(size_t val) : val{val} {}
+
         size_t val;
 
         static const DefIndex ROOT_INDEX;
