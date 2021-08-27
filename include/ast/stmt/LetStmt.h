@@ -11,7 +11,7 @@ namespace jc::ast {
         LetStmt(
             pat_ptr && pat,
             opt_type_ptr && type,
-            opt_expr_ptr && assignExpr,
+            OptExprPtr && assignExpr,
             const Span & span
         ) : Stmt(span, StmtKind::Let),
             pat(std::move(pat)),
@@ -20,7 +20,7 @@ namespace jc::ast {
 
         pat_ptr pat;
         opt_type_ptr type;
-        opt_expr_ptr assignExpr;
+        OptExprPtr assignExpr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

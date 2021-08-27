@@ -8,7 +8,7 @@
 namespace jc::ast {
     struct Expr;
     using ExprPtr = PR<N<Expr>>;
-    using opt_expr_ptr = Option<ExprPtr>;
+    using OptExprPtr = Option<ExprPtr>;
     using expr_list = std::vector<ExprPtr>;
 
     enum class ExprKind {

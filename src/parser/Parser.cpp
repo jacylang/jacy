@@ -742,7 +742,7 @@ namespace jc::parser {
             type = parseType("Expected type after `:` in variable declaration");
         }
 
-        opt_expr_ptr assignExpr{None};
+        OptExprPtr assignExpr{None};
         if (skipOpt(TokenKind::Assign).some()) {
             assignExpr = parseExpr("Expected expression after `=`");
         }
@@ -771,7 +771,7 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
-    opt_expr_ptr Parser::parseOptExpr() {
+    OptExprPtr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
@@ -872,7 +872,7 @@ namespace jc::parser {
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
     }
 
-    opt_expr_ptr Parser::assignment() {
+    OptExprPtr Parser::assignment() {
         const auto & begin = cspan();
         auto lhs = precParse(0);
 
@@ -898,7 +898,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    opt_expr_ptr Parser::precParse(uint8_t index) {
+    OptExprPtr Parser::precParse(uint8_t index) {
         if (extraDebugAll) {
             logParse("precParse:" + std::to_string(index));
         }
@@ -918,7 +918,7 @@ namespace jc::parser {
         const auto rightAssoc = flags & 1;
 
         auto begin = cspan();
-        opt_expr_ptr maybeLhs = precParse(index + 1);
+        OptExprPtr maybeLhs = precParse(index + 1);
         while (not eof()) {
             Option<Token> maybeOp{None};
             for (const auto & op : parser.ops) {
@@ -985,7 +985,7 @@ namespace jc::parser {
         {0b11, {TokenKind::As}},
     };
 
-    opt_expr_ptr Parser::prefix() {
+    OptExprPtr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
@@ -1022,7 +1022,7 @@ namespace jc::parser {
         return quest();
     }
 
-    opt_expr_ptr Parser::quest() {
+    OptExprPtr Parser::quest() {
         const auto & begin = cspan();
         auto lhs = call();
 
@@ -1093,7 +1093,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    opt_expr_ptr Parser::memberAccess() {
+    OptExprPtr Parser::memberAccess() {
         auto lhs = primary();
 
         if (lhs.none()) {
@@ -1113,7 +1113,7 @@ namespace jc::parser {
         return lhs;
     }
 
-    opt_expr_ptr Parser::primary() {
+    OptExprPtr Parser::primary() {
         if (eof()) {
             log::Logger::devPanic("Called parse `primary` on `EOF`");
         }
@@ -1686,7 +1686,7 @@ namespace jc::parser {
         ).some();
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        opt_expr_ptr defaultValue{None};
+        OptExprPtr defaultValue{None};
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
@@ -2112,7 +2112,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                opt_expr_ptr defaultValue{None};
+                OptExprPtr defaultValue{None};
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
