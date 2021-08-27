@@ -4,10 +4,6 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Stmt;
-    using Stmt::Ptr = N<Stmt>;
-    using Stmt::List = std::vector<Stmt::Ptr>;
-
     enum class StmtKind {
         Let,
         Item,
@@ -15,6 +11,9 @@ namespace jc::hir {
     };
 
     struct Stmt : HirNode {
+        using Ptr = N<Stmt>;
+        using List = std::vector<Stmt::Ptr>;
+
         Stmt(StmtKind kind, const HirId & hirId, const Span & span) : HirNode(hirId, span), kind(kind) {}
 
         StmtKind kind;
