@@ -7,11 +7,10 @@
 #include "span/Ident.h"
 
 namespace jc::ast {
-    struct Ident;
-    using ident_pr = PR<Ident>;
-    using opt_ident = Option<ident_pr>;
-
     struct Ident : span::Ident {
+        using PR = PR<Ident>;
+        using OptPR = Option<Ident::PR>;
+
         Ident(const std::string & name, const Span & span) : span::Ident(name, span) {}
         Ident(const parser::Token & token) : span::Ident(token) {}
 
