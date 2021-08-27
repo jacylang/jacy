@@ -8,6 +8,7 @@ namespace jc::ast {
         Enum,
         Func,
         Impl,
+        Init,
         Mod,
         Struct,
         Trait,
