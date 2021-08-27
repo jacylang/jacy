@@ -5,9 +5,6 @@
 
 namespace jc::ast {
     struct Type;
-    struct GenericParam;
-    using type_ptr = PR<N<Type>>;
-    using opt_type_ptr = Option<type_ptr>;
 
     enum class GenericParamKind {
         Type,
@@ -30,14 +27,14 @@ namespace jc::ast {
     struct TypeParam : GenericParam {
         TypeParam(
             Ident::PR name,
-            opt_type_ptr type,
+            Option<PR<N<Type>>> type,
             const Span & span
         ) : GenericParam(GenericParamKind::Type, span),
             name(std::move(name)),
             boundType(std::move(type)) {}
 
         Ident::PR name;
-        opt_type_ptr boundType;
+        Option<PR<N<Type>>> boundType;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -59,7 +56,7 @@ namespace jc::ast {
     struct ConstParam : GenericParam {
         ConstParam(
             Ident::PR name,
-            type_ptr type,
+            PR<N<Type>> type,
             Expr::OptPtr defaultValue,
             const Span & span
         ) : GenericParam(GenericParamKind::Const, span),
@@ -68,7 +65,7 @@ namespace jc::ast {
             defaultValue(std::move(defaultValue)) {}
 
         Ident::PR name;
-        type_ptr type;
+        PR<N<Type>> type;
         Expr::OptPtr defaultValue;
 
         void accept(BaseVisitor & visitor) const override {
