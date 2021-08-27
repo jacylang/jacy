@@ -18,7 +18,7 @@ namespace jc::hir {
 
     struct Block : HirNode {
         Block(Stmt::List && stmts, const HirId & hirId, const Span & span)
-            : HirNode(hirId, span), stmts(std::move(stmts)) {}
+            : HirNode(hirId, span), stmts{std::move(stmts)} {}
 
         Stmt::List stmts;
     };

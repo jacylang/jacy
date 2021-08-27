@@ -14,8 +14,8 @@ namespace jc::ast {
             Block::Ptr body,
             const Span & span
         ) : Node{span},
-            patterns(std::move(patterns)),
-            body(std::move(body)) {}
+            patterns{std::move(patterns)},
+            body{std::move(body)} {}
 
         Pattern::List patterns;
         Block::Ptr body;
@@ -31,8 +31,8 @@ namespace jc::ast {
             MatchArm::List entries,
             const Span & span
         ) : Expr{span, ExprKind::Match},
-            subject(std::move(subject)),
-            entries(std::move(entries)) {}
+            subject{std::move(subject)},
+            entries{std::move(entries)} {}
 
         Expr::Ptr subject;
         MatchArm::List entries;

@@ -9,7 +9,7 @@ namespace jc::ast {
             Expr::Ptr expr,
             const Span & span
         ) : Expr{span, ExprKind::Deref},
-            Expr{std::move(expr)} {}
+            expr{std::move(expr)} {}
 
         Expr::Ptr expr;
 

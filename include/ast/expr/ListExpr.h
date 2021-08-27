@@ -5,8 +5,8 @@
 
 namespace jc::ast {
     struct ListExpr : Expr {
-        ListExpr{Expr::List && elements, const Span & span}
-            : Expr{span, ExprKind::List), elements(std::move(elements)} {}
+        ListExpr(Expr::List && elements, const Span & span)
+            : Expr{span, ExprKind::List}, elements{std::move(elements)} {}
 
         Expr::List elements;
 

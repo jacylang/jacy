@@ -12,7 +12,7 @@ namespace jc::ast {
 
         Block(Stmt::List && stmts, const Span & span)
             : Expr{span, ExprKind::Block},
-              stmts(std::move(stmts)) {}
+              stmts{std::move(stmts)} {}
 
         Stmt::List stmts;
 

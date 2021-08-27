@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct Literal : Expr {
         explicit Literal(const parser::Token & token, const Span & span)
-            : Expr{span, ExprKind::LiteralConstant), token(token} {}
+            : Expr{span, ExprKind::LiteralConstant}, token{token} {}
 
         parser::Token token;
 

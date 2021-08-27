@@ -10,8 +10,8 @@ namespace jc::ast {
 
         LambdaParam(Pattern::Ptr pat, Type::OptPtr type, const Span & span)
             : Node{span},
-              pat(std::move(pat)),
-              type(std::move(type)) {}
+              pat{std::move(pat)},
+              type{std::move(type)} {}
 
         Pattern::Ptr pat;
         Type::OptPtr type;
@@ -28,9 +28,9 @@ namespace jc::ast {
             Expr::Ptr body,
             const Span & span
         ) : Expr{span, ExprKind::Lambda},
-            params(std::move(params)),
-            returnType(std::move(returnType)),
-            body(std::move(body)) {}
+            params{std::move(params)},
+            returnType{std::move(returnType)},
+            body{std::move(body)} {}
 
         LambdaParam::List params;
         Type::OptPtr returnType;
