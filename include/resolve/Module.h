@@ -6,9 +6,7 @@
 #include "resolve/ResStorage.h"
 
 namespace jc::resolve {
-    struct Module;
     using ast::NodeId;
-    using mod_ns_map = std::map<std::string, DefId>;
 
     enum class ModuleKind {
         Block,
@@ -18,6 +16,8 @@ namespace jc::resolve {
     struct Module {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
+
+        using NSMap = std::map<std::string, DefId>;
 
         Module(
             ModuleKind kind,
@@ -43,7 +43,7 @@ namespace jc::resolve {
         // Nearest `mod` definition
         opt_def_id nearestModDef;
 
-        PerNS<mod_ns_map> perNS;
+        PerNS<NSMap> perNS;
         PrimTypeSet shadowedPrimTypes{0};
 
         // `Block` module
@@ -75,7 +75,7 @@ namespace jc::resolve {
             };
         }
 
-        const mod_ns_map & getNS(Namespace ns) const {
+        const Module::NSMap & getNS(Namespace ns) const {
             switch (ns) {
                 case Namespace::Value: return perNS.value;
                 case Namespace::Type: return perNS.type;
@@ -84,7 +84,7 @@ namespace jc::resolve {
             log::Logger::notImplemented("Module::getNS");
         }
 
-        mod_ns_map & getNS(Namespace ns) {
+        Module::NSMap & getNS(Namespace ns) {
             switch (ns) {
                 case Namespace::Value: return perNS.value;
                 case Namespace::Type: return perNS.type;

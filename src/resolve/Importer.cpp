@@ -47,7 +47,7 @@ namespace jc::resolve {
             resolvePath(PathResKind::Full, useTree.path.unwrap());
         }
 
-        _importModule->perNS.each([&](const mod_ns_map & ns, Namespace nsKind) {
+        _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & def : ns) {
                 // Note: for `use a::*` we don't report "redefinition" error
                 _useDeclModule->tryDefine(nsKind, def.first, def.second);

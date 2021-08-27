@@ -30,7 +30,7 @@ namespace jc::resolve {
         log.raw("{").nl();
         indent++;
 
-        module->perNS.each([&](const mod_ns_map & ns, Namespace nsKind) {
+        module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & [name, defId] : ns) {
                 printIndent();
                 log.raw("'", name, "' (", Module::nsToString(nsKind), ") ");
