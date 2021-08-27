@@ -116,6 +116,7 @@ namespace jc::parser {
         Import,
         In,
         Infix,
+        Init,
         Loop,
         Match,
         Module,
