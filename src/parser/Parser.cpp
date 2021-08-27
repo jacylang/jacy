@@ -1677,7 +1677,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        auto name = parseIdent("`func` parameter name");
+        auto pat = parsePat();
 
         const auto colonSkipped = skip(
             TokenKind::Colon,
@@ -1694,7 +1694,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<FuncParam>(std::move(name), std::move(type), std::move(defaultValue), closeSpan(begin));
+        return makeNode<FuncParam>(std::move(pat), std::move(type), std::move(defaultValue), closeSpan(begin));
     }
 
     Item::List Parser::parseMembers(const std::string & construction) {
