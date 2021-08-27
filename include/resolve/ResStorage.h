@@ -7,7 +7,7 @@
 
 namespace jc::resolve {
     using ast::NodeId;
-    using ast::OptNodeId;
+    using ast::NodeId::Opt;
     using PrimTypeSet = uint16_t;
 
     // Unresolved segment

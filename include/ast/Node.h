@@ -15,14 +15,14 @@ namespace jc::ast {
     template<typename T>
     using N = std::unique_ptr<T>;
 
-    using OptNodeId = Option<NodeId>;
-
     template<class T>
     using NodeMap = std::map<NodeId, T>;
 
     using span::Span;
 
     struct NodeId {
+        using Opt = Option<NodeId>;
+
         uint32_t val;
 
         static const NodeId DUMMY;

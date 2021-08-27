@@ -27,7 +27,7 @@ namespace jc::ast {
             return Ident::empty();
         }
 
-        OptNodeId getNameNodeId() const override {
+        NodeId::Opt getNameNodeId() const override {
             return None;
         }
 
