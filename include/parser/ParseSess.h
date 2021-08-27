@@ -5,8 +5,6 @@
 #include "fs/fs.h"
 
 namespace jc::parser {
-    struct ParseSess;
-    using parse_sess_ptr = std::shared_ptr<ParseSess>;
     using line_pos_t = uint32_t;
 
     struct SourceFile {
@@ -23,6 +21,8 @@ namespace jc::parser {
     };
 
     struct ParseSess {
+        using Ptr = std::shared_ptr<ParseSess>;
+
         ParseSess(span::file_id_t fileId, SourceFile && sourceFile)
             : fileId(fileId), sourceFile(std::move(sourceFile)) {}
 

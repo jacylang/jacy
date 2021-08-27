@@ -18,7 +18,7 @@ namespace jc::parser {
         Lexer();
         virtual ~Lexer() = default;
 
-        Token::List lex(const parse_sess_ptr & parseSess);
+        Token::List lex(const ParseSess::Ptr & parseSess);
 
     private:
         log::Logger log{"lexer"};
@@ -92,7 +92,7 @@ namespace jc::parser {
         void unexpectedTokenError();
         void unexpectedEof();
 
-        parse_sess_ptr parseSess;
+        ParseSess::Ptr parseSess;
     };
 }
 

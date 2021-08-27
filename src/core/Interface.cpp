@@ -240,7 +240,7 @@ namespace jc::core {
         }
     }
 
-    void Interface::printSource(const parser::parse_sess_ptr & parseSess) {
+    void Interface::printSource(const parser::ParseSess::Ptr & parseSess) {
         if (not config.checkPrint(Config::PrintKind::Source)) {
             return;
         }

@@ -80,7 +80,7 @@ namespace jc::parser {
 
         dt::SuggResult<Item::List> parse(
             const sess::sess_ptr & sess,
-            const parse_sess_ptr & parseSess,
+            const ParseSess::Ptr & parseSess,
             const Token::List & tokens
         );
 
@@ -125,7 +125,7 @@ namespace jc::parser {
         }
 
     private:
-        parse_sess_ptr parseSess;
+        ParseSess::Ptr parseSess;
 
         Token peek() const;
         Token advance(uint8_t distance = 1);

@@ -8,7 +8,7 @@ namespace jc::sess {
         return fileId;
     }
 
-    void SourceMap::setSourceFile(parser::parse_sess_ptr && parseSess) {
+    void SourceMap::setSourceFile(parser::ParseSess::Ptr && parseSess) {
         if (sources.find(parseSess->fileId) == sources.end()) {
             log::Logger::devPanic(
                 "No source found by fileId [",

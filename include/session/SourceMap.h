@@ -24,7 +24,7 @@ namespace jc::sess {
         SourceMap() = default;
 
         file_id_t registerSource(const fs::path & path);
-        void setSourceFile(parser::parse_sess_ptr && parseSess);
+        void setSourceFile(parser::ParseSess::Ptr && parseSess);
         const SourceFile & getSourceFile(file_id_t fileId);
         size_t getLinesCount(file_id_t);
 
