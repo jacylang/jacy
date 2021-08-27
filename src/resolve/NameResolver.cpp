@@ -16,13 +16,6 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Func & func) {
         enterModule(func.name.unwrap().name, Namespace::Value); // -> `func` mod rib
 
-        for (const auto & param : func.sig.params) {
-            param.type.autoAccept(*this);
-            if (param.defaultValue.some()) {
-                param.defaultValue.unwrap().autoAccept(*this);
-            }
-        }
-
         if (func.sig.returnType.some()) {
             func.sig.returnType.unwrap().autoAccept(*this);
         }
@@ -30,7 +23,10 @@ namespace jc::resolve {
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.sig.params) {
-            define(param.name);
+            param.pat.autoAccept(*this);
+            if (param.defaultValue.some()) {
+                param.defaultValue.unwrap().autoAccept(*this);
+            }
         }
 
         if (func.body.some()) {
