@@ -17,7 +17,7 @@ namespace jc::cli {
         }
 
     private:
-        std::map<std::string, command_ptr> list;
+        std::map<std::string, BaseCommand::Ptr> list;
     };
 }
 

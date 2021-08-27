@@ -6,10 +6,10 @@
 #include "cli/CLICommand.h"
 
 namespace jc::cli {
-    class BaseCommand;
-    using command_ptr = std::unique_ptr<BaseCommand>;
-
     class BaseCommand {
+    public:
+        using Ptr = std::unique_ptr<BaseCommand>;
+
     public:
         BaseCommand() = default;
         virtual ~BaseCommand() = default;
