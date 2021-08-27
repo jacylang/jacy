@@ -92,10 +92,10 @@ namespace jc::ast {
     };
 
     struct PathPat : Pattern {
-        PathPat(path_expr_ptr && path, const Span & span)
+        PathPat(PathExprPtr && path, const Span & span)
             : Pattern(PatternKind::Path, span), path(std::move(path)) {}
 
-        path_expr_ptr path;
+        PathExprPtr path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -160,10 +160,10 @@ namespace jc::ast {
     };
 
     struct StructPat : Pattern {
-        StructPat(path_expr_ptr && path, std::vector<StructPatEl> && elements, const Span & span)
+        StructPat(PathExprPtr && path, std::vector<StructPatEl> && elements, const Span & span)
             : Pattern(PatternKind::Struct, span), path(std::move(path)), elements(std::move(elements)) {}
 
-        path_expr_ptr path;
+        PathExprPtr path;
         std::vector<StructPatEl> elements;
 
         void accept(BaseVisitor & visitor) const override {
