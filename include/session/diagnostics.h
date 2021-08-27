@@ -34,7 +34,7 @@ namespace jc::sess {
         ) : parent{parent},
             name{name},
             measUnit{measUnit},
-            benchStart(bench()) {}
+            benchStart{bench()} {}
 
     public:
         template<class ...Args>

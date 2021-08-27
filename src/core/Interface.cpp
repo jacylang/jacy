@@ -5,7 +5,7 @@
 namespace jc::core {
     using sess::MeasUnit;
 
-    Interface::Interface() : config(Config::getInstance()) {
+    Interface::Interface() : config{Config::getInstance()} {
         log.getConfig().printOwner = false;
     }
 

@@ -26,8 +26,8 @@ namespace jc::dt {
         using StorageT = std::variant<none_t, T>;
 
     public:
-        Option(none_t) : storage(None) {}
-        Option(const T & value) : storage(value) {}
+        Option(none_t) : storage{None} {}
+        Option(const T & value) : storage{value} {}
         Option(T && value) : storage{std::move(value)} {}
 
     public:

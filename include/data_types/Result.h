@@ -47,7 +47,7 @@ namespace jc::dt {
     public:
         using ValueT = T;
 
-        explicit constexpr Err(const T & val) : m_value(val) {}
+        explicit constexpr Err(const T & val) : m_value{val} {}
         explicit constexpr Err(T && val) : m_value{std::move(val)} {}
 
         constexpr const T & value() const & {
@@ -67,7 +67,7 @@ namespace jc::dt {
     public:
         using ValueT = T;
 
-        explicit constexpr Ok(const T & val) : m_value(val) {}
+        explicit constexpr Ok(const T & val) : m_value{val} {}
         explicit constexpr Ok(T && val) : m_value{std::move(val)} {}
 
         constexpr const T & value() const & {
@@ -127,13 +127,13 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        Result() : _kind(ResultKind::Uninited), storage(std::monostate{}) {}
+        Result() : _kind{ResultKind::Uninited}, storage{std::monostate{}} {}
 //        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
 //        constexpr Result(Ok<T> value) : m_storage{std::move(value)} {}
 //        constexpr Result(Err<E> value) : m_storage{std::move(value)} {}
-        constexpr Result(Ok<T> && value) : _kind(ResultKind::Ok), storage(std::move(value).value()) {}
-        constexpr Result(Err<E> && value) : _kind(ResultKind::Err), storage(std::move(value).value()) {}
+        constexpr Result(Ok<T> && value) : _kind{ResultKind::Ok}, storage(std::move(value).value()) {}
+        constexpr Result(Err<E> && value) : _kind{ResultKind::Err}, storage(std::move(value).value()) {}
 
         constexpr Result(const Result<T, E> & other) noexcept(
             std::is_nothrow_copy_constructible<StorageT>::value
