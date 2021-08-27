@@ -6,9 +6,9 @@
 
 namespace jc::ast {
     struct Block;
-    using block_ptr = PR<N<Block>>;
-    using opt_block_ptr = Option<block_ptr>;
-    using block_list = std::vector<block_ptr>;
+    using BlockPtr = PR<N<Block>>;
+    using opt_block_ptr = Option<BlockPtr>;
+    using block_list = std::vector<BlockPtr>;
 
     struct Block : Expr {
         Block(stmt_list && stmts, const Span & span)

@@ -11,7 +11,7 @@ namespace jc::ast {
         ForStmt(
             pat_ptr && pat,
             ExprPtr && inExpr,
-            block_ptr && body,
+            BlockPtr && body,
             const Span & span
         ) : Stmt(span, StmtKind::For),
             pat(std::move(pat)),
@@ -20,7 +20,7 @@ namespace jc::ast {
 
         pat_ptr pat;
         ExprPtr inExpr;
-        block_ptr body;
+        BlockPtr body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

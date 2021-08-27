@@ -8,10 +8,10 @@
 
 namespace jc::ast {
     struct LoopExpr : Expr {
-        LoopExpr(block_ptr && body, const Span & span)
+        LoopExpr(BlockPtr && body, const Span & span)
             : Expr(span, ExprKind::Loop), body(std::move(body)) {}
 
-        block_ptr body;
+        BlockPtr body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

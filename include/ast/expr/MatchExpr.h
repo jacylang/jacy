@@ -12,14 +12,14 @@ namespace jc::ast {
     struct MatchArm : Node {
         MatchArm(
             pat_list patterns,
-            block_ptr body,
+            BlockPtr body,
             const Span & span
         ) : Node(span),
             patterns(std::move(patterns)),
             body(std::move(body)) {}
 
         pat_list patterns;
-        block_ptr body;
+        BlockPtr body;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
