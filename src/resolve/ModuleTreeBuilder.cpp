@@ -206,8 +206,10 @@ namespace jc::resolve {
         }
         _modDepth++;
 
-        // Alter initializer index
-        last
+        if (child->defId.some()) {
+            // Add initializer index for child module
+            initializerIndices.emplace(child->defId.unwrap(), 0);
+        }
     }
 
     void ModuleTreeBuilder::exitMod() {
