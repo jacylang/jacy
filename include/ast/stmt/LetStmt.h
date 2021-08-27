@@ -10,7 +10,7 @@ namespace jc::ast {
     struct LetStmt : Stmt {
         LetStmt(
             Pattern::Ptr && pat,
-            opt_type_ptr && type,
+            Type::OptPtr && type,
             Expr::OptPtr && assignExpr,
             const Span & span
         ) : Stmt(span, StmtKind::Let),
@@ -19,7 +19,7 @@ namespace jc::ast {
             assignExpr(std::move(assignExpr)) {}
 
         Pattern::Ptr pat;
-        opt_type_ptr type;
+        Type::OptPtr type;
         Expr::OptPtr assignExpr;
 
         void accept(BaseVisitor & visitor) const override {

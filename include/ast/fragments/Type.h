@@ -21,6 +21,7 @@ namespace jc::ast {
 
     struct Type : Node {
         using Ptr = N<Type>;
+        using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
         Type(const Span & span, TypeKind kind) : Node(span), kind(kind) {}
@@ -49,13 +50,13 @@ namespace jc::ast {
     struct TupleTypeEl : Node {
         using List = std::vector<TupleTypeEl>;
 
-        TupleTypeEl(Ident::OptPR name, opt_type_ptr type, const Span & span)
+        TupleTypeEl(Ident::OptPR name, Type::OptPtr type, const Span & span)
             : Node(span),
               name(std::move(name)),
               type(std::move(type)) {}
 
         Ident::OptPR name;
-        opt_type_ptr type;
+        Type::OptPtr type;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

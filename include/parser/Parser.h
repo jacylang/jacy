@@ -222,7 +222,7 @@ namespace jc::parser {
 
         // Types //
         type_ptr parseType(const std::string & suggMsg);
-        opt_type_ptr parseOptType();
+        Type::OptPtr parseOptType();
         TupleTypeEl::List parseParenType();
         type_ptr parseArrayType();
         type_ptr parseFuncType(TupleTypeEl::List paramTypes, const Span & span);

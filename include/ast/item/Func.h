@@ -42,14 +42,14 @@ namespace jc::ast {
         FuncSig(
             const parser::token_list & modifiers,
             func_param_list params,
-            opt_type_ptr returnType
+            Type::OptPtr returnType
         ) : modifiers(modifiers),
             params(std::move(params)),
             returnType(std::move(returnType)) {}
 
         parser::token_list modifiers;
         func_param_list params;
-        opt_type_ptr returnType;
+        Type::OptPtr returnType;
     };
 
     struct Func : Item {

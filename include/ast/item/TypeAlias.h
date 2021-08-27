@@ -9,14 +9,14 @@ namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
             Ident::PR && name,
-            opt_type_ptr && type,
+            Type::OptPtr && type,
             const Span & span
         ) : Item(span, ItemKind::TypeAlias),
             name(std::move(name)),
             type(std::move(type)) {}
 
         Ident::PR name;
-        opt_type_ptr type;
+        Type::OptPtr type;
 
         span::Ident getName() const override {
             return name.unwrap();

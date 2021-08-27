@@ -409,7 +409,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath();
 
-        opt_type_ptr forType{None};
+        Type::OptPtr forType{None};
         if (skipOpt(TokenKind::For).some()) {
             forType = parseType("Missing type");
         }
@@ -536,7 +536,7 @@ namespace jc::parser {
 
         auto name = parseIdent("`type` name");
 
-        opt_type_ptr type{None};
+        Type::OptPtr type{None};
         if (skipOpt(TokenKind::Assign).some()) {
             type = parseType("Expected type");
         }
@@ -737,7 +737,7 @@ namespace jc::parser {
 
         auto pat = parsePat();
 
-        opt_type_ptr type{None};
+        Type::OptPtr type{None};
         if (skipOpt(TokenKind::Colon).some()) {
             type = parseType("Expected type after `:` in variable declaration");
         }
@@ -842,7 +842,7 @@ namespace jc::parser {
 
                 const auto & paramBegin = cspan();
                 auto pat = parsePat();
-                opt_type_ptr type{None};
+                Type::OptPtr type{None};
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
@@ -856,7 +856,7 @@ namespace jc::parser {
             skip(TokenKind::RParen, "Closing `)`");
         }
 
-        opt_type_ptr returnType{None};
+        Type::OptPtr returnType{None};
 
         if (allowReturnType and skipOpt(TokenKind::Colon).some()) {
             returnType = parseType("Return type for lambda after `:`");
@@ -1927,7 +1927,7 @@ namespace jc::parser {
         return type.take("`parseType` -> `type`");
     }
 
-    opt_type_ptr Parser::parseOptType() {
+    Type::OptPtr Parser::parseOptType() {
         logParseExtra("[opt] Type");
 
         // Array type
@@ -1991,7 +1991,7 @@ namespace jc::parser {
                 name = justParseIdent("`parenType`");
             }
 
-            opt_type_ptr type{None};
+            Type::OptPtr type{None};
             if (name.some() and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
@@ -2097,7 +2097,7 @@ namespace jc::parser {
                 generics.push_back(makeBoxNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenerics`");
-                opt_type_ptr type{None};
+                Type::OptPtr type{None};
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
