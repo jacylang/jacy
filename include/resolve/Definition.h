@@ -141,7 +141,7 @@ namespace jc::resolve {
             ast::OptNodeId nameNodeId
         ) : depth(depth),
             vis(vis),
-            kind(kind),
+            kind{kind},
             nameNodeId(nameNodeId),
             nameSpan(nameSpan) {}
 

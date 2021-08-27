@@ -22,7 +22,7 @@ namespace jc::ast {
 
     struct Vis {
         Vis() : kind(VisKind::Unset), span(None) {}
-        Vis(VisKind kind, const span::Span::Opt & span) : kind(kind), span(span) {}
+        Vis(VisKind kind, const span::Span::Opt & span) : kind{kind}, span(span) {}
 
         VisKind kind;
         span::Span::Opt span;
@@ -32,7 +32,7 @@ namespace jc::ast {
         using Ptr = PR<N<Item>>;
         using List = std::vector<Ptr>;
 
-        Item(const Span & span, ItemKind kind) : Node{span}, kind(kind) {}
+        Item(const Span & span, ItemKind kind) : Node{span}, kind{kind} {}
 
         Attr::List attributes;
         ItemKind kind;

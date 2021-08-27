@@ -35,7 +35,7 @@ namespace jc::resolve {
 
         void bindMod(Module::Ptr module);
 
-        explicit Rib(Kind kind) : kind(kind) {}
+        explicit Rib(Kind kind) : kind{kind} {}
     };
 }
 

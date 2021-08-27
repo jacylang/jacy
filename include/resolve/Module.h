@@ -25,7 +25,7 @@ namespace jc::resolve {
             OptNodeId nodeId,
             DefId::Opt defId,
             DefId::Opt nearestModDef
-        ) : kind(kind),
+        ) : kind{kind},
             parent(parent),
             nodeId(nodeId),
             defId(defId),

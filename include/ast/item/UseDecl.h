@@ -18,7 +18,7 @@ namespace jc::ast {
             Rebind,
         } kind;
 
-        UseTree(Kind kind, const Span & span) : Node{span}, kind(kind) {}
+        UseTree(Kind kind, const Span & span) : Node{span}, kind{kind} {}
 
         virtual void accept(BaseVisitor & visitor) const override = 0;
     };

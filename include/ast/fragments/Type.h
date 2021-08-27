@@ -24,7 +24,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Type(const Span & span, TypeKind kind) : Node{span}, kind(kind) {}
+        Type(const Span & span, TypeKind kind) : Node{span}, kind{kind} {}
         virtual ~Type() = default;
 
         TypeKind kind;
