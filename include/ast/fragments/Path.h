@@ -21,18 +21,18 @@ namespace jc::ast {
             GenericParam::OptList generics,
             const Span & span
         ) : Node{span},
-            kind(Kind::Ident),
-            ident(std::move(ident)),
-            generics(std::move(generics)) {}
+            kind{Kind::Ident},
+            ident{std::move(ident)},
+            generics{std::move(generics)} {}
 
         PathSeg(
             Kind kind,
             GenericParam::OptList generics,
             const Span & span
         ) : Node{span},
-            kind(kind),
-            ident(None),
-            generics(std::move(generics)) {}
+            kind{kind},
+            ident{None},
+            generics{std::move(generics)} {}
 
         Ident::OptPR ident{None};
         GenericParam::OptList generics{None};
@@ -55,7 +55,7 @@ namespace jc::ast {
 
     struct Path : Node {
         Path(bool global, PathSeg::List && segments, const Span & span)
-            : Node{span), global(global}, segments(std::move(segments)) {}
+            : Node{span}, global{global}, segments{std::move(segments)} {}
 
         bool global;
         PathSeg::List segments;

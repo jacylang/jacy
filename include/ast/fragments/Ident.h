@@ -11,8 +11,8 @@ namespace jc::ast {
         using PR = PR<Ident>;
         using OptPR = Option<Ident::PR>;
 
-        Ident(const std::string & name, const Span & span) : span::Ident(name, span) {}
-        Ident(const parser::Token & token) : span::Ident(token) {}
+        Ident(const std::string & name, const Span & span) : span::Ident{name, span} {}
+        Ident(const parser::Token & token) : span::Ident{token} {}
 
         NodeId id{NodeId::DUMMY};
 

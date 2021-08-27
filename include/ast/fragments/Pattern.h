@@ -22,7 +22,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pattern(PatternKind kind, const Span & span) : Node{span}, kind(kind) {}
+        Pattern(PatternKind kind, const Span & span) : Node{span}, kind{kind} {}
 
         PatternKind kind;
 
@@ -30,7 +30,7 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pattern {
-        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern(PatternKind::Paren, span), pat(std::move(pat)) {}
+        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern{PatternKind::Paren, span}, pat{std::move(pat)} {}
 
         Pattern::Ptr pat;
 
@@ -41,7 +41,7 @@ namespace jc::ast {
 
     struct LitPat : Pattern {
         LitPat(bool neg, const parser::Token & literal, const Span & span)
-            : Pattern(PatternKind::Literal, span), neg(neg), literal(literal) {}
+            : Pattern{PatternKind::Literal, span}, neg{neg}, literal{literal} {}
 
         bool neg;
         parser::Token literal;
@@ -59,11 +59,11 @@ namespace jc::ast {
             Ident::PR && name,
             Pattern::OptPtr && pat,
             const Span & span
-        ) : Pattern(PatternKind::Borrow, span),
-            ref(ref),
-            mut(mut),
-            name(std::move(name)),
-            pat(std::move(pat)) {}
+        ) : Pattern{PatternKind::Borrow, span},
+            ref{ref},
+            mut{mut},
+            name{std::move(name)},
+            pat{std::move(pat)} {}
 
         bool ref;
         bool mut;
@@ -78,7 +78,7 @@ namespace jc::ast {
     /// `&mut pattern`
     struct RefPat : Pattern {
         RefPat(bool ref, bool mut, Pattern::Ptr && pat, const Span & span)
-            : Pattern(PatternKind::Ref, span), ref(ref), mut(mut), pat(std::move(pat)) {}
+            : Pattern{PatternKind::Ref, span}, ref{ref}, mut{mut}, pat{std::move(pat)} {}
 
         bool ref;
         bool mut;
@@ -91,7 +91,7 @@ namespace jc::ast {
 
     struct PathPat : Pattern {
         PathPat(PathExpr::Ptr && path, const Span & span)
-            : Pattern(PatternKind::Path, span), path(std::move(path)) {}
+            : Pattern{PatternKind::Path, span}, path{std::move(path)} {}
 
         PathExpr::Ptr path;
 
@@ -101,7 +101,7 @@ namespace jc::ast {
     };
 
     struct WCPat : Pattern {
-        WCPat(const Span & span) : Pattern(PatternKind::Wildcard, span) {}
+        WCPat(const Span & span) : Pattern{PatternKind::Wildcard, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -109,7 +109,7 @@ namespace jc::ast {
     };
 
     struct SpreadPat : Pattern {
-        SpreadPat(const Span & span) : Pattern(PatternKind::Spread, span) {}
+        SpreadPat(const Span & span) : Pattern{PatternKind::Spread, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -122,7 +122,7 @@ namespace jc::ast {
 
     /// Struct nested pattern like `IDENT: pattern`
     struct StructPatternDestructEl {
-        StructPatternDestructEl(Ident::PR && name, Pattern::Ptr && pat) : name(std::move(name)), pat(std::move(pat)) {}
+        StructPatternDestructEl(Ident::PR && name, Pattern::Ptr && pat) : name{std::move(name)}, pat{std::move(pat)} {}
 
         Ident::PR name;
         Pattern::Ptr pat;
@@ -130,7 +130,7 @@ namespace jc::ast {
 
     /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding
     struct StructPatBorrowEl {
-        StructPatBorrowEl(bool ref, bool mut, Ident::PR && name) : ref(ref), mut(mut), name(std::move(name)) {}
+        StructPatBorrowEl(bool ref, bool mut, Ident::PR && name) : ref{ref}, mut{mut}, name{std::move(name)} {}
 
         bool ref;
         bool mut;
@@ -139,13 +139,13 @@ namespace jc::ast {
 
     struct StructPatEl {
         // `field: pattern` case (match field insides)
-        StructPatEl(StructPatternDestructEl && namedEl) : kind(Kind::Destruct), el(std::move(namedEl)) {}
+        StructPatEl(StructPatternDestructEl && namedEl) : kind{Kind::Destruct}, el{std::move(namedEl)} {}
 
         // `ref? mut? field` case (borrow field)
-        StructPatEl(StructPatBorrowEl && identEl) : kind(Kind::Borrow), el(std::move(identEl)) {}
+        StructPatEl(StructPatBorrowEl && identEl) : kind{Kind::Borrow}, el{std::move(identEl)} {}
 
         // `...` case
-        StructPatEl(const Span & span) : kind(Kind::Spread), el(std::move(span)) {}
+        StructPatEl(const Span & span) : kind{Kind::Spread}, el{std::move(span)} {}
 
         enum class Kind {
             Destruct,
@@ -159,7 +159,7 @@ namespace jc::ast {
 
     struct StructPat : Pattern {
         StructPat(PathExpr::Ptr && path, std::vector<StructPatEl> && elements, const Span & span)
-            : Pattern(PatternKind::Struct, span), path(std::move(path)), elements(std::move(elements)) {}
+            : Pattern{PatternKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
 
         PathExpr::Ptr path;
         std::vector<StructPatEl> elements;
