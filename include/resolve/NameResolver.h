@@ -86,7 +86,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestAltNames(Namespace target, const std::string & name, const PerNS<opt_def_id> & altDefs);
+        void suggestAltNames(Namespace target, const std::string & name, const PerNS<DefId::Opt> & altDefs);
 
         // Debug //
     private:

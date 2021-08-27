@@ -23,8 +23,8 @@ namespace jc::resolve {
             ModuleKind kind,
             Ptr parent,
             OptNodeId nodeId,
-            opt_def_id defId,
-            opt_def_id nearestModDef
+            DefId::Opt defId,
+            DefId::Opt nearestModDef
         ) : kind(kind),
             parent(parent),
             nodeId(nodeId),
@@ -38,25 +38,25 @@ namespace jc::resolve {
         OptNodeId nodeId{None};
 
         // Definition id for `Def` module
-        opt_def_id defId{None};
+        DefId::Opt defId{None};
 
         // Nearest `mod` definition
-        opt_def_id nearestModDef;
+        DefId::Opt nearestModDef;
 
         PerNS<NSMap> perNS;
         PrimTypeSet shadowedPrimTypes{0};
 
         // `Block` module
-        static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, opt_def_id nearestModDef) {
+        static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, DefId::Opt nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
         }
 
         // `Def` module
-        static inline Ptr newDefModule(const DefId & defId, Ptr parent, opt_def_id nearestModDef) {
+        static inline Ptr newDefModule(const DefId & defId, Ptr parent, DefId::Opt nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
         }
 
-        opt_def_id find(Namespace nsKind, const std::string & name) const {
+        DefId::Opt find(Namespace nsKind, const std::string & name) const {
             const auto & ns = getNS(nsKind);
             const auto & def = ns.find(name);
             if (def == ns.end()) {
@@ -67,7 +67,7 @@ namespace jc::resolve {
 
         // Search for name in all namespaces
         // Also used to find alternatives for failed resolutions
-        PerNS<opt_def_id> findAll(const std::string & name) const {
+        PerNS<DefId::Opt> findAll(const std::string & name) const {
             return {
                 find(Namespace::Value, name),
                 find(Namespace::Type, name),
@@ -93,7 +93,7 @@ namespace jc::resolve {
             log::Logger::notImplemented("getNS");
         }
 
-        opt_def_id tryDefine(Namespace ns, const std::string & name, const DefId & defId) {
+        DefId::Opt tryDefine(Namespace ns, const std::string & name, const DefId & defId) {
             const auto & defined = getNS(ns).emplace(name, defId);
             // Note: emplace returns `pair<new element iterator, true>` if emplaced new element
             //  and `pair<old element iterator, false>` if tried to re-emplace

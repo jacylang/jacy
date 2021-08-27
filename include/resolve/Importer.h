@@ -8,7 +8,7 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    using DefPerNS = PerNS<opt_def_id>;
+    using DefPerNS = PerNS<DefId::Opt>;
     struct PathResult {
         DefPerNS defPerNs;
         const std::string segName;

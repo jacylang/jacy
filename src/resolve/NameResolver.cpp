@@ -275,7 +275,7 @@ namespace jc::resolve {
         std::string pathStr;
         bool inaccessible = false;
         Option<UnresSeg> unresSeg{None};
-        PerNS<opt_def_id> altDefs = {None, None, None};
+        PerNS<DefId::Opt> altDefs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
@@ -377,8 +377,8 @@ namespace jc::resolve {
         return false;
     }
 
-    void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<opt_def_id> & altDefs) {
-        altDefs.each([&](opt_def_id defId, Namespace nsKind) {
+    void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<DefId::Opt> & altDefs) {
+        altDefs.each([&](DefId::Opt defId, Namespace nsKind) {
             if (nsKind == target or defId.none()) {
                 return;
             }

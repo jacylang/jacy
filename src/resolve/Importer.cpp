@@ -102,7 +102,7 @@ namespace jc::resolve {
                 uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
                 PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
-                defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
+                defPerNs.each([&](DefId::Opt optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
                         const auto & defVis = sess->defStorage.getDefVis(optDefId.unwrap());
@@ -119,7 +119,7 @@ namespace jc::resolve {
                 } else {
                     // Note: We check visibility for definitions
                     //  and invoke callback even if some definitions are private
-                    defPerNs.each([&](opt_def_id optDefId, Namespace nsKind) {
+                    defPerNs.each([&](DefId::Opt optDefId, Namespace nsKind) {
                         optDefId.then([&](const auto & defId) {
                             // Report "Cannot access" only if this is the only one inaccessible item
                             if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
@@ -168,7 +168,7 @@ namespace jc::resolve {
         } else {
             name = segName;
         }
-        pathResult.defPerNs.each([&](const opt_def_id & optDefId, Namespace nsKind) {
+        pathResult.defPerNs.each([&](const DefId::Opt & optDefId, Namespace nsKind) {
             optDefId.then([&](const auto & defId) {
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const auto & oldDefId) {
                     // Note: If some definition can be redefined -- it is always named definition,
