@@ -133,7 +133,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
-        maybeGenerics.then([&](const ast::gen_param_list & generics) {
+        maybeGenerics.then([&](const ast::GenericParam::List & generics) {
             for (const auto & gen : generics) {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {

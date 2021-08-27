@@ -2076,7 +2076,7 @@ namespace jc::parser {
 
         justSkip(TokenKind::LAngle, "`<`", "`parseOptGenerics`");
 
-        gen_param_list generics;
+        GenericParam::List generics;
 
         bool first = true;
         while (not eof()) {
