@@ -114,7 +114,7 @@ namespace jc::hir {
     }
 
     // Statements //
-    stmt_ptr Lowering::lowerStmt(const ast::StmtPtr & astStmt) {
+    Stmt::Ptr Lowering::lowerStmt(const ast::StmtPtr & astStmt) {
         const auto & stmt = astStmt.unwrap();
         switch (stmt->kind) {
             case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
@@ -129,7 +129,7 @@ namespace jc::hir {
         }
     }
 
-    stmt_ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
+    Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
         return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), NONE_HIR_ID, exprStmt.span);
     }
 

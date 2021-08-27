@@ -5,8 +5,8 @@
 
 namespace jc::hir {
     struct Stmt;
-    using stmt_ptr = N<Stmt>;
-    using stmt_list = std::vector<stmt_ptr>;
+    using Stmt::Ptr = N<Stmt>;
+    using stmt_list = std::vector<Stmt::Ptr>;
 
     enum class StmtKind {
         Let,

@@ -31,8 +31,8 @@ namespace jc::hir {
 
         // Statements //
     private:
-        stmt_ptr lowerStmt(const ast::StmtPtr & astStmt);
-        stmt_ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
+        Stmt::Ptr lowerStmt(const ast::StmtPtr & astStmt);
+        Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
         // Expressions //
     private:
