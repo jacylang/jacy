@@ -114,7 +114,7 @@ namespace jc::hir {
     }
 
     // Statements //
-    stmt_ptr Lowering::lowerStmt(const ast::stmt_ptr & astStmt) {
+    stmt_ptr Lowering::lowerStmt(const ast::StmtPtr & astStmt) {
         const auto & stmt = astStmt.unwrap();
         switch (stmt->kind) {
             case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
