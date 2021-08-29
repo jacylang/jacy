@@ -5,6 +5,8 @@ namespace jc::resolve {
         this->sess = sess;
         printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
+        log.assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
+
         enterRootRib();
         visitEach(party.items);
 
