@@ -229,7 +229,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterRootRib() {
-        appendScopePath("[ROOT]");
+        appendCustomPath("[ROOT]");
 
         log.dev("Enter root rib");
         ribStack.emplace_back(std::make_unique<Rib>(Rib::Kind::Root));
@@ -254,14 +254,14 @@ namespace jc::resolve {
                                     name,
                                     "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
 
-        appendScopePath(name );
+        appendModulePath(name, currentModule->defId.unwrap());
 
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
-        appendScopePath("block#" + nodeId.toString());
+        appendBlockPath(nodeId);
 
         currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
