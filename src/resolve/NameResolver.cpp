@@ -89,8 +89,6 @@ namespace jc::resolve {
 
         enterRib(); // -> (params) rib
 
-        log.devPanic("KEK");
-
         for (const auto & param : init.sig.params) {
             param.pat.autoAccept(*this);
             if (param.defaultValue.some()) {
