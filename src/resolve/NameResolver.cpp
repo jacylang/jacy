@@ -39,6 +39,16 @@ namespace jc::resolve {
         exitRib(); // <- `func` mod rib
     }
 
+    void NameResolver::visit(const ast::Impl & impl) {
+        if (impl.forType.some()) {
+            impl.forType.unwrap().autoAccept(*this);
+        }
+
+        enterBlock(impl.id);
+        visitEach(impl.members);
+        exitRib();
+    }
+
     void NameResolver::visit(const ast::Mod & mod) {
         enterModule(mod.name.unwrap().name);
         visitEach(mod.items);

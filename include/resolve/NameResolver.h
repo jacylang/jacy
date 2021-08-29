@@ -23,7 +23,7 @@ namespace jc::resolve {
         // Items //
 //        void visit(const ast::Enum & enumDecl) override;
         void visit(const ast::Func & func) override;
-//        void visit(const ast::Impl & impl) override;
+        void visit(const ast::Impl & impl) override;
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Struct & _struct) override;
         void visit(const ast::Trait & trait) override;
