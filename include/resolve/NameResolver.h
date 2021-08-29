@@ -27,7 +27,8 @@ namespace jc::resolve {
         void visit(const ast::Mod & mod) override;
         void visit(const ast::Struct & _struct) override;
 //        void visit(const ast::Trait & trait) override;
-//        void visit(const ast::TypeAlias & typeAlias) override;
+        //        void visit(const ast::TypeAlias & typeAlias) override;
+        void visit(const ast::Init & init) override;
 
         // Statements //
 //        void visit(const ast::ForStmt & forStmt) override;

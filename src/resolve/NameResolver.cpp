@@ -50,6 +50,31 @@ namespace jc::resolve {
         }
     }
 
+    void NameResolver::visit(const ast::Init & init) {
+        enterModule(func.name.unwrap().name, Namespace::Value); // -> `func` mod rib
+
+        if (func.sig.returnType.some()) {
+            func.sig.returnType.unwrap().autoAccept(*this);
+        }
+
+        enterRib(); // -> (params) rib
+
+        for (const auto & param : func.sig.params) {
+            param.pat.autoAccept(*this);
+            if (param.defaultValue.some()) {
+                param.defaultValue.unwrap().autoAccept(*this);
+            }
+        }
+
+        if (func.body.some()) {
+            func.body.unwrap().value.autoAccept(*this);
+        }
+
+        exitRib(); // <- (params) rib
+
+        exitRib(); // <- `func` mod rib
+    }
+
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
@@ -187,6 +212,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
+        log.dev("Enter module '", name, "' from namespace ", Module::nsToString(ns));
         using namespace utils::map;
         currentModule = sess->defStorage
                             .getModule(
