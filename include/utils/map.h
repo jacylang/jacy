@@ -81,7 +81,7 @@ namespace jc::utils::map {
         return found->second;
     }
 
-    template<class K, class V, typename Iter = typename std::map<K, V>::iterator>
+    template<typename Iter>
     void assertNewEmplace(const std::pair<Iter, bool> & result, const std::string & place) {
         if (not result.second) {
             throw std::logic_error(

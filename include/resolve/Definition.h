@@ -137,8 +137,11 @@ namespace jc::resolve {
         DefIndex nextDefIndex{0};
 
 //        void addDef(DefVis vis, ast::NodeId nodeId) {
+//            using namespace utils::map;
+//
 //            auto defId = DefId {nextDefIndex};
 //
+//            assertNewEmplace(defVisMap.emplace(defId, vis), "");
 //
 //            nextDefIndex = nextDefIndex.val + 1;
 //        }
