@@ -96,7 +96,9 @@ namespace jc::resolve {
 
         void printRib();
         void dumpRibs();
-        std::string unwindModulePath();
+
+        std::vector<std::string> modulePath;
+        void NameResolver::appendModulePath(const std::string & segment);
     };
 }
 

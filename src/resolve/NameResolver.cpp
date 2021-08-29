@@ -468,8 +468,10 @@ namespace jc::resolve {
         log.raw(ribsDebugOutput).nl();
     }
 
-    /// Unwinds module tree from current to root
-    std::string NameResolver::unwindModulePath() {
-
+    void NameResolver::appendModulePath(const std::string & segment) {
+        if (not common::Config::getInstance().checkDev()) {
+            return;
+        }
+        modulePath.push_back(segment);
     }
 }
