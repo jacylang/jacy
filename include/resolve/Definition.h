@@ -130,6 +130,13 @@ namespace jc::resolve {
         }
     };
 
+    struct DefTable {
+        std::map<DefId, DefVis> defVisMap;
+        std::map<ast::NodeId, DefId> nodeIdDefIdMap;
+
+        DefIndex nextDefIndex{0};
+    };
+
     struct Def {
         using Depth = uint32_t;
 
