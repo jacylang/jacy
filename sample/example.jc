@@ -1,4 +1,4 @@
-func foo {
+impl foo {
     init {
 
     }

@@ -205,14 +205,6 @@ namespace jc::resolve {
             log.devPanic("Exceeded definitions depth limit");
         }
         _modDepth++;
-
-        if (child->kind == ModuleKind::Def) {
-            auto def = _defStorage.getDef(child->defId.unwrap());
-            if (def.kind == DefKind::Trait) {
-                // Add initializer index for child module
-                initializerIndices.emplace(child->defId.unwrap("`ModuleTreeBuilder::enterChildModule`"), 0);
-            }
-        }
     }
 
     void ModuleTreeBuilder::exitMod() {
