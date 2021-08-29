@@ -112,7 +112,7 @@ namespace jc::ast {
             }
         }
 
-        constexpr void autoAccept(BaseVisitor & visitor) const noexcept {
+        constexpr void autoAccept(BaseVisitor & visitor) const {
             if (this->err()) {
                 return visitor.visit(this->err_unchecked());
             } else if constexpr (dt::is_ptr_like<T>::value) {
