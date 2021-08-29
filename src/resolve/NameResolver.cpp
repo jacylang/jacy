@@ -245,8 +245,6 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
-        appendScopePath(name);
-
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
         currentModule = sess->defStorage
@@ -255,6 +253,9 @@ namespace jc::resolve {
                                     currentModule->getNS(ns),
                                     name,
                                     "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
+
+        appendScopePath(name );
+
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
@@ -481,10 +482,18 @@ namespace jc::resolve {
         log.raw(ribsDebugOutput).nl();
     }
 
-    void NameResolver::appendScopePath(const std::string & segment) {
+    void NameResolver::appendModulePath(const std::string & modName, DefId defId) {
+        appendCustomPath(sess->defStorage.getDef(defId).kindStr() + " '" + modName + "'");
+    }
+
+    void NameResolver::appendBlockPath(NodeId nodeId) {
+        appendCustomPath("block#" + nodeId.toString());
+    }
+
+    void NameResolver::appendCustomPath(const std::string & segment) {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
-        modulePath.push_back(segment);
+        modulePath.emplace_back(segment);
     }
 }

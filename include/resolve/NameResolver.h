@@ -98,7 +98,9 @@ namespace jc::resolve {
         void dumpRibs();
 
         std::vector<std::string> modulePath;
-        void appendScopePath(const std::string & segment);
+        void appendModulePath(const std::string & modName, DefId defId);
+        void appendBlockPath(NodeId nodeId);
+        void appendCustomPath(const std::string & segment);
     };
 }
 
