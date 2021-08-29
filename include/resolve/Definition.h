@@ -2,6 +2,7 @@
 #define JACY_RESOLVE_DEFINITION_H
 
 #include "span/Span.h"
+#include "span/Ident.h"
 #include "ast/Node.h"
 
 namespace jc::resolve {
@@ -148,8 +149,8 @@ namespace jc::resolve {
         }
     };
 
-    struct Def {
-        Def(
+    struct BaseDef {
+        BaseDef(
             DefId defId,
             DefKind kind
         ) : defId{defId},
@@ -275,6 +276,17 @@ namespace jc::resolve {
                 case Namespace::Lifetime: return "lifetime";
             }
         }
+    };
+
+    /// Resolved definition
+    struct DefRes : BaseDef {
+        using BaseDef::BaseDef;
+    };
+
+    struct ModuleDef : BaseDef {
+        ModuleDef(DefId defId, DefKind kind, span::Ident ident) : BaseDef{defId, kind}, ident{ident} {}
+
+        span::Ident ident;
     };
 }
 
