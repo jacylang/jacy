@@ -15,7 +15,7 @@ namespace jc::resolve {
 
     class NameResolver : public ast::StubVisitor, public sugg::SuggInterface {
     public:
-        NameResolver() : StubVisitor("NameResolver") {}
+        NameResolver();
         ~NameResolver() override = default;
 
         dt::SuggResult<dt::none_t> resolve(const sess::Session::Ptr & sess, const ast::Party & party);
@@ -55,6 +55,7 @@ namespace jc::resolve {
     private:
         log::Logger log{"NameResolver"};
         sess::Session::Ptr sess;
+        common::Config & config;
 
         // Ribs //
     private:
