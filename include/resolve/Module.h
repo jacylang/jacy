@@ -51,6 +51,13 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, defId, nearestModDef);
         }
 
+        void assertKind(ModuleKind kind) {
+            if (this->kind != kind) {
+                log::Logger::devPanic(
+                    "[Module::assertKind] Failed - expected '" + kindStr(kind) + "', got '" + kindStr() + "'");
+            }
+        }
+
         NodeId getNodeId() const {
             return std::get<NodeId>(id);
         }
