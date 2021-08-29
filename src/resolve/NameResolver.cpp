@@ -274,6 +274,8 @@ namespace jc::resolve {
         }
         if (curRib()->boundModule.some()) {
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");
+            // Remove last segment if exit from module/block
+            removePathSeg();
         }
         printRib();
         ribStack.pop_back();
@@ -501,5 +503,8 @@ namespace jc::resolve {
         scopePath.emplace_back(segment);
     }
 
-    /// Removes last path segment from `
+    /// Removes last path segment from `scopePath`
+    void NameResolver::removePathSeg() {
+        scopePath.pop_back();
+    }
 }
