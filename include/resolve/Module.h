@@ -118,12 +118,16 @@ namespace jc::resolve {
             return repr;
         }
 
-        inline const char * kindStr() const {
+        static inline std::string kindStr(ModuleKind kind) {
             switch (kind) {
                 case ModuleKind::Block: return "[BLOCK]";
                 case ModuleKind::Def: return "[DEF]";
                 default: return "[NO REPRESENTATION (bug)]";
             }
+        }
+
+        inline std::string kindStr() const {
+            return kindStr(kind);
         }
 
         static inline std::string nsToString(Namespace ns) {
