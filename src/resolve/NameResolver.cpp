@@ -13,7 +13,7 @@ namespace jc::resolve {
             enterRootRib();
             visitEach(party.items);
         } catch (std::exception & e) {
-            log.debug("Module path on name resolution fail:\n", utils::arr::join(modulePath, " -> "));
+            log.debug("Module path on name resolution fail:\n", utils::arr::join(scopePath, " -> "));
             throw;
         }
 
@@ -498,6 +498,8 @@ namespace jc::resolve {
         if (not config.checkDev()) {
             return;
         }
-        modulePath.emplace_back(segment);
+        scopePath.emplace_back(segment);
     }
+
+    /// Removes last path segment from `
 }

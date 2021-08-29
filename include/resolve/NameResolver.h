@@ -98,10 +98,11 @@ namespace jc::resolve {
         void printRib();
         void dumpRibs();
 
-        std::vector<std::string> modulePath;
+        std::vector<std::string> scopePath;
         void appendModulePath(const std::string & modName, DefId defId);
         void appendBlockPath(NodeId nodeId);
         void appendCustomPath(const std::string & segment);
+        void removePathSeg();
     };
 }
 
