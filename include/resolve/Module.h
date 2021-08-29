@@ -130,6 +130,10 @@ namespace jc::resolve {
                 default: return "[NO REPRESENTATION (bug)]";
             }
         }
+
+        std::string getInitName(const ast::Node & node) {
+            return "%init_" + std::to_string(node.id.val);
+        }
     };
 }
 
