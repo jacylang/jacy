@@ -7,8 +7,13 @@ namespace jc::resolve {
 
         log.assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
 
-        enterRootRib();
-        visitEach(party.items);
+        try {
+            enterRootRib();
+            visitEach(party.items);
+        } catch (std::exception & e) {
+            log.debug("Module path on name resolution fail:\n", utils::arr::join(modulePath, " -> "));
+            throw;
+        }
 
         // Debug call to print generated rib stack output
         dumpRibs();
