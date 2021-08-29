@@ -51,6 +51,13 @@ namespace jc::resolve {
         }
     }
 
+    void NameResolver::visit(const ast::Trait & trait) {
+        enterModule(trait.name.unwrap().name);
+        visitEach(trait.superTraits);
+        visitEach(trait.members);
+        exitRib();
+    }
+
     void NameResolver::visit(const ast::Init & init) {
         enterModule(Module::getInitName(init), Namespace::Value); // -> `func` mod rib
 
