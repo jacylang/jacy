@@ -32,6 +32,14 @@ const Logger & Logger::raw(Args && ...args) const {
     return *this;
 }
 
+/// Implementation of assert-like method
+template<class ...Args>
+void Logger::assertLogic(bool expr, Args && ...args) {
+    if (not expr) {
+        throw std::logic_error(Logger::format(std::forward<Args>(args)...));
+    }
+}
+
 // Static Interface //
 template<class ...Args>
 void Logger::print(Args && ...args)  {
