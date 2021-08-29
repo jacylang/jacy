@@ -149,25 +149,14 @@ namespace jc::resolve {
     };
 
     struct Def {
-        using Depth = uint32_t;
-
         Def(
-            Depth depth,
-            DefVis vis,
-            DefKind kind,
-            const Option<span::Span> & nameSpan,
-            ast::NodeId::Opt nameNodeId
-        ) : depth{depth},
-            vis{vis},
-            kind{kind},
-            nameNodeId{nameNodeId},
-            nameSpan{nameSpan} {}
+            DefId defId,
+            DefKind kind
+        ) : defId{defId},
+            kind{kind} {}
 
-        Depth depth;
-        DefVis vis;
+        DefId defId;
         DefKind kind;
-        const ast::NodeId::Opt nameNodeId;
-        const Option<span::Span> nameSpan;
 
         static inline Namespace getNS(DefKind kind) {
             switch (kind) {
@@ -285,15 +274,6 @@ namespace jc::resolve {
                 case Namespace::Type: return "type";
                 case Namespace::Lifetime: return "lifetime";
             }
-        }
-
-        // Debug //
-        friend std::ostream & operator<<(std::ostream & os, const Def & def) {
-            os << def.kindStr();
-            if (def.nameNodeId.some()) {
-                os << " [nameNode: " << def.nameNodeId.unwrap() << "]";
-            }
-            return os;
         }
     };
 }
