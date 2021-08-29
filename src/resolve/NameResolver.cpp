@@ -51,23 +51,23 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Init & init) {
-        enterModule(func.name.unwrap().name, Namespace::Value); // -> `func` mod rib
+        enterModule(Module::getInitName(init), Namespace::Value); // -> `func` mod rib
 
-        if (func.sig.returnType.some()) {
-            func.sig.returnType.unwrap().autoAccept(*this);
+        if (init.sig.returnType.some()) {
+            init.sig.returnType.unwrap().autoAccept(*this);
         }
 
         enterRib(); // -> (params) rib
 
-        for (const auto & param : func.sig.params) {
+        for (const auto & param : init.sig.params) {
             param.pat.autoAccept(*this);
             if (param.defaultValue.some()) {
                 param.defaultValue.unwrap().autoAccept(*this);
             }
         }
 
-        if (func.body.some()) {
-            func.body.unwrap().value.autoAccept(*this);
+        if (init.body.some()) {
+            init.body.unwrap().value.autoAccept(*this);
         }
 
         exitRib(); // <- (params) rib
