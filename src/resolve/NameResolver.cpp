@@ -459,6 +459,14 @@ namespace jc::resolve {
         log.raw("[locals]: ", rib->locals).nl();
     }
 
+    void NameResolver::dumpRibs() {
+        if (not printRibsFlag or ribStack.empty()) {
+            return;
+        }
+        log.info("Printing rib (`-print=ribs`)");
+        log.raw(ribsDebugOutput);
+    }
+
     /// Unwinds module tree from current to root
     std::string NameResolver::unwindModulePath() {
 

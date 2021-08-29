@@ -92,7 +92,10 @@ namespace jc::resolve {
         // Debug //
     private:
         bool printRibsFlag{false};
+        std::string ribsDebugOutput;
+
         void printRib();
+        void dumpRibs();
         std::string unwindModulePath();
     };
 }
