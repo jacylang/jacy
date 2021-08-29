@@ -78,7 +78,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Init & init) {
         // `Init` has pretty same logic as `Func`, for help look at `Func` visitor
         auto synthName = ast::PR<ast::Ident> {
-            Ok<ast::Ident> {ast::Ident {nextInitName(), init.span.fromStartWithLen(4)}}
+            Ok<ast::Ident> {ast::Ident {getInitName(init), init.span.fromStartWithLen(4)}}
         };
 
         enterModule(getItemVis(init), synthName, DefKind::Init);
@@ -225,7 +225,7 @@ namespace jc::resolve {
     }
 
     // Initializers //
-    std::string ModuleTreeBuilder::nextInitName() {
+    std::string ModuleTreeBuilder::getInitName(const ast::Node & node) {
         /// I suppose we would have initializers overloading, even if not this mechanisms makes new unique initializer.
         /// Initializer name must be syntactically inexpressible to avoid collisions with user-defined names.
         /// Name is kind of mangled, must start with non-alpha symbol (including `_`).
@@ -237,8 +237,7 @@ namespace jc::resolve {
 
         /// Indices stored as map `def_id -> index` where `def_id` is `DefId` of module
         /// Having `init` in non-def module (block) means invalid AST and must be caught before name resolution
-        auto defId = mod->defId.unwrap("`ModuleTreeBuilder::nextInitName` -> `defId`");
-        return "%init_" + std::to_string(++initializerIndices.at(defId));
+        return "%init_" + std::to_string(node.id.val);
     }
 
     // Suggestions //

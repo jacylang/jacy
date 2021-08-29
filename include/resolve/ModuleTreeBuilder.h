@@ -67,7 +67,7 @@ namespace jc::resolve {
             /// Do not emplace party root index as it cannot be `struct`
         };
 
-        std::string nextInitName();
+        std::string getInitName(const ast::Node & node);
 
         // Suggestions //
     private:
