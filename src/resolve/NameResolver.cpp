@@ -457,7 +457,7 @@ namespace jc::resolve {
         if (not printRibsFlag or ribStack.empty()) {
             return;
         }
-        log.raw("[", getDepth(), "] (locals): ", curRib()->locals).nl();
+        ribsDebugOutput += log.format("[", getDepth(), "] (locals): ", curRib()->locals, "\n");
     }
 
     void NameResolver::dumpRibs() {
@@ -465,7 +465,7 @@ namespace jc::resolve {
             return;
         }
         log.info("Printing rib (`-print=ribs`)");
-        log.raw(ribsDebugOutput);
+        log.raw(ribsDebugOutput).nl();
     }
 
     /// Unwinds module tree from current to root
