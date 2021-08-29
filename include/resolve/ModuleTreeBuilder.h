@@ -56,17 +56,6 @@ namespace jc::resolve {
         void enterChildModule(Module::Ptr child);
         void exitMod();
 
-        // Initializers //
-    private:
-        using InitializerIndex = uint16_t;
-
-        /// Stack of initializer indices per module
-        using InitIndexMap = std::map<DefId, InitializerIndex>;
-
-        InitIndexMap initializerIndices {
-            /// Do not emplace party root index as it cannot be `struct`
-        };
-
         // Suggestions //
     private:
         void suggestCannotRedefine(
