@@ -485,6 +485,10 @@ namespace jc::resolve {
     }
 
     void NameResolver::appendModulePath(const std::string & modName, DefId defId) {
+        // Check for dev mode here as getting definition might be an expensive operation
+        if (not config.checkDev()) {
+            return;
+        }
         appendCustomPath(sess->defStorage.getDef(defId).kindStr() + " '" + modName + "'");
     }
 
@@ -493,7 +497,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::appendCustomPath(const std::string & segment) {
-        if (not common::Config::getInstance().checkDev()) {
+        if (not config.checkDev()) {
             return;
         }
         modulePath.emplace_back(segment);
