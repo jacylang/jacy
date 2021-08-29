@@ -198,6 +198,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterRootRib() {
+        log.dev("Enter root rib");
         ribStack.emplace_back(std::make_unique<Rib>(Rib::Kind::Root));
         currentModule = sess->modTreeRoot.unwrap();
         curRib()->bindMod(currentModule);
@@ -211,7 +212,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
-        log.dev("Enter module '", name, "' from namespace ", Module::nsToString(ns));
+        log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
         currentModule = sess->defStorage
                             .getModule(
