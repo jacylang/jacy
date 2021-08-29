@@ -236,6 +236,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
+        appendModulePath(name);
+
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
         currentModule = sess->defStorage
@@ -249,6 +251,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
+        appendModulePath("block#" + nodeId.toString());
+
         currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
