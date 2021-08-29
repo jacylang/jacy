@@ -215,12 +215,8 @@ namespace jc::resolve {
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
         log.dev("Enter module '", name, "' from namespace ", Module::nsToString(ns));
         using namespace utils::map;
-        currentModule = sess->defStorage
-                            .getModule(
-                                expectAt(
-                                    currentModule->getNS(ns),
-                                    name,
-                                    "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
+        currentModule = sess->defStorage.getModule(currentModule->getNS(ns).at(name));
+//                                    "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
