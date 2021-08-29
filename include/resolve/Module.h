@@ -17,27 +17,23 @@ namespace jc::resolve {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
         using NSMap = std::map<std::string, DefId>;
+        using IdType = std::variant<DefId, NodeId>;
 
         Module(
             ModuleKind kind,
             OptPtr parent,
-            NodeId::Opt nodeId,
-            DefId::Opt defId,
+            IdType id,
             DefId::Opt nearestModDef
         ) : kind{kind},
             parent{parent},
-            nodeId{nodeId},
-            defId{defId},
+            id{id},
             nearestModDef{nearestModDef} {}
 
         ModuleKind kind;
         OptPtr parent{None};
 
-        // Node id for `Block` module
-        NodeId::Opt nodeId{None};
-
-        // Definition id for `Def` module
-        DefId::Opt defId{None};
+        // Can either be `NodeId` or `DefId`
+        IdType id;
 
         // Nearest `mod` definition
         DefId::Opt nearestModDef;
@@ -47,12 +43,12 @@ namespace jc::resolve {
 
         // `Block` module
         static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, DefId::Opt nearestModDef) {
-            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, None, nearestModDef);
+            return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, nearestModDef);
         }
 
         // `Def` module
         static inline Ptr newDefModule(const DefId & defId, Ptr parent, DefId::Opt nearestModDef) {
-            return std::make_shared<Module>(ModuleKind::Def, parent, None, defId, nearestModDef);
+            return std::make_shared<Module>(ModuleKind::Def, parent, defId, nearestModDef);
         }
 
         DefId::Opt find(Namespace nsKind, const std::string & name) const {
