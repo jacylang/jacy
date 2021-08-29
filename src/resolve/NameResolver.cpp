@@ -87,6 +87,8 @@ namespace jc::resolve {
 
         enterRib(); // -> (params) rib
 
+        log.devPanic("KEK");
+
         for (const auto & param : init.sig.params) {
             param.pat.autoAccept(*this);
             if (param.defaultValue.some()) {
@@ -227,6 +229,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterRootRib() {
+        appendScopePath("[ROOT]");
+
         log.dev("Enter root rib");
         ribStack.emplace_back(std::make_unique<Rib>(Rib::Kind::Root));
         currentModule = sess->modTreeRoot.unwrap();
@@ -241,7 +245,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
-        appendModulePath(name);
+        appendScopePath(name);
 
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
@@ -256,7 +260,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
-        appendModulePath("block#" + nodeId.toString());
+        appendScopePath("block#" + nodeId.toString());
 
         currentModule = sess->defStorage.getBlock(nodeId);
         enterRib(kind);
@@ -477,7 +481,7 @@ namespace jc::resolve {
         log.raw(ribsDebugOutput).nl();
     }
 
-    void NameResolver::appendModulePath(const std::string & segment) {
+    void NameResolver::appendScopePath(const std::string & segment) {
         if (not common::Config::getInstance().checkDev()) {
             return;
         }
