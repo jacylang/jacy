@@ -103,9 +103,9 @@ namespace jc::resolve {
             std::string repr = kindStr();
             repr += " ";
             if (kind == ModuleKind::Block) {
-                repr += "block #" + nodeId.unwrap().toString();
+                repr += "block #" + std::get<NodeId>(id).toString();
             } else if (kind == ModuleKind::Def) {
-                repr += "module #" + defId.unwrap().getIndex().toString();
+                repr += "module #" + std::get<DefId>(id).getIndex().toString();
             }
             return repr;
         }
