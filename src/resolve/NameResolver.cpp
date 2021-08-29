@@ -10,6 +10,9 @@ namespace jc::resolve {
         enterRootRib();
         visitEach(party.items);
 
+        // Debug call to print generated rib stack output
+        dumpRibs();
+
         sess->resStorage = std::move(_resStorage);
         return {None, extractSuggestions()};
     }
@@ -454,9 +457,7 @@ namespace jc::resolve {
         if (not printRibsFlag or ribStack.empty()) {
             return;
         }
-        log.info("Printing rib (`-print=ribs`) at depth [", getDepth(), "]");
-        const auto & rib = curRib();
-        log.raw("[locals]: ", rib->locals).nl();
+        log.raw("[", getDepth(), "] (locals): ", curRib()->locals).nl();
     }
 
     void NameResolver::dumpRibs() {
