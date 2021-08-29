@@ -1,4 +1,8 @@
-impl foo {
+trait Foo {
+
+}
+
+impl Foo {
     init {
 
     }

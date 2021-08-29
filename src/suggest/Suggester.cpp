@@ -64,7 +64,7 @@ namespace jc::sugg {
         // Print suggestion source file path
         const auto & spanFilePath = sess->sourceMap.getSourceFile(fileId).path;
         // TODO!: Add dynamic indentation for file path line
-        printWithIndent("> " + spanFilePath.string());
+        printWithIndent("> ", spanFilePath.string());
 
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?
