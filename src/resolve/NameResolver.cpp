@@ -40,6 +40,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Impl & impl) {
+        impl.traitTypePath.autoAccept(*this);
+
         if (impl.forType.some()) {
             impl.forType.unwrap().autoAccept(*this);
         }
