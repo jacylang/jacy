@@ -297,12 +297,7 @@ namespace jc::core {
             cliParam = "names";
         }
         // TODO: Add count of nodes when replacement for NodeId::NodeMap will be implemented
-        log.info(
-            "Printing AST after [",
-            modeStr,
-            "] (`-print=",
-            cliParam,
-            "`)");
+        log.info("Printing AST after ", modeStr, " (`-print=", cliParam, "`)");
 
         sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, party.unwrap(), mode);
