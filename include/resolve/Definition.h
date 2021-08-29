@@ -135,6 +135,13 @@ namespace jc::resolve {
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
 
         DefIndex nextDefIndex{0};
+
+//        void addDef(DefVis vis, ast::NodeId nodeId) {
+//            auto defId = DefId {nextDefIndex};
+//
+//
+//            nextDefIndex = nextDefIndex.val + 1;
+//        }
     };
 
     struct Def {

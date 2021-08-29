@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <sstream>
+#include <stdexcept>
 
 #include "data_types/Option.h"
 
@@ -78,6 +79,14 @@ namespace jc::utils::map {
             throw std::logic_error(ss.str());
         }
         return found->second;
+    }
+
+    template<class K, class V, typename Iter = typename std::map<K, V>::iterator>
+    void assertNewEmplace(const std::pair<Iter, bool> & result, const std::string & place) {
+        if (not result.second) {
+            throw std::logic_error(
+                "[map::assertNewEmplace] Tried to emplace key '" + result.first.first + "' twice in " + place);
+        }
     }
 }
 
