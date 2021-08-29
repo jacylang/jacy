@@ -37,8 +37,6 @@ namespace jc::core {
             if (config.checkDev()) {
                 throw std::logic_error("Suicide (✖╭╮✖)");
             }
-        } catch (...) {
-            log.devPanic("Uh-oh, caught a non-exception object");
         }
     }
 

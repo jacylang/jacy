@@ -6,7 +6,6 @@ namespace jc::resolve {
         printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
 
         enterRootRib();
-
         visitEach(party.items);
 
         sess->resStorage = std::move(_resStorage);
@@ -39,6 +38,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
+        log::Logger::devPanic("KEK");
+
         enterModule(mod.name.unwrap().name);
         visitEach(mod.items);
         exitRib();
@@ -436,5 +437,10 @@ namespace jc::resolve {
         log.info("Printing rib (`-print=ribs`) at depth [", getDepth(), "]");
         const auto & rib = curRib();
         log.raw("[locals]: ", rib->locals).nl();
+    }
+
+    /// Unwinds module tree from current to root
+    std::string NameResolver::unwindModulePath() {
+
     }
 }

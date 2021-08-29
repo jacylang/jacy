@@ -4,7 +4,7 @@ int main(int argc, const char ** argv) {
     jc::core::Jacy jacy;
     try {
         return jacy.meow(argc, argv);
-    } catch (const std::exception & e) {
+    } catch (std::exception & e) {
         std::cout << "Uncaught error: " << e.what() << std::endl;
 
         if (jc::common::Config::getInstance().checkDev()) {

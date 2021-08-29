@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <stdexcept>
 
 namespace jc::utils::arr {
     template<class T>

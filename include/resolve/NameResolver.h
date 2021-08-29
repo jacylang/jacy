@@ -93,6 +93,7 @@ namespace jc::resolve {
     private:
         bool printRibsFlag{false};
         void printRib();
+        std::string unwindModulePath();
     };
 }
 

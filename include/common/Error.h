@@ -1,7 +1,7 @@
 #ifndef JACY_ERROR_H
 #define JACY_ERROR_H
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 
 namespace jc::common {
