@@ -40,7 +40,7 @@ namespace jc::sess {
         step = step->end(procUnitCount.unwrap());
     }
 
-    void Session::printSteps() noexcept {
+    void Session::printSteps() {
         // Unwind steps if compiler crashed
         log::Logger::devDebug(
             "Unwind steps, current step [",

@@ -47,7 +47,7 @@ namespace jc::dt {
             sess::Session::Ptr sess,
             const sugg::BaseSugg::List & suggestions,
             const std::string & emptyMessage = ""
-        ) noexcept {
+        ) {
             if (common::Config::getInstance().checkPrint(common::Config::PrintKind::Suggestions)) {
                 if (suggestions.empty()) {
                     if (not emptyMessage.empty()) {

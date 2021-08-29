@@ -66,7 +66,7 @@ namespace jc::sess {
         void beginStep(const std::string & name, MeasUnit measUnit);
         void endStep(Option<size_t> procUnitCount = None);
 
-        void printSteps() noexcept;
+        void printSteps();
         void printStepsDevMode();
     };
 }

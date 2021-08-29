@@ -100,7 +100,7 @@ namespace jc::ast {
         }
 
         template<class U>
-        constexpr ParseResult<N<U>> as() noexcept {
+        constexpr ParseResult<N<U>> as() {
             if (this->err()) {
                 return ParseResult<N<U>>(Err(std::move(*this).err_unchecked()));
             } else if constexpr (dt::is_unique_ptr<T>()) {
@@ -122,7 +122,7 @@ namespace jc::ast {
             }
         }
 
-        NodeId nodeId() const noexcept {
+        NodeId nodeId() const {
             if (this->err()) {
                 return this->err_unchecked().id;
             } else if constexpr (dt::is_ptr_like<T>::value) {
