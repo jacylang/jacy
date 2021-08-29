@@ -71,9 +71,9 @@ namespace jc::resolve {
             return useDeclModules.at(nodeId);
         }
 
-        span::Span::Opt getDefSpan(DefId defId) const {
-            const auto & found = defsSpans.find(defId);
-            if (found != defsSpans.end()) {
+        span::Span::Opt getDefNameSpan(DefId defId) const {
+            const auto & found = defNameSpans.find(defId);
+            if (found != defNameSpans.end()) {
                 return found->second;
             }
             return None;
@@ -84,7 +84,7 @@ namespace jc::resolve {
         std::map<DefIndex, Module::Ptr> modules;
         std::map<ast::NodeId, Module::Ptr> blocks;
         std::map<ast::NodeId, Module::Ptr> useDeclModules;
-        std::map<DefId, span::Span> defsSpans;
+        std::map<DefId, span::Span> defNameSpans;
     };
 }
 
