@@ -51,6 +51,14 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, defId, nearestModDef);
         }
 
+        NodeId getNodeId() const {
+            return std::get<NodeId>(id);
+        }
+
+        DefId getDefId() const {
+            return std::get<DefId>(id);
+        }
+
         DefId::Opt find(Namespace nsKind, const std::string & name) const {
             const auto & ns = getNS(nsKind);
             const auto & def = ns.find(name);
