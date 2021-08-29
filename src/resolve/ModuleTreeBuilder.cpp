@@ -223,7 +223,7 @@ namespace jc::resolve {
         const DefId & prevDefId
     ) {
         const auto & prevDef = _defStorage.getDef(prevDefId);
-        const auto & prevDefSpan = sess->nodeStorage.getNodeSpan(prevDef.nameNodeId.unwrap());
+        const auto & prevDefSpan = sess->defStorage.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + ident.unwrap().name + "' as " + Def::kindStr(as),

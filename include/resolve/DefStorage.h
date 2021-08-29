@@ -84,6 +84,9 @@ namespace jc::resolve {
         std::map<DefIndex, Module::Ptr> modules;
         std::map<ast::NodeId, Module::Ptr> blocks;
         std::map<ast::NodeId, Module::Ptr> useDeclModules;
+
+        /// Stores names (identifiers) of definitions (if exists).
+        /// Used mostly for error reporting.
         std::map<DefId, span::Span> defNameSpans;
     };
 }
