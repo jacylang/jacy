@@ -11,7 +11,9 @@ namespace jc::resolve {
             ast::NodeId::DUMMY,
             DefKind::Mod,
             span::Ident::empty());
+
         assert(rootModuleDef == DefId::ROOT_DEF_ID);
+
         auto rootModule = std::make_shared<Module>(ModuleKind::Def, None, DefId::ROOT_DEF_ID, DefId::ROOT_DEF_ID);
         mod = _defTable.addModule(DefId::ROOT_DEF_ID, rootModule);
 

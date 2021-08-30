@@ -32,7 +32,7 @@ namespace jc::resolve {
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             using namespace utils::map;
 
-            auto defId = DefId{defs.size() - 1};
+            auto defId = DefId{defs.size()};
             defs.emplace_back(Def {defId, kind, ident});
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
