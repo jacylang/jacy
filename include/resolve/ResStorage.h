@@ -4,6 +4,7 @@
 #include <map>
 
 #include "ast/Node.h"
+#include "resolve/Definition.h"
 
 namespace jc::resolve {
     using ast::NodeId;
@@ -137,30 +138,34 @@ namespace jc::resolve {
     };
 
     struct Res {
+        /// Resolution type
+        /// NodeId - local variable
+        /// DefRes - definition
+        /// PrimType - primitive type
+        using ValueType = std::variant<NodeId, DefRes, PrimType>;
+
         Res() : kind(ResKind::Error) {}
-        Res(const DefId & def) : kind(ResKind::Def), def{def} {}
-        Res(NodeId nodeId) : kind(ResKind::Local), nodeId{nodeId} {}
-        Res(PrimType primType) : kind(ResKind::PrimType), primType{primType} {}
+        Res(const DefRes & defRes) : kind(ResKind::Def), val{defRes} {}
+        Res(NodeId nodeId) : kind(ResKind::Local), val{nodeId} {}
+        Res(PrimType primType) : kind(ResKind::PrimType), val{primType} {}
 
         ResKind kind;
-        Option<DefId> def{None};
-        Option<NodeId> nodeId{None};
-        Option<PrimType> primType{None};
+        ValueType val;
 
         bool isErr() const {
             return kind == ResKind::Error;
         }
 
-        DefId asDef() const {
-            return def.unwrap();
+        const auto & asDef() const {
+            return std::get<DefRes>(val);
         }
 
-        NodeId asLocal() const {
-            return nodeId.unwrap();
+        auto asLocal() const {
+            return std::get<NodeId>(val);
         }
 
-        PrimType asPrimType() const {
-            return primType.unwrap();
+        auto asPrimType() const {
+            return std::get<PrimType>(val);
         }
     };
 
