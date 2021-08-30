@@ -192,7 +192,7 @@ namespace jc::resolve {
             return resolutions;
         }
 
-        DefId getDefRes(NodeId nodeId) const {
+        const auto & getDefRes(NodeId nodeId) const {
             // TODO!: Error resolutions recovery
             return resolutions.at(nodeId).asDef();
         }
