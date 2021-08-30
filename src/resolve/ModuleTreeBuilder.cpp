@@ -190,8 +190,8 @@ namespace jc::resolve {
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
-    void ModuleTreeBuilder::enterModule(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
-        const auto defId = addDef(vis, ident, defKind);
+    void ModuleTreeBuilder::enterModule(DefVis vis, NodeId nodeId, DefKind defKind, const ast::Ident::PR & ident) {
+        const auto defId = addDef(vis, nodeId, defKind, ident);
         const auto & name = ident.unwrap().name;
         log.dev("Enter [DEF] module '", name, "' defined with id ", defId);
 
