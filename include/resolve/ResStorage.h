@@ -169,6 +169,20 @@ namespace jc::resolve {
         }
     };
 
+    struct Name {
+        Name(NodeId nodeId) : nodeId{nodeId} {}
+
+        NodeId nodeId;
+
+        bool operator==(const Name & other) const {
+            return nodeId == other.nodeId;
+        }
+
+        bool operator<(const Name & other) const {
+            return nodeId < other.nodeId;
+        }
+    };
+
     /// ResStorage
     /// @brief Collection of {path: node} names resolutions
     class ResStorage {
@@ -188,7 +202,7 @@ namespace jc::resolve {
             resolutions.emplace(name, res);
         }
 
-        const std::map<NodeId, Res> & getResolutions() const {
+        const auto & getResolutions() const {
             return resolutions;
         }
 
@@ -198,8 +212,7 @@ namespace jc::resolve {
         }
 
     private:
-        /// Map of Ident node id -> resolution
-        std::map<NodeId, Res> resolutions;
+        std::map<Name, Res> resolutions;
     };
 }
 
