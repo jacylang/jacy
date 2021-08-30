@@ -442,6 +442,7 @@ namespace jc::resolve {
         log.dev("Failed to resolve local '", name, "'");
 
         log::Logger::devDebug("Set error resolution for node ", refNodeId);
+
         // Set error resolution
         _resStorage.setRes(refNodeId, Res{});
 

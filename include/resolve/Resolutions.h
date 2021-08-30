@@ -169,21 +169,25 @@ namespace jc::resolve {
         }
     };
 
-    /// `Name` is
-    struct Name {
-        Name(NodeId nodeId) : nodeId{nodeId} {}
+    /// `Name` is a pointer to path-like node.
+    /// In `Resolutions` it is mapped to specific `Res` and can point to
+    /// - local variable
+    /// - definition id
+    /// - primitive type
+    struct NamePath {
+        NamePath(NodeId nodeId) : nodeId{nodeId} {}
 
         NodeId nodeId;
 
-        bool operator==(const Name & other) const {
+        bool operator==(const NamePath & other) const {
             return nodeId == other.nodeId;
         }
 
-        bool operator<(const Name & other) const {
+        bool operator<(const NamePath & other) const {
             return nodeId < other.nodeId;
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const Name & name) {
+        friend std::ostream & operator<<(std::ostream & os, const NamePath & name) {
             return os << log::Color::Cyan << "#" << name.nodeId << log::Color::Reset;
         }
     };
@@ -194,7 +198,7 @@ namespace jc::resolve {
     public:
         Resolutions() = default;
 
-        Res getRes(const Name & name) const {
+        Res getRes(const NamePath & name) const {
             if (resolutions.find(name) == resolutions.end()) {
                 log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name ", name);
             }
@@ -203,7 +207,7 @@ namespace jc::resolve {
             return resolutions.at(name);
         }
 
-        void setRes(Name name, Res res) {
+        void setRes(NamePath name, Res res) {
             resolutions.emplace(name, res);
         }
 
@@ -211,13 +215,13 @@ namespace jc::resolve {
             return resolutions;
         }
 
-        const auto & getDefRes(Name name) const {
+        const auto & getDefRes(NamePath name) const {
             // TODO!: Error resolutions recovery
             return resolutions.at(name).asDef();
         }
 
     private:
-        std::map<Name, Res> resolutions;
+        std::map<NamePath, Res> resolutions;
     };
 }
 
