@@ -960,11 +960,11 @@ namespace jc::ast {
         resetNameColor();
     }
 
-    void AstPrinter::colorizeName(NodeId nodeId) {
+    void AstPrinter::colorizeName(NodeId itemNodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        const auto & resolved = sess->resStorage.getRes(nodeId);
+        const auto & resolved = sess->resStorage.getRes(itemNodeId);
         switch (resolved.kind) {
             case resolve::ResKind::Error: {
                 log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
