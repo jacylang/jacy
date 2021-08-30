@@ -5,7 +5,12 @@ namespace jc::resolve {
         this->sess = sess;
 
         // Enter root module
-        const auto & rootModuleDef = _defStorage.define(DefVis::Pub, DefKind::Mod);
+        // Note: Maybe define ROOT_NODE_ID?
+        const auto & rootModuleDef = _defStorage.define(
+            DefVis::Pub,
+            ast::NodeId::DUMMY,
+            DefKind::Mod,
+            span::Ident::empty());
         assert(rootModuleDef == DefId::ROOT_DEF_ID);
         auto rootModule = std::make_shared<Module>(ModuleKind::Def, None, DefId::ROOT_DEF_ID, DefId::ROOT_DEF_ID);
         mod = _defStorage.addModule(DefId::ROOT_DEF_ID, rootModule);
