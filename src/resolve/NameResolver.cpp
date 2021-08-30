@@ -185,7 +185,7 @@ namespace jc::resolve {
     /// All identifiers (not Path) appeared in patterns are bindings, thus we just define them in current rib
 
     void NameResolver::visit(const ast::BorrowPat & pat) {
-        define(pat.name);
+        defineLocal(pat.name);
     }
 
     void NameResolver::visit(const ast::PathPat&) {
@@ -201,13 +201,13 @@ namespace jc::resolve {
             switch (el.kind) {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
-                    define(dp.name);
+                    defineLocal(dp.name);
                     dp.pat.autoAccept(*this);
                     break;
                 }
                 case ast::StructPatEl::Kind::Borrow: {
                     const auto & bp = std::get<ast::StructPatBorrowEl>(el.el);
-                    define(bp.name);
+                    defineLocal(bp.name);
                     break;
                 }
                 case ast::StructPatEl::Kind::Spread:;
@@ -294,7 +294,7 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    void NameResolver::define(NodeId localNodeId, const ast::Ident::PR & ident) {
+    void NameResolver::defineLocal(NodeId localNodeId, const ast::Ident::PR & ident) {
         log.dev("Define '", ident.unwrap().name, "' local");
 
         const auto & redecl = curRib()->define(ident);
