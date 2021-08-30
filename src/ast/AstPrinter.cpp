@@ -54,7 +54,7 @@ namespace jc::ast {
         printVis(enumDecl.vis);
 
         log.raw("enum ");
-        colorizeDef(enumDecl);
+        colorizeDef(enumDecl.id);
 
         printBodyLike(enumDecl.entries, ",\n");
 
@@ -91,7 +91,7 @@ namespace jc::ast {
         printGenerics(func.generics);
         log.raw(" ");
 
-        colorizeDef(func.name);
+        colorizeDef(func.id);
 
         printDelim(func.sig.params, "(", ")");
 
@@ -154,7 +154,7 @@ namespace jc::ast {
         printVis(mod.vis);
 
         log.raw("mod ");
-        colorizeDef(mod.name);
+        colorizeDef(mod.id);
         printBodyLike(mod.items, "\n");
 
         printNodeId(mod);
@@ -164,7 +164,7 @@ namespace jc::ast {
         printVis(_struct.vis);
 
         log.raw("struct ");
-        colorizeDef(_struct.name);
+        colorizeDef(_struct.id);
         log.raw(" ");
 
         printDelim(_struct.fields, "{", "}", ",\n");
@@ -185,7 +185,7 @@ namespace jc::ast {
 
         log.raw("trait ");
 
-        colorizeDef(trait.name);
+        colorizeDef(trait.id);
 
         printGenerics(trait.generics);
 
@@ -203,7 +203,7 @@ namespace jc::ast {
         printVis(typeAlias.vis);
 
         log.raw("type ");
-        colorizeDef(typeAlias.name);
+        colorizeDef(typeAlias.id);
 
         typeAlias.type.then([&](const auto & type) {
             log.raw(" = ");
@@ -811,7 +811,7 @@ namespace jc::ast {
             log.raw("mut ");
         }
 
-        colorizeDef(pat.name);
+        colorizeDef(pat.id);
 
         if (pat.pat.some()) {
             log.raw(" @ ");
