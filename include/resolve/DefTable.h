@@ -21,6 +21,10 @@ namespace jc::resolve {
             return defVisMap.at(defId);
         }
 
+        const auto & getNodeIdByDefId(const DefId & defId) const {
+            return defIdNodeIdMap.at(defId);
+        }
+
         auto size() const {
             return defs.size();
         }

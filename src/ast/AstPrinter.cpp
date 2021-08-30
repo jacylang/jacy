@@ -976,7 +976,7 @@ namespace jc::ast {
             }
             case resolve::ResKind::Def: {
                 // Get definition and use its name node_id as resolution color
-                log.raw(getNameColor(sess->defStorage.getDef(resolved.asDef()).nameNodeId.unwrap()));
+                log.raw(getNameColor(sess->defStorage.getDef(resolved.asDef())));
                 break;
             }
             case resolve::ResKind::PrimType: {
