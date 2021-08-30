@@ -181,6 +181,10 @@ namespace jc::resolve {
         bool operator<(const Name & other) const {
             return nodeId < other.nodeId;
         }
+
+        friend std::ostream & operator<<(std::ostream & os, const Name & name) {
+            return os << log::Color::Cyan << "#" << name.nodeId << log::Color::Reset;
+        }
     };
 
     /// ResStorage
@@ -189,9 +193,9 @@ namespace jc::resolve {
     public:
         ResStorage() = default;
 
-        Res getRes(NodeId name) const {
+        Res getRes(const Name & name) const {
             if (resolutions.find(name) == resolutions.end()) {
-                log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name node id ", name);
+                log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name ", name);
             }
             // Note: It is actually a bug if resolution does not exists
             //  as far as unresolved names are stored as Error Res
