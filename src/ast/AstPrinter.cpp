@@ -54,7 +54,7 @@ namespace jc::ast {
         printVis(enumDecl.vis);
 
         log.raw("enum ");
-        colorizeDef(enumDecl.id);
+        colorizeNameDecl(enumDecl.id);
 
         printBodyLike(enumDecl.entries, ",\n");
 
@@ -91,7 +91,7 @@ namespace jc::ast {
         printGenerics(func.generics);
         log.raw(" ");
 
-        colorizeDef(func.id);
+        colorizeNameDecl(func.id);
 
         printDelim(func.sig.params, "(", ")");
 
@@ -154,7 +154,7 @@ namespace jc::ast {
         printVis(mod.vis);
 
         log.raw("mod ");
-        colorizeDef(mod.id);
+        colorizeNameDecl(mod.id);
         printBodyLike(mod.items, "\n");
 
         printNodeId(mod);
@@ -164,7 +164,7 @@ namespace jc::ast {
         printVis(_struct.vis);
 
         log.raw("struct ");
-        colorizeDef(_struct.id);
+        colorizeNameDecl(_struct.id);
         log.raw(" ");
 
         printDelim(_struct.fields, "{", "}", ",\n");
@@ -185,7 +185,7 @@ namespace jc::ast {
 
         log.raw("trait ");
 
-        colorizeDef(trait.id);
+        colorizeNameDecl(trait.id);
 
         printGenerics(trait.generics);
 
@@ -203,7 +203,7 @@ namespace jc::ast {
         printVis(typeAlias.vis);
 
         log.raw("type ");
-        colorizeDef(typeAlias.id);
+        colorizeNameDecl(typeAlias.id);
 
         typeAlias.type.then([&](const auto & type) {
             log.raw(" = ");
@@ -811,7 +811,7 @@ namespace jc::ast {
             log.raw("mut ");
         }
 
-        colorizeDef(pat.id);
+        colorizeNameDecl(pat.id);
 
         if (pat.pat.some()) {
             log.raw(" @ ");
@@ -861,7 +861,7 @@ namespace jc::ast {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
 
-                    colorizeDef(dp.name);
+                    colorizeNameDecl(dp.name);
                     log.raw(": ");
                     dp.pat.autoAccept(*this);
                     break;
@@ -877,7 +877,7 @@ namespace jc::ast {
                         log.raw("mut ");
                     }
 
-                    colorizeDef(bp.name);
+                    colorizeNameDecl(bp.name);
                     break;
                 }
                 case StructPatEl::Kind::Spread: {
@@ -950,11 +950,11 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::colorizeDef(NodeId itemNodeId) {
+    void AstPrinter::colorizeNameDecl(NodeId nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(itemNodeId));
+        log.raw(getNameColor(nodeId));
         resetNameColor();
     }
 

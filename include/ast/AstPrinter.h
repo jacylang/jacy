@@ -239,7 +239,7 @@ namespace jc::ast {
         const static Color noneNodeColor = Color::LightGray;
         std::map<NodeId, Color> namesColors;
         uint8_t lastColor;
-        void colorizeDef(NodeId itemNodeId);
+        void colorizeNameDecl(NodeId nodeId);
         void colorizePathName(NodeId pathNodeId);
         void resetNameColor();
         Color getNameColor(NodeId nodeId);
