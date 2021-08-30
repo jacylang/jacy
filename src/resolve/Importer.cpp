@@ -170,17 +170,17 @@ namespace jc::resolve {
         }
         pathResult.defPerNs.each([&](const DefId::Opt & optDefId, Namespace nsKind) {
             optDefId.then([&](const auto & defId) {
-                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const auto & oldDefId) {
+                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const DefId & oldDefId) {
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
                     const auto & oldDef = sess->defTable.getDef(oldDefId);
-                    const auto & oldDefSpan = sess->nodeStorage.getNodeSpan(oldDef.nameNodeId.unwrap());
+                    const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
                     suggest(
                         std::make_unique<sugg::MsgSpanLinkSugg>(
                             "Cannot `use` '" + segName + "'",
                             segSpan,
                             "Because it is already declared as " + oldDef.kindStr() + " here",
-                            oldDefSpan,
+                            oldDefSpan.unwrap(),
                             sugg::SuggKind::Error));
                 });
             });
