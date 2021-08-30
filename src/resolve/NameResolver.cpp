@@ -297,7 +297,7 @@ namespace jc::resolve {
     void NameResolver::defineLocal(NodeId localNodeId, const ast::Ident::PR & ident) {
         log.dev("Define '", ident.unwrap().name, "' local");
 
-        const auto & redecl = curRib()->define(ident);
+        const auto & redecl = curRib()->defineLocal(ident);
 
         if (redecl.some()) {
             const auto & name = ident.unwrap().name;

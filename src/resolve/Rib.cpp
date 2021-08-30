@@ -1,7 +1,7 @@
 #include "resolve/Rib.h"
 
 namespace jc::resolve {
-    NodeId::Opt Rib::define(NodeId nodeId, const std::string & name) {
+    NodeId::Opt Rib::defineLocal(NodeId nodeId, const std::string & name) {
         const auto & found = locals.find(name);
         if (found == locals.end()) {
             locals.emplace(name, nodeId);
