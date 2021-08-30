@@ -950,6 +950,17 @@ namespace jc::ast {
     }
 
     // Names mode //
+
+    /// After name resolutions we got:
+    /// Resolutions as map from `NamePath` (node id of path-like node referring specific name)
+    /// Definitions:
+    /// - `Res::value<DefId>` -> `DefId`
+    /// - Each definition points to item node by its node id, also has additional info
+    /// Local variables:
+    /// - `Res::value<NodeId>` -> `NodeId` of `BorrowPat` (all local variables defined with patterns)
+
+    /// Maps `NodeId` to pseudo-unique Color commonly.
+    /// Commonly because `NodeId` can either point to local variable node id (`BorrowPat.id`) or item node id, etc.
     void AstPrinter::colorizeNameDecl(NodeId nodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
