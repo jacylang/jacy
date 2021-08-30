@@ -25,7 +25,7 @@ namespace jc::resolve {
             return defs.size();
         }
 
-        DefId define(Args ...args) {
+        DefId define(DefVis vis, NodeId nodeId) {
             using namespace utils::map;
 
             auto defId = DefId {defs.size() - 1};
