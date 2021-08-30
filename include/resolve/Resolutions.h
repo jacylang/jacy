@@ -169,6 +169,7 @@ namespace jc::resolve {
         }
     };
 
+    /// `Name` is
     struct Name {
         Name(NodeId nodeId) : nodeId{nodeId} {}
 
@@ -202,7 +203,7 @@ namespace jc::resolve {
             return resolutions.at(name);
         }
 
-        void setRes(NodeId name, Res res) {
+        void setRes(Name name, Res res) {
             resolutions.emplace(name, res);
         }
 
@@ -210,9 +211,9 @@ namespace jc::resolve {
             return resolutions;
         }
 
-        const auto & getDefRes(NodeId nodeId) const {
+        const auto & getDefRes(Name name) const {
             // TODO!: Error resolutions recovery
-            return resolutions.at(nodeId).asDef();
+            return resolutions.at(name).asDef();
         }
 
     private:
