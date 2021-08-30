@@ -33,6 +33,7 @@ namespace jc::resolve {
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
             assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
+            assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::addDef` -> defIdNodeIdMap");
         }
 
         const auto & getDefinitions() const {
@@ -86,6 +87,7 @@ namespace jc::resolve {
         std::map<ast::NodeId, Module::Ptr> useDeclModules;
         std::map<DefId, DefVis> defVisMap;
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
+        std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
         /// Stores names (identifiers) of definitions (if exists).
         /// Used mostly for error reporting.
