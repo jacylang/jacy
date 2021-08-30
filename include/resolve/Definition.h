@@ -270,6 +270,10 @@ namespace jc::resolve {
 
         span::Ident ident;
     };
+
+    inline std::ostream & operator<<(std::ostream & os, const Def & def) {
+        return os << def.kindStr() << " '" << def.ident << "'" << def.defId;
+    }
 }
 
 #endif // JACY_RESOLVE_DEFINITION_H
