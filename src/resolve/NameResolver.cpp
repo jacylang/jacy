@@ -197,17 +197,19 @@ namespace jc::resolve {
         // Note: Path in StructPat is always a type
         resolvePath(Namespace::Type, pat.path.unwrap()->path);
 
+        // TODO!: Destructuring fields definitions
+
         for (const auto & el : pat.elements) {
             switch (el.kind) {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
-                    defineLocal(dp.name);
+//                    defineLocal(dp.name);
                     dp.pat.autoAccept(*this);
                     break;
                 }
                 case ast::StructPatEl::Kind::Borrow: {
                     const auto & bp = std::get<ast::StructPatBorrowEl>(el.el);
-                    defineLocal(bp.name);
+//                    defineLocal(bp.name);
                     break;
                 }
                 case ast::StructPatEl::Kind::Spread:;
