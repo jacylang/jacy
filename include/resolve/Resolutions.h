@@ -157,7 +157,7 @@ namespace jc::resolve {
         }
 
         const auto & asDef() const {
-            return std::get<DefRes>(val);
+            return std::get<DefId>(val);
         }
 
         auto asLocal() const {
