@@ -187,11 +187,11 @@ namespace jc::resolve {
         }
     };
 
-    /// ResStorage
+    /// Resolutions
     /// @brief Collection of {path: node} names resolutions
-    class ResStorage {
+    class Resolutions {
     public:
-        ResStorage() = default;
+        Resolutions() = default;
 
         Res getRes(const Name & name) const {
             if (resolutions.find(name) == resolutions.end()) {

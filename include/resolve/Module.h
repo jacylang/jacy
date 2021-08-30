@@ -3,7 +3,7 @@
 
 #include "ast/Party.h"
 #include "resolve/Definition.h"
-#include "resolve/ResStorage.h"
+#include "resolve/Resolutions.h"
 
 namespace jc::resolve {
     using ast::NodeId;

@@ -53,7 +53,7 @@ namespace jc::sess {
         Option<resolve::Module::Ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
         resolve::DefTable defStorage;
-        resolve::ResStorage resStorage;
+        resolve::Resolutions resStorage;
 
         // TODO!: Move to separate wrapper for name resolution stage
         resolve::Def getResDef(ast::NodeId nodeId) const {

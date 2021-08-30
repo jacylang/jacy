@@ -6,7 +6,7 @@
 #include "resolve/Rib.h"
 #include "utils/arr.h"
 #include "suggest/SuggInterface.h"
-#include "resolve/ResStorage.h"
+#include "resolve/Resolutions.h"
 
 namespace jc::resolve {
     using log::Logger;
@@ -81,7 +81,7 @@ namespace jc::resolve {
 
         // Resolution //
     private:
-        ResStorage _resStorage;
+        Resolutions _resStorage;
         void resolveSimplePath(const ast::SimplePath & simplePath);
         void resolvePath(Namespace targetNS, const ast::Path & path);
         bool resolveLocal(Namespace ns, const std::string & name, NodeId refNodeId);

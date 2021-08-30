@@ -5,7 +5,7 @@
 
 #include "ast/Node.h"
 #include "resolve/Module.h"
-#include "resolve/ResStorage.h"
+#include "resolve/Resolutions.h"
 
 namespace jc::resolve {
     using ast::NodeId;
@@ -30,7 +30,7 @@ namespace jc::resolve {
 
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool find(Namespace ns, const std::string & name, NodeId refNodeId, ResStorage & resStorage);
+        bool find(Namespace ns, const std::string & name, NodeId refNodeId, Resolutions & resStorage);
 
         void bindMod(Module::Ptr module);
 

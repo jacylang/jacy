@@ -4,7 +4,7 @@
 #include "ast/StubVisitor.h"
 #include "suggest/SuggInterface.h"
 #include "resolve/Definition.h"
-#include "resolve/ResStorage.h"
+#include "resolve/Resolutions.h"
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
