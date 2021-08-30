@@ -361,8 +361,8 @@ namespace jc::core {
         log.info("Printing definitions (`-print=definitions`)");
 
         // Linear, no benchmark needed
-        for (size_t i = 0; i < sess->defStorage.getDefinitions().size(); i++) {
-            const auto & def = sess->defStorage.getDef(i);
+        for (size_t i = 0; i < sess->defTable.getDefinitions().size(); i++) {
+            const auto & def = sess->defTable.getDef(i);
             log.raw("#", i, ": ", def.kindStr());
             if (def.nameNodeId.some()) {
                 log.raw(" with name node ", def.nameNodeId.unwrap());
@@ -392,7 +392,7 @@ namespace jc::core {
                     break;
                 }
                 case resolve::ResKind::Def: {
-                    log.raw(sess->defStorage.getDef(res.second.asDef()));
+                    log.raw(sess->defTable.getDef(res.second.asDef()));
                     break;
                 }
                 case resolve::ResKind::PrimType: {

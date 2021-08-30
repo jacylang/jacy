@@ -20,7 +20,7 @@ namespace jc::sess {
                     break;
                 }
                 case MeasUnit::Def: {
-                    procUnitCount = defStorage.size();
+                    procUnitCount = defTable.size();
                     break;
                 }
                 case MeasUnit::NA: {

@@ -45,8 +45,8 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printDef(const DefId & defId) {
-        const auto & def = sess->defStorage.getDef(defId);
-        log.raw(def.kindStr(), " '", sess->defStorage.getDefNameSpan(defId), "'");
+        const auto & def = sess->defTable.getDef(defId);
+        log.raw(def.kindStr(), " '", sess->defTable.getDefNameSpan(defId), "'");
 
         switch (def.kind) {
             case DefKind::Enum:
@@ -57,7 +57,7 @@ namespace jc::resolve {
             case DefKind::Init:
             case DefKind::Trait: {
                 log.raw(" ");
-                printMod(sess->defStorage.getModule(defId));
+                printMod(sess->defTable.getModule(defId));
                 break;
             }
             case DefKind::Lifetime:

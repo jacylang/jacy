@@ -52,12 +52,12 @@ namespace jc::sess {
         SourceMap sourceMap;
         Option<resolve::Module::Ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
-        resolve::DefTable defStorage;
+        resolve::DefTable defTable;
         resolve::Resolutions resStorage;
 
         // TODO!: Move to separate wrapper for name resolution stage
         resolve::Def getResDef(ast::NodeId nodeId) const {
-            return defStorage.getDef(resStorage.getDefRes(nodeId));
+            return defTable.getDef(resStorage.getDefRes(nodeId));
         }
 
         // Diagnostics //

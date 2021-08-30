@@ -10,12 +10,12 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
-        const auto & useDeclModule = sess->defStorage.getUseDeclModule(useDecl.id);
+        const auto & useDeclModule = sess->defTable.getUseDeclModule(useDecl.id);
 
         log.dev("Import `use` with module ", useDeclModule->toString());
 
         _useDeclModule = useDeclModule;
-        _importModule = sess->defStorage.getModule(_useDeclModule->nearestModDef.unwrap());
+        _importModule = sess->defTable.getModule(_useDeclModule->nearestModDef.unwrap());
         useDecl.useTree.autoAccept(*this);
     }
 
@@ -70,14 +70,14 @@ namespace jc::resolve {
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
                 _importModule->find(Namespace::Type, segName).then([&](const auto & defId) {
-                    if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                    if (not isFirstSeg and sess->defTable.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresSeg = {i, defId};
                         return;
                     }
 
                     // Only items from type namespace can be descended to
-                    _importModule = sess->defStorage.getModule(defId);
+                    _importModule = sess->defTable.getModule(defId);
                     if (not isFirstSeg) {
                         pathStr += "::";
                     }
@@ -105,7 +105,7 @@ namespace jc::resolve {
                 defPerNs.each([&](DefId::Opt optDefId, Namespace nsKind) {
                     if (optDefId.some()) {
                         defsCount++;
-                        const auto & defVis = sess->defStorage.getDefVis(optDefId.unwrap());
+                        const auto & defVis = sess->defTable.getDefVis(optDefId.unwrap());
                         defsPerNSVis.set(nsKind, defVis);
                         if (defVis == DefVis::Pub) {
                             visDefsCount++;
@@ -139,7 +139,7 @@ namespace jc::resolve {
             const auto & unresolvedSegName = unresolvedSegIdent.name;
 
             if (inaccessible) {
-                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
+                const auto & defKind = sess->defTable.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
@@ -173,7 +173,7 @@ namespace jc::resolve {
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const auto & oldDefId) {
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
-                    const auto & oldDef = sess->defStorage.getDef(oldDefId);
+                    const auto & oldDef = sess->defTable.getDef(oldDefId);
                     const auto & oldDefSpan = sess->nodeStorage.getNodeSpan(oldDef.nameNodeId.unwrap());
                     suggest(
                         std::make_unique<sugg::MsgSpanLinkSugg>(

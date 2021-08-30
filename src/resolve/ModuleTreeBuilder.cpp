@@ -17,7 +17,7 @@ namespace jc::resolve {
 
         visitEach(party.items);
 
-        sess->defStorage = std::move(_defTable);
+        sess->defTable = std::move(_defTable);
         sess->modTreeRoot = std::move(mod);
 
         return {None, extractSuggestions()};
@@ -229,7 +229,7 @@ namespace jc::resolve {
 
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
-        const auto & prevDefSpan = sess->defStorage.getDefNameSpan(prevDefId).unwrap();
+        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId).unwrap();
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + ident.unwrap().name + "' as " + Def::kindStr(as),

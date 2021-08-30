@@ -249,7 +249,7 @@ namespace jc::resolve {
     void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
-        currentModule = sess->defStorage
+        currentModule = sess->defTable
                             .getModule(
                                 expectAt(
                                     currentModule->getNS(ns),
@@ -265,7 +265,7 @@ namespace jc::resolve {
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
         appendBlockPath(nodeId);
 
-        currentModule = sess->defStorage.getBlock(nodeId);
+        currentModule = sess->defTable.getBlock(nodeId);
         enterRib(kind);
         curRib()->bindMod(currentModule);
     }
@@ -339,7 +339,7 @@ namespace jc::resolve {
 
         // Resolve complex path //
 
-        Module::Ptr searchMod = sess->defStorage.getModule(currentModule->nearestModDef.unwrap());
+        Module::Ptr searchMod = sess->defTable.getModule(currentModule->nearestModDef.unwrap());
         // Path as string, built iterating through path segments
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
@@ -364,7 +364,7 @@ namespace jc::resolve {
                 // Note: We check if current segment is not the first one,
                 //  because items in a module are visible for other items in it, and we already found the name
                 // Note!: Order matters, we need to check visibility before descend to next module
-                if (not isFirstSeg and sess->defStorage.getDefVis(defId) != DefVis::Pub) {
+                if (not isFirstSeg and sess->defTable.getDefVis(defId) != DefVis::Pub) {
                     inaccessible = true;
                     unresSeg = {i, defId};
                     log.dev("Failed to resolve '", segName, "' as it is a private def ", defId);
@@ -373,7 +373,7 @@ namespace jc::resolve {
 
                 if (isPrefixSeg) {
                     // Resolve prefix path, `a::b::` (before target)
-                    searchMod = sess->defStorage.getModule(defId);
+                    searchMod = sess->defTable.getModule(defId);
                     log.dev("Enter module by path segment '", pathStr, "' with def id ", defId);
                 } else {
                     // Resolve last segment
@@ -411,7 +411,7 @@ namespace jc::resolve {
             const auto & unresolvedSegName = unresolvedSegIdent.name;
 
             if (inaccessible) {
-                const auto & defKind = sess->defStorage.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
+                const auto & defKind = sess->defTable.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
@@ -456,7 +456,7 @@ namespace jc::resolve {
             if (nsKind == target or defId.none()) {
                 return;
             }
-            const auto & def = sess->defStorage.getDef(defId.unwrap());
+            const auto & def = sess->defTable.getDef(defId.unwrap());
             log.dev(
                 "Found alternative for unresolved name '",
                 name,
@@ -492,7 +492,7 @@ namespace jc::resolve {
         if (not config.checkDev()) {
             return;
         }
-        appendCustomPath(sess->defStorage.getDef(defId).kindStr() + " '" + modName + "'");
+        appendCustomPath(sess->defTable.getDef(defId).kindStr() + " '" + modName + "'");
     }
 
     void NameResolver::appendBlockPath(NodeId nodeId) {

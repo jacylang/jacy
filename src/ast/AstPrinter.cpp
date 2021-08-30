@@ -993,7 +993,7 @@ namespace jc::ast {
             }
             case resolve::ResKind::Def: {
                 // Get definition and use its name node_id as resolution color
-                log.raw(getNameColor(sess->defStorage.getNodeIdByDefId(resolved.asDef())));
+                log.raw(getNameColor(sess->defTable.getNodeIdByDefId(resolved.asDef())));
                 break;
             }
             case resolve::ResKind::PrimType: {
