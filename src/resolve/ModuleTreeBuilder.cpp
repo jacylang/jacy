@@ -31,7 +31,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
         // Note: Enum variants are always public
-        addDef(DefVis::Pub, enumEntry.name, DefKind::Variant);
+        addDef(DefVis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name);
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
@@ -58,7 +58,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        addDef(getItemVis(_struct), _struct.name, DefKind::Struct);
+        addDef(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name);
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
@@ -69,7 +69,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        addDef(getItemVis(typeAlias), typeAlias.name, DefKind::TypeAlias);
+        addDef(getItemVis(typeAlias), typeAlias.id, DefKind::TypeAlias, typeAlias.name);
 
         typeAlias.type.then([&](const auto & type) {
             type.autoAccept(*this);
