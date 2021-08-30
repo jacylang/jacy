@@ -254,7 +254,7 @@ namespace jc::resolve {
                                     name,
                                     "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
 
-        appendModulePath(name, currentModule->defId.unwrap());
+        appendModulePath(name, currentModule->getDefId());
 
         enterRib(kind);
         curRib()->bindMod(currentModule);
@@ -376,7 +376,7 @@ namespace jc::resolve {
                 } else {
                     // Resolve last segment
                     log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
-                    _resStorage.setRes(path.id, Res{defId});
+                    _resStorage.setRes(path.id, Res {defId});
                 }
             }).otherwise([&]() {
                 // Resolution failed

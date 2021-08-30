@@ -140,12 +140,12 @@ namespace jc::resolve {
     struct Res {
         /// Resolution type
         /// NodeId - local variable
-        /// DefRes - definition
+        /// DefId - definition id
         /// PrimType - primitive type
-        using ValueType = std::variant<NodeId, DefRes, PrimType>;
+        using ValueType = std::variant<NodeId, DefId, PrimType>;
 
         Res() : kind(ResKind::Error) {}
-        Res(const DefRes & defRes) : kind(ResKind::Def), val{defRes} {}
+        Res(const DefId & defId) : kind(ResKind::Def), val{defId} {}
         Res(NodeId nodeId) : kind(ResKind::Local), val{nodeId} {}
         Res(PrimType primType) : kind(ResKind::PrimType), val{primType} {}
 
