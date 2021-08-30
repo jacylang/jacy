@@ -198,26 +198,26 @@ namespace jc::resolve {
     public:
         Resolutions() = default;
 
-        Res getRes(const NamePath & name) const {
-            if (resolutions.find(name) == resolutions.end()) {
-                log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name ", name);
+        Res getRes(const NamePath & path) const {
+            if (resolutions.find(path) == resolutions.end()) {
+                log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name ", path);
             }
             // Note: It is actually a bug if resolution does not exists
             //  as far as unresolved names are stored as Error Res
-            return resolutions.at(name);
+            return resolutions.at(path);
         }
 
-        void setRes(NamePath name, Res res) {
-            resolutions.emplace(name, res);
+        void setRes(NamePath path, Res res) {
+            resolutions.emplace(path, res);
         }
 
         const auto & getResolutions() const {
             return resolutions;
         }
 
-        const auto & getDefRes(NamePath name) const {
+        const auto & getDefRes(NamePath path) const {
             // TODO!: Error resolutions recovery
-            return resolutions.at(name).asDef();
+            return resolutions.at(path).asDef();
         }
 
     private:
