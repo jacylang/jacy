@@ -122,7 +122,7 @@ namespace jc::resolve {
             if (kind == ModuleKind::Block) {
                 repr += "block #" + std::get<NodeId>(id).toString();
             } else if (kind == ModuleKind::Def) {
-                repr += "module #" + std::get<DefId>(id).getIndex().toString();
+                repr += "module #" + std::get<Def>(id).defId.getIndex().toString();
             }
             return repr;
         }
