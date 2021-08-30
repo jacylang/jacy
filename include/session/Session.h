@@ -8,7 +8,7 @@
 
 #include "log/Logger.h"
 #include "session/SourceMap.h"
-#include "resolve/DefStorage.h"
+#include "resolve/DefTable.h"
 #include "session/diagnostics.h"
 
 namespace jc::sess {
@@ -52,7 +52,7 @@ namespace jc::sess {
         SourceMap sourceMap;
         Option<resolve::Module::Ptr> modTreeRoot{None};
         NodeStorage nodeStorage;
-        resolve::DefStorage defStorage;
+        resolve::DefTable defStorage;
         resolve::ResStorage resStorage;
 
         // TODO!: Move to separate wrapper for name resolution stage

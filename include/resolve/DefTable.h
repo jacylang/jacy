@@ -1,10 +1,10 @@
-#ifndef JACY_RESOLVE_DEFSTORAGE_H
-#define JACY_RESOLVE_DEFSTORAGE_H
+#ifndef JACY_RESOLVE_DEFTABLE_H
+#define JACY_RESOLVE_DEFTABLE_H
 
 #include "resolve/Module.h"
 
 namespace jc::resolve {
-    struct DefStorage {
+    struct DefTable {
         const auto & getDef(const DefIndex & index) const {
             try {
                 return defs.at(index.val);
@@ -96,4 +96,4 @@ namespace jc::resolve {
     };
 }
 
-#endif // JACY_RESOLVE_DEFSTORAGE_H
+#endif // JACY_RESOLVE_DEFTABLE_H
