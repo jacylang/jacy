@@ -240,7 +240,7 @@ namespace jc::ast {
         std::map<NodeId, Color> namesColors;
         uint8_t lastColor;
         void colorizeDef(const Ident::PR & ident);
-        void colorizeName(NodeId itemNodeId);
+        void colorizePathName(NodeId pathNodeId);
         void resetNameColor();
         Color getNameColor(NodeId nodeId);
 

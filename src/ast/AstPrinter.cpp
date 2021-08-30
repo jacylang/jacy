@@ -711,7 +711,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Path & path) {
-        colorizeName(path.id);
+        colorizePathName(path.id);
 
         if (path.global) {
             log.raw("::");
@@ -960,11 +960,11 @@ namespace jc::ast {
         resetNameColor();
     }
 
-    void AstPrinter::colorizeName(NodeId itemNodeId) {
+    void AstPrinter::colorizePathName(NodeId pathNodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        const auto & resolved = sess->resStorage.getRes(itemNodeId);
+        const auto & resolved = sess->resStorage.getRes(pathNodeId);
         switch (resolved.kind) {
             case resolve::ResKind::Error: {
                 log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
