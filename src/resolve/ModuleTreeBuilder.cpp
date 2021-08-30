@@ -6,18 +6,18 @@ namespace jc::resolve {
 
         // Enter root module
         // Note: Maybe define ROOT_NODE_ID?
-        const auto & rootModuleDef = _defStorage.define(
+        const auto & rootModuleDef = _defTable.define(
             DefVis::Pub,
             ast::NodeId::DUMMY,
             DefKind::Mod,
             span::Ident::empty());
         assert(rootModuleDef == DefId::ROOT_DEF_ID);
         auto rootModule = std::make_shared<Module>(ModuleKind::Def, None, DefId::ROOT_DEF_ID, DefId::ROOT_DEF_ID);
-        mod = _defStorage.addModule(DefId::ROOT_DEF_ID, rootModule);
+        mod = _defTable.addModule(DefId::ROOT_DEF_ID, rootModule);
 
         visitEach(party.items);
 
-        sess->defStorage = std::move(_defStorage);
+        sess->defStorage = std::move(_defTable);
         sess->modTreeRoot = std::move(mod);
 
         return {None, extractSuggestions()};
@@ -77,7 +77,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::UseDecl & useDecl) {
-        _defStorage.setUseDeclModule(useDecl.id, mod);
+        _defTable.setUseDeclModule(useDecl.id, mod);
     }
 
     void ModuleTreeBuilder::visit(const ast::Init & init) {
@@ -110,8 +110,8 @@ namespace jc::resolve {
     /// Adds definition by name to specific namespace determined by DefKind in current module
     DefId ModuleTreeBuilder::addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
         const auto & name = ident.unwrap().name;
-        const auto defId = _defStorage.define(_modDepth, vis, defKind, ident.span(), ident.unwrap().id);
-        const auto ns = Def::getNS(_defStorage.getDef(defId).kind);
+        const auto defId = _defTable.define(_modDepth, vis, defKind, ident.span(), ident.unwrap().id);
+        const auto ns = Def::getNS(_defTable.getDef(defId).kind);
 
         log.dev(
             "Trying to add def '",
@@ -180,7 +180,7 @@ namespace jc::resolve {
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(NodeId nodeId) {
         log.dev("Enter [BLOCK] module ", nodeId);
-        enterChildModule(_defStorage.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
+        enterChildModule(_defTable.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
         curModuleName = None;
@@ -197,7 +197,7 @@ namespace jc::resolve {
             nearestModDef = defId;
         }
 
-        enterChildModule(_defStorage.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
+        enterChildModule(_defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
         curModuleName = name;
@@ -227,7 +227,7 @@ namespace jc::resolve {
         DefKind as,
         const DefId & prevDefId
     ) {
-        const auto & prevDef = _defStorage.getDef(prevDefId);
+        const auto & prevDef = _defTable.getDef(prevDefId);
         const auto & prevDefSpan = sess->defStorage.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(

@@ -40,7 +40,7 @@ namespace jc::resolve {
         // Definitions //
     private:
         // `_` prepended to avoid confusions with Session::defStorage
-        DefTable _defStorage;
+        DefTable _defTable;
 
         DefVis getItemVis(const ast::Item & item);
         DefId addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind);
