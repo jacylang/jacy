@@ -13,11 +13,11 @@ namespace jc::resolve {
 
         static const DefIndex ROOT_INDEX;
 
-        bool operator==(const DefIndex & other) const {
+        constexpr bool operator==(const DefIndex & other) const {
             return val == other.val;
         }
 
-        bool operator<(const DefIndex & other) const {
+        constexpr bool operator<(const DefIndex & other) const {
             return val < other.val;
         }
 
@@ -41,15 +41,15 @@ namespace jc::resolve {
 
         explicit DefId(DefIndex index) : index{index} {}
 
-        DefIndex getIndex() const {
+        const DefIndex & getIndex() const {
             return index;
         }
 
-        bool operator==(const DefId & other) const {
-            return other.getIndex() == index;
+        constexpr bool operator==(const DefId & other) const {
+            return other.index == index;
         }
 
-        bool operator<(const DefId & other) const {
+        constexpr bool operator<(const DefId & other) const {
             return index < other.index;
         }
 

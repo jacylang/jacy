@@ -75,12 +75,8 @@ namespace jc::resolve {
             return useDeclModules.at(nodeId);
         }
 
-        span::Span::Opt getDefNameSpan(DefId defId) const {
-            const auto & found = defNameSpans.find(defId);
-            if (found != defNameSpans.end()) {
-                return found->second;
-            }
-            return None;
+        span::Span::Opt getDefNameSpan(const DefId & defId) const {
+            return defs.at(defId.getIndex().val).ident.span;
         }
 
     private:
@@ -93,7 +89,7 @@ namespace jc::resolve {
 
         /// Stores names (identifiers) of definitions (if exists).
         /// Used mostly for error reporting.
-        std::map<DefId, span::Span> defNameSpans;
+//        std::map<DefId, span::Span> defNameSpans;
     };
 }
 
