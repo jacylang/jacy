@@ -856,12 +856,15 @@ namespace jc::ast {
     void AstPrinter::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
 
+        // TODO!: Colorizing struct pattern fields requires
+        //  `StructPatternDestructEl` and `StructPatBorrowEl` to inherit `Node`
+
         for (const auto & el : pat.elements) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
 
-                    colorizeNameDecl(dp.name);
+//                    colorizeNameDecl(dp.name);
                     log.raw(": ");
                     dp.pat.autoAccept(*this);
                     break;
@@ -877,7 +880,7 @@ namespace jc::ast {
                         log.raw("mut ");
                     }
 
-                    colorizeNameDecl(bp.name);
+//                    colorizeNameDecl(bp.name);
                     break;
                 }
                 case StructPatEl::Kind::Spread: {

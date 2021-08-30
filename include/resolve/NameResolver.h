@@ -59,6 +59,7 @@ namespace jc::resolve {
 
         // Ribs //
     private:
+        // TODO: Think about struct-of-arrays (PerNS<vector<Rib>>)
         Rib::Stack ribStack;
         size_t getDepth() const;
         const Rib::Ptr & curRib() const;
