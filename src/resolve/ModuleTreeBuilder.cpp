@@ -155,15 +155,18 @@ namespace jc::resolve {
             for (const auto & gen : generics) {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {
-                        addDef(DefVis::Pub, ast::Node::cast<ast::TypeParam>(gen.get())->name, DefKind::TypeParam);
+                        const auto & typeParam = ast::Node::cast<ast::TypeParam>(gen.get());
+                        addDef(DefVis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name);
                         break;
                     }
                     case ast::GenericParamKind::Const: {
-                        addDef(DefVis::Pub, ast::Node::cast<ast::ConstParam>(gen.get())->name, DefKind::ConstParam);
+                        const auto & constParam = ast::Node::cast<ast::ConstParam>(gen.get());
+                        addDef(DefVis::Pub, constParam->id, DefKind::ConstParam, constParam->name);
                         break;
                     }
                     case ast::GenericParamKind::Lifetime: {
-                        addDef(DefVis::Pub, ast::Node::cast<ast::Lifetime>(gen.get())->name, DefKind::Lifetime);
+                        const auto & lifetimeParam = ast::Node::cast<ast::Lifetime>(gen.get());
+                        addDef(DefVis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name);
                         break;
                     }
                 }
