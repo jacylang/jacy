@@ -363,11 +363,7 @@ namespace jc::core {
         // Linear, no benchmark needed
         for (size_t i = 0; i < sess->defTable.getDefinitions().size(); i++) {
             const auto & def = sess->defTable.getDef(i);
-            log.raw("#", i, ": ", def.kindStr());
-            if (def.nameNodeId.some()) {
-                log.raw(" with name node ", def.nameNodeId.unwrap());
-            }
-            log.raw(" depth=", def.depth);
+            log.raw(def.defId, ": ", def.kindStr());
             log.nl();
         }
     }
