@@ -108,9 +108,9 @@ namespace jc::resolve {
     }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    DefId ModuleTreeBuilder::addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind) {
+    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const ast::Ident::PR & ident) {
         const auto & name = ident.unwrap().name;
-        const auto defId = _defTable.define(vis, ident.unwrap().id, defKind, ident.span());
+        const auto defId = _defTable.define(vis, nodeId, defKind, ident.unwrap());
         const auto ns = Def::getNS(_defTable.getDef(defId).kind);
 
         log.dev(
@@ -206,10 +206,6 @@ namespace jc::resolve {
     void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
-        if (_modDepth == UINT32_MAX) {
-            log.devPanic("Exceeded definitions depth limit");
-        }
-        _modDepth++;
     }
 
     void ModuleTreeBuilder::exitMod() {
@@ -218,7 +214,6 @@ namespace jc::resolve {
 
         // Set nearest `mod` from parent we lift to
         nearestModDef = mod->nearestModDef;
-        _modDepth--;
     }
 
     // Suggestions //

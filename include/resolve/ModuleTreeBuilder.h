@@ -43,7 +43,7 @@ namespace jc::resolve {
         DefTable _defTable;
 
         DefVis getItemVis(const ast::Item & item);
-        DefId addDef(DefVis vis, const ast::Ident::PR & ident, DefKind defKind);
+        DefId addDef(DefVis vis, NodeId nodeId, DefKind defKind, const ast::Ident::PR & ident);
         void defineGenerics(const ast::GenericParam::OptList & maybeGenerics);
 
         // Modules //
