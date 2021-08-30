@@ -17,7 +17,7 @@ namespace jc::resolve {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
         using NSMap = std::map<std::string, DefId>;
-        using IdType = std::variant<NodeId, ModuleDef>;
+        using IdType = std::variant<NodeId, Def>;
 
         Module(
             ModuleKind kind,
@@ -47,7 +47,7 @@ namespace jc::resolve {
         }
 
         // `Def` module
-        static inline Ptr newDefModule(const ModuleDef & def, Ptr parent, DefId::Opt nearestModDef) {
+        static inline Ptr newDefModule(const Def & def, Ptr parent, DefId::Opt nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, def, nearestModDef);
         }
 
@@ -63,9 +63,9 @@ namespace jc::resolve {
             return std::get<NodeId>(id);
         }
 
-        const ModuleDef & getDefId() const {
+        const Def & getDefId() const {
             assertKind(ModuleKind::Def);
-            return std::get<ModuleDef>(id);
+            return std::get<Def>(id);
         }
 
         DefId::Opt find(Namespace nsKind, const std::string & name) const {

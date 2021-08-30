@@ -131,24 +131,6 @@ namespace jc::resolve {
         }
     };
 
-    struct DefTable {
-        std::map<DefId, DefVis> defVisMap;
-        std::map<ast::NodeId, DefId> nodeIdDefIdMap;
-
-        DefIndex nextDefIndex{0};
-
-        void addDef(DefVis vis, ast::NodeId nodeId) {
-            using namespace utils::map;
-
-            auto defId = DefId {nextDefIndex};
-
-            assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
-            assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
-
-            nextDefIndex = nextDefIndex.val + 1;
-        }
-    };
-
     struct BaseDef {
         BaseDef(
             DefId defId,
@@ -283,8 +265,8 @@ namespace jc::resolve {
         using BaseDef::BaseDef;
     };
 
-    struct ModuleDef : BaseDef {
-        ModuleDef(DefId defId, DefKind kind, span::Ident ident) : BaseDef{defId, kind}, ident{ident} {}
+    struct Def : BaseDef {
+        Def(DefId defId, DefKind kind, span::Ident ident) : BaseDef{defId, kind}, ident{ident} {}
 
         span::Ident ident;
     };

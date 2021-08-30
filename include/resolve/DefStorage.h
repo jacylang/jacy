@@ -5,7 +5,7 @@
 
 namespace jc::resolve {
     struct DefStorage {
-        const Def & getDef(const DefIndex & index) const {
+        const auto & getDef(const DefIndex & index) const {
             try {
                 return defs.at(index.val);
             } catch (const std::out_of_range & e) {
@@ -13,25 +13,28 @@ namespace jc::resolve {
             }
         }
 
-        const Def & getDef(const DefId & defId) const {
+        const auto & getDef(const DefId & defId) const {
             return getDef(defId.getIndex());
         }
 
         DefVis getDefVis(const DefId & defId) const {
-            return getDef(defId).vis;
+            return defVisMap.at(defId);
         }
 
         auto size() const {
             return defs.size();
         }
 
-        template<class ...Args>
         DefId define(Args ...args) {
-            defs.emplace_back(Def(args...));
-            return DefId(DefIndex {defs.size() - 1});
+            using namespace utils::map;
+
+            auto defId = DefId {defs.size() - 1};
+
+            assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
+            assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
         }
 
-        const std::vector<Def> & getDefinitions() const {
+        const auto & getDefinitions() const {
             return defs;
         }
 
@@ -84,6 +87,8 @@ namespace jc::resolve {
         std::map<DefIndex, Module::Ptr> modules;
         std::map<ast::NodeId, Module::Ptr> blocks;
         std::map<ast::NodeId, Module::Ptr> useDeclModules;
+        std::map<DefId, DefVis> defVisMap;
+        std::map<ast::NodeId, DefId> nodeIdDefIdMap;
 
         /// Stores names (identifiers) of definitions (if exists).
         /// Used mostly for error reporting.
