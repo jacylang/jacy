@@ -54,7 +54,7 @@ namespace jc::ast {
         printVis(enumDecl.vis);
 
         log.raw("enum ");
-        colorizeDef(enumDecl.name);
+        colorizeDef(enumDecl);
 
         printBodyLike(enumDecl.entries, ",\n");
 
@@ -950,13 +950,11 @@ namespace jc::ast {
     }
 
     // Names mode //
-    void AstPrinter::colorizeDef(const Ident::PR & ident) {
+    void AstPrinter::colorizeDef(NodeId itemNodeId) {
         if (mode != AstPrinterMode::Names) {
-            ident.unwrap().accept(*this);
             return;
         }
-        log.raw(getNameColor(ident.unwrap().id));
-        ident.unwrap().accept(*this);
+        log.raw(getNameColor(itemNodeId));
         resetNameColor();
     }
 
