@@ -25,10 +25,11 @@ namespace jc::resolve {
             return defs.size();
         }
 
-        DefId define(DefVis vis, NodeId nodeId) {
+        DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             using namespace utils::map;
 
-            auto defId = DefId {defs.size() - 1};
+            auto defId = DefId{defs.size() - 1};
+            defs.emplace_back(Def {defId, kind, ident});
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
             assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
