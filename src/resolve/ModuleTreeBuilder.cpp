@@ -24,7 +24,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        enterModule(getItemVis(_enum), _enum.name, DefKind::Enum);
+        enterModule(getItemVis(_enum), _enum.id, DefKind::Enum, _enum.name);
         visitEach(_enum.entries);
         exitMod();
     }
@@ -37,7 +37,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        enterModule(getItemVis(func), func.name, DefKind::Func);
+        enterModule(getItemVis(func), func.id, DefKind::Func, func.name);
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
         }
@@ -52,7 +52,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterModule(getItemVis(mod), mod.name, DefKind::Mod);
+        enterModule(getItemVis(mod), mod.id, DefKind::Mod, mod.name);
         visitEach(mod.items);
         exitMod();
     }
@@ -63,7 +63,7 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterModule(getItemVis(trait), trait.name, DefKind::Trait);
+        enterModule(getItemVis(trait), trait.id, DefKind::Trait, trait.name);
         visitEach(trait.members);
         exitMod();
     }
@@ -86,7 +86,7 @@ namespace jc::resolve {
             Ok<ast::Ident> {ast::Ident {Module::getInitName(init), init.span.fromStartWithLen(4)}}
         };
 
-        enterModule(getItemVis(init), synthName, DefKind::Init);
+        enterModule(getItemVis(init), init.id, DefKind::Init, synthName);
         if (init.body.some()) {
             init.body.unwrap().value.autoAccept(*this);
         }
