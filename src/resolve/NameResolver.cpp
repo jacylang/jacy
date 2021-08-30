@@ -295,12 +295,12 @@ namespace jc::resolve {
 
     // Definitions //
     void NameResolver::defineLocal(NodeId localNodeId, const ast::Ident::PR & ident) {
-        log.dev("Define '", ident.unwrap().name, "' local");
+        const auto & name = ident.unwrap().name;
+        log.dev("Define '", name, "' local");
 
-        const auto & redecl = curRib()->defineLocal(ident);
+        const auto & redecl = curRib()->defineLocal(localNodeId, name);
 
         if (redecl.some()) {
-            const auto & name = ident.unwrap().name;
             suggestErrorMsg("'" + name + "' has been already declared", ident.span());
         }
     }
