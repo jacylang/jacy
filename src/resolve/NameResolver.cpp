@@ -20,7 +20,7 @@ namespace jc::resolve {
         // Debug call to print generated rib stack output
         dumpRibs();
 
-        sess->resStorage = std::move(_resStorage);
+        sess->resolutions = std::move(_resStorage);
         return {None, extractSuggestions()};
     }
 

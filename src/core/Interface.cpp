@@ -376,7 +376,7 @@ namespace jc::core {
         log.info("Printing resolutions (`-print=resolutions`)");
 
         // Linear, no benchmark needed
-        for (const auto & res : sess->resStorage.getResolutions()) {
+        for (const auto & res : sess->resolutions.getResolutions()) {
             log.raw(res.first, " -> ");
             switch (res.second.kind) {
                 case resolve::ResKind::Error: {

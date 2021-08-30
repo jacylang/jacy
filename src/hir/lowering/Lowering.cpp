@@ -84,7 +84,7 @@ namespace jc::hir {
             auto nameNodeId = item.unwrap()->getNameNodeId();
             auto loweredItem = lowerItem(item);
             auto itemId = ItemId {
-                sess->resStorage.getDefRes(nameNodeId.unwrap())
+                sess->resolutions.getDefRes(nameNodeId.unwrap())
             };
             if (nameNodeId.some()) {
                 items.emplace(

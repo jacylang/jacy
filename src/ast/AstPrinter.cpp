@@ -981,7 +981,7 @@ namespace jc::ast {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        const auto & resolved = sess->resStorage.getRes(pathNodeId);
+        const auto & resolved = sess->resolutions.getRes(pathNodeId);
         switch (resolved.kind) {
             case resolve::ResKind::Error: {
                 log.raw(Color::LightGray, "[[Unresolved]]", Color::Reset);
