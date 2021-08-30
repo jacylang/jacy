@@ -1,11 +1,10 @@
 #include "resolve/Rib.h"
 
 namespace jc::resolve {
-    NodeId::Opt Rib::define(const ast::Ident::PR & ident) {
-        const auto & name = ident.unwrap().name;
+    NodeId::Opt Rib::define(NodeId nodeId, const std::string & name) {
         const auto & found = locals.find(name);
         if (found == locals.end()) {
-            locals.emplace(name, ident.unwrap().id);
+            locals.emplace(name, nodeId);
             return None;
         }
         return found->second;

@@ -21,12 +21,13 @@ namespace jc::resolve {
             Mod,
         } kind;
 
+        /// Maps name to `NodeId` of local variable (`BorrowPat.id`)
         std::map<std::string, NodeId> locals;
         Option<Module::Ptr> boundModule{None};
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
-        NodeId::Opt define(const ast::Ident::PR & ident);
+        NodeId::Opt define(NodeId nodeId, const std::string & name);
 
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
