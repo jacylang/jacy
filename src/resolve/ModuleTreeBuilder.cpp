@@ -6,7 +6,7 @@ namespace jc::resolve {
 
         // Enter root module
         // Note: Maybe define ROOT_NODE_ID?
-        const auto & rootModuleDef = _defTable.define(
+        auto rootModuleDef = _defTable.define(
             DefVis::Pub,
             ast::NodeId::DUMMY,
             DefKind::Mod,
