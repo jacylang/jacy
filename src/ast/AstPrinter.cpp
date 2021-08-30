@@ -969,6 +969,11 @@ namespace jc::ast {
         resetNameColor();
     }
 
+    /// Finds resolution for node id of path (all name usages are path-like nodes).
+    /// Depending on resolution kind applies specific logic:
+    ///  - Definition - Looks for node id of definition in `DefId -> NodeId` map
+    ///  - Local variable - Uses color of local variable resolution (`BorrowPat` node id)
+    ///  * Colorizes output with found color
     void AstPrinter::colorizePathName(NodeId pathNodeId) {
         if (mode != AstPrinterMode::Names) {
             return;
