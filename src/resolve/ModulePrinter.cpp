@@ -46,7 +46,7 @@ namespace jc::resolve {
 
     void ModulePrinter::printDef(const DefId & defId) {
         const auto & def = sess->defStorage.getDef(defId);
-        log.raw(def.kindStr(), sess->defStorage.getDefNameSpan(defId));
+        log.raw(def.kindStr(), " '", sess->defStorage.getDefNameSpan(defId), "'");
 
         switch (def.kind) {
             case DefKind::Enum:
