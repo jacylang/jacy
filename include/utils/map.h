@@ -85,7 +85,7 @@ namespace jc::utils::map {
     void assertNewEmplace(const std::pair<Iter, bool> & result, const std::string & place) {
         if (not result.second) {
             throw std::logic_error(
-                "[map::assertNewEmplace] Tried to emplace key '" + result.first.first + "' twice in " + place);
+                "[map::assertNewEmplace] Tried to replace element in " + place);
         }
     }
 }
