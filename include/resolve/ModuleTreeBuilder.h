@@ -51,7 +51,7 @@ namespace jc::resolve {
         Module::Ptr mod;
         DefId::Opt nearestModDef{None};
         void enterBlock(NodeId nodeId);
-        void enterModule(DefVis vis, NodeId nodeId, DefKind defKind, const ast::Ident::PR & ident);
+        void enterModule(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
         void enterChildModule(Module::Ptr child);
         void exitMod();
 
