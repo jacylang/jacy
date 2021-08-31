@@ -223,7 +223,7 @@ namespace jc::resolve {
 
     // Suggestions //
     void ModuleTreeBuilder::suggestCannotRedefine(
-        const ast::Ident::PR & ident,
+        const span::Ident & ident,
         DefKind as,
         const DefId & prevDefId
     ) {
