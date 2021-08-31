@@ -26,20 +26,20 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
-        enterModule(getItemVis(_enum), _enum.id, DefKind::Enum, _enum.name);
+        enterModule(getItemVis(_enum), _enum.id, DefKind::Enum, _enum.name.unwrap());
         visitEach(_enum.entries);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
         // Note: Enum variants are always public
-        addDef(DefVis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name);
+        addDef(DefVis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name.unwrap());
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        enterModule(getItemVis(func), func.id, DefKind::Func, func.name);
+        enterModule(getItemVis(func), func.id, DefKind::Func, func.name.unwrap());
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
         }
@@ -54,24 +54,24 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Mod & mod) {
-        enterModule(getItemVis(mod), mod.id, DefKind::Mod, mod.name);
+        enterModule(getItemVis(mod), mod.id, DefKind::Mod, mod.name.unwrap());
         visitEach(mod.items);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        addDef(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name);
+        addDef(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name.unwrap());
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
-        enterModule(getItemVis(trait), trait.id, DefKind::Trait, trait.name);
+        enterModule(getItemVis(trait), trait.id, DefKind::Trait, trait.name.unwrap());
         visitEach(trait.members);
         exitMod();
     }
 
     void ModuleTreeBuilder::visit(const ast::TypeAlias & typeAlias) {
-        addDef(getItemVis(typeAlias), typeAlias.id, DefKind::TypeAlias, typeAlias.name);
+        addDef(getItemVis(typeAlias), typeAlias.id, DefKind::TypeAlias, typeAlias.name.unwrap());
 
         typeAlias.type.then([&](const auto & type) {
             type.autoAccept(*this);
@@ -84,9 +84,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Init & init) {
         // `Init` has pretty same logic as `Func`, for help look at `Func` visitor
-        auto synthName = ast::PR<ast::Ident> {
-            Ok<ast::Ident> {ast::Ident {Module::getInitName(init), init.span.fromStartWithLen(4)}}
-        };
+        auto synthName = span::Ident {Module::getInitName(init), init.span.fromStartWithLen(4)};
 
         enterModule(getItemVis(init), init.id, DefKind::Init, synthName);
         if (init.body.some()) {
@@ -158,17 +156,17 @@ namespace jc::resolve {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {
                         const auto & typeParam = ast::Node::cast<ast::TypeParam>(gen.get());
-                        addDef(DefVis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name);
+                        addDef(DefVis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name.unwrap());
                         break;
                     }
                     case ast::GenericParamKind::Const: {
                         const auto & constParam = ast::Node::cast<ast::ConstParam>(gen.get());
-                        addDef(DefVis::Pub, constParam->id, DefKind::ConstParam, constParam->name);
+                        addDef(DefVis::Pub, constParam->id, DefKind::ConstParam, constParam->name.unwrap());
                         break;
                     }
                     case ast::GenericParamKind::Lifetime: {
                         const auto & lifetimeParam = ast::Node::cast<ast::Lifetime>(gen.get());
-                        addDef(DefVis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name);
+                        addDef(DefVis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name.unwrap());
                         break;
                     }
                 }
