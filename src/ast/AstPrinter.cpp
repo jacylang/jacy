@@ -964,11 +964,11 @@ namespace jc::ast {
 
     /// Maps `NodeId` to pseudo-unique Color commonly.
     /// Commonly because `NodeId` can either point to local variable node id (`BorrowPat.id`) or item node id, etc.
-    void AstPrinter::colorizeNameDecl(NodeId nodeId) {
+    void AstPrinter::colorizeNameDecl(NodeId nodeId, const Ident::PR & ident) {
         if (mode != AstPrinterMode::Names) {
             return;
         }
-        log.raw(getNameColor(nodeId));
+        log.raw(getNameColor(nodeId), ident.unwrap().name);
         resetNameColor();
     }
 
