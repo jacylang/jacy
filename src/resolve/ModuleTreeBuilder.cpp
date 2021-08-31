@@ -48,7 +48,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
         // Note: Impl is a block and it will be bound to some type in NameResolver
-        enterBlock(impl.id);
+        enterModule(getItemVis(impl), impl.id, DefKind::Impl, span::Ident::empty());
         visitEach(impl.members);
         exitMod();
     }
