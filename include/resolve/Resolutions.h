@@ -188,7 +188,7 @@ namespace jc::resolve {
         }
 
         friend std::ostream & operator<<(std::ostream & os, const NamePath & name) {
-            return os << log::Color::Cyan << "#" << name.nodeId << log::Color::Reset;
+            return os << name.nodeId;
         }
     };
 
