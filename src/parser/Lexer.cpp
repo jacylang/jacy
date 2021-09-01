@@ -469,7 +469,13 @@ namespace jc::parser {
         // We include comments lexing inside operator parsing to simplify workflow.
         // As first char is checked for operator head -- we either lexed a token or operator (maybe with comment inside)
         if (not op.empty()) {
-            addToken(TokenKind::OP, op);
+            const auto & staticOp = Token::staticOperators.find(op);
+            if (staticOp == Token::staticOperators.end()) {
+                addToken(TokenKind::OP, op);
+            } else {
+                // TODO: Check size overflow
+                addToken(staticOp->second, staticOp->first.size());
+            }
         }
     }
 
