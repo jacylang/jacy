@@ -957,25 +957,6 @@ namespace jc::parser {
         return maybeLhs;
     }
 
-    const std::vector<PrecParser> Parser::precTable = {
-        {0b11, {TokenKind::Pipe}},
-        {0b11, {TokenKind::Or}},
-        {0b11, {TokenKind::And}},
-        {0b11, {TokenKind::BitOr}},
-        {0b11, {TokenKind::Xor}},
-        {0b11, {TokenKind::Ampersand}},
-        {0b11, {TokenKind::Eq,     TokenKind::NotEq,  TokenKind::RefEq, TokenKind::RefNotEq}},
-        {0b11, {TokenKind::LAngle, TokenKind::RAngle, TokenKind::LE,    TokenKind::GE}},
-        {0b11, {TokenKind::Spaceship}},
-        {0b11, {TokenKind::Shl,    TokenKind::Shr}},
-        //        {0b00, {TokenKind::Id}},
-        {0b11, {TokenKind::Range,  TokenKind::RangeEQ}},
-        {0b11, {TokenKind::Add,    TokenKind::Sub}},
-        {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
-        {0b11, {TokenKind::Power}}, // Note: Right-assoc
-        {0b11, {TokenKind::As}},
-    };
-
     Expr::OptPtr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
