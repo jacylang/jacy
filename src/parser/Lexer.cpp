@@ -422,25 +422,7 @@ namespace jc::parser {
                 advance();
             } break;
             default: {
-                // Lex comments
-                if (isSeq('//')) {
-                    while (not eof()) {
-                        advance();
-                        if (isNL()) {
-                            break;
-                        }
-                    }
-                } else if (isSeq('/*')) {
-                    while (not eof()) {
-                        advance();
-                        if (isSeq('*/')) {
-                            break;
-                        }
-                    }
-                    advance(2);
-                } else {
-                    lexMisc();
-                }
+                lexMisc();
             }
         }
     }
@@ -458,6 +440,24 @@ namespace jc::parser {
                 break;
             }
 
+            // Lex comments
+            if (isSeq('//')) {
+                while (not eof()) {
+                    advance();
+                    if (isNL()) {
+                        break;
+                    }
+                }
+            } else if (isSeq('/*')) {
+                while (not eof()) {
+                    advance();
+                    if (isSeq('*/')) {
+                        break;
+                    }
+                }
+                advance(2);
+            }
+
             // Operators not beginning with dot cannot contain dots
             if (is('.') and not firstDot) {
                 break;
@@ -466,7 +466,9 @@ namespace jc::parser {
             op += peek();
         }
 
-        addToken(TokenKind::OP, op);
+        if (not op.empty()) {
+            addToken(TokenKind::OP, op);
+        }
     }
 
     //
