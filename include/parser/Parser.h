@@ -43,25 +43,10 @@
  *
  */
 
+
+
 namespace jc::parser {
     using namespace ast;
-
-    // Note: Usage
-    //  0b00000011 - `0` are unused
-    //  0. --
-    //  1. --
-    //  2. --
-    //  3. --
-    //  4. --
-    //  5. --
-    //  6. Multiple?
-    //  7. Right-assoc?
-    struct PrecParser {
-        using Flags = uint8_t;
-
-        const Flags flags;
-        const std::vector<TokenKind> ops;
-    };
 
     enum class BlockParsing : int8_t {
         Raw, // Raw block parsing (we expected it but do not know if it is already present)
@@ -180,6 +165,8 @@ namespace jc::parser {
         Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
         Expr::Ptr parseLambda();
+        Expr::OptPtr assignment();
+        Expr::OptPtr precParse(uint8_t index);
 
         Expr::OptPtr prefix();
         Expr::OptPtr quest();
