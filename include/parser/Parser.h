@@ -44,6 +44,20 @@
  */
 
 
+/**
+ * Precedence parsing.
+ * In Parser there are a few precedence levels (high -> low):
+ * - Primary expressions (paths, literals, etc.)
+ * - Member access (`a.b`)
+ * - Calls and indexing (`a(...)` and `a[...]`)
+ * - [Custom postfix operators]
+ * - [Custom prefix operators] + `not`
+ * - `as`
+ * - [Custom infix operators] (dynamic precedence)
+ * - `and`
+ * - `or`
+ * - `return`, `break` and closures
+ */
 
 namespace jc::parser {
     using namespace ast;
