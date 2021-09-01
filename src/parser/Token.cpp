@@ -62,6 +62,7 @@ namespace jc::parser {
         {TokenKind::OP,              "OP"},
         {TokenKind::Or,              "or"},
         {TokenKind::And,             "and"},
+        {TokenKind::Not,             "not"},
 
         {TokenKind::Assign,          "="},
         {TokenKind::Add,             "+"},
