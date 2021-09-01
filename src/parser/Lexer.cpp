@@ -466,6 +466,8 @@ namespace jc::parser {
             op += peek();
         }
 
+        // We include comments lexing inside operator parsing to simplify workflow.
+        // As first char is checked for operator head -- we either lexed a token or operator (maybe with comment inside)
         if (not op.empty()) {
             addToken(TokenKind::OP, op);
         }
