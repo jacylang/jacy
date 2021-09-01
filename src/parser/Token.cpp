@@ -161,6 +161,7 @@ namespace jc::parser {
             str += "`";
         }
         switch (kind) {
+            case TokenKind::OP:
             case TokenKind::DecLiteral:
             case TokenKind::BinLiteral:
             case TokenKind::OctLiteral:
@@ -182,6 +183,7 @@ namespace jc::parser {
         std::string str = kindToString();
 
         switch (kind) {
+            case TokenKind::OP:
             case TokenKind::DecLiteral:
             case TokenKind::BinLiteral:
             case TokenKind::OctLiteral:
