@@ -138,7 +138,6 @@ namespace jc::parser {
         static const std::vector<TokenKind> literals;
 
         bool is(TokenKind kind) const;
-        bool isAssignOp() const;
         bool isLiteral() const;
         bool isKw() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;

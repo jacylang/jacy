@@ -60,14 +60,22 @@ namespace jc::parser {
 
         // Operators //
         {TokenKind::OP,              "OP"},
-        {TokenKind::Assign,          "="},
         {TokenKind::Or,              "or"},
         {TokenKind::And,             "and"},
 
+        {TokenKind::Assign,          "="},
+        {TokenKind::Add,             "+"},
+        {TokenKind::Mul,             "*"},
+        {TokenKind::Ampersand,       "&"},
+        {TokenKind::BitOr,           "|"},
+        {TokenKind::LAngle,          "<"},
+        {TokenKind::RAngle,          ">"},
+
+
         // Punctuations //
+        {TokenKind::Backslash,       "\\"},
         {TokenKind::Path,            "::"},
         {TokenKind::Spread,          "..."},
-        {TokenKind::Pipe,            "|>"},
         {TokenKind::Dollar,          "$"},
         {TokenKind::At,              "@"},
         {TokenKind::Semi,            ";"},
@@ -83,7 +91,6 @@ namespace jc::parser {
         {TokenKind::Colon,           ":"},
         {TokenKind::Backtick,        "`"},
         {TokenKind::Wildcard,        "_"},
-        {TokenKind::Backslash,       "\\"},
     };
 
     const std::vector<TokenKind> Token::literals = {
@@ -98,10 +105,6 @@ namespace jc::parser {
 
     bool Token::is(TokenKind kind) const {
         return this->kind == kind;
-    }
-
-    bool Token::isAssignOp() const {
-        return utils::arr::has(assignOperators, kind);
     }
 
     bool Token::isLiteral() const {
