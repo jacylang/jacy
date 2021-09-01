@@ -30,7 +30,6 @@ namespace jc::parser {
         uint32_t tokenStartIndex{0};
         uint32_t index{0};
         Location loc;
-        TokenSpacing::SpaceT spacing{0};
         std::vector<uint32_t> linesIndices;
 
         char peek() const;
