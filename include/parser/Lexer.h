@@ -60,6 +60,8 @@ namespace jc::parser {
         bool isIdFirst(char c);
         bool isIdPart();
         bool isQuote();
+        bool isOpHead(char c);
+        bool isOpHead();
 
         template<class ...Args>
         bool isSeq(Args && ...chars) {

@@ -129,6 +129,14 @@ namespace jc::parser {
         return isAnyOf('\'', '"');
     }
 
+    bool Lexer::isOpHead(char c) {
+        return isCharAnyOf(c, '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '^', '?', '~');
+    }
+
+    bool Lexer::isOpHead() {
+        return isOpHead(peek());
+    }
+
     // Lexers //
     void Lexer::lexNumber() {
         std::string num;
@@ -235,7 +243,7 @@ namespace jc::parser {
 
         const auto quote = peek();
 
-        // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
+        // TODO: Cover to function 'isSingleQuote' or something, to avoid hard-coding
         const auto kind = is('"') ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
 
         if (isSeq(quote, quote, quote)) {
@@ -299,10 +307,10 @@ namespace jc::parser {
                             );
                         } else if (is('x') and isHexDigit(lookup()) and isHexDigit(lookup(2))) {
                             // Hex representation of ASCII character
-                            advance(); // Skip `x`
+                            advance(); // Skip 'x'
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
                         } else if (is('u') and isHexDigit(lookup()) and isHexDigit(lookup(2))) {
-                            advance(); // Skip `u`
+                            advance(); // Skip 'u'
                             // Hex representation of unicode point below 10000
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
@@ -313,7 +321,7 @@ namespace jc::parser {
                             and isHexDigit(lookup(3))
                             and isHexDigit(lookup(4))
                             ) {
-                            advance(); // Skip `U`
+                            advance(); // Skip 'U'
                             // Hex representation of unicode point
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
@@ -339,9 +347,9 @@ namespace jc::parser {
 
         if (not closed) {
             if (isMultiline) {
-                error("Expected closing token `" + log.format(quote, quote, quote) + "` in string");
+                error("Expected closing token '" + log.format(quote, quote, quote) + "' in string");
             }
-            error(log.format("Expected closing token `", quote, "` in string"));
+            error(log.format("Expected closing token '", quote, "' in string"));
         }
 
         advance(isMultiline ? 3 : 1);
@@ -598,7 +606,7 @@ namespace jc::parser {
                 addToken(TokenKind::At, 1);
                 advance();
             } break;
-            case '`': {
+            case ''': {
                 addToken(TokenKind::Backtick, 1);
                 advance();
             } break;
