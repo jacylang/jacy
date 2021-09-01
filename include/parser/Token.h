@@ -127,7 +127,6 @@ namespace jc::parser {
 
         static const std::map<std::string, TokenKind> keywords;
         static const std::map<TokenKind, std::string> tokenKindStrings;
-        static const std::vector<TokenKind> assignOperators;
         static const std::vector<TokenKind> literals;
 
         bool is(TokenKind kind) const;
