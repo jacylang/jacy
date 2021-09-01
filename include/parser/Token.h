@@ -40,10 +40,11 @@ namespace jc::parser {
         OP,                         // Custom operator
         And,                        // `and` (placed in keywords)
         Or,                         // `or` (placed in keywords)
-        // These operators are custom, anyway we use them in some places in parser,
+
+        // Static operators
+        // These operators are custom but we use them in some places in parser,
         //  and comparing enum variants is better than strings.
         // NAME                     // OP (USAGE)
-
         Assign,                     // = (`func`, `type`, etc.)
         Add,                        // + (multiple `trait` `impl`'s
         Mul,                        // * (`use` item)
@@ -136,6 +137,7 @@ namespace jc::parser {
         static const std::map<std::string, TokenKind> keywords;
         static const std::map<TokenKind, std::string> tokenKindStrings;
         static const std::vector<TokenKind> literals;
+        static const std::map<std::string, TokenKind> staticOperators;
 
         bool is(TokenKind kind) const;
         bool isLiteral() const;

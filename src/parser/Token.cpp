@@ -71,7 +71,6 @@ namespace jc::parser {
         {TokenKind::LAngle,          "<"},
         {TokenKind::RAngle,          ">"},
 
-
         // Punctuations //
         {TokenKind::Backslash,       "\\"},
         {TokenKind::Path,            "::"},
@@ -101,6 +100,16 @@ namespace jc::parser {
         TokenKind::FloatLiteral,
         TokenKind::SQStringLiteral,
         TokenKind::DQStringLiteral,
+    };
+
+    const std::map<std::string, TokenKind> Token::staticOperators = {
+        {"=", TokenKind::Assign},
+        {"+", TokenKind::Add},
+        {"*", TokenKind::Mul},
+        {"&", TokenKind::Ampersand},
+        {"|", TokenKind::BitOr},
+        {"<", TokenKind::LAngle},
+        {">", TokenKind::RAngle},
     };
 
     bool Token::is(TokenKind kind) const {
