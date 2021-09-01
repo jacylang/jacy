@@ -37,52 +37,18 @@ namespace jc::parser {
         Id,
 
         // Operators //
+        OP,                         // Custom operator
         Assign,                     // =
-        AddAssign,                  // +=
-        SubAssign,                  // -=
-        MulAssign,                  // *=
-        DivAssign,                  // /=
-        ModAssign,                  // %=
-        PowerAssign,                // **=
-        ShlAssign,                  // <<=
-        ShrAssign,                  // >>=
-        BitAndAssign,               // &=
-        BitOrAssign,                // |=
-        XorAssign,                  // ^=
-        Add,                        // +
-        Sub,                        // -
-        Mul,                        // *
-        Div,                        // /
-        Mod,                        // %
-        Power,                      // **
-        Or,                         // or (placed in keywords)
-        And,                        // and (placed in keywords)
-        Shl,                        // <<
-        Shr,                        // >>
-        Ampersand,                  // &
-        BitOr,                      // |
-        Xor,                        // ^
-        Inv,                        // ~
-        Eq,                         // ==
-        NotEq,                      // !=
-        LAngle,                     // <
-        RAngle,                     // >
-        LE,                         // <=
-        GE,                         // >=
-        Spaceship,                  // <=>
-        RefEq,                      // ===
-        RefNotEq,                   // !==
-        Range,                      // ..
-        RangeEQ,                    // ..=
-        Dot,                        // .
-        Path,                       // ::
-        Spread,                     // ...
+        And,                        // `and` (placed in keywords)
+        Or,                         // `or` (placed in keywords)
         Pipe,                       // |>
-        Dollar,                     // $
-        At,                         // @
         Backslash,                  // \
 
         // Punctuations //
+        Spread,                     // ...
+        Dollar,                     // $
+        At,                         // @
+        Path,                       // ::
         Semi,                       // ;
         Arrow,                      // ->
         DoubleArrow,                // =>
@@ -94,7 +60,6 @@ namespace jc::parser {
         RBracket,                   // ]
         Comma,                      // ,
         Colon,                      // :
-        Quest,                      // ?
         Backtick,                   // `
 
         // Keywords //
