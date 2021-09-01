@@ -38,13 +38,22 @@ namespace jc::parser {
 
         // Operators //
         OP,                         // Custom operator
-        Assign,                     // =
         And,                        // `and` (placed in keywords)
         Or,                         // `or` (placed in keywords)
-        Pipe,                       // |>
-        Backslash,                  // \
+        // These operators are custom, anyway we use them in some places in parser,
+        //  and comparing enum variants is better than strings.
+        // NAME                     // OP (USAGE)
+
+        Assign,                     // = (`func`, `type`, etc.)
+        Plus,                       // + (multiple `trait` `impl`'s
+        Mul,                        // * (`use` item)
+        Ampersand,                  // & (borrowing)
+        BitOr,                      // | (closures, `match`)
+        LAngle,                     // < (generics)
+        RAngle,                     // > (generics)
 
         // Punctuations //
+        Backslash,                  // \
         Spread,                     // ...
         Dollar,                     // $
         At,                         // @
