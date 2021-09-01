@@ -45,7 +45,7 @@ namespace jc::parser {
         // NAME                     // OP (USAGE)
 
         Assign,                     // = (`func`, `type`, etc.)
-        Plus,                       // + (multiple `trait` `impl`'s
+        Add,                        // + (multiple `trait` `impl`'s
         Mul,                        // * (`use` item)
         Ampersand,                  // & (borrowing)
         BitOr,                      // | (closures, `match`)

@@ -130,7 +130,7 @@ namespace jc::parser {
             case TokenKind::And:
             case TokenKind::Or:
             case TokenKind::Assign:
-            case TokenKind::Plus:
+            case TokenKind::Add:
             case TokenKind::Mul:
             case TokenKind::Ampersand:
             case TokenKind::BitOr:
