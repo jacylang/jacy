@@ -87,7 +87,6 @@ namespace jc::parser {
         Module,
         Move,
         Mut,
-        Not,
         Of,
         Return,
         Party,

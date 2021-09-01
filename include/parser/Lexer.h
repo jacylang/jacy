@@ -87,6 +87,7 @@ namespace jc::parser {
         void lexFloatLiteral(const std::string & start);
         void lexId();
         void lexString();
+        void lexMisc();
         void lexOp();
 
         // Errors

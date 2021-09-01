@@ -357,96 +357,8 @@ namespace jc::parser {
         addToken(kind, val);
     }
 
-    void Lexer::lexOp() {
+    void Lexer::lexMisc() {
         switch (peek()) {
-            case '=': {
-                if (lookup() == '>') {
-                    addToken(TokenKind::DoubleArrow, 2);
-                    advance(2);
-                } else if (lookup() == '=') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::RefEq, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::Eq, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::Assign, 1);
-                    advance();
-                }
-            } break;
-            case '+': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::AddAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Add, 1);
-                    advance();
-                }
-            } break;
-            case '-': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::SubAssign, 2);
-                    advance(2);
-                } else if (lookup() == '>') {
-                    addToken(TokenKind::Arrow, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Sub, 1);
-                    advance();
-                }
-            } break;
-            case '*': {
-                if (lookup() == '*') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::PowerAssign, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::Power, 2);
-                        advance(2);
-                    }
-                } else if (lookup() == '=') {
-                    addToken(TokenKind::MulAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Mul, 1);
-                    advance();
-                }
-            } break;
-            case '/': {
-                if (lookup() == '/') {
-                    while (not eof()) {
-                        advance();
-                        if (isNL()) {
-                            break;
-                        }
-                    }
-                } else if (lookup() == '*') {
-                    while (not eof()) {
-                        advance();
-                        if (is('*') and lookup() == '/') {
-                            break;
-                        }
-                    }
-                    advance(2);
-                } else if (lookup() == '=') {
-                    addToken(TokenKind::DivAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Div, 1);
-                    advance();
-                }
-            } break;
-            case '%': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::ModAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Mod, 1);
-                    advance();
-                }
-            } break;
             case ';': {
                 addToken(TokenKind::Semi, 1);
                 advance();
@@ -487,116 +399,7 @@ namespace jc::parser {
                     addToken(TokenKind::Colon, 1);
                     advance();
                 }
-            } break;
-            case '.': {
-                if (isDigit(lookup())) {
-                    lexFloatLiteral(".");
-                } else if (lookup() == '.') {
-                    if (lookup(2) == '.') {
-                        addToken(TokenKind::Spread, 3);
-                        advance(3);
-                    } else if (lookup(2) == '=') {
-                        addToken(TokenKind::RangeEQ, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::Range, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::Dot, 1);
-                    advance();
-                }
-            } break;
-            case '&': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::BitAndAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Ampersand, 1);
-                    advance();
-                }
-            } break;
-            case '!': {
-                if (lookup() == '=') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::RefNotEq, 2);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::NotEq, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::Not, 1);
-                    advance();
-                }
-            } break;
-            case '|': {
-                if (lookup() == '>') {
-                    addToken(TokenKind::Pipe, 2);
-                    advance(2);
-                } else if (lookup() == '=') {
-                    addToken(TokenKind::BitOrAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::BitOr, 1);
-                    advance();
-                }
-            } break;
-            case '<': {
-                if (lookup() == '=') {
-                    if (lookup(2) == '>') {
-                        addToken(TokenKind::Spaceship, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::LE, 2);
-                        advance(2);
-                    }
-                } else if (lookup() == '<') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::ShlAssign, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::Shl, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::LAngle, 1);
-                    advance();
-                }
-            } break;
-            case '>': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::GE, 2);
-                    advance(2);
-                } else if (lookup() == '>') {
-                    if (lookup(2) == '=') {
-                        addToken(TokenKind::ShrAssign, 3);
-                        advance(3);
-                    } else {
-                        addToken(TokenKind::Shr, 2);
-                        advance(2);
-                    }
-                } else {
-                    addToken(TokenKind::RAngle, 1);
-                    advance();
-                }
-            } break;
-            case '^': {
-                if (lookup() == '=') {
-                    addToken(TokenKind::XorAssign, 2);
-                    advance(2);
-                } else {
-                    addToken(TokenKind::Xor, 1);
-                    advance();
-                }
-            } break;
-            case '~': {
-                addToken(TokenKind::Inv, 1);
-                advance();
-            } break;
-            case '?': {
-                addToken(TokenKind::Quest, 1);
-                advance();
+                // TODO: `:=`
             } break;
             case '$': {
                 addToken(TokenKind::Dollar, 1);
@@ -606,7 +409,7 @@ namespace jc::parser {
                 addToken(TokenKind::At, 1);
                 advance();
             } break;
-            case ''': {
+            case '\'': {
                 addToken(TokenKind::Backtick, 1);
                 advance();
             } break;
@@ -619,8 +422,32 @@ namespace jc::parser {
                 advance();
             } break;
             default: {
-                unexpectedTokenError();
+                // Lex comments
+                if (isSeq('//')) {
+                    while (not eof()) {
+                        advance();
+                        if (isNL()) {
+                            break;
+                        }
+                    }
+                } else if (isSeq('/*')) {
+                    while (not eof()) {
+                        advance();
+                        if (isSeq('*/')) {
+                            break;
+                        }
+                    }
+                    advance(2);
+                } else {
+                    lexMisc();
+                }
             }
+        }
+    }
+
+    void Lexer::lexOp() {
+        if (not isOpHead()) {
+            unexpectedTokenError();
         }
     }
 
@@ -653,7 +480,7 @@ namespace jc::parser {
             } else if (isQuote()) {
                 lexString();
             } else {
-                lexOp();
+                lexMisc();
             }
         }
 
