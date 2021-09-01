@@ -40,6 +40,7 @@ namespace jc::parser {
         OP,                         // Custom operator
         And,                        // `and` (placed in keywords)
         Or,                         // `or` (placed in keywords)
+        Not,                        // `not` (placed in keywords)
 
         // Static operators
         // These operators are custom but we use them in some places in parser,
