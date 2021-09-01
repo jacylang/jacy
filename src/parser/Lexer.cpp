@@ -130,7 +130,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isOpHead(char c) {
-        return isCharAnyOf(c, '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '^', '?', '~');
+        return isCharAnyOf(c, '=', '+', '-', '*', '/', '%', '<', '>', '&', '|', '^', '?', '~', '.');
     }
 
     bool Lexer::isOpHead() {
@@ -449,6 +449,24 @@ namespace jc::parser {
         if (not isOpHead()) {
             unexpectedTokenError();
         }
+
+        bool firstDot = is('.');
+
+        std::string op;
+        while (not eof()) {
+            if (not isOpHead()) {
+                break;
+            }
+
+            // Operators not beginning with dot cannot contain dots
+            if (is('.') and not firstDot) {
+                break;
+            }
+
+            op += peek();
+        }
+
+        addToken(TokenKind::OP, op);
     }
 
     //
