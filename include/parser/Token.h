@@ -18,13 +18,6 @@
  */
 
 namespace jc::parser {
-    struct TokenSpacing {
-        using SpaceT = uint32_t;
-
-        SpaceT left;
-        SpaceT right;
-    };
-
     struct Location {
         uint32_t line{0};
         uint32_t col{0};
