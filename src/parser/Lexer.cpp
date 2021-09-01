@@ -422,7 +422,7 @@ namespace jc::parser {
                 advance();
             } break;
             default: {
-                lexMisc();
+                lexOp();
             }
         }
     }
