@@ -124,6 +124,26 @@ namespace jc::parser {
             or kind == TokenKind::Self;
     }
 
+    bool Token::isOp() const {
+        switch (kind) {
+            case TokenKind::OP:
+            case TokenKind::And:
+            case TokenKind::Or:
+            case TokenKind::Assign:
+            case TokenKind::Plus:
+            case TokenKind::Mul:
+            case TokenKind::Ampersand:
+            case TokenKind::BitOr:
+            case TokenKind::LAngle:
+            case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
     std::string Token::kindToString(TokenKind kind) {
         const auto found = tokenKindStrings.find(kind);
         if (found != tokenKindStrings.end()) {
