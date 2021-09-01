@@ -53,7 +53,7 @@ namespace jc::parser {
         RAngle,                     // > (generics)
 
         // Punctuations //
-        Backslash,                  // \
+        Backslash,                  // `\`
         Spread,                     // ...
         Dollar,                     // $
         At,                         // @
