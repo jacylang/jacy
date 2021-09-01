@@ -441,17 +441,17 @@ namespace jc::parser {
             }
 
             // Lex comments
-            if (isSeq('//')) {
+            if (isSeq('/', '/')) {
                 while (not eof()) {
                     advance();
                     if (isNL()) {
                         break;
                     }
                 }
-            } else if (isSeq('/*')) {
+            } else if (isSeq('/', '*')) {
                 while (not eof()) {
                     advance();
-                    if (isSeq('*/')) {
+                    if (isSeq('*', '/')) {
                         break;
                     }
                 }
