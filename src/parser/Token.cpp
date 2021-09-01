@@ -141,6 +141,7 @@ namespace jc::parser {
             case TokenKind::OP:
             case TokenKind::And:
             case TokenKind::Or:
+            case TokenKind::Not:
             case TokenKind::Assign:
             case TokenKind::Add:
             case TokenKind::Mul:
