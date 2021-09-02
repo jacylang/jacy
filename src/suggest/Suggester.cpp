@@ -43,9 +43,11 @@ namespace jc::sugg {
         Logger::nl();
         if (sugg->span.pos > sugg->link.pos) {
             pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
+            Logger::nl();
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind, sugg->link.fileId);
         } else {
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
+            Logger::nl();
             pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None, sugg->span.fileId);
         }
     }
