@@ -230,7 +230,7 @@ namespace jc::resolve {
 
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
-        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId).unwrap();
+        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + ident.name + "' as " + Def::kindStr(as),
