@@ -33,7 +33,7 @@ namespace jc::resolve {
             using namespace utils::map;
 
             auto defId = DefId {DefIndex {defs.size()}};
-            defs.emplace_back(Def {defId, kind, ident});
+            defs.emplace_back(defId, kind, ident);
 
             log::Logger::devDebug(
                 "[DefTable::define] Add definition ",
