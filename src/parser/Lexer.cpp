@@ -442,6 +442,7 @@ namespace jc::parser {
 
             // Lex comments
             if (isSeq('/', '/')) {
+                advance(2);
                 while (not eof()) {
                     advance();
                     if (isNL()) {
@@ -449,11 +450,17 @@ namespace jc::parser {
                     }
                 }
             } else if (isSeq('/', '*')) {
+                advance(2);
+                
+                uint16_t depth = 1;
                 while (not eof()) {
-                    advance();
                     if (isSeq('*', '/')) {
+                        depth--;
+                    }
+                    if (depth == 0) {
                         break;
                     }
+                    advance();
                 }
                 advance(2);
             }
