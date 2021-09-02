@@ -32,7 +32,7 @@ namespace jc::resolve {
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             using namespace utils::map;
 
-            auto defId = DefId{defs.size()};
+            auto defId = DefId {DefIndex {defs.size()}};
             defs.emplace_back(Def {defId, kind, ident});
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
@@ -90,7 +90,7 @@ namespace jc::resolve {
             }
         }
 
-        span::Span::Opt getDefNameSpan(const DefId & defId) const {
+        span::Span getDefNameSpan(const DefId & defId) const {
             try {
                 return defs.at(defId.getIndex().val).ident.span;
             } catch (const std::out_of_range & e) {
