@@ -180,7 +180,7 @@ namespace jc::resolve {
                             "Cannot `use` '" + segName + "'",
                             segSpan,
                             "Because it is already declared as " + oldDef.kindStr() + " here",
-                            oldDefSpan.unwrap(),
+                            oldDefSpan,
                             sugg::SuggKind::Error));
                 });
             });
