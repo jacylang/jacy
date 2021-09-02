@@ -32,16 +32,18 @@ namespace jc::resolve {
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             using namespace utils::map;
 
+            auto defId = DefId {DefIndex {defs.size()}};
+            defs.emplace_back(Def {defId, kind, ident});
+
             log::Logger::devDebug(
-                "[DefTable::define] Define ",
+                "[DefTable::define] Add definition ",
                 Def::kindStr(kind),
                 " '",
                 ident,
                 "' with node id ",
-                nodeId);
-
-            auto defId = DefId {DefIndex {defs.size()}};
-            defs.emplace_back(Def {defId, kind, ident});
+                nodeId,
+                " and def id ",
+                defId);
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
             assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
