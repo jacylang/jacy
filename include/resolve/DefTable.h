@@ -71,7 +71,11 @@ namespace jc::resolve {
         }
 
         const Module::Ptr & getBlock(ast::NodeId nodeId) const {
-            return blocks.at(nodeId);
+            try {
+                return blocks.at(nodeId);
+            } catch (const std::out_of_range & e) {
+                log::Logger::devPanic("Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId);
+            }
         }
 
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
