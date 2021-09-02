@@ -118,7 +118,7 @@ namespace jc::resolve {
             "Trying to add def '",
             name,
             "'",
-            (curModuleName.some() ? " in module '" + curModuleName.unwrap() + "'" : ""),
+            (moduleNameStack.size() > 0 ? " in module '" + moduleNameStack.back() + "'" : ""),
             " with defId [",
             defId,
             "] in ",
@@ -187,7 +187,7 @@ namespace jc::resolve {
         enterChildModule(_defTable.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
-        curModuleName = None;
+        moduleNameStack.push_back("[BLOCK]");
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
@@ -204,7 +204,7 @@ namespace jc::resolve {
         enterChildModule(_defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
-        curModuleName = name;
+        moduleNameStack.push_back(name);
     }
 
     void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
@@ -218,6 +218,8 @@ namespace jc::resolve {
 
         // Set nearest `mod` from parent we lift to
         nearestModDef = mod->nearestModDef;
+
+        moduleNameStack.pop_back();
     }
 
     // Suggestions //
