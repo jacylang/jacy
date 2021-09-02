@@ -103,7 +103,6 @@ namespace jc::resolve {
 
         span::Span getDefNameSpan(const DefId & defId) const {
             try {
-                log::Logger::devDebug("Definitions: ", defs);
                 return defs.at(defId.getIndex().val).ident.span;
             } catch (const std::out_of_range & e) {
                 panicWithDump("Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());

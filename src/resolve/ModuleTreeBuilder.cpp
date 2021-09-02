@@ -120,7 +120,7 @@ namespace jc::resolve {
             "'",
             " in module '",
             (moduleNameStack.size() > 0 ? moduleNameStack.back() : "[ROOT]"),
-            " with defId [",
+            "' with defId [",
             defId,
             "] in ",
             Module::nsToString(ns),
@@ -233,7 +233,7 @@ namespace jc::resolve {
 
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
-        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId);
+        const auto & prevDefSpan = _defTable.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + ident.name + "' as " + Def::kindStr(as),
