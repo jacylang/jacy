@@ -83,7 +83,11 @@ namespace jc::resolve {
         }
 
         const Module::Ptr & getUseDeclModule(ast::NodeId nodeId) const {
-            return useDeclModules.at(nodeId);
+            try {
+                return useDeclModules.at(nodeId);
+            } catch (const std::out_of_range & e) {
+                log::Logger::devPanic("Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId);
+            }
         }
 
         span::Span::Opt getDefNameSpan(const DefId & defId) const {
