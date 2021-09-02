@@ -76,8 +76,7 @@ namespace jc::resolve {
             try {
                 return modules.at(defId.getIndex());
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic(
-                    "Called `DefStorage::getModule` with non-existent `defId` ", defId, ": ", e.what());
+                panicWithDump("Called `DefStorage::getModule` with non-existent `defId` ", defId, ": ", e.what());
             }
         }
 
@@ -85,8 +84,7 @@ namespace jc::resolve {
             try {
                 return blocks.at(nodeId);
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic(
-                    "Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId, ": ", e.what());
+                panicWithDump("Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId, ": ", e.what());
             }
         }
 
@@ -98,17 +96,17 @@ namespace jc::resolve {
             try {
                 return useDeclModules.at(nodeId);
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic(
+                panicWithDump(
                     "Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId, ": ", e.what());
             }
         }
 
         span::Span getDefNameSpan(const DefId & defId) const {
             try {
+                log::Logger::devDebug("Definitions: ", defs);
                 return defs.at(defId.getIndex().val).ident.span;
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic(
-                    "Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());
+                panicWithDump("Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());
             }
         }
 
@@ -120,6 +118,11 @@ namespace jc::resolve {
         std::map<DefId, DefVis> defVisMap;
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
+
+        template<class ...Args>
+        void panicWithDump(Args ...args) const {
+            log::Logger::devPanic(std::forward<Args>(args)..., "\nDefinitions: ", defs);
+        }
 
         /// Stores names (identifiers) of definitions (if exists).
         /// Used mostly for error reporting.
