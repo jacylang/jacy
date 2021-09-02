@@ -76,7 +76,8 @@ namespace jc::resolve {
             try {
                 return modules.at(defId.getIndex());
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
+                log::Logger::devPanic(
+                    "Called `DefStorage::getModule` with non-existent `defId` ", defId, ": ", e.what());
             }
         }
 
@@ -84,7 +85,8 @@ namespace jc::resolve {
             try {
                 return blocks.at(nodeId);
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId);
+                log::Logger::devPanic(
+                    "Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId, ": ", e.what());
             }
         }
 
@@ -96,7 +98,8 @@ namespace jc::resolve {
             try {
                 return useDeclModules.at(nodeId);
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId);
+                log::Logger::devPanic(
+                    "Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId, ": ", e.what());
             }
         }
 
@@ -104,7 +107,8 @@ namespace jc::resolve {
             try {
                 return defs.at(defId.getIndex().val).ident.span;
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId);
+                log::Logger::devPanic(
+                    "Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());
             }
         }
 
