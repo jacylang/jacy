@@ -118,7 +118,7 @@ namespace jc::resolve {
             "Trying to add def '",
             name,
             "'",
-            (moduleNameStack.size() > 0 ? " in module '" + moduleNameStack.back() + "'" : ""),
+            (moduleNameStack.size() > 0 ? " in module '" + moduleNameStack.back() + "'" : "[ROOT]"),
             " with defId [",
             defId,
             "] in ",
