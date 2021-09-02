@@ -43,10 +43,10 @@ namespace jc::sugg {
         Logger::nl();
         if (sugg->span.pos > sugg->link.pos) {
             pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
-            pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
+            pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind, sugg->link.fileId);
         } else {
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
-            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
+            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None, sugg->span.fileId);
         }
     }
 
@@ -58,13 +58,20 @@ namespace jc::sugg {
         printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
-    void Suggester::pointMsgTo(const std::string & msg, const Span & span, SuggKind) {
+    void Suggester::pointMsgTo(
+        const std::string & msg,
+        const Span & span,
+        SuggKind,
+        Option<Span::FileId> ignoreSameFile
+    ) {
         const auto & fileId = span.fileId;
 
         // Print suggestion source file path
-        const auto & spanFilePath = sess->sourceMap.getSourceFile(fileId).path;
-        // TODO!: Add dynamic indentation for file path line
-        printWithIndent("> ", spanFilePath.string());
+        if (ignoreSameFile.none() or ignoreSameFile.unwrap() != fileId) {
+            const auto & spanFilePath = sess->sourceMap.getSourceFile(fileId).path;
+            // TODO!: Add dynamic indentation for file path line
+            printWithIndent("> ", spanFilePath.string());
+        }
 
         const auto & indent = getFileIndent(fileId);
         // TODO!: Maybe not printing previous line if it's empty?

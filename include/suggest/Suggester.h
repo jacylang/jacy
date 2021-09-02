@@ -27,7 +27,12 @@ namespace jc::sugg {
     private:
         sess::Session::Ptr sess;
 
-        void pointMsgTo(const std::string & msg, const Span & span, SuggKind kind);
+        void pointMsgTo(
+            const std::string & msg,
+            const Span & span,
+            SuggKind kind,
+            Option<Span::FileId> ignoreSameFile = None
+        );
         void printPrevLine(Span::FileId fileId, size_t index);
         void printLine(Span::FileId fileId, size_t index);
         void printWithIndent(Span::FileId fileId, const std::string & msg);
