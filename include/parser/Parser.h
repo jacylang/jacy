@@ -185,11 +185,13 @@ namespace jc::parser {
         // Expressions //
         Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
-        Expr::Ptr parseLambda();
 
         Expr::OptPtr parsePrefixExpr();
         Expr::OptPtr parsePostfixExpr();
+        Expr::OptPtr parseInfixExpr();
         Expr::OptPtr primary();
+
+        Expr::Ptr parseLambda();
 
         // Atomic expressions //
         Ident::PR justParseIdent(const std::string & panicIn);

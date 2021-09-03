@@ -867,6 +867,60 @@ namespace jc::parser {
         return expr.take("parseExpr -> expr");
     }
 
+    Expr::OptPtr Parser::parsePrefixExpr() {
+        if (extraDebugAll) {
+            logParse("parsePrefixExpr");
+        }
+
+        auto begin = cspan();
+
+        if (peek().isPrefixOp()) {
+            auto prefixOp = peek();
+            advance();
+            auto maybeRhs = parsePostfixExpr();
+
+            if (maybeRhs.none()) {
+                suggestErrorMsg("Expected expression after `" + prefixOp.toString() + "` operator", cspan());
+            }
+
+            auto rhs = maybeRhs.take();
+
+            return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
+        }
+
+        return parsePostfixExpr();
+    }
+
+    Expr::OptPtr Parser::parsePostfixExpr() {
+        if (extraDebugAll) {
+            logParse("parsePostfixExpr");
+        }
+
+        auto begin = cspan();
+
+        // TODO: Suffixes like call, etc.
+        auto maybeLhs = primary();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            if (not peek().isPostfixOp()) {
+                break;
+            }
+
+            auto postfixOp = peek();
+            advance();
+
+            lhs = makePRBoxNode<Postfix, Expr>(std::move(lhs), postfixOp, closeSpan(begin));
+        }
+
+        return lhs;
+    }
+
     Expr::Ptr Parser::parseLambda() {
         enterEntity("Lambda:" + peek().toString());
 
@@ -923,60 +977,6 @@ namespace jc::parser {
 
         return makePRBoxNode<Lambda, Expr>(
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
-    }
-
-    Expr::OptPtr Parser::parsePrefixExpr() {
-        if (extraDebugAll) {
-            logParse("parsePrefixExpr");
-        }
-
-        auto begin = cspan();
-
-        if (peek().isPrefixOp()) {
-            auto prefixOp = peek();
-            advance();
-            auto maybeRhs = parsePostfixExpr();
-
-            if (maybeRhs.none()) {
-                suggestErrorMsg("Expected expression after `" + prefixOp.toString() + "` operator", cspan());
-            }
-
-            auto rhs = maybeRhs.take();
-
-            return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
-        }
-
-        return parsePostfixExpr();
-    }
-
-    Expr::OptPtr Parser::parsePostfixExpr() {
-        if (extraDebugAll) {
-            logParse("parsePostfixExpr");
-        }
-
-        auto begin = cspan();
-
-        // TODO: Suffixes like call, etc.
-        auto maybeLhs = primary();
-
-        if (maybeLhs.none()) {
-            return None;
-        }
-
-        auto lhs = maybeLhs.take();
-
-        while (not eof()) {
-            if (not peek().isPostfixOp()) {
-                break;
-            }
-
-            auto postfixOp = peek();
-            advance();
-
-            lhs = makePRBoxNode<Postfix, Expr>(std::move(lhs), postfixOp, closeSpan(begin));
-        }
-
-        return lhs;
     }
 
     Expr::OptPtr Parser::primary() {
