@@ -925,15 +925,18 @@ namespace jc::parser {
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parseOpExpr() {
+    Expr::Ptr Parser::parsePrefixExpr() {
         if (extraDebugAll) {
-            logParse("parseOpExpr");
+            logParse("parsePrefixExpr");
         }
 
         auto begin = cspan();
 
-        if (peek().isCustomOp() or peek().isPrefixOp()) {
+        if (peek().isPrefixOp()) {
+            auto prefixOp = peek();
+            advance();
 
+            return
         }
     }
 
