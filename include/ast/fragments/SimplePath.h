@@ -26,6 +26,8 @@ namespace jc::ast {
     };
 
     struct SimplePath : Node {
+        using PR = PR<SimplePath>;
+
         SimplePath(
             bool global,
             std::vector<SimplePathSeg> && segments,

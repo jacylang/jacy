@@ -207,7 +207,7 @@ namespace jc::parser {
                 break;
             }
             case TokenKind::Operator: {
-                if (lookup().is(TokenKind::Id) and lookup().val == operatorGroupSoftKeyword) {
+                if (lookup().is(TokenKind::Id) and lookup().val == GROUP_SOFT_KEYWORD) {
 
                 }
                 break;
@@ -661,6 +661,55 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Init, Item>(std::move(sig), std::move(body), closeSpan(begin));
+    }
+
+    Item::Ptr Parser::parseOpGroup() {
+        enterEntity("OpGroup");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Operator, "`operator`", "`parseOpGroup`");
+        justSkip(TokenKind::Id, "`group`", "`parseOpGroup` -> `group` identifier");
+
+        Option<SimplePath::PR> higherThan{None};
+        Option<SimplePath::PR> lowerThan{None};
+        OpAssoc assoc;
+
+        skip(TokenKind::LBrace, "Expected opening `{` in `operator group`");
+
+        while (not eof()) {
+            if (is(TokenKind::Id)) {
+                if (peek().val == HIGHER_THAN_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `higherThan`");
+                    higherThan = parseSimplePath("`higherThan` another operator group name");
+                } else if (peek().val == LOWER_THAN_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `lowerThan`");
+                    higherThan = parseSimplePath("`lowerThan` another operator group name");
+                } else if (peek().val == ASSOC_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `assoc`");
+                    auto assocIdent = parseIdent("Expected `left` or `right` associativity for `assoc`");
+                    if (assocIdent.ok()) {
+                        const auto & assocIdentValue = assocIdent.unwrap().name;
+                        if (assocIdentValue == LEFT_SOFT_KEYWORD) {
+                            assoc = ast::OpAssoc::Left;
+                        } else if (assocIdentValue == RIGHT_SOFT_KEYWORD) {
+                            assoc = ast::OpAssoc::Right;
+                        } else {
+                            suggestErrorMsg("`assoc` must be either `left` or `right", assocIdent.span());
+                        }
+                    }
+                }
+            }
+        }
+
+        skip(TokenKind::RBrace, "Expected closing `}` in `operator group`");
+
+        exitEntity();
+
+        return makePRBoxNode<OpGroup, Item>();
     }
 
     ////////////////

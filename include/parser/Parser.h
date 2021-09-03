@@ -150,7 +150,12 @@ namespace jc::parser {
 
         // Parsers //
     private:
-        static constexpr const char * operatorGroupSoftKeyword = "group";
+        static constexpr const char * GROUP_SOFT_KEYWORD = "group";
+        static constexpr const char * HIGHER_THAN_SOFT_KEYWORD = "higherThan";
+        static constexpr const char * LOWER_THAN_SOFT_KEYWORD = "lowerThan";
+        static constexpr const char * ASSOC_SOFT_KEYWORD = "assoc";
+        static constexpr const char * LEFT_SOFT_KEYWORD = "left";
+        static constexpr const char * RIGHT_SOFT_KEYWORD = "right";
 
         // Items //
         Option<Item::Ptr> parseOptItem();
@@ -169,6 +174,7 @@ namespace jc::parser {
         Item::Ptr parseUseDecl();
         UseTree::Ptr parseUseTree();
         Item::Ptr parseInit(parser::Token::List && modifiers);
+        Item::Ptr parseOpGroup();
 
         // Statements //
         Stmt::Ptr parseStmt();
