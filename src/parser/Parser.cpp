@@ -26,6 +26,21 @@ namespace jc::parser {
         return tokens.at(index - 1);
     }
 
+    TokenSpacing Parser::getSpacing() const {
+        Span::Pos left = 0;
+        Span::Pos right = 0;
+
+        if (index > 0) {
+            left = peek().span.pos - prev().span.pos + prev().span.len;
+        }
+
+        if (index < tokens.size()) {
+            left = lookup().span.pos - peek().span.pos + peek().span.len;
+        }
+
+        return {left, right};
+    }
+
     // Checkers //
     bool Parser::eof() const {
         return peek().is(TokenKind::Eof);

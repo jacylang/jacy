@@ -136,6 +136,7 @@ namespace jc::parser {
         Token advance(uint8_t distance = 1);
         Token lookup() const;
         Token prev() const;
+        TokenSpacing getSpacing() const;
 
         // Checkers //
         bool eof() const;
