@@ -164,7 +164,7 @@ namespace jc::parser {
     }
 
     bool Token::isPrefixOp() const {
-        // - Exclude `|` (closures) and `<` (generics)
+        // - Exclude `and`, `or` (infix only), `|` (closures) and `<` (generics)
         // - Add `not`
         switch (kind) {
             case TokenKind::OP:
@@ -184,7 +184,23 @@ namespace jc::parser {
     }
 
     bool Token::isPostfixOp() const {
-        return isCustomOp();
+        // - Exclude `and`, `or` (infix only) and `>` (generics)
+        switch (kind) {
+            case TokenKind::OP:
+            case TokenKind::Assign:
+            case TokenKind::Add:
+            case TokenKind::Sub:
+            case TokenKind::Mul:
+            case TokenKind::Ampersand:
+            case TokenKind::BitOr:
+            case TokenKind::LAngle:
+            case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
     }
 
     std::string Token::kindToString(TokenKind kind) {
