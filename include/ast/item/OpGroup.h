@@ -12,18 +12,33 @@ namespace jc::ast {
 
     struct OpGroup : Item {
         OpGroup(
+            Ident::PR && name,
             SimplePath::Opt && higherThan,
             SimplePath::Opt && lowerThan,
             OpAssoc assoc,
             const Span & span
         ) : Item{span, ItemKind::OpGroup},
+            name{std::move(name)},
             higherThan{std::move(higherThan)},
             lowerThan{std::move(lowerThan)},
             assoc{assoc} {}
 
+        Ident::PR name;
         SimplePath::Opt higherThan;
         SimplePath::Opt lowerThan;
         OpAssoc assoc;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 }
 
