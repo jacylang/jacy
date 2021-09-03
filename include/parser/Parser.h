@@ -73,6 +73,11 @@ namespace jc::parser {
         Any,
     };
 
+    struct TokenSpacing {
+        Span::Pos left;
+        Span::Pos right;
+    };
+
     class Parser : public sugg::SuggInterface {
     public:
         Parser();
