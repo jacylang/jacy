@@ -47,7 +47,8 @@ namespace jc::parser {
         //  and comparing enum variants is better than strings.
         // NAME                     // OP (USAGE)
         Assign,                     // = (`func`, `type`, etc.)
-        Add,                        // + (multiple `trait` `impl`'s
+        Add,                        // + (multiple `trait` `impl`'s)
+        Sub,                        // - (negative literals)
         Mul,                        // * (`use` item)
         Ampersand,                  // & (borrowing)
         BitOr,                      // | (closures, `match`)

@@ -69,6 +69,7 @@ namespace jc::parser {
 
         {TokenKind::Assign,          "="},
         {TokenKind::Add,             "+"},
+        {TokenKind::Sub,             "-"},
         {TokenKind::Mul,             "*"},
         {TokenKind::Ampersand,       "&"},
         {TokenKind::BitOr,           "|"},
@@ -148,6 +149,7 @@ namespace jc::parser {
             case TokenKind::Not:
             case TokenKind::Assign:
             case TokenKind::Add:
+            case TokenKind::Sub:
             case TokenKind::Mul:
             case TokenKind::Ampersand:
             case TokenKind::BitOr:
