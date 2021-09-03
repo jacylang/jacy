@@ -12,8 +12,8 @@ namespace jc::ast {
 
     struct OpGroup : Item {
         OpGroup(
-            SimplePath && higherThan,
-            SimplePath && lowerThan,
+            SimplePath::Opt && higherThan,
+            SimplePath::Opt && lowerThan,
             OpAssoc assoc,
             const Span & span
         ) : Item{span, ItemKind::OpGroup},
@@ -21,8 +21,8 @@ namespace jc::ast {
             lowerThan{std::move(lowerThan)},
             assoc{assoc} {}
 
-        SimplePath higherThan;
-        SimplePath lowerThan;
+        SimplePath::Opt higherThan;
+        SimplePath::Opt lowerThan;
         OpAssoc assoc;
     };
 }

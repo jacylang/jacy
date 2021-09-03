@@ -709,7 +709,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<OpGroup, Item>();
+        return makePRBoxNode<OpGroup, Item>(std::move(higherThan), std::move(lowerThan), assoc, closeSpan(begin));
     }
 
     ////////////////
