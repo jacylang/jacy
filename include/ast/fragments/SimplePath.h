@@ -26,8 +26,8 @@ namespace jc::ast {
     };
 
     struct SimplePath : Node {
-        using Opt = Option<SimplePath>;
         using PR = PR<SimplePath>;
+        using Opt = Option<PR>;
 
         SimplePath(
             bool global,
