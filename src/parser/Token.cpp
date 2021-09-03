@@ -164,7 +164,23 @@ namespace jc::parser {
     }
 
     bool Token::isPrefixOp() const {
-        return isCustomOp() or is(TokenKind::Not);
+        // - Exclude `|` (closures) and `<` (generics)
+        // - Add `not`
+        switch (kind) {
+            case TokenKind::OP:
+            case TokenKind::Assign:
+            case TokenKind::Not:
+            case TokenKind::Add:
+            case TokenKind::Sub:
+            case TokenKind::Mul:
+            case TokenKind::Ampersand:
+            case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
     }
 
     bool Token::isPostfixOp() const {
