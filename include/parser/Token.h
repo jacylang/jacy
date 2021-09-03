@@ -149,7 +149,6 @@ namespace jc::parser {
         bool isKw() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
 
-        bool isCustomOp() const;
         bool isInfixOp() const;
         bool isPrefixOp() const;
         bool isPostfixOp() const;
