@@ -173,6 +173,17 @@ namespace jc::parser {
         }
     }
 
+    bool Token::isStaticPrefixOp() const {
+        switch (kind) {
+            case TokenKind::Not: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
     std::string Token::kindToString(TokenKind kind) {
         const auto found = tokenKindStrings.find(kind);
         if (found != tokenKindStrings.end()) {
