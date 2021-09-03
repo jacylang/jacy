@@ -2,6 +2,10 @@ trait Foo {
 
 }
 
+struct Foo {
+
+}
+
 impl Foo {
     init {
 

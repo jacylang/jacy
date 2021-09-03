@@ -56,7 +56,7 @@ namespace jc::resolve {
             impl.forType.unwrap().autoAccept(*this);
         }
 
-        enterBlock(impl.id);
+        enterModule(Module::getImplName(impl), Namespace::Type);
         visitEach(impl.members);
         exitRib();
     }

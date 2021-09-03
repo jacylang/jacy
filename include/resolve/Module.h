@@ -151,6 +151,10 @@ namespace jc::resolve {
         static inline std::string getInitName(const ast::Node & node) {
             return "%init_" + std::to_string(node.id.val);
         }
+
+        static inline std::string getImplName(const ast::Node & node) {
+            return "%impl_" + std::to_string(node.id.val);
+        }
     };
 }
 

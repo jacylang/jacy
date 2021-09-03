@@ -65,7 +65,7 @@ namespace jc::resolve {
 
         // Debug //
     private:
-        Option<std::string> curModuleName{None};
+        std::vector<std::string> moduleNameStack;
     };
 }
 
