@@ -892,7 +892,7 @@ namespace jc::parser {
         auto maybeLhs = parsePrefixExpr();
 
         if (maybeLhs.none()) {
-            return;
+            return None;
         }
 
         auto lhs = maybeLhs.take();
@@ -915,6 +915,8 @@ namespace jc::parser {
 
             lhs = makePRBoxNode<Infix, Expr>(std::move(lhs), infixOp, std::move(rhs), closeSpan(begin));
         }
+
+        return lhs;
     }
 
     Expr::OptPtr Parser::parsePrefixExpr() {
