@@ -882,6 +882,41 @@ namespace jc::parser {
         return expr.take("parseExpr -> expr");
     }
 
+    Expr::OptPtr Parser::parseInfixExpr() {
+        if (extraDebugAll) {
+            logParse("parseInfixExpr");
+        }
+
+        auto begin = cspan();
+
+        auto maybeLhs = parsePrefixExpr();
+
+        if (maybeLhs.none()) {
+            return;
+        }
+
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            if (not peek().isInfixOp()) {
+                break;
+            }
+
+            auto infixOp = peek();
+            advance();
+
+            auto maybeRhs = parsePrefixExpr();
+
+            if (maybeRhs.none()) {
+                suggestErrorMsg("Expected expression", cspan());
+            }
+
+            auto rhs = maybeRhs.take();
+
+            lhs = makePRBoxNode<Infix, Expr>(std::move(lhs), infixOp, std::move(rhs), closeSpan(begin));
+        }
+    }
+
     Expr::OptPtr Parser::parsePrefixExpr() {
         if (extraDebugAll) {
             logParse("parsePrefixExpr");

@@ -192,9 +192,9 @@ namespace jc::parser {
         Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
 
+        Expr::OptPtr parseInfixExpr();
         Expr::OptPtr parsePrefixExpr();
         Expr::OptPtr parsePostfixExpr();
-        Expr::OptPtr parseInfixExpr();
         Expr::OptPtr primary();
 
         Expr::Ptr parseLambda();
