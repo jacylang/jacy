@@ -189,8 +189,8 @@ namespace jc::parser {
         Stmt::Ptr parseWhileStmt();
 
         // Expressions //
-        Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
+        Expr::OptPtr parseOptExpr();
 
         Expr::OptPtr parseInfixExpr();
         Expr::OptPtr parsePrefixExpr();

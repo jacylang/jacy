@@ -837,6 +837,19 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
+    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
+        logParse("Expr");
+
+        const auto & begin = cspan();
+        auto expr = parseOptExpr();
+        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
+        if (expr.none()) {
+            suggestErrorMsg(suggMsg, begin);
+            return makeErrPR<N<Expr>>(closeSpan(begin));
+        }
+        return expr.take("parseExpr -> expr");
+    }
+
     Expr::OptPtr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
 
@@ -866,20 +879,7 @@ namespace jc::parser {
             return parseLambda();
         }
 
-        // TODO: Precedence parsing
-    }
-
-    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("Expr");
-
-        const auto & begin = cspan();
-        auto expr = parseOptExpr();
-        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        if (expr.none()) {
-            suggestErrorMsg(suggMsg, begin);
-            return makeErrPR<N<Expr>>(closeSpan(begin));
-        }
-        return expr.take("parseExpr -> expr");
+        return parseInfixExpr();
     }
 
     Expr::OptPtr Parser::parseInfixExpr() {
