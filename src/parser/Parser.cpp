@@ -825,6 +825,8 @@ namespace jc::parser {
     Expr::OptPtr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
 
+        // TODO!: Merge `return`, `break` and closures with operator-expressions parsing
+
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return).some()) {
             enterEntity("ReturnExpr");
@@ -929,17 +931,9 @@ namespace jc::parser {
         }
 
         auto begin = cspan();
-        auto lhs = parseOptExpr();
 
-        if (peek().isOp()) {
-            auto op = peek();
-            advance();
+        if (peek().isCustomOp() or peek().isPrefixOp()) {
 
-            auto rhs = parseOptExpr();
-
-            if (lhs.some() and rhs.some()) {
-                return makePRBoxNode<Infix, Expr>(std::move(lhs.take("")));
-            }
         }
     }
 

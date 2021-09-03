@@ -142,7 +142,7 @@ namespace jc::parser {
             or kind == TokenKind::Self;
     }
 
-    bool Token::isOp() const {
+    bool Token::isCustomOp() const {
         switch (kind) {
             case TokenKind::OP:
             case TokenKind::Assign:
@@ -161,7 +161,7 @@ namespace jc::parser {
         }
     }
 
-    bool Token::isStaticInfixOp() const {
+    bool Token::isInfixOp() const {
         switch (kind) {
             case TokenKind::And:
             case TokenKind::Or: {
@@ -173,7 +173,7 @@ namespace jc::parser {
         }
     }
 
-    bool Token::isStaticPrefixOp() const {
+    bool Token::isPrefixOp() const {
         switch (kind) {
             case TokenKind::Not: {
                 return true;
