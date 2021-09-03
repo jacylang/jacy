@@ -152,6 +152,7 @@ namespace jc::parser {
         bool isCustomOp() const;
         bool isInfixOp() const;
         bool isPrefixOp() const;
+        bool isPostfixOp() const;
 
         std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);

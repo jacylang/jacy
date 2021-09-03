@@ -162,26 +162,15 @@ namespace jc::parser {
     }
 
     bool Token::isInfixOp() const {
-        switch (kind) {
-            case TokenKind::And:
-            case TokenKind::Or: {
-                return true;
-            }
-            default: {
-                return false;
-            }
-        }
+        return isCustomOp() or is(TokenKind::And) or is(TokenKind::Or);
     }
 
     bool Token::isPrefixOp() const {
-        switch (kind) {
-            case TokenKind::Not: {
-                return true;
-            }
-            default: {
-                return false;
-            }
-        }
+        return isCustomOp() or is(TokenKind::Not);
+    }
+
+    bool Token::isPostfixOp() const {
+        return isCustomOp();
     }
 
     std::string Token::kindToString(TokenKind kind) {
