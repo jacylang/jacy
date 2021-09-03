@@ -208,7 +208,7 @@ namespace jc::parser {
             }
             case TokenKind::Operator: {
                 if (lookup().is(TokenKind::Id) and lookup().val == GROUP_SOFT_KEYWORD) {
-
+                    maybeItem = parseOpGroup();
                 }
                 break;
             }
