@@ -17,6 +17,7 @@
 #include "ast/expr/MemberAccess.h"
 #include "ast/expr/ParenExpr.h"
 #include "ast/expr/PathExpr.h"
+#include "ast/expr/Postfix.h"
 #include "ast/expr/Prefix.h"
 #include "ast/expr/ReturnExpr.h"
 #include "ast/expr/SpreadExpr.h"
