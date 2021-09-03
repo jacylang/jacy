@@ -149,6 +149,8 @@ namespace jc::parser {
         bool isKw() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
         bool isOp() const;
+        bool isStaticInfixOp() const;
+        bool isStaticPrefixOp() const;
 
         std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);

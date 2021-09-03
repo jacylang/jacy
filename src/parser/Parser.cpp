@@ -366,9 +366,7 @@ namespace jc::parser {
 
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
-
         auto sig = parseFuncSig(std::move(modifiers));
-
         auto body = parseFuncBody();
 
         exitEntity();
@@ -923,6 +921,26 @@ namespace jc::parser {
 
         return makePRBoxNode<Lambda, Expr>(
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
+    }
+
+    Expr::Ptr Parser::parseOpExpr() {
+        if (extraDebugAll) {
+            logParse("parseOpExpr");
+        }
+
+        auto begin = cspan();
+        auto lhs = parseOptExpr();
+
+        if (peek().isOp()) {
+            auto op = peek();
+            advance();
+
+            auto rhs = parseOptExpr();
+
+            if (lhs.some() and rhs.some()) {
+                return makePRBoxNode<Infix, Expr>(std::move(lhs.take("")));
+            }
+        }
     }
 
     Expr::OptPtr Parser::primary() {

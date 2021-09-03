@@ -145,9 +145,6 @@ namespace jc::parser {
     bool Token::isOp() const {
         switch (kind) {
             case TokenKind::OP:
-            case TokenKind::And:
-            case TokenKind::Or:
-            case TokenKind::Not:
             case TokenKind::Assign:
             case TokenKind::Add:
             case TokenKind::Sub:
@@ -156,6 +153,18 @@ namespace jc::parser {
             case TokenKind::BitOr:
             case TokenKind::LAngle:
             case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
+    bool Token::isStaticInfixOp() const {
+        switch (kind) {
+            case TokenKind::And:
+            case TokenKind::Or: {
                 return true;
             }
             default: {
