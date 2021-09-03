@@ -206,6 +206,12 @@ namespace jc::parser {
                 maybeItem = parseInit(std::move(modifiers));
                 break;
             }
+            case TokenKind::Operator: {
+                if (lookup().is(TokenKind::Id) and lookup().val == operatorGroupSoftKeyword) {
+
+                }
+                break;
+            }
             default: {}
         }
 

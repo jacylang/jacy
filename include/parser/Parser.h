@@ -150,6 +150,7 @@ namespace jc::parser {
 
         // Parsers //
     private:
+        static constexpr const char * operatorGroupSoftKeyword = "group";
 
         // Items //
         Option<Item::Ptr> parseOptItem();
