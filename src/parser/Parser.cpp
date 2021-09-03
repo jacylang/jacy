@@ -671,6 +671,8 @@ namespace jc::parser {
         justSkip(TokenKind::Operator, "`operator`", "`parseOpGroup`");
         justSkip(TokenKind::Id, "`group`", "`parseOpGroup` -> `group` identifier");
 
+        auto name = parseIdent("`operator group` name");
+
         Option<SimplePath::PR> higherThan{None};
         Option<SimplePath::PR> lowerThan{None};
         OpAssoc assoc;
@@ -690,7 +692,7 @@ namespace jc::parser {
                 } else if (peek().val == ASSOC_SOFT_KEYWORD) {
                     advance();
                     skip(TokenKind::Colon, "`:` after `assoc`");
-                    auto assocIdent = parseIdent("Expected `left` or `right` associativity for `assoc`");
+                    auto assocIdent = parseIdent("`left` or `right` associativity for `assoc`");
                     if (assocIdent.ok()) {
                         const auto & assocIdentValue = assocIdent.unwrap().name;
                         if (assocIdentValue == LEFT_SOFT_KEYWORD) {
@@ -709,7 +711,12 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<OpGroup, Item>(std::move(higherThan), std::move(lowerThan), assoc, closeSpan(begin));
+        return makePRBoxNode<OpGroup, Item>(
+            std::move(name),
+            std::move(higherThan),
+            std::move(lowerThan),
+            assoc,
+            closeSpan(begin));
     }
 
     ////////////////
