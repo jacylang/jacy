@@ -186,8 +186,6 @@ namespace jc::parser {
         Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
         Expr::Ptr parseLambda();
-        Expr::OptPtr assignment();
-        Expr::OptPtr precParse(uint8_t index);
 
         Expr::OptPtr prefix();
         Expr::OptPtr quest();
