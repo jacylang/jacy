@@ -957,7 +957,7 @@ namespace jc::parser {
             return None;
         }
 
-        auto lhs = maybeLhs.unwrap();
+        auto lhs = maybeLhs.take();
 
         while (not eof()) {
             if (not peek().isPostfixOp()) {
