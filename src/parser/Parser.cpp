@@ -925,7 +925,7 @@ namespace jc::parser {
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
     }
 
-    Expr::Ptr Parser::parsePrefixExpr() {
+    Expr::OptPtr Parser::parsePrefixExpr() {
         if (extraDebugAll) {
             logParse("parsePrefixExpr");
         }
@@ -935,7 +935,13 @@ namespace jc::parser {
         if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();
-            auto rhs = parsePostfixExpr();
+            auto maybeRhs = parsePostfixExpr();
+
+            if (maybeRhs.none()) {
+                suggestErrorMsg("Expected expression after `" + prefixOp.toString() + "` operator", cspan());
+            }
+
+            auto rhs = maybeRhs.take();
 
             return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
         }
