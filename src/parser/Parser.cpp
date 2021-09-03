@@ -935,9 +935,12 @@ namespace jc::parser {
         if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();
+            auto rhs = parsePostfixExpr();
 
-            return
+            return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
         }
+
+        return parsePostfixExpr();
     }
 
     Expr::OptPtr Parser::primary() {

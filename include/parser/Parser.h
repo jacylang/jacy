@@ -188,6 +188,7 @@ namespace jc::parser {
         Expr::Ptr parseLambda();
 
         Expr::Ptr parsePrefixExpr();
+        Expr::Ptr parsePostfixExpr();
         Expr::OptPtr primary();
 
         // Atomic expressions //
