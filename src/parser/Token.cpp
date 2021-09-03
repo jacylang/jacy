@@ -29,6 +29,7 @@ namespace jc::parser {
         {"mut",         TokenKind::Mut},
         {"not",         TokenKind::Not},
         {"of",          TokenKind::Of},
+        {"operator",    TokenKind::Operator},
         {"return",      TokenKind::Return},
         {"or",          TokenKind::Or},
         {"party",       TokenKind::Party},

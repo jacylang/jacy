@@ -99,6 +99,7 @@ namespace jc::parser {
         Move,
         Mut,
         Of,
+        Operator,
         Return,
         Party,
         Postfix,
