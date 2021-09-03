@@ -943,6 +943,36 @@ namespace jc::parser {
         return parsePostfixExpr();
     }
 
+    Expr::OptPtr Parser::parsePostfixExpr() {
+        if (extraDebugAll) {
+            logParse("parsePostfixExpr");
+        }
+
+        auto begin = cspan();
+
+        // TODO: Suffixes like call, etc.
+        auto maybeLhs = primary();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto lhs = maybeLhs.unwrap();
+
+        while (not eof()) {
+            if (not peek().isPostfixOp()) {
+                break;
+            }
+
+            auto postfixOp = peek();
+            advance();
+
+            lhs = makePRBoxNode<Postfix, Expr>(std::move(lhs), postfixOp, closeSpan(begin));
+        }
+
+        return lhs;
+    }
+
     Expr::OptPtr Parser::primary() {
         if (eof()) {
             log::Logger::devPanic("Called parse `primary` on `EOF`");
