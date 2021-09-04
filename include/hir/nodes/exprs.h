@@ -27,7 +27,12 @@ namespace jc::hir {
         NE,
     };
 
+    enum class PrefixOpKind {
+
+    };
+
     using BinOp = span::Spanned<BinOpKind>;
+    using PrefixOp = span::Spanned<PrefixOpKind>;
 
     struct Array : Expr {
         Array(Expr::List && elements, const HirId & hirId, const Span & span)
