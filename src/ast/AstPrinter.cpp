@@ -495,7 +495,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Postfix & questExpr) {
         questExpr.lhs.autoAccept(*this);
-        log.raw(questExpr.op.toString());
+        log.raw(questExpr.op.kindToString());
 
         printNodeId(questExpr);
     }
