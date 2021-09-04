@@ -92,8 +92,9 @@ namespace jc::parser {
                     if (extraDebugAll) {
                         devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().kindToString());
                     }
+                    advance();
                     // If next token is what we need we produce an error for skipped one anyway
-                    found = advance();
+                    found = peek();
                 }
             } else if (recovery == Recovery::Any) {
                 // Recovery::Any
