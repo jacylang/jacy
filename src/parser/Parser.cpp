@@ -929,21 +929,23 @@ namespace jc::parser {
         if (is(TokenKind::Mul)) {
             auto derefOp = peek();
             advance();
-            auto maybeRhs = parsePostfixExpr();
-
-            auto rhs = maybeRhs.take();
+            auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to dereference");
 
             return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
+        } else if (is(TokenKind::Ampersand)) {
+            auto borrowOp = peek();
+            advance();
+            auto mut = skipOpt(TokenKind::Mut).some();
+
+            auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to borrow");
+
+            return makePRBoxNode<BorrowExpr, Expr>(true, mut, std::move(rhs), closeSpan(begin));
         } else if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();
-            auto maybeRhs = parsePostfixExpr();
-
-            if (maybeRhs.none()) {
-                suggestErrorMsg("Expected expression after `" + prefixOp.toString() + "` operator", cspan());
-            }
-
-            auto rhs = maybeRhs.take();
+            auto rhs = errorForNone(
+                parsePostfixExpr(),
+                "Expected expression after `" + prefixOp.toString() + "` operator");
 
             return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
         }
