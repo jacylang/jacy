@@ -54,6 +54,7 @@ namespace jc::parser {
         BitOr,                      // | (closures, `match`)
         LAngle,                     // < (generics)
         RAngle,                     // > (generics)
+        Quest,                      // ? (optional)
 
         // Punctuations //
         Backslash,                  // `\`

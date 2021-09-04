@@ -116,6 +116,7 @@ namespace jc::parser {
         {"|", TokenKind::BitOr},
         {"<", TokenKind::LAngle},
         {">", TokenKind::RAngle},
+        {"?", TokenKind::Quest},
     };
 
     bool Token::is(TokenKind kind) const {

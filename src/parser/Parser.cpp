@@ -954,7 +954,7 @@ namespace jc::parser {
         auto begin = cspan();
 
         // TODO: Suffixes like call, etc.
-        auto maybeLhs = primary();
+        auto maybeLhs = parseSuffixExpr();
 
         if (maybeLhs.none()) {
             return None;
@@ -973,6 +973,10 @@ namespace jc::parser {
         }
 
         return lhs;
+    }
+
+    Expr::OptPtr Parser::parseSuffixExpr() {
+
     }
 
     Expr::Ptr Parser::parseLambda() {
