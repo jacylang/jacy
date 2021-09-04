@@ -145,8 +145,9 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::BorrowExpr>(expr);
                 return makeBoxNode<BorrowExpr>(astNode->mut, lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::Break:
-                break;
+            case ast::ExprKind::Break: {
+
+            }
             case ast::ExprKind::Continue:
                 break;
             case ast::ExprKind::Deref:

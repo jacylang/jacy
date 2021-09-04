@@ -28,6 +28,7 @@ namespace jc::hir {
 
     struct Expr : HirNode {
         using Ptr = N<Expr>;
+        using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
         Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode{hirId, span}, kind{kind} {}

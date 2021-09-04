@@ -35,6 +35,13 @@ namespace jc::hir {
         Expr::Ptr rhs;
     };
 
+    struct BreakExpr : Expr {
+        BreakExpr(Expr::OptPtr && value, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Break, hirId, span}, value{std::move(value)} {}
+
+        Expr::OptPtr value;
+    };
+
     struct Invoke : Expr {
         Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, args{std::move(args)} {}
