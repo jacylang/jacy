@@ -27,6 +27,14 @@ namespace jc::hir {
         Block block;
     };
 
+    struct BorrowExpr : Expr {
+        BorrowExpr(bool mut, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Borrow, hirId, span}, mut{mut}, rhs{std::move(rhs)} {}
+
+        bool mut;
+        Expr::Ptr rhs;
+    };
+
     struct Invoke : Expr {
         Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, args{std::move(args)} {}

@@ -13,6 +13,7 @@ namespace jc::hir {
         Array,
         Assign,
         Block,
+        Borrow,
         If,
         Infix,
         Invoke,
