@@ -156,11 +156,6 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const WhileExpr & whileStmt) {
-        whileStmt.condition.autoAccept(*this);
-        whileStmt.body.autoAccept(*this);
-    }
-
     // Expressions //
     void StubVisitor::visit(const Assign & assign) {
         assign.lhs.autoAccept(*this);
@@ -309,6 +304,11 @@ namespace jc::ast {
     void StubVisitor::visit(const MatchArm & matchArm) {
         visitEach(matchArm.patterns);
         matchArm.body.autoAccept(*this);
+    }
+
+    void StubVisitor::visit(const WhileExpr & whileStmt) {
+        whileStmt.condition.autoAccept(*this);
+        whileStmt.body.autoAccept(*this);
     }
 
     // Types //
