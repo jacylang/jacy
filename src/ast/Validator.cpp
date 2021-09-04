@@ -240,14 +240,6 @@ namespace jc::ast {
         }
     }
 
-    void Validator::visit(const WhileExpr & whileStmt) {
-        whileStmt.condition.autoAccept(*this);
-
-        pushContext(ValidatorCtx::Loop);
-        whileStmt.body.autoAccept(*this);
-        popContext();
-    }
-
     /////////////////
     // Expressions //
     /////////////////
@@ -519,6 +511,14 @@ namespace jc::ast {
     void Validator::visit(const MatchArm & matchArm) {
         lintEach(matchArm.patterns);
         matchArm.body.autoAccept(*this);
+    }
+
+    void Validator::visit(const WhileExpr & whileStmt) {
+        whileStmt.condition.autoAccept(*this);
+
+        pushContext(ValidatorCtx::Loop);
+        whileStmt.body.autoAccept(*this);
+        popContext();
     }
 
     ///////////
