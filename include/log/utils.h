@@ -35,6 +35,20 @@
 #include <windows.h>
 #endif // WIN
 
+// Helper utils //
+namespace jc::log {
+    static inline std::string repeat(const std::string & rep, size_t count) {
+        if (count == 0) {
+            return "";
+        }
+        std::string str;
+        for (size_t i = 0; i < count; i++) {
+            str += rep;
+        }
+        return str;
+    }
+}
+
 // Color //
 namespace jc::log {
     // TODO: Background colors, if needed
@@ -92,7 +106,7 @@ namespace jc::log {
         size_t inner;
 
         friend std::ostream & operator<<(std::ostream & os, const Indent<S> & indent) {
-            return os << utils::str::repeat(utils::str::repeat(" ", S), indent.inner);
+            return os << repeat(repeat(" ", S), indent.inner);
         }
 
         Indent<S> operator+(size_t add) const {
@@ -107,7 +121,6 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
-    using namespace utils::str;
     enum class CellKind {
         Value,
         Line,
