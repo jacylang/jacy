@@ -28,16 +28,6 @@ namespace jc::ast {
         printNodeId(exprStmt);
     }
 
-    void AstPrinter::visit(const ForExpr & forStmt) {
-        log.raw("for ");
-        forStmt.pat.autoAccept(*this);
-        log.raw(" in ");
-        forStmt.inExpr.autoAccept(*this);
-        forStmt.body.autoAccept(*this);
-
-        printNodeId(forStmt);
-    }
-
     void AstPrinter::visit(const ItemStmt & itemStmt) {
         if (itemStmt.item.ok()) {
             printAttributes(itemStmt.item.unwrap()->attributes);
@@ -364,6 +354,16 @@ namespace jc::ast {
         log.raw("continue");
 
         printNodeId(continueExpr);
+    }
+
+    void AstPrinter::visit(const ForExpr & forStmt) {
+        log.raw("for ");
+        forStmt.pat.autoAccept(*this);
+        log.raw(" in ");
+        forStmt.inExpr.autoAccept(*this);
+        forStmt.body.autoAccept(*this);
+
+        printNodeId(forStmt);
     }
 
     void AstPrinter::visit(const IfExpr & ifExpr) {

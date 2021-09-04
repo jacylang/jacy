@@ -45,7 +45,6 @@ namespace jc::ast {
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
-        void visit(const ForExpr & forStmt) override;
         void visit(const ItemStmt & itemStmt) override;
         void visit(const LetStmt & letStmt) override;
         void visit(const WhileStmt & whileStmt) override;
@@ -56,6 +55,7 @@ namespace jc::ast {
         void visit(const BorrowExpr & borrowExpr) override;
         void visit(const BreakExpr & breakExpr) override;
         void visit(const ContinueExpr & continueExpr) override;
+        void visit(const ForExpr & forStmt) override;
         void visit(const IfExpr & ifExpr) override;
         void visit(const Infix & infix) override;
         void visit(const Invoke & invoke) override;
