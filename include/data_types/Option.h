@@ -79,6 +79,13 @@ namespace jc::dt {
             return unchecked();
         }
 
+        T & unwrap(const std::string & place = "") {
+            if (none()) {
+                nonePanic("unwrap", place);
+            }
+            return unchecked();
+        }
+
         constexpr T && take(const std::string & place = "") {
             if (none()) {
                 nonePanic("take", place);

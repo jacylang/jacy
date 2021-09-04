@@ -329,13 +329,13 @@ namespace jc::hir {
             whileExpr.span,
             std::move(cond),
             std::move(body),
-            synthNode<Block>(
-                body.span,
-                Stmt::List {
-                    synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None))
-                }
-            )
+            synthNode<Block>(body.span, Stmt::List {})
         );
+
+        ifCondExpr->elseBranch
+                  .unwrap()
+                  .stmts
+                  .emplace_back(synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None)))
 
         // Put `ifConditionBlock` to loop body block
         auto loweredBody = synthNode<Block>(
