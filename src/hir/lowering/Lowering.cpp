@@ -269,26 +269,27 @@ namespace jc::hir {
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
         BinOpKind kind;
+
         switch (tok.kind) {
-            case parser::TokenKind::Add: kind = BinOpKind::Add;
-            case parser::TokenKind::Sub: kind = BinOpKind::Sub;
-            case parser::TokenKind::Mul: kind = BinOpKind::Mul;
-            case parser::TokenKind::Div: kind = BinOpKind::Div;
-            case parser::TokenKind::Mod: kind = BinOpKind::Rem;
-            case parser::TokenKind::Power: kind = BinOpKind::Pow;
-            case parser::TokenKind::Or: kind = BinOpKind::Or;
-            case parser::TokenKind::And: kind = BinOpKind::And;
-            case parser::TokenKind::Shl: kind = BinOpKind::Shl;
-            case parser::TokenKind::Shr: kind = BinOpKind::Shr;
-            case parser::TokenKind::BitOr: kind = BinOpKind::BitOr;
-            case parser::TokenKind::Xor: kind = BinOpKind::Xor;
-            case parser::TokenKind::Eq: kind = BinOpKind::Eq;
-            case parser::TokenKind::NotEq: kind = BinOpKind::NE;
-            case parser::TokenKind::LAngle: kind = BinOpKind::LT;
-            case parser::TokenKind::RAngle: kind = BinOpKind::GT;
-            case parser::TokenKind::LE: kind = BinOpKind::LE;
-            case parser::TokenKind::GE: kind = BinOpKind::GE;
-            case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship;
+            case parser::TokenKind::Add: kind = BinOpKind::Add; break;
+            case parser::TokenKind::Sub: kind = BinOpKind::Sub; break;
+            case parser::TokenKind::Mul: kind = BinOpKind::Mul; break;
+            case parser::TokenKind::Div: kind = BinOpKind::Div; break;
+            case parser::TokenKind::Mod: kind = BinOpKind::Rem; break;
+            case parser::TokenKind::Power: kind = BinOpKind::Pow; break;
+            case parser::TokenKind::Or: kind = BinOpKind::Or; break;
+            case parser::TokenKind::And: kind = BinOpKind::And; break;
+            case parser::TokenKind::Shl: kind = BinOpKind::Shl; break;
+            case parser::TokenKind::Shr: kind = BinOpKind::Shr; break;
+            case parser::TokenKind::BitOr: kind = BinOpKind::BitOr; break;
+            case parser::TokenKind::Xor: kind = BinOpKind::Xor; break;
+            case parser::TokenKind::Eq: kind = BinOpKind::Eq; break;
+            case parser::TokenKind::NotEq: kind = BinOpKind::NE; break;
+            case parser::TokenKind::LAngle: kind = BinOpKind::LT; break;
+            case parser::TokenKind::RAngle: kind = BinOpKind::GT; break;
+            case parser::TokenKind::LE: kind = BinOpKind::LE; break;
+            case parser::TokenKind::GE: kind = BinOpKind::GE; break;
+            case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship; break;
             default: {
                 log.devPanic("Invalid binary operator '", tok.toString(), "'");
             }
