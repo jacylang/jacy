@@ -69,9 +69,11 @@ namespace jc::hir {
         Block lowerBlock(const ast::Block & block);
         Body lowerBody(const ast::Body & astBody);
 
-        // States //
+        // Items //
     private:
         Party::ItemMap items;
+
+        ItemId addItem(Item::Ptr && item);
 
     private:
         sess::Session::Ptr sess;

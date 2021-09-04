@@ -431,4 +431,9 @@ namespace jc::hir {
     Body Lowering::lowerBody(const ast::Body & astBody) {
         return Body {astBody.exprBody, lowerExpr(astBody.value)};
     }
+
+    // Items //
+    void Lowering::addItem(Item::Ptr && item) {
+
+    }
 }

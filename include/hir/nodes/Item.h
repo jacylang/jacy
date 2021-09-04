@@ -4,6 +4,8 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
+    using resolve::DefId;
+
     // Wrapper for type strictness
     struct ItemId {
         using List = std::vector<ItemId>;
@@ -34,12 +36,14 @@ namespace jc::hir {
         ItemKind kind;
     };
 
-    struct ItemNode : HirNode {
-        ItemNode(span::Ident && name, Item::Ptr && item, const HirId & hirId, const Span & span)
-            : HirNode{hirId, span}, name{std::move(name)}, item{std::move(item)} {}
+    struct ItemNode {
+        ItemNode(span::Ident && name, Item::Ptr && item, DefId defId, const Span & span)
+            : name{std::move(name)}, item{std::move(item)}, defId{defId}, span{span} {}
 
         span::Ident name;
         Item::Ptr item;
+        DefId defId;
+        Span span;
     };
 }
 
