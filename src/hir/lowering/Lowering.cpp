@@ -156,11 +156,13 @@ namespace jc::hir {
                 return makeBoxNode<BreakExpr>(std::move(loweredValue), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Continue: {
-                const auto & astNode = expr->as<ast::BreakExpr>(expr);
+                const auto & astNode = expr->as<ast::ContinueExpr>(expr);
                 return makeBoxNode<ContinueExpr>(HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::Deref:
-                break;
+            case ast::ExprKind::Deref: {
+                const auto & astNode = expr->as<ast::DerefExpr>(expr);
+                return makeBoxNode<DerefExpr>(lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
+            }
             case ast::ExprKind::Id:
                 break;
             case ast::ExprKind::If:
