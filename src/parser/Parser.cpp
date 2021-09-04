@@ -730,7 +730,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<WhileStmt, Stmt>(std::move(condition), std::move(body), closeSpan(begin));
+        return makePRBoxNode<WhileExpr, Stmt>(std::move(condition), std::move(body), closeSpan(begin));
     }
 
     /////////////////

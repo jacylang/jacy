@@ -35,7 +35,7 @@ namespace jc::ast {
         virtual void visit(const ExprStmt & exprStmt) override;
         virtual void visit(const ItemStmt & itemStmt) override;
         virtual void visit(const LetStmt & letStmt) override;
-        virtual void visit(const WhileStmt & whileStmt) override;
+        virtual void visit(const WhileExpr & whileStmt) override;
 
         // Expressions //
         virtual void visit(const Assign & assign) override;

@@ -300,7 +300,7 @@ namespace jc::ast {
         printNodeId(letStmt);
     }
 
-    void AstPrinter::visit(const WhileStmt & whileStmt) {
+    void AstPrinter::visit(const WhileExpr & whileStmt) {
         log.raw("while ");
         whileStmt.condition.autoAccept(*this);
         log.raw(" ");

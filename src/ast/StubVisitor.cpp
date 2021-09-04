@@ -156,7 +156,7 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const WhileStmt & whileStmt) {
+    void StubVisitor::visit(const WhileExpr & whileStmt) {
         whileStmt.condition.autoAccept(*this);
         whileStmt.body.autoAccept(*this);
     }

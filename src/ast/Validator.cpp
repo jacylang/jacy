@@ -240,7 +240,7 @@ namespace jc::ast {
         }
     }
 
-    void Validator::visit(const WhileStmt & whileStmt) {
+    void Validator::visit(const WhileExpr & whileStmt) {
         whileStmt.condition.autoAccept(*this);
 
         pushContext(ValidatorCtx::Loop);

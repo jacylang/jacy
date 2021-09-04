@@ -33,7 +33,7 @@
 #include "ast/expr/ForExpr.h"
 #include "ast/stmt/ItemStmt.h"
 #include "ast/stmt/LetStmt.h"
-#include "ast/stmt/WhileStmt.h"
+#include "ast/expr/WhileExpr.h"
 
 // Items //
 #include "ast/item/Enum.h"

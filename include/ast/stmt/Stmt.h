@@ -9,9 +9,7 @@
 namespace jc::ast {
     enum class StmtKind {
         Expr,
-        For,
         Let,
-        While,
         Item,
     };
 

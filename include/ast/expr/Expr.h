@@ -33,6 +33,7 @@ namespace jc::ast {
         Tuple,
         Unit,
         Match,
+        While,
     };
 
     struct Expr : Node {

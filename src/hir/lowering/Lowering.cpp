@@ -53,6 +53,8 @@ namespace jc::hir {
                 break;
             case ast::ItemKind::Use:
                 break;
+            case ast::ItemKind::Init:
+                break;
         }
     }
 
