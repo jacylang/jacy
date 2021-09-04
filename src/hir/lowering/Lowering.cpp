@@ -302,7 +302,33 @@ namespace jc::hir {
     }
 
     Expr::Ptr Lowering::lowerWhileExpr(const ast::WhileExpr & whileExpr) {
+        /**
+         * Lower `while [condition expression] [block]`
+         * Structure is simple, we make a `loop` where check for [condition expression] and break in case of false.
+         *
+         * ```
+         * while [EXPR] {
+         *     [STATEMENTS]
+         * }
+         * ```
+         * becomes
+         * ```
+         * loop {
+         *     if [EXPR] {
+         *         [STATEMENTS]
+         *     } else {
+         *         break;
+         *     }
+         * }
+         * ```
+         *
+         * We don't use `not [EXPR]` as it is not identical lowering.
+         */
 
+        auto cond = lowerExpr(whileExpr.condition);
+        auto body = lowerBlock(*whileExpr.body.unwrap());
+
+        return makeBoxNode<Loop>(std::move(), HirId::DUMMY, whileExpr.span);
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
