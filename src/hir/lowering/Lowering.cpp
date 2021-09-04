@@ -30,30 +30,15 @@ namespace jc::hir {
         const auto & item = astItem.unwrap();
         switch (item->kind) {
             case ast::ItemKind::Enum: {
-                return makeBoxNode<Enum>(
-                    item->getName(),
-                    lowerEnum(*item->as<ast::Enum>(item)),
-                    HirId::DUMMY,
-                    item->span
-                );
+                return lowerEnum(*item->as<ast::Enum>(item));
             }
             case ast::ItemKind::Func: {
-                return ItemNode {
-                    item->getName(),
-                    lowerFunc(*item->as<ast::Func>(item)),
-                    HirId::DUMMY,
-                    item->span
-                };
+                return lowerFunc(*item->as<ast::Func>(item));
             }
             case ast::ItemKind::Impl:
                 break;
             case ast::ItemKind::Mod: {
-                return ItemNode {
-                    item->getName(),
-                    lowerMod(item->as<ast::Mod>(item)->items),
-                    HirId::DUMMY,
-                    item->span
-                };
+                return lowerMod(item->as<ast::Mod>(item)->items);
             }
             case ast::ItemKind::Struct:
                 break;
