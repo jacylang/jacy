@@ -259,7 +259,14 @@ namespace jc::parser {
 
         // Suggestions //
     private:
-        void errorForNone(const Token::Opt & optToken, const std::string & errMsg);
+        template<class T>
+        T && errorForNone(Option<T> && optEntity, const std::string & errMsg) const {
+            if (optEntity.none()) {
+                suggestErrorMsg(errMsg, cspan());
+            }
+
+            return optEntity.take();
+        }
 
         // DEV //
     private:
