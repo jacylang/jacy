@@ -16,6 +16,7 @@ namespace jc::hir {
         Borrow,
         Break,
         Continue,
+        Deref,
         If,
         Infix,
         Invoke,
