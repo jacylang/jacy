@@ -258,7 +258,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const QuestExpr & questExpr) {
-        questExpr.expr.autoAccept(*this);
+        questExpr.lhs.autoAccept(*this);
     }
 
     void StubVisitor::visit(const ReturnExpr & returnExpr) {

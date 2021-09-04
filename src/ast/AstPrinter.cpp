@@ -494,7 +494,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const QuestExpr & questExpr) {
-        questExpr.expr.autoAccept(*this);
+        questExpr.lhs.autoAccept(*this);
         log.raw("?");
 
         printNodeId(questExpr);

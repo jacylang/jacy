@@ -9,9 +9,9 @@ namespace jc::ast {
             Expr::Ptr && lhs,
             const Span & span
         ) : Expr{span, ExprKind::Quest},
-            expr{std::move(lhs)} {}
+            lhs{std::move(lhs)} {}
 
-        Expr::Ptr expr;
+        Expr::Ptr lhs;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

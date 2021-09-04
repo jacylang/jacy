@@ -460,7 +460,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const QuestExpr & questExpr) {
-        questExpr.expr.autoAccept(*this);
+        questExpr.lhs.autoAccept(*this);
     }
 
     void Validator::visit(const ReturnExpr & returnExpr) {
