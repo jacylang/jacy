@@ -14,14 +14,16 @@ namespace jc::hir {
     };
 
     struct Type : HirNode {
-        using Ptr = std::unique_ptr<Type>;
+        using Ptr = N<Type>;
         using List = std::vector<Type::Ptr>;
 
         Type(TypeKind kind, const HirId & hirId, const Span & span) : HirNode{hirId, span}, kind{kind} {}
 
         TypeKind kind;
 
-        static const Ptr INFER;
+        static Ptr makeInferType(const HirId & hirId, const Span & span) {
+            return std::make_unique<Type>(TypeKind::Infer, hirId, span);
+        }
     };
 }
 

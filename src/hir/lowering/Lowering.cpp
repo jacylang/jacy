@@ -103,7 +103,7 @@ namespace jc::hir {
         for (const auto & param : astFunc.sig.params) {
             inputs.emplace_back(lowerType(param.type));
         }
-        // TODO: Use `infer` type, if no return type present
+
         Type::Ptr ret = lowerType(astFunc.sig.returnType.unwrap());
 
         Body body = lowerBody(astFunc.body.unwrap());
