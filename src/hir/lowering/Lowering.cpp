@@ -227,8 +227,10 @@ namespace jc::hir {
                 break;
             case ast::ExprKind::Prefix:
                 break;
-            case ast::ExprKind::Quest:
-                break;
+            case ast::ExprKind::Quest: {
+                const auto & astNode = expr->as<ast::QuestExpr>(expr);
+                return lowerExpr();
+            }
             case ast::ExprKind::Return:
                 break;
             case ast::ExprKind::Spread:

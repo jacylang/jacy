@@ -157,8 +157,8 @@ namespace jc::hir {
         Postfix(Expr::Ptr && lhs, PostfixOp op, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Loop, hirId, span}, lhs{std::move(lhs)}, op{op} {}
 
-        PostfixOp op;
         Expr::Ptr lhs;
+        PostfixOp op;
     };
 
     struct Prefix : Expr {

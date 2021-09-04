@@ -6,10 +6,10 @@
 namespace jc::ast {
     struct QuestExpr : Expr {
         QuestExpr(
-            Expr::Ptr && expr,
+            Expr::Ptr && lhs,
             const Span & span
         ) : Expr{span, ExprKind::Quest},
-            expr{std::move(expr)} {}
+            expr{std::move(lhs)} {}
 
         Expr::Ptr expr;
 
