@@ -31,7 +31,6 @@ namespace jc::ast {
     struct WhileStmt;
 
     // Expressions //
-    struct Assign;
     struct Block;
     struct BorrowExpr;
     struct BreakExpr;
