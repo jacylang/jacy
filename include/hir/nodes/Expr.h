@@ -23,6 +23,7 @@ namespace jc::hir {
         Literal,
         Loop,
         Match,
+        Field,
         Path,
         Prefix,
         Return,

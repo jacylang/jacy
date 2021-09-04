@@ -121,10 +121,24 @@ namespace jc::hir {
     };
 
     struct Loop : Expr {
-        Loop(Block body, const HirId & hirId, const Span & span)
+        Loop(Block && body, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Loop, hirId, span}, body{std::move(body)} {}
 
         Block body;
+    };
+
+    struct FieldExpr : Expr {
+        FieldExpr(
+            Expr::Ptr && lhs,
+            const span::Ident & field,
+            const HirId & hirId,
+            const Span & span
+        ) : Expr{ExprKind::Field, hirId, span},
+            lhs{std::move(lhs)},
+            field{field} {}
+
+        Expr::Ptr lhs;
+        span::Ident field;
     };
 
     struct Return : Expr {
