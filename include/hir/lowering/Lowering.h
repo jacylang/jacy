@@ -16,6 +16,9 @@ namespace jc::hir {
         dt::SuggResult<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
 
     private:
+        log::Logger log{"lowering"};
+
+    private:
         template<class T, class ...Args>
         N<T> makeBoxNode(Args ...args) {
             return std::make_unique<T>(std::forward<Args>(args)...);

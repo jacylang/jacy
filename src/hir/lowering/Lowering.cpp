@@ -287,7 +287,7 @@ namespace jc::hir {
             case parser::TokenKind::GE: return BinOp::GE;
             case parser::TokenKind::Spaceship: return BinOp::Spaceship;
             default: {
-
+                log.devPanic("Invalid binary operator '", tok.toString(), "'");
             }
         }
 
