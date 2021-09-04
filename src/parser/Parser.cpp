@@ -976,7 +976,57 @@ namespace jc::parser {
     }
 
     Expr::OptPtr Parser::parseSuffixExpr() {
-        
+        auto maybeLhs = parseMemberAccess();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto begin = cspan();
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            auto maybeOp = peek();
+            if (skipOpt(TokenKind::LBracket).some()) {
+                enterEntity("Subscript");
+
+                Expr::List indices;
+
+                bool first = true;
+                while (not eof()) {
+                    if (is(TokenKind::RBracket)) {
+                        break;
+                    }
+
+                    if (first) {
+                        first = false;
+                    } else {
+                        skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
+                    }
+
+                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
+                }
+                skip(TokenKind::RParen, "Missing closing `]` in array expression");
+
+                exitEntity();
+                lhs = makePRBoxNode<Subscript, Expr>(std::move(lhs), std::move(indices), closeSpan(begin));
+
+                begin = cspan();
+            } else if (is(TokenKind::LParen)) {
+                enterEntity("Invoke");
+
+                auto args = parseArgList("function call");
+
+                exitEntity();
+                lhs = makePRBoxNode<Invoke, Expr>(std::move(lhs), std::move(args), closeSpan(begin));
+
+                begin = cspan();
+            } else {
+                break;
+            }
+        }
+
+        return lhs;
     }
 
     Expr::Ptr Parser::parseLambda() {

@@ -196,6 +196,7 @@ namespace jc::parser {
         Expr::OptPtr parsePrefixExpr();
         Expr::OptPtr parsePostfixExpr();
         Expr::OptPtr parseSuffixExpr();
+        Expr::OptPtr parseMemberAccess();
         Expr::OptPtr primary();
 
         Expr::Ptr parseLambda();
