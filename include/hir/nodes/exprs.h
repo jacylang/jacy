@@ -56,7 +56,7 @@ namespace jc::hir {
     struct IfExpr : Expr {
         IfExpr(
             Expr::Ptr && cond,
-            Block && ifBranch,
+            Block::Opt && ifBranch,
             Block::Opt && elseBranch,
             const HirId & hirId,
             const Span & span
@@ -66,7 +66,7 @@ namespace jc::hir {
             elseBranch{std::move(elseBranch)} {}
 
         Expr::Ptr cond;
-        Block ifBranch;
+        Block::Opt ifBranch;
         Block::Opt elseBranch;
     };
 

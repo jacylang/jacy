@@ -163,8 +163,24 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::DerefExpr>(expr);
                 return makeBoxNode<DerefExpr>(lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::If:
-                break;
+            case ast::ExprKind::If: {
+                const auto & astNode = expr->as<ast::IfExpr>(expr);
+                auto cond = lowerExpr(astNode->condition);
+                Block::Opt ifBranch = None;
+                Block::Opt elseBranch = None;
+                if (astNode->ifBranch.some()) {
+                    ifBranch = lowerBlock(*astNode->ifBranch.take().take());
+                }
+                if (astNode->elseBranch.some()) {
+                    elseBranch = lowerBlock(*astNode->elseBranch.take().take());
+                }
+                return makeBoxNode<IfExpr>(
+                    std::move(cond),
+                    std::move(ifBranch),
+                    std::move(elseBranch),
+                    HirId::DUMMY,
+                    astNode->span);
+            }
             case ast::ExprKind::Infix:
                 break;
             case ast::ExprKind::Invoke:
