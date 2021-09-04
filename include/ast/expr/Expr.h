@@ -13,7 +13,6 @@ namespace jc::ast {
         Break,
         Continue,
         Deref,
-        Id,
         If,
         Infix,
         Invoke,
