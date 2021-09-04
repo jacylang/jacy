@@ -4,8 +4,6 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    using resolve::DefId;
-
     // Wrapper for type strictness
     struct ItemId {
         using List = std::vector<ItemId>;
