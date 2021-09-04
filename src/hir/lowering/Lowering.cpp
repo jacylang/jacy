@@ -160,7 +160,7 @@ namespace jc::hir {
             }
             case ast::ExprKind::For: {
                 const auto & astNode = expr->as<ast::ForExpr>(expr);
-                return lowerForExpr(astNode);
+                return lowerForExpr(*astNode);
             }
             case ast::ExprKind::If: {
                 const auto & astNode = expr->as<ast::IfExpr>(expr);
