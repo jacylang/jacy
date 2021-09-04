@@ -291,6 +291,10 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
+    Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr&) {
+        log.notImplemented("`Lowering::lowerForExpr`");
+    }
+
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap();
         switch (type->kind) {
