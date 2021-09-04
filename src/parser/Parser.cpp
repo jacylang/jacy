@@ -992,13 +992,13 @@ namespace jc::parser {
                 return quest(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
-            if (op.is(TokenKind::Ampersand) or op.is(TokenKind::Mut)) {
+            if (op.is(TokenKind::Ampersand)) {
                 logParse("Borrow");
+                advance();
 
-                bool ref = skipOpt(TokenKind::Ampersand).some();
                 bool mut = skipOpt(TokenKind::Mut).some();
                 // TODO!!!: Swap `&` and `mut` suggestion
-                return makePRBoxNode<BorrowExpr, Expr>(ref, mut, std::move(rhs), closeSpan(begin));
+                return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
             } else if (op.is(TokenKind::Mul)) {
                 logParse("Deref");
 
