@@ -323,10 +323,6 @@ namespace jc::ast {
         }
     }
 
-    void Validator::visit(const DerefExpr & derefExpr) {
-        derefExpr.expr.autoAccept(*this);
-    }
-
     void Validator::visit(const IfExpr & ifExpr) {
         ifExpr.condition.autoAccept(*this);
 
