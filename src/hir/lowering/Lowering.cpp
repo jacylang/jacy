@@ -204,8 +204,10 @@ namespace jc::hir {
                 break;
             case ast::ExprKind::List:
                 break;
-            case ast::ExprKind::LiteralConstant:
-                break;
+            case ast::ExprKind::LiteralConstant: {
+                const auto & astNode = expr->as<ast::Literal>(expr);
+                return makeBoxNode<Literal>(astNode->token, HirId::DUMMY, astNode->span);
+            }
             case ast::ExprKind::Loop:
                 break;
             case ast::ExprKind::MemberAccess:
