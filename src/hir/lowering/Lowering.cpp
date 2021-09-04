@@ -289,7 +289,7 @@ namespace jc::hir {
     }
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
-        BinOpKind kind;
+        BinOpKind kind{}; // initialize with [idk what's gonna be inside], just don't warn, cpp
 
         switch (tok.kind) {
             case parser::TokenKind::Add: kind = BinOpKind::Add; break;
@@ -323,7 +323,7 @@ namespace jc::hir {
     }
 
     PrefixOp Lowering::lowerPrefixOp(const parser::Token & tok) {
-        PrefixOpKind kind;
+        PrefixOpKind kind{};
 
         switch (tok.kind) {
             case parser::TokenKind::Not: kind = PrefixOpKind::Not; break;
