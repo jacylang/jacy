@@ -219,8 +219,7 @@ namespace jc::resolve {
             // TODO!: Error resolutions recovery
             return utils::map::expectAt(
                 resolutions,
-                path,
-                log::Logger::format("`Resolutions::getDefRes` with ", path)).asDef();
+                path, log::Logger::fmt("`Resolutions::getDefRes` with ", path)).asDef();
         }
 
     private:

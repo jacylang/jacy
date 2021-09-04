@@ -339,9 +339,9 @@ namespace jc::parser {
 
         if (not closed) {
             if (isMultiline) {
-                error("Expected closing token `" + log.format(quote, quote, quote) + "` in string");
+                error("Expected closing token `" + log.fmt(quote, quote, quote) + "` in string");
             }
-            error(log.format("Expected closing token `", quote, "` in string"));
+            error(log.fmt("Expected closing token `", quote, "` in string"));
         }
 
         advance(isMultiline ? 3 : 1);

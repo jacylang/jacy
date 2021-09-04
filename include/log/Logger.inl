@@ -36,7 +36,7 @@ const Logger & Logger::raw(Args && ...args) const {
 template<class ...Args>
 void Logger::assertLogic(bool expr, Args && ...args) {
     if (not expr) {
-        throw std::logic_error(Logger::format(std::forward<Args>(args)...));
+        throw std::logic_error(Logger::fmt(std::forward<Args>(args)...));
     }
 }
 
@@ -47,7 +47,7 @@ void Logger::print(Args && ...args)  {
 }
 
 template<class ...Args>
-std::string Logger::format(Args && ...args) {
+std::string Logger::fmt(Args && ...args) {
     std::stringstream ss;
     out(ss, std::forward<Args>(args)...);
     return ss.str();
@@ -96,7 +96,7 @@ void Logger::printTitleDev(Args && ...args) {
         return;
     }
 
-    const auto & title = format(std::forward<Args>(args)...);
+    const auto & title = fmt(std::forward<Args>(args)...);
     if (title.size() > wrapLen + 2) {
         // FIXME: Yeah, wtf? WE PANIC INSIDE LOGGER!!!
         devPanic("Too long message in `Logger::printTitleDev`");

@@ -476,7 +476,7 @@ namespace jc::resolve {
         if (not printRibsFlag or ribStack.empty()) {
             return;
         }
-        ribsDebugOutput += log.format("[", getDepth(), "] (locals): ", curRib()->locals, "\n");
+        ribsDebugOutput += log.fmt("[", getDepth(), "] (locals): ", curRib()->locals, "\n");
     }
 
     void NameResolver::dumpRibs() {
