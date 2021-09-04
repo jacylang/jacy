@@ -300,15 +300,6 @@ namespace jc::ast {
         printNodeId(letStmt);
     }
 
-    void AstPrinter::visit(const WhileExpr & whileStmt) {
-        log.raw("while ");
-        whileStmt.condition.autoAccept(*this);
-        log.raw(" ");
-        whileStmt.body.autoAccept(*this);
-
-        printNodeId(whileStmt);
-    }
-
     /////////////////
     // Expressions //
     /////////////////
@@ -579,6 +570,15 @@ namespace jc::ast {
         matchArm.body.autoAccept(*this);
 
         printNodeId(matchArm);
+    }
+
+    void AstPrinter::visit(const WhileExpr & whileStmt) {
+        log.raw("while ");
+        whileStmt.condition.autoAccept(*this);
+        log.raw(" ");
+        whileStmt.body.autoAccept(*this);
+
+        printNodeId(whileStmt);
     }
 
     // Types //
