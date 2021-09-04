@@ -669,9 +669,6 @@ namespace jc::parser {
             case TokenKind::While: {
                 return parseWhileStmt();
             }
-            case TokenKind::For: {
-                return parseForExpr();
-            }
             case TokenKind::Let: {
                 return parseLetStmt();
             }
@@ -1379,7 +1376,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<ForExpr, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
+        return makePRBoxNode<ForExpr, Expr>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
     Expr::Ptr Parser::parseIfExpr(bool isElif) {
