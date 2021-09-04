@@ -15,15 +15,23 @@ namespace jc::hir {
         };
     }
 
+    // Common //
+    HirId Lowering::lowerNodeId(ast::NodeId nodeId) {
+        
+    }
+
     // Items //
-    ItemNode Lowering::lowerItem(const ast::Item::Ptr & astItem) {
+    ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         auto loweredItem = lowerItemKind(astItem);
         const auto & i = astItem.unwrap();
-        return ItemNode {
+
+        auto item = ItemNode {
             i->getName(),
             std::move(loweredItem),
             i->span
         };
+
+        return addItem(std::move(item));
     }
 
     Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
