@@ -14,6 +14,7 @@ namespace jc::hir {
         Assign,
         Block,
         Borrow,
+        Break,
         If,
         Infix,
         Invoke,
