@@ -992,6 +992,8 @@ namespace jc::parser {
                 return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
+
+            // Special case for borrowing
             if (op.is(TokenKind::Ampersand)) {
                 logParse("Borrow");
                 advance();
@@ -999,10 +1001,6 @@ namespace jc::parser {
                 bool mut = skipOpt(TokenKind::Mut).some();
                 // TODO!!!: Swap `&` and `mut` suggestion
                 return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
-            } else if (op.is(TokenKind::Mul)) {
-                logParse("Deref");
-
-                return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
             }
 
             logParse("Prefix");
