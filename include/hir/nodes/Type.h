@@ -5,6 +5,7 @@
 
 namespace jc::hir {
     enum class TypeKind {
+        Infer,
         Tuple,
         Func,
         Slice,
@@ -19,6 +20,8 @@ namespace jc::hir {
         Type(TypeKind kind, const HirId & hirId, const Span & span) : HirNode{hirId, span}, kind{kind} {}
 
         TypeKind kind;
+
+        static const Ptr INFER;
     };
 }
 
