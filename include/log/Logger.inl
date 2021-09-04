@@ -3,27 +3,27 @@
 // Basic Interface //
 template<class ...Args>
 const Logger & Logger::debug(Args && ...args) const {
-    return log(Config::LogLevel::Debug, std::forward<Args>(args)...);
+    return log(LogLevel::Debug, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::info(Args && ...args) const {
-    return log(Config::LogLevel::Info, std::forward<Args>(args)...);
+    return log(LogLevel::Info, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::warn(Args && ...args) const {
-    return log(Config::LogLevel::Warn, std::forward<Args>(args)...);
+    return log(LogLevel::Warn, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::error(Args && ...args) const {
-    return log(Config::LogLevel::Error, std::forward<Args>(args)...);
+    return log(LogLevel::Error, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
 const Logger & Logger::dev(Args && ...args) const {
-    return log(Config::LogLevel::Dev, std::forward<Args>(args)...);
+    return log(LogLevel::Dev, std::forward<Args>(args)...);
 }
 
 template<class ...Args>
@@ -58,7 +58,7 @@ template<class ...Args>
 void Logger::devPanic(Args && ...args) {
     out(
         std::cout,
-        levelColors.at(Config::LogLevel::Error),
+        levelColors.at(LogLevel::Error),
         "[DEV PANIC]: ",
         std::forward<Args>(args)...,
         Color::Reset
@@ -70,12 +70,12 @@ void Logger::devPanic(Args && ...args) {
 
 template<class ...Args>
 void Logger::devDebug(Args && ...args) {
-    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
+    if (not Config::getInstance().checkLogLevel(LogLevel::Dev)) {
         return;
     }
     out(
         std::cout,
-        levelColors.at(Config::LogLevel::Dev),
+        levelColors.at(LogLevel::Dev),
         "[DEV]: ",
         Color::Reset,
         std::forward<Args>(args)...
@@ -92,7 +92,7 @@ void Logger::colorized(Color color, Args && ...args) {
 
 template<class ...Args>
 void Logger::printTitleDev(Args && ...args) {
-    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
+    if (not Config::getInstance().checkLogLevel(LogLevel::Dev)) {
         return;
     }
 
@@ -109,7 +109,7 @@ void Logger::printTitleDev(Args && ...args) {
 
 // Details //
 template<class ...Rest>
-const Logger & Logger::log(Config::LogLevel level, Rest && ...rest) const {
+const Logger & Logger::log(LogLevel level, Rest && ...rest) const {
     if (static_cast<uint8_t>(level) < static_cast<uint8_t>(config.level)) {
         return *this;
     }

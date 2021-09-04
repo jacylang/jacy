@@ -3,6 +3,7 @@
 
 #include "log/utils.h"
 #include "common/Error.h"
+#include "utils/str.h"
 
 namespace jc::log {
     // General for `Config` and `Logger`
@@ -92,7 +93,7 @@ namespace jc::log {
         template<class ...Args>
         static void printTitleDev(Args && ...args);
 
-    // Details //
+        // Details //
     private:
         template<class ...Rest>
         const Logger & log(LogLevel level, Rest && ...rest) const;
