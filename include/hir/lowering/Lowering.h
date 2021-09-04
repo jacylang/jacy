@@ -9,8 +9,12 @@
 
 namespace jc::hir {
     struct OwnerDef {
+        using IdT = uint32_t;
+
+        OwnerDef(DefId defId, IdT initialId) : defId{defId}, nextId{initialId} {}
+
         DefId defId;
-        uint32_t nextId;
+        IdT nextId;
     };
 
     class Lowering : public sugg::SuggInterface {

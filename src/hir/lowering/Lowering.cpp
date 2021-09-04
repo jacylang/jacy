@@ -34,6 +34,10 @@ namespace jc::hir {
         ownerDef.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
     }
 
+    void Lowering::exitOwner() {
+        ownerDef.pop_back();
+    }
+
     // Items //
     ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         auto loweredItem = lowerItemKind(astItem);
