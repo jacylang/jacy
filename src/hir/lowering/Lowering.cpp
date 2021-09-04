@@ -57,7 +57,6 @@ namespace jc::hir {
     }
 
     Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
-        auto name = astEnum.name.unwrap();
         std::vector<Variant> variants;
         for (const auto & variant : astEnum.entries) {
             variants.emplace_back(lowerVariant(variant));
