@@ -933,6 +933,7 @@ namespace jc::parser {
 
             auto rhs = maybeRhs.take();
 
+            return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
         } else if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();
