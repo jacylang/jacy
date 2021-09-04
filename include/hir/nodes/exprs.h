@@ -53,6 +53,23 @@ namespace jc::hir {
         Expr::OptPtr rhs;
     };
 
+    struct IfExpr : Expr {
+        IfExpr(
+            Expr::Ptr && cond,
+            Block && ifBranch,
+            Block::Opt && elseBranch,
+            const HirId & hirId,
+            const Span & span
+        ) : Expr{ExprKind::If, hirId, span},
+            cond{std::move(cond)},
+            ifBranch{std::move(ifBranch)},
+            elseBranch{std::move(elseBranch)} {}
+
+        Expr::Ptr cond;
+        Block ifBranch;
+        Block::Opt elseBranch;
+    };
+
     struct Invoke : Expr {
         Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, args{std::move(args)} {}

@@ -17,6 +17,8 @@ namespace jc::hir {
     };
 
     struct Block : HirNode {
+        using Opt = Option<Block>;
+
         Block(Stmt::List && stmts, const HirId & hirId, const Span & span)
             : HirNode{hirId, span}, stmts{std::move(stmts)} {}
 
