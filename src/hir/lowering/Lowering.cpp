@@ -334,7 +334,7 @@ namespace jc::hir {
 
         switch (tok.kind) {
             case parser::TokenKind::Not: kind = PrefixOpKind::Not; break;
-//            case parser::TokenKind::Not: kind = PrefixOpKind::Not; break;
+            case parser::TokenKind::Mul: kind = PrefixOpKind::Deref; break;
             case parser::TokenKind::Sub: kind = PrefixOpKind::Neg; break;
             default: {
                 log.devPanic("Invalid prefix operator '", tok.toString(), "'");
