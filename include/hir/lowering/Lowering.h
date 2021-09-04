@@ -73,7 +73,7 @@ namespace jc::hir {
     private:
         Party::ItemMap items;
 
-        ItemId addItem(Item::Ptr && item);
+        ItemId addItem(ItemNode && item);
 
     private:
         sess::Session::Ptr sess;

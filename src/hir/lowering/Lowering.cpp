@@ -433,7 +433,9 @@ namespace jc::hir {
     }
 
     // Items //
-    void Lowering::addItem(Item::Ptr && item) {
-
+    ItemId Lowering::addItem(ItemNode && item) {
+        auto itemId = ItemId {item.defId};
+        items.emplace(itemId, std::move(item));
+        return itemId;
     }
 }
