@@ -989,7 +989,7 @@ namespace jc::parser {
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
                 suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
-                return quest(); // FIXME: CHECK!!!
+                return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
             if (op.is(TokenKind::Ampersand)) {
@@ -1010,10 +1010,10 @@ namespace jc::parser {
             return makePRBoxNode<Prefix, Expr>(op, std::move(rhs), closeSpan(begin));
         }
 
-        return quest();
+        return postfix();
     }
 
-    Expr::OptPtr Parser::quest() {
+    Expr::OptPtr Parser::postfix() {
         const auto & begin = cspan();
         auto lhs = call();
 
@@ -1022,7 +1022,7 @@ namespace jc::parser {
         }
 
         if (skipOpt(TokenKind::Quest).some()) {
-            logParse("Quest");
+            logParse("Postfix");
 
             return makePRBoxNode<Postfix, Expr>(lhs.take(), closeSpan(begin));
         }

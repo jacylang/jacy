@@ -186,7 +186,7 @@ namespace jc::parser {
         const static std::vector<PrecParser> precTable;
 
         Expr::OptPtr prefix();
-        Expr::OptPtr quest();
+        Expr::OptPtr postfix();
         Expr::OptPtr call();
         Expr::OptPtr memberAccess();
         Expr::OptPtr primary();
