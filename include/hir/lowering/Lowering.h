@@ -53,7 +53,7 @@ namespace jc::hir {
         };
 
         HirId lowerNodeId(ast::NodeId nodeId);
-        void enterOwner(ast::Node itemNodeId);
+        void enterOwner(ast::NodeId itemNodeId);
 
         // Items //
     private:

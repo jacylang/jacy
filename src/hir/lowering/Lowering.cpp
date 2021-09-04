@@ -30,7 +30,7 @@ namespace jc::hir {
         return hirId;
     }
 
-    void Lowering::enterOwner(ast::Node itemNodeId) {
+    void Lowering::enterOwner(ast::NodeId itemNodeId) {
         ownerDef.emplace_back({
             sess->defTable.getDefIdByNodeId(itemNodeId),
             0
