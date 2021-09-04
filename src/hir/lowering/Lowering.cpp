@@ -17,7 +17,15 @@ namespace jc::hir {
 
     // Common //
     HirId Lowering::lowerNodeId(ast::NodeId nodeId) {
-        
+        const auto & found = nodeIdHirId.find(nodeId);
+        if (found != nodeIdHirId.end()) {
+            return found->second;
+        }
+
+        auto hirId = HirId {ownerDef.defId};
+        nodeIdHirId.emplace(nodeId, hirId);
+
+        return hirId;
     }
 
     // Items //

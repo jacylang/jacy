@@ -43,7 +43,8 @@ namespace jc::hir {
 
         // Common //
     private:
-        OwnerDef ownerDef;
+        ast::NodeId::NodeMap<HirId> nodeIdHirId;
+        OwnerDef ownerDef {resolve::DefId::ROOT_DEF_ID, 0};
 
         HirId lowerNodeId(ast::NodeId nodeId);
 
