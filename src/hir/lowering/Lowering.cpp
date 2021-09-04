@@ -94,15 +94,10 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            auto loweredItem = lowerItemKind(item);
-            auto itemId = ItemId {
-                sess->defTable.getDefIdByNodeId(item.nodeId())
-            };
-            items.emplace(
-                itemId,
-                std::move(loweredItem)
-            );
-            itemIds.emplace_back(itemId);
+//            auto itemId = ItemId {
+//                sess->defTable.getDefIdByNodeId(item.nodeId())
+//            };
+            itemIds.emplace_back(lowerItem(item));
         }
 
         return makeBoxNode<Mod>(std::move(itemIds));
