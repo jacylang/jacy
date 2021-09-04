@@ -34,12 +34,6 @@ namespace jc::ast {
         exprStmt.expr.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const ForExpr & forStmt) {
-        forStmt.pat.autoAccept(*this);
-        forStmt.inExpr.autoAccept(*this);
-        forStmt.body.autoAccept(*this);
-    }
-
     void StubVisitor::visit(const ItemStmt & itemStmt) {
         itemStmt.item.autoAccept(*this);
     }
@@ -188,6 +182,12 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ContinueExpr&) {}
+
+    void StubVisitor::visit(const ForExpr & forStmt) {
+        forStmt.pat.autoAccept(*this);
+        forStmt.inExpr.autoAccept(*this);
+        forStmt.body.autoAccept(*this);
+    }
 
     void StubVisitor::visit(const IfExpr & ifExpr) {
         ifExpr.condition.autoAccept(*this);
