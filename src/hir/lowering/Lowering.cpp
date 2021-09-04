@@ -266,6 +266,8 @@ namespace jc::hir {
                 log.notImplemented("`ast::ExprKind::Match` lowering");
             }
         }
+
+        log.devPanic("Unhandled ast::ExprKind in `Lowering::lowerExpr`");
     }
 
     Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
