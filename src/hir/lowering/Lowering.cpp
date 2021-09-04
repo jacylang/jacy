@@ -84,14 +84,12 @@ namespace jc::hir {
         for (const auto & item : astItems) {
             auto loweredItem = lowerItem(item);
             auto itemId = ItemId {
-                sess->resolutions.getDefRes(nameNodeId.unwrap())
+                sess->defTable.getDefIdByNodeId(item.nodeId())
             };
-            if (nameNodeId.some()) {
-                items.emplace(
-                    itemId,
-                    std::move(loweredItem)
-                );
-            }
+            items.emplace(
+                itemId,
+                std::move(loweredItem)
+            );
             itemIds.emplace_back(itemId);
         }
 
