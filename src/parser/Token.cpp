@@ -172,8 +172,6 @@ namespace jc::parser {
             case TokenKind::Not:
             case TokenKind::Add:
             case TokenKind::Sub:
-            case TokenKind::Mul:
-            case TokenKind::Ampersand:
             case TokenKind::RAngle: {
                 return true;
             }

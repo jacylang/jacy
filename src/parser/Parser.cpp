@@ -926,7 +926,14 @@ namespace jc::parser {
 
         auto begin = cspan();
 
-        if (peek().isPrefixOp()) {
+        if (is(TokenKind::Mul)) {
+            auto derefOp = peek();
+            advance();
+            auto maybeRhs = parsePostfixExpr();
+
+            auto rhs = maybeRhs.take();
+
+        } else if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();
             auto maybeRhs = parsePostfixExpr();
