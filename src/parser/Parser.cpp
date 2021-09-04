@@ -666,9 +666,6 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         switch (peek().kind) {
-            case TokenKind::While: {
-                return parseWhileExpr();
-            }
             case TokenKind::Let: {
                 return parseLetStmt();
             }
@@ -1091,6 +1088,10 @@ namespace jc::parser {
 
         if (is(TokenKind::For)) {
             return parseForExpr();
+        }
+
+        if (is(TokenKind::While)) {
+            return parseWhileExpr();
         }
 
         if (is(TokenKind::If)) {
