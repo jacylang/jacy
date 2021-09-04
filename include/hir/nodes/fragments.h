@@ -9,10 +9,10 @@ namespace jc::hir {
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
-        Arg(const span::Ident & ident, Expr::Ptr && value, const HirId & hirId, const Span & span)
+        Arg(const span::Ident::Opt & ident, Expr::Ptr && value, const HirId & hirId, const Span & span)
             : HirNode{hirId, span}, ident{ident}, value{std::move(value)} {}
 
-        span::Ident ident;
+        span::Ident::Opt ident;
         Expr::Ptr value;
     };
 

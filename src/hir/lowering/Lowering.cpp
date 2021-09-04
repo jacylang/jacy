@@ -187,8 +187,19 @@ namespace jc::hir {
                 auto rhs = lowerExpr(astNode->rhs);
                 return makeBoxNode<Infix>(std::move(lhs), binOp, std::move(rhs), HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::Invoke:
-                break;
+            case ast::ExprKind::Invoke: {
+                const auto & astNode = expr->as<ast::Invoke>(expr);
+                auto lhs = lowerExpr(astNode->lhs);
+                Arg::List args;
+                for (const auto & arg : astNode->args) {
+                    span::Ident::Opt name = None;
+                    if (arg.name.some()) {
+                        name = arg.name.unwrap().unwrap();
+                    }
+                    args.emplace_back(name, lowerExpr(arg.value), HirId::DUMMY, arg.span);
+                }
+                return makeBoxNode<Invoke>(std::move(lhs), std::move(args), HirId::DUMMY, astNode->span);
+            }
             case ast::ExprKind::Lambda:
                 break;
             case ast::ExprKind::List:

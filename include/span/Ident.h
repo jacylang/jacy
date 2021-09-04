@@ -6,6 +6,8 @@
 
 namespace jc::span {
     struct Ident {
+        using Opt = Option<Ident>;
+
         Ident(const parser::Token & token) {
             if (token.kind != parser::TokenKind::Id) {
                 throw std::logic_error("Unexpected kind of token for `Ident` constructor");

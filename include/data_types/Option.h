@@ -79,7 +79,7 @@ namespace jc::dt {
             return unchecked();
         }
 
-        T take(const std::string & place = "") {
+        T take(const std::string & place = "") const {
             if (none()) {
                 nonePanic("take", place);
             }
