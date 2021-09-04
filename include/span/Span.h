@@ -57,6 +57,12 @@ namespace jc::span {
     };
 
     const Span NONE_SPAN {0, static_cast<Span::Len>(0), 0};
+
+    template<class T>
+    struct Spanned {
+        T node;
+        Span span;
+    };
 }
 
 #endif // JACY_SPAN_H
