@@ -42,6 +42,7 @@ namespace jc::hir {
         Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
         Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
         Expr::Ptr lowerBlockExpr(const ast::Block & block);
+        Expr::Ptr lowerForExpr(const ast::ForExpr & forExpr);
 
         BinOp lowerBinOp(const parser::Token & tok);
         PrefixOp lowerPrefixOp(const parser::Token & tok);

@@ -159,7 +159,8 @@ namespace jc::hir {
                 return makeBoxNode<ContinueExpr>(HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::For: {
-                break;
+                const auto & astNode = expr->as<ast::ForExpr>(expr);
+                return lowerForExpr(astNode);
             }
             case ast::ExprKind::If: {
                 const auto & astNode = expr->as<ast::IfExpr>(expr);
