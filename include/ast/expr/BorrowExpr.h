@@ -6,17 +6,14 @@
 namespace jc::ast {
     struct BorrowExpr : Expr {
         BorrowExpr(
-            bool ref,
             bool mut,
             Expr::Ptr expr,
             const Span & span
         ) : Expr{span, ExprKind::Borrow},
-            ref{ref},
             mut{mut},
             expr{std::move(expr)} {}
 
         // TODO: Bool storing optimization
-        bool ref;
         bool mut;
         Expr::Ptr expr;
 
