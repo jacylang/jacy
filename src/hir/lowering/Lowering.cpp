@@ -184,9 +184,9 @@ namespace jc::hir {
             case ast::ExprKind::Infix: {
                 const auto & astNode = expr->as<ast::Infix>(expr);
                 auto lhs = lowerExpr(astNode->lhs);
-                auto op = lowerBinOp(astNode->op);
+                auto binOp = lowerBinOp(astNode->op);
                 auto rhs = lowerExpr(astNode->rhs);
-                return makeBoxNode<Infix>(std::move(lhs), op, std::move(rhs), HirId::DUMMY, astNode->span);
+                return makeBoxNode<Infix>(std::move(lhs), binOp, std::move(rhs), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Invoke:
                 break;
@@ -267,16 +267,16 @@ namespace jc::hir {
         }
     }
 
-    BinOp Lowering::lowerBinOp(const parser::Token & tok) {
+    BinOpKind Lowering::lowerBinOp(const parser::Token & tok) {
         switch (tok.kind) {
-            case parser::TokenKind::Add: return BinOp::Add;
-            case parser::TokenKind::Sub: return BinOp::Sub;
-            case parser::TokenKind::Mul: return BinOp::Mul;
-            case parser::TokenKind::Div: return BinOp::Div;
-            case parser::TokenKind::Mod: return BinOp::Rem;
-            case parser::TokenKind::Power: return BinOp::Pow;
-            case parser::TokenKind::Or: return BinOp::Or;
-            case parser::TokenKind::And: return BinOp::And;
+            case parser::TokenKind::Add: return BinOpKind::Add;
+            case parser::TokenKind::Sub: return BinOpKind::Sub;
+            case parser::TokenKind::Mul: return BinOpKind::Mul;
+            case parser::TokenKind::Div: return BinOpKind::Div;
+            case parser::TokenKind::Mod: return BinOpKind::Rem;
+            case parser::TokenKind::Power: return BinOpKind::Pow;
+            case parser::TokenKind::Or: return BinOpKind::Or;
+            case parser::TokenKind::And: return BinOpKind::And;
             case parser::TokenKind::Shl:
             case parser::TokenKind::Shr:
             case parser::TokenKind::BitOr:
@@ -284,11 +284,11 @@ namespace jc::hir {
             case parser::TokenKind::Inv:
             case parser::TokenKind::Eq:
             case parser::TokenKind::NotEq:
-            case parser::TokenKind::LAngle: return BinOp::LT;
-            case parser::TokenKind::RAngle: return BinOp::GT;
-            case parser::TokenKind::LE: return BinOp::LE;
-            case parser::TokenKind::GE: return BinOp::GE;
-            case parser::TokenKind::Spaceship: return BinOp::Spaceship;
+            case parser::TokenKind::LAngle: return BinOpKind::LT;
+            case parser::TokenKind::RAngle: return BinOpKind::GT;
+            case parser::TokenKind::LE: return BinOpKind::LE;
+            case parser::TokenKind::GE: return BinOpKind::GE;
+            case parser::TokenKind::Spaceship: return BinOpKind::Spaceship;
             default: {
                 log.devPanic("Invalid binary operator '", tok.toString(), "'");
             }

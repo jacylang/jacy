@@ -4,7 +4,7 @@
 #include "hir/nodes/Expr.h"
 
 namespace jc::hir {
-    enum class BinOp {
+    enum class BinOpKind {
         Add,
         Sub,
         Mul,
@@ -94,11 +94,11 @@ namespace jc::hir {
     };
 
     struct Infix : Expr {
-        Infix(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+        Infix(Expr::Ptr && lhs, BinOpKind op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, op{op}, rhs{std::move(rhs)} {}
 
         Expr::Ptr lhs;
-        BinOp op;
+        BinOpKind op;
         Expr::Ptr rhs;
     };
 
