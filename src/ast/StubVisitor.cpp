@@ -34,7 +34,7 @@ namespace jc::ast {
         exprStmt.expr.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const ForStmt & forStmt) {
+    void StubVisitor::visit(const ForExpr & forStmt) {
         forStmt.pat.autoAccept(*this);
         forStmt.inExpr.autoAccept(*this);
         forStmt.body.autoAccept(*this);

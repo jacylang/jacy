@@ -47,7 +47,7 @@ namespace jc::ast {
         exprStmt.expr.autoAccept(*this);
     }
 
-    void Validator::visit(const ForStmt & forStmt) {
+    void Validator::visit(const ForExpr & forStmt) {
         forStmt.pat.autoAccept(*this);
         forStmt.inExpr.autoAccept(*this);
 

@@ -716,7 +716,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<ForStmt, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
+        return makePRBoxNode<ForExpr, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
     Stmt::Ptr Parser::parseLetStmt() {

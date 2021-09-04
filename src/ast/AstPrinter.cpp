@@ -28,7 +28,7 @@ namespace jc::ast {
         printNodeId(exprStmt);
     }
 
-    void AstPrinter::visit(const ForStmt & forStmt) {
+    void AstPrinter::visit(const ForExpr & forStmt) {
         log.raw("for ");
         forStmt.pat.autoAccept(*this);
         log.raw(" in ");

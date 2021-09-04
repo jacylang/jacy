@@ -30,7 +30,7 @@
 
 // Statements //
 #include "ast/stmt/ExprStmt.h"
-#include "ast/stmt/ForStmt.h"
+#include "ast/expr/ForExpr.h"
 #include "ast/stmt/ItemStmt.h"
 #include "ast/stmt/LetStmt.h"
 #include "ast/stmt/WhileStmt.h"
