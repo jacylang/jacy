@@ -16,16 +16,16 @@ namespace jc::hir {
     }
 
     // Items //
-    ItemNode Lowering::lowerItem(const ast::Item::Ptr & astItem) {
+    Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap();
         switch (item->kind) {
             case ast::ItemKind::Enum: {
-                return ItemNode {
+                return makeBoxNode<Enum>(
                     item->getName(),
                     lowerEnum(*item->as<ast::Enum>(item)),
                     HirId::DUMMY,
                     item->span
-                };
+                );
             }
             case ast::ItemKind::Func: {
                 return ItemNode {
@@ -82,7 +82,7 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            auto loweredItem = lowerItem(item);
+            auto loweredItem = lowerItemKind(item);
             auto itemId = ItemId {
                 sess->defTable.getDefIdByNodeId(item.nodeId())
             };
