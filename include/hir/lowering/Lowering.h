@@ -20,13 +20,20 @@ namespace jc::hir {
 
     private:
         template<class T, class ...Args>
-        N<T> makeBoxNode(Args ...args) {
+        N<T> makeBoxNode(Args && ...args) {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
+        /// Synthesizes boxed node, assuming that HirId in goes before span in constructor
         template<class T, class ...Args>
-        N<T> synthBoxNode(Args ...args, const Span & span) {
+        N<T> synthBoxNode(const Span & span, Args && ...args) {
             return std::make_unique<T>(std::forward<Args>(args)..., HirId::DUMMY, span);
+        }
+
+        /// Same as `synthBoxNode` but without boxing
+        template<class T, class ...Args>
+        T synthNode(const Span & span, Args && ...args) {
+            return T {std::forward<Args>(args)..., HirId::DUMMY, span};
         }
 
         // Items //

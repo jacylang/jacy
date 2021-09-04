@@ -328,7 +328,26 @@ namespace jc::hir {
         auto cond = lowerExpr(whileExpr.condition);
         auto body = lowerBlock(*whileExpr.body.unwrap());
 
-        return makeBoxNode<Loop>(std::move(), HirId::DUMMY, whileExpr.span);
+        auto ifConditionBlock = synthBoxNode<IfExpr>(
+            whileExpr.span,
+            std::move(cond),
+            std::move(body),
+            synthNode<Block>(
+                body.span,
+                Stmt::List {
+                    synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None))
+                }
+            )
+        );
+
+        auto loweredBody = synthNode<Block>(
+            whileExpr.span,
+            Stmt::List {
+                synthBoxNode<ExprStmt>(ifConditionBlock->span, std::move(ifConditionBlock))
+            }
+        );
+
+        return makeBoxNode<Loop>(std::move(loweredBody), HirId::DUMMY, whileExpr.span);
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
