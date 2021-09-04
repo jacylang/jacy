@@ -1103,6 +1103,10 @@ namespace jc::parser {
             return Some(PR<N<Expr>>(Ok(nodeCast<PathExpr, Expr>(pathExpr.take()))));
         }
 
+        if (is(TokenKind::For)) {
+            return parseForExpr();
+        }
+
         if (is(TokenKind::If)) {
             return parseIfExpr();
         }
