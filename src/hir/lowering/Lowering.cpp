@@ -104,7 +104,12 @@ namespace jc::hir {
             inputs.emplace_back(lowerType(param.type));
         }
 
-        Type::Ptr ret = lowerType(astFunc.sig.returnType.unwrap());
+        // TODO: Add span pointing to the end of the signature
+        Type::Ptr ret = Type::makeInferType(HirId::DUMMY, Span {});
+
+        if (astFunc.sig.returnType.some()) {
+            ret = lowerType(astFunc.sig.returnType.unwrap());
+        }
 
         Body body = lowerBody(astFunc.body.unwrap());
 
