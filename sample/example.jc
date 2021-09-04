@@ -3,3 +3,7 @@ mod kek {
 
     }
 }
+
+func main {
+    kek::foo();
+}

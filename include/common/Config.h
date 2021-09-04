@@ -4,6 +4,7 @@
 #include <set>
 
 #include "cli/CLICommand.h"
+#include "log/Logger.h"
 
 namespace jc::common {
 
@@ -70,18 +71,6 @@ namespace jc::common {
         };
 
         static FlagValueMap<BenchmarkKind> benchmarkKinds;
-
-        // General for `Config` and `Logger`
-        // Note: Order matters
-        enum class LogLevel : uint8_t {
-            Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
-            Debug,
-            Info,
-            Warn,
-            Error,
-
-            Unknown,
-        };
 
         static FlagValueMap<LogLevel> logLevelKinds;
 
