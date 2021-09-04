@@ -36,6 +36,7 @@ namespace jc::hir {
         auto item = ItemNode {
             i->getName(),
             std::move(loweredItem),
+            lowerNodeId(i->id).defId,
             i->span
         };
 
