@@ -670,7 +670,7 @@ namespace jc::parser {
                 return parseWhileStmt();
             }
             case TokenKind::For: {
-                return parseForStmt();
+                return parseForExpr();
             }
             case TokenKind::Let: {
                 return parseLetStmt();
@@ -694,29 +694,6 @@ namespace jc::parser {
                 return exprStmt;
             }
         }
-    }
-
-    Stmt::Ptr Parser::parseForStmt() {
-        enterEntity("ForStmt");
-
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::For, "`for`", "`parseForStmt`");
-
-        auto pat = parsePat();
-
-        skip(
-            TokenKind::In,
-            "Missing `in` in `for` loop, put it here",
-            Recovery::Once
-        );
-
-        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
-        auto body = parseBlock("for", BlockParsing::Raw);
-
-        exitEntity();
-
-        return makePRBoxNode<ForExpr, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
     Stmt::Ptr Parser::parseLetStmt() {
@@ -1380,6 +1357,29 @@ namespace jc::parser {
 
         exitEntity();
         return Ok(makeBoxNode<Block>(std::move(stmts), closeSpan(begin)));
+    }
+
+    Expr::Ptr Parser::parseForExpr() {
+        enterEntity("ForStmt");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::For, "`for`", "`parseForExpr`");
+
+        auto pat = parsePat();
+
+        skip(
+            TokenKind::In,
+            "Missing `in` in `for` loop, put it here",
+            Recovery::Once
+        );
+
+        auto inExpr = parseExpr("Expected iterator expression after `in` in `for` loop");
+        auto body = parseBlock("for", BlockParsing::Raw);
+
+        exitEntity();
+
+        return makePRBoxNode<ForExpr, Stmt>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
     }
 
     Expr::Ptr Parser::parseIfExpr(bool isElif) {

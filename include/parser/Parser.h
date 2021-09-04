@@ -172,7 +172,6 @@ namespace jc::parser {
 
         // Statements //
         Stmt::Ptr parseStmt();
-        Stmt::Ptr parseForStmt();
         Stmt::Ptr parseLetStmt();
         Stmt::Ptr parseWhileStmt();
 
@@ -204,6 +203,7 @@ namespace jc::parser {
         Block::Ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
+        Expr::Ptr parseForExpr();
         Expr::Ptr parseIfExpr(bool isElif = false);
         Expr::Ptr parseLoopExpr();
         Expr::Ptr parseMatchExpr();
