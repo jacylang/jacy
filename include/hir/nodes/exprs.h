@@ -33,8 +33,13 @@ namespace jc::hir {
         Deref,
     };
 
+    enum class PostfixOpKind {
+        Quest,
+    };
+
     using BinOp = span::Spanned<BinOpKind>;
     using PrefixOp = span::Spanned<PrefixOpKind>;
+    using PostfixOp = span::Spanned<PostfixOpKind>;
 
     struct Array : Expr {
         Array(Expr::List && elements, const HirId & hirId, const Span & span)
