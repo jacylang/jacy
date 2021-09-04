@@ -44,9 +44,16 @@ namespace jc::hir {
         // Common //
     private:
         ast::NodeId::NodeMap<HirId> nodeIdHirId;
-        OwnerDef ownerDef {resolve::DefId::ROOT_DEF_ID, 0};
+
+        /// Used to track current owner for items.
+        /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
+        /// When we encounter owner-like item (e.g. `mod`) - new owner is pushed and popped after insides are visited.
+        std::vector<OwnerDef> ownerDef {
+            {resolve::DefId::ROOT_DEF_ID, 0}
+        };
 
         HirId lowerNodeId(ast::NodeId nodeId);
+        void enterOwner(ast::Node itemNodeId);
 
         // Items //
     private:

@@ -22,10 +22,19 @@ namespace jc::hir {
             return found->second;
         }
 
-        auto hirId = HirId {ownerDef.defId};
+        auto uniqueId = ownerDef.back().nextId++;
+        auto hirId = HirId {ownerDef.back().defId};
+
         nodeIdHirId.emplace(nodeId, hirId);
 
         return hirId;
+    }
+
+    void Lowering::enterOwner(ast::Node itemNodeId) {
+        ownerDef.emplace_back({
+            sess->defTable.getDefIdByNodeId(itemNodeId),
+            0
+        });
     }
 
     // Items //
@@ -94,9 +103,7 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-//            auto itemId = ItemId {
-//                sess->defTable.getDefIdByNodeId(item.nodeId())
-//            };
+            ownerDef.defId = sess->defTable.getDefIdByNodeId(item.nodeId());
             itemIds.emplace_back(lowerItem(item));
         }
 
