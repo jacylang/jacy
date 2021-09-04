@@ -104,8 +104,11 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            ownerDef.defId = sess->defTable.getDefIdByNodeId(item.nodeId());
-            itemIds.emplace_back(lowerItem(item));
+            const auto & i = item.unwrap();
+            enterOwner(i->id);
+            auto itemId = lowerItem(item);
+            exitOwner();
+            itemIds.emplace_back(itemId);
         }
 
         return makeBoxNode<Mod>(std::move(itemIds));
