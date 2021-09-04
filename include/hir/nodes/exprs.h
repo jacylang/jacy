@@ -153,6 +153,14 @@ namespace jc::hir {
         span::Ident field;
     };
 
+    struct Postfix : Expr {
+        Postfix(Expr::Ptr && lhs, PostfixOp op, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Loop, hirId, span}, lhs{std::move(lhs)}, op{op} {}
+
+        PostfixOp op;
+        Expr::Ptr lhs;
+    };
+
     struct Prefix : Expr {
         Prefix(PrefixOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Loop, hirId, span}, op{op}, rhs{std::move(rhs)} {}
