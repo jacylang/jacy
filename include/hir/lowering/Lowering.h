@@ -8,6 +8,11 @@
 #include "suggest/SuggInterface.h"
 
 namespace jc::hir {
+    struct OwnerDef {
+        DefId defId;
+        uint32_t nextId;
+    };
+
     class Lowering : public sugg::SuggInterface {
     public:
         Lowering() = default;
@@ -38,6 +43,8 @@ namespace jc::hir {
 
         // Common //
     private:
+        OwnerDef ownerDef;
+
         HirId lowerNodeId(ast::NodeId nodeId);
 
         // Items //
