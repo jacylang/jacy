@@ -27,6 +27,8 @@ namespace jc::hir {
         NE,
     };
 
+    using BinOp = span::Spanned<BinOpKind>;
+
     struct Array : Expr {
         Array(Expr::List && elements, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Array, hirId, span}, elements{std::move(elements)} {}
