@@ -119,11 +119,7 @@ namespace jc::hir {
         const auto & stmt = astStmt.unwrap();
         switch (stmt->kind) {
             case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
-            case ast::StmtKind::For:
-                break;
             case ast::StmtKind::Let:
-                break;
-            case ast::StmtKind::While:
                 break;
             case ast::StmtKind::Item:
                 break;
