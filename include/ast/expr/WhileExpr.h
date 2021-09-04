@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_WHILESTMT_H
-#define JACY_AST_STMT_WHILESTMT_H
+#ifndef JACY_AST_STMT_WHILEEXPR_H
+#define JACY_AST_STMT_WHILEEXPR_H
 
 #include "ast/expr/Expr.h"
 #include "ast/expr/Block.h"
@@ -23,4 +23,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_WHILESTMT_H
+#endif // JACY_AST_STMT_WHILEEXPR_H
