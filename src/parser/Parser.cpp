@@ -976,7 +976,7 @@ namespace jc::parser {
     }
 
     Expr::OptPtr Parser::parseSuffixExpr() {
-
+        
     }
 
     Expr::Ptr Parser::parseLambda() {

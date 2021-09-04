@@ -193,7 +193,8 @@ namespace jc::parser {
             case TokenKind::Ampersand:
             case TokenKind::BitOr:
             case TokenKind::LAngle:
-            case TokenKind::RAngle: {
+            case TokenKind::RAngle:
+            case TokenKind::Quest: {
                 return true;
             }
             default: {
