@@ -1021,10 +1021,11 @@ namespace jc::parser {
             return None;
         }
 
-        if (skipOpt(TokenKind::Quest).some()) {
+        if (is(TokenKind::Quest)) {
             logParse("Postfix");
+            auto postfixOp = advance();
 
-            return makePRBoxNode<Postfix, Expr>(lhs.take(), closeSpan(begin));
+            return makePRBoxNode<Postfix, Expr>(lhs.take(), postfixOp, closeSpan(begin));
         }
 
         return lhs;
