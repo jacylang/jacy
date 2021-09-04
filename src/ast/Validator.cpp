@@ -261,10 +261,6 @@ namespace jc::ast {
                 suggestErrorMsg("Chained assignment is not allowed", span);
                 break;
             }
-            case ExprKind::Id: {
-                // Note: Checks for `id = expr` go here...
-                break;
-            }
             case ExprKind::Paren: {
                 // Note: Checks for `(expr) = expr` go here...
                 break;
@@ -716,7 +712,7 @@ namespace jc::ast {
         if (expr->is(ExprKind::Paren)) {
             return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);
         }
-        return expr->is(ExprKind::Id) or expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
+        return expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }
 
     // Context //
