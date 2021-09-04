@@ -189,10 +189,6 @@ namespace jc::ast {
 
     void StubVisitor::visit(const ContinueExpr&) {}
 
-    void StubVisitor::visit(const DerefExpr & derefExpr) {
-        derefExpr.expr.autoAccept(*this);
-    }
-
     void StubVisitor::visit(const IfExpr & ifExpr) {
         ifExpr.condition.autoAccept(*this);
         if (ifExpr.ifBranch.some()) {

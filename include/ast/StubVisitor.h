@@ -44,7 +44,6 @@ namespace jc::ast {
         virtual void visit(const BorrowExpr & borrowExpr) override;
         virtual void visit(const BreakExpr & breakExpr) override;
         virtual void visit(const ContinueExpr & continueExpr) override;
-        virtual void visit(const DerefExpr & derefExpr) override;
         virtual void visit(const IfExpr & ifExpr) override;
         virtual void visit(const Infix & infix) override;
         virtual void visit(const Invoke & invoke) override;
