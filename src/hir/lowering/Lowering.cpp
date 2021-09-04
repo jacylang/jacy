@@ -181,8 +181,9 @@ namespace jc::hir {
                     HirId::DUMMY,
                     astNode->span);
             }
-            case ast::ExprKind::Infix:
-                break;
+            case ast::ExprKind::Infix: {
+
+            }
             case ast::ExprKind::Invoke:
                 break;
             case ast::ExprKind::Lambda:

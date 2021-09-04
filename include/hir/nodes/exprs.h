@@ -4,6 +4,27 @@
 #include "hir/nodes/Expr.h"
 
 namespace jc::hir {
+    enum class BinOp {
+        Add,
+        Sub,
+        Mul,
+        Div,
+        Rem,
+        And,
+        Or,
+        Not,
+        Xor,
+        BitAnd,
+        BitOr,
+        Shl,
+        Shr,
+        Eq,
+        LT,
+        LE,
+        GE,
+        GT,
+    };
+
     struct Array : Expr {
         Array(Expr::List && elements, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Array, hirId, span}, elements{std::move(elements)} {}
