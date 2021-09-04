@@ -47,15 +47,6 @@ namespace jc::ast {
         exprStmt.expr.autoAccept(*this);
     }
 
-    void Validator::visit(const ForExpr & forStmt) {
-        forStmt.pat.autoAccept(*this);
-        forStmt.inExpr.autoAccept(*this);
-
-        pushContext(ValidatorCtx::Loop);
-        forStmt.body.autoAccept(*this);
-        popContext();
-    }
-
     void Validator::visit(const ItemStmt & itemStmt) {
         // TODO: Lint attributes
         itemStmt.item.autoAccept(*this);
@@ -321,6 +312,15 @@ namespace jc::ast {
         if (not isDeepInside(ValidatorCtx::Loop)) {
             suggestErrorMsg("`continue` outside of loop", continueExpr.span);
         }
+    }
+
+    void Validator::visit(const ForExpr & forStmt) {
+        forStmt.pat.autoAccept(*this);
+        forStmt.inExpr.autoAccept(*this);
+
+        pushContext(ValidatorCtx::Loop);
+        forStmt.body.autoAccept(*this);
+        popContext();
     }
 
     void Validator::visit(const IfExpr & ifExpr) {
