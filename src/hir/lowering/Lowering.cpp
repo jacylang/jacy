@@ -208,8 +208,11 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::Literal>(expr);
                 return makeBoxNode<Literal>(astNode->token, HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::Loop:
-                break;
+            case ast::ExprKind::Loop: {
+                const auto & astNode = expr->as<ast::LoopExpr>(expr);
+                auto body = lowerBlock(*astNode->body.unwrap());
+                return makeBoxNode<Loop>(std::move(body), HirId::DUMMY, astNode->span);
+            }
             case ast::ExprKind::MemberAccess:
                 break;
             case ast::ExprKind::Paren:

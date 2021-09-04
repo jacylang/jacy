@@ -120,6 +120,13 @@ namespace jc::hir {
         parser::Token token;
     };
 
+    struct Loop : Expr {
+        Loop(Block body, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Loop, hirId, span}, body{std::move(body)} {}
+
+        Block body;
+    };
+
     struct Return : Expr {
         Return(Expr::Ptr && expr, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Return, hirId, span}, expr{std::move(expr)} {}
