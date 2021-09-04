@@ -23,7 +23,7 @@ namespace jc::hir {
         }
 
         auto uniqueId = ownerDef.back().nextId++;
-        auto hirId = HirId {ownerDef.back().defId};
+        auto hirId = HirId {ownerDef.back().defId, uniqueId};
 
         nodeIdHirId.emplace(nodeId, hirId);
 
