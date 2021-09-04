@@ -35,7 +35,7 @@ namespace jc::core {
             log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
 
             if (config.checkDev()) {
-                throw std::logic_error("Suicide (✖╭╮✖)");
+                throw;
             }
         }
     }

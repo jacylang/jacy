@@ -95,6 +95,7 @@ namespace jc::hir {
             }
             itemIds.emplace_back(itemId);
         }
+
         return makeBoxNode<Mod>(std::move(itemIds));
     }
 
