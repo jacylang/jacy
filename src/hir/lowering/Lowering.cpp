@@ -335,7 +335,7 @@ namespace jc::hir {
         ifCondExpr->elseBranch
                   .unwrap()
                   .stmts
-                  .emplace_back(synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None)))
+                  .emplace_back(synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None)));
 
         // Put `ifConditionBlock` to loop body block
         auto loweredBody = synthNode<Block>(
