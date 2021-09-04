@@ -1,5 +1,5 @@
-#ifndef JACY_AST_STMT_FORSTMT_H
-#define JACY_AST_STMT_FORSTMT_H
+#ifndef JACY_AST_STMT_FOREXPR_H
+#define JACY_AST_STMT_FOREXPR_H
 
 #include "ast/expr/Expr.h"
 #include "ast/expr/Block.h"
@@ -27,4 +27,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_STMT_FORSTMT_H
+#endif // JACY_AST_STMT_FOREXPR_H
