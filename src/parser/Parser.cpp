@@ -14,8 +14,9 @@ namespace jc::parser {
     }
 
     Token Parser::advance(uint8_t distance) {
+        auto token = peek();
         index += distance;
-        return peek();
+        return token;
     }
 
     Token Parser::lookup() const {
