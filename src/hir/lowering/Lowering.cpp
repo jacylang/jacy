@@ -182,6 +182,7 @@ namespace jc::hir {
                     astNode->span);
             }
             case ast::ExprKind::Infix: {
+                const auto & astNode = expr->as<ast::Infix>(expr);
 
             }
             case ast::ExprKind::Invoke:
@@ -261,6 +262,37 @@ namespace jc::hir {
             case ast::TypeKind::Unit:
                 break;
         }
+    }
+
+    BinOp Lowering::lowerBinOp(const parser::Token & tok) {
+        switch (tok.kind) {
+            case parser::TokenKind::Add: return BinOp::Add;
+            case parser::TokenKind::Sub: return BinOp::Sub;
+            case parser::TokenKind::Mul: return BinOp::Mul;
+            case parser::TokenKind::Div: return BinOp::Div;
+            case parser::TokenKind::Mod: return BinOp::Rem;
+            case parser::TokenKind::Power: return BinOp::Pow;
+            case parser::TokenKind::Or: return BinOp::Or;
+            case parser::TokenKind::And: return BinOp::And;
+            case parser::TokenKind::Shl:
+            case parser::TokenKind::Shr:
+            case parser::TokenKind::BitOr:
+            case parser::TokenKind::Xor:
+            case parser::TokenKind::Inv:
+            case parser::TokenKind::Eq:
+            case parser::TokenKind::NotEq:
+            case parser::TokenKind::LAngle: return BinOp::LT;
+            case parser::TokenKind::RAngle: return BinOp::GT;
+            case parser::TokenKind::LE: return BinOp::LE;
+            case parser::TokenKind::GE: return BinOp::GE;
+            case parser::TokenKind::Spaceship: return BinOp::Spaceship;
+            default: {
+
+            }
+        }
+
+        // TODO: Pipe operator must be a separate expression
+        // TODO: Add `as` cast expression
     }
 
     // Fragments //

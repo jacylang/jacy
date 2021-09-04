@@ -10,9 +10,9 @@ namespace jc::hir {
         Mul,
         Div,
         Rem,
+        Pow,
         And,
         Or,
-        Not,
         Xor,
         BitAnd,
         BitOr,
@@ -23,6 +23,8 @@ namespace jc::hir {
         LE,
         GE,
         GT,
+        Spaceship,
+        NE,
     };
 
     struct Array : Expr {
