@@ -271,6 +271,10 @@ namespace jc::hir {
             case ast::ExprKind::Match: {
                 log.notImplemented("`ast::ExprKind::Match` lowering");
             }
+            case ast::ExprKind::While: {
+                const auto & astNode = expr->as<ast::WhileExpr>(expr);
+                return lowerWhileExpr(*astNode);
+            }
         }
 
         log.devPanic("Unhandled ast::ExprKind in `Lowering::lowerExpr`");
@@ -295,6 +299,10 @@ namespace jc::hir {
 
     Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr&) {
         log.notImplemented("`Lowering::lowerForExpr`");
+    }
+
+    Expr::Ptr Lowering::lowerWhileExpr(const ast::WhileExpr & whileExpr) {
+
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
