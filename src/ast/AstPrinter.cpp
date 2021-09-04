@@ -366,13 +366,6 @@ namespace jc::ast {
         printNodeId(continueExpr);
     }
 
-    void AstPrinter::visit(const DerefExpr & derefExpr) {
-        log.raw("&");
-        derefExpr.expr.autoAccept(*this);
-
-        printNodeId(derefExpr);
-    }
-
     void AstPrinter::visit(const IfExpr & ifExpr) {
         log.raw("if ");
         ifExpr.condition.autoAccept(*this);

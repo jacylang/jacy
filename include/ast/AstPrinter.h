@@ -56,7 +56,6 @@ namespace jc::ast {
         void visit(const BorrowExpr & borrowExpr) override;
         void visit(const BreakExpr & breakExpr) override;
         void visit(const ContinueExpr & continueExpr) override;
-        void visit(const DerefExpr & derefExpr) override;
         void visit(const IfExpr & ifExpr) override;
         void visit(const Infix & infix) override;
         void visit(const Invoke & invoke) override;
