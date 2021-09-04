@@ -219,8 +219,10 @@ namespace jc::hir {
                 auto field = astNode->field.unwrap();
                 return makeBoxNode<FieldExpr>(std::move(lhs), field, HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::Paren:
-                break;
+            case ast::ExprKind::Paren: {
+                const auto & astNode = expr->as<ast::ParenExpr>(expr);
+                return lowerExpr(astNode->expr);
+            }
             case ast::ExprKind::Path:
                 break;
             case ast::ExprKind::Prefix:
