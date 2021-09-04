@@ -29,7 +29,6 @@ namespace jc::ast {
         Spread,
         Struct,
         Subscript,
-        Super,
         This,
         Tuple,
         Unit,
