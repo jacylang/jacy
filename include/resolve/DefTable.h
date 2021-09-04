@@ -25,6 +25,10 @@ namespace jc::resolve {
             return defIdNodeIdMap.at(defId);
         }
 
+        const auto & getDefIdByNodeId(const NodeId & nodeId) const {
+            return nodeIdDefIdMap.at(nodeId);
+        }
+
         auto size() const {
             return defs.size();
         }

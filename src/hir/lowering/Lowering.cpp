@@ -82,7 +82,6 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            auto nameNodeId = item.unwrap()->getNameNodeId();
             auto loweredItem = lowerItem(item);
             auto itemId = ItemId {
                 sess->resolutions.getDefRes(nameNodeId.unwrap())
