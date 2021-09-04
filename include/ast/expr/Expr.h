@@ -51,7 +51,7 @@ namespace jc::ast {
 
         bool isSimple() const {
             return kind == ExprKind::LiteralConstant
-                   or kind == ExprKind::Id;
+                   or kind == ExprKind::Path;
         }
 
         template<class T>
