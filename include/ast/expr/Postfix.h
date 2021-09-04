@@ -4,14 +4,17 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct QuestExpr : Expr {
-        QuestExpr(
+    struct Postfix : Expr {
+        Postfix(
             Expr::Ptr && lhs,
+            const parser::Token & op,
             const Span & span
         ) : Expr{span, ExprKind::Quest},
-            lhs{std::move(lhs)} {}
+            lhs{std::move(lhs)},
+            op{op} {}
 
         Expr::Ptr lhs;
+        parser::Token op;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

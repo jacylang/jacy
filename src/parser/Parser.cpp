@@ -1024,7 +1024,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Quest).some()) {
             logParse("Quest");
 
-            return makePRBoxNode<QuestExpr, Expr>(lhs.take(), closeSpan(begin));
+            return makePRBoxNode<Postfix, Expr>(lhs.take(), closeSpan(begin));
         }
 
         return lhs;

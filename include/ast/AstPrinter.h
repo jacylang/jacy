@@ -69,7 +69,7 @@ namespace jc::ast {
         void visit(const ParenExpr & parenExpr) override;
         void visit(const PathExpr & pathExpr) override;
         void visit(const Prefix & prefix) override;
-        void visit(const QuestExpr & questExpr) override;
+        void visit(const Postfix & questExpr) override;
         void visit(const ReturnExpr & returnExpr) override;
         void visit(const SpreadExpr & spreadExpr) override;
         void visit(const StructExpr & structExpr) override;

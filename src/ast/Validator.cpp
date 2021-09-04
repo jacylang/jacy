@@ -459,7 +459,7 @@ namespace jc::ast {
         prefix.rhs.autoAccept(*this);
     }
 
-    void Validator::visit(const QuestExpr & questExpr) {
+    void Validator::visit(const Postfix & questExpr) {
         questExpr.lhs.autoAccept(*this);
     }
 

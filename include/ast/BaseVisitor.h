@@ -48,7 +48,7 @@ namespace jc::ast {
     struct ParenExpr;
     struct PathExpr;
     struct Prefix;
-    struct QuestExpr;
+    struct Postfix;
     struct ReturnExpr;
     struct SpreadExpr;
     struct StructExpr;
@@ -144,7 +144,7 @@ namespace jc::ast {
         virtual void visit(const ParenExpr&) = 0;
         virtual void visit(const PathExpr&) = 0;
         virtual void visit(const Prefix&) = 0;
-        virtual void visit(const QuestExpr&) = 0;
+        virtual void visit(const Postfix&) = 0;
         virtual void visit(const ReturnExpr&) = 0;
         virtual void visit(const SpreadExpr&) = 0;
         virtual void visit(const StructExpr&) = 0;
