@@ -4,5 +4,5 @@ cmake*
 .idea
 build
 
-# Self file you can use to run some quick checks
+# This file you can use to run some quick checks
 src/check.cpp

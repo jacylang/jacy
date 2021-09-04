@@ -170,10 +170,10 @@ namespace jc::hir {
     };
 
     struct Return : Expr {
-        Return(Expr::Ptr && expr, const HirId & hirId, const Span & span)
-            : Expr{ExprKind::Return, hirId, span}, expr{std::move(expr)} {}
+        Return(Expr::OptPtr && value, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Return, hirId, span}, value{std::move(value)} {}
 
-        Expr::Ptr expr;
+        Expr::OptPtr value;
     };
 
     struct Tuple : Expr {

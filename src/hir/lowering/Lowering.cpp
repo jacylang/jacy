@@ -232,8 +232,14 @@ namespace jc::hir {
             }
             case ast::ExprKind::Prefix:
                 break;
-            case ast::ExprKind::Return:
-                break;
+            case ast::ExprKind::Return: {
+                const auto & astNode = expr->as<ast::ReturnExpr>(expr);
+                Expr::OptPtr value = None;
+                if (astNode->expr.some()) {
+                    value = lowerExpr(astNode->expr.unwrap());
+                }
+                return makeBoxNode<Return>(std::move(value), HirId::DUMMY, astNode->span);
+            }
             case ast::ExprKind::Spread:
                 break;
             case ast::ExprKind::Struct:
