@@ -146,6 +146,14 @@ namespace jc::hir {
         span::Ident field;
     };
 
+    struct Prefix : Expr {
+        Prefix(PrefixOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+            : Expr{ExprKind::Loop, hirId, span}, op{op}, rhs{std::move(rhs)} {}
+
+        PrefixOp op;
+        Expr::Ptr rhs;
+    };
+
     struct Return : Expr {
         Return(Expr::Ptr && expr, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Return, hirId, span}, expr{std::move(expr)} {}
