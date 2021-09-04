@@ -48,6 +48,7 @@ namespace jc::parser {
         // NAME                     // OP (USAGE)
         Assign,                     // = (`func`, `type`, etc.)
         Add,                        // + (multiple `trait` `impl`'s)
+        Dot,                        // . (member access)
         Sub,                        // - (negative literals)
         Mul,                        // * (`use` item)
         Ampersand,                  // & (borrowing)
