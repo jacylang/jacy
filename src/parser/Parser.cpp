@@ -939,7 +939,7 @@ namespace jc::parser {
 
             auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to borrow");
 
-            return makePRBoxNode<BorrowExpr, Expr>(true, mut, std::move(rhs), closeSpan(begin));
+            return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
         } else if (peek().isPrefixOp()) {
             auto prefixOp = peek();
             advance();

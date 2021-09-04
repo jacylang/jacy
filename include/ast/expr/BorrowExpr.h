@@ -6,7 +6,6 @@
 namespace jc::ast {
     struct BorrowExpr : Expr {
         BorrowExpr(
-            bool ref,
             bool mut,
             Expr::Ptr expr,
             const Span & span
@@ -16,7 +15,6 @@ namespace jc::ast {
             expr{std::move(expr)} {}
 
         // TODO: Bool storing optimization
-        bool ref;
         bool mut;
         Expr::Ptr expr;
 
