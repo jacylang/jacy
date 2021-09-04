@@ -13,6 +13,7 @@ namespace jc::parser {
         return tokens.at(index);
     }
 
+    // Advance to next token, returning skipped token (NOT NEXT ONE!)
     Token Parser::advance(uint8_t distance) {
         auto token = peek();
         index += distance;
@@ -904,16 +905,9 @@ namespace jc::parser {
                 break;
             }
 
-            auto infixOp = peek();
-            advance();
+            auto infixOp = advance();
 
-            auto maybeRhs = parsePrefixExpr();
-
-            if (maybeRhs.none()) {
-                suggestErrorMsg("Expected expression", cspan());
-            }
-
-            auto rhs = maybeRhs.take();
+            auto rhs = errorForNone(parsePrefixExpr(), "Expected expression");
 
             lhs = makePRBoxNode<Infix, Expr>(std::move(lhs), infixOp, std::move(rhs), closeSpan(begin));
         }
@@ -929,22 +923,19 @@ namespace jc::parser {
         auto begin = cspan();
 
         if (is(TokenKind::Mul)) {
-            auto derefOp = peek();
-            advance();
+            auto derefOp = advance();
             auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to dereference");
 
             return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
         } else if (is(TokenKind::Ampersand)) {
-            auto borrowOp = peek();
-            advance();
+            auto borrowOp = advance();
             auto mut = skipOpt(TokenKind::Mut).some();
 
             auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to borrow");
 
             return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
         } else if (peek().isPrefixOp()) {
-            auto prefixOp = peek();
-            advance();
+            auto prefixOp = advance();
             auto rhs = errorForNone(
                 parsePostfixExpr(),
                 "Expected expression after `" + prefixOp.toString() + "` operator");
@@ -976,8 +967,7 @@ namespace jc::parser {
                 break;
             }
 
-            auto postfixOp = peek();
-            advance();
+            auto postfixOp = advance();
 
             lhs = makePRBoxNode<Postfix, Expr>(std::move(lhs), postfixOp, closeSpan(begin));
         }
@@ -1131,8 +1121,7 @@ namespace jc::parser {
         if (not peek().isLiteral()) {
             log::Logger::devPanic("Expected literal in `parseLiteral`");
         }
-        auto token = peek();
-        advance();
+        auto token = advance();
         return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
     }
 
@@ -2165,8 +2154,7 @@ namespace jc::parser {
             log.devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
         }
 
-        auto token = peek();
-        advance();
+        auto token = advance();
 
         return makePRBoxNode<LitPat, Pattern>(neg, token, closeSpan(begin));
     }
