@@ -24,7 +24,6 @@ namespace jc::ast {
 
     // Statements //
     struct ExprStmt;
-    struct ForExpr;
     struct ItemStmt;
     struct LetStmt;
     struct WhileStmt;
@@ -35,6 +34,7 @@ namespace jc::ast {
     struct BorrowExpr;
     struct BreakExpr;
     struct ContinueExpr;
+    struct ForExpr;
     struct IfExpr;
     struct Infix;
     struct Invoke;
@@ -119,7 +119,6 @@ namespace jc::ast {
 
         // Statements //
         virtual void visit(const ExprStmt&) = 0;
-        virtual void visit(const ForExpr&) = 0;
         virtual void visit(const ItemStmt&) = 0;
         virtual void visit(const LetStmt&) = 0;
         virtual void visit(const WhileStmt&) = 0;
@@ -130,6 +129,7 @@ namespace jc::ast {
         virtual void visit(const BorrowExpr&) = 0;
         virtual void visit(const BreakExpr&) = 0;
         virtual void visit(const ContinueExpr&) = 0;
+        virtual void visit(const ForExpr&) = 0;
         virtual void visit(const IfExpr&) = 0;
         virtual void visit(const Infix&) = 0;
         virtual void visit(const Invoke&) = 0;
