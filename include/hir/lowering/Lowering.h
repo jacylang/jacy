@@ -44,6 +44,7 @@ namespace jc::hir {
         Expr::Ptr lowerBlockExpr(const ast::Block & block);
 
         BinOp lowerBinOp(const parser::Token & tok);
+        PrefixOp lowerPrefixOp(const parser::Token & tok);
 
         // Types //
     private:

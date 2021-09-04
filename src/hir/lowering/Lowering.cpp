@@ -312,7 +312,7 @@ namespace jc::hir {
             case parser::TokenKind::GE: kind = BinOpKind::GE; break;
             case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship; break;
             default: {
-                log.devPanic("Invalid binary operator '", tok.toString(), "'");
+                log.devPanic("Invalid infix operator '", tok.toString(), "'");
             }
         }
 
@@ -320,6 +320,21 @@ namespace jc::hir {
 
         // TODO: Pipe operator must be a separate expression
         // TODO: Add `as` cast expression
+    }
+
+    PrefixOp Lowering::lowerPrefixOp(const parser::Token & tok) {
+        PrefixOpKind kind;
+
+        switch (tok.kind) {
+            case parser::TokenKind::Not: kind = PrefixOpKind::Not; break;
+//            case parser::TokenKind::Not: kind = PrefixOpKind::Not; break;
+            case parser::TokenKind::Sub: kind = PrefixOpKind::Neg; break;
+            default: {
+                log.devPanic("Invalid prefix operator '", tok.toString(), "'");
+            }
+        }
+
+        return PrefixOp {kind, tok.span};
     }
 
     // Fragments //

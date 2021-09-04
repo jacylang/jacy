@@ -28,7 +28,9 @@ namespace jc::hir {
     };
 
     enum class PrefixOpKind {
-
+        Not,
+        Neg,
+        Deref,
     };
 
     using BinOp = span::Spanned<BinOpKind>;
