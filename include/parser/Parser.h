@@ -257,6 +257,10 @@ namespace jc::parser {
         Span nspan() const;
         Span closeSpan(const Span & begin);
 
+        // Suggestions //
+    private:
+        void errorForNone(const Token::Opt & optToken, const std::string & errMsg);
+
         // DEV //
     private:
         bool extraDebugEntities{false};

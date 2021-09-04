@@ -2272,6 +2272,13 @@ namespace jc::parser {
         return begin.to(prev().span);
     }
 
+    // Suggestions //
+    void Parser::errorForNone(const Token::Opt & optToken, const std::string & errMsg) {
+        if (optToken.none()) {
+            suggestErrorMsg(errMsg, cspan());
+        }
+    }
+
     // DEBUG //
     void Parser::enterEntity(const std::string & entity) {
         if (not extraDebugEntities) {
