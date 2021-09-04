@@ -183,7 +183,10 @@ namespace jc::hir {
             }
             case ast::ExprKind::Infix: {
                 const auto & astNode = expr->as<ast::Infix>(expr);
-
+                auto lhs = lowerExpr(astNode->lhs);
+                auto op = lowerBinOp(astNode->op);
+                auto rhs = lowerExpr(astNode->rhs);
+                return makeBoxNode<Infix>(std::move(lhs), op, std::move(rhs), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Invoke:
                 break;
