@@ -16,6 +16,16 @@ namespace jc::hir {
     }
 
     // Items //
+    ItemNode Lowering::lowerItem(const ast::Item::Ptr & astItem) {
+        auto loweredItem = lowerItemKind(astItem);
+        const auto & i = astItem.unwrap();
+        return ItemNode {
+            i->getName(),
+            std::move(loweredItem),
+            i->span
+        };
+    }
+
     Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap();
         switch (item->kind) {

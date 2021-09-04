@@ -38,6 +38,7 @@ namespace jc::hir {
 
         // Items //
     private:
+        ItemNode lowerItem(const ast::Item::Ptr & astItem);
         Item::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
         Item::Ptr lowerEnum(const ast::Enum & astEnum);
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
