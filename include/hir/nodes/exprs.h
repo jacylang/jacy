@@ -42,6 +42,10 @@ namespace jc::hir {
         Expr::OptPtr value;
     };
 
+    struct ContinueExpr : Expr {
+        ContinueExpr(const HirId & hirId, const Span & span) : Expr{ExprKind::Continue, hirId, span} {}
+    };
+
     struct Invoke : Expr {
         Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, args{std::move(args)} {}
