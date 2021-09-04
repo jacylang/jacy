@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct SelfExpr : Expr {
-        SelfExpr(const Span & span) : Expr{span, ExprKind::This} {}
+        SelfExpr(const Span & span) : Expr{span, ExprKind::Self} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

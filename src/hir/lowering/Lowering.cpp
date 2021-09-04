@@ -240,7 +240,7 @@ namespace jc::hir {
                 break;
             case ast::ExprKind::Subscript:
                 break;
-            case ast::ExprKind::This:
+            case ast::ExprKind::Self:
                 break;
             case ast::ExprKind::Tuple:
                 break;

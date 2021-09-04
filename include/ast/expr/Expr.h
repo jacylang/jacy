@@ -29,7 +29,7 @@ namespace jc::ast {
         Spread,
         Struct,
         Subscript,
-        This,
+        Self,
         Tuple,
         Unit,
         Match,
