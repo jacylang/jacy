@@ -173,7 +173,6 @@ namespace jc::parser {
         // Statements //
         Stmt::Ptr parseStmt();
         Stmt::Ptr parseLetStmt();
-        Stmt::Ptr parseWhileStmt();
 
         // Expressions //
         Expr::OptPtr parseOptExpr();
@@ -204,6 +203,7 @@ namespace jc::parser {
 
         // Control-flow expressions //
         Expr::Ptr parseForExpr();
+        Expr::Ptr parseWhileExpr();
         Expr::Ptr parseIfExpr(bool isElif = false);
         Expr::Ptr parseLoopExpr();
         Expr::Ptr parseMatchExpr();

@@ -667,7 +667,7 @@ namespace jc::parser {
 
         switch (peek().kind) {
             case TokenKind::While: {
-                return parseWhileStmt();
+                return parseWhileExpr();
             }
             case TokenKind::Let: {
                 return parseLetStmt();
@@ -717,20 +717,6 @@ namespace jc::parser {
         skipSemi();
 
         return makePRBoxNode<LetStmt, Stmt>(std::move(pat), std::move(type), std::move(assignExpr), closeSpan(begin));
-    }
-
-    Stmt::Ptr Parser::parseWhileStmt() {
-        enterEntity("WhileStmt");
-        const auto & begin = cspan();
-
-        justSkip(TokenKind::While, "`while`", "`parseWhileStmt`");
-
-        auto condition = parseExpr("Expected condition in `while`");
-        auto body = parseBlock("while", BlockParsing::Raw);
-
-        exitEntity();
-
-        return makePRBoxNode<WhileExpr, Stmt>(std::move(condition), std::move(body), closeSpan(begin));
     }
 
     /////////////////
@@ -1381,6 +1367,20 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<ForExpr, Expr>(std::move(pat), std::move(inExpr), std::move(body), closeSpan(begin));
+    }
+
+    Expr::Ptr Parser::parseWhileExpr() {
+        enterEntity("WhileExpr");
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::While, "`while`", "`parseWhileExpr`");
+
+        auto condition = parseExpr("Expected condition in `while`");
+        auto body = parseBlock("while", BlockParsing::Raw);
+
+        exitEntity();
+
+        return makePRBoxNode<WhileExpr, Expr>(std::move(condition), std::move(body), closeSpan(begin));
     }
 
     Expr::Ptr Parser::parseIfExpr(bool isElif) {
