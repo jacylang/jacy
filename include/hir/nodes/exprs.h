@@ -96,11 +96,11 @@ namespace jc::hir {
     };
 
     struct Infix : Expr {
-        Infix(Expr::Ptr && lhs, BinOpKind op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+        Infix(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr{ExprKind::Invoke, hirId, span}, lhs{std::move(lhs)}, op{op}, rhs{std::move(rhs)} {}
 
         Expr::Ptr lhs;
-        BinOpKind op;
+        BinOp op;
         Expr::Ptr rhs;
     };
 

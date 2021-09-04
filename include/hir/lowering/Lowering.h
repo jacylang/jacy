@@ -43,7 +43,7 @@ namespace jc::hir {
         Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
         Expr::Ptr lowerBlockExpr(const ast::Block & block);
 
-        BinOpKind lowerBinOp(const parser::Token & tok);
+        BinOp lowerBinOp(const parser::Token & tok);
 
         // Types //
     private:
