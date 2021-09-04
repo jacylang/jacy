@@ -54,6 +54,7 @@ namespace jc::hir {
 
         HirId lowerNodeId(ast::NodeId nodeId);
         void enterOwner(ast::NodeId itemNodeId);
+        void exitOwner();
 
         // Items //
     private:
