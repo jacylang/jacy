@@ -24,6 +24,11 @@ namespace jc::hir {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
+        template<class T, class ...Args>
+        N<T> synthBoxNode(Args ...args, const Span & span) {
+            return std::make_unique<T>(std::forward<Args>(args)..., HirId::DUMMY, span);
+        }
+
         // Items //
     private:
         ItemNode lowerItem(const ast::Item::Ptr & astItem);
