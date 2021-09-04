@@ -1029,6 +1029,26 @@ namespace jc::parser {
         return lhs;
     }
 
+    Expr::OptPtr Parser::parseMemberAccess() {
+        auto lhs = primary();
+
+        if (lhs.none()) {
+            return None;
+        }
+
+        auto begin = cspan();
+        while (skipOpt(TokenKind::Dot).some()) {
+            logParse("MemberAccess");
+
+            auto name = parseIdent("field name");
+
+            lhs = makePRBoxNode<MemberAccess, Expr>(lhs.take(), std::move(name), closeSpan(begin));
+            begin = cspan();
+        }
+
+        return lhs;
+    }
+
     Expr::Ptr Parser::parseLambda() {
         enterEntity("Lambda:" + peek().toString());
 

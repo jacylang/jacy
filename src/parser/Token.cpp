@@ -110,6 +110,7 @@ namespace jc::parser {
     const std::map<std::string, TokenKind> Token::staticOperators = {
         {"=", TokenKind::Assign},
         {"+", TokenKind::Add},
+        {".", TokenKind::Dot},
         {"-", TokenKind::Sub},
         {"*", TokenKind::Mul},
         {"&", TokenKind::Ampersand},
