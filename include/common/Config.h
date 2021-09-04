@@ -72,7 +72,7 @@ namespace jc::common {
 
         static FlagValueMap<BenchmarkKind> benchmarkKinds;
 
-        static FlagValueMap<LogLevel> logLevelKinds;
+        static FlagValueMap<log::LogLevel> logLevelKinds;
 
         enum class ParserExtraDebug : uint8_t {
             No,
@@ -89,14 +89,14 @@ namespace jc::common {
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(BenchmarkKind benchmark) const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
-        bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        bool checkLogLevel(log::LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
 
         // Bool args //
         bool checkDev() const;
 
     public:
-        LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        log::LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         const std::string & getRootFile() const;
 
     private:
@@ -110,11 +110,11 @@ namespace jc::common {
         ParserExtraDebug parserExtraDebug{ParserExtraDebug::No};
 
         constexpr const static auto GLOBAL_LOG_LEVEL_NAME = "global";
-        constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
+        constexpr static auto DEFAULT_LOG_LEVEL = log::LogLevel::Info;
         const static std::vector<std::string> loggerOwners;
 
-        // Pairs of `owner - LogLevel`
-        std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
+        // Pairs of `owner - log::LogLevel`
+        std::map<std::string, log::LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
 
         // Bool args //
         bool dev{false};
