@@ -1,5 +1,4 @@
 #include "log/Logger.h"
-#include "config/Config.h"
 
 namespace jc::log {
     Logger::Logger(const std::string &owner) : owner{std::move(owner)} {

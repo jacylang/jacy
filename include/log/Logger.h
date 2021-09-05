@@ -4,19 +4,10 @@
 #include "log/utils.h"
 #include "common/Error.h"
 #include "utils/str.h"
+#include "config/Config.h"
 
 namespace jc::log {
-    // General for `Config` and `Logger`
-    // Note: Order matters
-    enum class LogLevel : uint8_t {
-        Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
-        Debug,
-        Info,
-        Warn,
-        Error,
-
-        Unknown,
-    };
+    using namespace config;
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
@@ -132,10 +123,6 @@ namespace jc::log {
                 std::cout << "(" << owner << ") ";
             }
         }
-
-        // Advances features //
-    private:
-
 
     private:
         std::string owner;

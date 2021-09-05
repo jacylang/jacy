@@ -1,9 +1,11 @@
 #ifndef JACY_CONFIG_CONFIG_H
 #define JACY_CONFIG_CONFIG_H
 
+#include <map>
+#include <string>
 #include <set>
-
-#include "log/Logger.h"
+#include <vector>
+#include <unordered_map>
 
 namespace jc::config {
     class Configer;
@@ -92,15 +94,28 @@ namespace jc::config {
         BenchmarkKind benchmark{BenchmarkKind::Final};
 
         // `log-level`, `*-log-level`
+    public:
+        // General for `Config` and `Logger`
+        // Note: Order matters
+        enum class LogLevel : uint8_t {
+            Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
+            Debug,
+            Info,
+            Warn,
+            Error,
+
+            Unknown,
+        };
+
     private:
-        static FlagValueMap<log::LogLevel> logLevelKinds;
+        static FlagValueMap<LogLevel> logLevelKinds;
 
         constexpr const static auto GLOBAL_LOG_LEVEL_NAME = "global";
-        constexpr static auto DEFAULT_LOG_LEVEL = log::LogLevel::Info;
+        constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
         const static std::vector<std::string> loggerOwners;
 
-        // Pairs of `owner - log::LogLevel`
-        std::map<std::string, log::LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
+        // Pairs of `owner - LogLevel`
+        std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
 
         // `parser-extra-debug` //
     public:
@@ -124,10 +139,10 @@ namespace jc::config {
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(BenchmarkKind benchmark) const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
-        bool checkLogLevel(log::LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
 
-        log::LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
+        LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         const std::string & getRootFile() const;
 
     private:
