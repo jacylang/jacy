@@ -5,26 +5,6 @@
 #include <sstream>
 #include <stdexcept>
 
-// Common //
-namespace jc::log {
-    template<class ...Args>
-    static inline std::string fmt(Args && ...args) {
-        std::stringstream ss;
-        ((ss << std::forward<Args>(args)), ...);
-        return ss.str();
-    }
-
-    template<class ...Args>
-    static inline void devPanic(Args && ...args) {
-        auto res = fmt("[DEV PANIC]: ", std::forward<Args>(args)..., "\nStop after dev panic!");
-        throw std::logic_error(res);
-    }
-
-    static inline void notImplemented(const std::string & what) {
-        devPanic("Not implemented error: `" + what + "`");
-    }
-}
-
 // Common data structures std::ostream overloads //
 namespace jc::log {
     template<class T>
@@ -66,13 +46,32 @@ namespace jc::log {
     }
 }
 
-// Assertions //
+// Static API //
 namespace jc::log {
+    template<class ...Args>
+    static inline std::string fmt(Args && ...args) {
+        std::stringstream ss;
+        ((ss << std::forward<Args>(args)), ...);
+        return ss.str();
+    }
+
+    // Assertions //
     template<class ...Args>
     static inline void assertLogic(bool expr, Args && ...args) {
         if (not expr) {
             throw std::logic_error(fmt(std::forward<Args>(args)...));
         }
+    }
+
+    // Debug //
+    template<class ...Args>
+    static inline void devPanic(Args && ...args) {
+        auto res = fmt("[DEV PANIC]: ", std::forward<Args>(args)..., "\nStop after dev panic!");
+        throw std::logic_error(res);
+    }
+
+    static inline void notImplemented(const std::string & what) {
+        devPanic("Not implemented error: `" + what + "`");
     }
 }
 
