@@ -59,9 +59,6 @@ namespace jc::log {
         }
 
         template<class ...Args>
-        static std::string fmt(Args && ...args);
-
-        template<class ...Args>
         static void assertLogic(bool expr, Args && ...args);
 
         // DEV //

@@ -36,7 +36,7 @@ const Logger & Logger::raw(Args && ...args) const {
 template<class ...Args>
 void Logger::assertLogic(bool expr, Args && ...args) {
     if (not expr) {
-        throw std::logic_error(Logger::fmt(std::forward<Args>(args)...));
+        throw std::logic_error(fmt(std::forward<Args>(args)...));
     }
 }
 
@@ -44,13 +44,6 @@ void Logger::assertLogic(bool expr, Args && ...args) {
 template<class ...Args>
 void Logger::print(Args && ...args)  {
     out(std::cout, std::forward<Args>(args)...);
-}
-
-template<class ...Args>
-std::string Logger::fmt(Args && ...args) {
-    std::stringstream ss;
-    out(ss, std::forward<Args>(args)...);
-    return ss.str();
 }
 
 // DEV //
