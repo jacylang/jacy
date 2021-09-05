@@ -374,7 +374,7 @@ namespace jc::resolve {
                 if (isPrefixSeg) {
                     // Resolve prefix path, `a::b::` (before target)
                     searchMod = sess->defTable.getModule(defId);
-                    log.dev("Enter module by path segment '", pathStr, "' with def id ", defId);
+                    log.dev("Search in module by path segment '", pathStr, "' with def id ", defId);
                 } else {
                     // Resolve last segment
                     log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
