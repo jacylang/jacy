@@ -11,7 +11,7 @@ namespace jc::log {
 
     // TODO!: map for config with collection of allowed args and constexpr check
     struct LoggerConfig {
-        LogLevel level{LogLevel::Unknown};
+        Config::LogLevel level{Config::LogLevel::Unknown};
         bool printOwner{true};
         bool printLevel{true};
         bool colorize{true};
@@ -87,7 +87,7 @@ namespace jc::log {
         // Details //
     private:
         template<class ...Rest>
-        const Logger & log(LogLevel level, Rest && ...rest) const;
+        const Logger & log(Config::LogLevel level, Rest && ...rest) const;
 
         // Overload's //
     private:
@@ -108,7 +108,7 @@ namespace jc::log {
             return out(s, std::forward<Rest>(rest)...);
         }
 
-        void printInfo(LogLevel level) const {
+        void printInfo(Config::LogLevel level) const {
             if (config.printLevel) {
                 if (config.colorize) {
                     out(std::cout, levelColors.at(level));
@@ -133,8 +133,8 @@ namespace jc::log {
         static constexpr uint8_t wrapLen{120};
 
     private:
-        static const std::map<LogLevel, std::string> levelNames;
-        static const std::map<LogLevel, Color> levelColors;
+        static const std::map<Config::LogLevel, std::string> levelNames;
+        static const std::map<Config::LogLevel, Color> levelColors;
     };
 
     #include "Logger.inl"
