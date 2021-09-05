@@ -1,7 +1,7 @@
 #ifndef JACY_COMMON_LOGGER_H
 #define JACY_COMMON_LOGGER_H
 
-#include "log/utils.h"
+#include "log/data_types.h"
 #include "common/Error.h"
 #include "config/Config.h"
 #include "utils/str.h"

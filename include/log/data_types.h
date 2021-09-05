@@ -1,5 +1,5 @@
-#ifndef JACY_LOG_UTILS_H
-#define JACY_LOG_UTILS_H
+#ifndef JACY_LOG_DATA_TYPES_H
+#define JACY_LOG_DATA_TYPES_H
 
 // Note: Don't put each logger utility/helper to separate file (if it isn't actually large).
 //  Use `namespace jc::log` for each one to split definitions.
@@ -479,6 +479,6 @@ namespace jc::log {
     };
 }
 
-#include "log/utils.inl"
+#include "log/data_types.inl"
 
-#endif // JACY_LOG_UTILS_H
+#endif // JACY_LOG_DATA_TYPES_H

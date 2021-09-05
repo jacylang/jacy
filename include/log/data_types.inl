@@ -1,4 +1,4 @@
-#include "log/utils.h"
+#include "log/data_types.h"
 
 // Color //
 namespace jc::log {
