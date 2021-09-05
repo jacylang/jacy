@@ -153,6 +153,15 @@ namespace jc::resolve {
         ResKind kind;
         ValueType val;
 
+        std::string kindStr() const {
+            switch (kind) {
+                case ResKind::Def: return "def";
+                case ResKind::Local: return "local";
+                case ResKind::PrimType: return "prim_type";
+                case ResKind::Error: return "[ERROR]";
+            }
+        }
+
         bool isErr() const {
             return kind == ResKind::Error;
         }
