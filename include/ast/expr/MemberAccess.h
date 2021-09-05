@@ -10,7 +10,7 @@ namespace jc::ast {
             Expr::Ptr && lhs,
             Ident::PR && field,
             const Span & span
-        ) : Expr{span, ExprKind::MemberAccess},
+        ) : Expr{span, ExprKind::Field},
             lhs{std::move(lhs)},
             field{std::move(field)} {}
 

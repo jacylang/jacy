@@ -243,7 +243,7 @@ namespace jc::hir {
                 auto body = lowerBlock(*astNode->body.unwrap());
                 return makeBoxNode<Loop>(std::move(body), HirId::DUMMY, astNode->span);
             }
-            case ast::ExprKind::MemberAccess: {
+            case ast::ExprKind::Field: {
                 const auto & astNode = expr->as<ast::MemberAccess>(expr);
                 auto lhs = lowerExpr(astNode->lhs);
                 auto field = astNode->field.unwrap();
