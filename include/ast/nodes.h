@@ -14,7 +14,7 @@
 #include "ast/expr/ListExpr.h"
 #include "ast/expr/Literal.h"
 #include "ast/expr/LoopExpr.h"
-#include "ast/expr/MemberAccess.h"
+#include "ast/expr/FieldExpr.h"
 #include "ast/expr/ParenExpr.h"
 #include "ast/expr/PathExpr.h"
 #include "ast/expr/Prefix.h"

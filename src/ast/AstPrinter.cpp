@@ -450,7 +450,7 @@ namespace jc::ast {
         printNodeId(loopExpr);
     }
 
-    void AstPrinter::visit(const MemberAccess & memberAccess) {
+    void AstPrinter::visit(const FieldExpr & memberAccess) {
         memberAccess.lhs.autoAccept(*this);
         log.raw(".");
         memberAccess.field.autoAccept(*this);

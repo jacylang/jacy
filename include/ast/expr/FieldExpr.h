@@ -5,8 +5,8 @@
 #include "ast/fragments/Ident.h"
 
 namespace jc::ast {
-    struct MemberAccess : Expr {
-        MemberAccess(
+    struct FieldExpr : Expr {
+        FieldExpr(
             Expr::Ptr && lhs,
             Ident::PR && field,
             const Span & span

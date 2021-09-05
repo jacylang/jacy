@@ -403,7 +403,7 @@ namespace jc::ast {
         popContext();
     }
 
-    void Validator::visit(const MemberAccess & memberAccess) {
+    void Validator::visit(const FieldExpr & memberAccess) {
         memberAccess.lhs.autoAccept(*this);
         memberAccess.field.autoAccept(*this);
     }

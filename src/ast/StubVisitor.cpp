@@ -231,7 +231,7 @@ namespace jc::ast {
         loopExpr.body.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const MemberAccess & memberAccess) {
+    void StubVisitor::visit(const FieldExpr & memberAccess) {
         memberAccess.lhs.autoAccept(*this);
         memberAccess.field.autoAccept(*this);
     }

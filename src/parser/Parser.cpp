@@ -1053,7 +1053,7 @@ namespace jc::parser {
 
             auto name = parseIdent("field name");
 
-            lhs = makePRBoxNode<MemberAccess, Expr>(lhs.take(), std::move(name), closeSpan(begin));
+            lhs = makePRBoxNode<FieldExpr, Expr>(lhs.take(), std::move(name), closeSpan(begin));
             begin = cspan();
         }
 
