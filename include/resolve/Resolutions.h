@@ -177,6 +177,26 @@ namespace jc::resolve {
         auto asPrimType() const {
             return std::get<PrimType>(val);
         }
+
+        friend std::ostream & operator<<(std::ostream & os, const Res & res) {
+            os << res.kindStr() << " '";
+            switch (res.kind) {
+                case ResKind::Def: {
+                    os << res.asDef();
+                    break;
+                }
+                case ResKind::Local: {
+                    os << res.asLocal();
+                    break;
+                }
+                case ResKind::PrimType: {
+                    os << primTypeToString(res.asPrimType());
+                    break;
+                }
+                case ResKind::Error:;
+            }
+            return os;
+        }
     };
 
     /// `Name` is a pointer to path-like node.
