@@ -55,4 +55,27 @@ namespace jc::log {
     }
 }
 
+// Assertions //
+namespace jc::log {
+    template<class ...Args>
+    inline void assertLogic(bool expr, Args && ...args) {
+        if (not expr) {
+            throw std::logic_error(fmt(std::forward<Args>(args)...));
+        }
+    }
+}
+
+// Debug //
+namespace jc::log {
+    template<class ...Args>
+    void devPanic(Args && ...args) {
+        auto res = fmt("[DEV PANIC]: ", std::forward<Args>(args)..., "\nStop after dev panic!");
+        throw std::logic_error(res);
+    }
+
+    inline void notImplemented(const std::string & what) {
+        devPanic("Not implemented error: `" + what + "`");
+    }
+}
+
 #endif // JACY_LOG_UTILS_H

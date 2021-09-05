@@ -32,14 +32,6 @@ const Logger & Logger::raw(Args && ...args) const {
     return *this;
 }
 
-/// Implementation of assert-like method
-template<class ...Args>
-void Logger::assertLogic(bool expr, Args && ...args) {
-    if (not expr) {
-        throw std::logic_error(fmt(std::forward<Args>(args)...));
-    }
-}
-
 // Static Interface //
 template<class ...Args>
 void Logger::print(Args && ...args)  {
@@ -47,20 +39,6 @@ void Logger::print(Args && ...args)  {
 }
 
 // DEV //
-template<class ...Args>
-void Logger::devPanic(Args && ...args) {
-    out(
-        std::cout,
-        levelColors.at(Config::LogLevel::Error),
-        "[DEV PANIC]: ",
-        std::forward<Args>(args)...,
-        Color::Reset
-    );
-    nl();
-
-    throw common::Error("Stop after dev panic!");
-}
-
 template<class ...Args>
 void Logger::devDebug(Args && ...args) {
     if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {

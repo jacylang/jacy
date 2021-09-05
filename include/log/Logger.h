@@ -58,17 +58,7 @@ namespace jc::log {
             std::cout << std::endl;
         }
 
-        template<class ...Args>
-        static void assertLogic(bool expr, Args && ...args);
-
         // DEV //
-        template<class ...Args>
-        static void devPanic(Args && ...args);
-
-        static void notImplemented(const std::string & what) {
-            Logger::devPanic("Not implemented error: `" + what + "`");
-        }
-
         template<class ...Args>
         static void devDebug(Args && ...args);
 
