@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 
+#include "data_types/Option.h"
 #include "log/Logger.h"
 
 namespace jc::span {

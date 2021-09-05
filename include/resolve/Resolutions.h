@@ -5,6 +5,7 @@
 
 #include "ast/Node.h"
 #include "resolve/Definition.h"
+#include "utils/map.h"
 
 namespace jc::resolve {
     using ast::NodeId;

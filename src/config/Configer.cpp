@@ -37,7 +37,7 @@ namespace jc::config {
         args.getFlagSingleValue("log-level").then([&](const auto & value) {
             config.loggerLevels[config.GLOBAL_LOG_LEVEL_NAME] = config.loggerLevels.at(value);
         }).otherwise([&]() {
-            config.loggerLevels[config.GLOBAL_LOG_LEVEL_NAME] = config.dev ? log::LogLevel::Dev
+            config.loggerLevels[config.GLOBAL_LOG_LEVEL_NAME] = config.dev ? Config::LogLevel::Dev
                                                                            : config.DEFAULT_LOG_LEVEL;
         });
 
