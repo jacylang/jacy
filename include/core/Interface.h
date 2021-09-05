@@ -24,7 +24,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::core {
-    using common::Config;
+    using config::Config;
 
     struct FSEntry {
         using Ptr = std::shared_ptr<FSEntry>;

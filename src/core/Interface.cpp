@@ -282,7 +282,7 @@ namespace jc::core {
 
     void Interface::printAst(ast::AstPrinterMode mode) {
         if ((mode == ast::AstPrinterMode::Parsing and not config.checkPrint(Config::PrintKind::Ast))
-        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(common::Config::PrintKind::AstNames))
+        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(config::Config::PrintKind::AstNames))
         ) {
             return;
         }
@@ -354,7 +354,7 @@ namespace jc::core {
     }
 
     void Interface::printDefinitions() {
-        if (not config.checkPrint(common::Config::PrintKind::Definitions)) {
+        if (not config.checkPrint(config::Config::PrintKind::Definitions)) {
             return;
         }
 
@@ -369,7 +369,7 @@ namespace jc::core {
     }
 
     void Interface::printResolutions() {
-        if (not config.checkPrint(common::Config::PrintKind::Resolutions)) {
+        if (not config.checkPrint(config::Config::PrintKind::Resolutions)) {
             return;
         }
 

@@ -3,7 +3,7 @@
 
 namespace jc::log {
     Logger::Logger(const std::string &owner) : owner{std::move(owner)} {
-        config.level = common::Config::getInstance().getLogLevel(owner);
+        config.level = config::Config::getInstance().getLogLevel(owner);
     }
 
     // Constants //

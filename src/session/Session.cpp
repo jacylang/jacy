@@ -81,7 +81,7 @@ namespace jc::sess {
     }
 
     void Session::printStepsDevMode() {
-        if (not common::Config::getInstance().checkDev()) {
+        if (not config::Config::getInstance().checkDev()) {
             return;
         }
 

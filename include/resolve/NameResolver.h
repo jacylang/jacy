@@ -54,7 +54,7 @@ namespace jc::resolve {
     private:
         log::Logger log{"NameResolver"};
         sess::Session::Ptr sess;
-        common::Config & config;
+        config::Config & config;
 
         // Ribs //
     private:

@@ -7,7 +7,7 @@ int main(int argc, const char ** argv) {
     } catch (std::exception & e) {
         std::cout << "Uncaught error: " << e.what() << std::endl;
 
-        if (jc::common::Config::getInstance().checkDev()) {
+        if (jc::config::Config::getInstance().checkDev()) {
             throw;
         }
 

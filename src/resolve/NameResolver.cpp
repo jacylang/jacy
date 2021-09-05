@@ -1,11 +1,11 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(common::Config::getInstance()) {}
+    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
-        printRibsFlag = common::Config::getInstance().checkPrint(common::Config::PrintKind::Ribs);
+        printRibsFlag = config::Config::getInstance().checkPrint(config::Config::PrintKind::Ribs);
 
         log.assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
 
