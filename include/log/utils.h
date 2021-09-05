@@ -107,7 +107,6 @@ namespace jc::log {
 
 // Tables //
 namespace jc::log {
-    using namespace utils::str;
     enum class CellKind {
         Value,
         Line,
@@ -172,7 +171,7 @@ namespace jc::log {
 
         template<class Arg>
         void addSectionName(Arg && arg) {
-            addCell(padEnd(" " + string(arg) + " ", layout.at(index), "─"), CellKind::SectionName);
+            addCell(utils::str::padEnd(" " + string(arg) + " ", layout.at(index), "─"), CellKind::SectionName);
             addLine();
         }
 
@@ -199,17 +198,19 @@ namespace jc::log {
             if (index == Cols) {
                 index = 0;
             }
-            // If `addIfNoTop` is true, check that previous row is not of Line kindaddLine
+            // If `addIfNoTop` is true, check that previous row is not of kind Line
             if (addIfNoTop and rows.size() > 0 and rows.back().at(0).first == CellKind::Line) {
                 return;
             }
             for (TableSizeT i = index; i < Cols; i++) {
-                addCell(repeat("─", layout.at(i)), CellKind::Line);
+                addCell(std::string(layout.at(i), '-'), CellKind::Line);
             }
         }
 
     public:
         friend std::ostream & operator<<(std::ostream & os, const Table<Cols> & tbl) {
+            using namespace utils::str;
+
             for (TableSizeT rowIndex = 0; rowIndex < tbl.rows.size(); rowIndex++) {
                 const auto & row = tbl.rows.at(rowIndex);
 
