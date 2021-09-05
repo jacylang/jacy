@@ -9,7 +9,7 @@ namespace jc::log {
     template<class ...Args>
     inline std::string fmt(Args && ...args) {
         std::stringstream ss;
-        out(ss, std::forward<Args>(args)...);
+        ((ss << std::forward<Args>(args)), ...);
         return ss.str();
     }
 }

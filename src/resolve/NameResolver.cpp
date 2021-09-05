@@ -225,7 +225,7 @@ namespace jc::resolve {
     const Rib::Ptr & NameResolver::curRib() const {
         const auto depth = getDepth();
         if (depth == 0) {
-            log::Logger::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
+            log::devPanic("Called `NameResolver::curRib` with depth out of `ribStack` bounds: ", depth);
         }
         return ribStack.at(depth - 1);
     }
@@ -285,7 +285,7 @@ namespace jc::resolve {
 
     void NameResolver::liftToDepth(size_t prevDepth) {
         if (prevDepth > getDepth()) {
-            log::Logger::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
+            log::devPanic("Called `NameResolver::lifeToDepth` with `prevDepth` > `depth`");
         }
 
         // Note: Save depth when we started, because it will be changed in `exitRib`

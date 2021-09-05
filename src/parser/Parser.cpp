@@ -854,7 +854,7 @@ namespace jc::parser {
         if (precTable.size() == index) {
             return prefix();
         } else if (index > precTable.size()) {
-            log::Logger::devPanic(
+            log::devPanic(
                 "`precParse` with index > precTable.size, index =", static_cast<int>(index),
                 "precTable.size =", precTable.size()
             );
@@ -1062,7 +1062,7 @@ namespace jc::parser {
 
     Expr::OptPtr Parser::primary() {
         if (eof()) {
-            log::Logger::devPanic("Called parse `primary` on `EOF`");
+            log::devPanic("Called parse `primary` on `EOF`");
         }
 
         if (peek().isLiteral()) {
@@ -1154,7 +1154,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         if (not peek().isLiteral()) {
-            log::Logger::devPanic("Expected literal in `parseLiteral`");
+            log::devPanic("Expected literal in `parseLiteral`");
         }
         auto token = peek();
         advance();
@@ -1820,7 +1820,7 @@ namespace jc::parser {
                     "Invalid path `::`", maybePathToken.span
                 );
             } else {
-                log::Logger::devPanic("parsePath -> not id -> not global");
+                log::devPanic("parsePath -> not id -> not global");
             }
         }
 
@@ -2072,7 +2072,7 @@ namespace jc::parser {
                 );
             }
             if (tupleEl.type.none()) {
-                log::Logger::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
+                log::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
             }
             params.push_back(tupleEl.type.take());
         }

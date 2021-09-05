@@ -39,14 +39,14 @@ namespace jc::fs {
 
         Entry::List && extractEntries() {
             if (not isDir()) {
-                log::Logger::devPanic("Called `fs::Entry::extractEntries` on non-dir entry");
+                log::devPanic("Called `fs::Entry::extractEntries` on non-dir entry");
             }
             return std::get<Entry::List>(std::move(content));
         }
 
         std::string && extractContent() {
             if (isDir()) {
-                log::Logger::devPanic("Called `fs::Entry::extractContent` on non-file entry");
+                log::devPanic("Called `fs::Entry::extractContent` on non-file entry");
             }
             return std::get<std::string>(std::move(content));
         }

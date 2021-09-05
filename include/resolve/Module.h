@@ -53,7 +53,7 @@ namespace jc::resolve {
 
         void assertKind(ModuleKind kind) const {
             if (this->kind != kind) {
-                log::Logger::devPanic(
+                log::devPanic(
                     "[Module::assertKind] Failed - expected '" + kindStr(kind) + "', got '" + kindStr() + "'");
             }
         }

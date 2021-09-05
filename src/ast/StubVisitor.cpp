@@ -2,7 +2,7 @@
 
 namespace jc::ast {
     void StubVisitor::visit(const ErrorNode & errorNode) {
-        log::Logger::devPanic("[ERROR] node in ", owner, " at ", errorNode.span.toString());
+        log::devPanic("[ERROR] node in ", owner, " at ", errorNode.span.toString());
     }
 
     // Statements //

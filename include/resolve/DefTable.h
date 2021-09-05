@@ -9,7 +9,7 @@ namespace jc::resolve {
             try {
                 return defs.at(index.val);
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
+                log::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
             }
         }
 
@@ -63,7 +63,7 @@ namespace jc::resolve {
         Module::Ptr addModule(const DefId & defId, Module::Ptr module) {
             const auto & added = modules.emplace(defId.getIndex(), module);
             if (not added.second) {
-                log::Logger::devPanic("[DefStorage]: Tried to add module with same defId twice");
+                log::devPanic("[DefStorage]: Tried to add module with same defId twice");
             }
             return added.first->second;
         }
@@ -71,7 +71,7 @@ namespace jc::resolve {
         Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module) {
             const auto & added = blocks.emplace(nodeId, module);
             if (not added.second) {
-                log::Logger::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
+                log::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
             }
             return added.first->second;
         }
@@ -124,7 +124,7 @@ namespace jc::resolve {
 
         template<class ...Args>
         void panicWithDump(Args ...args) const {
-            log::Logger::devPanic(std::forward<Args>(args)..., "\nDefinitions: ", defs);
+            log::devPanic(std::forward<Args>(args)..., "\nDefinitions: ", defs);
         }
 
         /// Stores names (identifiers) of definitions (if exists).

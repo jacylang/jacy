@@ -29,7 +29,7 @@ namespace jc::sess {
                     break;
                 }
                 default: {
-                    log::Logger::devPanic(
+                    log::devPanic(
                         "Called `Interface::endStep` with step containing non-global measurement unit [",
                         step->unitStr(),
                         "] without `procUnitCount`");

@@ -10,7 +10,7 @@ namespace jc::sess {
 
     void SourceMap::setSourceFile(parser::ParseSess::Ptr && parseSess) {
         if (sources.find(parseSess->fileId) == sources.end()) {
-            log::Logger::devPanic(
+            log::devPanic(
                 "No source found by fileId [",
                 parseSess->fileId,
                 "] in SourceMap::setSource, existent files: ",
@@ -28,7 +28,7 @@ namespace jc::sess {
 
     const SourceFile & SourceMap::getSourceFile(span::Span::FileId fileId) {
         if (sources.find(fileId) == sources.end()) {
-            log::Logger::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
+            log::devPanic("No source found by fileId [", fileId, "] in `SourceMap::getSourceFile`");
         }
         return sources.at(fileId).unwrap("SourceMap::getSourceFile");
     }
@@ -40,7 +40,7 @@ namespace jc::sess {
     std::string SourceMap::getLine(span::Span::FileId fileId, size_t index) {
         const auto & sf = getSourceFile(fileId);
         if (sf.linesIndices.size() <= index) {
-            log::Logger::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
+            log::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");
         }
         size_t begin = sf.linesIndices.at(index);
         size_t end = sf.src.unwrap().size();

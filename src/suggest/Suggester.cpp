@@ -85,7 +85,7 @@ namespace jc::sugg {
         printLine(fileId, line.index);
 
         if (span.pos < line.pos) {
-            log::Logger::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
+            log::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
         }
 
         const auto & point = span.pos - line.pos;

@@ -201,7 +201,7 @@ namespace jc::resolve {
 
         Res getRes(const NamePath & path) const {
             if (resolutions.find(path) == resolutions.end()) {
-                log::Logger::devPanic("Called `ResStorage::getRes` with non-existent name ", path);
+                log::devPanic("Called `ResStorage::getRes` with non-existent name ", path);
             }
             // Note: It is actually a bug if resolution does not exists
             //  as far as unresolved names are stored as Error Res

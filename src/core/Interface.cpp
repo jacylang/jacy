@@ -134,7 +134,7 @@ namespace jc::core {
     ast::N<ast::Mod> Interface::parseDir(fs::Entry && dir, const Option<std::string> & rootFile) {
         log.dev("Parse directory ", dir.getPath(), ", ignore '", rootFile, "'");
         if (not dir.isDir()) {
-            log::Logger::devPanic("Called `Interface::parseDir` on non-dir fs entry");
+            log::devPanic("Called `Interface::parseDir` on non-dir fs entry");
         }
 
         bool notRootDir = rootFile.none();
