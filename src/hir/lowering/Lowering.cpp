@@ -294,7 +294,7 @@ namespace jc::hir {
             }
         }
 
-        log.devPanic("Unhandled ast::ExprKind in `Lowering::lowerExpr`");
+        log::devPanic("Unhandled ast::ExprKind in `Lowering::lowerExpr`");
     }
 
     Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
@@ -411,7 +411,7 @@ namespace jc::hir {
             case parser::TokenKind::GE: kind = BinOpKind::GE; break;
             case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship; break;
             default: {
-                log.devPanic("Invalid infix operator '", tok.toString(), "'");
+                log::devPanic("Invalid infix operator '", tok.toString(), "'");
             }
         }
 
@@ -429,7 +429,7 @@ namespace jc::hir {
             case parser::TokenKind::Mul: kind = PrefixOpKind::Deref; break;
             case parser::TokenKind::Sub: kind = PrefixOpKind::Neg; break;
             default: {
-                log.devPanic("Invalid prefix operator '", tok.toString(), "'");
+                log::devPanic("Invalid prefix operator '", tok.toString(), "'");
             }
         }
 

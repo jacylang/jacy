@@ -115,7 +115,7 @@ namespace jc::parser {
 
     void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
         if (not peek().is(kind)) {
-            log.devPanic("[bug] Expected ", expected, " in ", panicIn);
+            log::devPanic("[bug] Expected ", expected, " in ", panicIn);
         }
 
         if (extraDebugAll) {
@@ -2225,7 +2225,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
-            log.devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
+            log::devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
         }
 
         auto token = peek();
@@ -2330,7 +2330,7 @@ namespace jc::parser {
 
     Span Parser::nspan() const {
         if (eof()) {
-            log.devPanic("Called `nspan` after EOF");
+            log::devPanic("Called `nspan` after EOF");
         }
         return lookup().span;
     }
@@ -2353,7 +2353,7 @@ namespace jc::parser {
             return;
         }
         if (entitiesEntries.empty()) {
-            log.devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
+            log::devPanic("Called `Parser::exitEntity` with empty `entitiesEntries` stack");
         }
         const auto entry = entitiesEntries.at(entitiesEntries.size() - 1);
         entitiesEntries.pop_back();

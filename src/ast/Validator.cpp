@@ -360,7 +360,7 @@ namespace jc::ast {
                 break;
             }
             default: {
-                Logger::devPanic("Unexpected token used as infix operator:", infix.op.toString());
+                log::devPanic("Unexpected token used as infix operator:", infix.op.toString());
             }
         }
     }
@@ -436,7 +436,7 @@ namespace jc::ast {
                 break;
             }
             default: {
-                Logger::devPanic("Unexpected token used as prefix operator:", prefix.op.toString());
+                log::devPanic("Unexpected token used as prefix operator:", prefix.op.toString());
             }
         }
 
@@ -614,7 +614,7 @@ namespace jc::ast {
             case PathSeg::Kind::Self:
             case PathSeg::Kind::Party: {
                 if (seg.ident.some()) {
-                    log.devPanic("`ident` exists in non-Ident `PathSeg`");
+                    log::devPanic("`ident` exists in non-Ident `PathSeg`");
                 }
                 break;
             }
@@ -623,7 +623,7 @@ namespace jc::ast {
                 break;
             }
             default: {
-                log.devPanic("Unexpected `PathSeg::Kind` in `Validator`");
+                log::devPanic("Unexpected `PathSeg::Kind` in `Validator`");
             }
         }
         if (seg.generics.some()) {
@@ -641,7 +641,7 @@ namespace jc::ast {
             case SimplePathSeg::Kind::Self:
             case SimplePathSeg::Kind::Party: {
                 if (seg.ident.some()) {
-                    log.devPanic("`ident` exists in non-Ident `SimplePathSeg`");
+                    log::devPanic("`ident` exists in non-Ident `SimplePathSeg`");
                 }
                 break;
             }
@@ -718,7 +718,7 @@ namespace jc::ast {
     // Context //
     bool Validator::isInside(ValidatorCtx ctx) {
         if (ctxStack.empty()) {
-            Logger::devPanic("Called `Validator::isInside` on empty context stack");
+            log::devPanic("Called `Validator::isInside` on empty context stack");
         }
         return ctxStack.back() == ctx;
     }

@@ -241,7 +241,7 @@ namespace jc::resolve {
 
     void NameResolver::enterRib(Rib::Kind kind) {
         if (getDepth() == UINT32_MAX) {
-            Logger::devPanic("Maximum ribStack depth limit exceeded");
+            log::devPanic("Maximum ribStack depth limit exceeded");
         }
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
@@ -272,7 +272,7 @@ namespace jc::resolve {
 
     void NameResolver::exitRib() {
         if (getDepth() == 0) {
-            Logger::devPanic("NameResolver: Tried to exit from empty rib stack");
+            log::devPanic("NameResolver: Tried to exit from empty rib stack");
         }
         if (curRib()->boundModule.some()) {
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");

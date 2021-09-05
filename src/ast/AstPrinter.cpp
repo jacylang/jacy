@@ -735,7 +735,7 @@ namespace jc::ast {
                 break;
             }
             default: {
-                log.devPanic("Unexpected `PathSeg::Kind` in `AstPrinter`");
+                log::devPanic("Unexpected `PathSeg::Kind` in `AstPrinter`");
             }
         }
         printGenerics(seg.generics, true);
