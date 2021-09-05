@@ -37,9 +37,12 @@ namespace jc::hir {
     };
 
     struct Path {
-        Path(resolve::Res res) : res{res} {}
+        Path(resolve::Res res, PathSeg::List && segments, const Span & span)
+            : res{res}, segments{std::move(segments)}, span{span} {}
 
         resolve::Res res;
+        PathSeg::List segments;
+        Span span;
     };
 }
 
