@@ -29,7 +29,7 @@ namespace jc::hir {
     struct PathSeg : HirNode {
         using List = std::vector<PathSeg>;
 
-        PathSeg(span::Ident && name, const HirId & hirId, const Span & span)
+        PathSeg(const span::Ident & name, const HirId & hirId, const Span & span)
             : HirNode{hirId, span}, name{std::move(name)} {}
 
         span::Ident name;

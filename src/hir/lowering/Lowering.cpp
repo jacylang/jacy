@@ -254,7 +254,12 @@ namespace jc::hir {
                 return lowerExpr(astNode->expr);
             }
             case ast::ExprKind::Path: {
-                log::notImplemented("`ast::ExprKind::Path` lowering");
+                const auto & astNode = expr->as<ast::PathExpr>(expr);
+                return makeBoxNode<PathExpr>(
+                    lowerPath(astNode->path),
+                    HirId::DUMMY,
+                    astNode->span
+                );
             }
             case ast::ExprKind::Postfix: {
                 const auto & astNode = expr->as<ast::Postfix>(expr);
