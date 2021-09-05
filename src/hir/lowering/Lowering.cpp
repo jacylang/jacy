@@ -462,6 +462,36 @@ namespace jc::hir {
         return Body {astBody.exprBody, lowerExpr(astBody.value)};
     }
 
+    Path Lowering::lowerPath(const ast::Path & path) {
+        const auto & res = sess->resolutions.getRes({path.id});
+        PathSeg::List segments;
+        for (const auto & astSeg : path.segments) {
+            // TODO: Generics
+            const auto & seg = astSeg.unwrap();
+            span::Ident name = span::Ident::empty();
+
+            // TODO: `super`, `self` and `party` using `Symbol`
+            switch (seg.kind) {
+                case ast::PathSeg::Kind::Ident: {
+                    segments.emplace_back(seg.ident.unwrap().unwrap(), lowerNodeId(seg.id), seg.span);
+                    break;
+                }
+                case ast::PathSeg::Kind::Super: {
+                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Super` lowering");
+                }
+                case ast::PathSeg::Kind::Self: {
+                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Self` lowering");
+                }
+                case ast::PathSeg::Kind::Party: {
+                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Self` lowering");
+                }
+                case ast::PathSeg::Kind::Error: {
+                    log::devPanic("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Error`");
+                }
+            }
+        }
+    }
+
     // Items //
     ItemId Lowering::addItem(ItemNode && item) {
         auto itemId = ItemId {item.defId};

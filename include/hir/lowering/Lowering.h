@@ -85,6 +85,7 @@ namespace jc::hir {
     private:
         Block lowerBlock(const ast::Block & block);
         Body lowerBody(const ast::Body & astBody);
+        Path lowerPath(const ast::Path & path);
 
         // Items //
     private:
