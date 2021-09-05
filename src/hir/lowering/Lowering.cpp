@@ -268,25 +268,25 @@ namespace jc::hir {
                 return makeBoxNode<Return>(std::move(value), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Spread: {
-                log.notImplemented("`ast::ExprKind::Spread` lowering");
+                log::notImplemented("`ast::ExprKind::Spread` lowering");
             }
             case ast::ExprKind::Struct: {
-                log.notImplemented("`ast::ExprKind::Struct` lowering");
+                log::notImplemented("`ast::ExprKind::Struct` lowering");
             }
             case ast::ExprKind::Subscript: {
-                log.notImplemented("`ast::ExprKind::Subscript` lowering");
+                log::notImplemented("`ast::ExprKind::Subscript` lowering");
             }
             case ast::ExprKind::Self: {
-                log.notImplemented("`ast::ExprKind::Self` lowering");
+                log::notImplemented("`ast::ExprKind::Self` lowering");
             }
             case ast::ExprKind::Tuple: {
-                log.notImplemented("`ast::ExprKind::Tuple` lowering");
+                log::notImplemented("`ast::ExprKind::Tuple` lowering");
             }
             case ast::ExprKind::Unit: {
-                log.notImplemented("`ast::ExprKind::Unit` lowering");
+                log::notImplemented("`ast::ExprKind::Unit` lowering");
             }
             case ast::ExprKind::Match: {
-                log.notImplemented("`ast::ExprKind::Match` lowering");
+                log::notImplemented("`ast::ExprKind::Match` lowering");
             }
             case ast::ExprKind::While: {
                 const auto & astNode = expr->as<ast::WhileExpr>(expr);
@@ -315,7 +315,7 @@ namespace jc::hir {
     }
 
     Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr&) {
-        log.notImplemented("`Lowering::lowerForExpr`");
+        log::notImplemented("`Lowering::lowerForExpr`");
     }
 
     Expr::Ptr Lowering::lowerWhileExpr(const ast::WhileExpr & whileExpr) {
