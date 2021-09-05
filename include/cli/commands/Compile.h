@@ -3,7 +3,7 @@
 
 #include "cli/commands/BaseCommand.h"
 
-#include "common/Config.h"
+#include "config/Config.h"
 #include "core/Interface.h"
 
 namespace jc::cli {

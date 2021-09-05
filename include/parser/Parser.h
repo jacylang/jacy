@@ -10,7 +10,7 @@
 #include "parser/ParseSess.h"
 #include "suggest/Suggester.h"
 #include "ast/nodes.h"
-#include "common/Config.h"
+#include "config/Config.h"
 #include "suggest/SuggInterface.h"
 
 #include "data_types/Option.h"

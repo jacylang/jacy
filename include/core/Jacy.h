@@ -11,7 +11,7 @@
 #include "utils/str.h"
 #include "core/Interface.h"
 #include "cli/CLI.h"
-#include "common/Config.h"
+#include "config/Config.h"
 
 // Thank u, MinGW...
 // AAAAAAAAAAAAAAAAAAAAAAAAA
