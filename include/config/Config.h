@@ -1,5 +1,5 @@
-#ifndef JACY_COMMON_CONFIG_H
-#define JACY_COMMON_CONFIG_H
+#ifndef JACY_CONFIG_CONFIG_H
+#define JACY_CONFIG_CONFIG_H
 
 #include <set>
 
@@ -138,4 +138,4 @@ namespace jc::common {
     };
 }
 
-#endif // JACY_COMMON_CONFIG_H
+#endif // JACY_CONFIG_CONFIG_H
