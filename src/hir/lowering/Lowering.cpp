@@ -419,6 +419,7 @@ namespace jc::hir {
             case parser::TokenKind::Shl: kind = BinOpKind::Shl; break;
             case parser::TokenKind::Shr: kind = BinOpKind::Shr; break;
             case parser::TokenKind::BitOr: kind = BinOpKind::BitOr; break;
+            case parser::TokenKind::Ampersand: kind = BinOpKind::BitAnd; break;
             case parser::TokenKind::Xor: kind = BinOpKind::Xor; break;
             case parser::TokenKind::Eq: kind = BinOpKind::Eq; break;
             case parser::TokenKind::NotEq: kind = BinOpKind::NE; break;
