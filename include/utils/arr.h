@@ -49,7 +49,7 @@ namespace jc::utils::arr {
     const T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
         if (index < vec.size()) {
             std::stringstream ss;
-            ss << "vector `expectedAt` '" << index << "' in " << place;
+            ss << "Error in " << place << " vector `expectedAt` '" << index << "' in " << vec;
             throw std::logic_error(ss.str());
         }
         return vec.at(index);
