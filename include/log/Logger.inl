@@ -102,7 +102,7 @@ void Logger::printTitleDev(Args && ...args) {
         devPanic("Too long message in `Logger::printTitleDev`");
     }
     const auto indentSize = (wrapLen - title.size()) / 2 - 1;
-    std::string indent = utils::str::repeat("=", indentSize);
+    std::string indent = std::string(indentSize, '=');
 
     std::cout << indent << (indentSize % 2 == 1 ? "= " : " ") << title << " " << indent << std::endl;
 }

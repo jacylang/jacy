@@ -3,8 +3,8 @@
 
 #include "log/utils.h"
 #include "common/Error.h"
-#include "utils/str.h"
 #include "config/Config.h"
+#include "utils/str.h"
 
 namespace jc::log {
     using namespace config;
