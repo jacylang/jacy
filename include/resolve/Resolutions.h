@@ -218,7 +218,10 @@ namespace jc::resolve {
 
         const auto & getDefRes(NamePath path) const {
             // TODO!: Error resolutions recovery
-            return utils::map::expectAt(resolutions, path, "`Resolutions::getDefRes`").asDef();
+            return utils::map::expectAt(
+                resolutions,
+                path,
+                log::fmt("`Resolutions::getDefRes`, resolutions: ", resolutions)).asDef();
         }
 
     private:
