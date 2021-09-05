@@ -204,7 +204,7 @@ namespace jc::log {
                 return;
             }
             for (TableSizeT i = index; i < Cols; i++) {
-                addCell(std::string(layout.at(i), '-'), CellKind::Line);
+                addCell(utils::str::repeat("─", layout.at(i)), CellKind::Line);
             }
         }
 
