@@ -33,12 +33,12 @@ namespace jc::config {
         {"final",          Config::BenchmarkKind::Final},
     };
 
-    Config::FlagValueMap<log::LogLevel> Config::logLevelKinds = {
-        {"dev",   log::LogLevel::Dev},
-        {"debug", log::LogLevel::Debug},
-        {"info",  log::LogLevel::Info},
-        {"warn",  log::LogLevel::Warn},
-        {"error", log::LogLevel::Error},
+    Config::FlagValueMap<Config::LogLevel> Config::logLevelKinds = {
+        {"dev",   Config::LogLevel::Dev},
+        {"debug", Config::LogLevel::Debug},
+        {"info",  Config::LogLevel::Info},
+        {"warn",  Config::LogLevel::Warn},
+        {"error", Config::LogLevel::Error},
     };
 
     Config::FlagValueMap<Config::ParserExtraDebug> Config::parserExtraDebugKinds = {
@@ -76,7 +76,7 @@ namespace jc::config {
         return static_cast<uint8_t>(this->compileDepth) <= static_cast<uint8_t>(compileDepth);
     }
 
-    bool Config::checkLogLevel(log::LogLevel logLevel, const std::string & owner) const {
+    bool Config::checkLogLevel(Config::LogLevel logLevel, const std::string & owner) const {
         if (owner != GLOBAL_LOG_LEVEL_NAME and loggerLevels.find(owner) == loggerLevels.end()) {
             return static_cast<uint8_t>(loggerLevels.at(GLOBAL_LOG_LEVEL_NAME)) <= static_cast<uint8_t>(logLevel);
         }
@@ -93,7 +93,7 @@ namespace jc::config {
         return dev;
     }
 
-    log::LogLevel Config::getLogLevel(const std::string & owner) const {
+    Config::LogLevel Config::getLogLevel(const std::string & owner) const {
         if (loggerLevels.find(owner) == loggerLevels.end()) {
             return loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);
         }
@@ -214,27 +214,27 @@ namespace jc::config {
         const auto addLogLevel = [&](const std::string & owner) {
             const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? "log-level" : owner + "-log-level";
             switch (loggerLevels.at(owner)) {
-                case log::LogLevel::Dev: {
+                case Config::LogLevel::Dev: {
                     res[fieldName].emplace_back("dev");
                     break;
                 }
-                case log::LogLevel::Debug: {
+                case Config::LogLevel::Debug: {
                     res[fieldName].emplace_back("debug");
                     break;
                 }
-                case log::LogLevel::Info: {
+                case Config::LogLevel::Info: {
                     res[fieldName].emplace_back("info");
                     break;
                 }
-                case log::LogLevel::Warn: {
+                case Config::LogLevel::Warn: {
                     res[fieldName].emplace_back("warn");
                     break;
                 }
-                case log::LogLevel::Error: {
+                case Config::LogLevel::Error: {
                     res[fieldName].emplace_back("error");
                     break;
                 }
-                case log::LogLevel::Unknown: {
+                case Config::LogLevel::Unknown: {
                     throw std::logic_error("[Config] `Unknown` log-level found in `Config::getOptionsMap`");
                 }
             }
