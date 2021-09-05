@@ -7,7 +7,6 @@
 #include "log/Logger.h"
 
 namespace jc::common {
-
     // Compilation config
     class Config {
         template<class T>
