@@ -1,5 +1,5 @@
-#ifndef JACY_AST_EXPR_MEMBERACCESS_H
-#define JACY_AST_EXPR_MEMBERACCESS_H
+#ifndef JACY_AST_EXPR_FIELDEXPR_H
+#define JACY_AST_EXPR_FIELDEXPR_H
 
 #include "ast/expr/Expr.h"
 #include "ast/fragments/Ident.h"
@@ -23,4 +23,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_EXPR_MEMBERACCESS_H
+#endif // JACY_AST_EXPR_FIELDEXPR_H
