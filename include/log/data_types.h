@@ -15,6 +15,7 @@
 #include <thread>
 
 #include "utils/str.h"
+#include "log/utils.h"
 
 #if defined(__unix__) \
     || defined(__unix) \
@@ -309,18 +310,6 @@ namespace jc::log {
 
         static const std::map<CellKind, std::array<CornerLine , 3>> corners;
     };
-}
-
-// Common data structures std::ostream overloads //
-namespace jc::log {
-    template<class T>
-    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec);
-
-    template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map);
-
-    template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map);
 }
 
 // Cursor //
