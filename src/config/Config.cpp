@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace jc::common {
+namespace jc::config {
     Config::Config() = default;
 
     Config::FlagValueMap<Config::PrintKind> Config::printKinds = {

@@ -5,7 +5,7 @@
 
 #include "log/Logger.h"
 
-namespace jc::common {
+namespace jc::config {
     class Configer;
 
     // Compilation config
