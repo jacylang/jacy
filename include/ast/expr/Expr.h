@@ -27,7 +27,6 @@ namespace jc::ast {
         Prefix,
         Return,
         Spread,
-        Struct,
         Subscript,
         Self,
         Tuple,
