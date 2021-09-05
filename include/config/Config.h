@@ -3,12 +3,15 @@
 
 #include <set>
 
-#include "cli/CLICommand.h"
 #include "log/Logger.h"
 
 namespace jc::common {
+    class Configer;
+
     // Compilation config
     class Config {
+        friend Configer;
+
         template<class T>
         using FlagValueMap = const std::map<const std::string, const T>;
     public:
@@ -23,8 +26,6 @@ namespace jc::common {
             static Config instance;
             return instance;
         }
-
-        void applyCLIArgs(const cli::PassedCommand & args);
 
         // `dev` //
     public:
