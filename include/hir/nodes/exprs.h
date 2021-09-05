@@ -2,6 +2,7 @@
 #define JACY_HIR_NODES_EXPRS_H
 
 #include "hir/nodes/Expr.h"
+#include "hir/nodes/fragments.h"
 
 namespace jc::hir {
     enum class BinOpKind {

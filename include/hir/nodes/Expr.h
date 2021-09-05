@@ -2,7 +2,6 @@
 #define JACY_HIR_NODES_EXPR_H
 
 #include "hir/nodes/HirNode.h"
-#include "hir/nodes/fragments.h"
 
 namespace jc::hir {
     // It would be nice to have Expr and all other nodes as value types,

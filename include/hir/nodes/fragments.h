@@ -26,7 +26,16 @@ namespace jc::hir {
     };
 
     /// General path fragment used for type and expression paths
-    // TODO: Add generic args
+    struct PathSeg : HirNode {
+        using List = std::vector<PathSeg>;
+
+        PathSeg(span::Ident && name, const HirId & hirId, const Span & span)
+            : HirNode{hirId, span}, name{std::move(name)} {}
+
+        span::Ident name;
+        // TODO: Generic args
+    };
+
     struct Path {
         Path(resolve::Res res) : res{res} {}
 

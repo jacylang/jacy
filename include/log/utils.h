@@ -71,7 +71,7 @@ namespace jc::log {
     }
 
     static inline void notImplemented(const std::string & what) {
-        devPanic("Not implemented error: `" + what + "`");
+        devPanic("Not implemented error: " + what);
     }
 }
 
