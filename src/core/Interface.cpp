@@ -401,7 +401,7 @@ namespace jc::core {
 
     // Lowering //
     void Interface::lower() {
-        lowering.lower(sess, party.unwrap());
+        lowering.lower(sess, party.unwrap()).take(sess, "lowering");
     }
 
     // Suggestions //
