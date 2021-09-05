@@ -3,21 +3,32 @@
 
 #include <string>
 #include <sstream>
+#include <stdexcept>
 
-// Global utility methods //
+// Common //
 namespace jc::log {
     template<class ...Args>
-    inline std::string fmt(Args && ...args) {
+    static inline std::string fmt(Args && ...args) {
         std::stringstream ss;
         ((ss << std::forward<Args>(args)), ...);
         return ss.str();
+    }
+
+    template<class ...Args>
+    static inline void devPanic(Args && ...args) {
+        auto res = fmt("[DEV PANIC]: ", std::forward<Args>(args)..., "\nStop after dev panic!");
+        throw std::logic_error(res);
+    }
+
+    static inline void notImplemented(const std::string & what) {
+        devPanic("Not implemented error: `" + what + "`");
     }
 }
 
 // Common data structures std::ostream overloads //
 namespace jc::log {
     template<class T>
-    inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
+    static inline std::ostream & operator<<(std::ostream & os, const std::vector<T> & vec) {
         os << "[";
         for (size_t i = 0; i < vec.size(); ++i) {
             os << vec.at(i);
@@ -29,7 +40,7 @@ namespace jc::log {
     }
 
     template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
+    static inline std::ostream & operator<<(std::ostream & os, const std::map<K, V> & map) {
         os << "{";
         for (auto it = map.begin(); it != map.end(); it++) {
             os << it->first << ": " << it->second;
@@ -41,7 +52,7 @@ namespace jc::log {
     }
 
     template<class K, class V>
-    inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map) {
+    static inline std::ostream & operator<<(std::ostream & os, const std::unordered_map<K, V> & map) {
         os << "{";
         size_t i = 0;
         for (const auto & el : map) {
@@ -58,23 +69,10 @@ namespace jc::log {
 // Assertions //
 namespace jc::log {
     template<class ...Args>
-    inline void assertLogic(bool expr, Args && ...args) {
+    static inline void assertLogic(bool expr, Args && ...args) {
         if (not expr) {
             throw std::logic_error(fmt(std::forward<Args>(args)...));
         }
-    }
-}
-
-// Debug //
-namespace jc::log {
-    template<class ...Args>
-    void devPanic(Args && ...args) {
-        auto res = fmt("[DEV PANIC]: ", std::forward<Args>(args)..., "\nStop after dev panic!");
-        throw std::logic_error(res);
-    }
-
-    inline void notImplemented(const std::string & what) {
-        devPanic("Not implemented error: `" + what + "`");
     }
 }
 

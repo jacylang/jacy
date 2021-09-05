@@ -7,7 +7,7 @@ namespace jc::resolve {
         this->sess = sess;
         printRibsFlag = config::Config::getInstance().checkPrint(config::Config::PrintKind::Ribs);
 
-        log.assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
+        log::assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
 
         try {
             enterRootRib();

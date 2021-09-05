@@ -55,7 +55,7 @@ namespace jc::cli {
     private:
         template<class ...Args>
         void error(Args && ...args) const {
-            throw CLIError(log::Logger::fmt(std::forward<Args>(args)...));
+            throw CLIError(log::fmt(std::forward<Args>(args)...));
         }
     };
 }
