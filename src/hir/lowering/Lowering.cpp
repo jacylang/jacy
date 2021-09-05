@@ -464,6 +464,7 @@ namespace jc::hir {
 
     Path Lowering::lowerPath(const ast::Path & path) {
         const auto & res = sess->resolutions.getRes({path.id});
+
         PathSeg::List segments;
         for (const auto & astSeg : path.segments) {
             // TODO: Generics
@@ -490,6 +491,8 @@ namespace jc::hir {
                 }
             }
         }
+
+        return Path {res, std::move(segments), path.span};
     }
 
     // Items //
