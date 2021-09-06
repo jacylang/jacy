@@ -10,15 +10,18 @@ namespace jc::ast {
         using List = std::vector<FuncParam>;
 
         FuncParam(
+            Ident::PR && label,
             Pattern::Ptr pat,
             Type::Ptr type,
             Expr::OptPtr defaultValue,
             const Span & span
         ) : Node{span},
+            label{std::move(label)},
             pat{std::move(pat)},
             type{std::move(type)},
             defaultValue{std::move(defaultValue)} {}
 
+        Ident::PR label;
         Pattern::Ptr pat;
         Type::Ptr type;
         Expr::OptPtr defaultValue;
