@@ -306,7 +306,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Enum, "`enum`", "`parseEnum`");
+        justSkipKw(KW::Enum, "`enum`", "`parseEnum`");
 
         auto name = parseIdent("`enum` name");
         auto generics = parseOptGenerics();
