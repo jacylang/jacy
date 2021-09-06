@@ -1783,7 +1783,7 @@ namespace jc::parser {
 
                 // We eat error token only if user used keyword in path
                 // In other cases it could be beginning of another expression and we would break everything
-                if (not errorToken.isKw()) {
+                if (not errorToken.isSomeKeyword()) {
                     isUnrecoverableError = true;
                 } else {
                     advance();
