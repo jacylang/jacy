@@ -1457,6 +1457,8 @@ namespace jc::parser {
     }
 
     FuncSig Parser::parseFuncSig(parser::Token::List && modifiers) {
+        const auto & begin = cspan();
+
         auto params = parseFuncParamList();
 
         bool typeAnnotated = false;
@@ -1478,7 +1480,8 @@ namespace jc::parser {
         return FuncSig {
             std::move(modifiers),
             std::move(params),
-            std::move(returnType)
+            std::move(returnType),
+            closeSpan(begin)
         };
     }
 
