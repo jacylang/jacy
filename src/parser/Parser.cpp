@@ -26,6 +26,10 @@ namespace jc::parser {
         return tokens.at(index - 1);
     }
 
+    const auto & Parser::peekStr() const {
+        return peek().toString(sess->interner);
+    }
+
     // Checkers //
     bool Parser::eof() const {
         return peek().is(TokenKind::Eof);

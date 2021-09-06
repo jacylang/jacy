@@ -189,6 +189,8 @@ namespace jc::parser {
         return str;
     }
 
+    // FIXME: Update `toString` and `dump` when `Session` will be global state and thus `Interner` will be globally accessible
+
     std::string Token::toString(const span::Interner & interner, bool prettyQuotes) const {
         std::string str;
         if (prettyQuotes) {

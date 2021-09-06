@@ -133,6 +133,8 @@ namespace jc::parser {
         Token lookup() const;
         Token prev() const;
 
+        const auto & peekStr() const;
+
         // Checkers //
         bool eof() const;
         bool is(TokenKind kind) const;
