@@ -1316,8 +1316,8 @@ namespace jc::parser {
 
         auto pat = parsePat();
 
-        skip(
-            TokenKind::In,
+        skipKw(
+            KW::In,
             "Missing `in` in `for` loop, put it here",
             Recovery::Once
         );
@@ -1609,9 +1609,9 @@ namespace jc::parser {
 
         while (not eof()) {
             const auto & modifier = peek();
-            if (skipOpt(TokenKind::Move).some() or
-                skipOpt(TokenKind::Mut).some() or
-                skipOpt(TokenKind::Static).some()
+            if (skipOptKw(KW::Move).some() or
+                skipOptKw(KW::Mut).some() or
+                skipOptKw(KW::Static).some()
             ) {
                 logParse("Modifier:'" + modifier.kindToString() + "'");
                 modifiers.push_back(modifier);
@@ -1755,11 +1755,11 @@ namespace jc::parser {
             if (is(TokenKind::Id)) {
                 auto ident = justParseIdent("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Super).some()) {
+            } else if (skipOptKw(KW::Super).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Party).some()) {
+            } else if (skipOptKw(KW::Party).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
-            } else if (skipOpt(TokenKind::Self).some()) {
+            } else if (skipOptKw(KW::Self).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
@@ -2097,7 +2097,7 @@ namespace jc::parser {
                 generics.push_back(
                     makeBoxNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
                 );
-            } else if (skipOpt(TokenKind::Const).some()) {
+            } else if (skipOptKw(KW::Const).some()) {
                 auto name = parseIdent("`const` parameter name");
                 skip(
                     TokenKind::Colon,
@@ -2140,7 +2140,7 @@ namespace jc::parser {
         }
 
         // `_`
-        if (const auto & wildcard = skipOpt(TokenKind::Wildcard); wildcard.some()) {
+        if (const auto & wildcard = skipOptKw(KW::Underscore); wildcard.some()) {
             return makePRBoxNode<WCPat, Pattern>(wildcard.unwrap().span);
         }
 
@@ -2152,12 +2152,12 @@ namespace jc::parser {
         // `ref mut IDENT @ pattern`
         // Note: `ref` or `mut` 100% means that it is a borrow pattern,
         //  but single identifier must be parser as borrow pattern too and as path pattern
-        if (is(TokenKind::Ref) or is(TokenKind::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
+        if (isKw(KW::Ref) or isKw(KW::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
             return parseBorrowPat();
         }
 
         // `&mut pattern`
-        if (is(TokenKind::Ampersand) or is(TokenKind::Mut)) {
+        if (is(TokenKind::Ampersand) or isKw(KW::Mut)) {
             return parseRefPat();
         }
 
@@ -2213,8 +2213,8 @@ namespace jc::parser {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
-        bool ref = skipOpt(TokenKind::Ref).some();
-        bool mut = skipOpt(TokenKind::Mut).some();
+        bool ref = skipOptKw(KW::Ref).some();
+        bool mut = skipOptKw(KW::Mut).some();
 
         auto id = parseIdent("Missing identifier");
 
@@ -2231,7 +2231,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         bool ref = skipOpt(TokenKind::BitOr).some();
-        bool mut = skipOpt(TokenKind::Mut).some();
+        bool mut = skipOptKw(KW::Mut).some();
         auto pat = parsePat();
 
         return makePRBoxNode<RefPat, Pattern>(ref, mut, std::move(pat), closeSpan(begin));
@@ -2268,8 +2268,8 @@ namespace jc::parser {
             }
 
             // TODO: "Invert" Suggestion for `mut ref` case
-            const auto & ref = skipOpt(TokenKind::Ref);
-            const auto & mut = skipOpt(TokenKind::Mut);
+            const auto & ref = skipOptKw(KW::Ref);
+            const auto & mut = skipOptKw(KW::Mut);
 
             Ident::PR ident = parseIdent("Field name expected");
 
