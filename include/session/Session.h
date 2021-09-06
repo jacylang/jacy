@@ -10,7 +10,6 @@
 #include "session/SourceMap.h"
 #include "resolve/DefTable.h"
 #include "session/diagnostics.h"
-#include "span/Symbol.h"
 
 namespace jc::sess {
     class NodeStorage {
@@ -55,7 +54,6 @@ namespace jc::sess {
         NodeStorage nodeStorage;
         resolve::DefTable defTable;
         resolve::Resolutions resolutions;
-        span::Interner interner;
 
         // TODO!: Move to separate wrapper for name resolution stage
         resolve::Def getResDef(ast::NodeId nodeId) const {
