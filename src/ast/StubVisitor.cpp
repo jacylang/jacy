@@ -260,29 +260,6 @@ namespace jc::ast {
         spreadExpr.expr.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const StructExpr & structExpr) {
-        structExpr.path.autoAccept(*this);
-        visitEach(structExpr.fields);
-    }
-
-    void StubVisitor::visit(const StructExprField & field) {
-        switch (field.kind) {
-            case StructExprField::Kind::Raw: {
-                field.name.unwrap().autoAccept(*this);
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Shortcut: {
-                field.name.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Base: {
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-        }
-    }
-
     void StubVisitor::visit(const Subscript & subscript) {
         subscript.lhs.autoAccept(*this);
         visitEach(subscript.indices);
