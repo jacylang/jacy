@@ -249,15 +249,10 @@ namespace jc::parser {
             id += forward();
         }
 
-        const auto kw = Token::keywords.find(id);
-        if (kw != Token::keywords.end()) {
-            addToken(kw->second, static_cast<span::Span::Len>(kw->first.size()));
-        } else {
-            addToken(Token {
-                TokenKind::Id,
-                span::Symbol::intern(id)
-            }, id.size());
-        }
+        addToken(Token {
+            TokenKind::Id,
+            span::Symbol::intern(id)
+        }, id.size());
     }
 
     void Lexer::lexString() {
