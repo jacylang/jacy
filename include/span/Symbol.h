@@ -106,8 +106,14 @@ namespace jc::span {
             return static_cast<std::underlying_type_t<KW>>(kw);
         }
 
-        static bool isKw(Symbol sym) {
+        bool isKw(Symbol sym) const {
             return kwAsInt(KW::And) <= sym.id.val and kwAsInt(KW::While) >= sym.id.val;
+        }
+
+        bool isPathSeg() const {
+            return *this == KW::Super
+                or *this == KW::Party
+                or *this == KW::Self;
         }
 
         static const std::map<KW, std::string> keywords;

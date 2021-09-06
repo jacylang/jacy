@@ -99,12 +99,7 @@ namespace jc::parser {
     }
 
     bool Token::isSomeKeyword() const {
-        for (const auto & kw : keywords) {
-            if (kw.second == kind) {
-                return true;
-            }
-        }
-        return false;
+        return kind == TokenKind::Id and span::Symbol::isKw(asSymbol());
     }
 
     bool Token::isPathIdent() const {
