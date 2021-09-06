@@ -12,12 +12,8 @@ namespace jc::parser {
         tokens.emplace_back(t);
     }
 
-    void Lexer::addToken(TokenKind kind, const std::string & val) {
-        addToken(Token(kind, val), static_cast<span::Span::Len>(val.size()));
-    }
-
     void Lexer::addToken(TokenKind kind, span::Span::Len len) {
-        addToken(Token(kind, ""), len);
+        addToken(Token(kind, std::monostate {}), len);
     }
 
     char Lexer::peek() const {

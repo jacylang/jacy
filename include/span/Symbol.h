@@ -6,6 +6,9 @@
 #include <vector>
 
 namespace jc::span {
+
+    // TODO!!!: Intern keywords
+
     /// Keywords
     enum class KW {
         And,
