@@ -168,7 +168,10 @@ namespace jc::resolve {
         }
 
         static std::string kindStr(DefKind kind) {
-            // TODO!!!: Update, return `ROOT` for ROOT_DEF_ID
+            if (defId == DefId::ROOT_DEF_ID) {
+                return "[ROOT Module]";
+            }
+
             switch (kind) {
                 case DefKind::Const:
                     return "`const`";
