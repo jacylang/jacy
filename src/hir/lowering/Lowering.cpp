@@ -121,7 +121,7 @@ namespace jc::hir {
         }
 
         // TODO: Add span pointing to the end of the signature
-        Type::Ptr ret = Type::makeInferType(HirId::DUMMY, Span {});
+        Type::Ptr ret = Type::makeInferType(HirId::DUMMY, Span {astFunc.sig.span});
 
         if (astFunc.sig.returnType.some()) {
             ret = lowerType(astFunc.sig.returnType.unwrap());

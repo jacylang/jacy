@@ -47,6 +47,10 @@ namespace jc::span {
             return Span {pos, len, fileId};
         }
 
+        Span fromEndWithLen(Len len) const {
+            return Span {pos + len, len, fileId};
+        }
+
         Span to(const Span & end) const {
             if (end.fileId != fileId) {
                 log::devPanic("Called `Span::to` with spans from different files");
