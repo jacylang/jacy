@@ -20,8 +20,8 @@ namespace jc::parser {
         addToken(Token(kind, std::monostate {}), len);
     }
 
-    void Lexer::addKwToken(span::KW kw, span::Span::Len len) {
-        addToken({TokenKind::Id, span::Symbol::fromKw(kw)}, len);
+    void Lexer::addKwToken(KW kw, span::Span::Len len) {
+        addToken({TokenKind::Id, Symbol::fromKw(kw)}, len);
     }
 
     char Lexer::peek() const {
@@ -169,7 +169,7 @@ namespace jc::parser {
             if (not isDigit(lookup())) {
                 addLitToken({
                     TokLit::Kind::DecLiteral,
-                    span::Symbol::intern(num),
+                    Symbol::intern(num),
                     None
                 }, num.size());
                 return;
@@ -179,7 +179,7 @@ namespace jc::parser {
         } else {
             addLitToken({
                 TokLit::Kind::DecLiteral,
-                span::Symbol::intern(num),
+                Symbol::intern(num),
                 None
             }, num.size());
         }
@@ -195,7 +195,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::BinLiteral,
-            span::Symbol::intern(num),
+            Symbol::intern(num),
             None
         }, num.size());
     }
@@ -210,7 +210,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::OctLiteral,
-            span::Symbol::intern(num),
+            Symbol::intern(num),
             None
         }, num.size());
     }
@@ -225,7 +225,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::HexLiteral,
-            span::Symbol::intern(num),
+            Symbol::intern(num),
             None
         }, num.size());
     }
@@ -241,7 +241,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::FloatLiteral,
-            span::Symbol::intern(num),
+            Symbol::intern(num),
             None
         }, num.size());
     }
@@ -255,7 +255,7 @@ namespace jc::parser {
 
         addToken(Token {
             TokenKind::Id,
-            span::Symbol::intern(id)
+            Symbol::intern(id)
         }, id.size());
     }
 
@@ -377,7 +377,7 @@ namespace jc::parser {
 
         addLitToken({
             kind,
-            span::Symbol::intern(val),
+            Symbol::intern(val),
             None
         }, val.size());
     }
@@ -551,7 +551,7 @@ namespace jc::parser {
                         advance(2);
                     }
                 } else {
-                    addToken(TokenKind::Not, 1);
+                    addKwToken(KW::Not, 1);
                     advance();
                 }
             } break;
@@ -636,7 +636,7 @@ namespace jc::parser {
                 advance();
             } break;
             case '_': {
-                addToken(TokenKind::Wildcard, 1);
+                addKwToken(KW::Underscore, 1);
                 advance();
             } break;
             case '\\': {

@@ -8,6 +8,9 @@
 #include "session/Session.h"
 
 namespace jc::parser {
+    using span::KW;
+    using span::Symbol;
+
     // TODO: Suggestions instead of errors
     struct LexerError : common::Error {
         explicit LexerError(const std::string & msg) : Error(msg) {}
