@@ -156,7 +156,9 @@ namespace jc::parser {
 
         if (is('.')) {
             if (not isDigit(lookup())) {
-                addToken(TokenKind::DecLiteral, num);
+                addToken(TokenKind::DecLiteral, TokLit {
+                    TokLit::Kind::Int,
+                });
                 return;
             }
 

@@ -28,13 +28,7 @@ namespace jc::parser {
 
     enum class TokenKind : uint8_t {
         Eof,
-        DecLiteral,
-        BinLiteral,
-        OctLiteral,
-        HexLiteral,
-        FloatLiteral,
-        SQStringLiteral, // Single-quote string literal
-        DQStringLiteral, // Double-quote string literal
+        Lit,
         Id,
 
         // Operators //
@@ -149,9 +143,13 @@ namespace jc::parser {
     struct TokLit {
         enum class Kind {
             Bool,
-            Int,
-            Float,
-            Str,
+            DecLiteral,
+            BinLiteral,
+            OctLiteral,
+            HexLiteral,
+            FloatLiteral,
+            SQStringLiteral, // Single-quote string literal
+            DQStringLiteral, // Double-quote string literal
         } kind;
 
         // Interned literal string value
