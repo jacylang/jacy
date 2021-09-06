@@ -189,19 +189,13 @@ namespace jc::parser {
         return str;
     }
 
-    std::string Token::toString(bool prettyQuotes) const {
+    std::string Token::toString(const span::Interner & interner, bool prettyQuotes) const {
         std::string str;
         if (prettyQuotes) {
             str += "`";
         }
         switch (kind) {
-            case TokenKind::DecLiteral:
-            case TokenKind::BinLiteral:
-            case TokenKind::OctLiteral:
-            case TokenKind::HexLiteral:
-            case TokenKind::FloatLiteral:
-            case TokenKind::SQStringLiteral:
-            case TokenKind::DQStringLiteral:
+            case TokenKind::Lit:
             case TokenKind::Id: {
                 str += val;
             } break;
@@ -212,17 +206,11 @@ namespace jc::parser {
         return str + "`";
     }
 
-    std::string Token::dump(bool withSpan) const {
+    std::string Token::dump(const span::Interner & interner, bool withSpan) const {
         std::string str = kindToString();
 
         switch (kind) {
-            case TokenKind::DecLiteral:
-            case TokenKind::BinLiteral:
-            case TokenKind::OctLiteral:
-            case TokenKind::HexLiteral:
-            case TokenKind::FloatLiteral:
-            case TokenKind::SQStringLiteral:
-            case TokenKind::DQStringLiteral:
+            case TokenKind::Lit:
             case TokenKind::Id: {
                 str += ":'" + val + "'";
             }
