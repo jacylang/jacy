@@ -156,16 +156,16 @@ namespace jc::resolve {
             return "%impl_" + std::to_string(node.id.val);
         }
 
-        static inline std::string getFuncName(const ast::Func & func) {
-            std::string name = func.name.unwrap().name;
-            for (const auto & param : func.sig.params) {
+        static inline std::string getFuncName(const std::string & baseName, const ast::FuncSig & sig) {
+            std::string name = baseName + "(";
+            for (const auto & param : sig.params) {
                 if (param.label.some()) {
                     name += param.label.unwrap().unwrap().name + ":";
                 } else {
                     name += "_:";
                 }
             }
-            return name;
+            return name + ")";
         }
     };
 }
