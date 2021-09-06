@@ -928,7 +928,7 @@ namespace jc::parser {
         //        {0b00, {TokenKind::Id}},
         {0b11, {TokenKind::Range,  TokenKind::RangeEQ}},
         {0b11, {TokenKind::Add,    TokenKind::Sub}},
-        {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Mod}},
+        {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Rem}},
         {0b11, {TokenKind::Power}}, // Note: Right-assoc
         {0b11, {TokenKind::As}},
     };

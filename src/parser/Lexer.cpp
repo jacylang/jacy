@@ -435,7 +435,7 @@ namespace jc::parser {
                     addToken(TokenKind::ModAssign, 2);
                     advance(2);
                 } else {
-                    addToken(TokenKind::Mod, 1);
+                    addToken(TokenKind::Rem, 1);
                     advance();
                 }
             } break;

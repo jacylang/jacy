@@ -53,7 +53,7 @@ namespace jc::parser {
         Sub,                        // -
         Mul,                        // *
         Div,                        // /
-        Mod,                        // %
+        Rem,                        // %
         Power,                      // **
         Or,                         // or (placed in keywords)
         And,                        // and (placed in keywords)
@@ -123,7 +123,7 @@ namespace jc::parser {
         Move,
         Mut,
         Not,
-        Of,
+        Of,         // (RNU)
         Return,
         Party,
         Pub,
