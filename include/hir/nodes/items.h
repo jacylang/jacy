@@ -8,6 +8,8 @@
 
 namespace jc::hir {
     struct Variant : HirNode {
+        // TODO: Requires unification for AST `Enum` field types
+
         enum class Kind {
             Struct, // Struct variant (`{field: Type, ...}`)
             Tuple, // Tuple variant (`(Types...)`)

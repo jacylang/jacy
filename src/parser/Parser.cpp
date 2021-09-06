@@ -1695,6 +1695,13 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
+        Ident::OptPR label = None;
+
+        // If we encountered identifier and next token is not a colon then it would be a label
+        if (is(TokenKind::Id) and not lookup().is(TokenKind::Colon)) {
+            label = justParseIdent("`parseFuncParam` -> label");
+        }
+
         auto pat = parsePat();
 
         const auto colonSkipped = skip(
@@ -1712,7 +1719,12 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeNode<FuncParam>(std::move(pat), std::move(type), std::move(defaultValue), closeSpan(begin));
+        return makeNode<FuncParam>(
+            std::move(label),
+            std::move(pat),
+            std::move(type),
+            std::move(defaultValue),
+            closeSpan(begin));
     }
 
     Item::List Parser::parseMembers(const std::string & construction) {
