@@ -163,26 +163,20 @@ namespace jc::parser {
 
         if (is('.')) {
             if (not isDigit(lookup())) {
-                addToken({
-                    TokenKind::Lit,
-                    TokLit {
-                        TokLit::Kind::DecLiteral,
-                        sess->interner.intern(num),
-                        None
-                    }
+                addLitToken({
+                    TokLit::Kind::DecLiteral,
+                    sess->interner.intern(num),
+                    None
                 }, num.size());
                 return;
             }
 
             lexFloatLiteral(num);
         } else {
-            addToken({
-                TokenKind::Lit,
-                TokLit {
-                    TokLit::Kind::DecLiteral,
-                    sess->interner.intern(num),
-                    None
-                }
+            addLitToken({
+                TokLit::Kind::DecLiteral,
+                sess->interner.intern(num),
+                None
             }, num.size());
         }
     }
@@ -195,7 +189,11 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenKind::BinLiteral, num);
+        addLitToken({
+            TokLit::Kind::BinLiteral,
+            sess->interner.intern(num),
+            None
+        }, num.size());
     }
 
     void Lexer::lexOctLiteral() {
@@ -206,7 +204,11 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenKind::OctLiteral, num);
+        addLitToken({
+            TokLit::Kind::OctLiteral,
+            sess->interner.intern(num),
+            None
+        }, num.size());
     }
 
     void Lexer::lexHexLiteral() {
@@ -217,7 +219,11 @@ namespace jc::parser {
             num += forward();
         }
 
-        addToken(TokenKind::HexLiteral, num);
+        addLitToken({
+            TokLit::Kind::HexLiteral,
+            sess->interner.intern(num),
+            None
+        }, num.size());
     }
 
     void Lexer::lexFloatLiteral(const std::string & start) {
@@ -229,7 +235,11 @@ namespace jc::parser {
 
         // TODO: Exponents
 
-        addToken(TokenKind::FloatLiteral, num);
+        addLitToken({
+            TokLit::Kind::FloatLiteral,
+            sess->interner.intern(num),
+            None
+        }, num.size());
     }
 
     void Lexer::lexId() {
@@ -243,7 +253,10 @@ namespace jc::parser {
         if (kw != Token::keywords.end()) {
             addToken(kw->second, static_cast<span::Span::Len>(kw->first.size()));
         } else {
-            addToken(TokenKind::Id, id);
+            addToken(Token {
+                TokenKind::Id,
+                sess->interner.intern(id)
+            }, id.size());
         }
     }
 
