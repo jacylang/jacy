@@ -89,6 +89,16 @@ namespace jc::span {
     public:
         Interner();
 
+        // Singleton //
+        Interner(Interner const&) = delete;
+        void operator=(Interner const&) = delete;
+
+        static auto & getInstance() {
+            static Interner instance {};
+            return instance;
+        }
+
+    public:
         Symbol intern(const std::string & str) {
             const auto & found = symbols.find(str);
             if (found != symbols.end()) {
