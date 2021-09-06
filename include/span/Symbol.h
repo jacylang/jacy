@@ -106,8 +106,8 @@ namespace jc::span {
             return static_cast<std::underlying_type_t<KW>>(kw);
         }
 
-        bool isKw(Symbol sym) const {
-            return kwAsInt(KW::And) <= sym.id.val and kwAsInt(KW::While) >= sym.id.val;
+        bool isKw() const {
+            return kwAsInt(KW::And) <= id.val and kwAsInt(KW::While) >= id.val;
         }
 
         bool isPathSeg() const {

@@ -99,14 +99,11 @@ namespace jc::parser {
     }
 
     bool Token::isSomeKeyword() const {
-        return kind == TokenKind::Id and span::Symbol::isKw(asSymbol());
+        return kind == TokenKind::Id and asSymbol().isKw();
     }
 
     bool Token::isPathIdent() const {
-        return kind == TokenKind::Id
-            or kind == TokenKind::Super
-            or kind == TokenKind::Party
-            or kind == TokenKind::Self;
+        return kind == TokenKind::Id or asSymbol().isPathSeg();
     }
 
     std::string Token::kindToString(TokenKind kind) {
