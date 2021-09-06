@@ -451,7 +451,7 @@ namespace jc::parser {
                 }
             } else if (isSeq('/', '*')) {
                 advance(2);
-                
+
                 uint16_t depth = 1;
                 while (not eof()) {
                     if (isSeq('*', '/')) {
