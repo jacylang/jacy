@@ -179,6 +179,14 @@ namespace jc::parser {
         static const std::map<TokenKind, std::string> tokenKindStrings;
         static const std::vector<TokenKind> assignOperators;
 
+        span::Symbol asSymbol() const {
+            return std::get<span::Symbol>(val);
+        }
+
+        const TokLit & asLit() const {
+            return std::get<TokLit>(val);
+        }
+
         bool is(TokenKind kind) const;
         bool isAssignOp() const;
         bool isLiteral() const;
