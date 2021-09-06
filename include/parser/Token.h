@@ -162,19 +162,19 @@ namespace jc::parser {
     };
 
     struct Token {
-        using ValueT = std::variant<span::Symbol, TokLit>;
+        using ValueT = std::variant<std::monostate, span::Symbol, TokLit>;
         using List = std::vector<Token>;
         using Opt = Option<Token>;
 
         Token() {}
         Token(
             TokenKind kind,
-            std::string val
+            ValueT && val
         ) : kind{kind},
             val{std::move(val)} {}
 
         TokenKind kind{TokenKind::None};
-        std::string val{""};
+        ValueT val {std::monostate {}};
         span::Span span;
 
         static const std::map<std::string, TokenKind> keywords;

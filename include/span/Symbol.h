@@ -69,8 +69,7 @@ namespace jc::span {
 
     class Interner {
     public:
-        Interner() {
-        }
+        Interner() = default;
 
         Symbol intern(const std::string & str) {
             const auto & found = symbols.find(str);
