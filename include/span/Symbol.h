@@ -106,6 +106,10 @@ namespace jc::span {
             return static_cast<std::underlying_type_t<KW>>(kw);
         }
 
+        static Symbol kwAsSymbol(KW kw) {
+            return Symbol {kwAsInt(kw)};
+        }
+
         bool isKw() const {
             return kwAsInt(KW::And) <= id.val and kwAsInt(KW::While) >= id.val;
         }
@@ -115,6 +119,8 @@ namespace jc::span {
                 or *this == KW::Party
                 or *this == KW::Self;
         }
+
+        static std::string kwToString(KW kw);
 
         static const std::map<KW, std::string> keywords;
     };

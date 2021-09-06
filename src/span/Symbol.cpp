@@ -57,6 +57,10 @@ namespace jc::span {
         return Interner::getInstance().getString(*this);
     }
 
+    std::string Symbol::kwToString(KW kw) {
+        return Interner::getInstance().getString(kwAsSymbol(kw));
+    }
+
     Interner::Interner() {
         SymbolId::ValueT index {0};
         for (const auto & kw : Symbol::keywords) {
