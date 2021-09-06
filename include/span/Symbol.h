@@ -106,7 +106,7 @@ namespace jc::span {
             return static_cast<std::underlying_type_t<KW>>(kw);
         }
 
-        static Symbol kwAsSymbol(KW kw) {
+        static Symbol fromKw(KW kw) {
             return Symbol {kwAsInt(kw)};
         }
 

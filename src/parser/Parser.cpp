@@ -127,7 +127,7 @@ namespace jc::parser {
     }
 
     Token::Opt Parser::skipKw(KW kw, const std::string & expected, Recovery recovery) {
-        return skip(TokenKind::Id, expected, recovery, Symbol::kwAsSymbol(kw));
+        return skip(TokenKind::Id, expected, recovery, Symbol::fromKw(kw));
     }
 
     void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
