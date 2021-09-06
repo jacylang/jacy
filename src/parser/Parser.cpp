@@ -141,6 +141,18 @@ namespace jc::parser {
         return None;
     }
 
+    Token::Opt Parser::skipOptKw(KW kw) {
+        if (peek().isKw(kw)) {
+            if (extraDebugAll) {
+                devLogWithIndent("Skip optional keyword ", span::Symbol::kwToString(kw), " | got ", peek().dump());
+            }
+            auto last = peek();
+            advance();
+            return last;
+        }
+        return None;
+    }
+
     // Parsers //
     dt::SuggResult<Item::List> Parser::parse(
         const sess::Session::Ptr & sess,
