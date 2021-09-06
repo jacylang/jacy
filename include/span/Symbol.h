@@ -14,7 +14,13 @@ namespace jc::span {
     // TODO!!!: Intern keywords
 
     /// Keywords
+    /// NOTE: Order matters!!!
+    ///  We use discriminants to access specific interned keyword and to map string to keyword
     enum class KW {
+        Empty = 0,
+        Root,
+        Underscore,
+
         And,
         As,
         Async,
@@ -74,6 +80,8 @@ namespace jc::span {
         SymbolId id;
 
         std::string toString(const Interner & interner) const;
+
+        static const std::map<KW, std::string> keywords;
     };
 
     class Interner {
