@@ -29,10 +29,13 @@ namespace jc::parser {
         {"mut",         TokenKind::Mut},
         {"not",         TokenKind::Not},
         {"of",          TokenKind::Of},
+        {"operator",    TokenKind::Operator},
         {"return",      TokenKind::Return},
         {"or",          TokenKind::Or},
         {"party",       TokenKind::Party},
+        {"postfix",     TokenKind::Postfix},
         {"pub",         TokenKind::Pub},
+        {"prefix",      TokenKind::Prefix},
         {"ref",         TokenKind::Ref},
         {"self",        TokenKind::Self},
         {"static",      TokenKind::Static},
@@ -66,6 +69,7 @@ namespace jc::parser {
 
         {TokenKind::Assign,          "="},
         {TokenKind::Add,             "+"},
+        {TokenKind::Sub,             "-"},
         {TokenKind::Mul,             "*"},
         {TokenKind::Ampersand,       "&"},
         {TokenKind::BitOr,           "|"},
@@ -106,11 +110,14 @@ namespace jc::parser {
     const std::map<std::string, TokenKind> Token::staticOperators = {
         {"=", TokenKind::Assign},
         {"+", TokenKind::Add},
+        {".", TokenKind::Dot},
+        {"-", TokenKind::Sub},
         {"*", TokenKind::Mul},
         {"&", TokenKind::Ampersand},
         {"|", TokenKind::BitOr},
         {"<", TokenKind::LAngle},
         {">", TokenKind::RAngle},
+        {"?", TokenKind::Quest},
     };
 
     bool Token::is(TokenKind kind) const {
@@ -137,19 +144,58 @@ namespace jc::parser {
             or kind == TokenKind::Self;
     }
 
-    bool Token::isOp() const {
+    bool Token::isInfixOp() const {
         switch (kind) {
             case TokenKind::OP:
             case TokenKind::And:
             case TokenKind::Or:
-            case TokenKind::Not:
             case TokenKind::Assign:
             case TokenKind::Add:
+            case TokenKind::Sub:
             case TokenKind::Mul:
             case TokenKind::Ampersand:
             case TokenKind::BitOr:
             case TokenKind::LAngle:
             case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
+    bool Token::isPrefixOp() const {
+        // - Exclude `and`, `or` (infix only), `|` (closures) and `<` (generics)
+        // - Add `not`
+        switch (kind) {
+            case TokenKind::OP:
+            case TokenKind::Assign:
+            case TokenKind::Not:
+            case TokenKind::Add:
+            case TokenKind::Sub:
+            case TokenKind::RAngle: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
+    bool Token::isPostfixOp() const {
+        // - Exclude `and`, `or` (infix only) and `>` (generics)
+        switch (kind) {
+            case TokenKind::OP:
+            case TokenKind::Assign:
+            case TokenKind::Add:
+            case TokenKind::Sub:
+            case TokenKind::Mul:
+            case TokenKind::Ampersand:
+            case TokenKind::BitOr:
+            case TokenKind::LAngle:
+            case TokenKind::RAngle:
+            case TokenKind::Quest: {
                 return true;
             }
             default: {

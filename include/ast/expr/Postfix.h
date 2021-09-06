@@ -4,8 +4,8 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct Prefix : Expr {
-        Prefix(Expr::Ptr && lhs, const parser::Token & op, const Span & span)
+    struct Postfix : Expr {
+        Postfix(Expr::Ptr && lhs, const parser::Token & op, const Span & span)
             : Expr{span, ExprKind::Prefix}, lhs{std::move(lhs)}, op{op} {}
 
         Expr::Ptr lhs;

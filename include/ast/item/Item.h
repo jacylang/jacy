@@ -10,6 +10,7 @@ namespace jc::ast {
         Impl,
         Init,
         Mod,
+        OpGroup,
         Struct,
         Trait,
         TypeAlias,

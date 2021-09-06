@@ -13,9 +13,11 @@ namespace jc::parser {
         return tokens.at(index);
     }
 
+    // Advance to next token, returning skipped token (NOT NEXT ONE!)
     Token Parser::advance(uint8_t distance) {
+        auto token = peek();
         index += distance;
-        return peek();
+        return token;
     }
 
     Token Parser::lookup() const {
@@ -24,6 +26,21 @@ namespace jc::parser {
 
     Token Parser::prev() const {
         return tokens.at(index - 1);
+    }
+
+    TokenSpacing Parser::getSpacing() const {
+        Span::Pos left = 0;
+        Span::Pos right = 0;
+
+        if (index > 0) {
+            left = peek().span.pos - prev().span.pos + prev().span.len;
+        }
+
+        if (index < tokens.size()) {
+            left = lookup().span.pos - peek().span.pos + peek().span.len;
+        }
+
+        return {left, right};
     }
 
     // Checkers //
@@ -76,8 +93,9 @@ namespace jc::parser {
                     if (extraDebugAll) {
                         devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().kindToString());
                     }
+                    advance();
                     // If next token is what we need we produce an error for skipped one anyway
-                    found = advance();
+                    found = peek();
                 }
             } else if (recovery == Recovery::Any) {
                 // Recovery::Any
@@ -204,6 +222,12 @@ namespace jc::parser {
             }
             case TokenKind::Init: {
                 maybeItem = parseInit(std::move(modifiers));
+                break;
+            }
+            case TokenKind::Operator: {
+                if (lookup().is(TokenKind::Id) and lookup().val == GROUP_SOFT_KEYWORD) {
+                    maybeItem = parseOpGroup();
+                }
                 break;
             }
             default: {}
@@ -360,9 +384,7 @@ namespace jc::parser {
 
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
-
         auto sig = parseFuncSig(std::move(modifiers));
-
         auto body = parseFuncBody();
 
         exitEntity();
@@ -657,6 +679,62 @@ namespace jc::parser {
         return makePRBoxNode<Init, Item>(std::move(sig), std::move(body), closeSpan(begin));
     }
 
+    Item::Ptr Parser::parseOpGroup() {
+        enterEntity("OpGroup");
+
+        const auto & begin = cspan();
+
+        justSkip(TokenKind::Operator, "`operator`", "`parseOpGroup`");
+        justSkip(TokenKind::Id, "`group`", "`parseOpGroup` -> `group` identifier");
+
+        auto name = parseIdent("`operator group` name");
+
+        Option<SimplePath::PR> higherThan{None};
+        Option<SimplePath::PR> lowerThan{None};
+        OpAssoc assoc;
+
+        skip(TokenKind::LBrace, "Expected opening `{` in `operator group`");
+
+        while (not eof()) {
+            if (is(TokenKind::Id)) {
+                if (peek().val == HIGHER_THAN_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `higherThan`");
+                    higherThan = parseSimplePath("`higherThan` another operator group name");
+                } else if (peek().val == LOWER_THAN_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `lowerThan`");
+                    higherThan = parseSimplePath("`lowerThan` another operator group name");
+                } else if (peek().val == ASSOC_SOFT_KEYWORD) {
+                    advance();
+                    skip(TokenKind::Colon, "`:` after `assoc`");
+                    auto assocIdent = parseIdent("`left` or `right` associativity for `assoc`");
+                    if (assocIdent.ok()) {
+                        const auto & assocIdentValue = assocIdent.unwrap().name;
+                        if (assocIdentValue == LEFT_SOFT_KEYWORD) {
+                            assoc = ast::OpAssoc::Left;
+                        } else if (assocIdentValue == RIGHT_SOFT_KEYWORD) {
+                            assoc = ast::OpAssoc::Right;
+                        } else {
+                            suggestErrorMsg("`assoc` must be either `left` or `right", assocIdent.span());
+                        }
+                    }
+                }
+            }
+        }
+
+        skip(TokenKind::RBrace, "Expected closing `}` in `operator group`");
+
+        exitEntity();
+
+        return makePRBoxNode<OpGroup, Item>(
+            std::move(name),
+            std::move(higherThan),
+            std::move(lowerThan),
+            assoc,
+            closeSpan(begin));
+    }
+
     ////////////////
     // Statements //
     ////////////////
@@ -762,8 +840,23 @@ namespace jc::parser {
     /////////////////
     // Expressions //
     /////////////////
+    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
+        logParse("Expr");
+
+        const auto & begin = cspan();
+        auto expr = parseOptExpr();
+        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
+        if (expr.none()) {
+            suggestErrorMsg(suggMsg, begin);
+            return makeErrPR<N<Expr>>(closeSpan(begin));
+        }
+        return expr.take("parseExpr -> expr");
+    }
+
     Expr::OptPtr Parser::parseOptExpr() {
         logParseExtra("[opt] Expr");
+
+        // TODO!: Merge `return`, `break` and closures with operator-expressions parsing
 
         const auto & begin = cspan();
         if (skipOpt(TokenKind::Return).some()) {
@@ -789,20 +882,171 @@ namespace jc::parser {
             return parseLambda();
         }
 
-        return assignment();
+        return parseInfixExpr();
     }
 
-    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
-        logParse("Expr");
-
-        const auto & begin = cspan();
-        auto expr = parseOptExpr();
-        // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
-        if (expr.none()) {
-            suggestErrorMsg(suggMsg, begin);
-            return makeErrPR<N<Expr>>(closeSpan(begin));
+    Expr::OptPtr Parser::parseInfixExpr() {
+        if (extraDebugAll) {
+            logParse("parseInfixExpr");
         }
-        return expr.take("parseExpr -> expr");
+
+        auto begin = cspan();
+
+        auto maybeLhs = parsePrefixExpr();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            if (not peek().isInfixOp()) {
+                break;
+            }
+
+            auto infixOp = advance();
+
+            auto rhs = errorForNone(parsePrefixExpr(), "Expected expression");
+
+            lhs = makePRBoxNode<Infix, Expr>(std::move(lhs), infixOp, std::move(rhs), closeSpan(begin));
+        }
+
+        return lhs;
+    }
+
+    Expr::OptPtr Parser::parsePrefixExpr() {
+        if (extraDebugAll) {
+            logParse("parsePrefixExpr");
+        }
+
+        auto begin = cspan();
+
+        if (is(TokenKind::Mul)) {
+            auto derefOp = advance();
+            auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to dereference");
+
+            return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
+        } else if (is(TokenKind::Ampersand)) {
+            auto borrowOp = advance();
+            auto mut = skipOpt(TokenKind::Mut).some();
+
+            auto rhs = errorForNone(parsePostfixExpr(), "Expected expression to borrow");
+
+            return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
+        } else if (peek().isPrefixOp()) {
+            auto prefixOp = advance();
+            auto rhs = errorForNone(
+                parsePostfixExpr(),
+                "Expected expression after `" + prefixOp.toString() + "` operator");
+
+            return makePRBoxNode<Prefix, Expr>(prefixOp, std::move(rhs), closeSpan(begin));
+        }
+
+        return parsePostfixExpr();
+    }
+
+    Expr::OptPtr Parser::parsePostfixExpr() {
+        if (extraDebugAll) {
+            logParse("parsePostfixExpr");
+        }
+
+        auto begin = cspan();
+
+        // TODO: Suffixes like call, etc.
+        auto maybeLhs = parseSuffixExpr();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            if (not peek().isPostfixOp()) {
+                break;
+            }
+
+            auto postfixOp = advance();
+
+            lhs = makePRBoxNode<Postfix, Expr>(std::move(lhs), postfixOp, closeSpan(begin));
+        }
+
+        return lhs;
+    }
+
+    Expr::OptPtr Parser::parseSuffixExpr() {
+        auto maybeLhs = parseMemberAccess();
+
+        if (maybeLhs.none()) {
+            return None;
+        }
+
+        auto begin = cspan();
+        auto lhs = maybeLhs.take();
+
+        while (not eof()) {
+            auto maybeOp = peek();
+            if (skipOpt(TokenKind::LBracket).some()) {
+                enterEntity("Subscript");
+
+                Expr::List indices;
+
+                bool first = true;
+                while (not eof()) {
+                    if (is(TokenKind::RBracket)) {
+                        break;
+                    }
+
+                    if (first) {
+                        first = false;
+                    } else {
+                        skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
+                    }
+
+                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
+                }
+                skip(TokenKind::RParen, "Missing closing `]` in array expression");
+
+                exitEntity();
+                lhs = makePRBoxNode<Subscript, Expr>(std::move(lhs), std::move(indices), closeSpan(begin));
+
+                begin = cspan();
+            } else if (is(TokenKind::LParen)) {
+                enterEntity("Invoke");
+
+                auto args = parseArgList("function call");
+
+                exitEntity();
+                lhs = makePRBoxNode<Invoke, Expr>(std::move(lhs), std::move(args), closeSpan(begin));
+
+                begin = cspan();
+            } else {
+                break;
+            }
+        }
+
+        return lhs;
+    }
+
+    Expr::OptPtr Parser::parseMemberAccess() {
+        auto lhs = primary();
+
+        if (lhs.none()) {
+            return None;
+        }
+
+        auto begin = cspan();
+        while (skipOpt(TokenKind::Dot).some()) {
+            logParse("MemberAccess");
+
+            auto name = parseIdent("field name");
+
+            lhs = makePRBoxNode<MemberAccess, Expr>(lhs.take(), std::move(name), closeSpan(begin));
+            begin = cspan();
+        }
+
+        return lhs;
     }
 
     Expr::Ptr Parser::parseLambda() {
@@ -861,228 +1105,6 @@ namespace jc::parser {
 
         return makePRBoxNode<Lambda, Expr>(
             std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
-    }
-
-    Expr::OptPtr Parser::assignment() {
-        const auto & begin = cspan();
-        auto lhs = precParse(0);
-
-        if (lhs.none()) {
-            return None;
-        }
-
-        const auto maybeAssignOp = peek();
-        if (maybeAssignOp.isAssignOp()) {
-            if (lhs.none()) {
-                suggestErrorMsg("Unexpected empty left-hand side in assignment", maybeAssignOp.span);
-            }
-
-            advance();
-
-            auto rhs = parseExpr("Expected expression in assignment");
-
-            return Some(
-                makePRBoxNode<Assign, Expr>(
-                    lhs.take(), maybeAssignOp, std::move(rhs), closeSpan(begin)));
-        }
-
-        return lhs;
-    }
-
-    Expr::OptPtr Parser::precParse(uint8_t index) {
-        if (extraDebugAll) {
-            logParse("precParse:" + std::to_string(index));
-        }
-
-        if (precTable.size() == index) {
-            return prefix();
-        } else if (index > precTable.size()) {
-            log::Logger::devPanic(
-                "`precParse` with index > precTable.size, index =", static_cast<int>(index),
-                "precTable.size =", precTable.size()
-            );
-        }
-
-        const auto & parser = precTable.at(index);
-        const auto flags = parser.flags;
-        const auto multiple = (flags >> 1) & 1;
-        const auto rightAssoc = flags & 1;
-
-        auto begin = cspan();
-        Expr::OptPtr maybeLhs = precParse(index + 1);
-        while (not eof()) {
-            Option<Token> maybeOp{None};
-            for (const auto & op : parser.ops) {
-                if (is(op)) {
-                    maybeOp = peek();
-                    break;
-                }
-            }
-
-            // TODO: Add `..rhs`, `..=rhs`, `..` and `lhs..` ranges
-
-            if (maybeOp.none()) {
-                if (maybeLhs.some()) {
-                    return maybeLhs.take("`precParse` -> not maybeOp -> `single`");
-                }
-            }
-
-            if (maybeLhs.none()) {
-                // TODO: Prefix range operators
-                // Left-hand side is none, and there's no range operator
-                return None; // FIXME: CHECK FOR PREFIX
-            }
-
-            auto lhs = maybeLhs.take("precParse -> maybeLhs");
-
-            auto op = maybeOp.unwrap("precParse -> maybeOp");
-            logParse("precParse -> " + op.kindToString());
-
-            justSkip(op.kind, op.toString(), "`precParse`");
-
-            auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
-            if (maybeRhs.none()) {
-                // We continue, because we want to keep parsing expression even if rhs parsed unsuccessfully
-                // and `precParse` already generated error suggestion
-                continue;
-            }
-            auto rhs = maybeRhs.take("`precParse` -> `rhs`");
-            maybeLhs = makePRBoxNode<Infix, Expr>(std::move(lhs), op, std::move(rhs), closeSpan(begin));
-            if (not multiple) {
-                break;
-            }
-            begin = cspan();
-        }
-
-        return maybeLhs;
-    }
-
-    Expr::OptPtr Parser::prefix() {
-        const auto & begin = cspan();
-        const auto & op = peek();
-        if (
-            skipOpt(TokenKind::Not).some() or
-            skipOpt(TokenKind::Sub).some() or
-            skipOpt(TokenKind::Ampersand).some() or
-            skipOpt(TokenKind::Mul).some()
-        ) {
-            logParse("Prefix:'" + op.kindToString() + "'");
-            auto maybeRhs = prefix();
-            if (maybeRhs.none()) {
-                suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
-                return quest(); // FIXME: CHECK!!!
-            }
-            auto rhs = maybeRhs.take();
-            if (op.is(TokenKind::Ampersand) or op.is(TokenKind::Mut)) {
-                logParse("Borrow");
-
-                bool ref = skipOpt(TokenKind::Ampersand).some();
-                bool mut = skipOpt(TokenKind::Mut).some();
-                // TODO!!!: Swap `&` and `mut` suggestion
-                return makePRBoxNode<BorrowExpr, Expr>(ref, mut, std::move(rhs), closeSpan(begin));
-            } else if (op.is(TokenKind::Mul)) {
-                logParse("Deref");
-
-                return makePRBoxNode<DerefExpr, Expr>(std::move(rhs), closeSpan(begin));
-            }
-
-            logParse("Prefix");
-
-            return makePRBoxNode<Prefix, Expr>(op, std::move(rhs), closeSpan(begin));
-        }
-
-        return quest();
-    }
-
-    Expr::OptPtr Parser::quest() {
-        const auto & begin = cspan();
-        auto lhs = call();
-
-        if (lhs.none()) {
-            return None;
-        }
-
-        if (skipOpt(TokenKind::Quest).some()) {
-            logParse("Quest");
-
-            return makePRBoxNode<QuestExpr, Expr>(lhs.take(), closeSpan(begin));
-        }
-
-        return lhs;
-    }
-
-    Option<Expr::Ptr> Parser::call() {
-        auto maybeLhs = memberAccess();
-
-        if (maybeLhs.none()) {
-            return None;
-        }
-
-        auto begin = cspan();
-        auto lhs = maybeLhs.take();
-
-        while (not eof()) {
-            auto maybeOp = peek();
-            if (skipOpt(TokenKind::LBracket).some()) {
-                enterEntity("Subscript");
-
-                Expr::List indices;
-
-                bool first = true;
-                while (not eof()) {
-                    if (is(TokenKind::RBracket)) {
-                        break;
-                    }
-
-                    if (first) {
-                        first = false;
-                    } else {
-                        skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
-                    }
-
-                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
-                }
-                skip(TokenKind::RParen, "Missing closing `]` in array expression");
-
-                exitEntity();
-                lhs = makePRBoxNode<Subscript, Expr>(std::move(lhs), std::move(indices), closeSpan(begin));
-
-                begin = cspan();
-            } else if (is(TokenKind::LParen)) {
-                enterEntity("Invoke");
-
-                auto args = parseArgList("function call");
-
-                exitEntity();
-                lhs = makePRBoxNode<Invoke, Expr>(std::move(lhs), std::move(args), closeSpan(begin));
-
-                begin = cspan();
-            } else {
-                break;
-            }
-        }
-
-        return lhs;
-    }
-
-    Expr::OptPtr Parser::memberAccess() {
-        auto lhs = primary();
-
-        if (lhs.none()) {
-            return None;
-        }
-
-        auto begin = cspan();
-        while (skipOpt(TokenKind::Dot).some()) {
-            logParse("MemberAccess");
-
-            auto name = parseIdent("field name");
-
-            lhs = makePRBoxNode<MemberAccess, Expr>(lhs.take(), std::move(name), closeSpan(begin));
-            begin = cspan();
-        }
-
-        return lhs;
     }
 
     Expr::OptPtr Parser::primary() {
@@ -1173,8 +1195,7 @@ namespace jc::parser {
         if (not peek().isLiteral()) {
             log::Logger::devPanic("Expected literal in `parseLiteral`");
         }
-        auto token = peek();
-        advance();
+        auto token = advance();
         return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
     }
 
@@ -1685,8 +1706,7 @@ namespace jc::parser {
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
         Expr::OptPtr defaultValue{None};
-        if (peek().isAssignOp()) {
-            advance();
+        if (skipOpt(TokenKind::Assign).some()) {
             defaultValue = parseExpr("Expression expected as default value of function parameter");
         }
 
@@ -2208,8 +2228,7 @@ namespace jc::parser {
             log.devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
         }
 
-        auto token = peek();
-        advance();
+        auto token = advance();
 
         return makePRBoxNode<LitPat, Pattern>(neg, token, closeSpan(begin));
     }

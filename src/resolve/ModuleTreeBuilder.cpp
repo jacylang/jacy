@@ -47,8 +47,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Impl & impl) {
-        // Note: Impl is a block and it will be bound to some type in NameResolver
-        enterModule(getItemVis(impl), impl.id, DefKind::Impl, span::Ident::empty());
+        auto synthName = span::Ident {Module::getImplName(impl), impl.span.fromStartWithLen(4)};
+
+        enterModule(getItemVis(impl), impl.id, DefKind::Impl, synthName);
         visitEach(impl.members);
         exitMod();
     }
@@ -117,8 +118,9 @@ namespace jc::resolve {
             "Trying to add def '",
             name,
             "'",
-            (curModuleName.some() ? " in module '" + curModuleName.unwrap() + "'" : ""),
-            " with defId [",
+            " in module '",
+            (moduleNameStack.size() > 0 ? moduleNameStack.back() : "[ROOT]"),
+            "' with defId [",
             defId,
             "] in ",
             Module::nsToString(ns),
@@ -186,7 +188,7 @@ namespace jc::resolve {
         enterChildModule(_defTable.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
 
         // For debug //
-        curModuleName = None;
+        moduleNameStack.push_back("[BLOCK]");
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
@@ -203,7 +205,7 @@ namespace jc::resolve {
         enterChildModule(_defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
-        curModuleName = name;
+        moduleNameStack.push_back(name);
     }
 
     void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
@@ -217,6 +219,8 @@ namespace jc::resolve {
 
         // Set nearest `mod` from parent we lift to
         nearestModDef = mod->nearestModDef;
+
+        moduleNameStack.pop_back();
     }
 
     // Suggestions //
@@ -229,7 +233,7 @@ namespace jc::resolve {
 
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
-        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId).unwrap();
+        const auto & prevDefSpan = _defTable.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
                 "Cannot redeclare '" + ident.name + "' as " + Def::kindStr(as),

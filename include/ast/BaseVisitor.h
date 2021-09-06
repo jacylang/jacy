@@ -12,6 +12,7 @@ namespace jc::ast {
     struct Impl;
     struct Init;
     struct Mod;
+    struct OpGroup;
     struct Struct;
     struct StructField;
     struct Trait;
@@ -47,6 +48,7 @@ namespace jc::ast {
     struct MemberAccess;
     struct ParenExpr;
     struct PathExpr;
+    struct Postfix;
     struct Prefix;
     struct QuestExpr;
     struct ReturnExpr;
@@ -108,6 +110,7 @@ namespace jc::ast {
         virtual void visit(const Impl&) = 0;
         virtual void visit(const Init&) = 0;
         virtual void visit(const Mod&) = 0;
+        virtual void visit(const OpGroup&) = 0;
         virtual void visit(const Struct&) = 0;
         virtual void visit(const StructField&) = 0;
         virtual void visit(const Trait&) = 0;
@@ -143,6 +146,7 @@ namespace jc::ast {
         virtual void visit(const MemberAccess&) = 0;
         virtual void visit(const ParenExpr&) = 0;
         virtual void visit(const PathExpr&) = 0;
+        virtual void visit(const Postfix&) = 0;
         virtual void visit(const Prefix&) = 0;
         virtual void visit(const QuestExpr&) = 0;
         virtual void visit(const ReturnExpr&) = 0;

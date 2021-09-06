@@ -47,12 +47,15 @@ namespace jc::parser {
         //  and comparing enum variants is better than strings.
         // NAME                     // OP (USAGE)
         Assign,                     // = (`func`, `type`, etc.)
-        Add,                        // + (multiple `trait` `impl`'s
+        Add,                        // + (multiple `trait` `impl`'s)
+        Dot,                        // . (member access)
+        Sub,                        // - (negative literals)
         Mul,                        // * (`use` item)
         Ampersand,                  // & (borrowing)
         BitOr,                      // | (closures, `match`)
         LAngle,                     // < (generics)
         RAngle,                     // > (generics)
+        Quest,                      // ? (optional)
 
         // Punctuations //
         Backslash,                  // `\`
@@ -99,9 +102,12 @@ namespace jc::parser {
         Move,
         Mut,
         Of,
+        Operator,
         Return,
         Party,
+        Postfix,
         Pub,
+        Prefix,
         Ref,
         Self,
         Static,
@@ -144,7 +150,10 @@ namespace jc::parser {
         bool isLiteral() const;
         bool isKw() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
-        bool isOp() const;
+
+        bool isInfixOp() const;
+        bool isPrefixOp() const;
+        bool isPostfixOp() const;
 
         std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);

@@ -73,6 +73,11 @@ namespace jc::parser {
         Any,
     };
 
+    struct TokenSpacing {
+        Span::Pos left;
+        Span::Pos right;
+    };
+
     class Parser : public sugg::SuggInterface {
     public:
         Parser();
@@ -131,6 +136,7 @@ namespace jc::parser {
         Token advance(uint8_t distance = 1);
         Token lookup() const;
         Token prev() const;
+        TokenSpacing getSpacing() const;
 
         // Checkers //
         bool eof() const;
@@ -150,6 +156,12 @@ namespace jc::parser {
 
         // Parsers //
     private:
+        static constexpr const char * GROUP_SOFT_KEYWORD = "group";
+        static constexpr const char * HIGHER_THAN_SOFT_KEYWORD = "higherThan";
+        static constexpr const char * LOWER_THAN_SOFT_KEYWORD = "lowerThan";
+        static constexpr const char * ASSOC_SOFT_KEYWORD = "assoc";
+        static constexpr const char * LEFT_SOFT_KEYWORD = "left";
+        static constexpr const char * RIGHT_SOFT_KEYWORD = "right";
 
         // Items //
         Option<Item::Ptr> parseOptItem();
@@ -168,6 +180,7 @@ namespace jc::parser {
         Item::Ptr parseUseDecl();
         UseTree::Ptr parseUseTree();
         Item::Ptr parseInit(parser::Token::List && modifiers);
+        Item::Ptr parseOpGroup();
 
         // Statements //
         Stmt::Ptr parseStmt();
@@ -176,17 +189,17 @@ namespace jc::parser {
         Stmt::Ptr parseWhileStmt();
 
         // Expressions //
-        Expr::OptPtr parseOptExpr();
         Expr::Ptr parseExpr(const std::string & suggMsg);
-        Expr::Ptr parseLambda();
-        Expr::OptPtr assignment();
-        Expr::OptPtr precParse(uint8_t index);
+        Expr::OptPtr parseOptExpr();
 
-        Expr::OptPtr prefix();
-        Expr::OptPtr quest();
-        Expr::OptPtr call();
-        Expr::OptPtr memberAccess();
+        Expr::OptPtr parseInfixExpr();
+        Expr::OptPtr parsePrefixExpr();
+        Expr::OptPtr parsePostfixExpr();
+        Expr::OptPtr parseSuffixExpr();
+        Expr::OptPtr parseMemberAccess();
         Expr::OptPtr primary();
+
+        Expr::Ptr parseLambda();
 
         // Atomic expressions //
         Ident::PR justParseIdent(const std::string & panicIn);
@@ -245,6 +258,17 @@ namespace jc::parser {
         Span cspan() const;
         Span nspan() const;
         Span closeSpan(const Span & begin);
+
+        // Suggestions //
+    private:
+        template<class T>
+        T && errorForNone(Option<T> && optEntity, const std::string & errMsg) {
+            if (optEntity.none()) {
+                suggestErrorMsg(errMsg, cspan());
+            }
+
+            return optEntity.take();
+        }
 
         // DEV //
     private:

@@ -32,8 +32,18 @@ namespace jc::resolve {
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             using namespace utils::map;
 
-            auto defId = DefId{defs.size()};
-            defs.emplace_back(Def {defId, kind, ident});
+            auto defId = DefId {DefIndex {defs.size()}};
+            defs.emplace_back(defId, kind, ident);
+
+            log::Logger::devDebug(
+                "[DefTable::define] Add definition ",
+                Def::kindStr(kind),
+                " '",
+                ident,
+                "' with node id ",
+                nodeId,
+                " and def id ",
+                defId);
 
             assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
             assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
@@ -66,12 +76,16 @@ namespace jc::resolve {
             try {
                 return modules.at(defId.getIndex());
             } catch (const std::out_of_range & e) {
-                log::Logger::devPanic("Called `DefStorage::getModule` with non-existent `defId` ", defId);
+                panicWithDump("Called `DefStorage::getModule` with non-existent `defId` ", defId, ": ", e.what());
             }
         }
 
         const Module::Ptr & getBlock(ast::NodeId nodeId) const {
-            return blocks.at(nodeId);
+            try {
+                return blocks.at(nodeId);
+            } catch (const std::out_of_range & e) {
+                panicWithDump("Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId, ": ", e.what());
+            }
         }
 
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
@@ -79,11 +93,20 @@ namespace jc::resolve {
         }
 
         const Module::Ptr & getUseDeclModule(ast::NodeId nodeId) const {
-            return useDeclModules.at(nodeId);
+            try {
+                return useDeclModules.at(nodeId);
+            } catch (const std::out_of_range & e) {
+                panicWithDump(
+                    "Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId, ": ", e.what());
+            }
         }
 
-        span::Span::Opt getDefNameSpan(const DefId & defId) const {
-            return defs.at(defId.getIndex().val).ident.span;
+        span::Span getDefNameSpan(const DefId & defId) const {
+            try {
+                return defs.at(defId.getIndex().val).ident.span;
+            } catch (const std::out_of_range & e) {
+                panicWithDump("Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());
+            }
         }
 
     private:
@@ -94,6 +117,11 @@ namespace jc::resolve {
         std::map<DefId, DefVis> defVisMap;
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
+
+        template<class ...Args>
+        void panicWithDump(Args ...args) const {
+            log::Logger::devPanic(std::forward<Args>(args)..., "\nDefinitions: ", defs);
+        }
 
         /// Stores names (identifiers) of definitions (if exists).
         /// Used mostly for error reporting.
