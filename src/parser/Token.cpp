@@ -136,16 +136,6 @@ namespace jc::parser {
         TokenKind::XorAssign,
     };
 
-    const std::vector<TokenKind> Token::literals = {
-        TokenKind::DecLiteral,
-        TokenKind::BinLiteral,
-        TokenKind::OctLiteral,
-        TokenKind::HexLiteral,
-        TokenKind::FloatLiteral,
-        TokenKind::SQStringLiteral,
-        TokenKind::DQStringLiteral,
-    };
-
     bool Token::is(TokenKind kind) const {
         return this->kind == kind;
     }
