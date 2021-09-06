@@ -154,17 +154,32 @@ namespace jc::parser {
             num += forward();
         }
 
+        // TODO: Suffixes
+        // TODO: static_cast size
+
         if (is('.')) {
             if (not isDigit(lookup())) {
-                addToken(TokenKind::Lit, TokLit {
-                    TokLit::Kind::DecLiteral,
-                });
+                addToken({
+                    TokenKind::Lit,
+                    TokLit {
+                        TokLit::Kind::DecLiteral,
+                        sess->interner.intern(num),
+                        None
+                    }
+                }, num.size());
                 return;
             }
 
             lexFloatLiteral(num);
         } else {
-            addToken(TokenKind::DecLiteral, num);
+            addToken({
+                TokenKind::Lit,
+                TokLit {
+                    TokLit::Kind::DecLiteral,
+                    sess->interner.intern(num),
+                    None
+                }
+            }, num.size());
         }
     }
 
