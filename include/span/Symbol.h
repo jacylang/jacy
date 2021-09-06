@@ -22,6 +22,20 @@ namespace jc::span {
     public:
         Interner() = default;
 
+        Symbol intern(const std::string & str) {
+            const auto & found = symbols.find(str);
+            if (found != symbols.end()) {
+                return found->second;
+            }
+
+            auto sym = Symbol {static_cast<SymbolId::ValueT>(symbols.size())};
+            
+            symbols.emplace(str, sym);
+            internedStrings.emplace_back(str);
+
+            return sym;
+        }
+
     private:
         Symbol::SymMap symbols;
         std::vector<std::string> internedStrings;
