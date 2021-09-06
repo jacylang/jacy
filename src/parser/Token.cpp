@@ -191,7 +191,7 @@ namespace jc::parser {
 
     // FIXME: Update `toString` and `dump` when `Session` will be global state and thus `Interner` will be globally accessible
 
-    std::string Token::toString(const span::Interner & interner, bool prettyQuotes) const {
+    std::string Token::toString(bool prettyQuotes) const {
         std::string str;
         if (prettyQuotes) {
             str += "`";
@@ -199,7 +199,7 @@ namespace jc::parser {
         switch (kind) {
             case TokenKind::Lit:
             case TokenKind::Id: {
-                str += asSymbol().toString(interner);
+                str += asSymbol().toString();
             } break;
             default: {
                 str += kindToString();
@@ -208,13 +208,13 @@ namespace jc::parser {
         return str + "`";
     }
 
-    std::string Token::dump(const span::Interner & interner, bool withSpan) const {
+    std::string Token::dump(bool withSpan) const {
         std::string str = kindToString();
 
         switch (kind) {
             case TokenKind::Lit:
             case TokenKind::Id: {
-                str += ":'" + asSymbol().toString(interner) + "'";
+                str += ":'" + asSymbol().toString() + "'";
             }
             default:;
         }

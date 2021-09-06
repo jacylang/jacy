@@ -193,7 +193,7 @@ namespace jc::parser {
         bool isKw() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
 
-        std::string toString(const span::Interner & interner, bool prettyQuotes = true) const;
+        std::string toString(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);
         static std::string kindToString(const Token & token);
         std::string kindToString() const;
@@ -201,7 +201,7 @@ namespace jc::parser {
         static std::string listKindToString(const Token::List & tokens);
 
         // Debug //
-        std::string dump(const span::Interner & interner, bool withLoc = true) const;
+        std::string dump(bool withLoc = true) const;
     };
 }
 
