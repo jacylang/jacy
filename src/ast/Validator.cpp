@@ -463,29 +463,6 @@ namespace jc::ast {
         spreadExpr.expr.autoAccept(*this);
     }
 
-    void Validator::visit(const StructExpr & structExpr) {
-        structExpr.path.autoAccept(*this);
-        lintEach(structExpr.fields);
-    }
-
-    void Validator::visit(const StructExprField & field) {
-        switch (field.kind) {
-            case StructExprField::Kind::Raw: {
-                field.name.unwrap().autoAccept(*this);
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Shortcut: {
-                field.name.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Base: {
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-        }
-    }
-
     void Validator::visit(const Subscript & subscript) {
         subscript.lhs.autoAccept(*this);
         lintEach(subscript.indices);
