@@ -148,15 +148,15 @@ namespace jc::resolve {
             }
         }
 
-        static inline std::string getInitName(const ast::Init & init) {
-            return getFuncName("init", init.sig);
+        static inline span::Ident getInitName(const ast::Init & init) {
+            return getFuncName("init", init.sig, init.span);
         }
 
         static inline std::string getImplName(const ast::Node & node) {
             return "%impl_" + std::to_string(node.id.val);
         }
 
-        static inline std::string getFuncName(const std::string & baseName, const ast::FuncSig & sig) {
+        static inline span::Ident getFuncName(const std::string & baseName, const ast::FuncSig & sig, const span::Span & span) {
             std::string name = baseName + "(";
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
@@ -165,7 +165,8 @@ namespace jc::resolve {
                     name += "_:";
                 }
             }
-            return name + ")";
+            name + ")";
+            return span::Ident {name, span};
         }
     };
 }
