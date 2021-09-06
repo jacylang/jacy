@@ -148,7 +148,11 @@ namespace jc::parser {
             }
         }
 
-        return str + "`";
+        if (prettyQuotes) {
+            return str + "`";
+        }
+
+        return str;
     }
 
     std::string Token::dump(bool withSpan) const {
