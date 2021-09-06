@@ -82,6 +82,14 @@ namespace jc::span {
 
         std::string toString() const;
 
+        bool operator==(KW kw) const {
+            return std::underlying_type_t<KW>(kw) == id.val;
+        }
+
+        bool operator<(const Symbol & other) const {
+            return id.val < other.id.val;
+        }
+
         static const std::map<KW, std::string> keywords;
     };
 
