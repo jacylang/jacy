@@ -9,7 +9,9 @@
 namespace jc::hir {
     struct Variant : HirNode {
         enum class Kind {
-
+            Struct, // Struct variant (`{field: Type, ...}`)
+            Tuple, // Tuple variant (`(Types...)`)
+            Unit, // Variant with optional discriminant (such as `Foo = 1` or just `Bar`)
         };
 
         span::Ident ident;
