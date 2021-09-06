@@ -26,14 +26,6 @@ namespace jc::parser {
         return tokens.at(index - 1);
     }
 
-    auto Parser::peekStr(bool quote) const {
-        return peek().toString(sess->interner, quote);
-    }
-
-    auto Parser::peekDump() const {
-        return peek().dump(sess->interner);
-    }
-
     // Checkers //
     bool Parser::eof() const {
         return peek().is(TokenKind::Eof);
@@ -71,7 +63,7 @@ namespace jc::parser {
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
-                    "Remove '" + peekStr() + "'",
+                    "Remove '" + peek.toString() + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected token " + peek().kindToString(),
                         cspan()
@@ -82,7 +74,7 @@ namespace jc::parser {
             if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     if (extraDebugAll) {
-                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peekDump());
+                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek.dump());
                     }
                     // If next token is what we need we produce an error for skipped one anyway
                     found = advance();
@@ -112,7 +104,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peekDump());
+                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peek.dump());
             }
         }
 
@@ -127,7 +119,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peekStr());
+            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peek.toString());
         }
 
         advance();
@@ -137,7 +129,7 @@ namespace jc::parser {
         auto last = Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peekDump());
+                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek.dump());
             }
             advance();
             return last;
@@ -771,7 +763,7 @@ namespace jc::parser {
     }
 
     Expr::Ptr Parser::parseLambda() {
-        enterEntity("Lambda:" + peekDump());
+        enterEntity("Lambda:" + peek.dump());
 
         const auto & begin = cspan();
 
@@ -2174,7 +2166,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
-            log::devPanic("Non-literal token in `parseLitPat`: ", peekDump());
+            log::devPanic("Non-literal token in `parseLitPat`: ", peek.dump());
         }
 
         auto token = peek();
@@ -2319,7 +2311,7 @@ namespace jc::parser {
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
-                " peek: " + peekDump(),
+                " peek: " + peek.dump(),
                 log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
@@ -2340,7 +2332,7 @@ namespace jc::parser {
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
-                " peek: " + peekDump(),
+                " peek: " + peek.dump(),
                 log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
