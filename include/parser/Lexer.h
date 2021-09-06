@@ -5,7 +5,7 @@
 #include "common/Error.h"
 #include "log/Logger.h"
 #include "parser/ParseSess.h"
-#include "session/SourceMap.h"
+#include "session/Session.h"
 
 namespace jc::parser {
     // TODO: Suggestions instead of errors
@@ -21,6 +21,7 @@ namespace jc::parser {
         Token::List lex(const ParseSess::Ptr & parseSess);
 
     private:
+        sess::Session::Ptr sess;
         log::Logger log{"lexer"};
 
         std::string source;
