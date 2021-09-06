@@ -162,7 +162,7 @@ namespace jc::parser {
     };
 
     struct Token {
-        using ValueT = std::variant<span::Symbol>;
+        using ValueT = std::variant<span::Symbol, TokLit>;
         using List = std::vector<Token>;
         using Opt = Option<Token>;
 
