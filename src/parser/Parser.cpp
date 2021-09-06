@@ -173,44 +173,40 @@ namespace jc::parser {
 
         auto vis = parseVis();
 
-        switch (peek().kind) {
-            case TokenKind::Func: {
-                maybeItem = parseFunc(std::move(modifiers));
-                break;
-            }
-            case TokenKind::Enum: {
-                maybeItem = parseEnum();
-                break;
-            }
-            case TokenKind::Type: {
-                maybeItem = parseTypeAlias();
-                break;
-            }
-            case TokenKind::Mod: {
-                maybeItem = parseMod();
-                break;
-            }
-            case TokenKind::Struct: {
-                maybeItem = parseStruct();
-                break;
-            }
-            case TokenKind::Impl: {
-                maybeItem = parseImpl();
-                break;
-            }
-            case TokenKind::Trait: {
-                maybeItem = parseTrait();
-                break;
-            }
-            case TokenKind::Use: {
-                maybeItem = parseUseDecl();
-                break;
-            }
-            case TokenKind::Init: {
-                maybeItem = parseInit(std::move(modifiers));
-                break;
-            }
-            default: {}
+        if (isKw(KW::Func)) {
+            maybeItem = parseFunc(std::move(modifiers));
+        }
+
+        if (isKw(KW::Enum)) {
+            maybeItem = parseEnum();
+        }
+
+        if (isKw(KW::Type)) {
+            maybeItem = parseTypeAlias();
+        }
+
+        if (isKw(KW::Mod)) {
+            maybeItem = parseMod();
+        }
+
+        if (isKw(KW::Struct)) {
+            maybeItem = parseStruct();
+        }
+
+        if (isKw(KW::Impl)) {
+            maybeItem = parseImpl();
+        }
+
+        if (isKw(KW::Trait)) {
+            maybeItem = parseTrait();
+        }
+
+        if (isKw(KW::Use)) {
+            maybeItem = parseUseDecl();
+        }
+
+        if (isKw(KW::Init)) {
+            maybeItem = parseInit(std::move(modifiers));
         }
 
         if (maybeItem.some()) {
