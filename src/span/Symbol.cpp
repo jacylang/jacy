@@ -1,6 +1,7 @@
 #include "span/Symbol.h"
 
 namespace jc::span {
+    // Note[IMPORTANT]: When adding new keyword, update `Interner::isKw`-like methods if needed
     const std::map<KW, std::string> Symbol::keywords = {
         {KW::Empty,      ""},
         {KW::Root,       "[ROOT]"},
