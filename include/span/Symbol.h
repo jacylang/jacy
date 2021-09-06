@@ -80,7 +80,7 @@ namespace jc::span {
 
         SymbolId id;
 
-        std::string toString(const Interner & interner) const;
+        std::string toString() const;
 
         static const std::map<KW, std::string> keywords;
     };
