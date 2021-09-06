@@ -45,7 +45,7 @@
 
 namespace jc::parser {
     using namespace ast;
-    using span::KW;
+    using span::Kw;
     using span::Symbol;
 
     // Note: Usage
@@ -139,7 +139,7 @@ namespace jc::parser {
         bool eof() const;
         bool is(TokenKind kind) const;
         bool isIdentLike(TokenKind kind, Symbol::Opt sym) const;
-        bool isKw(KW kw) const;
+        bool isKw(Kw kw) const;
         bool is(const std::vector<TokenKind> & kinds) const;
         bool isSemis();
 
@@ -151,11 +151,11 @@ namespace jc::parser {
             Recovery recovery = Recovery::None,
             Symbol::Opt sym = None
         );
-        Token::Opt skipKw(KW kw, const std::string & expected, Recovery recovery = Recovery::None);
+        Token::Opt skipKw(Kw kw, const std::string & expected, Recovery recovery = Recovery::None);
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
-        void justSkipKw(KW kw, const std::string & expected, const std::string & panicIn);
+        void justSkipKw(Kw kw, const std::string & expected, const std::string & panicIn);
         Token::Opt skipOpt(TokenKind kind);
-        Token::Opt skipOptKw(KW kw);
+        Token::Opt skipOptKw(Kw kw);
 
         // Parsers //
     private:

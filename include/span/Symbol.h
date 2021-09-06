@@ -17,7 +17,7 @@ namespace jc::span {
     /// Keywords
     /// NOTE: Order matters!!!
     ///  We use discriminants to access specific interned keyword and to map string to keyword
-    enum class KW : uint8_t {
+    enum class Kw : uint8_t {
         Empty = 0,
         Root,
         Underscore,
@@ -98,33 +98,33 @@ namespace jc::span {
             return id < other.id;
         }
 
-        bool operator==(KW kw) const {
-            return std::underlying_type_t<KW>(kw) == id.val;
+        bool operator==(Kw kw) const {
+            return std::underlying_type_t<Kw>(kw) == id.val;
         }
 
         static Symbol intern(const std::string & str);
 
-        static auto kwAsInt(KW kw) {
-            return static_cast<std::underlying_type_t<KW>>(kw);
+        static auto kwAsInt(Kw kw) {
+            return static_cast<std::underlying_type_t<Kw>>(kw);
         }
 
-        static Symbol fromKw(KW kw) {
+        static Symbol fromKw(Kw kw) {
             return Symbol {kwAsInt(kw)};
         }
 
         bool isKw() const {
-            return kwAsInt(KW::And) <= id.val and kwAsInt(KW::While) >= id.val;
+            return kwAsInt(Kw::And) <= id.val and kwAsInt(Kw::While) >= id.val;
         }
 
         bool isPathSeg() const {
-            return *this == KW::Super
-                or *this == KW::Party
-                or *this == KW::Self;
+            return *this == Kw::Super
+                or *this == Kw::Party
+                or *this == Kw::Self;
         }
 
-        static std::string kwToString(KW kw);
+        static std::string kwToString(Kw kw);
 
-        static const std::map<KW, std::string> keywords;
+        static const std::map<Kw, std::string> keywords;
     };
 
     class Interner {

@@ -20,7 +20,7 @@ namespace jc::parser {
         addToken(Token(kind, std::monostate {}), len);
     }
 
-    void Lexer::addKwToken(KW kw, span::Span::Len len) {
+    void Lexer::addKwToken(Kw kw, span::Span::Len len) {
         addToken({TokenKind::Id, Symbol::fromKw(kw)}, len);
     }
 
@@ -551,7 +551,7 @@ namespace jc::parser {
                         advance(2);
                     }
                 } else {
-                    addKwToken(KW::Not, 1);
+                    addKwToken(Kw::Not, 1);
                     advance();
                 }
             } break;
@@ -636,7 +636,7 @@ namespace jc::parser {
                 advance();
             } break;
             case '_': {
-                addKwToken(KW::Underscore, 1);
+                addKwToken(Kw::Underscore, 1);
                 advance();
             } break;
             case '\\': {

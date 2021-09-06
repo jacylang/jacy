@@ -39,7 +39,7 @@ namespace jc::parser {
         return peek().isIdentLike(kind, sym);
     }
 
-    bool Parser::isKw(KW kw) const {
+    bool Parser::isKw(Kw kw) const {
         return peek().isKw(kw);
     }
 
@@ -126,7 +126,7 @@ namespace jc::parser {
         return found;
     }
 
-    Token::Opt Parser::skipKw(KW kw, const std::string & expected, Recovery recovery) {
+    Token::Opt Parser::skipKw(Kw kw, const std::string & expected, Recovery recovery) {
         return skip(TokenKind::Id, expected, recovery, Symbol::fromKw(kw));
     }
 
@@ -142,7 +142,7 @@ namespace jc::parser {
         advance();
     }
 
-    void Parser::justSkipKw(KW kw, const std::string & expected, const std::string & panicIn) {
+    void Parser::justSkipKw(Kw kw, const std::string & expected, const std::string & panicIn) {
         if (not peek().isKw(kw)) {
             log::devPanic("[bug] Expected keyword ", expected, " in ", panicIn);
         }
@@ -166,7 +166,7 @@ namespace jc::parser {
         return None;
     }
 
-    Token::Opt Parser::skipOptKw(KW kw) {
+    Token::Opt Parser::skipOptKw(Kw kw) {
         if (peek().isKw(kw)) {
             if (extraDebugAll) {
                 devLogWithIndent("Skip optional keyword ", Symbol::kwToString(kw), " | got ", peek().dump());
@@ -210,39 +210,39 @@ namespace jc::parser {
 
         auto vis = parseVis();
 
-        if (isKw(KW::Func)) {
+        if (isKw(Kw::Func)) {
             maybeItem = parseFunc(std::move(modifiers));
         }
 
-        if (isKw(KW::Enum)) {
+        if (isKw(Kw::Enum)) {
             maybeItem = parseEnum();
         }
 
-        if (isKw(KW::Type)) {
+        if (isKw(Kw::Type)) {
             maybeItem = parseTypeAlias();
         }
 
-        if (isKw(KW::Mod)) {
+        if (isKw(Kw::Mod)) {
             maybeItem = parseMod();
         }
 
-        if (isKw(KW::Struct)) {
+        if (isKw(Kw::Struct)) {
             maybeItem = parseStruct();
         }
 
-        if (isKw(KW::Impl)) {
+        if (isKw(Kw::Impl)) {
             maybeItem = parseImpl();
         }
 
-        if (isKw(KW::Trait)) {
+        if (isKw(Kw::Trait)) {
             maybeItem = parseTrait();
         }
 
-        if (isKw(KW::Use)) {
+        if (isKw(Kw::Use)) {
             maybeItem = parseUseDecl();
         }
 
-        if (isKw(KW::Init)) {
+        if (isKw(Kw::Init)) {
             maybeItem = parseInit(std::move(modifiers));
         }
 
@@ -302,7 +302,7 @@ namespace jc::parser {
     }
 
     Vis Parser::parseVis() {
-        const auto & pub = skipOptKw(KW::Pub);
+        const auto & pub = skipOptKw(Kw::Pub);
 
         VisKind kind{VisKind::Unset};
         span::Span::Opt span{None};
@@ -319,7 +319,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Enum, "`enum`", "`parseEnum`");
+        justSkipKw(Kw::Enum, "`enum`", "`parseEnum`");
 
         auto name = parseIdent("`enum` name");
         auto generics = parseOptGenerics();
@@ -393,7 +393,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Func, "`func`", "`parseFunc`");
+        justSkipKw(Kw::Func, "`func`", "`parseFunc`");
 
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
@@ -417,13 +417,13 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Impl, "`impl`", "`parseImpl`");
+        justSkipKw(Kw::Impl, "`impl`", "`parseImpl`");
 
         auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath();
 
         Type::OptPtr forType{None};
-        if (skipOptKw(KW::For).some()) {
+        if (skipOptKw(Kw::For).some()) {
             forType = parseType("Missing type");
         }
 
@@ -440,7 +440,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Struct, "`struct`", "`parseStruct`");
+        justSkipKw(Kw::Struct, "`struct`", "`parseStruct`");
 
         auto name = parseIdent("`struct` name");
         auto generics = parseOptGenerics();
@@ -509,7 +509,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Trait, "`trait`", "`parseTrait`");
+        justSkipKw(Kw::Trait, "`trait`", "`parseTrait`");
 
         auto name = parseIdent("`trait` name");
         auto generics = parseOptGenerics();
@@ -545,7 +545,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Type, "`type`", "`parseTypeAlias`");
+        justSkipKw(Kw::Type, "`type`", "`parseTypeAlias`");
 
         auto name = parseIdent("`type` name");
 
@@ -567,7 +567,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Mod, "`mod`", "`parseMod`");
+        justSkipKw(Kw::Mod, "`mod`", "`parseMod`");
 
         auto name = parseIdent("`mod` name");
 
@@ -587,7 +587,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Use, "`use`", "`parseUseDecl`");
+        justSkipKw(Kw::Use, "`use`", "`parseUseDecl`");
 
         auto useTree = parseUseTree();
 
@@ -650,7 +650,7 @@ namespace jc::parser {
             advance();
         }
 
-        if (maybePath.some() and skipOptKw(KW::As).some()) {
+        if (maybePath.some() and skipOptKw(Kw::As).some()) {
             // `as ...` case
 
             if (maybePath.none()) {
@@ -667,7 +667,7 @@ namespace jc::parser {
             return makePRBoxNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
         }
 
-        if (isKw(KW::As)) {
+        if (isKw(Kw::As)) {
             suggestErrorMsg("Please, specify path before `as` rebinding", cspan());
         }
 
@@ -684,7 +684,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Init, "`init`", "`parseInit`");
+        justSkipKw(Kw::Init, "`init`", "`parseInit`");
 
         auto sig = parseFuncSig(std::move(modifiers));
         auto body = parseFuncBody();
@@ -702,7 +702,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        if (isKw(span::KW::Let)) {
+        if (isKw(span::Kw::Let)) {
             return parseLetStmt();
         }
 
@@ -729,7 +729,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Let, "`let`", "`parseLetStmt`");
+        justSkipKw(Kw::Let, "`let`", "`parseLetStmt`");
 
         auto pat = parsePat();
 
@@ -757,7 +757,7 @@ namespace jc::parser {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
-        if (skipOptKw(KW::Return).some()) {
+        if (skipOptKw(Kw::Return).some()) {
             enterEntity("ReturnExpr");
 
             auto expr = parseOptExpr();
@@ -766,7 +766,7 @@ namespace jc::parser {
             return Some(makePRBoxNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin)));
         }
 
-        if (skipOptKw(KW::Break).some()) {
+        if (skipOptKw(Kw::Break).some()) {
             enterEntity("BreakExpr");
 
             auto expr = parseOptExpr();
@@ -971,7 +971,7 @@ namespace jc::parser {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
-            skipOptKw(KW::Not).some() or
+            skipOptKw(Kw::Not).some() or
             skipOpt(TokenKind::Sub).some() or
             skipOpt(TokenKind::Ampersand).some() or
             skipOpt(TokenKind::Mul).some()
@@ -989,7 +989,7 @@ namespace jc::parser {
                 logParse("Borrow");
                 advance();
 
-                bool mut = skipOptKw(KW::Mut).some();
+                bool mut = skipOptKw(Kw::Mut).some();
                 // TODO!!!: Swap `&` and `mut` suggestion
                 return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
             }
@@ -1103,7 +1103,7 @@ namespace jc::parser {
             return parseLiteral();
         }
 
-        if (isKw(KW::Self)) {
+        if (isKw(Kw::Self)) {
             const auto & span = cspan();
             advance();
             return makePRBoxNode<SelfExpr, Expr>(span);
@@ -1114,15 +1114,15 @@ namespace jc::parser {
             return Some(PR<N<Expr>>(Ok(nodeCast<PathExpr, Expr>(pathExpr.take()))));
         }
 
-        if (isKw(KW::For)) {
+        if (isKw(Kw::For)) {
             return parseForExpr();
         }
 
-        if (isKw(KW::While)) {
+        if (isKw(Kw::While)) {
             return parseWhileExpr();
         }
 
-        if (isKw(KW::If)) {
+        if (isKw(Kw::If)) {
             return parseIfExpr();
         }
 
@@ -1138,11 +1138,11 @@ namespace jc::parser {
             return Some(parseBlock("Block expression", BlockParsing::Just).as<Expr>());
         }
 
-        if (isKw(KW::Match)) {
+        if (isKw(Kw::Match)) {
             return parseMatchExpr();
         }
 
-        if (isKw(KW::Loop)) {
+        if (isKw(Kw::Loop)) {
             return parseLoopExpr();
         }
 
@@ -1312,12 +1312,12 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::For, "`for`", "`parseForExpr`");
+        justSkipKw(Kw::For, "`for`", "`parseForExpr`");
 
         auto pat = parsePat();
 
         skipKw(
-            KW::In,
+            Kw::In,
             "Missing `in` in `for` loop, put it here",
             Recovery::Once
         );
@@ -1334,7 +1334,7 @@ namespace jc::parser {
         enterEntity("WhileExpr");
         const auto & begin = cspan();
 
-        justSkipKw(KW::While, "`while`", "`parseWhileExpr`");
+        justSkipKw(Kw::While, "`while`", "`parseWhileExpr`");
 
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", BlockParsing::Raw);
@@ -1350,9 +1350,9 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         if (isElif) {
-            justSkipKw(KW::Elif, "`elif`", "`parseIfExpr`");
+            justSkipKw(Kw::Elif, "`elif`", "`parseIfExpr`");
         } else {
-            justSkipKw(KW::If, "`if`", "`parseIfExpr`");
+            justSkipKw(Kw::If, "`if`", "`parseIfExpr`");
         }
 
         const auto & maybeParen = peek();
@@ -1371,7 +1371,7 @@ namespace jc::parser {
             ifBranch = parseBlock("if", BlockParsing::Raw);
         }
 
-        if (skipOptKw(KW::Else).some()) {
+        if (skipOptKw(Kw::Else).some()) {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi).some()) {
                 // Note: cover case when user writes `if {} else;`
@@ -1382,7 +1382,7 @@ namespace jc::parser {
                 );
             }
             elseBranch = parseBlock("else", BlockParsing::Raw);
-        } else if (isKw(KW::Elif)) {
+        } else if (isKw(Kw::Elif)) {
             Stmt::List elif;
             const auto & elifBegin = cspan();
             elif.push_back(makePRBoxNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
@@ -1400,7 +1400,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Loop, "`loop`", "`parseLoopExpr`");
+        justSkipKw(Kw::Loop, "`loop`", "`parseLoopExpr`");
 
         auto body = parseBlock("loop", BlockParsing::Raw);
 
@@ -1414,7 +1414,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(KW::Match, "`match`", "`parseMatchExpr`");
+        justSkipKw(Kw::Match, "`match`", "`parseMatchExpr`");
 
         auto subject = parseExpr("Expected subject expression in `match` expression");
 
@@ -1609,9 +1609,9 @@ namespace jc::parser {
 
         while (not eof()) {
             const auto & modifier = peek();
-            if (skipOptKw(KW::Move).some() or
-                skipOptKw(KW::Mut).some() or
-                skipOptKw(KW::Static).some()
+            if (skipOptKw(Kw::Move).some() or
+                skipOptKw(Kw::Mut).some() or
+                skipOptKw(Kw::Static).some()
             ) {
                 logParse("Modifier:'" + modifier.kindToString() + "'");
                 modifiers.push_back(modifier);
@@ -1755,11 +1755,11 @@ namespace jc::parser {
             if (is(TokenKind::Id)) {
                 auto ident = justParseIdent("`parseOptSimplePath`");
                 segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
-            } else if (skipOptKw(KW::Super).some()) {
+            } else if (skipOptKw(Kw::Super).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
-            } else if (skipOptKw(KW::Party).some()) {
+            } else if (skipOptKw(Kw::Party).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
-            } else if (skipOptKw(KW::Self).some()) {
+            } else if (skipOptKw(Kw::Self).some()) {
                 segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
             }
 
@@ -2097,7 +2097,7 @@ namespace jc::parser {
                 generics.push_back(
                     makeBoxNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
                 );
-            } else if (skipOptKw(KW::Const).some()) {
+            } else if (skipOptKw(Kw::Const).some()) {
                 auto name = parseIdent("`const` parameter name");
                 skip(
                     TokenKind::Colon,
@@ -2140,7 +2140,7 @@ namespace jc::parser {
         }
 
         // `_`
-        if (const auto & wildcard = skipOptKw(KW::Underscore); wildcard.some()) {
+        if (const auto & wildcard = skipOptKw(Kw::Underscore); wildcard.some()) {
             return makePRBoxNode<WCPat, Pattern>(wildcard.unwrap().span);
         }
 
@@ -2152,12 +2152,12 @@ namespace jc::parser {
         // `ref mut IDENT @ pattern`
         // Note: `ref` or `mut` 100% means that it is a borrow pattern,
         //  but single identifier must be parser as borrow pattern too and as path pattern
-        if (isKw(KW::Ref) or isKw(KW::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
+        if (isKw(Kw::Ref) or isKw(Kw::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
             return parseBorrowPat();
         }
 
         // `&mut pattern`
-        if (is(TokenKind::Ampersand) or isKw(KW::Mut)) {
+        if (is(TokenKind::Ampersand) or isKw(Kw::Mut)) {
             return parseRefPat();
         }
 
@@ -2213,8 +2213,8 @@ namespace jc::parser {
         logParse("IdentPattern");
 
         const auto & begin = cspan();
-        bool ref = skipOptKw(KW::Ref).some();
-        bool mut = skipOptKw(KW::Mut).some();
+        bool ref = skipOptKw(Kw::Ref).some();
+        bool mut = skipOptKw(Kw::Mut).some();
 
         auto id = parseIdent("Missing identifier");
 
@@ -2231,7 +2231,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         bool ref = skipOpt(TokenKind::BitOr).some();
-        bool mut = skipOptKw(KW::Mut).some();
+        bool mut = skipOptKw(Kw::Mut).some();
         auto pat = parsePat();
 
         return makePRBoxNode<RefPat, Pattern>(ref, mut, std::move(pat), closeSpan(begin));
@@ -2268,8 +2268,8 @@ namespace jc::parser {
             }
 
             // TODO: "Invert" Suggestion for `mut ref` case
-            const auto & ref = skipOptKw(KW::Ref);
-            const auto & mut = skipOptKw(KW::Mut);
+            const auto & ref = skipOptKw(Kw::Ref);
+            const auto & mut = skipOptKw(Kw::Mut);
 
             Ident::PR ident = parseIdent("Field name expected");
 

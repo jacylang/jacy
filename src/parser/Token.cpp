@@ -93,7 +93,7 @@ namespace jc::parser {
         return is(kind);
     }
 
-    bool Token::isKw(span::KW kw) const {
+    bool Token::isKw(span::Kw kw) const {
         return asSymbol() == kw;
     }
 

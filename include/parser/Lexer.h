@@ -8,7 +8,7 @@
 #include "session/Session.h"
 
 namespace jc::parser {
-    using span::KW;
+    using span::Kw;
     using span::Symbol;
 
     // TODO: Suggestions instead of errors
@@ -44,7 +44,7 @@ namespace jc::parser {
         void addToken(Token && t, span::Span::Len len);
         void addLitToken(TokLit && tl, span::Span::Len len);
         void addToken(TokenKind kind, span::Span::Len len);
-        void addKwToken(span::KW kw, span::Span::Len len);
+        void addKwToken(span::Kw kw, span::Span::Len len);
 
         // Checkers
         bool eof() const;

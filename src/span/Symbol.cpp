@@ -2,55 +2,55 @@
 
 namespace jc::span {
     // Note[IMPORTANT]: When adding new keyword, update `Interner::isKw`-like methods if needed
-    const std::map<KW, std::string> Symbol::keywords = {
-        {KW::Empty,      ""},
-        {KW::Root,       "[ROOT]"},
-        {KW::Underscore, "_"},
+    const std::map<Kw, std::string> Symbol::keywords = {
+        {Kw::Empty,      ""},
+        {Kw::Root,       "[ROOT]"},
+        {Kw::Underscore, "_"},
 
-        {KW::And,        "and"},
-        {KW::As,         "as"},
-        {KW::Async,      "async"},
-        {KW::Await,      "await"},
-        {KW::Break,      "break"},
-        {KW::Const,      "const"},
-        {KW::Continue,   "continue"},
-        {KW::Do,         "do"},
-        {KW::Elif,       "elif"},
-        {KW::Else,       "else"},
-        {KW::Enum,       "enum"},
-        {KW::False,      "false"},
-        {KW::For,        "for"},
-        {KW::Func,       "func"},
-        {KW::If,         "if"},
-        {KW::Impl,       "impl"},
-        {KW::Import,     "import"},
-        {KW::In,         "in"},
-        {KW::Infix,      "infix"},
-        {KW::Init,       "init"},
-        {KW::Loop,       "loop"},
-        {KW::Match,      "match"},
-        {KW::Mod,        "mod"},
-        {KW::Move,       "move"},
-        {KW::Mut,        "mut"},
-        {KW::Not,        "not"},
-        {KW::Of,         "of"},
-        {KW::Or,         "or"},
-        {KW::Return,     "return"},
-        {KW::Party,      "party"},
-        {KW::Pub,        "pub"},
-        {KW::Ref,        "ref"},
-        {KW::Self,       "self"},
-        {KW::Static,     "static"},
-        {KW::Struct,     "struct"},
-        {KW::Super,      "super"},
-        {KW::This,       "this"},
-        {KW::Trait,      "trait"},
-        {KW::True,       "true"},
-        {KW::Type,       "type"},
-        {KW::Use,        "use"},
-        {KW::Let,        "let"},
-        {KW::Where,      "where"},
-        {KW::While,      "while"},
+        {Kw::And,        "and"},
+        {Kw::As,         "as"},
+        {Kw::Async,      "async"},
+        {Kw::Await,      "await"},
+        {Kw::Break,      "break"},
+        {Kw::Const,      "const"},
+        {Kw::Continue,   "continue"},
+        {Kw::Do,         "do"},
+        {Kw::Elif,       "elif"},
+        {Kw::Else,       "else"},
+        {Kw::Enum,       "enum"},
+        {Kw::False,      "false"},
+        {Kw::For,        "for"},
+        {Kw::Func,       "func"},
+        {Kw::If,         "if"},
+        {Kw::Impl,       "impl"},
+        {Kw::Import,     "import"},
+        {Kw::In,         "in"},
+        {Kw::Infix,      "infix"},
+        {Kw::Init,       "init"},
+        {Kw::Loop,       "loop"},
+        {Kw::Match,      "match"},
+        {Kw::Mod,        "mod"},
+        {Kw::Move,       "move"},
+        {Kw::Mut,        "mut"},
+        {Kw::Not,        "not"},
+        {Kw::Of,         "of"},
+        {Kw::Or,         "or"},
+        {Kw::Return,     "return"},
+        {Kw::Party,      "party"},
+        {Kw::Pub,        "pub"},
+        {Kw::Ref,        "ref"},
+        {Kw::Self,       "self"},
+        {Kw::Static,     "static"},
+        {Kw::Struct,     "struct"},
+        {Kw::Super,      "super"},
+        {Kw::This,       "this"},
+        {Kw::Trait,      "trait"},
+        {Kw::True,       "true"},
+        {Kw::Type,       "type"},
+        {Kw::Use,        "use"},
+        {Kw::Let,        "let"},
+        {Kw::Where,      "where"},
+        {Kw::While,      "while"},
     };
 
     Symbol Symbol::intern(const std::string & str) {
@@ -61,7 +61,7 @@ namespace jc::span {
         return Interner::getInstance().getString(*this);
     }
 
-    std::string Symbol::kwToString(KW kw) {
+    std::string Symbol::kwToString(Kw kw) {
         return Interner::getInstance().getString(fromKw(kw));
     }
 
@@ -69,7 +69,7 @@ namespace jc::span {
         SymbolId::ValueT index {0};
         for (const auto & kw : Symbol::keywords) {
             auto kwSym = intern(kw.second);
-            if (kwSym.id.val != static_cast<std::underlying_type<KW>::type>(kw.first)) {
+            if (kwSym.id.val != static_cast<std::underlying_type<Kw>::type>(kw.first)) {
                 log::devPanic(
                     "Invalid KW (keyword) discriminant '",
                     kwSym.id.val,
