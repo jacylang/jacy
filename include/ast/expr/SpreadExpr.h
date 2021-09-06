@@ -4,6 +4,7 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
+    // Make a fragment and remove from Expr
     struct SpreadExpr : Expr {
         SpreadExpr(const parser::Token & token, Expr::Ptr && expr, const Span & span)
             : Expr{span, ExprKind::Spread}, token{token}, expr{std::move(expr)} {}

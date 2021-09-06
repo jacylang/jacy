@@ -42,14 +42,17 @@ namespace jc::ast {
         FuncSig(
             parser::Token::List && modifiers,
             FuncParam::List params,
-            Type::OptPtr returnType
+            Type::OptPtr returnType,
+            const Span & span
         ) : modifiers{modifiers},
             params{std::move(params)},
-            returnType{std::move(returnType)} {}
+            returnType{std::move(returnType)},
+            span{span} {}
 
         parser::Token::List modifiers;
         FuncParam::List params;
         Type::OptPtr returnType;
+        Span span;
     };
 }
 
