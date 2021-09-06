@@ -92,51 +92,6 @@ namespace jc::parser {
         Quest,                      // ?
         Backtick,                   // `
 
-        // Keywords //
-        As,
-        Async,
-        Await,
-        Break,
-        Const,
-        Continue,
-        Do,
-        Elif,
-        Else,
-        Enum,
-        False,
-        For,
-        Func,
-        If,
-        Impl,
-        Import,
-        In,
-        Infix,
-        Init,
-        Loop,
-        Match,
-        Mod,
-        Move,
-        Mut,
-        Not,
-        Of,         // (RNU)
-        Return,
-        Party,
-        Pub,
-        Ref,
-        Self,
-        Static,
-        Struct,
-        Super,
-        This,
-        Trait,
-        True,
-        Type,
-        Use,
-        Let,
-        Where,
-        While,
-        Wildcard,
-
         None,
     };
 
@@ -160,6 +115,12 @@ namespace jc::parser {
     };
 
     struct Token {
+        /**
+         * ValueT variants:
+         * - `None` for tag-only tokens like operators
+         * - `Symbol` for identifiers and keywords
+         * - `TokLit` for literals
+         */
         using ValueT = std::variant<std::monostate, span::Symbol, TokLit>;
         using List = std::vector<Token>;
         using Opt = Option<Token>;
