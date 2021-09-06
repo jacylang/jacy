@@ -86,6 +86,13 @@ namespace jc::parser {
         return this->kind == kind;
     }
 
+    bool Token::isIdentLike(TokenKind kind, span::Symbol::Opt sym) const {
+        if (sym.some()) {
+            return is(kind) and asSymbol() == sym.unwrap();
+        }
+        return is(kind);
+    }
+
     bool Token::isKw(span::KW kw) const {
         return asSymbol() == kw;
     }

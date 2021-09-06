@@ -36,10 +36,7 @@ namespace jc::parser {
     }
 
     bool Parser::isIdentLike(TokenKind kind, Symbol::Opt sym) const {
-        if (sym.some()) {
-            return is(kind) and peek().asSymbol() == sym.unwrap();
-        }
-        return is(kind);
+        return peek().isIdentLike(kind, sym);
     }
 
     bool Parser::isKw(KW kw) const {
@@ -69,9 +66,14 @@ namespace jc::parser {
         advance();
     }
 
-    Token::Opt Parser::skip(TokenKind kind, const std::string & expected, Recovery recovery) {
+    Token::Opt Parser::skip(
+        TokenKind kind,
+        const std::string & expected,
+        Recovery recovery,
+        Symbol::Opt sym
+    ) {
         Token::Opt found{None};
-        if (not peek().is(kind)) {
+        if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
                     "Remove '" + peek().toString() + "'",
@@ -83,7 +85,7 @@ namespace jc::parser {
             }
 
             if (recovery == Recovery::Once) {
-                if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
+                if (recovery == Recovery::Once and not eof() and lookup().isIdentLike(kind, sym)) {
                     if (extraDebugAll) {
                         devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().dump());
                     }
@@ -98,7 +100,7 @@ namespace jc::parser {
                 while (not eof()) {
                     errorTokens.emplace_back(peek());
                     advance();
-                    if (is(kind)) {
+                    if (isIdentLike(kind, sym)) {
                         found = peek();
                         break;
                     }

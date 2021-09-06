@@ -148,7 +148,8 @@ namespace jc::parser {
         Token::Opt skip(
             TokenKind kind,
             const std::string & expected,
-            Recovery recovery = Recovery::None
+            Recovery recovery = Recovery::None,
+            Symbol::Opt sym = None
         );
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
         void justSkipKw(KW kw, const std::string & expected, const std::string & panicIn);

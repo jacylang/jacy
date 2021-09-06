@@ -148,6 +148,7 @@ namespace jc::parser {
         }
 
         bool is(TokenKind kind) const;
+        bool isIdentLike(TokenKind kind, span::Symbol::Opt sym) const;
         bool isKw(span::KW kw) const;
 
         bool isAssignOp() const;
