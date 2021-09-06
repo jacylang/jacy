@@ -128,8 +128,6 @@ namespace jc::span {
 
         static std::string kwToString(Kw kw);
 
-        friend std::ostream & operator<<(std::ostream & os, const Symbol & sym);
-
         static const std::map<Kw, std::string> keywords;
     };
 
@@ -161,7 +159,7 @@ namespace jc::span {
             return sym;
         }
 
-        const std::string & getString(const Symbol & sym) const {
+        const std::string & get(const Symbol & sym) const {
             return internedStrings.at(sym.id.val);
         }
 

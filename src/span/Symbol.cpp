@@ -58,15 +58,15 @@ namespace jc::span {
     }
 
     std::string Symbol::toString() const {
-        return Interner::getInstance().getString(*this);
+        return Interner::getInstance().get(*this);
     }
 
     std::string Symbol::kwToString(Kw kw) {
-        return Interner::getInstance().getString(fromKw(kw));
+        return Interner::getInstance().get(fromKw(kw));
     }
 
     std::ostream & operator<<(std::ostream & os, const Symbol & sym) {
-        return os << Interner::getInstance().getString(sym);
+        return os << Interner::getInstance().get(sym);
     }
 
     Interner::Interner() {
