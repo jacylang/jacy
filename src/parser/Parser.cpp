@@ -26,8 +26,12 @@ namespace jc::parser {
         return tokens.at(index - 1);
     }
 
-    const auto & Parser::peekStr() const {
-        return peek().toString(sess->interner);
+    auto Parser::peekStr(bool quote) const {
+        return peek().toString(sess->interner, quote);
+    }
+
+    auto Parser::peekDump() const {
+        return peek().dump(sess->interner);
     }
 
     // Checkers //
@@ -67,7 +71,7 @@ namespace jc::parser {
         if (not peek().is(kind)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
-                    "Remove '" + peek().toString() + "'",
+                    "Remove '" + peekStr() + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected token " + peek().kindToString(),
                         cspan()
@@ -108,7 +112,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peek().toString(true));
+                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peekStr());
             }
         }
 
@@ -123,7 +127,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peek().toString(true));
+            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peekStr());
         }
 
         advance();
