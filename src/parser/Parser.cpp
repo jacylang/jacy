@@ -129,12 +129,12 @@ namespace jc::parser {
         advance();
     }
 
-    Option<Token> Parser::skipOpt(TokenKind kind) {
-        auto last = Option<Token>(peek());
+    Token::Opt Parser::skipOpt(TokenKind kind) {
         if (peek().is(kind)) {
             if (extraDebugAll) {
                 devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek().dump());
             }
+            auto last = peek();
             advance();
             return last;
         }

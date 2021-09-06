@@ -150,6 +150,7 @@ namespace jc::parser {
         );
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
         Token::Opt skipOpt(TokenKind kind);
+        Token::Opt skipOptKw(KW kw);
 
         // Parsers //
     private:
