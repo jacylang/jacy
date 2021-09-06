@@ -380,7 +380,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Func, "`func`", "`parseFunc`");
+        justSkipKw(KW::Func, "`func`", "`parseFunc`");
 
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
@@ -404,13 +404,13 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Impl, "`impl`", "`parseImpl`");
+        justSkipKw(KW::Impl, "`impl`", "`parseImpl`");
 
         auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath();
 
         Type::OptPtr forType{None};
-        if (skipOpt(TokenKind::For).some()) {
+        if (skipOptKw(KW::For).some()) {
             forType = parseType("Missing type");
         }
 
@@ -427,7 +427,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Struct, "`struct`", "`parseStruct`");
+        justSkipKw(KW::Struct, "`struct`", "`parseStruct`");
 
         auto name = parseIdent("`struct` name");
         auto generics = parseOptGenerics();
@@ -496,7 +496,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Trait, "`trait`", "`parseTrait`");
+        justSkipKw(KW::Trait, "`trait`", "`parseTrait`");
 
         auto name = parseIdent("`trait` name");
         auto generics = parseOptGenerics();
@@ -532,7 +532,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Type, "`type`", "`parseTypeAlias`");
+        justSkipKw(KW::Type, "`type`", "`parseTypeAlias`");
 
         auto name = parseIdent("`type` name");
 
@@ -554,7 +554,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Mod, "`mod`", "`parseMod`");
+        justSkipKw(KW::Mod, "`mod`", "`parseMod`");
 
         auto name = parseIdent("`mod` name");
 
@@ -574,7 +574,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Use, "`use`", "`parseUseDecl`");
+        justSkipKw(KW::Use, "`use`", "`parseUseDecl`");
 
         auto useTree = parseUseTree();
 
@@ -637,7 +637,7 @@ namespace jc::parser {
             advance();
         }
 
-        if (maybePath.some() and skipOpt(TokenKind::As).some()) {
+        if (maybePath.some() and skipOptKw(KW::As).some()) {
             // `as ...` case
 
             if (maybePath.none()) {
@@ -654,7 +654,7 @@ namespace jc::parser {
             return makePRBoxNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
         }
 
-        if (is(TokenKind::As)) {
+        if (isKw(KW::As)) {
             suggestErrorMsg("Please, specify path before `as` rebinding", cspan());
         }
 
@@ -671,7 +671,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Init, "`init`", "`parseInit`");
+        justSkipKw(::Init, "`init`", "`parseInit`");
 
         auto sig = parseFuncSig(std::move(modifiers));
         auto body = parseFuncBody();
@@ -689,29 +689,26 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        switch (peek().kind) {
-            case TokenKind::Let: {
-                return parseLetStmt();
-            }
-            default: {
-                auto item = parseOptItem();
-                if (item.some()) {
-                    return makePRBoxNode<ItemStmt, Stmt>(item.take(), closeSpan(begin));
-                }
-
-                // FIXME: Hardly parse expression but recover unexpected token
-                auto expr = parseOptExpr();
-                if (expr.none()) {
-                    // FIXME: Maybe useless due to check inside `parseExpr`
-                    suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(true), cspan()));
-                    return makeErrPR<N<Stmt>>(closeSpan(begin));
-                }
-
-                auto exprStmt = makePRBoxNode<ExprStmt, Stmt>(expr.take("`parseStmt` -> `expr`"), closeSpan(begin));
-                skipSemi();
-                return exprStmt;
-            }
+        if (isKw(span::KW::Let)) {
+            return parseLetStmt();
         }
+
+        auto item = parseOptItem();
+        if (item.some()) {
+            return makePRBoxNode<ItemStmt, Stmt>(item.take(), closeSpan(begin));
+        }
+
+        // FIXME: Hardly parse expression but recover unexpected token
+        auto expr = parseOptExpr();
+        if (expr.none()) {
+            // FIXME: Maybe useless due to check inside `parseExpr`
+            suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(true), cspan()));
+            return makeErrPR<N<Stmt>>(closeSpan(begin));
+        }
+
+        auto exprStmt = makePRBoxNode<ExprStmt, Stmt>(expr.take("`parseStmt` -> `expr`"), closeSpan(begin));
+        skipSemi();
+        return exprStmt;
     }
 
     Stmt::Ptr Parser::parseLetStmt() {
@@ -719,7 +716,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Let, "`let`", "`parseLetStmt`");
+        justSkipKw(KW::Let, "`let`", "`parseLetStmt`");
 
         auto pat = parsePat();
 
@@ -747,7 +744,7 @@ namespace jc::parser {
         logParseExtra("[opt] Expr");
 
         const auto & begin = cspan();
-        if (skipOpt(TokenKind::Return).some()) {
+        if (skipOptKw(KW::Return).some()) {
             enterEntity("ReturnExpr");
 
             auto expr = parseOptExpr();
@@ -756,7 +753,7 @@ namespace jc::parser {
             return Some(makePRBoxNode<ReturnExpr, Expr>(std::move(expr), closeSpan(begin)));
         }
 
-        if (skipOpt(TokenKind::Break).some()) {
+        if (skipOptKw(KW::Break).some()) {
             enterEntity("BreakExpr");
 
             auto expr = parseOptExpr();
