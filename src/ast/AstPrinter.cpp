@@ -659,7 +659,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Ident & ident) {
-        log.raw(ident.name);
+        log.raw(ident.sym);
 
         printNodeId(ident.id);
     }

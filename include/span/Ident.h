@@ -12,12 +12,12 @@ namespace jc::span {
             if (token.kind != parser::TokenKind::Id) {
                 throw std::logic_error("Unexpected kind of token for `Ident` constructor");
             }
-            name = token.val;
+            sym = token.asSymbol();
             span = token.span;
         }
-        Ident(const std::string & name, const Span & span) : name{name}, span{span} {}
+        Ident(const Symbol & sym, const Span & span) : sym{sym}, span{span} {}
 
-        std::string name;
+        Symbol sym;
         Span span;
 
         static Ident empty() {
@@ -27,7 +27,7 @@ namespace jc::span {
 
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
-            os << "Ident(" << ident.name + ")";
+            os << "Ident(" << ident.sym + ")";
             return os;
         }
     };
