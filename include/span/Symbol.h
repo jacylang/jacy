@@ -13,6 +13,7 @@ namespace jc::span {
     };
     
     struct Symbol {
+        using Opt = Option<Symbol>;
         using SymMap = std::map<std::string, Symbol>;
 
         SymbolId id;

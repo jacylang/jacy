@@ -9,6 +9,7 @@
 
 #include "utils/arr.h"
 #include "span/Span.h"
+#include "span/Symbol.h"
 #include "data_types/Option.h"
 #include "parser/ParseSess.h"
 
@@ -145,7 +146,23 @@ namespace jc::parser {
         None,
     };
 
+    struct TokLit {
+        enum class Kind {
+            Bool,
+            Int,
+            Float,
+            Str,
+        } kind;
+
+        // Interned literal string value
+        span::Symbol sym;
+
+        // Suffix used by int and float types (such as in `123u32`)
+        span::Symbol::Opt suffix;
+    };
+
     struct Token {
+        using ValueT = std::variant<span::Symbol>;
         using List = std::vector<Token>;
         using Opt = Option<Token>;
 
