@@ -197,7 +197,7 @@ namespace jc::parser {
         switch (kind) {
             case TokenKind::Lit:
             case TokenKind::Id: {
-                str += val;
+                str += asSymbol().toString(interner);
             } break;
             default: {
                 str += kindToString();
@@ -212,7 +212,7 @@ namespace jc::parser {
         switch (kind) {
             case TokenKind::Lit:
             case TokenKind::Id: {
-                str += ":'" + val + "'";
+                str += ":'" + asSymbol().toString(interner) + "'";
             }
             default:;
         }
