@@ -188,6 +188,8 @@ namespace jc::parser {
         }
 
         bool is(TokenKind kind) const;
+        bool isKw(span::KW kw) const;
+
         bool isAssignOp() const;
         bool isLiteral() const;
         bool isSomeKeyword() const; // Note: Use only for errors, not for general use

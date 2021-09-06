@@ -134,6 +134,10 @@ namespace jc::parser {
         return this->kind == kind;
     }
 
+    bool Token::isKw(span::KW kw) const {
+        return asSymbol() == kw;
+    }
+
     bool Token::isAssignOp() const {
         return utils::arr::has(assignOperators, kind);
     }
