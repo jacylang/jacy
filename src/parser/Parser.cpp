@@ -82,7 +82,7 @@ namespace jc::parser {
             if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().is(kind)) {
                     if (extraDebugAll) {
-                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().kindToString());
+                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peekDump());
                     }
                     // If next token is what we need we produce an error for skipped one anyway
                     found = advance();
@@ -112,7 +112,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peekStr());
+                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peekDump());
             }
         }
 
@@ -137,7 +137,7 @@ namespace jc::parser {
         auto last = Option<Token>(peek());
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek().toString(true));
+                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peekDump());
             }
             advance();
             return last;
@@ -687,7 +687,7 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (expr.none()) {
                     // FIXME: Maybe useless due to check inside `parseExpr`
-                    suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(), cspan()));
+                    suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peekStr(true), cspan()));
                     return makeErrPR<N<Stmt>>(closeSpan(begin));
                 }
 
@@ -771,7 +771,7 @@ namespace jc::parser {
     }
 
     Expr::Ptr Parser::parseLambda() {
-        enterEntity("Lambda:" + peek().toString());
+        enterEntity("Lambda:" + peekDump());
 
         const auto & begin = cspan();
 
@@ -903,7 +903,7 @@ namespace jc::parser {
             auto op = maybeOp.unwrap("precParse -> maybeOp");
             logParse("precParse -> " + op.kindToString());
 
-            justSkip(op.kind, op.toString(), "`precParse`");
+            justSkip(op.kind, op.dump(sess->interner), "`precParse`");
 
             auto maybeRhs = rightAssoc ? precParse(index) : precParse(index + 1);
             if (maybeRhs.none()) {
@@ -953,7 +953,7 @@ namespace jc::parser {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
-                suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
+                suggestErrorMsg("Expression expected after prefix operator " + op.toString(sess->interner), cspan());
                 return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
@@ -1120,7 +1120,7 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        suggestErrorMsg("Unexpected token " + peek().toString(), cspan());
+        suggestErrorMsg("Unexpected token " + peekStr(true), cspan());
         advance();
 
         return None;
@@ -1787,7 +1787,7 @@ namespace jc::parser {
                 const auto & errorToken = peek();
                 // TODO: Dynamic message for first or following segments (self and party can be only first)
                 suggestErrorMsg(
-                    "Expected identifier, `super`, `self` or `party` in path, got " + errorToken.toString(), cspan());
+                    "Expected identifier, `super`, `self` or `party` in path, got " + errorToken.toString(sess->interner), cspan());
 
                 // We eat error token only if user used keyword in path
                 // In other cases it could be beginning of another expression and we would break everything
@@ -2159,7 +2159,7 @@ namespace jc::parser {
             return makePRBoxNode<PathPat, Pattern>(std::move(path), closeSpan(begin));
         }
 
-        suggestErrorMsg("Expected pattern, got " + peek().toString(), cspan());
+        suggestErrorMsg("Expected pattern, got " + peekStr(true), cspan());
         return makeErrPR<N<Pattern>>(cspan());
     }
 
@@ -2174,7 +2174,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             suggestErrorMsg("Literal expected after `-` in pattern", cspan());
         } else {
-            log::devPanic("Non-literal token in `parseLitPat`: ", peek().toString());
+            log::devPanic("Non-literal token in `parseLitPat`: ", peekDump());
         }
 
         auto token = peek();
@@ -2319,7 +2319,7 @@ namespace jc::parser {
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
-                " peek: " + peek().dump(true),
+                " peek: " + peekDump(),
                 log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'
@@ -2340,7 +2340,7 @@ namespace jc::parser {
             msg,
             Color::Reset,
             utils::str::padStartOverflow(
-                " peek: " + peek().dump(true),
+                " peek: " + peekDump(),
                 log::Logger::wrapLen - msg.size() - depth * 2 - 1,
                 1,
                 '-'

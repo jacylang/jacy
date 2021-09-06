@@ -201,7 +201,7 @@ namespace jc::parser {
         static std::string listKindToString(const Token::List & tokens);
 
         // Debug //
-        std::string dump(const span::Interner & interner, bool withLoc = false) const;
+        std::string dump(const span::Interner & interner, bool withLoc = true) const;
     };
 }
 
