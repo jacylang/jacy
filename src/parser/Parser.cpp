@@ -277,7 +277,7 @@ namespace jc::parser {
     }
 
     Vis Parser::parseVis() {
-        const auto & pub = skipOpt(TokenKind::Pub);
+        const auto & pub = skipOptKw(KW::Pub);
 
         VisKind kind{VisKind::Unset};
         span::Span::Opt span{None};
