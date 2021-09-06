@@ -126,6 +126,10 @@ namespace jc::parser {
         return found;
     }
 
+    Token::Opt Parser::skipKw(KW kw, const std::string & expected, Recovery recovery) {
+        return skip(TokenKind::Id, expected, recovery, Symbol::kwAsSymbol(kw));
+    }
+
     void Parser::justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn) {
         if (not peek().is(kind)) {
             log::devPanic("[bug] Expected ", expected, " in ", panicIn);

@@ -151,6 +151,7 @@ namespace jc::parser {
             Recovery recovery = Recovery::None,
             Symbol::Opt sym = None
         );
+        Token::Opt skipKw(KW kw, const std::string & expected, Recovery recovery = Recovery::None);
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
         void justSkipKw(KW kw, const std::string & expected, const std::string & panicIn);
         Token::Opt skipOpt(TokenKind kind);
