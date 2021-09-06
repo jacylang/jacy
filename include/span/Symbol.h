@@ -2,6 +2,8 @@
 #define JACY_SPAN_SYMBOL_H
 
 #include <cstdint>
+#include <map>
+#include <vector>
 
 namespace jc::span {
     struct SymbolId {
@@ -11,7 +13,18 @@ namespace jc::span {
     };
     
     struct Symbol {
+        using SymMap = std::map<std::string, Symbol>;
+
         SymbolId id;
+    };
+
+    class Interner {
+    public:
+        Interner() = default;
+
+    private:
+        Symbol::SymMap symbols;
+        std::vector<std::string> internedStrings;
     };
 }
 
