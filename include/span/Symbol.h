@@ -7,6 +7,7 @@
 #include <string>
 
 #include "data_types/Option.h"
+#include "log/utils.h"
 
 namespace jc::span {
     class Interner;
@@ -16,7 +17,7 @@ namespace jc::span {
     /// Keywords
     /// NOTE: Order matters!!!
     ///  We use discriminants to access specific interned keyword and to map string to keyword
-    enum class KW {
+    enum class KW : uint8_t {
         Empty = 0,
         Root,
         Underscore,
@@ -86,7 +87,7 @@ namespace jc::span {
 
     class Interner {
     public:
-        Interner() = default;
+        Interner();
 
         Symbol intern(const std::string & str) {
             const auto & found = symbols.find(str);

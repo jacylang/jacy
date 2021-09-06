@@ -55,4 +55,22 @@ namespace jc::span {
     std::string Symbol::toString(const Interner & interner) const {
         return interner.getString(*this);
     }
+
+    Interner::Interner() {
+        SymbolId::ValueT index {0};
+        for (const auto & kw : Symbol::keywords) {
+            auto kwSym = intern(kw.second);
+            if (kwSym.id.val != static_cast<std::underlying_type<KW>::type>(kw.first)) {
+                log::devPanic(
+                    "Invalid KW (keyword) discriminant '",
+                    kwSym.id.val,
+                    "' vs valid '",
+                    index,
+                    "' for keyword '",
+                    kw.second,
+                    "'");
+            }
+            index++;
+        }
+    }
 }
