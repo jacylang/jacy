@@ -29,11 +29,15 @@ namespace jc::span {
             }
 
             auto sym = Symbol {static_cast<SymbolId::ValueT>(symbols.size())};
-            
+
             symbols.emplace(str, sym);
             internedStrings.emplace_back(str);
 
             return sym;
+        }
+
+        const std::string & getString(const Symbol & sym) const {
+            return internedStrings.at(sym.id.val);
         }
 
     private:
