@@ -155,6 +155,18 @@ namespace jc::resolve {
         static inline std::string getImplName(const ast::Node & node) {
             return "%impl_" + std::to_string(node.id.val);
         }
+
+        static inline std::string getFuncName(const ast::Func & func) {
+            std::string name = func.name.unwrap().name;
+            for (const auto & param : func.sig.params) {
+                if (param.label.some()) {
+                    name += param.label.unwrap().unwrap().name + ":";
+                } else {
+                    name += "_:";
+                }
+            }
+            return name;
+        }
     };
 }
 
