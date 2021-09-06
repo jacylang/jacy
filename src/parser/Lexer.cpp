@@ -12,6 +12,10 @@ namespace jc::parser {
         tokens.emplace_back(t);
     }
 
+    void Lexer::addLitToken(TokLit && tl, span::Span::Len len) {
+        addToken({TokenKind::Lit, std::move(tl)}, len);
+    }
+
     void Lexer::addToken(TokenKind kind, span::Span::Len len) {
         addToken(Token(kind, std::monostate {}), len);
     }

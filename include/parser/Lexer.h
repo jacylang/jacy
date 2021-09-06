@@ -39,6 +39,7 @@ namespace jc::parser {
         char forward();
 
         void addToken(Token && t, span::Span::Len len);
+        void addLitToken(TokLit && tl, span::Span::Len len);
         void addToken(TokenKind kind, span::Span::Len len);
 
         // Checkers
