@@ -102,6 +102,8 @@ namespace jc::span {
             return std::underlying_type_t<KW>(kw) == id.val;
         }
 
+        static auto intern(const std::string & str);
+
         static auto kwAsInt(KW kw) {
             return static_cast<std::underlying_type_t<KW>>(kw);
         }
