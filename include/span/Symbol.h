@@ -128,6 +128,8 @@ namespace jc::span {
 
         static std::string kwToString(Kw kw);
 
+        friend std::ostream & operator<<(std::ostream & os, const Symbol & sym);
+
         static const std::map<Kw, std::string> keywords;
     };
 
