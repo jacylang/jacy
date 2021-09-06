@@ -138,13 +138,14 @@ namespace jc::parser {
         // Checkers //
         bool eof() const;
         bool is(TokenKind kind) const;
+        bool isIdentLike(TokenKind kind, Symbol::Opt sym) const;
         bool isKw(KW kw) const;
         bool is(const std::vector<TokenKind> & kinds) const;
         bool isSemis();
 
         // Skippers //
         void skipSemi();
-        Option<Token> skip(
+        Token::Opt skip(
             TokenKind kind,
             const std::string & expected,
             Recovery recovery = Recovery::None

@@ -35,6 +35,13 @@ namespace jc::parser {
         return peek().is(kind);
     }
 
+    bool Parser::isIdentLike(TokenKind kind, Symbol::Opt sym) const {
+        if (sym.some()) {
+            return is(kind) and peek().asSymbol() == sym.unwrap();
+        }
+        return is(kind);
+    }
+
     bool Parser::isKw(KW kw) const {
         return peek().isKw(kw);
     }
@@ -1321,7 +1328,7 @@ namespace jc::parser {
         enterEntity("WhileExpr");
         const auto & begin = cspan();
 
-        justSkip(TokenKind::While, "`while`", "`parseWhileExpr`");
+        justSkipKw(KW::While, "`while`", "`parseWhileExpr`");
 
         auto condition = parseExpr("Expected condition in `while`");
         auto body = parseBlock("while", BlockParsing::Raw);
