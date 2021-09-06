@@ -119,7 +119,7 @@ namespace jc::parser {
         Init,
         Loop,
         Match,
-        Module,
+        Mod,
         Move,
         Mut,
         Not,

@@ -182,7 +182,7 @@ namespace jc::parser {
                 maybeItem = parseTypeAlias();
                 break;
             }
-            case TokenKind::Module: {
+            case TokenKind::Mod: {
                 maybeItem = parseMod();
                 break;
             }
@@ -530,7 +530,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Module, "`mod`", "`parseMod`");
+        justSkip(TokenKind::Mod, "`mod`", "`parseMod`");
 
         auto name = parseIdent("`mod` name");
 
