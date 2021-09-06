@@ -38,7 +38,6 @@ namespace jc::resolve {
         void visit(const ast::Lambda & lambda) override;
         void visit(const ast::PathExpr & pathExpr) override;
         void visit(const ast::MatchArm & arm) override;
-        void visit(const ast::StructExpr & _struct) override;
 
         // Types //
         void visit(const ast::TypePath & typePath) override;

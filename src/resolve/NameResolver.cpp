@@ -171,11 +171,6 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
-    void NameResolver::visit(const ast::StructExpr & _struct) {
-        resolvePath(Namespace::Type, _struct.path.unwrap()->path);
-        visitEach(_struct.fields);
-    }
-
     // Types //
     void NameResolver::visit(const ast::TypePath & typePath) {
         resolvePath(Namespace::Type, typePath.path);
