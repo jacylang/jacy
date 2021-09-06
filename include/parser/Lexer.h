@@ -41,6 +41,7 @@ namespace jc::parser {
         void addToken(Token && t, span::Span::Len len);
         void addLitToken(TokLit && tl, span::Span::Len len);
         void addToken(TokenKind kind, span::Span::Len len);
+        void addKwToken(span::KW kw, span::Span::Len len);
 
         // Checkers
         bool eof() const;

@@ -20,6 +20,10 @@ namespace jc::parser {
         addToken(Token(kind, std::monostate {}), len);
     }
 
+    void Lexer::addKwToken(span::KW kw, span::Span::Len len) {
+        addToken({TokenKind::Id, span::Symbol::fromKw(kw)}, len);
+    }
+
     char Lexer::peek() const {
         if (eof()) {
             return 0;
