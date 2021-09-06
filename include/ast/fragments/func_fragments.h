@@ -10,7 +10,7 @@ namespace jc::ast {
         using List = std::vector<FuncParam>;
 
         FuncParam(
-            Ident::PR && label,
+            Ident::OptPR && label,
             Pattern::Ptr pat,
             Type::Ptr type,
             Expr::OptPtr defaultValue,
@@ -21,7 +21,7 @@ namespace jc::ast {
             type{std::move(type)},
             defaultValue{std::move(defaultValue)} {}
 
-        Ident::PR label;
+        Ident::OptPR label;
         Pattern::Ptr pat;
         Type::Ptr type;
         Expr::OptPtr defaultValue;
