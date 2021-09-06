@@ -136,7 +136,6 @@ namespace jc::parser {
         ValueT val {std::monostate {}};
         span::Span span;
 
-        static const std::map<std::string, TokenKind> keywords;
         static const std::map<TokenKind, std::string> tokenKindStrings;
         static const std::vector<TokenKind> assignOperators;
 
