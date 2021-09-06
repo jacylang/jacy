@@ -671,7 +671,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkipKw(::Init, "`init`", "`parseInit`");
+        justSkipKw(KW::Init, "`init`", "`parseInit`");
 
         auto sig = parseFuncSig(std::move(modifiers));
         auto body = parseFuncBody();
@@ -951,14 +951,14 @@ namespace jc::parser {
         {0b11, {TokenKind::Add,    TokenKind::Sub}},
         {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Rem}},
         {0b11, {TokenKind::Power}}, // Note: Right-assoc
-        {0b11, {TokenKind::As}},
+//        {0b11, {TokenKind::As}},
     };
 
     Expr::OptPtr Parser::prefix() {
         const auto & begin = cspan();
         const auto & op = peek();
         if (
-            skipOpt(TokenKind::Not).some() or
+            skipOptKw(KW::Not).some() or
             skipOpt(TokenKind::Sub).some() or
             skipOpt(TokenKind::Ampersand).some() or
             skipOpt(TokenKind::Mul).some()
@@ -976,7 +976,7 @@ namespace jc::parser {
                 logParse("Borrow");
                 advance();
 
-                bool mut = skipOpt(TokenKind::Mut).some();
+                bool mut = skipOptKw(KW::Mut).some();
                 // TODO!!!: Swap `&` and `mut` suggestion
                 return makePRBoxNode<BorrowExpr, Expr>(mut, std::move(rhs), closeSpan(begin));
             }
@@ -1090,7 +1090,7 @@ namespace jc::parser {
             return parseLiteral();
         }
 
-        if (is(TokenKind::Self)) {
+        if (isKw(KW::Self)) {
             const auto & span = cspan();
             advance();
             return makePRBoxNode<SelfExpr, Expr>(span);
@@ -1101,15 +1101,15 @@ namespace jc::parser {
             return Some(PR<N<Expr>>(Ok(nodeCast<PathExpr, Expr>(pathExpr.take()))));
         }
 
-        if (is(TokenKind::For)) {
+        if (isKw(KW::For)) {
             return parseForExpr();
         }
 
-        if (is(TokenKind::While)) {
+        if (isKw(KW::While)) {
             return parseWhileExpr();
         }
 
-        if (is(TokenKind::If)) {
+        if (isKw(KW::If)) {
             return parseIfExpr();
         }
 
@@ -1125,11 +1125,11 @@ namespace jc::parser {
             return Some(parseBlock("Block expression", BlockParsing::Just).as<Expr>());
         }
 
-        if (is(TokenKind::Match)) {
+        if (isKw(KW::Match)) {
             return parseMatchExpr();
         }
 
-        if (is(TokenKind::Loop)) {
+        if (isKw(KW::Loop)) {
             return parseLoopExpr();
         }
 
@@ -1299,7 +1299,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::For, "`for`", "`parseForExpr`");
+        justSkipKw(KW::For, "`for`", "`parseForExpr`");
 
         auto pat = parsePat();
 
@@ -1337,9 +1337,9 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         if (isElif) {
-            justSkip(TokenKind::Elif, "`elif`", "`parseIfExpr`");
+            justSkipKw(KW::Elif, "`elif`", "`parseIfExpr`");
         } else {
-            justSkip(TokenKind::If, "`if`", "`parseIfExpr`");
+            justSkipKw(KW::If, "`if`", "`parseIfExpr`");
         }
 
         const auto & maybeParen = peek();
@@ -1358,7 +1358,7 @@ namespace jc::parser {
             ifBranch = parseBlock("if", BlockParsing::Raw);
         }
 
-        if (skipOpt(TokenKind::Else).some()) {
+        if (skipOptKw(KW::Else).some()) {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi).some()) {
                 // Note: cover case when user writes `if {} else;`
@@ -1369,7 +1369,7 @@ namespace jc::parser {
                 );
             }
             elseBranch = parseBlock("else", BlockParsing::Raw);
-        } else if (is(TokenKind::Elif)) {
+        } else if (isKw(KW::Elif)) {
             Stmt::List elif;
             const auto & elifBegin = cspan();
             elif.push_back(makePRBoxNode<ExprStmt, Stmt>(parseIfExpr(true), closeSpan(elifBegin)));
@@ -1387,7 +1387,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Loop, "`loop`", "`parseLoopExpr`");
+        justSkipKw(KW::Loop, "`loop`", "`parseLoopExpr`");
 
         auto body = parseBlock("loop", BlockParsing::Raw);
 
@@ -1401,7 +1401,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::Match, "`match`", "`parseMatchExpr`");
+        justSkipKw(KW::Match, "`match`", "`parseMatchExpr`");
 
         auto subject = parseExpr("Expected subject expression in `match` expression");
 
