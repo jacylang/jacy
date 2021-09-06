@@ -112,12 +112,6 @@ namespace jc::parser {
             return found->second;
         }
 
-        for (const auto & kw : keywords) {
-            if (kw.second == kind) {
-                return kw.first;
-            }
-        }
-
         return "No representation";
     }
 
@@ -137,13 +131,13 @@ namespace jc::parser {
         return str;
     }
 
-    // FIXME: Update `toString` and `dump` when `Session` will be global state and thus `Interner` will be globally accessible
-
     std::string Token::toString(bool prettyQuotes) const {
         std::string str;
+
         if (prettyQuotes) {
             str += "`";
         }
+
         switch (kind) {
             case TokenKind::Lit:
             case TokenKind::Id: {
@@ -153,6 +147,7 @@ namespace jc::parser {
                 str += kindToString();
             }
         }
+
         return str + "`";
     }
 
