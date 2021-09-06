@@ -500,35 +500,6 @@ namespace jc::ast {
         printNodeId(spreadExpr);
     }
 
-    void AstPrinter::visit(const StructExpr & structExpr) {
-        structExpr.path.autoAccept(*this);
-        printBodyLike(structExpr.fields, ",\n");
-
-        printNodeId(structExpr);
-    }
-
-    void AstPrinter::visit(const StructExprField & field) {
-        switch (field.kind) {
-            case StructExprField::Kind::Raw: {
-                field.name.unwrap().autoAccept(*this);
-                log.raw(": ");
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Shortcut: {
-                field.name.unwrap().autoAccept(*this);
-                break;
-            }
-            case StructExprField::Kind::Base: {
-                log.raw("...");
-                field.expr.unwrap().autoAccept(*this);
-                break;
-            }
-        }
-
-        printNodeId(field);
-    }
-
     void AstPrinter::visit(const Subscript & subscript) {
         subscript.lhs.autoAccept(*this);
         log.raw("[");
