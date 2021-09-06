@@ -35,6 +35,10 @@ namespace jc::parser {
         return peek().is(kind);
     }
 
+    bool Parser::isKw(KW kw) const {
+        return peek().isKw(kw);
+    }
+
     bool Parser::is(const std::vector<TokenKind> & kinds) const {
         for (const auto & kind : kinds) {
             if (peek().is(kind)) {

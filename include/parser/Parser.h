@@ -45,6 +45,7 @@
 
 namespace jc::parser {
     using namespace ast;
+    using span::KW;
 
     // Note: Usage
     //  0b00000011 - `0` are unused
@@ -136,6 +137,7 @@ namespace jc::parser {
         // Checkers //
         bool eof() const;
         bool is(TokenKind kind) const;
+        bool isKw(KW kw) const;
         bool is(const std::vector<TokenKind> & kinds) const;
         bool isSemis();
 
