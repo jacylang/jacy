@@ -21,7 +21,7 @@ namespace jc::span {
         Span span;
 
         static Ident empty() {
-            static const Ident ident{"", NONE_SPAN};
+            static const Ident ident{Symbol::empty(), NONE_SPAN};
             return ident;
         }
 

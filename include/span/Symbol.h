@@ -112,6 +112,10 @@ namespace jc::span {
             return Symbol {kwAsInt(kw)};
         }
 
+        static Symbol empty() {
+            return Symbol {kwAsInt(Kw::Empty)};
+        }
+
         bool isKw() const {
             return kwAsInt(Kw::And) <= id.val and kwAsInt(Kw::While) >= id.val;
         }
