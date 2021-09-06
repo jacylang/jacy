@@ -616,7 +616,8 @@ namespace jc::parser {
 
     //
 
-    Token::List Lexer::lex(const ParseSess::Ptr & parseSess) {
+    Token::List Lexer::lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess) {
+        this->sess = sess;
         source.clear();
         tokens.clear();
         tokenStartIndex = 0;
