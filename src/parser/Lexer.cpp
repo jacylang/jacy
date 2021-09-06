@@ -266,7 +266,7 @@ namespace jc::parser {
         const auto quote = peek();
 
         // TODO: Cover to function `isSingleQuote` or something, to avoid hard-coding
-        const auto kind = is('"') ? TokenKind::DQStringLiteral : TokenKind::SQStringLiteral;
+        const auto kind = is('"') ? TokLit::Kind::DQStringLiteral : TokLit::Kind::SQStringLiteral;
 
         if (isSeq(quote, quote, quote)) {
             advance(3);
@@ -376,7 +376,11 @@ namespace jc::parser {
 
         advance(isMultiline ? 3 : 1);
 
-        addToken(kind, val);
+        addLitToken({
+            kind,
+            sess->interner.intern(val),
+            None
+        }, val.size());
     }
 
     void Lexer::lexOp() {
