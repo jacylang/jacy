@@ -4,8 +4,12 @@
 #include <cstdint>
 #include <map>
 #include <vector>
+#include <string>
+
+#include "data_types/Option.h"
 
 namespace jc::span {
+    class Interner;
 
     // TODO!!!: Intern keywords
 
@@ -68,6 +72,8 @@ namespace jc::span {
         using SymMap = std::map<std::string, Symbol>;
 
         SymbolId id;
+
+        std::string toString(const Interner & interner) const;
     };
 
     class Interner {
