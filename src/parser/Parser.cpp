@@ -129,6 +129,18 @@ namespace jc::parser {
         advance();
     }
 
+    void Parser::justSkipKw(KW kw, const std::string & expected, const std::string & panicIn) {
+        if (not peek().isKw(kw)) {
+            log::devPanic("[bug] Expected keyword ", expected, " in ", panicIn);
+        }
+
+        if (extraDebugAll) {
+            devLogWithIndent("[just] Skip keyword ", Symbol::kwToString(kw), " | got ", peek().toString());
+        }
+
+        advance();
+    }
+
     Token::Opt Parser::skipOpt(TokenKind kind) {
         if (peek().is(kind)) {
             if (extraDebugAll) {
@@ -144,7 +156,7 @@ namespace jc::parser {
     Token::Opt Parser::skipOptKw(KW kw) {
         if (peek().isKw(kw)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional keyword ", span::Symbol::kwToString(kw), " | got ", peek().dump());
+                devLogWithIndent("Skip optional keyword ", Symbol::kwToString(kw), " | got ", peek().dump());
             }
             auto last = peek();
             advance();

@@ -46,6 +46,7 @@
 namespace jc::parser {
     using namespace ast;
     using span::KW;
+    using span::Symbol;
 
     // Note: Usage
     //  0b00000011 - `0` are unused
@@ -149,6 +150,7 @@ namespace jc::parser {
             Recovery recovery = Recovery::None
         );
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
+        void justSkipKw(KW kw, const std::string & expected, const std::string & panicIn);
         Token::Opt skipOpt(TokenKind kind);
         Token::Opt skipOptKw(KW kw);
 
