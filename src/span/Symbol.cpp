@@ -53,7 +53,7 @@ namespace jc::span {
         {KW::While,      "while"},
     };
 
-    auto Symbol::intern(const std::string & str) {
+    Symbol Symbol::intern(const std::string & str) {
         return Interner::getInstance().intern(str);
     }
 

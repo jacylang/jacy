@@ -165,7 +165,7 @@ namespace jc::parser {
             if (not isDigit(lookup())) {
                 addLitToken({
                     TokLit::Kind::DecLiteral,
-                    sess->interner.intern(num),
+                    span::Symbol::intern(num),
                     None
                 }, num.size());
                 return;
@@ -175,7 +175,7 @@ namespace jc::parser {
         } else {
             addLitToken({
                 TokLit::Kind::DecLiteral,
-                sess->interner.intern(num),
+                span::Symbol::intern(num),
                 None
             }, num.size());
         }
@@ -191,7 +191,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::BinLiteral,
-            sess->interner.intern(num),
+            span::Symbol::intern(num),
             None
         }, num.size());
     }
@@ -206,7 +206,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::OctLiteral,
-            sess->interner.intern(num),
+            span::Symbol::intern(num),
             None
         }, num.size());
     }
@@ -221,7 +221,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::HexLiteral,
-            sess->interner.intern(num),
+            span::Symbol::intern(num),
             None
         }, num.size());
     }
@@ -237,7 +237,7 @@ namespace jc::parser {
 
         addLitToken({
             TokLit::Kind::FloatLiteral,
-            sess->interner.intern(num),
+            span::Symbol::intern(num),
             None
         }, num.size());
     }
@@ -255,7 +255,7 @@ namespace jc::parser {
         } else {
             addToken(Token {
                 TokenKind::Id,
-                sess->interner.intern(id)
+                span::Symbol::intern(id)
             }, id.size());
         }
     }
@@ -378,7 +378,7 @@ namespace jc::parser {
 
         addLitToken({
             kind,
-            sess->interner.intern(val),
+            span::Symbol::intern(val),
             None
         }, val.size());
     }
