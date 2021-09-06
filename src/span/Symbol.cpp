@@ -65,6 +65,10 @@ namespace jc::span {
         return Interner::getInstance().getString(fromKw(kw));
     }
 
+    std::ostream & operator<<(std::ostream & os, const Symbol & sym) {
+        return os << Interner::getInstance().getString(sym);
+    }
+
     Interner::Interner() {
         SymbolId::ValueT index {0};
         for (const auto & kw : Symbol::keywords) {
