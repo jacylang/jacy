@@ -256,7 +256,7 @@ namespace jc::parser {
                     suggestErrorMsg(gotExprSugg, exprToken.span);
                 }
                 items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
-                // If expr is `None` we already made an error in `primary`
+                // If expr is `None` we already made an error in `parsePrimary`
             }
         }
 
@@ -1041,7 +1041,7 @@ namespace jc::parser {
     }
 
     Expr::OptPtr Parser::memberAccess() {
-        auto lhs = primary();
+        auto lhs = parsePrimary();
 
         if (lhs.none()) {
             return None;
@@ -1060,9 +1060,9 @@ namespace jc::parser {
         return lhs;
     }
 
-    Expr::OptPtr Parser::primary() {
+    Expr::OptPtr Parser::parsePrimary() {
         if (eof()) {
-            log::devPanic("Called parse `primary` on `EOF`");
+            log::devPanic("Called parse `parsePrimary` on `EOF`");
         }
 
         if (peek().isLiteral()) {
@@ -1246,7 +1246,7 @@ namespace jc::parser {
         const auto & begin = cspan();
 
         if (parsing == BlockParsing::Just) {
-            // If we parse `Block` from `primary` we expect `LBrace`, otherwise it is a bug
+            // If we parse `Block` from `parsePrimary` we expect `LBrace`, otherwise it is a bug
             justSkip(TokenKind::LBrace, "`{`", "`parseBlock:Just`");
         } else {
             skip(TokenKind::LBrace, "`{`");

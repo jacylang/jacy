@@ -187,7 +187,7 @@ namespace jc::parser {
         Expr::OptPtr postfix();
         Expr::OptPtr call();
         Expr::OptPtr memberAccess();
-        Expr::OptPtr primary();
+        Expr::OptPtr parsePrimary();
 
         // Atomic expressions //
         Ident::PR justParseIdent(const std::string & panicIn);
