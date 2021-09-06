@@ -39,10 +39,12 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        enterModule(getItemVis(func), func.id, DefKind::Func, func.name.unwrap());
+        enterModule(getItemVis(func), func.id, DefKind::Func, Module::getFuncName(func.name.unwrap().name, func.sig));
+
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
         }
+
         exitMod();
     }
 
@@ -85,12 +87,12 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Init & init) {
         // `Init` has pretty same logic as `Func`, for help look at `Func` visitor
-        auto synthName = span::Ident {Module::getInitName(init), init.span.fromStartWithLen(4)};
+        enterModule(getItemVis(init), init.id, DefKind::Init, Module::getInitName(init));
 
-        enterModule(getItemVis(init), init.id, DefKind::Init, synthName);
         if (init.body.some()) {
             init.body.unwrap().value.autoAccept(*this);
         }
+
         exitMod();
     }
 
