@@ -423,7 +423,7 @@ namespace jc::resolve {
         }
     }
 
-    bool NameResolver::resolveLocal(Namespace ns, const std::string & name, NodeId refNodeId) {
+    bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, NodeId refNodeId) {
         auto depth = getDepth();
         while (true) {
             if (depth == 0) {
