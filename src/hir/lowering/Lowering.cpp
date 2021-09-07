@@ -286,9 +286,6 @@ namespace jc::hir {
             case ast::ExprKind::Spread: {
                 log::notImplemented("`ast::ExprKind::Spread` lowering");
             }
-            case ast::ExprKind::Struct: {
-                log::notImplemented("`ast::ExprKind::Struct` lowering");
-            }
             case ast::ExprKind::Subscript: {
                 log::notImplemented("`ast::ExprKind::Subscript` lowering");
             }
