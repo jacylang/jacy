@@ -166,8 +166,8 @@ namespace jc::resolve {
                     name += "_:";
                 }
             }
-            name + ")";
-            return span::Ident {name, span};
+            name += ")";
+            return span::Ident {Symbol::intern(name), span};
         }
     };
 }
