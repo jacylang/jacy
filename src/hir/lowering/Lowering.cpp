@@ -473,27 +473,7 @@ namespace jc::hir {
         for (const auto & astSeg : path.segments) {
             // TODO: Generics
             const auto & seg = astSeg.unwrap();
-            span::Ident name = span::Ident::empty();
-
-            // TODO: `super`, `self` and `party` using `Symbol`
-            switch (seg.kind) {
-                case ast::PathSeg::Kind::Ident: {
-                    segments.emplace_back(seg.ident.unwrap().unwrap(), lowerNodeId(seg.id), seg.span);
-                    break;
-                }
-                case ast::PathSeg::Kind::Super: {
-                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Super` lowering");
-                }
-                case ast::PathSeg::Kind::Self: {
-                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Self` lowering");
-                }
-                case ast::PathSeg::Kind::Party: {
-                    log::notImplemented("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Self` lowering");
-                }
-                case ast::PathSeg::Kind::Error: {
-                    log::devPanic("`Lowering::lowerPath` -> `ast::PathSeg::Kind::Error`");
-                }
-            }
+            segments.emplace_back(seg.ident.unwrap(), HirId::DUMMY, seg.span);
         }
 
         return Path {res, std::move(segments), path.span};
