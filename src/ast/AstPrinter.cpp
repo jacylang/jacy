@@ -930,10 +930,10 @@ namespace jc::ast {
     /// Commonly because `NodeId` can either point to local variable node id (`BorrowPat.id`) or item node id, etc.
     void AstPrinter::colorizeNameDecl(NodeId nodeId, const Ident::PR & ident) {
         if (mode != AstPrinterMode::Names) {
-            log.raw(ident.unwrap().name);
+            log.raw(ident.unwrap().sym);
             return;
         }
-        log.raw(getNameColor(nodeId), ident.unwrap().name);
+        log.raw(getNameColor(nodeId), ident.unwrap().sym);
         resetNameColor();
     }
 
