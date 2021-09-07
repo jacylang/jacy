@@ -11,7 +11,7 @@ namespace jc::resolve {
     using DefPerNS = PerNS<DefId::Opt>;
     struct PathResult {
         DefPerNS defPerNs;
-        const std::string segName;
+        const Symbol segName;
         const span::Span segSpan;
     };
 
@@ -53,7 +53,7 @@ namespace jc::resolve {
         // Resolutions //
     private:
         PathResult resolvePath(PathResKind resKind, const ast::SimplePath & path);
-        void define(PathResult && pathResult, const Option<std::string> & rebind);
+        void define(PathResult && pathResult, const Option<Symbol> & rebind);
     };
 }
 

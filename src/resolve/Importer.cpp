@@ -136,17 +136,17 @@ namespace jc::resolve {
             // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
             // so give different error message
             const auto & unresolvedSegIdent = path.segments.at(unresSeg.unwrap().segIndex).ident.unwrap().unwrap();
-            const auto & unresolvedSegName = unresolvedSegIdent.name;
+            const auto & unresolvedSegName = unresolvedSegIdent.sym;
 
             if (inaccessible) {
                 const auto & defKind = sess->defTable.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
-                    "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
+                    log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
                     unresolvedSegIdent.span);
             } else {
                 // Report "Not defined" error
-                auto msg = "'" + unresolvedSegName + "' is not defined";
+                auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
                 if (not pathStr.empty()) {
                     msg += " in '" + pathStr + "'";
                 }
@@ -156,13 +156,13 @@ namespace jc::resolve {
 
         const auto & lastSeg = path.segments.at(path.segments.size() - 1);
 
-        return PathResult{defPerNs, lastSeg.ident.unwrap().unwrap().name, lastSeg.span};
+        return PathResult {defPerNs, lastSeg.ident.unwrap().unwrap().sym, lastSeg.span};
     }
 
-    void Importer::define(PathResult && pathResult, const Option<std::string> & rebind) {
+    void Importer::define(PathResult && pathResult, const Option<Symbol> & rebind) {
         const auto & segName = pathResult.segName;
         const auto & segSpan = pathResult.segSpan;
-        std::string name;
+        Symbol name = Symbol::empty();
         if (rebind.some()) {
             name = rebind.unwrap();
         } else {
@@ -177,7 +177,7 @@ namespace jc::resolve {
                     const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
                     suggest(
                         std::make_unique<sugg::MsgSpanLinkSugg>(
-                            "Cannot `use` '" + segName + "'",
+                            log::fmt("Cannot `use` '", segName, "'"),
                             segSpan,
                             "Because it is already declared as " + oldDef.kindStr() + " here",
                             oldDefSpan,
