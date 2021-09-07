@@ -1173,6 +1173,18 @@ namespace jc::parser {
         return makeErrPR<Ident>(span);
     }
 
+    Ident::PR Parser::parsePathSegIdent() {
+        logParse("path segment Ident");
+
+        const auto & span = cspan();
+        auto tok = peek();
+        if (is(TokenKind::Id) and tok.asSymbol().isPathSeg()) {
+            advance();
+            return Ok(makeNode<Ident>(tok));
+        }
+        return makeErrPR<Ident>(span);
+    }
+
     PathExpr::Ptr Parser::parsePathExpr() {
         return Ok(makeBoxNode<PathExpr>(parsePath(true)));
     }

@@ -121,9 +121,11 @@ namespace jc::span {
         }
 
         bool isPathSeg() const {
+            // Check if segment is a path segment keyword and not any another keyword, i.e. user-defined identifier
             return *this == Kw::Super
                 or *this == Kw::Party
-                or *this == Kw::Self;
+                or *this == Kw::Self
+                or not isKw();
         }
 
         static std::string kwToString(Kw kw);
