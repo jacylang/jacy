@@ -366,13 +366,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const PathSeg & seg) {
-        switch (seg.kind) {
-            case PathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-            default:;
-        }
+        seg.ident.unwrap().accept(*this);
         if (seg.generics.some()) {
             visitEach(seg.generics.unwrap());
         }
