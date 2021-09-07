@@ -211,7 +211,7 @@ namespace jc::resolve {
         enterChildModule(_defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
 
         // For debug //
-        moduleNameStack.push_back(name);
+        moduleNameStack.push_back(name.toString());
     }
 
     void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
@@ -242,7 +242,7 @@ namespace jc::resolve {
         const auto & prevDefSpan = _defTable.getDefNameSpan(prevDefId);
         suggest(
             std::make_unique<sugg::MsgSpanLinkSugg>(
-                "Cannot redeclare '" + ident.sym + "' as " + Def::kindStr(as),
+                log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
                 ident.span,
                 "Because it is already declared as " + prevDef.kindStr() + " here",
                 prevDefSpan,
