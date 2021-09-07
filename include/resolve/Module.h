@@ -153,8 +153,8 @@ namespace jc::resolve {
             return getFuncName("init", init.sig, init.span);
         }
 
-        static inline std::string getImplName(const ast::Node & node) {
-            return "%impl_" + std::to_string(node.id.val);
+        static inline Symbol getImplName(const ast::Node & node) {
+            return span::Interner::getInstance().intern("%impl_" + std::to_string(node.id.val));
         }
 
         static inline span::Ident getFuncName(const std::string & baseName, const ast::FuncSig & sig, const span::Span & span) {
