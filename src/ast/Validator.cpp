@@ -584,6 +584,11 @@ namespace jc::ast {
     }
 
     void Validator::visit(const PathSeg & seg) {
+        if (seg.ident.ok()) {
+            if (not seg.ident.unwrap().sym.isPathSeg()) {
+                log::devPanic("Invalid `PathSeg` identifier '", seg.ident.unwrap(), "'");
+            }
+        }
         if (seg.generics.some()) {
             lintEach(seg.generics.unwrap());
         }
