@@ -584,23 +584,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const PathSeg & seg) {
-        switch (seg.kind) {
-            case PathSeg::Kind::Super:
-            case PathSeg::Kind::Self:
-            case PathSeg::Kind::Party: {
-                if (seg.ident.some()) {
-                    log::devPanic("`ident` exists in non-Ident `PathSeg`");
-                }
-                break;
-            }
-            case PathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-            default: {
-                log::devPanic("Unexpected `PathSeg::Kind` in `Validator`");
-            }
-        }
         if (seg.generics.some()) {
             lintEach(seg.generics.unwrap());
         }
