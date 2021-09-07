@@ -434,7 +434,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const Literal & literalConstant) {
-        log.raw(literalConstant.token.val);
+        log.raw(literalConstant.token);
 
         printNodeId(literalConstant);
     }
@@ -737,7 +737,7 @@ namespace jc::ast {
             log.raw("-");
         }
 
-        log.raw(pat.literal.val);
+        log.raw(pat.literal);
 
         printNodeId(pat);
     }

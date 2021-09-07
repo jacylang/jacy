@@ -321,11 +321,11 @@ namespace jc::resolve {
         // If path is one segment long then it can be a local variable
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
-            const auto & identStr = seg.ident.unwrap().sym.toString();
-            auto resolved = resolveLocal(targetNS, identStr, path.id);
+            const auto & ident = seg.ident.unwrap().sym;
+            auto resolved = resolveLocal(targetNS, ident, path.id);
             if (not resolved) {
-                log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
-                suggestErrorMsg("'" + identStr + "' is not defined", path.span);
+                log.dev("Failed to resolve '", ident, "' [", path.id, "]");
+                suggestErrorMsg(log::fmt("'", ident, "' is not defined"), path.span);
             }
             return;
         }
