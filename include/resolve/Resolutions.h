@@ -28,18 +28,18 @@ namespace jc::resolve {
         Int8,
         Int16,
         Int32,
-        Int, // Alias for `Int32`
+        Int,
         Int64,
         Uint8,
         Uint16,
         Uint32,
-        Uint, // Alias for `Uint32`
+        Uint,
         Uint64,
         Char,
         Str, // Note!!!: Order matters -- keep Str last
     };
 
-    inline Option<PrimType> getPrimType(const std::string & typeName) {
+    inline Option<PrimType> getPrimType(const span::Symbol & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
             {"bool", PrimType::Bool},
             {"int8", PrimType::Int8},
@@ -56,7 +56,7 @@ namespace jc::resolve {
             {"str", PrimType::Str},
         };
 
-        const auto & found = primTypesNames.find(typeName);
+        const auto & found = primTypesNames.find(typeName.toString());
         if (found == primTypesNames.end()) {
             return None;
         }
