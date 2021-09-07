@@ -39,7 +39,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
-        define(resolvePath(PathResKind::Prefix, useTree.path), useTree.as.unwrap().name);
+        define(resolvePath(PathResKind::Prefix, useTree.path), useTree.as.unwrap().sym);
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
@@ -63,7 +63,7 @@ namespace jc::resolve {
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i);
-            const auto & segName = seg.ident.unwrap().unwrap().name;
+            const auto & segName = seg.ident.unwrap().unwrap().sym;
 
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
@@ -81,7 +81,7 @@ namespace jc::resolve {
                     if (not isFirstSeg) {
                         pathStr += "::";
                     }
-                    pathStr += segName;
+                    pathStr += segName.toString();
 
                     if (i == path.segments.size() - 1) {
                         defPerNs.set(Namespace::Type, defId);
