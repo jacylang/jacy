@@ -26,7 +26,7 @@ namespace jc::resolve {
 
     void NameResolver::visit(const ast::Func & func) {
         enterModule(
-            Module::getFuncName(func.name.unwrap().name, func.sig, func.name.unwrap().span).sym,
+            Module::getFuncName(func.name.unwrap().sym.toString(), func.sig, func.name.unwrap().span).sym,
             Namespace::Value); // -> `func` mod rib
 
         if (func.sig.returnType.some()) {
@@ -243,7 +243,7 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModule(const std::string & name, Namespace ns, Rib::Kind kind) {
+    void NameResolver::enterModule(const Symbol & name, Namespace ns, Rib::Kind kind) {
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
         currentModule = sess->defTable
@@ -294,13 +294,13 @@ namespace jc::resolve {
 
     // Definitions //
     void NameResolver::defineLocal(NodeId localNodeId, const ast::Ident::PR & ident) {
-        const auto & name = ident.unwrap().name;
+        const auto & name = ident.unwrap().sym;
         log.dev("Define '", name, "' local");
 
         const auto & redecl = curRib()->defineLocal(localNodeId, name);
 
         if (redecl.some()) {
-            suggestErrorMsg("'" + name + "' has been already declared", ident.span());
+            suggestErrorMsg(log::fmt("'",  name, "' has been already declared"), ident.span());
         }
     }
 
@@ -321,13 +321,11 @@ namespace jc::resolve {
         // If path is one segment long then it can be a local variable
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
-            if (seg.ident.some()) {
-                const auto & identStr = seg.ident.unwrap().unwrap().name;
-                auto resolved = resolveLocal(targetNS, identStr, path.id);
-                if (not resolved) {
-                    log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
-                    suggestErrorMsg("'" + identStr + "' is not defined", path.span);
-                }
+            const auto & identStr = seg.ident.unwrap().sym.toString();
+            auto resolved = resolveLocal(targetNS, identStr, path.id);
+            if (not resolved) {
+                log.dev("Failed to resolve '", identStr, "' [", path.id, "]");
+                suggestErrorMsg("'" + identStr + "' is not defined", path.span);
             }
             return;
         }
@@ -346,7 +344,7 @@ namespace jc::resolve {
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i).unwrap();
-            const auto & segName = seg.ident.unwrap().unwrap().name;
+            const auto & segName = seg.ident.unwrap().sym;
 
             // TODO: Resolve segment generics
 
@@ -392,7 +390,7 @@ namespace jc::resolve {
                 if (not isFirstSeg) {
                     pathStr += "::";
                 }
-                pathStr += segName;
+                pathStr += segName.toString();
             }
         }
 
@@ -403,19 +401,19 @@ namespace jc::resolve {
             const auto & unresolvedSegIdent = expectAt(
                 path.segments,
                 unresSeg.unwrap().segIndex,
-                "`unresolvedSegIdent`").unwrap().ident.unwrap().unwrap();
+                "`unresolvedSegIdent`").unwrap().ident.unwrap();
 
-            const auto & unresolvedSegName = unresolvedSegIdent.name;
+            const auto & unresolvedSegName = unresolvedSegIdent.sym;
 
             if (inaccessible) {
                 const auto & defKind = sess->defTable.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
                 // Report "Cannot access" error
                 suggestErrorMsg(
-                    "Cannot access private " + defKind + " '" + unresolvedSegName + "' in '" + pathStr + "'",
+                    log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
                     unresolvedSegIdent.span);
             } else {
                 // Report "Not defined" error
-                auto msg = "'" + unresolvedSegName + "' is not defined";
+                auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
                 if (not pathStr.empty()) {
                     msg += " in '" + pathStr + "'";
                 }
@@ -448,7 +446,7 @@ namespace jc::resolve {
         return false;
     }
 
-    void NameResolver::suggestAltNames(Namespace target, const std::string & name, const PerNS<DefId::Opt> & altDefs) {
+    void NameResolver::suggestAltNames(Namespace target, const Symbol & name, const PerNS<DefId::Opt> & altDefs) {
         altDefs.each([&](DefId::Opt defId, Namespace nsKind) {
             if (nsKind == target or defId.none()) {
                 return;
@@ -463,8 +461,13 @@ namespace jc::resolve {
                 Module::nsToString(nsKind),
                 " namespace");
             suggestHelp(
-                "Alternative: '" + name + "' " + def.kindStr() + ", but it cannot be used as " +
-                Def::nsAsUsageStr(target));
+                log::fmt(
+                    "Alternative: '",
+                    name,
+                    "' ",
+                    def.kindStr(),
+                    ", but it cannot be used as ",
+                    Def::nsAsUsageStr(target)));
         });
     }
 
@@ -484,12 +487,12 @@ namespace jc::resolve {
         log.raw(ribsDebugOutput).nl();
     }
 
-    void NameResolver::appendModulePath(const std::string & modName, DefId defId) {
+    void NameResolver::appendModulePath(const Symbol & modName, DefId defId) {
         // Check for dev mode here as getting definition might be an expensive operation
         if (not config.checkDev()) {
             return;
         }
-        appendCustomPath(sess->defTable.getDef(defId).kindStr() + " '" + modName + "'");
+        appendCustomPath(sess->defTable.getDef(defId).kindStr() + " '" + modName.toString() + "'");
     }
 
     void NameResolver::appendBlockPath(NodeId nodeId) {

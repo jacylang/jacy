@@ -63,7 +63,7 @@ namespace jc::resolve {
         const Rib::Ptr & curRib() const;
         void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
-        void enterModule(const std::string & name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
+        void enterModule(const Symbol & name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
         void enterBlock(NodeId nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);
@@ -87,7 +87,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestAltNames(Namespace target, const std::string & name, const PerNS<DefId::Opt> & altDefs);
+        void suggestAltNames(Namespace target, const Symbol & name, const PerNS<DefId::Opt> & altDefs);
 
         // Debug //
     private:
@@ -98,7 +98,7 @@ namespace jc::resolve {
         void dumpRibs();
 
         std::vector<std::string> scopePath;
-        void appendModulePath(const std::string & modName, DefId defId);
+        void appendModulePath(const Symbol & modName, DefId defId);
         void appendBlockPath(NodeId nodeId);
         void appendCustomPath(const std::string & segment);
         void removePathSeg();
