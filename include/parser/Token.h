@@ -173,6 +173,9 @@ namespace jc::parser {
                 case TokenKind::Id: {
                     return os << token.asSymbol().toString();
                 }
+                case TokenKind::Lit: {
+                    return os << token.asLit();
+                }
                 default: {
                     return os << tokenKindStrings.at(token.kind);
                 }
