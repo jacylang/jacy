@@ -7,6 +7,7 @@
 
 namespace jc::resolve {
     using ast::NodeId;
+    using span::Symbol;
 
     enum class ModuleKind {
         Block,
@@ -16,7 +17,7 @@ namespace jc::resolve {
     struct Module {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
-        using NSMap = std::map<std::string, DefId>;
+        using NSMap = std::map<Symbol, DefId>;
         using IdType = std::variant<NodeId, DefId>;
 
         Module(
@@ -68,7 +69,7 @@ namespace jc::resolve {
             return std::get<DefId>(id);
         }
 
-        DefId::Opt find(Namespace nsKind, const std::string & name) const {
+        DefId::Opt find(Namespace nsKind, const Symbol & name) const {
             const auto & ns = getNS(nsKind);
             const auto & def = ns.find(name);
             if (def == ns.end()) {
@@ -79,7 +80,7 @@ namespace jc::resolve {
 
         // Search for name in all namespaces
         // Also used to find alternatives for failed resolutions
-        PerNS<DefId::Opt> findAll(const std::string & name) const {
+        PerNS<DefId::Opt> findAll(const Symbol & name) const {
             return {
                 find(Namespace::Value, name),
                 find(Namespace::Type, name),
@@ -105,7 +106,7 @@ namespace jc::resolve {
             log::notImplemented("getNS");
         }
 
-        DefId::Opt tryDefine(Namespace ns, const std::string & name, const DefId & defId) {
+        DefId::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
             const auto & defined = getNS(ns).emplace(name, defId);
             // Note: emplace returns `pair<new element iterator, true>` if emplaced new element
             //  and `pair<old element iterator, false>` if tried to re-emplace
