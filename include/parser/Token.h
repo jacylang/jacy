@@ -113,7 +113,9 @@ namespace jc::parser {
         // Suffix used by int and float types (such as in `123u32`)
         span::Symbol::Opt suffix;
 
-
+        friend std::ostream & operator<<(std::ostream & os, const TokLit & lit) {
+            return os << lit.sym.toString() << (lit.suffix.some() ? lit.suffix.unwrap().toString() : "");
+        }
     };
 
     struct Token {
