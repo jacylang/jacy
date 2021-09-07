@@ -22,16 +22,16 @@ namespace jc::resolve {
         } kind;
 
         /// Maps name to `NodeId` of local variable (`BorrowPat.id`)
-        std::map<std::string, NodeId> locals;
+        std::map<Symbol, NodeId> locals;
         Option<Module::Ptr> boundModule{None};
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
-        NodeId::Opt defineLocal(NodeId nodeId, const std::string & name);
+        NodeId::Opt defineLocal(NodeId nodeId, const Symbol & name);
 
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool find(Namespace ns, const std::string & name, NodeId refNodeId, Resolutions & resStorage);
+        bool find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage);
 
         void bindMod(Module::Ptr module);
 

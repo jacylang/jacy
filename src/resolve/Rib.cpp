@@ -1,7 +1,7 @@
 #include "resolve/Rib.h"
 
 namespace jc::resolve {
-    NodeId::Opt Rib::defineLocal(NodeId nodeId, const std::string & name) {
+    NodeId::Opt Rib::defineLocal(NodeId nodeId, const Symbol & name) {
         const auto & found = locals.find(name);
         if (found == locals.end()) {
             locals.emplace(name, nodeId);
@@ -10,7 +10,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    bool Rib::find(Namespace ns, const std::string & name, NodeId refNodeId, Resolutions & resStorage) {
+    bool Rib::find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage) {
         // Try to find local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
             const auto & local = locals.find(name);
