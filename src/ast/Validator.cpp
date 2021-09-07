@@ -54,23 +54,19 @@ namespace jc::ast {
 
     void Validator::visit(const Func & func) {
         // TODO: lint attributes
+        using span::Kw;
 
-        for (const auto & modifier : func.sig.modifiers) {
-            if (!isInside(ValidatorCtx::Struct)) {
-                switch (modifier.kind) {
-                    case parser::TokenKind::Static:
-                    case parser::TokenKind::Mut:
-                    case parser::TokenKind::Move: {
-                        suggestErrorMsg(
-                            modifier.toString() + " functions can only appear as methods",
-                            modifier.span
-                        );
-                        break;
-                    }
-                    default:;
-                }
-            }
-        }
+        // Useless validation
+//        for (const auto & modifier : func.sig.modifiers) {
+//            if (!isInside(ValidatorCtx::Struct)) {
+//                if (modifier.isKw(span::Kw::Static) or modifier.isKw(span::Kw::Mut) or modifier.isKw(span::Kw::Move)) {
+//                    suggestErrorMsg(
+//                        modifier.toString() + " functions can only appear as methods",
+//                        modifier.span
+//                    );
+//                }
+//            }
+//        }
 
         if (func.generics.some()) {
             lintEach(func.generics.unwrap());
