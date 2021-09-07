@@ -1182,6 +1182,10 @@ namespace jc::parser {
             advance();
             return Ok(makeNode<Ident>(tok));
         }
+
+        suggestErrorMsg(
+            "Expected identifier, `super`, `self` or `party` in path, got " + tok.toString(), cspan());
+
         return makeErrPR<Ident>(span);
     }
 
@@ -1815,26 +1819,10 @@ namespace jc::parser {
         while (not eof()) {
             const auto & segBegin = cspan();
 
-            bool isUnrecoverableError = false;
-            Ident::OptPR ident{None};
-            auto kind = PathSeg::getKind(peek());
-            if (kind == ast::PathSeg::Kind::Ident) {
-                kind = PathSeg::Kind::Ident;
-                ident = justParseIdent("`parsePath`");
-            } else if (kind == ast::PathSeg::Kind::Error) {
-                const auto & errorToken = peek();
-                // TODO: Dynamic message for first or following segments (self and party can be only first)
-                suggestErrorMsg(
-                    "Expected identifier, `super`, `self` or `party` in path, got " + errorToken.toString(), cspan());
+            // TODO: Dynamic message for first or following segments (self and party can be only first)
 
-                // We eat error token only if user used keyword in path
-                // In other cases it could be beginning of another expression and we would break everything
-                if (not errorToken.isSomeKeyword()) {
-                    isUnrecoverableError = true;
-                } else {
-                    advance();
-                }
-            }
+            bool isUnrecoverableError = false;
+            auto segIdent = parsePathSegIdent();
 
             GenericParam::OptList generics{None};
             bool pathNotGeneric = false;
@@ -1847,20 +1835,9 @@ namespace jc::parser {
                 pathNotGeneric = continuePath.some() and generics.none();
             }
 
-            if (kind == PathSeg::Kind::Ident) {
-                segments.emplace_back(
-                    Ok(makeNode<PathSeg>(ident.take(), std::move(generics), closeSpan(segBegin)))
-                );
-            } else if (kind == PathSeg::Kind::Error) {
-                segments.emplace_back(makeErrPR<PathSeg>(closeSpan(segBegin)));
-                if (isUnrecoverableError) {
-                    break;
-                }
-            } else {
-                segments.emplace_back(
-                    Ok(makeNode<PathSeg>(kind, std::move(generics), closeSpan(segBegin)))
-                );
-            }
+            segments.emplace_back(
+                Ok(makeNode<PathSeg>(std::move(segIdent), std::move(generics), closeSpan(segBegin)))
+            );
 
             // Note: Order matters (short-circuit), we already skipped one `::` to parse turbofish
             if (pathNotGeneric or skipOpt(TokenKind::Path).some()) {
