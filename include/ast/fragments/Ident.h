@@ -24,7 +24,7 @@ namespace jc::ast {
 
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
-            os << "Ident(" << ident.sym << ")" << ident.id;
+            os << ident.sym << ident.id;
             return os;
         }
     };
