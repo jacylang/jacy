@@ -161,7 +161,7 @@ namespace jc::resolve {
             std::string name = baseName + "(";
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
-                    name += param.label.unwrap().unwrap().name + ":";
+                    name += param.label.unwrap().unwrap().sym.toString() + ":";
                 } else {
                     name += "_:";
                 }
