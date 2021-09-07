@@ -13,32 +13,11 @@ namespace jc::ast {
             GenericParam::OptList generics,
             const Span & span
         ) : Node{span},
-            kind{Kind::Ident},
             ident{std::move(ident)},
             generics{std::move(generics)} {}
 
-        PathSeg(
-            Kind kind,
-            GenericParam::OptList generics,
-            const Span & span
-        ) : Node{span},
-            kind{kind},
-            ident{None},
-            generics{std::move(generics)} {}
-
-        Ident::OptPR ident{None};
+        Ident::PR ident;
         GenericParam::OptList generics{None};
-
-        static inline constexpr Kind getKind(const parser::Token & token) {
-            switch (token.kind) {
-                case parser::TokenKind::Super: return Kind::Super;
-                case parser::TokenKind::Self: return Kind::Self;
-                case parser::TokenKind::Party: return Kind::Party;
-                case parser::TokenKind::Id: return Kind::Ident;
-                default:;
-            }
-            return Kind::Error;
-        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
