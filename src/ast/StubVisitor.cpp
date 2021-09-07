@@ -366,7 +366,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const PathSeg & seg) {
-        seg.ident.unwrap().accept(*this);
+        seg.ident.autoAccept(*this);
         if (seg.generics.some()) {
             visitEach(seg.generics.unwrap());
         }
