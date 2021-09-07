@@ -688,27 +688,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathSeg & seg) {
-        switch (seg.kind) {
-            case PathSeg::Kind::Super: {
-                log.raw("super");
-                break;
-            }
-            case PathSeg::Kind::Self: {
-                log.raw("self");
-                break;
-            }
-            case PathSeg::Kind::Party: {
-                log.raw("party");
-                break;
-            }
-            case PathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-            default: {
-                log::devPanic("Unexpected `PathSeg::Kind` in `AstPrinter`");
-            }
-        }
+        seg.ident.autoAccept(*this);
         printGenerics(seg.generics, true);
 
         printNodeId(seg);
