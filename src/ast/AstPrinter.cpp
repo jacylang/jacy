@@ -381,11 +381,7 @@ namespace jc::ast {
 
         infix.lhs.autoAccept(*this);
         log.raw(" ");
-        if (infix.op.kind == parser::TokenKind::Id) {
-            log.raw(infix.op.val);
-        } else {
-            log.raw(infix.op.kindToString());
-        }
+        log.raw(infix.op);
         log.raw(" ");
         infix.rhs.autoAccept(*this);
 
