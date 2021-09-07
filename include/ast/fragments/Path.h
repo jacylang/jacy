@@ -5,16 +5,8 @@
 
 namespace jc::ast {
     struct PathSeg : Node {
-        using List = std::vector<PR<PathSeg>>;
-
-        const enum class Kind {
-            Super,
-            Self,
-            Party,
-            Ident,
-
-            Error,
-        } kind;
+        using PR = PR<PathSeg>;
+        using List = std::vector<PR>;
 
         PathSeg(
             Ident::PR ident,
