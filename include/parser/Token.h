@@ -112,6 +112,8 @@ namespace jc::parser {
 
         // Suffix used by int and float types (such as in `123u32`)
         span::Symbol::Opt suffix;
+
+
     };
 
     struct Token {
@@ -162,6 +164,18 @@ namespace jc::parser {
         std::string kindToString() const;
 
         static std::string listKindToString(const Token::List & tokens);
+
+        // Pretty print token (Don't print debug-like representation)
+        friend std::ostream & operator<<(std::ostream & os, const Token & token) {
+            switch (token.kind) {
+                case TokenKind::Id: {
+                    return os << token.asSymbol().toString();
+                }
+                default: {
+                    return os << tokenKindStrings.at(token.kind);
+                }
+            }
+        }
 
         // Debug //
         std::string dump(bool withLoc = true) const;
