@@ -43,7 +43,7 @@ namespace jc::resolve {
             getItemVis(func),
             func.id,
             DefKind::Func,
-            Module::getFuncName(func.name.unwrap().name, func.sig, func.name.unwrap().span));
+            Module::getFuncName(func.name.unwrap().sym.toString(), func.sig, func.name.unwrap().span));
 
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);

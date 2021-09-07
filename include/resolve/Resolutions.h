@@ -63,7 +63,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    inline Option<PrimTypeSet> getPrimTypeBitMask(const std::string & typeName) {
+    inline Option<PrimTypeSet> getPrimTypeBitMask(const span::Symbol & typeName) {
         const auto primType = getPrimType(typeName);
         if (primType.none()) {
             return None;
