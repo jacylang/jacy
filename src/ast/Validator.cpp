@@ -341,7 +341,6 @@ namespace jc::ast {
             case parser::TokenKind::LE:
             case parser::TokenKind::GE:
             case parser::TokenKind::Spaceship:
-            case parser::TokenKind::In:
             case parser::TokenKind::Shl:
             case parser::TokenKind::Shr:
             case parser::TokenKind::Range:
@@ -351,12 +350,14 @@ namespace jc::ast {
             case parser::TokenKind::Mul:
             case parser::TokenKind::Div:
             case parser::TokenKind::Rem:
-            case parser::TokenKind::Power:
-            case parser::TokenKind::As: {
+            case parser::TokenKind::Power: {
                 break;
             }
             default: {
-                log::devPanic("Unexpected token used as infix operator:", infix.op.toString());
+                // Check if not keyword-operator
+                if (not infix.op.isKw(span::Kw::In) and not infix.op.isKw(span::Kw::As)) {
+                    log::devPanic("Unexpected token used as infix operator:", infix.op.toString());
+                }
             }
         }
     }
