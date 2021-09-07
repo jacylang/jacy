@@ -428,12 +428,13 @@ namespace jc::ast {
 
     void Validator::visit(const Prefix & prefix) {
         switch (prefix.op.kind) {
-            case parser::TokenKind::Not:
             case parser::TokenKind::Sub: {
                 break;
             }
             default: {
-                log::devPanic("Unexpected token used as prefix operator:", prefix.op.toString());
+                if (not prefix.op.isKw(span::Kw::Not)) {
+                    log::devPanic("Unexpected token used as prefix operator:", prefix.op.toString());
+                }
             }
         }
 
