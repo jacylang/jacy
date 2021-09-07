@@ -146,7 +146,7 @@ namespace jc::core {
             curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
         }
 
-        const auto & synthName = ast::Ident(dir.getPath().stem().string(), span::Span{});
+        const auto & synthName = ast::Ident(span::Symbol::intern(dir.getPath().stem().string()), span::Span{});
         log.dev("Synthesized ident for dir: ", synthName);
 
         ast::Item::List nestedEntries;
@@ -188,7 +188,7 @@ namespace jc::core {
         const auto & fileSize = parseSess->sourceFile.src.unwrap().size();
 
         sess->beginStep(filePathRootRel + " lexing", MeasUnit::Char);
-        auto tokens = lexer.lex(parseSess);
+        auto tokens = lexer.lex(sess, parseSess);
         sess->endStep(fileSize);
 
         log.dev("Tokenize file ", file.getPath());
@@ -211,7 +211,7 @@ namespace jc::core {
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto synthName = ast::Ident(file.getPath().stem().string(), span::Span{});
+        auto synthName = ast::Ident(span::Symbol::intern(file.getPath().stem().string()), span::Span{});
 
         return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span{});
     }
