@@ -122,7 +122,7 @@ namespace jc::parser {
     }
 
     bool Lexer::isIdFirst(char c) {
-        return isAlpha(c) or isDigit(c);
+        return isAlpha(c) or is('_');
     }
 
     bool Lexer::isIdPart() {
