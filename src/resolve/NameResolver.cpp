@@ -173,6 +173,16 @@ namespace jc::resolve {
         liftToDepth(prevDepth);
     }
 
+    void NameResolver::visit(const ast::Invoke & invoke) {
+        /// Function invocation has a specific name resolution workflow
+        /// When function is called by path, i.e. `path::to::func(...)`,
+        ///  we need to resolve it relying on specified labels
+
+        if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
+
+        }
+    }
+
     // Types //
     void NameResolver::visit(const ast::TypePath & typePath) {
         resolvePath(Namespace::Type, typePath.path);

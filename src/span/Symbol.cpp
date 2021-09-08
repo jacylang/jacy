@@ -69,6 +69,10 @@ namespace jc::span {
         return os << Interner::getInstance().get(sym);
     }
 
+    Symbol Symbol::operator+(const Symbol & other) const {
+        return intern(toString() + other.toString());
+    }
+
     Interner::Interner() {
         SymbolId::ValueT index {0};
         for (const auto & kw : Symbol::keywords) {
