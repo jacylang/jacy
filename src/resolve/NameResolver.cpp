@@ -193,7 +193,7 @@ namespace jc::resolve {
 
         if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
-            resolvePath(Namespace::Value, pathExpr->path);
+            resolvePath(Namespace::Value, pathExpr->path, Symbol::intern(suffix));
         } else if (gotLabels) {
             // Labels calls are not allowed in non-path invocations as we cannot resolve them.
             // This case must be handled in `Validator`, thus it is a bug
