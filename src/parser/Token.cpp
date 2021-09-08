@@ -94,7 +94,7 @@ namespace jc::parser {
     }
 
     bool Token::isKw(span::Kw kw) const {
-        return asSymbol() == kw;
+        return is(TokenKind::Id) and asSymbol() == kw;
     }
 
     bool Token::isAssignOp() const {
