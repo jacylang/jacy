@@ -178,8 +178,29 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
-        if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
+        // Build suffix (from labels) and visit arguments
+        bool gotLabels = false;
+        std::string suffix = "(";
+        for (const auto & arg : invoke.args) {
+            if (arg.name.some()) {
+                gotLabels = true;
+                suffix += arg.name.unwrap().unwrap().sym.toString() + ":";
+            } else {
+                suffix += "_:";
+            }
+        }
+        suffix += ")";
 
+        if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
+            const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
+            resolvePath(Namespace::Value, pathExpr->path);
+        } else if (gotLabels) {
+            // Labels calls are not allowed in non-path invocations as we cannot resolve them.
+            // This case must be handled in `Validator`, thus it is a bug
+            log::devPanic("[NameResolver] Got invocation with labels with non-path lhs expression");
+        } else {
+            invoke.lhs.autoAccept(*this);
+            visitEach(invoke.args);
         }
     }
 
