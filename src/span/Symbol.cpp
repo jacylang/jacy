@@ -73,6 +73,10 @@ namespace jc::span {
         return intern(toString() + other.toString());
     }
 
+    Symbol & Symbol::operator+=(const Symbol & other) {
+        return *this = intern((*this + other).toString());
+    }
+
     Interner::Interner() {
         SymbolId::ValueT index {0};
         for (const auto & kw : Symbol::keywords) {

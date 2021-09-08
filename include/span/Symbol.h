@@ -103,6 +103,7 @@ namespace jc::span {
         }
 
         Symbol operator+(const Symbol & other) const;
+        Symbol & operator+=(const Symbol & other);
 
         static Symbol intern(const std::string & str);
 

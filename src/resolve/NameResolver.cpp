@@ -322,7 +322,7 @@ namespace jc::resolve {
 
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
-    void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path) {
+    void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path, const Symbol::Opt & suffix) {
         // TODO: global
 
         // TODO: Generic args not allowed in local variables, check for single-seg path with generics
@@ -353,16 +353,16 @@ namespace jc::resolve {
         PerNS<DefId::Opt> altDefs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
-            const auto & seg = path.segments.at(i).unwrap();
-            const auto & segName = seg.ident.unwrap().sym;
-
-            // TODO: Resolve segment generics
-
             // For path prefix `a::b::` we find segments in type namespace,
             // but last segment is resolved in target namespace
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
             Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
+
+            const auto & seg = path.segments.at(i).unwrap();
+            auto segName = seg.ident.unwrap().sym;
+
+            // TODO: Resolve segment generics
 
             searchMod->find(ns, segName).then([&](const DefId & defId) {
                 // Check visibility
