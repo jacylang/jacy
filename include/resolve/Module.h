@@ -14,6 +14,18 @@ namespace jc::resolve {
         Def,
     };
 
+    /// Definition stored in `Module`
+    struct IntraModuleDef {
+        using ValueT = std::variant<DefId>;
+
+        enum class Kind {
+            /// Target definition, does not depend on additional info
+            Target,
+            /// Function overloading, points to function name in `DefTable::funcOverloads`
+            FuncOverload,
+        };
+    };
+
     struct Module {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
