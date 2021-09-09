@@ -122,6 +122,9 @@ namespace jc::resolve {
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
+        /// Function overloads, each id points to mapping from suffix to function definition
+        std::map<FuncOverloadId, std::map<Symbol, DefId>> funcOverloads;
+
         template<class ...Args>
         void panicWithDump(Args ...args) const {
             log::devPanic(std::forward<Args>(args)..., "\nDefinitions: ", defs);
