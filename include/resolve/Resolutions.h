@@ -41,19 +41,19 @@ namespace jc::resolve {
 
     inline Option<PrimType> getPrimType(const span::Symbol & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
-            {"bool",   PrimType::Bool},
-            {"int",    PrimType::Int},
-            {"uint",   PrimType::Uint},
+            {"bool", PrimType::Bool},
+            {"int",  PrimType::Int},
+            {"uint", PrimType::Uint},
             {"i8",   PrimType::I8},
             {"i16",  PrimType::I16},
             {"i32",  PrimType::I32},
             {"i64",  PrimType::I64},
-            {"u8",  PrimType::U8},
-            {"u16", PrimType::U16},
-            {"u32", PrimType::U32},
-            {"u64", PrimType::U64},
-            {"char",   PrimType::Char},
-            {"str",    PrimType::Str},
+            {"u8",   PrimType::U8},
+            {"u16",  PrimType::U16},
+            {"u32",  PrimType::U32},
+            {"u64",  PrimType::U64},
+            {"char", PrimType::Char},
+            {"str",  PrimType::Str},
         };
 
         const auto & found = primTypesNames.find(typeName.toString());
@@ -104,26 +104,26 @@ namespace jc::resolve {
         switch (primType) {
             case PrimType::Bool:
                 return "bool";
-            case PrimType::I8:
-                return "int8";
-            case PrimType::I16:
-                return "int16";
-            case PrimType::I32:
-                return "int32";
             case PrimType::Int:
                 return "int";
-            case PrimType::I64:
-                return "int64";
-            case PrimType::U8:
-                return "uint8";
-            case PrimType::U16:
-                return "uint16";
-            case PrimType::U32:
-                return "uint32";
             case PrimType::Uint:
                 return "uint";
+            case PrimType::I8:
+                return "i8";
+            case PrimType::I16:
+                return "i16";
+            case PrimType::I32:
+                return "i32";
+            case PrimType::I64:
+                return "i64";
+            case PrimType::U8:
+                return "u8";
+            case PrimType::U16:
+                return "u16";
+            case PrimType::U32:
+                return "u32";
             case PrimType::U64:
-                return "uint64";
+                return "u64";
             case PrimType::Char:
                 return "char";
             case PrimType::Str:
