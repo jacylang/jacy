@@ -14,6 +14,20 @@ namespace jc::resolve {
         Def,
     };
 
+    struct FuncOverloadId {
+        using ValueT = uint16_t;
+
+        ValueT val;
+
+        bool operator==(const FuncOverloadId & other) const {
+            return val == other.val;
+        }
+
+        bool operator<(const FuncOverloadId & other) const {
+            return val < other.val;
+        }
+    };
+
     /// Definition stored in `Module`
     struct IntraModuleDef {
         using ValueT = std::variant<DefId>;
