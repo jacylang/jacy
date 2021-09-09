@@ -13,7 +13,7 @@ namespace jc::resolve {
 
     // Unresolved segment
     // Has index in path segments vector and optional definition id,
-    // if segment is resolved but it is private
+    // if segment is resolved, but it is private
     struct UnresSeg {
         size_t segIndex;
         DefId::Opt defId{None};
@@ -75,19 +75,19 @@ namespace jc::resolve {
     /// [Debug noly] get list of shadowed primitive type names by mask
     inline std::vector<std::string> getShadowedPrimTypes(PrimTypeSet mask) {
         static const std::map<PrimType, std::string> primTypesNames = {
-            {PrimType::Bool, "bool"},
-            {PrimType::Int8, "int8"},
-            {PrimType::Int16, "int16"},
-            {PrimType::Int32, "int32"},
-            {PrimType::Int, "int"},
-            {PrimType::Int64, "int64"},
-            {PrimType::Uint8, "uint8"},
+            {PrimType::Bool,   "bool"},
+            {PrimType::Int8,   "int8"},
+            {PrimType::Int16,  "int16"},
+            {PrimType::Int32,  "int32"},
+            {PrimType::Int,    "int"},
+            {PrimType::Int64,  "int64"},
+            {PrimType::Uint8,  "uint8"},
             {PrimType::Uint16, "uint16"},
             {PrimType::Uint32, "uint32"},
-            {PrimType::Uint, "uint"},
+            {PrimType::Uint,   "uint"},
             {PrimType::Uint64, "uint64"},
-            {PrimType::Char, "char"},
-            {PrimType::Str, "str"},
+            {PrimType::Char,   "char"},
+            {PrimType::Str,    "str"},
         };
         static const auto leftmostBit = static_cast<PrimTypeSet>(PrimType::Str);
 
