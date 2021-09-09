@@ -25,35 +25,35 @@ namespace jc::resolve {
 
     enum class PrimType : uint8_t {
         Bool = 0,
-        Int8,
-        Int16,
-        Int32,
+        I8,
+        I16,
+        I32,
         Int,
-        Int64,
-        Uint8,
-        Uint16,
-        Uint32,
+        I64,
+        U8,
+        U16,
+        U32,
         Uint,
-        Uint64,
+        U64,
         Char,
         Str, // Note!!!: Order matters -- keep Str last
     };
 
     inline Option<PrimType> getPrimType(const span::Symbol & typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
-            {"bool", PrimType::Bool},
-            {"int8", PrimType::Int8},
-            {"int16", PrimType::Int16},
-            {"int32", PrimType::Int32},
-            {"int", PrimType::Int},
-            {"int64", PrimType::Int64},
-            {"uint8", PrimType::Uint8},
-            {"uint16", PrimType::Uint16},
-            {"uint32", PrimType::Uint32},
-            {"uint", PrimType::Uint},
-            {"uint64", PrimType::Uint64},
-            {"char", PrimType::Char},
-            {"str", PrimType::Str},
+            {"bool",   PrimType::Bool},
+            {"int8",   PrimType::I8},
+            {"int16",  PrimType::I16},
+            {"int32",  PrimType::I32},
+            {"int",    PrimType::Int},
+            {"int64",  PrimType::I64},
+            {"uint8",  PrimType::U8},
+            {"uint16", PrimType::U16},
+            {"uint32", PrimType::U32},
+            {"uint",   PrimType::Uint},
+            {"uint64", PrimType::U64},
+            {"char",   PrimType::Char},
+            {"str",    PrimType::Str},
         };
 
         const auto & found = primTypesNames.find(typeName.toString());
@@ -75,19 +75,19 @@ namespace jc::resolve {
     /// [Debug noly] get list of shadowed primitive type names by mask
     inline std::vector<std::string> getShadowedPrimTypes(PrimTypeSet mask) {
         static const std::map<PrimType, std::string> primTypesNames = {
-            {PrimType::Bool,   "bool"},
-            {PrimType::Int8,   "int8"},
-            {PrimType::Int16,  "int16"},
-            {PrimType::Int32,  "int32"},
-            {PrimType::Int,    "int"},
-            {PrimType::Int64,  "int64"},
-            {PrimType::Uint8,  "uint8"},
-            {PrimType::Uint16, "uint16"},
-            {PrimType::Uint32, "uint32"},
-            {PrimType::Uint,   "uint"},
-            {PrimType::Uint64, "uint64"},
-            {PrimType::Char,   "char"},
-            {PrimType::Str,    "str"},
+            {PrimType::Bool, "bool"},
+            {PrimType::I8,   "int8"},
+            {PrimType::I16,  "int16"},
+            {PrimType::I32,  "int32"},
+            {PrimType::Int,  "int"},
+            {PrimType::I64,  "int64"},
+            {PrimType::U8,   "uint8"},
+            {PrimType::U16,  "uint16"},
+            {PrimType::U32,  "uint32"},
+            {PrimType::Uint, "uint"},
+            {PrimType::U64,  "uint64"},
+            {PrimType::Char, "char"},
+            {PrimType::Str,  "str"},
         };
         static const auto leftmostBit = static_cast<PrimTypeSet>(PrimType::Str);
 
@@ -104,25 +104,25 @@ namespace jc::resolve {
         switch (primType) {
             case PrimType::Bool:
                 return "bool";
-            case PrimType::Int8:
+            case PrimType::I8:
                 return "int8";
-            case PrimType::Int16:
+            case PrimType::I16:
                 return "int16";
-            case PrimType::Int32:
+            case PrimType::I32:
                 return "int32";
             case PrimType::Int:
                 return "int";
-            case PrimType::Int64:
+            case PrimType::I64:
                 return "int64";
-            case PrimType::Uint8:
+            case PrimType::U8:
                 return "uint8";
-            case PrimType::Uint16:
+            case PrimType::U16:
                 return "uint16";
-            case PrimType::Uint32:
+            case PrimType::U32:
                 return "uint32";
             case PrimType::Uint:
                 return "uint";
-            case PrimType::Uint64:
+            case PrimType::U64:
                 return "uint64";
             case PrimType::Char:
                 return "char";
