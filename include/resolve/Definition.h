@@ -196,6 +196,7 @@ namespace jc::resolve {
                 case DefKind::Init:
                     return "`init` (initializer)";
             }
+
             return "[NO REPRESENTATION (bug)]";
         }
 
@@ -212,6 +213,7 @@ namespace jc::resolve {
                         return false;
                 }
             }
+
             if (usage == NameUsage::Type) {
                 switch (kind) {
                     case DefKind::Struct:
@@ -223,6 +225,7 @@ namespace jc::resolve {
                     default: return false;
                 }
             }
+
             if (usage == NameUsage::Value) {
                 switch (kind) {
                     case DefKind::Const:

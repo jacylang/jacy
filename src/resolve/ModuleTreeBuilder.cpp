@@ -10,7 +10,8 @@ namespace jc::resolve {
             DefVis::Pub,
             ast::NodeId::DUMMY,
             DefKind::Mod,
-            span::Ident::empty());
+            span::Ident::empty()
+        );
 
         assert(rootModuleDef == DefId::ROOT_DEF_ID);
 
@@ -43,7 +44,8 @@ namespace jc::resolve {
             getItemVis(func),
             func.id,
             DefKind::Func,
-            Module::getFuncName(func.name.unwrap().sym.toString(), func.sig, func.name.unwrap().span));
+            Module::getFuncName(func.name.unwrap().sym.toString(), func.sig, func.name.unwrap().span)
+        );
 
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
@@ -109,8 +111,10 @@ namespace jc::resolve {
     // Definitions //
     DefVis ModuleTreeBuilder::getItemVis(const ast::Item & item) {
         switch (item.vis.kind) {
-            case ast::VisKind::Pub: return DefVis::Pub;
-            case ast::VisKind::Unset: return DefVis::Unset;
+            case ast::VisKind::Pub:
+                return DefVis::Pub;
+            case ast::VisKind::Unset:
+                return DefVis::Unset;
         }
     }
 
@@ -130,7 +134,8 @@ namespace jc::resolve {
             defId,
             "] in ",
             Module::nsToString(ns),
-            " namespace");
+            " namespace"
+        );
 
         // Try to emplace definition in namespace, and if it is already defined suggest an error
         const auto & oldDefId = mod->tryDefine(ns, name, defId);
@@ -141,7 +146,8 @@ namespace jc::resolve {
                 "' as ",
                 Def::kindStr(defKind),
                 ", previously defined with id ",
-                oldDefId.unwrap());
+                oldDefId.unwrap()
+            );
             suggestCannotRedefine(ident, defKind, oldDefId.unwrap());
         }
 
@@ -160,7 +166,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
         maybeGenerics.then([&](const ast::GenericParam::List & generics) {
-            for (const auto & gen : generics) {
+            for (const auto & gen: generics) {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {
                         const auto & typeParam = ast::Node::cast<ast::TypeParam>(gen.get());
@@ -240,12 +246,12 @@ namespace jc::resolve {
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
         const auto & prevDefSpan = _defTable.getDefNameSpan(prevDefId);
-        suggest(
-            std::make_unique<sugg::MsgSpanLinkSugg>(
-                log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
-                ident.span,
-                "Because it is already declared as " + prevDef.kindStr() + " here",
-                prevDefSpan,
-                sugg::SuggKind::Error));
+        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
+            log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
+            ident.span,
+            "Because it is already declared as " + prevDef.kindStr() + " here",
+            prevDefSpan,
+            sugg::SuggKind::Error
+        ));
     }
 }
