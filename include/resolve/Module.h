@@ -93,15 +93,11 @@ namespace jc::resolve {
         void assertKind(ModuleKind kind) const;
         auto getNodeId() const;
         const auto & getDefId() const;
-
-        IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
-
-        // Search for name in all namespaces
-        // Also used to find alternatives for failed resolutions
-        PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
-
         const NSMap & getNS(Namespace ns) const;
         NSMap & getNS(Namespace ns);
+
+        IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
+        PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
 
         template<class T>
         IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const T & val) {
@@ -115,29 +111,7 @@ namespace jc::resolve {
             return None;
         }
 
-        std::string toString() const;
-
-        static inline std::string kindStr(ModuleKind kind) {
-            switch (kind) {
-                case ModuleKind::Block: return "[BLOCK]";
-                case ModuleKind::Def: return "[DEF]";
-                default: return "[NO REPRESENTATION (bug)]";
-            }
-        }
-
-        inline std::string kindStr() const {
-            return kindStr(kind);
-        }
-
-        static inline std::string nsToString(Namespace ns) {
-            switch (ns) {
-                case Namespace::Value: return "value";
-                case Namespace::Type: return "type";
-                case Namespace::Lifetime: return "lifetime";
-                default: return "[NO REPRESENTATION (bug)]";
-            }
-        }
-
+    public:
         static inline span::Ident getInitName(const ast::Init & init) {
             return getFuncName("init", init.sig, init.span);
         }
@@ -167,6 +141,31 @@ namespace jc::resolve {
 
             name += ")";
             return span::Ident {Symbol::intern(name), span};
+        }
+
+        // Representation //
+    public:
+        std::string toString() const;
+
+        static inline std::string kindStr(ModuleKind kind) {
+            switch (kind) {
+                case ModuleKind::Block: return "[BLOCK]";
+                case ModuleKind::Def: return "[DEF]";
+                default: return "[NO REPRESENTATION (bug)]";
+            }
+        }
+
+        inline std::string kindStr() const {
+            return kindStr(kind);
+        }
+
+        static inline std::string nsToString(Namespace ns) {
+            switch (ns) {
+                case Namespace::Value: return "value";
+                case Namespace::Type: return "type";
+                case Namespace::Lifetime: return "lifetime";
+                default: return "[NO REPRESENTATION (bug)]";
+            }
         }
     };
 }

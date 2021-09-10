@@ -18,23 +18,6 @@ namespace jc::resolve {
         return std::get<DefId>(id);
     }
 
-    IntraModuleDef::Opt Module::find(Namespace nsKind, const Symbol & name) const {
-        const auto & ns = getNS(nsKind);
-        const auto & def = ns.find(name);
-        if (def == ns.end()) {
-            return None;
-        }
-        return def->second;
-    }
-
-    PerNS<IntraModuleDef::Opt> Module::findAll(const Symbol & name) const {
-        return {
-            find(Namespace::Value, name),
-            find(Namespace::Type, name),
-            find(Namespace::Lifetime, name)
-        };
-    }
-
     const Module::NSMap & Module::getNS(Namespace ns) const {
         switch (ns) {
             case Namespace::Value: return perNS.value;
@@ -51,6 +34,25 @@ namespace jc::resolve {
             case Namespace::Lifetime: return perNS.lifetime;
         }
         log::notImplemented("getNS");
+    }
+
+    IntraModuleDef::Opt Module::find(Namespace nsKind, const Symbol & name) const {
+        const auto & ns = getNS(nsKind);
+        const auto & def = ns.find(name);
+        if (def == ns.end()) {
+            return None;
+        }
+        return def->second;
+    }
+
+    /// Search for name in all namespaces
+    /// Also used to find alternatives for failed resolutions
+    PerNS<IntraModuleDef::Opt> Module::findAll(const Symbol & name) const {
+        return {
+            find(Namespace::Value, name),
+            find(Namespace::Type, name),
+            find(Namespace::Lifetime, name)
+        };
     }
 
     std::string Module::toString() const {

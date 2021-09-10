@@ -46,7 +46,7 @@ namespace jc::resolve {
         ) {
             using namespace utils::map;
 
-            // Add new overloading indexing if no provided
+            // Add new overloading indexing if not provided
             if (funcOverloadId.none()) {
                 funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
             }
