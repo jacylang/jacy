@@ -34,26 +34,7 @@ namespace jc::resolve {
         }
 
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
-            using namespace utils::map;
-
-            auto defId = DefId {DefIndex {defs.size()}};
-            defs.emplace_back(defId, kind, ident);
-
-            log::Logger::devDebug(
-                "[DefTable::define] Add definition ",
-                Def::kindStr(kind),
-                " '",
-                ident,
-                "' with node id ",
-                nodeId,
-                " and def id ",
-                defId);
-
-            assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
-            assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
-            assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::addDef` -> defIdNodeIdMap");
-
-            return defId;
+            return defineCommon(vis, nodeId, kind, ident);
         }
 
         FuncOverloadId defineFunc(
@@ -137,9 +118,26 @@ namespace jc::resolve {
         }
 
     private:
-        DefId defineCommon(DefKind kind, const span::Ident & ident) {
+        DefId defineCommon(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
+            using namespace utils::map;
+
             auto defId = DefId {DefIndex {defs.size()}};
             defs.emplace_back(defId, kind, ident);
+
+            log::Logger::devDebug(
+                "[DefTable::define] Add definition ",
+                Def::kindStr(kind),
+                " '",
+                ident,
+                "' with node id ",
+                nodeId,
+                " and def id ",
+                defId);
+
+            assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
+            assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
+            assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::addDef` -> defIdNodeIdMap");
+
             return defId;
         }
 
