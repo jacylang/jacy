@@ -6,6 +6,11 @@
 #include "ast/Node.h"
 
 namespace jc::resolve {
+    struct FuncName {
+        span::Ident baseName;
+        span::Symbol suffix;
+    };
+
     struct DefIndex {
         DefIndex(size_t val) : val{val} {}
 
