@@ -40,11 +40,16 @@ namespace jc::resolve {
         DefId defineFunc(
             DefVis vis,
             NodeId nodeId,
-            FuncOverloadId funcOverloadId,
-            Symbol suffix,
-            const span::Ident & ident
+            FuncOverloadId::Opt funcOverloadId,
+            const span::Ident & ident,
+            Symbol suffix
         ) {
             using namespace utils::map;
+
+            // Add new overloading indexing if no provided
+            if (funcOverloadId.none()) {
+                funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
+            }
 
             /// Emplace overloading definition
             auto defId = defineCommon(vis, nodeId, DefKind::Func, ident);

@@ -15,7 +15,10 @@ namespace jc::resolve {
     };
 
     struct FuncOverloadId {
+        using Opt = Option<FuncOverloadId>;
         using ValueT = uint16_t;
+
+        FuncOverloadId(ValueT val) : val {val} {}
 
         ValueT val;
 

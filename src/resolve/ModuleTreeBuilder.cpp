@@ -119,10 +119,6 @@ namespace jc::resolve {
     }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
-        const auto defId = _defTable.define(vis, nodeId, defKind, ident);
-    }
-
     DefId ModuleTreeBuilder::addDefCommon(
         DefId defId,
         DefVis vis,
@@ -171,6 +167,15 @@ namespace jc::resolve {
         }
 
         return defId;
+    }
+
+    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
+        auto defId = _defTable.define(vis, nodeId, defKind, ident);
+        return addDefCommon(defId, vis, nodeId, defKind, ident);
+    }
+
+    DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & ident) {
+        auto defId = _defTable.defineFunc(vis, nodeId, )
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
