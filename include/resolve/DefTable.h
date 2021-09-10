@@ -37,27 +37,23 @@ namespace jc::resolve {
             return defineCommon(vis, nodeId, kind, ident);
         }
 
-        FuncOverloadId defineFunc(
+        DefId defineFunc(
             DefVis vis,
+            NodeId nodeId,
             FuncOverloadId funcOverloadId,
             Symbol suffix,
-            NodeId nodeId,
             const span::Ident & ident
         ) {
             using namespace utils::map;
 
+            /// Emplace overloading definition
+            auto defId = defineCommon(vis, nodeId, DefKind::Func, ident);
+
             auto & overload = utils::arr::expectAt(funcOverloads, funcOverloadId.val, "`DefTable::defineFunc`");
 
-            auto defId = DefId {DefIndex {defs.size()}};
+            assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
 
-            log::Logger::devDebug(
-                "[DefTable::define] Add function overload ",
-                " '",
-                ident, suffix,
-                "' with node id ",
-                nodeId,
-                " and def id ",
-                defId);
+            return defId;
         }
 
         const auto & getDefinitions() const {
