@@ -38,7 +38,12 @@ namespace jc::resolve {
             Target,
             /// Function overloading, points to function name in `DefTable::funcOverloads`
             FuncOverload,
-        };
+        } kind;
+
+        IntraModuleDef(DefId defId) : val {defId} {}
+        IntraModuleDef(FuncOverloadId funcOverloadId) : val {funcOverloadId} {}
+
+        ValueT val;
     };
 
     struct Module {
@@ -133,8 +138,9 @@ namespace jc::resolve {
             log::notImplemented("getNS");
         }
 
-        IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
-            const auto & defined = getNS(ns).emplace(name, defId);
+        template<class T>
+        IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const T & val) {
+            const auto & defined = getNS(ns).emplace(name, IntraModuleDef {val});
             // Note: emplace returns `pair<new element iterator, true>` if emplaced new element
             //  and `pair<old element iterator, false>` if tried to re-emplace
             if (not defined.second) {
