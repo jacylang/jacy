@@ -46,7 +46,7 @@ namespace jc::utils::arr {
     );
 
     template<class T, typename SizeT = typename std::vector<T>::size_type>
-    T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
+    const T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
         if (index >= vec.size()) {
             std::stringstream ss;
             ss << "Error in " << place << " `utils::arr::expectAt` failed to find by index '" << index << "'"

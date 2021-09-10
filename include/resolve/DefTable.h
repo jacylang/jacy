@@ -49,7 +49,7 @@ namespace jc::resolve {
             /// Emplace overloading definition
             auto defId = defineCommon(vis, nodeId, DefKind::Func, ident);
 
-            auto & overload = utils::arr::expectAt(funcOverloads, funcOverloadId.val, "`DefTable::defineFunc`");
+            auto & overload = funcOverloads.at(funcOverloadId.val);
 
             assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
 
