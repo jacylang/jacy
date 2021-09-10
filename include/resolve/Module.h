@@ -47,6 +47,14 @@ namespace jc::resolve {
         IntraModuleDef(FuncOverloadId funcOverloadId) : val {funcOverloadId} {}
 
         ValueT val;
+
+        auto asDef() const {
+            return std::get<DefId>(val);
+        }
+
+        auto asFuncOverload() const {
+            return std::get<FuncOverloadId>(val);
+        }
     };
 
     struct Module {

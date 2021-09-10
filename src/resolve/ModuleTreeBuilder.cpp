@@ -143,17 +143,17 @@ namespace jc::resolve {
         );
 
         // Try to emplace definition in namespace, and if it is already defined suggest an error
-        const auto & oldDefId = mod->tryDefine(ns, name, defId);
-        if (oldDefId.some()) {
+        const auto & oldDef = mod->tryDefine(ns, name, defId);
+        if (oldDef.some()) {
             log.dev(
                 "Tried to redefine '",
                 name,
                 "' as ",
                 Def::kindStr(defKind),
                 ", previously defined with id ",
-                oldDefId.unwrap()
+                oldDef.unwrap()
             );
-            suggestCannotRedefine(ident, defKind, oldDefId.unwrap());
+            suggestCannotRedefine(ident, defKind, oldDef.unwrap());
         }
 
         // If type is defined then check if its name shadows one of primitive types
