@@ -31,7 +31,7 @@ namespace jc::resolve {
     /// Definition stored in `Module`
     struct IntraModuleDef {
         using Opt = Option<IntraModuleDef>;
-        using ValueT = std::variant<DefId>;
+        using ValueT = std::variant<DefId, FuncOverloadId>;
 
         enum class Kind {
             /// Target definition, does not depend on additional info
@@ -190,7 +190,11 @@ namespace jc::resolve {
             return span::Interner::getInstance().intern("%impl_" + std::to_string(node.id.val));
         }
 
-        static inline span::Ident getFuncName(const std::string & baseName, const ast::FuncSig & sig, const span::Span & span) {
+        static inline span::Ident getFuncName(
+            const std::string & baseName,
+            const ast::FuncSig & sig,
+            const span::Span & span
+        ) {
             std::string name = baseName + "(";
             std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
