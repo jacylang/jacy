@@ -137,6 +137,13 @@ namespace jc::resolve {
         }
 
     private:
+        DefId defineCommon(DefKind kind, const span::Ident & ident) {
+            auto defId = DefId {DefIndex {defs.size()}};
+            defs.emplace_back(defId, kind, ident);
+            return defId;
+        }
+
+    private:
         std::vector<Def> defs;
         std::map<DefIndex, Module::Ptr> modules;
         std::map<ast::NodeId, Module::Ptr> blocks;
