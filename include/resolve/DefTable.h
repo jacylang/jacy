@@ -56,6 +56,29 @@ namespace jc::resolve {
             return defId;
         }
 
+        FuncOverloadId defineFunc(
+            DefVis vis,
+            FuncOverloadId funcOverloadId,
+            Symbol suffix,
+            NodeId nodeId,
+            const span::Ident & ident
+        ) {
+            using namespace utils::map;
+
+            auto & overload = utils::arr::expectAt(funcOverloads, funcOverloadId.val, "`DefTable::defineFunc`");
+
+            auto defId = DefId {DefIndex {defs.size()}};
+
+            log::Logger::devDebug(
+                "[DefTable::define] Add function overload ",
+                " '",
+                ident, suffix,
+                "' with node id ",
+                nodeId,
+                " and def id ",
+                defId);
+        }
+
         const auto & getDefinitions() const {
             return defs;
         }
@@ -123,7 +146,7 @@ namespace jc::resolve {
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
         /// Function overloads, each id points to mapping from suffix to function definition
-        std::map<FuncOverloadId, std::map<Symbol, DefId>> funcOverloads;
+        std::vector<std::map<Symbol, DefId>> funcOverloads;
 
         template<class ...Args>
         void panicWithDump(Args ...args) const {
