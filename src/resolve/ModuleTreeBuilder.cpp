@@ -119,13 +119,11 @@ namespace jc::resolve {
     }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    DefId ModuleTreeBuilder::addDefCommon(
-        DefId defId,
-        DefKind defKind,
-        const span::Ident & ident
-    ) {
+    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
+        auto defId = _defTable.define(vis, nodeId, defKind, ident);
+
         const auto & name = ident.sym;
-        const auto ns = Def::getNS(_defTable.getDef(defId).kind);
+        const auto & ns = Def::getNS(_defTable.getDef(defId).kind);
 
         log.dev(
             "Trying to add def '",
@@ -151,7 +149,7 @@ namespace jc::resolve {
                 ", previously defined as ",
                 oldDef.unwrap()
             );
-            suggestCannotRedefine(ident, defKind, oldDef.unwrap());
+            suggestCannotRedefine(ident, defKind, oldDef.unwrap().asDef());
         }
 
         // If type is defined then check if its name shadows one of primitive types
@@ -165,11 +163,6 @@ namespace jc::resolve {
         }
 
         return defId;
-    }
-
-    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
-        auto defId = _defTable.define(vis, nodeId, defKind, ident);
-        return addDefCommon(defId, defKind, ident);
     }
 
     DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix) {
@@ -266,7 +259,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::suggestCannotRedefine(
         const span::Ident & ident,
         DefKind as,
-        const IntraModuleDef & prevDefId
+        const DefId & prevDefId
     ) {
         const auto & prevDef = _defTable.getDef(prevDefId);
 

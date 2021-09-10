@@ -43,7 +43,6 @@ namespace jc::resolve {
         DefTable _defTable;
 
         DefVis getItemVis(const ast::Item & item);
-        DefId addDefCommon(DefId defId, DefKind defKind, const span::Ident & ident);
         DefId addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
         DefId addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix);
         void defineGenerics(const ast::GenericParam::OptList & maybeGenerics);
@@ -62,7 +61,7 @@ namespace jc::resolve {
         void suggestCannotRedefine(
             const span::Ident & ident,
             DefKind as,
-            const IntraModuleDef & prevDefId
+            const DefId & prevDefId
         );
 
         // Debug //
