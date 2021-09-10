@@ -114,6 +114,7 @@ namespace jc::resolve {
             return defId;
         }
 
+    public:
         DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
             return defineCommon(vis, nodeId, kind, ident);
         }

@@ -45,7 +45,7 @@ namespace jc::resolve {
         DefVis getItemVis(const ast::Item & item);
         DefId addDefCommon(DefId defId, DefKind defKind, const span::Ident & ident);
         DefId addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
-        DefId addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & ident);
+        DefId addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix);
         void defineGenerics(const ast::GenericParam::OptList & maybeGenerics);
 
         // Modules //

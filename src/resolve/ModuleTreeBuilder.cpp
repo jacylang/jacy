@@ -172,14 +172,23 @@ namespace jc::resolve {
         return addDefCommon(defId, defKind, ident);
     }
 
-    DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & ident) {
-        auto intraModuleDef = mod->find(Namespace::Value, ident.sym);
+    DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix) {
+        // Note: We only define functions as single overloading, never as a name (such as single defId for each `init`)
+        auto defId = _defTable.define(vis, nodeId, DefKind::Func, span::Ident {baseName.sym + suffix, baseName.span});
+
+        // Trying to find overloading by base name (for `func foo(...)` it would be `foo` without labels)
+        auto intraModuleDef = mod->find(Namespace::Value, baseName.sym);
         if (intraModuleDef.some() and intraModuleDef.unwrap().kind != IntraModuleDef::Kind::FuncOverload) {
             // TODO: `suggestCannotRedefineFunc`
-
+            return defId;
         }
-        auto overloadId =
-        auto defId = _defTable.defineFunc(vis, nodeId, );
+
+        FuncOverloadId::Opt overloadId = None;
+        if (intraModuleDef.some()) {
+            // Note: It is a bug to have not a func overloading here, due to check above
+            overloadId = intraModuleDef.unwrap().asFuncOverload();
+        }
+        _defTable.addFuncOverload(defId, overloadId, baseName, suffix);
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
