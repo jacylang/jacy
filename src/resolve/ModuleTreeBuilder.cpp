@@ -239,7 +239,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::suggestCannotRedefine(
         const span::Ident & ident,
         DefKind as,
-        const DefId & prevDefId
+        const IntraModuleDef & prevDefId
     ) {
         const auto & prevDef = _defTable.getDef(prevDefId);
 
