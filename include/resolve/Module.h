@@ -201,9 +201,14 @@ namespace jc::resolve {
                 if (param.label.some()) {
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else {
-                    name += "_:";
+                    labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
                 }
             }
+
+            std::sort(labels.begin(), labels.end(), [](const Symbol & lhs, const Symbol & rhs) {
+                return lhs < rhs;
+            });
+
             name += ")";
             return span::Ident {Symbol::intern(name), span};
         }
