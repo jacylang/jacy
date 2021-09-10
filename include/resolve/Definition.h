@@ -141,6 +141,10 @@ namespace jc::resolve {
         DefId defId;
         DefKind kind;
 
+        static inline span::Ident getFuncIdent(const span::Ident & baseName, span::Symbol suffix) {
+            return span::Ident {baseName.sym + suffix, baseName.span};
+        }
+
         static inline Namespace getNS(DefKind kind) {
             switch (kind) {
                 case DefKind::Enum:

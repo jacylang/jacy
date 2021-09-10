@@ -167,7 +167,7 @@ namespace jc::resolve {
 
     DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix) {
         // Note: We only define functions as single overloading, never as a name (such as single defId for each `init`)
-        auto defId = _defTable.define(vis, nodeId, DefKind::Func, span::Ident {baseName.sym + suffix, baseName.span});
+        auto defId = _defTable.define(vis, nodeId, DefKind::Func, Def::getFuncIdent(baseName, suffix));
 
         // Trying to find overloading by base name (for `func foo(...)` it would be `foo` without labels)
         auto intraModuleDef = mod->find(Namespace::Value, baseName.sym);
@@ -182,6 +182,8 @@ namespace jc::resolve {
             overloadId = intraModuleDef.unwrap().asFuncOverload();
         }
         _defTable.addFuncOverload(defId, overloadId, baseName, suffix);
+
+        return defId;
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
