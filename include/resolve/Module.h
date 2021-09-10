@@ -29,6 +29,10 @@ namespace jc::resolve {
         bool operator<(const FuncOverloadId & other) const {
             return val < other.val;
         }
+
+        friend std::ostream & operator<<(std::ostream & os, const FuncOverloadId & overloadId) {
+            return os << log::Color::Magenta << "#fo(" << overloadId.val << ")" << log::Color::Reset;
+        }
     };
 
     /// Definition stored in `Module`
@@ -54,6 +58,14 @@ namespace jc::resolve {
 
         auto asFuncOverload() const {
             return std::get<FuncOverloadId>(val);
+        }
+
+        friend std::ostream & operator<<(std::ostream & os, const IntraModuleDef & intraModuleDef) {
+            if (intraModuleDef.kind == IntraModuleDef::Kind::Target) {
+                return os << log::Color::Magenta << intraModuleDef.asDef() << log::Color::Reset;
+            } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                return os << log::Color::Magenta << intraModuleDef.asFuncOverload() << log::Color::Reset;
+            }
         }
     };
 
