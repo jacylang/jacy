@@ -148,7 +148,7 @@ namespace jc::resolve {
                 name,
                 "' as ",
                 Def::kindStr(defKind),
-                ", previously defined with id ",
+                ", previously defined as ",
                 oldDef.unwrap()
             );
             suggestCannotRedefine(ident, defKind, oldDef.unwrap());
@@ -169,11 +169,17 @@ namespace jc::resolve {
 
     DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
         auto defId = _defTable.define(vis, nodeId, defKind, ident);
-        return addDefCommon(defId, vis, nodeId, defKind, ident);
+        return addDefCommon(defId, defKind, ident);
     }
 
     DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & ident) {
-        auto defId = _defTable.defineFunc(vis, nodeId, )
+        auto intraModuleDef = mod->find(Namespace::Value, ident.sym);
+        if (intraModuleDef.some() and intraModuleDef.unwrap().kind != IntraModuleDef::Kind::FuncOverload) {
+            // TODO: `suggestCannotRedefineFunc`
+
+        }
+        auto overloadId =
+        auto defId = _defTable.defineFunc(vis, nodeId, );
     }
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {

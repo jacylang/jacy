@@ -33,34 +33,6 @@ namespace jc::resolve {
             return defs.size();
         }
 
-        DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
-            return defineCommon(vis, nodeId, kind, ident);
-        }
-
-        DefId defineFunc(
-            DefVis vis,
-            NodeId nodeId,
-            FuncOverloadId::Opt funcOverloadId,
-            const span::Ident & ident,
-            Symbol suffix
-        ) {
-            using namespace utils::map;
-
-            // Add new overloading indexing if not provided
-            if (funcOverloadId.none()) {
-                funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
-            }
-
-            /// Emplace overloading definition
-            auto defId = defineCommon(vis, nodeId, DefKind::Func, ident);
-
-            auto & overload = funcOverloads.at(funcOverloadId.unwrap().val);
-
-            assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
-
-            return defId;
-        }
-
         const auto & getDefinitions() const {
             return defs;
         }
@@ -140,6 +112,28 @@ namespace jc::resolve {
             assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::addDef` -> defIdNodeIdMap");
 
             return defId;
+        }
+
+        DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
+            return defineCommon(vis, nodeId, kind, ident);
+        }
+
+        auto addFuncOverload(
+            DefId defId,
+            FuncOverloadId::Opt funcOverloadId,
+            const span::Ident & ident,
+            Symbol suffix
+        ) {
+            using namespace utils::map;
+
+            // Add new overloading indexing if not provided
+            if (funcOverloadId.none()) {
+                funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
+            }
+
+            auto & overload = funcOverloads.at(funcOverloadId.unwrap().val);
+
+            assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
         }
 
     private:
