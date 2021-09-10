@@ -120,8 +120,17 @@ namespace jc::resolve {
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
     DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
-        const auto & name = ident.sym;
         const auto defId = _defTable.define(vis, nodeId, defKind, ident);
+    }
+
+    DefId ModuleTreeBuilder::addDefCommon(
+        DefId defId,
+        DefVis vis,
+        NodeId nodeId,
+        DefKind defKind,
+        const span::Ident & ident
+    ) {
+        const auto & name = ident.sym;
         const auto ns = Def::getNS(_defTable.getDef(defId).kind);
 
         log.dev(

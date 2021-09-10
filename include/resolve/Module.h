@@ -74,6 +74,8 @@ namespace jc::resolve {
         PerNS<NSMap> perNS;
         PrimTypeSet shadowedPrimTypes{0};
 
+        // Constructors //
+    public:
         // `Block` module
         static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, DefId::Opt nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, nearestModDef);
@@ -84,6 +86,7 @@ namespace jc::resolve {
             return std::make_shared<Module>(ModuleKind::Def, parent, defId, nearestModDef);
         }
 
+    public:
         void assertKind(ModuleKind kind) const;
         auto getNodeId() const;
         const auto & getDefId() const;
