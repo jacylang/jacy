@@ -121,8 +121,6 @@ namespace jc::resolve {
     /// Adds definition by name to specific namespace determined by DefKind in current module
     DefId ModuleTreeBuilder::addDefCommon(
         DefId defId,
-        DefVis vis,
-        NodeId nodeId,
         DefKind defKind,
         const span::Ident & ident
     ) {
