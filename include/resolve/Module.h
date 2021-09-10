@@ -1,5 +1,5 @@
-#ifndef JACY_RESOLVE_MODULESTACK_H
-#define JACY_RESOLVE_MODULESTACK_H
+#ifndef JACY_RESOLVE_MODULE_H
+#define JACY_RESOLVE_MODULE_H
 
 #include "ast/Party.h"
 #include "resolve/Definition.h"
@@ -192,9 +192,10 @@ namespace jc::resolve {
 
         static inline span::Ident getFuncName(const std::string & baseName, const ast::FuncSig & sig, const span::Span & span) {
             std::string name = baseName + "(";
+            std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
-                    name += param.label.unwrap().unwrap().sym.toString() + ":";
+                    labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else {
                     name += "_:";
                 }
@@ -205,4 +206,4 @@ namespace jc::resolve {
     };
 }
 
-#endif // JACY_RESOLVE_MODULESTACK_H
+#endif // JACY_RESOLVE_MODULE_H

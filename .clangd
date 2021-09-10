@@ -1,0 +1,6 @@
+CompileFlags:
+    Add: [-xc++, -Wall]
+
+Diagnostics:
+  ClangTidy:
+    Add: modernize*
