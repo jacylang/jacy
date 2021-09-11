@@ -176,17 +176,6 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
-        // Build suffix (from labels) and visit arguments
-        std::string suffix = "(";
-        for (const auto & arg : invoke.args) {
-            if (arg.name.some()) {
-                suffix += arg.name.unwrap().unwrap().sym.toString() + ":";
-            } else {
-                suffix += "_:";
-            }
-        }
-        suffix += ")";
-
         if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
             resolvePath(Namespace::Value, pathExpr->path, Symbol::intern(suffix));

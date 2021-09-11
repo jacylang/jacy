@@ -135,7 +135,7 @@ namespace jc::resolve {
     public:
         static inline Symbol getInitName(const ast::Init & init) {
             /// TODO: Use real `init` span
-            return getFuncSuffix(init.sig).second;
+            return getFuncSuffix(init.sig);
         }
 
         static inline Symbol getImplName(const ast::Node & node) {
@@ -144,17 +144,12 @@ namespace jc::resolve {
 
         /**
          * @brief Get suffix of form like `(label1:label2:_:...)`
-         * @returns (gotLabels?, suffix symbol)
          */
-        static inline std::pair<bool, Symbol> getFuncSuffix(
-            const ast::FuncSig & sig
-        ) {
-            bool gotLabels = false;
+        static inline Symbol getFuncSuffix(const ast::FuncSig & sig) {
             std::string name = "(";
             std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
-                    gotLabels = true;
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else {
                     labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
@@ -166,7 +161,30 @@ namespace jc::resolve {
             });
 
             name += ")";
-            return {gotLabels, Symbol::intern(name)};
+            return Symbol::intern(name);
+        }
+
+        /**
+         * @brief Get suffix of form like `(label1:label2:_:...)` from function call expression or
+         *  disambiguated reference.
+         * @param args Call arguments
+         * @return pair of `gotLabels` status (if got named label in call, such as "name: value") and interned suffix
+         */
+        static inline std::pair<bool, Symbol> getCallSuffix(const ast::Arg::List & args) {
+            // Build suffix (from labels) and visit arguments
+            bool gotLabels = false;
+            std::string suffix = "(";
+            for (const auto & arg : args) {
+                if (arg.name.some()) {
+                    gotLabels = true;
+                    suffix += arg.name.unwrap().unwrap().sym.toString() + ":";
+                } else {
+                    suffix += "_:";
+                }
+            }
+            suffix += ")";
+
+            return {gotLabels, Symbol::intern(suffix)};
         }
 
         // Representation //
