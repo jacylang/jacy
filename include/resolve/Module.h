@@ -135,22 +135,26 @@ namespace jc::resolve {
     public:
         static inline Symbol getInitName(const ast::Init & init) {
             /// TODO: Use real `init` span
-            return getFuncSuffix(init.sig, init.span);
+            return getFuncSuffix(init.sig).second;
         }
 
         static inline Symbol getImplName(const ast::Node & node) {
             return span::Interner::getInstance().intern("%impl_" + std::to_string(node.id.val));
         }
 
-        // Get suffix of form like `(label1:label2:_:...)`
-        static inline Symbol getFuncSuffix(
-            const ast::FuncSig & sig,
-            const span::Span & span
+        /**
+         * @brief Get suffix of form like `(label1:label2:_:...)`
+         * @returns (gotLabels?, suffix symbol)
+         */
+        static inline std::pair<bool, Symbol> getFuncSuffix(
+            const ast::FuncSig & sig
         ) {
+            bool gotLabels = false;
             std::string name = "(";
             std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
+                    gotLabels = true;
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else {
                     labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
@@ -162,7 +166,7 @@ namespace jc::resolve {
             });
 
             name += ")";
-            return Symbol::intern(name);
+            return {gotLabels, Symbol::intern(name)};
         }
 
         // Representation //

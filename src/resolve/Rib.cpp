@@ -26,7 +26,7 @@ namespace jc::resolve {
         boundModule.then([&](const auto & mod) {
             mod->find(ns, name).then([&](const auto & defId) {
                 log::Logger::devDebug("Set resolution for node ", refNodeId, " as def ", defId);
-                resStorage.setRes(refNodeId, Res{defId});
+                resStorage.setRes(refNodeId, Res {defId});
                 resolved = true;
             });
         });

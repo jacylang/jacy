@@ -145,10 +145,10 @@ namespace jc::resolve {
         /// PrimType - primitive type
         using ValueType = std::variant<NodeId, DefId, PrimType>;
 
-        Res() : kind(ResKind::Error) {}
-        Res(const DefId & defId) : kind(ResKind::Def), val{defId} {}
-        Res(NodeId nodeId) : kind(ResKind::Local), val{nodeId} {}
-        Res(PrimType primType) : kind(ResKind::PrimType), val{primType} {}
+        Res() : kind{ResKind::Error} {}
+        Res(DefId defId) : kind{ResKind::Def}, val{defId} {}
+        Res(NodeId nodeId) : kind{ResKind::Local}, val{nodeId} {}
+        Res(PrimType primType) : kind{ResKind::PrimType}, val{primType} {}
 
         ResKind kind;
         ValueType val;
