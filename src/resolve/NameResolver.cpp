@@ -408,7 +408,7 @@ namespace jc::resolve {
             // TODO: Resolve segment generics
 
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                // Function overload cannot be prefix of the path thus just don't even try to find something inside
+                // Function overload cannot be a prefix of the path thus just don't even try to find something inside
                 if (def.kind == IntraModuleDef::Kind::FuncOverload) {
                     return;
                 }
@@ -504,17 +504,28 @@ namespace jc::resolve {
         return false;
     }
 
-    void NameResolver::suggestAltNames(Namespace target, const Symbol & name, const PerNS<DefId::Opt> & altDefs) {
-        altDefs.each([&](DefId::Opt defId, Namespace nsKind) {
-            if (nsKind == target or defId.none()) {
+    /**
+     * @brief Add help messages with alternatives for unresolved name
+     * @param target Namespace to exclude from alternatives
+     * @param name
+     * @param altDefs Alternative definitions found in scope
+     */
+    void NameResolver::suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs) {
+        altDefs.each([&](IntraModuleDef::Opt intraModuleDef, Namespace nsKind) {
+            if (nsKind == target or intraModuleDef.none()) {
                 return;
             }
-            const auto & def = sess->defTable.getDef(defId.unwrap());
+            std::string kind;
+            if (intraModuleDef.unwrap().kind == IntraModuleDef::Kind::FuncOverload) {
+                kind = "function";
+            } else {
+                kind = sess->defTable.getDef(intraModuleDef.unwrap().asDef()).kindStr();
+            }
             log.dev(
                 "Found alternative for unresolved name '",
                 name,
-                "' as def ",
-                defId.unwrap(),
+                "' as ",
+                kind,
                 " in ",
                 Module::nsToString(nsKind),
                 " namespace");
@@ -523,7 +534,7 @@ namespace jc::resolve {
                     "Alternative: '",
                     name,
                     "' ",
-                    def.kindStr(),
+                    kind,
                     ", but it cannot be used as ",
                     Def::nsAsUsageStr(target)));
         });

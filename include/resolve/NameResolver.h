@@ -89,7 +89,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
-        void suggestAltNames(Namespace target, const Symbol & name, const PerNS<DefId::Opt> & altDefs);
+        void suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs);
 
         // Debug //
     private:
