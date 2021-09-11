@@ -388,7 +388,7 @@ namespace jc::resolve {
         std::string pathStr;
         bool inaccessible = false;
         Option<UnresSeg> unresSeg{None};
-        PerNS<DefId::Opt> altDefs = {None, None, None};
+        PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             // For path prefix `a::b::` we find segments in type namespace,
@@ -407,7 +407,12 @@ namespace jc::resolve {
 
             // TODO: Resolve segment generics
 
-            searchMod->find(ns, segName).then([&](const DefId & defId) {
+            searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
+                // Function overload cannot be prefix of the path thus just don't even try to find something inside
+                if (def.kind == IntraModuleDef::Kind::FuncOverload) {
+                    return;
+                }
+                auto defId = def.asDef();
                 // Check visibility
                 // Note: We check if current segment is not the first one,
                 //  because items in a module are visible for other items in it, and we already found the name
