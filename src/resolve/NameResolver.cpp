@@ -25,9 +25,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterModule(
-            Module::getFuncName(func.name.unwrap().sym.toString(), func.sig, func.name.unwrap().span).sym,
-            Namespace::Value); // -> `func` mod rib
+        enterFuncModule(func.name.unwrap().sym, Module::getFuncSuffix(func.sig, func.name.unwrap().span));
 
         if (func.sig.returnType.some()) {
             func.sig.returnType.unwrap().autoAccept(*this);
@@ -83,7 +81,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Init & init) {
-        enterModule(Module::getInitName(init).sym, Namespace::Value); // -> `func` mod rib
+        enterFuncModule(span::Symbol::fromKw(span::Kw::Init), Module::getFuncSuffix(init.sig, init.getName().span));
 
         if (init.sig.returnType.some()) {
             init.sig.returnType.unwrap().autoAccept(*this);
