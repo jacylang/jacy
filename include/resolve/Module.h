@@ -133,7 +133,7 @@ namespace jc::resolve {
         }
 
     public:
-        static inline span::Ident getInitName(const ast::Init & init) {
+        static inline Symbol getInitName(const ast::Init & init) {
             /// TODO: Use real `init` span
             return getFuncSuffix(init.sig, init.span);
         }

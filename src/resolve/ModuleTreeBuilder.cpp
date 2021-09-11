@@ -40,17 +40,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
-        auto funcDefId = addFuncDef(
-            getItemVis(func),
-            func.id,
-            func.name.unwrap(),
-            Module::getFuncSuffix(func.sig,func.name.unwrap().span)
-        );
-
-        enterChildModule(
-            func.name.unwrap().sym.toString(),
-            _defTable.addModule(funcDefId, Module::newDefModule(funcDefId, mod, nearestModDef))
-        );
+        enterFuncModule();
 
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
@@ -239,6 +229,20 @@ namespace jc::resolve {
         }
 
         enterChildModule(name.toString(), _defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
+    }
+
+    void ModuleTreeBuilder::enterFuncModule(const ast::Item & funcItem, const ast::FuncSig & sig, DefKind kind) {
+        auto funcDefId = addFuncDef(
+            getItemVis(funcItem),
+            funcItem.id,
+            funcItem.getName(),
+            Module::getFuncSuffix(sig, funcItem.getName().span)
+        );
+
+        enterChildModule(
+            funcItem.getName().sym.toString(),
+            _defTable.addModule(funcDefId, Module::newDefModule(funcDefId, mod, nearestModDef))
+        );
     }
 
     void ModuleTreeBuilder::enterChildModule(const std::string & name, Module::Ptr child) {
