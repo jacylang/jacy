@@ -226,10 +226,7 @@ namespace jc::resolve {
     /// Enter anonymous module (block) and adds it to DefStorage by nodeId
     void ModuleTreeBuilder::enterBlock(NodeId nodeId) {
         log.dev("Enter [BLOCK] module ", nodeId);
-        enterChildModule(_defTable.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
-
-        // For debug //
-        moduleNameStack.push_back("[BLOCK]");
+        enterChildModule("[BLOCK]", _defTable.addBlock(nodeId, Module::newBlockModule(nodeId, mod, nearestModDef)));
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
@@ -243,15 +240,15 @@ namespace jc::resolve {
             nearestModDef = defId;
         }
 
-        enterChildModule(_defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
-
-        // For debug //
-        moduleNameStack.push_back(name.toString());
+        enterChildModule(name.toString(), _defTable.addModule(defId, Module::newDefModule(defId, mod, nearestModDef)));
     }
 
-    void ModuleTreeBuilder::enterChildModule(Module::Ptr child) {
+    void ModuleTreeBuilder::enterChildModule(const std::string & name, Module::Ptr child) {
         child->shadowedPrimTypes = mod->shadowedPrimTypes;
         mod = child;
+
+        // For debug //
+        moduleNameStack.push_back(name);
     }
 
     void ModuleTreeBuilder::exitMod() {
