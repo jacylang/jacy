@@ -142,7 +142,8 @@ namespace jc::resolve {
             return span::Interner::getInstance().intern("%impl_" + std::to_string(node.id.val));
         }
 
-        static inline span::Ident getFuncSuffix(
+        // Get suffix of form like `(label1:label2:_:...)`
+        static inline Symbol getFuncSuffix(
             const ast::FuncSig & sig,
             const span::Span & span
         ) {
@@ -161,7 +162,7 @@ namespace jc::resolve {
             });
 
             name += ")";
-            return span::Ident {Symbol::intern(name), span};
+            return Symbol::intern(name);
         }
 
         // Representation //

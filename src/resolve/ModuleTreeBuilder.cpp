@@ -40,6 +40,13 @@ namespace jc::resolve {
     void ModuleTreeBuilder::visit(const ast::Func & func) {
         // Note: Don't confuse Func module with its body,
         //  Func module stores type parameters but body is a nested block
+        auto funcDef = addFuncDef(
+            getItemVis(func),
+            func.id,
+            func.name.unwrap(),
+            Module::getFuncSuffix(func.sig,func.name.unwrap().span)
+        );
+
         enterModule(
             getItemVis(func),
             func.id,
