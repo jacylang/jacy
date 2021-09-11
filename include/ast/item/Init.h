@@ -18,7 +18,7 @@ namespace jc::ast {
         Option<Body> body;
 
         span::Ident getName() const override {
-            return Ident::empty();
+            return span::Ident {span::Symbol::intern("init"), span.fromStartWithLen(4)};
         }
 
         NodeId::Opt getNameNodeId() const override {
