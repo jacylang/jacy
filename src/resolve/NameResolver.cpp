@@ -295,7 +295,18 @@ namespace jc::resolve {
         log.dev("Enter func module '", baseName, "'");
         using namespace utils::map;
 
+        currentModule = sess->defTable
+                            .getFuncModule(
+                                expectAt(
+                                    currentModule->getNS(Namespace::Value),
+                                    baseName,
+                                    "`NameResolver::enterFuncModule`"
+                                ).asFuncOverload(), suffix);
 
+        appendModulePath(baseName + suffix, currentModule->getDefId());
+
+        enterRib(Rib::Kind::Raw);
+        curRib()->bindMod(currentModule);
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
