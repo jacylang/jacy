@@ -66,6 +66,7 @@ namespace jc::resolve {
             } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
                 return os << log::Color::Magenta << intraModuleDef.asFuncOverload() << log::Color::Reset;
             }
+            log::devPanic("Unhandled `IntraModuleDef::Kind` in `operator<<`");
         }
     };
 
@@ -133,19 +134,19 @@ namespace jc::resolve {
 
     public:
         static inline span::Ident getInitName(const ast::Init & init) {
-            return getFuncName("init", init.sig, init.span);
+            /// TODO: Use real `init` span
+            return getFuncSuffix(init.sig, init.span);
         }
 
         static inline Symbol getImplName(const ast::Node & node) {
             return span::Interner::getInstance().intern("%impl_" + std::to_string(node.id.val));
         }
 
-        static inline span::Ident getFuncName(
-            const std::string & baseName,
+        static inline span::Ident getFuncSuffix(
             const ast::FuncSig & sig,
             const span::Span & span
         ) {
-            std::string name = baseName + "(";
+            std::string name = "(";
             std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
