@@ -176,9 +176,11 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
+        auto [gotLabels, suffix] = Module::getCallSuffix(invoke.args);
+
         if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
-            resolvePath(Namespace::Value, pathExpr->path, Symbol::intern(suffix));
+            resolvePath(Namespace::Value, pathExpr->path, suffix);
         } else if (gotLabels) {
             // Labeled calls are not allowed in non-path invocations as we cannot resolve them.
             // This case must be handled in `Validator`, thus it is a bug
