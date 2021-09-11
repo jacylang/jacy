@@ -274,7 +274,7 @@ namespace jc::resolve {
         ribStack.emplace_back(std::make_unique<Rib>(kind));
     }
 
-    void NameResolver::enterModule(const Symbol & name, Namespace ns, Rib::Kind kind) {
+    void NameResolver::enterModule(Symbol name, Namespace ns, Rib::Kind kind) {
         log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
         currentModule = sess->defTable
@@ -282,12 +282,20 @@ namespace jc::resolve {
                                 expectAt(
                                     currentModule->getNS(ns),
                                     name,
-                                    "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"));
+                                    "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"
+                                ).asDef());
 
         appendModulePath(name, currentModule->getDefId());
 
         enterRib(kind);
         curRib()->bindMod(currentModule);
+    }
+
+    void NameResolver::enterFuncModule(Symbol baseName, Symbol suffix) {
+        log.dev("Enter func module '", baseName, "'");
+        using namespace utils::map;
+
+
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {

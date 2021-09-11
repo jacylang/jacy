@@ -113,7 +113,7 @@ namespace jc::resolve {
     public:
         void assertKind(ModuleKind kind) const;
         auto getNodeId() const;
-        const auto & getDefId() const;
+        const DefId & getDefId() const;
         const NSMap & getNS(Namespace ns) const;
         NSMap & getNS(Namespace ns);
 

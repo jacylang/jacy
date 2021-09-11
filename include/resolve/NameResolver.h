@@ -64,7 +64,8 @@ namespace jc::resolve {
         const Rib::Ptr & curRib() const;
         void enterRootRib();
         void enterRib(Rib::Kind kind = Rib::Kind::Raw);
-        void enterModule(const Symbol & name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
+        void enterModule(Symbol name, Namespace ns = Namespace::Type, Rib::Kind kind = Rib::Kind::Raw);
+        void enterFuncModule(Symbol baseName, Symbol suffix);
         void enterBlock(NodeId nodeId, Rib::Kind kind = Rib::Kind::Raw);
         void exitRib();
         void liftToDepth(size_t prevDepth);

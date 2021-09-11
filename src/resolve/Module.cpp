@@ -13,7 +13,7 @@ namespace jc::resolve {
         return std::get<NodeId>(id);
     }
 
-    const auto & Module::getDefId() const {
+    const DefId & Module::getDefId() const {
         assertKind(ModuleKind::Def);
         return std::get<DefId>(id);
     }

@@ -57,7 +57,7 @@ namespace jc::resolve {
             try {
                 return modules.at(defId.getIndex());
             } catch (const std::out_of_range & e) {
-                panicWithDump("Called `DefStorage::getModule` with non-existent `defId` ", defId, ": ", e.what());
+                panicWithDump("Called `DefTable::getModule` with non-existing `defId` ", defId, ": ", e.what());
             }
         }
 
@@ -65,7 +65,21 @@ namespace jc::resolve {
             try {
                 return blocks.at(nodeId);
             } catch (const std::out_of_range & e) {
-                panicWithDump("Called `DefStorage::getBlock` with non-existent `nodeId` ", nodeId, ": ", e.what());
+                panicWithDump("Called `DefTable::getBlock` with non-existing `nodeId` ", nodeId, ": ", e.what());
+            }
+        }
+
+        const Module::Ptr & getFuncModule(FuncOverloadId overloadId, span::Symbol suffix) const {
+            try {
+                return getModule(funcOverloads.at(overloadId.val).at(suffix));
+            } catch (const std::out_of_range & e) {
+                panicWithDump(
+                    "Called `DefTable::getFuncModule` with non-existing FuncOverloadId '",
+                    overloadId,
+                    "' or suffix '",
+                    suffix,
+                    "'"
+                );
             }
         }
 
@@ -78,7 +92,7 @@ namespace jc::resolve {
                 return useDeclModules.at(nodeId);
             } catch (const std::out_of_range & e) {
                 panicWithDump(
-                    "Called `DefStorage::getUseDeclModule` with non-existent `nodeId` ", nodeId, ": ", e.what());
+                    "Called `DefTable::getUseDeclModule` with non-existing `nodeId` ", nodeId, ": ", e.what());
             }
         }
 
@@ -86,7 +100,7 @@ namespace jc::resolve {
             try {
                 return defs.at(defId.getIndex().val).ident.span;
             } catch (const std::out_of_range & e) {
-                panicWithDump("Called `DefStorage::getDefNameSpan` with non-existent `defId` ", defId, ": ", e.what());
+                panicWithDump("Called `DefTable::getDefNameSpan` with non-existing `defId` ", defId, ": ", e.what());
             }
         }
 
