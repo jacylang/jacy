@@ -8,6 +8,7 @@ namespace jc::resolve {
 
     void ModulePrinter::print(sess::Session::Ptr sess) {
         this->sess = sess;
+        log.raw("Print style: [Name in Module] [Namespace] [Definition kind] [Definition full name] #[DefId]").nl();
         printMod(sess->modTreeRoot.unwrap());
     }
 
