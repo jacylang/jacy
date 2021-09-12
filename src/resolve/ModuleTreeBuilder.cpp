@@ -162,10 +162,14 @@ namespace jc::resolve {
 
     DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix) {
         // Note: We only define functions as single overloading, never as a name (such as single defId for each `init`)
+        // In overload definition, name contains both base name (like `foo`) and suffix (like `(label1:label2:...)`)
         auto defId = _defTable.define(vis, nodeId, DefKind::Func, Def::getFuncIdent(baseName, suffix));
 
         // Trying to find overloading by base name (for `func foo(...)` it would be `foo` without labels)
         auto intraModuleDef = mod->find(Namespace::Value, baseName.sym);
+
+        // Here we check if name already exists in module and not a function overload base name.
+        // It means that some non-function definition already uses this name.
         if (intraModuleDef.some() and intraModuleDef.unwrap().kind != IntraModuleDef::Kind::FuncOverload) {
             // TODO: `suggestCannotRedefineFunc`
             return defId;
@@ -176,6 +180,9 @@ namespace jc::resolve {
             // Note: It is a bug to have not a func overloading here, due to check above
             overloadId = intraModuleDef.unwrap().asFuncOverload();
         }
+
+        // Create new overload if no exists in current module.
+        // Overload name in overloads mapping only contains suffix as base name is a FuncOverloadId.
         _defTable.defineFuncOverload(defId, overloadId, suffix);
 
         return defId;

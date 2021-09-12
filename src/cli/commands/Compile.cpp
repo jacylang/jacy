@@ -5,7 +5,7 @@ namespace jc::cli {
         config::Configer configer;
         configer.applyCLIArgs(args);
 
-        // Initialize interface here to allow do something in constructors after Config inited
+        // Initialize interface here to allow doing something in constructors after Config inited
         core::Interface interface;
         interface.compile();
 

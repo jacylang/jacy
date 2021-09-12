@@ -8,6 +8,7 @@
 
 #include "data_types/Option.h"
 #include "log/utils.h"
+#include "utils/arr.h"
 
 namespace jc::span {
     class Interner;
@@ -167,7 +168,7 @@ namespace jc::span {
         }
 
         const std::string & get(const Symbol & sym) const {
-            return internedStrings.at(sym.id.val);
+            return utils::arr::expectAt(internedStrings, sym.id.val, "`Interner::get`");
         }
 
     private:
