@@ -25,7 +25,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Func & func) {
-        enterFuncModule(func.name.unwrap().sym, Module::getFuncSuffix(func.sig, func.name.unwrap().span));
+        enterFuncModule(func.name.unwrap().sym, Module::getFuncSuffix(func.sig));
 
         if (func.sig.returnType.some()) {
             func.sig.returnType.unwrap().autoAccept(*this);
@@ -81,7 +81,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Init & init) {
-        enterFuncModule(span::Symbol::fromKw(span::Kw::Init), Module::getFuncSuffix(init.sig, init.getName().span));
+        enterFuncModule(span::Symbol::fromKw(span::Kw::Init), Module::getFuncSuffix(init.sig));
 
         if (init.sig.returnType.some()) {
             init.sig.returnType.unwrap().autoAccept(*this);
@@ -359,7 +359,7 @@ namespace jc::resolve {
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
             const auto & ident = seg.ident.unwrap().sym;
-            auto resolved = resolveLocal(targetNS, ident, path.id);
+            auto resolved = resolveLocal(targetNS, ident, path);
             if (not resolved) {
                 log.dev("Failed to resolve '", ident, "' [", path.id, "]");
                 suggestErrorMsg(log::fmt("'", ident, "' is not defined"), path.span);
@@ -500,6 +500,7 @@ namespace jc::resolve {
                                 _resStorage.setRes(pathNodeId, Res {overload.begin()->second});
                                 return true;
                             } else {
+                                // TODO: Add help "candidates"
                                 suggestErrorMsg(
                                     log::fmt(
                                         "Use of function '",
@@ -519,10 +520,10 @@ namespace jc::resolve {
         }
         log.dev("Failed to resolve local '", name, "'");
 
-        log::Logger::devDebug("Set error resolution for node ", refNodeId);
+        log::Logger::devDebug("Set error resolution for node ", pathNodeId);
 
         // Set error resolution
-        _resStorage.setRes(refNodeId, Res{});
+        _resStorage.setRes(pathNodeId, Res {});
 
         return false;
     }
