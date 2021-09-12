@@ -1,7 +1,8 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
+    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {
+    }
 
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
@@ -20,7 +21,7 @@ namespace jc::resolve {
         // Debug call to print generated rib stack output
         dumpRibs();
 
-        sess->resolutions = std::move(_resStorage);
+        sess->resolutions = std::move(_resolutions);
         return {None, extractSuggestions()};
     }
 
@@ -176,7 +177,7 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
-        auto [gotLabels, suffix] = Module::getCallSuffix(invoke.args);
+        auto[gotLabels, suffix] = Module::getCallSuffix(invoke.args);
 
         if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
@@ -203,7 +204,7 @@ namespace jc::resolve {
         defineLocal(pat.id, pat.name);
     }
 
-    void NameResolver::visit(const ast::PathPat&) {
+    void NameResolver::visit(const ast::PathPat &) {
         // Complex case, as path in pattern can be const, variant or some associated item.
         // All these names are stored in different namespaces, so we need to find both in value and type namespaces
     }
@@ -218,13 +219,13 @@ namespace jc::resolve {
             switch (el.kind) {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
-//                    defineLocal(dp.name);
+                    //                    defineLocal(dp.name);
                     dp.pat.autoAccept(*this);
                     break;
                 }
                 case ast::StructPatEl::Kind::Borrow: {
                     const auto & bp = std::get<ast::StructPatBorrowEl>(el.el);
-//                    defineLocal(bp.name);
+                    //                    defineLocal(bp.name);
                     break;
                 }
                 case ast::StructPatEl::Kind::Spread:;
@@ -270,7 +271,8 @@ namespace jc::resolve {
                                     currentModule->getNS(ns),
                                     name,
                                     "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"
-                                ).asDef());
+                                ).asDef()
+                            );
 
         appendModulePath(name, currentModule->getDefId());
 
@@ -288,7 +290,8 @@ namespace jc::resolve {
                                     currentModule->getNS(Namespace::Value),
                                     baseName,
                                     "`NameResolver::enterFuncModule`"
-                                ).asFuncOverload(), suffix);
+                                ).asFuncOverload(), suffix
+                            );
 
         appendModulePath(baseName + suffix, currentModule->getDefId());
 
@@ -324,7 +327,7 @@ namespace jc::resolve {
 
         // Note: Save depth when we started, because it will be changed in `exitRib`
         const auto depth = getDepth();
-        for (size_t i = prevDepth; i < depth; i++) {
+        for (size_t i = prevDepth ; i < depth ; i++) {
             exitRib();
         }
     }
@@ -337,12 +340,12 @@ namespace jc::resolve {
         const auto & redecl = curRib()->defineLocal(localNodeId, name);
 
         if (redecl.some()) {
-            suggestErrorMsg(log::fmt("'",  name, "' has been already declared"), ident.span());
+            suggestErrorMsg(log::fmt("'", name, "' has been already declared"), ident.span());
         }
     }
 
     // Resolution //
-    void NameResolver::resolveSimplePath(const ast::SimplePath&) {
+    void NameResolver::resolveSimplePath(const ast::SimplePath &) {
         // TODO
         // Simple-dimple LOL
     }
@@ -374,10 +377,10 @@ namespace jc::resolve {
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
         bool inaccessible = false;
-        Option<UnresSeg> unresSeg{None};
+        Option<UnresSeg> unresSeg {None};
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
-        for (size_t i = 0; i < path.segments.size(); i++) {
+        for (size_t i = 0 ; i < path.segments.size() ; i++) {
             // For path prefix `a::b::` we find segments in type namespace,
             // but last segment is resolved in target namespace
             bool isFirstSeg = i == 0;
@@ -451,7 +454,7 @@ namespace jc::resolve {
                 } else {
                     // Resolve last segment
                     log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
-                    _resStorage.setRes(path.id, Res {defId});
+                    _resolutions.setRes(path.id, Res {defId});
                 }
             }).otherwise([&]() {
                 // Resolution failed
@@ -479,7 +482,8 @@ namespace jc::resolve {
             const auto & unresolvedSegIdent = expectAt(
                 path.segments,
                 unresSeg.unwrap().segIndex,
-                "`unresolvedSegIdent`").unwrap().ident.unwrap();
+                "`unresolvedSegIdent`"
+            ).unwrap().ident.unwrap();
 
             const auto & unresolvedSegName = unresolvedSegIdent.sym;
 
@@ -488,7 +492,8 @@ namespace jc::resolve {
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
-                    unresolvedSegIdent.span);
+                    unresolvedSegIdent.span
+                );
             } else {
                 // Report "Not defined" error
                 auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
@@ -519,7 +524,7 @@ namespace jc::resolve {
             const auto & rib = ribStack.at(depth - 1);
             auto local = rib->findLocal(name);
             if (local.some()) {
-                _resStorage.setRes(pathNodeId, Res {local.unwrap()});
+                _resolutions.setRes(pathNodeId, Res {local.unwrap()});
                 return true;
             }
             depth--;
@@ -534,7 +539,11 @@ namespace jc::resolve {
      * @param name
      * @param altDefs Alternative definitions found in scope
      */
-    void NameResolver::suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs) {
+    void NameResolver::suggestAltNames(
+        Namespace target,
+        const Symbol & name,
+        const PerNS<IntraModuleDef::Opt> & altDefs
+    ) {
         altDefs.each([&](IntraModuleDef::Opt intraModuleDef, Namespace nsKind) {
             if (nsKind == target or intraModuleDef.none()) {
                 return;
@@ -552,7 +561,8 @@ namespace jc::resolve {
                 kind,
                 " in ",
                 Module::nsToString(nsKind),
-                " namespace");
+                " namespace"
+            );
             suggestHelp(
                 log::fmt(
                     "Alternative: '",
@@ -560,7 +570,9 @@ namespace jc::resolve {
                     "' ",
                     kind,
                     ", but it cannot be used as ",
-                    Def::nsAsUsageStr(target)));
+                    Def::nsAsUsageStr(target)
+                )
+            );
         });
     }
 
