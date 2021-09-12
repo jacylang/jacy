@@ -29,6 +29,8 @@ namespace jc::resolve {
         /// Returns local node_id that was already defined if it was
         NodeId::Opt defineLocal(NodeId nodeId, const Symbol & name);
 
+        NodeId::Opt findLocal(const Symbol & name);
+
         /// Searches for name in rib namespace or in bound module (if present)
         /// Returns `false` if failed to resolve a name, or sets resolution in case of success
         bool find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage);

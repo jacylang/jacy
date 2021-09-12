@@ -166,7 +166,7 @@ namespace jc::resolve {
 
         /**
          * @brief Get suffix of form like `(label1:label2:_:...)` from function call expression or
-         *  disambiguated reference.
+         *  disambiguated invocation (such as `foo(label1:label2)` in case when `foo` has multiple overloads).
          * @param args Call arguments
          * @return pair of `gotLabels` status (if got named label in call, such as "name: value") and interned suffix
          */

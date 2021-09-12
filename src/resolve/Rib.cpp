@@ -10,15 +10,17 @@ namespace jc::resolve {
         return found->second;
     }
 
+    NodeId::Opt Rib::findLocal(const Symbol & name) {
+        const auto & local = locals.find(name);
+        if (local != locals.end()) {
+            return local->second;
+        }
+        return None;
+    }
+
     bool Rib::find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage) {
         // Try to find local var first as it has higher precedence than items
         if (ns == Namespace::Value) {
-            const auto & local = locals.find(name);
-            if (local != locals.end()) {
-                log::Logger::devDebug("Set resolution for node ", refNodeId, " as local ", local->second);
-                resStorage.setRes(refNodeId, Res{local->second});
-                return true;
-            }
         }
 
         // Try to find name in bound module
