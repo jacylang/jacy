@@ -236,7 +236,7 @@ namespace jc::resolve {
             getItemVis(funcItem),
             funcItem.id,
             funcItem.getName(),
-            Module::getFuncSuffix(sig, funcItem.getName().span)
+            Module::getFuncSuffix(sig)
         );
 
         enterChildModule(

@@ -69,7 +69,11 @@ namespace jc::resolve {
             bool isPrefixSeg = i < path.segments.size() - 1;
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
-                _importModule->find(Namespace::Type, segName).then([&](const auto & defId) {
+                _importModule->find(Namespace::Type, segName).then([&](const IntraModuleDef & intraModuleDef) {
+                    if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                        return;
+                    }
+                    auto defId = intraModuleDef.asDef();
                     if (not isFirstSeg and sess->defTable.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
                         unresSeg = {i, defId};

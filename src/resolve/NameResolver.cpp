@@ -359,7 +359,7 @@ namespace jc::resolve {
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
             const auto & ident = seg.ident.unwrap().sym;
-            auto resolved = resolveLocal(targetNS, ident, path);
+            auto resolved = resolveLocal(ident, path);
             if (resolved) {
                 return;
             }
