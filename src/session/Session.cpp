@@ -89,7 +89,7 @@ namespace jc::sess {
         // | Benchmark name | Processed entity (e.g. AST) | time | speed
         // Wrap it to ~120 chars (limit was found by typing), so the layout is following
         // | 55 | 20 | 15 | 30 (there can be pretty long entity names) |
-        // Note: Choose the shortest names for benchmarks!!!
+        // Note: Choose the shortest names for steps!!!
 
         constexpr uint8_t BNK_NAME_WRAP_LEN = 60;
         constexpr uint8_t ENTITY_NAME_WRAP_LEN = 20;
@@ -98,8 +98,11 @@ namespace jc::sess {
 
         log::Table<4> table {
             {BNK_NAME_WRAP_LEN, ENTITY_NAME_WRAP_LEN, TIME_WRAP_LEN, SPEED_WRAP_LEN},
-            {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Center}
+            {log::Align::Left, log::Align::Center, log::Align::Center, log::Align::Right}
         };
+
+        table.addSectionName("Summary");
+        table.addHeader("Name", "Entity", "Time", "Speed");
 
         std::function<void(const Step::Ptr&, uint8_t)> printStep;
 
@@ -140,9 +143,6 @@ namespace jc::sess {
                 table.addLine(true);
             }
         };
-
-        table.addSectionName("Summary");
-        table.addHeader("Name", "Entity", "Time", "Speed");
 
         printStep(step, 0);
 
