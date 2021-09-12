@@ -361,8 +361,8 @@ namespace jc::core {
         log.info("Printing definitions (`--print=definitions`)");
 
         // Linear, no benchmark needed
-        for (size_t i = 0; i < sess->defTable.getDefinitions().size(); i++) {
-            log.raw(sess->defTable.getDef(i)).nl();
+        for (const auto & def : sess->defTable.getDefinitions()) {
+            log.raw(def).nl();
         }
     }
 
