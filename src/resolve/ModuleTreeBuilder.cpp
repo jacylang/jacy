@@ -180,18 +180,18 @@ namespace jc::resolve {
         if (intraModuleDef.some()) {
             // Note: It is a bug to have not a func overloading here, due to check above
             overloadId = intraModuleDef.unwrap().asFuncOverload();
-        } else {
-            auto oldDef = mod->tryDefine(Namespace::Value, baseName.sym, defId);
-            if (oldDef.some()) {
-                log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
-                // FIXME: Don't use `asDef`, this is a common case
-                suggestCannotRedefine(baseName, DefKind::Func, oldDef.unwrap());
-            }
         }
 
         // Create new overload if no exists in current module.
         // Overload name in overloads mapping only contains suffix as base name is a FuncOverloadId.
-        _defTable.defineFuncOverload(defId, overloadId, suffix);
+        overloadId = _defTable.defineFuncOverload(defId, overloadId, suffix);
+
+        auto oldDef = mod->tryDefine(Namespace::Value, baseName.sym, defId);
+        if (oldDef.some()) {
+            log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
+            // FIXME: Don't use `asDef`, this is a common case
+            suggestCannotRedefine(baseName, DefKind::Func, oldDef.unwrap());
+        }
 
         return defId;
     }
