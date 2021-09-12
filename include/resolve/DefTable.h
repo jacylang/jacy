@@ -41,7 +41,7 @@ namespace jc::resolve {
         using FuncOverloadMap = std::map<Symbol, DefId>;
 
         const FuncOverloadMap & getFuncOverload(FuncOverloadId overloadId) const;
-        void defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix);
+        FuncOverloadId defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix);
 
         /**
          * @brief Get span of the first overload for function

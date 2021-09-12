@@ -122,7 +122,7 @@ namespace jc::resolve {
         return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFuncOverload`");
     }
 
-    void DefTable::defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix) {
+    FuncOverloadId DefTable::defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
@@ -136,6 +136,8 @@ namespace jc::resolve {
         );
 
         assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
+
+        return funcOverloadId.unwrap();
     }
 
     span::Span DefTable::getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) {
