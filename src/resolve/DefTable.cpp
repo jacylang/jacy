@@ -137,4 +137,8 @@ namespace jc::resolve {
 
         assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
     }
+
+    span::Span DefTable::getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) {
+        return getDefNameSpan(getFuncOverload(funcOverloadId).begin()->second);
+    }
 }

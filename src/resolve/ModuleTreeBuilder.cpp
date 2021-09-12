@@ -284,8 +284,10 @@ namespace jc::resolve {
         DefKind as,
         const IntraModuleDef & prevModDef
     ) {
+        span::Span::Opt prevDefSpan = dt::None;
         if (prevModDef.kind == IntraModuleDef::Kind::FuncOverload) {
-            // TODO!!!
+            // NOTE!: Here we just use first function overload span
+            prevDefSpan = ;
         } else {
             const auto & prevDef = _defTable.getDef(prevModDef.asDef());
 
