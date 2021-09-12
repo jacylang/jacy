@@ -509,7 +509,7 @@ namespace jc::resolve {
      * @param path Path node referencing particular name
      * @return
      */
-    bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, const ast::Path & path) {
+    bool NameResolver::resolveLocal(const Symbol & name, const ast::Path & path) {
         auto depth = getDepth();
         auto pathNodeId = path.id;
         while (true) {
