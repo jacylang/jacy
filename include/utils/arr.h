@@ -35,7 +35,7 @@ namespace jc::utils::arr {
      * @param vec Vector of strings
      * @param del Delimiter
      * @param encloseInto Vector of 2 elements
-     *  that will be putted before and after list (by default '[' before and ']' after)
+     *  that will be put before and after list (by default '[' before and ']' after)
      * @param encloseElementInto Vector of 2 elements that each element will be enclosed into
      */
     std::string join(
@@ -47,6 +47,17 @@ namespace jc::utils::arr {
 
     template<class T, typename SizeT = typename std::vector<T>::size_type>
     const T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
+        if (index >= vec.size()) {
+            std::stringstream ss;
+            ss << "Error in " << place << " `utils::arr::expectAt` failed to find by index '" << index << "'"
+               << " in vector of size '" << vec.size() << "'";
+            throw std::logic_error(ss.str());
+        }
+        return vec.at(index);
+    }
+
+    template<class T, typename SizeT = typename std::vector<T>::size_type>
+    T & expectAtMut(std::vector<T> & vec, SizeT index, const std::string & place) {
         if (index >= vec.size()) {
             std::stringstream ss;
             ss << "Error in " << place << " `utils::arr::expectAt` failed to find by index '" << index << "'"

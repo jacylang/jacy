@@ -81,6 +81,17 @@ namespace jc::utils::map {
         return found->second;
     }
 
+    template<class K, class V>
+    V & expectAtMut(std::map<K, V> & map, const K & key, const std::string & place) {
+        const auto & found = map.find(key);
+        if (found == map.end()) {
+            std::stringstream ss;
+            ss << "map `expectedAt` '" << key << "' in " << place;
+            throw std::logic_error(ss.str());
+        }
+        return found->second;
+    }
+
     template<typename Iter>
     void assertNewEmplace(const std::pair<Iter, bool> & result, const std::string & place) {
         if (not result.second) {
