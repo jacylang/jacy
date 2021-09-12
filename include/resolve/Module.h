@@ -118,6 +118,7 @@ namespace jc::resolve {
         NSMap & getNS(Namespace ns);
 
         IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
+        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
 
         template<class T>
