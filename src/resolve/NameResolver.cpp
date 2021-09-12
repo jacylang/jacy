@@ -360,11 +360,9 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(0).unwrap();
             const auto & ident = seg.ident.unwrap().sym;
             auto resolved = resolveLocal(targetNS, ident, path);
-            if (not resolved) {
-                log.dev("Failed to resolve '", ident, "' [", path.id, "]");
-                suggestErrorMsg(log::fmt("'", ident, "' is not defined"), path.span);
+            if (resolved) {
+                return;
             }
-            return;
         }
 
         // TODO!!!: Keyword segments: self, super, etc.
@@ -470,7 +468,14 @@ namespace jc::resolve {
         }
     }
 
-    /// Resolution workflow in case of single-segment path without generics
+    /**
+     * @brief Try to resolve local. Local variables have higher precedence than items,
+     *  even if in code they are declared earlier independently on depth of appearance.
+     * @param ns
+     * @param name
+     * @param path Path node referencing particular name
+     * @return
+     */
     bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, const ast::Path & path) {
         auto depth = getDepth();
         auto pathNodeId = path.id;
