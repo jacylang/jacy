@@ -287,20 +287,20 @@ namespace jc::resolve {
         span::Span::Opt prevDefSpan = dt::None;
         if (prevModDef.kind == IntraModuleDef::Kind::FuncOverload) {
             // NOTE!: Here we just use first function overload span
-            prevDefSpan = ;
+            prevDefSpan = _defTable.getFuncOverloadFirstSpan(prevModDef.asFuncOverload());
         } else {
-            const auto & prevDef = _defTable.getDef(prevModDef.asDef());
-
             // Note: The only things we can redefine are obviously "named" things,
             //  thus if name span found -- it is a bug
-            const auto & prevDefSpan = _defTable.getDefNameSpan(prevModDef.asDef());
-            suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
-                log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
-                ident.span,
-                "Because it is already declared as " + prevDef.kindStr() + " here",
-                prevDefSpan,
-                sugg::SuggKind::Error
-            ));
+            prevDefSpan = _defTable.getDefNameSpan(prevModDef.asDef());
         }
+
+        const auto & prevDef = _defTable.getDef(prevModDef.asDef());
+        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
+            log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
+            ident.span,
+            "Because it is already declared as " + prevDef.kindStr() + " here",
+            prevDefSpan.unwrap(),
+            sugg::SuggKind::Error
+        ));
     }
 }
