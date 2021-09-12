@@ -62,7 +62,7 @@ namespace jc::resolve {
         void suggestCannotRedefine(
             const span::Ident & ident,
             DefKind as,
-            const DefId & prevDefId
+            const IntraModuleDef & prevModDef
         );
 
         // Debug //
