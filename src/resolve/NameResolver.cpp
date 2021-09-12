@@ -520,49 +520,11 @@ namespace jc::resolve {
             auto local = rib->findLocal(name);
             if (local.some()) {
                 _resStorage.setRes(pathNodeId, Res {local.unwrap()});
-            } else {
-                rib->boundModule.then([&](const auto & mod) {
-                    mod->find(ns, name).then([&](const IntraModuleDef & intraModuleDef) {
-                        if (intraModuleDef.kind == IntraModuleDef::Kind::Target) {
-                            auto defId = intraModuleDef.asDef();
-                            log::Logger::devDebug("Set resolution for node ", pathNodeId, " as def ", defId);
-                            _resStorage.setRes(pathNodeId, Res {defId});
-                            return true;
-                        } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
-                            auto overloadId = intraModuleDef.asFuncOverload();
-                            auto overload = sess->defTable.getFuncOverload(overloadId);
-
-                            if (overload.size() == 1) {
-                                // In case when there's only one overload we just use it
-                                //  and don't need disambiguated invocation
-                                _resStorage.setRes(pathNodeId, Res {overload.begin()->second});
-                                return true;
-                            } else {
-                                // TODO: Add help "candidates"
-                                suggestErrorMsg(
-                                    log::fmt(
-                                        "Use of function '",
-                                        name,
-                                        "' is ambiguous, use labels to disambiguate"
-                                    ),
-                                    path.span
-                                );
-                            }
-                        } else {
-                            log::devPanic("Unhandled `IntraModule::Kind` in `NameResolver::resolveLocal`");
-                        }
-                    });
-                });
+                return true;
             }
             depth--;
         }
-        log.dev("Failed to resolve local '", name, "'");
-
-        log::Logger::devDebug("Set error resolution for node ", pathNodeId);
-
-        // Set error resolution
-        _resStorage.setRes(pathNodeId, Res {});
-
+        log.dev("Local '", name, "' not found");
         return false;
     }
 
