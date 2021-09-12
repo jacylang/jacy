@@ -273,7 +273,7 @@ namespace jc::core {
             return;
         }
         log::Logger::nl();
-        log.info("Printing tokens for file [", path, "] (`-print=tokens`) [Count of tokens: ", tokens.size(), "]");
+        log.info("Printing tokens for file [", path, "] (`--print=tokens`) [Count of tokens: ", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
@@ -297,7 +297,7 @@ namespace jc::core {
             cliParam = "names";
         }
         // TODO: Add count of nodes when replacement for NodeId::NodeMap will be implemented
-        log.info("Printing AST after ", modeStr, " (`-print=", cliParam, "`)");
+        log.info("Printing AST after ", modeStr, " (`--print=", cliParam, "`)");
 
         sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, party.unwrap(), mode);
@@ -344,7 +344,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing module tree after ", afterStage," (`-print=mod-tree`)");
+        log.info("Printing module tree after ", afterStage," (`--print=mod-tree`)");
 
         sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         modulePrinter.print(sess);
@@ -358,7 +358,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing definitions (`-print=definitions`)");
+        log.info("Printing definitions (`--print=definitions`)");
 
         // Linear, no benchmark needed
         for (size_t i = 0; i < sess->defTable.getDefinitions().size(); i++) {
@@ -371,7 +371,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing resolutions (`-print=resolutions`)");
+        log.info("Printing resolutions (`--print=resolutions`)");
 
         // Linear, no benchmark needed
         for (const auto & res : sess->resolutions.getResolutions()) {
