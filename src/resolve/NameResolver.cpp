@@ -491,7 +491,16 @@ namespace jc::resolve {
                             return true;
                         } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
                             auto overloadId = intraModuleDef.asFuncOverload();
-//                            auto overload = sess->defTable.
+                            auto overload = sess->defTable.getFuncOverload(overloadId);
+
+                            if (overload.size() == 1) {
+                                // In case when there's only one overload we just use it
+                                //  and don't need disambiguated invocation
+                                _resStorage.setRes(refNodeId, Res {overload.begin()->second});
+                                return true;
+                            } else {
+                                suggestErrorMsg(log::fmt("Use of function '", name, "' is ambiguous, use labels to disambiguate"), );
+                            }
                         } else {
                             log::devPanic("Unhandled `IntraModule::Kind` in `NameResolver::resolveLocal`");
                         }
