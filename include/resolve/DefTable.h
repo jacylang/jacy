@@ -18,19 +18,19 @@ namespace jc::resolve {
         }
 
         const auto & getFuncOverload(FuncOverloadId overloadId) const {
-            return funcOverloads.at(overloadId.val);
+            return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFuncOverload`");
         }
 
         DefVis getDefVis(const DefId & defId) const {
-            return defVisMap.at(defId);
+            return utils::map::expectAt(defVisMap, defId, "`DefTable::getDefVis`");
         }
 
         const auto & getNodeIdByDefId(const DefId & defId) const {
-            return defIdNodeIdMap.at(defId);
+            return utils::map::expectAt(defIdNodeIdMap, defId, "`DefTable::getNodeIdByDefId`");
         }
 
         const auto & getDefIdByNodeId(const NodeId & nodeId) const {
-            return nodeIdDefIdMap.at(nodeId);
+            return utils::map::expectAt(nodeIdDefIdMap, nodeId, "`DefTable::getDefIdByNodeId`");
         }
 
         auto size() const {
