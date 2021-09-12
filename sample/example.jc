@@ -1,9 +1,3 @@
-mod kek {
-    pub func foo {
-
-    }
-}
-
 func main {
     kek::foo();
 }

@@ -137,10 +137,9 @@ namespace jc::resolve {
             return defineCommon(vis, nodeId, kind, ident);
         }
 
-        auto defineFuncOverload(
+        void defineFuncOverload(
             DefId defId,
             FuncOverloadId::Opt funcOverloadId,
-            const span::Ident & ident,
             Symbol suffix
         ) {
             using namespace utils::map;

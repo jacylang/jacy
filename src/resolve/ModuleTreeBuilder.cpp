@@ -176,7 +176,7 @@ namespace jc::resolve {
             // Note: It is a bug to have not a func overloading here, due to check above
             overloadId = intraModuleDef.unwrap().asFuncOverload();
         }
-        _defTable.defineFuncOverload(defId, overloadId, baseName, suffix);
+        _defTable.defineFuncOverload(defId, overloadId, suffix);
 
         return defId;
     }
