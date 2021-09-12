@@ -31,10 +31,10 @@ namespace jc::resolve {
         indent++;
 
         module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
-            for (const auto & [name, defId] : ns) {
+            for (const auto & [name, def] : ns) {
                 printIndent();
                 log.raw("'", name, "' (", Module::nsToString(nsKind), ") ");
-                printDef(defId);
+                printDef(def);
                 log.nl();
             }
         });
@@ -44,29 +44,38 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printDef(const DefId & defId) {
-        const auto & def = sess->defTable.getDef(defId);
-        log.raw(def);
-
-        switch (def.kind) {
-            case DefKind::Enum:
-            case DefKind::Impl:
-            case DefKind::Mod:
-            case DefKind::Struct:
-            case DefKind::Func:
-            case DefKind::Init:
-            case DefKind::Trait: {
-                log.raw(" ");
-                printMod(sess->defTable.getModule(defId));
-                break;
+    void ModulePrinter::printDef(const IntraModuleDef & intraModuleDef) {
+        if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+            auto overloadId = intraModuleDef.asFuncOverload();
+            for (const auto & overload : sess->defTable.getFuncOverload(overloadId)) {
+                printDef(overload.second);
+                log.nl();
             }
-            case DefKind::Lifetime:
-            case DefKind::TypeAlias:
-            case DefKind::TypeParam:
-            case DefKind::Const:
-            case DefKind::ConstParam:
-            case DefKind::Variant:
-                break;
+        } else {
+            auto defId = intraModuleDef.asDef();
+            const auto & def = sess->defTable.getDef(defId);
+            log.raw(def);
+
+            switch (def.kind) {
+                case DefKind::Enum:
+                case DefKind::Impl:
+                case DefKind::Mod:
+                case DefKind::Struct:
+                case DefKind::Func:
+                case DefKind::Init:
+                case DefKind::Trait: {
+                    log.raw(" ");
+                    printMod(sess->defTable.getModule(defId));
+                    break;
+                }
+                case DefKind::Lifetime:
+                case DefKind::TypeAlias:
+                case DefKind::TypeParam:
+                case DefKind::Const:
+                case DefKind::ConstParam:
+                case DefKind::Variant:
+                    break;
+            }
         }
     }
 
