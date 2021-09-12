@@ -8,7 +8,10 @@ namespace jc::resolve {
 
     void ModulePrinter::print(sess::Session::Ptr sess) {
         this->sess = sess;
-        log.raw("Print style: [Name in Module] [Namespace] [Definition kind] [Definition full name] #[DefId]").nl();
+        log.raw(
+            "Print style: 'Name in Module' (Namespace) -> ",
+            "`Definition kind` 'Definition full name' #defId {Inner definitions}"
+        ).nl();
         printMod(sess->modTreeRoot.unwrap());
     }
 
@@ -34,7 +37,7 @@ namespace jc::resolve {
         module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & [name, def] : ns) {
                 printIndent();
-                log.raw("'", name, "' (", Module::nsToString(nsKind), ") ");
+                log.raw("'", name, "' (", Module::nsToString(nsKind), ") -> ");
                 printDef(def);
                 log.nl();
             }
