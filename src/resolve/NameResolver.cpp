@@ -470,6 +470,7 @@ namespace jc::resolve {
         }
     }
 
+    /// Resolution workflow in case of single-segment path without generics
     bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, NodeId refNodeId) {
         auto depth = getDepth();
         while (true) {
@@ -477,9 +478,25 @@ namespace jc::resolve {
                 break;
             }
             const auto & rib = ribStack.at(depth - 1);
-            if (rib->find(ns, name, refNodeId, _resStorage)) {
-                log.dev("Resolved '", name, "'");
-                return true;
+            auto local = rib->findLocal(name);
+            if (local.some()) {
+                _resStorage.setRes(refNodeId, Res {local.unwrap()});
+            } else {
+                rib->boundModule.then([&](const auto & mod) {
+                    mod->find(ns, name).then([&](const IntraModuleDef & intraModuleDef) {
+                        if (intraModuleDef.kind == IntraModuleDef::Kind::Target) {
+                            auto defId = intraModuleDef.asDef();
+                            log::Logger::devDebug("Set resolution for node ", refNodeId, " as def ", defId);
+                            _resStorage.setRes(refNodeId, Res {defId});
+                            return true;
+                        } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                            auto overloadId = intraModuleDef.asFuncOverload();
+//                            auto overload = sess->defTable.
+                        } else {
+                            log::devPanic("Unhandled `IntraModule::Kind` in `NameResolver::resolveLocal`");
+                        }
+                    });
+                });
             }
             depth--;
         }

@@ -24,14 +24,6 @@ namespace jc::resolve {
         }
 
         // Try to find name in bound module
-        bool resolved = false;
-        boundModule.then([&](const auto & mod) {
-            mod->find(ns, name).then([&](const auto & defId) {
-                log::Logger::devDebug("Set resolution for node ", refNodeId, " as def ", defId);
-                resStorage.setRes(refNodeId, Res {defId});
-                resolved = true;
-            });
-        });
 
         return resolved;
     }
