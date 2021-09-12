@@ -18,16 +18,6 @@ namespace jc::resolve {
         return None;
     }
 
-    bool Rib::find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage) {
-        // Try to find local var first as it has higher precedence than items
-        if (ns == Namespace::Value) {
-        }
-
-        // Try to find name in bound module
-
-        return resolved;
-    }
-
     void Rib::bindMod(Module::Ptr module) {
         boundModule = module;
     }

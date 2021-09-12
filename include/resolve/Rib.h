@@ -31,10 +31,6 @@ namespace jc::resolve {
 
         NodeId::Opt findLocal(const Symbol & name);
 
-        /// Searches for name in rib namespace or in bound module (if present)
-        /// Returns `false` if failed to resolve a name, or sets resolution in case of success
-        bool find(Namespace ns, const Symbol & name, NodeId refNodeId, Resolutions & resStorage);
-
         void bindMod(Module::Ptr module);
 
         explicit Rib(Kind kind) : kind{kind} {}
