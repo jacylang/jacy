@@ -396,10 +396,43 @@ namespace jc::resolve {
 
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
                 // Function overload cannot be a prefix of the path thus just don't even try to find something inside
+                DefId::Opt maybeDefId = None;
                 if (def.kind == IntraModuleDef::Kind::FuncOverload) {
-                    return;
+                    if (not isPrefixSeg) {
+                        auto overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
+
+                        if (suffix.none()) {
+                            // If no suffix provided then only one overload can be referenced non-ambiguous
+                            if (overloads.size() == 1) {
+                                maybeDefId = overloads.begin()->second;
+                            } else {
+                                suggestErrorMsg(
+                                    log::fmt(
+                                        "Use of function '",
+                                        segName,
+                                        "' is ambiguous, use labels to disambiguate"
+                                    ),
+                                    path.span
+                                );
+                                return;
+                            }
+                        } else {
+                            const auto & foundOverload = overloads.find(suffix.unwrap());
+                            if (foundOverload == overloads.end()) {
+                                suggestErrorMsg(
+                                    log::fmt("Failed to find function '", segName + suffix.unwrap(), "'"),
+                                    path.span
+                                );
+                                return;
+                            }
+                            maybeDefId = foundOverload->second;
+                        }
+                    }
+                } else {
+                    maybeDefId = def.asDef();
                 }
-                auto defId = def.asDef();
+
+                auto defId = maybeDefId.unwrap();
                 // Check visibility
                 // Note: We check if current segment is not the first one,
                 //  because items in a module are visible for other items in it, and we already found the name
