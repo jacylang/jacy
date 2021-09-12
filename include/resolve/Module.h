@@ -120,6 +120,7 @@ namespace jc::resolve {
         IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
         DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
+        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
         template<class T>
         IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const T & val) {

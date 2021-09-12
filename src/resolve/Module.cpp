@@ -67,6 +67,14 @@ namespace jc::resolve {
         };
     }
 
+    PerNS<DefId::Opt> Module::findAllDefOnly(const Symbol & name) const {
+        return {
+            findDefOnly(Namespace::Value, name),
+            findDefOnly(Namespace::Type, name),
+            findDefOnly(Namespace::Lifetime, name)
+        };
+    }
+
     std::string Module::toString() const {
         std::string repr = kindStr();
         repr += " ";
