@@ -17,6 +17,10 @@ namespace jc::resolve {
             return getDef(defId.getIndex());
         }
 
+        const auto & getFuncOverload(FuncOverloadId overloadId) const {
+            return funcOverloads.at(overloadId.val);
+        }
+
         DefVis getDefVis(const DefId & defId) const {
             return defVisMap.at(defId);
         }
@@ -133,7 +137,7 @@ namespace jc::resolve {
             return defineCommon(vis, nodeId, kind, ident);
         }
 
-        auto addFuncOverload(
+        auto defineFuncOverload(
             DefId defId,
             FuncOverloadId::Opt funcOverloadId,
             const span::Ident & ident,
