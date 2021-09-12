@@ -137,6 +137,10 @@ namespace jc::resolve {
             return defineCommon(vis, nodeId, kind, ident);
         }
 
+        // Function overloading //
+    public:
+        using FuncOverloadMap = std::map<Symbol, DefId>;
+
         void defineFuncOverload(
             DefId defId,
             FuncOverloadId::Opt funcOverloadId,
@@ -147,6 +151,7 @@ namespace jc::resolve {
             // Add new overloading indexing if not provided
             if (funcOverloadId.none()) {
                 funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
+                funcOverloads.emplace_back();
             }
 
             auto & overload = utils::arr::expectAtMut(
@@ -166,7 +171,7 @@ namespace jc::resolve {
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
         /// Function overloads, each id points to mapping from suffix to function definition
-        std::vector<std::map<Symbol, DefId>> funcOverloads;
+        std::vector<FuncOverloadMap> funcOverloads;
 
         template<class ...Args>
         void panicWithDump(Args ...args) const {
