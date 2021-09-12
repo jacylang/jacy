@@ -149,7 +149,9 @@ namespace jc::resolve {
                 funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
             }
 
-            auto & overload = funcOverloads.at(funcOverloadId.unwrap().val);
+            auto & overload = utils::arr::expectAtMut(
+                funcOverloads, funcOverloadId.unwrap().val, "`DefTable::defineFuncOverload`"
+            );
 
             assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
         }
