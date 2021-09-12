@@ -96,7 +96,7 @@ namespace jc::resolve {
                     break;
                 }
             } else if (resKind == PathResKind::Prefix) {
-                defPerNs = _importModule->findAll(segName);
+                defPerNs = _importModule->findAllDefOnly(segName);
 
                 // Save count of found definitions in module
                 // It is useful because
@@ -174,7 +174,12 @@ namespace jc::resolve {
         }
         pathResult.defPerNs.each([&](const DefId::Opt & optDefId, Namespace nsKind) {
             optDefId.then([&](const auto & defId) {
-                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const DefId & oldDefId) {
+                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const IntraModuleDef & intraModuleDef) {
+                    if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                        // TODO!!: Think how to handle function overloads
+                        return;
+                    }
+                    auto oldDefId = intraModuleDef.asDef();
                     // Note: If some definition can be redefined -- it is always named definition,
                     //  so we can safely get its name node span
                     const auto & oldDef = sess->defTable.getDef(oldDefId);
