@@ -471,8 +471,9 @@ namespace jc::resolve {
     }
 
     /// Resolution workflow in case of single-segment path without generics
-    bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, NodeId refNodeId) {
+    bool NameResolver::resolveLocal(Namespace ns, const Symbol & name, const ast::Path & path) {
         auto depth = getDepth();
+        auto pathNodeId = path.id;
         while (true) {
             if (depth == 0) {
                 break;
@@ -480,14 +481,14 @@ namespace jc::resolve {
             const auto & rib = ribStack.at(depth - 1);
             auto local = rib->findLocal(name);
             if (local.some()) {
-                _resStorage.setRes(refNodeId, Res {local.unwrap()});
+                _resStorage.setRes(pathNodeId, Res {local.unwrap()});
             } else {
                 rib->boundModule.then([&](const auto & mod) {
                     mod->find(ns, name).then([&](const IntraModuleDef & intraModuleDef) {
                         if (intraModuleDef.kind == IntraModuleDef::Kind::Target) {
                             auto defId = intraModuleDef.asDef();
-                            log::Logger::devDebug("Set resolution for node ", refNodeId, " as def ", defId);
-                            _resStorage.setRes(refNodeId, Res {defId});
+                            log::Logger::devDebug("Set resolution for node ", pathNodeId, " as def ", defId);
+                            _resStorage.setRes(pathNodeId, Res {defId});
                             return true;
                         } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
                             auto overloadId = intraModuleDef.asFuncOverload();
@@ -496,10 +497,17 @@ namespace jc::resolve {
                             if (overload.size() == 1) {
                                 // In case when there's only one overload we just use it
                                 //  and don't need disambiguated invocation
-                                _resStorage.setRes(refNodeId, Res {overload.begin()->second});
+                                _resStorage.setRes(pathNodeId, Res {overload.begin()->second});
                                 return true;
                             } else {
-                                suggestErrorMsg(log::fmt("Use of function '", name, "' is ambiguous, use labels to disambiguate"), );
+                                suggestErrorMsg(
+                                    log::fmt(
+                                        "Use of function '",
+                                        name,
+                                        "' is ambiguous, use labels to disambiguate"
+                                    ),
+                                    path.span
+                                );
                             }
                         } else {
                             log::devPanic("Unhandled `IntraModule::Kind` in `NameResolver::resolveLocal`");
