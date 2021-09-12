@@ -145,7 +145,7 @@ namespace jc::resolve {
                 oldDef.unwrap()
             );
             // FIXME: Don't use `asDef`, this is a common case
-            suggestCannotRedefine(ident, defKind, oldDef.unwrap().asDef());
+            suggestCannotRedefine(ident, defKind, oldDef.unwrap());
         }
 
         // If type is defined then check if its name shadows one of primitive types
@@ -185,7 +185,7 @@ namespace jc::resolve {
             if (oldDef.some()) {
                 log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
                 // FIXME: Don't use `asDef`, this is a common case
-                suggestCannotRedefine(baseName, DefKind::Func, oldDef.unwrap().asDef());
+                suggestCannotRedefine(baseName, DefKind::Func, oldDef.unwrap());
             }
         }
 
