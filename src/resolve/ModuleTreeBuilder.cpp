@@ -180,7 +180,7 @@ namespace jc::resolve {
         if (intraModuleDef.some() and not intraModuleDef.unwrap().isFuncOverload()) {
             // TODO: Maybe add separate `suggestCannotRedefineFunc`?
             // Note!!!: If new `IntraModuleDef::Kind`'s will be added, don't use `asDef`!
-            suggestCannotRedefine(baseName, defKind, intraModuleDef.unwrap().asDef());
+            suggestCannotRedefine(baseName, defKind, intraModuleDef.unwrap().asDef(), suffix);
             return defId;
         }
 
