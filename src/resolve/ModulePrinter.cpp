@@ -55,7 +55,7 @@ namespace jc::resolve {
                 printDef(overload.second);
                 log.nl();
             }
-        } else if (intraModuleDef.isTarget()) {
+        } else {
             auto defId = intraModuleDef.asDef();
             const auto & def = sess->defTable.getDef(defId);
             log.raw(def);
@@ -80,8 +80,6 @@ namespace jc::resolve {
                 case DefKind::Variant:
                     break;
             }
-        } else {
-            log::devPanic("Unhandled `IntraModuleDef` kind in `ModulePrinter::printDef`");
         }
     }
 

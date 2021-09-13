@@ -51,7 +51,7 @@ namespace jc::resolve {
         if (def == ns.end()) {
             return None;
         }
-        if (def->second.kind == IntraModuleDef::Kind::Target) {
+        if (def->second.isTarget()) {
             return def->second.asDef();
         }
         return None;

@@ -70,7 +70,7 @@ namespace jc::resolve {
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
                 _importModule->find(Namespace::Type, segName).then([&](const IntraModuleDef & intraModuleDef) {
-                    if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                    if (intraModuleDef.isFuncOverload()) {
                         return;
                     }
                     auto defId = intraModuleDef.asDef();
@@ -175,7 +175,7 @@ namespace jc::resolve {
         pathResult.defPerNs.each([&](const DefId::Opt & optDefId, Namespace nsKind) {
             optDefId.then([&](const auto & defId) {
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const IntraModuleDef & intraModuleDef) {
-                    if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+                    if (intraModuleDef.isFuncOverload()) {
                         // TODO!!: Think how to handle function overloads
                         return;
                     }

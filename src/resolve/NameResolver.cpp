@@ -400,7 +400,7 @@ namespace jc::resolve {
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
                 // Function overload cannot be a prefix of the path thus just don't even try to find something inside
                 DefId::Opt maybeDefId = None;
-                if (def.kind == IntraModuleDef::Kind::FuncOverload) {
+                if (def.isFuncOverload()) {
                     if (not isPrefixSeg) {
                         auto overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
 
@@ -549,7 +549,7 @@ namespace jc::resolve {
                 return;
             }
             std::string kind;
-            if (intraModuleDef.unwrap().kind == IntraModuleDef::Kind::FuncOverload) {
+            if (intraModuleDef.unwrap().isFuncOverload()) {
                 kind = "function";
             } else {
                 kind = sess->defTable.getDef(intraModuleDef.unwrap().asDef()).kindStr();

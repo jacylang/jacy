@@ -177,7 +177,7 @@ namespace jc::resolve {
 
         // Here we check if name already exists in module and not a function overload base name.
         // It means that some non-function definition already uses this name.
-        if (intraModuleDef.some() and intraModuleDef.unwrap().kind != IntraModuleDef::Kind::FuncOverload) {
+        if (intraModuleDef.some() and not intraModuleDef.unwrap().isFuncOverload()) {
             // TODO: `suggestCannotRedefineFunc`
             return defId;
         }
@@ -295,7 +295,7 @@ namespace jc::resolve {
         //  thus if name span found -- it is a bug
 
         DefId::Opt prevDefId = None;
-        if (prevModDef.kind == IntraModuleDef::Kind::FuncOverload) {
+        if (prevModDef.isFuncOverload()) {
             prevDefId = _defTable.getFuncOverloadFirstDef(prevModDef.asFuncOverload());
         } else {
             prevDefId = prevModDef.asDef();
