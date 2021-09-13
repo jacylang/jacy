@@ -6,10 +6,10 @@
 #include "ast/expr/PathExpr.h"
 
 namespace jc::ast {
-    enum class PatternKind {
+    enum class PatKind {
         Paren,
         Literal,
-        Borrow,
+        Ident,
         Ref,
         Path,
         Wildcard,
@@ -22,15 +22,15 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pattern(PatternKind kind, const Span & span) : Node{span}, kind{kind} {}
+        Pattern(PatKind kind, const Span & span) : Node{span}, kind{kind} {}
 
-        PatternKind kind;
+        PatKind kind;
 
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct ParenPat : Pattern {
-        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern{PatternKind::Paren, span}, pat{std::move(pat)} {}
+        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern{PatKind::Paren, span}, pat{std::move(pat)} {}
 
         Pattern::Ptr pat;
 
@@ -41,7 +41,7 @@ namespace jc::ast {
 
     struct LitPat : Pattern {
         LitPat(bool neg, const parser::Token & literal, const Span & span)
-            : Pattern{PatternKind::Literal, span}, neg{neg}, literal{literal} {}
+            : Pattern{PatKind::Literal, span}, neg{neg}, literal{literal} {}
 
         bool neg;
         parser::Token literal;
@@ -59,7 +59,7 @@ namespace jc::ast {
             Ident::PR && name,
             Pattern::OptPtr && pat,
             const Span & span
-        ) : Pattern{PatternKind::Borrow, span},
+        ) : Pattern{PatKind::Ident, span},
             ref{ref},
             mut{mut},
             name{std::move(name)},
@@ -78,7 +78,7 @@ namespace jc::ast {
     /// `&mut pattern`
     struct RefPat : Pattern {
         RefPat(bool mut, Pattern::Ptr && pat, const Span & span)
-            : Pattern{PatternKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
+            : Pattern{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
 
         bool mut;
         Pattern::Ptr pat;
@@ -90,7 +90,7 @@ namespace jc::ast {
 
     struct PathPat : Pattern {
         PathPat(PathExpr::Ptr && path, const Span & span)
-            : Pattern{PatternKind::Path, span}, path{std::move(path)} {}
+            : Pattern{PatKind::Path, span}, path{std::move(path)} {}
 
         PathExpr::Ptr path;
 
@@ -100,7 +100,7 @@ namespace jc::ast {
     };
 
     struct WCPat : Pattern {
-        WCPat(const Span & span) : Pattern{PatternKind::Wildcard, span} {}
+        WCPat(const Span & span) : Pattern{PatKind::Wildcard, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -108,7 +108,7 @@ namespace jc::ast {
     };
 
     struct SpreadPat : Pattern {
-        SpreadPat(const Span & span) : Pattern{PatternKind::Spread, span} {}
+        SpreadPat(const Span & span) : Pattern{PatKind::Spread, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -158,7 +158,7 @@ namespace jc::ast {
 
     struct StructPat : Pattern {
         StructPat(PathExpr::Ptr && path, std::vector<StructPatEl> && elements, const Span & span)
-            : Pattern{PatternKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
+            : Pattern{PatKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
 
         PathExpr::Ptr path;
         std::vector<StructPatEl> elements;
