@@ -17,7 +17,7 @@ namespace jc::ast {
             generics{std::move(generics)} {}
 
         Ident::PR ident;
-        GenericParam::OptList generics{None};
+        GenericParam::OptList generics = None;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

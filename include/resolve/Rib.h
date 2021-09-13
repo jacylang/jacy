@@ -23,7 +23,7 @@ namespace jc::resolve {
 
         /// Maps name to `NodeId` of local variable (`BorrowPat.id`)
         std::map<Symbol, NodeId> locals;
-        Option<Module::Ptr> boundModule{None};
+        Option<Module::Ptr> boundModule = None;
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was

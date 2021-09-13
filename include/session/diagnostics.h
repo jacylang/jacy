@@ -99,16 +99,16 @@ namespace jc::sess {
         }
 
     private:
-        Option<Ptr> parent{None};
+        Option<Ptr> parent = None;
         std::vector<Ptr> children{};
 
         std::string name;
 
         MeasUnit measUnit;
-        Option<size_t> procUnitCount{None};
+        Option<size_t> procUnitCount = None;
 
         BenchT benchStart;
-        Option<double> benchmark{None};
+        Option<double> benchmark = None;
 
         bool complete{false};
     };

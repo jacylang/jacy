@@ -58,7 +58,7 @@ namespace jc::resolve {
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         std::string pathStr;
         bool inaccessible = false;
-        Option<UnresSeg> unresSeg{None};
+        Option<UnresSeg> unresSeg = None;
         DefPerNS defPerNs{None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {

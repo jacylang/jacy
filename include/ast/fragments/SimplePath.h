@@ -18,7 +18,7 @@ namespace jc::ast {
             : Node{span}, kind{Kind::Ident}, ident{std::move(ident)} {}
         SimplePathSeg(Kind kind, const Span & span) : Node{span}, kind{kind} {}
 
-        Ident::OptPR ident{None};
+        Ident::OptPR ident = None;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

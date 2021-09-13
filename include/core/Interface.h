@@ -60,7 +60,7 @@ namespace jc::core {
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Validator astValidator;
-        Option<ast::Party> party{None};
+        Option<ast::Party> party = None;
 
         void parse();
         void validateAST();

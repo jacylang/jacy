@@ -114,7 +114,7 @@ namespace jc::resolve {
             nearestModDef{nearestModDef} {}
 
         ModuleKind kind;
-        OptPtr parent{None};
+        OptPtr parent = None;
 
         // Can either be `NodeId` (Block) or `ModuleDef` (Module definition with additional info)
         IdType id;

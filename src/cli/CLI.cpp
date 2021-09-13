@@ -61,7 +61,7 @@ namespace jc::cli {
 
         Option<std::string> magicFlag = None;
         bool commandDefaulted = false;
-        Option<CLICommand> command{None};
+        Option<CLICommand> command = None;
         PassedCommand::FlagList passedFlags;
 
         auto extensions = getConfig().arrAt("extensions");

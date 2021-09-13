@@ -46,7 +46,7 @@ namespace jc::cli {
 
         // Storage //
     private:
-        Option<std::string> entryFile{None};
+        Option<std::string> entryFile = None;
 
     private:
         std::vector<std::string> boolArgTrueValues;

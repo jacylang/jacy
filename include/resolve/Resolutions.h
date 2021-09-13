@@ -16,7 +16,7 @@ namespace jc::resolve {
     // if segment is resolved, but it is private
     struct UnresSeg {
         size_t segIndex;
-        DefId::Opt defId{None};
+        DefId::Opt defId = None;
     };
 
     /// One bit for each `PrimType` variant

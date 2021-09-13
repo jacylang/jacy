@@ -377,7 +377,7 @@ namespace jc::resolve {
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
         bool inaccessible = false;
-        Option<UnresSeg> unresSeg {None};
+        Option<UnresSeg> unresSeg  = None;
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
         for (size_t i = 0 ; i < path.segments.size() ; i++) {

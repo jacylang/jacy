@@ -72,7 +72,7 @@ namespace jc::parser {
         Recovery recovery,
         Symbol::Opt sym
     ) {
-        Token::Opt found{None};
+        Token::Opt found = None;
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
@@ -206,7 +206,7 @@ namespace jc::parser {
 
         Attr::List attributes = parseAttrList();
         parser::Token::List modifiers = parseModifiers();
-        Option<Item::Ptr> maybeItem{None};
+        Option<Item::Ptr> maybeItem = None;
 
         auto vis = parseVis();
 
@@ -305,7 +305,7 @@ namespace jc::parser {
         const auto & pub = skipOptKw(Kw::Pub);
 
         VisKind kind{VisKind::Unset};
-        span::Span::Opt span{None};
+        span::Span::Opt span = None;
         if (pub.some()) {
             kind = ast::VisKind::Pub;
             span = pub.unwrap().span;
@@ -422,7 +422,7 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto traitTypePath = parseTypePath();
 
-        Type::OptPtr forType{None};
+        Type::OptPtr forType = None;
         if (skipOptKw(Kw::For).some()) {
             forType = parseType("Missing type");
         }
@@ -549,7 +549,7 @@ namespace jc::parser {
 
         auto name = parseIdent("`type` name");
 
-        Type::OptPtr type{None};
+        Type::OptPtr type = None;
         if (skipOpt(TokenKind::Assign).some()) {
             type = parseType("Expected type");
         }
@@ -733,7 +733,7 @@ namespace jc::parser {
 
         auto pat = parsePat();
 
-        Type::OptPtr type{None};
+        Type::OptPtr type = None;
         if (skipOpt(TokenKind::Colon).some()) {
             type = parseType("Expected type after `:` in variable declaration");
         }
@@ -824,7 +824,7 @@ namespace jc::parser {
 
                 const auto & paramBegin = cspan();
                 auto pat = parsePat();
-                Type::OptPtr type{None};
+                Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
@@ -838,7 +838,7 @@ namespace jc::parser {
             skip(TokenKind::RParen, "Closing `)`");
         }
 
-        Type::OptPtr returnType{None};
+        Type::OptPtr returnType = None;
 
         if (allowReturnType and skipOpt(TokenKind::Colon).some()) {
             returnType = parseType("Return type for lambda after `:`");
@@ -902,7 +902,7 @@ namespace jc::parser {
         auto begin = cspan();
         Expr::OptPtr maybeLhs = precParse(index + 1);
         while (not eof()) {
-            Option<Token> maybeOp{None};
+            Option<Token> maybeOp = None;
             for (const auto & op : parser.ops) {
                 if (is(op)) {
                     maybeOp = peek();
@@ -1689,7 +1689,7 @@ namespace jc::parser {
         ).some();
 
         auto type = parseType(colonSkipped ? "Expected type" : "");
-        Expr::OptPtr defaultValue{None};
+        Expr::OptPtr defaultValue = None;
         if (peek().isAssignOp()) {
             advance();
             defaultValue = parseExpr("Expression expected as default value of function parameter");
@@ -1823,7 +1823,7 @@ namespace jc::parser {
             bool isUnrecoverableError = false;
             auto segIdent = parsePathSegIdent();
 
-            GenericParam::OptList generics{None};
+            GenericParam::OptList generics = None;
             bool pathNotGeneric = false;
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
@@ -1967,12 +1967,12 @@ namespace jc::parser {
             }
 
             const auto & elBegin = cspan();
-            Ident::OptPR name{None};
+            Ident::OptPR name = None;
             if (is(TokenKind::Id)) {
                 name = justParseIdent("`parenType`");
             }
 
-            Type::OptPtr type{None};
+            Type::OptPtr type = None;
             if (name.some() and is(TokenKind::Colon)) {
                 // Named tuple element case
                 namedElements.push_back(elIndex);
@@ -2078,7 +2078,7 @@ namespace jc::parser {
                 generics.push_back(makeBoxNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenerics`");
-                Type::OptPtr type{None};
+                Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
@@ -2093,7 +2093,7 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                Expr::OptPtr defaultValue{None};
+                Expr::OptPtr defaultValue = None;
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
@@ -2206,7 +2206,7 @@ namespace jc::parser {
 
         auto id = parseIdent("Missing identifier");
 
-        Option<Pattern::Ptr> pat{None};
+        Option<Pattern::Ptr> pat = None;
         if (skipOpt(TokenKind::At).some()) {
             pat = parsePat();
         }

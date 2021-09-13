@@ -50,7 +50,7 @@ namespace jc::sess {
         Session();
 
         SourceMap sourceMap;
-        Option<resolve::Module::Ptr> modTreeRoot{None};
+        Option<resolve::Module::Ptr> modTreeRoot = None;
         NodeStorage nodeStorage; // TODO: Maybe remove?
         resolve::DefTable defTable;
         resolve::Resolutions resolutions;

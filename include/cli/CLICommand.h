@@ -80,7 +80,7 @@ namespace jc::cli {
             using namespace utils::num;
 
             const auto type = CLIFlag::typeFromString(j.at<jon::str_t>("type"));
-            Option<CLIFlag::ValueCount> valCount{None};
+            Option<CLIFlag::ValueCount> valCount = None;
 
             if (j.has("value-count")) {
                 const auto cnt = j.at<jon::int_t>("value-count");
