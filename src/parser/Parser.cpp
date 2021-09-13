@@ -1640,7 +1640,6 @@ namespace jc::parser {
     }
 
     FuncParam::List Parser::parseFuncParamList() {
-        const auto maybeParenToken = peek();
         if (skipOpt(TokenKind::LParen).none()) {
             return {};
         }
