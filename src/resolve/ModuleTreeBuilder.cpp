@@ -178,7 +178,9 @@ namespace jc::resolve {
         // Here we check if name already exists in module and not a function overload base name.
         // It means that some non-function definition already uses this name.
         if (intraModuleDef.some() and not intraModuleDef.unwrap().isFuncOverload()) {
-            // TODO: `suggestCannotRedefineFunc`
+            // TODO: Maybe add separate `suggestCannotRedefineFunc`?
+            // Note!!!: If new `IntraModuleDef::Kind`'s will be added, don't use `asDef`!
+            suggestCannotRedefine(baseName, defKind, intraModuleDef.unwrap().asDef());
             return defId;
         }
 
