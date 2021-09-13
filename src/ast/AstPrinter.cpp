@@ -108,6 +108,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncParam & funcParam) {
+        if (funcParam.label.some()) {
+            funcParam.label.unwrap().autoAccept(*this);
+        }
+
         funcParam.pat.autoAccept(*this);
         resetNameColor();
 
