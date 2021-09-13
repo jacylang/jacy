@@ -180,6 +180,8 @@ namespace jc::resolve {
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
+                } else if (param.pat.unwrap()->kind == ast::PatKind::Ident) {
+                    labels.emplace_back(ast::Pattern::cast<ast::IdentPat>(param.pat.unwrap()))
                 } else {
                     labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
                 }

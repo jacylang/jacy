@@ -26,6 +26,11 @@ namespace jc::ast {
 
         PatKind kind;
 
+        template<class T>
+        static T * as(const N<Pattern> & pat) {
+            return static_cast<T*>(pat.get());
+        }
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
