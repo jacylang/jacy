@@ -291,10 +291,16 @@ namespace jc::resolve {
     void ModuleTreeBuilder::suggestCannotRedefine(
         const span::Ident & ident,
         DefKind as,
-        const IntraModuleDef & prevModDef
+        const IntraModuleDef & prevModDef,
+        Symbol::Opt suffix
     ) {
         // Note: The only things we can redefine are obviously "named" things,
         //  thus if name span found -- it is a bug
+
+        auto redefinedName = ident.sym;
+        if (suffix.some()) {
+            redefinedName = redefinedName + suffix.unwrap();
+        }
 
         DefId::Opt prevDefId = None;
         if (prevModDef.isFuncOverload()) {
@@ -307,7 +313,7 @@ namespace jc::resolve {
 
         const auto & prevDef = _defTable.getDef(prevModDef.asDef());
         suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
-            log::fmt("Cannot redeclare '", ident.sym, "' as ", Def::kindStr(as)),
+            log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
             ident.span,
             "Because it is already declared as " + prevDef.kindStr() + " here",
             prevDefSpan,
