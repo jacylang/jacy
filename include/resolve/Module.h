@@ -52,11 +52,19 @@ namespace jc::resolve {
 
         ValueT val;
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("`IntraModuleDef` kind assertion failed");
+            }
+        }
+
         auto asDef() const {
+            assertKind(Kind::Target);
             return std::get<DefId>(val);
         }
 
         auto asFuncOverload() const {
+            assertKind(Kind::FuncOverload);
             return std::get<FuncOverloadId>(val);
         }
 
