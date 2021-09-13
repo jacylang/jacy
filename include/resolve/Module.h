@@ -194,7 +194,7 @@ namespace jc::resolve {
             });
 
             for (const auto & label : labels) {
-                name += label.toString();
+                name += label.toString() + ":";
             }
 
             name += ")";
