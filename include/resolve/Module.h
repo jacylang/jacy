@@ -176,6 +176,7 @@ namespace jc::resolve {
          */
         static inline Symbol getFuncSuffix(const ast::FuncSig & sig) {
             std::string name = "(";
+
             std::vector<Symbol> labels;
             for (const auto & param : sig.params) {
                 if (param.label.some()) {
@@ -191,6 +192,10 @@ namespace jc::resolve {
             std::sort(labels.begin(), labels.end(), [](const Symbol & lhs, const Symbol & rhs) {
                 return lhs < rhs;
             });
+
+            for (const auto & label : labels) {
+                name += label.toString();
+            }
 
             name += ")";
             return Symbol::intern(name);
