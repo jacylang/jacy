@@ -2155,7 +2155,8 @@ namespace jc::parser {
 
         // `ref mut IDENT @ pattern`
         // Note: `ref` or `mut` 100% means that it is a identifier pattern,
-        //  anyway identifier with `::` after is a path pattern
+        //  anyway identifier with `::` after is a path pattern.
+        // Note: Here order matters, parsing `IdentPat` must go after `PathPat` parsing
         if (isKw(Kw::Ref) or isKw(Kw::Mut) or is(TokenKind::Id)) {
             return parseIdentPat();
         }
