@@ -77,10 +77,9 @@ namespace jc::ast {
 
     /// `&mut pattern`
     struct RefPat : Pattern {
-        RefPat(bool ref, bool mut, Pattern::Ptr && pat, const Span & span)
-            : Pattern{PatternKind::Ref, span}, ref{ref}, mut{mut}, pat{std::move(pat)} {}
+        RefPat(bool mut, Pattern::Ptr && pat, const Span & span)
+            : Pattern{PatternKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
 
-        bool ref;
         bool mut;
         Pattern::Ptr pat;
 
