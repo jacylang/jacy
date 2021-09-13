@@ -49,13 +49,13 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printDef(const IntraModuleDef & intraModuleDef) {
-        if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+        if (intraModuleDef.isFuncOverload()) {
             auto overloadId = intraModuleDef.asFuncOverload();
             for (const auto & overload : sess->defTable.getFuncOverload(overloadId)) {
                 printDef(overload.second);
                 log.nl();
             }
-        } else {
+        } else if (intraModuleDef.isTarget()) {
             auto defId = intraModuleDef.asDef();
             const auto & def = sess->defTable.getDef(defId);
             log.raw(def);
@@ -80,6 +80,8 @@ namespace jc::resolve {
                 case DefKind::Variant:
                     break;
             }
+        } else {
+            log::devPanic("Unhandled `IntraModuleDef` kind in `ModulePrinter::printDef`");
         }
     }
 

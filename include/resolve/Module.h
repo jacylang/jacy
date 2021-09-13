@@ -52,6 +52,14 @@ namespace jc::resolve {
 
         ValueT val;
 
+        bool isTarget() const {
+            return kind == Kind::Target;
+        }
+
+        bool isFuncOverload() const {
+            return kind == Kind::FuncOverload;
+        }
+
         void assertKind(Kind expected) const {
             if (kind != expected) {
                 log::devPanic(
@@ -79,9 +87,9 @@ namespace jc::resolve {
         }
 
         friend std::ostream & operator<<(std::ostream & os, const IntraModuleDef & intraModuleDef) {
-            if (intraModuleDef.kind == IntraModuleDef::Kind::Target) {
+            if (intraModuleDef.isTarget()) {
                 return os << log::Color::Magenta << intraModuleDef.asDef() << log::Color::Reset;
-            } else if (intraModuleDef.kind == IntraModuleDef::Kind::FuncOverload) {
+            } else if (intraModuleDef.isFuncOverload()) {
                 return os << log::Color::Magenta << intraModuleDef.asFuncOverload() << log::Color::Reset;
             }
             log::devPanic("Unhandled `IntraModuleDef::Kind` in `operator<<`");
