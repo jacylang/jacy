@@ -1899,10 +1899,8 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         auto type = parseOptType();
-        if (type.some()) {
-            if (not suggMsg.empty()) {
-                suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
-            }
+        if (type.none()) {
+            suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
         return type.take("`parseType` -> `type`");
