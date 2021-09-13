@@ -2027,7 +2027,7 @@ namespace jc::parser {
         Type::List params;
         for (auto & tupleEl : tupleElements) {
             if (tupleEl.name.some()) {
-                // Note: We don't ignore `->` if there're named elements in tuple type
+                // Note: We don't ignore `->` if there are named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
                 suggestErrorMsg(
                     "Cannot declare function type with named parameter",

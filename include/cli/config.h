@@ -92,6 +92,16 @@ commands: {
                     'error'
                 ]
             }
+            {
+                name: 'parser-extra-debug'
+                type: 'string'
+                description: 'Prints more debug information from parser'
+                values: [
+                    'no',
+                    'entries',
+                    'all'
+                ]
+            }
         ]
     }
 }
