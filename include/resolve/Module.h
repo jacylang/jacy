@@ -52,9 +52,12 @@ namespace jc::resolve {
 
         ValueT val;
 
-        void assertKind(Kind kind) const {
-            if (this->kind != kind) {
-                log::devPanic("`IntraModuleDef` kind assertion failed");
+        void assertKind(Kind expected) const {
+            if (kind != expected) {
+                log::devPanic(
+                    "`IntraModuleDef` kind assertion failed, expected '",
+                    kindStr(expected), "', got '", kindStr(kind), "'"
+                );
             }
         }
 
@@ -66,6 +69,13 @@ namespace jc::resolve {
         auto asFuncOverload() const {
             assertKind(Kind::FuncOverload);
             return std::get<FuncOverloadId>(val);
+        }
+
+        constexpr static inline const char * kindStr(Kind kind) {
+            switch (kind) {
+                case Kind::Target: return "definition";
+                case Kind::FuncOverload: return "function overload";
+            }
         }
 
         friend std::ostream & operator<<(std::ostream & os, const IntraModuleDef & intraModuleDef) {

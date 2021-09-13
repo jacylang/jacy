@@ -140,7 +140,7 @@ namespace jc::resolve {
         return funcOverloadId.unwrap();
     }
 
-    DefId DefTable::getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) {
+    DefId DefTable::getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) const {
         return getFuncOverload(funcOverloadId).begin()->second;
     }
 
