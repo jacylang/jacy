@@ -2137,10 +2137,26 @@ namespace jc::parser {
             return makePRBoxNode<SpreadPat, Pattern>(spread.unwrap().span);
         }
 
+        // If pattern begins with `::` or with an identifier followed by `::` it is a path pattern
+        if (is(TokenKind::Path) or (is(TokenKind::Id) and lookup().is(TokenKind::Path))) {
+            const auto & begin = cspan();
+            auto path = parsePathExpr();
+
+            if (is(TokenKind::LBrace)) {
+                // `path::to::something {...}`
+
+                return parseStructPat(std::move(path));
+            }
+
+            // TODO: Range from
+
+            return makePRBoxNode<PathPat, Pattern>(std::move(path), closeSpan(begin));
+        }
+
         // `ref mut IDENT @ pattern`
-        // Note: `ref` or `mut` 100% means that it is a borrow pattern,
-        //  but single identifier must be parser as borrow pattern too and as path pattern
-        if (isKw(Kw::Ref) or isKw(Kw::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
+        // Note: `ref` or `mut` 100% means that it is a identifier pattern,
+        //  anyway identifier with `::` after is a path pattern
+        if (isKw(Kw::Ref) or isKw(Kw::Mut) or is(TokenKind::Id)) {
             return parseIdentPat();
         }
 
@@ -2156,21 +2172,6 @@ namespace jc::parser {
             auto pat = parsePat();
             skip(TokenKind::RParen, "Closing `)`");
             return makePRBoxNode<ParenPat, Pattern>(std::move(pat), closeSpan(begin));
-        }
-
-        if (is(TokenKind::Id) or is(TokenKind::Path)) {
-            const auto & begin = cspan();
-            auto path = parsePathExpr();
-
-            if (is(TokenKind::LBrace)) {
-                // `path::to::something {...}`
-
-                return parseStructPat(std::move(path));
-            }
-
-            // TODO: Range from
-
-            return makePRBoxNode<PathPat, Pattern>(std::move(path), closeSpan(begin));
         }
 
         suggestErrorMsg("Expected pattern, got " + peek().toString(true), cspan());
