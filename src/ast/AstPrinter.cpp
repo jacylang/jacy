@@ -742,7 +742,7 @@ namespace jc::ast {
         printNodeId(pat);
     }
 
-    void AstPrinter::visit(const BorrowPat & pat) {
+    void AstPrinter::visit(const IdentPat & pat) {
         if (pat.ref) {
             log.raw("ref ");
         }

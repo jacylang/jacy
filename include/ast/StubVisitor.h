@@ -93,7 +93,7 @@ namespace jc::ast {
         // Patterns //
         void visit(const ParenPat & pat) override;
         void visit(const LitPat & pat) override;
-        void visit(const BorrowPat & pat) override;
+        void visit(const IdentPat & pat) override;
         void visit(const RefPat & pat) override;
         void visit(const PathPat & pat) override;
         void visit(const WCPat & pat) override;

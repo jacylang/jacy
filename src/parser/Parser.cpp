@@ -2198,7 +2198,7 @@ namespace jc::parser {
     }
 
     Pattern::Ptr Parser::parseIdentPat() {
-        logParse("IdentPattern");
+        logParse("IdentPat");
 
         const auto & begin = cspan();
         bool ref = skipOptKw(Kw::Ref).some();
@@ -2211,7 +2211,7 @@ namespace jc::parser {
             pat = parsePat();
         }
 
-        return makePRBoxNode<BorrowPat, Pattern>(ref, mut, std::move(id), std::move(pat), closeSpan(begin));
+        return makePRBoxNode<IdentPat, Pattern>(ref, mut, std::move(id), std::move(pat), closeSpan(begin));
     }
 
     Pattern::Ptr Parser::parseRefPat() {

@@ -52,8 +52,8 @@ namespace jc::ast {
     };
 
     /// `ref mut IDENT @ pattern`
-    struct BorrowPat : Pattern {
-        BorrowPat(
+    struct IdentPat : Pattern {
+        IdentPat(
             bool ref,
             bool mut,
             Ident::PR && name,

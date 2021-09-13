@@ -44,7 +44,7 @@ namespace jc::resolve {
         void visit(const ast::TypePath & typePath) override;
 
         // Patterns //
-        void visit(const ast::BorrowPat & pat) override;
+        void visit(const ast::IdentPat & pat) override;
         void visit(const ast::PathPat & pat) override;
         void visit(const ast::StructPat & pat) override;
 

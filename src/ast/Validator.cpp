@@ -622,7 +622,7 @@ namespace jc::ast {
 
     void Validator::visit(const LitPat&) {}
 
-    void Validator::visit(const BorrowPat & pat) {
+    void Validator::visit(const IdentPat & pat) {
         pat.name.autoAccept(*this);
 
         if (pat.pat.some()) {

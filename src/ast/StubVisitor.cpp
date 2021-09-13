@@ -393,7 +393,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const LitPat&) {}
 
-    void StubVisitor::visit(const BorrowPat & pat) {
+    void StubVisitor::visit(const IdentPat & pat) {
         pat.name.autoAccept(*this);
 
         if (pat.pat.some()) {
