@@ -43,12 +43,13 @@ namespace jc::resolve {
         enum class Kind {
             /// Target definition, does not depend on additional info
             Target,
+
             /// Function overloading, points to function name in `DefTable::funcOverloads`
             FuncOverload,
         } kind;
 
-        IntraModuleDef(DefId defId) : val {defId} {}
-        IntraModuleDef(FuncOverloadId funcOverloadId) : val {funcOverloadId} {}
+        IntraModuleDef(DefId defId) : kind{Kind::Target}, val{defId} {}
+        IntraModuleDef(FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, val {funcOverloadId} {}
 
         ValueT val;
 
@@ -81,7 +82,7 @@ namespace jc::resolve {
 
         constexpr static inline const char * kindStr(Kind kind) {
             switch (kind) {
-                case Kind::Target: return "definition";
+                case Kind::Target: return "target";
                 case Kind::FuncOverload: return "function overload";
             }
         }
