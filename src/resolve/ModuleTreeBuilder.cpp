@@ -311,8 +311,11 @@ namespace jc::resolve {
         }
 
         const auto & prevDefSpan = _defTable.getDefNameSpan(prevDefId.unwrap());
+        const auto & prevDef = _defTable.getDef(prevDefId.unwrap());
 
-        const auto & prevDef = _defTable.getDef(prevModDef.asDef());
+        // TODO: Header when suggestion headers will be implemented:
+        //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
+
         suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
             log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
             ident.span,

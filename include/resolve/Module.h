@@ -149,9 +149,8 @@ namespace jc::resolve {
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
         PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
-        template<class T>
-        IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const T & val) {
-            const auto & defined = getNS(ns).emplace(name, IntraModuleDef {val});
+        IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
+            const auto & defined = getNS(ns).emplace(name, IntraModuleDef {defId});
             // Note: emplace returns `pair<new element iterator, true>` if new element added
             //  and `pair<old element iterator, false>` if tried to re-emplace
             if (not defined.second) {
@@ -175,6 +174,8 @@ namespace jc::resolve {
          * @brief Get suffix of form like `(label1:label2:_:...)`
          */
         static inline Symbol getFuncSuffix(const ast::FuncSig & sig) {
+            // TODO!: Optimize some way :)
+
             std::string name = "(";
 
             std::vector<Symbol> labels;
