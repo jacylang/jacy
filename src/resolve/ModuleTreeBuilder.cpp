@@ -199,8 +199,7 @@ namespace jc::resolve {
         auto oldDef = mod->tryDefine(Namespace::Value, baseName.sym, overloadId.unwrap());
         if (oldDef.some()) {
             log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
-            // FIXME: Don't use `asDef`, this is a common case
-            suggestCannotRedefine(baseName, defKind, oldDef.unwrap());
+            suggestCannotRedefine(baseName, defKind, oldDef.unwrap(), suffix);
         }
 
         return defId;
