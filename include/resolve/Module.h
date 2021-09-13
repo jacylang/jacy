@@ -149,12 +149,27 @@ namespace jc::resolve {
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
         PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
+        /**
+         * @brief Try to define a new definition in module
+         * @return Old definition in case if redefined, None otherwise
+         */
         IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
             const auto & defined = getNS(ns).emplace(name, IntraModuleDef {defId});
             // Note: emplace returns `pair<new element iterator, true>` if new element added
             //  and `pair<old element iterator, false>` if tried to re-emplace
             if (not defined.second) {
                 // Return old def id
+                return defined.first->second;
+            }
+            return None;
+        }
+
+        IntraModuleDef::Opt addFuncOverload(const Symbol & baseName, const FuncOverloadId & funcOverloadId) {
+            // When we try to add already defined function overload -- it is okay.
+            // But we cannot define function overload if some non-function definition uses its name.
+            const auto & defined = getNS(Namespace::Value).emplace(baseName, IntraModuleDef {funcOverloadId});
+            if (not defined.second and defined.first->second.isTarget()) {
+                // User tried to define function with name taken by non-function item
                 return defined.first->second;
             }
             return None;
