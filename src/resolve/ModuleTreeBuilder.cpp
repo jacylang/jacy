@@ -161,10 +161,16 @@ namespace jc::resolve {
         return defId;
     }
 
-    DefId ModuleTreeBuilder::addFuncDef(DefVis vis, NodeId nodeId, const span::Ident & baseName, Symbol suffix) {
+    DefId ModuleTreeBuilder::addFuncDef(
+        DefVis vis,
+        NodeId nodeId,
+        DefKind defKind,
+        const span::Ident & baseName,
+        Symbol suffix
+    ) {
         // Note: We only define functions as single overloading, never as a name (such as single defId for each `init`)
         // In overload definition, name contains both base name (like `foo`) and suffix (like `(label1:label2:...)`)
-        auto defId = _defTable.define(vis, nodeId, DefKind::Func, Def::getFuncIdent(baseName, suffix));
+        auto defId = _defTable.define(vis, nodeId, defKind, Def::getFuncIdent(baseName, suffix));
 
         // Trying to find overloading by base name (for `func foo(...)` it would be `foo` without labels)
         auto intraModuleDef = mod->find(Namespace::Value, baseName.sym);
@@ -190,7 +196,7 @@ namespace jc::resolve {
         if (oldDef.some()) {
             log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
             // FIXME: Don't use `asDef`, this is a common case
-            suggestCannotRedefine(baseName, DefKind::Func, oldDef.unwrap());
+            suggestCannotRedefine(baseName, defKind, oldDef.unwrap());
         }
 
         return defId;
@@ -284,7 +290,8 @@ namespace jc::resolve {
         DefKind as,
         const IntraModuleDef & prevModDef
     ) {
-        span::Span::Opt prevDefSpan = dt::None;
+        span::Span::Opt prevDefSpan = None;
+        DefId::Opt prevDefId = None;
         if (prevModDef.kind == IntraModuleDef::Kind::FuncOverload) {
             // NOTE!: Here we just use first function overload span
             prevDefSpan = _defTable.getFuncOverloadFirstSpan(prevModDef.asFuncOverload());

@@ -44,9 +44,14 @@ namespace jc::resolve {
         FuncOverloadId defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix);
 
         /**
-         * @brief Get span of the first overload for function
+         * @brief Get defId of the first overload of some function
          */
-        span::Span getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId);
+        DefId getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) const;
+
+        /**
+         * @brief Get span of the first overload of some function
+         */
+        span::Span getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) const;
 
     private:
         std::vector<Def> defs;

@@ -140,7 +140,11 @@ namespace jc::resolve {
         return funcOverloadId.unwrap();
     }
 
-    span::Span DefTable::getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) {
-        return getDefNameSpan(getFuncOverload(funcOverloadId).begin()->second);
+    DefId DefTable::getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) {
+        return getFuncOverload(funcOverloadId).begin()->second;
+    }
+
+    span::Span DefTable::getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) const {
+        return getDefNameSpan(getFuncOverloadFirstDef(funcOverloadId));
     }
 }
