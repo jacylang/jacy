@@ -1,6 +1,3 @@
-func main {
-    kek::foo();
-}
 
 func main(kek: int, lol: uint) {
 

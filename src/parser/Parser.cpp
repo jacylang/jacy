@@ -1644,7 +1644,7 @@ namespace jc::parser {
             return {};
         }
 
-        enterEntity("FuncParams");
+        enterEntity("FuncParam::List");
 
         FuncParam::List params;
         bool first = true;
@@ -1669,7 +1669,7 @@ namespace jc::parser {
     }
 
     FuncParam Parser::parseFuncParam() {
-        enterEntity("FuncParams");
+        enterEntity("FuncParam");
 
         const auto & begin = cspan();
 
