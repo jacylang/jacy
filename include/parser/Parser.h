@@ -245,7 +245,7 @@ namespace jc::parser {
         // Patterns //
         Pattern::Ptr parsePat();
         Pattern::Ptr parseLitPat();
-        Pattern::Ptr parseBorrowPat();
+        Pattern::Ptr parseIdentPat();
         Pattern::Ptr parseRefPat();
         Pattern::Ptr parseStructPat(PathExpr::Ptr && path);
 
