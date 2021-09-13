@@ -2140,7 +2140,7 @@ namespace jc::parser {
         // `ref mut IDENT @ pattern`
         // Note: `ref` or `mut` 100% means that it is a borrow pattern,
         //  but single identifier must be parser as borrow pattern too and as path pattern
-        if (isKw(Kw::Ref) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
+        if (isKw(Kw::Ref) or isKw(Kw::Mut) or (is(TokenKind::Id) and not lookup().is(TokenKind::Path))) {
             return parseBorrowPat();
         }
 
@@ -2218,11 +2218,11 @@ namespace jc::parser {
         logParse("RefPattern");
 
         const auto & begin = cspan();
-        bool ref = skipOpt(TokenKind::BitOr).some();
+        justSkip(TokenKind::Ampersand, "`&`", "`Parser::parseRefPat`");
         bool mut = skipOptKw(Kw::Mut).some();
         auto pat = parsePat();
 
-        return makePRBoxNode<RefPat, Pattern>(ref, mut, std::move(pat), closeSpan(begin));
+        return makePRBoxNode<RefPat, Pattern>(mut, std::move(pat), closeSpan(begin));
     }
 
     Pattern::Ptr Parser::parseStructPat(PathExpr::Ptr && path) {
