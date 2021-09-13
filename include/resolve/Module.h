@@ -181,7 +181,8 @@ namespace jc::resolve {
                 if (param.label.some()) {
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else if (param.pat.unwrap()->kind == ast::PatKind::Ident) {
-                    labels.emplace_back(ast::Pattern::cast<ast::IdentPat>(param.pat.unwrap()))
+                    // If no label present and IdentPat (such as `ref? mut? IDENT @ Pattern`) used -- use IDENT
+                    labels.emplace_back(ast::Pattern::as<ast::IdentPat>(param.pat.unwrap())->name.unwrap().sym);
                 } else {
                     labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
                 }
