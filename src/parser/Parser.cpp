@@ -1682,13 +1682,13 @@ namespace jc::parser {
 
         auto pat = parsePat();
 
-        const auto colonSkipped = skip(
+        skip(
             TokenKind::Colon,
             "`func` parameters without type are not allowed, please put `:` here and specify type",
             Recovery::Once
         ).some();
 
-        auto type = parseType(colonSkipped ? "Expected type" : "");
+        auto type = parseType("Expected parameter type");
         Expr::OptPtr defaultValue = None;
         if (peek().isAssignOp()) {
             advance();
