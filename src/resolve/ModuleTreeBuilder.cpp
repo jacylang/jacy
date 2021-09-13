@@ -256,6 +256,7 @@ namespace jc::resolve {
         auto funcDefId = addFuncDef(
             getItemVis(funcItem),
             funcItem.id,
+            kind,
             funcItem.getName(),
             Module::getFuncSuffix(sig)
         );
