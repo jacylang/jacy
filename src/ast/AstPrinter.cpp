@@ -15,7 +15,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ErrorNode&) {
-        log.raw("[ERROR]");
+        log.raw(log::Color::Red, "[ERROR]", log::Color::Reset);
     }
 
     ////////////////
