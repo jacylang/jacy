@@ -372,7 +372,7 @@ namespace jc::resolve {
 
         // Resolve complex path //
 
-        Module::Ptr searchMod = sess->defTable.getModule(currentModule->nearestModDef.unwrap());
+        Module::Ptr searchMod = sess->defTable.getModule(currentModule->nearestModDef);
         // Path as string, built iterating through path segments
         // When resolution fails, it contains all segments we dived into
         std::string pathStr;
