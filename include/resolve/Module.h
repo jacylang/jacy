@@ -107,7 +107,7 @@ namespace jc::resolve {
             ModuleKind kind,
             OptPtr parent,
             IdType id,
-            DefId::Opt nearestModDef
+            DefId nearestModDef
         ) : kind{kind},
             parent{parent},
             id{id},
@@ -120,7 +120,7 @@ namespace jc::resolve {
         IdType id;
 
         // Nearest `mod` definition
-        DefId::Opt nearestModDef;
+        DefId nearestModDef;
 
         PerNS<NSMap> perNS;
         PrimTypeSet shadowedPrimTypes{0};
@@ -128,12 +128,12 @@ namespace jc::resolve {
         // Constructors //
     public:
         // `Block` module
-        static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, DefId::Opt nearestModDef) {
+        static inline Ptr newBlockModule(NodeId nodeId, Ptr parent, DefId nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Block, parent, nodeId, nearestModDef);
         }
 
         // `Def` module
-        static inline Ptr newDefModule(const DefId & defId, Ptr parent, DefId::Opt nearestModDef) {
+        static inline Ptr newDefModule(const DefId & defId, Ptr parent, DefId nearestModDef) {
             return std::make_shared<Module>(ModuleKind::Def, parent, defId, nearestModDef);
         }
 
