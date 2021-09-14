@@ -88,6 +88,8 @@ namespace jc::resolve {
 
             if (isPrefixSeg or resKind == PathResKind::Full) {
                 _importModule->find(Namespace::Type, segName).then([&](const IntraModuleDef & intraModuleDef) {
+                    // Agenda: Each function overloading definition has separate visibility, etc.
+                    //  Use vector of definitions in `DefPerNS`
                     if (intraModuleDef.isFuncOverload()) {
                         return;
                     }

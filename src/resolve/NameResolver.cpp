@@ -408,7 +408,7 @@ namespace jc::resolve {
 
             // If this is a prefix segment, we need to lookup for a name,
             //  as it can be from parent (or grandparent+) scope
-            if (isPrefixSeg or path.segments.size() == 1 and isFirstSeg) {
+            if (isPrefixSeg or (path.segments.size() == 1 and isFirstSeg)) {
                 // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
                 while (true) {
                     log.dev("Trying to find '", segName, "' first segment");
@@ -424,7 +424,7 @@ namespace jc::resolve {
                 if (def.isFuncOverload()) {
                     // Function overload cannot be a prefix of the path thus just don't even try to find something inside
                     if (not isPrefixSeg) {
-                        auto overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
+                        const auto & overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
 
                         if (suffix.none()) {
                             // If no suffix provided then only one overload can be referenced non-ambiguous
