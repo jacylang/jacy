@@ -62,7 +62,6 @@ namespace jc::resolve {
                     log.raw("- ");
                     printDef(overload.second);
                 }
-                log.nl();
             }
         } else {
             auto defId = intraModuleDef.asDef();

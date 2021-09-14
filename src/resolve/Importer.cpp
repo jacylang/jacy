@@ -51,7 +51,6 @@ namespace jc::resolve {
             for (const auto & def : ns) {
                 // Note: for `use a::*` we don't report "redefinition" error
 
-                // AGENDA
                 if (def.second.isFuncOverload()) {
                     _useDeclModule->addFuncOverload(def.first, def.second.asFuncOverload());
                 } else {
