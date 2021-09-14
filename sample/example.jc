@@ -6,3 +6,8 @@ mod m {
 
     func foo(kek: int, lol: uint) {}
 }
+
+func main {
+    use m::foo;
+
+}

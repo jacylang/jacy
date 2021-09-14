@@ -74,6 +74,16 @@ namespace jc::resolve {
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
 
+            if (isPrefixSeg or (path.segments.size() == 1 and isFirstSeg)) {
+                while (true) {
+                    log.dev("Trying to find '", segName, "' first segment");
+                    if (_importModule->has(Namespace::Type, segName) or _importModule->parent.none()) {
+                        break;
+                    }
+                    _importModule = _importModule->parent.unwrap();
+                }
+            }
+
             if (isPrefixSeg or resKind == PathResKind::Full) {
                 _importModule->find(Namespace::Type, segName).then([&](const IntraModuleDef & intraModuleDef) {
                     if (intraModuleDef.isFuncOverload()) {
