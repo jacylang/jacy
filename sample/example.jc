@@ -1,6 +1,6 @@
-func main {
-}
+struct int {}
+struct uint {}
 
-func main(kek: int, lol: uint) {
+func main {}
 
-}
+func main(kek: int, lol: uint) {}

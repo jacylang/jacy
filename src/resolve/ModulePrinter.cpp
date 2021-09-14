@@ -73,7 +73,6 @@ namespace jc::resolve {
                 case DefKind::Enum:
                 case DefKind::Impl:
                 case DefKind::Mod:
-                case DefKind::Struct:
                 case DefKind::Func:
                 case DefKind::Init:
                 case DefKind::Trait: {
@@ -81,6 +80,7 @@ namespace jc::resolve {
                     printMod(sess->defTable.getModule(defId));
                     break;
                 }
+                case DefKind::Struct:
                 case DefKind::Lifetime:
                 case DefKind::TypeAlias:
                 case DefKind::TypeParam:
