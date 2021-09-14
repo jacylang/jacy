@@ -60,6 +60,8 @@ namespace jc::resolve {
         });
     }
 
+    // AGENDA: Unify `resolvePath` in `Importer` and in `NameResolver`
+
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         std::string pathStr;
         DefKind lastPathSegKind;
