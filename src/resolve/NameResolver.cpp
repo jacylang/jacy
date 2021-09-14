@@ -36,6 +36,7 @@ namespace jc::resolve {
 
         for (const auto & param : func.sig.params) {
             param.pat.autoAccept(*this);
+            param.type.autoAccept(*this);
             if (param.defaultValue.some()) {
                 param.defaultValue.unwrap().autoAccept(*this);
             }

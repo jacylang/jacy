@@ -15,7 +15,7 @@ namespace jc::resolve {
         log.dev("Import `use` with module ", useDeclModule->toString());
 
         _useDeclModule = useDeclModule;
-        _importModule = sess->defTable.getModule(_useDeclModule->nearestModDef.unwrap());
+        _importModule = sess->defTable.getModule(_useDeclModule->nearestModDef);
         useDecl.useTree.autoAccept(*this);
     }
 
