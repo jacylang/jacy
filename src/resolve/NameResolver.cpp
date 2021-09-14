@@ -300,6 +300,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterBlock(NodeId nodeId, Rib::Kind kind) {
+        log.dev("Enter block ", nodeId);
         appendBlockPath(nodeId);
 
         currentModule = sess->defTable.getBlock(nodeId);
@@ -312,6 +313,7 @@ namespace jc::resolve {
             log::devPanic("NameResolver: Tried to exit from empty rib stack");
         }
         if (curRib()->boundModule.some()) {
+            log.dev("Exit module, current path: ", scopePath);
             currentModule = currentModule->parent.unwrap("Tried to exit top-level module");
             // Remove last segment if exit from module/block
             removePathSeg();
