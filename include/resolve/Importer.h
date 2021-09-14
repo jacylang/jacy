@@ -44,10 +44,10 @@ namespace jc::resolve {
         log::Logger log{"importer"};
         sess::Session::Ptr sess;
 
-        // Module where `use` appeared
+        // Module where `use` appeared (where to add aliases)
         Module::Ptr _useDeclModule;
 
-        // Module that `use` now in
+        // Module to import from (where to search for items)
         Module::Ptr _importModule;
 
         // Resolutions //

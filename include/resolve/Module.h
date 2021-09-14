@@ -144,6 +144,7 @@ namespace jc::resolve {
         const NSMap & getNS(Namespace ns) const;
         NSMap & getNS(Namespace ns);
 
+        bool has(Namespace nsKind, const Symbol & name) const;
         IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
         DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;

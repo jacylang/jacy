@@ -156,7 +156,8 @@ namespace jc::resolve {
                 // Report "Cannot access" error
                 suggestErrorMsg(
                     log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
-                    unresolvedSegIdent.span);
+                    unresolvedSegIdent.span
+                );
             } else {
                 // Report "Not defined" error
                 auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
@@ -199,7 +200,9 @@ namespace jc::resolve {
                             segSpan,
                             "Because it is already declared as " + oldDef.kindStr() + " here",
                             oldDefSpan,
-                            sugg::SuggKind::Error));
+                            sugg::SuggKind::Error
+                        )
+                    );
                 });
             });
         });

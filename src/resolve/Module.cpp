@@ -36,6 +36,11 @@ namespace jc::resolve {
         log::notImplemented("getNS");
     }
 
+    bool Module::has(Namespace nsKind, const Symbol & name) const {
+        const auto & ns = getNS(nsKind);
+        return ns.find(name) != ns.end();
+    }
+
     IntraModuleDef::Opt Module::find(Namespace nsKind, const Symbol & name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);

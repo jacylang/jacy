@@ -405,9 +405,9 @@ namespace jc::resolve {
             // TODO: Resolve segment generics
 
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                // Function overload cannot be a prefix of the path thus just don't even try to find something inside
                 DefId::Opt maybeDefId = None;
                 if (def.isFuncOverload()) {
+                    // Function overload cannot be a prefix of the path thus just don't even try to find something inside
                     if (not isPrefixSeg) {
                         auto overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
 
