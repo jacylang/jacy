@@ -50,7 +50,13 @@ namespace jc::resolve {
         _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & def : ns) {
                 // Note: for `use a::*` we don't report "redefinition" error
-                _useDeclModule->tryDefine(nsKind, def.first, def.second);
+
+                // AGENDA
+                if (def.second.isFuncOverload()) {
+                    _useDeclModule->addFuncOverload(def.first, def.second.asFuncOverload());
+                } else {
+                    _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+                }
             }
         });
     }
