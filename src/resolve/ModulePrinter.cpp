@@ -54,7 +54,6 @@ namespace jc::resolve {
             const auto & overloads = sess->defTable.getFuncOverload(overloadId);
             if (overloads.size() == 1) {
                 printDef(overloads.begin()->second);
-                log.nl();
             } else if (not overloads.empty()) {
                 for (const auto & overload : overloads) {
                     log.nl();
