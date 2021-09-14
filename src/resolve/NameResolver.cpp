@@ -410,8 +410,9 @@ namespace jc::resolve {
             //  as it can be from parent (or grandparent+) scope
             if (isPrefixSeg) {
                 // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
-                while (not searchMod->has(Namespace::Type, segName)) {
-                    if (searchMod->parent.none()) {
+                while (true) {
+                    log.dev("Trying to find '", segName, "' first segment");
+                    if (searchMod->has(Namespace::Type, segName) or searchMod->parent.none()) {
                         break;
                     }
                     searchMod = searchMod->parent.unwrap();
