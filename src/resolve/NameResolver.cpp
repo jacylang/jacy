@@ -408,7 +408,7 @@ namespace jc::resolve {
 
             // If this is a prefix segment, we need to lookup for a name,
             //  as it can be from parent (or grandparent+) scope
-            if (isPrefixSeg) {
+            if (isPrefixSeg or path.segments.size() == 1 and isFirstSeg) {
                 // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
                 while (true) {
                     log.dev("Trying to find '", segName, "' first segment");
