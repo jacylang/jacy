@@ -62,15 +62,15 @@ namespace jc::resolve {
             impl.forType.unwrap().autoAccept(*this);
         }
 
-        enterModule(Module::getImplName(impl), Namespace::Type);
+        enterModule(Module::getImplName(impl), Namespace::Type); // -> `impl` mod
         visitEach(impl.members);
-        exitRib();
+        exitRib(); // <- `impl` mod
     }
 
     void NameResolver::visit(const ast::Mod & mod) {
-        enterModule(mod.getName().sym);
+        enterModule(mod.getName().sym); // -> 'mod` mod
         visitEach(mod.items);
-        exitRib();
+        exitRib(); // <- `mod` mod, mod mod mod mod mod
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
@@ -268,8 +268,10 @@ namespace jc::resolve {
     }
 
     void NameResolver::enterModule(Symbol name, Namespace ns, Rib::Kind kind) {
-        log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
         using namespace utils::map;
+
+        log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
+
         currentModule = sess->defTable
                             .getModule(
                                 expectAt(
