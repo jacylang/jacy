@@ -404,6 +404,18 @@ namespace jc::resolve {
 
             // TODO: Resolve segment generics
 
+            // If this is a prefix segment, we need to lookup for a name,
+            //  as it can be from parent (or grandparent+) scope
+            if (isPrefixSeg) {
+                // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
+                while (not searchMod->has(Namespace::Type, segName)) {
+                    if (searchMod->parent.none()) {
+                        break;
+                    }
+                    searchMod = searchMod->parent.unwrap();
+                }
+            }
+
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
                 DefId::Opt maybeDefId = None;
                 if (def.isFuncOverload()) {
