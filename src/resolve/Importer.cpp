@@ -79,7 +79,7 @@ namespace jc::resolve {
             if (isPrefixSeg or (path.segments.size() == 1 and isFirstSeg)) {
                 while (true) {
                     log.dev("Trying to find '", segName, "' first segment");
-                    if (_importModule->has(Namespace::Type, segName) or _importModule->parent.none()) {
+                    if (_importModule->hasAny(segName) or _importModule->parent.none()) {
                         break;
                     }
                     _importModule = _importModule->parent.unwrap();
