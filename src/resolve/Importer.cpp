@@ -63,6 +63,7 @@ namespace jc::resolve {
 
     PathResult Importer::resolvePath(PathResKind resKind, const ast::SimplePath & path) {
         std::string pathStr;
+        DefKind lastPathSegKind;
         bool inaccessible = false;
         Option<UnresSeg> unresSeg = None;
         DefPerNS defPerNs{None, None, None};
@@ -88,6 +89,9 @@ namespace jc::resolve {
 
                     // Only items from type namespace can be descended to
                     _importModule = sess->defTable.getModule(defId);
+
+                    auto defKind = sess->defTable.getDef(defId).kind;
+                    lastPathSegKind = defKind;
                     if (not isFirstSeg) {
                         pathStr += "::";
                     }
@@ -158,7 +162,7 @@ namespace jc::resolve {
                 // Report "Not defined" error
                 auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
                 if (not pathStr.empty()) {
-                    msg += " in '" + pathStr + "'";
+                    msg += log::fmt(" in ", Def::kindStr(lastPathSegKind), " '",  pathStr, "'");
                 }
                 suggestErrorMsg(msg, unresolvedSegIdent.span);
             }

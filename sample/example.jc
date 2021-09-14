@@ -1,6 +1,12 @@
 struct int {}
 struct uint {}
 
-func main {}
+mod m {
+    func foo {}
 
-func main(kek: int, lol: uint) {}
+    func foo(kek: int, lol: uint) {}
+}
+
+func main {
+    use m::foo;
+}
