@@ -34,11 +34,16 @@ namespace jc::resolve {
         enterRib(); // -> (params) rib
 
         for (const auto & param : func.sig.params) {
-            param.pat.autoAccept(*this);
+            /// Order matters, we resolve type first, then default value
+            ///  to disallow referencing pattern identifier in default value
+
             param.type.autoAccept(*this);
+
             if (param.defaultValue.some()) {
                 param.defaultValue.unwrap().autoAccept(*this);
             }
+
+            param.pat.autoAccept(*this);
         }
 
         if (func.body.some()) {
