@@ -327,7 +327,7 @@ namespace jc::resolve {
 
         // Note: Save depth when we started, because it will be changed in `exitRib`
         const auto depth = getDepth();
-        for (size_t i = prevDepth ; i < depth ; i++) {
+        for (size_t i = prevDepth; i < depth; i++) {
             exitRib();
         }
     }
@@ -380,7 +380,7 @@ namespace jc::resolve {
         Option<UnresSeg> unresSeg  = None;
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
-        for (size_t i = 0 ; i < path.segments.size() ; i++) {
+        for (size_t i = 0; i < path.segments.size(); i++) {
             // For path prefix `a::b::` we find segments in type namespace,
             // but last segment is resolved in target namespace
             bool isFirstSeg = i == 0;
@@ -395,12 +395,10 @@ namespace jc::resolve {
                 segName += suffix.unwrap();
             }
 
-            if (isPrefixSeg) {
-                if (not isFirstSeg) {
-                    pathStr += "::";
-                }
-                pathStr += segName.toString();
+            if (not isFirstSeg) {
+                pathStr += "::";
             }
+            pathStr += segName.toString();
 
             // TODO: Resolve segment generics
 
