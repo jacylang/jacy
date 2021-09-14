@@ -413,7 +413,9 @@ namespace jc::resolve {
                             // If no suffix provided then only one overload can be referenced non-ambiguous
                             if (overloads.size() == 1) {
                                 maybeDefId = overloads.begin()->second;
+                                log.dev("Found single function for '", pathStr, "' - ", maybeDefId.unwrap());
                             } else {
+                                log.dev("Ambiguous use of function '", segName, "'");
                                 suggestErrorMsg(
                                     log::fmt(
                                         "Use of function '",
@@ -427,8 +429,10 @@ namespace jc::resolve {
                         } else {
                             const auto & foundOverload = overloads.find(suffix.unwrap());
                             if (foundOverload == overloads.end()) {
+                                const auto & fullName = segName + suffix.unwrap();
+                                log.dev("Failed to find function '", fullName, "'");
                                 suggestErrorMsg(
-                                    log::fmt("Failed to find function '", segName + suffix.unwrap(), "'"),
+                                    log::fmt("Failed to find function '", fullName, "'"),
                                     path.span
                                 );
                                 return;
@@ -458,8 +462,8 @@ namespace jc::resolve {
                     log.dev("Search in module by path segment '", pathStr, "' with def id ", defId);
                 } else {
                     // Resolve last segment
-                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
                     _resolutions.setRes(path.id, Res {defId});
+                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
                 }
             }).otherwise([&]() {
                 // Resolution failed
