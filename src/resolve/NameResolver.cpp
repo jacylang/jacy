@@ -402,11 +402,6 @@ namespace jc::resolve {
                 segName += suffix.unwrap();
             }
 
-            if (not isFirstSeg) {
-                pathStr += "::";
-            }
-            pathStr += segName.toString();
-
             // TODO: Resolve segment generics
 
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
@@ -482,6 +477,11 @@ namespace jc::resolve {
             if (unresSeg.some()) {
                 break;
             }
+
+            if (not isFirstSeg) {
+                pathStr += "::";
+            }
+            pathStr += segName.toString();
         }
 
         if (unresSeg.some()) {
