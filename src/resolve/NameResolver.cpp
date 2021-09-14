@@ -1,8 +1,7 @@
 #include "resolve/NameResolver.h"
 
 namespace jc::resolve {
-    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {
-    }
+    NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
@@ -396,6 +395,13 @@ namespace jc::resolve {
                 segName += suffix.unwrap();
             }
 
+            if (isPrefixSeg) {
+                if (not isFirstSeg) {
+                    pathStr += "::";
+                }
+                pathStr += segName.toString();
+            }
+
             // TODO: Resolve segment generics
 
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
@@ -466,13 +472,6 @@ namespace jc::resolve {
 
             if (unresSeg.some()) {
                 break;
-            }
-
-            if (isPrefixSeg) {
-                if (not isFirstSeg) {
-                    pathStr += "::";
-                }
-                pathStr += segName.toString();
             }
         }
 
