@@ -107,7 +107,7 @@ namespace jc::dt {
             return *this;
         }
 
-        template<class U>
+        template<typename U>
         Option<U> map(const std::function<Option<U>(const T&)> & f) const {
             if (some()) {
                 return f(unchecked());
