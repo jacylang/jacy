@@ -69,6 +69,8 @@ namespace jc::resolve {
                 }
 
                 resolutionFail = false;
+            }).otherwise([&]() {
+                setUnresSeg(i, None, false);
             });
 
             if (resolutionFail) {
@@ -147,5 +149,39 @@ namespace jc::resolve {
 
         // If no suffix present and there are multiple overloads -- it is an ambiguous use
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
+    }
+
+    /**
+     * @brief Add help messages with alternatives for unresolved name
+     * @param target Namespace to exclude from alternatives
+     * @param name
+     * @param altDefs Alternative definitions found in scope
+     */
+    void PathResolver::suggestAltNames(
+        Namespace target,
+        const Symbol & name,
+        const PerNS<IntraModuleDef::Opt> & altDefs
+    ) {
+        altDefs.each([&](IntraModuleDef::Opt intraModuleDef, Namespace nsKind) {
+            if (nsKind == target or intraModuleDef.none()) {
+                return;
+            }
+            std::string kind;
+            if (intraModuleDef.unwrap().isFuncOverload()) {
+                kind = "function";
+            } else {
+                kind = sess->defTable.getDef(intraModuleDef.unwrap().asDef()).kindStr();
+            }
+            suggestHelp(
+                log::fmt(
+                    "Alternative: '",
+                    name,
+                    "' ",
+                    kind,
+                    ", but it cannot be used as ",
+                    Def::nsAsUsageStr(target)
+                )
+            );
+        });
     }
 }

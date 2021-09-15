@@ -29,6 +29,10 @@ namespace jc::resolve {
 
     private:
         Result<DefId, std::string> getDefId(const IntraModuleDef & intraModuleDef, Symbol segName, Symbol::Opt suffix);
+
+        // Suggestions //
+    private:
+        void suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs);
     };
 }
 

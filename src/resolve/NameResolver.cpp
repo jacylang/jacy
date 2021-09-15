@@ -552,49 +552,6 @@ namespace jc::resolve {
         return false;
     }
 
-    /**
-     * @brief Add help messages with alternatives for unresolved name
-     * @param target Namespace to exclude from alternatives
-     * @param name
-     * @param altDefs Alternative definitions found in scope
-     */
-    void NameResolver::suggestAltNames(
-        Namespace target,
-        const Symbol & name,
-        const PerNS<IntraModuleDef::Opt> & altDefs
-    ) {
-        altDefs.each([&](IntraModuleDef::Opt intraModuleDef, Namespace nsKind) {
-            if (nsKind == target or intraModuleDef.none()) {
-                return;
-            }
-            std::string kind;
-            if (intraModuleDef.unwrap().isFuncOverload()) {
-                kind = "function";
-            } else {
-                kind = sess->defTable.getDef(intraModuleDef.unwrap().asDef()).kindStr();
-            }
-            log.dev(
-                "Found alternative for unresolved name '",
-                name,
-                "' as ",
-                kind,
-                " in ",
-                Module::nsToString(nsKind),
-                " namespace"
-            );
-            suggestHelp(
-                log::fmt(
-                    "Alternative: '",
-                    name,
-                    "' ",
-                    kind,
-                    ", but it cannot be used as ",
-                    Def::nsAsUsageStr(target)
-                )
-            );
-        });
-    }
-
     // Debug //
     void NameResolver::printRib() {
         if (not printRibsFlag or ribStack.empty()) {
