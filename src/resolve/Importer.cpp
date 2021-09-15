@@ -67,7 +67,7 @@ namespace jc::resolve {
         DefKind lastPathSegKind;
         bool inaccessible = false;
         Option<UnresSeg> unresSeg = None;
-        DefPerNS defPerNs{None, None, None};
+        DefPerNS defPerNs;
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i);
@@ -129,10 +129,10 @@ namespace jc::resolve {
                 uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
                 PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
-                defPerNs.each([&](DefId::Opt optDefId, Namespace nsKind) {
-                    if (optDefId.some()) {
+                defPerNs.each([&](const auto & defs, Namespace nsKind) {
+                    for (const auto & defId : defs) {
                         defsCount++;
-                        const auto & defVis = sess->defTable.getDefVis(optDefId.unwrap());
+                        const auto & defVis = sess->defTable.getDefVis(defId);
                         defsPerNSVis.set(nsKind, defVis);
                         if (defVis == DefVis::Pub) {
                             visDefsCount++;
@@ -146,14 +146,14 @@ namespace jc::resolve {
                 } else {
                     // Note: We check visibility for definitions
                     //  and invoke callback even if some definitions are private
-                    defPerNs.each([&](DefId::Opt optDefId, Namespace nsKind) {
-                        optDefId.then([&](const auto & defId) {
+                    defPerNs.each([&](const auto & defs, Namespace nsKind) {
+                        for (const auto & defId : defs) {
                             // Report "Cannot access" only if this is the only one inaccessible item
                             if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
                                 inaccessible = true;
                                 unresSeg = {i, defId};
                             }
-                        });
+                        }
                     });
                 }
             }

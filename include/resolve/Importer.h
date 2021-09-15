@@ -8,7 +8,7 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    using DefPerNS = PerNS<DefId::Opt>;
+    using DefPerNS = PerNS<std::vector<DefId>>;
     struct PathResult {
         DefPerNS defPerNs;
         const Symbol segName;
