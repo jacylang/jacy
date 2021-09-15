@@ -70,12 +70,12 @@ namespace jc::resolve {
             }
         }
 
-        auto asDef() const {
+        DefId asDef() const {
             assertKind(Kind::Target);
             return std::get<DefId>(val);
         }
 
-        auto asFuncOverload() const {
+        FuncOverloadId asFuncOverload() const {
             assertKind(Kind::FuncOverload);
             return std::get<FuncOverloadId>(val);
         }

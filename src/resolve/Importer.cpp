@@ -111,7 +111,7 @@ namespace jc::resolve {
                     pathStr += segName.toString();
 
                     if (i == path.segments.size() - 1) {
-                        defPerNs.set(Namespace::Type, defId);
+                        defPerNs.get(Namespace::Type).emplace_back(defId);
                     }
                 });
 

@@ -11,8 +11,8 @@ namespace jc::resolve {
     using DefPerNS = PerNS<std::vector<DefId>>;
     struct PathResult {
         DefPerNS defPerNs;
-        const Symbol segName;
-        const span::Span segSpan;
+        Symbol segName;
+        span::Span segSpan;
     };
 
     /// Path resolution style
