@@ -11,9 +11,7 @@ namespace jc::resolve {
     using dt::Result;
 
     enum class ResMode {
-        // Prefix says that we need to collect
-        Prefix,
-        Target,
+        Specific,
     };
 
     /**
