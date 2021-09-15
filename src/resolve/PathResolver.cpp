@@ -43,12 +43,14 @@ namespace jc::resolve {
                 }
             }
 
-            auto resolution = searchMod->find(ns, segName).map<DefId>([&](const IntraModuleDef & def) -> DefId::Opt {
+            bool resolutionFail = true;
+            DefId::Opt resolution = None;
+            searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
                 auto defResult = getDefId(def, segName, suffix);
 
                 if (defResult.err()) {
                     setUnresSeg(i, None, false);
-                    return None;
+                    return;
                 }
 
                 auto defId = defResult.unwrap();
@@ -56,17 +58,33 @@ namespace jc::resolve {
 
                 if (not isFirstSeg and vis != DefVis::Pub) {
                     setUnresSeg(i, defId, true);
-                    return None;
+                    return;
                 }
 
                 // If it's a prefix segment -- enter sub-module to continue search
                 if (isPrefixSeg) {
                     searchMod = sess->defTable.getModule(defId);
                 } else {
-                    return defId;
+                    resolution = defId;
                 }
+
+                resolutionFail = false;
             });
+
+            if (resolutionFail) {
+                break;
+            }
+
+            if (resolution.some()) {
+            }
+
+            if (not isFirstSeg) {
+                pathStr += "::";
+            }
+            pathStr += segName.toString();
         }
+
+
     }
 
     Result<DefId, std::string> PathResolver::getDefId(
