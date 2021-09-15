@@ -26,21 +26,34 @@ namespace jc::resolve {
             PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
             for (size_t size = 0; i < path.segments.size(); i++) {
-                const auto & seg = path.segments.at(i).unwrap();
-
                 bool isFirstSeg = i == 0;
                 bool isPrefixSeg = i < path.segments() - 1;
                 bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
                 Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
+                const auto & seg = path.segments.at(i).unwrap();
+                const auto & segName = seg.ident.unwrap().sym;
+
                 if (isSingleOrPrefix) {
+                    // Find item to search for next segments in.
                     // If resolving a single-segment path -- look up in target namespace.
-                    // If resolving a
+                    // If resolving a multi-segment path -- look up in type namespace.
                     auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
                     while (true) {
-                        if (searchMod->has(Namespace::Type, ))
+                        if (searchMod->has(searchNS, segName)) {
+                            break;
+                        }
+
+                        if (searchMod->parent.none()) {
+                            // TODO: Resolution error - Reached ROOT module and nothing found
+                            break;
+                        }
+
+                        searchMod = searchMod->parent.unwrap();
                     }
                 }
+
+
             }
         }
 
