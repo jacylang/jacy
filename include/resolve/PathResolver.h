@@ -32,6 +32,7 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
+        void checkUnresSeg(const UnresSeg::Opt & unresSeg, const ast::Path & path);
         void suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs);
     };
 }

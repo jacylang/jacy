@@ -90,36 +90,7 @@ namespace jc::resolve {
             pathStr += segName.toString();
         }
 
-        if (unresSeg.some()) {
-            using namespace utils::arr;
-            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
-            // so give different error message
-            const auto & urs = unresSeg.unwrap();
-            const auto & unresolvedSegIdent = expectAt(
-                path.segments,
-                urs.segIndex,
-                "`unresolvedSegIdent`"
-            ).unwrap().ident.unwrap();
-
-            const auto & unresolvedSegName = unresolvedSegIdent.sym;
-
-            if (urs.inaccessible) {
-                const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
-                // Report "Cannot access" error
-                suggestErrorMsg(
-                    log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
-                    unresolvedSegIdent.span
-                );
-            } else {
-                // Report "Not defined" error
-                auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
-                if (not pathStr.empty()) {
-                    msg += " in '" + pathStr + "'";
-                }
-                suggestErrorMsg(msg, unresolvedSegIdent.span);
-                suggestAltNames(targetNS, unresolvedSegName, altDefs);
-            }
-        }
+        checkUnresSeg(unresSeg, path);
 
         return None;
     }
@@ -154,6 +125,42 @@ namespace jc::resolve {
 
         // If no suffix present and there are multiple overloads -- it is an ambiguous use
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
+    }
+
+    void PathResolver::checkUnresSeg(const UnresSeg::Opt & unresSeg, const ast::Path & path) {
+        using namespace utils::arr;
+
+        if (unresSeg.none()) {
+            return;
+        }
+
+        // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+        // so give different error message
+        const auto & urs = unresSeg.unwrap();
+        const auto & unresolvedSegIdent = expectAt(
+            path.segments,
+            urs.segIndex,
+            "`unresolvedSegIdent`"
+        ).unwrap().ident.unwrap();
+
+        const auto & unresolvedSegName = unresolvedSegIdent.sym;
+
+        if (urs.inaccessible) {
+            const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
+            // Report "Cannot access" error
+            suggestErrorMsg(
+                log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
+                unresolvedSegIdent.span
+            );
+        } else {
+            // Report "Not defined" error
+            auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
+            if (not pathStr.empty()) {
+                msg += " in '" + pathStr + "'";
+            }
+            suggestErrorMsg(msg, unresolvedSegIdent.span);
+            suggestAltNames(targetNS, unresolvedSegName, altDefs);
+        }
     }
 
     /**
