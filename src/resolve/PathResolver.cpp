@@ -53,7 +53,7 @@ namespace jc::resolve {
             // `resolution` must be set only if we reached target
             DefId::Opt resolution = None;
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                // Note: bug-check - having function overload in non-value namespace is a bug
+                // Note: Bug check - having function overload in non-value namespace is a bug
                 if (def.isFuncOverload() and ns != Namespace::Value) {
                     log::devPanic(
                         "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"

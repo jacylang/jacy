@@ -11,7 +11,15 @@ namespace jc::resolve {
     using dt::Result;
 
     enum class ResMode {
+        /// The most restricted search:
+        /// - suffix is required for ambiguous functions
         Specific,
+
+        /// Descend to some module and emit specific logic with it.
+        /// - Used by `use path::to::*` (use all) as we need to find `path::to` and then define every item
+        /// - Used by `use path::to::{...}` (use specific), we need to resolve each item from list `{}` separately,
+        ///    searching in module we descent into
+        Descend,
     };
 
     /**
