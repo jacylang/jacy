@@ -10,12 +10,15 @@ namespace jc::resolve {
         std::string pathStr;
         Option<UnresSeg> unresSeg = dt::None;
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
+        size_t unresSegFailIndex = 0;
 
-        const auto & setUnresSeg = [&](size_t index, DefId::Opt defId, bool inaccessible) -> void {
-            unresSeg = UnresSeg {index, defId, inaccessible};
+        const auto & setUnresSeg = [&](DefId::Opt defId, bool inaccessible = false) -> void {
+            unresSeg = UnresSeg {unresSegFailIndex, defId, pathStr, inaccessible};
         };
 
         for (size_t i = 0; i < path.segments.size(); i++) {
+            unresSegFailIndex = i;
+
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
@@ -52,7 +55,7 @@ namespace jc::resolve {
                 auto defResult = getDefId(def, segName, suffix);
 
                 if (defResult.err()) {
-                    setUnresSeg(i, None, false);
+                    setUnresSeg(None);
                     return;
                 }
 
@@ -60,7 +63,7 @@ namespace jc::resolve {
                 auto vis = sess->defTable.getDefVis(defId);
 
                 if (not isFirstSeg and vis != DefVis::Pub) {
-                    setUnresSeg(i, defId, true);
+                    setUnresSeg(defId, true);
                     return;
                 }
 
@@ -73,7 +76,7 @@ namespace jc::resolve {
 
                 resolutionFail = false;
             }).otherwise([&]() {
-                setUnresSeg(i, None, false);
+                setUnresSeg(None);
             });
 
             if (resolutionFail) {

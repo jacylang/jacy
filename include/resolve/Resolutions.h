@@ -17,11 +17,12 @@ namespace jc::resolve {
     struct UnresSeg {
         using Opt = Option<UnresSeg>;
 
-        UnresSeg(size_t segIndex, DefId::Opt defId, bool inaccessible)
-            : segIndex{segIndex}, defId{defId}, inaccessible{inaccessible} {}
+        UnresSeg(size_t segIndex, DefId::Opt defId, const std::string & failPath, bool inaccessible)
+            : segIndex{segIndex}, defId{defId}, failPath{failPath}, inaccessible{inaccessible} {}
 
         size_t segIndex;
         DefId::Opt defId;
+        std::string failPath;
         bool inaccessible;
     };
 
