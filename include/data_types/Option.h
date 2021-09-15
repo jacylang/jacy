@@ -110,7 +110,7 @@ namespace jc::dt {
         template<class U>
         Option<U> map(const std::function<Option<U>(const T&)> & f) const {
             if (some()) {
-                f(unchecked());
+                return f(unchecked());
             }
             return None;
         }
