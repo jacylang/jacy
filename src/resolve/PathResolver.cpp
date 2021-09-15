@@ -163,9 +163,6 @@ namespace jc::resolve {
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
     }
 
-    void PathResolver::checkUnresSeg(const UnresSeg::Opt & unresSeg, const ast::Path & path) {
-    }
-
     /**
      * @brief Add help messages with alternatives for unresolved name
      * @param target Namespace to exclude from alternatives
