@@ -149,9 +149,11 @@ namespace jc::resolve {
         bool has(Namespace nsKind, const Symbol & name) const;
         bool hasAny(const Symbol & name) const;
         IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
-        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
         PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
-        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
+
+        /// @deprecated
+//        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
+//        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
         /**
          * @brief Try to define a new definition in module
