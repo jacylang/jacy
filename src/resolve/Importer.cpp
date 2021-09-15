@@ -67,7 +67,7 @@ namespace jc::resolve {
         DefKind lastPathSegKind;
         bool inaccessible = false;
         Option<UnresSeg> unresSeg = None;
-        DefPerNS defPerNs;
+        PerNS<IntraModuleDef::Opt> defPerNs = {None, None, None};
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             const auto & seg = path.segments.at(i);
@@ -119,7 +119,7 @@ namespace jc::resolve {
                     break;
                 }
             } else if (resKind == PathResKind::Prefix) {
-                defPerNs = _importModule->findAllDefOnly(segName);
+                defPerNs = _importModule->findAll(segName);
 
                 // Save count of found definitions in module
                 // It is useful because
@@ -129,8 +129,8 @@ namespace jc::resolve {
                 uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
                 PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
-                defPerNs.each([&](const auto & defs, Namespace nsKind) {
-                    for (const auto & defId : defs) {
+                defPerNs.each([&](const auto & intraModDef, Namespace nsKind) {
+                    for (const auto & defId : intraModDef) {
                         defsCount++;
                         const auto & defVis = sess->defTable.getDefVis(defId);
                         defsPerNSVis.set(nsKind, defVis);

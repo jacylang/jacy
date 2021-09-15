@@ -8,6 +8,8 @@
 namespace jc::resolve {
     using ast::NodeId;
     using span::Symbol;
+    using MultiDef = std::vector<DefId>;
+    using DefPerNS = PerNS<MultiDef>;
 
     enum class ModuleKind {
         Block,
