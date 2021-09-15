@@ -2,13 +2,14 @@
 
 namespace jc::resolve {
     DefId::Opt PathResolver::resolve(
-        Module::Ptr searchMod,
+        Module::Ptr beginSearchMod,
         Namespace targetNS,
         const ast::Path & path,
         Symbol::Opt suffix
     ) {
         using namespace utils::arr;
 
+        auto searchMod = beginSearchMod;
         std::string pathStr;
         Option<UnresSeg> unresSeg = dt::None;
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};

@@ -10,6 +10,12 @@ namespace jc::resolve {
     using span::Symbol;
     using dt::Result;
 
+    enum class ResMode {
+        // Prefix says that we need to collect
+        Prefix,
+        Target,
+    };
+
     /**
      * @brief Common interface for path resolutions
      */
