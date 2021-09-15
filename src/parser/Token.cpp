@@ -146,10 +146,14 @@ namespace jc::parser {
         }
 
         switch (kind) {
-            case TokenKind::Lit:
+            case TokenKind::Lit: {
+                str += log::fmt(":'", asLit(), "'");
+                break;
+            }
             case TokenKind::Id: {
                 str += asSymbol().toString();
-            } break;
+                break;
+            }
             default: {
                 str += kindToString();
             }
@@ -166,9 +170,13 @@ namespace jc::parser {
         std::string str = kindToString();
 
         switch (kind) {
-            case TokenKind::Lit:
+            case TokenKind::Lit: {
+                str += log::fmt(":'", asLit(), "'");
+                break;
+            }
             case TokenKind::Id: {
                 str += ":'" + asSymbol().toString() + "'";
+                break;
             }
             default:;
         }
