@@ -1,7 +1,7 @@
 #include "resolve/PathResolver.h"
 
 namespace jc::resolve {
-    void PathResolver::resolve(
+    DefId::Opt PathResolver::resolve(
         Module::Ptr searchMod,
         Namespace targetNS,
         const ast::Path & path,
@@ -76,6 +76,7 @@ namespace jc::resolve {
             }
 
             if (resolution.some()) {
+                return resolution.unwrap();
             }
 
             if (not isFirstSeg) {
@@ -84,7 +85,36 @@ namespace jc::resolve {
             pathStr += segName.toString();
         }
 
+        if (unresSeg.some()) {
+            using namespace utils::arr;
+            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
+            // so give different error message
+            const auto & urs = unresSeg.unwrap();
+            const auto & unresolvedSegIdent = expectAt(
+                path.segments,
+                urs.segIndex,
+                "`unresolvedSegIdent`"
+            ).unwrap().ident.unwrap();
 
+            const auto & unresolvedSegName = unresolvedSegIdent.sym;
+
+            if (urs.inaccessible) {
+                const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
+                // Report "Cannot access" error
+                suggestErrorMsg(
+                    log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
+                    unresolvedSegIdent.span
+                );
+            } else {
+                // Report "Not defined" error
+                auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
+                if (not pathStr.empty()) {
+                    msg += " in '" + pathStr + "'";
+                }
+                suggestErrorMsg(msg, unresolvedSegIdent.span);
+                suggestAltNames(targetNS, unresolvedSegName, altDefs);
+            }
+        }
     }
 
     Result<DefId, std::string> PathResolver::getDefId(

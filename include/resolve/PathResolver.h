@@ -22,7 +22,7 @@ namespace jc::resolve {
             this->sess = sess;
         }
 
-        void resolve(Module::Ptr searchMod, Namespace targetNS, const ast::Path & path, Symbol::Opt suffix);
+        DefId::Opt resolve(Module::Ptr searchMod, Namespace targetNS, const ast::Path & path, Symbol::Opt suffix);
 
     private:
         sess::Session::Ptr sess;
