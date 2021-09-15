@@ -8,9 +8,12 @@ namespace jc::resolve {
         Symbol::Opt suffix
     ) {
         std::string pathStr;
-        bool inaccessible = false;
         Option<UnresSeg> unresSeg = dt::None;
         PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
+
+        const auto & setUnresSeg = [&](size_t index, DefId::Opt defId, bool inaccessible) -> void {
+            unresSeg = UnresSeg {index, defId, inaccessible};
+        };
 
         for (size_t i = 0; i < path.segments.size(); i++) {
             bool isFirstSeg = i == 0;
@@ -40,8 +43,29 @@ namespace jc::resolve {
                 }
             }
 
+            DefId::Opt resolution = None;
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                DefId::Opt maybeDefId = None;
+                auto defResult = getDefId(def, segName, suffix);
+
+                if (defResult.err()) {
+                    setUnresSeg(i, None, false);
+                    return;
+                }
+
+                auto defId = defResult.unwrap();
+                auto vis = sess->defTable.getDefVis(defId);
+
+                if (not isFirstSeg and vis != DefVis::Pub) {
+                    setUnresSeg(i, defId, true);
+                    return;
+                }
+
+                // If it's a prefix segment -- enter sub-module to continue search
+                if (isPrefixSeg) {
+                    searchMod = sess->defTable.getModule(defId);
+                } else {
+                    resolution = defId;
+                }
             });
         }
     }

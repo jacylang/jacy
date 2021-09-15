@@ -15,8 +15,12 @@ namespace jc::resolve {
     // Has index in path segments vector and optional definition id,
     // if segment is resolved, but it is private
     struct UnresSeg {
+        UnresSeg(size_t segIndex, DefId::Opt defId, bool inaccessible)
+            : segIndex{segIndex}, defId{defId}, inaccessible{inaccessible} {}
+
         size_t segIndex;
-        DefId::Opt defId = None;
+        DefId::Opt defId;
+        bool inaccessible;
     };
 
     /// One bit for each `PrimType` variant
