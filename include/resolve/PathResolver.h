@@ -28,7 +28,7 @@ namespace jc::resolve {
         sess::Session::Ptr sess;
 
     private:
-        Result<DefId, std::string> getDefId(const IntraModuleDef & intraModuleDef, Symbol::Opt suffix);
+        Result<DefId, std::string> getDefId(const IntraModuleDef & intraModuleDef, Symbol segName, Symbol::Opt suffix);
     };
 }
 

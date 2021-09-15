@@ -46,7 +46,11 @@ namespace jc::resolve {
         }
     }
 
-    Result<DefId, std::string> PathResolver::getDefId(const IntraModuleDef & intraModuleDef, Symbol::Opt suffix) {
+    Result<DefId, std::string> PathResolver::getDefId(
+        const IntraModuleDef & intraModuleDef,
+        Symbol segName,
+        Symbol::Opt suffix
+    ) {
         using namespace std::string_literals;
 
         if (intraModuleDef.isTarget()) {
@@ -55,15 +59,22 @@ namespace jc::resolve {
 
         const auto & funcOverloads = sess->defTable.getFuncOverload(intraModuleDef.asFuncOverload());
 
+        // If suffix is present -- we need to find one certain overload
         if (suffix.some()) {
             const auto & suf = suffix.unwrap();
             const auto & searchResult = funcOverloads.find(suf);
             if (searchResult == funcOverloads.end()) {
-                return Err("Failed to find function"s);
+                return Err(log::fmt("Failed to find function '", segName, "'"));
             }
             return Ok(searchResult->second);
         }
 
+        // If no suffix present -- check if there's only one overload and use it.
+        if (funcOverloads.size() == 1) {
+            return Ok(funcOverloads.begin()->second);
+        }
 
+        // If no suffix present and there are multiple overloads -- it is an ambiguous use
+        return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
     }
 }
