@@ -3,6 +3,8 @@
 
 #include "session/Session.h"
 #include "resolve/Module.h"
+#include "ast/fragments/Path.h"
+#include "suggest/SuggInterface.h"
 
 namespace jc::resolve {
     using span::Suffix;
@@ -10,7 +12,7 @@ namespace jc::resolve {
     /**
      * @brief Common interface for path resolutions
      */
-    class PathResolver {
+    class PathResolver : public sugg::SuggInterface {
     public:
         PathResolver() = default;
         ~PathResolver() = default;
@@ -25,9 +27,9 @@ namespace jc::resolve {
             Option<UnresSeg> unresSeg = dt::None;
             PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
 
-            for (size_t size = 0; i < path.segments.size(); i++) {
+            for (size_t i = 0; i < path.segments.size(); i++) {
                 bool isFirstSeg = i == 0;
-                bool isPrefixSeg = i < path.segments() - 1;
+                bool isPrefixSeg = i < path.segments.size() - 1;
                 bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
                 Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
@@ -53,12 +55,17 @@ namespace jc::resolve {
                     }
                 }
 
-
+                searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
+                    DefId::Opt maybeDefId = None;
+                });
             }
         }
 
     private:
         sess::Session::Ptr sess;
+
+    private:
+
     };
 }
 
