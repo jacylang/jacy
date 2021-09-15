@@ -115,6 +115,14 @@ namespace jc::resolve {
             }
         }
 
+        T & get(Namespace ns) {
+            switch (ns) {
+                case Namespace::Value: return value;
+                case Namespace::Type: return type;
+                case Namespace::Lifetime: return lifetime;
+            }
+        }
+
         void set(Namespace ns, const T & t) {
             switch (ns) {
                 case Namespace::Value: value = t; break;
