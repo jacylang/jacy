@@ -96,7 +96,7 @@ namespace jc::resolve {
                     auto defId = intraModuleDef.asDef();
                     if (not isFirstSeg and sess->defTable.getDefVis(defId) != DefVis::Pub) {
                         inaccessible = true;
-                        unresSeg = {i, defId};
+                        unresSeg = UnresSeg {i, defId};
                         return;
                     }
 
