@@ -23,6 +23,7 @@ namespace jc::resolve {
 
             bool isFirstSeg = i == 0;
             bool isPrefixSeg = i < path.segments.size() - 1;
+            bool isLastSeg = i == path.segments.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
             Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
@@ -48,9 +49,6 @@ namespace jc::resolve {
                 }
             }
 
-            // `resolutionFail` says that we neither found target nor submodule
-            bool resolutionFail = true;
-
             // `resolution` must be set only if we reached target
             DefId::Opt resolution = None;
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
@@ -64,6 +62,8 @@ namespace jc::resolve {
                 auto defId = defResult.unwrap();
                 auto vis = sess->defTable.getDefVis(defId);
 
+                // If it is a first segment, and we found something, but it isn't public -- ok,
+                //  as we either found something in parent module or in module on the same level.
                 if (not isFirstSeg and vis != DefVis::Pub) {
                     setUnresSeg(defId, true);
                     return;
@@ -73,15 +73,15 @@ namespace jc::resolve {
                 if (isPrefixSeg) {
                     searchMod = sess->defTable.getModule(defId);
                 } else {
+                    // TODO: Mode-dependent defs collection
                     resolution = defId;
                 }
-
-                resolutionFail = false;
             }).otherwise([&]() {
                 setUnresSeg(None);
             });
 
-            if (resolutionFail) {
+            // Having `unresSeg` here, says that we neither found target nor submodule
+            if (unresSeg.some()) {
                 break;
             }
 
@@ -141,6 +141,8 @@ namespace jc::resolve {
         if (intraModuleDef.isTarget()) {
             return Ok(intraModuleDef.asDef());
         }
+
+        // TODO: Add bug-check - having function overload in non-value namespace is a bug
 
         const auto & funcOverloads = sess->defTable.getFuncOverload(intraModuleDef.asFuncOverload());
 
