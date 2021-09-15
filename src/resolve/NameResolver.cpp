@@ -399,11 +399,6 @@ namespace jc::resolve {
             const auto & seg = path.segments.at(i).unwrap();
             auto segName = seg.ident.unwrap().sym;
 
-            // Add suffix for last segment if present
-            // if (not isPrefixSeg and suffix.some()) {
-            //     segName += suffix.unwrap();
-            // }
-
             // TODO: Resolve segment generics
 
             // If this is a prefix segment, we need to lookup for a name,
