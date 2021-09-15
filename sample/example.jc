@@ -1,13 +1,3 @@
-struct int {}
-struct uint {}
-
-mod m {
-    func foo {}
-
-    func foo(kek: int, lol: uint) {}
-}
-
-func main {
-    use m::foo;
-
+func foo() {
+    foo();
 }

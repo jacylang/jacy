@@ -182,7 +182,7 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
-        auto[gotLabels, suffix] = Module::getCallSuffix(invoke.args);
+        auto [gotLabels, suffix] = Module::getCallSuffix(invoke.args);
 
         if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
@@ -400,9 +400,9 @@ namespace jc::resolve {
             auto segName = seg.ident.unwrap().sym;
 
             // Add suffix for last segment if present
-            if (not isPrefixSeg and suffix.some()) {
-                segName += suffix.unwrap();
-            }
+            // if (not isPrefixSeg and suffix.some()) {
+            //     segName += suffix.unwrap();
+            // }
 
             // TODO: Resolve segment generics
 
