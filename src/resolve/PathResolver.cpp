@@ -43,7 +43,10 @@ namespace jc::resolve {
                 }
             }
 
+            // `resolutionFail` says that we neither found target nor submodule
             bool resolutionFail = true;
+
+            // `resolution` must be set only if we reached target
             DefId::Opt resolution = None;
             searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
                 auto defResult = getDefId(def, segName, suffix);
@@ -117,6 +120,8 @@ namespace jc::resolve {
                 suggestAltNames(targetNS, unresolvedSegName, altDefs);
             }
         }
+
+        return None;
     }
 
     Result<DefId, std::string> PathResolver::getDefId(
