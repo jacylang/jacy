@@ -107,6 +107,14 @@ namespace jc::dt {
             return *this;
         }
 
+        template<class U>
+        Option<U> map(const std::function<Option<U>(const T&)> & f) const {
+            if (some()) {
+                f(unchecked());
+            }
+            return None;
+        }
+
         bool none() const {
             return storage.index() == NONE_INDEX;
         }
