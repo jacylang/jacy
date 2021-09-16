@@ -47,10 +47,6 @@ namespace jc::resolve {
         return ns.find(name) != ns.end();
     }
 
-    bool Module::hasAny(const Symbol & name) const {
-        return has(Namespace::Type, name) or has(Namespace::Value, name) or has(Namespace::Lifetime, name);
-    }
-
     IntraModuleDef::Opt Module::find(Namespace nsKind, const Symbol & name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);

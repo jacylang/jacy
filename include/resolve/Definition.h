@@ -288,6 +288,7 @@ namespace jc::resolve {
                 case Namespace::Value: return "expression";
                 case Namespace::Type: return "type";
                 case Namespace::Lifetime: return "lifetime";
+                case Namespace::Any: return "[ANY]";
             }
         }
     };
