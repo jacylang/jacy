@@ -46,7 +46,7 @@ namespace jc::resolve {
                 // If resolving a single-segment path (just a function name for example) -- look up in target namespace.
                 // If resolving a multi-segment path -- look up in type namespace.
 
-                // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
+                // TODO: Optimize - try to merge `find` with `has` to avoid additional searching if found
 
                 auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
                 while (true) {
@@ -129,6 +129,8 @@ namespace jc::resolve {
                     }
                 }
             } else if (resMode == ResMode::Import) {
+                log::Logger::devDebug("Resolving last segment of import path '", pathStr, "::(", segName, ")'");
+
                 if (not isLastSeg) {
                     log::devPanic(
                         "`PathResolver::resolve` went through all segments in `Import` resolution mode, but had to stop before last one"
@@ -138,6 +140,7 @@ namespace jc::resolve {
                 const auto & maybeDefs = tryFindAllWithOverloads(searchMod, segName);
 
                 if (maybeDefs.none()) {
+                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::(", segName, ")'");
                     setUnresSeg(None);
                     break;
                 }

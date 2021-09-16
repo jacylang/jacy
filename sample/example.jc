@@ -2,7 +2,7 @@ struct int {}
 struct uint {}
 
 mod m {
-    func foo {}
+    pub func foo {}
 
     func foo(kek: int, lol: uint) {}
 }

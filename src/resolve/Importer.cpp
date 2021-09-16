@@ -7,6 +7,7 @@ namespace jc::resolve {
 
         visitEach(party.items);
 
+        // `PathResolver` has its own suggestion collection, thus we need to extract all of them
         return {None, utils::arr::moveConcat(extractSuggestions(), pathResolver.extractSuggestions())};
     }
 
