@@ -1,7 +1,7 @@
 #include "resolve/PathResolver.h"
 
 namespace jc::resolve {
-    DefId::Opt PathResolver::resolve(
+    ResResult PathResolver::resolve(
         Module::Ptr beginSearchMod,
         Namespace targetNS,
         const ast::Path & path,
@@ -100,7 +100,7 @@ namespace jc::resolve {
             }
 
             if (resolution.some()) {
-                return resolution.unwrap();
+                return resolution.take();
             }
 
             if (not isFirstSeg) {

@@ -10,6 +10,15 @@ namespace jc::resolve {
     using span::Symbol;
     using dt::Result;
 
+    struct ResResult {
+        using ValueT = std::variant<DefId>;
+
+        ResResult(dt::none_t) : val{None} {}
+        ResResult(DefId defId) : val{defId} {}
+
+        Option<ValueT> val;
+    };
+
     enum class ResMode {
         /// The most restricted search:
         /// - suffix is required for ambiguous functions
@@ -34,7 +43,7 @@ namespace jc::resolve {
             this->sess = sess;
         }
 
-        DefId::Opt resolve(
+        ResResult resolve(
             Module::Ptr searchMod,
             Namespace targetNS,
             const ast::Path & path,
