@@ -11,7 +11,7 @@ namespace jc::resolve {
     using dt::Result;
 
     struct ResResult {
-        using ValueT = std::variant<DefId>;
+        using ValueT = std::variant<DefId, std::vector<DefId>>;
 
         /// Kind is useless from view of logic and used for safety as we use `DefId`
         ///  variant for both Module and Specific.
@@ -20,10 +20,12 @@ namespace jc::resolve {
             Error,
             Specific,
             Module,
+            Import,
         };
 
         ResResult(dt::none_t) : kind{Kind::Error}, val{None} {}
         ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
+        ResResult(std::vector<DefId> && defs) : kind{Kind::Import}, val{std::move()(defs)} {}
 
         Kind kind;
         Option<ValueT> val;
@@ -39,6 +41,9 @@ namespace jc::resolve {
         /// - Used by `use path::to::{...}` (use specific), we need to resolve each item from list `{}` separately,
         ///    searching in module we descent into
         Descend,
+
+        /// Mode used by `use path::to::something` where we're trying to find everything available
+        Import,
     };
 
     /**
