@@ -11,7 +11,7 @@ namespace jc::resolve {
     using dt::Result;
 
     struct ResResult {
-        using ValueT = std::variant<DefId, std::vector<DefId>>;
+        using ValueT = std::variant<DefId, MultiDef>;
 
         /// Kind is useless from view of logic and used for safety as we use `DefId`
         ///  variant for both Module and Specific.
@@ -25,7 +25,7 @@ namespace jc::resolve {
 
         ResResult(dt::none_t) : kind{Kind::Error}, val{None} {}
         ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
-        ResResult(std::vector<DefId> && defs) : kind{Kind::Import}, val{std::move(defs)} {}
+        ResResult(MultiDef && defs) : kind{Kind::Import}, val{std::move(defs)} {}
 
         auto err() const {
             return kind == Kind::Error;
@@ -53,7 +53,7 @@ namespace jc::resolve {
             if (kind != Kind::Import) {
                 log::devPanic("Called `ResResult::asImport` on non-import result");
             }
-            return std::get<std::vector<DefId>>(val.unwrap());
+            return std::get<MultiDef>(val.unwrap());
         }
 
     private:

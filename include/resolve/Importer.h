@@ -9,12 +9,6 @@
 #include "resolve/PathResolver.h"
 
 namespace jc::resolve {
-    struct PathResult {
-        DefPerNS defPerNs;
-        Symbol segName;
-        span::Span segSpan;
-    };
-
     /// Path resolution style
     /// `Prefix`
     ///   - Resolve all path segments except last one
@@ -53,7 +47,7 @@ namespace jc::resolve {
         // Resolutions //
     private:
         PathResolver pathResolver;
-        void define(PathResult && pathResult, const Option<Symbol> & rebind);
+        void define(const const ast::Path & path, const Option<Symbol> & rebind);
     };
 }
 
