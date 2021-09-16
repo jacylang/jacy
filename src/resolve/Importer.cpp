@@ -3,6 +3,7 @@
 namespace jc::resolve {
     dt::SuggResult<dt::none_t> Importer::declare(sess::Session::Ptr sess, const ast::Party & party) {
         this->sess = sess;
+        pathResolver.init(sess);
 
         visitEach(party.items);
 

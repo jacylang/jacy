@@ -5,6 +5,8 @@ namespace jc::resolve {
 
     dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
+        pathResolver.init(sess);
+
         printRibsFlag = config::Config::getInstance().checkPrint(config::Config::PrintKind::Ribs);
 
         log::assertLogic(sess->modTreeRoot.unwrap()->parent.none(), "Root module must not have parent");
