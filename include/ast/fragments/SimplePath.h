@@ -4,6 +4,7 @@
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
 #include "data_types/Option.h"
+#include "ast/fragments/PathInterface.h"
 
 namespace jc::ast {
     struct SimplePathSeg : Node {
@@ -17,7 +18,7 @@ namespace jc::ast {
         }
     };
 
-    struct SimplePath : Node {
+    struct SimplePath : Node, PathInterface {
         SimplePath(
             bool global,
             std::vector<SimplePathSeg> && segments,
@@ -28,6 +29,22 @@ namespace jc::ast {
 
         bool global;
         std::vector<SimplePathSeg> segments;
+
+        bool isGlobal() const override {
+            return global;
+        }
+
+        size_t size() const override {
+            return segments.size();
+        }
+
+        Ident getSegIdent(size_t index) const override {
+            return segments.at(index).ident.unwrap();
+        }
+
+        GenericParam::OptList getSegGenerics(size_t index) const override {
+            return dt::None;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
