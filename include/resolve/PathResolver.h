@@ -38,7 +38,7 @@ namespace jc::resolve {
             Module::Ptr searchMod,
             Namespace targetNS,
             const ast::Path & path,
-            Symbol::Opt suffix
+            Symbol::Opt suffix,
             ResMode resMode
         );
 

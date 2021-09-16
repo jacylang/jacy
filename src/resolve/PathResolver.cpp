@@ -53,47 +53,46 @@ namespace jc::resolve {
                 }
             }
 
-            if (isPrefixSeg or resMode == ResMode::Specific) {
-                // `resolution` must be set only if we reached target
-                DefId::Opt resolution = None;
-                searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                    // Note: Bug check - having function overload in non-value namespace is a bug
-                    if (def.isFuncOverload() and ns != Namespace::Value) {
-                        log::devPanic(
-                            "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"
-                        );
-                    }
+            // All search kinds start with descending to some module.
+            // `Descend` specifically just descends to module.
 
-                    auto defResult = getDefId(def, segName, suffix);
+            // `resolution` must be set only if we reached target (for `Specific` mode)
+            DefId::Opt resolution = None;
+            searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
+                // Note: Bug check - having function overload in non-value namespace is a bug
+                if (def.isFuncOverload() and ns != Namespace::Value) {
+                    log::devPanic(
+                        "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"
+                    );
+                }
 
-                    if (defResult.err()) {
-                        setUnresSeg(None);
-                        return;
-                    }
+                auto defResult = getDefId(def, segName, suffix);
 
-                    auto defId = defResult.unwrap();
-                    auto vis = sess->defTable.getDefVis(defId);
-
-                    // If it is a first segment, and we found something, but it isn't public -- ok,
-                    //  as we either found something in parent module or in module on the same level.
-                    if (not isFirstSeg and vis != DefVis::Pub) {
-                        setUnresSeg(defId, true);
-                        return;
-                    }
-
-                    // If it's a prefix segment -- enter sub-module to continue search
-                    if (isPrefixSeg) {
-                        searchMod = sess->defTable.getModule(defId);
-                    } else {
-                        // TODO: Mode-dependent defs collection
-                        resolution = defId;
-                    }
-                }).otherwise([&]() {
+                if (defResult.err()) {
                     setUnresSeg(None);
-                });
-            } else if (resMode == ResMode::Descend) {
+                    return;
+                }
 
-            }
+                auto defId = defResult.unwrap();
+                auto vis = sess->defTable.getDefVis(defId);
+
+                // If it is a first segment, and we found something, but it isn't public -- ok,
+                //  as we either found something in parent module or in module on the same level.
+                if (not isFirstSeg and vis != DefVis::Pub) {
+                    setUnresSeg(defId, true);
+                    return;
+                }
+
+                // If it's a prefix segment -- enter sub-module to continue search
+                if (isPrefixSeg) {
+                    searchMod = sess->defTable.getModule(defId);
+                } else {
+                    // TODO: Mode-dependent defs collection
+                    resolution = defId;
+                }
+            }).otherwise([&]() {
+                setUnresSeg(None);
+            });
 
             // Having `unresSeg` here, says that we neither found target nor submodule
             if (unresSeg.some()) {
