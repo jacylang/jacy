@@ -32,6 +32,10 @@ namespace jc::ast {
         bool global;
         PathSeg::List segments;
 
+        bool isGlobal() const override {
+            return global;
+        }
+
         size_t size() const override {
             return segments.size();
         }
