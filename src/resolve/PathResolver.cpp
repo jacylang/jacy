@@ -124,28 +124,19 @@ namespace jc::resolve {
                     );
                 }
 
-                const auto & defPerNS = searchMod->findAll(segName);
+                const auto & defsPerNS = tryFindAllWithOverloads(searchMod, segName);
 
-                // Save count of found definitions in module
-                // It is useful because
-                // - If count is 0 then it is an error
-                // - If count is 1 then we report an error if item is private
-                // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we skip private items
-                uint8_t defsCount = 0;
                 uint8_t visDefsCount = 0;
                 PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
-                defPerNS.each([&](const auto & intraModDef, Namespace nsKind) {
-                    intraModDef.then([&](const auto & def) {
-                        if (def.isFuncOverload()) {
-                            // TODO
-                        }
+                defsPerNS.each([&](const auto & defIds, Namespace nsKind) {
+                    for (const auto & defId : defIds) {
                         defsCount++;
-                        const auto & defVis = sess->defTable.getDefVis(def.asDef());
+                        const auto & defVis = sess->defTable.getDefVis(defId);
                         defsPerNSVis.set(nsKind, defVis);
                         if (defVis == DefVis::Pub) {
                             visDefsCount++;
                         }
-                    });
+                    }
                 });
 
                 if (defsCount == 0) {
@@ -154,7 +145,7 @@ namespace jc::resolve {
                 } else {
                     // Note: We check visibility for definitions
                     //  and invoke callback even if some definitions are private
-                    defPerNS.each([&](const IntraModuleDef::Opt & intraModDef, Namespace nsKind) {
+                    defsPerNS.each([&](const IntraModuleDef::Opt & intraModDef, Namespace nsKind) {
                         intraModDef.then([&](const auto & def) {
                             if (def.isFuncOverload()) {
                                 // TODO
@@ -247,14 +238,16 @@ namespace jc::resolve {
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
     }
 
-    PerNS<std::vector<DefId>> PathResolver::findAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
+    PerNS<std::vector<DefId>>::Opt PathResolver::tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
         auto allIntraDefs = mod->findAll(name);
 
+        bool somethingFound = false;
         PerNS<std::vector<DefId>> allWithOverloads;
         allIntraDefs.each([&](const IntraModuleDef::Opt & intraModuleDef, Namespace ns) {
             if (intraModuleDef.none()) {
                 return;
             }
+            somethingFound = true;
             const auto & def = intraModuleDef.unwrap();
             if (def.isTarget()) {
                 allWithOverloads.set(ns, {def.asDef()});
@@ -265,6 +258,10 @@ namespace jc::resolve {
                 }
             }
         });
+
+        if (not somethingFound) {
+            return None;
+        }
 
         return allWithOverloads;
     }

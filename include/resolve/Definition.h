@@ -103,6 +103,8 @@ namespace jc::resolve {
     // As, actually, mostly everything else ❤🔥
     template<class T>
     struct PerNS {
+        using Opt = Option<PerNS>;
+
         T value;
         T type;
         T lifetime;

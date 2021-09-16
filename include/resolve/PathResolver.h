@@ -76,7 +76,7 @@ namespace jc::resolve {
             Symbol::Opt suffix
         );
 
-        PerNS<std::vector<DefId>> findAllWithOverloads(const Module::Ptr & mod, Symbol name) const;
+        PerNS<std::vector<DefId>>::Opt tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const;
 
         // Suggestions //
     private:
