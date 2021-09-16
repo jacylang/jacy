@@ -28,6 +28,19 @@ namespace jc::resolve {
         ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
         ResResult(UtterValueT && defs) : kind{Kind::Import}, val{std::move(defs)} {}
 
+        static inline constexpr const char * kindStr(Kind kind) {
+            switch (kind) {
+                case Kind::Error: return "[ERROR]";
+                case Kind::Specific: return "[SPECIFIC]";
+                case Kind::Module: return "[MODULE]";
+                case Kind::Import: return "[IMPORT]";
+            }
+        }
+
+        constexpr const char * kindStr() const {
+            return kindStr(kind);
+        }
+
         auto err() const {
             return kind == Kind::Error;
         }
@@ -37,29 +50,32 @@ namespace jc::resolve {
         }
 
         auto asSpecific() const {
-            if (kind != Kind::Specific) {
-                log::devPanic("Called `ResResult::asSpecific` on non-specific result");
-            }
+            assertKind(Kind::Specific, "asSpecific");
             return std::get<DefId>(val.unwrap());
         }
 
         auto asModuleDef() const {
-            if (kind != Kind::Module) {
-                log::devPanic("Called `ResResult::asModuleDef` on non-module result");
-            }
+            assertKind(Kind::Module, "asModuleDef");
             return std::get<DefId>(val.unwrap());
         }
 
         auto asImport() const {
-            if (kind != Kind::Import) {
-                log::devPanic("Called `ResResult::asImport` on non-import result");
-            }
+            assertKind(Kind::Import, "asImport");
             return std::get<UtterValueT>(val.unwrap());
         }
 
     private:
         Kind kind;
         Option<ValueT> val;
+
+        void assertKind(Kind kind, const std::string & method) const {
+            if (this->kind != kind) {
+                log::devPanic(
+                    "Called `ResResult::", method, "` on an invalid result, expected ",
+                    kindStr(kind), ", got ", kindStr()
+                );
+            }
+        }
     };
 
     enum class ResMode {
