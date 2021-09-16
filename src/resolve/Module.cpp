@@ -23,6 +23,9 @@ namespace jc::resolve {
             case Namespace::Value: return perNS.value;
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
+            case Namespace::None: {
+                log::devPanic("Called `Module::getNS` on `Namespace::None`");
+            }
         }
         log::notImplemented("getNS");
     }
@@ -32,6 +35,9 @@ namespace jc::resolve {
             case Namespace::Value: return perNS.value;
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
+            case Namespace::None: {
+                log::devPanic("Called `Module::getNS` on `Namespace::None`");
+            }
         }
         log::notImplemented("getNS");
     }
