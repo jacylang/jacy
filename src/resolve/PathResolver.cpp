@@ -117,6 +117,57 @@ namespace jc::resolve {
                 }
             }
 
+            if (resMode == ResMode::Import) {
+                if (not isLastSeg) {
+                    log::devPanic(
+                        "`PathResolver::resolve` went through all segments in `Import` resolution mode, had to stop before last"
+                    );
+                }
+
+                const auto & defPerNS = searchMod->findAll(segName);
+
+                // Save count of found definitions in module
+                // It is useful because
+                // - If count is 0 then it is an error
+                // - If count is 1 then we report an error if item is private
+                // - If count is 2 or more (suppose we had more than 3-4 namespaces) then we skip private items
+                uint8_t defsCount = 0;
+                uint8_t visDefsCount = 0;
+                PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
+                defPerNS.each([&](const auto & intraModDef, Namespace nsKind) {
+                    intraModDef.then([&](const auto & def) {
+                        if (def.isFuncOverload()) {
+                            // TODO
+                        }
+                        defsCount++;
+                        const auto & defVis = sess->defTable.getDefVis(def.asDef());
+                        defsPerNSVis.set(nsKind, defVis);
+                        if (defVis == DefVis::Pub) {
+                            visDefsCount++;
+                        }
+                    });
+                });
+
+                if (defsCount == 0) {
+                    // No target found
+                    setUnresSeg(None);
+                } else {
+                    // Note: We check visibility for definitions
+                    //  and invoke callback even if some definitions are private
+                    defPerNS.each([&](const IntraModuleDef::Opt & intraModDef, Namespace nsKind) {
+                        intraModDef.then([&](const auto & def) {
+                            if (def.isFuncOverload()) {
+                                // TODO
+                            }
+                            // Report "Cannot access" only if this is the only one inaccessible item
+                            if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
+                                setUnresSeg(def.asDef(), true);
+                            }
+                        });
+                    });
+                }
+            }
+
             // Having `unresSeg` here, says that we neither found target nor submodule
             if (unresSeg.some()) {
                 break;
