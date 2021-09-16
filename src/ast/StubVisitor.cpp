@@ -377,13 +377,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const SimplePathSeg & seg) {
-        switch (seg.kind) {
-            case SimplePathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-            default:;
-        }
+        seg.ident.autoAccept(*this);
     }
 
     // Patterns //
