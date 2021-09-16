@@ -42,6 +42,10 @@ namespace jc::ast {
             return segments.at(index).ident.unwrap();
         }
 
+        Ident lastSegIdent() const override {
+            return segments.back().ident.unwrap();
+        }
+
         GenericParam::OptList getSegGenerics(size_t index) const override {
             return dt::None;
         }
