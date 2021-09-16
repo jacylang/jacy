@@ -30,7 +30,10 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
         // If path given -- descend to module it points to
         if (useTree.path.some()) {
-            resolvePath(PathResKind::Full, useTree.path.unwrap());
+            auto descendModDefId = pathResolver.resolve(
+                _importModule, Namespace::None, useTree.path.unwrap(), None, ResMode::Descend
+            ).asModuleDef();
+            _importModule = sess->defTable.getModule(descendModDefId);
         }
 
         // Here, we resolve specifics relatively to current path
@@ -40,12 +43,16 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
-        define(resolvePath(PathResKind::Prefix, useTree.path), useTree.as.unwrap().sym);
+        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, dt::None, ResMode::Import);
+        define(res.asImport(), useTree.path, useTree.as.unwrap().sym);
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
         if (useTree.path.some()) {
-            resolvePath(PathResKind::Full, useTree.path.unwrap());
+            auto descendModDefId = pathResolver.resolve(
+                _importModule, Namespace::None, useTree.path.unwrap(), None, ResMode::Descend
+            ).asModuleDef();
+            _importModule = sess->defTable.getModule(descendModDefId);
         }
 
         _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
@@ -69,11 +76,11 @@ namespace jc::resolve {
         // TODO: Research cases when no the last segment is used!
 
         // Use last segment as target
-        const auto & lastSeg = path.segments.back().unwrap();
-        const auto & segSpan = lastSeg.span;
+        const auto & lastSegIdent = path.lastSegIdent();
+        const auto & segSpan = lastSegIdent.span;
 
         // Use rebinding name or last segment name
-        const auto & segName = rebind.some() ? rebind.unwrap() : lastSeg.ident.unwrap().sym;
+        const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
         // Go through each namespace `PathResolver` found item with name in.
         defPerNS.each([&](const MultiDef & defs, Namespace nsKind) {
