@@ -243,11 +243,11 @@ namespace jc::resolve {
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
     }
 
-    PerNS<std::vector<DefId>>::Opt PathResolver::tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
+    ResResult::UtterValueT::Opt PathResolver::tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
         auto allIntraDefs = mod->findAll(name);
 
         bool somethingFound = false;
-        PerNS<std::vector<DefId>> allWithOverloads;
+        ResResult::UtterValueT allWithOverloads;
         allIntraDefs.each([&](const IntraModuleDef::Opt & intraModuleDef, Namespace ns) {
             if (intraModuleDef.none()) {
                 return;
