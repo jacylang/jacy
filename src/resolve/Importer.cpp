@@ -7,7 +7,7 @@ namespace jc::resolve {
 
         visitEach(party.items);
 
-        return {None, extractSuggestions()};
+        return {None, utils::arr::moveConcat(extractSuggestions(), pathResolver.extractSuggestions())};
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
