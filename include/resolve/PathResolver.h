@@ -92,7 +92,7 @@ namespace jc::resolve {
         ResResult resolve(
             Module::Ptr searchMod,
             Namespace targetNS,
-            const ast::Path & path,
+            const ast::PathInterface & path,
             Symbol::Opt suffix,
             ResMode resMode
         );

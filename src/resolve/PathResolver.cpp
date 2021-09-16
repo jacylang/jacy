@@ -4,7 +4,7 @@ namespace jc::resolve {
     ResResult PathResolver::resolve(
         Module::Ptr beginSearchMod,
         Namespace targetNS,
-        const ast::Path & path,
+        const ast::PathInterface & path,
         Symbol::Opt suffix,
         ResMode resMode
     ) {
@@ -28,19 +28,18 @@ namespace jc::resolve {
             unresSeg = UnresSeg {unresSegFailIndex, defId, pathStr, inaccessible};
         };
 
-        for (size_t i = 0; i < path.segments.size(); i++) {
+        for (size_t i = 0; i < path.size(); i++) {
             unresSegFailIndex = i;
 
             bool isFirstSeg = i == 0;
 
             // Note: Hardly "is-prefix" - in case of path `a` there's no prefix segments
-            bool isPrefixSeg = i < path.segments.size() - 1;
-            bool isLastSeg = i == path.segments.size() - 1;
+            bool isPrefixSeg = i < path.size() - 1;
+            bool isLastSeg = i == path.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
             Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
 
-            const auto & seg = path.segments.at(i).unwrap();
-            const auto & segName = seg.ident.unwrap().sym;
+            const auto & segName = path.getSegIdent(i).sym;
 
             if (isSingleOrPrefix) {
                 // Find item to search for next segments in.
@@ -183,11 +182,7 @@ namespace jc::resolve {
         // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
         // so give different error message
         const auto & urs = unresSeg.unwrap();
-        const auto & unresolvedSegIdent = expectAt(
-            path.segments,
-            urs.segIndex,
-            "`unresolvedSegIdent`"
-        ).unwrap().ident.unwrap();
+        const auto & unresolvedSegIdent = path.getSegIdent(urs.segIndex);
 
         const auto & unresolvedSegName = unresolvedSegIdent.sym;
 
