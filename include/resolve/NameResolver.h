@@ -7,6 +7,7 @@
 #include "utils/arr.h"
 #include "suggest/SuggInterface.h"
 #include "resolve/Resolutions.h"
+#include "resolve/PathResolver.h"
 
 namespace jc::resolve {
     using log::Logger;

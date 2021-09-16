@@ -10,6 +10,10 @@ namespace jc::resolve {
     ) {
         using namespace utils::arr;
 
+        if (not sess) {
+            log::devPanic("Use of `PathResolver::resolve`, but `PathResolver` is uninitialized");
+        }
+
         auto searchMod = beginSearchMod;
         std::string pathStr;
         Option<UnresSeg> unresSeg = dt::None;
