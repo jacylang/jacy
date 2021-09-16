@@ -23,7 +23,8 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw.
         // TODO!!!: `pub use...` re-exporting, now all `use`s are public
 
-        define(resolvePath(PathResKind::Prefix, useTree.path), None);
+//        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, None, ResMode::Import);
+        define(res, None);
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
@@ -100,5 +101,9 @@ namespace jc::resolve {
                 });
             }
         });
+    }
+
+    ast::Path Importer::simplePathToPath(const ast::SimplePath & simplePath) {
+
     }
 }

@@ -48,6 +48,9 @@ namespace jc::resolve {
     private:
         PathResolver pathResolver;
         void define(const ResResult::UtterValueT & defPerNS, const ast::Path & path, const Option<Symbol> & rebind);
+
+        /// FIXME: !!! Temporal hack, remove !!!
+        ast::Path simplePathToPath(const ast::SimplePath & simplePath);
     };
 }
 

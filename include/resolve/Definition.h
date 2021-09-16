@@ -67,6 +67,8 @@ namespace jc::resolve {
     }
 
     enum class Namespace {
+        // Just a flag to use instead of Option<Namespace>, never map it or something :)
+        None,
         Value,
         Type,
         Lifetime,
