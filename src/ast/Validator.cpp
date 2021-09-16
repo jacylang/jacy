@@ -599,20 +599,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const SimplePathSeg & seg) {
-        switch (seg.kind) {
-            case SimplePathSeg::Kind::Super:
-            case SimplePathSeg::Kind::Self:
-            case SimplePathSeg::Kind::Party: {
-                if (seg.ident.some()) {
-                    log::devPanic("`ident` exists in non-Ident `SimplePathSeg`");
-                }
-                break;
-            }
-            case SimplePathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-        }
+        seg.ident.autoAccept(*this);
     }
 
     // Patterns //
