@@ -47,7 +47,7 @@ namespace jc::resolve {
         // Resolutions //
     private:
         PathResolver pathResolver;
-        void define(const const ast::Path & path, const Option<Symbol> & rebind);
+        void define(const MultiDef & multiDef, const ast::Path & path, const Option<Symbol> & rebind);
     };
 }
 

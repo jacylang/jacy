@@ -60,9 +60,11 @@ namespace jc::resolve {
         });
     }
 
-    void Importer::define(PathResult && pathResult, const Option<Symbol> & rebind) {
-        const auto & segName = pathResult.segName;
-        const auto & segSpan = pathResult.segSpan;
+    void Importer::define(const MultiDef & multiDef, const ast::Path & path, const Option<Symbol> & rebind) {
+        // TODO: Research cases when no the last segment is used!
+        const auto & lastSeg = path.segments.back().unwrap();
+        const auto & segName = lastSeg.ident.unwrap().sym;
+        const auto & segSpan = lastSeg.span;
         Symbol name = Symbol::empty();
         if (rebind.some()) {
             name = rebind.unwrap();
