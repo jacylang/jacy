@@ -13,9 +13,19 @@ namespace jc::resolve {
     struct ResResult {
         using ValueT = std::variant<DefId>;
 
-        ResResult(dt::none_t) : val{None} {}
-        ResResult(DefId defId) : val{defId} {}
+        /// Kind is useless from view of logic and used for safety as we use `DefId`
+        ///  variant for both Module and Specific.
+        /// It can be removed in the future.
+        enum class Kind : uint8_t {
+            Error,
+            Specific,
+            Module,
+        };
 
+        ResResult(dt::none_t) : kind{Kind::Error}, val{None} {}
+        ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
+
+        Kind kind;
         Option<ValueT> val;
     };
 

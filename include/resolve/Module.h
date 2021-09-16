@@ -118,7 +118,7 @@ namespace jc::resolve {
         ModuleKind kind;
         OptPtr parent = None;
 
-        // Can either be `NodeId` (Block) or `ModuleDef` (Module definition with additional info)
+        // Can either be `NodeId` (Block) or `DefId` (Module definition)
         IdType id;
 
         // Nearest `mod` definition

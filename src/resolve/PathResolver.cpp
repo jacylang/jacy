@@ -84,9 +84,10 @@ namespace jc::resolve {
                 }
 
                 // If it's a prefix segment -- enter sub-module to continue search
-                if (isPrefixSeg) {
+                if (isPrefixSeg or resMode == ResMode::Descend) {
+                    // TODO: Can user enter non-enter-able module?
                     searchMod = sess->defTable.getModule(defId);
-                } else {
+                } else if (resMode == ResMode::Specific) {
                     // TODO: Mode-dependent defs collection
                     resolution = defId;
                 }
@@ -99,8 +100,18 @@ namespace jc::resolve {
                 break;
             }
 
-            if (resolution.some()) {
-                return resolution.take();
+            if (resMode == ResMode::Specific and resolution.some()) {
+                return ResResult {
+                    ResResult::Kind::Specific,
+                    resolution.take()
+                };
+            }
+
+            if (resMode == ResMode::Descend) {
+                return ResResult {
+                    ResResult::Kind::Module,
+                    searchMod->getDefId()
+                };
             }
 
             if (not isFirstSeg) {
