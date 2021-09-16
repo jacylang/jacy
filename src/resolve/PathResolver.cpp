@@ -247,6 +247,28 @@ namespace jc::resolve {
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
     }
 
+    PerNS<std::vector<DefId>> PathResolver::findAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
+        auto allIntraDefs = mod->findAll(name);
+
+        PerNS<std::vector<DefId>> allWithOverloads;
+        allIntraDefs.each([&](const IntraModuleDef::Opt & intraModuleDef, Namespace ns) {
+            if (intraModuleDef.none()) {
+                return;
+            }
+            const auto & def = intraModuleDef.unwrap();
+            if (def.isTarget()) {
+                allWithOverloads.set(ns, {def.asDef()});
+            } else {
+                const auto & overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
+                for (const auto & ovd : overloads) {
+                    allWithOverloads.set(ns, {ovd.second});
+                }
+            }
+        });
+
+        return allWithOverloads;
+    }
+
     /**
      * @brief Add help messages with alternatives for unresolved name
      * @param target Namespace to exclude from alternatives

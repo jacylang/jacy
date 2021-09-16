@@ -54,18 +54,6 @@ namespace jc::resolve {
         return def->second;
     }
 
-    DefId::Opt Module::findDefOnly(Namespace nsKind, const Symbol & name) const {
-        const auto & ns = getNS(nsKind);
-        const auto & def = ns.find(name);
-        if (def == ns.end()) {
-            return None;
-        }
-        if (def->second.isTarget()) {
-            return def->second.asDef();
-        }
-        return None;
-    }
-
     /// Search for name in all namespaces
     /// Mostly used to find alternatives for failed resolutions
     PerNS<IntraModuleDef::Opt> Module::findAll(const Symbol & name) const {
@@ -73,14 +61,6 @@ namespace jc::resolve {
             find(Namespace::Value, name),
             find(Namespace::Type, name),
             find(Namespace::Lifetime, name)
-        };
-    }
-
-    PerNS<DefId::Opt> Module::findAllDefOnly(const Symbol & name) const {
-        return {
-            findDefOnly(Namespace::Value, name),
-            findDefOnly(Namespace::Type, name),
-            findDefOnly(Namespace::Lifetime, name)
         };
     }
 
