@@ -55,7 +55,7 @@ namespace jc::resolve {
 
             // All search kinds start with descending to some module.
             // `Descend` specifically just descends to module.
-
+            // For `Specific` we descend directly to the target resolving definition by last segment.
             if (isPrefixSeg or resMode == ResMode::Specific or resMode == ResMode::Descend) {
                 // `resolution` must be set only if we reached target (for `Specific` mode)
                 DefId::Opt resolution = None;
@@ -98,12 +98,22 @@ namespace jc::resolve {
                     setUnresSeg(None);
                 });
 
-                // Specific resolutions result with definition id
-                if (resMode == ResMode::Specific and resolution.some()) {
-                    return ResResult {
-                        ResResult::Kind::Specific,
-                        resolution.take()
-                    };
+                if (isLastSeg) {
+                    // Specific resolutions result with definition id
+                    if (resMode == ResMode::Specific and resolution.some()) {
+                        return ResResult {
+                            ResResult::Kind::Specific,
+                            resolution.take()
+                        };
+                    }
+
+                    // For descending resolutions we return DefId for resolved module
+                    if (resMode == ResMode::Descend) {
+                        return ResResult {
+                            ResResult::Kind::Module,
+                            searchMod->getDefId()
+                        };
+                    }
                 }
             }
 
@@ -111,16 +121,6 @@ namespace jc::resolve {
             if (unresSeg.some()) {
                 break;
             }
-
-            // For descending resolutions we return DefId for resolved module
-            if (resMode == ResMode::Descend) {
-                return ResResult {
-                    ResResult::Kind::Module,
-                    searchMod->getDefId()
-                };
-            }
-
-            if (resMode == )
 
             if (not isFirstSeg) {
                 pathStr += "::";
