@@ -124,38 +124,32 @@ namespace jc::resolve {
                     );
                 }
 
-                const auto & defsPerNS = tryFindAllWithOverloads(searchMod, segName);
+                const auto & maybeDefs = tryFindAllWithOverloads(searchMod, segName);
 
-                uint8_t visDefsCount = 0;
-                PerNS<Option<DefVis>> defsPerNSVis{None, None, None};
-                defsPerNS.each([&](const auto & defIds, Namespace nsKind) {
+                if (maybeDefs.none()) {
+                    setUnresSeg(None);
+                    break;
+                }
+
+                const auto & defsPerNS = maybeDefs.unwrap();
+
+                // If no public item found -- it is an error as we have nothing to import
+                DefId::Opt onlyInaccessible = None;
+                defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace) {
                     for (const auto & defId : defIds) {
-                        defsCount++;
                         const auto & defVis = sess->defTable.getDefVis(defId);
-                        defsPerNSVis.set(nsKind, defVis);
-                        if (defVis == DefVis::Pub) {
-                            visDefsCount++;
+
+                        // Set "private item" for error only if it is single item.
+                        // If we have `pub func foo` and `func foo` -- we still can export first one
+                        if (onlyInaccessible.none() and defVis != DefVis::Pub) {
+                            onlyInaccessible = defId;
                         }
                     }
                 });
 
-                if (defsCount == 0) {
-                    // No target found
-                    setUnresSeg(None);
-                } else {
-                    // Note: We check visibility for definitions
-                    //  and invoke callback even if some definitions are private
-                    defsPerNS.each([&](const IntraModuleDef::Opt & intraModDef, Namespace nsKind) {
-                        intraModDef.then([&](const auto & def) {
-                            if (def.isFuncOverload()) {
-                                // TODO
-                            }
-                            // Report "Cannot access" only if this is the only one inaccessible item
-                            if (visDefsCount == 1 and defsPerNSVis.get(nsKind).unwrap() != DefVis::Pub) {
-                                setUnresSeg(def.asDef(), true);
-                            }
-                        });
-                    });
+                // Report "Cannot access" only if this is the only one inaccessible item
+                if (onlyInaccessible.some()) {
+                    setUnresSeg(onlyInaccessible.unwrap(), true);
                 }
             }
 
