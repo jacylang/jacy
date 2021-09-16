@@ -25,16 +25,23 @@ namespace jc::resolve {
         // TODO!!!: `pub use...` re-exporting, now all `use`s are public
 
         auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, None, ResMode::Import);
-        define(res.asImport(), useTree.path, None);
+        if (res.ok()) {
+            define(res.asImport(), useTree.path, None);
+        }
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
         // If path given -- descend to module it points to
         if (useTree.path.some()) {
-            auto descendModDefId = pathResolver.resolve(
+            auto res = pathResolver.resolve(
                 _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-            ).asModuleDef();
-            _importModule = sess->defTable.getModule(descendModDefId);
+            );
+            if (res.ok()) {
+                _importModule = sess->defTable.getModule(res.asModuleDef());
+            } else {
+                // Don't visit specifics if resolution failed
+                return;
+            }
         }
 
         // Here, we resolve specifics relatively to current path
@@ -45,15 +52,22 @@ namespace jc::resolve {
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
         auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, dt::None, ResMode::Import);
-        define(res.asImport(), useTree.path, useTree.as.unwrap().sym);
+        if (res.ok()) {
+            define(res.asImport(), useTree.path, useTree.as.unwrap().sym);
+        }
     }
 
     void Importer::visit(const ast::UseTreeAll & useTree) {
         if (useTree.path.some()) {
-            auto descendModDefId = pathResolver.resolve(
+            auto res = pathResolver.resolve(
                 _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-            ).asModuleDef();
-            _importModule = sess->defTable.getModule(descendModDefId);
+            );
+            if (res.ok()) {
+                _importModule = sess->defTable.getModule(res.asModuleDef());
+            } else {
+                // Don't define items if resolution failed
+                return;
+            }
         }
 
         _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
