@@ -53,9 +53,6 @@ namespace jc::resolve {
             const ast::PathInterface & path,
             const Option<Symbol> & rebind
         );
-
-        /// FIXME: !!! Temporal hack, remove !!!
-        ast::Path simplePathToPath(const ast::SimplePath & simplePath);
     };
 }
 

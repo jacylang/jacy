@@ -110,8 +110,4 @@ namespace jc::resolve {
             }
         });
     }
-
-    ast::Path Importer::simplePathToPath(const ast::SimplePath & simplePath) {
-
-    }
 }
