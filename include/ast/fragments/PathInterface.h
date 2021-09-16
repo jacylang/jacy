@@ -7,7 +7,9 @@ namespace jc::ast {
     struct PathInterface {
         virtual ~PathInterface() = default;
 
-        virtual Ident getSegIdent() const = 0;
+        virtual bool isGlobal() const = 0;
+        virtual size_t size() const = 0;
+        virtual Ident getSegIdent(size_t index) const = 0;
         virtual GenericParam::OptList getSegGenerics(size_t index) const = 0;
     };
 }

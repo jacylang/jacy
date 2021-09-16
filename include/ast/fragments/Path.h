@@ -2,6 +2,7 @@
 #define JACY_AST_FRAGMENTS_PATH_H
 
 #include "ast/fragments/Generics.h"
+#include "ast/fragments/PathInterface.h"
 
 namespace jc::ast {
     struct PathSeg : Node {
@@ -24,12 +25,24 @@ namespace jc::ast {
         }
     };
 
-    struct Path : Node {
+    struct Path : Node, PathInterface {
         Path(bool global, PathSeg::List && segments, const Span & span)
             : Node{span}, global{global}, segments{std::move(segments)} {}
 
         bool global;
         PathSeg::List segments;
+
+        size_t size() const override {
+            return segments.size();
+        }
+
+        Ident getSegIdent(size_t index) const override {
+            return segments.at(index).unwrap().ident.unwrap();
+        }
+
+        GenericParam::OptList getSegGenerics(size_t index) const override {
+            return segments.at(index).unwrap().generics;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
