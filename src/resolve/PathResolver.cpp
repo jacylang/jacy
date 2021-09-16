@@ -10,6 +10,10 @@ namespace jc::resolve {
     ) {
         using namespace utils::arr;
 
+        // TODO: global (`::path::from::root`)
+
+        // TODO!!!: Keyword segments: self, super, etc.
+
         if (not sess) {
             log::devPanic("Use of `PathResolver::resolve`, but `PathResolver` is uninitialized");
         }
@@ -42,6 +46,9 @@ namespace jc::resolve {
                 // Find item to search for next segments in.
                 // If resolving a single-segment path -- look up in target namespace.
                 // If resolving a multi-segment path -- look up in type namespace.
+
+                // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
+
                 auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
                 while (true) {
                     if (searchMod->has(searchNS, segName)) {

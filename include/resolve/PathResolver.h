@@ -25,8 +25,31 @@ namespace jc::resolve {
 
         ResResult(dt::none_t) : kind{Kind::Error}, val{None} {}
         ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
-        ResResult(std::vector<DefId> && defs) : kind{Kind::Import}, val{std::move()(defs)} {}
+        ResResult(std::vector<DefId> && defs) : kind{Kind::Import}, val{std::move(defs)} {}
 
+        auto err() const {
+            return kind == Kind::Error;
+        }
+
+        auto ok() const {
+            return kind != Kind::Error;
+        }
+
+        auto asSpecific() const {
+            if (kind != Kind::Specific) {
+                log::devPanic("Called `ResResult::asSpecific` on non-specific result");
+            }
+            return std::get<DefId>();
+        }
+
+        auto asModuleDef() const {
+            if (kind != Kind::Module) {
+                log::devPanic("Called `ResResult::asModuleDef` on non-specific result");
+            }
+            return std::get<Module>();
+        }
+
+    private:
         Kind kind;
         Option<ValueT> val;
     };

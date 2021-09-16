@@ -362,12 +362,11 @@ namespace jc::resolve {
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
     void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path, const Symbol::Opt & suffix) {
-        // TODO: global
-
-        // TODO: Generic args not allowed in local variables, check for single-seg path with generics
+        // TODO: Resolve segment generics
 
         // Resolve local //
-        // If path is one segment long then it can be a local variable
+        // If path is one segment long then it can be a local variable.
+        // TODO: Don't try to resolve local, if it is single-element path but has generics though
         if (path.segments.size() == 1) {
             const auto & seg = path.segments.at(0).unwrap();
             const auto & ident = seg.ident.unwrap().sym;
@@ -377,152 +376,8 @@ namespace jc::resolve {
             }
         }
 
-        // TODO!!!: Keyword segments: self, super, etc.
-
-        // Resolve complex path //
-
-        Module::Ptr searchMod = sess->defTable.getModule(currentModule->nearestModDef);
-        // Path as string, built iterating through path segments
-        // When resolution fails, it contains all segments we dived into
-        std::string pathStr;
-        bool inaccessible = false;
-        Option<UnresSeg> unresSeg  = None;
-        PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
-
-        for (size_t i = 0; i < path.segments.size(); i++) {
-            // For path prefix `a::b::` we find segments in type namespace,
-            // but last segment is resolved in target namespace
-            bool isFirstSeg = i == 0;
-            bool isPrefixSeg = i < path.segments.size() - 1;
-            Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
-
-            const auto & seg = path.segments.at(i).unwrap();
-            auto segName = seg.ident.unwrap().sym;
-
-            // TODO: Resolve segment generics
-
-            // If this is a prefix segment, we need to lookup for a name,
-            //  as it can be from parent (or grandparent+) scope
-            if (isPrefixSeg or (path.segments.size() == 1 and isFirstSeg)) {
-                // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
-                while (true) {
-                    log.dev("Trying to find '", segName, "' first segment");
-                    if (searchMod->has(Namespace::Type, segName) or searchMod->parent.none()) {
-                        break;
-                    }
-                    searchMod = searchMod->parent.unwrap();
-                }
-            }
-
-            searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                DefId::Opt maybeDefId = None;
-                if (def.isFuncOverload()) {
-                    // Function overload cannot be a prefix of the path thus just don't even try to find something inside
-                    if (not isPrefixSeg) {
-                        const auto & overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
-
-                        if (suffix.none()) {
-                            // If no suffix provided then only one overload can be referenced non-ambiguous
-                            if (overloads.size() == 1) {
-                                maybeDefId = overloads.begin()->second;
-                                log.dev("Found single function for '", pathStr, "' - ", maybeDefId.unwrap());
-                            } else {
-                                log.dev("Ambiguous use of function '", segName, "'");
-                                suggestErrorMsg(
-                                    log::fmt(
-                                        "Use of function '",
-                                        segName,
-                                        "' is ambiguous, use labels to disambiguate"
-                                    ),
-                                    path.span
-                                );
-                                return;
-                            }
-                        } else {
-                            const auto & foundOverload = overloads.find(suffix.unwrap());
-                            if (foundOverload == overloads.end()) {
-                                const auto & fullName = segName + suffix.unwrap();
-                                log.dev("Failed to find function '", fullName, "'");
-                                suggestErrorMsg(
-                                    log::fmt("Failed to find function '", fullName, "'"),
-                                    path.span
-                                );
-                                return;
-                            }
-                            maybeDefId = foundOverload->second;
-                        }
-                    }
-                } else {
-                    maybeDefId = def.asDef();
-                }
-
-                auto defId = maybeDefId.unwrap();
-                // Check visibility
-                // Note: We check if current segment is not the first one,
-                //  because items in a module are visible for other items in it, and we already found the name
-                // Note!: Order matters, we need to check visibility before descend to next module
-                if (not isFirstSeg and sess->defTable.getDefVis(defId) != DefVis::Pub) {
-                    inaccessible = true;
-                    unresSeg = {i, defId};
-                    log.dev("Failed to resolve '", segName, "' as it is a private def ", defId);
-                    return;
-                }
-
-                if (isPrefixSeg) {
-                    // Resolve prefix path, `a::b::` (before target)
-                    searchMod = sess->defTable.getModule(defId);
-                    log.dev("Search in module by path segment '", pathStr, "' with def id ", defId);
-                } else {
-                    // Resolve last segment
-                    _resolutions.setRes(path.id, Res {defId});
-                    log.dev("Resolved path '", pathStr, "::", segName, "' as def id ", defId);
-                }
-            }).otherwise([&]() {
-                // Resolution failed
-                log.dev("Failed to resolve '", segName, "' by path '", pathStr, "'");
-                unresSeg = {i, None};
-                altDefs = searchMod->findAll(segName);
-            });
-
-            if (unresSeg.some()) {
-                break;
-            }
-
-            if (not isFirstSeg) {
-                pathStr += "::";
-            }
-            pathStr += segName.toString();
-        }
-
-        if (unresSeg.some()) {
-            using namespace utils::arr;
-            // If `pathStr` is empty -- we failed to resolve local variable or item from current module,
-            // so give different error message
-            const auto & unresolvedSegIdent = expectAt(
-                path.segments,
-                unresSeg.unwrap().segIndex,
-                "`unresolvedSegIdent`"
-            ).unwrap().ident.unwrap();
-
-            const auto & unresolvedSegName = unresolvedSegIdent.sym;
-
-            if (inaccessible) {
-                const auto & defKind = sess->defTable.getDef(unresSeg.unwrap().defId.unwrap()).kindStr();
-                // Report "Cannot access" error
-                suggestErrorMsg(
-                    log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
-                    unresolvedSegIdent.span
-                );
-            } else {
-                // Report "Not defined" error
-                auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
-                if (not pathStr.empty()) {
-                    msg += " in '" + pathStr + "'";
-                }
-                suggestErrorMsg(msg, unresolvedSegIdent.span);
-                suggestAltNames(targetNS, unresolvedSegName, altDefs);
-            }
-        }
+        auto
+        _resolutions.setRes(path.id, Res {defId});
     }
 
     /**
