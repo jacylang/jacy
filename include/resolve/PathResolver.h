@@ -39,14 +39,21 @@ namespace jc::resolve {
             if (kind != Kind::Specific) {
                 log::devPanic("Called `ResResult::asSpecific` on non-specific result");
             }
-            return std::get<DefId>();
+            return std::get<DefId>(val.unwrap());
         }
 
         auto asModuleDef() const {
             if (kind != Kind::Module) {
-                log::devPanic("Called `ResResult::asModuleDef` on non-specific result");
+                log::devPanic("Called `ResResult::asModuleDef` on non-module result");
             }
-            return std::get<Module>();
+            return std::get<DefId>(val.unwrap());
+        }
+
+        auto asImport() const {
+            if (kind != Kind::Import) {
+                log::devPanic("Called `ResResult::asImport` on non-import result");
+            }
+            return std::get<std::vector<DefId>>(val.unwrap());
         }
 
     private:
