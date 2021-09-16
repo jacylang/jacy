@@ -24,7 +24,7 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw.
         // TODO!!!: `pub use...` re-exporting, now all `use`s are public
 
-        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, None, ResMode::Import);
+        auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, None, ResMode::Import);
         define(res.asImport(), useTree.path, None);
     }
 
@@ -44,7 +44,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseTreeRebind & useTree) {
-        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, dt::None, ResMode::Import);
+        auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, dt::None, ResMode::Import);
         define(res.asImport(), useTree.path, useTree.as.unwrap().sym);
     }
 
