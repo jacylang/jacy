@@ -32,7 +32,7 @@ namespace jc::resolve {
         // If path given -- descend to module it points to
         if (useTree.path.some()) {
             auto descendModDefId = pathResolver.resolve(
-                _importModule, Namespace::None, useTree.path.unwrap(), None, ResMode::Descend
+                _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
             ).asModuleDef();
             _importModule = sess->defTable.getModule(descendModDefId);
         }
@@ -51,7 +51,7 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseTreeAll & useTree) {
         if (useTree.path.some()) {
             auto descendModDefId = pathResolver.resolve(
-                _importModule, Namespace::None, useTree.path.unwrap(), None, ResMode::Descend
+                _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
             ).asModuleDef();
             _importModule = sess->defTable.getModule(descendModDefId);
         }
