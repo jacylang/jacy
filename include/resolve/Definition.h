@@ -67,8 +67,8 @@ namespace jc::resolve {
     }
 
     enum class Namespace {
-        // Just a flag to use instead of Option<Namespace>, never map it or something :)
-        None,
+        // Just a flag to use is some cases, never map it or something, only helper :)
+        Any,
         Value,
         Type,
         Lifetime,
@@ -116,6 +116,9 @@ namespace jc::resolve {
                 case Namespace::Value: return value;
                 case Namespace::Type: return type;
                 case Namespace::Lifetime: return lifetime;
+                case Namespace::Any: {
+                    log::devPanic("Called `PerNS::get` with `Namespace::Any`");
+                }
             }
         }
 
@@ -124,6 +127,9 @@ namespace jc::resolve {
                 case Namespace::Value: return value;
                 case Namespace::Type: return type;
                 case Namespace::Lifetime: return lifetime;
+                case Namespace::Any: {
+                    log::devPanic("Called `PerNS::get` with `Namespace::Any`");
+                }
             }
         }
 
@@ -132,6 +138,9 @@ namespace jc::resolve {
                 case Namespace::Value: value = t; break;
                 case Namespace::Type: type = t; break;
                 case Namespace::Lifetime: lifetime = t; break;
+                case Namespace::Any: {
+                    log::devPanic("Called `PerNS::set` with `Namespace::Any`");
+                }
             }
         }
 

@@ -33,7 +33,7 @@ namespace jc::resolve {
 
             bool isFirstSeg = i == 0;
 
-            // Note: Hardly "is-prefix" - in case of path `a` there's no prefix segments
+            // Note: Hardly "is-prefix" - in case of path `a` (single-element path) there's no prefix segments
             bool isPrefixSeg = i < path.size() - 1;
             bool isLastSeg = i == path.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
@@ -43,7 +43,7 @@ namespace jc::resolve {
 
             if (isSingleOrPrefix) {
                 // Find item to search for next segments in.
-                // If resolving a single-segment path -- look up in target namespace.
+                // If resolving a single-segment path (just a function name for example) -- look up in target namespace.
                 // If resolving a multi-segment path -- look up in type namespace.
 
                 // TODO: Optimize - merge `find` with `has` to avoid additional searching if found
