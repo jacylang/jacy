@@ -60,19 +60,24 @@ namespace jc::resolve {
         });
     }
 
-    void Importer::define(const MultiDef & multiDef, const ast::Path & path, const Option<Symbol> & rebind) {
+    void Importer::define(
+        const ResResult::UtterValueT & defPerNS,
+        const ast::Path & path,
+        const Option<Symbol> & rebind
+    ) {
         // TODO: Research cases when no the last segment is used!
+
+        // Use last segment as target
         const auto & lastSeg = path.segments.back().unwrap();
-        const auto & segName = lastSeg.ident.unwrap().sym;
         const auto & segSpan = lastSeg.span;
-        Symbol name = Symbol::empty();
-        if (rebind.some()) {
-            name = rebind.unwrap();
-        } else {
-            name = segName;
-        }
-        pathResult.defPerNs.each([&](const DefId::Opt & optDefId, Namespace nsKind) {
-            optDefId.then([&](const auto & defId) {
+
+        // Use rebinding name or last segment name
+        const auto & segName = rebind.some() ? rebind.unwrap() : lastSeg.ident.unwrap().sym;
+
+        // Go through each namespace `PathResolver` found item with name in.
+        defPerNS.each([&](const MultiDef & defs, Namespace nsKind) {
+            // Go through each definition (only functions have multiple definitions)
+            for (const auto & defId : defs) {
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const IntraModuleDef & intraModuleDef) {
                     if (intraModuleDef.isFuncOverload()) {
                         // TODO!!: Think how to handle function overloads
@@ -93,7 +98,7 @@ namespace jc::resolve {
                         )
                     );
                 });
-            });
+            }
         });
     }
 }
