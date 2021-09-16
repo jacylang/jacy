@@ -376,8 +376,20 @@ namespace jc::resolve {
             }
         }
 
-        auto
-        _resolutions.setRes(path.id, Res {defId});
+        auto res = pathResolver.resolve(
+            sess->defTable.getModule(currentModule->nearestModDef),
+            targetNS,
+            path,
+            suffix,
+            ResMode::Specific
+        );
+
+        if (res.ok()) {
+            _resolutions.setRes(path.id, Res {res.asSpecific()});
+        } else {
+            // Set error resolution
+            _resolutions.setRes(path.id, Res {});
+        }
     }
 
     /**
