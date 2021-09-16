@@ -251,7 +251,7 @@ namespace jc::parser {
                 auto item = maybeItem.take().take();
                 item->setAttributes(std::move(attributes));
                 item->setVis(std::move(vis));
-                return Some(PR<N<Item>>(Ok{std::move(item)}));
+                return Some(PR<N<Item>>(Ok {std::move(item)}));
             } else {
                 return maybeItem.take();
             }
@@ -304,14 +304,14 @@ namespace jc::parser {
     Vis Parser::parseVis() {
         const auto & pub = skipOptKw(Kw::Pub);
 
-        VisKind kind{VisKind::Unset};
+        VisKind kind {VisKind::Unset};
         span::Span::Opt span = None;
         if (pub.some()) {
             kind = ast::VisKind::Pub;
             span = pub.unwrap().span;
         }
 
-        return Vis{kind, span};
+        return Vis {kind, span};
     }
 
     Item::Ptr Parser::parseEnum() {
@@ -409,7 +409,8 @@ namespace jc::parser {
             std::move(generics),
             std::move(name),
             std::move(body),
-            closeSpan(begin));
+            closeSpan(begin)
+        );
     }
 
     Item::Ptr Parser::parseImpl() {
@@ -432,7 +433,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Impl, Item>(
-            std::move(generics), Ok{std::move(traitTypePath)}, std::move(forType), std::move(members), closeSpan(begin));
+            std::move(generics), Ok {std::move(traitTypePath)}, std::move(forType), std::move(members), closeSpan(begin)
+        );
     }
 
     Item::Ptr Parser::parseStruct() {
@@ -463,7 +465,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Struct, Item>(
-            std::move(name), std::move(generics), std::move(fields), closeSpan(begin));
+            std::move(name), std::move(generics), std::move(fields), closeSpan(begin)
+        );
     }
 
     StructField::List Parser::parseStructFields() {
@@ -537,7 +540,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Trait, Item>(
-            std::move(name), std::move(generics), std::move(superTraits), std::move(members), closeSpan(begin));
+            std::move(name), std::move(generics), std::move(superTraits), std::move(members), closeSpan(begin)
+        );
     }
 
     Item::Ptr Parser::parseTypeAlias() {
@@ -559,7 +563,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<TypeAlias, Item>(
-            std::move(name), std::move(type), closeSpan(begin));
+            std::move(name), std::move(type), closeSpan(begin)
+        );
     }
 
     Item::Ptr Parser::parseMod() {
@@ -638,7 +643,8 @@ namespace jc::parser {
                 exitEntity();
 
                 return makePRBoxNode<UseTreeSpecific, UseTree>(
-                    std::move(maybePath), std::move(specifics), closeSpan(begin));
+                    std::move(maybePath), std::move(specifics), closeSpan(begin)
+                );
             }
 
             if (maybePath.some()) {
@@ -831,7 +837,8 @@ namespace jc::parser {
 
                 params.push_back(
                     makeNode<LambdaParam>(
-                        std::move(pat), std::move(type), closeSpan(paramBegin))
+                        std::move(pat), std::move(type), closeSpan(paramBegin)
+                    )
                 );
             }
 
@@ -851,7 +858,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Lambda, Expr>(
-            std::move(params), std::move(returnType), std::move(body), closeSpan(begin));
+            std::move(params), std::move(returnType), std::move(body), closeSpan(begin)
+        );
     }
 
     Expr::OptPtr Parser::assignment() {
@@ -874,7 +882,9 @@ namespace jc::parser {
 
             return Some(
                 makePRBoxNode<Assign, Expr>(
-                    lhs.take(), maybeAssignOp, std::move(rhs), closeSpan(begin)));
+                    lhs.take(), maybeAssignOp, std::move(rhs), closeSpan(begin)
+                )
+            );
         }
 
         return lhs;
@@ -964,7 +974,7 @@ namespace jc::parser {
         {0b11, {TokenKind::Add,    TokenKind::Sub}},
         {0b11, {TokenKind::Mul,    TokenKind::Div,    TokenKind::Rem}},
         {0b11, {TokenKind::Power}}, // Note: Right-assoc
-//        {0b11, {TokenKind::As}},
+        //        {0b11, {TokenKind::As}},
     };
 
     Expr::OptPtr Parser::prefix() {
@@ -972,10 +982,10 @@ namespace jc::parser {
         const auto & op = peek();
         if (
             skipOptKw(Kw::Not).some() or
-            skipOpt(TokenKind::Sub).some() or
-            skipOpt(TokenKind::Ampersand).some() or
-            skipOpt(TokenKind::Mul).some()
-        ) {
+                skipOpt(TokenKind::Sub).some() or
+                skipOpt(TokenKind::Ampersand).some() or
+                skipOpt(TokenKind::Mul).some()
+            ) {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
@@ -1184,7 +1194,8 @@ namespace jc::parser {
         }
 
         suggestErrorMsg(
-            "Expected identifier, `super`, `self` or `party` in path, got " + tok.toString(), cspan());
+            "Expected identifier, `super`, `self` or `party` in path, got " + tok.toString(), cspan()
+        );
 
         return makeErrPR<Ident>(span);
     }
@@ -1232,7 +1243,8 @@ namespace jc::parser {
                     makePRBoxNode<SpreadExpr, Expr>(
                         maybeSpreadOp,
                         parseExpr("Expected expression after spread operator `...` in list expression"),
-                        maybeSpreadOp.span.to(cspan()))
+                        maybeSpreadOp.span.to(cspan())
+                    )
                 );
             } else {
                 elements.push_back(parseExpr("Expression expected"));
@@ -1408,7 +1420,8 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<IfExpr, Expr>(
-            std::move(condition), std::move(ifBranch), std::move(elseBranch), closeSpan(begin));
+            std::move(condition), std::move(ifBranch), std::move(elseBranch), closeSpan(begin)
+        );
     }
 
     Expr::Ptr Parser::parseLoopExpr() {
@@ -1437,7 +1450,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Semi).some()) {
             // `match` body is ignored with `;`
             exitEntity();
-            return makePRBoxNode<MatchExpr, Expr>(std::move(subject), MatchArm::List{}, closeSpan(begin));
+            return makePRBoxNode<MatchExpr, Expr>(std::move(subject), MatchArm::List {}, closeSpan(begin));
         }
 
         skip(
@@ -1557,7 +1570,7 @@ namespace jc::parser {
 
     Attr::List Parser::parseAttrList() {
         Attr::List attributes;
-        for (auto attr = parseAttr(); attr.some();) {
+        for (auto attr = parseAttr() ; attr.some() ;) {
             attributes.push_back(attr.take());
         }
 
@@ -1628,7 +1641,7 @@ namespace jc::parser {
             if (skipOptKw(Kw::Move).some() or
                 skipOptKw(Kw::Mut).some() or
                 skipOptKw(Kw::Static).some()
-            ) {
+                ) {
                 logParse("Modifier:'" + modifier.kindToString() + "'");
                 modifiers.push_back(modifier);
             } else {
@@ -1702,7 +1715,8 @@ namespace jc::parser {
             std::move(pat),
             std::move(type),
             std::move(defaultValue),
-            closeSpan(begin));
+            closeSpan(begin)
+        );
     }
 
     Item::List Parser::parseMembers(const std::string & construction) {
@@ -1926,11 +1940,12 @@ namespace jc::parser {
                     return makePRBoxNode<UnitType, Type>(closeSpan(begin));
                 } else if (
                     tupleElements.size() == 1 and
-                    tupleElements.at(0).name.none() and
-                    tupleElements.at(0).type.some()
-                ) {
+                        tupleElements.at(0).name.none() and
+                        tupleElements.at(0).type.some()
+                    ) {
                     return makePRBoxNode<ParenType, Type>(
-                        tupleElements.at(0).type.take(), closeSpan(begin));
+                        tupleElements.at(0).type.take(), closeSpan(begin)
+                    );
                 }
                 return makePRBoxNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
             }
@@ -1983,7 +1998,9 @@ namespace jc::parser {
             tupleElements.push_back(
                 makeNode<TupleTypeEl>(
                     std::move(name), std::move(type), elBegin.to(
-                        cspan()))
+                        cspan()
+                    )
+                )
             );
             elIndex++;
         }
@@ -2005,7 +2022,8 @@ namespace jc::parser {
             skip(TokenKind::RBracket, "Missing closing `]` in array type");
             exitEntity();
             return makePRBoxNode<ArrayType, Type>(
-                std::move(type), std::move(sizeExpr), closeSpan(begin));
+                std::move(type), std::move(sizeExpr), closeSpan(begin)
+            );
         }
 
         skip(TokenKind::RBracket, "Missing closing `]` in slice type");
@@ -2092,7 +2110,8 @@ namespace jc::parser {
                 }
                 generics.push_back(
                     makeBoxNode<ConstParam>(
-                        std::move(name), std::move(type), std::move(defaultValue), closeSpan(genBegin))
+                        std::move(name), std::move(type), std::move(defaultValue), closeSpan(genBegin)
+                    )
                 );
             } else {
                 suggestErrorMsg("Expected type parameter", genBegin);
@@ -2269,10 +2288,10 @@ namespace jc::parser {
 
                 auto pat = parsePat();
 
-                elements.emplace_back(StructPatternDestructEl{std::move(ident), std::move(pat)});
+                elements.emplace_back(StructPatternDestructEl {std::move(ident), std::move(pat)});
             } else {
                 // `ref? mut? field` case
-                elements.emplace_back(StructPatBorrowEl{ref.some(), mut.some(), std::move(ident)});
+                elements.emplace_back(StructPatBorrowEl {ref.some(), mut.some(), std::move(ident)});
             }
         }
 
@@ -2321,7 +2340,7 @@ namespace jc::parser {
     void Parser::logEntry(bool enter, const std::string & entity) {
         using log::Color;
         using log::Indent;
-        const auto & msg = std::string(enter ? "> Enter" : "< Exit") +" `" + entity + "`";
+        const auto & msg = std::string(enter ? "> Enter" : "< Exit") + " `" + entity + "`";
         const auto & depth = entitiesEntries.size() > 0 ? entitiesEntries.size() - 1 : 0;
         devLogWithIndent(
             (enter ? Color::DarkGreen : Color::DarkRed),
@@ -2363,3 +2382,4 @@ namespace jc::parser {
         }
         logParse(entity);
     }
+}

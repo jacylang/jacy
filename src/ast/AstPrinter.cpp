@@ -705,25 +705,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const SimplePathSeg & seg) {
-        switch (seg.kind) {
-            case SimplePathSeg::Kind::Super: {
-                log.raw("super");
-                break;
-            }
-            case SimplePathSeg::Kind::Self: {
-                log.raw("self");
-                break;
-            }
-            case SimplePathSeg::Kind::Party: {
-                log.raw("party");
-                break;
-            }
-            case SimplePathSeg::Kind::Ident: {
-                seg.ident.unwrap().autoAccept(*this);
-                break;
-            }
-        }
-
+        seg.ident.autoAccept(*this);
         printNodeId(seg);
     }
 

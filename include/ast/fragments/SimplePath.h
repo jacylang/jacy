@@ -10,7 +10,7 @@ namespace jc::ast {
         SimplePathSeg(Ident::PR && ident, const Span & span)
             : Node{span}, ident{std::move(ident)} {}
 
-        Ident::OptPR ident = None;
+        Ident::PR ident;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
