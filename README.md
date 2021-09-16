@@ -5,6 +5,8 @@
 # *Jacy* programming language
 
 ![GitHub search hit counter](https://img.shields.io/github/search/jacylang/Jacy/meow?color=%23f36d6c&style=for-the-badge)
+![GitHub repo size](https://img.shields.io/github/repo-size/jacylang/Jacy?color=%23f36d6c&style=for-the-badge)
+![Lines of code](https://img.shields.io/tokei/lines/github/jacylang/jacy?color=f36d6c&style=for-the-badge)
 
 | Resource | Description |
 | --- | --- |
