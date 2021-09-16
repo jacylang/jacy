@@ -148,22 +148,22 @@ namespace jc::resolve {
                 const auto & defsPerNS = maybeDefs.unwrap();
 
                 // If no public item found -- it is an error as we have nothing to import
-                DefId::Opt onlyInaccessible = None;
+                DefId::Opt singleInaccessible = None;
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace) {
                     for (const auto & defId : defIds) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
 
                         // Set "private item" for error only if it is single item.
                         // If we have `pub func foo` and `func foo` -- we still can export first one
-                        if (onlyInaccessible.none() and defVis != DefVis::Pub) {
-                            onlyInaccessible = defId;
+                        if (singleInaccessible.none() and defVis != DefVis::Pub) {
+                            singleInaccessible = defId;
                         }
                     }
                 });
 
                 // Report "Cannot access" only if this is the only one inaccessible item
-                if (onlyInaccessible.some()) {
-                    setUnresSeg(onlyInaccessible.unwrap(), true);
+                if (singleInaccessible.some()) {
+                    setUnresSeg(singleInaccessible.unwrap(), true);
                 }
             }
 
