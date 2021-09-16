@@ -50,10 +50,6 @@ namespace jc::resolve {
 
                 auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
                 while (true) {
-                    log::Logger::devDebug(
-                        "Trying to find find intro module for '", segName, "' in namespace '",
-                        Module::nsToString(searchNS)
-                    );
                     if (searchMod->has(searchNS, segName)) {
                         break;
                     }
@@ -105,9 +101,9 @@ namespace jc::resolve {
                     } else if (resMode == ResMode::Specific) {
                         // TODO: Mode-dependent defs collection
                         resolution = defId;
+                    } else {
+                        log::devPanic("`PathResolver::resolve` reach end of search in module");
                     }
-
-                    log::devPanic("`PathResolver::resolve` reach end of search in module");
                 }).otherwise([&]() {
                     setUnresSeg(None);
                 });
