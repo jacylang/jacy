@@ -5,9 +5,9 @@
 # *Jacy* programming language
 
 <p align="center">
-    <a><img alt="meow" src="https://img.shields.io/github/search/jacylang/Jacy/meow?color=%23f36d6c&style=for-the-badge"></a>
-    <a><img alt="Размер репы" src="https://img.shields.io/github/repo-size/jacylang/Jacy?color=%23f36d6c&style=for-the-badge"></a>
-    <a><img alt="строчечки" src="https://img.shields.io/tokei/lines/github/jacylang/jacy?color=f36d6c&style=for-the-badge"></a>
+    <a href="https://c.tenor.com/jFn8sS1Et-0AAAAM/cat.gif"><img alt="meow" src="https://img.shields.io/github/search/jacylang/Jacy/meow?color=%23f36d6c&style=for-the-badge"></a>
+    <a href="https://c.tenor.com/jFn8sS1Et-0AAAAM/cat.gif"><img alt="Размер репы" src="https://img.shields.io/github/repo-size/jacylang/Jacy?color=%23f36d6c&style=for-the-badge"></a>
+    <a href="https://c.tenor.com/jFn8sS1Et-0AAAAM/cat.gif"><img alt="строчечки" src="https://img.shields.io/tokei/lines/github/jacylang/jacy?color=f36d6c&style=for-the-badge"></a>
 </p>
 
 | Resource | Description |
