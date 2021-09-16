@@ -5,7 +5,8 @@ namespace jc::resolve {
         Module::Ptr beginSearchMod,
         Namespace targetNS,
         const ast::Path & path,
-        Symbol::Opt suffix
+        Symbol::Opt suffix,
+        ResMode resMode
     ) {
         using namespace utils::arr;
 
@@ -23,6 +24,8 @@ namespace jc::resolve {
             unresSegFailIndex = i;
 
             bool isFirstSeg = i == 0;
+
+            // Note: Hardly "is-prefix" - in case of path `a` there's no prefix segments
             bool isPrefixSeg = i < path.segments.size() - 1;
             bool isLastSeg = i == path.segments.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
@@ -50,43 +53,47 @@ namespace jc::resolve {
                 }
             }
 
-            // `resolution` must be set only if we reached target
-            DefId::Opt resolution = None;
-            searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
-                // Note: Bug check - having function overload in non-value namespace is a bug
-                if (def.isFuncOverload() and ns != Namespace::Value) {
-                    log::devPanic(
-                        "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"
-                    );
-                }
+            if (isPrefixSeg or resMode == ResMode::Specific) {
+                // `resolution` must be set only if we reached target
+                DefId::Opt resolution = None;
+                searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
+                    // Note: Bug check - having function overload in non-value namespace is a bug
+                    if (def.isFuncOverload() and ns != Namespace::Value) {
+                        log::devPanic(
+                            "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"
+                        );
+                    }
 
-                auto defResult = getDefId(def, segName, suffix);
+                    auto defResult = getDefId(def, segName, suffix);
 
-                if (defResult.err()) {
+                    if (defResult.err()) {
+                        setUnresSeg(None);
+                        return;
+                    }
+
+                    auto defId = defResult.unwrap();
+                    auto vis = sess->defTable.getDefVis(defId);
+
+                    // If it is a first segment, and we found something, but it isn't public -- ok,
+                    //  as we either found something in parent module or in module on the same level.
+                    if (not isFirstSeg and vis != DefVis::Pub) {
+                        setUnresSeg(defId, true);
+                        return;
+                    }
+
+                    // If it's a prefix segment -- enter sub-module to continue search
+                    if (isPrefixSeg) {
+                        searchMod = sess->defTable.getModule(defId);
+                    } else {
+                        // TODO: Mode-dependent defs collection
+                        resolution = defId;
+                    }
+                }).otherwise([&]() {
                     setUnresSeg(None);
-                    return;
-                }
+                });
+            } else if (resMode == ResMode::Descend) {
 
-                auto defId = defResult.unwrap();
-                auto vis = sess->defTable.getDefVis(defId);
-
-                // If it is a first segment, and we found something, but it isn't public -- ok,
-                //  as we either found something in parent module or in module on the same level.
-                if (not isFirstSeg and vis != DefVis::Pub) {
-                    setUnresSeg(defId, true);
-                    return;
-                }
-
-                // If it's a prefix segment -- enter sub-module to continue search
-                if (isPrefixSeg) {
-                    searchMod = sess->defTable.getModule(defId);
-                } else {
-                    // TODO: Mode-dependent defs collection
-                    resolution = defId;
-                }
-            }).otherwise([&]() {
-                setUnresSeg(None);
-            });
+            }
 
             // Having `unresSeg` here, says that we neither found target nor submodule
             if (unresSeg.some()) {

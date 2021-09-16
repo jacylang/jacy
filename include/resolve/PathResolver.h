@@ -34,13 +34,23 @@ namespace jc::resolve {
             this->sess = sess;
         }
 
-        DefId::Opt resolve(Module::Ptr searchMod, Namespace targetNS, const ast::Path & path, Symbol::Opt suffix);
+        DefId::Opt resolve(
+            Module::Ptr searchMod,
+            Namespace targetNS,
+            const ast::Path & path,
+            Symbol::Opt suffix
+            ResMode resMode
+        );
 
     private:
         sess::Session::Ptr sess;
 
     private:
-        Result<DefId, std::string> getDefId(const IntraModuleDef & intraModuleDef, Symbol segName, Symbol::Opt suffix);
+        Result<DefId, std::string> getDefId(
+            const IntraModuleDef & intraModuleDef,
+            Symbol segName,
+            Symbol::Opt suffix
+        );
 
         // Suggestions //
     private:
