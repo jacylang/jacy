@@ -23,8 +23,8 @@ namespace jc::resolve {
         // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw.
         // TODO!!!: `pub use...` re-exporting, now all `use`s are public
 
-//        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, None, ResMode::Import);
-        define(res, None);
+        auto res = pathResolver.resolve(_importModule, Namespace::None, useTree.path, None, ResMode::Import);
+        define(res.asImport(), useTree.path, None);
     }
 
     void Importer::visit(const ast::UseTreeSpecific & useTree) {
@@ -63,7 +63,7 @@ namespace jc::resolve {
 
     void Importer::define(
         const ResResult::UtterValueT & defPerNS,
-        const ast::Path & path,
+        const ast::PathInterface & path,
         const Option<Symbol> & rebind
     ) {
         // TODO: Research cases when no the last segment is used!
