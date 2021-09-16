@@ -23,8 +23,8 @@ namespace jc::resolve {
             case Namespace::Value: return perNS.value;
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
-            case Namespace::None: {
-                log::devPanic("Called `Module::getNS` on `Namespace::None`");
+            case Namespace::Any: {
+                log::devPanic("Called `Module::getNS` on `Namespace::Any`");
             }
         }
         log::notImplemented("getNS");
@@ -35,14 +35,18 @@ namespace jc::resolve {
             case Namespace::Value: return perNS.value;
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
-            case Namespace::None: {
-                log::devPanic("Called `Module::getNS` on `Namespace::None`");
+            case Namespace::Any: {
+                log::devPanic("Called `Module::getNS` on `Namespace::Any`");
             }
         }
         log::notImplemented("getNS");
     }
 
     bool Module::has(Namespace nsKind, const Symbol & name) const {
+        if (nsKind == Namespace::Any) {
+            return has(Namespace::Value, name) or has(Namespace::Type, name) or has(Namespace::Lifetime, name);
+        }
+
         const auto & ns = getNS(nsKind);
         return ns.find(name) != ns.end();
     }
