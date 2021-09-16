@@ -67,6 +67,9 @@ namespace jc::resolve {
             // `Descend` specifically just descends to module.
             // For `Specific` we descend directly to the target resolving definition by last segment.
             if (isPrefixSeg or resMode == ResMode::Specific or resMode == ResMode::Descend) {
+                log::Logger::devDebug(
+                    "Resolving segment '", segName, "' in by current path '", pathStr, "' as prefix or descend"
+                );
                 // `resolution` must be set only if we reached target (for `Specific` mode)
                 DefId::Opt resolution = None;
                 searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
@@ -125,12 +128,10 @@ namespace jc::resolve {
                         };
                     }
                 }
-            }
-
-            if (resMode == ResMode::Import) {
+            } else if (resMode == ResMode::Import) {
                 if (not isLastSeg) {
                     log::devPanic(
-                        "`PathResolver::resolve` went through all segments in `Import` resolution mode, had to stop before last"
+                        "`PathResolver::resolve` went through all segments in `Import` resolution mode, but had to stop before last one"
                     );
                 }
 
