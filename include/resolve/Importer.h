@@ -6,6 +6,7 @@
 #include "resolve/Definition.h"
 #include "resolve/Resolutions.h"
 #include "data_types/SuggResult.h"
+#include "resolve/PathResolver.h"
 
 namespace jc::resolve {
     struct PathResult {
@@ -51,7 +52,7 @@ namespace jc::resolve {
 
         // Resolutions //
     private:
-        PathResult resolvePath(PathResKind resKind, const ast::SimplePath & path);
+        PathResolver pathResolver;
         void define(PathResult && pathResult, const Option<Symbol> & rebind);
     };
 }
