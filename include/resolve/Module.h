@@ -266,7 +266,7 @@ namespace jc::resolve {
                 case Namespace::Value: return "value";
                 case Namespace::Type: return "type";
                 case Namespace::Lifetime: return "lifetime";
-                default: return "[NO REPRESENTATION (bug)]";
+                case Namespace::Any: return "[ANY]";
             }
         }
     };

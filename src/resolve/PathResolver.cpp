@@ -50,6 +50,10 @@ namespace jc::resolve {
 
                 auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
                 while (true) {
+                    log::Logger::devDebug(
+                        "Trying to find find intro module for '", segName, "' in namespace '",
+                        Module::nsToString(searchNS)
+                    );
                     if (searchMod->has(searchNS, segName)) {
                         break;
                     }
