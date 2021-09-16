@@ -46,11 +46,11 @@ namespace jc::ast {
             return segments.back().ident.unwrap();
         }
 
-        bool segHasGenerics() const override {
+        bool segHasGenerics(size_t) const override {
             return false;
         }
 
-        const GenericParam::OptList & getSegGenerics(size_t index) const override {
+        const GenericParam::List & getSegGenerics(size_t index) const override {
             log::devPanic("Called `ast::SimplePath::getSegGenerics`");
         }
 

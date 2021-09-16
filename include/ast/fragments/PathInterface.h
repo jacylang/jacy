@@ -11,8 +11,8 @@ namespace jc::ast {
         virtual size_t size() const = 0;
         virtual Ident getSegIdent(size_t index) const = 0;
         virtual Ident lastSegIdent() const = 0;
-        virtual bool segHasGenerics() const = 0;
-        virtual const GenericParam::OptList & getSegGenerics(size_t index) const = 0;
+        virtual bool segHasGenerics(size_t index) const = 0;
+        virtual const GenericParam::List & getSegGenerics(size_t index) const = 0;
     };
 }
 

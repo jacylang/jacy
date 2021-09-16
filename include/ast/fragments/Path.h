@@ -48,8 +48,12 @@ namespace jc::ast {
             return segments.back().unwrap().ident.unwrap();
         }
 
-        const GenericParam::OptList & getSegGenerics(size_t index) const override {
-            return segments.at(index).unwrap().generics;
+        bool segHasGenerics(size_t index) const override {
+            return segments.at(index).unwrap().generics.some();
+        }
+
+        const GenericParam::List & getSegGenerics(size_t index) const override {
+            return segments.at(index).unwrap().generics.unwrap();
         }
 
         void accept(BaseVisitor & visitor) const override {
