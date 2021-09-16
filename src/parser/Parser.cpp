@@ -1767,16 +1767,9 @@ namespace jc::parser {
             logParse("SimplePathSeg:'" + peek().kindToString() + "'");
             const auto & segBegin = cspan();
 
-            if (is(TokenKind::Id)) {
-                auto ident = justParseIdent("`parseOptSimplePath`");
-                segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
-            } else if (skipOptKw(Kw::Super).some()) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Super, closeSpan(segBegin)));
-            } else if (skipOptKw(Kw::Party).some()) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Party, closeSpan(segBegin)));
-            } else if (skipOptKw(Kw::Self).some()) {
-                segments.emplace_back(makeNode<SimplePathSeg>(SimplePathSeg::Kind::Self, closeSpan(segBegin)));
-            }
+            auto ident = parsePathSegIdent();
+
+            segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
 
             if (not is(TokenKind::Path) or not lookup().isPathIdent()) {
                 break;
@@ -1898,11 +1891,13 @@ namespace jc::parser {
         logParse("Type");
 
         const auto & begin = cspan();
+
         auto type = parseOptType();
         if (type.none()) {
             suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
+
         return type.take("`parseType` -> `type`");
     }
 
@@ -2368,4 +2363,3 @@ namespace jc::parser {
         }
         logParse(entity);
     }
-}
