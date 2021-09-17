@@ -50,7 +50,7 @@ namespace jc::resolve {
 
     void ModulePrinter::printNameBinding(const NameBinding & nameBinding) {
         if (nameBinding.isFOS()) {
-            printFuncOverload(nameBinding.asFOS());
+            printFOS(nameBinding.asFOS());
         } else {
             printDef(nameBinding.asDef());
         }
@@ -91,7 +91,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printFuncOverload(const FOSId & funcOverloadId) {
+    void ModulePrinter::printFOS(const FOSId & funcOverloadId) {
         const auto & overloads = sess->defTable.getFOS(funcOverloadId);
         if (overloads.size() == 1) {
             printDef(overloads.begin()->second);
