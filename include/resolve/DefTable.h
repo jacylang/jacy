@@ -51,7 +51,7 @@ namespace jc::resolve {
         /**
          * @brief Get span of the first overload set of some function
          */
-        span::Span getFuncOverloadFirstSpan(FOSId funcOverloadId) const;
+        span::Span getFOSFirstSpan(FOSId fos) const;
 
     private:
         std::vector<Def> defs;
