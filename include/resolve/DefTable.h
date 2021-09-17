@@ -41,7 +41,7 @@ namespace jc::resolve {
         using FuncOverloadMap = std::map<Symbol, DefId>;
 
         const FuncOverloadMap & getFOS(FOSId overloadId) const;
-        FOSId defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix);
+        FOSId defineFOS(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix);
 
         /**
          * @brief Get defId of the first overload of some function

@@ -122,7 +122,7 @@ namespace jc::resolve {
         return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFOS`");
     }
 
-    FOSId DefTable::defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix) {
+    FOSId DefTable::defineFOS(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
@@ -132,7 +132,7 @@ namespace jc::resolve {
         }
 
         auto & overload = utils::arr::expectAtMut(
-            funcOverloads, funcOverloadId.unwrap().val, "`DefTable::defineFuncOverload`"
+            funcOverloads, funcOverloadId.unwrap().val, "`DefTable::defineFOS`"
         );
 
         assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");

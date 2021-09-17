@@ -192,7 +192,7 @@ namespace jc::resolve {
 
         // Create new overload if no exists in current module.
         // Overload name in overloads mapping only contains suffix as base name is a FuncOverloadId.
-        overloadId = _defTable.defineFuncOverload(defId, overloadId, suffix);
+        overloadId = _defTable.defineFOS(defId, overloadId, suffix);
 
         // Define function overload in module
         // Note!: In module, function names do not have suffixes, only base name
