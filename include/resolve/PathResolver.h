@@ -122,8 +122,6 @@ namespace jc::resolve {
             Symbol::Opt suffix
         );
 
-        PerNS<std::vector<DefId>>::Opt tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const;
-
         // Suggestions //
     private:
         void suggestAltNames(Namespace target, const Symbol & name, const PerNS<IntraModuleDef::Opt> & altDefs);

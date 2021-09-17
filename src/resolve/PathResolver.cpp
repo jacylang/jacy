@@ -138,15 +138,13 @@ namespace jc::resolve {
                     );
                 }
 
-                const auto & maybeDefs = tryFindAllWithOverloads(searchMod, segName);
+                const auto & defsPerNS = searchMod->findAll(segName);
 
-                if (maybeDefs.none()) {
-                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::", segName, "'");
-                    setUnresSeg(None);
-                    break;
-                }
-
-                const auto & defsPerNS = maybeDefs.unwrap();
+//                if (maybeDefs.none()) {
+//                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::", segName, "'");
+//                    setUnresSeg(None);
+//                    break;
+//                }
 
                 // If no public item found -- it is an error as we have nothing to import
                 DefId::Opt singleInaccessible = None;
@@ -156,21 +154,26 @@ namespace jc::resolve {
                 // Collection of all found definitions in each namespace
                 IntraModuleDef::PerNS collectedDefs = {None, None, None};
 
-                defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
-                    if (not defIds.empty()) {
-                        log::Logger::devDebug(
-                            "Found these item(-s) by import path '", pathStr, "::", segName, "': ",
-                            defIds, " in ", Module::nsToString(ns), " namespace"
-                        );
+                defsPerNS.each([&](const IntraModuleDef::Opt & maybeDef, Namespace ns) {
+                    if (maybeDef.none()) {
+                        return;
                     }
 
-                    defsCount += defIds.size();
+                    const auto & intraModuleDef = maybeDef.unwrap();
+                    DefId::List definitions;
 
-                    for (const auto & defId : defIds) {
+                    if (intraModuleDef.isTarget()) {
+                        definitions.emplace_back(intraModuleDef.asDef());
+                    } else {
+                        for (const auto & overload : sess->defTable.getFuncOverload(intraModuleDef.asFuncOverload())) {
+                            definitions.emplace_back(overload.second);
+                        }
+                    }
+
+                    for (const auto & defId : definitions) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
-
                         if (defVis == DefVis::Pub) {
-                            collectedDefs.get(ns).emplace_back(defId);
+                            collectedDefs.get(ns) = maybeDef.unwrap();
                         } else {
                             privateDefsCount++;
                             // Set "private item" for error only if it is single item.
@@ -180,6 +183,8 @@ namespace jc::resolve {
                             }
                         }
                     }
+
+                    defsCount++;
                 });
 
                 if (defsCount == 0) {

@@ -41,6 +41,7 @@ namespace jc::resolve {
 
     struct DefId {
         using Opt = Option<DefId>;
+        using List = std::vector<DefId>;
 
         static const DefId ROOT_DEF_ID;
 
