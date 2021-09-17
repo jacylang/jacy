@@ -144,7 +144,7 @@ namespace jc::resolve {
         return getFOS(fosId).begin()->second;
     }
 
-    span::Span DefTable::getFOSFirstSpan(FOSId fos) const {
-        return getDefNameSpan(getFOSFirstDef(fos));
+    span::Span DefTable::getFOSFirstSpan(FOSId fosId) const {
+        return getDefNameSpan(getFOSFirstDef(fosId));
     }
 }
