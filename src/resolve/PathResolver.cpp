@@ -21,7 +21,7 @@ namespace jc::resolve {
         auto searchMod = beginSearchMod;
         std::string pathStr;
         Option<UnresSeg> unresSeg = dt::None;
-        PerNS<IntraModuleDef::Opt> altDefs = {None, None, None};
+        PerNS<NameBinding::Opt> altDefs = {None, None, None};
         size_t unresSegFailIndex = 0;
 
         const auto & setUnresSeg = [&](DefId::Opt defId, bool inaccessible = false) -> void {
@@ -72,7 +72,7 @@ namespace jc::resolve {
                 );
                 // `resolution` must be set only if we reached target (for `Specific` mode)
                 DefId::Opt resolution = None;
-                searchMod->find(ns, segName).then([&](const IntraModuleDef & def) {
+                searchMod->find(ns, segName).then([&](const NameBinding & def) {
                     // Note: Bug check - having function overload in non-value namespace is a bug
                     if (def.isFuncOverload() and ns != Namespace::Value) {
                         log::devPanic(
@@ -146,9 +146,9 @@ namespace jc::resolve {
                 uint16_t defsCount = 0;
 
                 // Collection of all found definitions in each namespace
-                IntraModuleDef::PerNS collectedDefs = {None, None, None};
+                NameBinding::PerNS collectedDefs = {None, None, None};
 
-                defsPerNS.each([&](const IntraModuleDef::Opt & maybeDef, Namespace ns) {
+                defsPerNS.each([&](const NameBinding::Opt & maybeDef, Namespace ns) {
                     if (maybeDef.none()) {
                         return;
                     }
@@ -251,7 +251,7 @@ namespace jc::resolve {
     }
 
     Result<DefId, std::string> PathResolver::getDefId(
-        const IntraModuleDef & intraModuleDef,
+        const NameBinding & intraModuleDef,
         Symbol segName,
         Symbol::Opt suffix
     ) {
@@ -291,9 +291,9 @@ namespace jc::resolve {
     void PathResolver::suggestAltNames(
         Namespace target,
         const Symbol & name,
-        const PerNS<IntraModuleDef::Opt> & altDefs
+        const PerNS<NameBinding::Opt> & altDefs
     ) {
-        altDefs.each([&](IntraModuleDef::Opt intraModuleDef, Namespace nsKind) {
+        altDefs.each([&](NameBinding::Opt intraModuleDef, Namespace nsKind) {
             if (nsKind == target or intraModuleDef.none()) {
                 return;
             }

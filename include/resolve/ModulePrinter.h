@@ -15,7 +15,7 @@ namespace jc::resolve {
         log::Logger log{"ModulePrinter"};
 
         void printMod(Module::Ptr module);
-        void printIntraModDef(const IntraModuleDef & intraModuleDef);
+        void printIntraModDef(const NameBinding & intraModuleDef);
         void printDef(const DefId & defId);
         void printFuncOverload(const FuncOverloadId & funcOverloadId);
         void printIndent();

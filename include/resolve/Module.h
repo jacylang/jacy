@@ -8,7 +8,6 @@
 namespace jc::resolve {
     using ast::NodeId;
     using span::Symbol;
-    using MultiDef = std::vector<DefId>;
 
     enum class ModuleKind {
         Block,
@@ -37,10 +36,10 @@ namespace jc::resolve {
     };
 
     /// Definition stored in `Module`
-    struct IntraModuleDef {
-        using Opt = Option<IntraModuleDef>;
+    struct NameBinding {
+        using Opt = Option<NameBinding>;
         using ValueT = std::variant<DefId, FuncOverloadId>;
-        using PerNS = PerNS<IntraModuleDef::Opt>;
+        using PerNS = PerNS<NameBinding::Opt>;
 
         enum class Kind {
             /// Target definition, does not depend on additional info
@@ -50,8 +49,8 @@ namespace jc::resolve {
             FuncOverload,
         } kind;
 
-        IntraModuleDef(DefId defId) : kind{Kind::Target}, val{defId} {}
-        IntraModuleDef(FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, val {funcOverloadId} {}
+        NameBinding(DefId defId) : kind{Kind::Target}, val{defId} {}
+        NameBinding(FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, val {funcOverloadId} {}
 
         ValueT val;
 
@@ -89,7 +88,7 @@ namespace jc::resolve {
             }
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const IntraModuleDef & intraModuleDef) {
+        friend std::ostream & operator<<(std::ostream & os, const NameBinding & intraModuleDef) {
             if (intraModuleDef.isTarget()) {
                 return os << log::Color::Magenta << intraModuleDef.asDef() << log::Color::Reset;
             } else if (intraModuleDef.isFuncOverload()) {
@@ -102,7 +101,7 @@ namespace jc::resolve {
     struct Module {
         using Ptr = std::shared_ptr<Module>;
         using OptPtr = Option<Ptr>;
-        using NSMap = std::map<Symbol, IntraModuleDef>;
+        using NSMap = std::map<Symbol, NameBinding>;
         using IdType = std::variant<NodeId, DefId>;
 
         Module(
@@ -147,8 +146,8 @@ namespace jc::resolve {
         NSMap & getNS(Namespace ns);
 
         bool has(Namespace nsKind, const Symbol & name) const;
-        IntraModuleDef::Opt find(Namespace nsKind, const Symbol & name) const;
-        PerNS<IntraModuleDef::Opt> findAll(const Symbol & name) const;
+        NameBinding::Opt find(Namespace nsKind, const Symbol & name) const;
+        PerNS<NameBinding::Opt> findAll(const Symbol & name) const;
 
         /// @deprecated
 //        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
@@ -158,8 +157,8 @@ namespace jc::resolve {
          * @brief Try to define a new definition in module
          * @return Old definition in case if redefined, None otherwise
          */
-        IntraModuleDef::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
-            const auto & defined = getNS(ns).emplace(name, IntraModuleDef {defId});
+        NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
+            const auto & defined = getNS(ns).emplace(name, NameBinding {defId});
             // Note: emplace returns `pair<new element iterator, true>` if new element added
             //  and `pair<old element iterator, false>` if tried to re-emplace
             if (not defined.second) {
@@ -169,10 +168,10 @@ namespace jc::resolve {
             return None;
         }
 
-        IntraModuleDef::Opt addFuncOverload(const Symbol & baseName, const FuncOverloadId & funcOverloadId) {
+        NameBinding::Opt addFuncOverload(const Symbol & baseName, const FuncOverloadId & funcOverloadId) {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
-            const auto & defined = getNS(Namespace::Value).emplace(baseName, IntraModuleDef {funcOverloadId});
+            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {funcOverloadId});
             if (not defined.second and defined.first->second.isTarget()) {
                 // User tried to define function with name taken by non-function item
                 return defined.first->second;

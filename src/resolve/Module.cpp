@@ -51,7 +51,7 @@ namespace jc::resolve {
         return ns.find(name) != ns.end();
     }
 
-    IntraModuleDef::Opt Module::find(Namespace nsKind, const Symbol & name) const {
+    NameBinding::Opt Module::find(Namespace nsKind, const Symbol & name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);
         if (def == ns.end()) {
@@ -62,7 +62,7 @@ namespace jc::resolve {
 
     /// Search for name in all namespaces
     /// Mostly used to find alternatives for failed resolutions
-    PerNS<IntraModuleDef::Opt> Module::findAll(const Symbol & name) const {
+    PerNS<NameBinding::Opt> Module::findAll(const Symbol & name) const {
         return {
             find(Namespace::Value, name),
             find(Namespace::Type, name),

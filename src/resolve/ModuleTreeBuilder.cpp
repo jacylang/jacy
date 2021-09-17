@@ -292,7 +292,7 @@ namespace jc::resolve {
     void ModuleTreeBuilder::suggestCannotRedefine(
         const span::Ident & ident,
         DefKind as,
-        const IntraModuleDef & prevModDef,
+        const NameBinding & prevModDef,
         Symbol::Opt suffix
     ) {
         // Note: The only things we can redefine are obviously "named" things,

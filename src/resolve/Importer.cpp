@@ -85,7 +85,7 @@ namespace jc::resolve {
     }
 
     void Importer::define(
-        const IntraModuleDef::PerNS & defPerNS,
+        const NameBinding::PerNS & defPerNS,
         const ast::PathInterface & path,
         const Option<Symbol> & rebind
     ) {
@@ -98,7 +98,7 @@ namespace jc::resolve {
         // Use rebinding name or last segment name
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
-        const auto redefinitionCallback = [&](const IntraModuleDef & intraModuleDef) {
+        const auto redefinitionCallback = [&](const NameBinding & intraModuleDef) {
             if (intraModuleDef.isFuncOverload()) {
                 // TODO!!: Think how to handle function overloads
                 return;
@@ -120,7 +120,7 @@ namespace jc::resolve {
         };
 
         // Go through each namespace `PathResolver` found item with name in.
-        defPerNS.each([&](const IntraModuleDef::Opt & maybeDef, Namespace nsKind) {
+        defPerNS.each([&](const NameBinding::Opt & maybeDef, Namespace nsKind) {
             if (maybeDef.none()) {
                 return;
             }

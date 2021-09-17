@@ -49,7 +49,7 @@ namespace jc::resolve {
         PathResolver pathResolver;
 
         void define(
-            const IntraModuleDef::PerNS & defPerNS,
+            const NameBinding::PerNS & defPerNS,
             const ast::PathInterface & path,
             const Option<Symbol> & rebind
         );
