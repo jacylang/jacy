@@ -50,7 +50,7 @@ namespace jc::resolve {
 
     void ModulePrinter::printNameBinding(const NameBinding & nameBinding) {
         if (nameBinding.isFuncOverload()) {
-            printFuncOverload(nameBinding.asFuncOverload());
+            printFuncOverload(nameBinding.asFOS());
         } else {
             printDef(nameBinding.asDef());
         }

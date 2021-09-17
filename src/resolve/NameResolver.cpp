@@ -301,7 +301,7 @@ namespace jc::resolve {
                                     currentModule->getNS(Namespace::Value),
                                     baseName,
                                     "`NameResolver::enterFuncModule`"
-                                ).asFuncOverload(), suffix
+                                ).asFOS(), suffix
                             );
 
         appendModulePath(baseName + suffix, currentModule->getDefId());

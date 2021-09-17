@@ -159,7 +159,7 @@ namespace jc::resolve {
                     if (nameBinding.isTarget()) {
                         definitions.emplace_back(nameBinding.asDef());
                     } else {
-                        for (const auto & overload : sess->defTable.getFuncOverload(nameBinding.asFuncOverload())) {
+                        for (const auto & overload : sess->defTable.getFuncOverload(nameBinding.asFOS())) {
                             definitions.emplace_back(overload.second);
                         }
                     }
@@ -261,7 +261,7 @@ namespace jc::resolve {
             return Ok(nameBinding.asDef());
         }
 
-        const auto & funcOverloads = sess->defTable.getFuncOverload(nameBinding.asFuncOverload());
+        const auto & funcOverloads = sess->defTable.getFuncOverload(nameBinding.asFOS());
 
         // If suffix is present -- we need to find one certain overload
         if (suffix.some()) {

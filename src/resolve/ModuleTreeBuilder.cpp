@@ -187,7 +187,7 @@ namespace jc::resolve {
         FOSId::Opt overloadId = None;
         if (nameBinding.some()) {
             // Note: It is a bug to have not a func overloading here, due to check above
-            overloadId = nameBinding.unwrap().asFuncOverload();
+            overloadId = nameBinding.unwrap().asFOS();
         }
 
         // Create new overload if no exists in current module.
@@ -305,7 +305,7 @@ namespace jc::resolve {
 
         DefId::Opt prevDefId = None;
         if (prevModDef.isFuncOverload()) {
-            prevDefId = _defTable.getFuncOverloadFirstDef(prevModDef.asFuncOverload());
+            prevDefId = _defTable.getFuncOverloadFirstDef(prevModDef.asFOS());
         } else {
             prevDefId = prevModDef.asDef();
         }

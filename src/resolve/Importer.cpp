@@ -76,7 +76,7 @@ namespace jc::resolve {
                 // Note: for `use a::*` we don't report "redefinition" error
 
                 if (def.second.isFuncOverload()) {
-                    _useDeclModule->tryDefineFOS(def.first, def.second.asFuncOverload());
+                    _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
                 } else {
                     _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
                 }
@@ -128,7 +128,7 @@ namespace jc::resolve {
             const auto & nameBinding = maybeDef.unwrap();
 
             if (nameBinding.isFuncOverload()) {
-                _useDeclModule->tryDefineFOS(segName, nameBinding.asFuncOverload()).then(redefinitionCallback);
+                _useDeclModule->tryDefineFOS(segName, nameBinding.asFOS()).then(redefinitionCallback);
             } else {
                 _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);
             }

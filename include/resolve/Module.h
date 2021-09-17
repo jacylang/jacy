@@ -80,7 +80,7 @@ namespace jc::resolve {
             return std::get<DefId>(val);
         }
 
-        FOSId asFuncOverload() const {
+        FOSId asFOS() const {
             assertKind(Kind::FOS);
             return std::get<FOSId>(val);
         }
@@ -96,7 +96,7 @@ namespace jc::resolve {
             if (nameBinding.isTarget()) {
                 return os << log::Color::Magenta << nameBinding.asDef() << log::Color::Reset;
             } else if (nameBinding.isFuncOverload()) {
-                return os << log::Color::Magenta << nameBinding.asFuncOverload() << log::Color::Reset;
+                return os << log::Color::Magenta << nameBinding.asFOS() << log::Color::Reset;
             }
             log::devPanic("Unhandled `nameBinding::Kind` in `operator<<`");
         }
