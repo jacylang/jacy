@@ -40,7 +40,7 @@ namespace jc::resolve {
     public:
         using FuncOverloadMap = std::map<Symbol, DefId>;
 
-        const FuncOverloadMap & getFuncOverload(FOSId overloadId) const;
+        const FuncOverloadMap & getFOS(FOSId overloadId) const;
         FOSId defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix);
 
         /**

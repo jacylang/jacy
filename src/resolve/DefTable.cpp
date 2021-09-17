@@ -118,8 +118,8 @@ namespace jc::resolve {
     }
 
     // Function overloading //
-    const DefTable::FuncOverloadMap & DefTable::getFuncOverload(FOSId overloadId) const {
-        return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFuncOverload`");
+    const DefTable::FuncOverloadMap & DefTable::getFOS(FOSId overloadId) const {
+        return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFOS`");
     }
 
     FOSId DefTable::defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix) {
@@ -141,7 +141,7 @@ namespace jc::resolve {
     }
 
     DefId DefTable::getFuncOverloadFirstDef(FOSId funcOverloadId) const {
-        return getFuncOverload(funcOverloadId).begin()->second;
+        return getFOS(funcOverloadId).begin()->second;
     }
 
     span::Span DefTable::getFuncOverloadFirstSpan(FOSId funcOverloadId) const {
