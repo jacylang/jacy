@@ -10,4 +10,7 @@ mod m {
 func main {
     use m::foo;
 
+    foo();
+
+    foo(kek: 123, lol: 123);
 }

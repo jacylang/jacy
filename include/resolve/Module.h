@@ -9,7 +9,6 @@ namespace jc::resolve {
     using ast::NodeId;
     using span::Symbol;
     using MultiDef = std::vector<DefId>;
-    using DefPerNS = PerNS<MultiDef>;
 
     enum class ModuleKind {
         Block,
@@ -41,6 +40,7 @@ namespace jc::resolve {
     struct IntraModuleDef {
         using Opt = Option<IntraModuleDef>;
         using ValueT = std::variant<DefId, FuncOverloadId>;
+        using PerNS = PerNS<IntraModuleDef>;
 
         enum class Kind {
             /// Target definition, does not depend on additional info
