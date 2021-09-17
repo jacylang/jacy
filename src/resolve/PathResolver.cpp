@@ -261,21 +261,21 @@ namespace jc::resolve {
             return Ok(nameBinding.asDef());
         }
 
-        const auto & funcOverloads = sess->defTable.getFOS(nameBinding.asFOS());
+        const auto & fos = sess->defTable.getFOS(nameBinding.asFOS());
 
         // If suffix is present -- we need to find one certain overload
         if (suffix.some()) {
             const auto & suf = suffix.unwrap();
-            const auto & searchResult = funcOverloads.find(suf);
-            if (searchResult == funcOverloads.end()) {
+            const auto & searchResult = fos.find(suf);
+            if (searchResult == fos.end()) {
                 return Err(log::fmt("Failed to find function '", segName, "'"));
             }
             return Ok(searchResult->second);
         }
 
         // If no suffix present -- check if there's only one overload and use it.
-        if (funcOverloads.size() == 1) {
-            return Ok(funcOverloads.begin()->second);
+        if (fos.size() == 1) {
+            return Ok(fos.begin()->second);
         }
 
         // If no suffix present and there are multiple overloads -- it is an ambiguous use
