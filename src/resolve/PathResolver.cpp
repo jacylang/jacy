@@ -72,15 +72,15 @@ namespace jc::resolve {
                 );
                 // `resolution` must be set only if we reached target (for `Specific` mode)
                 DefId::Opt resolution = None;
-                searchMod->find(ns, segName).then([&](const NameBinding & def) {
+                searchMod->find(ns, segName).then([&](const NameBinding & nameBinding) {
                     // Note: Bug check - having function overload in non-value namespace is a bug
-                    if (def.isFOS() and ns != Namespace::Value) {
+                    if (nameBinding.isFOS() and ns != Namespace::Value) {
                         log::devPanic(
                             "`PathResolver::resolve` got function `nameBinding` in '", Module::nsToString(ns), "'"
                         );
                     }
 
-                    auto defResult = getDefId(def, segName, suffix);
+                    auto defResult = getDefId(nameBinding, segName, suffix);
 
                     if (defResult.err()) {
                         setUnresSeg(None);
@@ -148,12 +148,12 @@ namespace jc::resolve {
                 // Collection of all found definitions in each namespace
                 NameBinding::PerNS collectedDefs = {None, None, None};
 
-                defsPerNS.each([&](const NameBinding::Opt & maybeDef, Namespace ns) {
-                    if (maybeDef.none()) {
+                defsPerNS.each([&](const NameBinding::Opt & maybeNameBinding, Namespace ns) {
+                    if (maybeNameBinding.none()) {
                         return;
                     }
 
-                    const auto & nameBinding = maybeDef.unwrap();
+                    const auto & nameBinding = maybeNameBinding.unwrap();
                     DefId::List definitions;
 
                     if (nameBinding.isTarget()) {
@@ -167,7 +167,7 @@ namespace jc::resolve {
                     for (const auto & defId : definitions) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
                         if (defVis == Vis::Pub) {
-                            collectedDefs.get(ns) = maybeDef.unwrap();
+                            collectedDefs.get(ns) = maybeNameBinding.unwrap();
                         } else {
                             privateDefsCount++;
                             // Set "private item" for error only if it is single item.

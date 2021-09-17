@@ -105,7 +105,7 @@ namespace jc::resolve {
         }
 
         ResResult resolve(
-            Module::Ptr searchMod,
+            Module::Ptr maybeNameBinding,
             Namespace targetNS,
             const ast::PathInterface & path,
             Symbol::Opt suffix,
