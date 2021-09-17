@@ -293,15 +293,16 @@ namespace jc::resolve {
         const Symbol & name,
         const PerNS<NameBinding::Opt> & altDefs
     ) {
-        altDefs.each([&](NameBinding::Opt nameBinding, Namespace nsKind) {
-            if (nsKind == target or nameBinding.none()) {
+        altDefs.each([&](NameBinding::Opt maybeNameBinding, Namespace nsKind) {
+            if (nsKind == target or maybeNameBinding.none()) {
                 return;
             }
+            const auto & nameBinding = maybeNameBinding.unwrap();
             std::string kind;
-            if (nameBinding.unwrap().isFOS()) {
+            if (nameBinding.isFOS()) {
                 kind = "function";
             } else {
-                kind = sess->defTable.getDef(nameBinding.unwrap().asDef()).kindStr();
+                kind = sess->defTable.getDef(nameBinding.asDef()).kindStr();
             }
             suggestHelp(
                 log::fmt(
