@@ -172,7 +172,7 @@ namespace jc::resolve {
                 });
 
                 // Report "Cannot access" only if this is the only one inaccessible item
-                if (singleInaccessible.some()) {
+                if (privateDefsCount == 1 and singleInaccessible.some()) {
                     setUnresSeg(singleInaccessible.unwrap(), true);
                 } else {
                     return collectedDefs;
