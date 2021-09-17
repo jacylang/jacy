@@ -154,7 +154,7 @@ namespace jc::resolve {
                 uint16_t defsCount = 0;
 
                 // Collection of all found definitions in each namespace
-                ResResult::UtterValueT collectedDefs;
+                IntraModuleDef::PerNS collectedDefs = {None, None, None};
 
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
                     if (not defIds.empty()) {
@@ -278,34 +278,6 @@ namespace jc::resolve {
 
         // If no suffix present and there are multiple overloads -- it is an ambiguous use
         return Err(log::fmt("Ambiguous use of function '", segName, "', use labels to disambiguate"));
-    }
-
-    ResResult::UtterValueT::Opt PathResolver::tryFindAllWithOverloads(const Module::Ptr & mod, Symbol name) const {
-        auto allIntraDefs = mod->findAll(name);
-
-        bool somethingFound = false;
-        ResResult::UtterValueT allWithOverloads;
-        allIntraDefs.each([&](const IntraModuleDef::Opt & intraModuleDef, Namespace ns) {
-            if (intraModuleDef.none()) {
-                return;
-            }
-            somethingFound = true;
-            const auto & def = intraModuleDef.unwrap();
-            if (def.isTarget()) {
-                allWithOverloads.set(ns, {def.asDef()});
-            } else {
-                const auto & overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
-                for (const auto & ovd : overloads) {
-                    allWithOverloads.get(ns).emplace_back(ovd.second);
-                }
-            }
-        });
-
-        if (not somethingFound) {
-            return None;
-        }
-
-        return allWithOverloads;
     }
 
     /**

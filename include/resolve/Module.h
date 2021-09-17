@@ -40,7 +40,7 @@ namespace jc::resolve {
     struct IntraModuleDef {
         using Opt = Option<IntraModuleDef>;
         using ValueT = std::variant<DefId, FuncOverloadId>;
-        using PerNS = PerNS<IntraModuleDef>;
+        using PerNS = PerNS<IntraModuleDef::Opt>;
 
         enum class Kind {
             /// Target definition, does not depend on additional info
