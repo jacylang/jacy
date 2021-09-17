@@ -38,7 +38,7 @@ namespace jc::resolve {
             for (const auto & [name, def] : ns) {
                 printIndent();
                 log.raw("'", name, "' (", Module::nsToString(nsKind), "): ");
-                printIntraModDef(def);
+                printNameBinding(def);
                 log.nl();
             }
         });
@@ -48,7 +48,7 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printIntraModDef(const NameBinding & nameBinding) {
+    void ModulePrinter::printNameBinding(const NameBinding & nameBinding) {
         if (nameBinding.isFuncOverload()) {
             printFuncOverload(nameBinding.asFuncOverload());
         } else {
@@ -94,13 +94,13 @@ namespace jc::resolve {
     void ModulePrinter::printFuncOverload(const FuncOverloadId & funcOverloadId) {
         const auto & overloads = sess->defTable.getFuncOverload(funcOverloadId);
         if (overloads.size() == 1) {
-            printIntraModDef(overloads.begin()->second);
+            printNameBinding(overloads.begin()->second);
         } else if (not overloads.empty()) {
             for (const auto & overload : overloads) {
                 log.nl();
                 printIndent();
                 log.raw("- ");
-                printIntraModDef(overload.second);
+                printNameBinding(overload.second);
             }
         }
     }
