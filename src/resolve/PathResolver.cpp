@@ -140,12 +140,6 @@ namespace jc::resolve {
 
                 const auto & defsPerNS = searchMod->findAll(segName);
 
-//                if (maybeDefs.none()) {
-//                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::", segName, "'");
-//                    setUnresSeg(None);
-//                    break;
-//                }
-
                 // If no public item found -- it is an error as we have nothing to import
                 DefId::Opt singleInaccessible = None;
                 uint16_t privateDefsCount = 0;
@@ -182,9 +176,9 @@ namespace jc::resolve {
                                 singleInaccessible = defId;
                             }
                         }
-                    }
 
-                    defsCount++;
+                        defsCount++;
+                    }
                 });
 
                 if (defsCount == 0) {
@@ -194,12 +188,15 @@ namespace jc::resolve {
                     );
                 }
 
-                // Report "Cannot access" only if this is the only one inaccessible item
-                if (privateDefsCount >= defsCount and singleInaccessible.some()) {
+                if (defsCount == 0) {
+                    setUnresSeg(None);
+                } else if (privateDefsCount >= defsCount and singleInaccessible.some()) {
                     log::Logger::devDebug(
                         "Failed to find any public item by import path '", pathStr, "::", segName, "': ",
                         privateDefsCount, " private item(-s) among ", defsCount, " item(-s)"
                     );
+
+                    // Report "Cannot access" only if this is the only one inaccessible item
                     setUnresSeg(singleInaccessible.unwrap(), true);
                 } else {
                     log::Logger::devDebug(
