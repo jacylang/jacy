@@ -296,7 +296,7 @@ namespace jc::resolve {
             } else {
                 const auto & overloads = sess->defTable.getFuncOverload(def.asFuncOverload());
                 for (const auto & ovd : overloads) {
-                    allWithOverloads.set(ns, {ovd.second});
+                    allWithOverloads.get(ns).emplace_back(ovd.second);
                 }
             }
         });
