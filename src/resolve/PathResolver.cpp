@@ -173,6 +173,13 @@ namespace jc::resolve {
                     }
                 });
 
+                if (defsCount == 0) {
+                    log::devPanic(
+                        "Invalid logic in `PathResolver::resolve` for call `tryFindAllWithOverloads` ",
+                        "that had to return None if no definition found"
+                    );
+                }
+
                 // Report "Cannot access" only if this is the only one inaccessible item
                 if (privateDefsCount >= defsCount and singleInaccessible.some()) {
                     setUnresSeg(singleInaccessible.unwrap(), true);
