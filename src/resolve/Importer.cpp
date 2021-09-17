@@ -85,7 +85,7 @@ namespace jc::resolve {
     }
 
     void Importer::define(
-        const ResResult::UtterValueT & defPerNS,
+        const IntraModuleDef::PerNS & defPerNS,
         const ast::PathInterface & path,
         const Option<Symbol> & rebind
     ) {
@@ -99,9 +99,19 @@ namespace jc::resolve {
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
         // Go through each namespace `PathResolver` found item with name in.
-        defPerNS.each([&](const MultiDef & defs, Namespace nsKind) {
-            // Go through each definition (only functions have multiple definitions)
-            for (const auto & defId : defs) {
+        defPerNS.each([&](const IntraModuleDef::Opt & maybeDef, Namespace nsKind) {
+            if (maybeDef.none()) {
+                return;
+            }
+
+            const auto & intraModuleDef = maybeDef.unwrap();
+
+            if (intraModuleDef.isFuncOverload()) {
+
+            } else {
+                const auto defId = intraModuleDef.asDef();
+
+                // Go through each definition (only functions have multiple definitions)
                 _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const IntraModuleDef & intraModuleDef) {
                     if (intraModuleDef.isFuncOverload()) {
                         // TODO!!: Think how to handle function overloads
