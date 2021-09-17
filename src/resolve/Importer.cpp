@@ -98,6 +98,27 @@ namespace jc::resolve {
         // Use rebinding name or last segment name
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
+        const auto redefinitionCallback = [&](const IntraModuleDef & intraModuleDef) {
+            if (intraModuleDef.isFuncOverload()) {
+                // TODO!!: Think how to handle function overloads
+                return;
+            }
+            auto oldDefId = intraModuleDef.asDef();
+            // Note: If some definition can be redefined -- it is always named definition,
+            //  so we can safely get its name node span
+            const auto & oldDef = sess->defTable.getDef(oldDefId);
+            const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
+            suggest(
+                std::make_unique<sugg::MsgSpanLinkSugg>(
+                    log::fmt("Cannot `use` '", segName, "'"),
+                    segSpan,
+                    "Because it is already declared as " + oldDef.kindStr() + " here",
+                    oldDefSpan,
+                    sugg::SuggKind::Error
+                )
+            );
+        };
+
         // Go through each namespace `PathResolver` found item with name in.
         defPerNS.each([&](const IntraModuleDef::Opt & maybeDef, Namespace nsKind) {
             if (maybeDef.none()) {
@@ -107,31 +128,9 @@ namespace jc::resolve {
             const auto & intraModuleDef = maybeDef.unwrap();
 
             if (intraModuleDef.isFuncOverload()) {
-
+                _useDeclModule->addFuncOverload(segName, intraModuleDef.asFuncOverload()).then(redefinitionCallback);
             } else {
-                const auto defId = intraModuleDef.asDef();
-
-                // Go through each definition (only functions have multiple definitions)
-                _useDeclModule->tryDefine(nsKind, segName, defId).then([&](const IntraModuleDef & intraModuleDef) {
-                    if (intraModuleDef.isFuncOverload()) {
-                        // TODO!!: Think how to handle function overloads
-                        return;
-                    }
-                    auto oldDefId = intraModuleDef.asDef();
-                    // Note: If some definition can be redefined -- it is always named definition,
-                    //  so we can safely get its name node span
-                    const auto & oldDef = sess->defTable.getDef(oldDefId);
-                    const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
-                    suggest(
-                        std::make_unique<sugg::MsgSpanLinkSugg>(
-                            log::fmt("Cannot `use` '", segName, "'"),
-                            segSpan,
-                            "Because it is already declared as " + oldDef.kindStr() + " here",
-                            oldDefSpan,
-                            sugg::SuggKind::Error
-                        )
-                    );
-                });
+                _useDeclModule->tryDefine(nsKind, segName, intraModuleDef.asDef()).then(redefinitionCallback);
             }
         });
     }
