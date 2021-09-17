@@ -158,8 +158,8 @@ namespace jc::resolve {
          * @brief Try to define a new definition in module
          * @return Old definition in case if redefined, None otherwise
          */
-        NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
-            const auto & defined = getNS(ns).emplace(name, NameBinding {defId});
+        NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, Vis vis, const DefId & defId) {
+            const auto & defined = getNS(ns).emplace(name, NameBinding {vis, defId});
             // Note: emplace returns `pair<new element iterator, true>` if new element added
             //  and `pair<old element iterator, false>` if tried to re-emplace
             if (not defined.second) {
@@ -169,10 +169,10 @@ namespace jc::resolve {
             return None;
         }
 
-        NameBinding::Opt addFuncOverload(const Symbol & baseName, const FuncOverloadId & funcOverloadId) {
+        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FuncOverloadId & funcOverloadId) {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
-            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {funcOverloadId});
+            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {vis, funcOverloadId});
             if (not defined.second and defined.first->second.isTarget()) {
                 // User tried to define function with name taken by non-function item
                 return defined.first->second;
