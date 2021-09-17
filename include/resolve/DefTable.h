@@ -46,7 +46,7 @@ namespace jc::resolve {
         /**
          * @brief Get defId of the first overload set of some function
          */
-        DefId getFuncOverloadFirstDef(FOSId funcOverloadId) const;
+        DefId getFOSFirstDef(FOSId fos) const;
 
         /**
          * @brief Get span of the first overload set of some function

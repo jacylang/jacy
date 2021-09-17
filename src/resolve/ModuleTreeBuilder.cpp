@@ -305,7 +305,7 @@ namespace jc::resolve {
 
         DefId::Opt prevDefId = None;
         if (prevModDef.isFOS()) {
-            prevDefId = _defTable.getFuncOverloadFirstDef(prevModDef.asFOS());
+            prevDefId = _defTable.getFOSFirstDef(prevModDef.asFOS());
         } else {
             prevDefId = prevModDef.asDef();
         }
