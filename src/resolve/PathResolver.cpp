@@ -133,14 +133,15 @@ namespace jc::resolve {
 
                 if (not isLastSeg) {
                     log::devPanic(
-                        "`PathResolver::resolve` went through all segments in `Import` resolution mode, but had to stop before last one"
+                        "`PathResolver::resolve` went through all segments in `Import` resolution mode, ",
+                        "but had to stop before last one"
                     );
                 }
 
                 const auto & maybeDefs = tryFindAllWithOverloads(searchMod, segName);
 
                 if (maybeDefs.none()) {
-                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::(", segName, ")'");
+                    log::Logger::devDebug("No definitions found for import path '", pathStr, "::", segName, "'");
                     setUnresSeg(None);
                     break;
                 }
@@ -156,6 +157,10 @@ namespace jc::resolve {
                 ResResult::UtterValueT collectedDefs;
 
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
+                    log::Logger::devDebug(
+                        "Found these item(-s) by import path", defIds, " in ", Module::nsToString(ns), " namespace"
+                    );
+
                     defsCount += defIds.size();
 
                     for (const auto & defId : defIds) {
@@ -185,13 +190,13 @@ namespace jc::resolve {
                 if (privateDefsCount >= defsCount and singleInaccessible.some()) {
                     log::Logger::devDebug(
                         "Failed to find any public item by import path '", pathStr, "::", segName, "': ",
-                        privateDefsCount, " private items among ", defsCount, " items"
+                        privateDefsCount, " private item(-s) among ", defsCount, " item(-s)"
                     );
                     setUnresSeg(singleInaccessible.unwrap(), true);
                 } else {
                     log::Logger::devDebug(
-                        "Successfully resolved path '", pathStr, "::", segName, "', found ", defsCount, " items, ",
-                        privateDefsCount, " private items were ignored"
+                        "Successfully resolved path '", pathStr, "::", segName, "', found ", defsCount, " item(-s), ",
+                        privateDefsCount, " private item(-s) were ignored"
                     );
                     return collectedDefs;
                 }
