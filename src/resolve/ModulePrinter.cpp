@@ -38,7 +38,7 @@ namespace jc::resolve {
             for (const auto & [name, def] : ns) {
                 printIndent();
                 log.raw("'", name, "' (", Module::nsToString(nsKind), "): ");
-                printDef(def);
+                printIntraModDef(def);
                 log.nl();
             }
         });
@@ -48,44 +48,50 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printDef(const IntraModuleDef & intraModuleDef) {
+    void ModulePrinter::printIntraModDef(const IntraModuleDef & intraModuleDef) {
         if (intraModuleDef.isFuncOverload()) {
-            auto overloadId = intraModuleDef.asFuncOverload();
-            const auto & overloads = sess->defTable.getFuncOverload(overloadId);
-            if (overloads.size() == 1) {
-                printDef(overloads.begin()->second);
-            } else if (not overloads.empty()) {
-                for (const auto & overload : overloads) {
-                    log.nl();
-                    printIndent();
-                    log.raw("- ");
-                    printDef(overload.second);
-                }
-            }
+            printFuncOverload(intraModuleDef.asFuncOverload());
         } else {
-            auto defId = intraModuleDef.asDef();
-            const auto & def = sess->defTable.getDef(defId);
-            log.raw(def);
+            printDef(intraModuleDef.asDef());
+        }
+    }
 
-            switch (def.kind) {
-                case DefKind::Enum:
-                case DefKind::Impl:
-                case DefKind::Mod:
-                case DefKind::Func:
-                case DefKind::Init:
-                case DefKind::Trait: {
-                    log.raw(" ");
-                    printMod(sess->defTable.getModule(defId));
-                    break;
-                }
-                case DefKind::Struct:
-                case DefKind::Lifetime:
-                case DefKind::TypeAlias:
-                case DefKind::TypeParam:
-                case DefKind::Const:
-                case DefKind::ConstParam:
-                case DefKind::Variant:
-                    break;
+    void ModulePrinter::printDef(const DefId & defId) {
+        const auto & def = sess->defTable.getDef(defId);
+        log.raw(def);
+
+        switch (def.kind) {
+            case DefKind::Enum:
+            case DefKind::Impl:
+            case DefKind::Mod:
+            case DefKind::Func:
+            case DefKind::Init:
+            case DefKind::Trait: {
+                log.raw(" ");
+                printMod(sess->defTable.getModule(defId));
+                break;
+            }
+            case DefKind::Struct:
+            case DefKind::Lifetime:
+            case DefKind::TypeAlias:
+            case DefKind::TypeParam:
+            case DefKind::Const:
+            case DefKind::ConstParam:
+            case DefKind::Variant:
+                break;
+        }
+    }
+
+    void ModulePrinter::printFuncOverload(const FuncOverloadId & funcOverloadId) {
+        const auto & overloads = sess->defTable.getFuncOverload(funcOverloadId);
+        if (overloads.size() == 1) {
+            printIntraModDef(overloads.begin()->second);
+        } else if (not overloads.empty()) {
+            for (const auto & overload : overloads) {
+                log.nl();
+                printIndent();
+                log.raw("- ");
+                printIntraModDef(overload.second);
             }
         }
     }
