@@ -172,7 +172,7 @@ namespace jc::resolve {
             return None;
         }
 
-        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FOSId & fos) {
+        NameBinding::Opt tryDefineFOS(const Symbol & baseName, Vis vis, const FOSId & fos) {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
             const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {vis, fos});

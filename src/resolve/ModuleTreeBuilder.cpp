@@ -196,7 +196,7 @@ namespace jc::resolve {
 
         // Define function overload in module
         // Note!: In module, function names do not have suffixes, only base name
-        auto oldDef = mod->addFuncOverload(baseName.sym, overloadId.unwrap());
+        auto oldDef = mod->tryDefineFOS(baseName.sym, overloadId.unwrap());
         if (oldDef.some()) {
             log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
             suggestCannotRedefine(baseName, defKind, oldDef.unwrap(), suffix);
