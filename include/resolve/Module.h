@@ -48,12 +48,12 @@ namespace jc::resolve {
             /// Target definition, does not depend on additional info
             Target,
 
-            /// Function overloading, points to function name in `DefTable::funcOverloads`
-            FuncOverload,
+            /// Function Overload Set, points to function name in `DefTable::funcOverloads`
+            FOS,
         } kind;
 
         NameBinding(Vis vis, DefId defId) : kind{Kind::Target}, vis{vis}, val{defId} {}
-        NameBinding(Vis vis, FOSId fos) : kind{Kind::FuncOverload}, vis{vis}, val {fos} {}
+        NameBinding(Vis vis, FOSId fos) : kind{Kind::FOS}, vis{vis}, val {fos} {}
 
         Vis vis;
         ValueT val;
@@ -63,7 +63,7 @@ namespace jc::resolve {
         }
 
         bool isFuncOverload() const {
-            return kind == Kind::FuncOverload;
+            return kind == Kind::FOS;
         }
 
         void assertKind(Kind expected) const {
@@ -81,14 +81,14 @@ namespace jc::resolve {
         }
 
         FOSId asFuncOverload() const {
-            assertKind(Kind::FuncOverload);
+            assertKind(Kind::FOS);
             return std::get<FOSId>(val);
         }
 
         constexpr static inline const char * kindStr(Kind kind) {
             switch (kind) {
                 case Kind::Target: return "target";
-                case Kind::FuncOverload: return "function overload";
+                case Kind::FOS: return "function overload";
             }
         }
 
