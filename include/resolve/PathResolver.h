@@ -117,7 +117,7 @@ namespace jc::resolve {
 
     private:
         Result<DefId, std::string> getDefId(
-            const NameBinding & intraModuleDef,
+            const NameBinding & nameBinding,
             Symbol segName,
             Symbol::Opt suffix
         );

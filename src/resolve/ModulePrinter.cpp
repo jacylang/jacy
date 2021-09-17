@@ -48,11 +48,11 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printIntraModDef(const NameBinding & intraModuleDef) {
-        if (intraModuleDef.isFuncOverload()) {
-            printFuncOverload(intraModuleDef.asFuncOverload());
+    void ModulePrinter::printIntraModDef(const NameBinding & nameBinding) {
+        if (nameBinding.isFuncOverload()) {
+            printFuncOverload(nameBinding.asFuncOverload());
         } else {
-            printDef(intraModuleDef.asDef());
+            printDef(nameBinding.asDef());
         }
     }
 

@@ -76,7 +76,7 @@ namespace jc::resolve {
                     // Note: Bug check - having function overload in non-value namespace is a bug
                     if (def.isFuncOverload() and ns != Namespace::Value) {
                         log::devPanic(
-                            "`PathResolver::resolve` got function `IntraModuleDef` in '", Module::nsToString(ns), "'"
+                            "`PathResolver::resolve` got function `nameBinding` in '", Module::nsToString(ns), "'"
                         );
                     }
 
@@ -153,13 +153,13 @@ namespace jc::resolve {
                         return;
                     }
 
-                    const auto & intraModuleDef = maybeDef.unwrap();
+                    const auto & nameBinding = maybeDef.unwrap();
                     DefId::List definitions;
 
-                    if (intraModuleDef.isTarget()) {
-                        definitions.emplace_back(intraModuleDef.asDef());
+                    if (nameBinding.isTarget()) {
+                        definitions.emplace_back(nameBinding.asDef());
                     } else {
-                        for (const auto & overload : sess->defTable.getFuncOverload(intraModuleDef.asFuncOverload())) {
+                        for (const auto & overload : sess->defTable.getFuncOverload(nameBinding.asFuncOverload())) {
                             definitions.emplace_back(overload.second);
                         }
                     }
@@ -251,17 +251,17 @@ namespace jc::resolve {
     }
 
     Result<DefId, std::string> PathResolver::getDefId(
-        const NameBinding & intraModuleDef,
+        const NameBinding & nameBinding,
         Symbol segName,
         Symbol::Opt suffix
     ) {
         using namespace std::string_literals;
 
-        if (intraModuleDef.isTarget()) {
-            return Ok(intraModuleDef.asDef());
+        if (nameBinding.isTarget()) {
+            return Ok(nameBinding.asDef());
         }
 
-        const auto & funcOverloads = sess->defTable.getFuncOverload(intraModuleDef.asFuncOverload());
+        const auto & funcOverloads = sess->defTable.getFuncOverload(nameBinding.asFuncOverload());
 
         // If suffix is present -- we need to find one certain overload
         if (suffix.some()) {
@@ -293,15 +293,15 @@ namespace jc::resolve {
         const Symbol & name,
         const PerNS<NameBinding::Opt> & altDefs
     ) {
-        altDefs.each([&](NameBinding::Opt intraModuleDef, Namespace nsKind) {
-            if (nsKind == target or intraModuleDef.none()) {
+        altDefs.each([&](NameBinding::Opt nameBinding, Namespace nsKind) {
+            if (nsKind == target or nameBinding.none()) {
                 return;
             }
             std::string kind;
-            if (intraModuleDef.unwrap().isFuncOverload()) {
+            if (nameBinding.unwrap().isFuncOverload()) {
                 kind = "function";
             } else {
-                kind = sess->defTable.getDef(intraModuleDef.unwrap().asDef()).kindStr();
+                kind = sess->defTable.getDef(nameBinding.unwrap().asDef()).kindStr();
             }
             suggestHelp(
                 log::fmt(

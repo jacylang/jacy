@@ -98,12 +98,12 @@ namespace jc::resolve {
         // Use rebinding name or last segment name
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
-        const auto redefinitionCallback = [&](const NameBinding & intraModuleDef) {
-            if (intraModuleDef.isFuncOverload()) {
+        const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
+            if (nameBinding.isFuncOverload()) {
                 // TODO!!: Think how to handle function overloads
                 return;
             }
-            auto oldDefId = intraModuleDef.asDef();
+            auto oldDefId = nameBinding.asDef();
             // Note: If some definition can be redefined -- it is always named definition,
             //  so we can safely get its name node span
             const auto & oldDef = sess->defTable.getDef(oldDefId);
@@ -125,12 +125,12 @@ namespace jc::resolve {
                 return;
             }
 
-            const auto & intraModuleDef = maybeDef.unwrap();
+            const auto & nameBinding = maybeDef.unwrap();
 
-            if (intraModuleDef.isFuncOverload()) {
-                _useDeclModule->addFuncOverload(segName, intraModuleDef.asFuncOverload()).then(redefinitionCallback);
+            if (nameBinding.isFuncOverload()) {
+                _useDeclModule->addFuncOverload(segName, nameBinding.asFuncOverload()).then(redefinitionCallback);
             } else {
-                _useDeclModule->tryDefine(nsKind, segName, intraModuleDef.asDef()).then(redefinitionCallback);
+                _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);
             }
         });
     }

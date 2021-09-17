@@ -65,7 +65,7 @@ namespace jc::resolve {
         void assertKind(Kind expected) const {
             if (kind != expected) {
                 log::devPanic(
-                    "`IntraModuleDef` kind assertion failed, expected '",
+                    "`nameBinding` kind assertion failed, expected '",
                     kindStr(expected), "', got '", kindStr(kind), "'"
                 );
             }
@@ -88,13 +88,13 @@ namespace jc::resolve {
             }
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const NameBinding & intraModuleDef) {
-            if (intraModuleDef.isTarget()) {
-                return os << log::Color::Magenta << intraModuleDef.asDef() << log::Color::Reset;
-            } else if (intraModuleDef.isFuncOverload()) {
-                return os << log::Color::Magenta << intraModuleDef.asFuncOverload() << log::Color::Reset;
+        friend std::ostream & operator<<(std::ostream & os, const NameBinding & nameBinding) {
+            if (nameBinding.isTarget()) {
+                return os << log::Color::Magenta << nameBinding.asDef() << log::Color::Reset;
+            } else if (nameBinding.isFuncOverload()) {
+                return os << log::Color::Magenta << nameBinding.asFuncOverload() << log::Color::Reset;
             }
-            log::devPanic("Unhandled `IntraModuleDef::Kind` in `operator<<`");
+            log::devPanic("Unhandled `nameBinding::Kind` in `operator<<`");
         }
     };
 

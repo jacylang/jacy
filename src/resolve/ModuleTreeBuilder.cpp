@@ -173,21 +173,21 @@ namespace jc::resolve {
         auto defId = _defTable.define(vis, nodeId, defKind, Def::getFuncIdent(baseName, suffix));
 
         // Trying to find overloading by base name (for `func foo(...)` it would be `foo` without labels)
-        auto intraModuleDef = mod->find(Namespace::Value, baseName.sym);
+        auto nameBinding = mod->find(Namespace::Value, baseName.sym);
 
         // Here we check if name already exists in module and not a function overload base name.
         // It means that some non-function definition already uses this name.
-        if (intraModuleDef.some() and not intraModuleDef.unwrap().isFuncOverload()) {
+        if (nameBinding.some() and not nameBinding.unwrap().isFuncOverload()) {
             // TODO: Maybe add separate `suggestCannotRedefineFunc`?
-            // Note!!!: If new `IntraModuleDef::Kind`'s will be added, don't use `asDef`!
-            suggestCannotRedefine(baseName, defKind, intraModuleDef.unwrap().asDef(), suffix);
+            // Note!!!: If new `nameBinding::Kind`'s will be added, don't use `asDef`!
+            suggestCannotRedefine(baseName, defKind, nameBinding.unwrap().asDef(), suffix);
             return defId;
         }
 
         FuncOverloadId::Opt overloadId = None;
-        if (intraModuleDef.some()) {
+        if (nameBinding.some()) {
             // Note: It is a bug to have not a func overloading here, due to check above
-            overloadId = intraModuleDef.unwrap().asFuncOverload();
+            overloadId = nameBinding.unwrap().asFuncOverload();
         }
 
         // Create new overload if no exists in current module.
