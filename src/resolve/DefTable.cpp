@@ -117,27 +117,27 @@ namespace jc::resolve {
         return defId;
     }
 
-    // Function overloading //
-    const DefTable::FOSMap & DefTable::getFOS(FOSId overloadId) const {
-        return utils::arr::expectAt(fosMap, overloadId.val, "`DefTable::getFOS`");
+    // Function overload sets //
+    const DefTable::FOSMap & DefTable::getFOS(FOSId fos) const {
+        return utils::arr::expectAt(fosMap, fos.val, "`DefTable::getFOS`");
     }
 
-    FOSId DefTable::defineFOS(DefId defId, FOSId::Opt fos, Symbol suffix) {
+    FOSId DefTable::defineFOS(DefId defId, FOSId::Opt fosId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
-        if (fos.none()) {
-            fos = FOSId {static_cast<FOSId::ValueT>(fosMap.size())};
+        if (fosId.none()) {
+            fosId = FOSId {static_cast<FOSId::ValueT>(fosMap.size())};
             fosMap.emplace_back();
         }
 
-        auto & overload = utils::arr::expectAtMut(
-            fosMap, fos.unwrap().val, "`DefTable::defineFOS`"
+        auto & fos = utils::arr::expectAtMut(
+            fosMap, fosId.unwrap().val, "`DefTable::defineFOS`"
         );
 
-        assertNewEmplace(overload.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
+        assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
 
-        return fos.unwrap();
+        return fosId.unwrap();
     }
 
     DefId DefTable::getFOSFirstDef(FOSId fos) const {
