@@ -1,6 +1,13 @@
-mod a {
-    func foo() {}
-    pub func foo() {}
+struct int {}
+struct uint {}
 
-    type foo = i32;
+mod m {
+    pub func foo {}
+
+    func foo(kek: int, lol: uint) {}
+}
+
+func main {
+    use m::foo;
+
 }
