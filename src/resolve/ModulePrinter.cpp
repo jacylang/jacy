@@ -58,6 +58,15 @@ namespace jc::resolve {
 
     void ModulePrinter::printDef(const DefId & defId) {
         const auto & def = sess->defTable.getDef(defId);
+        const auto defVis = sess->defTable.getDefVis(defId);
+
+        switch (defVis) {
+            case DefVis::Unset:;
+            case DefVis::Pub: {
+                log.raw("pub ");
+            }
+        }
+
         log.raw(def);
 
         switch (def.kind) {
