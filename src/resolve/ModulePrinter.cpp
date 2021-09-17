@@ -91,12 +91,12 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printFOS(const FOSId & funcOverloadId) {
-        const auto & overloads = sess->defTable.getFOS(funcOverloadId);
-        if (overloads.size() == 1) {
-            printDef(overloads.begin()->second);
-        } else if (not overloads.empty()) {
-            for (const auto & overload : overloads) {
+    void ModulePrinter::printFOS(const FOSId & fosId) {
+        const auto & fos = sess->defTable.getFOS(fosId);
+        if (fos.size() == 1) {
+            printDef(fos.begin()->second);
+        } else if (not fos.empty()) {
+            for (const auto & overload : fos) {
                 log.nl();
                 printIndent();
                 log.raw("- ");
