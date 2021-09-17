@@ -150,6 +150,7 @@ namespace jc::resolve {
                 // If no public item found -- it is an error as we have nothing to import
                 DefId::Opt singleInaccessible = None;
                 uint16_t privateDefsCount = 0;
+                uint16_t defsCount = 0;
 
                 // Collection of all found definitions in each namespace
                 ResResult::UtterValueT collectedDefs;
@@ -157,6 +158,7 @@ namespace jc::resolve {
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
                     for (const auto & defId : defIds) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
+                        defsCount++;
 
                         if (defVis == DefVis::Pub) {
                             collectedDefs.get(ns).emplace_back(defId);
@@ -172,7 +174,7 @@ namespace jc::resolve {
                 });
 
                 // Report "Cannot access" only if this is the only one inaccessible item
-                if (privateDefsCount == 1 and singleInaccessible.some()) {
+                if (privateDefsCount >= defsCount and singleInaccessible.some()) {
                     setUnresSeg(singleInaccessible.unwrap(), true);
                 } else {
                     return collectedDefs;
