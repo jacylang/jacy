@@ -75,7 +75,7 @@ namespace jc::resolve {
         Lifetime,
     };
 
-    enum class DefVis {
+    enum class Vis {
         Unset,
         Pub,
     };

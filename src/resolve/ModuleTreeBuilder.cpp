@@ -7,7 +7,7 @@ namespace jc::resolve {
         // Enter root module
         // Note: Maybe define ROOT_NODE_ID?
         auto rootModuleDef = _defTable.define(
-            DefVis::Pub,
+            Vis::Pub,
             ast::NodeId::DUMMY,
             DefKind::Mod,
             span::Ident::empty()
@@ -34,7 +34,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
         // Note: Enum variants are always public
-        addDef(DefVis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name.unwrap());
+        addDef(Vis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name.unwrap());
     }
 
     void ModuleTreeBuilder::visit(const ast::Func & func) {
@@ -104,17 +104,17 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    DefVis ModuleTreeBuilder::getItemVis(const ast::Item & item) {
+    Vis ModuleTreeBuilder::getItemVis(const ast::Item & item) {
         switch (item.vis.kind) {
             case ast::VisKind::Pub:
-                return DefVis::Pub;
+                return Vis::Pub;
             case ast::VisKind::Unset:
-                return DefVis::Unset;
+                return Vis::Unset;
         }
     }
 
     /// Adds definition by name to specific namespace determined by DefKind in current module
-    DefId ModuleTreeBuilder::addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
+    DefId ModuleTreeBuilder::addDef(Vis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
         auto defId = _defTable.define(vis, nodeId, defKind, ident);
 
         const auto & name = ident.sym;
@@ -162,7 +162,7 @@ namespace jc::resolve {
     }
 
     DefId ModuleTreeBuilder::addFuncDef(
-        DefVis vis,
+        Vis vis,
         NodeId nodeId,
         DefKind defKind,
         const span::Ident & baseName,
@@ -211,17 +211,17 @@ namespace jc::resolve {
                 switch (gen->kind) {
                     case ast::GenericParamKind::Type: {
                         const auto & typeParam = ast::Node::cast<ast::TypeParam>(gen.get());
-                        addDef(DefVis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name.unwrap());
+                        addDef(Vis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name.unwrap());
                         break;
                     }
                     case ast::GenericParamKind::Const: {
                         const auto & constParam = ast::Node::cast<ast::ConstParam>(gen.get());
-                        addDef(DefVis::Pub, constParam->id, DefKind::ConstParam, constParam->name.unwrap());
+                        addDef(Vis::Pub, constParam->id, DefKind::ConstParam, constParam->name.unwrap());
                         break;
                     }
                     case ast::GenericParamKind::Lifetime: {
                         const auto & lifetimeParam = ast::Node::cast<ast::Lifetime>(gen.get());
-                        addDef(DefVis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name.unwrap());
+                        addDef(Vis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name.unwrap());
                         break;
                     }
                 }
@@ -242,7 +242,7 @@ namespace jc::resolve {
     }
 
     /// Enters named module, defines it in current module and adds module to DefStorage by defId
-    void ModuleTreeBuilder::enterModule(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
+    void ModuleTreeBuilder::enterModule(Vis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident) {
         const auto defId = addDef(vis, nodeId, defKind, ident);
         const auto & name = ident.sym;
         log.dev("Enter [DEF] module '", name, "' defined with id ", defId);

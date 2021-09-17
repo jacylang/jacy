@@ -42,9 +42,9 @@ namespace jc::resolve {
         // `_` prepended to avoid confusions with Session::defStorage
         DefTable _defTable;
 
-        DefVis getItemVis(const ast::Item & item);
-        DefId addDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
-        DefId addFuncDef(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & baseName, Symbol suffix);
+        Vis getItemVis(const ast::Item & item);
+        DefId addDef(Vis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
+        DefId addFuncDef(Vis vis, NodeId nodeId, DefKind defKind, const span::Ident & baseName, Symbol suffix);
         void defineGenerics(const ast::GenericParam::OptList & maybeGenerics);
 
         // Modules //
@@ -52,7 +52,7 @@ namespace jc::resolve {
         Module::Ptr mod;
         DefId nearestModDef = DefId::ROOT_DEF_ID;
         void enterBlock(NodeId nodeId);
-        void enterModule(DefVis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
+        void enterModule(Vis vis, NodeId nodeId, DefKind defKind, const span::Ident & ident);
         void enterFuncModule(const ast::Item & funcItem, const ast::FuncSig & sig, DefKind kind);
         void enterChildModule(const std::string & name, Module::Ptr child);
         void exitMod();

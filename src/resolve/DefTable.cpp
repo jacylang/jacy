@@ -74,7 +74,7 @@ namespace jc::resolve {
         return getDef(defId.getIndex());
     }
 
-    DefVis DefTable::getDefVis(const DefId & defId) const {
+    Vis DefTable::getDefVis(const DefId & defId) const {
         return utils::map::expectAt(defVisMap, defId, "`DefTable::getDefVis`");
     }
 
@@ -94,7 +94,7 @@ namespace jc::resolve {
         }
     }
 
-    DefId DefTable::define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
+    DefId DefTable::define(Vis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
         using namespace utils::map;
 
         auto defId = DefId {DefIndex {defs.size()}};

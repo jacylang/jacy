@@ -29,12 +29,12 @@ namespace jc::resolve {
     public:
         const Def & getDef(const DefIndex & index) const;
         const Def & getDef(const DefId & defId) const;
-        DefVis getDefVis(const DefId & defId) const;
+        Vis getDefVis(const DefId & defId) const;
         const NodeId & getNodeIdByDefId(const DefId & defId) const;
         const DefId & getDefIdByNodeId(const NodeId & nodeId) const;
         span::Span getDefNameSpan(const DefId & defId) const;
 
-        DefId define(DefVis vis, NodeId nodeId, DefKind kind, const span::Ident & ident);
+        DefId define(Vis vis, NodeId nodeId, DefKind kind, const span::Ident & ident);
 
         // Function overloading //
     public:
@@ -58,7 +58,7 @@ namespace jc::resolve {
         std::map<DefIndex, Module::Ptr> modules;
         std::map<ast::NodeId, Module::Ptr> blocks;
         std::map<ast::NodeId, Module::Ptr> useDeclModules;
-        std::map<DefId, DefVis> defVisMap;
+        std::map<DefId, Vis> defVisMap;
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 

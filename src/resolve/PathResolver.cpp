@@ -92,7 +92,7 @@ namespace jc::resolve {
 
                     // If it is a first segment, and we found something, but it isn't public -- ok,
                     //  as we either found something in parent module or in module on the same level.
-                    if (not isFirstSeg and vis != DefVis::Pub) {
+                    if (not isFirstSeg and vis != Vis::Pub) {
                         setUnresSeg(defId, true);
                         return;
                     }
@@ -166,7 +166,7 @@ namespace jc::resolve {
 
                     for (const auto & defId : definitions) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
-                        if (defVis == DefVis::Pub) {
+                        if (defVis == Vis::Pub) {
                             collectedDefs.get(ns) = maybeDef.unwrap();
                         } else {
                             privateDefsCount++;
