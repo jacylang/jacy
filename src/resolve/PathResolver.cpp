@@ -156,9 +156,10 @@ namespace jc::resolve {
                 ResResult::UtterValueT collectedDefs;
 
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
+                    defsCount += defIds.size();
+
                     for (const auto & defId : defIds) {
                         const auto & defVis = sess->defTable.getDefVis(defId);
-                        defsCount++;
 
                         if (defVis == DefVis::Pub) {
                             collectedDefs.get(ns).emplace_back(defId);
@@ -182,8 +183,16 @@ namespace jc::resolve {
 
                 // Report "Cannot access" only if this is the only one inaccessible item
                 if (privateDefsCount >= defsCount and singleInaccessible.some()) {
+                    log::Logger::devDebug(
+                        "Failed to find any public item by import path '", pathStr, "::", segName, "': ",
+                        privateDefsCount, " private items among ", defsCount, " items"
+                    );
                     setUnresSeg(singleInaccessible.unwrap(), true);
                 } else {
+                    log::Logger::devDebug(
+                        "Successfully resolved path '", pathStr, "::", segName, "', found ", defsCount, " items, ",
+                        privateDefsCount, " private items were ignored"
+                    );
                     return collectedDefs;
                 }
             }
