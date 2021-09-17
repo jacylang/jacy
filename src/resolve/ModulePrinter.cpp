@@ -91,7 +91,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printFuncOverload(const FuncOverloadId & funcOverloadId) {
+    void ModulePrinter::printFuncOverload(const FOSId & funcOverloadId) {
         const auto & overloads = sess->defTable.getFuncOverload(funcOverloadId);
         if (overloads.size() == 1) {
             printNameBinding(overloads.begin()->second);

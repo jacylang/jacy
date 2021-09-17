@@ -14,23 +14,23 @@ namespace jc::resolve {
         Def,
     };
 
-    struct FuncOverloadId {
-        using Opt = Option<FuncOverloadId>;
+    struct FOSId {
+        using Opt = Option<FOSId>;
         using ValueT = uint16_t;
 
-        FuncOverloadId(ValueT val) : val {val} {}
+        FOSId(ValueT val) : val {val} {}
 
         ValueT val;
 
-        bool operator==(const FuncOverloadId & other) const {
+        bool operator==(const FOSId & other) const {
             return val == other.val;
         }
 
-        bool operator<(const FuncOverloadId & other) const {
+        bool operator<(const FOSId & other) const {
             return val < other.val;
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const FuncOverloadId & overloadId) {
+        friend std::ostream & operator<<(std::ostream & os, const FOSId & overloadId) {
             return os << log::Color::Magenta << "#fo(" << overloadId.val << ")" << log::Color::Reset;
         }
     };
@@ -38,7 +38,7 @@ namespace jc::resolve {
     /// Definition stored in `Module`
     struct NameBinding {
         using Opt = Option<NameBinding>;
-        using ValueT = std::variant<DefId, FuncOverloadId>;
+        using ValueT = std::variant<DefId, FOSId>;
         using PerNS = PerNS<NameBinding::Opt>;
 
         enum class Kind {
@@ -50,7 +50,7 @@ namespace jc::resolve {
         } kind;
 
         NameBinding(Vis vis, DefId defId) : kind{Kind::Target}, vis{vis}, val{defId} {}
-        NameBinding(Vis vis, FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, vis{vis}, val {funcOverloadId} {}
+        NameBinding(Vis vis, FOSId funcOverloadId) : kind{Kind::FuncOverload}, vis{vis}, val {funcOverloadId} {}
 
         Vis vis;
         ValueT val;
@@ -77,9 +77,9 @@ namespace jc::resolve {
             return std::get<DefId>(val);
         }
 
-        FuncOverloadId asFuncOverload() const {
+        FOSId asFuncOverload() const {
             assertKind(Kind::FuncOverload);
-            return std::get<FuncOverloadId>(val);
+            return std::get<FOSId>(val);
         }
 
         constexpr static inline const char * kindStr(Kind kind) {
@@ -169,7 +169,7 @@ namespace jc::resolve {
             return None;
         }
 
-        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FuncOverloadId & funcOverloadId) {
+        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FOSId & funcOverloadId) {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
             const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {vis, funcOverloadId});

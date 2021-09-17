@@ -18,7 +18,7 @@ namespace jc::resolve {
         }
     }
 
-    const Module::Ptr & DefTable::getFuncModule(FuncOverloadId overloadId, span::Symbol suffix) const {
+    const Module::Ptr & DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
         try {
             return getModule(funcOverloads.at(overloadId.val).at(suffix));
         } catch (const std::out_of_range & e) {
@@ -118,16 +118,16 @@ namespace jc::resolve {
     }
 
     // Function overloading //
-    const DefTable::FuncOverloadMap & DefTable::getFuncOverload(FuncOverloadId overloadId) const {
+    const DefTable::FuncOverloadMap & DefTable::getFuncOverload(FOSId overloadId) const {
         return utils::arr::expectAt(funcOverloads, overloadId.val, "`DefTable::getFuncOverload`");
     }
 
-    FuncOverloadId DefTable::defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix) {
+    FOSId DefTable::defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
         if (funcOverloadId.none()) {
-            funcOverloadId = FuncOverloadId {static_cast<FuncOverloadId::ValueT>(funcOverloads.size())};
+            funcOverloadId = FOSId {static_cast<FOSId::ValueT>(funcOverloads.size())};
             funcOverloads.emplace_back();
         }
 
@@ -140,11 +140,11 @@ namespace jc::resolve {
         return funcOverloadId.unwrap();
     }
 
-    DefId DefTable::getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) const {
+    DefId DefTable::getFuncOverloadFirstDef(FOSId funcOverloadId) const {
         return getFuncOverload(funcOverloadId).begin()->second;
     }
 
-    span::Span DefTable::getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) const {
+    span::Span DefTable::getFuncOverloadFirstSpan(FOSId funcOverloadId) const {
         return getDefNameSpan(getFuncOverloadFirstDef(funcOverloadId));
     }
 }

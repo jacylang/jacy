@@ -184,7 +184,7 @@ namespace jc::resolve {
             return defId;
         }
 
-        FuncOverloadId::Opt overloadId = None;
+        FOSId::Opt overloadId = None;
         if (nameBinding.some()) {
             // Note: It is a bug to have not a func overloading here, due to check above
             overloadId = nameBinding.unwrap().asFuncOverload();

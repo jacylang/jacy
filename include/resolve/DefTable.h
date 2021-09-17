@@ -17,7 +17,7 @@ namespace jc::resolve {
     public:
         const Module::Ptr & getModule(const DefId & defId) const;
         const Module::Ptr & getBlock(ast::NodeId nodeId) const;
-        const Module::Ptr & getFuncModule(FuncOverloadId overloadId, span::Symbol suffix) const;
+        const Module::Ptr & getFuncModule(FOSId overloadId, span::Symbol suffix) const;
 
         Module::Ptr addModule(const DefId & defId, Module::Ptr module);
         Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module);
@@ -40,18 +40,18 @@ namespace jc::resolve {
     public:
         using FuncOverloadMap = std::map<Symbol, DefId>;
 
-        const FuncOverloadMap & getFuncOverload(FuncOverloadId overloadId) const;
-        FuncOverloadId defineFuncOverload(DefId defId, FuncOverloadId::Opt funcOverloadId, Symbol suffix);
+        const FuncOverloadMap & getFuncOverload(FOSId overloadId) const;
+        FOSId defineFuncOverload(DefId defId, FOSId::Opt funcOverloadId, Symbol suffix);
 
         /**
          * @brief Get defId of the first overload of some function
          */
-        DefId getFuncOverloadFirstDef(FuncOverloadId funcOverloadId) const;
+        DefId getFuncOverloadFirstDef(FOSId funcOverloadId) const;
 
         /**
          * @brief Get span of the first overload of some function
          */
-        span::Span getFuncOverloadFirstSpan(FuncOverloadId funcOverloadId) const;
+        span::Span getFuncOverloadFirstSpan(FOSId funcOverloadId) const;
 
     private:
         std::vector<Def> defs;

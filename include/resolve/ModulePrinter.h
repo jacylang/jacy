@@ -17,7 +17,7 @@ namespace jc::resolve {
         void printMod(Module::Ptr module);
         void printNameBinding(const NameBinding & nameBinding);
         void printDef(const DefId & defId);
-        void printFuncOverload(const FuncOverloadId & funcOverloadId);
+        void printFuncOverload(const FOSId & funcOverloadId);
         void printIndent();
         uint32_t indent{0};
     };
