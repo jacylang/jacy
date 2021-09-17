@@ -157,9 +157,12 @@ namespace jc::resolve {
                 ResResult::UtterValueT collectedDefs;
 
                 defsPerNS.each([&](const std::vector<DefId> & defIds, Namespace ns) {
-                    log::Logger::devDebug(
-                        "Found these item(-s) by import path", defIds, " in ", Module::nsToString(ns), " namespace"
-                    );
+                    if (not defIds.empty()) {
+                        log::Logger::devDebug(
+                            "Found these item(-s) by import path '", pathStr, "::", segName, "': ",
+                            defIds, " in ", Module::nsToString(ns), " namespace"
+                        );
+                    }
 
                     defsCount += defIds.size();
 
