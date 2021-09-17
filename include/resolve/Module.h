@@ -14,6 +14,9 @@ namespace jc::resolve {
         Def,
     };
 
+    /**
+     * @brief FOSId (stands for Function Overload Set Id) is an identifier pointing to particular function overload set
+     */
     struct FOSId {
         using Opt = Option<FOSId>;
         using ValueT = uint16_t;
@@ -30,8 +33,8 @@ namespace jc::resolve {
             return val < other.val;
         }
 
-        friend std::ostream & operator<<(std::ostream & os, const FOSId & overloadId) {
-            return os << log::Color::Magenta << "#fo(" << overloadId.val << ")" << log::Color::Reset;
+        friend std::ostream & operator<<(std::ostream & os, const FOSId & fos) {
+            return os << log::Color::Magenta << "#fo(" << fos.val << ")" << log::Color::Reset;
         }
     };
 
@@ -50,7 +53,7 @@ namespace jc::resolve {
         } kind;
 
         NameBinding(Vis vis, DefId defId) : kind{Kind::Target}, vis{vis}, val{defId} {}
-        NameBinding(Vis vis, FOSId funcOverloadId) : kind{Kind::FuncOverload}, vis{vis}, val {funcOverloadId} {}
+        NameBinding(Vis vis, FOSId fos) : kind{Kind::FuncOverload}, vis{vis}, val {fos} {}
 
         Vis vis;
         ValueT val;
@@ -169,10 +172,10 @@ namespace jc::resolve {
             return None;
         }
 
-        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FOSId & funcOverloadId) {
+        NameBinding::Opt addFuncOverload(const Symbol & baseName, Vis vis, const FOSId & fos) {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
-            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {vis, funcOverloadId});
+            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {vis, fos});
             if (not defined.second and defined.first->second.isTarget()) {
                 // User tried to define function with name taken by non-function item
                 return defined.first->second;
