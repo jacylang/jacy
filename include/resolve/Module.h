@@ -49,9 +49,10 @@ namespace jc::resolve {
             FuncOverload,
         } kind;
 
-        NameBinding(DefId defId) : kind{Kind::Target}, val{defId} {}
-        NameBinding(FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, val {funcOverloadId} {}
+        NameBinding(Vis vis, DefId defId) : kind{Kind::Target}, vis{vis}, val{defId} {}
+        NameBinding(Vis vis, FuncOverloadId funcOverloadId) : kind{Kind::FuncOverload}, vis{vis}, val {funcOverloadId} {}
 
+        Vis vis;
         ValueT val;
 
         bool isTarget() const {
