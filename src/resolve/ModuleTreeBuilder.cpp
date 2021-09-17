@@ -134,7 +134,7 @@ namespace jc::resolve {
         );
 
         // Try to emplace definition in namespace, and if it is already defined suggest an error
-        const auto & oldDef = mod->tryDefine(ns, name, defId);
+        const auto & oldDef = mod->tryDefine(ns, name, vis, defId);
         if (oldDef.some()) {
             log.dev(
                 "Tried to redefine '",
@@ -196,7 +196,7 @@ namespace jc::resolve {
 
         // Define function overload in module
         // Note!: In module, function names do not have suffixes, only base name
-        auto oldDef = mod->tryDefineFOS(baseName.sym, overloadId.unwrap());
+        auto oldDef = mod->tryDefineFOS(baseName.sym, vis, overloadId.unwrap());
         if (oldDef.some()) {
             log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
             suggestCannotRedefine(baseName, defKind, oldDef.unwrap(), suffix);
