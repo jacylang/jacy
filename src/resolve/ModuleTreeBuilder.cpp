@@ -180,7 +180,7 @@ namespace jc::resolve {
         if (nameBinding.some() and not nameBinding.unwrap().isFOS()) {
             // TODO: Maybe add separate `suggestCannotRedefineFunc`?
             // Note!!!: If new `nameBinding::Kind`'s will be added, don't use `asDef`!
-            suggestCannotRedefine(baseName, defKind, nameBinding.unwrap().asDef(), suffix);
+            suggestCannotRedefine(baseName, defKind, nameBinding.unwrap(), suffix);
             return defId;
         }
 
