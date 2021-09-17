@@ -11,8 +11,7 @@ namespace jc::resolve {
     using dt::Result;
 
     struct ResResult {
-        using UtterValueT = PerNS<MultiDef>;
-        using ValueT = std::variant<DefId, UtterValueT>;
+        using ValueT = std::variant<DefId, IntraModuleDef::PerNS>;
 
         /// Kind is useless from view of logic and used for safety as we use `DefId`
         ///  variant for both Module and Specific.
@@ -26,7 +25,7 @@ namespace jc::resolve {
 
         ResResult(dt::none_t) : kind{Kind::Error}, val{None} {}
         ResResult(Kind kind, DefId defId) : kind{kind}, val{defId} {}
-        ResResult(UtterValueT && defs) : kind{Kind::Import}, val{std::move(defs)} {}
+        ResResult(IntraModuleDef::PerNS && defs) : kind{Kind::Import}, val{std::move(defs)} {}
 
         static inline constexpr const char * kindStr(Kind kind) {
             switch (kind) {
@@ -61,7 +60,7 @@ namespace jc::resolve {
 
         auto asImport() const {
             assertKind(Kind::Import, "asImport");
-            return std::get<UtterValueT>(val.unwrap());
+            return std::get<IntraModuleDef::PerNS>(val.unwrap());
         }
 
     private:
