@@ -38,18 +38,18 @@ namespace jc::resolve {
 
         // Function overloading //
     public:
-        using FuncOverloadMap = std::map<Symbol, DefId>;
+        using FOSMap = std::map<Symbol, DefId>;
 
-        const FuncOverloadMap & getFOS(FOSId overloadId) const;
+        const FOSMap & getFOS(FOSId overloadId) const;
         FOSId defineFOS(DefId defId, FOSId::Opt fos, Symbol suffix);
 
         /**
-         * @brief Get defId of the first overload set of some function
+         * @brief Get defId of the first overload from some function overload set
          */
         DefId getFOSFirstDef(FOSId fos) const;
 
         /**
-         * @brief Get span of the first overload set of some function
+         * @brief Get span of the first overload from some function overload set
          */
         span::Span getFOSFirstSpan(FOSId fos) const;
 
@@ -62,8 +62,8 @@ namespace jc::resolve {
         std::map<ast::NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
-        /// Function overloads, each id points to mapping from suffix to function definition
-        std::vector<FuncOverloadMap> funcOverloads;
+        /// Function overload sets collection, each id points to mapping from suffix to function definition
+        std::vector<FOSMap> fosMap;
 
         template<class ...Args>
         void panicWithDump(Args ...args) const {
