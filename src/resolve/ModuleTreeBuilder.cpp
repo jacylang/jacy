@@ -177,7 +177,7 @@ namespace jc::resolve {
 
         // Here we check if name already exists in module and not a function overload base name.
         // It means that some non-function definition already uses this name.
-        if (nameBinding.some() and not nameBinding.unwrap().isFuncOverload()) {
+        if (nameBinding.some() and not nameBinding.unwrap().isFOS()) {
             // TODO: Maybe add separate `suggestCannotRedefineFunc`?
             // Note!!!: If new `nameBinding::Kind`'s will be added, don't use `asDef`!
             suggestCannotRedefine(baseName, defKind, nameBinding.unwrap().asDef(), suffix);
@@ -304,7 +304,7 @@ namespace jc::resolve {
         }
 
         DefId::Opt prevDefId = None;
-        if (prevModDef.isFuncOverload()) {
+        if (prevModDef.isFOS()) {
             prevDefId = _defTable.getFuncOverloadFirstDef(prevModDef.asFOS());
         } else {
             prevDefId = prevModDef.asDef();

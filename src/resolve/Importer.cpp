@@ -75,7 +75,7 @@ namespace jc::resolve {
             for (const auto & def : ns) {
                 // Note: for `use a::*` we don't report "redefinition" error
 
-                if (def.second.isFuncOverload()) {
+                if (def.second.isFOS()) {
                     _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
                 } else {
                     _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
@@ -99,7 +99,7 @@ namespace jc::resolve {
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
-            if (nameBinding.isFuncOverload()) {
+            if (nameBinding.isFOS()) {
                 // TODO!!: Think how to handle function overloads
                 return;
             }
@@ -127,7 +127,7 @@ namespace jc::resolve {
 
             const auto & nameBinding = maybeDef.unwrap();
 
-            if (nameBinding.isFuncOverload()) {
+            if (nameBinding.isFOS()) {
                 _useDeclModule->tryDefineFOS(segName, nameBinding.asFOS()).then(redefinitionCallback);
             } else {
                 _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);

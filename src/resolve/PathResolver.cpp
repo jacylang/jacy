@@ -74,7 +74,7 @@ namespace jc::resolve {
                 DefId::Opt resolution = None;
                 searchMod->find(ns, segName).then([&](const NameBinding & def) {
                     // Note: Bug check - having function overload in non-value namespace is a bug
-                    if (def.isFuncOverload() and ns != Namespace::Value) {
+                    if (def.isFOS() and ns != Namespace::Value) {
                         log::devPanic(
                             "`PathResolver::resolve` got function `nameBinding` in '", Module::nsToString(ns), "'"
                         );
@@ -298,7 +298,7 @@ namespace jc::resolve {
                 return;
             }
             std::string kind;
-            if (nameBinding.unwrap().isFuncOverload()) {
+            if (nameBinding.unwrap().isFOS()) {
                 kind = "function";
             } else {
                 kind = sess->defTable.getDef(nameBinding.unwrap().asDef()).kindStr();

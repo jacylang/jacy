@@ -62,7 +62,7 @@ namespace jc::resolve {
             return kind == Kind::Target;
         }
 
-        bool isFuncOverload() const {
+        bool isFOS() const {
             return kind == Kind::FOS;
         }
 
@@ -95,7 +95,7 @@ namespace jc::resolve {
         friend std::ostream & operator<<(std::ostream & os, const NameBinding & nameBinding) {
             if (nameBinding.isTarget()) {
                 return os << log::Color::Magenta << nameBinding.asDef() << log::Color::Reset;
-            } else if (nameBinding.isFuncOverload()) {
+            } else if (nameBinding.isFOS()) {
                 return os << log::Color::Magenta << nameBinding.asFOS() << log::Color::Reset;
             }
             log::devPanic("Unhandled `nameBinding::Kind` in `operator<<`");
