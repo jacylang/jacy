@@ -126,7 +126,7 @@ namespace jc::resolve {
         return utils::arr::expectAt(fosList, fosId.val, "`DefTable::getFOS`");
     }
 
-    FOSId DefTable::defineFOS(DefId defId, FOSId::Opt fosId, Symbol suffix) {
+    FOSId DefTable::defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
@@ -136,7 +136,7 @@ namespace jc::resolve {
         }
 
         auto & fos = utils::arr::expectAtMut(
-            fosList, fosId.unwrap().val, "`DefTable::defineFOS`"
+            fosList, fosId.unwrap().val, "`DefTable::defineFunc`"
         );
 
         assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
