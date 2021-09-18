@@ -213,7 +213,7 @@ namespace jc::resolve {
                     );
                     log::Logger::devDebug(
                         "Successfully resolved import path '", pathStr, "::", segName, "' as ",
-                        collectedDefs
+                        NameBinding::PerNS::toString(collectedDefs)
                     );
                     return collectedDefs;
                 }

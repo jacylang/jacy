@@ -157,13 +157,11 @@ namespace jc::resolve {
             cb(Namespace::Lifetime);
         }
 
-        template<class U>
-        static std::string toString(const PerNS<U> & perNS) {
-            return log::fmt(
-                "(type namespace): ", perNS.get(Namespace::Type),
-                "(value namespace): ", perNS.get(Namespace::Value),
-                "(lifetime namespace): ", perNS.get(Namespace::Lifetime)
-            );
+        friend std::ostream & operator<<(std::ostream & os, const PerNS<T> & perNS) {
+            perNS.each([&](const T & ns, Namespace nsKind) {
+                os << ns << "; ";
+            });
+            return os;
         }
     };
 
