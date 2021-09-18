@@ -168,6 +168,13 @@ namespace jc::resolve {
         DefId defId;
         DefKind kind;
 
+        static inline constexpr const char * visStr(Vis vis) {
+            switch (vis) {
+                case Vis::Unset: return "";
+                case Vis::Pub: return "pub";
+            }
+        }
+
         static inline span::Ident getFuncIdent(const span::Ident & baseName, span::Symbol suffix) {
             return span::Ident {baseName.sym + suffix, baseName.span};
         }
