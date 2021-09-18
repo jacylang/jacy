@@ -369,6 +369,7 @@ namespace jc::core {
         resolve::FOSId::ValueT fosIndex = 0;
         for (const auto & fos : sess->defTable.getFOSList()) {
             log.raw(resolve::FOSId {fosIndex}, ": ", fos).nl();
+            fosIndex++;
         }
     }
 
