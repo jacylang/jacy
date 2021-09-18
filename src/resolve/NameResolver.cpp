@@ -381,7 +381,7 @@ namespace jc::resolve {
         }
 
         auto res = pathResolver.resolve(
-            sess->defTable.getModule(currentModule->nearestModDef),
+            currentModule,
             targetNS,
             path,
             suffix,

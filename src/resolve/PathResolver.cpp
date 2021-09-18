@@ -18,6 +18,8 @@ namespace jc::resolve {
             log::devPanic("Use of `PathResolver::resolve`, but `PathResolver` is uninitialized");
         }
 
+        log::Logger::devDebug("Resolving path in module ", beginSearchMod->toString());
+
         auto searchMod = beginSearchMod;
         std::string pathStr;
         Option<UnresSeg> unresSeg = dt::None;

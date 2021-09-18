@@ -168,7 +168,7 @@ namespace jc::resolve {
 
         friend std::ostream & operator<<(std::ostream & os, const PerNS<T> & perNS) {
             perNS.each([&](const T & ns, Namespace nsKind) {
-                os << ns << "; ";
+                os << nsToString(nsKind) << " namespace: " << ns << "; ";
             });
             return os;
         }
