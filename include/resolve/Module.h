@@ -98,6 +98,7 @@ namespace jc::resolve {
                 return os << log::Color::Magenta << nameBinding.asFOS() << log::Color::Reset;
             }
             log::devPanic("Unhandled `nameBinding::Kind` in `operator<<`");
+            return os;
         }
     };
 
@@ -176,6 +177,10 @@ namespace jc::resolve {
 
     private:
         NameBinding::Opt _tryDefine(Namespace ns, Symbol name, NameBinding nameBinding) {
+            log::Logger::devDebug(
+                "Trying to define '", name, "' in ", nsToString(ns), " namespace in module ",
+                toString(), " as ", nameBinding
+            );
             const auto & defined = getNS(ns).emplace(name, nameBinding);
             // Note: emplace returns `pair<new element iterator, true>` if new element added
             //  and `pair<old element iterator, false>` if tried to re-emplace
