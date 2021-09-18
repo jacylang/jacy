@@ -92,7 +92,7 @@ namespace jc::resolve {
     }
 
     void ModulePrinter::printFOS(const FOSId & fosId) {
-        log.raw(fosId);
+        log.raw(fosId, " ");
         const auto & fos = sess->defTable.getFOS(fosId);
         if (fos.size() == 1) {
             printDef(fos.begin()->second);

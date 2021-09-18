@@ -34,7 +34,7 @@ namespace jc::resolve {
         }
 
         friend std::ostream & operator<<(std::ostream & os, const FOSId & fos) {
-            return os << log::Color::Magenta << "#fo(" << fos.val << ")" << log::Color::Reset;
+            return os << log::Color::Magenta << "#fos(" << fos.val << ")" << log::Color::Reset;
         }
     };
 
