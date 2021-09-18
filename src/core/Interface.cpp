@@ -374,7 +374,7 @@ namespace jc::core {
 
         log.raw("`use` declarations modules:").nl();
         for (const auto & mod : sess->defTable.getUseDeclModules()) {
-            log.raw(mod.first, ": ", mod.second).nl();
+            log.raw(mod.first, ": ", mod.second->toString()).nl();
         }
     }
 
