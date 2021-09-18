@@ -114,6 +114,10 @@ namespace jc::resolve {
                 if (isLastSeg) {
                     // Specific resolutions result with definition id
                     if (resMode == ResMode::Specific and resolution.some()) {
+                        log::Logger::devDebug(
+                            "Successfully resolved specific path '", pathStr, "::", segName, "' as ",
+                            resolution.unwrap()
+                        );
                         return ResResult {
                             ResResult::Kind::Specific,
                             resolution.take()
@@ -122,6 +126,10 @@ namespace jc::resolve {
 
                     // For descending resolutions we return DefId for resolved module
                     if (resMode == ResMode::Descend) {
+                        log::Logger::devDebug(
+                            "Successfully resolved descend path '", pathStr, "::", segName, "' as ",
+                            searchMod->getDefId()
+                        );
                         return ResResult {
                             ResResult::Kind::Module,
                             searchMod->getDefId()
@@ -202,6 +210,10 @@ namespace jc::resolve {
                     log::Logger::devDebug(
                         "Successfully resolved path '", pathStr, "::", segName, "', found ", defsCount, " item(-s), ",
                         privateDefsCount, " private item(-s) were ignored"
+                    );
+                    log::Logger::devDebug(
+                        "Successfully resolved import path '", pathStr, "::", segName, "' as ",
+                        collectedDefs
                     );
                     return collectedDefs;
                 }
