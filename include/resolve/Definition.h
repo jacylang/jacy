@@ -276,6 +276,7 @@ namespace jc::resolve {
             }
 
             log::notImplemented("Definition::isUsableAs");
+            return false;
         }
 
         bool isUsableAs(NameUsage usage) const {

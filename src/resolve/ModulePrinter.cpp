@@ -14,11 +14,12 @@ namespace jc::resolve {
         ).nl();
         printMod(sess->modTreeRoot.unwrap());
 
+        log.nl();
         log.raw("Blocks:").nl();
         for (const auto & block : sess->defTable.getBlocks()) {
-            log.raw(block.first, ": ", block.second);
+            printMod(block.second);
+            log.nl();
         }
-        log.nl();
     }
 
     void ModulePrinter::printMod(Module::Ptr module) {
@@ -32,7 +33,9 @@ namespace jc::resolve {
             log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
         }
 
-        log.raw(module->toString(), " {");
+        // Useless print, as we already print definition id
+//        log.raw(module->toString(), " {");
+        log.raw("{");
 
         if (noValues and noTypes and noLifetimes) {
             log.raw("}");

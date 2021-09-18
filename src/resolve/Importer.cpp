@@ -14,8 +14,6 @@ namespace jc::resolve {
     void Importer::visit(const ast::UseDecl & useDecl) {
         const auto & useDeclModule = sess->defTable.getUseDeclModule(useDecl.id);
 
-        useDeclModule->tryDefine(Namespace::Lifetime, span::Symbol::intern("kek"), DefId {0});
-
         log.dev("Import `use` with module ", useDeclModule->toString());
 
         _useDeclModule = useDeclModule;
