@@ -126,6 +126,13 @@ namespace jc::resolve {
         return utils::arr::expectAt(fosList, fosId.val, "`DefTable::getFOS`");
     }
 
+    /**
+     * @brief Defines function in given FOS, if no FOSId given creates one
+     * @param defId
+     * @param fosId
+     * @param suffix
+     * @return
+     */
     FOSId DefTable::defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
         using namespace utils::map;
 
