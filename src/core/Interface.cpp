@@ -365,10 +365,10 @@ namespace jc::core {
             log.raw(def).nl();
         }
 
-        log.raw("Function Overload Set:");
+        log.raw("Function Overload Set:").nl();
         resolve::FOSId::ValueT fosIndex = 0;
         for (const auto & fos : sess->defTable.getFOSList()) {
-            log.raw(resolve::FOSId {fosIndex}, ": ", fos);
+            log.raw(resolve::FOSId {fosIndex}, ": ", fos).nl();
         }
     }
 
