@@ -371,6 +371,11 @@ namespace jc::core {
             log.raw(resolve::FOSId {fosIndex}, ": ", fos).nl();
             fosIndex++;
         }
+
+        log.raw("`use` declarations modules:").nl();
+        for (const auto & mod : sess->defTable.getUseDeclModules()) {
+            log.raw(mod.first, ": ", mod.second).nl();
+        }
     }
 
     void Interface::printResolutions() {
