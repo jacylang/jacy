@@ -144,7 +144,6 @@ namespace jc::resolve {
                 ", previously defined as ",
                 oldDef.unwrap()
             );
-            // FIXME: Don't use `asDef`, this is a common case
             suggestCannotRedefine(ident, defKind, oldDef.unwrap());
         }
 
