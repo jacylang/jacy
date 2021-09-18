@@ -13,8 +13,6 @@
 namespace jc::span {
     class Interner;
 
-    // TODO!!!: Intern keywords
-
     /// Keywords
     /// NOTE: Order matters!!!
     ///  We use discriminants to access specific interned keyword and to map string to keyword

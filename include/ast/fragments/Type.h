@@ -6,8 +6,6 @@
 #include "ast/BaseVisitor.h"
 #include "ast/fragments/Path.h"
 
-// TODO: Separate Types by files in folder `type`
-
 namespace jc::ast {
     enum class TypeKind {
         Paren,

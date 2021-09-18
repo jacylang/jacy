@@ -13,7 +13,6 @@ namespace jc::ast {
             mut{mut},
             expr{std::move(expr)} {}
 
-        // TODO: Bool storing optimization
         bool mut;
         Expr::Ptr expr;
 

@@ -218,7 +218,7 @@ namespace jc::cli {
             } else {
                 // TODO[Important]: Check if file is word-like
 
-                // If it is not a source file or flag, then it might me a command
+                // If it is not a source file or flag, then it might be a command
                 if (command.some()) {
                     if (commandDefaulted) {
                         // Give different error message if command was defaulted, for readability :)

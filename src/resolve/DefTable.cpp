@@ -118,7 +118,7 @@ namespace jc::resolve {
     }
 
     // Function overload sets //
-    const FOSList & DefTable::getFOSList() const {
+    const DefTable::FOSList & DefTable::getFOSList() const {
         return fosList;
     }
 
