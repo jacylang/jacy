@@ -49,7 +49,7 @@ namespace jc::resolve {
         module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & [name, def] : ns) {
                 printIndent();
-                log.raw("'", name, "' (", Module::nsToString(nsKind), "): ");
+                log.raw("'", name, "' (", nsToString(nsKind), "): ");
                 printNameBinding(def);
                 log.nl();
             }

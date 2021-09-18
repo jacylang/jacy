@@ -132,13 +132,13 @@ namespace jc::resolve {
 
             if (nameBinding.isFOS()) {
                 log.dev(
-                    "Import '", segName, "' from ", Module::nsToString(nsKind), " namespace as FOS ",
+                    "Import '", segName, "' from ", nsToString(nsKind), " namespace as FOS ",
                     nameBinding.asFOS()
                 );
                 _useDeclModule->tryDefineFOS(segName, nameBinding.asFOS()).then(redefinitionCallback);
             } else {
                 log.dev(
-                    "Import '", segName, "' from ", Module::nsToString(nsKind), " namespace as definition ",
+                    "Import '", segName, "' from ", nsToString(nsKind), " namespace as definition ",
                     nameBinding.asDef()
                 );
                 _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);

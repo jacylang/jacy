@@ -76,7 +76,7 @@ namespace jc::resolve {
                     // Note: Bug check - having function overload in non-value namespace is a bug
                     if (nameBinding.isFOS() and ns != Namespace::Value) {
                         log::devPanic(
-                            "`PathResolver::resolve` got function `nameBinding` in '", Module::nsToString(ns), "'"
+                            "`PathResolver::resolve` got function `nameBinding` in '", nsToString(ns), "'"
                         );
                     }
 

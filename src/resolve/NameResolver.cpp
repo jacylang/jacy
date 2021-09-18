@@ -274,14 +274,14 @@ namespace jc::resolve {
     void NameResolver::enterModule(Symbol name, Namespace ns, Rib::Kind kind) {
         using namespace utils::map;
 
-        log.dev("Enter module '", name, "' from ", Module::nsToString(ns), " namespace");
+        log.dev("Enter module '", name, "' from ", nsToString(ns), " namespace");
 
         currentModule = sess->defTable
                             .getModule(
                                 expectAt(
                                     currentModule->getNS(ns),
                                     name,
-                                    "`NameResolver::enterModule` -> namespace: '" + Module::nsToString(ns) + "'"
+                                    "`NameResolver::enterModule` -> namespace: '" + nsToString(ns) + "'"
                                 ).asDef()
                             );
 
