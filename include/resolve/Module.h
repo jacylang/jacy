@@ -175,7 +175,7 @@ namespace jc::resolve {
             // When we try to add already defined function overload -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
             const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {fos});
-            if (not defined.second and defined.first->second.isTarget()) {
+            if (not defined.second) {
                 // User tried to define function with name taken by non-function item
                 return defined.first->second;
             }
