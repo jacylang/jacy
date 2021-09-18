@@ -55,8 +55,6 @@ namespace jc::span {
             if (end.fileId != fileId) {
                 log::devPanic("Called `Span::to` with spans from different files");
             }
-            // FIXME: Here may be problems with different lines
-            // FIXME: This does not work
             return Span(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);
         }
     };
