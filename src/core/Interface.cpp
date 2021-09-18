@@ -364,6 +364,12 @@ namespace jc::core {
         for (const auto & def : sess->defTable.getDefinitions()) {
             log.raw(def).nl();
         }
+
+        log.raw("Function Overload Set:");
+        resolve::FOSId::ValueT fosIndex = 0;
+        for (const auto & fos : sess->defTable.getFOSList()) {
+            log.raw(resolve::FOSId {fosIndex}, ": ", fos);
+        }
     }
 
     void Interface::printResolutions() {
