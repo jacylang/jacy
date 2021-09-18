@@ -20,7 +20,7 @@ namespace jc::resolve {
 
     const Module::Ptr & DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
         try {
-            return getModule(fosMap.at(overloadId.val).at(suffix));
+            return getModule(fosList.at(overloadId.val).at(suffix));
         } catch (const std::out_of_range & e) {
             panicWithDump(
                 "Called `DefTable::getFuncModule` with non-existing FuncOverloadId '",
@@ -118,8 +118,12 @@ namespace jc::resolve {
     }
 
     // Function overload sets //
+    const auto & DefTable::getFOSList() const {
+        return fosList;
+    }
+
     const DefTable::FOSMap & DefTable::getFOS(FOSId fosId) const {
-        return utils::arr::expectAt(fosMap, fosId.val, "`DefTable::getFOS`");
+        return utils::arr::expectAt(fosList, fosId.val, "`DefTable::getFOS`");
     }
 
     FOSId DefTable::defineFOS(DefId defId, FOSId::Opt fosId, Symbol suffix) {
@@ -127,12 +131,12 @@ namespace jc::resolve {
 
         // Add new overloading indexing if not provided
         if (fosId.none()) {
-            fosId = FOSId {static_cast<FOSId::ValueT>(fosMap.size())};
-            fosMap.emplace_back();
+            fosId = FOSId {static_cast<FOSId::ValueT>(fosList.size())};
+            fosList.emplace_back();
         }
 
         auto & fos = utils::arr::expectAtMut(
-            fosMap, fosId.unwrap().val, "`DefTable::defineFOS`"
+            fosList, fosId.unwrap().val, "`DefTable::defineFOS`"
         );
 
         assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");

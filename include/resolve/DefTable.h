@@ -40,6 +40,8 @@ namespace jc::resolve {
     public:
         using FOSMap = std::map<Symbol, DefId>;
 
+        const auto & getFOSList() const;
+
         const FOSMap & getFOS(FOSId fosId) const;
         FOSId defineFOS(DefId defId, FOSId::Opt fosId, Symbol suffix);
 
@@ -63,7 +65,7 @@ namespace jc::resolve {
         std::map<DefId, ast::NodeId> defIdNodeIdMap;
 
         /// Function overload sets collection, each id points to mapping from suffix to function definition
-        std::vector<FOSMap> fosMap;
+        std::vector<FOSMap> fosList;
 
         template<class ...Args>
         void panicWithDump(Args ...args) const {
