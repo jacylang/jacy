@@ -156,6 +156,15 @@ namespace jc::resolve {
             cb(Namespace::Type);
             cb(Namespace::Lifetime);
         }
+
+        template<class U>
+        static std::string toString(const PerNS<U> & perNS) {
+            return log::fmt(
+                "(type namespace): ", perNS.get(Namespace::Type),
+                "(value namespace): ", perNS.get(Namespace::Value),
+                "(lifetime namespace): ", perNS.get(Namespace::Lifetime)
+            );
+        }
     };
 
     struct BaseDef {
