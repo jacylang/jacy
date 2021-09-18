@@ -171,7 +171,7 @@ namespace jc::resolve {
         static inline constexpr const char * visStr(Vis vis) {
             switch (vis) {
                 case Vis::Unset: return "";
-                case Vis::Pub: return "pub";
+                case Vis::Pub: return "pub ";
             }
         }
 

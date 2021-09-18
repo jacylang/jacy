@@ -60,13 +60,7 @@ namespace jc::resolve {
         const auto & def = sess->defTable.getDef(defId);
         const auto defVis = sess->defTable.getDefVis(defId);
 
-        switch (defVis) {
-            case Vis::Unset:;
-            case Vis::Pub: {
-                log.raw("pub ");
-            }
-        }
-
+        log.raw(Def::visStr(defVis));
         log.raw(def);
 
         switch (def.kind) {
