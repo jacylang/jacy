@@ -10,7 +10,7 @@ namespace jc::resolve {
             Vis::Pub,
             ast::NodeId::DUMMY,
             DefKind::Mod,
-            span::Ident::empty()
+            span::Ident {span::Symbol::fromKw(span::Kw::Root), span::Span {}}
         );
 
         assert(rootModuleDef == DefId::ROOT_DEF_ID);
