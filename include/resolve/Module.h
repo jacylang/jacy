@@ -165,14 +165,13 @@ namespace jc::resolve {
         }
 
         NameBinding::Opt tryDefineFOS(const Symbol & baseName, const FOSId & fos) {
-            // When we try to add already defined function overload -- it is okay.
+            const auto & redefined = _tryDefine(Namespace::Value, baseName, NameBinding {fos});
+            // When we try to add already defined function overload set -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
-            const auto & defined = getNS(Namespace::Value).emplace(baseName, NameBinding {fos});
-            if (not defined.second and not defined.first->second.isFOS()) {
-                // User tried to define function with name taken by non-function item
-                return defined.first->second;
+            if (redefined.some() and redefined.unwrap().isFOS() and redefined.unwrap().asFOS() == fos) {
+                return None;
             }
-            return None;
+            return redefined;
         }
 
     private:
