@@ -122,7 +122,7 @@ namespace jc::ast {
         bool isPlaceExpr(const Expr::Ptr & expr);
 
         template<class T>
-        void lintEach(const std::vector<T> & entities) {
+        void validateEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
                 if constexpr (dt::is_ptr_like<T>::value) {
                     entity->accept(*this);
@@ -133,7 +133,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        void lintEach(const std::vector<PR<T>> & entities) {
+        void validateEach(const std::vector<PR<T>> & entities) {
             for (const auto & entity : entities) {
                 entity.autoAccept(*this);
             }

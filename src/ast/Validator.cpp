@@ -4,7 +4,7 @@ namespace jc::ast {
     Validator::Validator() = default;
 
     dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
-        lintEach(party.items);
+        validateEach(party.items);
 
         return {None, extractSuggestions()};
     }
@@ -18,7 +18,7 @@ namespace jc::ast {
     ////////////////
     void Validator::visit(const Enum & enumDecl) {
         // TODO: lint attributes
-        lintEach(enumDecl.entries);
+        validateEach(enumDecl.entries);
 
         pushContext(ValidatorCtx::Struct);
         popContext();
@@ -33,11 +33,11 @@ namespace jc::ast {
                 break;
             }
             case EnumEntryKind::Tuple: {
-                lintEach(std::get<TupleTypeEl::List>(enumEntry.body));
+                validateEach(std::get<TupleTypeEl::List>(enumEntry.body));
                 break;
             }
             case EnumEntryKind::Struct: {
-                lintEach(std::get<StructField::List>(enumEntry.body));
+                validateEach(std::get<StructField::List>(enumEntry.body));
                 break;
             }
         }
@@ -69,12 +69,12 @@ namespace jc::ast {
 //        }
 
         if (func.generics.some()) {
-            lintEach(func.generics.unwrap());
+            validateEach(func.generics.unwrap());
         }
 
         func.name.autoAccept(*this);
 
-        lintEach(func.sig.params);
+        validateEach(func.sig.params);
 
         if (func.sig.returnType.some()) {
             func.sig.returnType.unwrap().autoAccept(*this);
@@ -99,7 +99,7 @@ namespace jc::ast {
         // TODO: lint attributes
 
         if (impl.generics.some()) {
-            lintEach(impl.generics.unwrap());
+            validateEach(impl.generics.unwrap());
         }
 
         impl.traitTypePath.autoAccept(*this);
@@ -109,7 +109,7 @@ namespace jc::ast {
         }
 
         pushContext(ValidatorCtx::Struct);
-        lintEach(impl.members);
+        validateEach(impl.members);
         popContext();
     }
 
@@ -117,7 +117,7 @@ namespace jc::ast {
         // TODO: lint attributes
 
         mod.name.autoAccept(*this);
-        lintEach(mod.items);
+        validateEach(mod.items);
     }
 
     void Validator::visit(const Struct & _struct) {
@@ -126,7 +126,7 @@ namespace jc::ast {
         _struct.name.autoAccept(*this);
 
         if (_struct.generics.some()) {
-            lintEach(_struct.generics.unwrap());
+            validateEach(_struct.generics.unwrap());
         }
 
         pushContext(ValidatorCtx::Struct);
@@ -145,13 +145,13 @@ namespace jc::ast {
         trait.name.autoAccept(*this);
 
         if (trait.generics.some()) {
-            lintEach(trait.generics.unwrap());
+            validateEach(trait.generics.unwrap());
         }
 
-        lintEach(trait.superTraits);
+        validateEach(trait.superTraits);
 
         pushContext(ValidatorCtx::Struct);
-        lintEach(trait.members);
+        validateEach(trait.members);
         popContext();
     }
 
@@ -179,7 +179,7 @@ namespace jc::ast {
         if (useTree.path.some()) {
             useTree.path.unwrap().accept(*this);
         }
-        lintEach(useTree.specifics);
+        validateEach(useTree.specifics);
     }
 
     void Validator::visit(const UseTreeRebind & useTree) {
@@ -208,7 +208,7 @@ namespace jc::ast {
             }
         }
 
-        lintEach(init.sig.params);
+        validateEach(init.sig.params);
 
         if (init.sig.returnType.some()) {
             init.sig.returnType.unwrap().autoAccept(*this);
@@ -275,7 +275,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Block & block) {
-        lintEach(block.stmts);
+        validateEach(block.stmts);
     }
 
     void Validator::visit(const BorrowExpr & borrowExpr) {
@@ -364,11 +364,11 @@ namespace jc::ast {
 
     void Validator::visit(const Invoke & invoke) {
         invoke.lhs.autoAccept(*this);
-        lintEach(invoke.args);
+        validateEach(invoke.args);
     }
 
     void Validator::visit(const Lambda & lambdaExpr) {
-        lintEach(lambdaExpr.params);
+        validateEach(lambdaExpr.params);
 
         if (lambdaExpr.returnType.some()) {
             lambdaExpr.returnType.unwrap().autoAccept(*this);
@@ -387,7 +387,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ListExpr & listExpr) {
-        lintEach(listExpr.elements);
+        validateEach(listExpr.elements);
     }
 
     void Validator::visit(const Literal&) {
@@ -463,7 +463,7 @@ namespace jc::ast {
 
     void Validator::visit(const Subscript & subscript) {
         subscript.lhs.autoAccept(*this);
-        lintEach(subscript.indices);
+        validateEach(subscript.indices);
     }
 
     void Validator::visit(const SelfExpr&) {
@@ -471,7 +471,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TupleExpr & tupleExpr) {
-        lintEach(tupleExpr.elements);
+        validateEach(tupleExpr.elements);
     }
 
     void Validator::visit(const UnitExpr&) {
@@ -480,11 +480,11 @@ namespace jc::ast {
 
     void Validator::visit(const MatchExpr & matchExpr) {
         matchExpr.subject.autoAccept(*this);
-        lintEach(matchExpr.entries);
+        validateEach(matchExpr.entries);
     }
 
     void Validator::visit(const MatchArm & matchArm) {
-        lintEach(matchArm.patterns);
+        validateEach(matchArm.patterns);
         matchArm.body.autoAccept(*this);
     }
 
@@ -510,7 +510,7 @@ namespace jc::ast {
         }
 
         // FIXME: Add check for one-element tuple type, etc.
-        lintEach(tupleType.elements);
+        validateEach(tupleType.elements);
     }
 
     void Validator::visit(const TupleTypeEl & el) {
@@ -523,7 +523,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const FuncType & funcType) {
-        lintEach(funcType.params);
+        validateEach(funcType.params);
         funcType.returnType.autoAccept(*this);
     }
 
@@ -567,7 +567,7 @@ namespace jc::ast {
     // Fragments //
     void Validator::visit(const Attr & attr) {
         attr.name.autoAccept(*this);
-        lintEach(attr.params);
+        validateEach(attr.params);
     }
 
     void Validator::visit(const Ident&) {}
@@ -580,7 +580,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Path & path) {
-        lintEach(path.segments);
+        validateEach(path.segments);
     }
 
     void Validator::visit(const PathSeg & seg) {
@@ -590,12 +590,12 @@ namespace jc::ast {
             }
         }
         if (seg.generics.some()) {
-            lintEach(seg.generics.unwrap());
+            validateEach(seg.generics.unwrap());
         }
     }
 
     void Validator::visit(const SimplePath & path) {
-        lintEach(path.segments);
+        validateEach(path.segments);
     }
 
     void Validator::visit(const SimplePathSeg & seg) {
