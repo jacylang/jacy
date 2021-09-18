@@ -26,14 +26,16 @@ namespace jc::resolve {
             log.raw("(shadows ", shadowedPrimTypesNames, " primitive types) ");
         }
 
+        log.raw(module->toString(), " {");
+
         if (noValues and noTypes and noLifetimes) {
-            log.raw("{}");
+            log.raw("}");
             return;
+        } else {
+            log.nl();
         }
 
-        log.raw(module->toString(), " {").nl();
         indent++;
-
         module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
             for (const auto & [name, def] : ns) {
                 printIndent();
@@ -42,8 +44,8 @@ namespace jc::resolve {
                 log.nl();
             }
         });
-
         indent--;
+
         printIndent();
         log.raw("}");
     }
