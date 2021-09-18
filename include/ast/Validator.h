@@ -139,6 +139,8 @@ namespace jc::ast {
             }
         }
 
+        void validateAttrs(const ast::Attr::List & attrs);
+
         // Context //
     private:
         std::vector<ValidatorCtx> ctxStack;

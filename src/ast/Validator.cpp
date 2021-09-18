@@ -17,7 +17,6 @@ namespace jc::ast {
     // Statements //
     ////////////////
     void Validator::visit(const Enum & enumDecl) {
-        // TODO: lint attributes
         validateEach(enumDecl.entries);
 
         pushContext(ValidatorCtx::Struct);
@@ -48,12 +47,12 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ItemStmt & itemStmt) {
-        // TODO: Lint attributes
+        validateAttrs(itemStmt.item.unwrap()->attributes);
+
         itemStmt.item.autoAccept(*this);
     }
 
     void Validator::visit(const Func & func) {
-        // TODO: lint attributes
         using span::Kw;
 
         // Useless validation
@@ -96,8 +95,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Impl & impl) {
-        // TODO: lint attributes
-
         if (impl.generics.some()) {
             validateEach(impl.generics.unwrap());
         }
@@ -114,15 +111,11 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Mod & mod) {
-        // TODO: lint attributes
-
         mod.name.autoAccept(*this);
         validateEach(mod.items);
     }
 
     void Validator::visit(const Struct & _struct) {
-        // TODO: lint attributes
-
         _struct.name.autoAccept(*this);
 
         if (_struct.generics.some()) {
@@ -140,8 +133,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Trait & trait) {
-        // TODO: lint attributes
-
         trait.name.autoAccept(*this);
 
         if (trait.generics.some()) {
@@ -156,8 +147,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TypeAlias & typeAlias) {
-        // TODO: lint attributes
-
         typeAlias.name.autoAccept(*this);
 
         typeAlias.type.then([&](const auto & type) {
@@ -166,8 +155,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const UseDecl & useDecl) {
-        // TODO: lint attributes
-
         useDecl.useTree.autoAccept(*this);
     }
 
@@ -198,7 +185,7 @@ namespace jc::ast {
             if (!isInside(ValidatorCtx::Struct)) {
                 switch (modifier.kind) {
                     default: {
-                        // No modifiers for `init` (may be changed in the future)
+                        // No modifiers for `init` (might be changed in the future)
                         suggestErrorMsg(
                             "`init` methods do not allow any modifiers so far",
                             modifier.span
@@ -663,6 +650,10 @@ namespace jc::ast {
             return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);
         }
         return expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
+    }
+
+    void Validator::validateAttrs(const ast::Attr::List & attrs) {
+        // ?
     }
 
     // Context //
