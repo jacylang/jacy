@@ -25,6 +25,10 @@ namespace jc::resolve {
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
 
+        const auto & getBlocks() const {
+            return blocks;
+        }
+
         const auto & getUseDeclModules() const {
             return useDeclModules;
         }

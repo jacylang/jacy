@@ -13,6 +13,12 @@ namespace jc::resolve {
             "`Definition kind` 'Definition full name' #defId {Inner definitions}"
         ).nl();
         printMod(sess->modTreeRoot.unwrap());
+
+        log.raw("Blocks:").nl();
+        for (const auto & block : sess->defTable.getBlocks()) {
+            log.raw(block.first, ": ", block.second);
+        }
+        log.nl();
     }
 
     void ModulePrinter::printMod(Module::Ptr module) {
