@@ -52,10 +52,9 @@ namespace jc::resolve {
             FOS,
         } kind;
 
-        NameBinding(Vis vis, DefId defId) : kind{Kind::Target}, vis{vis}, val{defId} {}
-        NameBinding(Vis vis, FOSId fos) : kind{Kind::FOS}, vis{vis}, val {fos} {}
+        NameBinding(DefId defId) : kind{Kind::Target}, val{defId} {}
+        NameBinding(FOSId fos) : kind{Kind::FOS}, val {fos} {}
 
-        Vis vis;
         ValueT val;
 
         bool isTarget() const {
