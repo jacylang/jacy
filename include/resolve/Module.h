@@ -164,11 +164,11 @@ namespace jc::resolve {
             return _tryDefine(ns, name, NameBinding {defId});
         }
 
-        NameBinding::Opt tryDefineFOS(const Symbol & baseName, const FOSId & fos) {
-            const auto & redefined = _tryDefine(Namespace::Value, baseName, NameBinding {fos});
+        NameBinding::Opt tryDefineFOS(const Symbol & baseName, const FOSId & fosId) {
+            const auto & redefined = _tryDefine(Namespace::Value, baseName, NameBinding {fosId});
             // When we try to add already defined function overload set -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
-            if (redefined.some() and redefined.unwrap().isFOS() and redefined.unwrap().asFOS() == fos) {
+            if (redefined.some() and redefined.unwrap().isFOS() and redefined.unwrap().asFOS() == fosId) {
                 return None;
             }
             return redefined;
