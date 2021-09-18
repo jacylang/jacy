@@ -212,8 +212,7 @@ namespace jc::resolve {
                         privateDefsCount, " private item(-s) were ignored"
                     );
                     log::Logger::devDebug(
-                        "Successfully resolved import path '", pathStr, "::", segName, "' as ",
-                        NameBinding::PerNS::toString(collectedDefs)
+                        "Successfully resolved import path '", pathStr, "::", segName, "' as ", collectedDefs
                     );
                     return collectedDefs;
                 }

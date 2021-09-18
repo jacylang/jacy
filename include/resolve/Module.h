@@ -271,15 +271,6 @@ namespace jc::resolve {
         inline std::string kindStr() const {
             return kindStr(kind);
         }
-
-        static inline std::string nsToString(Namespace ns) {
-            switch (ns) {
-                case Namespace::Value: return "value";
-                case Namespace::Type: return "type";
-                case Namespace::Lifetime: return "lifetime";
-                case Namespace::Any: return "[ANY]";
-            }
-        }
     };
 }
 
