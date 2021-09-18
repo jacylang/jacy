@@ -17,6 +17,7 @@ namespace jc::resolve {
         log.nl();
         log.raw("Blocks:").nl();
         for (const auto & block : sess->defTable.getBlocks()) {
+            log.raw(block.first, ": ");
             printMod(block.second);
             log.nl();
         }
