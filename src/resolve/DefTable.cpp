@@ -102,6 +102,7 @@ namespace jc::resolve {
 
         log::Logger::devDebug(
             "[DefTable::define] Add definition ",
+            Def::visStr(vis),
             Def::kindStr(kind),
             " '",
             ident,

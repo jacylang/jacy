@@ -89,6 +89,7 @@ namespace jc::resolve {
         const ast::PathInterface & path,
         const Option<Symbol> & rebind
     ) {
+        log.dev("Import items into module ", _useDeclModule->toString());
         // TODO: Research cases when no the last segment is used!
 
         // Use last segment as target
