@@ -125,13 +125,19 @@ namespace jc::resolve {
                 return;
             }
 
-            log.dev("Import '", segName, "' from ", Module::nsToString(nsKind), " namespace");
-
             const auto & nameBinding = maybeDef.unwrap();
 
             if (nameBinding.isFOS()) {
+                log.dev(
+                    "Import '", segName, "' from ", Module::nsToString(nsKind), " namespace as FOS ",
+                    nameBinding.asFOS()
+                );
                 _useDeclModule->tryDefineFOS(segName, nameBinding.asFOS()).then(redefinitionCallback);
             } else {
+                log.dev(
+                    "Import '", segName, "' from ", Module::nsToString(nsKind), " namespace as definition ",
+                    nameBinding.asDef()
+                );
                 _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);
             }
         });
