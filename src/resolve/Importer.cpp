@@ -99,6 +99,7 @@ namespace jc::resolve {
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
+            log.dev("Tried to redefine '", segName, "', old name binding is ", nameBinding);
             if (nameBinding.isFOS()) {
                 // TODO!!: Function import is a complex process, see Issue #8
                 log::notImplemented("Function overloads importation is incomplete feature, see issue #8 on GitHub");
