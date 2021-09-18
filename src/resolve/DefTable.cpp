@@ -2,7 +2,7 @@
 
 namespace jc::resolve {
     // Modules //
-    const Module::Ptr & DefTable::getModule(const DefId & defId) const {
+    Module::Ptr DefTable::getModule(const DefId & defId) const {
         try {
             return modules.at(defId.getIndex());
         } catch (const std::out_of_range & e) {
@@ -10,7 +10,7 @@ namespace jc::resolve {
         }
     }
 
-    const Module::Ptr & DefTable::getBlock(ast::NodeId nodeId) const {
+    Module::Ptr DefTable::getBlock(ast::NodeId nodeId) const {
         try {
             return blocks.at(nodeId);
         } catch (const std::out_of_range & e) {
@@ -18,7 +18,7 @@ namespace jc::resolve {
         }
     }
 
-    const Module::Ptr & DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
+    Module::Ptr DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
         try {
             return getModule(fosList.at(overloadId.val).at(suffix));
         } catch (const std::out_of_range & e) {
@@ -52,7 +52,7 @@ namespace jc::resolve {
         useDeclModules.emplace(nodeId, module);
     }
 
-    const Module::Ptr & DefTable::getUseDeclModule(ast::NodeId nodeId) const {
+    Module::Ptr DefTable::getUseDeclModule(ast::NodeId nodeId) const {
         try {
             return useDeclModules.at(nodeId);
         } catch (const std::out_of_range & e) {

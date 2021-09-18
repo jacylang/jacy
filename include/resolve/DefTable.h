@@ -15,15 +15,15 @@ namespace jc::resolve {
 
         // Modules //
     public:
-        const Module::Ptr & getModule(const DefId & defId) const;
-        const Module::Ptr & getBlock(ast::NodeId nodeId) const;
-        const Module::Ptr & getFuncModule(FOSId overloadId, span::Symbol suffix) const;
+        Module::Ptr getModule(const DefId & defId) const;
+        Module::Ptr getBlock(ast::NodeId nodeId) const;
+        Module::Ptr getFuncModule(FOSId overloadId, span::Symbol suffix) const;
 
         Module::Ptr addModule(const DefId & defId, Module::Ptr module);
         Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module);
 
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
-        const Module::Ptr & getUseDeclModule(ast::NodeId nodeId) const;
+        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
 
         // Common definitions //
     public:
