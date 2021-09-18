@@ -97,12 +97,14 @@ namespace jc::resolve {
         if (fos.size() == 1) {
             printDef(fos.begin()->second);
         } else if (not fos.empty()) {
+            indent++;
             for (const auto & overload : fos) {
                 log.nl();
                 printIndent();
                 log.raw("- ");
                 printDef(overload.second);
             }
+            indent--;
         }
     }
 
