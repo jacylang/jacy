@@ -31,7 +31,7 @@ namespace jc::resolve {
             return;
         }
 
-        log.raw("{").nl();
+        log.raw(module->toString(), " {").nl();
         indent++;
 
         module->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
