@@ -100,7 +100,7 @@ namespace jc::resolve {
 
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
             if (nameBinding.isFOS()) {
-                // TODO!!: Think how to handle function overloads
+                // TODO!!: Function import is a complex process, see Issue #8
                 return;
             }
             auto oldDefId = nameBinding.asDef();
@@ -124,6 +124,8 @@ namespace jc::resolve {
             if (maybeDef.none()) {
                 return;
             }
+
+            log.dev("Import '", segName, "' from ", Module::nsToString(nsKind), " namespace");
 
             const auto & nameBinding = maybeDef.unwrap();
 
