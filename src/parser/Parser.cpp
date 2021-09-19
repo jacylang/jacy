@@ -613,7 +613,7 @@ namespace jc::parser {
             // `*` case
             if (skipOpt(TokenKind::Mul).some()) {
                 exitEntity();
-                return Ok(makeNode<UseTreeAll>(std::move(maybePath), true, closeSpan(begin)));
+                return Ok(makeNode<UseTree>(std::move(maybePath), true, closeSpan(begin)));
             }
 
             if (skipOpt(TokenKind::LBrace).some()) {
@@ -642,14 +642,14 @@ namespace jc::parser {
 
                 exitEntity();
 
-                return Ok(makeNode<UseTreeSpecific>(
+                return Ok(makeNode<UseTree>(
                     std::move(maybePath), std::move(specifics), closeSpan(begin)
                 ));
             }
 
             if (maybePath.some()) {
                 exitEntity();
-                return Ok(makeNode<UseTreeRaw>(maybePath.take(), closeSpan(begin)));
+                return Ok(makeNode<UseTree>(maybePath.take(), closeSpan(begin)));
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
@@ -665,12 +665,12 @@ namespace jc::parser {
 
             auto as = parseIdent("binding name after `as`");
             exitEntity();
-            return Ok(makeNode<UseTreeRebind>(maybePath.take(), std::move(as), closeSpan(begin)));
+            return Ok(makeNode<UseTree>(maybePath.take(), std::move(as), closeSpan(begin)));
         }
 
         if (maybePath.some()) {
             exitEntity();
-            return Ok(makeNode<UseTreeRaw>(maybePath.take(), closeSpan(begin)));
+            return Ok(makeNode<UseTree>(maybePath.take(), closeSpan(begin)));
         }
 
         if (isKw(Kw::As)) {
