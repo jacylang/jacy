@@ -90,13 +90,22 @@ namespace jc::resolve {
     FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
         FosRedefs redefs;
 
-        // TODO!!!: Import only public definitions and do it relatively to import path
-
+        // Get FOS we will import overloads to
         auto & targetFos = getFOSmut(targetFosId);
+
+        // Go through all overloads in imported FOS
         for (const auto & overload : getFOS(importFosId)) {
+            auto overloadVis = getDefVis(overload.second);
+            if (overloadVis != Vis::Pub) {
+                continue;
+            }
+
             if (utils::map::has(targetFos, overload.first)) {
+                // If imported suffix already defined in target FOS, it is an error,
+                //  however only if we imported public overload
                 redefs.suffixes.emplace_back(overload.first);
             } else {
+                // Import particular overload to target FOS
                 targetFos.emplace(
                     overload.first,
                     defineImportAlias(importVis, overload.second)
@@ -107,7 +116,7 @@ namespace jc::resolve {
         return redefs;
     }
 
-    DefId DefTable::getImportAlias(DefId aliasDefId) {
+    DefId DefTable::getImportAlias(DefId aliasDefId) const {
         return importAliases.at(aliasDefId);
     }
 
