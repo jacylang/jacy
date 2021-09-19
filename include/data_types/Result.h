@@ -235,7 +235,7 @@ namespace jc::dt {
 
         constexpr const E & unwrapErr(const std::string & msg = "") const {
             if (kind() == ResultKind::Uninited) {
-                details::useOfUninited("unwrap");
+                details::useOfUninited("unwrapErr");
             }
             if (!err()) {
                 details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
