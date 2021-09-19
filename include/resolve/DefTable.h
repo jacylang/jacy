@@ -63,8 +63,9 @@ namespace jc::resolve {
         using FOSList = std::vector<FOSMap>;
 
         const FOSList & getFOSList() const;
-
         const FOSMap & getFOS(FOSId fosId) const;
+
+        FOSId newEmptyFOS();
         FOSId defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix);
 
         /**

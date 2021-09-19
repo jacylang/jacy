@@ -227,6 +227,11 @@ namespace jc::resolve {
         return utils::arr::expectAt(fosList, fosId.val, "`DefTable::getFOS`");
     }
 
+    FOSId DefTable::newEmptyFOS() {
+        fosList.emplace_back();
+        return FOSId {static_cast<FOSId::ValueT>(fosList.size() - 1)};
+    }
+
     /**
      * @brief Defines function in given FOS, if no FOSId given creates one
      * @param defId
