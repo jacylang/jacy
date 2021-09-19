@@ -142,9 +142,9 @@ namespace jc::resolve {
             " and def id ",
             defId);
 
-        assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::addDef` -> defVisMap");
-        assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::addDef` -> nodeIdDefIdMap");
-        assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::addDef` -> defIdNodeIdMap");
+        assertNewEmplace(defVisMap.emplace(defId, vis), "`DefTable::define` -> defVisMap");
+        assertNewEmplace(nodeIdDefIdMap.emplace(nodeId, defId), "`DefTable::define` -> nodeIdDefIdMap");
+        assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::define` -> defIdNodeIdMap");
 
         return defId;
     }
