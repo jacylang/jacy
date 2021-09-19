@@ -187,4 +187,41 @@ namespace jc::resolve {
             sess->defTable.importFos(importVis, importFosId, oldName.asFOS());
         });
     }
+
+    // Suggestions //
+    void Importer::suggestCannotImport(
+        const span::Ident & ident,
+        DefKind as,
+        const NameBinding & prevModDef,
+        Symbol::Opt suffix
+    ) {
+        // Note: The only things we can redefine are obviously "named" things,
+        //  thus if name span found -- it is a bug
+
+        auto redefinedName = ident.sym;
+        if (suffix.some()) {
+            redefinedName = redefinedName + suffix.unwrap();
+        }
+
+        DefId::Opt prevDefId = None;
+        if (prevModDef.isFOS()) {
+            prevDefId = sess->defTable.getFOSFirstDef(prevModDef.asFOS());
+        } else {
+            prevDefId = prevModDef.asDef();
+        }
+
+        const auto & prevDefSpan = sess->defTable.getDefNameSpan(prevDefId.unwrap());
+        const auto & prevDef = sess->defTable.getDef(prevDefId.unwrap());
+
+        // TODO: Header when suggestion headers will be implemented:
+        //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
+
+        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
+            log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
+            ident.span,
+            "Because it is already declared as " + prevDef.kindStr() + " here",
+            prevDefSpan,
+            sugg::SuggKind::Error
+        ));
+    }
 }

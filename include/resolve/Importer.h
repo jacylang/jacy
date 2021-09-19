@@ -58,6 +58,15 @@ namespace jc::resolve {
          * @param span
          */
         void defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span);
+
+        // Suggestions //
+    private:
+        void suggestCannotImport(
+            const span::Ident & ident,
+            DefKind as,
+            const NameBinding & prevModDef,
+            Symbol::Opt suffix = None
+        );
     };
 }
 
