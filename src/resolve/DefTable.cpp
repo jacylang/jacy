@@ -62,6 +62,9 @@ namespace jc::resolve {
     }
 
     // Common definitions //
+
+    /// Returns definition, considers that definition exists.
+    /// For `DefKind::Import` definitions, applies logic of recursive unwinding
     Def DefTable::getDef(const DefIndex & index) const {
         try {
             auto def = defs.at(index.val);
@@ -92,7 +95,7 @@ namespace jc::resolve {
 
     span::Span DefTable::getDefNameSpan(const DefId & defId) const {
         try {
-            return defs.at(defId.getIndex().val).ident.span;
+            return getDef(defId).ident.span;
         } catch (const std::out_of_range & e) {
             panicWithDump("Called `DefTable::getDefNameSpan` with non-existing `defId` ", defId, ": ", e.what());
         }
