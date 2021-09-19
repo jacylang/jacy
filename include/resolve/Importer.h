@@ -33,6 +33,8 @@ namespace jc::resolve {
     private:
         PathResolver pathResolver;
 
+        bool descendByPath(const ast::SimplePath::Opt & optPath);
+
         void define(
             const NameBinding::PerNS & defPerNS,
             const ast::PathInterface & path,

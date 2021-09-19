@@ -28,55 +28,36 @@ namespace jc::resolve {
 
         switch (useTree.kind) {
             case ast::UseTree::Kind::Raw: {
-                auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, None, ResMode::Import);
+                auto res = pathResolver.resolve(
+                    _importModule, Namespace::Any, useTree.path.unwrap(), None, ResMode::Import
+                );
                 if (res.ok()) {
-                    define(res.asImport(), useTree.path, None);
+                    define(res.asImport(), useTree.path.unwrap(), None);
                 }
                 break;
             }
             case ast::UseTree::Kind::All: {
-                if (useTree.path.some()) {
-                    auto res = pathResolver.resolve(
-                        _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-                    );
-                    if (res.ok()) {
-                        _importModule = sess->defTable.getModule(res.asModuleDef());
-                    } else {
-                        // Don't define items if resolution failed
-                        return;
-                    }
-                }
+                if (descendByPath(useTree.path)) {
+                    _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
+                        for (const auto & def : ns) {
+                            // Note: for `use a::*` we don't report "redefinition" error
 
-                _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
-                    for (const auto & def : ns) {
-                        // Note: for `use a::*` we don't report "redefinition" error
-
-                        if (def.second.isFOS()) {
-                            _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
-                        } else {
-                            _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+                            if (def.second.isFOS()) {
+                                _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
+                            } else {
+                                _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 break;
             }
             case ast::UseTree::Kind::Specific: {
-                // If path given -- descend to module it points to
-                if (useTree.path.some()) {
-                    auto res = pathResolver.resolve(
-                        _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-                    );
-                    if (res.ok()) {
-                        _importModule = sess->defTable.getModule(res.asModuleDef());
-                    } else {
-                        // Don't visit specifics if resolution failed
-                        return;
+                if (descendByPath(useTree.path)) {
+                    // Here, we resolve specifics relatively to current path
+                    for (const auto & specific : useTree.expectSpecifics()) {
+                        specific.autoAccept(*this);
                     }
-                }
-
-                // Here, we resolve specifics relatively to current path
-                for (const auto & specific : useTree.expectSpecifics()) {
-                    specific.autoAccept(*this);
                 }
                 break;
             }
@@ -90,6 +71,28 @@ namespace jc::resolve {
                 break;
             }
         }
+    }
+
+    /**
+     * @brief Descends to module by path, if no path given does nothing
+     * @param optPath
+     * @return `true` if successfully resolved path, `false` otherwise
+     */
+    bool Importer::descendByPath(const ast::SimplePath::Opt & optPath) {
+        if (optPath.none()) {
+            return true;
+        }
+
+        const auto & res = pathResolver.resolve(
+            _importModule, Namespace::Type, optPath.unwrap(), None, ResMode::Descend
+        );
+
+        _importModule = sess->defTable.getModule(res.asModuleDef());
+
+        if (res.ok()) {
+            return true;
+        }
+        return false;
     }
 
     void Importer::define(

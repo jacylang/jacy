@@ -47,7 +47,7 @@ namespace jc::ast {
             return std::get<UseTree::List>(val);
         }
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
