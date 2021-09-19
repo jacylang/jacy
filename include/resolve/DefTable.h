@@ -4,11 +4,9 @@
 #include "resolve/Module.h"
 
 namespace jc::resolve {
-    // Unused
-//    struct ImportAliasInfo {
-//        DefKind importDefKind;
-//        DefId aliasDefId;
-//    };
+    struct FosRedefs {
+        std::vector<span::Symbol> names;
+    };
 
     struct DefTable {
         auto size() const {
@@ -37,6 +35,7 @@ namespace jc::resolve {
         DefId defineImportAlias(Vis importVis, DefId importDefId);
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
+        FosRedefs importFos(FOSId importFosId, FOSId targetFosId);
 
         const auto & getUseDeclModules() const {
             return useDeclModules;
@@ -72,6 +71,11 @@ namespace jc::resolve {
          * @brief Get span of the first overload from some function overload set
          */
         span::Span getFOSFirstSpan(FOSId fosId) const;
+
+    private:
+        FOSMap & getFOS(FOSId fosId) {
+            return utils::arr::expectAtMut(fosList, fosId.val, "`DefTable::getFOS` mutable");
+        }
 
     private:
         std::vector<Def> defs;
