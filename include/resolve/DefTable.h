@@ -4,6 +4,11 @@
 #include "resolve/Module.h"
 
 namespace jc::resolve {
+    struct ImportAliasInfo {
+        DefKind importDefKind;
+        DefId aliasDefId;
+    };
+
     struct DefTable {
         auto size() const {
             return defs.size();
@@ -28,7 +33,7 @@ namespace jc::resolve {
 
         // Importation //
     public:
-        DefId defineImportAlias(Vis importVis, DefId importDefId);
+        ImportAliasInfo defineImportAlias(Vis importVis, DefId importDefId);
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
 

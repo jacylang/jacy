@@ -49,19 +49,21 @@ namespace jc::resolve {
     }
 
     // Importation //
-    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
+    ImportAliasInfo DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
         using namespace utils::map;
 
         auto aliasDefId = DefId {DefIndex {defs.size()}};
-        auto ident = getDef(importDefId).ident;
-        defs.emplace_back(aliasDefId, DefKind::Import, ident);
+        const auto & importDef = getDef(importDefId);
+        auto importDefIdent = importDef.ident;
+        auto importDefKind = importDef.kind;
+        defs.emplace_back(aliasDefId, DefKind::Import, importDefIdent);
 
         log::Logger::devDebug(
             "[DefTable::define] Add import alias definition ",
             Def::visStr(importVis),
             aliasDefId,
             " '",
-            ident,
+            importDefIdent,
             "', alias to ",
             importDefId);
 
@@ -70,7 +72,7 @@ namespace jc::resolve {
         );
         assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
 
-        return aliasDefId;
+        return {importDefKind, aliasDefId};
     }
 
     void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
