@@ -54,14 +54,14 @@ namespace jc::resolve {
     /// For `DefKind::Import` definitions, applies logic of recursive unwinding
     Def DefTable::getDef(const DefIndex & index) const {
         try {
-            return getDef(unwindDefId(DefId {index}));
+            return defs.at(unwindDefId(DefId {index}).getIndex().val);
         } catch (const std::out_of_range & e) {
             log::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
         }
     }
 
     Def DefTable::getDef(const DefId & defId) const {
-        return getDef(defId.getIndex());
+        return getDef(unwindDefId(defId).getIndex());
     }
 
     Vis DefTable::getDefVis(const DefId & defId) const {
