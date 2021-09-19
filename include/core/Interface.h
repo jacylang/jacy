@@ -85,7 +85,7 @@ namespace jc::core {
 
         // Debug //
         void printModTree(const std::string & afterStage);
-        void printDefinitions();
+        void printDefinitions(const std::string & afterStage);
         void printResolutions();
 
         // Lowering //

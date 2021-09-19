@@ -318,8 +318,7 @@ namespace jc::core {
         sess->endStep();
 
         printModTree("module tree building");
-
-        printDefinitions();
+        printDefinitions("module tree building");
 
         log.dev("Resolving imports...");
         sess->beginStep("Import resolution", MeasUnit::Node);
@@ -327,6 +326,7 @@ namespace jc::core {
         sess->endStep();
 
         printModTree("imports resolution");
+        printDefinitions("imports resolution");
 
         log.dev("Resolving names...");
         sess->beginStep("Name resolution", MeasUnit::Node);
@@ -353,12 +353,12 @@ namespace jc::core {
         log::Logger::nl();
     }
 
-    void Interface::printDefinitions() {
+    void Interface::printDefinitions(const std::string & afterStage) {
         if (not config.checkPrint(config::Config::PrintKind::Definitions)) {
             return;
         }
 
-        log.info("Printing definitions (`--print=definitions`)");
+        log.info("Printing definitions after ", afterStage, " (`--print=definitions`)");
 
         // Linear, no benchmark needed
         for (const auto & def : sess->defTable.getDefinitions()) {
