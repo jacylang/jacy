@@ -37,6 +37,7 @@ namespace jc::ast {
         void visit(const Trait & trait) override;
         void visit(const TypeAlias & typeAlias) override;
         void visit(const UseDecl & useDecl) override;
+        void visit(const UseTree & useTree) override;
         void visit(const Init & init) override;
 
         // Statements //
@@ -119,7 +120,6 @@ namespace jc::ast {
         void printAttributes(const Attr::List & attributes);
         void printModifiers(const parser::Token::List & modifiers);
         void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
-        void printUseTree(const UseTree::PR & useTree);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 

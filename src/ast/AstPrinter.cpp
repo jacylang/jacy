@@ -213,16 +213,48 @@ namespace jc::ast {
         printVis(useDecl.vis);
 
         log.raw("use ");
-
-        if (useDecl.useTree.ok()) {
-            printUseTree(useDecl.useTree);
-        } else {
-            useDecl.useTree.unwrapErr().accept(*this);
-        }
-
+        useDecl.useTree.autoAccept(*this);
         log.raw(";");
 
         printNodeId(useDecl);
+    }
+
+    void AstPrinter::visit(const UseTree & useTree) {
+        if (useTree.kind == UseTree::Kind::Rebind or useTree.path.some()) {
+            useTree.expectPath().accept(*this);
+            log.raw("::");
+        }
+
+        switch (useTree.kind) {
+            case UseTree::Kind::Raw: break;
+            case UseTree::Kind::All: {
+                log.raw("*");
+                break;
+            }
+            case UseTree::Kind::Specific: {
+                log.raw("{");
+                const auto & specifics = useTree.expectSpecifics();
+                auto multiple = specifics.size() > 1;
+                if (multiple) {
+                    log.nl();
+                }
+                for (const auto & specific : specifics) {
+                    printUseTree(specific);
+                    if (multiple) {
+                        log.raw(",").nl();
+                    }
+                }
+                if (multiple) {
+                    log.nl();
+                }
+                break;
+            }
+            case UseTree::Kind::Rebind: {
+                log.raw(" as ");
+                useTree.expectRebinding().accept(*this);
+                break;
+            }
+        }
     }
 
     void AstPrinter::visit(const Init & init) {
@@ -819,51 +851,6 @@ namespace jc::ast {
 
             printDelim(generics, "<", ">");
         });
-    }
-
-    void AstPrinter::printUseTree(const UseTree::PR & maybeUseTree) {
-        if (maybeUseTree.err()) {
-            maybeUseTree.unwrapErr().accept(*this);
-            return;
-        }
-
-        const auto & useTree = maybeUseTree.unwrap();
-
-        if (useTree.kind == UseTree::Kind::Rebind or useTree.path.some()) {
-            useTree.expectPath().accept(*this);
-            log.raw("::");
-        }
-
-        switch (useTree.kind) {
-            case UseTree::Kind::Raw: break;
-            case UseTree::Kind::All: {
-                log.raw("*");
-                break;
-            }
-            case UseTree::Kind::Specific: {
-                log.raw("{");
-                const auto & specifics = useTree.expectSpecifics();
-                auto multiple = specifics.size() > 1;
-                if (multiple) {
-                    log.nl();
-                }
-                for (const auto & specific : specifics) {
-                    printUseTree(specific);
-                    if (multiple) {
-                        log.raw(",").nl();
-                    }
-                }
-                if (multiple) {
-                    log.nl();
-                }
-                break;
-            }
-            case UseTree::Kind::Rebind: {
-                log.raw(" as ");
-                useTree.expectRebinding().accept(*this);
-                break;
-            }
-        }
     }
 
     // Indentation //

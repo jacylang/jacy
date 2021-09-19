@@ -46,6 +46,10 @@ namespace jc::ast {
         const auto & expectSpecifics() const {
             return std::get<UseTree::List>(val);
         }
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct UseDecl : Item {
