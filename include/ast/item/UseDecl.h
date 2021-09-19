@@ -9,7 +9,7 @@
 namespace jc::ast {
     struct UseTree : Node {
         using PR = PR<UseTree>;
-        using List = std::vector<Ptr>;
+        using List = std::vector<PR>;
         using ValueT = std::variant<std::monostate, Ident::PR, UseTree::List>;
 
         enum class Kind {
