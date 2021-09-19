@@ -158,7 +158,7 @@ namespace jc::resolve {
 //        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
         /**
-         * @brief Try to import a new definition in module
+         * @brief Try to define a new definition in module
          * @return Old definition in case if redefined, None otherwise
          */
         NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
@@ -178,7 +178,7 @@ namespace jc::resolve {
     private:
         NameBinding::Opt _tryDefine(Namespace ns, Symbol name, NameBinding nameBinding) {
             log::Logger::devDebug(
-                "Trying to import '", name, "' in ", nsToString(ns), " namespace in module ",
+                "Trying to define '", name, "' in ", nsToString(ns), " namespace in module ",
                 toString(), " as ", nameBinding
             );
             const auto & defined = getNS(ns).emplace(name, nameBinding);

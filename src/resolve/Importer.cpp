@@ -12,12 +12,15 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
+        // Module to import items to
         const auto & useDeclModule = sess->defTable.getUseDeclModule(useDecl.id);
-
-        log.dev("Import `use` with module ", useDeclModule->toString());
-
         _useDeclModule = useDeclModule;
+
+        log.dev("Import `use` to module ", useDeclModule->toString());
+
+        // Module to search item in
         _importModule = sess->defTable.getModule(_useDeclModule->nearestModDef);
+
         useDecl.useTree.autoAccept(*this);
     }
 
@@ -33,6 +36,15 @@ namespace jc::resolve {
                 );
                 if (res.ok()) {
                     import(res.asImport(), useTree.path.unwrap(), None);
+                }
+                break;
+            }
+            case ast::UseTree::Kind::Rebind: {
+                auto res = pathResolver.resolve(
+                    _importModule, Namespace::Any, useTree.path.unwrap(), dt::None, ResMode::Import
+                );
+                if (res.ok()) {
+                    import(res.asImport(), useTree.path.unwrap(), useTree.expectRebinding().sym);
                 }
                 break;
             }
@@ -58,15 +70,6 @@ namespace jc::resolve {
                     for (const auto & specific : useTree.expectSpecifics()) {
                         specific.autoAccept(*this);
                     }
-                }
-                break;
-            }
-            case ast::UseTree::Kind::Rebind: {
-                auto res = pathResolver.resolve(
-                    _importModule, Namespace::Any, useTree.path.unwrap(), dt::None, ResMode::Import
-                );
-                if (res.ok()) {
-                    import(res.asImport(), useTree.path.unwrap(), useTree.expectRebinding().sym);
                 }
                 break;
             }

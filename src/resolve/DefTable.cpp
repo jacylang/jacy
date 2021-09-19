@@ -108,7 +108,7 @@ namespace jc::resolve {
         defs.emplace_back(defId, kind, ident);
 
         log::Logger::devDebug(
-            "[DefTable::import] Add definition ",
+            "[DefTable::define] Add definition ",
             Def::visStr(vis),
             Def::kindStr(kind),
             " '",

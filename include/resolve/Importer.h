@@ -9,6 +9,8 @@
 #include "resolve/PathResolver.h"
 
 namespace jc::resolve {
+    /// Note: Non-friendly for multi-threading -- global states `_useDeclModule` and `_importModule`
+
     class Importer : public ast::StubVisitor, public sugg::SuggInterface {
     public:
         Importer() : StubVisitor("Importer") {}
