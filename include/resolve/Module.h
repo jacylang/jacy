@@ -150,9 +150,10 @@ namespace jc::resolve {
         NSMap & getNS(Namespace ns);
 
         bool has(Namespace nsKind, const Symbol & name) const;
-        bool hasFOS(Symbol name) const;
         NameBinding::Opt find(Namespace nsKind, const Symbol & name) const;
         PerNS<NameBinding::Opt> findAll(const Symbol & name) const;
+
+        dt::Result<FOSId::Opt, DefId> tryFindFOS(Symbol name) const;
 
         /// @deprecated
 //        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;

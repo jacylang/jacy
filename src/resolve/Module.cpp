@@ -51,15 +51,6 @@ namespace jc::resolve {
         return ns.find(name) != ns.end();
     }
 
-    bool Module::hasFOS(Symbol name) const {
-        const auto & ns = getNS(Namespace::Value);
-        const auto & found = ns.find(name);
-        if (found == ns.end()) {
-            return false;
-        }
-        return found->second.kind == NameBinding::Kind::FOS;
-    }
-
     NameBinding::Opt Module::find(Namespace nsKind, const Symbol & name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);
@@ -77,6 +68,24 @@ namespace jc::resolve {
             find(Namespace::Type, name),
             find(Namespace::Lifetime, name)
         };
+    }
+
+    /**
+     * @brief Try to find FOS by name, returns Some(FOSId) if found, None if nothing found
+     *  and Err(DefId) in case if name is used for non-FOS definition
+     * @param name
+     * @return
+     */
+    dt::Result<FOSId::Opt, DefId> Module::tryFindFOS(Symbol name) const {
+        const auto & ns = getNS(Namespace::Value);
+        const auto & found = ns.find(name);
+        if (found == ns.end()) {
+            return Ok<FOSId::Opt>(None);
+        }
+        if (found->second.kind == NameBinding::Kind::FOS) {
+            return Ok<FOSId::Opt>(found->second.asFOS());
+        }
+        return dt::Err(found->second.asDef());
     }
 
     std::string Module::toString() const {
