@@ -156,7 +156,7 @@ namespace jc::resolve {
     void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
         log.dev(
             Def::visStr(importVis),
-            " use '",
+            "use '",
             name,
             "' as ",
             importFosId,

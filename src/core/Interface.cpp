@@ -310,8 +310,7 @@ namespace jc::core {
     // Name resolution //
     /////////////////////
     void Interface::resolveNames() {
-        log.printTitleDev("Name resolution");
-
+        log.printTitleDev("Module Tree Building");
         log.dev("Building module tree...");
         sess->beginStep("Module tree building", MeasUnit::Node);
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
@@ -320,6 +319,7 @@ namespace jc::core {
         printModTree("module tree building");
         printDefinitions("module tree building");
 
+        log.printTitleDev("Importation");
         log.dev("Resolving imports...");
         sess->beginStep("Import resolution", MeasUnit::Node);
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
@@ -328,6 +328,7 @@ namespace jc::core {
         printModTree("imports resolution");
         printDefinitions("imports resolution");
 
+        log.printTitleDev("Name Resolution");
         log.dev("Resolving names...");
         sess->beginStep("Name resolution", MeasUnit::Node);
         nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
@@ -411,6 +412,7 @@ namespace jc::core {
 
     // Lowering //
     void Interface::lower() {
+        log.printTitleDev("Lowering");
         lowering.lower(sess, party.unwrap()).take(sess, "lowering");
     }
 
