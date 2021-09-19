@@ -158,9 +158,7 @@ namespace jc::resolve {
 
         _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
             if (oldName.isTarget()) {
-                suggestErrorMsg(
-                    log::fmt("Cannot import function '", name, "' because name is already in use in this module"), span
-                );
+                suggestCannotImport(name, span, oldName, None);
                 return;
             }
 
