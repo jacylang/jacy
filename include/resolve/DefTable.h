@@ -40,6 +40,7 @@ namespace jc::resolve {
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
         FosRedefs importFos(Vis importVis, FOSId importFosId, FOSId targetFosId);
+        DefId getImportAlias(DefId aliasDefId);
 
         const auto & getUseDeclModules() const {
             return useDeclModules;

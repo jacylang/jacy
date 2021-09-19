@@ -107,6 +107,10 @@ namespace jc::resolve {
         return redefs;
     }
 
+    DefId DefTable::getImportAlias(DefId aliasDefId) {
+        return importAliases.at(aliasDefId);
+    }
+
     // Common definitions //
 
     /// Returns definition, considers that definition exists.
