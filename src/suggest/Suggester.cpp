@@ -153,7 +153,7 @@ namespace jc::sugg {
     }
 
     void Suggester::printWithIndent(const std::string & indent, const std::string & msg) {
-        // This is the indent that we've got from line number prefix like "1 | " (here're 4 chars)
+        // This is the indent that we've got from line number prefix like "1 | " (here are 4 chars)
         Logger::print(indent);
         Logger::print(utils::str::clipEnd(msg, wrapLen - indent.size(), ""));
         Logger::nl();
