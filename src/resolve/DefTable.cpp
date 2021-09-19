@@ -62,15 +62,19 @@ namespace jc::resolve {
     }
 
     // Common definitions //
-    const Def & DefTable::getDef(const DefIndex & index) const {
+    Def DefTable::getDef(const DefIndex & index) const {
         try {
-            return defs.at(index.val);
+            auto def = defs.at(index.val);
+            if (def.kind == DefKind::Import) {
+                return getDef(importAliases.at(def.defId));
+            }
+            return def;
         } catch (const std::out_of_range & e) {
             log::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
         }
     }
 
-    const Def & DefTable::getDef(const DefId & defId) const {
+    Def DefTable::getDef(const DefId & defId) const {
         return getDef(defId.getIndex());
     }
 
