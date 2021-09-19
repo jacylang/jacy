@@ -34,18 +34,6 @@ namespace jc::resolve {
             return blocks;
         }
 
-        // Importation //
-    public:
-        DefId defineImportAlias(Vis importVis, DefId importDefId);
-        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
-        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
-        FosRedefs importFos(Vis importVis, FOSId importFosId, FOSId targetFosId);
-        DefId getImportAlias(DefId aliasDefId) const;
-
-        const auto & getUseDeclModules() const {
-            return useDeclModules;
-        }
-
         // Common definitions //
     public:
         Def getDef(const DefIndex & index) const;
@@ -81,6 +69,18 @@ namespace jc::resolve {
     private:
         FOSMap & getFOSmut(FOSId fosId) {
             return utils::arr::expectAtMut(fosList, fosId.val, "`DefTable::getFOS` mutable");
+        }
+
+        // Importation //
+    public:
+        DefId defineImportAlias(Vis importVis, DefId importDefId);
+        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
+        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
+        FosRedefs importFos(Vis importVis, FOSId importFosId, FOSId targetFosId);
+        DefId getImportAlias(DefId aliasDefId) const;
+
+        const auto & getUseDeclModules() const {
+            return useDeclModules;
         }
 
     private:

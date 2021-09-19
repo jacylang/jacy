@@ -48,112 +48,6 @@ namespace jc::resolve {
         return added.first->second;
     }
 
-    // Importation //
-    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
-        using namespace utils::map;
-
-        auto aliasDefId = DefId {DefIndex {defs.size()}};
-        const auto & importDef = getDef(importDefId);
-        auto importDefIdent = importDef.ident;
-        defs.emplace_back(aliasDefId, DefKind::Import, importDefIdent);
-
-        log::Logger::devDebug(
-            "[DefTable::define] Add import alias definition ",
-            Def::visStr(importVis),
-            aliasDefId,
-            " '",
-            importDefIdent,
-            "', alias to ",
-            importDefId);
-
-        assertNewEmplace(
-            importAliases.emplace(aliasDefId, importDefId), "`DefTable::defineImportAlias` -> importAliases"
-        );
-        assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
-
-        return aliasDefId;
-    }
-
-    void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
-        useDeclModules.emplace(nodeId, module);
-    }
-
-    Module::Ptr DefTable::getUseDeclModule(ast::NodeId nodeId) const {
-        try {
-            return useDeclModules.at(nodeId);
-        } catch (const std::out_of_range & e) {
-            panicWithDump(
-                "Called `DefTable::getUseDeclModule` with non-existing `nodeId` ", nodeId, ": ", e.what());
-        }
-    }
-
-    FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
-        FosRedefs redefs;
-
-        // Get FOS we will import overloads to
-        auto & targetFos = getFOSmut(targetFosId);
-
-        log::Logger::devDebug(
-            "`DefTable::importFos`: ",
-            Def::visStr(importVis),
-            "import ",
-            importFosId,
-            " to ",
-            targetFosId
-        );
-
-        // Go through all overloads in imported FOS
-        for (const auto & overload : getFOS(importFosId)) {
-            auto overloadVis = getDefVis(overload.second);
-            if (overloadVis != Vis::Pub) {
-                log::Logger::devDebug(
-                    "`DefTable::importFos`: ignore overload '",
-                    overload.first,
-                    "'",
-                    overload.second,
-                    " as private"
-                );
-                continue;
-            }
-
-            if (utils::map::has(targetFos, overload.first)) {
-                log::Logger::devDebug(
-                    "`DefTable::importFos`: Tried to redefine overload '",
-                    overload.first,
-                    "'",
-                    overload.second
-                );
-
-                // If imported suffix already defined in target FOS, it is an error,
-                //  however only if we imported public overload
-                redefs.suffixes.emplace_back(overload.first);
-            } else {
-                log::Logger::devDebug(
-                    "`DefTable::importFos`: Add overload '",
-                    overload.first,
-                    "'",
-                    overload.second,
-                    " from ",
-                    importFosId,
-                    " to ",
-                    targetFosId
-                );
-
-                // Import particular overload to target FOS
-                targetFos.emplace(
-                    overload.first,
-                    defineImportAlias(importVis, overload.second)
-                );
-            }
-        }
-
-        return redefs;
-    }
-
-    DefId DefTable::getImportAlias(DefId aliasDefId) const {
-        return importAliases.at(aliasDefId);
-    }
-
     // Common definitions //
 
     /// Returns definition, considers that definition exists.
@@ -262,5 +156,111 @@ namespace jc::resolve {
 
     span::Span DefTable::getFOSFirstSpan(FOSId fosId) const {
         return getDefNameSpan(getFOSFirstDef(fosId));
+    }
+
+    // Importation //
+    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
+        using namespace utils::map;
+
+        auto aliasDefId = DefId {DefIndex {defs.size()}};
+        const auto & importDef = getDef(importDefId);
+        auto importDefIdent = importDef.ident;
+        defs.emplace_back(aliasDefId, DefKind::Import, importDefIdent);
+
+        log::Logger::devDebug(
+            "[DefTable::define] Add import alias definition ",
+            Def::visStr(importVis),
+            aliasDefId,
+            " '",
+            importDefIdent,
+            "', alias to ",
+            importDefId);
+
+        assertNewEmplace(
+            importAliases.emplace(aliasDefId, importDefId), "`DefTable::defineImportAlias` -> importAliases"
+        );
+        assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
+
+        return aliasDefId;
+    }
+
+    void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
+        useDeclModules.emplace(nodeId, module);
+    }
+
+    Module::Ptr DefTable::getUseDeclModule(ast::NodeId nodeId) const {
+        try {
+            return useDeclModules.at(nodeId);
+        } catch (const std::out_of_range & e) {
+            panicWithDump(
+                "Called `DefTable::getUseDeclModule` with non-existing `nodeId` ", nodeId, ": ", e.what());
+        }
+    }
+
+    FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
+        FosRedefs redefs;
+
+        // Get FOS we will import overloads to
+        auto & targetFos = getFOSmut(targetFosId);
+
+        log::Logger::devDebug(
+            "`DefTable::importFos`: ",
+            Def::visStr(importVis),
+            "import ",
+            importFosId,
+            " to ",
+            targetFosId
+        );
+
+        // Go through all overloads in imported FOS
+        for (const auto & overload : getFOS(importFosId)) {
+            auto overloadVis = getDefVis(overload.second);
+            if (overloadVis != Vis::Pub) {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: ignore overload '",
+                    overload.first,
+                    "'",
+                    overload.second,
+                    " as private"
+                );
+                continue;
+            }
+
+            if (utils::map::has(targetFos, overload.first)) {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: Tried to redefine overload '",
+                    overload.first,
+                    "'",
+                    overload.second
+                );
+
+                // If imported suffix already defined in target FOS, it is an error,
+                //  however only if we imported public overload
+                redefs.suffixes.emplace_back(overload.first);
+            } else {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: Add overload '",
+                    overload.first,
+                    "'",
+                    overload.second,
+                    " from ",
+                    importFosId,
+                    " to ",
+                    targetFosId
+                );
+
+                // Import particular overload to target FOS
+                targetFos.emplace(
+                    overload.first,
+                    defineImportAlias(importVis, overload.second)
+                );
+            }
+        }
+
+        return redefs;
+    }
+
+    DefId DefTable::getImportAlias(DefId aliasDefId) const {
+        return importAliases.at(aliasDefId);
     }
 }
