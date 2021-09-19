@@ -159,9 +159,7 @@ namespace jc::resolve {
             _useDeclModule->tryDefineFOS(name, nameBinding.asFOS()).then(redefinitionCallback);
         } else if (nameBinding.isTarget()) {
             auto importDefId = nameBinding.asDef();
-            auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
-            auto defKind = aliasInfo.importDefKind;
-            auto aliasDefId = aliasInfo.aliasDefId;
+            auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
 
             log.dev(
                 "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
