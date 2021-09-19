@@ -90,6 +90,8 @@ namespace jc::resolve {
     FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
         FosRedefs redefs;
 
+        // TODO!!!: Import only public definitions and do it relatively to import path
+
         auto & targetFos = getFOS(targetFosId);
         for (const auto & overload : getFOS(importFosId)) {
             if (utils::map::has(targetFos, overload.first)) {

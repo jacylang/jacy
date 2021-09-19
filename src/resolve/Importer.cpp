@@ -128,15 +128,27 @@ namespace jc::resolve {
         });
     }
 
-    DefId Importer::defineImportAlias(
+    void Importer::defineImportAlias(
         Namespace nsKind,
         Vis importVis,
         DefId importDefId,
         Symbol name,
         span::Span span
     ) {
-        // This is a callback common for FOS and definition redefinitions, used below
-        const auto redefinitionCallback = [&](const NameBinding & oldName) {
+        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
+
+        log.dev(
+            "Import '",
+            name,
+            "'",
+            importDefId,
+            " definition from ",
+            nsToString(nsKind),
+            " namespace as import alias definition ",
+            aliasDefId
+        );
+
+        _useDeclModule->tryDefine(nsKind, name, aliasDefId).then([&](const NameBinding & oldName) {
             log.dev("Tried to redefine '", name, "', old name binding is ", oldName);
             if (oldName.isFOS()) {
                 // TODO!!: Function import is a complex process, see Issue #8
@@ -157,19 +169,7 @@ namespace jc::resolve {
                     sugg::SuggKind::Error
                 )
             );
-        };
-
-        auto importDefId = nameBinding.asDef();
-        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
-
-        log.dev(
-            "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
-            nameBinding.asDef()
-        );
-
-        _useDeclModule->tryDefine(nsKind, name, aliasDefId).then(redefinitionCallback);
-
-        return aliasDefId;
+        });
     }
 
     void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
