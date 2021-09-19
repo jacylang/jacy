@@ -244,8 +244,7 @@ namespace jc::resolve {
 
         // Add new overloading indexing if not provided
         if (fosId.none()) {
-            fosId = FOSId {static_cast<FOSId::ValueT>(fosList.size())};
-            fosList.emplace_back();
+            fosId = newEmptyFOS();
         }
 
         auto & fos = utils::arr::expectAtMut(
