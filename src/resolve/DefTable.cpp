@@ -119,7 +119,7 @@ namespace jc::resolve {
         try {
             auto def = defs.at(index.val);
             if (def.kind == DefKind::Import) {
-                return getDef(importAliases.at(def.defId));
+                return getDef(getImportAlias(def.defId));
             }
             return def;
         } catch (const std::out_of_range & e) {
