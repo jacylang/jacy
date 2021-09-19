@@ -7,6 +7,8 @@
 #include <sstream>
 #include <stdexcept>
 
+#include "log/Logger.h"
+
 namespace jc::utils::arr {
     template<class T>
     bool has(const std::vector<T> & vec, const T & value) {
@@ -38,12 +40,36 @@ namespace jc::utils::arr {
      *  that will be put before and after list (by default '[' before and ']' after)
      * @param encloseElementInto Vector of 2 elements that each element will be enclosed into
      */
+    template<class T>
     std::string join(
-        const std::vector<std::string> & vec,
+        const std::vector<T> & vec,
         const std::string & del = ", ",
         const std::vector<std::string> & encloseInto = {},
         const std::vector<std::string> & encloseElementInto = {}
-    );
+    ) {
+        std::string str;
+        if (!encloseInto.empty()) {
+            str += encloseInto[0].empty() ? "[" : encloseInto[0];
+        }
+        std::string elPrefix;
+        std::string elPostfix;
+        if (!encloseElementInto.empty()) {
+            elPrefix = encloseElementInto[0].empty() ? "" : encloseElementInto[0];
+        }
+        if (encloseElementInto.size() > 1) {
+            elPostfix = encloseElementInto[1].empty() ? "" : encloseElementInto[1];
+        }
+        for (auto it = vec.begin(); it != vec.end(); it++) {
+            str += log::fmt(elPrefix, *it, elPostfix);
+            if (it != std::prev(vec.end())) {
+                str += del;
+            }
+        }
+        if (encloseInto.size() > 1) {
+            str += encloseInto[1].empty() ? "]" : encloseInto[1];
+        }
+        return str;
+    }
 
     template<class T, typename SizeT = typename std::vector<T>::size_type>
     const T & expectAt(const std::vector<T> & vec, SizeT index, const std::string & place) {
