@@ -174,18 +174,15 @@ namespace jc::resolve {
         }
 
         // If module has FOS with function base name -- we import overloads to it
-        auto maybeOldFos = fosSearchRes.unwrap();
-        if (maybeOldFos.some()) {
-            // Note: We update FOS present in `use`-declaration module, not the fos we import
-            sess->defTable.importFos(importVis, importFosId, maybeOldFos.unwrap());
-            return;
-        }
+        auto fosId = fosSearchRes.unwrap();
 
         // If module does not have definition with this name -- create new FOS and import to it
+        if (fosId.none()) {
+            fosId = sess->defTable.newEmptyFOS();
+        }
 
-        _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
-
-        });
+        // Note: We update FOS present in `use`-declaration module, not the fos we import
+        sess->defTable.importFos(importVis, importFosId, fosId.unwrap());
     }
 
     // Suggestions //
