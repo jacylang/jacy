@@ -185,12 +185,18 @@ namespace jc::resolve {
         // Note: We update FOS present in `use`-declaration module, not the fos we import
         const auto & redefs = sess->defTable.importFos(importVis, importFosId, fosId.unwrap());
         if (not redefs.ok()) {
-            suggestErrorMsg(
-                log::fmt(
-                    "Conflicting names in import: cannot `use` ",
-                    utils::arr::join(redefs.suffixes, ", ", {"", ""}, {"'", "'"})
-                ), span
-            );
+            std::string nounSuffix = redefs.suffixes.size() > 1 ? "s" : "";
+            std::string error = log::fmt("Conflicting names: Cannot `use` function", nounSuffix, " ");
+
+            size_t index = 0;
+            for (const auto & suf : redefs.suffixes) {
+                error += log::fmt("'", name, suf, "'");
+                if (index < redefs.suffixes.size() - 1) {
+                    error += ", ";
+                }
+            }
+
+            suggestErrorMsg(error, span);
         }
     }
 
