@@ -131,14 +131,14 @@ namespace jc::resolve {
         span::Span span
     ) {
         // This is a callback common for FOS and definition redefinitions, used below
-        const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
-            log.dev("Tried to redefine '", name, "', old name binding is ", nameBinding);
-            if (nameBinding.isFOS()) {
+        const auto redefinitionCallback = [&](const NameBinding & oldName) {
+            log.dev("Tried to redefine '", name, "', old name binding is ", oldName);
+            if (oldName.isFOS()) {
                 // TODO!!: Function import is a complex process, see Issue #8
                 log::notImplemented("Function overloads importation is incomplete feature, see issue #8 on GitHub");
                 return;
             }
-            auto oldDefId = nameBinding.asDef();
+            auto oldDefId = oldName.asDef();
             // Note: If some definition can be redefined -- it is always named definition,
             //  so we can safely get its name node span
             const auto & oldDef = sess->defTable.getDef(oldDefId);
@@ -155,8 +155,6 @@ namespace jc::resolve {
         };
 
         if (nameBinding.isFOS()) {
-            log.dev("Import '", name, "' FOS ", nameBinding.asFOS());
-            _useDeclModule->tryDefineFOS(name, nameBinding.asFOS()).then(redefinitionCallback);
         } else if (nameBinding.isTarget()) {
             auto importDefId = nameBinding.asDef();
             auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
@@ -172,5 +170,18 @@ namespace jc::resolve {
         } else {
             log::devPanic("Unhandled `NameBinding::Kind` in `Importer::defineImportAlias`");
         }
+    }
+
+    void Importer::defineFOSImportAlias(Vis importVis, FOSId fosId, Symbol name, span::Span span) {
+        log.dev("Import '", name, "' FOS ", fosId);
+        _useDeclModule->tryDefineFOS(name, fosId).then([&](const NameBinding & oldName) {
+            if (oldName.isTarget()) {
+                suggestErrorMsg(
+                    log::fmt("Cannot import function '", name, "' because name is already in use in this module"), span
+                );
+                return;
+            }
+
+        });
     }
 }
