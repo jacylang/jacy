@@ -316,8 +316,8 @@ namespace jc::core {
         moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
         sess->endStep();
 
-        printModTree("module tree building");
         printDefinitions("module tree building");
+        printModTree("module tree building");
 
         log.printTitleDev("Importation");
         log.dev("Resolving imports...");
@@ -325,8 +325,8 @@ namespace jc::core {
         importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
         sess->endStep();
 
-        printModTree("imports resolution");
         printDefinitions("imports resolution");
+        printModTree("imports resolution");
 
         log.printTitleDev("Name Resolution");
         log.dev("Resolving names...");
