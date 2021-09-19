@@ -24,10 +24,10 @@ namespace jc::resolve {
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
             case Namespace::Any: {
-                log::devPanic("Called `Module::getNS` on `Namespace::Any`");
+                log::devPanic("Called `Module::getItemNamespace` on `Namespace::Any`");
             }
         }
-        log::notImplemented("getNS");
+        log::notImplemented("getItemNamespace");
     }
 
     Module::NSMap & Module::getNS(Namespace ns) {
@@ -36,10 +36,10 @@ namespace jc::resolve {
             case Namespace::Type: return perNS.type;
             case Namespace::Lifetime: return perNS.lifetime;
             case Namespace::Any: {
-                log::devPanic("Called `Module::getNS` on `Namespace::Any`");
+                log::devPanic("Called `Module::getItemNamespace` on `Namespace::Any`");
             }
         }
-        log::notImplemented("getNS");
+        log::notImplemented("getItemNamespace");
     }
 
     bool Module::has(Namespace nsKind, const Symbol & name) const {
