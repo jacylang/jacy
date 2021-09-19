@@ -163,6 +163,12 @@ namespace jc::resolve {
             " FOS"
         );
 
+        // If module uses this name -- report an error
+
+        // If module has FOS with function base name -- we import overloads to it
+
+        // If module does not have definition with this name -- create new FOS and import to it
+
         _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
             if (oldName.isTarget()) {
                 log.dev("Tried to redefine FOS '", name, "' with non-FOS definition ", oldName);

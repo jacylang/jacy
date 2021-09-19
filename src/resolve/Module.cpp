@@ -51,6 +51,15 @@ namespace jc::resolve {
         return ns.find(name) != ns.end();
     }
 
+    bool Module::hasFOS(Symbol name) const {
+        const auto & ns = getNS(Namespace::Value);
+        const auto & found = ns.find(name);
+        if (found == ns.end()) {
+            return false;
+        }
+        return found->second.kind == NameBinding::Kind::FOS;
+    }
+
     NameBinding::Opt Module::find(Namespace nsKind, const Symbol & name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);
