@@ -48,7 +48,7 @@ namespace jc::resolve {
          * @param importVis Visibility of `use ...`
          * @param importDefId DefId of imported item
          */
-        DefId defineImportAlias(Namespace nsKind, Vis importVis, NameBinding nameBinding, Symbol name, span::Span span);
+        DefId defineImportAlias(Namespace nsKind, Vis importVis, DefId importDefId, Symbol name, span::Span span);
 
         void defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span);
     };

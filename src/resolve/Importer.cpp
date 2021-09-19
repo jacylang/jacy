@@ -119,14 +119,19 @@ namespace jc::resolve {
                 return;
             }
 
-            defineImportAlias(nsKind, Vis::Pub, maybeDef.unwrap(), segName, segSpan);
+            const auto & nameBinding = maybeDef.unwrap();
+            if (nameBinding.isFOS()) {
+                defineFOSImportAlias(Vis::Pub, nameBinding.asFOS(), segName, segSpan);
+            } else {
+                defineImportAlias(nsKind, Vis::Pub, nameBinding.asDef(), segName, segSpan);
+            }
         });
     }
 
     DefId Importer::defineImportAlias(
         Namespace nsKind,
         Vis importVis,
-        NameBinding nameBinding,
+        DefId importDefId,
         Symbol name,
         span::Span span
     ) {
@@ -154,22 +159,17 @@ namespace jc::resolve {
             );
         };
 
-        if (nameBinding.isFOS()) {
-        } else if (nameBinding.isTarget()) {
-            auto importDefId = nameBinding.asDef();
-            auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
+        auto importDefId = nameBinding.asDef();
+        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
 
-            log.dev(
-                "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
-                nameBinding.asDef()
-            );
+        log.dev(
+            "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
+            nameBinding.asDef()
+        );
 
-            _useDeclModule->tryDefine(nsKind, name, aliasDefId).then(redefinitionCallback);
+        _useDeclModule->tryDefine(nsKind, name, aliasDefId).then(redefinitionCallback);
 
-            return aliasDefId;
-        } else {
-            log::devPanic("Unhandled `NameBinding::Kind` in `Importer::defineImportAlias`");
-        }
+        return aliasDefId;
     }
 
     void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
