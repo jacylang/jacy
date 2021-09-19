@@ -35,7 +35,7 @@ namespace jc::ast {
         Ident::PR name;
         std::variant<std::monostate, Expr::Ptr, TupleTypeEl::List, StructField::List> body;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

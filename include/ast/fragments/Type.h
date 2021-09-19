@@ -56,7 +56,7 @@ namespace jc::ast {
         Ident::OptPR name;
         Type::OptPtr type;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

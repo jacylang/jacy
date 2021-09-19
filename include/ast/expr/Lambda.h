@@ -16,7 +16,7 @@ namespace jc::ast {
         Pattern::Ptr pat;
         Type::OptPtr type;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
