@@ -175,7 +175,7 @@ namespace jc::parser {
         Item::Ptr parseTypeAlias();
         Item::Ptr parseMod();
         Item::Ptr parseUseDecl();
-        UseTree::Ptr parseUseTree();
+        UseTree::PR parseUseTree();
         Item::Ptr parseInit(parser::Token::List && modifiers);
 
         // Statements //

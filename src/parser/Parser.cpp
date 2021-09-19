@@ -603,7 +603,7 @@ namespace jc::parser {
         return makePRBoxNode<UseDecl, Item>(std::move(useTree), closeSpan(begin));
     }
 
-    UseTree::Ptr Parser::parseUseTree() {
+    UseTree::PR Parser::parseUseTree() {
         enterEntity("UseTree");
 
         const auto & begin = cspan();
@@ -613,7 +613,7 @@ namespace jc::parser {
             // `*` case
             if (skipOpt(TokenKind::Mul).some()) {
                 exitEntity();
-                return makePRBoxNode<UseTreeAll, UseTree>(std::move(maybePath), closeSpan(begin));
+                return Ok(makeNode<UseTreeAll>(std::move(maybePath), true, closeSpan(begin)));
             }
 
             if (skipOpt(TokenKind::LBrace).some()) {
@@ -642,14 +642,14 @@ namespace jc::parser {
 
                 exitEntity();
 
-                return makePRBoxNode<UseTreeSpecific, UseTree>(
+                return Ok(makeNode<UseTreeSpecific>(
                     std::move(maybePath), std::move(specifics), closeSpan(begin)
-                );
+                ));
             }
 
             if (maybePath.some()) {
                 exitEntity();
-                return makePRBoxNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
+                return Ok(makeNode<UseTreeRaw>(maybePath.take(), closeSpan(begin)));
             }
 
             suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
@@ -665,12 +665,12 @@ namespace jc::parser {
 
             auto as = parseIdent("binding name after `as`");
             exitEntity();
-            return makePRBoxNode<UseTreeRebind, UseTree>(maybePath.take(), std::move(as), closeSpan(begin));
+            return Ok(makeNode<UseTreeRebind>(maybePath.take(), std::move(as), closeSpan(begin)));
         }
 
         if (maybePath.some()) {
             exitEntity();
-            return makePRBoxNode<UseTreeRaw, UseTree>(maybePath.take(), closeSpan(begin));
+            return Ok(makeNode<UseTreeRaw>(maybePath.take(), closeSpan(begin)));
         }
 
         if (isKw(Kw::As)) {
@@ -682,7 +682,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makeErrPR<N<UseTree>>(closeSpan(begin));
+        return makeErrPR<UseTree>(closeSpan(begin));
     }
 
     Item::Ptr Parser::parseInit(parser::Token::List && modifiers) {

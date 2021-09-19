@@ -20,7 +20,7 @@ namespace jc::ast {
         Pattern::List patterns;
         Block::Ptr body;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

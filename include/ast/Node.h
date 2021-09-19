@@ -75,7 +75,7 @@ namespace jc::ast {
     struct ErrorNode : Node {
         explicit ErrorNode(const Span & span) : Node{span} {}
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
