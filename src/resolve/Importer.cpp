@@ -186,7 +186,7 @@ namespace jc::resolve {
         const auto & redefs = sess->defTable.importFos(importVis, importFosId, fosId.unwrap());
         if (not redefs.ok()) {
             std::string nounSuffix = redefs.suffixes.size() > 1 ? "s" : "";
-            std::string error = log::fmt("Conflicting names: Cannot `use` function", nounSuffix, " ");
+            std::string error = log::fmt("Cannot `use` function", nounSuffix);
 
             size_t index = 0;
             for (const auto & suf : redefs.suffixes) {
@@ -195,6 +195,8 @@ namespace jc::resolve {
                     error += ", ";
                 }
             }
+
+            error += log::fmt(" name", nounSuffix, " conflicting with locally defined function", nounSuffix);
 
             suggestErrorMsg(error, span);
         }
