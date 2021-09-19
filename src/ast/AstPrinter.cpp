@@ -213,44 +213,10 @@ namespace jc::ast {
         printVis(useDecl.vis);
 
         log.raw("use ");
-        useDecl.useTree.autoAccept(*this);
+        // TODO
         log.raw(";");
 
         printNodeId(useDecl);
-    }
-
-    void AstPrinter::visit(const UseTreeRaw & useTree) {
-        useTree.path.accept(*this);
-
-        printNodeId(useTree);
-    }
-
-    void AstPrinter::visit(const UseTreeSpecific & useTree) {
-        useTree.path.then([&](const auto & path) {
-            path.accept(*this);
-            log.raw("::");
-        });
-        printDelim(useTree.specifics, "{", "}");
-
-        printNodeId(useTree);
-    }
-
-    void AstPrinter::visit(const UseTreeRebind & useTree) {
-        useTree.path.accept(*this);
-        log.raw(" as ");
-        useTree.as.autoAccept(*this);
-
-        printNodeId(useTree);
-    }
-
-    void AstPrinter::visit(const UseTreeAll & useTree) {
-        useTree.path.then([&](const auto & path) {
-            path.accept(*this);
-            log.raw("::");
-        });
-        log.raw("*");
-
-        printNodeId(useTree);
     }
 
     void AstPrinter::visit(const Init & init) {
