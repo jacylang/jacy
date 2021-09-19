@@ -48,7 +48,7 @@ namespace jc::resolve {
          * @param importVis Visibility of `use ...`
          * @param importDefId DefId of imported item
          */
-        DefId defineImportAlias(Vis importVis, DefId importDefId);
+        DefId defineImportAlias(Vis importVis, DefId importDefId, Symbol name);
     };
 }
 

@@ -113,30 +113,6 @@ namespace jc::resolve {
         // Use rebinding name or last segment name
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
-        // This is a callback common for FOS and definition redefinitions, used below
-        const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
-            log.dev("Tried to redefine '", segName, "', old name binding is ", nameBinding);
-            if (nameBinding.isFOS()) {
-                // TODO!!: Function import is a complex process, see Issue #8
-                log::notImplemented("Function overloads importation is incomplete feature, see issue #8 on GitHub");
-                return;
-            }
-            auto oldDefId = nameBinding.asDef();
-            // Note: If some definition can be redefined -- it is always named definition,
-            //  so we can safely get its name node span
-            const auto & oldDef = sess->defTable.getDef(oldDefId);
-            const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
-            suggest(
-                std::make_unique<sugg::MsgSpanLinkSugg>(
-                    log::fmt("Cannot `use` '", segName, "'"),
-                    segSpan,
-                    "Because it is already declared as " + oldDef.kindStr() + " here",
-                    oldDefSpan,
-                    sugg::SuggKind::Error
-                )
-            );
-        };
-
         // Go through each namespace `PathResolver` found item with name in.
         defPerNS.each([&](const NameBinding::Opt & maybeDef, Namespace nsKind) {
             if (maybeDef.none()) {
@@ -161,13 +137,36 @@ namespace jc::resolve {
         });
     }
 
-    DefId Importer::defineImportAlias(Vis importVis, DefId importDefId) {
+    DefId Importer::defineImportAlias(Vis importVis, DefId importDefId, Symbol name) {
         auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
         auto defKind = aliasInfo.importDefKind;
         auto aliasDefId = aliasInfo.aliasDefId;
-        auto name = aliasInfo.ident.sym;
 
         const auto & ns = Def::getItemNamespace(defKind);
+
+        // This is a callback common for FOS and definition redefinitions, used below
+        const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
+            log.dev("Tried to redefine '", name, "', old name binding is ", nameBinding);
+            if (nameBinding.isFOS()) {
+                // TODO!!: Function import is a complex process, see Issue #8
+                log::notImplemented("Function overloads importation is incomplete feature, see issue #8 on GitHub");
+                return;
+            }
+            auto oldDefId = nameBinding.asDef();
+            // Note: If some definition can be redefined -- it is always named definition,
+            //  so we can safely get its name node span
+            const auto & oldDef = sess->defTable.getDef(oldDefId);
+            const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
+            suggest(
+                std::make_unique<sugg::MsgSpanLinkSugg>(
+                    log::fmt("Cannot `use` '", name, "'"),
+                    name,
+                    "Because it is already declared as " + oldDef.kindStr() + " here",
+                    oldDefSpan,
+                    sugg::SuggKind::Error
+                )
+            );
+        };
 
         const auto & oldDef = _useDeclModule->tryDefine(ns, name, aliasDefId);
         if (oldDef.some()) {
