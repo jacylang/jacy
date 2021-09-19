@@ -184,6 +184,7 @@ namespace jc::resolve {
             }
 
             // Note: We update FOS present in `use`-declaration module, not the fos we import
+            sess->defTable.importFos(importVis, importFosId, oldName.asFOS());
         });
     }
 }
