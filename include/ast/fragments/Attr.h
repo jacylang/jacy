@@ -15,7 +15,7 @@ namespace jc::ast {
         Ident::PR name;
         Arg::List params;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

@@ -62,8 +62,6 @@ namespace jc::ast {
         NodeId id{NodeId::DUMMY};
         Span span;
 
-        virtual void accept(BaseVisitor & visitor) const = 0;
-
         void setNodeId(NodeId nodeId) {
             this->id = nodeId;
         }

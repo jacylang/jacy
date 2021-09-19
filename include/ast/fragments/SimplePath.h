@@ -13,7 +13,7 @@ namespace jc::ast {
 
         Ident::PR ident;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
@@ -56,7 +56,7 @@ namespace jc::ast {
             log::devPanic("Called `ast::SimplePath::getSegGenerics`");
         }
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

@@ -26,7 +26,7 @@ namespace jc::ast {
         Type::Ptr type;
         Expr::OptPtr defaultValue;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };

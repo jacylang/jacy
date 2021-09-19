@@ -20,7 +20,7 @@ namespace jc::ast {
         Ident::PR ident;
         GenericParam::OptList generics = None;
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
@@ -56,7 +56,7 @@ namespace jc::ast {
             return segments.at(index).unwrap().generics.unwrap();
         }
 
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
