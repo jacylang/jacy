@@ -222,16 +222,21 @@ namespace jc::ast {
     void AstPrinter::visit(const UseTree & useTree) {
         if (useTree.kind == UseTree::Kind::Rebind or useTree.path.some()) {
             useTree.expectPath().accept(*this);
-            log.raw("::");
         }
 
         switch (useTree.kind) {
             case UseTree::Kind::Raw: break;
             case UseTree::Kind::All: {
+                if (useTree.path.some()) {
+                    log.raw("::");
+                }
                 log.raw("*");
                 break;
             }
             case UseTree::Kind::Specific: {
+                if (useTree.path.some()) {
+                    log.raw("::");
+                }
                 log.raw("{");
                 const auto & specifics = useTree.expectSpecifics();
                 auto multiple = specifics.size() > 1;

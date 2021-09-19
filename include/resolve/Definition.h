@@ -75,14 +75,7 @@ namespace jc::resolve {
         Lifetime,
     };
 
-    static inline std::string nsToString(Namespace ns) {
-        switch (ns) {
-            case Namespace::Value: return "value";
-            case Namespace::Type: return "type";
-            case Namespace::Lifetime: return "lifetime";
-            case Namespace::Any: return "[ANY]";
-        }
-    }
+    std::string nsToString(Namespace ns);
 
     enum class Vis {
         Unset,
