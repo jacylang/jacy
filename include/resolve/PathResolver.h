@@ -83,7 +83,7 @@ namespace jc::resolve {
         Specific,
 
         /// Descend to some module and emit specific logic with it.
-        /// - Used by `use path::to::*` (use all) as we need to find `path::to` and then define every item
+        /// - Used by `use path::to::*` (use all) as we need to find `path::to` and then import every item
         /// - Used by `use path::to::{...}` (use specific), we need to resolve each item from list `{}` separately,
         ///    searching in module we descent into
         Descend,

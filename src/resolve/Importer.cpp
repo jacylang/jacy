@@ -32,7 +32,7 @@ namespace jc::resolve {
                     _importModule, Namespace::Any, useTree.path.unwrap(), None, ResMode::Import
                 );
                 if (res.ok()) {
-                    define(res.asImport(), useTree.path.unwrap(), None);
+                    import(res.asImport(), useTree.path.unwrap(), None);
                 }
                 break;
             }
@@ -66,7 +66,7 @@ namespace jc::resolve {
                     _importModule, Namespace::Any, useTree.path.unwrap(), dt::None, ResMode::Import
                 );
                 if (res.ok()) {
-                    define(res.asImport(), useTree.path.unwrap(), useTree.expectRebinding().sym);
+                    import(res.asImport(), useTree.path.unwrap(), useTree.expectRebinding().sym);
                 }
                 break;
             }
@@ -95,7 +95,7 @@ namespace jc::resolve {
         return false;
     }
 
-    void Importer::define(
+    void Importer::import(
         const NameBinding::PerNS & defPerNS,
         const ast::PathInterface & path,
         const Option<Symbol> & rebind

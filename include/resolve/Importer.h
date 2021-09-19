@@ -35,7 +35,7 @@ namespace jc::resolve {
 
         bool descendByPath(const ast::SimplePath::Opt & optPath);
 
-        void define(
+        void import(
             const NameBinding::PerNS & defPerNS,
             const ast::PathInterface & path,
             const Option<Symbol> & rebind

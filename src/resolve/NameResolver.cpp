@@ -207,7 +207,7 @@ namespace jc::resolve {
     }
 
     // Patterns //
-    /// All identifiers (not Path) appeared in patterns are bindings, thus we just define them in current rib
+    /// All identifiers (not Path) appeared in patterns are bindings, thus we just import them in current rib
 
     void NameResolver::visit(const ast::IdentPat & pat) {
         defineLocal(pat.id, pat.name);
