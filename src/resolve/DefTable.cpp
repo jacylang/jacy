@@ -159,7 +159,7 @@ namespace jc::resolve {
 
         const auto & importDef = getDef(importDefId);
         auto importDefIdent = importDef.ident;
-        auto aliasDefId = addDef(DefKind::Import, importDefIdent);
+        auto aliasDefId = addDef(DefKind::ImportAlias, importDefIdent);
 
         log::Logger::devDebug(
             "[DefTable::define] Add import alias definition ",

@@ -103,7 +103,7 @@ namespace jc::resolve {
          */
         DefId unwindDefId(DefId defId) const {
             auto unwound = defId;
-            while (defs.at(unwound.getIndex().val).kind == DefKind::Import) {
+            while (defs.at(unwound.getIndex().val).kind == DefKind::ImportAlias) {
                 unwound = getImportAlias(unwound);
             }
             return unwound;

@@ -86,7 +86,7 @@ namespace jc::resolve {
                 printMod(sess->defTable.getModule(defId));
                 break;
             }
-            case DefKind::Import: {
+            case DefKind::ImportAlias: {
                 log.raw("Import Alias ", defId);
                 printDef(sess->defTable.getImportAlias(defId));
                 break;

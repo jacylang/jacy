@@ -100,7 +100,7 @@ namespace jc::resolve {
         /// Special kind for aliases in importation:
         /// - saves the whole logic of definition
         /// - Has its own DefId but this id should not be used anywhere after name resolution
-        Import,
+        ImportAlias,
     };
 
     enum class NameUsage {
@@ -214,7 +214,7 @@ namespace jc::resolve {
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
                 }
-                case DefKind::Import: {
+                case DefKind::ImportAlias: {
                     log::devPanic("Called `Def::getItemNamespace` with `DefKind::Import`, namespace cannot be determined");
                 }
             }
@@ -250,7 +250,7 @@ namespace jc::resolve {
                     return "`enum` variant";
                 case DefKind::Init:
                     return "`init` (initializer)";
-                case DefKind::Import: {
+                case DefKind::ImportAlias: {
                     return "[IMPORT ALIAS]";
                 }
             }
