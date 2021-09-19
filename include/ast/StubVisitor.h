@@ -25,10 +25,7 @@ namespace jc::ast {
         virtual void visit(const Trait & trait) override;
         virtual void visit(const TypeAlias & typeAlias) override;
         virtual void visit(const UseDecl & useDecl) override;
-        virtual void visit(const UseTreeRaw & useTree) override;
-        virtual void visit(const UseTreeSpecific & useTree) override;
-        virtual void visit(const UseTreeRebind & useTree) override;
-        virtual void visit(const UseTreeAll & useTree) override;
+        virtual void visit(const UseTree & useTree) override;
         virtual void visit(const Init & useTree) override;
 
         // Statements //

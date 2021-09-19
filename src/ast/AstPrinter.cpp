@@ -239,7 +239,7 @@ namespace jc::ast {
                     log.nl();
                 }
                 for (const auto & specific : specifics) {
-                    printUseTree(specific);
+                    specific.autoAccept(*this);
                     if (multiple) {
                         log.raw(",").nl();
                     }
