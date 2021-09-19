@@ -28,7 +28,7 @@ namespace jc::resolve {
 
         // Importation //
     public:
-        DefId defineImportAlias(Vis importVis, DefId importDefId, const span::Ident & ident);
+        DefId defineImportAlias(Vis importVis, DefId importDefId);
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
 

@@ -49,10 +49,11 @@ namespace jc::resolve {
     }
 
     // Importation //
-    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId, const span::Ident & ident) {
+    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
         using namespace utils::map;
 
         auto aliasDefId = DefId {DefIndex {defs.size()}};
+        auto ident = getDef(importDefId).ident;
         defs.emplace_back(aliasDefId, DefKind::Import, ident);
 
         log::Logger::devDebug(

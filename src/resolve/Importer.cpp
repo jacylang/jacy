@@ -162,6 +162,6 @@ namespace jc::resolve {
     }
 
     DefId Importer::defineImportAlias(Vis importVis, DefId importDefId) {
-
+        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
     }
 }
