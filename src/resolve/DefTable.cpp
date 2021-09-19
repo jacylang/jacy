@@ -48,6 +48,30 @@ namespace jc::resolve {
         return added.first->second;
     }
 
+    // Importation //
+    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId, const span::Ident & ident) {
+        using namespace utils::map;
+
+        auto aliasDefId = DefId {DefIndex {defs.size()}};
+        defs.emplace_back(aliasDefId, DefKind::Import, ident);
+
+        log::Logger::devDebug(
+            "[DefTable::define] Add import alias definition ",
+            Def::visStr(importVis),
+            aliasDefId,
+            " '",
+            ident,
+            "', alias to ",
+            importDefId);
+
+        assertNewEmplace(
+            importAliases.emplace(aliasDefId, importDefId), "`DefTable::defineImportAlias` -> importAliases"
+        );
+        assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
+
+        return aliasDefId;
+    }
+
     void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
         useDeclModules.emplace(nodeId, module);
     }

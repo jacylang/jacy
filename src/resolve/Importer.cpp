@@ -160,4 +160,8 @@ namespace jc::resolve {
             }
         });
     }
+
+    DefId Importer::defineImportAlias(Vis importVis, DefId importDefId) {
+
+    }
 }

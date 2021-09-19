@@ -42,6 +42,13 @@ namespace jc::resolve {
             const ast::PathInterface & path,
             const Option<Symbol> & rebind
         );
+
+        /**
+         * @brief Defines definition of kind `DefKind::Import`, that is an alias to imported definition
+         * @param importVis Visibility of `use ...`
+         * @param importDefId DefId of imported item
+         */
+        DefId defineImportAlias(Vis importVis, DefId importDefId);
     };
 }
 

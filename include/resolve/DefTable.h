@@ -22,12 +22,15 @@ namespace jc::resolve {
         Module::Ptr addModule(const DefId & defId, Module::Ptr module);
         Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module);
 
-        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
-        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
-
         const auto & getBlocks() const {
             return blocks;
         }
+
+        // Importation //
+    public:
+        DefId defineImportAlias(Vis importVis, DefId importDefId, const span::Ident & ident);
+        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
+        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
 
         const auto & getUseDeclModules() const {
             return useDeclModules;
