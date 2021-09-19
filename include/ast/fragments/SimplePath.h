@@ -19,6 +19,8 @@ namespace jc::ast {
     };
 
     struct SimplePath : Node, PathInterface {
+        using Opt = Option<SimplePath>;
+
         SimplePath(
             bool global,
             std::vector<SimplePathSeg> && segments,

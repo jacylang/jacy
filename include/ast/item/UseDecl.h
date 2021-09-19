@@ -8,75 +8,42 @@
 
 namespace jc::ast {
     struct UseTree : Node {
-        using Ptr = PR<N<UseTree>>;
+        using PR = PR<UseTree>;
         using List = std::vector<Ptr>;
+        using ValueT = std::variant<std::monostate, Ident::PR, UseTree::List>;
 
         enum class Kind {
             Raw,
             All,
             Specific,
             Rebind,
-        } kind;
+        };
 
-        UseTree(Kind kind, const Span & span) : Node{span}, kind{kind} {}
+        UseTree(SimplePath::Opt && path, const span::Span & span)
+            : Node{span}, kind{Kind::Raw}, path{std::move(path)}, val{std::monostate {}} {}
 
-        virtual void accept(BaseVisitor & visitor) const override = 0;
-    };
+        UseTree(SimplePath::Opt && path, bool globFlag, const span::Span & span)
+            : Node{span}, kind{Kind::All}, path{std::move(path)}, val{std::monostate {}} {}
 
-    struct UseTreeRaw : UseTree {
-        UseTreeRaw(SimplePath && path, const Span & span)
-            : UseTree(Kind::Raw, span), path{std::move(path)} {}
+        UseTree(SimplePath::Opt && path, UseTree::List && specifics, const span::Span & span)
+            : Node{span}, kind{Kind::Specific}, path{std::move(path)}, val{std::move(specifics)} {}
 
-        SimplePath path;
+        UseTree(SimplePath::Opt && path, Ident::PR && rebinding, const span::Span & span)
+            : Node{span}, kind{Kind::Rebind}, path{std::move(path)}, val{std::move(rebinding)} {}
 
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct UseTreeSpecific : UseTree {
-        UseTreeSpecific(Option<SimplePath> && path, UseTree::List && specifics, const Span & span)
-            : UseTree(Kind::Specific, span), path{std::move(path)}, specifics{std::move(specifics)} {}
-
-        Option<SimplePath> path;
-        UseTree::List specifics;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct UseTreeRebind : UseTree {
-        UseTreeRebind(SimplePath && path, Ident::PR && as, const Span & span)
-            : UseTree(Kind::Rebind, span), path{std::move(path)}, as{std::move(as)} {}
-
-        SimplePath path;
-        Ident::PR as;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct UseTreeAll : UseTree {
-        UseTreeAll(Option<SimplePath> && path, const Span & span)
-            : UseTree(Kind::All, span), path{std::move(path)} {}
-
-        Option<SimplePath> path;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
+        Kind kind;
+        SimplePath::Opt path;
+        ValueT val;
     };
 
     struct UseDecl : Item {
         UseDecl(
-            UseTree::Ptr && useTree,
+            UseTree::PR && useTree,
             const Span & span
         ) : Item{span, ItemKind::Use},
             useTree{std::move(useTree)} {}
 
-        UseTree::Ptr useTree;
+        UseTree::PR useTree;
 
         span::Ident getName() const override {
             return Ident::empty();
