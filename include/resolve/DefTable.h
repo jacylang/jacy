@@ -83,6 +83,18 @@ namespace jc::resolve {
             return useDeclModules;
         }
 
+        // Internal API //
+    private:
+        DefId nextDefId() {
+            return DefId {DefIndex {defs.size()}};
+        }
+
+        DefId addDef(DefKind kind, const span::Ident & ident) {
+            auto defId = nextDefId();
+            defs.emplace_back(defId, kind, ident);
+            return defId;
+        }
+
     private:
         std::vector<Def> defs;
         std::map<DefIndex, Module::Ptr> modules;

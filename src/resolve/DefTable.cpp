@@ -91,8 +91,7 @@ namespace jc::resolve {
     DefId DefTable::define(Vis vis, NodeId nodeId, DefKind kind, const span::Ident & ident) {
         using namespace utils::map;
 
-        auto defId = DefId {DefIndex {defs.size()}};
-        defs.emplace_back(defId, kind, ident);
+        auto defId = addDef(kind, ident);
 
         log::Logger::devDebug(
             "[DefTable::define] Add definition ",
@@ -162,10 +161,9 @@ namespace jc::resolve {
     DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
         using namespace utils::map;
 
-        auto aliasDefId = DefId {DefIndex {defs.size()}};
         const auto & importDef = getDef(importDefId);
         auto importDefIdent = importDef.ident;
-        defs.emplace_back(aliasDefId, DefKind::Import, importDefIdent);
+        auto aliasDefId = addDef(DefKind::Import, importDefIdent);
 
         log::Logger::devDebug(
             "[DefTable::define] Add import alias definition ",
