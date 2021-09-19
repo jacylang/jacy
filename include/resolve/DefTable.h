@@ -6,6 +6,10 @@
 namespace jc::resolve {
     struct FosRedefs {
         std::vector<span::Symbol> suffixes;
+
+        bool ok() const {
+            return suffixes.empty();
+        }
     };
 
     struct DefTable {
@@ -35,7 +39,7 @@ namespace jc::resolve {
         DefId defineImportAlias(Vis importVis, DefId importDefId);
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
-        FosRedefs importFos(FOSId importFosId, FOSId targetFosId);
+        FosRedefs importFos(Vis importVis, FOSId importFosId, FOSId targetFosId);
 
         const auto & getUseDeclModules() const {
             return useDeclModules;

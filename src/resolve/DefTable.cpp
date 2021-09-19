@@ -87,7 +87,7 @@ namespace jc::resolve {
         }
     }
 
-    FosRedefs DefTable::importFos(FOSId importFosId, FOSId targetFosId) {
+    FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
         FosRedefs redefs;
 
         auto & targetFos = getFOS(targetFosId);
@@ -95,7 +95,10 @@ namespace jc::resolve {
             if (utils::map::has(targetFos, overload.first)) {
                 redefs.suffixes.emplace_back(overload.first);
             } else {
-
+                targetFos.emplace(
+                    overload.first,
+                    defineImportAlias(importVis, overload.second)
+                );
             }
         }
 
