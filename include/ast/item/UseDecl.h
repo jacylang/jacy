@@ -34,6 +34,18 @@ namespace jc::ast {
         Kind kind;
         SimplePath::Opt path;
         ValueT val;
+
+        const auto & expectPath() const {
+            return path.unwrap();
+        }
+
+        const auto & expectRebinding() const {
+            return std::get<Ident::PR>(val).unwrap();
+        }
+
+        const auto & expectSpecifics() const {
+            return std::get<UseTree::List>(val);
+        }
     };
 
     struct UseDecl : Item {
