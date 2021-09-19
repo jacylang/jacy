@@ -185,7 +185,12 @@ namespace jc::resolve {
         // Note: We update FOS present in `use`-declaration module, not the fos we import
         const auto & redefs = sess->defTable.importFos(importVis, importFosId, fosId.unwrap());
         if (not redefs.ok()) {
-//            suggestErrorMsg("Conflicting names in import: cannot `use` ", utils::arr::join(redefs.suffixes, ", "))
+            suggestErrorMsg(
+                log::fmt(
+                    "Conflicting names in import: cannot `use` ",
+                    utils::arr::join(redefs.suffixes, ", ", {"", ""}, {"'", "'"})
+                ), span
+            );
         }
     }
 
