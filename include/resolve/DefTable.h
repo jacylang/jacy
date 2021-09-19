@@ -95,6 +95,20 @@ namespace jc::resolve {
             return defId;
         }
 
+        /**
+         * @brief Unwinds definition in case if it is an alias
+         *  Note: Always use `unwindDefId` if you want to get "real" def id
+         * @param defId
+         * @return
+         */
+        DefId unwindDefId(DefId defId) const {
+            auto unwound = defId;
+            while (getDef(unwound).kind == DefKind::Import) {
+                unwound = getImportAlias(unwound);
+            }
+            return unwound;
+        }
+
     private:
         std::vector<Def> defs;
         std::map<DefIndex, Module::Ptr> modules;
