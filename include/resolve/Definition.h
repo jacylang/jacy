@@ -221,6 +221,9 @@ namespace jc::resolve {
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
                 }
+                case DefKind::Import: {
+                    log::devPanic("Called `Def::getNS` with `DefKind::Import`, namespace cannot be determined");
+                }
             }
 
             log::notImplemented("Definition::getNS");
@@ -254,6 +257,9 @@ namespace jc::resolve {
                     return "`enum` variant";
                 case DefKind::Init:
                     return "`init` (initializer)";
+                case DefKind::Import: {
+                    return "[IMPORT ALIAS]";
+                }
             }
 
             return "[NO REPRESENTATION (bug)]";
