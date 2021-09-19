@@ -119,11 +119,11 @@ namespace jc::resolve {
                 return;
             }
 
-            defineImportAlias(Vis::Pub, maybeDef.unwrap(), segName);
+            defineImportAlias(Vis::Pub, maybeDef.unwrap(), segName, segSpan);
         });
     }
 
-    DefId Importer::defineImportAlias(Vis importVis, NameBinding nameBinding, Symbol name) {
+    DefId Importer::defineImportAlias(Vis importVis, NameBinding nameBinding, Symbol name, span::Span span) {
         // This is a callback common for FOS and definition redefinitions, used below
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
             log.dev("Tried to redefine '", name, "', old name binding is ", nameBinding);
@@ -140,7 +140,7 @@ namespace jc::resolve {
             suggest(
                 std::make_unique<sugg::MsgSpanLinkSugg>(
                     log::fmt("Cannot `use` '", name, "'"),
-                    name,
+                    span,
                     "Because it is already declared as " + oldDef.kindStr() + " here",
                     oldDefSpan,
                     sugg::SuggKind::Error
