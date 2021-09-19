@@ -154,10 +154,18 @@ namespace jc::resolve {
     }
 
     void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
-        log.dev("Import '", name, "' FOS ", importFosId);
+        log.dev(
+            Def::visStr(importVis),
+            " use '",
+            name,
+            "' as ",
+            importFosId,
+            " FOS"
+        );
 
         _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
             if (oldName.isTarget()) {
+                log.dev("Tried to redefine FOS '", name, "' with non-FOS definition ", oldName);
                 suggestCannotImport(name, span, oldName, None);
                 return;
             }
