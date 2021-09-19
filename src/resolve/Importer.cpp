@@ -162,6 +162,18 @@ namespace jc::resolve {
     }
 
     DefId Importer::defineImportAlias(Vis importVis, DefId importDefId) {
-        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
+        auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
+        auto defKind = aliasInfo.importDefKind;
+        auto aliasDefId = aliasInfo.aliasDefId;
+        auto name = aliasInfo.ident.sym;
+
+        const auto & ns = Def::getItemNamespace(defKind);
+
+        const auto & oldDef = _useDeclModule->tryDefine(ns, name, aliasDefId);
+        if (oldDef.some()) {
+            // TODO
+        }
+
+        return aliasDefId;
     }
 }

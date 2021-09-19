@@ -7,6 +7,7 @@ namespace jc::resolve {
     struct ImportAliasInfo {
         DefKind importDefKind;
         DefId aliasDefId;
+        span::Ident ident;
     };
 
     struct DefTable {
