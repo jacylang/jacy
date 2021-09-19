@@ -93,18 +93,52 @@ namespace jc::resolve {
         // Get FOS we will import overloads to
         auto & targetFos = getFOSmut(targetFosId);
 
+        log::Logger::devDebug(
+            "`DefTable::importFos`: ",
+            Def::visStr(importVis),
+            "import ",
+            importFosId,
+            " to ",
+            targetFosId
+        );
+
         // Go through all overloads in imported FOS
         for (const auto & overload : getFOS(importFosId)) {
             auto overloadVis = getDefVis(overload.second);
             if (overloadVis != Vis::Pub) {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: ignore overload '",
+                    overload.first,
+                    "'",
+                    overload.second,
+                    " as private"
+                );
                 continue;
             }
 
             if (utils::map::has(targetFos, overload.first)) {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: Tried to redefine overload '",
+                    overload.first,
+                    "'",
+                    overload.second
+                );
+
                 // If imported suffix already defined in target FOS, it is an error,
                 //  however only if we imported public overload
                 redefs.suffixes.emplace_back(overload.first);
             } else {
+                log::Logger::devDebug(
+                    "`DefTable::importFos`: Add overload '",
+                    overload.first,
+                    "'",
+                    overload.second,
+                    " from ",
+                    importFosId,
+                    " to ",
+                    targetFosId
+                );
+
                 // Import particular overload to target FOS
                 targetFos.emplace(
                     overload.first,
