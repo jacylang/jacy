@@ -50,7 +50,7 @@ namespace jc::resolve {
          */
         DefId defineImportAlias(Namespace nsKind, Vis importVis, NameBinding nameBinding, Symbol name, span::Span span);
 
-        void defineFOSImportAlias(Vis importVis, FOSId fosId, Symbol name, span::Span span);
+        void defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span);
     };
 }
 

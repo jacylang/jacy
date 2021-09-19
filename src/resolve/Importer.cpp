@@ -172,9 +172,10 @@ namespace jc::resolve {
         }
     }
 
-    void Importer::defineFOSImportAlias(Vis importVis, FOSId fosId, Symbol name, span::Span span) {
-        log.dev("Import '", name, "' FOS ", fosId);
-        _useDeclModule->tryDefineFOS(name, fosId).then([&](const NameBinding & oldName) {
+    void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
+        log.dev("Import '", name, "' FOS ", importFosId);
+
+        _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
             if (oldName.isTarget()) {
                 suggestErrorMsg(
                     log::fmt("Cannot import function '", name, "' because name is already in use in this module"), span
@@ -182,6 +183,7 @@ namespace jc::resolve {
                 return;
             }
 
+            // Note: We update FOS present in `use`-declaration module, not the fos we import
         });
     }
 }
