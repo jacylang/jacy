@@ -158,13 +158,20 @@ namespace jc::resolve {
 //        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
 
         /**
-         * @brief Try to define a new definition in module
+         * @brief Tries to define a new definition in the module
          * @return Old definition in case if redefined, None otherwise
          */
         NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
             return _tryDefine(ns, name, NameBinding {defId});
         }
 
+        /**
+         * @brief Tries to define a new FOS in a the module.
+         *  Allows redefinition of the same FOS with the same base name
+         * @param baseName Base name of the function (such as `foo` without suffix `(a:b:)`)
+         * @param fosId Function Overload Set identifier
+         * @return
+         */
         NameBinding::Opt tryDefineFOS(const Symbol & baseName, const FOSId & fosId) {
             const auto & redefined = _tryDefine(Namespace::Value, baseName, NameBinding {fosId});
             // When we try to add already defined function overload set -- it is okay.

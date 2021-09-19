@@ -119,11 +119,17 @@ namespace jc::resolve {
                 return;
             }
 
-            defineImportAlias(Vis::Pub, maybeDef.unwrap(), segName, segSpan);
+            defineImportAlias(nsKind, Vis::Pub, maybeDef.unwrap(), segName, segSpan);
         });
     }
 
-    DefId Importer::defineImportAlias(Vis importVis, NameBinding nameBinding, Symbol name, span::Span span) {
+    DefId Importer::defineImportAlias(
+        Namespace nsKind,
+        Vis importVis,
+        NameBinding nameBinding,
+        Symbol name,
+        span::Span span
+    ) {
         // This is a callback common for FOS and definition redefinitions, used below
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
             log.dev("Tried to redefine '", name, "', old name binding is ", nameBinding);
@@ -156,8 +162,6 @@ namespace jc::resolve {
             auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
             auto defKind = aliasInfo.importDefKind;
             auto aliasDefId = aliasInfo.aliasDefId;
-
-            const auto & nsKind = Def::getItemNamespace(defKind);
 
             log.dev(
                 "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
