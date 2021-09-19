@@ -77,7 +77,7 @@ namespace jc::resolve {
         span::Span getFOSFirstSpan(FOSId fosId) const;
 
     private:
-        FOSMap & getFOS(FOSId fosId) {
+        FOSMap & getFOSmut(FOSId fosId) {
             return utils::arr::expectAtMut(fosList, fosId.val, "`DefTable::getFOS` mutable");
         }
 
