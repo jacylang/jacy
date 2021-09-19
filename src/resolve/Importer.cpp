@@ -149,26 +149,7 @@ namespace jc::resolve {
         );
 
         _useDeclModule->tryDefine(nsKind, name, aliasDefId).then([&](const NameBinding & oldName) {
-            log.dev("Tried to redefine '", name, "', old name binding is ", oldName);
-            if (oldName.isFOS()) {
-                // TODO!!: Function import is a complex process, see Issue #8
-                log::notImplemented("Function overloads importation is incomplete feature, see issue #8 on GitHub");
-                return;
-            }
-            auto oldDefId = oldName.asDef();
-            // Note: If some definition can be redefined -- it is always named definition,
-            //  so we can safely get its name node span
-            const auto & oldDef = sess->defTable.getDef(oldDefId);
-            const auto & oldDefSpan = sess->defTable.getDefNameSpan(oldDef.defId);
-            suggest(
-                std::make_unique<sugg::MsgSpanLinkSugg>(
-                    log::fmt("Cannot `use` '", name, "'"),
-                    span,
-                    "Because it is already declared as " + oldDef.kindStr() + " here",
-                    oldDefSpan,
-                    sugg::SuggKind::Error
-                )
-            );
+            suggestCannotImport(name, span, oldName, None);
         });
     }
 
@@ -192,7 +173,6 @@ namespace jc::resolve {
     void Importer::suggestCannotImport(
         Symbol redefinedName,
         const span::Span & span,
-        DefKind as,
         const NameBinding & prevModDef,
         Symbol::Opt suffix
     ) {
@@ -216,9 +196,9 @@ namespace jc::resolve {
         //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
 
         suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
-            log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
+            log::fmt("Cannot import '", redefinedName, "'"),
             span,
-            "Because it is already declared as " + prevDef.kindStr() + " here",
+            "Because it is already defined as " + prevDef.kindStr() + " here",
             prevDefSpan,
             sugg::SuggKind::Error
         ));
