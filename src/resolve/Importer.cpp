@@ -21,67 +21,75 @@ namespace jc::resolve {
         useDecl.useTree.autoAccept(*this);
     }
 
-    void Importer::visit(const ast::UseTreeRaw & useTree) {
-        // TODO!!!: Unify path resolution logic in NameResolver and Importer. It might be impossible btw.
-        // TODO!!!: `pub use...` re-exporting, now all `use`s are public
-
-        auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, None, ResMode::Import);
-        if (res.ok()) {
-            define(res.asImport(), useTree.path, None);
-        }
-    }
-
-    void Importer::visit(const ast::UseTreeSpecific & useTree) {
-        // If path given -- descend to module it points to
-        if (useTree.path.some()) {
-            auto res = pathResolver.resolve(
-                _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-            );
-            if (res.ok()) {
-                _importModule = sess->defTable.getModule(res.asModuleDef());
-            } else {
-                // Don't visit specifics if resolution failed
-                return;
-            }
+    void Importer::visit(const ast::UseTree & useTree) {
+        if (useTree.kind == ast::UseTree::Kind::Rebind or useTree.path.some()) {
+            useTree.path.unwrap().accept(*this);
         }
 
-        // Here, we resolve specifics relatively to current path
-        for (const auto & specific : useTree.specifics) {
-            specific.autoAccept(*this);
-        }
-    }
-
-    void Importer::visit(const ast::UseTreeRebind & useTree) {
-        auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, dt::None, ResMode::Import);
-        if (res.ok()) {
-            define(res.asImport(), useTree.path, useTree.as.unwrap().sym);
-        }
-    }
-
-    void Importer::visit(const ast::UseTreeAll & useTree) {
-        if (useTree.path.some()) {
-            auto res = pathResolver.resolve(
-                _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
-            );
-            if (res.ok()) {
-                _importModule = sess->defTable.getModule(res.asModuleDef());
-            } else {
-                // Don't define items if resolution failed
-                return;
-            }
-        }
-
-        _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
-            for (const auto & def : ns) {
-                // Note: for `use a::*` we don't report "redefinition" error
-
-                if (def.second.isFOS()) {
-                    _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
-                } else {
-                    _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+        switch (useTree.kind) {
+            case ast::UseTree::Kind::Raw: {
+                auto res = pathResolver.resolve(_importModule, Namespace::Any, useTree.path, None, ResMode::Import);
+                if (res.ok()) {
+                    define(res.asImport(), useTree.path, None);
                 }
+                break;
             }
-        });
+            case ast::UseTree::Kind::All: {
+                if (useTree.path.some()) {
+                    auto res = pathResolver.resolve(
+                        _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
+                    );
+                    if (res.ok()) {
+                        _importModule = sess->defTable.getModule(res.asModuleDef());
+                    } else {
+                        // Don't define items if resolution failed
+                        return;
+                    }
+                }
+
+                _importModule->perNS.each([&](const Module::NSMap & ns, Namespace nsKind) {
+                    for (const auto & def : ns) {
+                        // Note: for `use a::*` we don't report "redefinition" error
+
+                        if (def.second.isFOS()) {
+                            _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
+                        } else {
+                            _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+                        }
+                    }
+                });
+                break;
+            }
+            case ast::UseTree::Kind::Specific: {
+                // If path given -- descend to module it points to
+                if (useTree.path.some()) {
+                    auto res = pathResolver.resolve(
+                        _importModule, Namespace::Type, useTree.path.unwrap(), None, ResMode::Descend
+                    );
+                    if (res.ok()) {
+                        _importModule = sess->defTable.getModule(res.asModuleDef());
+                    } else {
+                        // Don't visit specifics if resolution failed
+                        return;
+                    }
+                }
+
+                // Here, we resolve specifics relatively to current path
+                for (const auto & specific : useTree.expectSpecifics()) {
+                    specific.autoAccept(*this);
+                }
+                break;
+            }
+            case ast::UseTree::Kind::Rebind: {
+                auto res = pathResolver.resolve(
+                    _importModule, Namespace::Any, useTree.path.unwrap(), dt::None, ResMode::Import
+                );
+                if (res.ok()) {
+                    define(res.asImport(), useTree.path.unwrap(), useTree.expectRebinding().sym);
+                }
+                break;
+            }
+        }
     }
 
     void Importer::define(

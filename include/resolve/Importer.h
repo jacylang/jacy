@@ -17,10 +17,7 @@ namespace jc::resolve {
         dt::SuggResult<dt::none_t> declare(sess::Session::Ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
-        void visit(const ast::UseTreeRaw & useTree) override;
-        void visit(const ast::UseTreeSpecific & useTree) override;
-        void visit(const ast::UseTreeRebind & useTree) override;
-        void visit(const ast::UseTreeAll & useTree) override;
+        void visit(const ast::UseTree & useTree) override;
 
     private:
         log::Logger log{"importer"};
