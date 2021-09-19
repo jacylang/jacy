@@ -72,7 +72,7 @@ namespace jc::resolve {
         );
         assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
 
-        return {importDefKind, aliasDefId, importDefIdent};
+        return {importDefKind, aliasDefId};
     }
 
     void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
