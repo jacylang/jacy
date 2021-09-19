@@ -176,9 +176,10 @@ namespace jc::resolve {
         // If module has FOS with function base name -- we import overloads to it
         auto fosId = fosSearchRes.unwrap();
 
-        // If module does not have definition with this name -- create new FOS and import to it
+        // If module does not have definition with this name -- create new FOS and register it in the module
         if (fosId.none()) {
             fosId = sess->defTable.newEmptyFOS();
+            _useDeclModule->tryDefineFOS(name, fosId.unwrap());
         }
 
         // Note: We update FOS present in `use`-declaration module, not the fos we import

@@ -85,7 +85,7 @@ namespace jc::resolve {
         if (found->second.kind == NameBinding::Kind::FOS) {
             return Ok<FOSId::Opt>(found->second.asFOS());
         }
-        return dt::Err(found->second.asDef());
+        return Err(found->second.asDef());
     }
 
     std::string Module::toString() const {
