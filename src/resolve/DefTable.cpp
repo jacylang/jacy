@@ -4,7 +4,7 @@ namespace jc::resolve {
     // Modules //
     Module::Ptr DefTable::getModule(const DefId & defId) const {
         try {
-            return modules.at(defId.getIndex());
+            return modules.at(unwindDefId(defId).getIndex());
         } catch (const std::out_of_range & e) {
             panicWithDump("Called `DefTable::getModule` with non-existing `defId` ", defId, ": ", e.what());
         }
@@ -54,11 +54,7 @@ namespace jc::resolve {
     /// For `DefKind::Import` definitions, applies logic of recursive unwinding
     Def DefTable::getDef(const DefIndex & index) const {
         try {
-            auto def = defs.at(index.val);
-            if (def.kind == DefKind::Import) {
-                return getDef(getImportAlias(def.defId));
-            }
-            return def;
+            return getDef(unwindDefId(DefId {index}));
         } catch (const std::out_of_range & e) {
             log::devPanic("Called `DefStorage::getDef` with non-existent `defId`");
         }
