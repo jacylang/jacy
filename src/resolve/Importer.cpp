@@ -119,31 +119,11 @@ namespace jc::resolve {
                 return;
             }
 
-            const auto & nameBinding = maybeDef.unwrap();
-
-            if (nameBinding.isFOS()) {
-                log.dev(
-                    "Import '", segName, "' from ", nsToString(nsKind), " namespace as FOS ",
-                    nameBinding.asFOS()
-                );
-                _useDeclModule->tryDefineFOS(segName, nameBinding.asFOS()).then(redefinitionCallback);
-            } else {
-                log.dev(
-                    "Import '", segName, "' from ", nsToString(nsKind), " namespace as definition ",
-                    nameBinding.asDef()
-                );
-                _useDeclModule->tryDefine(nsKind, segName, nameBinding.asDef()).then(redefinitionCallback);
-            }
+            defineImportAlias(Vis::Pub, maybeDef.unwrap(), segName);
         });
     }
 
-    DefId Importer::defineImportAlias(Vis importVis, DefId importDefId, Symbol name) {
-        auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
-        auto defKind = aliasInfo.importDefKind;
-        auto aliasDefId = aliasInfo.aliasDefId;
-
-        const auto & ns = Def::getItemNamespace(defKind);
-
+    DefId Importer::defineImportAlias(Vis importVis, NameBinding nameBinding, Symbol name) {
         // This is a callback common for FOS and definition redefinitions, used below
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
             log.dev("Tried to redefine '", name, "', old name binding is ", nameBinding);
@@ -168,11 +148,27 @@ namespace jc::resolve {
             );
         };
 
-        const auto & oldDef = _useDeclModule->tryDefine(ns, name, aliasDefId);
-        if (oldDef.some()) {
-            // TODO
-        }
+        if (nameBinding.isFOS()) {
+            log.dev("Import '", name, "' FOS ", nameBinding.asFOS());
+            _useDeclModule->tryDefineFOS(name, nameBinding.asFOS()).then(redefinitionCallback);
+        } else if (nameBinding.isTarget()) {
+            auto importDefId = nameBinding.asDef();
+            auto aliasInfo = sess->defTable.defineImportAlias(importVis, importDefId);
+            auto defKind = aliasInfo.importDefKind;
+            auto aliasDefId = aliasInfo.aliasDefId;
 
-        return aliasDefId;
+            const auto & nsKind = Def::getItemNamespace(defKind);
+
+            log.dev(
+                "Import '", name, "' from ", nsToString(nsKind), " namespace as definition ",
+                nameBinding.asDef()
+            );
+
+            _useDeclModule->tryDefine(nsKind, name, aliasDefId).then(redefinitionCallback);
+
+            return aliasDefId;
+        } else {
+            log::devPanic("Unhandled `NameBinding::Kind` in `Importer::defineImportAlias`");
+        }
     }
 }
