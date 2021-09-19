@@ -164,21 +164,27 @@ namespace jc::resolve {
         );
 
         // If module uses this name -- report an error
+        auto fosSearchRes = _useDeclModule->tryFindFOS(name);
 
+        if (fosSearchRes.err()) {
+            const auto & oldDefId = fosSearchRes.unwrapErr();
+            log.dev("Tried to redefine FOS '", name, "' with non-FOS definition ", oldDefId);
+            suggestCannotImport(name, span, oldDefId, None);
+            return;
+        }
 
         // If module has FOS with function base name -- we import overloads to it
+        auto maybeOldFos = fosSearchRes.unwrap();
+        if (maybeOldFos.some()) {
+            // Note: We update FOS present in `use`-declaration module, not the fos we import
+            sess->defTable.importFos(importVis, importFosId, maybeOldFos.unwrap());
+            return;
+        }
 
         // If module does not have definition with this name -- create new FOS and import to it
 
         _useDeclModule->tryDefineFOS(name, importFosId).then([&](const NameBinding & oldName) {
-            if (oldName.isTarget()) {
-                log.dev("Tried to redefine FOS '", name, "' with non-FOS definition ", oldName);
-                suggestCannotImport(name, span, oldName, None);
-                return;
-            }
 
-            // Note: We update FOS present in `use`-declaration module, not the fos we import
-            sess->defTable.importFos(importVis, importFosId, oldName.asFOS());
         });
     }
 
