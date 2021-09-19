@@ -99,6 +99,7 @@ namespace jc::resolve {
         // Use rebinding name or last segment name
         const auto & segName = rebind.some() ? rebind.unwrap() : lastSegIdent.sym;
 
+        // This is a callback common for FOS and definition redefinitions, used below
         const auto redefinitionCallback = [&](const NameBinding & nameBinding) {
             log.dev("Tried to redefine '", segName, "', old name binding is ", nameBinding);
             if (nameBinding.isFOS()) {

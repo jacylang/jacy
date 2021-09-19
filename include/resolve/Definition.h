@@ -103,6 +103,11 @@ namespace jc::resolve {
         TypeAlias,
         TypeParam,
         Variant,
+
+        /// Special kind for aliases in importation:
+        /// - saves the whole logic of definition
+        /// - Has its own DefId but this id should not be used anywhere after name resolution
+        Import,
     };
 
     enum class NameUsage {
