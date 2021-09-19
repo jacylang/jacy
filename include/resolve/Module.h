@@ -188,6 +188,17 @@ namespace jc::resolve {
                 // Return old def id
                 return defined.first->second;
             }
+
+            // If type is defined then check if its name shadows one of primitive types
+            if (ns == Namespace::Type) {
+                // TODO: Add warning suggestion
+                const auto maybePrimType = getPrimTypeBitMask(name);
+                if (maybePrimType.some()) {
+                    // Set primitive type shadow flag
+                    shadowedPrimTypes |= maybePrimType.unwrap();
+                }
+            }
+
             return None;
         }
 
