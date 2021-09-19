@@ -87,6 +87,21 @@ namespace jc::resolve {
         }
     }
 
+    FosRedefs DefTable::importFos(FOSId importFosId, FOSId targetFosId) {
+        FosRedefs redefs;
+
+        auto & targetFos = getFOS(targetFosId);
+        for (const auto & overload : getFOS(importFosId)) {
+            if (utils::map::has(targetFos, overload.first)) {
+                redefs.suffixes.emplace_back(overload.first);
+            } else {
+
+            }
+        }
+
+        return redefs;
+    }
+
     // Common definitions //
 
     /// Returns definition, considers that definition exists.

@@ -5,7 +5,7 @@
 
 namespace jc::resolve {
     struct FosRedefs {
-        std::vector<span::Symbol> names;
+        std::vector<span::Symbol> suffixes;
     };
 
     struct DefTable {
