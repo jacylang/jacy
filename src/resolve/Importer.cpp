@@ -190,15 +190,14 @@ namespace jc::resolve {
 
     // Suggestions //
     void Importer::suggestCannotImport(
-        const span::Ident & ident,
+        Symbol redefinedName,
+        const span::Span & span,
         DefKind as,
         const NameBinding & prevModDef,
         Symbol::Opt suffix
     ) {
-        // Note: The only things we can redefine are obviously "named" things,
-        //  thus if name span found -- it is a bug
+        // Pretty similar to `ModuleTreeBuilder::suggestCannotRedefine`
 
-        auto redefinedName = ident.sym;
         if (suffix.some()) {
             redefinedName = redefinedName + suffix.unwrap();
         }
@@ -218,7 +217,7 @@ namespace jc::resolve {
 
         suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
             log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
-            ident.span,
+            span,
             "Because it is already declared as " + prevDef.kindStr() + " here",
             prevDefSpan,
             sugg::SuggKind::Error

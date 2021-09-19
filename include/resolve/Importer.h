@@ -62,7 +62,8 @@ namespace jc::resolve {
         // Suggestions //
     private:
         void suggestCannotImport(
-            const span::Ident & ident,
+            Symbol redefinedName,
+            const span::Span & span,
             DefKind as,
             const NameBinding & prevModDef,
             Symbol::Opt suffix = None
