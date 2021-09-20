@@ -24,11 +24,11 @@ namespace jc::resolve {
         // Modules //
     public:
         Module::Ptr getModule(const DefId & defId) const;
-        Module::Ptr getBlock(ast::NodeId nodeId) const;
+        Module::Ptr getBlock(NodeId nodeId) const;
         Module::Ptr getFuncModule(FOSId overloadId, span::Symbol suffix) const;
 
         Module::Ptr addModule(const DefId & defId, Module::Ptr module);
-        Module::Ptr addBlock(ast::NodeId nodeId, Module::Ptr module);
+        Module::Ptr addBlock(NodeId nodeId, Module::Ptr module);
 
         const auto & getBlocks() const {
             return blocks;
@@ -74,8 +74,8 @@ namespace jc::resolve {
         // Importation //
     public:
         DefId defineImportAlias(Vis importVis, NodeId pathNodeId, DefId importDefId);
-        void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
-        Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
+        void setUseDeclModule(NodeId nodeId, Module::Ptr module);
+        Module::Ptr getUseDeclModule(NodeId nodeId) const;
         FosRedefs importFos(Vis importVis, NodeId pathNodeId, FOSId importFosId, FOSId targetFosId);
         DefId getImportAlias(DefId aliasDefId) const;
 
@@ -112,11 +112,11 @@ namespace jc::resolve {
     private:
         std::vector<Def> defs;
         std::map<DefIndex, Module::Ptr> modules;
-        std::map<ast::NodeId, Module::Ptr> blocks;
-        std::map<ast::NodeId, Module::Ptr> useDeclModules;
+        std::map<NodeId, Module::Ptr> blocks;
+        std::map<NodeId, Module::Ptr> useDeclModules;
         std::map<DefId, Vis> defVisMap;
-        std::map<ast::NodeId, DefId> nodeIdDefIdMap;
-        std::map<DefId, ast::NodeId> defIdNodeIdMap;
+        std::map<NodeId, DefId> nodeIdDefIdMap;
+        std::map<DefId, NodeId> defIdNodeIdMap;
         std::map<DefId, DefId> importAliases;
 
         /// Function overload sets collection, each id points to mapping from suffix to function definition

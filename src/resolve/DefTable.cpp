@@ -10,7 +10,7 @@ namespace jc::resolve {
         }
     }
 
-    Module::Ptr DefTable::getBlock(ast::NodeId nodeId) const {
+    Module::Ptr DefTable::getBlock(NodeId nodeId) const {
         try {
             return blocks.at(nodeId);
         } catch (const std::out_of_range & e) {
@@ -40,7 +40,7 @@ namespace jc::resolve {
         return added.first->second;
     }
 
-    Module::Ptr DefTable::addBlock(ast::NodeId nodeId, Module::Ptr module) {
+    Module::Ptr DefTable::addBlock(NodeId nodeId, Module::Ptr module) {
         const auto & added = blocks.emplace(nodeId, module);
         if (not added.second) {
             log::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
@@ -187,11 +187,11 @@ namespace jc::resolve {
         return aliasDefId;
     }
 
-    void DefTable::setUseDeclModule(ast::NodeId nodeId, Module::Ptr module) {
+    void DefTable::setUseDeclModule(NodeId nodeId, Module::Ptr module) {
         useDeclModules.emplace(nodeId, module);
     }
 
-    Module::Ptr DefTable::getUseDeclModule(ast::NodeId nodeId) const {
+    Module::Ptr DefTable::getUseDeclModule(NodeId nodeId) const {
         try {
             return useDeclModules.at(nodeId);
         } catch (const std::out_of_range & e) {
