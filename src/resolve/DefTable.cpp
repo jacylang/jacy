@@ -203,7 +203,7 @@ namespace jc::resolve {
 
     Module::Ptr DefTable::getUseDeclModule(NodeId nodeId) const {
         try {
-            return getModule(useDeclModules.at(nodeId));
+            return useDeclModules.at(nodeId);
         } catch (const std::out_of_range & e) {
             panicWithDump(
                 "Called `DefTable::getUseDeclModule` with non-existing `nodeId` ", nodeId, ": ", e.what());
