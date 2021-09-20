@@ -240,6 +240,24 @@ namespace jc::ast {
         Option<Color> getNameColorChecked(NodeId nodeId);
 
         template<class T>
+        void tryPrintColorized(Option<Color> color, const T & node) {
+            if (color.some()) {
+                log.raw(color);
+            }
+            node.accept(*this);
+            resetNameColor();
+        }
+
+        template<class ...Args>
+        void tryPrintColorized(Option<Color> color, Args && ...args) {
+            if (color.some()) {
+                log.raw(color);
+            }
+            log.raw(std::forward<Args>(args)...);
+            resetNameColor();
+        }
+
+        template<class T>
         void printColorizedByNodeId(const T & node) {
             if (mode != AstPrinterMode::Names) {
                 node.accept(*this);

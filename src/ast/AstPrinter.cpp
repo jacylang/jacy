@@ -228,11 +228,12 @@ namespace jc::ast {
                 break;
             }
             case UseTree::Kind::All: {
+                Option<Color> color = None;
                 if (useTree.path.some()) {
+                    color = getNameColorChecked(useTree.expectPath().id);
                     log.raw("::");
                 }
-                printColorizedByNodeId(useTree.expectPath());
-                log.raw("*");
+                tryPrintColorized(color, "*");
                 break;
             }
             case UseTree::Kind::Specific: {
@@ -259,9 +260,9 @@ namespace jc::ast {
                 break;
             }
             case UseTree::Kind::Rebind: {
-                printColorizedByNodeId(useTree.expectPath());
+                useTree.expectPath().accept(*this);
                 log.raw(" as ");
-                useTree.expectRebinding().accept(*this);
+                tryPrintColorized(getNameColorChecked(useTree.expectPath().id), useTree.expectRebinding());
                 break;
             }
         }
