@@ -65,6 +65,12 @@ namespace jc::resolve {
     }
 
     // Modules //
+    /**
+     * @brief
+     * @remark Unwinds DefId (!)
+     * @param defId
+     * @return
+     */
     Module::Ptr DefTable::getModule(const DefId & defId) const {
         try {
             return modules.at(unwindDefId(defId).getIndex());
