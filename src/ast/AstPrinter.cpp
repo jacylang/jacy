@@ -221,7 +221,9 @@ namespace jc::ast {
 
     void AstPrinter::visit(const UseTree & useTree) {
         if (useTree.kind == UseTree::Kind::Rebind or useTree.path.some()) {
+            colorizePathName(useTree.path.unwrap().id);
             useTree.expectPath().accept(*this);
+            resetNameColor();
         }
 
         switch (useTree.kind) {
