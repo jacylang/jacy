@@ -907,6 +907,16 @@ namespace jc::ast {
         resetNameColor();
     }
 
+    void AstPrinter::colorizeUseDeclPath(const SimplePath & simplePath) {
+        if (mode != AstPrinterMode::Names) {
+            simplePath.accept(*this);
+            return;
+        }
+        log.raw(getNameColor(simplePath.id));
+        simplePath.accept(*this);
+        resetNameColor();
+    }
+
     /// Finds resolution for node id of path (all name usages are path-like nodes).
     /// Depending on resolution kind applies specific logic:
     ///  - Definition - Looks for node id of definition in `DefId -> NodeId` map
