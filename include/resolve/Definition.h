@@ -168,6 +168,9 @@ namespace jc::resolve {
     };
 
     struct BaseDef {
+        template<class T>
+        using DefMap = std::map<DefId, T>;
+
         BaseDef(
             DefId defId,
             DefKind kind

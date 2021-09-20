@@ -112,13 +112,13 @@ namespace jc::resolve {
 
     private:
         std::vector<Def> defs;
-        std::map<DefId, Module::Ptr> modules;
+        Def::DefMap<Module::Ptr> modules;
         NodeId::NodeMap<Module::Ptr> blocks;
         NodeId::NodeMap<Module::Ptr> useDeclModules;
-        std::map<DefId, Vis> defVisMap;
-        std::map<NodeId, DefId> nodeIdDefIdMap;
-        std::map<DefId, NodeId> defIdNodeIdMap;
-        std::map<DefId, DefId> importAliases;
+        Def::DefMap<Vis> defVisMap;
+        NodeId::NodeMap<DefId> nodeIdDefIdMap;
+        Def::DefMap<NodeId> defIdNodeIdMap;
+        Def::DefMap<DefId> importAliases;
 
         /// Function overload sets collection, each id points to mapping from suffix to function definition
         FOSList fosList;
