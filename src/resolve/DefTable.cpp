@@ -17,6 +17,10 @@ namespace jc::resolve {
         return getDef(defId.getIndex());
     }
 
+    Def DefTable::getDefUnwind(const DefId & defId) const {
+        return getDef(unwindDefId(defId));
+    }
+
     Vis DefTable::getDefVis(const DefId & defId) const {
         return utils::map::expectAt(defVisMap, defId, "`DefTable::getDefVis`");
     }

@@ -39,6 +39,7 @@ namespace jc::resolve {
 
         Def getDef(const DefIndex & index) const;
         Def getDef(const DefId & defId) const;
+        Def getDefUnwind(const DefId & defId) const;
         Vis getDefVis(const DefId & defId) const;
         const NodeId & getNodeIdByDefId(const DefId & defId) const;
         const DefId & getDefIdByNodeId(const NodeId & nodeId) const;
