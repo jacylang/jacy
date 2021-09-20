@@ -118,7 +118,7 @@ namespace jc::span {
             return Symbol {kwAsInt(Kw::Empty)};
         }
 
-        bool isKw() const {
+        bool isSomeKw() const {
             return kwAsInt(Kw::And) <= id.val and kwAsInt(Kw::While) >= id.val;
         }
 
@@ -127,7 +127,7 @@ namespace jc::span {
             return *this == Kw::Super
                 or *this == Kw::Party
                 or *this == Kw::Self
-                or not isKw();
+                or not isSomeKw();
         }
 
         static std::string kwToString(Kw kw);

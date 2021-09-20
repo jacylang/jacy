@@ -106,7 +106,7 @@ namespace jc::parser {
     }
 
     bool Token::isSomeKeyword() const {
-        return kind == TokenKind::Id and asSymbol().isKw();
+        return kind == TokenKind::Id and asSymbol().isSomeKw();
     }
 
     bool Token::isPathIdent() const {
