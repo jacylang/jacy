@@ -200,7 +200,7 @@ namespace jc::resolve {
         }
     }
 
-    FosRedefs DefTable::importFos(Vis importVis, FOSId importFosId, FOSId targetFosId) {
+    FosRedefs DefTable::importFos(Vis importVis, NodeId pathNodeId, FOSId importFosId, FOSId targetFosId) {
         FosRedefs redefs;
 
         // Get FOS we will import overloads to
@@ -255,7 +255,7 @@ namespace jc::resolve {
                 // Import particular overload to target FOS
                 targetFos.emplace(
                     overload.first,
-                    defineImportAlias(importVis, overload.second)
+                    defineImportAlias(importVis, pathNodeId, overload.second)
                 );
             }
         }

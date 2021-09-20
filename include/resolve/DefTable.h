@@ -76,7 +76,7 @@ namespace jc::resolve {
         DefId defineImportAlias(Vis importVis, NodeId pathNodeId, DefId importDefId);
         void setUseDeclModule(ast::NodeId nodeId, Module::Ptr module);
         Module::Ptr getUseDeclModule(ast::NodeId nodeId) const;
-        FosRedefs importFos(Vis importVis, FOSId importFosId, FOSId targetFosId);
+        FosRedefs importFos(Vis importVis, NodeId pathNodeId, FOSId importFosId, FOSId targetFosId);
         DefId getImportAlias(DefId aliasDefId) const;
 
         const auto & getUseDeclModules() const {
