@@ -114,7 +114,7 @@ namespace jc::resolve {
         std::vector<Def> defs;
         std::map<DefId, Module::Ptr> modules;
         NodeId::NodeMap<Module::Ptr> blocks;
-        NodeId::NodeMap<Module::Ptr> useDeclModules;
+        NodeId::NodeMap<DefId> useDeclModules;
         std::map<DefId, Vis> defVisMap;
         std::map<NodeId, DefId> nodeIdDefIdMap;
         std::map<DefId, NodeId> defIdNodeIdMap;
