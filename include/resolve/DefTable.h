@@ -112,7 +112,7 @@ namespace jc::resolve {
 
     private:
         std::vector<Def> defs;
-        std::map<DefIndex, Module::Ptr> modules;
+        std::map<DefId, Module::Ptr> modules;
         std::map<NodeId, Module::Ptr> blocks;
         std::map<NodeId, Module::Ptr> useDeclModules;
         std::map<DefId, Vis> defVisMap;

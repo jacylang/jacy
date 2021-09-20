@@ -73,7 +73,7 @@ namespace jc::resolve {
      */
     Module::Ptr DefTable::getModule(const DefId & defId) const {
         try {
-            return modules.at(unwindDefId(defId).getIndex());
+            return modules.at(unwindDefId(defId));
         } catch (const std::out_of_range & e) {
             panicWithDump("Called `DefTable::getModule` with non-existing `defId` ", defId, ": ", e.what());
         }
