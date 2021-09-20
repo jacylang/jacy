@@ -154,7 +154,7 @@ namespace jc::resolve {
     }
 
     // Importation //
-    DefId DefTable::defineImportAlias(Vis importVis, DefId importDefId) {
+    DefId DefTable::defineImportAlias(Vis importVis, NodeId pathNodeId, DefId importDefId) {
         using namespace utils::map;
 
         const auto & importDef = getDef(importDefId);
@@ -170,10 +170,19 @@ namespace jc::resolve {
             "', alias to ",
             importDefId);
 
-        assertNewEmplace(
-            importAliases.emplace(aliasDefId, importDefId), "`DefTable::defineImportAlias` -> importAliases"
-        );
         assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
+        assertNewEmplace(
+            nodeIdDefIdMap.emplace(pathNodeId, aliasDefId),
+            "`DefTable::defineImportAlias` -> nodeIdDefIdMap"
+        );
+        assertNewEmplace(
+            defIdNodeIdMap.emplace(aliasDefId, pathNodeId),
+            "`DefTable::defineImportAlias` -> defIdNodeIdMap"
+        );
+        assertNewEmplace(
+            importAliases.emplace(aliasDefId, importDefId),
+            "`DefTable::defineImportAlias` -> importAliases"
+        );
 
         return aliasDefId;
     }
