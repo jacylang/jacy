@@ -171,7 +171,7 @@ namespace jc::parser {
                     TokLit::Kind::DecLiteral,
                     Symbol::intern(num),
                     None
-                }, num.size());
+                }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`"));
                 return;
             }
 
@@ -181,7 +181,7 @@ namespace jc::parser {
                 TokLit::Kind::DecLiteral,
                 Symbol::intern(num),
                 None
-            }, num.size());
+            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`"));
         }
     }
 
@@ -197,7 +197,7 @@ namespace jc::parser {
             TokLit::Kind::BinLiteral,
             Symbol::intern(num),
             None
-        }, num.size());
+        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexBinLiteral`"));
     }
 
     void Lexer::lexOctLiteral() {
@@ -212,7 +212,7 @@ namespace jc::parser {
             TokLit::Kind::OctLiteral,
             Symbol::intern(num),
             None
-        }, num.size());
+        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexOctLiteral`"));
     }
 
     void Lexer::lexHexLiteral() {
@@ -227,7 +227,7 @@ namespace jc::parser {
             TokLit::Kind::HexLiteral,
             Symbol::intern(num),
             None
-        }, num.size());
+        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexHexLiteral`"));
     }
 
     void Lexer::lexFloatLiteral(const std::string & start) {
@@ -243,7 +243,7 @@ namespace jc::parser {
             TokLit::Kind::FloatLiteral,
             Symbol::intern(num),
             None
-        }, num.size());
+        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::FloatLiteral`"));
     }
 
     void Lexer::lexId() {
@@ -256,7 +256,7 @@ namespace jc::parser {
         addToken(Token {
             TokenKind::Id,
             Symbol::intern(id)
-        }, id.size());
+        }, checkedAs<span::Span::Len>(id.size(), "`Lexer::lexId`"));
     }
 
     void Lexer::lexString() {
@@ -379,7 +379,7 @@ namespace jc::parser {
             kind,
             Symbol::intern(val),
             None
-        }, val.size());
+        }, checkedAs<span::Span::Len>(val.size(), "`Lexer::lexString`"));
     }
 
     void Lexer::lexOp() {

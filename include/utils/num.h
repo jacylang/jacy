@@ -114,14 +114,15 @@ namespace jc::utils::num {
 
     template<class O, class I, typename = typename std::enable_if<
         std::is_integral<I>::value and std::is_integral<I>::value>::type>
-    static inline O checkedAs(I i, const std::string & place) {
+    static inline O checkedAs(I i, const std::string & place = "") {
         if (i >= std::numeric_limits<O>::max()) {
             log::devPanic(
                 "`utils::num::checkedAs` Integer overflow: ",
                 i,
                 " is greater than ",
                 std::numeric_limits<O>::max(),
-                " maximum value"
+                " maximum value",
+                (place.empty() ? "" : " in " + place)
             );
         }
         return static_cast<O>(i);

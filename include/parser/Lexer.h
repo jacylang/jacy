@@ -6,10 +6,12 @@
 #include "log/Logger.h"
 #include "parser/ParseSess.h"
 #include "session/Session.h"
+#include "utils/num.h"
 
 namespace jc::parser {
     using span::Kw;
     using span::Symbol;
+    using namespace utils::num;
 
     // TODO: Suggestions instead of errors
     struct LexerError : common::Error {
