@@ -122,6 +122,10 @@ namespace jc::span {
             return kwAsInt(Kw::And) <= id.val and kwAsInt(Kw::While) >= id.val;
         }
 
+        bool isKw(Kw kw) const {
+            return kwAsInt(kw) == id.val;
+        }
+
         bool isPathSeg() const {
             // Check if segment is a path segment keyword and not any another keyword, i.e. user-defined identifier
             return *this == Kw::Super
