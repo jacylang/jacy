@@ -234,10 +234,20 @@ namespace jc::ast {
         std::map<NodeId, Color> namesColors;
         uint8_t lastColor;
         void colorizeNameDecl(NodeId nodeId, const Ident::PR & ident);
-        void colorizeUseDeclPath(const SimplePath & simplePath);
         void colorizePathName(NodeId pathNodeId);
         void resetNameColor();
         Color getNameColor(NodeId nodeId);
+
+        template<class T>
+        void printColorizedByNodeId(const T & node) {
+            if (mode != AstPrinterMode::Names) {
+                node.accept(*this);
+                return;
+            }
+            log.raw(getNameColor(node.id));
+            node.accept(*this);
+            resetNameColor();
+        }
 
     private:
         // DEBUG //
