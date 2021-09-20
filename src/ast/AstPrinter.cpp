@@ -220,15 +220,16 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const UseTree & useTree) {
-        if (useTree.kind == UseTree::Kind::Rebind or useTree.path.some()) {
-            colorizeUseDeclPath(useTree.expectPath());
-            resetNameColor();
-        }
-
         switch (useTree.kind) {
-            case UseTree::Kind::Raw: break;
+            case UseTree::Kind::Raw: {
+                if (useTree.path.some()) {
+                    colorizeUseDeclPath(useTree.expectPath());
+                }
+                break;
+            }
             case UseTree::Kind::All: {
                 if (useTree.path.some()) {
+                    colorizeUseDeclPath(useTree.expectPath());
                     log.raw("::");
                 }
                 log.raw("*");
@@ -257,6 +258,7 @@ namespace jc::ast {
                 break;
             }
             case UseTree::Kind::Rebind: {
+                colorizeUseDeclPath(useTree.expectPath());
                 log.raw(" as ");
                 useTree.expectRebinding().accept(*this);
                 break;
