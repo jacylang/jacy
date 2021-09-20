@@ -110,7 +110,7 @@ namespace jc::parser {
     }
 
     bool Token::isPathIdent() const {
-        return kind == TokenKind::Id or asSymbol().isPathSeg();
+        return kind == TokenKind::Id and asSymbol().isPathSeg();
     }
 
     std::string Token::kindToString(TokenKind kind) {

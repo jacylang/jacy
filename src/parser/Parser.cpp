@@ -1188,7 +1188,7 @@ namespace jc::parser {
 
         const auto & span = cspan();
         auto tok = peek();
-        if (tok.is(TokenKind::Id) and tok.asSymbol().isPathSeg()) {
+        if (tok.isPathIdent()) {
             advance();
             return Ok(makeNode<Ident>(tok));
         }
