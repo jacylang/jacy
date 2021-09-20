@@ -21,19 +21,6 @@ namespace jc::resolve {
             return defs;
         }
 
-        // Modules //
-    public:
-        Module::Ptr getModule(const DefId & defId) const;
-        Module::Ptr getBlock(NodeId nodeId) const;
-        Module::Ptr getFuncModule(FOSId overloadId, span::Symbol suffix) const;
-
-        Module::Ptr addModule(const DefId & defId, Module::Ptr module);
-        Module::Ptr addBlock(NodeId nodeId, Module::Ptr module);
-
-        const auto & getBlocks() const {
-            return blocks;
-        }
-
         // Common definitions //
     public:
         /**
@@ -58,6 +45,19 @@ namespace jc::resolve {
         span::Span getDefNameSpan(const DefId & defId) const;
 
         DefId define(Vis vis, NodeId nodeId, DefKind kind, const span::Ident & ident);
+
+        // Modules //
+    public:
+        Module::Ptr getModule(const DefId & defId) const;
+        Module::Ptr getBlock(NodeId nodeId) const;
+        Module::Ptr getFuncModule(FOSId overloadId, span::Symbol suffix) const;
+
+        Module::Ptr addModule(const DefId & defId, Module::Ptr module);
+        Module::Ptr addBlock(NodeId nodeId, Module::Ptr module);
+
+        const auto & getBlocks() const {
+            return blocks;
+        }
 
         // Function overloading //
     public:

@@ -1,53 +1,6 @@
 #include "resolve/DefTable.h"
 
 namespace jc::resolve {
-    // Modules //
-    Module::Ptr DefTable::getModule(const DefId & defId) const {
-        try {
-            return modules.at(unwindDefId(defId).getIndex());
-        } catch (const std::out_of_range & e) {
-            panicWithDump("Called `DefTable::getModule` with non-existing `defId` ", defId, ": ", e.what());
-        }
-    }
-
-    Module::Ptr DefTable::getBlock(NodeId nodeId) const {
-        try {
-            return blocks.at(nodeId);
-        } catch (const std::out_of_range & e) {
-            panicWithDump("Called `DefTable::getBlock` with non-existing `nodeId` ", nodeId, ": ", e.what());
-        }
-    }
-
-    Module::Ptr DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
-        try {
-            return getModule(fosList.at(overloadId.val).at(suffix));
-        } catch (const std::out_of_range & e) {
-            panicWithDump(
-                "Called `DefTable::getFuncModule` with non-existing FuncOverloadId '",
-                overloadId,
-                "' or suffix '",
-                suffix,
-                "'"
-            );
-        }
-    }
-
-    Module::Ptr DefTable::addModule(const DefId & defId, Module::Ptr module) {
-        const auto & added = modules.emplace(defId.getIndex(), module);
-        if (not added.second) {
-            log::devPanic("[DefStorage]: Tried to add module with same defId twice");
-        }
-        return added.first->second;
-    }
-
-    Module::Ptr DefTable::addBlock(NodeId nodeId, Module::Ptr module) {
-        const auto & added = blocks.emplace(nodeId, module);
-        if (not added.second) {
-            log::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
-        }
-        return added.first->second;
-    }
-
     // Common definitions //
 
     /// Returns definition, considers that definition exists.
@@ -105,6 +58,53 @@ namespace jc::resolve {
         assertNewEmplace(defIdNodeIdMap.emplace(defId, nodeId), "`DefTable::define` -> defIdNodeIdMap");
 
         return defId;
+    }
+
+    // Modules //
+    Module::Ptr DefTable::getModule(const DefId & defId) const {
+        try {
+            return modules.at(unwindDefId(defId).getIndex());
+        } catch (const std::out_of_range & e) {
+            panicWithDump("Called `DefTable::getModule` with non-existing `defId` ", defId, ": ", e.what());
+        }
+    }
+
+    Module::Ptr DefTable::getBlock(NodeId nodeId) const {
+        try {
+            return blocks.at(nodeId);
+        } catch (const std::out_of_range & e) {
+            panicWithDump("Called `DefTable::getBlock` with non-existing `nodeId` ", nodeId, ": ", e.what());
+        }
+    }
+
+    Module::Ptr DefTable::getFuncModule(FOSId overloadId, span::Symbol suffix) const {
+        try {
+            return getModule(fosList.at(overloadId.val).at(suffix));
+        } catch (const std::out_of_range & e) {
+            panicWithDump(
+                "Called `DefTable::getFuncModule` with non-existing FuncOverloadId '",
+                overloadId,
+                "' or suffix '",
+                suffix,
+                "'"
+            );
+        }
+    }
+
+    Module::Ptr DefTable::addModule(const DefId & defId, Module::Ptr module) {
+        const auto & added = modules.emplace(defId.getIndex(), module);
+        if (not added.second) {
+            log::devPanic("[DefStorage]: Tried to add module with same defId twice");
+        }
+        return added.first->second;
+    }
+
+    Module::Ptr DefTable::addBlock(NodeId nodeId, Module::Ptr module) {
+        const auto & added = blocks.emplace(nodeId, module);
+        if (not added.second) {
+            log::devPanic("[DefStorage]: Tried to add block with same nodeId twice");
+        }
+        return added.first->second;
     }
 
     // Function overload sets //
