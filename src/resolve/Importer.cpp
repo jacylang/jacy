@@ -123,19 +123,20 @@ namespace jc::resolve {
             if (nameBinding.isFOS()) {
                 defineFOSImportAlias(Vis::Pub, nameBinding.asFOS(), segName, segSpan);
             } else {
-                defineImportAlias(nsKind, Vis::Pub, nameBinding.asDef(), segName, segSpan);
+                defineImportAlias(nsKind, path.getNodeId(), Vis::Pub, nameBinding.asDef(), segName, segSpan);
             }
         });
     }
 
     void Importer::defineImportAlias(
         Namespace nsKind,
+        ast::NodeId pathNodeId,
         Vis importVis,
         DefId importDefId,
         Symbol name,
         span::Span span
     ) {
-        auto aliasDefId = sess->defTable.defineImportAlias(importVis, importDefId);
+        auto aliasDefId = sess->defTable.defineImportAlias(importVis, pathNodeId, importDefId);
 
         log.dev(
             "Import '",
