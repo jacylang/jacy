@@ -36,6 +36,20 @@ namespace jc::resolve {
 
         // Common definitions //
     public:
+        /**
+         * @brief Unwinds definition in case if it is an alias
+         *  Note: Always use `unwindDefId` if you want to get "real" def id
+         * @param defId
+         * @return
+         */
+        DefId unwindDefId(DefId defId) const {
+            auto unwound = defId;
+            while (defs.at(unwound.getIndex().val).kind == DefKind::ImportAlias) {
+                unwound = getImportAlias(unwound);
+            }
+            return unwound;
+        }
+
         Def getDef(const DefIndex & index) const;
         Def getDef(const DefId & defId) const;
         Vis getDefVis(const DefId & defId) const;
@@ -93,20 +107,6 @@ namespace jc::resolve {
             auto defId = nextDefId();
             defs.emplace_back(defId, kind, ident);
             return defId;
-        }
-
-        /**
-         * @brief Unwinds definition in case if it is an alias
-         *  Note: Always use `unwindDefId` if you want to get "real" def id
-         * @param defId
-         * @return
-         */
-        DefId unwindDefId(DefId defId) const {
-            auto unwound = defId;
-            while (defs.at(unwound.getIndex().val).kind == DefKind::ImportAlias) {
-                unwound = getImportAlias(unwound);
-            }
-            return unwound;
         }
 
     private:
