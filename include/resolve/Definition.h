@@ -188,7 +188,7 @@ namespace jc::resolve {
             return span::Ident {baseName.sym + suffix, baseName.span};
         }
 
-        static inline Namespace getItemNamespace(DefKind kind) {
+        static inline Namespace getDefKindNS(DefKind kind) {
             switch (kind) {
                 case DefKind::Enum:
                 case DefKind::Mod:
@@ -210,11 +210,11 @@ namespace jc::resolve {
                     return Namespace::Lifetime;
                 }
                 case DefKind::ImportAlias: {
-                    log::devPanic("Called `Def::getItemNamespace` with `DefKind::Import`, namespace cannot be determined");
+                    log::devPanic("Called `Def::getDefKindNS` with `DefKind::Import`, namespace cannot be determined");
                 }
             }
 
-            log::notImplemented("Definition::getItemNamespace");
+            log::notImplemented("Definition::getDefKindNS");
         }
 
         static std::string kindStr(DefKind kind) {

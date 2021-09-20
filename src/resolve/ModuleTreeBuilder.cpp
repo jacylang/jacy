@@ -118,7 +118,7 @@ namespace jc::resolve {
         auto defId = _defTable.define(vis, nodeId, defKind, ident);
 
         const auto & name = ident.sym;
-        const auto & ns = Def::getItemNamespace(_defTable.getDef(defId).kind);
+        const auto & ns = Def::getDefKindNS(_defTable.getDef(defId).kind);
 
         log.dev(
             "Trying to add def '",
