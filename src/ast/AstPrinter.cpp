@@ -237,6 +237,7 @@ namespace jc::ast {
             }
             case UseTree::Kind::Specific: {
                 if (useTree.path.some()) {
+                    useTree.expectPath().accept(*this);
                     log.raw("::");
                 }
                 log.raw("{");
@@ -248,7 +249,7 @@ namespace jc::ast {
                 for (const auto & specific : specifics) {
                     specific.autoAccept(*this);
                     if (multiple) {
-                        log.raw(",").nl();
+                        log.raw(", ").nl();
                     }
                 }
                 if (multiple) {
