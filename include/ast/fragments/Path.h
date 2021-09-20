@@ -32,6 +32,10 @@ namespace jc::ast {
         bool global;
         PathSeg::List segments;
 
+        NodeId getNodeId() const override {
+            return id;
+        }
+
         bool isGlobal() const override {
             return global;
         }

@@ -32,6 +32,10 @@ namespace jc::ast {
         bool global;
         std::vector<SimplePathSeg> segments;
 
+        NodeId getNodeId() const override {
+            return id;
+        }
+
         bool isGlobal() const override {
             return global;
         }
