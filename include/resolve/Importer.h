@@ -64,7 +64,13 @@ namespace jc::resolve {
          * @param name
          * @param span
          */
-        void defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span);
+        void defineFOSImportAlias(
+            Vis importVis,
+            ast::NodeId pathNodeId,
+            FOSId importFosId,
+            Symbol name,
+            span::Span span
+        );
 
         // Suggestions //
     private:

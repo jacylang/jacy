@@ -121,7 +121,7 @@ namespace jc::resolve {
 
             const auto & nameBinding = maybeDef.unwrap();
             if (nameBinding.isFOS()) {
-                defineFOSImportAlias(Vis::Pub, nameBinding.asFOS(), segName, segSpan);
+                defineFOSImportAlias(Vis::Pub, path.getNodeId(), nameBinding.asFOS(), segName, segSpan);
             } else {
                 defineImportAlias(nsKind, path.getNodeId(), Vis::Pub, nameBinding.asDef(), segName, segSpan);
             }
@@ -154,7 +154,13 @@ namespace jc::resolve {
         });
     }
 
-    void Importer::defineFOSImportAlias(Vis importVis, FOSId importFosId, Symbol name, span::Span span) {
+    void Importer::defineFOSImportAlias(
+        Vis importVis,
+        ast::NodeId pathNodeId,
+        FOSId importFosId,
+        Symbol name,
+        span::Span span
+    ) {
         log.dev(
             Def::visStr(importVis),
             "use '",
@@ -184,7 +190,7 @@ namespace jc::resolve {
         }
 
         // Note: We update FOS present in `use`-declaration module, not the fos we import
-        const auto & redefs = sess->defTable.importFos(importVis, importFosId, fosId.unwrap());
+        const auto & redefs = sess->defTable.importFos(importVis, pathNodeId, importFosId, fosId.unwrap());
         if (not redefs.ok()) {
             std::string nounSuffix = redefs.suffixes.size() > 1 ? "s" : "";
             std::string error = log::fmt("Cannot `use` function", nounSuffix, " ");
