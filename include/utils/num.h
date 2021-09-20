@@ -111,6 +111,21 @@ namespace jc::utils::num {
     static inline T safeAs(F i) noexcept(sizeof(F) >= sizeof(T)) {
         return static_cast<T>(i);
     }
+
+    template<class O, class I, typename = typename std::enable_if<
+        std::is_integral<I>::value and std::is_integral<I>::value>::type>
+    static inline O checkedAs(I i, const std::string & place) {
+        if (i >= std::numeric_limits<O>::max()) {
+            log::devPanic(
+                "`utils::num::checkedAs` Integer overflow: ",
+                i,
+                " is greater than ",
+                std::numeric_limits<O>::max(),
+                " maximum value"
+            );
+        }
+        return static_cast<O>(i);
+    }
 }
 
 #endif // JACY_UTILS_NUM_H
