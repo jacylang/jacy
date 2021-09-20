@@ -223,15 +223,15 @@ namespace jc::ast {
         switch (useTree.kind) {
             case UseTree::Kind::Raw: {
                 if (useTree.path.some()) {
-                    colorizeUseDeclPath(useTree.expectPath());
+                    printColorizedByNodeId(useTree.expectPath());
                 }
                 break;
             }
             case UseTree::Kind::All: {
                 if (useTree.path.some()) {
-                    colorizeUseDeclPath(useTree.expectPath());
                     log.raw("::");
                 }
+                printColorizedByNodeId(useTree.expectPath());
                 log.raw("*");
                 break;
             }
@@ -259,7 +259,7 @@ namespace jc::ast {
                 break;
             }
             case UseTree::Kind::Rebind: {
-                colorizeUseDeclPath(useTree.expectPath());
+                printColorizedByNodeId(useTree.expectPath());
                 log.raw(" as ");
                 useTree.expectRebinding().accept(*this);
                 break;
@@ -969,5 +969,12 @@ namespace jc::ast {
             return namesColors[nodeId];
         }
         return found->second;
+    }
+
+    Option<Color> AstPrinter::getNameColorChecked(NodeId nodeId) {
+        if (mode != AstPrinterMode::Names) {
+            return None;
+        }
+        return getNameColor(nodeId);
     }
 }

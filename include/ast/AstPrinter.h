@@ -237,6 +237,7 @@ namespace jc::ast {
         void colorizePathName(NodeId pathNodeId);
         void resetNameColor();
         Color getNameColor(NodeId nodeId);
+        Option<Color> getNameColorChecked(NodeId nodeId);
 
         template<class T>
         void printColorizedByNodeId(const T & node) {
