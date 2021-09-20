@@ -87,7 +87,7 @@ namespace jc::parser {
             if (recovery == Recovery::Once) {
                 if (recovery == Recovery::Once and not eof() and lookup().isIdentLike(kind, sym)) {
                     if (extraDebugAll) {
-                        devLogWithIndent("Recovered ", Token::kindToString(kind), " | Unexpected: ", peek().dump());
+                        devLogWithIndent("Recovered `", Token::kindToString(kind), "` | Unexpected: ", peek().dump());
                     }
                     // If next token is what we need we produce an error for skipped one anyway
                     found = advance();
@@ -117,7 +117,7 @@ namespace jc::parser {
         } else {
             found = peek();
             if (extraDebugAll) {
-                devLogWithIndent("Skip ", Token::kindToString(kind), " | got ", peek().dump());
+                devLogWithIndent("Skip `", Token::kindToString(kind), "` | got ", peek().dump());
             }
         }
 
@@ -136,7 +136,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip ", Token::kindToString(kind), " | got ", peek().toString());
+            devLogWithIndent("[just] Skip `", Token::kindToString(kind), "` | got ", peek().toString());
         }
 
         advance();
@@ -148,7 +148,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip keyword ", Symbol::kwToString(kw), " | got ", peek().toString());
+            devLogWithIndent("[just] Skip keyword `", Symbol::kwToString(kw), "` | got ", peek().toString());
         }
 
         advance();
@@ -157,7 +157,7 @@ namespace jc::parser {
     Token::Opt Parser::skipOpt(TokenKind kind) {
         if (peek().is(kind)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional ", Token::kindToString(kind), " | got ", peek().dump());
+                devLogWithIndent("Skip optional `", Token::kindToString(kind), "` | got ", peek().dump());
             }
             auto last = peek();
             advance();
@@ -169,7 +169,7 @@ namespace jc::parser {
     Token::Opt Parser::skipOptKw(Kw kw) {
         if (peek().isKw(kw)) {
             if (extraDebugAll) {
-                devLogWithIndent("Skip optional keyword ", Symbol::kwToString(kw), " | got ", peek().dump());
+                devLogWithIndent("Skip optional keyword `", Symbol::kwToString(kw), "` | got ", peek().dump());
             }
             auto last = peek();
             advance();
@@ -1184,7 +1184,7 @@ namespace jc::parser {
     }
 
     Ident::PR Parser::parsePathSegIdent() {
-        logParse("path segment Ident");
+        logParse("Path segment Ident");
 
         const auto & span = cspan();
         auto tok = peek();
