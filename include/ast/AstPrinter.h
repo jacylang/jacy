@@ -248,12 +248,11 @@ namespace jc::ast {
             resetNameColor();
         }
 
-        template<class ...Args>
-        void tryPrintColorized(Option<Color> color, Args && ...args) {
+        void tryPrintStringColorized(Option<Color> color, const std::string & str) {
             if (color.some()) {
                 log.raw(color);
             }
-            log.raw(std::forward<Args>(args)...);
+            log.raw(str);
             resetNameColor();
         }
 

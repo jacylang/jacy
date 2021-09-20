@@ -233,7 +233,7 @@ namespace jc::ast {
                     color = getNameColorChecked(useTree.expectPath().id);
                     log.raw("::");
                 }
-                tryPrintColorized(color, "*");
+                tryPrintStringColorized(color, "*");
                 break;
             }
             case UseTree::Kind::Specific: {
