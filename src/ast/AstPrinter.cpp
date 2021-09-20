@@ -252,6 +252,7 @@ namespace jc::ast {
                 if (multiple) {
                     log.nl();
                 }
+                log.raw("}");
                 break;
             }
             case UseTree::Kind::Rebind: {
