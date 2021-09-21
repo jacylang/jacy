@@ -231,7 +231,6 @@ namespace jc::cli {
                     }
                     error("Command already specified as '", command.unwrap().getName(), "'");
                 }
-                std::cout << "command name: " << getConfig().strAt("default-command") << std::endl;
                 command = getCommand(arg);
                 advance();
             }
