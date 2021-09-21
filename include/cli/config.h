@@ -78,14 +78,9 @@ commands: {
                 ]
             }
             {
-                name: 'dev'
-                type: 'bool'
-            }
-            {
                 name: 'log-level'
                 type: 'string'
                 values: [
-                    'dev'
                     'debug'
                     'info'
                     'warn'
@@ -105,7 +100,7 @@ commands: {
         ]
     }
 }
-    )"_jon;
+)"_jon;
 
         return config;
     }
