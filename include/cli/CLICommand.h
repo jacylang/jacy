@@ -80,11 +80,11 @@ namespace jc::cli {
         static CLIFlag fromJon(const jon & j) {
             using namespace utils::num;
 
-            const auto type = CLIFlag::typeFromString(j.at<jon::str_t>("type"));
+            const auto type = CLIFlag::typeFromString(j.strAt("type"));
             Option<CLIFlag::ValueCount> valCount = None;
 
             if (j.has("value-count")) {
-                const auto cnt = j.at<jon::int_t>("value-count");
+                const auto cnt = j.intAt("value-count");
                 if (cnt > 0) {
                     valCount = safeAs<CLIFlag::ValueCount, jon::int_t>(cnt);
                 }
@@ -92,21 +92,21 @@ namespace jc::cli {
 
             CLIFlag::ValueList values;
             if (j.has("values")) {
-                for (const auto & val : j.at<jon::arr_t>("values")) {
-                    values.emplace_back(val.get<jon::str_t>());
+                for (const auto & val : j.arrAt("values")) {
+                    values.emplace_back(val.getStr());
                 }
             }
 
             CLIFlag::Deps deps;
             if (j.has("deps")) {
-                for (const auto & dep : j.at<jon::arr_t>("deps")) {
-                    deps.emplace_back(dep.get<jon::str_t>());
+                for (const auto & dep : j.arrAt("deps")) {
+                    deps.emplace_back(dep.getStr());
                 }
             }
 
             Exclusions excludes;
             if (j.has("excludes")) {
-                for (const auto & exclusion : j.at<jon::arr_t>("exclusions")) {
+                for (const auto & exclusion : j.arrAt("exclusions")) {
                     excludes.emplace_back(exclusion.getStr());
                 }
             }
