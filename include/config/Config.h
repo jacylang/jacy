@@ -29,9 +29,8 @@ namespace jc::config {
             return instance;
         }
 
-        // `dev` //
+        // Dev Mode //
     public:
-        bool dev{false};
 
         // Mode (unused) //
     public:
@@ -130,10 +129,7 @@ namespace jc::config {
 
         // API //
     public:
-        // Bool args //
-        bool checkDev() const;
-
-        // Key-value args //
+        // Key-value options //
         bool checkMode(Mode mode) const;
         bool checkPrint(PrintKind printKind) const;
         bool checkBenchmark(BenchmarkKind benchmark) const;
@@ -141,6 +137,10 @@ namespace jc::config {
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
 
+        // Dev Mode Options
+        bool checkDevLog(const std::string & stage);
+
+        // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
         const std::string & getRootFile() const;
 
