@@ -244,7 +244,14 @@ namespace jc::cli {
                 // Check if flag depends on some other
                 for (const auto & dep : flag.dependsOn) {
                     if (passedFlags.find(dep) == passedFlags.end()) {
-                        error("Flag '", flag.name, "' requires '", dep, "' to be specified");
+                        error("Option '", flag.name, "' requires '", dep, "' to be specified");
+                    }
+                }
+
+                // Check if flag denies usage of another flag
+                for (const auto & excl : flag.excludes) {
+                    if (passedFlags.find(excl) != passedFlags.end()) {
+                        error("Option '", flag.name, "' cannot be used together with '", excl, "'");
                     }
                 }
             }
