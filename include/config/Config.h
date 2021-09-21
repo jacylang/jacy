@@ -98,7 +98,6 @@ namespace jc::config {
         // General for `Config` and `Logger`
         // Note: Order matters
         enum class LogLevel : uint8_t {
-            Dev, // Forces all logs to be printed and allows special logs for debug with '[DEV]' prefix
             Debug,
             Info,
             Warn,

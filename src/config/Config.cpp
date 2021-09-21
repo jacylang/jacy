@@ -34,7 +34,6 @@ namespace jc::config {
     };
 
     Config::FlagValueMap<Config::LogLevel> Config::logLevelKinds = {
-        {"dev",   Config::LogLevel::Dev},
         {"debug", Config::LogLevel::Debug},
         {"info",  Config::LogLevel::Info},
         {"warn",  Config::LogLevel::Warn},
@@ -214,10 +213,6 @@ namespace jc::config {
         const auto addLogLevel = [&](const std::string & owner) {
             const auto & fieldName = owner == GLOBAL_LOG_LEVEL_NAME ? "log-level" : owner + "-log-level";
             switch (loggerLevels.at(owner)) {
-                case Config::LogLevel::Dev: {
-                    res[fieldName].emplace_back("dev");
-                    break;
-                }
                 case Config::LogLevel::Debug: {
                     res[fieldName].emplace_back("debug");
                     break;
