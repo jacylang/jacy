@@ -25,6 +25,7 @@ namespace jc::cli {
         using ValueList = std::vector<std::string>;
         using ValueCount = uint8_t;
         using Deps = std::vector<std::string>;
+        using Exclusions = std::vector<std::string>;
 
         /// Possible kinds of duplications allowed for flag
         enum class Duplication {
@@ -103,6 +104,13 @@ namespace jc::cli {
                 }
             }
 
+            Exclusions excludes;
+            if (j.has("excludes")) {
+                for (const auto & exclusion : j.at<jon::arr_t>("exclusions")) {
+                    excludes.emplace_back(exclusion.getStr());
+                }
+            }
+
             Duplication dupl{Duplication::Denied};
 
             if (j.has("duplicates")) {
@@ -123,6 +131,7 @@ namespace jc::cli {
         Option<ValueCount> valuesCount;
         ValueList values;
         Deps dependsOn;
+        Exclusions excludes;
         Duplication duplication;
         Option<std::string> magicMethod;
     };
