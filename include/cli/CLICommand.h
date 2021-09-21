@@ -149,7 +149,7 @@ namespace jc::cli {
             CLICommand::FlagList flags;
 
             if (j.has("flags")) {
-                for (const auto & flag : j.at<jon::arr_t>("flags")) {
+                for (const auto & flag : j.arrAt("flags")) {
                     flags.emplace_back(flag.as<CLIFlag>());
                 }
             }
