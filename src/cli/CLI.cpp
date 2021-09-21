@@ -256,8 +256,7 @@ namespace jc::cli {
             }
         }
 
-        // Note: Magic methods invert functionality,
-        //  they are called as commands
+        // Note: Magic methods invert functionality -- they are called as commands
 
         std::string commandName = command.unwrap().getName();
 
@@ -266,7 +265,7 @@ namespace jc::cli {
         }
 
         // Note: We pass here `command` name, but not `commandName` because `commandName` is important for magic flags
-        return commandList.getList().at(commandName)->run({
+        return commandList.getList().at(commandName)->run(PassedCommand {
             command.unwrap().getName(),
             passedFlags,
             entryFile
