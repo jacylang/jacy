@@ -250,7 +250,7 @@ namespace jc::ast {
 
         void tryPrintStringColorized(Option<Color> color, const std::string & str) {
             if (color.some()) {
-                log.raw(color);
+                log.raw(color.unwrap());
             }
             log.raw(str);
             resetNameColor();

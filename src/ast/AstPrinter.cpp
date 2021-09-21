@@ -230,6 +230,7 @@ namespace jc::ast {
             case UseTree::Kind::All: {
                 Option<Color> color = None;
                 if (useTree.path.some()) {
+                    useTree.expectPath().accept(*this);
                     color = getNameColorChecked(useTree.expectPath().id);
                     log.raw("::");
                 }
