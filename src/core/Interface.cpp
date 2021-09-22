@@ -24,7 +24,7 @@ namespace jc::core {
         } catch (const sugg::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (const std::exception & e) {
-            if (config.checkDev()) {
+            if (config.checkDevMode()) {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
@@ -34,7 +34,7 @@ namespace jc::core {
 
             log.error("[ICE] 🥶 Compiler crashed, reason:\n\t", e.what());
 
-            if (config.checkDev()) {
+            if (config.checkDevMode()) {
                 throw;
             }
         }
