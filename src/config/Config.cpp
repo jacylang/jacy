@@ -98,6 +98,16 @@ namespace jc::config {
         return static_cast<uint8_t>(this->parserExtraDebug) >= static_cast<uint8_t>(parserExtraDebug);
     }
 
+    // Dev mode options
+    bool Config::checkDevLog(const std::string & stage) {
+        return devLogStages.at(stage);
+    }
+
+    bool Config::checkDevPrint(const DevPrint & entity) {
+        return devPrint.find(entity) != devPrint.end();
+    }
+
+    // API //
     Config::LogLevel Config::getLogLevel(const std::string & owner) const {
         if (loggerLevels.find(owner) == loggerLevels.end()) {
             return loggerLevels.at(GLOBAL_LOG_LEVEL_NAME);

@@ -131,7 +131,7 @@ namespace jc::config {
         static FlagValueMap<ParserExtraDebug> parserExtraDebugKinds;
         ParserExtraDebug parserExtraDebug{ParserExtraDebug::No};
 
-        // API //
+        // Options API //
     public:
         // Key-value options //
         bool checkMode(Mode mode) const;
@@ -143,7 +143,7 @@ namespace jc::config {
 
         // Dev Mode Options
         bool checkDevLog(const std::string & stage);
-        bool checkDevPrint(const )
+        bool checkDevPrint(const DevPrint & entity);
 
         // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
