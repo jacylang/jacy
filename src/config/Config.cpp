@@ -24,6 +24,13 @@ namespace jc::config {
         {"all",          Config::DevPrint::All},
     };
 
+    const std::vector<std::string> Config::devLoggers = {
+        "lexer",
+        "parser",
+        "name-res",
+        "lowering",
+    };
+
     Config::FlagValueMap<Config::CompileDepth> Config::compileDepthKinds = {
         {"parser",          Config::CompileDepth::Parser},
         {"name-resolution", Config::CompileDepth::NameResolution},
