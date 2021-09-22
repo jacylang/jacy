@@ -81,7 +81,7 @@ namespace jc::sess {
     }
 
     void Session::printStepsDevMode() {
-        if (not config::Config::getInstance().checkDevPrint("summary")) {
+        if (not config::Config::getInstance().checkDevPrint(config::Config::DevPrint::Summary)) {
             return;
         }
 

@@ -10,8 +10,8 @@ namespace jc::config {
     }
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
-        {"suggestions",         Config::DevPrint::Suggestions},
-        {"summary",         Config::DevPrint::Summary},
+        {"suggestions",  Config::DevPrint::Suggestions},
+        {"summary",      Config::DevPrint::Summary},
         {"dir-tree",     Config::DevPrint::DirTree},
         {"source",       Config::DevPrint::Source},
         {"tokens",       Config::DevPrint::Tokens},
