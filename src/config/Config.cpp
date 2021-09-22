@@ -27,15 +27,8 @@ namespace jc::config {
     const std::map<std::string, Config::DevStage> Config::devStagesKinds = {
         {"lexer", Config::DevStage::Lexer},
         {"parser", Config::DevStage::Parser},
-        {"name-res", Config::DevStage::Name-res},
+        {"name-res", Config::DevStage::NameRes},
         {"lowering", Config::DevStage::Lowering},
-    };
-
-    const std::vector<std::string> Config::devLoggers = {
-        "lexer",
-        "parser",
-        "name-res",
-        "lowering",
     };
 
     Config::FlagValueMap<Config::CompileDepth> Config::compileDepthKinds = {
@@ -68,8 +61,13 @@ namespace jc::config {
         {"2",       Config::ParserExtraDebug::All},
     };
 
-    const std::vector<std::string> Config::loggerOwners = {
-        "lexer", "parser", "name-resolver"
+    const std::set<std::string> Config::loggerOwners = {
+        "lexer",
+        "parser",
+        "mod-tree-builder",
+        "importer",
+        "name-resolver",
+        "lowering",
     };
 
     /////////

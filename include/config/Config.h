@@ -131,7 +131,7 @@ namespace jc::config {
 
         constexpr const static auto GLOBAL_LOG_LEVEL_NAME = "global";
         constexpr static auto DEFAULT_LOG_LEVEL = LogLevel::Info;
-        const static std::vector<std::string> loggerOwners;
+        const static std::set<std::string> loggerOwners;
 
         // Pairs of `owner - LogLevel`
         std::map<std::string, LogLevel> loggerLevels{{GLOBAL_LOG_LEVEL_NAME, DEFAULT_LOG_LEVEL}};
