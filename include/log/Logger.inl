@@ -24,7 +24,7 @@ const Logger & Logger::error(Args && ...args) const {
 template<class ...Args>
 const Logger & Logger::dev(Args && ...args) const {
     if (config.devLogs) {
-        return out(devLogsColor, devLogName, Color::Reset, std::forward<Args>(args)...);
+        return out(devLogsColor, devLogName, ": ", Color::Reset, std::forward<Args>(args)...);
     }
 }
 
@@ -43,13 +43,15 @@ void Logger::print(Args && ...args)  {
 // DEV //
 template<class ...Args>
 void Logger::devDebug(Args && ...args) {
-    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
+    // Note!!!: `devDebug` only works if `dev-full` option enabled
+    if (not Config::getInstance().checkDevFull()) {
         return;
     }
     out(
         std::cout,
-        levelColors.at(Config::LogLevel::Dev),
-        "[DEV]: ",
+        devLogsColor,
+        devLogName,
+        ": ",
         Color::Reset,
         std::forward<Args>(args)...
     );
@@ -65,7 +67,8 @@ void Logger::colorized(Color color, Args && ...args) {
 
 template<class ...Args>
 void Logger::printTitleDev(Args && ...args) {
-    if (not Config::getInstance().checkLogLevel(Config::LogLevel::Dev)) {
+    // Note!!!: `printTitleDev` works only if `dev` option enabled
+    if (not Config::getInstance().checkDevMode()) {
         return;
     }
 
