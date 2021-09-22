@@ -83,6 +83,7 @@ namespace jc::cli {
             const auto type = CLIFlag::typeFromString(j.strAt("type"));
             Option<CLIFlag::ValueCount> valCount = None;
 
+            // TODO: Check `value-count`
             if (j.has("value-count")) {
                 const auto cnt = j.intAt("value-count");
                 if (cnt > 0) {

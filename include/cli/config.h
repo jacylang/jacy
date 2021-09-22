@@ -73,6 +73,7 @@ commands: {
                 type: 'string'
                 description: 'Prints more debug information from parser'
                 deps: [ 'dev' ]
+                value-count: 1
                 values: [
                     'no'
                     'entries'
@@ -83,6 +84,7 @@ commands: {
                 name: 'dev-log'
                 type: 'string'
                 description: 'Enable development logs for specific objects'
+                duplication: 'merge'
                 deps: [ 'dev' ]
                 values: [
                     'lexer'
@@ -98,6 +100,7 @@ commands: {
                 type: 'string'
                 duplicates: 'merge'
                 description: 'Print IRs or storage from different compilation stages'
+                duplication: 'merge'
                 deps: [ 'dev' ]
                 values: [
                     'suggestions'
@@ -124,7 +127,8 @@ commands: {
                 name: 'dev-stages'
                 type: 'string'
                 description: 'Enable dev info logging for everything related to the specific stage'
-                desp: [ 'dev' ]
+                deps: [ 'dev' ]
+                duplication: 'merge'
                 values: [
                     'lexer'
                     'parser'

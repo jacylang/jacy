@@ -115,7 +115,7 @@ namespace jc::config {
         return devPrint.find(entity) != devPrint.end();
     }
 
-    bool Config::checkDevStage(const std::string & stage) const {
+    bool Config::checkDevStage(const DevStage & stage) const {
         return devStages.find(stage) != devStages.end();
     }
 

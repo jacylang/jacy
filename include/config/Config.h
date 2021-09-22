@@ -68,8 +68,18 @@ namespace jc::config {
         static FlagValueMap<DevPrint> devPrintKinds;
         std::set<DevPrint> devPrint{};
 
+        // `--dev-stages`
+    public:
+        enum class DevStage {
+            Lexer,
+            Parser,
+            NameRes,
+            Lowering,
+        };
+
     private:
-        std::set<std::string> devStages;
+        const static std::map<std::string, DevStage> devStagesKinds;
+        std::set<DevStage> devStages;
 
     private:
         std::map<std::string, bool> devLogObjects;
@@ -153,7 +163,7 @@ namespace jc::config {
         bool checkDevFull() const;
         bool checkDevLog(const std::string & object) const;
         bool checkDevPrint(const DevPrint & entity) const;
-        bool checkDevStage(const std::string & stage) const;
+        bool checkDevStage(const DevStage & stage) const;
 
         // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
