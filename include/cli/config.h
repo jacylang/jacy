@@ -87,6 +87,9 @@ commands: {
                 values: [
                     'lexer'
                     'parser'
+                    'mod-tree-builder'
+                    'importer'
+                    'name-resolver'
                     'lowering'
                 ]
             }
