@@ -83,7 +83,6 @@ namespace jc::config {
 
     private:
         std::map<std::string, bool> devLogObjects;
-        const static std::vector<std::string> devLoggers;
 
         // `compile-depth`
     public:

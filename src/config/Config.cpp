@@ -3,11 +3,7 @@
 #include <iostream>
 
 namespace jc::config {
-    Config::Config() {
-        for (const auto & devLogger : devLoggers) {
-            devLogObjects.emplace(devLogger, false);
-        }
-    }
+    Config::Config() = default;
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
         {"dir-tree",     Config::DevPrint::DirTree},
