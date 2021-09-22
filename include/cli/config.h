@@ -104,14 +104,15 @@ commands: {
                 deps: [ 'dev' ]
                 values: [
                     'suggestions'
+                    'summary'
                     'dir-tree'
                     'source'
                     'tokens'
                     'ast'
-                    'ast-names'
                     'ast-node-map'
-                    'ribs'
+                    'ast-names'
                     'mod-tree'
+                    'ribs'
                     'definitions'
                     'resolutions'
                     'all'

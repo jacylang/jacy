@@ -10,17 +10,18 @@ namespace jc::config {
     }
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
+        {"suggestions",         Config::DevPrint::Suggestions},
+        {"summary",         Config::DevPrint::Summary},
         {"dir-tree",     Config::DevPrint::DirTree},
-        {"ast",          Config::DevPrint::Ast},
-        {"tokens",       Config::DevPrint::Tokens},
-        {"sugg",         Config::DevPrint::Suggestions},
         {"source",       Config::DevPrint::Source},
-        {"mod-tree",     Config::DevPrint::ModTree},
-        {"ast-names",    Config::DevPrint::AstNames},
+        {"tokens",       Config::DevPrint::Tokens},
+        {"ast",          Config::DevPrint::Ast},
         {"ast-node-map", Config::DevPrint::AstNodeMap},
+        {"ast-names",    Config::DevPrint::AstNames},
+        {"mod-tree",     Config::DevPrint::ModTree},
         {"ribs",         Config::DevPrint::Ribs},
-        {"resolutions",  Config::DevPrint::Resolutions},
         {"definitions",  Config::DevPrint::Definitions},
+        {"resolutions",  Config::DevPrint::Resolutions},
         {"all",          Config::DevPrint::All},
     };
 

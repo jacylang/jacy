@@ -49,17 +49,18 @@ namespace jc::config {
         // `--dev-print`
     public:
         enum class DevPrint {
-            DirTree,
-            Ast,
-            Tokens,
             Suggestions,
+            Summary,
+            DirTree,
             Source,
-            ModTree,
-            AstNames,
+            Tokens,
+            Ast,
             AstNodeMap,
+            AstNames,
+            ModTree,
             Ribs,
-            Resolutions,
             Definitions,
+            Resolutions,
 
             All,
         };
