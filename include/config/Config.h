@@ -147,8 +147,9 @@ namespace jc::config {
 
         // Dev Mode Options
         bool checkDevMode() const;
-        bool checkDevLog(const std::string & stage);
-        bool checkDevPrint(const DevPrint & entity);
+        bool checkDevFull() const;
+        bool checkDevLog(const std::string & stage) const;
+        bool checkDevPrint(const DevPrint & entity) const;
 
         // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;

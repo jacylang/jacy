@@ -99,11 +99,19 @@ namespace jc::config {
     }
 
     // Dev mode options
-    bool Config::checkDevLog(const std::string & stage) {
+    bool Config::checkDevMode() const {
+        return devMode;
+    }
+
+    bool Config::checkDevFull() const {
+        return devFull;
+    }
+
+    bool Config::checkDevLog(const std::string & stage) const {
         return devLogStages.at(stage);
     }
 
-    bool Config::checkDevPrint(const DevPrint & entity) {
+    bool Config::checkDevPrint(const DevPrint & entity) const {
         return devPrint.find(entity) != devPrint.end();
     }
 
