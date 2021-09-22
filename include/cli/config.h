@@ -48,30 +48,10 @@ commands: {
         description: 'Compile project (Default command)'
         flags: [
             {
-                name: 'print'
-                type: 'string'
-                description: 'Debug option that prints different intermediate representations'
-                duplicates: 'merge'
-                values: [
-                    'dir-tree'
-                    'tokens'
-                    'ast'
-                    'sugg'
-                    'source'
-                    'mod-tree'
-                    'ast-names'
-                    'ast-node-map'
-                    'ribs'
-                    'resolutions'
-                    'definitions'
-                    'all'
-                ]
-            }
-            {
                 name: 'compile-depth'
                 type: 'string'
                 description: 'Control compilation depth'
-                deps: ['dev']
+                deps: [ 'dev' ]
                 values: [
                     'parser'
                     'name-resolution'
@@ -92,6 +72,7 @@ commands: {
                 name: 'parser-extra-debug'
                 type: 'string'
                 description: 'Prints more debug information from parser'
+                deps: [ 'dev' ]
                 values: [
                     'no'
                     'entries'

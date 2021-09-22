@@ -42,7 +42,7 @@ namespace jc::config {
     private:
         Mode mode{Mode::Source};
 
-        // `print`
+        // `--dev-print`
     public:
         enum class DevPrint {
             DirTree,
@@ -63,6 +63,10 @@ namespace jc::config {
     private:
         static FlagValueMap<DevPrint> devPrintKinds;
         std::set<DevPrint> devPrint{};
+
+    private:
+        std::map<std::string, bool> devLogStages;
+        const static std::vector<std::string> devLoggers;
 
         // `compile-depth`
     public:
@@ -139,6 +143,7 @@ namespace jc::config {
 
         // Dev Mode Options
         bool checkDevLog(const std::string & stage);
+        bool checkDevPrint(const )
 
         // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;
