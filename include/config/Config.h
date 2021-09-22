@@ -72,7 +72,7 @@ namespace jc::config {
         std::set<std::string> devStages;
 
     private:
-        std::map<std::string, bool> devLogStages;
+        std::map<std::string, bool> devLogObjects;
         const static std::vector<std::string> devLoggers;
 
         // `compile-depth`
@@ -151,8 +151,9 @@ namespace jc::config {
         // Dev Mode Options
         bool checkDevMode() const;
         bool checkDevFull() const;
-        bool checkDevLog(const std::string & stage) const;
+        bool checkDevLog(const std::string & object) const;
         bool checkDevPrint(const DevPrint & entity) const;
+        bool checkDevStage(const std::string & stage) const;
 
         // API //
         LogLevel getLogLevel(const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;

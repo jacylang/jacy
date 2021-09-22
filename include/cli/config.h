@@ -82,7 +82,7 @@ commands: {
             {
                 name: 'dev-log'
                 type: 'string'
-                description: 'Enable development logs for specific stages or storages'
+                description: 'Enable development logs for specific objects'
                 deps: [ 'dev' ]
                 values: [
                     'lexer'

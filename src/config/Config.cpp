@@ -5,7 +5,7 @@
 namespace jc::config {
     Config::Config() {
         for (const auto & devLogger : devLoggers) {
-            devLogStages.emplace(devLogger, false);
+            devLogObjects.emplace(devLogger, false);
         }
     }
 
@@ -107,12 +107,16 @@ namespace jc::config {
         return devFull;
     }
 
-    bool Config::checkDevLog(const std::string & stage) const {
-        return devLogStages.at(stage);
+    bool Config::checkDevLog(const std::string & object) const {
+        return devLogObjects.at(object);
     }
 
     bool Config::checkDevPrint(const DevPrint & entity) const {
         return devPrint.find(entity) != devPrint.end();
+    }
+
+    bool Config::checkDevStage(const std::string & stage) const {
+        return devStages.find(stage) != devStages.end();
     }
 
     // API //

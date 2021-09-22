@@ -22,7 +22,7 @@ namespace jc::config {
         // `dev-log`
         args.getFlagValues("dev-log").then([&](const auto & values) {
             for (const auto & val : values) {
-                config.devLogStages.emplace(val, true);
+                config.devLogObjects.emplace(val, true);
             }
         });
 
