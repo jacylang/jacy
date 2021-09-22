@@ -29,7 +29,7 @@ namespace jc::config {
         // `dev-stages`
         args.getFlagValues("dev-stages").then([&](const auto & values) {
             for (const auto & val : values) {
-                config.devStages.emplace(val);
+                config.devStages.emplace(config.devStagesKinds.at(val));
             }
         });
 

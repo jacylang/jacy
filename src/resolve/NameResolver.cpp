@@ -441,7 +441,7 @@ namespace jc::resolve {
 
     void NameResolver::appendModulePath(const Symbol & modName, DefId defId) {
         // Check for dev mode here as getting definition might be an expensive operation
-        if (not config.checkDev()) {
+        if (not config.checkDevStage(config::Config::DevStage::NameRes)) {
             return;
         }
         appendCustomPath(sess->defTable.getDef(defId).kindStr() + " '" + modName.toString() + "'");
@@ -452,7 +452,7 @@ namespace jc::resolve {
     }
 
     void NameResolver::appendCustomPath(const std::string & segment) {
-        if (not config.checkDev()) {
+        if (not config.checkDevStage(config::Config::DevStage::NameRes)) {
             return;
         }
         scopePath.emplace_back(segment);
