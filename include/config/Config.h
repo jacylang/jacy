@@ -44,7 +44,7 @@ namespace jc::config {
 
         // `print`
     public:
-        enum class PrintKind {
+        enum class DevPrint {
             DirTree,
             Ast,
             Tokens,
@@ -61,8 +61,8 @@ namespace jc::config {
         };
 
     private:
-        static FlagValueMap<PrintKind> printKinds;
-        std::set<PrintKind> print{};
+        static FlagValueMap<DevPrint> devPrintKinds;
+        std::set<DevPrint> devPrint{};
 
         // `compile-depth`
     public:
@@ -131,7 +131,7 @@ namespace jc::config {
     public:
         // Key-value options //
         bool checkMode(Mode mode) const;
-        bool checkPrint(PrintKind printKind) const;
+        bool checkPrint(DevPrint printKind) const;
         bool checkBenchmark(BenchmarkKind benchmark) const;
         bool checkCompileDepth(CompileDepth compileDepth) const;
         bool checkLogLevel(LogLevel logLevel, const std::string & owner = GLOBAL_LOG_LEVEL_NAME) const;

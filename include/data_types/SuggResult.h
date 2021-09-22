@@ -48,7 +48,7 @@ namespace jc::dt {
             const sugg::BaseSugg::List & suggestions,
             const std::string & emptyMessage = ""
         ) {
-            if (config::Config::getInstance().checkPrint(config::Config::PrintKind::Suggestions)) {
+            if (config::Config::getInstance().checkPrint(config::Config::DevPrint::Suggestions)) {
                 if (suggestions.empty()) {
                     if (not emptyMessage.empty()) {
                         log::Logger::devDebug(emptyMessage);

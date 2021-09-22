@@ -14,7 +14,7 @@ namespace jc::config {
         // `print`
         args.getFlagValues("print").then([&](const auto & values) {
             for (const auto & val : values) {
-                config.print.insert(config.printKinds.at(val));
+                config.devPrint.insert(config.devPrintKinds.at(val));
             }
         });
 

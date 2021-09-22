@@ -5,19 +5,19 @@
 namespace jc::config {
     Config::Config() = default;
 
-    Config::FlagValueMap<Config::PrintKind> Config::printKinds = {
-        {"dir-tree",     Config::PrintKind::DirTree},
-        {"ast",          Config::PrintKind::Ast},
-        {"tokens",       Config::PrintKind::Tokens},
-        {"sugg",         Config::PrintKind::Suggestions},
-        {"source",       Config::PrintKind::Source},
-        {"mod-tree",     Config::PrintKind::ModTree},
-        {"ast-names",    Config::PrintKind::AstNames},
-        {"ast-node-map", Config::PrintKind::AstNodeMap},
-        {"ribs",         Config::PrintKind::Ribs},
-        {"resolutions",  Config::PrintKind::Resolutions},
-        {"definitions",  Config::PrintKind::Definitions},
-        {"all",          Config::PrintKind::All},
+    Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
+        {"dir-tree",     Config::DevPrint::DirTree},
+        {"ast",          Config::DevPrint::Ast},
+        {"tokens",       Config::DevPrint::Tokens},
+        {"sugg",         Config::DevPrint::Suggestions},
+        {"source",       Config::DevPrint::Source},
+        {"mod-tree",     Config::DevPrint::ModTree},
+        {"ast-names",    Config::DevPrint::AstNames},
+        {"ast-node-map", Config::DevPrint::AstNodeMap},
+        {"ribs",         Config::DevPrint::Ribs},
+        {"resolutions",  Config::DevPrint::Resolutions},
+        {"definitions",  Config::DevPrint::Definitions},
+        {"all",          Config::DevPrint::All},
     };
 
     Config::FlagValueMap<Config::CompileDepth> Config::compileDepthKinds = {
@@ -63,8 +63,8 @@ namespace jc::config {
         return this->mode == mode;
     }
 
-    bool Config::checkPrint(PrintKind printKind) const {
-        return print.find(PrintKind::All) != print.end() or print.find(printKind) != print.end();
+    bool Config::checkPrint(DevPrint printKind) const {
+        return devPrint.find(DevPrint::All) != devPrint.end() or devPrint.find(printKind) != devPrint.end();
     }
 
     bool Config::checkBenchmark(BenchmarkKind benchmark) const {
@@ -114,53 +114,53 @@ namespace jc::config {
             }
         }
 
-        for (const auto & printKind : print) {
+        for (const auto & printKind : devPrint) {
             switch (printKind) {
-                case PrintKind::DirTree: {
+                case DevPrint::DirTree: {
                     res["print"].emplace_back("dir-tree");
                     break;
                 }
-                case PrintKind::Ast: {
+                case DevPrint::Ast: {
                     res["print"].emplace_back("ast");
                     break;
                 }
-                case PrintKind::Tokens: {
+                case DevPrint::Tokens: {
                     res["print"].emplace_back("token");
                     break;
                 }
-                case PrintKind::Suggestions: {
+                case DevPrint::Suggestions: {
                     res["print"].emplace_back("suggestions");
                     break;
                 }
-                case PrintKind::Source: {
+                case DevPrint::Source: {
                     res["print"].emplace_back("source");
                     break;
                 }
-                case PrintKind::AstNames: {
+                case DevPrint::AstNames: {
                     res["print"].emplace_back("ast-names");
                     break;
                 }
-                case PrintKind::ModTree: {
+                case DevPrint::ModTree: {
                     res["print"].emplace_back("mod-tree");
                     break;
                 }
-                case PrintKind::AstNodeMap: {
+                case DevPrint::AstNodeMap: {
                     res["print"].emplace_back("ast-node-map");
                     break;
                 }
-                case PrintKind::Ribs: {
+                case DevPrint::Ribs: {
                     res["print"].emplace_back("ribs");
                     break;
                 }
-                case PrintKind::Resolutions: {
+                case DevPrint::Resolutions: {
                     res["print"].emplace_back("resolutions");
                     break;
                 }
-                case PrintKind::Definitions: {
+                case DevPrint::Definitions: {
                     res["print"].emplace_back("definitions");
                     break;
                 }
-                case PrintKind::All: {
+                case DevPrint::All: {
                     res["print"].emplace_back("all");
                     break;
                 }

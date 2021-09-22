@@ -70,7 +70,8 @@ commands: {
             {
                 name: 'compile-depth'
                 type: 'string'
-                description: ''
+                description: 'Control compilation depth'
+                deps: ['dev']
                 values: [
                     'parser'
                     'name-resolution'
