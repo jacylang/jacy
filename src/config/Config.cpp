@@ -256,9 +256,6 @@ namespace jc::config {
         addLogLevel("parser");
         addLogLevel("name-resolver");
 
-        // Bool args //
-        res["dev"] = {checkDev() ? "yes" : "no"};
-
         return res;
     }
 }

@@ -42,6 +42,9 @@ namespace jc::config {
     private:
         Mode mode{Mode::Source};
 
+    private:
+        bool devMode{false};
+
         // `--dev-print`
     public:
         enum class DevPrint {
