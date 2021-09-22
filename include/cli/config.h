@@ -92,21 +92,21 @@ commands: {
                 type: 'string'
                 description: 'Prints more debug information from parser'
                 values: [
-                    'no',
-                    'entries',
+                    'no'
+                    'entries'
                     'all'
                 ]
             }
             {
                 name: 'dev-log'
                 type: 'string'
-                description: 'Enable development logs for specific stage'
+                description: 'Enable development logs for specific stages or storages'
                 deps: [ 'dev' ]
                 values: [
-                    'debug'
-                    'info'
-                    'warn'
-                    'error'
+                    'lexer'
+                    'parser'
+                    'name-res' // All sub-stages from name resolution stage
+                    'lowering'
                 ]
             }
             {
@@ -115,6 +115,20 @@ commands: {
                 duplicates: 'merge'
                 description: 'Print IRs or storage from different compilation stages'
                 deps: [ 'dev' ]
+                values: [
+                    'suggestions'
+                    'dir-tree'
+                    'source'
+                    'tokens'
+                    'ast'
+                    'ast-names'
+                    'ast-node-map'
+                    'ribs'
+                    'mod-tree'
+                    'definitions'
+                    'resolutions'
+                    'all'
+                ]
             }
             {
                 name: 'dev-full'
