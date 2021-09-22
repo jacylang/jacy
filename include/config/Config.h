@@ -44,6 +44,7 @@ namespace jc::config {
 
     private:
         bool devMode{false};
+        bool devFull{false};
 
         // `--dev-print`
     public:
@@ -145,6 +146,7 @@ namespace jc::config {
         bool checkParserExtraDebug(ParserExtraDebug parserExtraDebug) const;
 
         // Dev Mode Options
+        bool checkDevMode() const;
         bool checkDevLog(const std::string & stage);
         bool checkDevPrint(const DevPrint & entity);
 

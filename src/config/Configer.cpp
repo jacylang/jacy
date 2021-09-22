@@ -8,13 +8,21 @@ namespace jc::config {
 
         // Apply bool args //
         config.devMode = args.checkBoolFlag("dev");
+        config.devFull = args.checkBoolFlag("dev-full");
 
         // Apply key-value args //
 
-        // `print`
-        args.getFlagValues("print").then([&](const auto & values) {
+        // `dev-print`
+        args.getFlagValues("dev-print").then([&](const auto & values) {
             for (const auto & val : values) {
                 config.devPrint.insert(config.devPrintKinds.at(val));
+            }
+        });
+
+        // `dev-log`
+        args.getFlagValues("dev-log").then([&](const auto & values) {
+            for (const auto & val : values) {
+                config.devLogStages.emplace(val, true);
             }
         });
 
