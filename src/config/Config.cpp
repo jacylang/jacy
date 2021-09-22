@@ -24,6 +24,13 @@ namespace jc::config {
         {"all",          Config::DevPrint::All},
     };
 
+    const std::map<std::string, Config::DevStage> Config::devStagesKinds = {
+        {"lexer", Config::DevStage::Lexer}
+        {"parser", Config::DevStage::Parser}
+        {"name-res", Config::DevStage::Name-res}
+        {"lowering", Config::DevStage::Lowering}
+    };
+
     const std::vector<std::string> Config::devLoggers = {
         "lexer",
         "parser",
