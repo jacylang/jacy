@@ -97,6 +97,31 @@ commands: {
                     'all'
                 ]
             }
+            {
+                name: 'dev-log'
+                type: 'string'
+                description: 'Enable development logs for specific stage'
+                deps: [ 'dev' ]
+                values: [
+                    'debug'
+                    'info'
+                    'warn'
+                    'error'
+                ]
+            }
+            {
+                name: 'dev-print'
+                type: 'string'
+                duplicates: 'merge'
+                description: 'Print IRs or storage from different compilation stages'
+                deps: [ 'dev' ]
+            }
+            {
+                name: 'dev-full'
+                type: 'bool'
+                description: 'Enable all development info logging for all stages'
+                deps: [ 'dev' ]
+            }
         ]
     }
 }
