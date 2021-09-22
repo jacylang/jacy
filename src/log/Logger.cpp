@@ -11,7 +11,6 @@ namespace jc::log {
         {Config::LogLevel::Info,  "info"},
         {Config::LogLevel::Warn,  "warn"},
         {Config::LogLevel::Error, "error"},
-        {Config::LogLevel::Dev,   "[DEV]"}
     };
 
     const std::map<Config::LogLevel, Color> Logger::levelColors = {
@@ -19,6 +18,8 @@ namespace jc::log {
         {Config::LogLevel::Info,  Color::DarkGreen},
         {Config::LogLevel::Warn,  Color::Yellow},
         {Config::LogLevel::Error, Color::Red},
-        {Config::LogLevel::Dev,   Color::Magenta},
     };
+
+    const Color Logger::devLogsColor = Color::Magenta;
+    const std::string Logger::devLogName = "[DEV]";
 }

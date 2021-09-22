@@ -23,7 +23,9 @@ const Logger & Logger::error(Args && ...args) const {
 
 template<class ...Args>
 const Logger & Logger::dev(Args && ...args) const {
-    return log(Config::LogLevel::Dev, std::forward<Args>(args)...);
+    if (config.devLogs) {
+        return out(devLogsColor, devLogName, Color::Reset, std::forward<Args>(args)...);
+    }
 }
 
 template<class ...Args>

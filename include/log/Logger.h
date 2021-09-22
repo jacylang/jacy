@@ -15,6 +15,7 @@ namespace jc::log {
         bool printOwner{true};
         bool printLevel{true};
         bool colorize{true};
+        bool devLogs{false};
     };
 
     class Logger {
@@ -122,6 +123,8 @@ namespace jc::log {
     private:
         static const std::map<Config::LogLevel, std::string> levelNames;
         static const std::map<Config::LogLevel, Color> levelColors;
+        static const std::string devLogName;
+        static const Color devLogsColor;
     };
 
     #include "Logger.inl"
