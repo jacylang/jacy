@@ -1,8 +1,9 @@
 #include "log/Logger.h"
 
 namespace jc::log {
-    Logger::Logger(const std::string &owner) : owner{std::move(owner)} {
+    Logger::Logger(const std::string & owner) : owner {std::move(owner)} {
         config.level = config::Config::getInstance().getLogLevel(owner);
+        config.devLogs = config::Config::getInstance().checkDevLog(owner);
     }
 
     // Constants //
