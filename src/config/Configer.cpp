@@ -26,6 +26,13 @@ namespace jc::config {
             }
         });
 
+        // `dev-stages`
+        args.getFlagValues("dev-stages").then([&](const auto & values) {
+            for (const auto & val : values) {
+                config.devStages.emplace(val);
+            }
+        });
+
         // `compile-depth`
         args.getFlagSingleValue("compile-depth").then([&](const auto & value) {
             config.compileDepth = config.compileDepthKinds.at(value);
