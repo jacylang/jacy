@@ -69,6 +69,9 @@ namespace jc::config {
         std::set<DevPrint> devPrint{};
 
     private:
+        std::set<std::string> devStages;
+
+    private:
         std::map<std::string, bool> devLogStages;
         const static std::vector<std::string> devLoggers;
 

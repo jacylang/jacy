@@ -87,7 +87,6 @@ commands: {
                 values: [
                     'lexer'
                     'parser'
-                    'name-res' // All sub-stages from name resolution stage
                     'lowering'
                 ]
             }
@@ -117,6 +116,18 @@ commands: {
                 type: 'bool'
                 description: 'Enable all development info logging for all stages'
                 deps: [ 'dev' ]
+            }
+            {
+                name: 'dev-stages'
+                type: 'string'
+                description: 'Enable dev info logging for everything related to the specific stage'
+                desp: [ 'dev' ]
+                values: [
+                    'lexer'
+                    'parser'
+                    'name-res'
+                    'lowering'
+                ]
             }
         ]
     }
