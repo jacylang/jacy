@@ -41,7 +41,7 @@ namespace jc::hir {
     // Items //
     ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         auto loweredItem = lowerItemKind(astItem);
-        const auto & i = astItem.unwrap();
+        const auto & i = astItem.unwrap("`Lowering::lowerItem`");
 
         auto item = ItemNode {
             i->getName(),
@@ -54,7 +54,7 @@ namespace jc::hir {
     }
 
     Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
-        const auto & item = astItem.unwrap();
+        const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
             case ast::ItemKind::Enum: {
                 return lowerEnum(*item->as<ast::Enum>(item));
@@ -104,7 +104,7 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            const auto & i = item.unwrap();
+            const auto & i = item.unwrap("`Lowering::lowerMod`");
             enterOwner(i->id);
             auto itemId = lowerItem(item);
             exitOwner();
@@ -123,10 +123,10 @@ namespace jc::hir {
         Type::Ptr ret = Type::makeInferType(HirId::DUMMY, Span {astFunc.sig.span.fromEndWithLen(1)});
 
         if (astFunc.sig.returnType.some()) {
-            ret = lowerType(astFunc.sig.returnType.unwrap());
+            ret = lowerType(astFunc.sig.returnType.unwrap("`Lowering::lowerFunc` -> `astFunc.sig.returnType`"));
         }
 
-        Body body = lowerBody(astFunc.body.unwrap());
+        Body body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"));
 
         return makeBoxNode<Func>(
             FuncSig {std::move(inputs), std::move(ret)},
@@ -136,7 +136,7 @@ namespace jc::hir {
 
     // Statements //
     Stmt::Ptr Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
-        const auto & stmt = astStmt.unwrap();
+        const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");
         switch (stmt->kind) {
             case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
             case ast::StmtKind::Let:
@@ -152,7 +152,7 @@ namespace jc::hir {
 
     // Expressions //
     Expr::Ptr Lowering::lowerExpr(const ast::Expr::Ptr & exprPr) {
-        const auto & expr = exprPr.unwrap();
+        const auto & expr = exprPr.unwrap("`Lowering::lowerExpr`");
         switch (expr->kind) {
             case ast::ExprKind::Assign: {
                 return lowerAssignExpr(*expr->as<ast::Assign>(expr));
@@ -169,7 +169,7 @@ namespace jc::hir {
 
                 Expr::OptPtr loweredValue = None;
                 if (astNode->expr.some()) {
-                    loweredValue = lowerExpr(astNode->expr.unwrap());
+                    loweredValue = lowerExpr(astNode->expr.unwrap("`Lowering::lowerExpr` -> `astNode->expr`"));
                 }
 
                 return makeBoxNode<BreakExpr>(std::move(loweredValue), HirId::DUMMY, astNode->span);
@@ -380,7 +380,7 @@ namespace jc::hir {
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
-        const auto & type = astType.unwrap();
+        const auto & type = astType.unwrap("`Lowering::lowerType`");
         switch (type->kind) {
             case ast::TypeKind::Paren: {
                 return lowerType(type->as<ast::ParenType>(type)->type);
@@ -472,8 +472,8 @@ namespace jc::hir {
         PathSeg::List segments;
         for (const auto & astSeg : path.segments) {
             // TODO: Generics
-            const auto & seg = astSeg.unwrap();
-            segments.emplace_back(seg.ident.unwrap(), HirId::DUMMY, seg.span);
+            const auto & seg = astSeg.unwrap("`Lowering::lowerPath`");
+            segments.emplace_back(seg.ident.unwrap("`Lowering::lowerPath`"), HirId::DUMMY, seg.span);
         }
 
         return Path {res, std::move(segments), path.span};
