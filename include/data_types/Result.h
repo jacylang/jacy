@@ -228,7 +228,7 @@ namespace jc::dt {
                 details::useOfUninited("unwrap");
             }
             if (!ok()) {
-                details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? " " + msg : msg));
+                details::terminate("Called `unwrap` on an Err value" + (msg.empty() ? msg : ": " + msg));
             }
             return ok_unchecked();
         }
@@ -238,7 +238,7 @@ namespace jc::dt {
                 details::useOfUninited("unwrapErr");
             }
             if (!err()) {
-                details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
+                details::terminate("Called `unwrapErr` on an Ok value" + (msg.empty() ? msg : ": " + msg));
             }
             return err_unchecked();
         }
@@ -248,7 +248,7 @@ namespace jc::dt {
                 details::useOfUninited("unwrap");
             }
             if (!ok()) {
-                details::terminate("Called `take` on an Err value" + (msg.empty() ? " " + msg : msg));
+                details::terminate("Called `take` on an Err value" + (msg.empty() ? msg : ": " + msg));
             }
             return std::move(*this).ok_unchecked();
         }
@@ -258,7 +258,7 @@ namespace jc::dt {
                 details::useOfUninited("unwrap");
             }
             if (!err()) {
-                details::terminate("Called `takeErr` on an Ok value" + (msg.empty() ? " " + msg : msg));
+                details::terminate("Called `takeErr` on an Ok value" + (msg.empty() ? msg : ": " + msg));
             }
             return std::move(*this).err_unchecked();
         }
