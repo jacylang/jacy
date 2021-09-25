@@ -460,6 +460,9 @@ namespace jc::resolve {
 
     /// Removes last path segment from `scopePath`
     void NameResolver::removePathSeg() {
+        if (not config.checkDevStage(config::Config::DevStage::NameRes)) {
+            return;
+        }
         scopePath.pop_back();
     }
 }
