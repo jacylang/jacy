@@ -149,13 +149,10 @@ namespace jc::config {
         std::unordered_map<std::string, std::vector<std::string>> res;
 
         // Bool args //
-        if (devMode) {
-            res["dev"] = {"true"};
-        }
 
-        if (devFull) {
-            res["dev-full"] = {"true"};
-        }
+        // Note: `getOptionsMap` is a debug method, thus we give (maybe) unspecified options values
+        res["dev"] = {std::to_string(devMode)};
+        res["dev-full"] = {std::to_string(devFull)};
 
         // Key-value args //
         switch (mode) {
