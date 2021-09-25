@@ -119,6 +119,11 @@ commands: {
                 ]
             }
             {
+                name: 'dev'
+                type: 'bool'
+                description: 'Enable development mode'
+            }
+            {
                 name: 'dev-full'
                 type: 'bool'
                 description: 'Enable all development info logging for all stages'
