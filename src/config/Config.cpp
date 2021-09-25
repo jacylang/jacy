@@ -148,6 +148,15 @@ namespace jc::config {
     std::unordered_map<std::string, std::vector<std::string>> Config::getOptionsMap() const {
         std::unordered_map<std::string, std::vector<std::string>> res;
 
+        // Bool args //
+        if (devMode) {
+            res["dev"] = {"true"};
+        }
+
+        if (devFull) {
+            res["dev-full"] = {"true"};
+        }
+
         // Key-value args //
         switch (mode) {
             case Mode::Repl: {
@@ -160,10 +169,41 @@ namespace jc::config {
             }
         }
 
+        for (const auto & object : devLogObjects) {
+            if (object.second) {
+                res["dev-log"].emplace_back(object.first);
+            }
+        }
+
+        for (const auto & stage : devStages) {
+            switch (stage) {
+                case DevStage::Lexer: {
+                    res["dev-stages"].emplace_back("lexer");
+                    break;
+                }
+                case DevStage::Parser: {
+                    res["dev-stages"].emplace_back("parser");
+                    break;
+                }
+                case DevStage::NameRes: {
+                    res["dev-stages"].emplace_back("name-res");
+                    break;
+                }
+                case DevStage::Lowering: {
+                    res["dev-stages"].emplace_back("lowering");
+                    break;
+                }
+            }
+        }
+
         for (const auto & printKind : devPrint) {
             switch (printKind) {
                 case DevPrint::DirTree: {
                     res["print"].emplace_back("dir-tree");
+                    break;
+                }
+                case DevPrint::Summary: {
+                    res["print"].emplace_back("summary");
                     break;
                 }
                 case DevPrint::Ast: {
