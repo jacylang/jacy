@@ -85,7 +85,7 @@ namespace jc::cli {
             index++;
         };
 
-        auto peek = [&]() {
+        auto peek = [&]() -> std::string {
             return args.at(index);
         };
 
@@ -265,7 +265,7 @@ namespace jc::cli {
         }
 
         // Note: We pass here `command` name, but not `commandName` because `commandName` is important for magic flags
-        return commandList.getList().at(commandName)->run(PassedCommand {
+        return commandList.tryGet(commandName)->run(PassedCommand {
             command.unwrap().getName(),
             passedFlags,
             entryFile

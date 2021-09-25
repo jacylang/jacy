@@ -16,6 +16,14 @@ namespace jc::cli {
             return list;
         }
 
+        const auto & tryGet(const std::string & name) const {
+            const auto & found = list.find(name);
+            if (found == list.end()) {
+                throw std::logic_error(log::fmt("Unknown CLI command '", name, "'"));
+            }
+            return found->second;
+        }
+
     private:
         std::map<std::string, BaseCommand::Ptr> list;
     };
