@@ -114,7 +114,11 @@ namespace jc::config {
     }
 
     bool Config::checkDevLog(const std::string & object) const {
-        return devLogObjects.at(object);
+        try {
+            return devLogObjects.at(object);
+        } catch (const std::exception & e) {
+            throw std::logic_error("`Config::checkDevLog`: Got unknown logger owner '" + object + "'");
+        }
     }
 
     bool Config::checkDevPrint(const DevPrint & entity) const {
