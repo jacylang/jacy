@@ -89,6 +89,13 @@ namespace jc::cli {
             return args.at(index);
         };
 
+        auto trySetDefaultCommand = [&]() -> void {
+            if (command.none()) {
+                commandDefaulted = true;
+                command = getCommand(getConfig().strAt("default-command"));
+            }
+        };
+
         while (not eof()) {
             const auto & arg = peek();
 
@@ -111,10 +118,7 @@ namespace jc::cli {
             // Flags start with `-`, it might be `--` or `-`, does not matter
             if (startsWith(arg, "-")) {
                 // Check if we encountered first passed flag and set command to default if not specified
-                if (command.none()) {
-                    commandDefaulted = true;
-                    command = getCommand(getConfig().strAt("default-command"));
-                }
+                trySetDefaultCommand();
 
                 bool isAlias = not startsWith(peek(), "--");
 
@@ -234,6 +238,10 @@ namespace jc::cli {
                 command = getCommand(arg);
                 advance();
             }
+        }
+
+        if (command.none()) {
+            trySetDefaultCommand();
         }
 
         // Post-check flags
