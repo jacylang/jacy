@@ -670,7 +670,6 @@ namespace jc::parser {
     }
 
     void Lexer::_lex() {
-        source.clear();
         tokens.clear();
         tokenStartIndex = 0;
         index = 0;
