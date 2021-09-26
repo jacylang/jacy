@@ -7,14 +7,20 @@ namespace jc::sugg {
 
         std::stringstream result;
 
+        size_t index = 0;
         for (const auto & tok : tokens) {
-            result << getTokColor(tok) << tok << log::Color::Reset;
+            parser::Token::Opt nextToken = None;
+            if (index < tokens.size()) {
+                nextToken = tokens.at(index + 1);
+            }
+            result << getTokColor(tok, nextToken) << tok << log::Color::Reset;
+            index++;
         }
 
         return result.str();
     }
 
-    TrueColor Highlight::getTokColor(const parser::Token & tok) {
+    TrueColor Highlight::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
         if (tok.isLiteral()) {
             return theme.lit;
         }
@@ -27,6 +33,11 @@ namespace jc::sugg {
             if (ident.at(0) >= 'A' and ident.at(0) <= 'Z') {
                 return theme.type;
             }
+
+            if (nextTok.some() and nextTok.unwrap().is(parser::TokenKind::LParen)) {
+                return theme.func;
+            }
+
             return theme.text;
         }
 
