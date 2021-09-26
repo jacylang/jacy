@@ -24,12 +24,14 @@ namespace jc::parser {
         virtual ~Lexer() = default;
 
         Token::List lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess);
-        Token::List lexInternal(const ParseSess::Ptr & parseSess);
+        Token::List lexInternal(const std::string & source);
 
     private:
         void _lex();
 
     private:
+        span::Span::FileId fileId;
+        ParseSess::Ptr parseSess;
         sess::Session::Ptr sess;
         log::Logger log{"lexer"};
 
@@ -101,8 +103,6 @@ namespace jc::parser {
         void error(const std::string & msg);
         void unexpectedTokenError();
         void unexpectedEof();
-
-        ParseSess::Ptr parseSess;
     };
 }
 

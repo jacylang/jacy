@@ -668,6 +668,7 @@ namespace jc::parser {
         this->sess = sess;
         this->parseSess = parseSess;
         this->source = parseSess->sourceFile.src.unwrap();
+        fileId = parseSess->fileId;
 
         _lex();
 
@@ -676,13 +677,9 @@ namespace jc::parser {
         return std::move(tokens);
     }
 
-    Token::List Lexer::lexInternal(const ParseSess::Ptr & parseSess) {
-        this->parseSess = parseSess;
-        this->source = parseSess->sourceFile.src.unwrap();
-
+    Token::List Lexer::lexInternal(const std::string & source) {
+        this->source = source;
         _lex();
-
-        parseSess->sourceFile.linesIndices = std::move(linesIndices);
         return std::move(tokens);
     }
 
