@@ -43,10 +43,15 @@ namespace jc::log {
 // True Color //
 namespace jc::log {
     std::ostream & operator<<(std::ostream & os, TrueColor color) {
-        return os << "\x1b[38;2;"
-                  << static_cast<int>(color.r) << ";"
-                  << static_cast<int>(color.g) << ";"
-                  << static_cast<int>(color.b) << "m";
+        if (color.kind == TrueColor::Kind::Font) {
+            os << "\x1b[38;2;";
+        } else {
+            os << "\x1b[48;2;";
+        }
+        os << static_cast<int>(color.r) << ";"
+           << static_cast<int>(color.g) << ";"
+           << static_cast<int>(color.b) << "m";
+        return os;
     }
 }
 

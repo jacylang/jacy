@@ -67,9 +67,16 @@ namespace jc::log {
 // True Color //
 namespace jc::log {
     struct TrueColor {
+        enum class Kind {
+            Font,
+            Background,
+        };
+
         uint8_t r;
         uint8_t g;
         uint8_t b;
+
+        Kind kind {Kind::Font};
     };
 
     inline std::ostream & operator<<(std::ostream & os, TrueColor color);
