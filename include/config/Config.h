@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 
+#include "data_types/Option.h"
+
 namespace jc::config {
     class Configer;
 
@@ -43,8 +45,8 @@ namespace jc::config {
         Mode mode{Mode::Source};
 
     private:
-        bool devMode{false};
-        bool devFull{false};
+        Option<bool> devMode = None;
+        Option<bool> devFull = None;
 
         // `--dev-print`
     public:
@@ -175,6 +177,7 @@ namespace jc::config {
         // Debug //
     public:
         std::unordered_map<std::string, std::vector<std::string>> getOptionsMap() const;
+        std::string boolOptionStr(const Option<bool> & val) const;
     };
 }
 

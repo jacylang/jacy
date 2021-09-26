@@ -106,11 +106,11 @@ namespace jc::config {
 
     // Dev mode options
     bool Config::checkDevMode() const {
-        return devMode;
+        return devMode.some() and devMode.unwrap();
     }
 
     bool Config::checkDevFull() const {
-        return devFull;
+        return devFull.some() and devFull.unwrap();
     }
 
     bool Config::checkDevLog(const std::string & object) const {
@@ -149,10 +149,13 @@ namespace jc::config {
         std::unordered_map<std::string, std::vector<std::string>> res;
 
         // Bool args //
+        if (devMode.some()) {
+            res["dev"] = {boolOptionStr(devMode)};
+        }
 
-        // Note: `getOptionsMap` is a debug method, thus we give (maybe) unspecified options values
-        res["dev"] = {std::to_string(devMode)};
-        res["dev-full"] = {std::to_string(devFull)};
+        if (devFull.some()) {
+            res["dev-full"] = {boolOptionStr(devFull)};
+        }
 
         // Key-value args //
         switch (mode) {
@@ -319,5 +322,12 @@ namespace jc::config {
         addLogLevel("name-resolver");
 
         return res;
+    }
+
+    std::string Config::boolOptionStr(const Option<bool> & val) const {
+        if (val.some()) {
+            return val.unwrap() ? "yes" : "no";
+        }
+        return "[unspecified]";
     }
 }
