@@ -14,7 +14,8 @@ namespace jc::sugg {
         TrueColor kw{255, 121, 198}; // Keyword
         TrueColor op{255, 121, 198}; // Operator
         TrueColor type{139, 233, 253}; // Type color
-        TrueColor func{80, 250, 123}; // Type color
+        TrueColor func{80, 250, 123}; // Function definition/call color
+        TrueColor string{241, 250, 140}; // String literal color
     };
 
     class Highlight {
