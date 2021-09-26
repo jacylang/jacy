@@ -205,6 +205,26 @@ namespace jc::parser {
         }
 
         switch (kind) {
+            case TokenKind::NL: {
+                str += "[NL]";
+                break;
+            }
+            case TokenKind::Whitespace: {
+                str += "[WS]";
+                break;
+            }
+            case TokenKind::Tab: {
+                str += "[TAB]";
+                break;
+            }
+            case TokenKind::LineComment: {
+                str += "//" + asSymbol().toString();
+                break;
+            }
+            case TokenKind::BlockComment: {
+                str += "/*" + asSymbol().toString() + "*/";
+                break;
+            }
             case TokenKind::Lit: {
                 str += log::fmt(":'", asLit(), "'");
                 break;

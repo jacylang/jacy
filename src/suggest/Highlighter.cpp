@@ -1,4 +1,4 @@
-#include "suggest/Highlight.h"
+#include "suggest/Highlighter.h"
 
 namespace jc::sugg {
     std::string Highlight::highlight(const std::string & source) {
