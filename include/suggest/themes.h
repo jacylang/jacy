@@ -60,7 +60,7 @@ themes: {
         type: '#73d0ff'
         func: '#ffd173'
         string: '#d5ff80'
-        semi: '#ACB6BF8C'
+        semi: '#ACB6BF'
     }
 }
 )"_jon;
