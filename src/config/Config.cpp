@@ -116,25 +116,25 @@ namespace jc::config {
     bool Config::checkDevLog(const std::string & object) const {
         const auto & found = devLogObjects.find(object);
         if (found == devLogObjects.end()) {
-            if (checkDevFull()) {
-                return true;
-            }
+            return checkDevFull();
         }
         return found->second;
     }
 
     bool Config::checkDevPrint(const DevPrint & entity) const {
-        if (checkDevFull()) {
-            return true;
+        const auto & found = devPrint.find(entity);
+        if (found == devPrint.end()) {
+            return checkDevFull();
         }
-        return devPrint.find(entity) != devPrint.end();
+        return found->second;
     }
 
     bool Config::checkDevStage(const DevStage & stage) const {
-        if (checkDevFull()) {
-            return true;
+        const auto & found = devStages.find(stage);
+        if (found == devStages.end()) {
+            return checkDevFull();
         }
-        return devStages.find(stage) != devStages.end();
+        return found->second;
     }
 
     // API //
