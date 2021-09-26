@@ -18,5 +18,9 @@ namespace jc::sugg {
         if (tok.isLiteral()) {
             return theme.lit;
         }
+
+        if (tok.isSomeKeyword()) {
+            return theme.kw;
+        }
     }
 }
