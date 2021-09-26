@@ -72,6 +72,7 @@ namespace jc::parser {
         Range,                      // ..
         RangeEQ,                    // ..=
         Dot,                        // .
+
         Path,                       // ::
         Spread,                     // ...
         Pipe,                       // |>
@@ -158,6 +159,7 @@ namespace jc::parser {
         bool isKw(span::Kw kw) const;
         bool isHidden() const;
 
+        bool isSomeOp() const;
         bool isAssignOp() const;
         bool isLiteral() const;
         bool isSomeKeyword() const; // Note: Use only for errors, not for general use

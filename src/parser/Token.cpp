@@ -103,6 +103,54 @@ namespace jc::parser {
         return is(TokenKind::Whitespace) or is(TokenKind::Tab);
     }
 
+    bool Token::isSomeOp() const {
+        switch (kind) {
+            case TokenKind::Assign:
+            case TokenKind::AddAssign:
+            case TokenKind::SubAssign:
+            case TokenKind::MulAssign:
+            case TokenKind::DivAssign:
+            case TokenKind::ModAssign:
+            case TokenKind::PowerAssign:
+            case TokenKind::ShlAssign:
+            case TokenKind::ShrAssign:
+            case TokenKind::BitAndAssign:
+            case TokenKind::BitOrAssign:
+            case TokenKind::XorAssign:
+            case TokenKind::Add:
+            case TokenKind::Sub:
+            case TokenKind::Mul:
+            case TokenKind::Div:
+            case TokenKind::Rem:
+            case TokenKind::Power:
+            case TokenKind::Or:
+            case TokenKind::And:
+            case TokenKind::Shl:
+            case TokenKind::Shr:
+            case TokenKind::Ampersand:
+            case TokenKind::BitOr:
+            case TokenKind::Xor:
+            case TokenKind::Inv:
+            case TokenKind::Eq:
+            case TokenKind::NotEq:
+            case TokenKind::LAngle:
+            case TokenKind::RAngle:
+            case TokenKind::LE:
+            case TokenKind::GE:
+            case TokenKind::Spaceship:
+            case TokenKind::RefEq:
+            case TokenKind::RefNotEq:
+            case TokenKind::Range:
+            case TokenKind::RangeEQ:
+            case TokenKind::Dot: {
+                return true;
+            }
+            default: {
+                return false;
+            }
+        }
+    }
+
     bool Token::isAssignOp() const {
         return utils::arr::has(assignOperators, kind);
     }
