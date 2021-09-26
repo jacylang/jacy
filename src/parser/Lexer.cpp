@@ -7,7 +7,7 @@ namespace jc::parser {
         t.span = span::Span(
             tokenStartIndex,
             len,
-            parseSess->fileId
+            fileId
         );
         tokens.emplace_back(t);
     }
