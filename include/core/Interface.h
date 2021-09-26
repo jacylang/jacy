@@ -101,6 +101,8 @@ namespace jc::core {
 
         // Suggestions //
     private:
+        sugg::Highlighter highlighter;
+
         sugg::BaseSugg::List suggestions;
         void collectSuggestions(sugg::BaseSugg::List && additional);
         void checkSuggestions(const std::string & stageName);

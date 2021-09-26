@@ -244,6 +244,7 @@ namespace jc::core {
         if (not config.checkPrint(Config::DevPrint::Source)) {
             return;
         }
+
         const auto & sourceFile = parseSess->sourceFile;
         log.info(
             "Printing source for file [",
@@ -264,7 +265,7 @@ namespace jc::core {
             } else {
                 line = src.substr(pos);
             }
-            log.raw(maxIndent - std::to_string(i + 1).size() + 1, i + 1, " | ", line).nl();
+            log.raw(maxIndent - std::to_string(i + 1).size() + 1, i + 1, " | ", highlighter.highlight(line)).nl();
         }
     }
 
