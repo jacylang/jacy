@@ -9,7 +9,7 @@ namespace jc::sugg {
 
     struct Theme {
         TrueColor text; // Raw text, e.g. variable
-        TrueColor comm; // Comment
+        TrueColor comment; // Line or Block comment
         TrueColor lit; // Literal
         TrueColor kw; // Keyword
         TrueColor op; // Operator

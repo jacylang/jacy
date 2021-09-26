@@ -27,6 +27,10 @@ namespace jc::sugg {
             return theme.op;
         }
 
+        if (tok.is(parser::TokenKind::LineComment) or tok.is(parser::TokenKind::BlockComment)) {
+            return theme.comment;
+        }
+
         return theme.text;
     }
 }
