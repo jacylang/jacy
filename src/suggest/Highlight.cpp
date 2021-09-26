@@ -19,8 +19,15 @@ namespace jc::sugg {
             return theme.lit;
         }
 
-        if (tok.isSomeKeyword()) {
-            return theme.kw;
+        if (tok.is(parser::TokenKind::Id)) {
+            if (tok.isSomeKeyword()) {
+                return theme.kw;
+            }
+            const auto & ident = tok.asSymbol().toString();
+            if (ident.at(0) >= 'A' and ident.at(0) <= 'Z') {
+                return theme.type;
+            }
+            return theme.text;
         }
 
         if (tok.isSomeOp()) {
