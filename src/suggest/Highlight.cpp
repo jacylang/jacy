@@ -7,14 +7,13 @@ namespace jc::sugg {
 
         std::stringstream result;
 
-        size_t index = 0;
-        for (const auto & tok : tokens) {
+        for (size_t i = 0; i < tokens.size(); i++) {
+            const auto & tok = tokens.at(i);
             parser::Token::Opt nextToken = None;
-            if (index < tokens.size()) {
-                nextToken = tokens.at(index + 1);
+            if (i < tokens.size() - 1) {
+                nextToken = tokens.at(i + 1);
             }
             result << getTokColor(tok, nextToken) << tok << log::Color::Reset;
-            index++;
         }
 
         return result.str();
