@@ -54,10 +54,15 @@ namespace jc::resolve {
                         for (const auto & def : ns) {
                             // Note: for `use a::*` we don't report "redefinition" error
 
-                            if (def.second.isFOS()) {
-                                _useDeclModule->tryDefineFOS(def.first, def.second.asFOS());
+                            const auto & span = useTree.path.unwrap().span;
+                            const auto & nodeId = useTree.path.unwrap().getNodeId();
+                            const auto & name = def.first;
+                            const auto & nameBinding = def.second;
+
+                            if (nameBinding.isFOS()) {
+                                defineFOSImportAlias(Vis::Pub, nodeId, nameBinding.asFOS(), name, span);
                             } else {
-                                _useDeclModule->tryDefine(nsKind, def.first, def.second.asDef());
+                                defineImportAlias(nsKind, nodeId, Vis::Pub, nameBinding.asDef(), name, span);
                             }
                         }
                     });

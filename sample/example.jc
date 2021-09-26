@@ -8,7 +8,7 @@ mod m {
 }
 
 func main {
-    use m::{foo};
+    use m::*;
 
     foo();
 }
