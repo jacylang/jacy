@@ -700,11 +700,14 @@ namespace jc::parser {
 
         while (not eof()) {
             tokenStartIndex = index;
-            if (peek() == ' ') {
+            if (is(' ')) {
                 addToken(TokenKind::Whitespace, 1);
                 advance();
-            } else if (peek() == '\t') {
+            } else if (is('\t')) {
                 addToken(TokenKind::Tab, 1);
+                advance();
+            } else if (is('\n')) {
+                addToken(TokenKind::NL, 1);
                 advance();
             } else if (isDigit()) {
                 lexNumber();
