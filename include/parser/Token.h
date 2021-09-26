@@ -178,6 +178,8 @@ namespace jc::parser {
         // Pretty print token (Don't print debug-like representation)
         friend std::ostream & operator<<(std::ostream & os, const Token & token) {
             switch (token.kind) {
+                case TokenKind::LineComment:
+                case TokenKind::BlockComment:
                 case TokenKind::Id: {
                     return os << token.asSymbol().toString();
                 }
