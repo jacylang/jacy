@@ -6,11 +6,11 @@ using namespace jc::log;
 int main() {
     const auto code = R"(
 func foo() {
-    print('kek');
+    print('kek' + 123);
 }
     )";
 
-    jc::sugg::Highlight highlight;
+    jc::sugg::Highlighter highlight;
 
     Logger::print(highlight.highlight(code));
 

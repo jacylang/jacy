@@ -5,6 +5,7 @@
 #include "common/Error.h"
 #include "suggest/BaseSugg.h"
 #include "utils/str.h"
+#include "suggest/Highlighter.h"
 
 namespace jc::sugg {
     using log::Color;

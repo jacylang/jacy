@@ -1,7 +1,8 @@
 #include "suggest/Highlighter.h"
+#include "parser/Lexer.h"
 
 namespace jc::sugg {
-    std::string Highlight::highlight(const std::string & source) {
+    std::string Highlighter::highlight(const std::string & source) {
         parser::Lexer lexer;
         auto tokens = lexer.lexInternal(source);
 
@@ -19,7 +20,7 @@ namespace jc::sugg {
         return result.str();
     }
 
-    TrueColor Highlight::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
+    TrueColor Highlighter::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
         if (tok.isLiteral()) {
             if (tok.asLit().kind == parser::TokLit::Kind::SQStringLiteral or
                 tok.asLit().kind == parser::TokLit::Kind::DQStringLiteral) {
