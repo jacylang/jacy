@@ -15,7 +15,7 @@ namespace jc::log {
                 auto val = std::stoul(strVal, nullptr, 16);
                 *this = fromHex3(static_cast<uint16_t>(val));
                 return;
-            } else if (strVal.size() == 4) {
+            } else if (strVal.size() == 6) {
                 auto val = std::stoul(strVal, nullptr, 16);
                 *this = fromHex6(val);
                 return;
