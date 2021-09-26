@@ -7,15 +7,19 @@
 namespace jc::sugg {
     class Highlighter {
     public:
-        Highlighter() = default;
+        Highlighter() {
+
+        }
         ~Highlighter() = default;
 
         std::string highlight(const std::string & source);
 
-        TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
+        void setTheme(const std::string & themeName);
 
     private:
         Theme theme;
+
+        TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
     };
 }
 

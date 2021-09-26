@@ -1,5 +1,6 @@
 #include "suggest/Highlighter.h"
 #include "parser/Lexer.h"
+#include "utils/map.h"
 
 namespace jc::sugg {
     std::string Highlighter::highlight(const std::string & source) {
@@ -54,5 +55,9 @@ namespace jc::sugg {
         }
 
         return theme.text;
+    }
+
+    void Highlighter::setTheme(const std::string & themeName) {
+        theme = utils::map::expectAt(getThemes(), themeName, "Unknown theme '" + themeName + "'");
     }
 }
