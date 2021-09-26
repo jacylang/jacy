@@ -68,12 +68,8 @@ namespace jc::parser {
         return index >= source.size();
     }
 
-    bool Lexer::hidden() const {
-        return hidden(peek()) or isNL();
-    }
-
-    bool Lexer::hidden(char c) const {
-        return c == '\t' or c == ' ' or c == '\r';
+    bool Lexer::isIgnorable() const {
+        return is('\r') or is('\f') or is('\a') or is('\b') or is('\v');
     }
 
     bool Lexer::is(char c) const {
@@ -700,7 +696,9 @@ namespace jc::parser {
 
         while (not eof()) {
             tokenStartIndex = index;
-            if (is(' ')) {
+            if (isIgnorable()) {
+                advance();
+            } else if (is(' ')) {
                 addToken(TokenKind::Whitespace, 1);
                 advance();
             } else if (is('\t')) {

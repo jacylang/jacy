@@ -54,8 +54,7 @@ namespace jc::parser {
 
         // Checkers
         bool eof() const;
-        bool hidden() const;
-        bool hidden(char c) const;
+        bool isIgnorable() const;
         bool is(char c) const;
         bool isNL() const;
         bool isDigit();
