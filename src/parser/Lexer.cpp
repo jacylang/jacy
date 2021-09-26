@@ -676,9 +676,13 @@ namespace jc::parser {
         return std::move(tokens);
     }
 
-    Token::List Lexer::lexInternal(const std::string & source) {
-        this->source = source;
+    Token::List Lexer::lexInternal(const ParseSess::Ptr & parseSess) {
+        this->parseSess = parseSess;
+        this->source = parseSess->sourceFile.src.unwrap();
+
         _lex();
+
+        parseSess->sourceFile.linesIndices = std::move(linesIndices);
         return std::move(tokens);
     }
 

@@ -2,6 +2,8 @@
 
 namespace jc::sugg {
     std::string Highlight::highlight(const std::string & source) {
+        // Mock ParseSess
+        parser::ParseSess parseSess{};
         parser::Lexer lexer;
         auto tokens = lexer.lexInternal(source);
 
