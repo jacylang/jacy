@@ -25,6 +25,8 @@ namespace jc::resolve {
         log::Logger log{"importer"};
         sess::Session::Ptr sess;
 
+        Vis useDeclVis;
+
         // Module where `use` appeared (where to add aliases)
         Module::Ptr _useDeclModule;
 

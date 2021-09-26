@@ -12,6 +12,8 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
+        useDeclVis = Modul
+
         // Module to import items to
         const auto & useDeclModule = sess->defTable.getUseDeclModule(useDecl.id);
         _useDeclModule = useDeclModule;

@@ -4,6 +4,7 @@
 #include "span/Span.h"
 #include "span/Ident.h"
 #include "ast/Node.h"
+#include "ast/item/Item.h"
 
 namespace jc::resolve {
     struct DefIndex {
@@ -189,6 +190,15 @@ namespace jc::resolve {
 
         static inline span::Ident getFuncIdent(const span::Ident & baseName, span::Symbol suffix) {
             return span::Ident {baseName.sym + suffix, baseName.span};
+        }
+
+        static inline constexpr Vis lowerVis(const ast::Vis & vis) {
+            switch (vis.kind) {
+                case ast::VisKind::Pub:
+                    return Vis::Pub;
+                case ast::VisKind::Unset:
+                    return Vis::Unset;
+            }
         }
 
         static inline Namespace getDefKindNS(DefKind kind) {
