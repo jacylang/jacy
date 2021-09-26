@@ -17,7 +17,7 @@ namespace jc::common {
     };
 
     struct UnexpectedTokenError : Error {
-        explicit UnexpectedTokenError(const std::string & token) : Error{"Unexpected token " + token} {}
+        explicit UnexpectedTokenError(const std::string & token) : Error{"Unexpected token '" + token + "'"} {}
     };
 
     struct FileNotFound : Error {
