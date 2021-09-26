@@ -1,3 +1,6 @@
+#ifndef CLI_CONFIG_H
+#define CLI_CONFIG_H
+
 #include "jon/jon.h"
 
 using namespace jacylang::literal;
@@ -151,3 +154,5 @@ commands: {
     }
 
 }
+
+#endif // CLI_CONFIG_H
