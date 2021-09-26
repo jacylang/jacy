@@ -2305,11 +2305,11 @@ namespace jc::parser {
     }
 
     // Helpers //
-    Span Parser::cspan() const {
+    Span Parser::cspan() {
         return peek().span;
     }
 
-    Span Parser::nspan() const {
+    Span Parser::nspan() {
         if (eof()) {
             log::devPanic("Called `nspan` after EOF");
         }
