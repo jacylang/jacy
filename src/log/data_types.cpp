@@ -2,6 +2,34 @@
 #include "utils/str.h"
 
 namespace jc::log {
+    TrueColor::TrueColor(const std::string & str) {
+        using namespace utils::str;
+
+        if (str.empty()) {
+            throw std::logic_error("Invalid value for `TrueColor` constructor - empty string");
+        }
+
+        if (startsWith(str, "#")) {
+            auto strVal = str.substr(1);
+            if (strVal.size() == 3) {
+                auto val = std::stoul(strVal, nullptr, 16);
+                *this = fromHex3(static_cast<uint16_t>(val));
+                return;
+            } else if (strVal.size() == 4) {
+                auto val = std::stoul(strVal, nullptr, 16);
+                *this = fromHex6(val);
+                return;
+            }
+
+            throw std::logic_error(
+                "Invalid value for `TrueColor` constructor - hex value must contain 3 or 6 digits"
+            );
+        }
+
+        throw std::logic_error(
+            "Invalid value `TrueColor` constructor - " + str
+        );
+    }
 
     TrueColor TrueColor::fromHex6(uint32_t value) {
         return TrueColor {
