@@ -22,6 +22,8 @@ namespace jc::sugg {
         ~Highlight() = default;
 
         std::string highlight(const std::string & source);
+
+        std::string tok
     };
 }
 
