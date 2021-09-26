@@ -12,7 +12,7 @@ namespace jc::resolve {
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
-        useDeclVis = Modul
+        useDeclVis = Def::lowerVis(useDecl.vis);
 
         // Module to import items to
         const auto & useDeclModule = sess->defTable.getUseDeclModule(useDecl.id);
@@ -62,9 +62,9 @@ namespace jc::resolve {
                             const auto & nameBinding = def.second;
 
                             if (nameBinding.isFOS()) {
-                                defineFOSImportAlias(Vis::Pub, nodeId, nameBinding.asFOS(), name, span);
+                                defineFOSImportAlias(useDeclVis, nodeId, nameBinding.asFOS(), name, span);
                             } else {
-                                defineImportAlias(nsKind, nodeId, Vis::Pub, nameBinding.asDef(), name, span);
+                                defineImportAlias(nsKind, nodeId, useDeclVis, nameBinding.asDef(), name, span);
                             }
                         }
                     });
@@ -134,9 +134,9 @@ namespace jc::resolve {
 
             const auto & nameBinding = maybeDef.unwrap();
             if (nameBinding.isFOS()) {
-                defineFOSImportAlias(Vis::Pub, path.getNodeId(), nameBinding.asFOS(), segName, segSpan);
+                defineFOSImportAlias(useDeclVis, path.getNodeId(), nameBinding.asFOS(), segName, segSpan);
             } else {
-                defineImportAlias(nsKind, path.getNodeId(), Vis::Pub, nameBinding.asDef(), segName, segSpan);
+                defineImportAlias(nsKind, path.getNodeId(), useDeclVis, nameBinding.asDef(), segName, segSpan);
             }
         });
     }
