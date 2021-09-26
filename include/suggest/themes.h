@@ -23,6 +23,7 @@ namespace jc::sugg {
         TrueColor type = NONE_COLOR; // Type color
         TrueColor func = NONE_COLOR; // Function definition/call color
         TrueColor string = NONE_COLOR; // String literal color
+        TrueColor semi = NONE_COLOR; // Semicolon `;`
     };
 
     static inline Theme::Map & getThemes() {
@@ -37,6 +38,7 @@ themes: {
         type: '#A2AFEB'
         func: '#81F495'
         string: '#F7D08A'
+        semi: '#B0C4AB'
     }
     dracula: {
         text: '#f8f8f2'
@@ -47,6 +49,7 @@ themes: {
         type: '#8be9fd'
         func: '#50fa7b'
         string: '#f1fa8c'
+        semi: '#B0C4AB'
     }
     ayu: {
         text: '#cccac2'
@@ -57,6 +60,7 @@ themes: {
         type: '#73d0ff'
         func: '#ffd173'
         string: '#d5ff80'
+        semi: '#B0C4AB'
     }
 }
 )"_jon;
@@ -88,6 +92,8 @@ themes: {
                         theme.func = color;
                     } else if (entity == "string") {
                         theme.string = color;
+                    } else if (entity == "semi") {
+                        theme.semi = color;
                     } else {
                         throw std::logic_error("Unknown theme entity '" + entity + "' in theme" + themeName);
                     }
