@@ -142,7 +142,7 @@ namespace jc::parser {
         return str;
     }
 
-    std::string Token::toString(bool prettyQuotes) const {
+    std::string Token::repr(bool prettyQuotes) const {
         std::string str;
 
         if (prettyQuotes) {

@@ -80,7 +80,7 @@ namespace jc::parser {
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
                 suggestHelp(
-                    "Remove '" + peek().toString() + "'",
+                    "Remove '" + peek().repr() + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected token " + peek().kindToString(),
                         cspan()
@@ -140,7 +140,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip `", Token::kindToString(kind), "` | got ", peek().toString());
+            devLogWithIndent("[just] Skip `", Token::kindToString(kind), "` | got ", peek().repr());
         }
 
         advance();
@@ -152,7 +152,7 @@ namespace jc::parser {
         }
 
         if (extraDebugAll) {
-            devLogWithIndent("[just] Skip keyword `", Symbol::kwToString(kw), "` | got ", peek().toString());
+            devLogWithIndent("[just] Skip keyword `", Symbol::kwToString(kw), "` | got ", peek().repr());
         }
 
         advance();
@@ -725,7 +725,7 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         if (expr.none()) {
             // FIXME: Maybe useless due to check inside `parseExpr`
-            suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().toString(true), cspan()));
+            suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().repr(true), cspan()));
             return makeErrPR<N<Stmt>>(closeSpan(begin));
         }
 
@@ -993,7 +993,7 @@ namespace jc::parser {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
-                suggestErrorMsg("Expression expected after prefix operator " + op.toString(), cspan());
+                suggestErrorMsg("Expression expected after prefix operator " + op.repr(), cspan());
                 return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
@@ -1160,7 +1160,7 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        suggestErrorMsg("Unexpected token " + peek().toString(true), cspan());
+        suggestErrorMsg("Unexpected token " + peek().repr(true), cspan());
         advance();
 
         return None;
@@ -1198,7 +1198,7 @@ namespace jc::parser {
         }
 
         suggestErrorMsg(
-            "Expected identifier, `super`, `self` or `party` in path, got " + tok.toString(), cspan()
+            "Expected identifier, `super`, `self` or `party` in path, got " + tok.repr(), cspan()
         );
 
         return makeErrPR<Ident>(span);
@@ -2191,7 +2191,7 @@ namespace jc::parser {
             return makePRBoxNode<ParenPat, Pattern>(std::move(pat), closeSpan(begin));
         }
 
-        suggestErrorMsg("Expected pattern, got " + peek().toString(true), cspan());
+        suggestErrorMsg("Expected pattern, got " + peek().repr(true), cspan());
         return makeErrPR<N<Pattern>>(cspan());
     }
 

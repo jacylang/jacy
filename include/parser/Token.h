@@ -163,7 +163,7 @@ namespace jc::parser {
         bool isSomeKeyword() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
 
-        std::string toString(bool prettyQuotes = true) const;
+        std::string repr(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);
         static std::string kindToString(const Token & token);
         std::string kindToString() const;

@@ -426,7 +426,7 @@ namespace jc::hir {
             case parser::TokenKind::GE: kind = BinOpKind::GE; break;
             case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship; break;
             default: {
-                log::devPanic("Invalid infix operator '", tok.toString(), "'");
+                log::devPanic("Invalid infix operator '", tok.repr(), "'");
             }
         }
 
@@ -446,7 +446,7 @@ namespace jc::hir {
                 if (tok.isKw(span::Kw::Not)) {
                     kind = PrefixOpKind::Not;
                 }
-                log::devPanic("Invalid prefix operator '", tok.toString(), "'");
+                log::devPanic("Invalid prefix operator '", tok.repr(), "'");
             }
         }
 

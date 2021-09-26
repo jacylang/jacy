@@ -342,7 +342,7 @@ namespace jc::ast {
             default: {
                 // Check if not keyword-operator
                 if (not infix.op.isKw(span::Kw::In) and not infix.op.isKw(span::Kw::As)) {
-                    log::devPanic("Unexpected token used as infix operator:", infix.op.toString());
+                    log::devPanic("Unexpected token used as infix operator:", infix.op.repr());
                 }
             }
         }
@@ -419,7 +419,7 @@ namespace jc::ast {
             }
             default: {
                 if (not prefix.op.isKw(span::Kw::Not)) {
-                    log::devPanic("Unexpected token used as prefix operator:", prefix.op.toString());
+                    log::devPanic("Unexpected token used as prefix operator:", prefix.op.repr());
                 }
             }
         }
