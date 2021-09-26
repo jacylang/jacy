@@ -38,7 +38,7 @@ themes: {
         type: '#A2AFEB'
         func: '#81F495'
         string: '#F7D08A'
-        semi: '#B0C4AB'
+        semi: '#7a8080'
     }
     dracula: {
         text: '#f8f8f2'
