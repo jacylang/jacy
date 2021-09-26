@@ -114,12 +114,11 @@ namespace jc::config {
     }
 
     bool Config::checkDevLog(const std::string & object) const {
-        if (checkDevFull()) {
-            return true;
-        }
         const auto & found = devLogObjects.find(object);
         if (found == devLogObjects.end()) {
-            return false;
+            if (checkDevFull()) {
+                return true;
+            }
         }
         return found->second;
     }
