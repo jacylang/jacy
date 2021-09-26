@@ -247,7 +247,7 @@ namespace jc::parser {
                 break;
             }
             case TokenKind::Lit: {
-                str += log::fmt(":'", asLit(), "'");
+                str += log::fmt(":", asLit());
                 break;
             }
             case TokenKind::Id: {
