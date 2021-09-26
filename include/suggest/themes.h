@@ -23,8 +23,6 @@ namespace jc::sugg {
         TrueColor type = NONE_COLOR; // Type color
         TrueColor func = NONE_COLOR; // Function definition/call color
         TrueColor string = NONE_COLOR; // String literal color
-
-        static const TrueColor noneColor;
     };
 
     static inline Theme::Map & getThemes() {
