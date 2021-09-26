@@ -73,6 +73,9 @@ namespace jc::log {
         };
 
         TrueColor(uint8_t r, uint8_t g, uint8_t b) : r{r}, g{g}, b{b} {}
+        TrueColor(const std::string & str);
+
+        static TrueColor fromHex(uint32_t value);
 
         uint8_t r;
         uint8_t g;
