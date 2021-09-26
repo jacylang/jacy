@@ -16,7 +16,7 @@ namespace jc::sugg {
 
     TrueColor Highlight::getTokColor(const parser::Token & tok) {
         if (tok.isLiteral()) {
-
+            return theme.lit;
         }
     }
 }

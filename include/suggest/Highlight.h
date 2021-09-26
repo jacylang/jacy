@@ -24,6 +24,9 @@ namespace jc::sugg {
         std::string highlight(const std::string & source);
 
         TrueColor getTokColor(const parser::Token & tok);
+
+    private:
+        Theme theme;
     };
 }
 
