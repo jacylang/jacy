@@ -100,7 +100,10 @@ namespace jc::parser {
     }
 
     bool Token::isHidden() const {
-        return is(TokenKind::Whitespace) or is(TokenKind::Tab);
+        return is(TokenKind::Whitespace)
+            or is(TokenKind::Tab)
+            or is(TokenKind::LineComment)
+            or is(TokenKind::BlockComment);
     }
 
     bool Token::isSomeOp() const {
