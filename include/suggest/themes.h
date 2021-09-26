@@ -9,18 +9,22 @@ using namespace jacylang::literal;
 namespace jc::sugg {
     using log::TrueColor;
 
+    static const auto NONE_COLOR = TrueColor {255, 255, 255};
+
     struct Theme {
         using List = std::vector<Theme>;
         using Map = std::map<std::string, Theme>;
 
-        TrueColor text {248, 248, 242}; // Raw text, e.g. variable
-        TrueColor comment {98, 114, 164}; // Line or Block comment
-        TrueColor lit {189, 147, 249}; // Literal
-        TrueColor kw {255, 121, 198}; // Keyword
-        TrueColor op {255, 121, 198}; // Operator
-        TrueColor type {139, 233, 253}; // Type color
-        TrueColor func {80, 250, 123}; // Function definition/call color
-        TrueColor string {241, 250, 140}; // String literal color
+        TrueColor text = NONE_COLOR; // Raw text, e.g. variable
+        TrueColor comment = NONE_COLOR; // Line or Block comment
+        TrueColor lit = NONE_COLOR; // Literal
+        TrueColor kw = NONE_COLOR; // Keyword
+        TrueColor op = NONE_COLOR; // Operator
+        TrueColor type = NONE_COLOR; // Type color
+        TrueColor func = NONE_COLOR; // Function definition/call color
+        TrueColor string = NONE_COLOR; // String literal color
+
+        static const TrueColor noneColor;
     };
 
     static inline Theme::Map & getThemes() {
@@ -37,7 +41,7 @@ themes: {
         string: '#f1fa8c'
     }
 }
-        )"_jon;
+)"_jon;
 
         static bool inited = false;
         static Theme::Map themes;
