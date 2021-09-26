@@ -10,7 +10,7 @@ namespace jc::parser {
     }
 
     Token Parser::peek() {
-        if (tokens.at(index).isHidden()) {
+        while (tokens.at(index).isHidden()) {
             advance();
         }
         return tokens.at(index);
@@ -21,32 +21,33 @@ namespace jc::parser {
         return peek();
     }
 
-    Token Parser::lookup() const {
+    Token Parser::lookup() {
+        peek();
         return tokens.at(index + 1);
     }
 
-    Token Parser::prev() const {
+    Token Parser::prev() {
         return tokens.at(index - 1);
     }
 
     // Checkers //
-    bool Parser::eof() const {
+    bool Parser::eof() {
         return peek().is(TokenKind::Eof);
     }
 
-    bool Parser::is(TokenKind kind) const {
+    bool Parser::is(TokenKind kind) {
         return peek().is(kind);
     }
 
-    bool Parser::isIdentLike(TokenKind kind, Symbol::Opt sym) const {
+    bool Parser::isIdentLike(TokenKind kind, Symbol::Opt sym) {
         return peek().isIdentLike(kind, sym);
     }
 
-    bool Parser::isKw(Kw kw) const {
+    bool Parser::isKw(Kw kw) {
         return peek().isKw(kw);
     }
 
-    bool Parser::is(const std::vector<TokenKind> & kinds) const {
+    bool Parser::is(const std::vector<TokenKind> & kinds) {
         for (const auto & kind : kinds) {
             if (peek().is(kind)) {
                 return true;

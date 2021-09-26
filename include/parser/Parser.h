@@ -132,15 +132,15 @@ namespace jc::parser {
 
         Token peek();
         Token advance(uint8_t distance = 1);
-        Token lookup() const;
-        Token prev() const;
+        Token lookup();
+        Token prev();
 
         // Checkers //
-        bool eof() const;
-        bool is(TokenKind kind) const;
-        bool isIdentLike(TokenKind kind, Symbol::Opt sym) const;
-        bool isKw(Kw kw) const;
-        bool is(const std::vector<TokenKind> & kinds) const;
+        bool eof();
+        bool is(TokenKind kind);
+        bool isIdentLike(TokenKind kind, Symbol::Opt sym);
+        bool isKw(Kw kw);
+        bool is(const std::vector<TokenKind> & kinds);
         bool isSemis();
 
         // Skippers //
