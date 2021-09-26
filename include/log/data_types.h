@@ -64,6 +64,17 @@ namespace jc::log {
     inline std::ostream & operator<<(std::ostream & os, Color color);
 }
 
+// True Color //
+namespace jc::log {
+    struct TrueColor {
+        uint8_t r;
+        uint8_t g;
+        uint8_t b;
+    };
+
+    inline std::ostream & operator<<(std::ostream & os, TrueColor color);
+}
+
 // Font styles //
 namespace jc::log {
     // Note: Discriminants are Windows only (!)
