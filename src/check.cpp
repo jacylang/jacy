@@ -1,5 +1,5 @@
 #include "log/Logger.h"
-#include "suggest/Highlight.h"
+#include "suggest/Highlighter.h"
 
 using namespace jc::log;
 
