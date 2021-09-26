@@ -28,6 +28,16 @@ namespace jc::sugg {
     static inline Theme::Map & getThemes() {
         static auto themeList = R"(
 themes: {
+    jacy: {
+        text: '#d1c2c2'
+        comment: '#7a8080'
+        literal: '#D696D6'
+        keyword: '#E76D83'
+        operator: '#E76D83'
+        type: '#A2AFEB'
+        func: '#81F495'
+        string: '#F7D08A'
+    }
     dracula: {
         text: '#f8f8f2'
         comment: '#6272a4'
