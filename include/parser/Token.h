@@ -30,6 +30,9 @@ namespace jc::parser {
         Eof,
         Whitespace,
         Tab,
+        LineComment,
+        BlockComment,
+
         Lit,
         Id,
 

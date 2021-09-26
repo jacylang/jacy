@@ -26,5 +26,7 @@ namespace jc::sugg {
         if (tok.isSomeOp()) {
             return theme.op;
         }
+
+        return theme.text;
     }
 }
