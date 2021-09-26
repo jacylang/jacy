@@ -49,9 +49,9 @@ themes: {
         type: '#8be9fd'
         func: '#50fa7b'
         string: '#f1fa8c'
-        semi: '#B0C4AB'
+        semi: '#6272a4'
     }
-    ayu: {
+    ayu-dark: {
         text: '#cccac2'
         comment: '#b8cfe6'
         literal: '#dfbfff'
@@ -60,7 +60,7 @@ themes: {
         type: '#73d0ff'
         func: '#ffd173'
         string: '#d5ff80'
-        semi: '#B0C4AB'
+        semi: '#ACB6BF8C'
     }
 }
 )"_jon;
