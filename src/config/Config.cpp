@@ -181,7 +181,11 @@ namespace jc::config {
         }
 
         for (const auto & stage : devStages) {
-            switch (stage) {
+            if (not stage.second) {
+                continue;
+            }
+
+            switch (stage.first) {
                 case DevStage::Lexer: {
                     res["dev-stages"].emplace_back("lexer");
                     break;

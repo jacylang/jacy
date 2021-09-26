@@ -15,7 +15,7 @@ namespace jc::config {
         // `dev-print`
         args.getFlagValues("dev-print").then([&](const auto & values) {
             for (const auto & val : values) {
-                config.devPrint.insert(config.devPrintKinds.at(val));
+                config.devPrint.emplace(config.devPrintKinds.at(val), true);
             }
         });
 
@@ -29,7 +29,7 @@ namespace jc::config {
         // `dev-stages`
         args.getFlagValues("dev-stages").then([&](const auto & values) {
             for (const auto & val : values) {
-                config.devStages.emplace(config.devStagesKinds.at(val));
+                config.devStages.emplace(config.devStagesKinds.at(val), true);
             }
         });
 

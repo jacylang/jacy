@@ -82,7 +82,7 @@ namespace jc::config {
 
     private:
         const static std::map<std::string, DevStage> devStagesKinds;
-        std::set<DevStage> devStages;
+        std::map<DevStage, bool> devStages;
 
     private:
         std::map<std::string, bool> devLogObjects;
