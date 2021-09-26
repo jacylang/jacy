@@ -22,5 +22,9 @@ namespace jc::sugg {
         if (tok.isSomeKeyword()) {
             return theme.kw;
         }
+
+        if (tok.isSomeOp()) {
+            return theme.op;
+        }
     }
 }
