@@ -2,6 +2,7 @@
 #define JACY_SUGGEST_HIGHLIGHTER_H
 
 #include "log/data_types.h"
+#include "parser/Token.h"
 
 namespace jc::sugg {
     using log::TrueColor;
