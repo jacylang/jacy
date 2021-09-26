@@ -23,7 +23,7 @@ namespace jc::sugg {
 
         std::string highlight(const std::string & source);
 
-        std::string tok
+        TrueColor getTokColor(const parser::Token & tok);
     };
 }
 
