@@ -44,7 +44,9 @@ themes: {
 
         if (not inited) {
             for (const auto & th : themeList.objAt("themes")) {
+                const auto & themeName = th.first;
                 Theme theme;
+
                 for (const auto & c : th.second.getObj()) {
                     const auto & entity = c.first;
                     const auto & color = c.second.getStr();
@@ -64,12 +66,16 @@ themes: {
                         theme.func = color;
                     } else if (entity == "string") {
                         theme.string = color;
+                    } else {
+                        throw std::logic_error("Unknown theme entity '" + entity + "' in theme" + themeName);
                     }
                 }
 
-                themes.emplace(th.first, theme);
+                themes.emplace(themeName, theme);
             }
         }
+
+        return themes;
     }
 }
 
