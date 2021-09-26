@@ -398,6 +398,7 @@ namespace jc::hir {
             case ast::TypeKind::Unit:
                 break;
         }
+        log::notImplemented("Lowering::lowerType");
     }
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
