@@ -266,7 +266,7 @@ namespace jc::resolve {
             for (const auto & arg : args) {
                 if (arg.name.some()) {
                     gotLabels = true;
-                    suffix += arg.name.unwrap().unwrap().sym.repr() + ":";
+                    suffix += arg.name.unwrap().unwrap().sym.toString() + ":";
                 } else {
                     suffix += "_:";
                 }
