@@ -22,7 +22,8 @@ namespace jc::log {
             }
 
             throw std::logic_error(
-                "Invalid value for `TrueColor` constructor - hex value must contain 3 or 6 digits, got '" + strVal + "'"
+                "Invalid value for `TrueColor` constructor - hex value must contain 3 or 6 digits, got '"
+                    + str + "' with " + std::to_string(strVal.size()) + " digits"
             );
         }
 
