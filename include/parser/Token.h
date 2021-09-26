@@ -121,7 +121,26 @@ namespace jc::parser {
         span::Symbol::Opt suffix;
 
         friend std::ostream & operator<<(std::ostream & os, const TokLit & lit) {
-            return os << lit.sym.toString() << (lit.suffix.some() ? lit.suffix.unwrap().toString() : "");
+            // TODO: String literal suffixes?
+
+            switch (lit.kind) {
+                case Kind::Bool: {
+                    return os << lit.sym.toString();
+                }
+                case Kind::DecLiteral:
+                case Kind::BinLiteral:
+                case Kind::OctLiteral:
+                case Kind::HexLiteral:
+                case Kind::FloatLiteral: {
+                    return os << lit.sym.toString() << (lit.suffix.some() ? lit.suffix.unwrap().toString() : "");
+                }
+                case Kind::SQStringLiteral: {
+                    return os << "'" << lit.sym.toString() << "'";
+                }
+                case Kind::DQStringLiteral: {
+                    return os << "'" << lit.sym.toString() << "'";
+                }
+            }
         }
     };
 
