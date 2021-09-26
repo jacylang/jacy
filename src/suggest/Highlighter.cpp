@@ -26,6 +26,10 @@ namespace jc::sugg {
     }
 
     TrueColor Highlighter::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
+        if (tok.is(parser::TokenKind::Semi)) {
+            return theme.semi;
+        }
+
         if (tok.isLiteral()) {
             if (tok.asLit().kind == parser::TokLit::Kind::SQStringLiteral or
                 tok.asLit().kind == parser::TokLit::Kind::DQStringLiteral) {
