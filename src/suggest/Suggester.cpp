@@ -138,17 +138,14 @@ namespace jc::sugg {
     }
 
     void Suggester::printLine(Span::FileId fileId, size_t index) {
+        const auto & indent = getFileIndent(fileId);
         const auto & line = sess->sourceMap.getLine(fileId, index);
-        auto highlighted = highlighter.highlight(line);
+        auto clipped = utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size());
+        auto highlighted = highlighter.highlight(clipped);
         // Print indent according to line number
         // FIXME: uint overflow can appear
-        const auto & indent = getFileIndent(fileId);
         Logger::print(utils::str::repeat(" ", indent.size() - std::to_string(index).size() - 3));
-        Logger::print(
-            index + 1,
-            " | ",
-            utils::str::clipStart(utils::str::trimEnd(highlighted, '\n'), wrapLen - indent.size())
-        );
+        Logger::print(index + 1, " | ", highlighted);
         Logger::nl();
     }
 
