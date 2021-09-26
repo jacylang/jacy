@@ -27,6 +27,7 @@ namespace jc::sugg {
 
     private:
         sess::Session::Ptr sess;
+        Highlighter highlighter;
 
         void pointMsgTo(
             const std::string & msg,
