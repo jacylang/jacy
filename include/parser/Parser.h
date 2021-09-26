@@ -130,7 +130,7 @@ namespace jc::parser {
     private:
         ParseSess::Ptr parseSess;
 
-        Token peek() const;
+        Token peek();
         Token advance(uint8_t distance = 1);
         Token lookup() const;
         Token prev() const;

@@ -9,7 +9,10 @@ namespace jc::parser {
         extraDebugAll = Config::getInstance().checkParserExtraDebug(Config::ParserExtraDebug::All);
     }
 
-    Token Parser::peek() const {
+    Token Parser::peek() {
+        if (tokens.at(index).isHidden()) {
+            advance();
+        }
         return tokens.at(index);
     }
 

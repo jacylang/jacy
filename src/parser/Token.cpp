@@ -97,6 +97,10 @@ namespace jc::parser {
         return is(TokenKind::Id) and asSymbol().isKw(kw);
     }
 
+    bool Token::isHidden() const {
+        return is(TokenKind::Whitespace) or is(TokenKind::Tab);
+    }
+
     bool Token::isAssignOp() const {
         return utils::arr::has(assignOperators, kind);
     }
