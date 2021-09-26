@@ -180,11 +180,10 @@ namespace jc::resolve {
             "', alias to ",
             importDefId);
 
+        // Note: Don't define `NodeId -> DefId` mapping,
+        //  because `use ...::*` can have multiple non-unique bindings, thus we will have an error
+
         assertNewEmplace(defVisMap.emplace(aliasDefId, importVis), "`DefTable::defineImportAlias` -> defVisMap");
-        assertNewEmplace(
-            nodeIdDefIdMap.emplace(pathNodeId, aliasDefId),
-            "`DefTable::defineImportAlias` -> nodeIdDefIdMap"
-        );
         assertNewEmplace(
             defIdNodeIdMap.emplace(aliasDefId, pathNodeId),
             "`DefTable::defineImportAlias` -> defIdNodeIdMap"
