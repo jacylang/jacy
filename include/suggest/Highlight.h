@@ -8,6 +8,7 @@ namespace jc::sugg {
     using log::TrueColor;
 
     struct Theme {
+        TrueColor text; // Raw text, e.g. variable
         TrueColor comm; // Comment
         TrueColor lit; // Literal
         TrueColor kw; // Keyword
