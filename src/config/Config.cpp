@@ -202,7 +202,10 @@ namespace jc::config {
         }
 
         for (const auto & printKind : devPrint) {
-            switch (printKind) {
+            if (not printKind.second) {
+                continue;
+            }
+            switch (printKind.first) {
                 case DevPrint::DirTree: {
                     res["print"].emplace_back("dir-tree");
                     break;

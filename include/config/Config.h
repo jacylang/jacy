@@ -69,7 +69,7 @@ namespace jc::config {
 
     private:
         static FlagValueMap<DevPrint> devPrintKinds;
-        std::set<DevPrint> devPrint{};
+        std::map<DevPrint, bool> devPrint{};
 
         // `--dev-stages`
     public:
