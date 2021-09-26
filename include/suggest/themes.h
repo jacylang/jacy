@@ -74,28 +74,28 @@ themes: {
                 Theme theme;
 
                 for (const auto & c : th.second.getObj()) {
-                    const auto & entity = c.first;
+                    const auto & rule = c.first;
                     const auto & color = c.second.getStr();
-                    if (entity == "text") {
+                    if (rule == "text") {
                         theme.text = color;
-                    } else if (entity == "comment") {
+                    } else if (rule == "comment") {
                         theme.comment = color;
-                    } else if (entity == "literal") {
+                    } else if (rule == "literal") {
                         theme.lit = color;
-                    } else if (entity == "keyword") {
+                    } else if (rule == "keyword") {
                         theme.kw = color;
-                    } else if (entity == "operator") {
+                    } else if (rule == "operator") {
                         theme.op = color;
-                    } else if (entity == "type") {
+                    } else if (rule == "type") {
                         theme.type = color;
-                    } else if (entity == "func") {
+                    } else if (rule == "func") {
                         theme.func = color;
-                    } else if (entity == "string") {
+                    } else if (rule == "string") {
                         theme.string = color;
-                    } else if (entity == "semi") {
+                    } else if (rule == "semi") {
                         theme.semi = color;
                     } else {
-                        throw std::logic_error("Unknown theme entity '" + entity + "' in theme" + themeName);
+                        throw std::logic_error("Unknown theme entity '" + rule + "' in theme" + themeName);
                     }
                 }
 
