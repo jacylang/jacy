@@ -125,10 +125,16 @@ namespace jc::config {
     }
 
     bool Config::checkDevPrint(const DevPrint & entity) const {
+        if (checkDevFull()) {
+            return true;
+        }
         return devPrint.find(entity) != devPrint.end();
     }
 
     bool Config::checkDevStage(const DevStage & stage) const {
+        if (checkDevFull()) {
+            return true;
+        }
         return devStages.find(stage) != devStages.end();
     }
 
