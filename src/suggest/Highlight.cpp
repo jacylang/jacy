@@ -8,7 +8,7 @@ namespace jc::sugg {
         std::stringstream result;
 
         for (const auto & tok : tokens) {
-            result << getTokColor(tok) << tok.repr() << log::Color::Reset;
+            result << getTokColor(tok) << tok << log::Color::Reset;
         }
 
         return result.str();
