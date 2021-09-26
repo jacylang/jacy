@@ -24,6 +24,10 @@ namespace jc::parser {
         virtual ~Lexer() = default;
 
         Token::List lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess);
+        Token::List lexInternal(const std::string & source);
+
+    private:
+        void _lex();
 
     private:
         sess::Session::Ptr sess;

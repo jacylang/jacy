@@ -2,6 +2,7 @@
 #define JACY_SUGGEST_HIGHLIGHT_H
 
 #include "log/data_types.h"
+#include "parser/Lexer.h"
 
 namespace jc::sugg {
     using log::TrueColor;
@@ -20,9 +21,6 @@ namespace jc::sugg {
         ~Highlight() = default;
 
         std::string highlight(const std::string & source);
-
-    private:
-
     };
 }
 

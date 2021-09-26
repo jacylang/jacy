@@ -653,6 +653,23 @@ namespace jc::parser {
 
     Token::List Lexer::lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess) {
         this->sess = sess;
+        this->parseSess = parseSess;
+        this->source = parseSess->sourceFile.src.unwrap();
+
+        _lex();
+
+        parseSess->sourceFile.linesIndices = std::move(linesIndices);
+
+        return std::move(tokens);
+    }
+
+    Token::List Lexer::lexInternal(const std::string & source) {
+        this->source = source;
+        _lex();
+        return std::move(tokens);
+    }
+
+    void Lexer::_lex() {
         source.clear();
         tokens.clear();
         tokenStartIndex = 0;
@@ -660,10 +677,7 @@ namespace jc::parser {
         loc = {0, 0};
         linesIndices.clear();
 
-        this->parseSess = parseSess;
-        this->source = parseSess->sourceFile.src.unwrap();
-
-        // Note: If source is empty there're actually no lines
+        // Note: If source is empty there are actually no lines
         if (source.size() > 0) {
             linesIndices.emplace_back(index);
         }
@@ -685,10 +699,6 @@ namespace jc::parser {
 
         tokenStartIndex = index;
         addToken(TokenKind::Eof, 1);
-
-        parseSess->sourceFile.linesIndices = std::move(linesIndices);
-
-        return std::move(tokens);
     }
 
     void Lexer::error(const std::string & msg) {
