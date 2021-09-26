@@ -27,7 +27,14 @@ namespace jc::sugg {
         static auto themes = R"(
 themes: {
     dracula: {
-
+        text: '#f8f8f2'
+        comment: '#6272a4'
+        literal: '#bd93f9'
+        keyword: '#ff79c6'
+        operator: '#ff79c6'
+        type: '#8be9fd'
+        func: '#50fa7b'
+        string: '#f1fa8c'
     }
 }
         )"_jon;
