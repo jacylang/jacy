@@ -3,6 +3,10 @@
 #include "utils/map.h"
 
 namespace jc::sugg {
+    Highlighter::Highlighter() {
+        setTheme("dracula");
+    }
+
     std::string Highlighter::highlight(const std::string & source) {
         parser::Lexer lexer;
         auto tokens = lexer.lexInternal(source);

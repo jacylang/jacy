@@ -7,9 +7,7 @@
 namespace jc::sugg {
     class Highlighter {
     public:
-        Highlighter() {
-
-        }
+        Highlighter();
         ~Highlighter() = default;
 
         std::string highlight(const std::string & source);
