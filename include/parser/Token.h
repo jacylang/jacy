@@ -28,6 +28,8 @@ namespace jc::parser {
 
     enum class TokenKind : uint8_t {
         Eof,
+        Whitespace,
+        Tab,
         Lit,
         Id,
 

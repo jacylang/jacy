@@ -683,7 +683,11 @@ namespace jc::parser {
 
         while (not eof()) {
             tokenStartIndex = index;
-            if (hidden()) {
+            if (peek() == ' ') {
+                addToken(TokenKind::Whitespace, 1);
+                advance();
+            } else if (peek() == '\t') {
+                addToken(TokenKind::Tab, 1);
                 advance();
             } else if (isDigit()) {
                 lexNumber();
