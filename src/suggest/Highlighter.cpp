@@ -4,7 +4,7 @@
 
 namespace jc::sugg {
     Highlighter::Highlighter() {
-        setTheme("ayu");
+        setTheme("jacy");
     }
 
     std::string Highlighter::highlight(const std::string & source) {

@@ -4,9 +4,10 @@ namespace jc::parser {
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {
         {TokenKind::Eof,          "EOF"},
         {TokenKind::Id,           "ID"},
-        {TokenKind::Whitespace,   " "},
-        {TokenKind::Tab,          "\t"},
-        {TokenKind::NL,           "\n"},
+        {TokenKind::Whitespace,   "[WS]"},
+        {TokenKind::Tab,          "[TAB]"},
+        {TokenKind::NL,           "[NL]"},
+        {TokenKind::Lit,          "[LIT]"},
 
         // Operators //
         {TokenKind::Assign,       "="},
