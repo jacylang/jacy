@@ -24,7 +24,7 @@ namespace jc::sugg {
     };
 
     static inline Theme::Map & getThemes() {
-        static auto themes = R"(
+        static auto themeList = R"(
 themes: {
     dracula: {
         text: '#f8f8f2'
@@ -39,6 +39,37 @@ themes: {
 }
         )"_jon;
 
+        static bool inited = false;
+        static Theme::Map themes;
+
+        if (not inited) {
+            for (const auto & th : themeList.objAt("themes")) {
+                Theme theme;
+                for (const auto & c : th.second.getObj()) {
+                    const auto & entity = c.first;
+                    const auto & color = c.second.getStr();
+                    if (entity == "text") {
+                        theme.text = color;
+                    } else if (entity == "comment") {
+                        theme.comment = color;
+                    } else if (entity == "literal") {
+                        theme.lit = color;
+                    } else if (entity == "keyword") {
+                        theme.kw = color;
+                    } else if (entity == "operator") {
+                        theme.op = color;
+                    } else if (entity == "type") {
+                        theme.type = color;
+                    } else if (entity == "func") {
+                        theme.func = color;
+                    } else if (entity == "string") {
+                        theme.string = color;
+                    }
+                }
+
+                themes.emplace(th.first, theme);
+            }
+        }
     }
 }
 
