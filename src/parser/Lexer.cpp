@@ -459,13 +459,19 @@ namespace jc::parser {
                         checkedAs<span::Span::Len>(content.size(), "`Lexer::lexOp` -> `LineComment`")
                     );
                 } else if (lookup() == '*') {
+                    std::string content;
                     while (not eof()) {
+                        content += peek();
                         advance();
                         if (is('*') and lookup() == '/') {
                             break;
                         }
                     }
                     advance(2);
+                    addToken(
+                        {TokenKind::BlockComment, span::Symbol::intern(content)},
+                        checkedAs<span::Span::Len>(content.size(), "`Lexer::lexOp` -> `BlockComment`")
+                    );
                 } else if (lookup() == '=') {
                     addToken(TokenKind::DivAssign, 2);
                     advance(2);
