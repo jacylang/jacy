@@ -77,9 +77,9 @@ namespace jc::resolve {
     }
 
     /**
-     * @brief Descends to module by path, if no path given does nothing
-     * @param optPath
-     * @return `true` if successfully resolved path, `false` otherwise
+     * @brief Descends to the module by path, if no path given does nothing
+     * @param optPath Path to descend by, optional for usability.
+     * @return `true` if path successfully resolved, `false` otherwise
      */
     bool Importer::descendByPath(const ast::SimplePath::Opt & optPath) {
         if (optPath.none()) {
@@ -98,6 +98,12 @@ namespace jc::resolve {
         return false;
     }
 
+    /**
+     * @brief Common entry point for items importation. Processes items from all namespaces, applying rebinding logic.
+     * @param defPerNS Single name binding per namespace resolved by path (each might be a FOS or simple definition).
+     * @param path Any path-like AST node used in importation
+     * @param rebind Option rebinding symbol, such as `use path::to::something as newThing`
+     */
     void Importer::import(
         const NameBinding::PerNS & defPerNS,
         const ast::PathInterface & path,
@@ -128,6 +134,15 @@ namespace jc::resolve {
         });
     }
 
+    /**
+     * @brief Defines import alias to any non-func definition
+     * @param nsKind Namespace where item must be placed (same as for imported item)
+     * @param pathNodeId Node id of `use` declaration path (where resolution will be mapped)
+     * @param importVis Importation visibility - `(pub) use`
+     * @param importDefId Identifier of definition to import
+     * @param name Name for imported item (might be a rebinding name)
+     * @param span `use` declaration span
+     */
     void Importer::defineImportAlias(
         Namespace nsKind,
         ast::NodeId pathNodeId,
@@ -154,6 +169,14 @@ namespace jc::resolve {
         });
     }
 
+    /**
+     * @brief Defines FOS import alias in the `use` declaration module
+     * @param importVis Visibility of `use` declaration
+     * @param pathNodeId Node id of the path node, i.e. node id of `path::to::something` in `use path::to::something`
+     * @param importFosId FOSId of resolve FOS
+     * @param name The name of FOS, i.e. base name of function overload set
+     * @param span Importation span
+     */
     void Importer::defineFOSImportAlias(
         Vis importVis,
         ast::NodeId pathNodeId,
