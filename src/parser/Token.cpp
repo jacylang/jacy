@@ -6,6 +6,7 @@ namespace jc::parser {
         {TokenKind::Id,           "ID"},
         {TokenKind::Whitespace,   " "},
         {TokenKind::Tab,          "\t"},
+        {TokenKind::NL,           "\n"},
 
         // Operators //
         {TokenKind::Assign,       "="},
