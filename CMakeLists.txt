@@ -88,8 +88,14 @@ FetchContent_MakeAvailable(jon)
 
 # "Check" executable
 if (JACY_BUILD_CHECK)
-    include_directories(include)
-    add_executable(check src/check.cpp)
+    file(GLOB_RECURSE check_SRC "src/*/*.cpp")
+
+    foreach(file_path ${check_SRC})
+        message(STATUS ${file_path})
+    endforeach()
+
+    include_directories("${PROJECT_SOURCE_DIR}/include")
+    add_executable(check src/check.cpp ${check_SRC})
 
     target_link_libraries(check jon::jon)
     target_include_directories(check SYSTEM PRIVATE ${jon_SOURCE_DIR})
