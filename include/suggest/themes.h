@@ -38,6 +38,16 @@ themes: {
         func: '#50fa7b'
         string: '#f1fa8c'
     }
+    ayu: {
+        text: '#cccac2'
+        comment: '#b8cfe6'
+        literal: '#dfbfff'
+        keyword: '#ffad66'
+        operator: '#f29e74'
+        type: '#73d0ff'
+        func: '#ffd173'
+        string: '#d5ff80'
+    }
 }
 )"_jon;
 
