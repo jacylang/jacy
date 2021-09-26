@@ -38,6 +38,11 @@ namespace jc::parser {
         return source.at(index + distance);
     }
 
+    /**
+     * @brief Advance by distance
+     * @param distance Distance to advance by
+     * @return Token from stop point
+     */
     char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
             if (isNL()) {
@@ -441,12 +446,18 @@ namespace jc::parser {
             } break;
             case '/': {
                 if (lookup() == '/') {
+                    std::string content;
                     while (not eof()) {
+                        content += peek();
                         advance();
                         if (isNL()) {
                             break;
                         }
                     }
+                    addToken(
+                        {TokenKind::LineComment, span::Symbol::intern(content)},
+                        checkedAs<span::Span::Len>(content.size(), "`Lexer::lexOp` -> `LineComment`")
+                    );
                 } else if (lookup() == '*') {
                     while (not eof()) {
                         advance();
