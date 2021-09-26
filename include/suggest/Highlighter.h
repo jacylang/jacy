@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_HIGHLIGHT_H
-#define JACY_SUGGEST_HIGHLIGHT_H
+#ifndef JACY_SUGGEST_HIGHLIGHTER_H
+#define JACY_SUGGEST_HIGHLIGHTER_H
 
 #include "log/data_types.h"
 #include "parser/Lexer.h"
@@ -31,4 +31,4 @@ namespace jc::sugg {
     };
 }
 
-#endif // JACY_SUGGEST_HIGHLIGHT_H
+#endif // JACY_SUGGEST_HIGHLIGHTER_H
