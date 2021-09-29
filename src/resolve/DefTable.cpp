@@ -140,7 +140,7 @@ namespace jc::resolve {
      *  and Err is the old definition in case when function suffix already in use,
      *  Err also contains `FOSId` that is always present even in error case.
      */
-    DefTable::FuncDefResult DefTable::defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
+    DefTable::FuncDefResult DefTable::tryDefineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
@@ -149,15 +149,17 @@ namespace jc::resolve {
         }
 
         auto & fos = utils::arr::expectAtMut(
-            fosList, fosId.unwrap().val, "`DefTable::defineFunc`"
+            fosList, fosId.unwrap().val, "`DefTable::tryDefineFunc`"
         );
 
         const auto & result = fos.emplace(suffix, defId);
+
+        // Return info if function suffix already in use
         if (not result.second) {
             return Err<std::pair<FOSId, DefId>>({fosId.unwrap(), result.first->second});
         }
 
-        assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
+        assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::tryDefineFunc` -> `overload`");
 
         return Ok<FOSId>(fosId.unwrap());
     }

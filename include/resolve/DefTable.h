@@ -72,7 +72,7 @@ namespace jc::resolve {
         const FOSMap & getFOS(FOSId fosId) const;
 
         FOSId newEmptyFOS();
-        FuncDefResult defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix);
+        FuncDefResult tryDefineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix);
 
         /**
          * @brief Get defId of the first overload from some function overload set
