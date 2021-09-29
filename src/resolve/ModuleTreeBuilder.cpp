@@ -181,7 +181,16 @@ namespace jc::resolve {
 
         // Create new overload if no exists in current module.
         // Overload name in overloads mapping only contains suffix as base name is a FuncOverloadId.
-        overloadId = _defTable.defineFunc(defId, overloadId, suffix);
+        auto newFuncRes = _defTable.tryDefineFunc(defId, overloadId, suffix);
+
+        if (newFuncRes.err()) {
+            overloadId = newFuncRes.unwrapErr().first;
+            const auto & oldDef = newFuncRes.unwrapErr().second;
+            log.dev("Tried to redefine function '", baseName, suffix, "' previously defined as ", oldDef);
+            suggestCannotRedefine(baseName, defKind, oldDef, suffix);
+        } else {
+            overloadId = newFuncRes.unwrap();
+        }
 
         // Define function overload in module
         // Note!: In module, function names do not have suffixes, only base name
