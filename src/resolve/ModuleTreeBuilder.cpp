@@ -56,6 +56,8 @@ namespace jc::resolve {
 
         enterModule(getItemVis(impl), impl.id, DefKind::Impl, synthName);
 
+        defineGenerics(impl.generics);
+
         visitEach(impl.members);
 
         exitMod();
@@ -68,7 +70,9 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
-        addDef(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name.unwrap());
+        enterModule(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name.unwrap());
+        defineGenerics(_struct.generics);
+        exitMod();
         // Note: We only need to declare a struct as far as it does not contain assoc items
     }
 
