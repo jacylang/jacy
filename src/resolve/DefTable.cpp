@@ -159,8 +159,6 @@ namespace jc::resolve {
             return Err<std::pair<FOSId, DefId>>({fosId.unwrap(), result.first->second});
         }
 
-        assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::tryDefineFunc` -> `overload`");
-
         return Ok<FOSId>(fosId.unwrap());
     }
 
