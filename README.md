@@ -14,7 +14,12 @@
 
 <br>
 
-<h1 align="center"><em>Jacy</em> programming language</h1>
+<div align="center">
+    <h1 align="center"><em>Jacy</em></h1>
+    <p align="center">
+    WIP programming language inspired by Rust professing the idea of simplicity and safety.
+    </p>
+</div>
 
 <br>
 
