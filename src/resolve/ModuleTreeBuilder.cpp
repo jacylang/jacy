@@ -78,7 +78,10 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Trait & trait) {
         enterModule(getItemVis(trait), trait.id, DefKind::Trait, trait.name.unwrap());
+        defineGenerics(trait.generics);
+
         visitEach(trait.members);
+
         exitMod();
     }
 
