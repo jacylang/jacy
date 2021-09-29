@@ -12,8 +12,6 @@
     <img src="img/JacyLarge.png" height="110">
 </div>
 
-<br>
-
 <div align="center">
     <h1 align="center"></h1>
     <p align="center">
