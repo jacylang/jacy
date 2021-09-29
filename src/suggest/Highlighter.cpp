@@ -7,6 +7,30 @@ namespace jc::sugg {
         setTheme("jacy");
     }
 
+    std::vector<std::string> Highlighter::builtinTypes = {
+        "i8",
+        "i16",
+        "i32",
+        "i64",
+        "i128",
+        "int",
+        "u8",
+        "u16",
+        "u32",
+        "u64",
+        "u128",
+        "uint",
+        "f32",
+        "f64",
+        "str",
+        "char",
+        "bool",
+        "Option",
+        "Result",
+        "String",
+        "Vec"
+    };
+
     std::string Highlighter::highlight(const std::string & source) {
         parser::Lexer lexer;
         auto tokens = lexer.lexInternal(source);
