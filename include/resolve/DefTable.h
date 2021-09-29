@@ -4,6 +4,8 @@
 #include "resolve/Module.h"
 
 namespace jc::resolve {
+    using dt::Result;
+
     struct FosRedefs {
         std::vector<span::Symbol> suffixes;
 
@@ -64,12 +66,13 @@ namespace jc::resolve {
     public:
         using FOSMap = std::map<Symbol, DefId>;
         using FOSList = std::vector<FOSMap>;
+        using FuncDefResult = Result<FOSId, std::pair<FOSId, DefId>>;
 
         const FOSList & getFOSList() const;
         const FOSMap & getFOS(FOSId fosId) const;
 
         FOSId newEmptyFOS();
-        FOSId defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix);
+        FuncDefResult defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix);
 
         /**
          * @brief Get defId of the first overload from some function overload set

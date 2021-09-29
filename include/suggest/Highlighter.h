@@ -18,7 +18,7 @@ namespace jc::sugg {
         Theme theme;
 
         TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
-    
+
         static std::vector<std::string> builtinTypes;
         bool isBuiltinType(const std::string & str) const;
     };

@@ -136,9 +136,11 @@ namespace jc::resolve {
      * @param defId
      * @param fosId
      * @param suffix
-     * @return
+     * @returns Result where Ok is new or old FOSId (if some provided)
+     *  and Err is the old definition in case when function suffix already in use,
+     *  Err also contains `FOSId` that is always present even in error case.
      */
-    FOSId DefTable::defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
+    DefTable::FuncDefResult DefTable::defineFunc(DefId defId, FOSId::Opt fosId, Symbol suffix) {
         using namespace utils::map;
 
         // Add new overloading indexing if not provided
@@ -150,9 +152,14 @@ namespace jc::resolve {
             fosList, fosId.unwrap().val, "`DefTable::defineFunc`"
         );
 
+        const auto & result = fos.emplace(suffix, defId);
+        if (not result.second) {
+            return Err<std::pair<FOSId, DefId>>({fosId.unwrap(), result.first->second});
+        }
+
         assertNewEmplace(fos.emplace(suffix, defId), "`DefTable::defineFunc` -> `overload`");
 
-        return fosId.unwrap();
+        return Ok<FOSId>(fosId.unwrap());
     }
 
     DefId DefTable::getFOSFirstDef(FOSId fosId) const {
