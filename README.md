@@ -14,9 +14,7 @@
 
 <br>
 
-<p align="center">
-    <h1><em>*Jacy*</em> programming language</h1>
-</p>
+<h1 align="center"><em>Jacy</em> programming language</h1>
 
 <br>
 
