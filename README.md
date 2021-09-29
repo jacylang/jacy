@@ -17,6 +17,7 @@
     <p align="center">
     WIP programming language inspired by Rust professing the idea of simplicity and safety.
     </p>
+    <a align="center" href="https://jacylang.github.io/"><b>Home Page</b></a>
 </div>
 
 <br>
