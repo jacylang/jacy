@@ -1,6 +1,5 @@
 #include "suggest/Highlighter.h"
 #include "parser/Lexer.h"
-#include "utils/map.h"
 
 namespace jc::sugg {
     Highlighter::Highlighter() {
@@ -67,7 +66,7 @@ namespace jc::sugg {
                 return theme.kw;
             }
             const auto & ident = tok.asSymbol().toString();
-            if (ident.at(0) >= 'A' and ident.at(0) <= 'Z' or isBuiltinType(ident)) {
+            if ((ident.at(0) >= 'A' and ident.at(0) <= 'Z') or isBuiltinType(ident)) {
                 return theme.type;
             }
 
