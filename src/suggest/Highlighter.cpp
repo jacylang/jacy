@@ -43,7 +43,7 @@ namespace jc::sugg {
                 return theme.kw;
             }
             const auto & ident = tok.asSymbol().toString();
-            if (ident.at(0) >= 'A' and ident.at(0) <= 'Z') {
+            if (ident.at(0) >= 'A' and ident.at(0) <= 'Z' or isBuiltinType(ident)) {
                 return theme.type;
             }
 
@@ -67,5 +67,9 @@ namespace jc::sugg {
 
     void Highlighter::setTheme(const std::string & themeName) {
         theme = utils::map::expectAt(getThemes(), themeName, "Unknown theme '" + themeName + "'");
+    }
+
+    bool Highlighter::isBuiltinType(const std::string & str) const {
+        return std::find(builtinTypes.begin(), builtinTypes.end(), str) != builtinTypes.end();
     }
 }

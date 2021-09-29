@@ -1,3 +1,2 @@
-func foo() {
-    print('kek');
-}
+func foo(kek: i32, lol: i32) {}
+func foo(kek: i32, asds: i32) {}
