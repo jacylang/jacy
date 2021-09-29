@@ -78,9 +78,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Struct & _struct) {
+        enterModule(_struct.getName().sym); // -> `struct` mod
         for (const auto & field : _struct.fields) {
             field.type.autoAccept(*this);
         }
+        exitRib(); // <- `struct` mod
     }
 
     void NameResolver::visit(const ast::Trait & trait) {
