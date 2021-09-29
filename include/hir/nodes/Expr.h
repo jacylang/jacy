@@ -5,8 +5,8 @@
 
 namespace jc::hir {
     // It would be nice to have Expr and all other nodes as value types,
-    // anyway, it would require usage of std::variant which is really inconvenient to work with when there're
-    // so many types. Thus I'll just box Expr.
+    // anyway, it would require usage of std::variant which is really inconvenient to work with when there are
+    // so many types. Thus, I'll just box Expr.
 
     enum class ExprKind {
         Array,

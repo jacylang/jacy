@@ -42,6 +42,8 @@ namespace jc::resolve {
         //  Func module stores type parameters but body is a nested block
         enterFuncModule(func, func.sig, DefKind::Func);
 
+        defineGenerics(func.generics);
+
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
         }
@@ -53,7 +55,9 @@ namespace jc::resolve {
         auto synthName = span::Ident {Module::getImplName(impl), impl.span.fromStartWithLen(4)};
 
         enterModule(getItemVis(impl), impl.id, DefKind::Impl, synthName);
+
         visitEach(impl.members);
+
         exitMod();
     }
 
