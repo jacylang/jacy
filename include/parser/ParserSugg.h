@@ -10,7 +10,7 @@
 
 namespace jc::parser {
     using span::Span;
-    using sugg::SuggKind;
+    using sugg::Level;
     using sugg::eid_t;
     using sugg::NoneEID;
 
@@ -19,7 +19,7 @@ namespace jc::parser {
     /// @brief Error-hard-coded message suggestion for parsing errors
     struct ParseErrSugg : sugg::MsgSugg {
         ParseErrSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
-            : MsgSugg(msg, span, SuggKind::Error, eid), msg{msg} {}
+            : MsgSugg(msg, span, Level::Error, eid), msg{msg} {}
 
         const std::string msg;
     };
@@ -27,7 +27,7 @@ namespace jc::parser {
     /// @brief Warn-hard-coded message suggestion for parsing errors
     struct ParseWarnSugg : sugg::MsgSugg {
         ParseWarnSugg(const std::string & msg, const Span & span, eid_t eid = NoneEID)
-            : MsgSugg(msg, span, SuggKind::Warn, eid) {}
+            : MsgSugg(msg, span, Level::Warn, eid) {}
     };
 
     struct ParseErrSpanLinkSugg : sugg::MsgSpanLinkSugg {
@@ -37,7 +37,7 @@ namespace jc::parser {
             const std::string & linkMsg,
             const Span & link,
             eid_t eid = NoneEID
-        ) : MsgSpanLinkSugg(spanMsg, span, linkMsg, link, sugg::SuggKind::Error, eid) {}
+        ) : MsgSpanLinkSugg(spanMsg, span, linkMsg, link, sugg::Level::Error, eid) {}
     };
 }
 

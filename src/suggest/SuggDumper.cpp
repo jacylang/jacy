@@ -6,7 +6,7 @@ namespace jc::sugg {
         for (const auto & sg : suggestions) {
             sg->accept(*this);
             Logger::nl();
-            if (sg->getKind() == SuggKind::Error) {
+            if (sg->getKind() == Level::Error) {
                 errorAppeared = true;
             }
         }
@@ -43,13 +43,13 @@ namespace jc::sugg {
 
     void SuggDumper::prefix(SpanSugg * sugg) {
         switch (sugg->getKind()) {
-            case SuggKind::Error: {
+            case Level::Error: {
                 Logger::print("[ERROR] ");
             } break;
-            case SuggKind::Warn: {
+            case Level::Warn: {
                 Logger::print("[WARN] ");
             } break;
-            case SuggKind::None: {
+            case Level::None: {
                 Logger::print("[NONE] ");
             } break;
         }

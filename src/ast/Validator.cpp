@@ -395,14 +395,14 @@ namespace jc::ast {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
-                    "Useless double-wrapped parenthesized expression", parenExpr.span, sugg::SuggKind::Warn
+                    "Useless double-wrapped parenthesized expression", parenExpr.span, sugg::Level::Warn
                 )
             );
         }
         if (parenExpr.expr.unwrap()->isSimple()) {
             suggest(
                 std::make_unique<sugg::MsgSugg>(
-                    "Useless parentheses around simple expression", parenExpr.span, sugg::SuggKind::Warn
+                    "Useless parentheses around simple expression", parenExpr.span, sugg::Level::Warn
                 )
             );
         }

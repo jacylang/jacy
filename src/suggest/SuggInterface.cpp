@@ -14,16 +14,16 @@ namespace jc::sugg {
         suggestions.emplace_back(std::move(suggestion));
     }
 
-    void SuggInterface::suggest(const std::string & msg, const Span & span, SuggKind kind, eid_t eid) {
+    void SuggInterface::suggest(const std::string & msg, const Span & span, Level kind, eid_t eid) {
         suggest(std::make_unique<sugg::MsgSugg>(msg, span, kind, eid));
     }
 
     void SuggInterface::suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Error, eid));
+        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::Level::Error, eid));
     }
 
     void SuggInterface::suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid) {
-        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::SuggKind::Warn, eid));
+        suggest(std::make_unique<sugg::MsgSugg>(msg, span, sugg::Level::Warn, eid));
     }
 
     void SuggInterface::suggestHelp(const std::string & helpMsg, sugg::BaseSugg::Ptr sugg) {

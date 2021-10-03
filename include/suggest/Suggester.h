@@ -32,7 +32,7 @@ namespace jc::sugg {
         void pointMsgTo(
             const std::string & msg,
             const Span & span,
-            SuggKind kind,
+            Level kind,
             Option<Span::FileId> ignoreSameFile = None
         );
         void printPrevLine(Span::FileId fileId, size_t index);

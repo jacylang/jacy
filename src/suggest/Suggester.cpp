@@ -23,7 +23,7 @@ namespace jc::sugg {
             //  so we print new lines before all suggestions which requires it
 
             sg->accept(*this);
-            if (sg->getKind() == SuggKind::Error) {
+            if (sg->getKind() == Level::Error) {
                 errorAppeared = true;
             }
         }
@@ -42,13 +42,13 @@ namespace jc::sugg {
     void Suggester::visit(MsgSpanLinkSugg * sugg) {
         Logger::nl();
         if (sugg->span.pos > sugg->link.pos) {
-            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None);
+            pointMsgTo(sugg->linkMsg, sugg->link, Level::None);
             Logger::nl();
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind, sugg->link.fileId);
         } else {
             pointMsgTo(sugg->spanMsg, sugg->span, sugg->kind);
             Logger::nl();
-            pointMsgTo(sugg->linkMsg, sugg->link, SuggKind::None, sugg->span.fileId);
+            pointMsgTo(sugg->linkMsg, sugg->link, Level::None, sugg->span.fileId);
         }
     }
 
@@ -63,7 +63,7 @@ namespace jc::sugg {
     void Suggester::pointMsgTo(
         const std::string & msg,
         const Span & span,
-        SuggKind,
+        Level,
         Option<Span::FileId> ignoreSameFile
     ) {
         const auto & fileId = span.fileId;

@@ -270,7 +270,7 @@ namespace jc::resolve {
             span,
             "Because it is already defined as " + prevDef.kindStr() + " here",
             prevDefSpan,
-            sugg::SuggKind::Error
+            sugg::Level::Error
         ));
     }
 }

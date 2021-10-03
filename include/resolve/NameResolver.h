@@ -11,7 +11,7 @@
 
 namespace jc::resolve {
     using log::Logger;
-    using sugg::SuggKind;
+    using sugg::Level;
     using sugg::eid_t;
 
     class NameResolver : public ast::StubVisitor, public sugg::SuggInterface {

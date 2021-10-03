@@ -340,7 +340,7 @@ namespace jc::resolve {
             ident.span,
             "Because it is already declared as " + prevDef.kindStr() + " here",
             prevDefSpan,
-            sugg::SuggKind::Error
+            sugg::Level::Error
         ));
     }
 }

@@ -11,7 +11,7 @@
 namespace jc::sugg {
     using span::Span;
 
-    enum class SuggKind {
+    enum class Level {
         Error,
         Warn,
         None,
@@ -33,19 +33,19 @@ namespace jc::sugg {
         using List = std::vector<Ptr>;
 
         virtual ~BaseSugg() = default;
-        virtual SuggKind getKind() const = 0;
+        virtual Level getKind() const = 0;
         virtual void accept(BaseSuggester & suggester) = 0;
     };
 
     struct SpanSugg : BaseSugg {
         Span span;
-        SuggKind kind;
+        Level kind;
         eid_t eid{NoneEID}; // Explanation ID, -1 if no exists
 
-        SpanSugg(const Span & span, SuggKind kind, eid_t eid = NoneEID)
+        SpanSugg(const Span & span, Level kind, eid_t eid = NoneEID)
             : span{span}, kind{kind}, eid{eid} {}
 
-        SuggKind getKind() const override {
+        Level getKind() const override {
             return kind;
         }
 
@@ -53,7 +53,7 @@ namespace jc::sugg {
     };
 
     struct MsgSugg : SpanSugg {
-        MsgSugg(std::string msg, const Span & span, SuggKind kind, eid_t eid = NoneEID)
+        MsgSugg(std::string msg, const Span & span, Level kind, eid_t eid = NoneEID)
             : SpanSugg(span, kind, eid), msg{std::move(msg)} {}
 
         const std::string msg;
@@ -64,7 +64,7 @@ namespace jc::sugg {
     };
 
     struct SpanLinkSugg : SpanSugg {
-        SpanLinkSugg(const Span & link, const Span & span, SuggKind kind, eid_t eid = NoneEID)
+        SpanLinkSugg(const Span & link, const Span & span, Level kind, eid_t eid = NoneEID)
             : SpanSugg(span, kind, eid), link{link} {}
 
         Span link;
@@ -76,7 +76,7 @@ namespace jc::sugg {
             const Span & span,
             std::string linkMsg,
             const Span & link,
-            SuggKind kind,
+            Level kind,
             eid_t eid = NoneEID
         ) : SpanLinkSugg(link, span, kind, eid),
             spanMsg{std::move(spanMsg)},
@@ -100,8 +100,8 @@ namespace jc::sugg {
         std::string helpMsg;
         BaseSugg::OptPtr sugg;
 
-        SuggKind getKind() const override {
-            return sugg.some() ? sugg.unwrap()->getKind() : SuggKind::None;
+        Level getKind() const override {
+            return sugg.some() ? sugg.unwrap()->getKind() : Level::None;
         }
 
         void accept(BaseSuggester & suggester) override {
