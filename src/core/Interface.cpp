@@ -193,9 +193,7 @@ namespace jc::core {
 
         log.dev("Tokenize file ", file.getPath());
 
-        sess->beginStep("Printing " + filePathRootRel + " source", MeasUnit::Char);
-        printSource(parseSess);
-        sess->endStep(fileSize);
+        printSource(parseSess, filePathRootRel, fileSize);
 
         sess->beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
         printTokens(file.getPath(), tokens);
@@ -240,10 +238,16 @@ namespace jc::core {
         }
     }
 
-    void Interface::printSource(const parser::ParseSess::Ptr & parseSess) {
+    void Interface::printSource(
+        const parser::ParseSess::Ptr & parseSess,
+        const std::string & filePath,
+        size_t fileSize
+    ) {
         if (not config.checkPrint(Config::DevPrint::Source)) {
             return;
         }
+
+        sess->beginStep("Printing " + filePath + " source", MeasUnit::Char);
 
         const auto & sourceFile = parseSess->sourceFile;
         log.info(
@@ -267,6 +271,8 @@ namespace jc::core {
             }
             log.raw(maxIndent - std::to_string(i + 1).size() + 1, i + 1, " | ", highlighter.highlight(line)).nl();
         }
+
+        sess->endStep(fileSize);
     }
 
     void Interface::printTokens(const fs::path & path, const parser::Token::List & tokens) {

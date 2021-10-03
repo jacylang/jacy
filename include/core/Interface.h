@@ -70,7 +70,7 @@ namespace jc::core {
         // Debug //
         FSEntry::Ptr curFsEntry;
         void printDirTree(const FSEntry::Ptr & entry, const std::string & prefix);
-        void printSource(const parser::ParseSess::Ptr & parseSess);
+        void printSource(const parser::ParseSess::Ptr & parseSess, const std::string & filePath, size_t fileSize);
         void printTokens(const fs::path & path, const parser::Token::List & tokens);
         void printAst(ast::AstPrinterMode mode);
 
