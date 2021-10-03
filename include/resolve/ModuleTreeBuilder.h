@@ -35,7 +35,7 @@ namespace jc::resolve {
 
     private:
         sess::Session::Ptr sess;
-        log::Logger log{"ModuleTreeBuilder"};
+        log::Logger log{"module-tree-builder"};
 
         // Definitions //
     private:

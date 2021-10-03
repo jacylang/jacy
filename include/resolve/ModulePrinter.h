@@ -12,7 +12,7 @@ namespace jc::resolve {
 
     private:
         sess::Session::Ptr sess;
-        log::Logger log{"ModulePrinter"};
+        log::Logger log{"module-tree-printer"};
 
         void printMod(Module::Ptr module);
         void printNameBinding(const NameBinding & nameBinding);

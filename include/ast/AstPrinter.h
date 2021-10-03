@@ -111,7 +111,7 @@ namespace jc::ast {
 
     private:
         sess::Session::Ptr sess;
-        log::Logger log{"ast_printer"};
+        log::Logger log{"ast-printer"};
         AstPrinterMode mode{AstPrinterMode::Parsing};
 
         // Helpers //
