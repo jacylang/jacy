@@ -194,10 +194,7 @@ namespace jc::core {
         log.dev("Tokenize file ", file.getPath());
 
         printSource(parseSess, filePathRootRel, fileSize);
-
-        sess->beginStep("Printing " + filePathRootRel + " tokens", MeasUnit::Token);
-        printTokens(file.getPath(), tokens);
-        sess->endStep(tokens.size());
+        printTokens(filePathRootRel, tokens);
 
         log.dev("Parse file ", file.getPath());
 
@@ -279,12 +276,17 @@ namespace jc::core {
         if (not config.checkPrint(Config::DevPrint::Tokens)) {
             return;
         }
+
+        sess->beginStep("Printing " + path.string() + " tokens", MeasUnit::Token);
+
         log::Logger::nl();
         log.info("Printing tokens for file [", path, "] (`--print=tokens`) [Count of tokens: ", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
         log::Logger::nl();
+
+        sess->endStep(tokens.size());
     }
 
     void Interface::printAst(ast::AstPrinterMode mode) {
