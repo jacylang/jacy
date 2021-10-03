@@ -21,6 +21,8 @@ namespace jc::sugg {
      * @brief Label such as `^^^-- Something wrong here`
      */
     struct Label {
+        using List = std::vector<Label>;
+
         enum class Kind {
             Primary, // Primary label, i.e. where the compiler encountered the error, warning, etc.
             Aux,     // Auxiliary label
@@ -31,6 +33,15 @@ namespace jc::sugg {
         Kind kind;
         Span span;
         std::string text;
+    };
+
+    struct Message {
+
+        void addLabel(Label && label) {
+            labels.emplace_back(std::move(label));
+        }
+
+        Label::List labels;
     };
 
     // Note: Constructor parameters order rule for `Suggestion`:
