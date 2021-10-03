@@ -3,3 +3,8 @@ struct u32 {}
 struct Foo {
     field: u32
 }
+
+func Foo(field: u32) {
+
+}
+

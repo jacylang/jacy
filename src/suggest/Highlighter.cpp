@@ -3,7 +3,7 @@
 
 namespace jc::sugg {
     Highlighter::Highlighter() {
-        setTheme("jacy");
+        setTheme("ayu-dark");
     }
 
     std::vector<std::string> Highlighter::builtinTypes = {
