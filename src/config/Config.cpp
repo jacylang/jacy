@@ -22,6 +22,15 @@ namespace jc::config {
                     devPrintStages[devPrintKinds.at(printer.getStr())].emplace(stage.second);
                 }
             }
+
+            const auto & anyStagePrinters = _devPrintStages.find("$any");
+            if (anyStagePrinters != _devPrintStages.end()) {
+                for (const auto & printer : anyStagePrinters->second.getArr()) {
+                    for (const auto & stage : devStagesKinds) {
+                        devPrintStages[devPrintKinds.at(printer.getStr())].emplace(stage.second);
+                    }
+                }
+            }
         }
     }
 
