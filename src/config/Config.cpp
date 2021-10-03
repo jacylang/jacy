@@ -147,6 +147,15 @@ namespace jc::config {
             return true;
         }
 
+        const auto & maybeInStage = devPrintStages.find(printKind);
+        if (maybeInStage != devPrintStages.end()) {
+            for (const auto & stage : maybeInStage->second) {
+                if (checkDevStage(stage)) {
+                    return true;
+                }
+            }
+        }
+
         const auto & found = devPrint.find(printKind);
         if (found == devPrint.end()) {
             return checkDevFull();
