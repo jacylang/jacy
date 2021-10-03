@@ -17,6 +17,22 @@ namespace jc::sugg {
         None,
     };
 
+    /**
+     * @brief Label such as `^^^-- Something wrong here`
+     */
+    struct Label {
+        enum class Kind {
+            Primary, // Primary label, i.e. where the compiler encountered the error, warning, etc.
+            Aux,     // Auxiliary label
+        };
+
+        Label(Kind kind, Span span, const std::string & text) : kind{kind}, span{span}, text{text} {}
+
+        Kind kind;
+        Span span;
+        std::string text;
+    };
+
     // Note: Constructor parameters order rule for `Suggestion`:
     //  - `kind` and `eid` always goes last
     //  - `span` goes before `kind` and `eid` if it does not rely on some other parameter
