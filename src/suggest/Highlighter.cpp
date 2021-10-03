@@ -82,10 +82,11 @@ namespace jc::sugg {
         }
 
         if (tok.isSomeOp()) {
-            if (isKeywordOp(tok.kind)) {
-                return theme.kw;
-            }
             return theme.op;
+        }
+
+        if (isKeywordOp(tok.kind)) {
+            return theme.kw;
         }
 
         if (tok.is(TokenKind::LineComment) or tok.is(TokenKind::BlockComment)) {

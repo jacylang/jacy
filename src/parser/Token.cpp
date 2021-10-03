@@ -148,6 +148,7 @@ namespace jc::parser {
             case TokenKind::RefNotEq:
             case TokenKind::Range:
             case TokenKind::RangeEQ:
+            case TokenKind::Quest:
             case TokenKind::Dot: {
                 return true;
             }
