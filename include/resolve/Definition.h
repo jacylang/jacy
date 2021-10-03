@@ -5,6 +5,7 @@
 #include "span/Ident.h"
 #include "ast/Node.h"
 #include "ast/item/Item.h"
+#include "ast/item/Struct.h"
 
 namespace jc::resolve {
     struct DefIndex {
@@ -190,6 +191,23 @@ namespace jc::resolve {
 
         static inline span::Ident getFuncIdent(const span::Ident & baseName, span::Symbol suffix) {
             return span::Ident {baseName.sym + suffix, baseName.span};
+        }
+
+        /**
+         * @brief Synthesize default initializer name for `struct`, struct name span is used as initializer span
+         * @param fields Struct fields
+         * @param structNameSpan Span of `struct` name identifier
+         * @return Synthesized initializer name
+         */
+        static inline span::Ident getStructDefaultInit(
+            const ast::StructField::List & fields,
+            const span::Span & structNameSpan
+        ) {
+            std::string suffix;
+            for (const auto & field : fields) {
+                suffix += field.name.unwrap().sym.toString() + ":";
+            }
+            return span::Ident {span::Symbol::intern(suffix), structNameSpan};
         }
 
         static inline constexpr Vis lowerVis(const ast::Vis & vis) {
