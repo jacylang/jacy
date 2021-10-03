@@ -5,8 +5,8 @@
 #include "session/Session.h"
 
 namespace jc::resolve {
-    struct ModulePrinter {
-        ModulePrinter();
+    struct ModuleTreePrinter {
+        ModuleTreePrinter();
 
         void print(sess::Session::Ptr sess);
 

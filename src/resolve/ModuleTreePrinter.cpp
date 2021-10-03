@@ -1,12 +1,12 @@
-#include "resolve/ModulePrinter.h"
+#include "resolve/ModuleTreePrinter.h"
 
 namespace jc::resolve {
     // ModulePrinter //
-    ModulePrinter::ModulePrinter() {
+    ModuleTreePrinter::ModuleTreePrinter() {
         log.getConfig().printOwner = false;
     }
 
-    void ModulePrinter::print(sess::Session::Ptr sess) {
+    void ModuleTreePrinter::print(sess::Session::Ptr sess) {
         this->sess = sess;
         log.raw(
             "Print style: 'Name in Module' (Namespace): ",
@@ -23,7 +23,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printMod(Module::Ptr module) {
+    void ModuleTreePrinter::printMod(Module::Ptr module) {
         const auto noValues = module->perNS.value.empty();
         const auto noTypes = module->perNS.type.empty();
         const auto noLifetimes = module->perNS.lifetime.empty();
@@ -60,7 +60,7 @@ namespace jc::resolve {
         log.raw("}");
     }
 
-    void ModulePrinter::printNameBinding(const NameBinding & nameBinding) {
+    void ModuleTreePrinter::printNameBinding(const NameBinding & nameBinding) {
         if (nameBinding.isFOS()) {
             printFOS(nameBinding.asFOS());
         } else {
@@ -68,7 +68,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printDef(const DefId & defId) {
+    void ModuleTreePrinter::printDef(const DefId & defId) {
         const auto & def = sess->defTable.getDef(defId);
         const auto defVis = sess->defTable.getDefVis(defId);
 
@@ -104,7 +104,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printFOS(const FOSId & fosId) {
+    void ModuleTreePrinter::printFOS(const FOSId & fosId) {
         log.raw(fosId, " ");
         const auto & fos = sess->defTable.getFOS(fosId);
         if (fos.size() == 1) {
@@ -121,7 +121,7 @@ namespace jc::resolve {
         }
     }
 
-    void ModulePrinter::printIndent() {
+    void ModuleTreePrinter::printIndent() {
         log.raw(utils::str::repeat("  ", indent));
     }
 }
