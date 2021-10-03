@@ -70,6 +70,16 @@ namespace jc::resolve {
     }
 
     void ModuleTreeBuilder::visit(const ast::Struct & _struct) {
+        // Add default initializer definition
+        // Struct name identifier span used as `init` span
+        addFuncDef(
+            Vis::Pub,
+            _struct.name.nodeId(),
+            DefKind::Init,
+            span::Ident {span::Symbol::fromKw(span::Kw::Init), _struct.name.span()},
+            Module::getStructDefaultInitSuffix(_struct.fields)
+        );
+
         enterModule(getItemVis(_struct), _struct.id, DefKind::Struct, _struct.name.unwrap());
         defineGenerics(_struct.generics);
         exitMod();
