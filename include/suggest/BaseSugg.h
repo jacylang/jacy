@@ -36,7 +36,7 @@ namespace jc::sugg {
     };
 
     struct Message {
-        Message(Level level, const std::string & text) : level{level}, text{text} {}
+        Message(Level level, const std::string & text, eid_t eid = NoneEID) : level{level}, text{text} {}
 
         void addLabel(Label && label) {
             labels.emplace_back(std::move(label));
@@ -44,6 +44,7 @@ namespace jc::sugg {
 
         Level level;
         std::string text;
+        eid_t eid; // Explanation ID
         Label::List labels;
     };
 
