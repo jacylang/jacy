@@ -218,6 +218,7 @@ namespace jc::resolve {
                 case DefKind::ConstParam:
                 case DefKind::Func:
                 case DefKind::Init:
+                case DefKind::DefaultInit:
                     return Namespace::Value;
                 }
                 case DefKind::Lifetime: {
