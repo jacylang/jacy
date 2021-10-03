@@ -276,6 +276,24 @@ namespace jc::resolve {
             return {gotLabels, Symbol::intern(suffix)};
         }
 
+        /**
+         * @brief Synthesize default initializer name for `struct`, struct name span is used as initializer span
+         * @param fields Struct fields
+         * @param structNameSpan Span of `struct` name identifier
+         * @return Synthesized initializer name
+         */
+        static inline span::Ident getStructDefaultInitSuffix(
+            const ast::StructField::List & fields,
+            const span::Span & structNameSpan
+        ) {
+            std::string suffix = "(";
+            for (const auto & field : fields) {
+                suffix += field.name.unwrap().sym.toString() + ":";
+            }
+            suffix += ")";
+            return span::Ident {span::Symbol::intern(suffix), structNameSpan};
+        }
+
         // Representation //
     public:
         std::string toString() const;
