@@ -52,6 +52,8 @@ namespace jc::core {
     private:
         void init();
         void workflow();
+
+        sess::Session::Ptr sess;
         Config & config;
 
         // Parsing //
@@ -94,10 +96,11 @@ namespace jc::core {
 
         void lower();
 
+        // Logging //
     private:
         log::Logger log{"interface"};
 
-        sess::Session::Ptr sess;
+        void printStageTitle(Config::DevStage stage, const std::string & title);
 
         // Suggestions //
     private:
