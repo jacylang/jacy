@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGESTION_H
-#define JACY_SUGGESTION_H
+#ifndef JACY_MESSAGE_H
+#define JACY_MESSAGE_H
 
 #include <utility>
 
@@ -49,4 +49,4 @@ namespace jc::sugg {
     };
 }
 
-#endif // JACY_SUGGESTION_H
+#endif // JACY_MESSAGE_H

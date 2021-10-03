@@ -4,7 +4,7 @@
 #include "log/Logger.h"
 #include "ast/BaseVisitor.h"
 #include "ast/Party.h"
-#include "suggest/BaseSugg.h"
+#include "suggest/Message.h"
 #include "data_types/SuggResult.h"
 #include "suggest/SuggInterface.h"
 

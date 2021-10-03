@@ -2,7 +2,7 @@
 #define JACY_PARSERSUGG_H
 
 #include "log/Logger.h"
-#include "suggest/BaseSugg.h"
+#include "suggest/Message.h"
 
 /**
  * Note: these suggestions can be used only on parser-level

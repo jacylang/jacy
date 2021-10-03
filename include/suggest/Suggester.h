@@ -3,7 +3,7 @@
 
 #include "log/Logger.h"
 #include "common/Error.h"
-#include "suggest/BaseSugg.h"
+#include "suggest/Message.h"
 #include "utils/str.h"
 #include "suggest/Highlighter.h"
 

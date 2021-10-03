@@ -1,7 +1,7 @@
 #ifndef JACY_SUGGEST_SUGGDUMPER_H
 #define JACY_SUGGEST_SUGGDUMPER_H
 
-#include "suggest/BaseSugg.h"
+#include "suggest/Message.h"
 
 namespace jc::sugg {
     using log::Logger;
