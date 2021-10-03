@@ -9,6 +9,15 @@ namespace jc::config {
         }
 
         const auto & cliConfig = cli::getConfig();
+
+        if (cliConfig.has("dev-print-stages")) {
+            const auto & _devPrintStages = cliConfig.objAt("dev-print-stages");
+            for (const auto & entry : _devPrintStages) {
+                for (const auto & devPrint : entry.second.getArr()) {
+                    devPrintStages[devPrintKinds.at(devPrint.getStr())].emplace(devStagesKinds.at(entry.first));
+                }
+            }
+        }
     }
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
