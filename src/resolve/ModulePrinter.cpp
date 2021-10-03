@@ -98,7 +98,9 @@ namespace jc::resolve {
             case DefKind::Const:
             case DefKind::ConstParam:
             case DefKind::Variant:
+            case DefKind::DefaultInit: {
                 break;
+            }
         }
     }
 
