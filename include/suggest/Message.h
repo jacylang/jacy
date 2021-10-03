@@ -34,6 +34,8 @@ namespace jc::sugg {
     };
 
     struct Message {
+        using List = std::vector<Message>;
+
         Message(Level level, const std::string & text, EID eid = EID::NoneEID) : level{level}, text{text}, eid{eid} {}
 
         void addLabel(Label && label) {
