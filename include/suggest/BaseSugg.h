@@ -36,11 +36,14 @@ namespace jc::sugg {
     };
 
     struct Message {
+        Message(Level level, const std::string & text) : level{level}, text{text} {}
 
         void addLabel(Label && label) {
             labels.emplace_back(std::move(label));
         }
 
+        Level level;
+        std::string text;
         Label::List labels;
     };
 
