@@ -15,9 +15,9 @@ namespace jc::sugg {
         SuggestionError(const std::string & msg) : std::logic_error(msg) {}
     };
 
-    class Suggester : public BaseSuggester {
+    class TermEmitter : public BaseSuggester {
     public:
-        Suggester();
+        TermEmitter();
 
         void apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) override;
 

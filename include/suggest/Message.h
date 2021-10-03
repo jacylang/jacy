@@ -5,7 +5,6 @@
 
 #include "suggest/Explain.h"
 #include "span/Span.h"
-#include "session/SourceMap.h"
 
 namespace jc::sugg {
     using span::Span;

@@ -1,9 +1,9 @@
-#include "suggest/Suggester.h"
+#include "suggest/TermEmitter.h"
 
 namespace jc::sugg {
-    Suggester::Suggester() = default;
+    TermEmitter::TermEmitter() = default;
 
-    void Suggester::apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) {
+    void TermEmitter::apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) {
         if (suggestions.empty()) {
             log::Logger::devDebug("No suggestions");
             return;
@@ -34,12 +34,12 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::visit(MsgSugg * sugg) {
+    void TermEmitter::visit(MsgSugg * sugg) {
         Logger::nl();
         pointMsgTo(sugg->msg, sugg->span, sugg->kind);
     }
 
-    void Suggester::visit(MsgSpanLinkSugg * sugg) {
+    void TermEmitter::visit(MsgSpanLinkSugg * sugg) {
         Logger::nl();
         if (sugg->span.pos > sugg->link.pos) {
             pointMsgTo(sugg->linkMsg, sugg->link, Level::None);
@@ -52,7 +52,7 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::visit(HelpSugg * helpSugg) {
+    void TermEmitter::visit(HelpSugg * helpSugg) {
         if (helpSugg->sugg.some()) {
             helpSugg->sugg.unwrap()->accept(*this);
         }
@@ -60,7 +60,7 @@ namespace jc::sugg {
         printWithIndent(utils::str::repeat(" ", 4), "help: " + utils::str::hardWrap(helpSugg->helpMsg, wrapLen - 6));
     }
 
-    void Suggester::pointMsgTo(
+    void TermEmitter::pointMsgTo(
         const std::string & msg,
         const Span & span,
         Level,
@@ -129,7 +129,7 @@ namespace jc::sugg {
         }
     }
 
-    void Suggester::printPrevLine(Span::FileId fileId, size_t index) {
+    void TermEmitter::printPrevLine(Span::FileId fileId, size_t index) {
         if (index == 0) {
             return;
         }
@@ -137,7 +137,7 @@ namespace jc::sugg {
         printLine(fileId, index - 1);
     }
 
-    void Suggester::printLine(Span::FileId fileId, size_t index) {
+    void TermEmitter::printLine(Span::FileId fileId, size_t index) {
         const auto & indent = getFileIndent(fileId);
         const auto & line = sess->sourceMap.getLine(fileId, index);
         auto clipped = utils::str::clipStart(utils::str::trimEnd(line, '\n'), wrapLen - indent.size());
@@ -149,19 +149,19 @@ namespace jc::sugg {
         Logger::nl();
     }
 
-    void Suggester::printWithIndent(Span::FileId fileId, const std::string & msg) {
+    void TermEmitter::printWithIndent(Span::FileId fileId, const std::string & msg) {
         const auto & indent = getFileIndent(fileId);
         printWithIndent(utils::str::repeat(" ", indent.size() - 3) + " | ", msg);
     }
 
-    void Suggester::printWithIndent(const std::string & indent, const std::string & msg) {
+    void TermEmitter::printWithIndent(const std::string & indent, const std::string & msg) {
         // This is the indent that we've got from line number prefix like "1 | " (here are 4 chars)
         Logger::print(indent);
         Logger::print(utils::str::clipEnd(msg, wrapLen - indent.size(), ""));
         Logger::nl();
     }
 
-    const std::string & Suggester::getFileIndent(Span::FileId fileId) {
+    const std::string & TermEmitter::getFileIndent(Span::FileId fileId) {
         const auto & found = filesIndents.find(fileId);
         if (found == filesIndents.end()) {
             const auto lastLineNum = sess->sourceMap.getLinesCount(fileId);

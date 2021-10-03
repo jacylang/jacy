@@ -8,7 +8,7 @@
 
 #include <utility>
 
-#include "suggest/Suggester.h"
+#include "suggest/TermEmitter.h"
 #include "suggest/SuggDumper.h"
 
 namespace jc::dt {
@@ -39,7 +39,7 @@ namespace jc::dt {
                 return;
             }
             dump(sess, suggestions);
-            sugg::Suggester suggester;
+            sugg::TermEmitter suggester;
             suggester.apply(sess, suggestions);
         }
 

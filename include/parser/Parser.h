@@ -8,7 +8,7 @@
 #include "parser/Token.h"
 #include "parser/ParserSugg.h"
 #include "parser/ParseSess.h"
-#include "suggest/Suggester.h"
+#include "suggest/TermEmitter.h"
 #include "ast/nodes.h"
 #include "config/Config.h"
 #include "suggest/SuggInterface.h"
