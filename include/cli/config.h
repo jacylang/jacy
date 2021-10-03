@@ -164,7 +164,7 @@ commands: {
                 duplication: 'merge'
                 values: [
                     'lexer'
-                    'parser'
+                      'parser'
                     'name-res'
                     'lowering'
                 ]

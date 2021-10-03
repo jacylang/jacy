@@ -105,10 +105,6 @@ namespace jc::config {
         return this->mode == mode;
     }
 
-    bool Config::checkPrint(DevPrint printKind) const {
-        return devPrint.find(DevPrint::All) != devPrint.end() or devPrint.find(printKind) != devPrint.end();
-    }
-
     bool Config::checkBenchmark(BenchmarkKind benchmark) const {
         return static_cast<uint8_t>(this->benchmark) <= static_cast<uint8_t>(benchmark);
     }
