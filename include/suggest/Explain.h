@@ -4,8 +4,16 @@
 #include <cstdint>
 
 namespace jc::sugg {
-    using eid_t = int32_t;
-    const eid_t NoneEID = -1;
+    struct EID {
+        using ValueT = uint32_t;
+
+        EID(ValueT val) : val{val} {}
+
+        static const EID NoneEID;
+
+        ValueT val;
+    };
+
 }
 
 #endif // JACY_EXPLAIN_H

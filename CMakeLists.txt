@@ -95,7 +95,7 @@ if (JACY_BUILD_CHECK)
     endforeach()
 
     include_directories("${PROJECT_SOURCE_DIR}/include")
-    add_executable(check src/check.cpp ${check_SRC} src/suggest/themes.cpp)
+    add_executable(check src/check.cpp ${check_SRC} src/suggest/themes.cpp src/suggest/Explain.cpp)
 
     target_link_libraries(check jon::jon)
     target_include_directories(check SYSTEM PRIVATE ${jon_SOURCE_DIR})
