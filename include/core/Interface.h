@@ -16,7 +16,7 @@
 #include "resolve/ModuleTreeBuilder.h"
 #include "resolve/Importer.h"
 #include "resolve/NameResolver.h"
-#include "resolve/ModulePrinter.h"
+#include "resolve/ModuleTreePrinter.h"
 #include "config/Config.h"
 #include "ast/Party.h"
 #include "fs/fs.h"
@@ -77,7 +77,7 @@ namespace jc::core {
         // Name resolution //
     private:
         resolve::ModuleTreeBuilder moduleTreeBuilder;
-        resolve::ModulePrinter modulePrinter;
+        resolve::ModuleTreePrinter moduleTreePrinter;
         resolve::Importer importer;
         resolve::NameResolver nameResolver;
 

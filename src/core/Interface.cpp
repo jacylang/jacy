@@ -361,7 +361,7 @@ namespace jc::core {
         log.info("Printing module tree after ", afterStage," (`--print=mod-tree`)");
 
         sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
-        modulePrinter.print(sess);
+        moduleTreePrinter.print(sess);
         sess->endStep();
 
         log::Logger::nl();

@@ -1,7 +1,6 @@
 #include "resolve/ModuleTreePrinter.h"
 
 namespace jc::resolve {
-    // ModulePrinter //
     ModuleTreePrinter::ModuleTreePrinter() {
         log.getConfig().printOwner = false;
     }
