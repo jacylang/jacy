@@ -199,14 +199,15 @@ namespace jc::resolve {
          * @param structNameSpan Span of `struct` name identifier
          * @return Synthesized initializer name
          */
-        static inline span::Ident getStructDefaultInit(
+        static inline span::Ident getStructDefaultInitSuffix(
             const ast::StructField::List & fields,
             const span::Span & structNameSpan
         ) {
-            std::string suffix;
+            std::string suffix = "(";
             for (const auto & field : fields) {
                 suffix += field.name.unwrap().sym.toString() + ":";
             }
+            suffix += ")";
             return span::Ident {span::Symbol::intern(suffix), structNameSpan};
         }
 
