@@ -1,2 +1,5 @@
-func foo(kek: i32, lol: i32) {}
-func foo(kek: i32, asds: i32) {}
+struct u32 {}
+
+struct Foo {
+    field: u32
+}

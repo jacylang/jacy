@@ -75,7 +75,7 @@ namespace jc::resolve {
         addFuncDef(
             Vis::Pub,
             _struct.name.nodeId(),
-            DefKind::Init,
+            DefKind::DefaultInit,
             span::Ident {span::Symbol::fromKw(span::Kw::Init), _struct.name.span()},
             Module::getStructDefaultInitSuffix(_struct.fields)
         );

@@ -5,7 +5,6 @@
 #include "span/Ident.h"
 #include "ast/Node.h"
 #include "ast/item/Item.h"
-#include "ast/item/Struct.h"
 
 namespace jc::resolve {
     struct DefIndex {
@@ -86,6 +85,7 @@ namespace jc::resolve {
         Func,
         Impl,
         Init,
+        DefaultInit,
         Lifetime,
         Mod,
         Struct,
