@@ -258,7 +258,10 @@ namespace jc::resolve {
                 case DefKind::Variant:
                     return "`enum` variant";
                 case DefKind::Init:
-                    return "`init` (initializer)";
+                    return "`init`";
+                case DefKind::DefaultInit: {
+                    return "default `init`";
+                }
                 case DefKind::ImportAlias: {
                     return "[IMPORT ALIAS]";
                 }
