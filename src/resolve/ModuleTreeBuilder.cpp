@@ -76,7 +76,7 @@ namespace jc::resolve {
             Vis::Pub,
             _struct.name.nodeId(),
             DefKind::DefaultInit,
-            span::Ident {span::Symbol::fromKw(span::Kw::Init), _struct.name.span()},
+            _struct.getName(),
             Module::getStructDefaultInitSuffix(_struct.fields)
         );
 
