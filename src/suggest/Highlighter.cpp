@@ -82,6 +82,9 @@ namespace jc::sugg {
         }
 
         if (tok.isSomeOp()) {
+            if (isKeywordOp(tok.kind)) {
+                return theme.kw;
+            }
             return theme.op;
         }
 
