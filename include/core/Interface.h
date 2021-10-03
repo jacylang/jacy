@@ -100,8 +100,6 @@ namespace jc::core {
     private:
         log::Logger log{"interface"};
 
-        void printStageTitle(Config::DevStage stage, const std::string & title);
-
         // Suggestions //
     private:
         sugg::Highlighter highlighter;

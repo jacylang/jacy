@@ -429,13 +429,6 @@ namespace jc::core {
         lowering.lower(sess, party.unwrap()).take(sess, "lowering");
     }
 
-    // Logging //
-    void Interface::printStageTitle(Config::DevStage stage, const std::string & title) {
-        if (config.checkDevStage(stage)) {
-            log.printTitleDev(title);
-        }
-    }
-
     // Suggestions //
     void Interface::collectSuggestions(sugg::BaseSugg::List && additional) {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
