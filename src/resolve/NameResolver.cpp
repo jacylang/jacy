@@ -278,14 +278,13 @@ namespace jc::resolve {
 
         log.dev("Enter module '", name, "' from ", nsToString(ns), " namespace");
 
-        currentModule = sess->defTable
-                            .getModule(
-                                expectAt(
-                                    currentModule->getNS(ns),
-                                    name,
-                                    "`NameResolver::enterModule` -> namespace: '" + nsToString(ns) + "'"
-                                ).asDef()
-                            );
+        const auto & moduleDef = expectAt(
+            currentModule->getNS(ns),
+            name,
+            "`NameResolver::enterModule` -> namespace: '" + nsToString(ns) + "'"
+        ).asDef();
+
+        currentModule = sess->defTable.getModule(moduleDef);
 
         appendModulePath(name, currentModule->getDefId());
 
