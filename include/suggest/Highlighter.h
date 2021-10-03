@@ -5,6 +5,8 @@
 #include "suggest/themes.h"
 
 namespace jc::sugg {
+    using TokenKind;
+
     class Highlighter {
     public:
         Highlighter();
@@ -19,7 +21,12 @@ namespace jc::sugg {
 
         TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
 
+        /// List of built-in types
         static std::vector<std::string> builtinTypes;
+
+        /// Tokens to highlight as keywords
+        static std::vector<TokenKind> opsAsKeywords;
+
         bool isBuiltinType(const std::string & str) const;
     };
 }

@@ -30,6 +30,10 @@ namespace jc::sugg {
         "Vec"
     };
 
+    std::vector<TokenKind> Highlighter::opsAsKeywords = {
+        TokenKind::Colon,
+    };
+
     std::string Highlighter::highlight(const std::string & source) {
         parser::Lexer lexer;
         auto tokens = lexer.lexInternal(source);
@@ -49,7 +53,7 @@ namespace jc::sugg {
     }
 
     TrueColor Highlighter::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
-        if (tok.is(parser::TokenKind::Semi)) {
+        if (tok.is(TokenKind::Semi)) {
             return theme.semi;
         }
 
@@ -61,7 +65,7 @@ namespace jc::sugg {
             return theme.lit;
         }
 
-        if (tok.is(parser::TokenKind::Id)) {
+        if (tok.is(TokenKind::Id)) {
             if (tok.isSomeKeyword()) {
                 return theme.kw;
             }
@@ -70,7 +74,7 @@ namespace jc::sugg {
                 return theme.type;
             }
 
-            if (nextTok.some() and nextTok.unwrap().is(parser::TokenKind::LParen)) {
+            if (nextTok.some() and nextTok.unwrap().is(TokenKind::LParen)) {
                 return theme.func;
             }
 
@@ -81,7 +85,7 @@ namespace jc::sugg {
             return theme.op;
         }
 
-        if (tok.is(parser::TokenKind::LineComment) or tok.is(parser::TokenKind::BlockComment)) {
+        if (tok.is(TokenKind::LineComment) or tok.is(TokenKind::BlockComment)) {
             return theme.comment;
         }
 
