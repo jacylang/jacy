@@ -295,7 +295,7 @@ namespace jc::core {
         ) {
             return;
         }
-        log::Logger::nl();
+
         std::string modeStr;
         std::string cliParam;
         if (mode == ast::AstPrinterMode::Parsing) {
@@ -305,6 +305,9 @@ namespace jc::core {
             modeStr = "name resolution";
             cliParam = "names";
         }
+
+        log::Logger::nl();
+
         // TODO: Add count of nodes when replacement for NodeId::NodeMap will be implemented
         log.info("Printing AST after ", modeStr, " (`--print=", cliParam, "`)");
 
