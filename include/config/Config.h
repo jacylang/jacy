@@ -165,7 +165,7 @@ namespace jc::config {
         bool checkDevMode() const;
         bool checkDevFull() const;
         bool checkDevLog(const std::string & object) const;
-        bool checkDevPrint(const DevPrint & entity) const;
+        bool checkDevPrint(const DevPrint & printKind) const;
         bool checkDevStage(const DevStage & stage) const;
 
         // API //

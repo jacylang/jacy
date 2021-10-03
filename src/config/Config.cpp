@@ -142,12 +142,12 @@ namespace jc::config {
         return found->second;
     }
 
-    bool Config::checkDevPrint(const DevPrint & entity) const {
+    bool Config::checkDevPrint(const DevPrint & printKind) const {
         if (devPrint.find(DevPrint::All) != devPrint.end()) {
             return true;
         }
 
-        const auto & found = devPrint.find(entity);
+        const auto & found = devPrint.find(printKind);
         if (found == devPrint.end()) {
             return checkDevFull();
         }
