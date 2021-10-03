@@ -5,7 +5,7 @@
 #include "suggest/themes.h"
 
 namespace jc::sugg {
-    using TokenKind;
+    using parser::TokenKind;
 
     class Highlighter {
     public:
@@ -28,6 +28,7 @@ namespace jc::sugg {
         static std::vector<TokenKind> opsAsKeywords;
 
         bool isBuiltinType(const std::string & str) const;
+        bool isKeywordOp(TokenKind tokKind) const;
     };
 }
 

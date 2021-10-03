@@ -99,4 +99,8 @@ namespace jc::sugg {
     bool Highlighter::isBuiltinType(const std::string & str) const {
         return std::find(builtinTypes.begin(), builtinTypes.end(), str) != builtinTypes.end();
     }
+
+    bool Highlighter::isKeywordOp(TokenKind tokKind) const {
+        return std::find(opsAsKeywords.begin(), opsAsKeywords.end(), tokKind) != opsAsKeywords.end();
+    }
 }
