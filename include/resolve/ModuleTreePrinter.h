@@ -1,5 +1,5 @@
-#ifndef JACY_RESOLVE_MODULEPRINTER_H
-#define JACY_RESOLVE_MODULEPRINTER_H
+#ifndef JACY_RESOLVE_MODULETREEPRINTER_H
+#define JACY_RESOLVE_MODULETREEPRINTER_H
 
 #include "resolve/Module.h"
 #include "session/Session.h"
@@ -23,4 +23,4 @@ namespace jc::resolve {
     };
 }
 
-#endif // JACY_RESOLVE_MODULEPRINTER_H
+#endif // JACY_RESOLVE_MODULETREEPRINTER_H
