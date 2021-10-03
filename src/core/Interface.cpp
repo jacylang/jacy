@@ -111,7 +111,7 @@ namespace jc::core {
 
         party = ast::Party(std::move(rootFile->items));
 
-        if (config.checkPrint(Config::DevPrint::DirTree)) {
+        if (config.checkDevPrint(Config::DevPrint::DirTree)) {
             log.info("Printing directory tree (`--print=dir-tree`)");
             printDirTree(curFsEntry, "");
         }
@@ -240,7 +240,7 @@ namespace jc::core {
         const std::string & filePath,
         size_t fileSize
     ) {
-        if (not config.checkPrint(Config::DevPrint::Source)) {
+        if (not config.checkDevPrint(Config::DevPrint::Source)) {
             return;
         }
 
@@ -274,7 +274,7 @@ namespace jc::core {
     }
 
     void Interface::printTokens(const fs::path & path, const parser::Token::List & tokens) {
-        if (not config.checkPrint(Config::DevPrint::Tokens)) {
+        if (not config.checkDevPrint(Config::DevPrint::Tokens)) {
             return;
         }
 
@@ -291,8 +291,8 @@ namespace jc::core {
     }
 
     void Interface::printAst(ast::AstPrinterMode mode) {
-        if ((mode == ast::AstPrinterMode::Parsing and not config.checkPrint(Config::DevPrint::Ast))
-        or (mode == ast::AstPrinterMode::Names and not config.checkPrint(config::Config::DevPrint::AstNames))
+        if ((mode == ast::AstPrinterMode::Parsing and not config.checkDevPrint(Config::DevPrint::Ast))
+        or (mode == ast::AstPrinterMode::Names and not config.checkDevPrint(config::Config::DevPrint::AstNames))
         ) {
             return;
         }
@@ -354,7 +354,7 @@ namespace jc::core {
 
     // Debug //
     void Interface::printModTree(const std::string & afterStage) {
-        if (not config.checkPrint(Config::DevPrint::ModTree)) {
+        if (not config.checkDevPrint(Config::DevPrint::ModTree)) {
             return;
         }
 
@@ -368,7 +368,7 @@ namespace jc::core {
     }
 
     void Interface::printDefinitions(const std::string & afterStage) {
-        if (not config.checkPrint(config::Config::DevPrint::Definitions)) {
+        if (not config.checkDevPrint(config::Config::DevPrint::Definitions)) {
             return;
         }
 
@@ -393,7 +393,7 @@ namespace jc::core {
     }
 
     void Interface::printResolutions() {
-        if (not config.checkPrint(config::Config::DevPrint::Resolutions)) {
+        if (not config.checkDevPrint(config::Config::DevPrint::Resolutions)) {
             return;
         }
 
