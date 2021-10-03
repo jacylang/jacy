@@ -7,6 +7,8 @@ namespace jc::config {
         for (const auto & owner : loggerOwners) {
             devLogObjects.emplace(owner, false);
         }
+
+        const auto & cliConfig = cli::getConfig();
     }
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {

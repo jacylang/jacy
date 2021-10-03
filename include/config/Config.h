@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 
+#include "cli/config.h"
 #include "data_types/Option.h"
 
 namespace jc::config {
@@ -86,6 +87,7 @@ namespace jc::config {
 
     private:
         std::map<std::string, bool> devLogObjects;
+        std::map<DevPrint, std::set<DevStage>> devPrintStages;
 
         // `compile-depth`
     public:
