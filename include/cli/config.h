@@ -40,6 +40,30 @@ common-flags: [
     }
 ]
 
+dev-print-stages: {
+    $any: [
+        'suggestions'
+        'summary'
+        'dir-tree'
+    ]
+    lexer: [
+        'source'
+        'tokens'
+    ]
+    parser: [
+        'ast'
+        'ast-node-map'
+    ]
+    name-res: [
+        'ast-names'
+        'mod-tree'
+        'ribs'
+        'definitions'
+        'resolutions'
+    ]
+    lowering: []
+}
+
 // Additional help info
 help: {
     basic-usage: '$ jc [FILENAME.jc]'
