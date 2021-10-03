@@ -143,6 +143,10 @@ namespace jc::config {
     }
 
     bool Config::checkDevPrint(const DevPrint & entity) const {
+        if (devPrint.find(DevPrint::All) != devPrint.end()) {
+            return true;
+        }
+
         const auto & found = devPrint.find(entity);
         if (found == devPrint.end()) {
             return checkDevFull();
