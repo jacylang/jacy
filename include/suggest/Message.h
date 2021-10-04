@@ -26,9 +26,9 @@ namespace jc::sugg {
             Aux,     // Auxiliary label
         };
 
-        Label(Kind kind, Span span, const std::string & text) : kind{kind}, span{span}, text{text} {}
+        Label(Kind kind, Span span, const std::string & text) : kind {kind}, span {span}, text {text} {}
 
-        bool checkKind(Kind kind) {
+        bool checkKind(Kind kind) const {
             return this->kind == kind;
         }
 
@@ -53,12 +53,37 @@ namespace jc::sugg {
     struct Message {
         using List = std::vector<Message>;
 
-        Message(Level level, const std::string & text, EID eid = EID::NoneEID) : level{level}, text{text}, eid{eid} {}
+        Message(Level level, const std::string & text, EID eid = EID::NoneEID) : level {level}, text {text}, eid {eid} {
+        }
 
+        // Getters //
+        const auto & getLevel() const {
+            return level;
+        }
+
+        const auto & getText() const {
+            return text;
+        }
+
+        auto getEID() const {
+            return eid;
+        }
+
+        const auto & getLabels() const {
+            return labels;
+        }
+
+        // Checks //
+        bool checkLevel(Level level) const {
+            return this->level == level;
+        }
+
+        // Transformations API //
         void addLabel(Label && label) {
             labels.emplace_back(std::move(label));
         }
 
+    private:
         Level level;
         std::string text;
         EID eid; // Explanation ID
