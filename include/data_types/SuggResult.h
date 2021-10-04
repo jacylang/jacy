@@ -9,7 +9,7 @@
 #include <utility>
 
 #include "suggest/TermEmitter.h"
-#include "suggest/SuggDumper.h"
+#include "suggest/MessageDumper.h"
 
 namespace jc::dt {
     template<class T>
@@ -57,7 +57,7 @@ namespace jc::dt {
                 }
                 log::Logger::nl();
                 log::Logger::devDebug("Printing suggestions (`-print=sugg`)");
-                sugg::SuggDumper suggDumper;
+                sugg::MessageDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }
         }

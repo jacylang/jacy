@@ -10,7 +10,7 @@
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/AstPrinter.h"
-#include "suggest/SuggDumper.h"
+#include "suggest/MessageDumper.h"
 #include "suggest/TermEmitter.h"
 #include "ast/Validator.h"
 #include "resolve/ModuleTreeBuilder.h"

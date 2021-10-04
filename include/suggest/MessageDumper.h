@@ -6,9 +6,9 @@
 namespace jc::sugg {
     using log::Logger;
 
-    class SuggDumper : public BaseSuggester {
+    class MessageDumper : public BaseSuggester {
     public:
-        SuggDumper() = default;
+        MessageDumper() = default;
 
         void apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) override;
 

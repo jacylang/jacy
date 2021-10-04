@@ -1,7 +1,7 @@
-#include "suggest/SuggDumper.h"
+#include "suggest/MessageDumper.h"
 
 namespace jc::sugg {
-    void SuggDumper::apply(sess::Session::Ptr, const sugg::BaseSugg::List & suggestions) {
+    void MessageDumper::apply(sess::Session::Ptr, const sugg::BaseSugg::List & suggestions) {
         bool errorAppeared = false;
         for (const auto & sg : suggestions) {
             sg->accept(*this);
@@ -16,14 +16,14 @@ namespace jc::sugg {
         }
     }
 
-    void SuggDumper::visit(MsgSugg * sugg) {
+    void MessageDumper::visit(MsgSugg * sugg) {
         prefix(sugg);
         printMsg(sugg->msg);
         printSpan(sugg->span);
         postfix(sugg);
     }
 
-    void SuggDumper::visit(MsgSpanLinkSugg * sugg) {
+    void MessageDumper::visit(MsgSpanLinkSugg * sugg) {
         prefix(sugg);
         printMsg(sugg->spanMsg);
         printSpan(sugg->span);
@@ -33,7 +33,7 @@ namespace jc::sugg {
         postfix(sugg);
     }
 
-    void SuggDumper::visit(HelpSugg * helpSugg) {
+    void MessageDumper::visit(HelpSugg * helpSugg) {
         if (helpSugg->sugg.some()) {
             helpSugg->sugg.unwrap()->accept(*this);
             Logger::nl();
@@ -41,7 +41,7 @@ namespace jc::sugg {
         Logger::print("help: \"" + helpSugg->helpMsg + "\"");
     }
 
-    void SuggDumper::prefix(SpanSugg * sugg) {
+    void MessageDumper::prefix(SpanSugg * sugg) {
         switch (sugg->getKind()) {
             case Level::Error: {
                 Logger::print("[ERROR] ");
@@ -55,16 +55,16 @@ namespace jc::sugg {
         }
     }
 
-    void SuggDumper::postfix(SpanSugg * sugg) {
+    void MessageDumper::postfix(SpanSugg * sugg) {
         // FIXME: Cleanup
         Logger::print(sugg->eid != NoneEID ? " [EID=" + std::to_string(sugg->eid) + "]" : "");
     }
 
-    void SuggDumper::printMsg(const std::string & msg) {
+    void MessageDumper::printMsg(const std::string & msg) {
         Logger::print("\"" + msg + "\"");
     }
 
-    void SuggDumper::printSpan(const Span & span) {
+    void MessageDumper::printSpan(const Span & span) {
         Logger::print(" at ", span.toString());
     }
 }
