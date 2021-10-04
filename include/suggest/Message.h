@@ -28,6 +28,23 @@ namespace jc::sugg {
 
         Label(Kind kind, Span span, const std::string & text) : kind{kind}, span{span}, text{text} {}
 
+        bool checkKind(Kind kind) {
+            return this->kind == kind;
+        }
+
+        const auto & getKind() const {
+            return kind;
+        }
+
+        const auto & getSpan() const {
+            return span;
+        }
+
+        const auto & getText() const {
+            return text;
+        }
+
+    private:
         Kind kind;
         Span span;
         std::string text;
