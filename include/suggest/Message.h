@@ -19,6 +19,7 @@ namespace jc::sugg {
      * @brief Label such as `^^^-- Something wrong here`
      */
     struct Label {
+        using TextT = std::string;
         using List = std::vector<Label>;
 
         enum class Kind {
@@ -26,7 +27,7 @@ namespace jc::sugg {
             Aux,     // Auxiliary label
         };
 
-        Label(Kind kind, Span span, const std::string & text) : kind {kind}, span {span}, text {text} {}
+        Label(Kind kind, Span span, const TextT & text) : kind {kind}, span {span}, text {text} {}
 
         bool checkKind(Kind kind) const {
             return this->kind == kind;
@@ -47,14 +48,14 @@ namespace jc::sugg {
     private:
         Kind kind;
         Span span;
-        std::string text;
+        TextT text;
     };
 
     struct Message {
+        using TextT = Label::TextT;
         using List = std::vector<Message>;
 
-        Message(Level level, const std::string & text, EID eid = EID::NoneEID) : level {level}, text {text}, eid {eid} {
-        }
+        Message(Level level, const TextT & text, EID eid = EID::NoneEID) : level {level}, text {text}, eid {eid} {}
 
         // Getters //
         const auto & getLevel() const {
@@ -85,7 +86,7 @@ namespace jc::sugg {
 
     private:
         Level level;
-        std::string text;
+        TextT text;
         EID eid; // Explanation ID
         Label::List labels;
     };
