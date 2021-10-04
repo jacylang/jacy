@@ -7,6 +7,14 @@ namespace jc::sugg {
         for (const auto & msg : messages) {
             emitMessage(msg);
             Logger::nl();
+
+            if (msg.checkLevel(Level::Error)) {
+                errorAppeared = true;
+            }
+        }
+
+        if (errorAppeared) {
+            Logger::devDebug("Error message appeared");
         }
     }
 
