@@ -13,15 +13,18 @@ namespace jc::sugg {
 
         ValueT val;
 
-        friend std::ostream & operator<<(std::ostream & os, const EID & eid) {
+        friend std::ostream & operator<<(std::ostream & os, EID eid) {
             return os << "EID(" << eid.val << ")";
         }
 
         auto operator==(const EID & eid) const {
             return eid.val == this->val;
         }
-    };
 
+        auto operator!=(const EID & eid) const {
+            return eid.val != this->val;
+        }
+    };
 }
 
 #endif // JACY_EXPLAIN_H
