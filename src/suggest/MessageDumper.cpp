@@ -1,6 +1,8 @@
 #include "suggest/MessageDumper.h"
 
 namespace jc::sugg {
+    const log::Indent<2> MessageDumper::labelsIndent = {1};
+
     void MessageDumper::emit(const int & sess, const Message::List & messages) {
         bool errorAppeared = false;
 
@@ -32,6 +34,22 @@ namespace jc::sugg {
                 Logger::print("[NONE] ");
                 break;
             }
+        }
+
+        Logger::print("\"", message.getText(), "\"");
+
+        for (const auto & label : message.getLabels()) {
+            if (label.checkKind(Label::Kind::Primary)) {
+                Logger::print(labelsIndent, "* ");
+            } else {
+                Logger::print(labelsIndent, "- ");
+            }
+
+            Logger::print("\"", label.getText(), "\" at ", label.getSpan().toString());
+        }
+
+        if (message.getEID() != EID::NoneEID) {
+            Logger::print("[EID=", message.getEID(), "]");
         }
     }
 }

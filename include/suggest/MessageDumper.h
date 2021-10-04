@@ -15,6 +15,8 @@ namespace jc::sugg {
 
     private:
         void emitMessage(const Message & message);
+
+        static const log::Indent<2> labelsIndent;
     };
 }
 
