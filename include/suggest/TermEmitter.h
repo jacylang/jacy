@@ -6,6 +6,7 @@
 #include "suggest/Message.h"
 #include "utils/str.h"
 #include "suggest/Highlighter.h"
+#include "suggest/MessageEmitter.h"
 
 namespace jc::sugg {
     using log::Color;
@@ -15,35 +16,15 @@ namespace jc::sugg {
         SuggestionError(const std::string & msg) : std::logic_error(msg) {}
     };
 
-    class TermEmitter : public BaseSuggester {
+    class TermEmitter : public MessageEmitter {
     public:
         TermEmitter();
 
-        void apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) override;
-
-        void visit(MsgSugg * msgSugg) override;
-        void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;
-        void visit(HelpSugg * helpSugg) override;
+        void emit(const int &sess, const Message::List &messages) override;
 
     private:
         sess::Session::Ptr sess;
         Highlighter highlighter;
-
-        void pointMsgTo(
-            const std::string & msg,
-            const Span & span,
-            Level kind,
-            Option<Span::FileId> ignoreSameFile = None
-        );
-        void printPrevLine(Span::FileId fileId, size_t index);
-        void printLine(Span::FileId fileId, size_t index);
-        void printWithIndent(Span::FileId fileId, const std::string & msg);
-        void printWithIndent(const std::string & indent, const std::string & msg);
-
-        const uint8_t wrapLen{120};
-        std::map<Span::FileId, std::string> filesIndents;
-
-        const std::string & getFileIndent(Span::FileId fileId);
     };
 }
 
