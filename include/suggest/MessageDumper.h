@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_SUGGDUMPER_H
-#define JACY_SUGGEST_SUGGDUMPER_H
+#ifndef JACY_SUGGEST_MESSAGEDUMPER_H
+#define JACY_SUGGEST_MESSAGEDUMPER_H
 
 #include "suggest/Message.h"
 
@@ -24,4 +24,4 @@ namespace jc::sugg {
     };
 }
 
-#endif // JACY_SUGGEST_SUGGDUMPER_H
+#endif // JACY_SUGGEST_MESSAGEDUMPER_H
