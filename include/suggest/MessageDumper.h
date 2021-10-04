@@ -2,25 +2,16 @@
 #define JACY_SUGGEST_MESSAGEDUMPER_H
 
 #include "suggest/Message.h"
+#include "suggest/MessageEmitter.h"
 
 namespace jc::sugg {
     using log::Logger;
 
-    class MessageDumper : public BaseSuggester {
+    class MessageDumper : public MessageEmitter {
     public:
         MessageDumper() = default;
 
-        void apply(sess::Session::Ptr sess, const BaseSugg::List & suggestions) override;
-
-        void visit(MsgSugg * msgSugg) override;
-        void visit(MsgSpanLinkSugg * msgSpanLinkSugg) override;
-        void visit(HelpSugg * helpSugg) override;
-
-    private:
-        static void prefix(SpanSugg * sugg);
-        static void postfix(SpanSugg * sugg);
-        static void printMsg(const std::string & msg);
-        static void printSpan(const Span & span);
+        void emit(const int &sess, const Message::List &messages) override;
     };
 }
 
