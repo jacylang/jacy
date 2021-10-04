@@ -11,7 +11,10 @@ namespace jc::sugg {
     public:
         MessageDumper() = default;
 
-        void emit(const int &sess, const Message::List &messages) override;
+        void emit(const int & sess, const Message::List & messages) override;
+
+    private:
+        void emitMessage(const Message & message);
     };
 }
 
