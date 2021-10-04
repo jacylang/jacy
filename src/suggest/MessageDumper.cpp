@@ -19,6 +19,19 @@ namespace jc::sugg {
     }
 
     void MessageDumper::emitMessage(const Message & message) {
-
+        switch (message.getLevel()) {
+            case Level::Error: {
+                Logger::print("[ERROR] ");
+                break;
+            }
+            case Level::Warn: {
+                Logger::print("[WARN] ");
+                break;
+            }
+            case Level::None: {
+                Logger::print("[NONE] ");
+                break;
+            }
+        }
     }
 }
