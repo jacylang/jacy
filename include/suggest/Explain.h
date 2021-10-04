@@ -12,6 +12,14 @@ namespace jc::sugg {
         static const EID NoneEID;
 
         ValueT val;
+
+        friend std::ostream & operator<<(std::ostream & os, const EID & eid) {
+            return os << "EID(" << eid.val << ")";
+        }
+
+        auto operator==(const EID & eid) const {
+            return eid.val == this->val;
+        }
     };
 
 }
