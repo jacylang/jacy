@@ -60,7 +60,7 @@ namespace jc::message {
         /// Cached file-specific indentations
         std::map<FileId, Indent> indentsCache;
 
-        Indent getFileIndent(FileId fileId);
+        Indent getFileTopIndent(FileId fileId);
     };
 }
 

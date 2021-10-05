@@ -25,7 +25,7 @@ namespace jc::message {
 
     }
 
-    TermEmitter::Indent TermEmitter::getFileIndent(FileId fileId) {
+    TermEmitter::Indent TermEmitter::getFileTopIndent(FileId fileId) {
         const auto & found = indentsCache.find(fileId);
 
         if (found != indentsCache.end()) {
