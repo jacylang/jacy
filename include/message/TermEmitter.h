@@ -47,6 +47,14 @@ namespace jc::message {
          */
         void printLine(FileId file, sess::Line::IndexT lineIndex);
 
+        /**
+         * @brief Print text with indent such as ` | Message`
+         *  where count of white-spaces before `|` determined by span file lines count.
+         * @param fileId File ID of the span
+         * @param text Text to print
+         */
+        void printLikeLine(FileId fileId, const Message::TextT & text);
+
         // Indentation and Text wrapping //
     private:
         using Indent = Indent<1>;
@@ -64,14 +72,6 @@ namespace jc::message {
          * @return
          */
         Indent getFileTopIndent(FileId fileId);
-
-        /**
-         * @brief Print text with indent such as ` | Message`
-         *  where count of white-spaces before `|` determined by span file lines count.
-         * @param fileId File ID of the span
-         * @param text Text to print
-         */
-        void printWithIndent(FileId fileId, const Message::TextT & text);
 
         /**
          * @brief Print text with specific indent.

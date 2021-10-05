@@ -35,6 +35,11 @@ namespace jc::message {
         Logger::nl();
     }
 
+    void TermEmitter::printLikeLine(FileId fileId, const Message::TextT & text) {
+        auto indent = getFileTopIndent(fileId);
+        printWithIndentOf(indent, " | " + text);
+    }
+
     // Indentation and Text wrapping //
     TermEmitter::Indent TermEmitter::getFileTopIndent(FileId fileId) {
         const auto & found = indentsCache.find(fileId);
@@ -47,11 +52,6 @@ namespace jc::message {
         auto indent = Indent {countDigits(lastLineNum)};
         indentsCache.emplace(fileId, indent);
         return indent;
-    }
-
-    void TermEmitter::printWithIndent(FileId fileId, const Message::TextT & text) {
-        auto indent = getFileTopIndent(fileId);
-
     }
 
     void TermEmitter::printWithIndentOf(Indent ind, const Message::TextT & text) {
