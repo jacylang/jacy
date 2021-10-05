@@ -5,13 +5,13 @@
 
 #include "ast/StubVisitor.h"
 #include "session/Session.h"
-#include "message/MessageGenerator.h"
+#include "message/MessageReporter.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    class ModuleTreeBuilder : public ast::StubVisitor, public message::MessageGenerator {
+    class ModuleTreeBuilder : public ast::StubVisitor, public message::MessageReporter {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
