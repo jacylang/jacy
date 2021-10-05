@@ -40,15 +40,15 @@ namespace jc::message {
     private:
 
         /**
-         * @brief Print specific line by index
-         * @param file File to find line in
-         * @param lineIndex Index of the line
+         * @brief Print specific line by index, including line number.
+         * @param file File to find line in.
+         * @param lineIndex Index of the line, starting from 0.
          */
         void printLine(FileId file, sess::Line::IndexT lineIndex);
 
         // Indentation and Text wrapping //
     private:
-        using Indent = Indent<2>;
+        using Indent = Indent<1>;
 
         const uint8_t wrapLen = 120;
 
@@ -73,6 +73,11 @@ namespace jc::message {
          */
         void printWithIndent(FileId fileId, const Message::TextT & text);
 
+        /**
+         * @brief Print text with specific indent.
+         * @param ind Indent
+         * @param text Text
+         */
         void printWithIndentOf(Indent ind, const Message::TextT & text);
     };
 }

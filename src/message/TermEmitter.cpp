@@ -22,7 +22,17 @@ namespace jc::message {
     }
 
     // Line printers //
+    void TermEmitter::printLine(FileId file, sess::Line::IndexT lineIndex) {
+        auto ind = getFileTopIndent(file);
+        const auto & line = sess->sourceMap.getLine(file, lineIndex);
+        auto clipped = clipStart(trimEnd(line, '\n'), wrapLen - ind.inner);
+        auto highlighted = highlighter.highlight(clipped);
 
+        auto lineNum = lineIndex + 1;
+        Logger::print(ind - 3 - std::to_string(lineNum).size());
+        Logger::print(lineNum, " | ", highlighted);
+        Logger::nl();
+    }
 
     // Indentation and Text wrapping //
     TermEmitter::Indent TermEmitter::getFileTopIndent(FileId fileId) {
