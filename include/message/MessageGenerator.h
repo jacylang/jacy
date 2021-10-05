@@ -4,9 +4,9 @@
 #include "message/Message.h"
 
 namespace jc::message {
-    class SuggInterface {
+    class MessageGenerator {
     public:
-        SuggInterface() = default;
+        MessageGenerator() = default;
 
         message::BaseSugg::List extractSuggestions();
 

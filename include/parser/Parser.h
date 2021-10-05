@@ -11,7 +11,7 @@
 #include "message/TermEmitter.h"
 #include "ast/nodes.h"
 #include "config/Config.h"
-#include "message/SuggInterface.h"
+#include "message/MessageGenerator.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"
@@ -76,7 +76,7 @@ namespace jc::parser {
         Any,
     };
 
-    class Parser : public message::SuggInterface {
+    class Parser : public message::MessageGenerator {
     public:
         Parser();
         virtual ~Parser() = default;

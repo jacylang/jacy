@@ -5,10 +5,10 @@
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
 #include "data_types/SuggResult.h"
-#include "message/SuggInterface.h"
+#include "message/MessageGenerator.h"
 
 namespace jc::hir {
-    class Lowering : public message::SuggInterface {
+    class Lowering : public message::MessageGenerator {
     public:
         Lowering() = default;
         virtual ~Lowering() = default;

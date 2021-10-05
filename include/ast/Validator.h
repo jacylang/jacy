@@ -6,7 +6,7 @@
 #include "ast/Party.h"
 #include "message/Message.h"
 #include "data_types/SuggResult.h"
-#include "message/SuggInterface.h"
+#include "message/MessageGenerator.h"
 
 namespace jc::ast {
     using log::Logger;
@@ -21,7 +21,7 @@ namespace jc::ast {
         Struct,
     };
 
-    class Validator : public BaseVisitor, public message::SuggInterface {
+    class Validator : public BaseVisitor, public message::MessageGenerator {
     public:
         Validator();
 

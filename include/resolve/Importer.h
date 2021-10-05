@@ -2,7 +2,7 @@
 #define JACY_RESOLVE_IMPORTER_H
 
 #include "ast/StubVisitor.h"
-#include "message/SuggInterface.h"
+#include "message/MessageGenerator.h"
 #include "resolve/Definition.h"
 #include "resolve/Resolutions.h"
 #include "data_types/SuggResult.h"
@@ -11,7 +11,7 @@
 namespace jc::resolve {
     /// Note: Non-friendly for multi-threading -- global states `_useDeclModule` and `_importModule`
 
-    class Importer : public ast::StubVisitor, public message::SuggInterface {
+    class Importer : public ast::StubVisitor, public message::MessageGenerator {
     public:
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;

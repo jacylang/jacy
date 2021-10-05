@@ -5,7 +5,7 @@
 #include "data_types/SuggResult.h"
 #include "resolve/Rib.h"
 #include "utils/arr.h"
-#include "message/SuggInterface.h"
+#include "message/MessageGenerator.h"
 #include "resolve/Resolutions.h"
 #include "resolve/PathResolver.h"
 
@@ -14,7 +14,7 @@ namespace jc::resolve {
     using message::Level;
     using message::eid_t;
 
-    class NameResolver : public ast::StubVisitor, public message::SuggInterface {
+    class NameResolver : public ast::StubVisitor, public message::MessageGenerator {
     public:
         NameResolver();
         ~NameResolver() override = default;
