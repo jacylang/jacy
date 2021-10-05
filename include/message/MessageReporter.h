@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_SUGGINTERFACE_H
-#define JACY_SUGGEST_SUGGINTERFACE_H
+#ifndef JACY_SUGGEST_MESSAGEREPORTER_H
+#define JACY_SUGGEST_MESSAGEREPORTER_H
 
 #include "message/Message.h"
 
@@ -27,4 +27,4 @@ namespace jc::message {
     };
 }
 
-#endif // JACY_SUGGEST_SUGGINTERFACE_H
+#endif // JACY_SUGGEST_MESSAGEREPORTER_H
