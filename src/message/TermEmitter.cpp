@@ -19,7 +19,13 @@ namespace jc::message {
     }
 
     void TermEmitter::emitMessage(const Message & message) {
+        // TODO: File path line
+        // TODO: Print kind
+        Logger::print(message.getText());
 
+        for (const auto & label : message.getLabels()) {
+            printLabel(label);
+        }
     }
 
     // Label printers //
