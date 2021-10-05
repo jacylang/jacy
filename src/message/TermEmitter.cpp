@@ -66,7 +66,16 @@ namespace jc::message {
             auto pointerLine = log::fmt(Indent {pointStart}, repeat("^", span.len), "-- ", text);
             printLikeLine(fileId, pointerLine);
         } else {
+            // TODO: I think, this might be replaced with just a `hardWrap(text)` :)
+            auto pointerTextLen = textLen;
+            std::string wrappedText = text;
+            if (textLen > wrapLen) {
+                pointerTextLen = wrapLen;
+                wrappedText = hardWrap(text, wrapLen);
+            }
 
+            printLikeLine(fileId, pointLine(pointerTextLen, pointStart, span.len));
+            printLikeLine(fileId, wrappedText);
         }
     }
 
