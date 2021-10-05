@@ -18,4 +18,8 @@ namespace jc::message {
     void TermEmitter::emitMessage(const Message & message) {
 
     }
+
+    void TermEmitter::printWithIndent(FileId fileId, const std::string & text) {
+
+    }
 }
