@@ -2,6 +2,7 @@
 
 namespace jc::message {
     using namespace utils::str;
+    using namespace utils::num;
 
     TermEmitter::TermEmitter() = default;
 
@@ -29,7 +30,7 @@ namespace jc::message {
         auto highlighted = highlighter.highlight(clipped);
 
         auto lineNum = lineIndex + 1;
-        Logger::print(ind - 3 - std::to_string(lineNum).size());
+        Logger::print(ind - countDigits(lineNum));
         Logger::print(lineNum, " | ", highlighted);
         Logger::nl();
     }
@@ -43,7 +44,7 @@ namespace jc::message {
         }
 
         auto lastLineNum = sess->sourceMap.getLinesCount(fileId);
-        auto indent = Indent {lastLineNum + 3};
+        auto indent = Indent {countDigits(lastLineNum)};
         indentsCache.emplace(fileId, indent);
         return indent;
     }

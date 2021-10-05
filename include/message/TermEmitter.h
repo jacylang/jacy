@@ -5,6 +5,7 @@
 #include "common/Error.h"
 #include "message/Message.h"
 #include "utils/str.h"
+#include "utils/num.h"
 #include "message/Highlighter.h"
 #include "message/MessageEmitter.h"
 
