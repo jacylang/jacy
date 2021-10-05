@@ -10,7 +10,7 @@ namespace jc::message {
         MessageEmitter() = default;
         virtual ~MessageEmitter() = default;
 
-        virtual void emit(const sess::sess_ptr & sess, const Message::List & messages) = 0;
+        virtual void emit(const sess::Session::Ptr & sess, const Message::List & messages) = 0;
     };
 }
 
