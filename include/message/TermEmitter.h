@@ -46,9 +46,11 @@ namespace jc::message {
          */
         void printLine(FileId file, sess::Line::IndexT lineIndex);
 
-        // Indentation //
+        // Indentation and Text wrapping //
     private:
         using Indent = Indent<2>;
+
+        const uint8_t wrapLen = 120;
 
         /// Cached file-specific indentations
         std::map<FileId, Indent> indentsCache;
@@ -69,9 +71,9 @@ namespace jc::message {
          * @param fileId File ID of the span
          * @param text Text to print
          */
-        void printWithIndent(FileId fileId, const std::string & text);
+        void printWithIndent(FileId fileId, const Message::TextT & text);
 
-        void printWithIndentOf(Indent ind, const std::string & text);
+        void printWithIndentOf(Indent ind, const Message::TextT & text);
     };
 }
 
