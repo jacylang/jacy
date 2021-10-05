@@ -6,7 +6,7 @@
 
 using namespace jacylang::literal;
 
-namespace jc::sugg {
+namespace jc::message {
     using log::TrueColor;
 
     static const auto NONE_COLOR = TrueColor {255, 255, 255};

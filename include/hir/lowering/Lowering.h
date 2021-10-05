@@ -8,7 +8,7 @@
 #include "suggest/SuggInterface.h"
 
 namespace jc::hir {
-    class Lowering : public sugg::SuggInterface {
+    class Lowering : public message::SuggInterface {
     public:
         Lowering() = default;
         virtual ~Lowering() = default;

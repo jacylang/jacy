@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-namespace jc::sugg {
+namespace jc::message {
     struct EID {
         using ValueT = uint32_t;
 
@@ -13,7 +13,7 @@ namespace jc::sugg {
 
         ValueT val;
 
-        friend std::ostream & operator<<(std::ostream & os, EID eid) {
+        friend std::ostream & operator<<(std::ostream & os, const EID & eid) {
             return os << "EID(" << eid.val << ")";
         }
 

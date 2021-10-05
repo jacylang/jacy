@@ -15,12 +15,12 @@ namespace jc::dt {
     template<class T>
     class SuggResult {
     public:
-        SuggResult(const T & value, sugg::BaseSugg::List && suggestions)
+        SuggResult(const T & value, message::BaseSugg::List && suggestions)
             : value{value}, suggestions{std::move(suggestions)} {}
-        SuggResult(T && value, sugg::BaseSugg::List && suggestions)
+        SuggResult(T && value, message::BaseSugg::List && suggestions)
             : value{std::move(value)}, suggestions{std::move(suggestions)} {}
 
-        std::tuple<T, sugg::BaseSugg::List> extract() {
+        std::tuple<T, message::BaseSugg::List> extract() {
             return {std::move(value), std::move(suggestions)};
         }
 
@@ -31,7 +31,7 @@ namespace jc::dt {
 
         static void check(
             sess::Session::Ptr sess,
-            const sugg::BaseSugg::List & suggestions,
+            const message::BaseSugg::List & suggestions,
             const std::string & stageName = ""
         ) {
             if (suggestions.empty()) {
@@ -39,13 +39,13 @@ namespace jc::dt {
                 return;
             }
             dump(sess, suggestions);
-            sugg::TermEmitter suggester;
+            message::TermEmitter suggester;
             suggester.apply(sess, suggestions);
         }
 
         static void dump(
             sess::Session::Ptr sess,
-            const sugg::BaseSugg::List & suggestions,
+            const message::BaseSugg::List & suggestions,
             const std::string & emptyMessage = ""
         ) {
             if (config::Config::getInstance().checkDevPrint(config::Config::DevPrint::Suggestions)) {
@@ -57,14 +57,14 @@ namespace jc::dt {
                 }
                 log::Logger::nl();
                 log::Logger::devDebug("Printing suggestions (`-print=sugg`)");
-                sugg::MessageDumper suggDumper;
+                message::MessageDumper suggDumper;
                 suggDumper.apply(sess, suggestions);
             }
         }
 
     private:
         T value;
-        sugg::BaseSugg::List suggestions;
+        message::BaseSugg::List suggestions;
     };
 }
 

@@ -10,7 +10,7 @@ func foo() {
 }
     )";
 
-    jc::sugg::Highlighter highlight;
+    jc::message::Highlighter highlight;
 
     Logger::print(highlight.highlight(code));
 

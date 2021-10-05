@@ -1,5 +1,5 @@
 #include "suggest/Explain.h"
 
-namespace jc::sugg {
+namespace jc::message {
     const EID EID::NoneEID = 0;
 }

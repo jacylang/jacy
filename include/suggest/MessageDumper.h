@@ -4,7 +4,7 @@
 #include "suggest/Message.h"
 #include "suggest/MessageEmitter.h"
 
-namespace jc::sugg {
+namespace jc::message {
     using log::Logger;
 
     class MessageDumper : public MessageEmitter {

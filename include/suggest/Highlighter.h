@@ -4,7 +4,7 @@
 #include "parser/Token.h"
 #include "suggest/themes.h"
 
-namespace jc::sugg {
+namespace jc::message {
     using parser::TokenKind;
 
     class Highlighter {

@@ -76,7 +76,7 @@ namespace jc::parser {
         Any,
     };
 
-    class Parser : public sugg::SuggInterface {
+    class Parser : public message::SuggInterface {
     public:
         Parser();
         virtual ~Parser() = default;

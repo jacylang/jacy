@@ -265,12 +265,12 @@ namespace jc::resolve {
         // TODO: Header when suggestion headers will be implemented:
         //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
 
-        suggest(std::make_unique<sugg::MsgSpanLinkSugg>(
+        suggest(std::make_unique<message::MsgSpanLinkSugg>(
             log::fmt("Cannot import '", redefinedName, "'"),
             span,
             "Because it is already defined as " + prevDef.kindStr() + " here",
             prevDefSpan,
-            sugg::Level::Error
+            message::Level::Error
         ));
     }
 }

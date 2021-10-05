@@ -6,7 +6,7 @@
 #include "suggest/Explain.h"
 #include "span/Span.h"
 
-namespace jc::sugg {
+namespace jc::message {
     using span::Span;
 
     enum class Level {

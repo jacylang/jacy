@@ -3,25 +3,25 @@
 
 #include "suggest/Message.h"
 
-namespace jc::sugg {
+namespace jc::message {
     class SuggInterface {
     public:
         SuggInterface() = default;
 
-        sugg::BaseSugg::List extractSuggestions();
+        message::BaseSugg::List extractSuggestions();
 
     protected:
         void clearSuggestions();
 
-        void suggest(sugg::BaseSugg::Ptr && suggestion);
-        void suggest(const std::string & msg, const Span & span, Level kind, eid_t eid = sugg::NoneEID);
-        void suggestErrorMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
-        void suggestWarnMsg(const std::string & msg, const span::Span & span, sugg::eid_t eid = sugg::NoneEID);
-        void suggestHelp(const std::string & helpMsg, sugg::BaseSugg::Ptr sugg);
+        void suggest(message::BaseSugg::Ptr && suggestion);
+        void suggest(const std::string & msg, const Span & span, Level kind, eid_t eid = message::NoneEID);
+        void suggestErrorMsg(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
+        void suggestWarnMsg(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
+        void suggestHelp(const std::string & helpMsg, message::BaseSugg::Ptr sugg);
         void suggestHelp(const std::string & helpMsg);
 
     private:
-        sugg::BaseSugg::List suggestions;
+        message::BaseSugg::List suggestions;
     };
 }
 

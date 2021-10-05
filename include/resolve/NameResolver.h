@@ -11,10 +11,10 @@
 
 namespace jc::resolve {
     using log::Logger;
-    using sugg::Level;
-    using sugg::eid_t;
+    using message::Level;
+    using message::eid_t;
 
-    class NameResolver : public ast::StubVisitor, public sugg::SuggInterface {
+    class NameResolver : public ast::StubVisitor, public message::SuggInterface {
     public:
         NameResolver();
         ~NameResolver() override = default;

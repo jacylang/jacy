@@ -1,7 +1,7 @@
 #include "suggest/Highlighter.h"
 #include "parser/Lexer.h"
 
-namespace jc::sugg {
+namespace jc::message {
     Highlighter::Highlighter() {
         setTheme("ayu-dark");
     }

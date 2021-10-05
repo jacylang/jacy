@@ -11,7 +11,7 @@
 #include "data_types/SuggResult.h"
 
 namespace jc::resolve {
-    class ModuleTreeBuilder : public ast::StubVisitor, public sugg::SuggInterface {
+    class ModuleTreeBuilder : public ast::StubVisitor, public message::SuggInterface {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 

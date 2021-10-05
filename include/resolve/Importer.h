@@ -11,7 +11,7 @@
 namespace jc::resolve {
     /// Note: Non-friendly for multi-threading -- global states `_useDeclModule` and `_importModule`
 
-    class Importer : public ast::StubVisitor, public sugg::SuggInterface {
+    class Importer : public ast::StubVisitor, public message::SuggInterface {
     public:
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;

@@ -21,7 +21,7 @@ namespace jc::core {
             workflow();
 
             sess->printSteps();
-        } catch (const sugg::SuggestionError & suggError) {
+        } catch (const message::SuggestionError & suggError) {
             log.raw(suggError.what());
         } catch (const std::exception & e) {
             if (config.checkDevMode()) {
@@ -430,7 +430,7 @@ namespace jc::core {
     }
 
     // Suggestions //
-    void Interface::collectSuggestions(sugg::BaseSugg::List && additional) {
+    void Interface::collectSuggestions(message::BaseSugg::List && additional) {
         suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
     }
 

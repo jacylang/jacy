@@ -4,7 +4,7 @@
 #include "suggest/Message.h"
 #include "session/Session.h"
 
-namespace jc::sugg {
+namespace jc::message {
     class MessageEmitter {
     public:
         MessageEmitter() = default;

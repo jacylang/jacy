@@ -1,6 +1,6 @@
 #include "suggest/MessageDumper.h"
 
-namespace jc::sugg {
+namespace jc::message {
     const log::Indent<2> MessageDumper::labelsIndent = {1};
 
     void MessageDumper::emit(const int & sess, const Message::List & messages) {

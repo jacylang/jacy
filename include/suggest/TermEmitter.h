@@ -8,7 +8,7 @@
 #include "suggest/Highlighter.h"
 #include "suggest/MessageEmitter.h"
 
-namespace jc::sugg {
+namespace jc::message {
     using log::Color;
     using log::Logger;
 

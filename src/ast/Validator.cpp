@@ -394,15 +394,15 @@ namespace jc::ast {
     void Validator::visit(const ParenExpr & parenExpr) {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
             suggest(
-                std::make_unique<sugg::MsgSugg>(
-                    "Useless double-wrapped parenthesized expression", parenExpr.span, sugg::Level::Warn
+                std::make_unique<message::MsgSugg>(
+                    "Useless double-wrapped parenthesized expression", parenExpr.span, message::Level::Warn
                 )
             );
         }
         if (parenExpr.expr.unwrap()->isSimple()) {
             suggest(
-                std::make_unique<sugg::MsgSugg>(
-                    "Useless parentheses around simple expression", parenExpr.span, sugg::Level::Warn
+                std::make_unique<message::MsgSugg>(
+                    "Useless parentheses around simple expression", parenExpr.span, message::Level::Warn
                 )
             );
         }

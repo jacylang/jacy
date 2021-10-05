@@ -95,7 +95,7 @@ namespace jc::resolve {
     /**
      * @brief Common interface for path resolutions
      */
-    class PathResolver : public sugg::SuggInterface {
+    class PathResolver : public message::SuggInterface {
     public:
         PathResolver() = default;
         ~PathResolver() = default;
