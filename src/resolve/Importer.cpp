@@ -235,7 +235,7 @@ namespace jc::resolve {
 
             error += log::fmt(" because name", nounSuffix, " conflicting with locally defined function", nounSuffix);
 
-            suggestErrorMsg(error, span);
+            reportError(error, span);
         }
     }
 
@@ -265,12 +265,14 @@ namespace jc::resolve {
         // TODO: Header when suggestion headers will be implemented:
         //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
 
-        suggest(std::make_unique<message::MsgSpanLinkSugg>(
-            log::fmt("Cannot import '", redefinedName, "'"),
-            span,
-            "Because it is already defined as " + prevDef.kindStr() + " here",
-            prevDefSpan,
-            message::Level::Error
-        ));
+        report(
+            std::make_unique<message::MsgSpanLinkSugg>(
+                log::fmt("Cannot import '", redefinedName, "'"),
+                span,
+                "Because it is already defined as " + prevDef.kindStr() + " here",
+                prevDefSpan,
+                message::Level::Error
+            )
+        );
     }
 }

@@ -354,7 +354,7 @@ namespace jc::resolve {
         const auto & redecl = curRib()->defineLocal(localNodeId, name);
 
         if (redecl.some()) {
-            suggestErrorMsg(log::fmt("'", name, "' has been already declared"), ident.span());
+            reportError(log::fmt("'", name, "' has been already declared"), ident.span());
         }
     }
 

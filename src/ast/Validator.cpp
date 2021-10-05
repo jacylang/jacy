@@ -185,7 +185,7 @@ namespace jc::ast {
                 switch (modifier.kind) {
                     default: {
                         // No modifiers for `init` (might be changed in the future)
-                        suggestErrorMsg(
+                        reportError(
                             "`init` methods do not allow any modifiers so far",
                             modifier.span
                         );
@@ -232,7 +232,7 @@ namespace jc::ast {
         const auto & span = assign.op.span;
         switch (assign.lhs.unwrap()->kind) {
             case ExprKind::Assign: {
-                suggestErrorMsg("Chained assignment is not allowed", span);
+                reportError("Chained assignment is not allowed", span);
                 break;
             }
             case ExprKind::Paren: {
@@ -256,7 +256,7 @@ namespace jc::ast {
         }
 
         if (!isPlaceExpr(assign.lhs)) {
-            suggestErrorMsg("Invalid left-hand side expression in assignment", span);
+            reportError("Invalid left-hand side expression in assignment", span);
         }
     }
 
@@ -274,13 +274,13 @@ namespace jc::ast {
         }
 
         if (not isDeepInside(ValidatorCtx::Loop)) {
-            suggestErrorMsg("`break` outside of loop", breakExpr.span);
+            reportError("`break` outside of loop", breakExpr.span);
         }
     }
 
     void Validator::visit(const ContinueExpr & continueExpr) {
         if (not isDeepInside(ValidatorCtx::Loop)) {
-            suggestErrorMsg("`continue` outside of loop", continueExpr.span);
+            reportError("`continue` outside of loop", continueExpr.span);
         }
     }
 
@@ -308,7 +308,7 @@ namespace jc::ast {
     void Validator::visit(const Infix & infix) {
         switch (infix.op.kind) {
             case parser::TokenKind::Id: {
-                suggestErrorMsg(
+                reportError(
                     "Custom infix operators feature is reserved, but not implemented",
                     infix.op.span
                 );
@@ -393,14 +393,14 @@ namespace jc::ast {
 
     void Validator::visit(const ParenExpr & parenExpr) {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
-            suggest(
+            report(
                 std::make_unique<message::MsgSugg>(
                     "Useless double-wrapped parenthesized expression", parenExpr.span, message::Level::Warn
                 )
             );
         }
         if (parenExpr.expr.unwrap()->isSimple()) {
-            suggest(
+            report(
                 std::make_unique<message::MsgSugg>(
                     "Useless parentheses around simple expression", parenExpr.span, message::Level::Warn
                 )
@@ -437,7 +437,7 @@ namespace jc::ast {
         }
 
         if (not isDeepInside(ValidatorCtx::Func)) {
-            suggestErrorMsg("`return` outside of function", returnExpr.span);
+            reportError("`return` outside of function", returnExpr.span);
         }
     }
 
@@ -492,7 +492,7 @@ namespace jc::ast {
     void Validator::visit(const TupleType & tupleType) {
         const auto & els = tupleType.elements;
         if (els.size() == 1 and els.at(0).name.some() and els.at(0).type.some()) {
-            suggestErrorMsg("Cannot declare single-element named tuple type", tupleType.span);
+            reportError("Cannot declare single-element named tuple type", tupleType.span);
         }
 
         // FIXME: Add check for one-element tuple type, etc.
@@ -634,7 +634,7 @@ namespace jc::ast {
                 }
                 case StructPatEl::Kind::Spread: {
                     if (i != pat.elements.size() - 1) {
-                        suggestErrorMsg("`...` must be placed last", std::get<Span>(el.el));
+                        reportError("`...` must be placed last", std::get<Span>(el.el));
                     }
                 }
             }

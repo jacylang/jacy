@@ -64,7 +64,7 @@ namespace jc::parser {
     void Parser::skipSemi() {
         // TODO: Useless semi sugg
         if (not isSemis()) {
-            suggestErrorMsg("Missing `;`", prev().span);
+            reportError("Missing `;`", prev().span);
             return;
         }
         advance();
@@ -79,7 +79,7 @@ namespace jc::parser {
         Token::Opt found = None;
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
-                suggestHelp(
+                reportHelp(
                     "Remove '" + peek().repr() + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected token " + peek().kindToString(),
@@ -110,7 +110,7 @@ namespace jc::parser {
                     }
                 }
                 const auto & errorTokensStr = Token::listKindToString(errorTokens);
-                suggestHelp(
+                reportHelp(
                     "Remove '" + errorTokensStr + "'",
                     std::make_unique<ParseErrSugg>(
                         "Expected " + expected + " got unexpected tokens '" + errorTokensStr + "'",
@@ -264,13 +264,13 @@ namespace jc::parser {
         if (not attributes.empty()) {
             for (const auto & attr : attributes) {
                 // FIXME: Span from Location
-                suggestErrorMsg("Unexpected attribute", attr.span);
+                reportError("Unexpected attribute", attr.span);
             }
         }
 
         if (not modifiers.empty()) {
             for (const auto & modif : modifiers) {
-                suggestErrorMsg("Unexpected modifier", modif.span);
+                reportError("Unexpected modifier", modif.span);
             }
         }
 
@@ -294,7 +294,7 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (expr.some()) {
                     // FIXME!: Use range span.to(span)
-                    suggestErrorMsg(gotExprSugg, exprToken.span);
+                    reportError(gotExprSugg, exprToken.span);
                 }
                 items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `parsePrimary`
@@ -656,7 +656,7 @@ namespace jc::parser {
                 return Ok(makeNode<UseTree>(maybePath.take(), closeSpan(begin)));
             }
 
-            suggestErrorMsg("Expected `*` or `{` after `::` in `use` path", begin);
+            reportError("Expected `*` or `{` after `::` in `use` path", begin);
             advance();
         }
 
@@ -664,7 +664,7 @@ namespace jc::parser {
             // `as ...` case
 
             if (maybePath.none()) {
-                suggestErrorMsg("Expected path before `as`", begin);
+                reportError("Expected path before `as`", begin);
             }
 
             auto as = parseIdent("binding name after `as`");
@@ -678,10 +678,10 @@ namespace jc::parser {
         }
 
         if (isKw(Kw::As)) {
-            suggestErrorMsg("Please, specify path before `as` rebinding", cspan());
+            reportError("Please, specify path before `as` rebinding", cspan());
         }
 
-        suggestErrorMsg("Path expected in `use` declaration", cspan());
+        reportError("Path expected in `use` declaration", cspan());
         advance();
 
         exitEntity();
@@ -725,7 +725,7 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         if (expr.none()) {
             // FIXME: Maybe useless due to check inside `parseExpr`
-            suggest(std::make_unique<ParseErrSugg>("Unexpected token " + peek().repr(true), cspan()));
+            report(std::make_unique<ParseErrSugg>("Unexpected token " + peek().repr(true), cspan()));
             return makeErrPR<N<Stmt>>(closeSpan(begin));
         }
 
@@ -800,7 +800,7 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
-            suggestErrorMsg(suggMsg, begin);
+            reportError(suggMsg, begin);
             return makeErrPR<N<Expr>>(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");
@@ -877,7 +877,7 @@ namespace jc::parser {
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
             if (lhs.none()) {
-                suggestErrorMsg("Unexpected empty left-hand side in assignment", maybeAssignOp.span);
+                reportError("Unexpected empty left-hand side in assignment", maybeAssignOp.span);
             }
 
             advance();
@@ -993,7 +993,7 @@ namespace jc::parser {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
-                suggestErrorMsg("Expression expected after prefix operator " + op.repr(), cspan());
+                reportError("Expression expected after prefix operator " + op.repr(), cspan());
                 return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
@@ -1160,7 +1160,7 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        suggestErrorMsg("Unexpected token " + peek().repr(true), cspan());
+        reportError("Unexpected token " + peek().repr(true), cspan());
         advance();
 
         return None;
@@ -1197,7 +1197,7 @@ namespace jc::parser {
             return Ok(makeNode<Ident>(tok));
         }
 
-        suggestErrorMsg(
+        reportError(
             "Expected identifier, `super`, `self` or `party` in path, got " + tok.repr(), cspan()
         );
 
@@ -1391,7 +1391,7 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `if` expression");
 
         if (not condition.err() and condition.take()->is(ExprKind::Paren)) {
-            suggestWarnMsg("Unnecessary parentheses", maybeParen.span);
+            reportWarning("Unnecessary parentheses", maybeParen.span);
         }
 
         // Check if user ignored `if` branch using `;` or parse body
@@ -1407,7 +1407,7 @@ namespace jc::parser {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi).some()) {
                 // Note: cover case when user writes `if {} else;`
-                suggest(
+                report(
                     std::make_unique<ParseErrSugg>(
                         "Ignoring `else` body with `;` is not allowed", maybeSemi.span
                     )
@@ -1533,7 +1533,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Colon).some()) {
             typeAnnotated = true;
         } else if (skipOpt(TokenKind::Arrow).some()) {
-            suggestErrorMsg(
+            reportError(
                 "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
             );
         }
@@ -1541,7 +1541,7 @@ namespace jc::parser {
         const auto & returnTypeToken = peek();
         auto returnType = parseOptType();
         if (typeAnnotated and returnType.none()) {
-            suggest(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
+            report(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
         }
 
         return FuncSig {
@@ -1756,7 +1756,7 @@ namespace jc::parser {
         auto simplePath = parseOptSimplePath();
 
         if (simplePath.some()) {
-            suggestErrorMsg(
+            reportError(
                 "Expected identifier, `super`, `self` or `party` in " + construction + " path",
                 cspan()
             );
@@ -1798,7 +1798,7 @@ namespace jc::parser {
 
         if (segments.empty()) {
             if (global) {
-                suggestErrorMsg("Expected path after `::`", begin);
+                reportError("Expected path after `::`", begin);
             }
             exitEntity();
             return None;
@@ -1817,7 +1817,7 @@ namespace jc::parser {
 
         if (not is(TokenKind::Id)) {
             if (global) {
-                suggestErrorMsg(
+                reportError(
                     "Invalid path `::`", maybePathToken.span
                 );
             } else {
@@ -1912,7 +1912,7 @@ namespace jc::parser {
 
         auto type = parseOptType();
         if (type.none()) {
-            suggest(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+            report(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
 
@@ -2044,7 +2044,7 @@ namespace jc::parser {
             if (tupleEl.name.some()) {
                 // Note: We don't ignore `->` if there are named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
-                suggestErrorMsg(
+                reportError(
                     "Cannot declare function type with named parameter",
                     tupleEl.name.unwrap().span()
                 );
@@ -2118,7 +2118,7 @@ namespace jc::parser {
                     )
                 );
             } else {
-                suggestErrorMsg("Expected type parameter", genBegin);
+                reportError("Expected type parameter", genBegin);
             }
         }
         skip(TokenKind::RAngle, "Missing closing `>` in type parameter list");
@@ -2191,7 +2191,7 @@ namespace jc::parser {
             return makePRBoxNode<ParenPat, Pattern>(std::move(pat), closeSpan(begin));
         }
 
-        suggestErrorMsg("Expected pattern, got " + peek().repr(true), cspan());
+        reportError("Expected pattern, got " + peek().repr(true), cspan());
         return makeErrPR<N<Pattern>>(cspan());
     }
 
@@ -2204,7 +2204,7 @@ namespace jc::parser {
 
         // Note: Allowed negative literals are checked in `Validator`
         if (neg and not peek().isLiteral()) {
-            suggestErrorMsg("Literal expected after `-` in pattern", cspan());
+            reportError("Literal expected after `-` in pattern", cspan());
         } else {
             log::devPanic("Non-literal token in `parseLitPat`: ", peek().dump());
         }
@@ -2284,10 +2284,10 @@ namespace jc::parser {
 
                 // It is an error having `ref/mut field: pattern`
                 if (ref.some()) {
-                    suggestErrorMsg("Unexpected `ref` in field destructuring pattern", ref.unwrap().span);
+                    reportError("Unexpected `ref` in field destructuring pattern", ref.unwrap().span);
                 }
                 if (mut.some()) {
-                    suggestErrorMsg("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
+                    reportError("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
                 }
 
                 auto pat = parsePat();

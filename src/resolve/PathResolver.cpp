@@ -246,7 +246,7 @@ namespace jc::resolve {
         if (urs.inaccessible) {
             const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
             // Report "Cannot access" error
-            suggestErrorMsg(
+            reportError(
                 log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
                 unresolvedSegIdent.span
             );
@@ -256,7 +256,7 @@ namespace jc::resolve {
             if (not pathStr.empty()) {
                 msg += " in '" + pathStr + "'";
             }
-            suggestErrorMsg(msg, unresolvedSegIdent.span);
+            reportError(msg, unresolvedSegIdent.span);
             suggestAltNames(targetNS, unresolvedSegName, altDefs);
         }
 
@@ -317,7 +317,7 @@ namespace jc::resolve {
             } else {
                 kind = sess->defTable.getDef(nameBinding.asDef()).kindStr();
             }
-            suggestHelp(
+            reportHelp(
                 log::fmt(
                     "Alternative: '",
                     name,

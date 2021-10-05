@@ -335,12 +335,14 @@ namespace jc::resolve {
         // TODO: Header when suggestion headers will be implemented:
         //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
 
-        suggest(std::make_unique<message::MsgSpanLinkSugg>(
-            log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
-            ident.span,
-            "Because it is already declared as " + prevDef.kindStr() + " here",
-            prevDefSpan,
-            message::Level::Error
-        ));
+        report(
+            std::make_unique<message::MsgSpanLinkSugg>(
+                log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
+                ident.span,
+                "Because it is already declared as " + prevDef.kindStr() + " here",
+                prevDefSpan,
+                message::Level::Error
+            )
+        );
     }
 }
