@@ -113,7 +113,7 @@ namespace jc::utils::num {
     }
 
     template<class O, class I, typename = typename std::enable_if<
-        std::is_integral<I>::value and std::is_integral<I>::value>::type>
+        std::is_integral<O>::value and std::is_integral<I>::value>::type>
     static inline O checkedAs(I i, const std::string & place = "") {
         if (i >= std::numeric_limits<O>::max()) {
             log::devPanic(
@@ -126,6 +126,14 @@ namespace jc::utils::num {
             );
         }
         return static_cast<O>(i);
+    }
+
+    /// Counts digits in an unsigned integer.
+    /// The count of digits in uint128 - 39, even though we actually not using it, the return type uint8_t
+    template<class I, typename = typename std::enable_if<
+        std::is_integral<I>::value and std::is_unsigned<I>::value>::type>
+    static inline uint8_t countDigits(I i) {
+        return std::floor(std::log10(i) + 1);
     }
 }
 

@@ -57,9 +57,8 @@ namespace jc::message {
 
         /**
          * @brief Get the indent of the file, i.e. from line start (0) to `|`.
-         *  Calculated as the count of digits in last line number of the file + 3.
-         *  We add 3 to include space after line number, `|` and space after `|`,
-         *   e.g. `1_|_` - `_` is a white-space.
+         *  The indent is actually the size of the last line number.
+         *  White-spaces before and after `|` and size of the `|` are excluded.
          * @param fileId
          * @return
          */
