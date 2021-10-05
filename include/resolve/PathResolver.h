@@ -4,7 +4,7 @@
 #include "session/Session.h"
 #include "resolve/Module.h"
 #include "ast/fragments/Path.h"
-#include "message/MessageGenerator.h"
+#include "message/MessageReporter.h"
 
 namespace jc::resolve {
     using span::Symbol;
@@ -95,7 +95,7 @@ namespace jc::resolve {
     /**
      * @brief Common interface for path resolutions
      */
-    class PathResolver : public message::MessageGenerator {
+    class PathResolver : public message::MessageReporter {
     public:
         PathResolver() = default;
         ~PathResolver() = default;

@@ -6,9 +6,9 @@
 namespace jc::message {
     // TODO: Replace with kind of `MessageBuilder` for more convenient constructions
 
-    class MessageGenerator {
+    class MessageReporter {
     public:
-        MessageGenerator() = default;
+        MessageReporter() = default;
 
         Message::List extractMessages();
 
