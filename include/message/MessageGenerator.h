@@ -16,10 +16,10 @@ namespace jc::message {
         void clearSuggestions();
 
         void report(Message && suggestion);
-        void report(const std::string & msg, const Span & span, Level kind, eid_t eid = message::NoneEID);
-        void reportError(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
-        void reportWarning(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
-        void reportHelp(const std::string & helpMsg, message::BaseSugg::Ptr sugg);
+        void report(const std::string & msg, const Span & span, Level kind, EID eid = EID::NoneEID);
+        void reportError(const std::string & msg, const span::Span & span, EID eid = EID::NoneEID);
+        void reportWarning(const std::string & msg, const span::Span & span, EID eid = EID::NoneEID);
+        void reportHelp(const std::string & helpMsg, Message && sugg);
         void reportHelp(const std::string & helpMsg);
 
     private:
