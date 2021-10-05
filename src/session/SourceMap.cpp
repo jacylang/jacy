@@ -37,7 +37,7 @@ namespace jc::sess {
         return getSourceFile(fileId).linesIndices.size();
     }
 
-    std::string SourceMap::getLine(span::Span::FileId fileId, size_t index) {
+    std::string SourceMap::getLine(span::Span::FileId fileId, Line::IndexT index) {
         const auto & sf = getSourceFile(fileId);
         if (sf.linesIndices.size() <= index) {
             log::devPanic("Got too distant index of line [", index, "] in `SourceMap::getLine`");

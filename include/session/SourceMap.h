@@ -15,7 +15,9 @@ namespace jc::sess {
     using parser::SourceFile;
 
     struct Line {
-        size_t index;
+        using IndexT = size_t;
+
+        IndexT index;
         parser::SourceFile::LinePos pos;
     };
 
@@ -27,7 +29,7 @@ namespace jc::sess {
         const SourceFile & getSourceFile(span::Span::FileId fileId);
         size_t getLinesCount(span::Span::FileId);
 
-        std::string getLine(span::Span::FileId fileId, size_t index);
+        std::string getLine(span::Span::FileId fileId, Line::IndexT index);
 
         // As far as Span can capture multiple lines, we return all we found
         std::vector<Line> getLines(const span::Span & span);
