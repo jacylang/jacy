@@ -22,6 +22,7 @@ namespace jc::message {
     }
 
     void TermEmitter::printWithIndent(FileId fileId, const std::string & text) {
+        auto indent = getFileTopIndent(fileId);
 
     }
 
