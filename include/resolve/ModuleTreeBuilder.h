@@ -5,7 +5,7 @@
 
 #include "ast/StubVisitor.h"
 #include "session/Session.h"
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"

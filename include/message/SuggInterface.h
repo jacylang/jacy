@@ -1,7 +1,7 @@
 #ifndef JACY_SUGGEST_SUGGINTERFACE_H
 #define JACY_SUGGEST_SUGGINTERFACE_H
 
-#include "suggest/Message.h"
+#include "message/Message.h"
 
 namespace jc::message {
     class SuggInterface {

@@ -8,8 +8,8 @@
 
 #include <utility>
 
-#include "suggest/TermEmitter.h"
-#include "suggest/MessageDumper.h"
+#include "message/TermEmitter.h"
+#include "message/MessageDumper.h"
 
 namespace jc::dt {
     template<class T>

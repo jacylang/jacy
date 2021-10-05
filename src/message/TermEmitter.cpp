@@ -1,4 +1,4 @@
-#include "suggest/TermEmitter.h"
+#include "message/TermEmitter.h"
 
 namespace jc::message {
     TermEmitter::TermEmitter() = default;

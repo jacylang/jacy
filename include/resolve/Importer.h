@@ -2,7 +2,7 @@
 #define JACY_RESOLVE_IMPORTER_H
 
 #include "ast/StubVisitor.h"
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 #include "resolve/Definition.h"
 #include "resolve/Resolutions.h"
 #include "data_types/SuggResult.h"

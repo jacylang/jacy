@@ -1,4 +1,4 @@
-#include "suggest/Highlighter.h"
+#include "message/Highlighter.h"
 #include "parser/Lexer.h"
 
 namespace jc::message {

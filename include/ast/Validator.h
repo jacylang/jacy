@@ -4,9 +4,9 @@
 #include "log/Logger.h"
 #include "ast/BaseVisitor.h"
 #include "ast/Party.h"
-#include "suggest/Message.h"
+#include "message/Message.h"
 #include "data_types/SuggResult.h"
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 
 namespace jc::ast {
     using log::Logger;

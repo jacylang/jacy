@@ -1,3 +1,3 @@
-#include "suggest/themes.h"
+#include "message/themes.h"
 
 namespace jc::message {}

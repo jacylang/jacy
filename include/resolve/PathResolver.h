@@ -4,7 +4,7 @@
 #include "session/Session.h"
 #include "resolve/Module.h"
 #include "ast/fragments/Path.h"
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 
 namespace jc::resolve {
     using span::Symbol;

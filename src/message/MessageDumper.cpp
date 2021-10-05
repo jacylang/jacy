@@ -1,4 +1,4 @@
-#include "suggest/MessageDumper.h"
+#include "message/MessageDumper.h"
 
 namespace jc::message {
     const log::Indent<2> MessageDumper::labelsIndent = {1};

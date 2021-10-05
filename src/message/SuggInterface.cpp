@@ -1,4 +1,4 @@
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 
 namespace jc::message {
     message::BaseSugg::List SuggInterface::extractSuggestions() {

@@ -1,7 +1,7 @@
 #ifndef JACY_SUGGEST_MESSAGEEMITTER_H
 #define JACY_SUGGEST_MESSAGEEMITTER_H
 
-#include "suggest/Message.h"
+#include "message/Message.h"
 #include "session/Session.h"
 
 namespace jc::message {

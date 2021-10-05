@@ -3,10 +3,10 @@
 
 #include "log/Logger.h"
 #include "common/Error.h"
-#include "suggest/Message.h"
+#include "message/Message.h"
 #include "utils/str.h"
-#include "suggest/Highlighter.h"
-#include "suggest/MessageEmitter.h"
+#include "message/Highlighter.h"
+#include "message/MessageEmitter.h"
 
 namespace jc::message {
     using log::Color;

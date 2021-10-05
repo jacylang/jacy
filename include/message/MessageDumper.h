@@ -1,8 +1,8 @@
 #ifndef JACY_SUGGEST_MESSAGEDUMPER_H
 #define JACY_SUGGEST_MESSAGEDUMPER_H
 
-#include "suggest/Message.h"
-#include "suggest/MessageEmitter.h"
+#include "message/Message.h"
+#include "message/MessageEmitter.h"
 
 namespace jc::message {
     using log::Logger;

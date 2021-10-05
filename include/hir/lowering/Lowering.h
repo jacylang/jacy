@@ -5,7 +5,7 @@
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
 #include "data_types/SuggResult.h"
-#include "suggest/SuggInterface.h"
+#include "message/SuggInterface.h"
 
 namespace jc::hir {
     class Lowering : public message::SuggInterface {

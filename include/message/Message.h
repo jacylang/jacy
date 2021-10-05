@@ -3,7 +3,7 @@
 
 #include <utility>
 
-#include "suggest/Explain.h"
+#include "message/Explain.h"
 #include "span/Span.h"
 
 namespace jc::message {

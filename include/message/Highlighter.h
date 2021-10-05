@@ -2,7 +2,7 @@
 #define JACY_SUGGEST_HIGHLIGHTER_H
 
 #include "parser/Token.h"
-#include "suggest/themes.h"
+#include "message/themes.h"
 
 namespace jc::message {
     using parser::TokenKind;
