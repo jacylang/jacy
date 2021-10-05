@@ -22,6 +22,54 @@ namespace jc::message {
 
     }
 
+    // Label printers //
+    void TermEmitter::printLabel(const Label & label) {
+        const auto & span = label.getSpan();
+        auto fileId = span.fileId;
+
+        auto ind = getFileTopIndent(fileId);
+        const auto & fileLines = sess->sourceMap.getLines(span);
+        const auto & line = fileLines.at(0);
+
+        // Print previous line if possible
+        if (line.index > 0) {
+            printLine(fileId, line.index - 1);
+        }
+
+        // Print the actual line where label span points
+        printLine(fileId, line.index);
+
+        // line.pos is the start of the line, it must always be <= label.span.pos
+        if (span.pos < line.pos) {
+            log::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
+        }
+
+        const auto & text = label.getText();
+        auto pointStart = span.pos - line.pos;
+        auto textLen = text.size();
+
+        // Pointer base subtractor, size of ` --^` or `^-- `
+        const uint8_t POINTER_SUBTOR = 4;
+
+        auto textLenWithPointer = textLen + POINTER_SUBTOR;
+        auto pointEnd = pointStart + span.len;
+
+        if (textLenWithPointer <= pointStart) {
+            // We can put message before ` --^`
+
+            // Construct the pointer line
+            // Template: `[LEFT PADDING]Message text --[POINTERS]`
+            auto pointerLine = padStart(text, pointStart - 3, " ") + " --" + repeat("^", span.len);
+
+            printLikeLine(fileId, clipStart(pointerLine, wrapLen - ind.inner - POINTER_SUBTOR, ""));
+        } else if (wrapLen > pointEnd and wrapLen - pointEnd >= textLenWithPointer) {
+            auto pointerLine = log::fmt(Indent {pointStart}, repeat("^", span.len), "-- ", text);
+            printLikeLine(fileId, pointerLine);
+        } else {
+
+        }
+    }
+
     // Line printers //
     void TermEmitter::printLine(FileId file, sess::Line::IndexT lineIndex) {
         auto ind = getFileTopIndent(file);

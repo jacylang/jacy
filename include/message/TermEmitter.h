@@ -37,6 +37,10 @@ namespace jc::message {
         sess::Session::Ptr sess;
         Highlighter highlighter;
 
+        // Label printers //
+    private:
+        void printLabel(const Label & label);
+
         // Line printers //
     private:
 
