@@ -6,7 +6,7 @@ namespace jc::ast {
     dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
         validateEach(party.items);
 
-        return {None, extractSuggestions()};
+        return {None, extractMessages()};
     }
 
     void Validator::visit(const ErrorNode&) {

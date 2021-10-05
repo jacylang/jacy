@@ -199,7 +199,7 @@ namespace jc::parser {
 
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {std::move(items), extractSuggestions()};
+        return {std::move(items), extractMessages()};
     }
 
     ///////////

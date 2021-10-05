@@ -23,7 +23,7 @@ namespace jc::resolve {
         sess->defTable = std::move(_defTable);
         sess->modTreeRoot = std::move(mod);
 
-        return {None, extractSuggestions()};
+        return {None, extractMessages()};
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {

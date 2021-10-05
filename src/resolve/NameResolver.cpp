@@ -25,7 +25,7 @@ namespace jc::resolve {
         sess->resolutions = std::move(_resolutions);
 
         // `PathResolver` has its own suggestion collection, thus we need to extract all of them
-        return {None, utils::arr::moveConcat(extractSuggestions(), pathResolver.extractSuggestions())};
+        return {None, utils::arr::moveConcat(extractMessages(), pathResolver.extractMessages())};
     }
 
     void NameResolver::visit(const ast::Func & func) {

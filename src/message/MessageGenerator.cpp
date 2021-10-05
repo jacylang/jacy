@@ -1,17 +1,17 @@
 #include "message/MessageGenerator.h"
 
 namespace jc::message {
-    message::BaseSugg::List MessageGenerator::extractSuggestions() {
-        return std::move(suggestions);
+    Message::List MessageGenerator::extractMessages() {
+        return std::move(messages);
     }
 
     void MessageGenerator::clearSuggestions() {
-        suggestions.clear();
+        messages.clear();
     }
 
-    void MessageGenerator::suggest(message::BaseSugg::Ptr && suggestion) {
+    void MessageGenerator::suggest(Message && suggestion) {
         // TODO: Maybe add dev log?
-        suggestions.emplace_back(std::move(suggestion));
+        messages.emplace_back(std::move(suggestion));
     }
 
     void MessageGenerator::suggest(const std::string & msg, const Span & span, Level kind, eid_t eid) {

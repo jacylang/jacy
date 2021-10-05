@@ -11,7 +11,7 @@ namespace jc::hir {
                 std::move(*static_cast<Mod*>(rootMod.get())),
                 std::move(items)
             ),
-            extractSuggestions()
+            extractMessages()
         };
     }
 

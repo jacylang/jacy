@@ -4,16 +4,18 @@
 #include "message/Message.h"
 
 namespace jc::message {
+    // TODO: Replace with kind of `MessageBuilder` for more convenient constructions
+
     class MessageGenerator {
     public:
         MessageGenerator() = default;
 
-        message::BaseSugg::List extractSuggestions();
+        Message::List extractMessages();
 
     protected:
         void clearSuggestions();
 
-        void suggest(message::BaseSugg::Ptr && suggestion);
+        void suggest(Message && suggestion);
         void suggest(const std::string & msg, const Span & span, Level kind, eid_t eid = message::NoneEID);
         void suggestErrorMsg(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
         void suggestWarnMsg(const std::string & msg, const span::Span & span, message::eid_t eid = message::NoneEID);
@@ -21,7 +23,7 @@ namespace jc::message {
         void suggestHelp(const std::string & helpMsg);
 
     private:
-        message::BaseSugg::List suggestions;
+        Message::List messages;
     };
 }
 
