@@ -34,7 +34,7 @@ namespace jc::message {
             log::Logger::nl();
             log::Logger::devDebug("Printing messages (`--print=messages`)");
             MessageDumper dumper;
-            dumper.apply(sess, messages);
+            dumper.emit(sess, messages);
         }
     }
 
