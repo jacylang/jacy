@@ -6,7 +6,6 @@
 
 #include "log/Logger.h"
 #include "parser/Token.h"
-#include "parser/ParserSugg.h"
 #include "parser/ParseSess.h"
 #include "message/TermEmitter.h"
 #include "ast/nodes.h"
