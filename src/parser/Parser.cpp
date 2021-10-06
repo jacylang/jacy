@@ -1911,7 +1911,8 @@ namespace jc::parser {
 
         auto type = parseOptType();
         if (type.none()) {
-            report(std::make_unique<ParseErrSugg>(suggMsg, cspan()));
+            // TODO: Diff messages for header and label
+            msg.error().setText(suggMsg).addPrimaryLabel(cspan(), suggMsg);
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
 
