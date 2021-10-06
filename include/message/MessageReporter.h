@@ -6,6 +6,24 @@
 namespace jc::message {
     // TODO: Replace with kind of `MessageBuilder` for more convenient constructions
 
+    class MessageHolder {
+    public:
+        Message::List && extractMessages() {
+            return std::move(messages);
+        }
+
+        void add(Message && message) {
+            messages.emplace_back(message);
+        }
+
+        const auto & getMessages() const {
+            return messages;
+        }
+
+    private:
+        Message::List messages;
+    };
+
     class MessageReporter {
     public:
         MessageReporter() = default;
