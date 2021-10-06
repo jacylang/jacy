@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_MESSAGEDUMPER_H
-#define JACY_SUGGEST_MESSAGEDUMPER_H
+#ifndef JACY_MESSAGE_MESSAGEDUMPER_H
+#define JACY_MESSAGE_MESSAGEDUMPER_H
 
 #include "message/Message.h"
 #include "message/MessageEmitter.h"
@@ -20,4 +20,4 @@ namespace jc::message {
     };
 }
 
-#endif // JACY_SUGGEST_MESSAGEDUMPER_H
+#endif // JACY_MESSAGE_MESSAGEDUMPER_H
