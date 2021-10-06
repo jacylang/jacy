@@ -1,7 +1,10 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    dt::SuggResult<dt::none_t> ModuleTreeBuilder::build(sess::Session::Ptr sess, const ast::Party & party) {
+    message::MessageHolder::Result<dt::none_t> ModuleTreeBuilder::build(
+        sess::Session::Ptr sess,
+        const ast::Party & party
+    ) {
         this->sess = sess;
 
         // Enter root module
@@ -23,7 +26,7 @@ namespace jc::resolve {
         sess->defTable = std::move(_defTable);
         sess->modTreeRoot = std::move(mod);
 
-        return {None, extractMessages()};
+        return {None, msg.extractMessages()};
     }
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
