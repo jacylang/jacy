@@ -48,6 +48,18 @@ namespace jc::message {
             return *this;
         }
 
+        const auto & setText(const Message::TextT & text) {
+            if (not msg.text.empty()) {
+                log::devPanic(
+                    "Called `MessageBuilder::setText` with non-empty message text, tried to change message text"
+                );
+            }
+            msg.text = text;
+            return *this;
+        }
+
+
+
     private:
         MessageHolder & holder;
 
