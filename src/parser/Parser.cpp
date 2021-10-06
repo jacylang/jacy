@@ -1391,7 +1391,9 @@ namespace jc::parser {
         auto condition = parseExpr("Expected condition in `if` expression");
 
         if (not condition.err() and condition.take()->is(ExprKind::Paren)) {
-            reportWarning("Unnecessary parentheses", maybeParen.span);
+            msg.warn()
+               .setText("Unnecessary parentheses around `if` condition")
+               .addHelp(maybeParen.span, "Remove parentheses");
         }
 
         // Check if user ignored `if` branch using `;` or parse body
@@ -1407,11 +1409,9 @@ namespace jc::parser {
             auto maybeSemi = peek();
             if (skipOpt(TokenKind::Semi).some()) {
                 // Note: cover case when user writes `if {} else;`
-                report(
-                    std::make_unique<ParseErrSugg>(
-                        "Ignoring `else` body with `;` is not allowed", maybeSemi.span
-                    )
-                );
+                msg.error()
+                   .setText("Ignoring `else` body with `;` is not allowed")
+                   .addPrimaryLabel(maybeSemi.span, "Cannot use `;` here");
             }
             elseBranch = parseBlock("else", BlockParsing::Raw);
         } else if (isKw(Kw::Elif)) {
