@@ -86,8 +86,11 @@ namespace jc::message {
 
         // Primary label //
     public:
-        auto & addPrimaryLabel(Span span, const Label::TextT & text) {
-            msg.labels.emplace_back(Label {Label::Kind::Primary, span, text});
+        template<class ...Args>
+        auto & addPrimaryLabel(Span span, Args && ...args) {
+            msg.labels.emplace_back(Label {
+                Label::Kind::Primary, span, log::fmt(std::forward<Args>(args)...)
+            });
             return *this;
         }
 
