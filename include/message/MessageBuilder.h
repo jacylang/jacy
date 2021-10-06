@@ -96,8 +96,11 @@ namespace jc::message {
 
         // Aux labels //
     public:
-        auto & addHelp(Span span, const Label::TextT & text) {
-            msg.labels.emplace_back(Label {Label::Kind::Aux, span, text});
+        template<class ...Args>
+        auto & addHelp(Span span, Args && ...args) {
+            msg.labels.emplace_back(Label {
+                Label::Kind::Aux, span, log::fmt(std::forward<Args>(args)...)
+            });
             return *this;
         }
 
