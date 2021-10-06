@@ -277,7 +277,9 @@ namespace jc::ast {
         }
 
         if (not isDeepInside(ValidatorCtx::Loop)) {
-            reportError("`break` outside of loop", breakExpr.span);
+            msg.error()
+               .setText("`break` expression cannot be used outside of a loop")
+               .addPrimaryLabel(breakExpr.span, "`break` is not allowed here");
         }
     }
 
