@@ -11,12 +11,12 @@
 namespace jc::resolve {
     /// Note: Non-friendly for multi-threading -- global states `_useDeclModule` and `_importModule`
 
-    class Importer : public ast::StubVisitor, public message::MessageReporter {
+    class Importer : public ast::StubVisitor {
     public:
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        dt::SuggResult<dt::none_t> declare(sess::Session::Ptr sess, const ast::Party & party);
+        message::MessageHolder::Result<dt::none_t> declare(sess::Session::Ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTree & useTree) override;
