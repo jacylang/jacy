@@ -991,7 +991,9 @@ namespace jc::parser {
             logParse("Prefix:'" + op.kindToString() + "'");
             auto maybeRhs = prefix();
             if (maybeRhs.none()) {
-                reportError("Expression expected after prefix operator " + op.repr(), cspan());
+                msg.error()
+                   .setText("Expected expression after prefix operator ", op.repr())
+                   .addPrimaryLabel(cspan(), "Expected expression");
                 return postfix(); // FIXME: CHECK!!!
             }
             auto rhs = maybeRhs.take();
