@@ -8,6 +8,13 @@ namespace jc::message {
 
     class MessageHolder {
     public:
+        template<class T>
+        struct Result {
+            T value;
+            Message::List messages;
+        };
+
+    public:
         MessageHolder() = default;
         ~MessageHolder() = default;
 

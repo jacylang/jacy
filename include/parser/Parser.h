@@ -14,7 +14,6 @@
 #include "message/MessageBuilder.h"
 
 #include "data_types/Option.h"
-#include "data_types/SuggResult.h"
 
 
 /**
@@ -81,7 +80,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::SuggResult<Item::List> parse(
+        dt::Result<Item::List, message::Message::List> parse(
             const sess::Session::Ptr & sess,
             const ParseSess::Ptr & parseSess,
             const Token::List & tokens
