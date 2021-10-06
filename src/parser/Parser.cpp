@@ -1799,7 +1799,7 @@ namespace jc::parser {
 
         if (segments.empty()) {
             if (global) {
-                reportError("Expected path after `::`", begin);
+                msg.error().setText("Expected path after `::`").addPrimaryLabel(begin, "Expected path");
             }
             exitEntity();
             return None;
