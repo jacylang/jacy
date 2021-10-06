@@ -72,7 +72,7 @@ namespace jc::message {
 
         // Primary label //
     public:
-        const auto & setPrimaryLabel(Span span, const Label::TextT & text) {
+        const auto & addPrimaryLabel(Span span, const Label::TextT & text) {
             msg.labels.emplace_back(Label {Label::Kind::Primary, span, text});
             return *this;
         }
