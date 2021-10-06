@@ -4,12 +4,11 @@
 #include "message/Message.h"
 
 namespace jc::message {
-    // TODO: Replace with kind of `MessageBuilder` for more convenient constructions
+    class MessageBuilder;
 
     class MessageHolder {
     public:
         MessageHolder() = default;
-
         ~MessageHolder() = default;
 
         Message::List && extractMessages() {
@@ -19,6 +18,9 @@ namespace jc::message {
         const auto & getMessages() const {
             return messages;
         }
+
+    private:
+        friend MessageBuilder;
 
         void add(Message && message) {
             messages.emplace_back(message);
