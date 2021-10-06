@@ -55,7 +55,7 @@ namespace jc::message {
         using TextT = Label::TextT;
         using List = std::vector<Message>;
 
-        Message(Level level, const TextT & text, EID eid = EID::NoneEID) : level {level}, text {text}, eid {eid} {}
+        Message(Level level) : level {level} {}
 
         // Getters //
         const auto & getLevel() const {
@@ -87,7 +87,7 @@ namespace jc::message {
     private:
         Level level;
         TextT text;
-        EID eid; // Explanation ID
+        EID eid = EID::NoneEID; // Explanation ID
         Label::List labels;
     };
 }

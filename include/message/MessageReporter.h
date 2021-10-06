@@ -35,6 +35,9 @@ namespace jc::message {
 
     private:
         MessageHolder & holder;
+
+    private:
+        Option<Message> currentMessage;
     };
 
     class MessageReporter {
