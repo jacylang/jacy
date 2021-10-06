@@ -168,7 +168,7 @@ namespace jc::resolve {
                 ", previously defined as ",
                 oldDef.unwrap()
             );
-            suggestCannotRedefine(ident, defKind, oldDef.unwrap());
+            reportCannotRedefine(ident, defKind, oldDef.unwrap());
         }
 
         return defId;
@@ -193,7 +193,7 @@ namespace jc::resolve {
         if (nameBinding.some() and not nameBinding.unwrap().isFOS()) {
             // TODO: Maybe add separate `suggestCannotRedefineFunc`?
             // Note!!!: If new `nameBinding::Kind`'s will be added, don't use `asDef`!
-            suggestCannotRedefine(baseName, defKind, nameBinding.unwrap(), suffix);
+            reportCannotRedefine(baseName, defKind, nameBinding.unwrap(), suffix);
             return defId;
         }
 
@@ -211,7 +211,7 @@ namespace jc::resolve {
             overloadId = newFuncRes.unwrapErr().first;
             const auto & oldDef = newFuncRes.unwrapErr().second;
             log.dev("Tried to redefine function '", baseName, suffix, "' previously defined as ", oldDef);
-            suggestCannotRedefine(baseName, defKind, oldDef, suffix);
+            reportCannotRedefine(baseName, defKind, oldDef, suffix);
         } else {
             overloadId = newFuncRes.unwrap();
         }
@@ -221,7 +221,7 @@ namespace jc::resolve {
         auto oldDef = mod->tryDefineFOS(baseName.sym, overloadId.unwrap());
         if (oldDef.some()) {
             log.dev("Tried to redefine function '", baseName, "' previously defined as ", oldDef.unwrap());
-            suggestCannotRedefine(baseName, defKind, oldDef.unwrap(), suffix);
+            reportCannotRedefine(baseName, defKind, oldDef.unwrap(), suffix);
         }
 
         return defId;
@@ -311,7 +311,7 @@ namespace jc::resolve {
     }
 
     // Suggestions //
-    void ModuleTreeBuilder::suggestCannotRedefine(
+    void ModuleTreeBuilder::reportCannotRedefine(
         const span::Ident & ident,
         DefKind as,
         const NameBinding & prevModDef,

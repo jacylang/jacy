@@ -60,7 +60,7 @@ namespace jc::resolve {
     private:
         message::MessageHolder msg;
 
-        void suggestCannotRedefine(
+        void reportCannotRedefine(
             const span::Ident & ident,
             DefKind as,
             const NameBinding & prevModDef,
