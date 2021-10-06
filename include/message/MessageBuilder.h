@@ -55,7 +55,7 @@ namespace jc::message {
 
         // Basic setters //
     public:
-        const auto & setLevel(Level level) {
+        auto & setLevel(Level level) {
             if (msg.checkLevel(Level::None)) {
                 log::devPanic("Called `MessageBuilder::setLevel` on `Level::None` message, tried to reset level");
             }
@@ -63,7 +63,7 @@ namespace jc::message {
             return *this;
         }
 
-        const auto & setText(const Message::TextT & text) {
+        auto & setText(const Message::TextT & text) {
             if (not msg.text.empty()) {
                 log::devPanic(
                     "Called `MessageBuilder::setText` on non-empty message text, tried to change message text"
@@ -73,7 +73,7 @@ namespace jc::message {
             return *this;
         }
 
-        const auto & setEID(EID eid) {
+        auto & setEID(EID eid) {
             if (msg.eid != EID::NoneEID) {
                 log::devPanic(
                     "Called `MessageBuilder::setEID` on non-dummy eid, tried to change message EID"
@@ -85,14 +85,14 @@ namespace jc::message {
 
         // Primary label //
     public:
-        const auto & addPrimaryLabel(Span span, const Label::TextT & text) {
+        auto & addPrimaryLabel(Span span, const Label::TextT & text) {
             msg.labels.emplace_back(Label {Label::Kind::Primary, span, text});
             return *this;
         }
 
         // Aux labels //
     public:
-        const auto & addHelp(Span span, const Label::TextT & text) {
+        auto & addHelp(Span span, const Label::TextT & text) {
             msg.labels.emplace_back(Label {Label::Kind::Aux, span, text});
             return *this;
         }

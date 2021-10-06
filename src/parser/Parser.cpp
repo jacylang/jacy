@@ -64,7 +64,7 @@ namespace jc::parser {
     void Parser::skipSemi() {
         // TODO: Useless semi sugg
         if (not isSemis()) {
-            reportError("Missing `;`", prev().span);
+            msg.error().addPrimaryLabel(prev().span, "Missing `;`");
             return;
         }
         advance();
@@ -79,13 +79,9 @@ namespace jc::parser {
         Token::Opt found = None;
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
-                reportHelp(
-                    "Remove '" + peek().repr() + "'",
-                    std::make_unique<ParseErrSugg>(
-                        "Expected " + expected + " got unexpected token " + peek().kindToString(),
-                        cspan()
-                    )
-                );
+                msg.error()
+                   .setText("Expected " + expected + " got unexpected token " + peek().kindToString())
+                   .addHelp(cspan(), "Remove '" + peek().repr() + "'");
             }
 
             if (recovery == Recovery::Once) {
