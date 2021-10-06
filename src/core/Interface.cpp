@@ -429,8 +429,8 @@ namespace jc::core {
         lowering.lower(sess, party.unwrap()).take(sess, "lowering");
     }
 
-    // Suggestions //
-    void Interface::collectSuggestions(message::BaseSugg::List && additional) {
+    // Messages //
+    void Interface::collectSuggestions(message::Message::List && additional) {
         messages = utils::arr::moveConcat(std::move(messages), std::move(additional));
     }
 
