@@ -57,8 +57,8 @@ namespace jc::message {
         // Basic setters //
     public:
         auto & setLevel(Level level) {
-            if (msg.checkLevel(Level::None)) {
-                log::devPanic("Called `MessageBuilder::setLevel` on `Level::None` message, tried to reset level");
+            if (not msg.checkLevel(Level::None)) {
+                log::devPanic("Called `MessageBuilder::setLevel` on message with set level, tried to reset level");
             }
             msg.level = level;
             return *this;
