@@ -91,8 +91,18 @@ namespace jc::message {
             return *this;
         }
 
-        // Primary label //
+        // Labels //
     public:
+        auto & addLabels(Label::List && labels) {
+            msg.labels
+               .insert(
+                   msg.labels.end(),
+                   std::make_move_iterator(labels.begin()),
+                   std::make_move_iterator(labels.end())
+               );
+            return *this;
+        }
+
         template<class ...Args>
         auto & addPrimaryLabel(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {
@@ -101,8 +111,6 @@ namespace jc::message {
             return *this;
         }
 
-        // Aux labels //
-    public:
         template<class ...Args>
         auto & addHelp(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {

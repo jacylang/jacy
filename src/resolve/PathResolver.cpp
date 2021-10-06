@@ -301,12 +301,14 @@ namespace jc::resolve {
      * @param target Namespace to exclude from alternatives
      * @param name
      * @param altDefs Alternative definitions found in scope
+     * @returns Help labels with alternative names
      */
-    void PathResolver::suggestAltNames(
+    message::Label::List PathResolver::suggestAltNames(
         Namespace target,
         const Symbol & name,
         const PerNS<NameBinding::Opt> & altDefs
     ) {
+        message::Label::List labels;
         altDefs.each([&](NameBinding::Opt maybeNameBinding, Namespace nsKind) {
             if (nsKind == target or maybeNameBinding.none()) {
                 return;

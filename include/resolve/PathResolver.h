@@ -126,7 +126,11 @@ namespace jc::resolve {
     private:
         message::MessageHolder msg;
 
-        void suggestAltNames(Namespace maybeNameBinding, const Symbol & name, const PerNS<NameBinding::Opt> & altDefs);
+        message::Label::List suggestAltNames(
+            Namespace maybeNameBinding,
+            const Symbol & name,
+            const PerNS<NameBinding::Opt> & altDefs
+        );
 
     public:
         auto && extractMessages() {
