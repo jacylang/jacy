@@ -640,7 +640,9 @@ namespace jc::ast {
                 }
                 case StructPatEl::Kind::Spread: {
                     if (i != pat.elements.size() - 1) {
-                        reportError("`...` must be placed last", std::get<Span>(el.el));
+                        msg.error()
+                           .setText("Rest pattern `...` must go last in structure pattern")
+                           .addPrimaryLabel(std::get<Span>(el.el), "`...` must go last");
                     }
                 }
             }
