@@ -33,11 +33,18 @@ namespace jc::message {
         MessageBuilder(MessageHolder & holder) : holder {holder} {}
         ~MessageBuilder() = default;
 
+        void emit() {
+            if (msg.level == Level::None) {
+                log::devPanic("Called `MessageBuilder::emit` with `Level::None` message built");
+            }
+            holder.add(std::move(msg));
+        }
+
     private:
         MessageHolder & holder;
 
     private:
-        Option<Message> currentMessage;
+        Message msg;
     };
 
     class MessageReporter {
