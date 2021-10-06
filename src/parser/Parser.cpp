@@ -191,7 +191,7 @@ namespace jc::parser {
         this->tokens.clear();
         this->index = 0;
         entitiesEntries.clear();
-        clearSuggestions();
+        msg.clear();
 
         this->sess = sess;
         this->parseSess = parseSess;
@@ -199,7 +199,7 @@ namespace jc::parser {
 
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
 
-        return {std::move(items), extractMessages()};
+        return {std::move(items), msg.extractMessages()};
     }
 
     ///////////

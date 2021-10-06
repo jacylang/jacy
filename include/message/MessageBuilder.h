@@ -11,6 +11,10 @@ namespace jc::message {
         MessageHolder() = default;
         ~MessageHolder() = default;
 
+        void clear() {
+            messages.clear();
+        }
+
         Message::List && extractMessages() {
             return std::move(messages);
         }

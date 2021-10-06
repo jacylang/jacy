@@ -76,7 +76,7 @@ namespace jc::parser {
         Any,
     };
 
-    class Parser : public message::MessageReporter {
+    class Parser {
     public:
         Parser();
         virtual ~Parser() = default;
@@ -248,6 +248,10 @@ namespace jc::parser {
         Pattern::Ptr parseIdentPat();
         Pattern::Ptr parseRefPat();
         Pattern::Ptr parseStructPat(PathExpr::Ptr && path);
+
+        // Suggestions //
+    private:
+        message::MessageHolder msg;
 
         // Helpers //
     private:
