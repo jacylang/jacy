@@ -4,7 +4,6 @@
 #include "ast/nodes.h"
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
-#include "data_types/SuggResult.h"
 #include "message/MessageBuilder.h"
 
 namespace jc::hir {

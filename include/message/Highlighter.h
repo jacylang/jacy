@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_HIGHLIGHTER_H
-#define JACY_SUGGEST_HIGHLIGHTER_H
+#ifndef JACY_MESSAGE_HIGHLIGHTER_H
+#define JACY_MESSAGE_HIGHLIGHTER_H
 
 #include "parser/Token.h"
 #include "message/themes.h"
@@ -32,4 +32,4 @@ namespace jc::message {
     };
 }
 
-#endif // JACY_SUGGEST_HIGHLIGHTER_H
+#endif // JACY_MESSAGE_HIGHLIGHTER_H
