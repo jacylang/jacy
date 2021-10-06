@@ -1,5 +1,5 @@
-#ifndef JACY_MESSAGE_SUGGESTER_H
-#define JACY_MESSAGE_SUGGESTER_H
+#ifndef JACY_MESSAGE_TERMEMITTER_H
+#define JACY_MESSAGE_TERMEMITTER_H
 
 #include "log/Logger.h"
 #include "common/Error.h"
@@ -86,4 +86,4 @@ namespace jc::message {
     };
 }
 
-#endif // JACY_MESSAGE_SUGGESTER_H
+#endif // JACY_MESSAGE_TERMEMITTER_H
