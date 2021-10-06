@@ -80,7 +80,7 @@ namespace jc::parser {
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
                 msg.error()
-                   .setText("Expected " + expected + " got unexpected token " + peek().kindToString())
+                   .setText("Expected ", expected, " got unexpected token ", peek().kindToString())
                    .addHelp(cspan(), "Remove '" + peek().repr() + "'");
             }
 
@@ -107,8 +107,8 @@ namespace jc::parser {
                 }
                 const auto & errorTokensStr = Token::listKindToString(errorTokens);
                 msg.error()
-                   .setText("Expected " + expected + " got unexpected tokens '" + errorTokensStr + "'")
-                   .addHelp(begin.to(errorTokens.rbegin()->span), "Remove '" + errorTokensStr + "'");
+                   .setText("Expected ", expected, " got unexpected tokens '", errorTokensStr, "'")
+                   .addHelp(begin.to(errorTokens.rbegin()->span), "Remove '", errorTokensStr, "'");
             }
         } else {
             found = peek();
