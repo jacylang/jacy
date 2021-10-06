@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_MESSAGEEMITTER_H
-#define JACY_SUGGEST_MESSAGEEMITTER_H
+#ifndef JACY_MESSAGE_MESSAGEEMITTER_H
+#define JACY_MESSAGE_MESSAGEEMITTER_H
 
 #include "message/Message.h"
 #include "session/Session.h"
@@ -14,4 +14,4 @@ namespace jc::message {
     };
 }
 
-#endif // JACY_SUGGEST_MESSAGEEMITTER_H
+#endif // JACY_MESSAGE_MESSAGEEMITTER_H

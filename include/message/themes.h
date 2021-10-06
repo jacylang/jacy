@@ -1,5 +1,5 @@
-#ifndef JACY_SUGGEST_THEMES_H
-#define JACY_SUGGEST_THEMES_H
+#ifndef JACY_MESSAGE_THEMES_H
+#define JACY_MESSAGE_THEMES_H
 
 #include "jon/jon.h"
 #include "log/data_types.h"
@@ -107,4 +107,4 @@ themes: {
     }
 }
 
-#endif // JACY_SUGGEST_THEMES_H
+#endif // JACY_MESSAGE_THEMES_H
