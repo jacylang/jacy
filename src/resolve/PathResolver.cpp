@@ -246,17 +246,18 @@ namespace jc::resolve {
         if (urs.inaccessible) {
             const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
             // Report "Cannot access" error
-            reportError(
-                log::fmt("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'"),
-                unresolvedSegIdent.span
-            );
+            msg.error()
+               .setText("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'")
+               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is private");
         } else {
             // Report "Not defined" error
-            auto msg = log::fmt("'", unresolvedSegName, "' is not defined");
+            auto errMsg = log::fmt("'", unresolvedSegName, "' is not defined");
             if (not pathStr.empty()) {
-                msg += " in '" + pathStr + "'";
+                errMsg += " in '" + pathStr + "'";
             }
-            reportError(msg, unresolvedSegIdent.span);
+            msg.error()
+               .setText(errMsg)
+               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined");
             suggestAltNames(targetNS, unresolvedSegName, altDefs);
         }
 
