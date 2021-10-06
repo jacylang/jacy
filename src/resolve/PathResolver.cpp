@@ -320,8 +320,9 @@ namespace jc::resolve {
             } else {
                 kind = sess->defTable.getDef(nameBinding.asDef()).kindStr();
             }
-            reportHelp(
-                log::fmt(
+            labels.emplace_back(
+                message::MessageBuilder::standaloneHelp(
+                    span::NONE_SPAN,
                     "Alternative: '",
                     name,
                     "' ",
@@ -331,5 +332,6 @@ namespace jc::resolve {
                 )
             );
         });
+        return labels;
     }
 }
