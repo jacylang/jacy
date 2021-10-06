@@ -16,12 +16,12 @@ namespace jc::message {
             return std::move(messages);
         }
 
-        void add(Message && message) {
-            messages.emplace_back(message);
-        }
-
         const auto & getMessages() const {
             return messages;
+        }
+
+        void add(Message && message) {
+            messages.emplace_back(message);
         }
 
     private:
@@ -35,9 +35,17 @@ namespace jc::message {
 
         void emit() {
             if (msg.level == Level::None) {
-                log::devPanic("Called `MessageBuilder::emit` with `Level::None` message built");
+                log::devPanic("Called `MessageBuilder::emit` with `Level::None` message");
             }
             holder.add(std::move(msg));
+        }
+
+        const auto & setLevel(Level level) {
+            if (msg.checkLevel(Level::None)) {
+                log::devPanic("Called `MessageBuilder::setLevel` with `Level::None` message, tried to reset level");
+            }
+            msg.level = level;
+            return *this;
         }
 
     private:
