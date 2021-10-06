@@ -10,8 +10,6 @@
 
 namespace jc::resolve {
     using log::Logger;
-    using message::Level;
-    using message::eid_t;
 
     class NameResolver : public ast::StubVisitor {
     public:
@@ -88,7 +86,7 @@ namespace jc::resolve {
         void resolvePath(Namespace targetNS, const ast::Path & path, const Symbol::Opt & suffix = None);
         bool resolveLocal(const Symbol & name, const ast::Path & path);
 
-        // Suggestions //
+        // Messages //
     private:
         message::MessageHolder msg;
 

@@ -95,7 +95,7 @@ namespace jc::resolve {
     /**
      * @brief Common interface for path resolutions
      */
-    class PathResolver : public message::MessageReporter {
+    class PathResolver {
     public:
         PathResolver() = default;
         ~PathResolver() = default;
@@ -122,9 +122,16 @@ namespace jc::resolve {
             Symbol::Opt suffix
         );
 
-        // Suggestions //
+        // Messages //
     private:
+        message::MessageHolder msg;
+
         void suggestAltNames(Namespace maybeNameBinding, const Symbol & name, const PerNS<NameBinding::Opt> & altDefs);
+
+    public:
+        auto && extractMessages() {
+            return msg.extractMessages();
+        }
     };
 }
 
