@@ -256,13 +256,15 @@ namespace jc::parser {
         if (not attributes.empty()) {
             for (const auto & attr : attributes) {
                 // FIXME: Span from Location
-                reportError("Unexpected attribute", attr.span);
+                msg.error()
+                   .setText("Unexpected attribute without an item")
+                   .addPrimaryLabel(attr.span, "Unexpected attribute");
             }
         }
 
         if (not modifiers.empty()) {
-            for (const auto & modif : modifiers) {
-                reportError("Unexpected modifier", modif.span);
+            for (const auto & modifier : modifiers) {
+                msg.error().setText("Unexpected modifier").addPrimaryLabel(modifier.span, "Unexpected modifier");
             }
         }
 
