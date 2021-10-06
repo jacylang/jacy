@@ -1904,7 +1904,7 @@ namespace jc::parser {
     ///////////
     // Types //
     ///////////
-    Type::Ptr Parser::parseType(const std::string & suggMsg) {
+    Type::Ptr Parser::parseType(const std::string & expectedMsg) {
         logParse("Type");
 
         const auto & begin = cspan();
@@ -1912,7 +1912,7 @@ namespace jc::parser {
         auto type = parseOptType();
         if (type.none()) {
             // TODO: Diff messages for header and label
-            msg.error().setText(suggMsg).addPrimaryLabel(cspan(), suggMsg);
+            msg.error().setText(expectedMsg).addPrimaryLabel(cspan(), expectedMsg);
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
 

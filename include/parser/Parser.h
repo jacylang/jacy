@@ -229,7 +229,7 @@ namespace jc::parser {
         Path parsePath(bool inExpr);
 
         // Types //
-        Type::Ptr parseType(const std::string & suggMsg);
+        Type::Ptr parseType(const std::string & expectedMsg);
         Type::OptPtr parseOptType();
         TupleTypeEl::List parseParenType();
         Type::Ptr parseArrayType();
