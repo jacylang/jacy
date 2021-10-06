@@ -172,7 +172,7 @@ namespace jc::resolve {
         );
 
         _useDeclModule->tryDefine(nsKind, name, aliasDefId).then([&](const NameBinding & oldName) {
-            suggestCannotImport(name, span, oldName, None);
+            reportCannotImport(name, span, oldName, None);
         });
     }
 
@@ -206,7 +206,7 @@ namespace jc::resolve {
         if (fosSearchRes.err()) {
             const auto & oldDefId = fosSearchRes.unwrapErr();
             log.dev("Tried to redefine FOS '", name, "' with non-FOS definition ", oldDefId);
-            suggestCannotImport(name, span, oldDefId, None);
+            reportCannotImport(name, span, oldDefId, None);
             return;
         }
 
@@ -241,7 +241,7 @@ namespace jc::resolve {
     }
 
     // Suggestions //
-    void Importer::suggestCannotImport(
+    void Importer::reportCannotImport(
         Symbol redefinedName,
         const span::Span & span,
         const NameBinding & prevModDef,

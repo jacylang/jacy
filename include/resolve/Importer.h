@@ -77,7 +77,7 @@ namespace jc::resolve {
     private:
         message::MessageHolder msg;
 
-        void suggestCannotImport(
+        void reportCannotImport(
             Symbol redefinedName,
             const span::Span & span,
             const NameBinding & prevModDef,
