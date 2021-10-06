@@ -1533,15 +1533,17 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Colon).some()) {
             typeAnnotated = true;
         } else if (skipOpt(TokenKind::Arrow).some()) {
-            reportError(
-                "Maybe you meant to put `:` instead of `->` for return type annotation?", maybeColonToken.span
-            );
+            msg.error()
+               .setText("Expected `:` instead of `->` in function return type annotation")
+               .addPrimaryLabel(maybeColonToken.span, "Use `:` instead of `->`");
         }
 
         const auto & returnTypeToken = peek();
         auto returnType = parseOptType();
         if (typeAnnotated and returnType.none()) {
-            report(std::make_unique<ParseErrSugg>("Expected return type after `:`", returnTypeToken.span));
+            msg.error()
+               .setText("Expected function return type after `:`")
+               .addPrimaryLabel(returnTypeToken.span, "Expected type");
         }
 
         return FuncSig {
