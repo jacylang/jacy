@@ -52,7 +52,7 @@ namespace jc::config {
         // `--dev-print`
     public:
         enum class DevPrint {
-            Suggestions,
+            Messages,
             Summary,
             DirTree,
             Source,
