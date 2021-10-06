@@ -2,7 +2,6 @@
 #define JACY_RESOLVE_NAMERESOLVER_H
 
 #include "ast/StubVisitor.h"
-#include "data_types/SuggResult.h"
 #include "resolve/Rib.h"
 #include "utils/arr.h"
 #include "message/MessageBuilder.h"
@@ -14,12 +13,12 @@ namespace jc::resolve {
     using message::Level;
     using message::eid_t;
 
-    class NameResolver : public ast::StubVisitor, public message::MessageReporter {
+    class NameResolver : public ast::StubVisitor {
     public:
         NameResolver();
         ~NameResolver() override = default;
 
-        dt::SuggResult<dt::none_t> resolve(const sess::Session::Ptr & sess, const ast::Party & party);
+        message::MessageHolder::Result<dt::none_t> resolve(const sess::Session::Ptr & sess, const ast::Party & party);
 
         // Items //
 //        void visit(const ast::Enum & enumDecl) override;
@@ -91,6 +90,8 @@ namespace jc::resolve {
 
         // Suggestions //
     private:
+        message::MessageHolder msg;
+
         void suggestAltNames(Namespace target, const Symbol & name, const PerNS<NameBinding::Opt> & altDefs);
 
         // Debug //

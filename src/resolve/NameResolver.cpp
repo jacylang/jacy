@@ -3,7 +3,10 @@
 namespace jc::resolve {
     NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
-    dt::SuggResult<dt::none_t> NameResolver::resolve(const sess::Session::Ptr & sess, const ast::Party & party) {
+    message::MessageHolder::Result<dt::none_t> NameResolver::resolve(
+        const sess::Session::Ptr & sess,
+        const ast::Party & party
+    ) {
         this->sess = sess;
         pathResolver.init(sess);
 
@@ -24,8 +27,8 @@ namespace jc::resolve {
 
         sess->resolutions = std::move(_resolutions);
 
-        // `PathResolver` has its own suggestion collection, thus we need to extract all of them
-        return {None, utils::arr::moveConcat(extractMessages(), pathResolver.extractMessages())};
+        // `PathResolver` has its own message collection, thus we need to extract all of them
+        return {None, utils::arr::moveConcat(msg.extractMessages(), pathResolver.extractMessages())};
     }
 
     void NameResolver::visit(const ast::Func & func) {
