@@ -1758,10 +1758,9 @@ namespace jc::parser {
         auto simplePath = parseOptSimplePath();
 
         if (simplePath.some()) {
-            reportError(
-                "Expected identifier, `super`, `self` or `party` in " + construction + " path",
-                cspan()
-            );
+            msg.error()
+               .setText("Expected identifier, `super`, `self` or `party` in ", construction, " path")
+               .addPrimaryLabel(cspan(), "Expected path segment");
             exitEntity();
             return makeErrPR<SimplePath>(closeSpan(begin));
         }
