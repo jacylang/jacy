@@ -399,18 +399,14 @@ namespace jc::ast {
 
     void Validator::visit(const ParenExpr & parenExpr) {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
-            report(
-                std::make_unique<message::MsgSugg>(
-                    "Useless double-wrapped parenthesized expression", parenExpr.span, message::Level::Warn
-                )
-            );
+            msg.warn()
+               .setText("Useless double-wrapped parenthesized expression")
+               .addPrimaryLabel(parenExpr.span, "Remove the second parentheses");
         }
         if (parenExpr.expr.unwrap()->isSimple()) {
-            report(
-                std::make_unique<message::MsgSugg>(
-                    "Useless parentheses around simple expression", parenExpr.span, message::Level::Warn
-                )
-            );
+            msg.warn()
+               .setText("Useless parentheses around simple expression")
+               .addPrimaryLabel(parenExpr.span, "Remove the parentheses");
         }
     }
 
