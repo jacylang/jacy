@@ -3,7 +3,7 @@
 namespace jc::message {
     const log::Indent<2> MessageDumper::labelsIndent = {1};
 
-    void MessageDumper::emit(const int & sess, const Message::List & messages) {
+    void MessageDumper::emit(const sess::Session::Ptr & sess, const Message::List & messages) {
         bool errorAppeared = false;
 
         for (const auto & msg : messages) {

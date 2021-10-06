@@ -2,6 +2,7 @@
 #define JACY_EXPLAIN_H
 
 #include <cstdint>
+#include <iostream>
 
 namespace jc::message {
     struct EID {

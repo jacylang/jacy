@@ -5,7 +5,7 @@
 namespace jc::message {
     template<class T>
     std::tuple<T, message::Message::List> MessageHolder::Result<T>::extract() {
-        return {std::move(value), std::move(suggestions)};
+        return {std::move(value), std::move(messages)};
     }
 
     template<class T>
