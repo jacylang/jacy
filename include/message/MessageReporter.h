@@ -35,14 +35,14 @@ namespace jc::message {
 
         void emit() {
             if (msg.level == Level::None) {
-                log::devPanic("Called `MessageBuilder::emit` with `Level::None` message");
+                log::devPanic("Called `MessageBuilder::emit` on `Level::None` message");
             }
             holder.add(std::move(msg));
         }
 
         const auto & setLevel(Level level) {
             if (msg.checkLevel(Level::None)) {
-                log::devPanic("Called `MessageBuilder::setLevel` with `Level::None` message, tried to reset level");
+                log::devPanic("Called `MessageBuilder::setLevel` on `Level::None` message, tried to reset level");
             }
             msg.level = level;
             return *this;
@@ -51,14 +51,22 @@ namespace jc::message {
         const auto & setText(const Message::TextT & text) {
             if (not msg.text.empty()) {
                 log::devPanic(
-                    "Called `MessageBuilder::setText` with non-empty message text, tried to change message text"
+                    "Called `MessageBuilder::setText` on non-empty message text, tried to change message text"
                 );
             }
             msg.text = text;
             return *this;
         }
 
-
+        const auto & setEID(EID eid) {
+            if (msg.eid != EID::NoneEID) {
+                log::devPanic(
+                    "Called `MessageBuilder::setEID` on non-dummy eid, tried to change message EID"
+                );
+            }
+            msg.eid = eid;
+            return *this;
+        }
 
     private:
         MessageHolder & holder;
