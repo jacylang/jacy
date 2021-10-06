@@ -2190,7 +2190,7 @@ namespace jc::parser {
             return makePRBoxNode<ParenPat, Pattern>(std::move(pat), closeSpan(begin));
         }
 
-        reportError("Expected pattern, got " + peek().repr(true), cspan());
+        msg.error().setText("Expected pattern, got ", peek().repr(true)).addPrimaryLabel(cspan(), "Expected pattern");
         return makeErrPR<N<Pattern>>(cspan());
     }
 
@@ -2203,7 +2203,7 @@ namespace jc::parser {
 
         // Note: Allowed negative literals are checked in `Validator`
         if (neg and not peek().isLiteral()) {
-            reportError("Literal expected after `-` in pattern", cspan());
+            msg.error().setText("Literal expected after `-` in pattern").addPrimaryLabel(cspan(), "Expected literal");
         } else {
             log::devPanic("Non-literal token in `parseLitPat`: ", peek().dump());
         }
