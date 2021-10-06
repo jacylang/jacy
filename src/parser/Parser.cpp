@@ -106,13 +106,9 @@ namespace jc::parser {
                     }
                 }
                 const auto & errorTokensStr = Token::listKindToString(errorTokens);
-                reportHelp(
-                    "Remove '" + errorTokensStr + "'",
-                    std::make_unique<ParseErrSugg>(
-                        "Expected " + expected + " got unexpected tokens '" + errorTokensStr + "'",
-                        begin.to(errorTokens.rbegin()->span)
-                    )
-                );
+                msg.error()
+                   .setText("Expected " + expected + " got unexpected tokens '" + errorTokensStr + "'")
+                   .addHelp(begin.to(errorTokens.rbegin()->span), "Remove '" + errorTokensStr + "'");
             }
         } else {
             found = peek();
