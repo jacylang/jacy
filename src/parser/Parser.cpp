@@ -288,7 +288,8 @@ namespace jc::parser {
                 auto expr = parseOptExpr();
                 if (expr.some()) {
                     // FIXME!: Use range span.to(span)
-                    reportError(gotExprSugg, exprToken.span);
+                    // TODO: Diff messages for label and header
+                    msg.error().setText(gotExprSugg).addPrimaryLabel(exprToken.span, gotExprSugg);
                 }
                 items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `parsePrimary`
