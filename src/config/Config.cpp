@@ -35,7 +35,7 @@ namespace jc::config {
     }
 
     Config::FlagValueMap<Config::DevPrint> Config::devPrintKinds = {
-        {"suggestions",  Config::DevPrint::Messages},
+        {"messages",     Config::DevPrint::Messages},
         {"summary",      Config::DevPrint::Summary},
         {"dir-tree",     Config::DevPrint::DirTree},
         {"source",       Config::DevPrint::Source},
@@ -261,7 +261,7 @@ namespace jc::config {
                     break;
                 }
                 case DevPrint::Messages: {
-                    res["print"].emplace_back("suggestions");
+                    res["print"].emplace_back("messages");
                     break;
                 }
                 case DevPrint::Source: {
