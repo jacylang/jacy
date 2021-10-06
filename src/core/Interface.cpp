@@ -28,7 +28,7 @@ namespace jc::core {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
-                dt::SuggResult<dt::none_t>::dump(sess, suggestions, "No suggestions extracted");
+                dt::SuggResult<dt::none_t>::dump(sess, messages, "No suggestions extracted");
                 sess->printSteps();
             }
 
@@ -431,15 +431,15 @@ namespace jc::core {
 
     // Suggestions //
     void Interface::collectSuggestions(message::BaseSugg::List && additional) {
-        suggestions = utils::arr::moveConcat(std::move(suggestions), std::move(additional));
+        messages = utils::arr::moveConcat(std::move(messages), std::move(additional));
     }
 
     void Interface::checkSuggestions(const std::string & stageName) {
-        if (suggestions.empty()) {
+        if (messages.empty()) {
             return;
         }
         // Use `none_t` as stub
-        dt::SuggResult<dt::none_t>::check(sess, suggestions, stageName);
-        suggestions.clear();
+        dt::SuggResult<dt::none_t>::check(sess, messages, stageName);
+        messages.clear();
     }
 }

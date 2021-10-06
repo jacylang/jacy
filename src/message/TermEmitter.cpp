@@ -47,7 +47,7 @@ namespace jc::message {
 
         // line.pos is the start of the line, it must always be <= label.span.pos
         if (span.pos < line.pos) {
-            log::devPanic("`span.pos < lineIndex + line size` in `Suggester::pointMsgTo`");
+            log::devPanic("`span.pos < lineIndex + line size` in `TermEmitter::pointMsgTo`");
         }
 
         const auto & text = label.getText();

@@ -100,11 +100,11 @@ namespace jc::core {
     private:
         log::Logger log{"interface"};
 
-        // Suggestions //
+        // Messages //
     private:
         message::Highlighter highlighter;
 
-        message::BaseSugg::List suggestions;
+        message::Message::List messages;
         void collectSuggestions(message::BaseSugg::List && additional);
         void checkSuggestions(const std::string & stageName);
     };
