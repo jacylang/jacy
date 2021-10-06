@@ -1818,9 +1818,7 @@ namespace jc::parser {
 
         if (not is(TokenKind::Id)) {
             if (global) {
-                reportError(
-                    "Invalid path `::`", maybePathToken.span
-                );
+                msg.error().setText("Expected path after `::`").addPrimaryLabel(maybePathToken.span, "Invalid path");
             } else {
                 log::devPanic("parsePath -> not id -> not global");
             }
