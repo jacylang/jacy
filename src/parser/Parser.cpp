@@ -788,7 +788,7 @@ namespace jc::parser {
         return assignment();
     }
 
-    Expr::Ptr Parser::parseExpr(const std::string & suggMsg) {
+    Expr::Ptr Parser::parseExpr(const std::string & expectedMsg) {
         logParse("Expr");
 
         const auto & begin = cspan();
@@ -796,7 +796,7 @@ namespace jc::parser {
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
             // TODO: Different message for header and label?
-            msg.error().setText(suggMsg).addPrimaryLabel(begin, suggMsg);
+            msg.error().setText(expectedMsg).addPrimaryLabel(begin, expectedMsg);
             return makeErrPR<N<Expr>>(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");

@@ -182,7 +182,7 @@ namespace jc::parser {
 
         // Expressions //
         Expr::OptPtr parseOptExpr();
-        Expr::Ptr parseExpr(const std::string & suggMsg);
+        Expr::Ptr parseExpr(const std::string & expectedMsg);
         Expr::Ptr parseLambda();
         Expr::OptPtr assignment();
         Expr::OptPtr precParse(uint8_t index);
@@ -247,7 +247,7 @@ namespace jc::parser {
         Pattern::Ptr parseRefPat();
         Pattern::Ptr parseStructPat(PathExpr::Ptr && path);
 
-        // Suggestions //
+        // Messages //
     private:
         message::MessageHolder msg;
 
