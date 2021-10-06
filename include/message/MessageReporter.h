@@ -8,6 +8,10 @@ namespace jc::message {
 
     class MessageHolder {
     public:
+        MessageHolder() = default;
+
+        ~MessageHolder() = default;
+
         Message::List && extractMessages() {
             return std::move(messages);
         }
@@ -24,6 +28,15 @@ namespace jc::message {
         Message::List messages;
     };
 
+    class MessageBuilder {
+    public:
+        MessageBuilder(MessageHolder & holder) : holder {holder} {}
+        ~MessageBuilder() = default;
+
+    private:
+        MessageHolder & holder;
+    };
+
     class MessageReporter {
     public:
         MessageReporter() = default;
@@ -34,10 +47,15 @@ namespace jc::message {
         void clearSuggestions();
 
         void report(Message && suggestion);
+
         void report(const std::string & msg, const Span & span, Level kind, EID eid = EID::NoneEID);
+
         void reportError(const std::string & msg, const span::Span & span, EID eid = EID::NoneEID);
+
         void reportWarning(const std::string & msg, const span::Span & span, EID eid = EID::NoneEID);
+
         void reportHelp(const std::string & helpMsg, Message && sugg);
+
         void reportHelp(const std::string & helpMsg);
 
     private:
