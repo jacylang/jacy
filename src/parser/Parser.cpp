@@ -795,7 +795,8 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
-            reportError(suggMsg, begin);
+            // TODO: Different message for header and label?
+            msg.error().setText(suggMsg).addPrimaryLabel(begin, suggMsg);
             return makeErrPR<N<Expr>>(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");
