@@ -46,12 +46,6 @@ namespace jc::message {
             return text;
         }
 
-        // Constructors //
-    public:
-        auto help(Span span, const TextT & text) {
-            return Label {Kind::Help, span, text};
-        }
-
     private:
         Kind kind;
         Span span;

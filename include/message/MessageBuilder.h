@@ -119,6 +119,12 @@ namespace jc::message {
             return *this;
         }
 
+        // Standalone constructors //
+    public:
+        static auto standaloneHelp(Span span, const Label::TextT & text) {
+            return Label {Label::Kind::Help, span, text};
+        }
+
     private:
         MessageHolder & holder;
 
