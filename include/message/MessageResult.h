@@ -1,6 +1,10 @@
 #ifndef JACY_MESSAGE_MESSAGERESULT_H
 #define JACY_MESSAGE_MESSAGERESULT_H
 
+#include "message/TermEmitter.h"
+#include "message/MessageDumper.h"
+#include "session/Session.h"
+
 namespace jc::message {
     template<class T>
     struct MessageResult {
