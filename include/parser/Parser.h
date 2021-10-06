@@ -160,7 +160,7 @@ namespace jc::parser {
 
         // Items //
         Option<Item::Ptr> parseOptItem();
-        Item::List parseItemList(const std::string & gotExprSugg, TokenKind stopToken);
+        Item::List parseItemList(const std::string & gotExprMsg, TokenKind stopToken);
 
         Vis parseVis();
         Item::Ptr parseEnum();

@@ -271,7 +271,7 @@ namespace jc::parser {
         return None;
     }
 
-    Item::List Parser::parseItemList(const std::string & gotExprSugg, TokenKind stopToken) {
+    Item::List Parser::parseItemList(const std::string & gotExprMsg, TokenKind stopToken) {
         enterEntity("ItemList");
 
         Item::List items;
@@ -289,7 +289,7 @@ namespace jc::parser {
                 if (expr.some()) {
                     // FIXME!: Use range span.to(span)
                     // TODO: Diff messages for label and header
-                    msg.error().setText(gotExprSugg).addPrimaryLabel(exprToken.span, gotExprSugg);
+                    msg.error().setText(gotExprMsg).addPrimaryLabel(exprToken.span, gotExprMsg);
                 }
                 items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `parsePrimary`
