@@ -6,7 +6,7 @@ namespace jc::ast {
     message::MessageHolder::Result<dt::none_t> Validator::lint(const Party & party) {
         validateEach(party.items);
 
-        return {None, extractMessages()};
+        return {None, msg.extractMessages()};
     }
 
     void Validator::visit(const ErrorNode&) {
@@ -185,10 +185,9 @@ namespace jc::ast {
                 switch (modifier.kind) {
                     default: {
                         // No modifiers for `init` (might be changed in the future)
-                        reportError(
-                            "`init` methods do not allow any modifiers so far",
-                            modifier.span
-                        );
+                        msg.error()
+                           .setText("`init` methods do not allow any modifiers so far")
+                           .addPrimaryLabel(modifier.span, "`init` cannot have modifiers");
                     }
                 }
             }
@@ -232,7 +231,9 @@ namespace jc::ast {
         const auto & span = assign.op.span;
         switch (assign.lhs.unwrap()->kind) {
             case ExprKind::Assign: {
-                reportError("Chained assignment is not allowed", span);
+                msg.error()
+                   .setText("Chained assignment is not allowed")
+                   .addPrimaryLabel(span, "Chained assignment is not allowed");
                 break;
             }
             case ExprKind::Paren: {
@@ -256,7 +257,9 @@ namespace jc::ast {
         }
 
         if (!isPlaceExpr(assign.lhs)) {
-            reportError("Invalid left-hand side expression in assignment", span);
+            msg.error()
+               .setText("Invalid left-hand side expression in assignment")
+               .addPrimaryLabel(span, "Not a place expression");
         }
     }
 

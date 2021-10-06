@@ -113,6 +113,9 @@ namespace jc::ast {
         void visit(const SpreadPat & pat) override;
         void visit(const StructPat & pat) override;
 
+    private:
+        message::MessageHolder msg;
+
         // Helpers //
     private:
         bool isPlaceExpr(const Expr::Ptr & expr);
