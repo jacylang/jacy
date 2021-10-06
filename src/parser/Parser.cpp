@@ -651,17 +651,15 @@ namespace jc::parser {
                 return Ok(makeNode<UseTree>(maybePath.take(), closeSpan(begin)));
             }
 
-            reportError("Expected `*` or `{` after `::` in `use` path", begin);
+            msg.error()
+               .setText("Expected `*` or `{` after `::` in `use` path")
+               .addPrimaryLabel(begin, "Expected path segment");
+
             advance();
         }
 
         if (maybePath.some() and skipOptKw(Kw::As).some()) {
             // `as ...` case
-
-            if (maybePath.none()) {
-                reportError("Expected path before `as`", begin);
-            }
-
             auto as = parseIdent("binding name after `as`");
             exitEntity();
             return Ok(makeNode<UseTree>(maybePath.take(), std::move(as), closeSpan(begin)));
@@ -673,10 +671,12 @@ namespace jc::parser {
         }
 
         if (isKw(Kw::As)) {
-            reportError("Please, specify path before `as` rebinding", cspan());
+            msg.error()
+               .setText("Expected path before `as` rebinding")
+               .addPrimaryLabel(cspan(), "Specify path before `as` rebinding");
         }
 
-        reportError("Path expected in `use` declaration", cspan());
+        msg.error().setText("Expected path in `use` declaration").addPrimaryLabel(cspan(), "Expected path");
         advance();
 
         exitEntity();
