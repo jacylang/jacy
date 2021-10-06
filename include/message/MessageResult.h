@@ -18,7 +18,7 @@ namespace jc::message {
             return {std::move(value), std::move(messages)};
         }
 
-        void check(
+        static void check(
             sess::Session::Ptr sess,
             const Message::List & messages,
             const std::string & stageName = ""
@@ -32,7 +32,7 @@ namespace jc::message {
             termEmitter.emit(sess, messages);
         }
 
-        void dump(
+        static void dump(
             sess::Session::Ptr sess,
             const Message::List & messages,
             const std::string & emptyMessage = ""
