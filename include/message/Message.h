@@ -55,7 +55,7 @@ namespace jc::message {
         using TextT = Label::TextT;
         using List = std::vector<Message>;
 
-        Message(Level level) : level {level} {}
+        Message() : level {Level::None} {}
 
         // Getters //
         const auto & getLevel() const {
