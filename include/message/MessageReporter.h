@@ -40,6 +40,8 @@ namespace jc::message {
             holder.add(std::move(msg));
         }
 
+        // Basic setters //
+    public:
         const auto & setLevel(Level level) {
             if (msg.checkLevel(Level::None)) {
                 log::devPanic("Called `MessageBuilder::setLevel` on `Level::None` message, tried to reset level");
@@ -65,6 +67,17 @@ namespace jc::message {
                 );
             }
             msg.eid = eid;
+            return *this;
+        }
+
+        // Primary label //
+    public:
+
+
+        // Aux labels //
+    public:
+        const auto & addHelp(Span span, const Label::TextT & text) {
+            msg.labels.emplace_back(Label {Label::Kind::Aux, span, text});
             return *this;
         }
 
