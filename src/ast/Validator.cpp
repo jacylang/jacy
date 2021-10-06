@@ -315,10 +315,9 @@ namespace jc::ast {
     void Validator::visit(const Infix & infix) {
         switch (infix.op.kind) {
             case parser::TokenKind::Id: {
-                reportError(
-                    "Custom infix operators feature is reserved, but not implemented",
-                    infix.op.span
-                );
+                msg.error()
+                   .setText("Custom infix operators feature is reserved, but not implemented")
+                   .addPrimaryLabel(infix.op.span, "Cannot use identifier as operator");
                 break;
             }
             case parser::TokenKind::Pipe:
