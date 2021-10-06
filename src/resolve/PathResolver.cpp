@@ -258,7 +258,7 @@ namespace jc::resolve {
             msg.error()
                .setText(errMsg)
                .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined");
-            suggestAltNames(targetNS, unresolvedSegName, altDefs);
+            suggestAltNames(unresolvedSegIdent.span, targetNS, unresolvedSegName, altDefs);
         }
 
         return None;
@@ -304,6 +304,7 @@ namespace jc::resolve {
      * @returns Help labels with alternative names
      */
     message::Label::List PathResolver::suggestAltNames(
+        span::Span span,
         Namespace target,
         const Symbol & name,
         const PerNS<NameBinding::Opt> & altDefs
@@ -322,7 +323,7 @@ namespace jc::resolve {
             }
             labels.emplace_back(
                 message::MessageBuilder::standaloneHelp(
-                    span::NONE_SPAN,
+                    span,
                     "Alternative: '",
                     name,
                     "' ",

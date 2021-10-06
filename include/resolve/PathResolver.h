@@ -127,6 +127,7 @@ namespace jc::resolve {
         message::MessageHolder msg;
 
         message::Label::List suggestAltNames(
+            span::Span span,
             Namespace maybeNameBinding,
             const Symbol & name,
             const PerNS<NameBinding::Opt> & altDefs
