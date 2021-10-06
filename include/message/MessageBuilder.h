@@ -19,6 +19,12 @@ namespace jc::message {
             return messages;
         }
 
+        // Constructors //
+    public:
+        MessageBuilder empty();
+        MessageBuilder error();
+        MessageBuilder warn();
+
     private:
         friend MessageBuilder;
 
