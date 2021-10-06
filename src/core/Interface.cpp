@@ -118,7 +118,7 @@ namespace jc::core {
 
         printAst(ast::AstPrinterMode::Parsing);
 
-        checkSuggestions("parsing");
+        checkMessages("parsing");
 
         validateAST();
     }
@@ -434,7 +434,7 @@ namespace jc::core {
         messages = utils::arr::moveConcat(std::move(messages), std::move(additional));
     }
 
-    void Interface::checkSuggestions(const std::string & stageName) {
+    void Interface::checkMessages(const std::string & stageName) {
         if (messages.empty()) {
             return;
         }

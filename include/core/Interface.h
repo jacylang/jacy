@@ -106,7 +106,7 @@ namespace jc::core {
 
         message::Message::List messages;
         void collectMessages(message::Message::List && additional);
-        void checkSuggestions(const std::string & stageName);
+        void checkMessages(const std::string & stageName);
     };
 }
 
