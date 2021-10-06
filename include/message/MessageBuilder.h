@@ -64,13 +64,13 @@ namespace jc::message {
         }
 
         template<class ...Args>
-        auto & setText(Args && ...args) {
+        auto & setText(Args && ...textParts) {
             if (not msg.text.empty()) {
                 log::devPanic(
                     "Called `MessageBuilder::setText` on non-empty message text, tried to change message text"
                 );
             }
-            msg.text = log::fmt(std::forward<Args>(args)...);
+            msg.text = log::fmt(std::forward<Args>(textParts)...);
             return *this;
         }
 
@@ -87,9 +87,9 @@ namespace jc::message {
         // Primary label //
     public:
         template<class ...Args>
-        auto & addPrimaryLabel(Span span, Args && ...args) {
+        auto & addPrimaryLabel(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {
-                Label::Kind::Primary, span, log::fmt(std::forward<Args>(args)...)
+                Label::Kind::Primary, span, log::fmt(std::forward<Args>(textParts)...)
             });
             return *this;
         }
@@ -97,9 +97,9 @@ namespace jc::message {
         // Aux labels //
     public:
         template<class ...Args>
-        auto & addHelp(Span span, Args && ...args) {
+        auto & addHelp(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {
-                Label::Kind::Aux, span, log::fmt(std::forward<Args>(args)...)
+                Label::Kind::Aux, span, log::fmt(std::forward<Args>(textParts)...)
             });
             return *this;
         }
