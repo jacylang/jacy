@@ -1160,7 +1160,7 @@ namespace jc::parser {
             return parseLoopExpr();
         }
 
-        reportError("Unexpected token " + peek().repr(true), cspan());
+        msg.error().setText("Unexpected token ", peek().repr(true)).addPrimaryLabel(cspan(), "Unexpected token");
         advance();
 
         return None;
