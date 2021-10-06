@@ -4,6 +4,11 @@
 
 namespace jc::message {
     template<class T>
+    std::tuple<T, message::Message::List> MessageHolder::Result<T>::extract() {
+        return {std::move(value), std::move(suggestions)};
+    }
+
+    template<class T>
     void MessageHolder::Result<T>::check(
         sess::Session::Ptr sess,
         const Message::List & messages,

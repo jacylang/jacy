@@ -16,6 +16,8 @@ namespace jc::message {
             T value;
             Message::List messages;
 
+            std::tuple<T, message::Message::List> extract();
+
             T take(sess::Session::Ptr sess, const std::string & stageName = "") {
                 check(sess, messages, stageName);
                 return std::move(value);
