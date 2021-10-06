@@ -1197,9 +1197,9 @@ namespace jc::parser {
             return Ok(makeNode<Ident>(tok));
         }
 
-        reportError(
-            "Expected identifier, `super`, `self` or `party` in path, got " + tok.repr(), cspan()
-        );
+        msg.error()
+           .setText("Expected identifier, `super`, `self` or `party` in path, got ", tok.repr())
+           .addPrimaryLabel(cspan(), "Expected path segment");
 
         return makeErrPR<Ident>(span);
     }
