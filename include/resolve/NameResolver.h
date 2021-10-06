@@ -7,6 +7,7 @@
 #include "message/MessageBuilder.h"
 #include "resolve/Resolutions.h"
 #include "resolve/PathResolver.h"
+#include "message/MessageResult.h"
 
 namespace jc::resolve {
     using log::Logger;
@@ -16,7 +17,7 @@ namespace jc::resolve {
         NameResolver();
         ~NameResolver() override = default;
 
-        message::MessageHolder::Result<dt::none_t> resolve(const sess::Session::Ptr & sess, const ast::Party & party);
+        message::MessageResult<dt::none_t> resolve(const sess::Session::Ptr & sess, const ast::Party & party);
 
         // Items //
 //        void visit(const ast::Enum & enumDecl) override;

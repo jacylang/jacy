@@ -1,7 +1,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    message::MessageHolder::Result<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
+    message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
         auto rootMod = lowerMod(party.items);

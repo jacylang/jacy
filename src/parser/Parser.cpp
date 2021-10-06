@@ -175,7 +175,7 @@ namespace jc::parser {
     }
 
     // Parsers //
-    message::MessageHolder::Result<Item::List> Parser::parse(
+    message::MessageResult<Item::List> Parser::parse(
         const sess::Session::Ptr & sess,
         const ParseSess::Ptr & parseSess,
         const Token::List & tokens

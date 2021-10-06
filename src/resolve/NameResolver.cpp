@@ -3,7 +3,7 @@
 namespace jc::resolve {
     NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
-    message::MessageHolder::Result<dt::none_t> NameResolver::resolve(
+    message::MessageResult<dt::none_t> NameResolver::resolve(
         const sess::Session::Ptr & sess,
         const ast::Party & party
     ) {

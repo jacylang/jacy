@@ -1,7 +1,7 @@
 #include "resolve/ModuleTreeBuilder.h"
 
 namespace jc::resolve {
-    message::MessageHolder::Result<dt::none_t> ModuleTreeBuilder::build(
+    message::MessageResult<dt::none_t> ModuleTreeBuilder::build(
         sess::Session::Ptr sess,
         const ast::Party & party
     ) {

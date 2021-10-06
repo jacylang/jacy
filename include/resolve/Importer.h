@@ -6,6 +6,7 @@
 #include "resolve/Definition.h"
 #include "resolve/Resolutions.h"
 #include "resolve/PathResolver.h"
+#include "message/MessageResult.h"
 
 namespace jc::resolve {
     /// Note: Non-friendly for multi-threading -- global states `_useDeclModule` and `_importModule`
@@ -15,7 +16,7 @@ namespace jc::resolve {
         Importer() : StubVisitor("Importer") {}
         ~Importer() override = default;
 
-        message::MessageHolder::Result<dt::none_t> declare(sess::Session::Ptr sess, const ast::Party & party);
+        message::MessageResult<dt::none_t> declare(sess::Session::Ptr sess, const ast::Party & party);
 
         void visit(const ast::UseDecl & useDecl) override;
         void visit(const ast::UseTree & useTree) override;

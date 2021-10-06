@@ -6,6 +6,7 @@
 #include "ast/Party.h"
 #include "message/Message.h"
 #include "message/MessageBuilder.h"
+#include "message/MessageResult.h"
 
 namespace jc::ast {
     using log::Logger;
@@ -24,7 +25,7 @@ namespace jc::ast {
     public:
         Validator();
 
-        message::MessageHolder::Result<dt::none_t> lint(const Party & party);
+        message::MessageResult<dt::none_t> lint(const Party & party);
 
     private:
         void visit(const ErrorNode & errorNode) override;

@@ -1,7 +1,7 @@
 #include "resolve/Importer.h"
 
 namespace jc::resolve {
-    message::MessageHolder::Result<dt::none_t> Importer::declare(sess::Session::Ptr sess, const ast::Party & party) {
+    message::MessageResult<dt::none_t> Importer::declare(sess::Session::Ptr sess, const ast::Party & party) {
         this->sess = sess;
         pathResolver.init(sess);
 

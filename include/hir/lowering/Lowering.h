@@ -5,6 +5,7 @@
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
 #include "message/MessageBuilder.h"
+#include "message/MessageResult.h"
 
 namespace jc::hir {
     class Lowering {
@@ -12,7 +13,7 @@ namespace jc::hir {
         Lowering() = default;
         virtual ~Lowering() = default;
 
-        message::MessageHolder::Result<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
+        message::MessageResult<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
 
     private:
         log::Logger log{"lowering"};

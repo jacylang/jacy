@@ -11,6 +11,7 @@
 #include "ast/nodes.h"
 #include "config/Config.h"
 #include "message/MessageBuilder.h"
+#include "message/MessageResult.h"
 
 #include "data_types/Option.h"
 
@@ -79,7 +80,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        message::MessageHolder::Result<Item::List> parse(
+        message::MessageResult<Item::List> parse(
             const sess::Session::Ptr & sess,
             const ParseSess::Ptr & parseSess,
             const Token::List & tokens

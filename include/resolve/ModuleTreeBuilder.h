@@ -6,6 +6,7 @@
 #include "ast/StubVisitor.h"
 #include "session/Session.h"
 #include "message/MessageBuilder.h"
+#include "message/MessageResult.h"
 
 #include "data_types/Option.h"
 
@@ -14,7 +15,7 @@ namespace jc::resolve {
     public:
         ModuleTreeBuilder() : StubVisitor("ScopeTreeBuilder") {}
 
-        message::MessageHolder::Result<dt::none_t> build(sess::Session::Ptr sess, const ast::Party & party);
+        message::MessageResult<dt::none_t> build(sess::Session::Ptr sess, const ast::Party & party);
 
         void visit(const ast::Enum & _enum) override;
         void visit(const ast::EnumEntry & enumEntry) override;
