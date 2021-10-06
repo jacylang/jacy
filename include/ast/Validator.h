@@ -5,7 +5,6 @@
 #include "ast/BaseVisitor.h"
 #include "ast/Party.h"
 #include "message/Message.h"
-#include "data_types/SuggResult.h"
 #include "message/MessageBuilder.h"
 
 namespace jc::ast {
@@ -21,11 +20,11 @@ namespace jc::ast {
         Struct,
     };
 
-    class Validator : public BaseVisitor, public message::MessageReporter {
+    class Validator : public BaseVisitor {
     public:
         Validator();
 
-        dt::SuggResult<dt::none_t> lint(const Party & party);
+        message::MessageHolder::Result<dt::none_t> lint(const Party & party);
 
     private:
         void visit(const ErrorNode & errorNode) override;

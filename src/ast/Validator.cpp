@@ -3,7 +3,7 @@
 namespace jc::ast {
     Validator::Validator() = default;
 
-    dt::SuggResult<dt::none_t> Validator::lint(const Party & party) {
+    message::MessageHolder::Result<dt::none_t> Validator::lint(const Party & party) {
         validateEach(party.items);
 
         return {None, extractMessages()};
