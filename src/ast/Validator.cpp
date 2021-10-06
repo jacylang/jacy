@@ -496,7 +496,9 @@ namespace jc::ast {
     void Validator::visit(const TupleType & tupleType) {
         const auto & els = tupleType.elements;
         if (els.size() == 1 and els.at(0).name.some() and els.at(0).type.some()) {
-            reportError("Cannot declare single-element named tuple type", tupleType.span);
+            msg.error()
+               .setText("Cannot declare single-element named tuple type")
+               .addPrimaryLabel(tupleType.span, "Cannot have a name");
         }
 
         // FIXME: Add check for one-element tuple type, etc.
