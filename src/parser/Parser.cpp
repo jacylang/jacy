@@ -2044,10 +2044,9 @@ namespace jc::parser {
             if (tupleEl.name.some()) {
                 // Note: We don't ignore `->` if there are named elements in tuple type
                 //  'cause we want to check for problem like (name: string) -> type
-                reportError(
-                    "Cannot declare function type with named parameter",
-                    tupleEl.name.unwrap().span()
-                );
+                msg.error()
+                   .setText("Cannot declare function type with named parameter")
+                   .addPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name");
             }
             if (tupleEl.type.none()) {
                 log::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
