@@ -720,7 +720,7 @@ namespace jc::parser {
         auto expr = parseOptExpr();
         if (expr.none()) {
             // FIXME: Maybe useless due to check inside `parseExpr`
-            report(std::make_unique<ParseErrSugg>("Unexpected token " + peek().repr(true), cspan()));
+            msg.error().setText("Unexpected token ", peek().repr(true)).addPrimaryLabel(cspan(), "Unexpected token");
             return makeErrPR<N<Stmt>>(closeSpan(begin));
         }
 
