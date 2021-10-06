@@ -9,34 +9,6 @@ namespace jc::message {
 
     class MessageHolder {
     public:
-        template<class T>
-        struct Result {
-            Result(T && value, Message::List && messages) : value{std::move(value)}, messages{std::move(messages)} {}
-
-            T value;
-            Message::List messages;
-
-            std::tuple<T, message::Message::List> extract();
-
-            T take(sess::Session::Ptr sess, const std::string & stageName = "") {
-                check(sess, messages, stageName);
-                return std::move(value);
-            }
-
-            static void check(
-                sess::Session::Ptr sess,
-                const message::Message::List & messages,
-                const std::string & stageName = ""
-            );
-
-            static void dump(
-                sess::Session::Ptr sess,
-                const message::Message::List & messages,
-                const std::string & emptyMessage = ""
-            );
-        };
-
-    public:
         MessageHolder() = default;
         ~MessageHolder() = default;
 
