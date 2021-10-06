@@ -80,7 +80,7 @@ namespace jc::parser {
         Parser();
         virtual ~Parser() = default;
 
-        dt::Result<Item::List, message::Message::List> parse(
+        message::MessageHolder::Result<Item::List> parse(
             const sess::Session::Ptr & sess,
             const ParseSess::Ptr & parseSess,
             const Token::List & tokens
