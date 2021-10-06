@@ -22,6 +22,7 @@ namespace jc::message {
         // Constructors //
     public:
         MessageBuilder empty();
+        MessageBuilder withLevel(Level level);
         MessageBuilder error();
         MessageBuilder warn();
 

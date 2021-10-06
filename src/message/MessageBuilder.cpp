@@ -5,15 +5,17 @@ namespace jc::message {
         return MessageBuilder {*this};
     }
 
-    MessageBuilder MessageHolder::error() {
+    MessageBuilder MessageHolder::withLevel(Level level) {
         MessageBuilder builder {*this};
-        builder.setLevel(Level::Error);
+        builder.setLevel(level);
         return builder;
     }
 
+    MessageBuilder MessageHolder::error() {
+        return withLevel(Level::Error);
+    }
+
     MessageBuilder MessageHolder::warn() {
-        MessageBuilder builder {*this};
-        builder.setLevel(Level::Warn);
-        return builder;
+        return withLevel(Level::Warn);
     }
 }
