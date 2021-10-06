@@ -873,7 +873,9 @@ namespace jc::parser {
         const auto maybeAssignOp = peek();
         if (maybeAssignOp.isAssignOp()) {
             if (lhs.none()) {
-                reportError("Unexpected empty left-hand side in assignment", maybeAssignOp.span);
+                msg.error()
+                   .setText("Expected left-hand side in assignment")
+                   .addPrimaryLabel(maybeAssignOp.span, "Expected place expression");
             }
 
             advance();
