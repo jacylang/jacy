@@ -285,7 +285,9 @@ namespace jc::ast {
 
     void Validator::visit(const ContinueExpr & continueExpr) {
         if (not isDeepInside(ValidatorCtx::Loop)) {
-            reportError("`continue` outside of loop", continueExpr.span);
+            msg.error()
+               .setText("`continue` expression cannot be used outside of a loop")
+               .addPrimaryLabel(continueExpr.span, "`continue` is not allowed here");
         }
     }
 
