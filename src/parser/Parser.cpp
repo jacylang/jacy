@@ -189,7 +189,7 @@ namespace jc::parser {
         this->parseSess = parseSess;
         this->tokens = tokens;
 
-        enterEntity("[TOP]");
+        enterEntity("[TOP LEVEL]");
         auto items = parseItemList("Unexpected expression on top-level", TokenKind::Eof);
         exitEntity();
 

@@ -202,7 +202,7 @@ namespace jc::core {
         auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
         sess->endStep(tokens.size());
 
-        collectSuggestions(std::move(parserSuggestions));
+        collectMessages(std::move(parserSuggestions));
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
@@ -430,7 +430,7 @@ namespace jc::core {
     }
 
     // Messages //
-    void Interface::collectSuggestions(message::Message::List && additional) {
+    void Interface::collectMessages(message::Message::List && additional) {
         messages = utils::arr::moveConcat(std::move(messages), std::move(additional));
     }
 

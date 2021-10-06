@@ -105,7 +105,7 @@ namespace jc::core {
         message::Highlighter highlighter;
 
         message::Message::List messages;
-        void collectSuggestions(message::Message::List && additional);
+        void collectMessages(message::Message::List && additional);
         void checkSuggestions(const std::string & stageName);
     };
 }
