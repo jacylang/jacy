@@ -2117,7 +2117,7 @@ namespace jc::parser {
                     )
                 );
             } else {
-                reportError("Expected type parameter", genBegin);
+                msg.error().setText("Expected type parameter").addPrimaryLabel(genBegin, "Expected type parameter");
             }
         }
         skip(TokenKind::RAngle, "Missing closing `>` in type parameter list");
