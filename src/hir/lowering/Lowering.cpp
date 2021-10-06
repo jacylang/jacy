@@ -1,7 +1,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    dt::SuggResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
+    message::MessageHolder::Result<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
         auto rootMod = lowerMod(party.items);
@@ -11,7 +11,7 @@ namespace jc::hir {
                 std::move(*static_cast<Mod*>(rootMod.get())),
                 std::move(items)
             ),
-            extractMessages()
+            msg.extractMessages()
         };
     }
 

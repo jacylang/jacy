@@ -8,12 +8,12 @@
 #include "message/MessageBuilder.h"
 
 namespace jc::hir {
-    class Lowering : public message::MessageReporter {
+    class Lowering {
     public:
         Lowering() = default;
         virtual ~Lowering() = default;
 
-        dt::SuggResult<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
+        message::MessageHolder::Result<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
 
     private:
         log::Logger log{"lowering"};
@@ -94,6 +94,7 @@ namespace jc::hir {
         ItemId addItem(ItemNode && item);
 
     private:
+        message::MessageHolder msg;
         sess::Session::Ptr sess;
     };
 }
