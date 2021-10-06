@@ -320,7 +320,6 @@ namespace jc::resolve {
             } else {
                 kind = sess->defTable.getDef(nameBinding.asDef()).kindStr();
             }
-            labels.emplace_back(message::Label::help())
             reportHelp(
                 log::fmt(
                     "Alternative: '",

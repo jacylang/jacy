@@ -121,8 +121,9 @@ namespace jc::message {
 
         // Standalone constructors //
     public:
-        static auto standaloneHelp(Span span, const Label::TextT & text) {
-            return Label {Label::Kind::Help, span, text};
+        template<class ...Args>
+        static auto standaloneHelp(Span span, Args && ...textParts) {
+            return Label {Label::Kind::Help, span, log::fmt(std::forward<Args>(textParts)...)};
         }
 
     private:
