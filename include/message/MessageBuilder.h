@@ -63,13 +63,14 @@ namespace jc::message {
             return *this;
         }
 
-        auto & setText(const Message::TextT & text) {
+        template<class ...Args>
+        auto & setText(Args && ...args) {
             if (not msg.text.empty()) {
                 log::devPanic(
                     "Called `MessageBuilder::setText` on non-empty message text, tried to change message text"
                 );
             }
-            msg.text = text;
+            msg.text = log::fmt(std::forward<Args>(args)...);
             return *this;
         }
 
