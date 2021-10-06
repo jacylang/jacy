@@ -8,7 +8,7 @@ namespace jc::resolve {
         visitEach(party.items);
 
         // `PathResolver` has its own suggestion collection, thus we need to extract all of them
-        return {None, utils::arr::moveConcat(extractMessages(), pathResolver.extractMessages())};
+        return {None, utils::arr::moveConcat(msg.extractMessages(), pathResolver.extractMessages())};
     }
 
     void Importer::visit(const ast::UseDecl & useDecl) {
@@ -235,7 +235,8 @@ namespace jc::resolve {
 
             error += log::fmt(" because name", nounSuffix, " conflicting with locally defined function", nounSuffix);
 
-            reportError(error, span);
+            // TODO: Link labels
+            msg.error().setText(error).addPrimaryLabel(span, error);
         }
     }
 
@@ -265,14 +266,20 @@ namespace jc::resolve {
         // TODO: Header when suggestion headers will be implemented:
         //  log::fmt("Name '", redefinedName, "' for ", Def::kindStr(as), " is conflicting")
 
-        report(
-            std::make_unique<message::MsgSpanLinkSugg>(
-                log::fmt("Cannot import '", redefinedName, "'"),
-                span,
-                "Because it is already defined as " + prevDef.kindStr() + " here",
-                prevDefSpan,
-                message::Level::Error
-            )
-        );
+        // TODO: Link labels
+
+        msg.error()
+           .setText("Cannot import '", redefinedName, "'")
+           .addPrimaryLabel(span, "Cannot import '", redefinedName, "'");
+
+//        report(
+//            std::make_unique<message::MsgSpanLinkSugg>(
+//                log::fmt(),
+//                span,
+//                "Because it is already defined as " + prevDef.kindStr() + " here",
+//                prevDefSpan,
+//                message::Level::Error
+//            )
+//        );
     }
 }

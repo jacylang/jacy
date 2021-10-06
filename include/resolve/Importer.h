@@ -5,7 +5,6 @@
 #include "message/MessageBuilder.h"
 #include "resolve/Definition.h"
 #include "resolve/Resolutions.h"
-#include "data_types/SuggResult.h"
 #include "resolve/PathResolver.h"
 
 namespace jc::resolve {
@@ -74,8 +73,10 @@ namespace jc::resolve {
             span::Span span
         );
 
-        // Suggestions //
+        // Messages //
     private:
+        message::MessageHolder msg;
+
         void suggestCannotImport(
             Symbol redefinedName,
             const span::Span & span,
