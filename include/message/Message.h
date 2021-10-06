@@ -24,6 +24,7 @@ namespace jc::message {
 
         enum class Kind {
             Primary, // Primary label, i.e. where the compiler encountered the error, warning, etc.
+            Help,    // Help label
             Aux,     // Auxiliary label
         };
 
@@ -43,6 +44,12 @@ namespace jc::message {
 
         const auto & getText() const {
             return text;
+        }
+
+        // Constructors //
+    public:
+        auto help(Span span, const TextT & text) {
+            return Label {Kind::Help, span, text};
         }
 
     private:
