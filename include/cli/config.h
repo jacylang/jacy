@@ -42,7 +42,7 @@ common-flags: [
 
 dev-print-stages: {
     $any: [
-        'suggestions'
+        'messages'
         'summary'
         'dir-tree'
     ]
@@ -130,7 +130,7 @@ commands: {
                 duplication: 'merge'
                 deps: [ 'dev' ]
                 values: [
-                    'suggestions'
+                    'messages'
                     'summary'
                     'dir-tree'
                     'source'
