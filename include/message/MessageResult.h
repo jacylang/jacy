@@ -11,11 +11,13 @@ namespace jc::message {
         MessageResult(const T & value, Message::List && messages) : value{value}, messages{std::move(messages)} {}
         MessageResult(T && value, Message::List && messages) : value{std::move(value)}, messages{std::move(messages)} {}
 
-        T value;
-        Message::List messages;
-
         std::tuple<T, message::Message::List> extract() {
             return {std::move(value), std::move(messages)};
+        }
+
+        T take(sess::Session::Ptr sess, const std::string & stageName = "") {
+            check(sess, messages, stageName);
+            return std::move(value);
         }
 
         static void check(
@@ -51,10 +53,9 @@ namespace jc::message {
             }
         }
 
-        T take(sess::Session::Ptr sess, const std::string & stageName = "") {
-            check(sess, messages, stageName);
-            return std::move(value);
-        }
+    private:
+        T value;
+        Message::List messages;
     };
 }
 
