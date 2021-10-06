@@ -51,9 +51,13 @@ namespace jc::message {
         TextT text;
     };
 
+    class MessageBuilder;
+
     struct Message {
         using TextT = Label::TextT;
         using List = std::vector<Message>;
+
+        friend MessageBuilder;
 
         Message() : level {Level::None} {}
 
