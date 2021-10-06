@@ -5,7 +5,7 @@
 #include "session/Session.h"
 #include "hir/nodes/nodes.h"
 #include "data_types/SuggResult.h"
-#include "message/MessageReporter.h"
+#include "message/MessageBuilder.h"
 
 namespace jc::hir {
     class Lowering : public message::MessageReporter {

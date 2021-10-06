@@ -11,7 +11,7 @@
 #include "message/TermEmitter.h"
 #include "ast/nodes.h"
 #include "config/Config.h"
-#include "message/MessageReporter.h"
+#include "message/MessageBuilder.h"
 
 #include "data_types/Option.h"
 #include "data_types/SuggResult.h"

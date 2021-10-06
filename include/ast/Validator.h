@@ -6,7 +6,7 @@
 #include "ast/Party.h"
 #include "message/Message.h"
 #include "data_types/SuggResult.h"
-#include "message/MessageReporter.h"
+#include "message/MessageBuilder.h"
 
 namespace jc::ast {
     using log::Logger;

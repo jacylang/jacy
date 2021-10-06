@@ -5,7 +5,7 @@
 #include "data_types/SuggResult.h"
 #include "resolve/Rib.h"
 #include "utils/arr.h"
-#include "message/MessageReporter.h"
+#include "message/MessageBuilder.h"
 #include "resolve/Resolutions.h"
 #include "resolve/PathResolver.h"
 

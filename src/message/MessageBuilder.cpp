@@ -1,4 +1,4 @@
-#include "message/MessageReporter.h"
+#include "message/MessageBuilder.h"
 
 namespace jc::message {
     Message::List MessageReporter::extractMessages() {
