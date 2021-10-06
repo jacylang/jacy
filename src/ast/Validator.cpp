@@ -439,7 +439,9 @@ namespace jc::ast {
         }
 
         if (not isDeepInside(ValidatorCtx::Func)) {
-            reportError("`return` outside of function", returnExpr.span);
+            msg.error()
+               .setText("`return` expression cannot be used outside of a loop")
+               .addPrimaryLabel(returnExpr.span, "`return` is not allowed here");
         }
     }
 
