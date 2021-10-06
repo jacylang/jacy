@@ -2283,10 +2283,14 @@ namespace jc::parser {
 
                 // It is an error having `ref/mut field: pattern`
                 if (ref.some()) {
-                    reportError("Unexpected `ref` in field destructuring pattern", ref.unwrap().span);
+                    msg.error()
+                       .setText("Unexpected `ref` in field destructuring pattern")
+                       .addPrimaryLabel(ref.unwrap().span, "Unexpected `ref`");
                 }
                 if (mut.some()) {
-                    reportError("Unexpected `mut` in field destructuring pattern", mut.unwrap().span);
+                    msg.error()
+                       .setText("Unexpected `mut` in field destructuring pattern")
+                       .addPrimaryLabel(mut.unwrap().span, "Unexpected `mut`");
                 }
 
                 auto pat = parsePat();
