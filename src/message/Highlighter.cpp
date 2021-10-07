@@ -3,6 +3,8 @@
 
 namespace jc::message {
     Highlighter::Highlighter() {
+        lexer = std::make_unique<parser::Lexer>();
+
         setTheme("ayu-dark");
     }
 
@@ -35,8 +37,7 @@ namespace jc::message {
     };
 
     std::string Highlighter::highlight(const std::string & source) {
-        parser::Lexer lexer;
-        auto tokens = lexer.lexInternal(source);
+        auto tokens = lexer->lexInternal(source);
 
         std::stringstream result;
 

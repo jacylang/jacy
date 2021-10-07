@@ -4,6 +4,8 @@
 #include "parser/Token.h"
 #include "message/themes.h"
 
+namespace jc::parser {class Lexer;}
+
 namespace jc::message {
     using parser::TokenKind;
 
@@ -17,6 +19,8 @@ namespace jc::message {
         void setTheme(const std::string & themeName);
 
     private:
+        std::unique_ptr<parser::Lexer> lexer;
+
         Theme theme;
 
         TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
