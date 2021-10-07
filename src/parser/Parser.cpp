@@ -77,7 +77,9 @@ namespace jc::parser {
         Symbol::Opt sym
     ) {
         if (eof()) {
-            logExtra("<EOF> on skip");
+            msg.error()
+               .setText("Expected ", expected, " got <EOF>")
+               .addPrimaryLabel(cspan(), "Expected ", expected);
         }
 
         Token::Opt found = None;
