@@ -80,6 +80,7 @@ namespace jc::parser {
             msg.error()
                .setText("Expected ", expected, " got <EOF>")
                .addPrimaryLabel(cspan(), "Expected ", expected);
+            return None;
         }
 
         Token::Opt found = None;

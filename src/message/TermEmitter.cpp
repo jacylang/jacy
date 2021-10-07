@@ -11,8 +11,18 @@ namespace jc::message {
 
         Logger::nl();
 
+        bool errorAppeared = false;
+
         for (const auto & msg : messages) {
             emitMessage(msg);
+
+            if (msg.checkLevel(Level::Error)) {
+                errorAppeared = true;
+            }
+        }
+
+        if (errorAppeared) {
+            throw SuggestionError("Stop due to errors above");
         }
 
         Logger::nl();
