@@ -1,10 +1,7 @@
 #include "message/Highlighter.h"
-#include "parser/Lexer.h"
 
 namespace jc::message {
     Highlighter::Highlighter() {
-        lexer = std::make_unique<parser::Lexer>();
-
         setTheme("ayu-dark");
     }
 

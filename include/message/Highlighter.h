@@ -3,8 +3,7 @@
 
 #include "parser/Token.h"
 #include "message/themes.h"
-
-namespace jc::parser {class Lexer;}
+#include "parser/Lexer.h"
 
 namespace jc::message {
     using parser::TokenKind;
@@ -19,7 +18,7 @@ namespace jc::message {
         void setTheme(const std::string & themeName);
 
     private:
-        std::unique_ptr<parser::Lexer> lexer;
+        parser::Lexer lexer;
 
         Theme theme;
 
