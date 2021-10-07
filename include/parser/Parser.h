@@ -271,6 +271,14 @@ namespace jc::parser {
         void logParseExtra(const std::string & entity);
 
         template<class ...Args>
+        void logExtra(Args && ...args) {
+            if (not extraDebugAll) {
+                return;
+            }
+            log.dev(std::forward<Args>(args)...);
+        }
+
+        template<class ...Args>
         void devLogWithIndent(Args && ...args) const {
             const auto indent = entitiesEntries.size();
             log.dev(log::Indent(indent), args...);

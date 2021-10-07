@@ -77,7 +77,7 @@ namespace jc::parser {
         Symbol::Opt sym
     ) {
         if (eof()) {
-            log.dev("<EOF> on skip");
+            logParseExtra("<EOF> on skip");
         }
 
         Token::Opt found = None;
