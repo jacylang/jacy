@@ -4,10 +4,6 @@
 
 namespace jc::config {
     Config::Config() {
-        for (const auto & owner : loggerOwners) {
-            devLogObjects.emplace(owner, false);
-        }
-
         const auto & cliConfig = cli::getConfig();
 
         if (cliConfig.has("dev-print-stages")) {
