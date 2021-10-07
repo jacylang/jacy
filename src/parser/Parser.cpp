@@ -76,6 +76,10 @@ namespace jc::parser {
         Recovery recovery,
         Symbol::Opt sym
     ) {
+        if (eof()) {
+            log.dev("<EOF> on skip");
+        }
+
         Token::Opt found = None;
         if (not isIdentLike(kind, sym)) {
             if (recovery != Recovery::Any) {
