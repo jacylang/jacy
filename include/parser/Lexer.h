@@ -1,7 +1,7 @@
 #ifndef JACY_LEXER_H
 #define JACY_LEXER_H
 
-#include "Token.h"
+#include "parser/Token.h"
 #include "common/Error.h"
 #include "log/Logger.h"
 #include "parser/ParseSess.h"
