@@ -84,6 +84,10 @@ namespace jc::message {
          * @param text Text
          */
         void printWithIndentOf(Indent ind, const Message::TextT & text);
+
+        // Helpers //
+    private:
+        std::string levelPrefix(Level level) const;
     };
 }
 

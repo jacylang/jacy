@@ -47,7 +47,7 @@ namespace jc::message {
         Logger::nl();
 
         // TODO: Print kind
-        Logger::print(message.getText());
+        Logger::print(levelPrefix(message.getLevel()), message.getText());
         Logger::nl();
     }
 
@@ -143,5 +143,20 @@ namespace jc::message {
         Logger::print(ind);
         Logger::print(clipEnd(text, wrapLen - ind.inner, ""));
         Logger::nl();
+    }
+
+    std::string TermEmitter::levelPrefix(Level level) const {
+        switch (level) {
+            case Level::Error: {
+                return "error: ";
+            }
+            case Level::Warn: {
+                return "warning: ";
+            }
+            case Level::None: {
+                return "";
+            }
+        }
+        log::devPanic("Unhandled `Level` in `TermEmitter::levelPrefix`");
     }
 }
