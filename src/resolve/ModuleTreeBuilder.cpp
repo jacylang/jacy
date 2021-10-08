@@ -341,7 +341,8 @@ namespace jc::resolve {
         // TODO: Link labels
         msg.error()
            .setText("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as))
-           .addPrimaryLabel(ident.span, "Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as));
+           .addPrimaryLabel(ident.span, "Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as))
+           .emit();
 
 //        report(
 //            std::make_unique<message::MsgSpanLinkSugg>(
