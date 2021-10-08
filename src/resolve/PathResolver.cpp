@@ -248,7 +248,7 @@ namespace jc::resolve {
             // Report "Cannot access" error
             msg.error()
                .setText("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'")
-               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is private")
+               .setPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is private")
                .emit();
         } else {
             // Report "Not defined" error
@@ -258,7 +258,7 @@ namespace jc::resolve {
             }
             msg.error()
                .setText(errMsg)
-               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined")
+               .setPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined")
                .addLabels(suggestAltNames(unresolvedSegIdent.span, targetNS, unresolvedSegName, altDefs))
                .emit();
         }

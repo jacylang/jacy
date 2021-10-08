@@ -54,6 +54,12 @@ namespace jc::message {
 
     class MessageBuilder;
 
+    /**
+     * @brief
+     * @remark Currently, `Message` can hold only one primary message,
+     *  it might be likely needed to extend this feature as having multiple primary labels.
+     *  Now there's only one primary label because we use its span as the `Message` span, i.e. point where error/warning occurred.
+     */
     struct Message {
         using TextT = Label::TextT;
         using List = std::vector<Message>;

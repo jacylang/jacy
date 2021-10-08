@@ -187,7 +187,7 @@ namespace jc::ast {
                         // No modifiers for `init` (might be changed in the future)
                         msg.error()
                            .setText("`init` methods do not allow any modifiers so far")
-                           .addPrimaryLabel(modifier.span, "`init` cannot have modifiers")
+                           .setPrimaryLabel(modifier.span, "`init` cannot have modifiers")
                            .emit();
                     }
                 }
@@ -234,7 +234,7 @@ namespace jc::ast {
             case ExprKind::Assign: {
                 msg.error()
                    .setText("Chained assignment is not allowed")
-                   .addPrimaryLabel(span, "Chained assignment is not allowed")
+                   .setPrimaryLabel(span, "Chained assignment is not allowed")
                    .emit();
                 break;
             }
@@ -261,7 +261,7 @@ namespace jc::ast {
         if (!isPlaceExpr(assign.lhs)) {
             msg.error()
                .setText("Invalid left-hand side expression in assignment")
-               .addPrimaryLabel(span, "Not a place expression")
+               .setPrimaryLabel(span, "Not a place expression")
                .emit();
         }
     }
@@ -282,7 +282,7 @@ namespace jc::ast {
         if (not isDeepInside(ValidatorCtx::Loop)) {
             msg.error()
                .setText("`break` expression cannot be used outside of a loop")
-               .addPrimaryLabel(breakExpr.span, "`break` is not allowed here")
+               .setPrimaryLabel(breakExpr.span, "`break` is not allowed here")
                .emit();
         }
     }
@@ -291,7 +291,7 @@ namespace jc::ast {
         if (not isDeepInside(ValidatorCtx::Loop)) {
             msg.error()
                .setText("`continue` expression cannot be used outside of a loop")
-               .addPrimaryLabel(continueExpr.span, "`continue` is not allowed here")
+               .setPrimaryLabel(continueExpr.span, "`continue` is not allowed here")
                .emit();
         }
     }
@@ -322,7 +322,7 @@ namespace jc::ast {
             case parser::TokenKind::Id: {
                 msg.error()
                    .setText("Custom infix operators feature is reserved, but not implemented")
-                   .addPrimaryLabel(infix.op.span, "Cannot use identifier as operator")
+                   .setPrimaryLabel(infix.op.span, "Cannot use identifier as operator")
                    .emit();
                 break;
             }
@@ -407,13 +407,13 @@ namespace jc::ast {
         if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
             msg.warn()
                .setText("Useless double-wrapped parenthesized expression")
-               .addPrimaryLabel(parenExpr.span, "Remove the second parentheses")
+               .setPrimaryLabel(parenExpr.span, "Remove the second parentheses")
                .emit();
         }
         if (parenExpr.expr.unwrap()->isSimple()) {
             msg.warn()
                .setText("Useless parentheses around simple expression")
-               .addPrimaryLabel(parenExpr.span, "Remove the parentheses")
+               .setPrimaryLabel(parenExpr.span, "Remove the parentheses")
                .emit();
         }
     }
@@ -449,7 +449,7 @@ namespace jc::ast {
         if (not isDeepInside(ValidatorCtx::Func)) {
             msg.error()
                .setText("`return` expression cannot be used outside of a loop")
-               .addPrimaryLabel(returnExpr.span, "`return` is not allowed here")
+               .setPrimaryLabel(returnExpr.span, "`return` is not allowed here")
                .emit();
         }
     }
@@ -507,7 +507,7 @@ namespace jc::ast {
         if (els.size() == 1 and els.at(0).name.some() and els.at(0).type.some()) {
             msg.error()
                .setText("Cannot declare single-element named tuple type")
-               .addPrimaryLabel(tupleType.span, "Cannot have a name")
+               .setPrimaryLabel(tupleType.span, "Cannot have a name")
                .emit();
         }
 
@@ -652,7 +652,7 @@ namespace jc::ast {
                     if (i != pat.elements.size() - 1) {
                         msg.error()
                            .setText("Rest pattern `...` must go last in structure pattern")
-                           .addPrimaryLabel(std::get<Span>(el.el), "`...` must go last")
+                           .setPrimaryLabel(std::get<Span>(el.el), "`...` must go last")
                            .emit();
                     }
                 }

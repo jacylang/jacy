@@ -359,7 +359,7 @@ namespace jc::resolve {
         if (redecl.some()) {
             msg.error()
                .setText("'", name, "' has been already declared")
-               .addPrimaryLabel(ident.span(), "'", name, "' has been already declared")
+               .setPrimaryLabel(ident.span(), "'", name, "' has been already declared")
                .emit();
         }
     }

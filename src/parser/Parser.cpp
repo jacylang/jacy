@@ -64,7 +64,7 @@ namespace jc::parser {
     void Parser::skipSemi() {
         // TODO: Useless semi sugg
         if (not isSemis()) {
-            msg.error().addPrimaryLabel(prev().span, "Missing `;`").emit();
+            msg.error().setPrimaryLabel(prev().span, "Missing `;`").emit();
             return;
         }
         advance();
@@ -79,7 +79,7 @@ namespace jc::parser {
         if (eof()) {
             msg.error()
                .setText("Expected ", expected, " got <EOF>")
-               .addPrimaryLabel(cspan(), "Expected ", expected)
+               .setPrimaryLabel(cspan(), "Expected ", expected)
                .emit();
             return None;
         }
@@ -270,7 +270,7 @@ namespace jc::parser {
                 // FIXME: Span from Location
                 msg.error()
                    .setText("Unexpected attribute without an item")
-                   .addPrimaryLabel(attr.span, "Unexpected attribute")
+                   .setPrimaryLabel(attr.span, "Unexpected attribute")
                    .emit();
             }
         }
@@ -278,8 +278,8 @@ namespace jc::parser {
         if (not modifiers.empty()) {
             for (const auto & modifier : modifiers) {
                 msg.error()
-                    .setText("Unexpected modifier")
-                    .addPrimaryLabel(modifier.span, "Unexpected modifier")
+                   .setText("Unexpected modifier")
+                   .setPrimaryLabel(modifier.span, "Unexpected modifier")
                    .emit();
             }
         }
@@ -305,7 +305,7 @@ namespace jc::parser {
                 if (expr.some()) {
                     // FIXME!: Use range span.to(span)
                     // TODO: Diff messages for label and header
-                    msg.error().setText(gotExprMsg).addPrimaryLabel(exprToken.span, gotExprMsg).emit();
+                    msg.error().setText(gotExprMsg).setPrimaryLabel(exprToken.span, gotExprMsg).emit();
                 }
                 items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `parsePrimary`
@@ -671,7 +671,7 @@ namespace jc::parser {
 
             msg.error()
                .setText("Expected `*` or `{` after `::` in `use` path")
-               .addPrimaryLabel(begin, "Expected path segment")
+               .setPrimaryLabel(begin, "Expected path segment")
                .emit();
 
             advance();
@@ -692,13 +692,13 @@ namespace jc::parser {
         if (isKw(Kw::As)) {
             msg.error()
                .setText("Expected path before `as` rebinding")
-               .addPrimaryLabel(cspan(), "Specify path before `as` rebinding")
+               .setPrimaryLabel(cspan(), "Specify path before `as` rebinding")
                .emit();
         }
 
         msg.error()
-            .setText("Expected path in `use` declaration")
-            .addPrimaryLabel(cspan(), "Expected path")
+           .setText("Expected path in `use` declaration")
+           .setPrimaryLabel(cspan(), "Expected path")
             .emit();
         advance();
 
@@ -745,7 +745,7 @@ namespace jc::parser {
             // FIXME: Maybe useless due to check inside `parseExpr`
             msg.error()
                .setText("Unexpected token ", peek().repr(true))
-               .addPrimaryLabel(cspan(), "Unexpected token")
+               .setPrimaryLabel(cspan(), "Unexpected token")
                .emit();
             return makeErrPR<N<Stmt>>(closeSpan(begin));
         }
@@ -822,7 +822,7 @@ namespace jc::parser {
         // We cannot unwrap, because it's just a suggestion error, so the AST will be ill-formed
         if (expr.none()) {
             // TODO: Different message for header and label?
-            msg.error().setText(expectedMsg).addPrimaryLabel(begin, expectedMsg).emit();
+            msg.error().setText(expectedMsg).setPrimaryLabel(begin, expectedMsg).emit();
             return makeErrPR<N<Expr>>(closeSpan(begin));
         }
         return expr.take("parseExpr -> expr");
@@ -901,7 +901,7 @@ namespace jc::parser {
             if (lhs.none()) {
                 msg.error()
                    .setText("Expected left-hand side in assignment")
-                   .addPrimaryLabel(maybeAssignOp.span, "Expected place expression")
+                   .setPrimaryLabel(maybeAssignOp.span, "Expected place expression")
                    .emit();
             }
 
@@ -1020,7 +1020,7 @@ namespace jc::parser {
             if (maybeRhs.none()) {
                 msg.error()
                    .setText("Expected expression after prefix operator ", op.repr())
-                   .addPrimaryLabel(cspan(), "Expected expression")
+                   .setPrimaryLabel(cspan(), "Expected expression")
                    .emit();
                 return postfix(); // FIXME: CHECK!!!
             }
@@ -1190,7 +1190,7 @@ namespace jc::parser {
 
         msg.error()
            .setText("Unexpected token ", peek().repr(true))
-           .addPrimaryLabel(cspan(), "Unexpected token")
+           .setPrimaryLabel(cspan(), "Unexpected token")
            .emit();
         advance();
 
@@ -1230,7 +1230,7 @@ namespace jc::parser {
 
         msg.error()
            .setText("Expected identifier, `super`, `self` or `party` in path, got ", tok.repr())
-           .addPrimaryLabel(cspan(), "Expected path segment")
+           .setPrimaryLabel(cspan(), "Expected path segment")
            .emit();
 
         return makeErrPR<Ident>(span);
@@ -1444,7 +1444,7 @@ namespace jc::parser {
                 // Note: cover case when user writes `if {} else;`
                 msg.error()
                    .setText("Ignoring `else` body with `;` is not allowed")
-                   .addPrimaryLabel(maybeSemi.span, "Cannot use `;` here")
+                   .setPrimaryLabel(maybeSemi.span, "Cannot use `;` here")
                    .emit();
             }
             elseBranch = parseBlock("else", BlockParsing::Raw);
@@ -1569,7 +1569,7 @@ namespace jc::parser {
         } else if (skipOpt(TokenKind::Arrow).some()) {
             msg.error()
                .setText("Expected `:` instead of `->` in function return type annotation")
-               .addPrimaryLabel(maybeColonToken.span, "Use `:` instead of `->`")
+               .setPrimaryLabel(maybeColonToken.span, "Use `:` instead of `->`")
                .emit();
         }
 
@@ -1578,7 +1578,7 @@ namespace jc::parser {
         if (typeAnnotated and returnType.none()) {
             msg.error()
                .setText("Expected function return type after `:`")
-               .addPrimaryLabel(returnTypeToken.span, "Expected type")
+               .setPrimaryLabel(returnTypeToken.span, "Expected type")
                .emit();
         }
 
@@ -1798,7 +1798,7 @@ namespace jc::parser {
         if (simplePath.some()) {
             msg.error()
                .setText("Expected identifier, `super`, `self` or `party` in ", construction, " path")
-               .addPrimaryLabel(cspan(), "Expected path segment")
+               .setPrimaryLabel(cspan(), "Expected path segment")
                .emit();
             exitEntity();
             return makeErrPR<SimplePath>(closeSpan(begin));
@@ -1838,7 +1838,7 @@ namespace jc::parser {
 
         if (segments.empty()) {
             if (global) {
-                msg.error().setText("Expected path after `::`").addPrimaryLabel(begin, "Expected path").emit();
+                msg.error().setText("Expected path after `::`").setPrimaryLabel(begin, "Expected path").emit();
             }
             exitEntity();
             return None;
@@ -1859,7 +1859,7 @@ namespace jc::parser {
             if (global) {
                 msg.error()
                    .setText("Expected path after `::`")
-                   .addPrimaryLabel(maybePathToken.span, "Invalid path")
+                   .setPrimaryLabel(maybePathToken.span, "Invalid path")
                    .emit();
             } else {
                 log::devPanic("parsePath -> not id -> not global");
@@ -1954,7 +1954,7 @@ namespace jc::parser {
         auto type = parseOptType();
         if (type.none()) {
             // TODO: Diff messages for header and label
-            msg.error().setText(expectedMsg).addPrimaryLabel(cspan(), expectedMsg).emit();
+            msg.error().setText(expectedMsg).setPrimaryLabel(cspan(), expectedMsg).emit();
             return makeErrPR<N<Type>>(closeSpan(begin));
         }
 
@@ -2088,7 +2088,7 @@ namespace jc::parser {
                 //  'cause we want to check for problem like (name: string) -> type
                 msg.error()
                    .setText("Cannot declare function type with named parameter")
-                   .addPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
+                   .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
                    .emit();
             }
             if (tupleEl.type.none()) {
@@ -2162,7 +2162,7 @@ namespace jc::parser {
             } else {
                 msg.error()
                    .setText("Expected type parameter")
-                   .addPrimaryLabel(genBegin, "Expected type parameter")
+                   .setPrimaryLabel(genBegin, "Expected type parameter")
                    .emit();
             }
         }
@@ -2238,7 +2238,7 @@ namespace jc::parser {
 
         msg.error()
            .setText("Expected pattern, got ", peek().repr(true))
-           .addPrimaryLabel(cspan(), "Expected pattern")
+           .setPrimaryLabel(cspan(), "Expected pattern")
            .emit();
         return makeErrPR<N<Pattern>>(cspan());
     }
@@ -2254,7 +2254,7 @@ namespace jc::parser {
         if (neg and not peek().isLiteral()) {
             msg.error()
                .setText("Literal expected after `-` in pattern")
-               .addPrimaryLabel(cspan(), "Expected literal")
+               .setPrimaryLabel(cspan(), "Expected literal")
                .emit();
         } else {
             log::devPanic("Non-literal token in `parseLitPat`: ", peek().dump());
@@ -2337,13 +2337,13 @@ namespace jc::parser {
                 if (ref.some()) {
                     msg.error()
                        .setText("Unexpected `ref` in field destructuring pattern")
-                       .addPrimaryLabel(ref.unwrap().span, "Unexpected `ref`")
+                       .setPrimaryLabel(ref.unwrap().span, "Unexpected `ref`")
                        .emit();
                 }
                 if (mut.some()) {
                     msg.error()
                        .setText("Unexpected `mut` in field destructuring pattern")
-                       .addPrimaryLabel(mut.unwrap().span, "Unexpected `mut`")
+                       .setPrimaryLabel(mut.unwrap().span, "Unexpected `mut`")
                        .emit();
                 }
 
