@@ -37,6 +37,8 @@ namespace jc::message {
         sess::Session::Ptr sess;
         Highlighter highlighter;
 
+        static constexpr const char * vertLine = "│";
+
         // Line printers //
     private:
         void printMessageHeader(const Message & message);

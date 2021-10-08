@@ -66,13 +66,13 @@ namespace jc::message {
 
         auto lineNum = lineIndex + 1;
         Logger::print(ind - countDigits(lineNum) + 1);
-        Logger::print(lineNum, " | ", highlighted);
+        Logger::print(lineNum, " ", vertLine, " ", highlighted);
         Logger::nl();
     }
 
     void TermEmitter::printLikeLine(FileId fileId, const Message::TextT & text) {
         auto indent = getFileTopIndent(fileId);
-        printWithIndentOf(indent + 1, " | " + text);
+        printWithIndentOf(indent + 1, log::fmt(" ", vertLine, " ", text));
     }
 
     // Label printers //
