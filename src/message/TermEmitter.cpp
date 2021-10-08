@@ -36,6 +36,38 @@ namespace jc::message {
         }
     }
 
+    // Line printers //
+    void TermEmitter::printMessageHeader(const Message & message) {
+        const auto & primaryLabel = message
+            .getPrimaryLabel()
+            .unwrap("Messages without primary labels are not supported yet, message: '" + message.getText() + "'");
+
+        const auto & filePath = sess->sourceMap.getSourceFile(primaryLabel.getSpan().fileId).path;
+        Logger::print("In file ", filePath);
+        Logger::nl();
+
+        // TODO: Print kind
+        Logger::print(message.getText());
+        Logger::nl();
+    }
+
+    void TermEmitter::printLine(FileId file, sess::Line::IndexT lineIndex) {
+        auto ind = getFileTopIndent(file);
+        const auto & line = sess->sourceMap.getLine(file, lineIndex);
+        auto clipped = clipStart(trimEnd(line, '\n'), wrapLen - ind.inner);
+        auto highlighted = highlighter.highlight(clipped);
+
+        auto lineNum = lineIndex + 1;
+        Logger::print(ind - countDigits(lineNum) + 1);
+        Logger::print(lineNum, " | ", highlighted);
+        Logger::nl();
+    }
+
+    void TermEmitter::printLikeLine(FileId fileId, const Message::TextT & text) {
+        auto indent = getFileTopIndent(fileId);
+        printWithIndentOf(indent + 1, " | " + text);
+    }
+
     // Label printers //
     void TermEmitter::printLabel(const Label & label) {
         const auto & span = label.getSpan();
@@ -91,38 +123,6 @@ namespace jc::message {
             printLikeLine(fileId, pointLine(pointerTextLen, pointStart, span.len));
             printLikeLine(fileId, wrappedText);
         }
-    }
-
-    // Line printers //
-    void TermEmitter::printMessageHeader(const Message & message) {
-        const auto & primaryLabel = message
-            .getPrimaryLabel()
-            .unwrap("Messages without primary labels are not supported yet, message: '" + message.getText() + "'");
-
-        const auto & filePath = sess->sourceMap.getSourceFile(primaryLabel.getSpan().fileId).path;
-        Logger::print("In file ", filePath);
-        Logger::nl();
-
-        // TODO: Print kind
-        Logger::print(message.getText());
-        Logger::nl();
-    }
-
-    void TermEmitter::printLine(FileId file, sess::Line::IndexT lineIndex) {
-        auto ind = getFileTopIndent(file);
-        const auto & line = sess->sourceMap.getLine(file, lineIndex);
-        auto clipped = clipStart(trimEnd(line, '\n'), wrapLen - ind.inner);
-        auto highlighted = highlighter.highlight(clipped);
-
-        auto lineNum = lineIndex + 1;
-        Logger::print(ind - countDigits(lineNum) + 1);
-        Logger::print(lineNum, " | ", highlighted);
-        Logger::nl();
-    }
-
-    void TermEmitter::printLikeLine(FileId fileId, const Message::TextT & text) {
-        auto indent = getFileTopIndent(fileId);
-        printWithIndentOf(indent + 1, " | " + text);
     }
 
     // Indentation and Text wrapping //

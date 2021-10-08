@@ -37,10 +37,6 @@ namespace jc::message {
         sess::Session::Ptr sess;
         Highlighter highlighter;
 
-        // Label printers //
-    private:
-        void printLabel(const Label & label);
-
         // Line printers //
     private:
         void printMessageHeader(const Message & message);
@@ -59,6 +55,10 @@ namespace jc::message {
          * @param text Text to print
          */
         void printLikeLine(FileId fileId, const Message::TextT & text);
+
+        // Label printers //
+    private:
+        void printLabel(const Label & label);
 
         // Indentation and Text wrapping //
     private:
