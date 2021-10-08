@@ -29,6 +29,8 @@ namespace jc::message {
     }
 
     void TermEmitter::emitMessage(const Message & message) {
+        printMessageHeader(message);
+
         for (const auto & label : message.getLabels()) {
             printLabel(label);
         }
