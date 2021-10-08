@@ -160,4 +160,12 @@ namespace jc::message {
         }
         log::devPanic("Unhandled `Level` in `TermEmitter::levelPrefix`");
     }
+
+    std::string TermEmitter::maybeColorize(const std::string & text, Option<Color> color) {
+        if (color.none()) {
+            return text;
+        }
+
+        return log::fmt(color.unwrap(), text, Color::Reset);
+    }
 }

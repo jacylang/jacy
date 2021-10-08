@@ -88,6 +88,7 @@ namespace jc::message {
         // Helpers //
     private:
         std::string levelPrefix(Level level) const;
+        std::string maybeColorize(const std::string & text, Option<Color> color);
     };
 }
 
