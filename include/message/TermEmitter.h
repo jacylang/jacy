@@ -43,6 +43,7 @@ namespace jc::message {
 
         // Line printers //
     private:
+        void printMessageHeader(const Message & message);
 
         /**
          * @brief Print specific line by index, including line number.

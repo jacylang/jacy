@@ -29,11 +29,6 @@ namespace jc::message {
     }
 
     void TermEmitter::emitMessage(const Message & message) {
-        // TODO: File path line
-        // TODO: Print kind
-        Logger::print(message.getText());
-        Logger::nl();
-
         for (const auto & label : message.getLabels()) {
             printLabel(label);
         }
@@ -97,6 +92,20 @@ namespace jc::message {
     }
 
     // Line printers //
+    void TermEmitter::printMessageHeader(const Message & message) {
+        const auto & primaryLabel = message
+            .getPrimaryLabel()
+            .unwrap("Messages without primary labels are not supported yet, message: '" + message.getText() + "'");
+
+        const auto & filePath = sess->sourceMap.getSourceFile(primaryLabel.getSpan().fileId).path;
+        Logger::print("In file ", filePath);
+        Logger::nl();
+
+        // TODO: Print kind
+        Logger::print(message.getText());
+        Logger::nl();
+    }
+
     void TermEmitter::printLine(FileId file, sess::Line::IndexT lineIndex) {
         auto ind = getFileTopIndent(file);
         const auto & line = sess->sourceMap.getLine(file, lineIndex);

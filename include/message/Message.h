@@ -81,6 +81,10 @@ namespace jc::message {
             return eid;
         }
 
+        const auto & getPrimaryLabel() const {
+            return primaryLabel;
+        }
+
         const auto & getLabels() const {
             return labels;
         }
