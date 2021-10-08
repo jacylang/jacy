@@ -104,9 +104,9 @@ namespace jc::message {
         template<class ...Args>
         [[nodiscard]]
         auto & setPrimaryLabel(Span span, Args && ...textParts) {
-            msg.labels.emplace_back(Label {
+            msg.primaryLabel = Label {
                 Label::Kind::Primary, span, log::fmt(std::forward<Args>(textParts)...)
-            });
+            };
             return *this;
         }
 
