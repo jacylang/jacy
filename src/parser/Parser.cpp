@@ -650,9 +650,11 @@ namespace jc::parser {
 
                 exitEntity();
 
-                return Ok(makeNode<UseTree>(
-                    std::move(maybePath), std::move(specifics), closeSpan(begin)
-                ));
+                return Ok(
+                    makeNode<UseTree>(
+                        std::move(maybePath), std::move(specifics), closeSpan(begin)
+                    )
+                );
             }
 
             if (maybePath.some()) {
@@ -1687,7 +1689,9 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
             }
 
-            params.emplace_back(parseFuncParam());
+            auto param = parseFuncParam();
+
+            params.emplace_back(std::move(param));
         }
         skip(TokenKind::RParen, "Missing closing `)` after `func` parameter list");
 

@@ -5,7 +5,7 @@
 namespace jc::core {
     using sess::MeasUnit;
 
-    Interface::Interface() : config{Config::getInstance()} {
+    Interface::Interface() : config {Config::getInstance()} {
         log.getConfig().printOwner = false;
     }
 
@@ -107,7 +107,8 @@ namespace jc::core {
                 .insert(
                     rootFile->items.end(),
                     std::make_move_iterator(rootDir->items.begin()),
-                    std::make_move_iterator(rootDir->items.end()));
+                    std::make_move_iterator(rootDir->items.end())
+                );
 
         party = ast::Party(std::move(rootFile->items));
 
@@ -146,7 +147,7 @@ namespace jc::core {
             curFsEntry = curFsEntry->addChild(true, dir.getPath().stem().string());
         }
 
-        const auto & synthName = ast::Ident(span::Symbol::intern(dir.getPath().stem().string()), span::Span{});
+        const auto & synthName = ast::Ident(span::Symbol::intern(dir.getPath().stem().string()), span::Span {});
         log.dev("Synthesized ident for dir: ", synthName);
 
         ast::Item::List nestedEntries;
@@ -167,7 +168,7 @@ namespace jc::core {
             curFsEntry = parent;
         }
 
-        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span{});
+        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(nestedEntries), span::Span {});
     }
 
     ast::N<ast::Mod> Interface::parseFile(fs::Entry && file) {
@@ -199,16 +200,16 @@ namespace jc::core {
         log.dev("Parse file ", file.getPath());
 
         sess->beginStep(filePathRootRel + " parsing", MeasUnit::Token);
-        auto [items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
+        auto[items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
         sess->endStep(tokens.size());
 
         collectMessages(std::move(parserSuggestions));
 
         sess->sourceMap.setSourceFile(std::move(parseSess));
 
-        auto synthName = ast::Ident(span::Symbol::intern(file.getPath().stem().string()), span::Span{});
+        auto synthName = ast::Ident(span::Symbol::intern(file.getPath().stem().string()), span::Span {});
 
-        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span{});
+        return parser.makeBoxNode<ast::Mod>(Ok(synthName), std::move(items), span::Span {});
     }
 
     // Debug //
@@ -222,11 +223,13 @@ namespace jc::core {
         static constexpr const char * finalBranches[] = {"└── ", "    "};
 
         std::vector<FSEntry::Ptr> entries = entry->subEntries;
-        std::sort(entries.begin(), entries.end(), [](const auto & lhs, const auto & rhs) {
-            return lhs->name < rhs->name;
-        });
+        std::sort(
+            entries.begin(), entries.end(), [](const auto & lhs, const auto & rhs) {
+                return lhs->name < rhs->name;
+            }
+        );
 
-        for (size_t i = 0; i < entries.size(); i++) {
+        for (size_t i = 0 ; i < entries.size() ; i++) {
             const auto & entry = entries.at(i);
             const auto & branches = i == entries.size() - 1 ? finalBranches : innerBranches;
             log.raw(prefix, branches[0], entry->name, (entry->isDir ? "/" : ".jc")).nl();
@@ -252,14 +255,15 @@ namespace jc::core {
             sourceFile.path,
             "] by fileId [",
             parseSess->fileId,
-            "] (`--print source`)");
+            "] (`--print source`)"
+        );
 
         log.dev("Source lines indices: ", sourceFile.linesIndices);
 
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
         const auto & maxIndent = log::Indent<1>(std::to_string(sourceFile.linesIndices.size()).size());
-        for (size_t i = 0; i < sourceFile.linesIndices.size(); i++) {
+        for (size_t i = 0 ; i < sourceFile.linesIndices.size() ; i++) {
             std::string line;
             const auto & pos = sourceFile.linesIndices.at(i);
             if (i < sourceFile.linesIndices.size() - 1) {
@@ -292,8 +296,8 @@ namespace jc::core {
 
     void Interface::printAst(ast::AstPrinterMode mode) {
         if ((mode == ast::AstPrinterMode::Parsing and not config.checkDevPrint(Config::DevPrint::Ast))
-        or (mode == ast::AstPrinterMode::Names and not config.checkDevPrint(config::Config::DevPrint::AstNames))
-        ) {
+            or (mode == ast::AstPrinterMode::Names and not config.checkDevPrint(config::Config::DevPrint::AstNames))
+            ) {
             return;
         }
 
@@ -358,7 +362,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing module tree after ", afterStage," (`--print=mod-tree`)");
+        log.info("Printing module tree after ", afterStage, " (`--print=mod-tree`)");
 
         sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         moduleTreePrinter.print(sess);
