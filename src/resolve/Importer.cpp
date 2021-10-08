@@ -236,7 +236,7 @@ namespace jc::resolve {
             error += log::fmt(" because name", nounSuffix, " conflicting with locally defined function", nounSuffix);
 
             // TODO: Link labels
-            msg.error().setText(error).addPrimaryLabel(span, error);
+            msg.error().setText(error).addPrimaryLabel(span, error).emit();
         }
     }
 
@@ -270,7 +270,8 @@ namespace jc::resolve {
 
         msg.error()
            .setText("Cannot import '", redefinedName, "'")
-           .addPrimaryLabel(span, "Cannot import '", redefinedName, "'");
+           .addPrimaryLabel(span, "Cannot import '", redefinedName, "'")
+           .emit();
 
 //        report(
 //            std::make_unique<message::MsgSpanLinkSugg>(
