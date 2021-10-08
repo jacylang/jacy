@@ -31,7 +31,7 @@ namespace jc::message {
     void TermEmitter::emitMessage(const Message & message) {
         printMessageHeader(message);
 
-        printLabel(message.getPrimaryLabel().unwrap());
+        printLabel(message.getPrimaryLabel().unwrap(), levelColor(message.getLevel()));
 
         for (const auto & label : message.getLabels()) {
             printLabel(label);
