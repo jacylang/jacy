@@ -257,8 +257,10 @@ namespace jc::resolve {
             }
             msg.error()
                .setText(errMsg)
-               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined");
-            suggestAltNames(unresolvedSegIdent.span, targetNS, unresolvedSegName, altDefs);
+               .addPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined")
+               .addLabels(
+                   suggestAltNames(unresolvedSegIdent.span, targetNS, unresolvedSegName, altDefs)
+               );
         }
 
         return None;

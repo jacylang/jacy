@@ -134,7 +134,7 @@ namespace jc::resolve {
         );
 
     public:
-        auto && extractMessages() {
+        auto extractMessages() {
             return msg.extractMessages();
         }
     };

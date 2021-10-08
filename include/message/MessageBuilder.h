@@ -16,7 +16,7 @@ namespace jc::message {
             messages.clear();
         }
 
-        Message::List && extractMessages() {
+        Message::List extractMessages() {
             return std::move(messages);
         }
 
