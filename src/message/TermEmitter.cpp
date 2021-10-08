@@ -49,7 +49,7 @@ namespace jc::message {
         Logger::nl();
 
         Logger::print(
-            getFileTopIndent(primaryLabel.getSpan().fileId) + 3,
+            getFileTopIndent(primaryLabel.getSpan().fileId) + 2,
             levelColor(message.getLevel()),
             levelPrefix(message.getLevel()),
             message.getText(),
