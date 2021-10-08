@@ -439,7 +439,9 @@ namespace jc::core {
     }
 
     void Interface::checkMessages(const std::string & stageName) {
+        log.dev("Check messages after '", stageName, "'");
         if (messages.empty()) {
+            log.dev("No message produced by '", stageName, "'");
             return;
         }
         // Use `none_t` as stub
