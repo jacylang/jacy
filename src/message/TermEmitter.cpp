@@ -104,14 +104,14 @@ namespace jc::message {
         auto highlighted = highlighter.highlight(clipped);
 
         auto lineNum = lineIndex + 1;
-        Logger::print(ind - countDigits(lineNum));
+        Logger::print(ind - countDigits(lineNum) + 1);
         Logger::print(lineNum, " | ", highlighted);
         Logger::nl();
     }
 
     void TermEmitter::printLikeLine(FileId fileId, const Message::TextT & text) {
         auto indent = getFileTopIndent(fileId);
-        printWithIndentOf(indent, " | " + text);
+        printWithIndentOf(indent + 1, " | " + text);
     }
 
     // Indentation and Text wrapping //
