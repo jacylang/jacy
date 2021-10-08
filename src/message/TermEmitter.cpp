@@ -165,6 +165,20 @@ namespace jc::message {
         log::devPanic("Unhandled `Level` in `TermEmitter::levelPrefix`");
     }
 
+    Color TermEmitter::levelColor(Level level) const {
+        switch (level) {
+            case Level::Error: {
+                return Color::Red;
+            }
+            case Level::Warn: {
+                return Color::Yellow;
+            }
+            case Level::None: {
+                return Color::LightGray;
+            }
+        }
+    }
+
     std::string TermEmitter::maybeColorize(const std::string & text, Option<Color> color) {
         if (color.none()) {
             return text;
