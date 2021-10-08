@@ -9,8 +9,7 @@ namespace jc::message {
 
     MessageBuilder MessageHolder::withLevel(Level level) {
         MessageBuilder builder {*this};
-        builder.setLevel(level);
-        return builder;
+        return builder.setLevel(level);
     }
 
     MessageBuilder MessageHolder::error() {
