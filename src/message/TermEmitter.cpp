@@ -32,6 +32,7 @@ namespace jc::message {
         // TODO: File path line
         // TODO: Print kind
         Logger::print(message.getText());
+        Logger::nl();
 
         for (const auto & label : message.getLabels()) {
             printLabel(label);
