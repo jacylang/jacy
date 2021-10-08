@@ -93,6 +93,7 @@ namespace jc::message {
         Level level;
         TextT text;
         EID eid = EID::NoneEID; // Explanation ID
+        Option<Label> primaryLabel = None;
         Label::List labels;
     };
 }
