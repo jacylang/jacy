@@ -106,11 +106,15 @@ namespace jc::message {
 
             // Construct the pointer line
             // Template: `[LEFT PADDING]Message text --[POINTERS]`
-            auto pointerLine = padStart(text, pointStart - 3, " ") + " --" + repeat("^", span.len);
+            auto pointerLine = log::fmt(
+                maybeColorize(padStart(text, pointStart - 3, " "), color),
+                " --",
+                repeat("^", span.len)
+            );
 
             printLikeLine(fileId, clipStart(pointerLine, wrapLen - ind.inner - POINTER_SUBTOR, ""));
         } else if (wrapLen > pointEnd and wrapLen - pointEnd >= textLenWithPointer) {
-            auto pointerLine = log::fmt(Indent {pointStart}, repeat("^", span.len), "-- ", text);
+            auto pointerLine = log::fmt(Indent {pointStart}, repeat("^", span.len), "-- ", maybeColorize(text, color));
             printLikeLine(fileId, pointerLine);
         } else {
             // TODO: I think, this might be replaced with just a `hardWrap(text)` :)
@@ -122,7 +126,7 @@ namespace jc::message {
             }
 
             printLikeLine(fileId, pointLine(pointerTextLen, pointStart, span.len));
-            printLikeLine(fileId, wrappedText);
+            printLikeLine(fileId, maybeColorize(wrappedText, color));
         }
     }
 
