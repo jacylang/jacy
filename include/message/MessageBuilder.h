@@ -56,6 +56,7 @@ namespace jc::message {
 
         // Basic setters //
     public:
+        [[nodiscard]]
         auto & setLevel(Level level) {
             if (not msg.checkLevel(Level::None)) {
                 log::devPanic("Called `MessageBuilder::setLevel` on message with set level, tried to reset level");
@@ -65,6 +66,7 @@ namespace jc::message {
         }
 
         template<class ...Args>
+        [[nodiscard]]
         auto & setText(Args && ...textParts) {
             if (not msg.text.empty()) {
                 log::devPanic(
@@ -75,6 +77,7 @@ namespace jc::message {
             return *this;
         }
 
+        [[nodiscard]]
         auto & setEID(EID eid) {
             if (msg.eid != EID::NoneEID) {
                 log::devPanic(
@@ -87,6 +90,7 @@ namespace jc::message {
 
         // Labels //
     public:
+        [[nodiscard]]
         auto & addLabels(Label::List && labels) {
             msg.labels
                .insert(
@@ -98,6 +102,7 @@ namespace jc::message {
         }
 
         template<class ...Args>
+        [[nodiscard]]
         auto & addPrimaryLabel(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {
                 Label::Kind::Primary, span, log::fmt(std::forward<Args>(textParts)...)
@@ -106,6 +111,7 @@ namespace jc::message {
         }
 
         template<class ...Args>
+        [[nodiscard]]
         auto & addHelp(Span span, Args && ...textParts) {
             msg.labels.emplace_back(Label {
                 Label::Kind::Aux, span, log::fmt(std::forward<Args>(textParts)...)
@@ -116,6 +122,7 @@ namespace jc::message {
         // Standalone constructors //
     public:
         template<class ...Args>
+        [[nodiscard]]
         static auto standaloneHelp(Span span, Args && ...textParts) {
             return Label {Label::Kind::Help, span, log::fmt(std::forward<Args>(textParts)...)};
         }

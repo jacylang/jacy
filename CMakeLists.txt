@@ -49,16 +49,17 @@ add_compile_options(
         -Wunreachable-code
         -Wunused
         -Wunused-parameter
+        -Werror=unused-result
+        -Wunused-value
 
         # For dev
-        -Wno-unused-function
+#        -Wno-unused-function
 
         -Wvariadic-macros
         -Wwrite-strings
 
         # I appreciate omitting parenthesis for `&&`/`||`
         -Wno-logical-op-parentheses
-
 #        -ftime-report
 )
 
