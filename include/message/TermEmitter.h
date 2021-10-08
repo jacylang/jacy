@@ -58,7 +58,7 @@ namespace jc::message {
 
         // Label printers //
     private:
-        void printLabel(const Label & label);
+        void printLabel(const Label & label, Option<Color> color = None);
 
         // Indentation and Text wrapping //
     private:

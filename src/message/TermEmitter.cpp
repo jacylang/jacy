@@ -48,7 +48,6 @@ namespace jc::message {
         Logger::print("In file ", filePath);
         Logger::nl();
 
-        // TODO: Print kind
         Logger::print(levelPrefix(message.getLevel()), message.getText());
         Logger::nl();
     }
@@ -71,7 +70,7 @@ namespace jc::message {
     }
 
     // Label printers //
-    void TermEmitter::printLabel(const Label & label) {
+    void TermEmitter::printLabel(const Label & label, Option<Color> color) {
         const auto & span = label.getSpan();
         auto fileId = span.fileId;
 
