@@ -48,7 +48,13 @@ namespace jc::message {
         Logger::print("In file ", filePath);
         Logger::nl();
 
-        Logger::print(levelColor(message.getLevel()), levelPrefix(message.getLevel()), message.getText(), Color::Reset);
+        Logger::print(
+            getFileTopIndent(primaryLabel.getSpan().fileId) + 3,
+            levelColor(message.getLevel()),
+            levelPrefix(message.getLevel()),
+            message.getText(),
+            Color::Reset
+        );
         Logger::nl();
     }
 
