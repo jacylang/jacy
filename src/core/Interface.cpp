@@ -121,10 +121,10 @@ namespace jc::core {
 
         checkMessages("parsing");
 
-        validateAST();
+        validateAst();
     }
 
-    void Interface::validateAST() {
+    void Interface::validateAst() {
         log.printTitleDev("AST validation");
 
         sess->beginStep("AST Validation", MeasUnit::Node);
