@@ -1712,14 +1712,15 @@ namespace jc::parser {
 
             if (first) {
                 first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
+            } else if (skip(TokenKind::Comma, "Missing `,` separator in tuple literal").none()) {
+                break;
             }
 
             auto param = parseFuncParam();
 
             params.emplace_back(std::move(param));
         }
+
         skip(TokenKind::RParen, "Missing closing `)` after `func` parameter list");
 
         exitEntity();
