@@ -51,6 +51,7 @@ namespace jc::message {
         Logger::print(
             getFileTopIndent(primaryLabel.getSpan().fileId) + 2,
             levelColor(message.getLevel()),
+            "> ",
             levelPrefix(message.getLevel()),
             message.getText(),
             Color::Reset
