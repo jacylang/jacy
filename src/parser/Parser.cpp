@@ -89,6 +89,7 @@ namespace jc::parser {
             if (recovery != Recovery::Any) {
                 msg.error()
                    .setText("Expected ", expected, " got unexpected token ", peek().kindToString())
+                   .setPrimaryLabel(cspan(), "Expected ", expected)
                    .addHelp(cspan(), "Remove '" + peek().repr() + "'")
                    .emit();
             }
@@ -117,6 +118,7 @@ namespace jc::parser {
                 const auto & errorTokensStr = Token::listKindToString(errorTokens);
                 msg.error()
                    .setText("Expected ", expected, " got unexpected tokens '", errorTokensStr, "'")
+                   .setPrimaryLabel(cspan(), "Expected ", expected)
                    .addHelp(begin.to(errorTokens.rbegin()->span), "Remove '", errorTokensStr, "'")
                    .emit();
             }
