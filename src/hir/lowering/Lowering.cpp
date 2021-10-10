@@ -487,13 +487,19 @@ namespace jc::hir {
     }
 
     MatchArm Lowering::lowerMatchArm(const ast::MatchArm & arm) {
-        // TODO
+        auto pat = lowerPat(arm.pat);
+        auto body = lowerExpr(arm.body);
+
+        return MatchArm {std::move(pat), std::move(body), HirId::DUMMY, arm.span};
     }
 
     // Patterns //
     Pat Lowering::lowerPat(const ast::Pattern::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
+            case ast::PatKind::Multi: {
+                break;
+            }
             case ast::PatKind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
                 return lowerPat(astNode->pat);
