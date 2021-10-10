@@ -225,8 +225,8 @@ namespace jc::hir {
         Expr::OptPtr value;
     };
 
-    struct Tuple : Expr {
-        Tuple(Expr::List && values, const HirId & hirId, const Span & span)
+    struct TupleExpr : Expr {
+        TupleExpr(Expr::List && values, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Tuple, hirId, span}, values {std::move(values)} {
         }
 
