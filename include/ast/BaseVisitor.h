@@ -79,6 +79,7 @@ namespace jc::ast {
     struct SimplePathSeg;
 
     // Patterns //
+    struct MultiPat;
     struct ParenPat;
     struct LitPat;
     struct IdentPat;
@@ -169,6 +170,7 @@ namespace jc::ast {
         virtual void visit(const SimplePathSeg&) = 0;
 
         // Patterns //
+        virtual void visit(const MultiPat&) = 0;
         virtual void visit(const ParenPat&) = 0;
         virtual void visit(const LitPat&) = 0;
         virtual void visit(const IdentPat&) = 0;

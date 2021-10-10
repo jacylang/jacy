@@ -40,6 +40,10 @@ namespace jc::ast {
             : Pattern {PatKind::Multi, span}, patterns {std::move(patterns)} {}
 
         Pattern::List patterns;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     struct ParenPat : Pattern {
