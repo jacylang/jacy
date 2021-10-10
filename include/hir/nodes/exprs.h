@@ -160,8 +160,8 @@ namespace jc::hir {
         parser::Token token;
     };
 
-    struct Loop : Expr {
-        Loop(Block && body, const HirId & hirId, const Span & span)
+    struct LoopExpr : Expr {
+        LoopExpr(Block && body, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Loop, hirId, span}, body {std::move(body)} {
         }
 

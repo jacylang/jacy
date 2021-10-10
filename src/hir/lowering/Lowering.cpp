@@ -240,7 +240,7 @@ namespace jc::hir {
             case ast::ExprKind::Loop: {
                 const auto & astNode = expr->as<ast::LoopExpr>(expr);
                 auto body = lowerBlock(*astNode->body.unwrap());
-                return makeBoxNode<Loop>(std::move(body), HirId::DUMMY, astNode->span);
+                return makeBoxNode<LoopExpr>(std::move(body), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Field: {
                 const auto & astNode = expr->as<ast::FieldExpr>(expr);
@@ -376,7 +376,7 @@ namespace jc::hir {
 
         loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(ifCondExpr->span, std::move(ifCondExpr)));
 
-        return makeBoxNode<Loop>(std::move(loweredBody), HirId::DUMMY, whileExpr.span);
+        return makeBoxNode<LoopExpr>(std::move(loweredBody), HirId::DUMMY, whileExpr.span);
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {

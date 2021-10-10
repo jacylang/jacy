@@ -29,7 +29,7 @@ namespace jc::hir {
         Tuple,
     };
 
-    struct Array;
+    struct ArrayExpr;
     struct AssignExpr;
     struct BlockExpr;
     struct BorrowExpr;
