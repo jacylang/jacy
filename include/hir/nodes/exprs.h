@@ -132,8 +132,8 @@ namespace jc::hir {
         Block::Opt elseBranch;
     };
 
-    struct Infix : Expr {
-        Infix(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+    struct InfixExpr : Expr {
+        InfixExpr(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Invoke, hirId, span}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {
         }
 

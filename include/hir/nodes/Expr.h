@@ -16,13 +16,13 @@ namespace jc::hir {
         Break,
         Continue,
         Deref,
+        Field,
         If,
         Infix,
         Invoke,
         Literal,
         Loop,
         Match,
-        Field,
         Path,
         Prefix,
         Return,
@@ -33,7 +33,13 @@ namespace jc::hir {
     struct AssignExpr;
     struct BlockExpr;
     struct BorrowExpr;
-    struct
+    struct BreakExpr;
+    struct ContinueExpr;
+    struct DerefExpr;
+    struct FieldExpr;
+    struct IfExpr;
+    struct InfixExpr;
+    struct InvokeExpr;
 
     struct Expr : HirNode {
         using ValueT = std::variant<>;

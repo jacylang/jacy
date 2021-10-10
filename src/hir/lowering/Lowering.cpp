@@ -210,7 +210,7 @@ namespace jc::hir {
                 auto binOp = lowerBinOp(astNode->op);
                 auto rhs = lowerExpr(astNode->rhs);
 
-                return makeBoxNode<Infix>(std::move(lhs), binOp, std::move(rhs), HirId::DUMMY, astNode->span);
+                return makeBoxNode<InfixExpr>(std::move(lhs), binOp, std::move(rhs), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Invoke: {
                 const auto & astNode = expr->as<ast::Invoke>(expr);
