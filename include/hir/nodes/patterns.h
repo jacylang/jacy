@@ -6,7 +6,9 @@
 #include "hir/nodes/fragments.h"
 
 namespace jc::hir {
-    struct WildcardPat {};
+    struct WildcardPat {
+        WildcardPat()
+    };
 
     struct LitPat {
         Expr value;

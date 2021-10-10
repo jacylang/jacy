@@ -32,7 +32,7 @@ namespace jc::hir {
         using Ptr = std::unique_ptr<Pat>;
         using Opt = Option<Ptr>;
 
-        Pat(PatKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {}
+        Pat(PatKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         PatKind kind;
     };
