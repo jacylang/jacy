@@ -273,7 +273,7 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::Prefix>(expr);
                 auto prefixOp = lowerPrefixOp(astNode->op);
                 auto rhs = lowerExpr(astNode->rhs);
-                return makeBoxNode<Prefix>(prefixOp, std::move(rhs), HirId::DUMMY, astNode->span);
+                return makeBoxNode<PrefixExpr>(prefixOp, std::move(rhs), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Return: {
                 const auto & astNode = expr->as<ast::ReturnExpr>(expr);

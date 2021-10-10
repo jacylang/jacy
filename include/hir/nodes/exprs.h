@@ -208,8 +208,8 @@ namespace jc::hir {
         PostfixOp op;
     };
 
-    struct Prefix : Expr {
-        Prefix(PrefixOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+    struct PrefixExpr : Expr {
+        PrefixExpr(PrefixOp op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Loop, hirId, span}, op {op}, rhs {std::move(rhs)} {
         }
 
