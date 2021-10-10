@@ -47,7 +47,9 @@ namespace jc::message {
             .unwrap("Messages without primary labels are not supported yet, message: '" + message.getText() + "'");
 
         const auto & filePath = sess->sourceMap.getSourceFile(primaryLabel.getSpan().fileId).path;
-        Logger::print("In file ", filePath);
+        auto filePathStr = filePath.string();
+        std::replace(filePathStr.begin(), filePathStr.end(), '\\', '/');
+        Logger::print("In file ", filePathStr);
         Logger::nl();
 
         Logger::print(
