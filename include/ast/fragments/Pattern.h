@@ -7,6 +7,7 @@
 
 namespace jc::ast {
     enum class PatKind {
+        Multi,
         Paren,
         Literal,
         Ident,
@@ -32,6 +33,13 @@ namespace jc::ast {
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
+    };
+
+    struct MultiPat : Pattern {
+        MultiPat(Pattern::List && patterns, Span span)
+            : Pattern {PatKind::Multi, span}, patterns {std::move(patterns)} {}
+
+        Pattern::List patterns;
     };
 
     struct ParenPat : Pattern {
