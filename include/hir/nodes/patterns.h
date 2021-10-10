@@ -20,7 +20,7 @@ namespace jc::hir {
     };
 
     struct IdentPat : Pat {
-        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::Opt && pat, HirId hirId, Span span)
+        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::OptPtr && pat, HirId hirId, Span span)
             : Pat {PatKind::Ident, hirId, span},
               anno {anno},
               nameHirId {nameHirId},
@@ -31,7 +31,7 @@ namespace jc::hir {
         IdentPatAnno anno;
         HirId nameHirId;
         span::Ident ident;
-        Pat::Opt pat;
+        Pat::OptPtr pat;
     };
 
     struct RefPat {
