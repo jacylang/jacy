@@ -43,9 +43,34 @@ namespace jc::hir {
     struct LitExpr;
     struct LoopExpr;
     struct MatchExpr;
+    struct PathExpr;
+    struct PostfixExpr;
+    struct PrefixExpr;
+    struct ReturnExpr;
+    struct TupleExpr;
 
     struct Expr : HirNode {
-        using ValueT = std::variant<>;
+        using ValueT = std::variant<
+                ArrayExpr,
+                AssignExpr,
+                BlockExpr,
+                BorrowExpr,
+                BreakExpr,
+                ContinueExpr,
+                DerefExpr,
+                FieldExpr,
+                IfExpr,
+                InfixExpr,
+                InvokeExpr,
+                LitExpr,
+                LoopExpr,
+                MatchExpr,
+                PathExpr,
+                PostfixExpr,
+                PrefixExpr,
+                ReturnExpr,
+                TupleExpr
+            >;
         using Opt = Option<Expr>;
         using List = std::vector<Expr>;
 
