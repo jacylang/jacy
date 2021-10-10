@@ -44,6 +44,9 @@ namespace jc::hir {
     };
 
     struct PathPat {
+        RefPat(Path && path, HirId hirId, Span span)
+            : Pat {PatKind::Path, hirId, span}, path {std::move(path)} {}
+
         Path path;
     };
 
