@@ -545,7 +545,12 @@ namespace jc::hir {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
             case ast::PatKind::Multi: {
-                break;
+                const auto & astNode = pat->as<ast::MultiPat>(pat);
+                Pat::List pats;
+                for (const auto & pat : astNode->patterns) {
+                    pats.emplace_back(lowerPat(pat));
+                }
+                return makeBoxNode<MultiPat>(std::move(pats), HirId::DUMMY, astNode->span);
             }
             case ast::PatKind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
