@@ -36,6 +36,8 @@ namespace jc::message {
         for (const auto & label : message.getLabels()) {
             printLabel(label);
         }
+
+        Logger::nl();
     }
 
     // Line printers //
