@@ -495,7 +495,8 @@ namespace jc::hir {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
             case ast::PatKind::Paren: {
-                break;
+                const auto & astNode = pat->as<ast::ParenPat>(pat);
+                return lowerPat(astNode->pat);
             }
             case ast::PatKind::Literal:
                 break;
