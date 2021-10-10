@@ -6,6 +6,13 @@
 #include "hir/nodes/fragments.h"
 
 namespace jc::hir {
+    struct MultiPat : Pat {
+        MultiPat(Pat::List && pats, HirId hirId, Span span)
+            : Pat {PatKind::Multi, hirId, span}, pats {std::move(pats)} {}
+
+        Pat::List pats;
+    };
+
     struct WildcardPat : Pat {
         WildcardPat(HirId hirId, Span span) : Pat {PatKind::Wildcard, hirId, span} {
         }

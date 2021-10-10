@@ -7,6 +7,7 @@ namespace jc::hir {
     struct IdentPat;
 
     enum class PatKind {
+        Multi,
         Wildcard,
         Lit,
         Ident,
@@ -31,6 +32,7 @@ namespace jc::hir {
     struct Pat : HirNode {
         using Ptr = std::unique_ptr<Pat>;
         using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
 
         Pat(PatKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
