@@ -263,7 +263,7 @@ namespace jc::hir {
             case ast::ExprKind::Postfix: {
                 const auto & astNode = expr->as<ast::Postfix>(expr);
                 auto lhs = lowerExpr(astNode->lhs);
-                return makeBoxNode<Postfix>(
+                return makeBoxNode<PostfixExpr>(
                     std::move(lhs),
                     PostfixOp{PostfixOpKind::Quest, astNode->span},
                     HirId::DUMMY,

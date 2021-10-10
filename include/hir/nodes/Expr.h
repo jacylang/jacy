@@ -40,6 +40,9 @@ namespace jc::hir {
     struct IfExpr;
     struct InfixExpr;
     struct InvokeExpr;
+    struct LitExpr;
+    struct LoopExpr;
+    struct MatchExpr;
 
     struct Expr : HirNode {
         using ValueT = std::variant<>;

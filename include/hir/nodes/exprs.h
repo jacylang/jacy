@@ -199,8 +199,8 @@ namespace jc::hir {
         Path path;
     };
 
-    struct Postfix : Expr {
-        Postfix(Expr::Ptr && lhs, PostfixOp op, const HirId & hirId, const Span & span)
+    struct PostfixExpr : Expr {
+        PostfixExpr(Expr::Ptr && lhs, PostfixOp op, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Loop, hirId, span}, lhs {std::move(lhs)}, op {op} {
         }
 
