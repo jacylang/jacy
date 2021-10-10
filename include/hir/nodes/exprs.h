@@ -43,8 +43,8 @@ namespace jc::hir {
     using PrefixOp = span::Spanned<PrefixOpKind>;
     using PostfixOp = span::Spanned<PostfixOpKind>;
 
-    struct Array : Expr {
-        Array(Expr::List && elements, const HirId & hirId, const Span & span)
+    struct ArrayExpr : Expr {
+        ArrayExpr(Expr::List && elements, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Array, hirId, span}, elements {std::move(elements)} {
         }
 
