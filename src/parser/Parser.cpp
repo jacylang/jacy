@@ -1744,7 +1744,7 @@ namespace jc::parser {
 
         skip(
             TokenKind::Colon,
-            "`func` parameters without type are not allowed, please put `:` here and specify type",
+            "Missing colon `:`",
             Recovery::Once
         ).some();
 
@@ -2243,6 +2243,7 @@ namespace jc::parser {
            .setText("Expected pattern, got ", peek().repr(true))
            .setPrimaryLabel(cspan(), "Expected pattern")
            .emit();
+
         return makeErrPR<N<Pattern>>(cspan());
     }
 
