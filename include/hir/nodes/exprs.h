@@ -183,11 +183,12 @@ namespace jc::hir {
 
     struct MatchExpr : Expr {
         MatchExpr(Expr::Ptr && expr, MatchArm::List && arms, HirId hirId, Span span)
-            : Expr{ExprKind::Match, hirId, span},
-              expr {std::move(expr)},
-              arms{std::move(arms)} {}
+            : Expr {ExprKind::Match, hirId, span},
+              subject {std::move(expr)},
+              arms {std::move(arms)} {
+        }
 
-        Expr::Ptr expr;
+        Expr::Ptr subject;
         MatchArm::List arms;
     };
 
@@ -227,7 +228,8 @@ namespace jc::hir {
 
     struct TupleExpr : Expr {
         TupleExpr(Expr::List && values, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Tuple, hirId, span}, values {std::move(values)} {}
+            : Expr {ExprKind::Tuple, hirId, span}, values {std::move(values)} {
+        }
 
         Expr::List values;
     };
