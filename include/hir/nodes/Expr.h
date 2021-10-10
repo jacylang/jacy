@@ -29,53 +29,55 @@ namespace jc::hir {
         Tuple,
     };
 
-    struct ArrayExpr;
-    struct AssignExpr;
-    struct BlockExpr;
-    struct BorrowExpr;
-    struct BreakExpr;
-    struct ContinueExpr;
-    struct DerefExpr;
-    struct FieldExpr;
-    struct IfExpr;
-    struct InfixExpr;
-    struct InvokeExpr;
-    struct LitExpr;
-    struct LoopExpr;
-    struct MatchExpr;
-    struct PathExpr;
-    struct PostfixExpr;
-    struct PrefixExpr;
-    struct ReturnExpr;
-    struct TupleExpr;
+    // It is impossible now to make Expr ADT instead of using boxing :(
+
+//    struct ArrayExpr;
+//    struct AssignExpr;
+//    struct BlockExpr;
+//    struct BorrowExpr;
+//    struct BreakExpr;
+//    struct ContinueExpr;
+//    struct DerefExpr;
+//    struct FieldExpr;
+//    struct IfExpr;
+//    struct InfixExpr;
+//    struct InvokeExpr;
+//    struct LitExpr;
+//    struct LoopExpr;
+//    struct MatchExpr;
+//    struct PathExpr;
+//    struct PostfixExpr;
+//    struct PrefixExpr;
+//    struct ReturnExpr;
+//    struct TupleExpr;
 
     struct Expr : HirNode {
-        using ValueT = std::variant<
-                ArrayExpr,
-                AssignExpr,
-                BlockExpr,
-                BorrowExpr,
-                BreakExpr,
-                ContinueExpr,
-                DerefExpr,
-                FieldExpr,
-                IfExpr,
-                InfixExpr,
-                InvokeExpr,
-                LitExpr,
-                LoopExpr,
-                MatchExpr,
-                PathExpr,
-                PostfixExpr,
-                PrefixExpr,
-                ReturnExpr,
-                TupleExpr
-            >;
-        using Opt = Option<Expr>;
-        using List = std::vector<Expr>;
+        using Ptr = std::unique_ptr<Expr>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+//        using ValueT = std::variant<
+//                ArrayExpr,
+//                AssignExpr,
+//                BlockExpr,
+//                BorrowExpr,
+//                BreakExpr,
+//                ContinueExpr,
+//                DerefExpr,
+//                FieldExpr,
+//                IfExpr,
+//                InfixExpr,
+//                InvokeExpr,
+//                LitExpr,
+//                LoopExpr,
+//                MatchExpr,
+//                PathExpr,
+//                PostfixExpr,
+//                PrefixExpr,
+//                ReturnExpr,
+//                TupleExpr
+//            >;
 
-        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {
-        }
+        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {}
 
         ExprKind kind;
     };

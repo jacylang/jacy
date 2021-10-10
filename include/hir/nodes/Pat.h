@@ -6,6 +6,15 @@
 namespace jc::hir {
     struct IdentPat;
 
+    enum class PatKind {
+        Wildcard,
+        Lit,
+        Ident,
+        Path,
+        Ref,
+        Struct,
+    };
+
     /// `ref` and `mut` combinations for simplicity and expressiveness
     enum class IdentPatAnno {
         None,
@@ -20,20 +29,12 @@ namespace jc::hir {
     };
 
     struct Pat : HirNode {
-        using Opt = Option<Pat>;
+        using Ptr = std::unique_ptr<Pat>;
+        using Opt = Option<Ptr>;
 
-        enum class Kind {
-            Wildcard,
-            Lit,
-            Ident,
-            Path,
-            Ref,
-            Struct,
-        };
+        Pat(PatKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {}
 
-        using ValueT = std::variant<
-            std::monostate
-        >;
+        PatKind kind;
     };
 }
 

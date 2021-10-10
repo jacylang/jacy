@@ -227,8 +227,7 @@ namespace jc::hir {
 
     struct TupleExpr : Expr {
         TupleExpr(Expr::List && values, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Tuple, hirId, span}, values {std::move(values)} {
-        }
+            : Expr {ExprKind::Tuple, hirId, span}, values {std::move(values)} {}
 
         Expr::List values;
     };
