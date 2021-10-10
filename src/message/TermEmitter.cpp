@@ -105,9 +105,9 @@ namespace jc::message {
         auto textLen = text.size();
 
         // Pointer base subtractor, size of ` --^` or `^-- `
-        const uint8_t POINTER_SUBTOR = 4;
+        const uint8_t pointerSubtor = 4;
 
-        auto textLenWithPointer = textLen + POINTER_SUBTOR;
+        auto textLenWithPointer = textLen + pointerSubtor;
         auto pointEnd = pointStart + span.len;
 
         if (textLenWithPointer <= pointStart) {
@@ -121,7 +121,7 @@ namespace jc::message {
                 repeat("^", span.len)
             );
 
-            printLikeLine(fileId, clipStart(pointerLine, wrapLen - ind.inner - POINTER_SUBTOR, ""));
+            printLikeLine(fileId, clipStart(pointerLine, wrapLen - ind.inner - pointerSubtor, ""));
         } else if (wrapLen > pointEnd and wrapLen - pointEnd >= textLenWithPointer) {
             auto pointerLine = log::fmt(Indent {pointStart}, repeat("^", span.len), "-- ", maybeColorize(text, color));
             printLikeLine(fileId, pointerLine);
