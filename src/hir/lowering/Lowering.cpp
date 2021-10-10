@@ -8,7 +8,7 @@ namespace jc::hir {
 
         return {
             Party(
-                std::move(*static_cast<Mod*>(rootMod.get())),
+                std::move(*static_cast<Mod *>(rootMod.get())),
                 std::move(items)
             ),
             msg.extractMessages()
@@ -138,7 +138,8 @@ namespace jc::hir {
     Stmt::Ptr Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");
         switch (stmt->kind) {
-            case ast::StmtKind::Expr: return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
+            case ast::StmtKind::Expr:
+                return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
             case ast::StmtKind::Let:
                 break;
             case ast::StmtKind::Item:
@@ -201,7 +202,8 @@ namespace jc::hir {
                     std::move(ifBranch),
                     std::move(elseBranch),
                     HirId::DUMMY,
-                    astNode->span);
+                    astNode->span
+                );
             }
             case ast::ExprKind::Infix: {
                 const auto & astNode = expr->as<ast::Infix>(expr);
@@ -265,9 +267,10 @@ namespace jc::hir {
                 auto lhs = lowerExpr(astNode->lhs);
                 return makeBoxNode<PostfixExpr>(
                     std::move(lhs),
-                    PostfixOp{PostfixOpKind::Quest, astNode->span},
+                    PostfixOp {PostfixOpKind::Quest, astNode->span},
                     HirId::DUMMY,
-                    astNode->span);
+                    astNode->span
+                );
             }
             case ast::ExprKind::Prefix: {
                 const auto & astNode = expr->as<ast::Prefix>(expr);
@@ -333,7 +336,7 @@ namespace jc::hir {
         return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
     }
 
-    Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr&) {
+    Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr &) {
         log::notImplemented("`Lowering::lowerForExpr`");
     }
 
@@ -408,29 +411,69 @@ namespace jc::hir {
     }
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
-        BinOpKind kind{}; // initialize with [idk what's gonna be inside], just don't warn, cpp
+        BinOpKind kind {}; // initialize with [idk what's gonna be inside], just don't warn, cpp
 
         switch (tok.kind) {
-            case parser::TokenKind::Add: kind = BinOpKind::Add; break;
-            case parser::TokenKind::Sub: kind = BinOpKind::Sub; break;
-            case parser::TokenKind::Mul: kind = BinOpKind::Mul; break;
-            case parser::TokenKind::Div: kind = BinOpKind::Div; break;
-            case parser::TokenKind::Rem: kind = BinOpKind::Rem; break;
-            case parser::TokenKind::Power: kind = BinOpKind::Pow; break;
-            case parser::TokenKind::Or: kind = BinOpKind::Or; break;
-            case parser::TokenKind::And: kind = BinOpKind::And; break;
-            case parser::TokenKind::Shl: kind = BinOpKind::Shl; break;
-            case parser::TokenKind::Shr: kind = BinOpKind::Shr; break;
-            case parser::TokenKind::BitOr: kind = BinOpKind::BitOr; break;
-            case parser::TokenKind::Ampersand: kind = BinOpKind::BitAnd; break;
-            case parser::TokenKind::Xor: kind = BinOpKind::Xor; break;
-            case parser::TokenKind::Eq: kind = BinOpKind::Eq; break;
-            case parser::TokenKind::NotEq: kind = BinOpKind::NE; break;
-            case parser::TokenKind::LAngle: kind = BinOpKind::LT; break;
-            case parser::TokenKind::RAngle: kind = BinOpKind::GT; break;
-            case parser::TokenKind::LE: kind = BinOpKind::LE; break;
-            case parser::TokenKind::GE: kind = BinOpKind::GE; break;
-            case parser::TokenKind::Spaceship: kind = BinOpKind::Spaceship; break;
+            case parser::TokenKind::Add:
+                kind = BinOpKind::Add;
+                break;
+            case parser::TokenKind::Sub:
+                kind = BinOpKind::Sub;
+                break;
+            case parser::TokenKind::Mul:
+                kind = BinOpKind::Mul;
+                break;
+            case parser::TokenKind::Div:
+                kind = BinOpKind::Div;
+                break;
+            case parser::TokenKind::Rem:
+                kind = BinOpKind::Rem;
+                break;
+            case parser::TokenKind::Power:
+                kind = BinOpKind::Pow;
+                break;
+            case parser::TokenKind::Or:
+                kind = BinOpKind::Or;
+                break;
+            case parser::TokenKind::And:
+                kind = BinOpKind::And;
+                break;
+            case parser::TokenKind::Shl:
+                kind = BinOpKind::Shl;
+                break;
+            case parser::TokenKind::Shr:
+                kind = BinOpKind::Shr;
+                break;
+            case parser::TokenKind::BitOr:
+                kind = BinOpKind::BitOr;
+                break;
+            case parser::TokenKind::Ampersand:
+                kind = BinOpKind::BitAnd;
+                break;
+            case parser::TokenKind::Xor:
+                kind = BinOpKind::Xor;
+                break;
+            case parser::TokenKind::Eq:
+                kind = BinOpKind::Eq;
+                break;
+            case parser::TokenKind::NotEq:
+                kind = BinOpKind::NE;
+                break;
+            case parser::TokenKind::LAngle:
+                kind = BinOpKind::LT;
+                break;
+            case parser::TokenKind::RAngle:
+                kind = BinOpKind::GT;
+                break;
+            case parser::TokenKind::LE:
+                kind = BinOpKind::LE;
+                break;
+            case parser::TokenKind::GE:
+                kind = BinOpKind::GE;
+                break;
+            case parser::TokenKind::Spaceship:
+                kind = BinOpKind::Spaceship;
+                break;
             default: {
                 log::devPanic("Invalid infix operator '", tok.repr(), "'");
             }
@@ -443,11 +486,15 @@ namespace jc::hir {
     }
 
     PrefixOp Lowering::lowerPrefixOp(const parser::Token & tok) {
-        PrefixOpKind kind{};
+        PrefixOpKind kind {};
 
         switch (tok.kind) {
-            case parser::TokenKind::Mul: kind = PrefixOpKind::Deref; break;
-            case parser::TokenKind::Sub: kind = PrefixOpKind::Neg; break;
+            case parser::TokenKind::Mul:
+                kind = PrefixOpKind::Deref;
+                break;
+            case parser::TokenKind::Sub:
+                kind = PrefixOpKind::Neg;
+                break;
             default: {
                 if (tok.isKw(span::Kw::Not)) {
                     kind = PrefixOpKind::Not;
