@@ -235,7 +235,7 @@ namespace jc::hir {
             }
             case ast::ExprKind::LiteralConstant: {
                 const auto & astNode = expr->as<ast::Literal>(expr);
-                return makeBoxNode<Literal>(astNode->token, HirId::DUMMY, astNode->span);
+                return makeBoxNode<LitExpr>(astNode->token, HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Loop: {
                 const auto & astNode = expr->as<ast::LoopExpr>(expr);

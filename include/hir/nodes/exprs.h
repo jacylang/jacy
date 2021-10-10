@@ -151,9 +151,9 @@ namespace jc::hir {
         Arg::List args;
     };
 
-    struct Literal : Expr {
+    struct LitExpr : Expr {
         // FIXME: Unify `Literal` usage for AST and HIR
-        Literal(const parser::Token & token, const HirId & hirId, const Span & span)
+        LitExpr(const parser::Token & token, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Literal, hirId, span}, token {token} {
         }
 
