@@ -2,7 +2,6 @@
 #define JACY_HIR_NODES_PAT_H
 
 #include "hir/nodes/HirNode.h"
-#include "hir/nodes/Expr.h"
 
 namespace jc::hir {
     struct IdentPat;
