@@ -53,17 +53,19 @@ namespace jc::hir {
     struct StructPatField : HirNode {
         using List = std::vector<StructPatField>;
 
-        StructPatField(span::Ident && ident, Pat && pat, HirId hirId, Span span)
+        StructPatField(span::Ident && ident, Pat::Ptr && pat, HirId hirId, Span span)
             : HirNode {hirId, span}, ident {std::move(ident)}, pat {std::move(pat)} {
         }
 
         span::Ident ident;
-        Pat pat;
+        Pat::Ptr pat;
     };
 
-    struct StructPat {
-        StructPat(Path && path, StructPatField::List && fields) : path {std::move(path)}, fields {std::move(fields)} {
-        }
+    struct StructPat : Pat {
+        StructPat(Path && path, StructPatField::List && fields, HirId hirId, Span span)
+            : Pat {PatKind::Struct, hirId, span},
+              path {std::move(path)},
+              fields {std::move(fields)} {}
 
         Path path;
         StructPatField::List fields;
