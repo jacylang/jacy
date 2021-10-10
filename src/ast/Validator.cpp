@@ -479,7 +479,7 @@ namespace jc::ast {
 
     void Validator::visit(const MatchExpr & matchExpr) {
         matchExpr.subject.autoAccept(*this);
-        validateEach(matchExpr.entries);
+        validateEach(matchExpr.arms);
     }
 
     void Validator::visit(const MatchArm & matchArm) {

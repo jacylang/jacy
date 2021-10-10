@@ -13,9 +13,10 @@ namespace jc::ast {
             Pattern::List patterns,
             Block::Ptr body,
             const Span & span
-        ) : Node{span},
-            patterns{std::move(patterns)},
-            body{std::move(body)} {}
+        ) : Node {span},
+            patterns {std::move(patterns)},
+            body {std::move(body)} {
+        }
 
         Pattern::List patterns;
         Block::Ptr body;
@@ -30,12 +31,13 @@ namespace jc::ast {
             Expr::Ptr subject,
             MatchArm::List entries,
             const Span & span
-        ) : Expr{span, ExprKind::Match},
-            subject{std::move(subject)},
-            entries{std::move(entries)} {}
+        ) : Expr {span, ExprKind::Match},
+            subject {std::move(subject)},
+            arms {std::move(entries)} {
+        }
 
         Expr::Ptr subject;
-        MatchArm::List entries;
+        MatchArm::List arms;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

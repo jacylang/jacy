@@ -546,7 +546,7 @@ namespace jc::ast {
     void AstPrinter::visit(const MatchExpr & matchExpr) {
         log.raw("match ");
         matchExpr.subject.autoAccept(*this);
-        printBodyLike(matchExpr.entries, ",\n");
+        printBodyLike(matchExpr.arms, ",\n");
 
         printNodeId(matchExpr);
     }

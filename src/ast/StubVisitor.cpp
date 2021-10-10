@@ -274,7 +274,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const MatchExpr & matchExpr) {
         matchExpr.subject.autoAccept(*this);
-        visitEach(matchExpr.entries);
+        visitEach(matchExpr.arms);
     }
 
     void StubVisitor::visit(const MatchArm & matchArm) {

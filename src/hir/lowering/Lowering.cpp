@@ -302,7 +302,7 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::MatchExpr>(expr);
                 auto subject = lowerExpr(astNode->subject);
                 MatchArm::List arms;
-                for (const auto & arm : astNode->entries) {
+                for (const auto & arm : astNode->arms) {
                     arms.emplace_back(lowerMatchArm(arm));
                 }
                 return makeBoxNode<MatchExpr>(std::move(subject), std::move(arms), HirId::DUMMY, astNode->span);
