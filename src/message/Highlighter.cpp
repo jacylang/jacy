@@ -42,6 +42,14 @@ namespace jc::message {
         Token::Opt nextToken = None;
 
         for (size_t i = 0; i < tokens.size(); i++) {
+            if (i < tokens.size() - 1) {
+                size_t offset = 1;
+                do {
+                    nextToken = tokens.at(i + offset);
+                    offset++;
+                } while (nextToken.unwrap().isHidden() and i + offset < tokens.size() - 1);
+            }
+
             const auto & tok = tokens.at(i);
             result << getTokColor(tok, prevToken, nextToken) << tok << log::Color::Reset;
 
