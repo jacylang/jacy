@@ -29,6 +29,12 @@ namespace jc::hir {
         Tuple,
     };
 
+    struct Array;
+    struct AssignExpr;
+    struct BlockExpr;
+    struct BorrowExpr;
+    struct
+
     struct Expr : HirNode {
         using ValueT = std::variant<>;
         using Opt = Option<Expr>;

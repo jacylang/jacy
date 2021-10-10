@@ -51,8 +51,8 @@ namespace jc::hir {
         Expr::List elements;
     };
 
-    struct Assign : Expr {
-        Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
+    struct AssignExpr : Expr {
+        AssignExpr(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Assign, hirId, span}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {
         }
 

@@ -311,7 +311,7 @@ namespace jc::hir {
     }
 
     Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
-        return makeBoxNode<Assign>(
+        return makeBoxNode<AssignExpr>(
             lowerExpr(assign.lhs),
             assign.op,
             lowerExpr(assign.rhs),
