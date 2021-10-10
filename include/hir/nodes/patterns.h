@@ -7,12 +7,14 @@
 
 namespace jc::hir {
     struct WildcardPat : Pat {
-        WildcardPat(HirId hirId, Span span) : Pat {PatKind::Wildcard, hirId, span} {}
+        WildcardPat(HirId hirId, Span span) : Pat {PatKind::Wildcard, hirId, span} {
+        }
     };
 
     struct LitPat {
         LitPat(Expr::Ptr && value, HirId hirId, Span span)
-            : Pat {PatKind::Lit, hirId, span} value {std::move(value)} {}
+            : Pat {PatKind::Lit, hirId, span}, value {std::move(value)} {
+        }
 
         Expr value;
     };
@@ -23,7 +25,8 @@ namespace jc::hir {
               anno {anno},
               nameHirId {nameHirId},
               ident {ident},
-              pat {std::move(pat)} {}
+              pat {std::move(pat)} {
+        }
 
         IdentPatAnno anno;
         HirId nameHirId;
@@ -32,8 +35,12 @@ namespace jc::hir {
     };
 
     struct RefPat {
+        RefPat(Mutability mut, Pat::Ptr && pat, HirId hirId, Span span)
+            : Pat {PatKind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {
+        }
+
         Mutability mut;
-        Pat pat;
+        Pat::Ptr pat;
     };
 
     struct PathPat {
