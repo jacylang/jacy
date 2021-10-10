@@ -80,7 +80,8 @@ namespace jc::message {
                 return theme.type;
             }
 
-            if (nextTok.some() and nextTok.unwrap().is(TokenKind::LParen)) {
+            if ((nextTok.some() and nextTok.unwrap().is(TokenKind::LParen))
+            or (prevTok.some() and prevTok.unwrap().isKw(span::Kw::Func))) {
                 return theme.func;
             }
 
