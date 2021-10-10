@@ -133,7 +133,7 @@ namespace jc::utils::num {
     template<class I, typename = typename std::enable_if<
         std::is_integral<I>::value and std::is_unsigned<I>::value>::type>
     static inline uint8_t countDigits(I i) {
-        return std::floor(std::log10(i) + 1);
+        return static_cast<uint8_t>(std::floor(std::log10(i) + 1));
     }
 }
 
