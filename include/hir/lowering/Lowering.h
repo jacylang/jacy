@@ -88,7 +88,11 @@ namespace jc::hir {
         Path lowerPath(const ast::Path & path);
         MatchArm lowerMatchArm(const ast::MatchArm & arm);
 
-        // Items //
+        // Patterns //
+    private:
+        Pat lowerPat(const ast::Pattern::Ptr & patPr);
+
+        // HIR Items //
     private:
         Party::ItemMap items;
 

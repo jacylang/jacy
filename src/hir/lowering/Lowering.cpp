@@ -490,7 +490,31 @@ namespace jc::hir {
         // TODO
     }
 
-    // Items //
+    // Patterns //
+    Pat Lowering::lowerPat(const ast::Pattern::Ptr & patPr) {
+        const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
+        switch (pat->kind) {
+            case ast::PatKind::Paren: {
+                break;
+            }
+            case ast::PatKind::Literal:
+                break;
+            case ast::PatKind::Ident:
+                break;
+            case ast::PatKind::Ref:
+                break;
+            case ast::PatKind::Path:
+                break;
+            case ast::PatKind::Wildcard:
+                break;
+            case ast::PatKind::Spread:
+                break;
+            case ast::PatKind::Struct:
+                break;
+        }
+    }
+
+    // HIR Items //
     ItemId Lowering::addItem(ItemNode && item) {
         auto itemId = ItemId {item.defId};
         items.emplace(itemId, std::move(item));
