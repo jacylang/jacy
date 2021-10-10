@@ -225,7 +225,7 @@ namespace jc::hir {
                     args.emplace_back(name, lowerExpr(arg.value), HirId::DUMMY, arg.span);
                 }
 
-                return makeBoxNode<Invoke>(std::move(lhs), std::move(args), HirId::DUMMY, astNode->span);
+                return makeBoxNode<InvokeExpr>(std::move(lhs), std::move(args), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Lambda: {
                 log::notImplemented("`ast::ExprKind::Lambda` lowering");

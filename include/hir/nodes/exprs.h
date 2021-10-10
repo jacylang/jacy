@@ -142,8 +142,8 @@ namespace jc::hir {
         Expr::Ptr rhs;
     };
 
-    struct Invoke : Expr {
-        Invoke(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
+    struct InvokeExpr : Expr {
+        InvokeExpr(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Invoke, hirId, span}, lhs {std::move(lhs)}, args {std::move(args)} {
         }
 
