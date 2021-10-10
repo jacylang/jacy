@@ -38,17 +38,16 @@ namespace jc::message {
 
         std::stringstream result;
 
+        Token::Opt prevToken = None;
+        Token::Opt nextToken = None;
+
         for (size_t i = 0; i < tokens.size(); i++) {
             const auto & tok = tokens.at(i);
-            Token::Opt prevToken = None;
-            Token::Opt nextToken = None;
-            if (i > 0) {
-                prevToken = tokens.at(i - 1);
-            }
-            if (i < tokens.size() - 1) {
-                nextToken = tokens.at(i + 1);
-            }
             result << getTokColor(tok, prevToken, nextToken) << tok << log::Color::Reset;
+
+            if (not tok.isHidden()) {
+                prevToken = tok;
+            }
         }
 
         return result.str();
