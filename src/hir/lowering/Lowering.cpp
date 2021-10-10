@@ -299,7 +299,13 @@ namespace jc::hir {
                 log::notImplemented("`ast::ExprKind::Unit` lowering");
             }
             case ast::ExprKind::Match: {
-                log::notImplemented("`ast::ExprKind::Match` lowering");
+                const auto & astNode = expr->as<ast::MatchExpr>(expr);
+                auto subject = lowerExpr(astNode->subject);
+                MatchArm::List arms;
+                for (const auto & arm : astNode->entries) {
+                    // TODO
+                }
+                return makeBoxNode<MatchExpr>(std::move(subject), std::move(arms), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::While: {
                 const auto & astNode = expr->as<ast::WhileExpr>(expr);
