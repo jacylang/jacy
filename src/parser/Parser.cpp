@@ -1530,22 +1530,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        Pattern::List patterns;
-        bool first = true;
-        while (not eof()) {
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` delimiter between patterns");
-            }
-
-            // Check also for closing brace to not going to bottom of file (checkout please)
-            if (is(TokenKind::DoubleArrow) or is(TokenKind::RBrace)) {
-                break;
-            }
-
-            patterns.push_back(parsePat());
-        }
+        auto pat = parseMultiPat();
 
         skip(
             TokenKind::DoubleArrow,
@@ -1556,7 +1541,7 @@ namespace jc::parser {
         Block::Ptr body = parseBlock("match", BlockParsing::Raw);
 
         exitEntity();
-        return makeNode<MatchArm>(std::move(patterns), std::move(body), closeSpan(begin));
+        return makeNode<MatchArm>(std::move(pat), std::move(body), closeSpan(begin));
     }
 
     FuncSig Parser::parseFuncSig(parser::Token::List && modifiers) {
