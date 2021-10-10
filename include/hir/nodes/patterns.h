@@ -11,12 +11,12 @@ namespace jc::hir {
         }
     };
 
-    struct LitPat {
+    struct LitPat : Pat {
         LitPat(Expr::Ptr && value, HirId hirId, Span span)
             : Pat {PatKind::Lit, hirId, span}, value {std::move(value)} {
         }
 
-        Expr value;
+        Expr::Ptr value;
     };
 
     struct IdentPat : Pat {
@@ -34,7 +34,7 @@ namespace jc::hir {
         Pat::OptPtr pat;
     };
 
-    struct RefPat {
+    struct RefPat : Pat {
         RefPat(Mutability mut, Pat::Ptr && pat, HirId hirId, Span span)
             : Pat {PatKind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {
         }
@@ -43,9 +43,10 @@ namespace jc::hir {
         Pat::Ptr pat;
     };
 
-    struct PathPat {
-        RefPat(Path && path, HirId hirId, Span span)
-            : Pat {PatKind::Path, hirId, span}, path {std::move(path)} {}
+    struct PathPat : Pat {
+        PathPat(Path && path, HirId hirId, Span span)
+            : Pat {PatKind::Path, hirId, span}, path {std::move(path)} {
+        }
 
         Path path;
     };
@@ -65,7 +66,8 @@ namespace jc::hir {
         StructPat(Path && path, StructPatField::List && fields, HirId hirId, Span span)
             : Pat {PatKind::Struct, hirId, span},
               path {std::move(path)},
-              fields {std::move(fields)} {}
+              fields {std::move(fields)} {
+        }
 
         Path path;
         StructPatField::List fields;
