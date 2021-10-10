@@ -6,17 +6,27 @@
 #include "hir/nodes/fragments.h"
 
 namespace jc::hir {
-    struct WildcardPat {
-        WildcardPat()
+    struct WildcardPat : Pat {
+        WildcardPat(HirId hirId, Span span) : Pat {PatKind::Wildcard, hirId, span} {}
     };
 
     struct LitPat {
+        LitPat(Expr::Ptr && value, HirId hirId, Span span)
+            : Pat {PatKind::Lit, hirId, span} value {std::move(value)} {}
+
         Expr value;
     };
 
-    struct IdentPat {
+    struct IdentPat : Pat {
+        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::Opt && pat, HirId hirId, Span span)
+            : Pat {PatKind::Ident, hirId, span},
+              anno {anno},
+              nameHirId {nameHirId},
+              ident {ident},
+              pat {std::move(pat)} {}
+
         IdentPatAnno anno;
-        HirId hirId;
+        HirId nameHirId;
         span::Ident ident;
         Pat::Opt pat;
     };
