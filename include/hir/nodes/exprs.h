@@ -3,6 +3,7 @@
 
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/fragments.h"
+#include "hir/nodes/Pat.h"
 
 namespace jc::hir {
     enum class BinOpKind {
@@ -152,6 +153,16 @@ namespace jc::hir {
             : Expr{ExprKind::Loop, hirId, span}, body{std::move(body)} {}
 
         Block body;
+    };
+
+    struct MatchArm : Expr {
+        MatchArm(Pat && pat, Expr && body, HirId hirId, Span span)
+            : Expr{ExprKind::Match, hirId, span},
+              pat{std::move(pat)},
+              body{std::move(body)} {}
+
+        Pat pat;
+        Expr body;
     };
 
     struct PathExpr : Expr {
