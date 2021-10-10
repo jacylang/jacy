@@ -2247,6 +2247,27 @@ namespace jc::parser {
         return makeErrPR<N<Pattern>>(cspan());
     }
 
+    Pattern::Ptr Parser::parseMultiPat() {
+        auto begin = cspan();
+        auto lhs = parsePat();
+
+        if (skipOpt(TokenKind::BitOr).some()) {
+            Pattern::List patterns = {std::move(lhs)};
+
+            while (true) {
+                patterns.emplace_back(parsePat());
+
+                if (not skipOpt(TokenKind::BitOr).some()) {
+                    break;
+                }
+            }
+
+            return makePRBoxNode<MultiPat, Pattern>(std::move(patterns), closeSpan(begin));
+        }
+
+        return lhs;
+    }
+
     Pattern::Ptr Parser::parseLitPat() {
         logParse("LiteralPattern");
 
