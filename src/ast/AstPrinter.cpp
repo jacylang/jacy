@@ -726,6 +726,17 @@ namespace jc::ast {
     }
 
     // Patterns //
+    void AstPrinter::visit(const MultiPat & pat) {
+        for (size_t i = 0; i < pat.patterns.size(); i++) {
+            pat.patterns.at(i).autoAccept(*this);
+            if (i < pat.patterns.size() - 1) {
+                log.raw(" | ");
+            }
+        }
+
+        printNodeId(pat);
+    }
+
     void AstPrinter::visit(const ParenPat & pat) {
         log.raw("(");
         pat.pat.autoAccept(*this);
