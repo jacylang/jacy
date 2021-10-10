@@ -11,7 +11,7 @@ namespace jc::ast {
 
         MatchArm(
             Pattern::Ptr pat,
-            Block::Ptr body,
+            Expr::Ptr body,
             const Span & span
         ) : Node {span},
             pat {std::move(pat)},
@@ -19,7 +19,7 @@ namespace jc::ast {
         }
 
         Pattern::Ptr pat;
-        Block::Ptr body;
+        Expr::Ptr body;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);

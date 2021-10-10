@@ -1538,7 +1538,7 @@ namespace jc::parser {
             Recovery::Once
         );
 
-        Block::Ptr body = parseBlock("match", BlockParsing::Raw);
+        auto body = parseExpr("Missing `match` arm body");
 
         exitEntity();
         return makeNode<MatchArm>(std::move(pat), std::move(body), closeSpan(begin));
