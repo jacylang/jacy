@@ -168,15 +168,27 @@ namespace jc::hir {
         Block body;
     };
 
-    struct MatchArm : Expr {
+    struct MatchArm : HirNode {
+        using List = std::vector<MatchArm>;
+
         MatchArm(Pat && pat, Expr && body, HirId hirId, Span span)
-            : Expr {ExprKind::Match, hirId, span},
+            : HirNode {hirId, span},
               pat {std::move(pat)},
               body {std::move(body)} {
         }
 
         Pat pat;
         Expr body;
+    };
+
+    struct MatchExpr : Expr {
+        MatchExpr(Expr && expr, MatchArm::List && arms, HirId hirId, Span span)
+            : Expr{ExprKind::Match, hirId, span},
+              expr {std::move(expr)},
+              arms{std::move(arms)} {}
+
+        Expr expr;
+        MatchArm::List arms;
     };
 
     struct PathExpr : Expr {

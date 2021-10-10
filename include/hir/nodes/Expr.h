@@ -34,7 +34,8 @@ namespace jc::hir {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode{hirId, span}, kind{kind} {}
+        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {
+        }
 
         ExprKind kind;
     };
