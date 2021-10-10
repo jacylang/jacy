@@ -40,17 +40,25 @@ namespace jc::message {
 
         for (size_t i = 0; i < tokens.size(); i++) {
             const auto & tok = tokens.at(i);
-            parser::Token::Opt nextToken = None;
+            Token::Opt prevToken = None;
+            Token::Opt nextToken = None;
+            if (i > 0) {
+                prevToken = tokens.at(i - 1);
+            }
             if (i < tokens.size() - 1) {
                 nextToken = tokens.at(i + 1);
             }
-            result << getTokColor(tok, nextToken) << tok << log::Color::Reset;
+            result << getTokColor(tok, prevToken, nextToken) << tok << log::Color::Reset;
         }
 
         return result.str();
     }
 
-    TrueColor Highlighter::getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok) {
+    TrueColor Highlighter::getTokColor(
+        const Token & tok,
+        const Token::Opt & prevTok,
+        const Token::Opt & nextTok
+    ) {
         if (tok.is(TokenKind::Semi)) {
             return theme.semi;
         }

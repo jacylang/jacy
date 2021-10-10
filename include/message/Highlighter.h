@@ -7,6 +7,7 @@
 
 namespace jc::message {
     using parser::TokenKind;
+    using parser::Token;
 
     class Highlighter {
     public:
@@ -22,7 +23,11 @@ namespace jc::message {
 
         Theme theme;
 
-        TrueColor getTokColor(const parser::Token & tok, const parser::Token::Opt & nextTok);
+        TrueColor getTokColor(
+            const Token & tok,
+            const Token::Opt & prevTok,
+            const Token::Opt & nextTok
+        );
 
         /// List of built-in types
         static std::vector<std::string> builtinTypes;
