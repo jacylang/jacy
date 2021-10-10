@@ -281,7 +281,7 @@ namespace jc::hir {
                 if (astNode->expr.some()) {
                     value = lowerExpr(astNode->expr.unwrap());
                 }
-                return makeBoxNode<Return>(std::move(value), HirId::DUMMY, astNode->span);
+                return makeBoxNode<ReturnExpr>(std::move(value), HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Spread: {
                 log::notImplemented("`ast::ExprKind::Spread` lowering");

@@ -217,8 +217,8 @@ namespace jc::hir {
         Expr::Ptr rhs;
     };
 
-    struct Return : Expr {
-        Return(Expr::OptPtr && value, const HirId & hirId, const Span & span)
+    struct ReturnExpr : Expr {
+        ReturnExpr(Expr::OptPtr && value, const HirId & hirId, const Span & span)
             : Expr {ExprKind::Return, hirId, span}, value {std::move(value)} {
         }
 
