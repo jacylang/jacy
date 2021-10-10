@@ -483,7 +483,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const MatchArm & matchArm) {
-        validateEach(matchArm.patterns);
+        validateEach(matchArm.pat);
         matchArm.body.autoAccept(*this);
     }
 

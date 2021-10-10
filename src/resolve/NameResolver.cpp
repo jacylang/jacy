@@ -176,7 +176,7 @@ namespace jc::resolve {
 
         const auto prevDepth = getDepth();
 
-        for (const auto & pat : arm.patterns) {
+        for (const auto & pat : arm.pat) {
             enterRib();
             pat.autoAccept(*this);
         }

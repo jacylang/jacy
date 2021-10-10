@@ -552,7 +552,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const MatchArm & matchArm) {
-        printDelim(matchArm.patterns, "", "", " | ");
+        printDelim(matchArm.pat, "", "", " | ");
         log.raw(" => ");
         matchArm.body.autoAccept(*this);
 

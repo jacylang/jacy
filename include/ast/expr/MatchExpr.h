@@ -10,15 +10,15 @@ namespace jc::ast {
         using List = std::vector<MatchArm>;
 
         MatchArm(
-            Pattern::List patterns,
+            Pattern::Ptr pat,
             Block::Ptr body,
             const Span & span
         ) : Node {span},
-            patterns {std::move(patterns)},
+            pat {std::move(pat)},
             body {std::move(body)} {
         }
 
-        Pattern::List patterns;
+        Pattern::Ptr pat;
         Block::Ptr body;
 
         void accept(BaseVisitor & visitor) const {
