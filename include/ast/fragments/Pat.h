@@ -138,11 +138,12 @@ namespace jc::ast {
     struct StructPatField : Node {
         using List = std::vector<StructPatField>;
 
-        // Shortcut is true when `:` is omitted, e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`
         StructPatField(bool shortcut, Ident::PR && ident, Pat::Ptr && pat, Span span)
             : Node {span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {
         }
 
+        /// Shortcut is true when `:` is omitted, just a flag that has no syntax representation,
+        /// e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`
         bool shortcut;
         Ident::PR ident;
         Pat::Ptr pat;
@@ -151,10 +152,10 @@ namespace jc::ast {
     struct StructPat : Pat {
         StructPat(
             PathExpr::Ptr && path,
-            StructPatField::List && elements,
+            StructPatField::List && fields,
             const parser::Token::Opt & rest,
             const Span & span
-        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(elements)}, rest {rest} {}
+        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}
 
         PathExpr::Ptr path;
         StructPatField::List fields;
