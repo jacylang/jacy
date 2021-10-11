@@ -135,24 +135,6 @@ namespace jc::ast {
     // TODO: Range patterns
 
     // Struct Pattern //
-
-    /// Struct nested pattern like `IDENT: pattern`
-    struct StructPatternDestructEl {
-        StructPatternDestructEl(Ident::PR && name, Pat::Ptr && pat) : name{std::move(name)}, pat{std::move(pat)} {}
-
-        Ident::PR name;
-        Pat::Ptr pat;
-    };
-
-    /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding
-    struct StructPatBorrowEl {
-        StructPatBorrowEl(bool ref, bool mut, Ident::PR && name) : ref{ref}, mut{mut}, name{std::move(name)} {}
-
-        bool ref;
-        bool mut;
-        Ident::PR name;
-    };
-
     struct StructPatField : Node {
         using List = std::vector<StructPatField>;
 
