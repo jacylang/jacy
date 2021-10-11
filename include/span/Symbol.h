@@ -88,6 +88,7 @@ namespace jc::span {
         SymbolId id;
 
         std::string toString() const;
+        std::string slice(size_t begin, size_t end) const;
 
         bool operator==(const Symbol & other) const {
             return id == other.id;

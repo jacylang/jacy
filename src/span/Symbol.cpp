@@ -61,6 +61,22 @@ namespace jc::span {
         return Interner::getInstance().get(*this);
     }
 
+    std::string Symbol::slice(size_t begin, size_t len) const {
+        auto str = toString();
+        if (begin >= str.size()) {
+            log::devPanic(
+                "[Symbol::slice] `begin` out symbol value range '",
+                str,
+                "' is ",
+                str.size(),
+                " bytes long, got `begin=",
+                begin,
+                "`"
+            );
+        }
+        return str.substr(begin, len);
+    }
+
     std::string Symbol::kwToString(Kw kw) {
         return Interner::getInstance().get(fromKw(kw));
     }
