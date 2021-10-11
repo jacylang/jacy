@@ -1,7 +1,7 @@
 #ifndef JACY_AST_FRAGMENTS_FUNC_FRAGMENTS_H
 #define JACY_AST_FRAGMENTS_FUNC_FRAGMENTS_H
 
-#include "ast/fragments/Pattern.h"
+#include "ast/fragments/Pat.h"
 #include "ast/fragments/Type.h"
 #include "ast/expr/Expr.h"
 
@@ -11,7 +11,7 @@ namespace jc::ast {
 
         FuncParam(
             Ident::OptPR && label,
-            Pattern::Ptr pat,
+            Pat::Ptr pat,
             Type::Ptr type,
             Expr::OptPtr defaultValue,
             const Span & span
@@ -22,7 +22,7 @@ namespace jc::ast {
             defaultValue{std::move(defaultValue)} {}
 
         Ident::OptPR label;
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
         Type::Ptr type;
         Expr::OptPtr defaultValue;
 

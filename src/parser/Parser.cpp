@@ -2183,7 +2183,7 @@ namespace jc::parser {
     //////////////
     // Patterns //
     //////////////
-    Pattern::Ptr Parser::parsePat() {
+    Pat::Ptr Parser::parsePat() {
         logParse("Pattern");
 
         // `-123123`
@@ -2193,12 +2193,12 @@ namespace jc::parser {
 
         // `_`
         if (const auto & wildcard = skipOptKw(Kw::Underscore); wildcard.some()) {
-            return makePRBoxNode<WCPat, Pattern>(wildcard.unwrap().span);
+            return makePRBoxNode<WCPat, Pat>(wildcard.unwrap().span);
         }
 
         // `...`
         if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
-            return makePRBoxNode<SpreadPat, Pattern>(spread.unwrap().span);
+            return makePRBoxNode<SpreadPat, Pat>(spread.unwrap().span);
         }
 
         // If pattern begins with `::` or with an identifier followed by `::` it is a path pattern
@@ -2214,7 +2214,7 @@ namespace jc::parser {
 
             // TODO: Range from
 
-            return makePRBoxNode<PathPat, Pattern>(std::move(path), closeSpan(begin));
+            return makePRBoxNode<PathPat, Pat>(std::move(path), closeSpan(begin));
         }
 
         // `ref mut IDENT @ pattern`
@@ -2236,7 +2236,7 @@ namespace jc::parser {
             justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
             auto pat = parsePat();
             skip(TokenKind::RParen, "Closing `)`");
-            return makePRBoxNode<ParenPat, Pattern>(std::move(pat), closeSpan(begin));
+            return makePRBoxNode<ParenPat, Pat>(std::move(pat), closeSpan(begin));
         }
 
         msg.error()
@@ -2247,12 +2247,12 @@ namespace jc::parser {
         return makeErrPR<N<Pattern>>(cspan());
     }
 
-    Pattern::Ptr Parser::parseMultiPat() {
+    Pat::Ptr Parser::parseMultiPat() {
         auto begin = cspan();
         auto lhs = parsePat();
 
         if (skipOpt(TokenKind::BitOr).some()) {
-            Pattern::List patterns = {std::move(lhs)};
+            Pat::List patterns = {std::move(lhs)};
 
             while (true) {
                 patterns.emplace_back(parsePat());
@@ -2262,13 +2262,13 @@ namespace jc::parser {
                 }
             }
 
-            return makePRBoxNode<MultiPat, Pattern>(std::move(patterns), closeSpan(begin));
+            return makePRBoxNode<MultiPat, Pat>(std::move(patterns), closeSpan(begin));
         }
 
         return lhs;
     }
 
-    Pattern::Ptr Parser::parseLitPat() {
+    Pat::Ptr Parser::parseLitPat() {
         logParse("LiteralPattern");
 
         const auto & begin = cspan();
@@ -2288,10 +2288,10 @@ namespace jc::parser {
         auto token = peek();
         advance();
 
-        return makePRBoxNode<LitPat, Pattern>(neg, token, closeSpan(begin));
+        return makePRBoxNode<LitPat, Pat>(neg, token, closeSpan(begin));
     }
 
-    Pattern::Ptr Parser::parseIdentPat() {
+    Pat::Ptr Parser::parseIdentPat() {
         logParse("IdentPat");
 
         const auto & begin = cspan();
@@ -2300,15 +2300,15 @@ namespace jc::parser {
 
         auto id = parseIdent("Missing identifier");
 
-        Option<Pattern::Ptr> pat = None;
+        Option<Pat::Ptr> pat = None;
         if (skipOpt(TokenKind::At).some()) {
             pat = parsePat();
         }
 
-        return makePRBoxNode<IdentPat, Pattern>(ref, mut, std::move(id), std::move(pat), closeSpan(begin));
+        return makePRBoxNode<IdentPat, Pat>(ref, mut, std::move(id), std::move(pat), closeSpan(begin));
     }
 
-    Pattern::Ptr Parser::parseRefPat() {
+    Pat::Ptr Parser::parseRefPat() {
         logParse("RefPattern");
 
         const auto & begin = cspan();
@@ -2316,10 +2316,10 @@ namespace jc::parser {
         bool mut = skipOptKw(Kw::Mut).some();
         auto pat = parsePat();
 
-        return makePRBoxNode<RefPat, Pattern>(mut, std::move(pat), closeSpan(begin));
+        return makePRBoxNode<RefPat, Pat>(mut, std::move(pat), closeSpan(begin));
     }
 
-    Pattern::Ptr Parser::parseStructPat(PathExpr::Ptr && path) {
+    Pat::Ptr Parser::parseStructPat(PathExpr::Ptr && path) {
         logParse("StructPattern");
 
         justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
@@ -2383,7 +2383,7 @@ namespace jc::parser {
 
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
 
-        return makePRBoxNode<StructPat, Pattern>(std::move(path), std::move(elements), closeSpan(begin));
+        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(elements), closeSpan(begin));
     }
 
     // Helpers //

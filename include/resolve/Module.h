@@ -235,7 +235,7 @@ namespace jc::resolve {
                     labels.emplace_back(param.label.unwrap().unwrap().sym);
                 } else if (param.pat.unwrap()->kind == ast::PatKind::Ident) {
                     // If no label present and IdentPat (such as `ref? mut? IDENT @ Pattern`) used -- use IDENT
-                    labels.emplace_back(ast::Pattern::as<ast::IdentPat>(param.pat.unwrap())->name.unwrap().sym);
+                    labels.emplace_back(ast::Pat::as<ast::IdentPat>(param.pat.unwrap())->name.unwrap().sym);
                 } else {
                     labels.emplace_back(Symbol::fromKw(span::Kw::Underscore));
                 }

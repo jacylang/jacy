@@ -4,12 +4,12 @@
 #include "ast/stmt/Stmt.h"
 #include "ast/fragments/Ident.h"
 #include "ast/fragments/Type.h"
-#include "ast/fragments/Pattern.h"
+#include "ast/fragments/Pat.h"
 
 namespace jc::ast {
     struct LetStmt : Stmt {
         LetStmt(
-            Pattern::Ptr && pat,
+            Pat::Ptr && pat,
             Type::OptPtr && type,
             Expr::OptPtr && assignExpr,
             const Span & span
@@ -18,7 +18,7 @@ namespace jc::ast {
             type{std::move(type)},
             assignExpr{std::move(assignExpr)} {}
 
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
         Type::OptPtr type;
         Expr::OptPtr assignExpr;
 

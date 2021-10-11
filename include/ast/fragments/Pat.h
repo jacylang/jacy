@@ -18,47 +18,47 @@ namespace jc::ast {
         Struct,
     };
 
-    struct Pattern : Node {
-        using Ptr = PR<N<Pattern>>;
+    struct Pat : Node {
+        using Ptr = PR<N<Pat>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pattern(PatKind kind, const Span & span) : Node{span}, kind{kind} {}
+        Pat(PatKind kind, const Span & span) : Node{span}, kind{kind} {}
 
         PatKind kind;
 
         template<class T>
-        static T * as(const N<Pattern> & pat) {
+        static T * as(const N<Pat> & pat) {
             return static_cast<T*>(pat.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
-    struct MultiPat : Pattern {
-        MultiPat(Pattern::List && patterns, Span span)
-            : Pattern {PatKind::Multi, span}, patterns {std::move(patterns)} {}
+    struct MultiPat : Pat {
+        MultiPat(Pat::List && patterns, Span span)
+            : Pat {PatKind::Multi, span}, patterns {std::move(patterns)} {}
 
-        Pattern::List patterns;
-
-        void accept(BaseVisitor & visitor) const override {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct ParenPat : Pattern {
-        ParenPat(Pattern::Ptr && pat, const Span & span) : Pattern{PatKind::Paren, span}, pat{std::move(pat)} {}
-
-        Pattern::Ptr pat;
+        Pat::List patterns;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct LitPat : Pattern {
+    struct ParenPat : Pat {
+        ParenPat(Pat::Ptr && pat, const Span & span) : Pat{PatKind::Paren, span}, pat{std::move(pat)} {}
+
+        Pat::Ptr pat;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
+    };
+
+    struct LitPat : Pat {
         LitPat(Expr::Ptr && expr, const Span & span)
-            : Pattern{PatKind::Lit, span}, expr {std::move(expr)} {}
+            : Pat{PatKind::Lit, span}, expr {std::move(expr)} {}
 
         Expr::Ptr expr;
 
@@ -68,14 +68,14 @@ namespace jc::ast {
     };
 
     /// `ref mut IDENT @ pattern`
-    struct IdentPat : Pattern {
+    struct IdentPat : Pat {
         IdentPat(
             bool ref,
             bool mut,
             Ident::PR && name,
-            Pattern::OptPtr && pat,
+            Pat::OptPtr && pat,
             const Span & span
-        ) : Pattern{PatKind::Ident, span},
+        ) : Pat{PatKind::Ident, span},
             ref{ref},
             mut{mut},
             name{std::move(name)},
@@ -84,7 +84,7 @@ namespace jc::ast {
         bool ref;
         bool mut;
         Ident::PR name;
-        Pattern::OptPtr pat;
+        Pat::OptPtr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -92,21 +92,21 @@ namespace jc::ast {
     };
 
     /// `&mut pattern`
-    struct RefPat : Pattern {
-        RefPat(bool mut, Pattern::Ptr && pat, const Span & span)
-            : Pattern{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
+    struct RefPat : Pat {
+        RefPat(bool mut, Pat::Ptr && pat, const Span & span)
+            : Pat{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
 
         bool mut;
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct PathPat : Pattern {
+    struct PathPat : Pat {
         PathPat(PathExpr::Ptr && path, const Span & span)
-            : Pattern{PatKind::Path, span}, path{std::move(path)} {}
+            : Pat{PatKind::Path, span}, path{std::move(path)} {}
 
         PathExpr::Ptr path;
 
@@ -115,16 +115,16 @@ namespace jc::ast {
         }
     };
 
-    struct WCPat : Pattern {
-        WCPat(const Span & span) : Pattern{PatKind::Wildcard, span} {}
+    struct WCPat : Pat {
+        WCPat(const Span & span) : Pat{PatKind::Wildcard, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct SpreadPat : Pattern {
-        SpreadPat(const Span & span) : Pattern{PatKind::Spread, span} {}
+    struct SpreadPat : Pat {
+        SpreadPat(const Span & span) : Pat{PatKind::Spread, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -137,10 +137,10 @@ namespace jc::ast {
 
     /// Struct nested pattern like `IDENT: pattern`
     struct StructPatternDestructEl {
-        StructPatternDestructEl(Ident::PR && name, Pattern::Ptr && pat) : name{std::move(name)}, pat{std::move(pat)} {}
+        StructPatternDestructEl(Ident::PR && name, Pat::Ptr && pat) : name{std::move(name)}, pat{std::move(pat)} {}
 
         Ident::PR name;
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
     };
 
     /// Struct nested pattern like `ref mut IDENT`, actually both destructuring and binding
@@ -172,9 +172,9 @@ namespace jc::ast {
         std::variant<StructPatternDestructEl, StructPatBorrowEl, Span> el;
     };
 
-    struct StructPat : Pattern {
+    struct StructPat : Pat {
         StructPat(PathExpr::Ptr && path, std::vector<StructPatEl> && elements, const Span & span)
-            : Pattern{PatKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
+            : Pat{PatKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
 
         PathExpr::Ptr path;
         std::vector<StructPatEl> elements;

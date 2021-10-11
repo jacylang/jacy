@@ -242,12 +242,12 @@ namespace jc::parser {
         TypePath::Ptr parseTypePath();
 
         // Patterns //
-        Pattern::Ptr parsePat();
-        Pattern::Ptr parseMultiPat();
-        Pattern::Ptr parseLitPat();
-        Pattern::Ptr parseIdentPat();
-        Pattern::Ptr parseRefPat();
-        Pattern::Ptr parseStructPat(PathExpr::Ptr && path);
+        Pat::Ptr parsePat();
+        Pat::Ptr parseMultiPat();
+        Pat::Ptr parseLitPat();
+        Pat::Ptr parseIdentPat();
+        Pat::Ptr parseRefPat();
+        Pat::Ptr parseStructPat(PathExpr::Ptr && path);
 
         // Messages //
     private:

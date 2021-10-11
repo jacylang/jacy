@@ -541,7 +541,7 @@ namespace jc::hir {
     }
 
     // Patterns //
-    Pat::Ptr Lowering::lowerPat(const ast::Pattern::Ptr & patPr) {
+    Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
             case ast::PatKind::Multi: {

@@ -3,12 +3,12 @@
 
 #include "ast/expr/Expr.h"
 #include "ast/expr/Block.h"
-#include "ast/fragments/Pattern.h"
+#include "ast/fragments/Pat.h"
 
 namespace jc::ast {
     struct ForExpr : Expr {
         ForExpr(
-            Pattern::Ptr && pat,
+            Pat::Ptr && pat,
             Expr::Ptr && inExpr,
             Block::Ptr && body,
             const Span & span
@@ -17,7 +17,7 @@ namespace jc::ast {
             inExpr{std::move(inExpr)},
             body{std::move(body)} {}
 
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
         Expr::Ptr inExpr;
         Block::Ptr body;
 

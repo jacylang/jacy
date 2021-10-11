@@ -3,14 +3,14 @@
 
 #include "ast/expr/Expr.h"
 #include "Block.h"
-#include "ast/fragments/Pattern.h"
+#include "ast/fragments/Pat.h"
 
 namespace jc::ast {
     struct MatchArm : Node {
         using List = std::vector<MatchArm>;
 
         MatchArm(
-            Pattern::Ptr pat,
+            Pat::Ptr pat,
             Expr::Ptr body,
             const Span & span
         ) : Node {span},
@@ -18,7 +18,7 @@ namespace jc::ast {
             body {std::move(body)} {
         }
 
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
         Expr::Ptr body;
 
         void accept(BaseVisitor & visitor) const {

@@ -1,19 +1,19 @@
 #ifndef JACY_AST_EXPR_LAMBDA_H
 #define JACY_AST_EXPR_LAMBDA_H
 
-#include "ast/fragments/Pattern.h"
+#include "ast/fragments/Pat.h"
 #include "ast/fragments/Type.h"
 
 namespace jc::ast {
     struct LambdaParam : Node {
         using List = std::vector<LambdaParam>;
 
-        LambdaParam(Pattern::Ptr pat, Type::OptPtr type, const Span & span)
+        LambdaParam(Pat::Ptr pat, Type::OptPtr type, const Span & span)
             : Node{span},
               pat{std::move(pat)},
               type{std::move(type)} {}
 
-        Pattern::Ptr pat;
+        Pat::Ptr pat;
         Type::OptPtr type;
 
         void accept(BaseVisitor & visitor) const {
