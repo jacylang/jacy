@@ -5,10 +5,10 @@
 
 namespace jc::ast {
     struct LitExpr : Expr {
-        explicit LitExpr(const parser::Token & token, const Span & span)
-            : Expr{span, ExprKind::LiteralConstant}, token{token} {}
+        explicit LitExpr(Expr::Ptr && expr, const Span & span)
+            : Expr {span, ExprKind::LiteralConstant}, expr {std::move(expr)} {}
 
-        parser::Token token;
+        Expr::Ptr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
