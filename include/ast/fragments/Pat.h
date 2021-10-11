@@ -1,5 +1,5 @@
-#ifndef JACY_AST_FRAGMENTS_PATTERN_H
-#define JACY_AST_FRAGMENTS_PATTERN_H
+#ifndef JACY_AST_FRAGMENTS_PAT_H
+#define JACY_AST_FRAGMENTS_PAT_H
 
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
@@ -189,4 +189,4 @@ namespace jc::ast {
     // TODO: Slice pattern
 }
 
-#endif // JACY_AST_FRAGMENTS_PATTERN_H
+#endif // JACY_AST_FRAGMENTS_PAT_H
