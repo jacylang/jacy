@@ -2332,8 +2332,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        std::vector<StructPatEl> elements;
+        StructPatField::List fields;
         bool first = false;
+        Token::Opt restPat = None;
+        bool restPatNotFirst = false;
         while (not eof()) {
             if (is(TokenKind::RBrace)) {
                 break;
@@ -2351,9 +2353,12 @@ namespace jc::parser {
 
             // `...` case
             if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
-                elements.emplace_back(spread.unwrap().span);
+                restPat = spread.unwrap();
+                restPatNotFirst = not first;
                 continue;
             }
+
+            auto fieldBegin = cspan();
 
             // TODO: "Invert" Suggestion for `mut ref` case
             const auto & ref = skipOptKw(Kw::Ref);
@@ -2380,16 +2385,29 @@ namespace jc::parser {
 
                 auto pat = parsePat();
 
-                elements.emplace_back(StructPatternDestructEl {std::move(ident), std::move(pat)});
+                fields.emplace_back(false, std::move(ident), std::move(pat), closeSpan(fieldBegin));
             } else {
+                auto identCopy = ident;
                 // `ref? mut? field` case
-                elements.emplace_back(StructPatBorrowEl {ref.some(), mut.some(), std::move(ident)});
+                // What about binding sub-pattern? `ref mut field @ sub-pattern`?
+                fields.emplace_back(
+                    true,
+                    std::move(ident),
+                    makePRBoxNode<IdentPat, Pat>(
+                        ref.some(),
+                        mut.some(),
+                        std::move(identCopy),
+                        None,
+                        closeSpan(fieldBegin)
+                    ),
+                    closeSpan(fieldBegin)
+                );
             }
         }
 
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
 
-        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(elements), closeSpan(begin));
+        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(fields), closeSpan(begin));
     }
 
     // Helpers //

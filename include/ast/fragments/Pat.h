@@ -139,12 +139,12 @@ namespace jc::ast {
         using List = std::vector<StructPatField>;
 
         // Shortcut is true when `:` is omitted, e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`
-        StructPatField(bool shortcut, Ident ident, Pat::Ptr && pat, Span span)
-            : Node {span}, shortcut {shortcut}, ident {ident}, pat {std::move(pat)} {
+        StructPatField(bool shortcut, Ident::PR && ident, Pat::Ptr && pat, Span span)
+            : Node {span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {
         }
 
         bool shortcut;
-        Ident ident;
+        Ident::PR ident;
         Pat::Ptr pat;
     };
 
