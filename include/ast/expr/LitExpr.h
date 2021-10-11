@@ -61,6 +61,21 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
+        Int intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
+            uint8_t base = 0;
+            switch (kind) {
+                case parser::TokLit::Kind::DecLiteral: base = 10;
+                case parser::TokLit::Kind::BinLiteral: base = 2;
+                case parser::TokLit::Kind::OctLiteral: base = 8;
+                case parser::TokLit::Kind::HexLiteral: base = 16;
+                default: {
+                    log::devPanic("Got non-integer literal kind in `ast::LitExpr::intValue`");
+                }
+            }
+
+
+        }
+
     public:
         LitExpr fromToken(const parser::Token & tok) {
             if (not tok.isLiteral()) {
@@ -79,21 +94,21 @@ namespace jc::ast {
                     }
                     log::devPanic("[ast::LitExpr::fromToken] Got non-boolean symbol in boolean literal token");
                 }
-                case parser::TokLit::Kind::DecLiteral:
-                    break;
-                case parser::TokLit::Kind::BinLiteral:
-                    break;
-                case parser::TokLit::Kind::OctLiteral:
-                    break;
-                case parser::TokLit::Kind::HexLiteral:
-                    break;
                 case parser::TokLit::Kind::FloatLiteral:
                     break;
                 case parser::TokLit::Kind::SQStringLiteral:
                     break;
                 case parser::TokLit::Kind::DQStringLiteral:
                     break;
+                case parser::TokLit::Kind::DecLiteral:
+                case parser::TokLit::Kind::BinLiteral:
+                case parser::TokLit::Kind::OctLiteral:
+                case parser::TokLit::Kind::HexLiteral: {
+                    return LitExpr {intValue(lit.kind, lit.sym, lit.suffix), tok};
+                }
             }
+
+            log::devPanic("Unhandled `TokLit::Kind` in `ast::LitExpr::fromToken`");
         }
 
     public:
