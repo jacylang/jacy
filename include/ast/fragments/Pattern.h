@@ -57,11 +57,10 @@ namespace jc::ast {
     };
 
     struct LitPat : Pattern {
-        LitPat(bool neg, const parser::Token & literal, const Span & span)
-            : Pattern{PatKind::Literal, span}, neg{neg}, literal{literal} {}
+        LitPat(Expr::Ptr && expr, const Span & span)
+            : Pattern{PatKind::Literal, span}, expr {std::move(expr)} {}
 
-        bool neg;
-        parser::Token literal;
+        Expr::Ptr expr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
