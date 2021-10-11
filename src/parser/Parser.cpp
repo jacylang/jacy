@@ -1245,7 +1245,6 @@ namespace jc::parser {
     Expr::Ptr Parser::parseLiteral() {
         logParse("literal");
 
-        const auto & begin = cspan();
         if (not peek().isLiteral()) {
             log::devPanic("Expected literal in `parseLiteral`");
         }
@@ -1267,7 +1266,7 @@ namespace jc::parser {
 
         advance();
 
-        return litResult.take();
+        return makePRBoxNode<LitExpr, Expr>(litResult.take());
     }
 
     Expr::Ptr Parser::parseListExpr() {
