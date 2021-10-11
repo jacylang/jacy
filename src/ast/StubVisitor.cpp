@@ -409,7 +409,7 @@ namespace jc::ast {
     void StubVisitor::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
 
-        for (const auto & el : pat.elements) {
+        for (const auto & el : pat.fields) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);

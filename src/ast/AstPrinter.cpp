@@ -808,7 +808,7 @@ namespace jc::ast {
         // TODO!: Colorizing struct pattern fields requires
         //  `StructPatternDestructEl` and `StructPatBorrowEl` to inherit `Node`
 
-        for (const auto & el : pat.elements) {
+        for (const auto & el : pat.fields) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);

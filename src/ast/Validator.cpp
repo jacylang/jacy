@@ -635,7 +635,7 @@ namespace jc::ast {
         pat.path.autoAccept(*this);
 
         size_t i = 0;
-        for (const auto & el : pat.elements) {
+        for (const auto & el : pat.fields) {
             switch (el.kind) {
                 case StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<StructPatternDestructEl>(el.el);
@@ -649,7 +649,7 @@ namespace jc::ast {
                     break;
                 }
                 case StructPatEl::Kind::Spread: {
-                    if (i != pat.elements.size() - 1) {
+                    if (i != pat.fields.size() - 1) {
                         msg.error()
                            .setText("Rest pattern `...` must go last in structure pattern")
                            .setPrimaryLabel(std::get<Span>(el.el), "`...` must go last")

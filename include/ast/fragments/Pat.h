@@ -166,46 +166,13 @@ namespace jc::ast {
         Pat::Ptr pat;
     };
 
-    // TODO: Add SPANS !!!
-    // TODO: Use the same structure as in HIR
-    struct StructPatEl {
-        // `field: pattern` case (match field insides)
-        StructPatEl(StructPatternDestructEl && namedEl) : kind{Kind::Destruct}, el{std::move(namedEl)} {}
-
-        // `ref? mut? field` case (borrow field), shortcut for variant above
-        StructPatEl(StructPatBorrowEl && identEl) : kind{Kind::Borrow}, el{std::move(identEl)} {}
-
-        // `...` case
-        StructPatEl(const Span & span) : kind{Kind::Spread}, el{std::move(span)} {}
-
-        enum class Kind {
-            Destruct,
-            Borrow,
-            Spread,
-        };
-
-        Kind kind;
-        std::variant<StructPatternDestructEl, StructPatBorrowEl, Span> el;
-
-        const auto & asDestruct() const {
-            return std::get<StructPatternDestructEl>(el);
-        }
-
-        const auto & asBorrow() const {
-            return std::get<StructPatBorrowEl>(el);
-        }
-
-        const auto & asSpread() const {
-            return std::get<Span>(el);
-        }
-    };
-
     struct StructPat : Pat {
-        StructPat(PathExpr::Ptr && path, std::vector<StructPatEl> && elements, const Span & span)
-            : Pat{PatKind::Struct, span}, path{std::move(path)}, elements{std::move(elements)} {}
+        StructPat(PathExpr::Ptr && path, StructPatField::List && elements, const Span & span)
+            : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(elements)} {
+        }
 
         PathExpr::Ptr path;
-        std::vector<StructPatEl> elements;
+        StructPatField::List fields;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

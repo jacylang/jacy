@@ -603,7 +603,7 @@ namespace jc::hir {
 
         // FIXME: Here, in fields, invalid span used
 
-        for (const auto & field : pat.elements) {
+        for (const auto & field : pat.fields) {
             switch (field.kind) {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & destruct = field.asDestruct();

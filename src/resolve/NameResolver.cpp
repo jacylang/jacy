@@ -229,7 +229,7 @@ namespace jc::resolve {
 
         // TODO!: Destructuring fields definitions
 
-        for (const auto & el : pat.elements) {
+        for (const auto & el : pat.fields) {
             switch (el.kind) {
                 case ast::StructPatEl::Kind::Destruct: {
                     const auto & dp = std::get<ast::StructPatternDestructEl>(el.el);
