@@ -152,12 +152,11 @@ namespace jc::hir {
     };
 
     struct LitExpr : Expr {
-        // FIXME: Unify `Literal` usage for AST and HIR
-        LitExpr(const parser::Token & token, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Literal, hirId, span}, token {token} {
+        LitExpr(Expr::Ptr && expr, const HirId & hirId, const Span & span)
+            : Expr {ExprKind::Literal, hirId, span}, expr {std::move(expr)} {
         }
 
-        parser::Token token;
+        Expr::Ptr expr;
     };
 
     struct LoopExpr : Expr {
