@@ -2244,7 +2244,7 @@ namespace jc::parser {
            .setPrimaryLabel(cspan(), "Expected pattern")
            .emit();
 
-        return makeErrPR<N<Pattern>>(cspan());
+        return makeErrPR<N<Pat>>(cspan());
     }
 
     Pat::Ptr Parser::parseMultiPat() {
@@ -2273,10 +2273,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        bool neg = skipOpt(TokenKind::Sub).some();
+        auto negSign = skipOpt(TokenKind::Sub);
 
         // Note: Allowed negative literals are checked in `Validator`
-        if (neg and not peek().isLiteral()) {
+        if (negSign.some() and not peek().isLiteral()) {
             msg.error()
                .setText("Literal expected after `-` in pattern")
                .setPrimaryLabel(cspan(), "Expected literal")
@@ -2285,10 +2285,16 @@ namespace jc::parser {
             log::devPanic("Non-literal token in `parseLitPat`: ", peek().dump());
         }
 
-        auto token = peek();
-        advance();
+        auto lit = parseLiteral();
 
-        return makePRBoxNode<LitPat, Pat>(neg, token, closeSpan(begin));
+        if (negSign.some()) {
+            return makePRBoxNode<LitPat, Pat>(
+                makePRBoxNode<Prefix, Expr>(negSign.unwrap(), std::move(lit), closeSpan(begin)),
+                closeSpan(begin)
+            );
+        }
+
+        return makePRBoxNode<LitPat, Pat>(std::move(lit), closeSpan(begin));
     }
 
     Pat::Ptr Parser::parseIdentPat() {
