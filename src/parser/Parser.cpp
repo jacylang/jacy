@@ -1250,6 +1250,10 @@ namespace jc::parser {
             log::devPanic("Expected literal in `parseLiteral`");
         }
         auto token = peek();
+
+        auto litResult = LitExpr::fromToken(token);
+
+
         advance();
         return makePRBoxNode<LitExpr, Expr>(token, closeSpan(begin));
     }

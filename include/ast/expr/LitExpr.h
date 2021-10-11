@@ -69,7 +69,11 @@ namespace jc::ast {
             IntOutOfRange,
         };
 
-        dt::Result<Int, LitPreEvalErr> intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
+        static dt::Result <Int, LitPreEvalErr> intValue(
+            parser::TokLit::Kind kind,
+            span::Symbol sym,
+            span::Symbol::Opt suffix
+        ) {
             uint8_t base = 0;
             switch (kind) {
                 case parser::TokLit::Kind::DecLiteral: base = 10; break;
@@ -106,7 +110,7 @@ namespace jc::ast {
         }
 
     public:
-        dt::Result<LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
+        static dt::Result<LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
             if (not tok.isLiteral()) {
                 log::devPanic("Called `ast::LitExpr::fromToken` with non-literal token '", tok.dump(), "'");
             }
