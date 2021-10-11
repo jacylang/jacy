@@ -63,7 +63,37 @@ namespace jc::ast {
 
     public:
         LitExpr fromToken(const parser::Token & tok) {
+            if (not tok.isLiteral()) {
+                log::devPanic("Called `ast::LitExpr::fromToken` with non-literal token '", tok.dump(), "'");
+            }
 
+            const auto & lit = tok.asLit();
+
+            switch (lit.kind) {
+                case parser::TokLit::Kind::Bool: {
+                    if (lit.sym.isKw(span::Kw::True)) {
+                        return LitExpr {Bool {true}, tok};
+                    }
+                    if (lit.sym.isKw(span::Kw::False)) {
+                        return LitExpr {Bool {false}, tok};
+                    }
+                    log::devPanic("[ast::LitExpr::fromToken] Got non-boolean symbol in boolean literal token");
+                }
+                case parser::TokLit::Kind::DecLiteral:
+                    break;
+                case parser::TokLit::Kind::BinLiteral:
+                    break;
+                case parser::TokLit::Kind::OctLiteral:
+                    break;
+                case parser::TokLit::Kind::HexLiteral:
+                    break;
+                case parser::TokLit::Kind::FloatLiteral:
+                    break;
+                case parser::TokLit::Kind::SQStringLiteral:
+                    break;
+                case parser::TokLit::Kind::DQStringLiteral:
+                    break;
+            }
         }
 
     public:
