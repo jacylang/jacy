@@ -96,6 +96,7 @@ namespace jc::ast {
         RefPat(bool mut, Pat::Ptr && pat, const Span & span)
             : Pat{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
 
+        // TODO: Use `Mutability` as for HIR
         bool mut;
         Pat::Ptr pat;
 

@@ -573,8 +573,14 @@ namespace jc::hir {
                 }
                 return makeBoxNode<RefPat>(mut, lowerPat(astNode->pat), HirId::DUMMY, astNode->span);
             }
-            case ast::PatKind::Path:
-                break;
+            case ast::PatKind::Path: {
+                const auto & astNode = pat->as<ast::PathPat>(pat);
+                return makeBoxNode<PathPat>(
+                    lowerPath(astNode->path.take()->path),
+                    HirId::DUMMY,
+                    astNode->span
+                );
+            }
             case ast::PatKind::Wildcard:
                 break;
             case ast::PatKind::Spread:
