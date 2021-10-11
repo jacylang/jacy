@@ -16,6 +16,8 @@ namespace jc::ast {
         struct Int {
             using ValueT = uint64_t;
 
+            /// Specific kind determined by suffix, e.g. `123i32` is `I32`, `1` is `Unset`
+            /// Note: Do not default the kind of int
             enum class Kind {
                 Unset,
 
@@ -117,12 +119,15 @@ namespace jc::ast {
                     }
                     log::devPanic("[ast::LitExpr::fromToken] Got non-boolean symbol in boolean literal token");
                 }
+
                 case parser::TokLit::Kind::FloatLiteral:
                     break;
+
                 case parser::TokLit::Kind::SQStringLiteral:
-                    break;
-                case parser::TokLit::Kind::DQStringLiteral:
-                    break;
+                case parser::TokLit::Kind::DQStringLiteral: {
+                    return LitExpr {Str {lit.sym}, tok};
+                }
+
                 case parser::TokLit::Kind::DecLiteral:
                 case parser::TokLit::Kind::BinLiteral:
                 case parser::TokLit::Kind::OctLiteral:
