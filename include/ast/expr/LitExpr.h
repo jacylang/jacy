@@ -61,13 +61,13 @@ namespace jc::ast {
             Str,
         };
 
-    private:
-        LitExpr(ValueT val, const parser::Token & token)
-            : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
-
         enum class LitPreEvalErr {
             IntOutOfRange,
         };
+
+    private:
+        LitExpr(ValueT val, const parser::Token & token)
+            : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
         static dt::Result <Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,

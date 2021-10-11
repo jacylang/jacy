@@ -1253,9 +1253,21 @@ namespace jc::parser {
 
         auto litResult = LitExpr::fromToken(token);
 
+        if (litResult.err()) {
+            switch (litResult.takeErr()) {
+                case LitExpr::LitPreEvalErr::IntOutOfRange: {
+                    msg.error()
+                       .setText("Integer value '", token, "' is too large")
+                       .setPrimaryLabel(token.span, "Too large number")
+                       .emit();
+                }
+            }
+            return makeErrPR<N<Expr>>(token.span);
+        }
 
         advance();
-        return makePRBoxNode<LitExpr, Expr>(token, closeSpan(begin));
+
+        return litResult.take();
     }
 
     Expr::Ptr Parser::parseListExpr() {
