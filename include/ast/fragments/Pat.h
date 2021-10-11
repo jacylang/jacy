@@ -157,7 +157,7 @@ namespace jc::ast {
         // `field: pattern` case (match field insides)
         StructPatEl(StructPatternDestructEl && namedEl) : kind{Kind::Destruct}, el{std::move(namedEl)} {}
 
-        // `ref? mut? field` case (borrow field)
+        // `ref? mut? field` case (borrow field), shortcut for variant above
         StructPatEl(StructPatBorrowEl && identEl) : kind{Kind::Borrow}, el{std::move(identEl)} {}
 
         // `...` case

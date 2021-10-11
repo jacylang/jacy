@@ -576,18 +576,35 @@ namespace jc::hir {
             case ast::PatKind::Path: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
                 return makeBoxNode<PathPat>(
-                    lowerPath(astNode->path.take()->path),
+                    lowerPath(astNode->path.unwrap()->path),
                     HirId::DUMMY,
                     astNode->span
                 );
             }
-            case ast::PatKind::Wildcard:
+            case ast::PatKind::Wildcard: {
+                const auto & astNode = pat->as<ast::PathPat>(pat);
+                return makeBoxNode<WildcardPat>(HirId::DUMMY, astNode->span);
+            }
+            case ast::PatKind::Spread: {
+                // TODO: ?IDK?
                 break;
-            case ast::PatKind::Spread:
-                break;
-            case ast::PatKind::Struct:
-                break;
+            }
+            case ast::PatKind::Struct: {
+                const auto & astNode = pat->as<ast::StructPat>(pat);
+                return lowerStructPat(*astNode);
+            }
         }
+    }
+
+    Pat::Ptr Lowering::lowerStructPat(const ast::StructPat & pat) {
+        auto path = lowerPath(pat.path.unwrap()->path);
+
+        StructPatField::List fields;
+        for (const auto & field : pat.elements) {
+
+        }
+
+        return makeBoxNode<StructPat>(std::move(path), std::move(fields), HirId::DUMMY, pat.span);
     }
 
     // HIR Items //

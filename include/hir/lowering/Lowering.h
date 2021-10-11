@@ -91,6 +91,7 @@ namespace jc::hir {
         // Patterns //
     private:
         Pat::Ptr lowerPat(const ast::Pat::Ptr & patPr);
+        Pat::Ptr lowerStructPat(const ast::StructPat & pat);
 
         // HIR Items //
     private:
