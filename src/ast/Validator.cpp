@@ -627,7 +627,7 @@ namespace jc::ast {
         pat.path.autoAccept(*this);
     }
 
-    void Validator::visit(const WCPat&) {}
+    void Validator::visit(const WildcardPat&) {}
 
     void Validator::visit(const SpreadPat&) {}
 

@@ -790,7 +790,7 @@ namespace jc::ast {
         printNodeId(pat);
     }
 
-    void AstPrinter::visit(const WCPat & pat) {
+    void AstPrinter::visit(const WildcardPat & pat) {
         log.raw("_");
 
         printNodeId(pat);

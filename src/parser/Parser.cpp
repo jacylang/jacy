@@ -2193,7 +2193,7 @@ namespace jc::parser {
 
         // `_`
         if (const auto & wildcard = skipOptKw(Kw::Underscore); wildcard.some()) {
-            return makePRBoxNode<WCPat, Pat>(wildcard.unwrap().span);
+            return makePRBoxNode<WildcardPat, Pat>(wildcard.unwrap().span);
         }
 
         // `...`

@@ -115,8 +115,8 @@ namespace jc::ast {
         }
     };
 
-    struct WCPat : Pat {
-        WCPat(const Span & span) : Pat{PatKind::Wildcard, span} {}
+    struct WildcardPat : Pat {
+        WildcardPat(const Span & span) : Pat{PatKind::Wildcard, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

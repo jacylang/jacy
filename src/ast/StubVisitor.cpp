@@ -402,7 +402,7 @@ namespace jc::ast {
         pat.path.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const WCPat&) {}
+    void StubVisitor::visit(const WildcardPat&) {}
 
     void StubVisitor::visit(const SpreadPat&) {}
 
