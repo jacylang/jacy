@@ -120,8 +120,9 @@ namespace jc::ast {
                     log::devPanic("[ast::LitExpr::fromToken] Got non-boolean symbol in boolean literal token");
                 }
 
-                case parser::TokLit::Kind::FloatLiteral:
-                    break;
+                case parser::TokLit::Kind::FloatLiteral: {
+                    return LitExpr {Float {lit.sym}, tok};
+                }
 
                 case parser::TokLit::Kind::SQStringLiteral:
                 case parser::TokLit::Kind::DQStringLiteral: {
