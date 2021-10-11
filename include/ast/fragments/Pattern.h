@@ -9,7 +9,7 @@ namespace jc::ast {
     enum class PatKind {
         Multi,
         Paren,
-        Literal,
+        Lit,
         Ident,
         Ref,
         Path,
@@ -58,7 +58,7 @@ namespace jc::ast {
 
     struct LitPat : Pattern {
         LitPat(Expr::Ptr && expr, const Span & span)
-            : Pattern{PatKind::Literal, span}, expr {std::move(expr)} {}
+            : Pattern{PatKind::Lit, span}, expr {std::move(expr)} {}
 
         Expr::Ptr expr;
 

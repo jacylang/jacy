@@ -556,7 +556,7 @@ namespace jc::hir {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
                 return lowerPat(astNode->pat);
             }
-            case ast::PatKind::Literal:
+            case ast::PatKind::Lit:
                 break;
             case ast::PatKind::Ident:
                 break;
