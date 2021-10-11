@@ -154,8 +154,8 @@ namespace jc::hir {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;
 
-        LitExpr(ast::LitExpr && lit, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Literal, hirId, span}, kind {lit.kind}, val {std::move(lit.val)} {}
+        LitExpr(Kind kind, ValueT val, const HirId & hirId, const Span & span)
+            : Expr {ExprKind::Literal, hirId, span}, kind {kind}, val {val} {}
 
         Kind kind;
         ValueT val;
