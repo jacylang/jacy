@@ -554,16 +554,25 @@ namespace jc::hir {
             }
             case ast::PatKind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
+                // TODO: Replace recursion with loop
                 return lowerPat(astNode->pat);
             }
             case ast::PatKind::Lit: {
                 const auto & astNode = pat->as<ast::LitPat>(pat);
                 return makeBoxNode<LitPat>(lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
             }
-            case ast::PatKind::Ident:
+            case ast::PatKind::Ident: {
+                // TODO: Requires extracting data from name resolution
                 break;
-            case ast::PatKind::Ref:
-                break;
+            }
+            case ast::PatKind::Ref: {
+                const auto & astNode = pat->as<ast::RefPat>(pat);
+                Mutability mut = Mutability::Immut;
+                if (astNode->mut) {
+                    mut = Mutability::Mut;
+                }
+                return makeBoxNode<RefPat>(mut, lowerPat(astNode->pat), HirId::DUMMY, astNode->span);
+            }
             case ast::PatKind::Path:
                 break;
             case ast::PatKind::Wildcard:
