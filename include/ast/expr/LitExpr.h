@@ -65,7 +65,11 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
-        Int intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
+        enum class IntValueErr {
+            OutOfRange,
+        };
+
+        dt::Result<Int, IntValueErr> intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
             uint8_t base = 0;
             switch (kind) {
                 case parser::TokLit::Kind::DecLiteral: base = 10; break;
@@ -93,11 +97,11 @@ namespace jc::ast {
             };
 
             if (errCode == std::errc()) {
-                return Int {intKind, value};
+                return Ok(Int {intKind, value});
             } else if (errCode == std::errc::invalid_argument) {
                 log::devPanic("[ast::LitExpr::intValue] Not a number symbol value");
             } else if (errCode == std::errc::result_out_of_range) {
-                // TODO: Error
+                return Err(IntValueErr::OutOfRange);
             }
         }
 
