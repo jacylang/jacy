@@ -388,7 +388,7 @@ namespace jc::ast {
         validateEach(listExpr.elements);
     }
 
-    void Validator::visit(const Literal&) {
+    void Validator::visit(const LitExpr&) {
         // What's here?
     }
 

@@ -37,7 +37,7 @@ namespace jc::ast {
     struct Lambda;
     struct LambdaParam;
     struct ListExpr;
-    struct Literal;
+    struct LitExpr;
     struct LoopExpr;
     struct FieldExpr;
     struct ParenExpr;
@@ -128,7 +128,7 @@ namespace jc::ast {
         virtual void visit(const Lambda&) = 0;
         virtual void visit(const LambdaParam&) = 0;
         virtual void visit(const ListExpr&) = 0;
-        virtual void visit(const Literal&) = 0;
+        virtual void visit(const LitExpr&) = 0;
         virtual void visit(const LoopExpr&) = 0;
         virtual void visit(const FieldExpr&) = 0;
         virtual void visit(const ParenExpr&) = 0;

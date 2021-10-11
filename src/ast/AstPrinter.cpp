@@ -453,7 +453,7 @@ namespace jc::ast {
         printNodeId(listExpr);
     }
 
-    void AstPrinter::visit(const Literal & literalConstant) {
+    void AstPrinter::visit(const LitExpr & literalConstant) {
         log.raw(literalConstant.token);
 
         printNodeId(literalConstant);

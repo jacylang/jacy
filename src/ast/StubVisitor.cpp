@@ -224,7 +224,7 @@ namespace jc::ast {
         visitEach(listExpr.elements);
     }
 
-    void StubVisitor::visit(const Literal&) {}
+    void StubVisitor::visit(const LitExpr&) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
         loopExpr.body.autoAccept(*this);

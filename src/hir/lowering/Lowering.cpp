@@ -236,7 +236,7 @@ namespace jc::hir {
                 log::notImplemented("`ast::ExprKind::List` lowering");
             }
             case ast::ExprKind::LiteralConstant: {
-                const auto & astNode = expr->as<ast::Literal>(expr);
+                const auto & astNode = expr->as<ast::LitExpr>(expr);
                 return makeBoxNode<LitExpr>(astNode->token, HirId::DUMMY, astNode->span);
             }
             case ast::ExprKind::Loop: {

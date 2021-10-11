@@ -12,7 +12,7 @@
 #include "ast/expr/Invoke.h"
 #include "ast/expr/Lambda.h"
 #include "ast/expr/ListExpr.h"
-#include "ast/expr/Literal.h"
+#include "ast/expr/LitExpr.h"
 #include "ast/expr/LoopExpr.h"
 #include "ast/expr/FieldExpr.h"
 #include "ast/expr/ParenExpr.h"

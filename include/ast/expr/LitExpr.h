@@ -1,11 +1,11 @@
-#ifndef JACY_AST_EXPR_LITERAL_H
-#define JACY_AST_EXPR_LITERAL_H
+#ifndef JACY_AST_EXPR_LITEXPR_H
+#define JACY_AST_EXPR_LITEXPR_H
 
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct Literal : Expr {
-        explicit Literal(const parser::Token & token, const Span & span)
+    struct LitExpr : Expr {
+        explicit LitExpr(const parser::Token & token, const Span & span)
             : Expr{span, ExprKind::LiteralConstant}, token{token} {}
 
         parser::Token token;
@@ -16,4 +16,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_EXPR_LITERAL_H
+#endif // JACY_AST_EXPR_LITEXPR_H

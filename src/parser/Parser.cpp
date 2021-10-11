@@ -1251,7 +1251,7 @@ namespace jc::parser {
         }
         auto token = peek();
         advance();
-        return makePRBoxNode<Literal, Expr>(token, closeSpan(begin));
+        return makePRBoxNode<LitExpr, Expr>(token, closeSpan(begin));
     }
 
     Expr::Ptr Parser::parseListExpr() {
