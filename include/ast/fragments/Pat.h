@@ -153,6 +153,7 @@ namespace jc::ast {
         Ident::PR name;
     };
 
+    // Use the same structure as in HIR
     struct StructPatEl {
         // `field: pattern` case (match field insides)
         StructPatEl(StructPatternDestructEl && namedEl) : kind{Kind::Destruct}, el{std::move(namedEl)} {}
@@ -171,6 +172,18 @@ namespace jc::ast {
 
         Kind kind;
         std::variant<StructPatternDestructEl, StructPatBorrowEl, Span> el;
+
+        const auto & asDestruct() const {
+            return std::get<StructPatternDestructEl>(el);
+        }
+
+        const auto & asBorrow() const {
+            return std::get<StructPatBorrowEl>(el);
+        }
+
+        const auto & asSpread() const {
+            return std::get<Span>(el);
+        }
     };
 
     struct StructPat : Pat {
