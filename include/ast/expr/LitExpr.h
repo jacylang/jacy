@@ -1,6 +1,8 @@
 #ifndef JACY_AST_EXPR_LITEXPR_H
 #define JACY_AST_EXPR_LITEXPR_H
 
+#include <charconv>
+
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
@@ -64,16 +66,37 @@ namespace jc::ast {
         Int intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
             uint8_t base = 0;
             switch (kind) {
-                case parser::TokLit::Kind::DecLiteral: base = 10;
-                case parser::TokLit::Kind::BinLiteral: base = 2;
-                case parser::TokLit::Kind::OctLiteral: base = 8;
-                case parser::TokLit::Kind::HexLiteral: base = 16;
+                case parser::TokLit::Kind::DecLiteral: base = 10; break;
+                case parser::TokLit::Kind::BinLiteral: base = 2; break;
+                case parser::TokLit::Kind::OctLiteral: base = 8; break;
+                case parser::TokLit::Kind::HexLiteral: base = 16; break;
                 default: {
                     log::devPanic("Got non-integer literal kind in `ast::LitExpr::intValue`");
                 }
             }
 
+            // TODO: Suffixes
+            Int::Kind intKind = Int::Kind::Unset;
 
+            std::string strValue;
+            if (base != 10) {
+                strValue = sym.slice(2);
+            } else {
+                strValue = sym.toString();
+            }
+
+            uint64_t value;
+            auto [ptr, errCode] {
+                std::from_chars(strValue.data(), strValue.data() + strValue.size(), value, base)
+            };
+
+            if (errCode == std::errc()) {
+                return Int {intKind, value};
+            } else if (errCode == std::errc::invalid_argument) {
+                log::devPanic("[ast::LitExpr::intValue] Not a number symbol value");
+            } else if (errCode == std::errc::result_out_of_range) {
+                // TODO: Error
+            }
         }
 
     public:
