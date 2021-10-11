@@ -71,14 +71,16 @@ namespace jc::hir {
     };
 
     struct StructPat : Pat {
-        StructPat(Path && path, StructPatField::List && fields, HirId hirId, Span span)
+        StructPat(Path && path, StructPatField::List && fields, const parser::Token::Opt & rest, HirId hirId, Span span)
             : Pat {PatKind::Struct, hirId, span},
               path {std::move(path)},
-              fields {std::move(fields)} {
+              fields {std::move(fields)},
+              rest {rest} {
         }
 
         Path path;
         StructPatField::List fields;
+        parser::Token::Opt rest;
     };
 }
 
