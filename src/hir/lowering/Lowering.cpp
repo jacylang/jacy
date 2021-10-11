@@ -601,35 +601,11 @@ namespace jc::hir {
 
         StructPatField::List fields;
 
-        // FIXME: Here, in fields, invalid span used
-
         for (const auto & field : pat.fields) {
-            switch (field.kind) {
-                case ast::StructPatEl::Kind::Destruct: {
-                    const auto & destruct = field.asDestruct();
-                    fields.emplace_back(StructPatField {
-                        false, destruct.name.unwrap(), lowerPat(destruct.pat), HirId::DUMMY, pat.span
-                    });
-                }
-                case ast::StructPatEl::Kind::Borrow: {
-                    // TODO: After IdentPat lowering done
-                    break;
-//                    const auto & borrow = field.asBorrow();
-//                    auto synthIdentPat = makeBoxNode<IdentPat>(
-//
-//                    );
-//                    fields.emplace_back(StructPatField {
-//                        true, borrow.name.unwrap(), ,
-//                    });
-                }
-                case ast::StructPatEl::Kind::Spread: {
-                    // TODO: ????
-                    break;
-                }
-            }
+            fields.emplace_back(field.shortcut, field.ident.unwrap(), lowerPat(field.pat), HirId::DUMMY, pat.span);
         }
 
-        return makeBoxNode<StructPat>(std::move(path), std::move(fields), HirId::DUMMY, pat.span);
+        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, HirId::DUMMY, pat.span);
     }
 
     // HIR Items //
