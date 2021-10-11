@@ -203,15 +203,12 @@ namespace jc::parser {
                 }
                 case TokenKind::NL: {
                     return os << "\n";
-                    break;
                 }
                 case TokenKind::Whitespace: {
                     return os << " ";
-                    break;
                 }
                 case TokenKind::Tab: {
                     return os << "\t";
-                    break;
                 }
                 case TokenKind::LineComment: {
                     return os << "//" << token.asSymbol().toString();
