@@ -144,19 +144,21 @@ namespace jc::hir {
 
     struct InvokeExpr : Expr {
         InvokeExpr(Expr::Ptr && lhs, Arg::List && args, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Invoke, hirId, span}, lhs {std::move(lhs)}, args {std::move(args)} {
-        }
+            : Expr {ExprKind::Invoke, hirId, span}, lhs {std::move(lhs)}, args {std::move(args)} {}
 
         Expr::Ptr lhs;
         Arg::List args;
     };
 
     struct LitExpr : Expr {
-        LitExpr(Expr::Ptr && expr, const HirId & hirId, const Span & span)
-            : Expr {ExprKind::Literal, hirId, span}, expr {std::move(expr)} {
-        }
+        using Kind = ast::LitExpr::Kind;
+        using ValueT = ast::LitExpr::ValueT;
 
-        Expr::Ptr expr;
+        LitExpr(ast::LitExpr && lit, const HirId & hirId, const Span & span)
+            : Expr {ExprKind::Literal, hirId, span}, kind {lit.kind}, val {std::move(lit.val)} {}
+
+        Kind kind;
+        ValueT val;
     };
 
     struct LoopExpr : Expr {
