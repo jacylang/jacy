@@ -61,7 +61,7 @@ namespace jc::hir {
     struct StructPatField : HirNode {
         using List = std::vector<StructPatField>;
 
-        StructPatField(bool shortcut, span::Ident && ident, Pat::Ptr && pat, HirId hirId, Span span)
+        StructPatField(bool shortcut, span::Ident ident, Pat::Ptr && pat, HirId hirId, Span span)
             : HirNode {hirId, span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
 
         // Shortcut is true when `:` is omitted, e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`
