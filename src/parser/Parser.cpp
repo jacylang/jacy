@@ -2405,9 +2405,16 @@ namespace jc::parser {
             }
         }
 
+        if (restPatNotFirst and restPat.some()) {
+            msg.error()
+               .setText("Rest pattern `...` must go last")
+               .setPrimaryLabel(restPat.unwrap().span, "`...` must go last")
+               .emit();
+        }
+
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
 
-        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(fields), closeSpan(begin));
+        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(fields), restPat, closeSpan(begin));
     }
 
     // Helpers //

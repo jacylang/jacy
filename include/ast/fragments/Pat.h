@@ -149,12 +149,16 @@ namespace jc::ast {
     };
 
     struct StructPat : Pat {
-        StructPat(PathExpr::Ptr && path, StructPatField::List && elements, const Span & span)
-            : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(elements)} {
-        }
+        StructPat(
+            PathExpr::Ptr && path,
+            StructPatField::List && elements,
+            const parser::Token::Opt & rest,
+            const Span & span
+        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(elements)}, rest {rest} {}
 
         PathExpr::Ptr path;
         StructPatField::List fields;
+        parser::Token::Opt rest;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
