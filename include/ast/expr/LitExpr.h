@@ -65,11 +65,11 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
-        enum class IntValueErr {
-            OutOfRange,
+        enum class LitPreEvalErr {
+            IntOutOfRange,
         };
 
-        dt::Result<Int, IntValueErr> intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
+        dt::Result<Int, LitPreEvalErr> intValue(parser::TokLit::Kind kind, span::Symbol sym, span::Symbol::Opt suffix) {
             uint8_t base = 0;
             switch (kind) {
                 case parser::TokLit::Kind::DecLiteral: base = 10; break;
@@ -101,12 +101,12 @@ namespace jc::ast {
             } else if (errCode == std::errc::invalid_argument) {
                 log::devPanic("[ast::LitExpr::intValue] Not a number symbol value");
             } else if (errCode == std::errc::result_out_of_range) {
-                return Err(IntValueErr::OutOfRange);
+                return Err(LitPreEvalErr::IntOutOfRange);
             }
         }
 
     public:
-        LitExpr fromToken(const parser::Token & tok) {
+        dt::Result<LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
             if (not tok.isLiteral()) {
                 log::devPanic("Called `ast::LitExpr::fromToken` with non-literal token '", tok.dump(), "'");
             }
@@ -116,28 +116,32 @@ namespace jc::ast {
             switch (lit.kind) {
                 case parser::TokLit::Kind::Bool: {
                     if (lit.sym.isKw(span::Kw::True)) {
-                        return LitExpr {Bool {true}, tok};
+                        return Ok(LitExpr {Bool {true}, tok});
                     }
                     if (lit.sym.isKw(span::Kw::False)) {
-                        return LitExpr {Bool {false}, tok};
+                        return Ok(LitExpr {Bool {false}, tok});
                     }
                     log::devPanic("[ast::LitExpr::fromToken] Got non-boolean symbol in boolean literal token");
                 }
 
                 case parser::TokLit::Kind::FloatLiteral: {
-                    return LitExpr {Float {lit.sym}, tok};
+                    return Ok(LitExpr {Float {lit.sym}, tok});
                 }
 
                 case parser::TokLit::Kind::SQStringLiteral:
                 case parser::TokLit::Kind::DQStringLiteral: {
-                    return LitExpr {Str {lit.sym}, tok};
+                    return Ok(LitExpr {Str {lit.sym}, tok});
                 }
 
                 case parser::TokLit::Kind::DecLiteral:
                 case parser::TokLit::Kind::BinLiteral:
                 case parser::TokLit::Kind::OctLiteral:
                 case parser::TokLit::Kind::HexLiteral: {
-                    return LitExpr {intValue(lit.kind, lit.sym, lit.suffix), tok};
+                    auto intVal = intValue(lit.kind, lit.sym, lit.suffix);
+                    if (intVal.err()) {
+                        return Err(intVal.takeErr());
+                    }
+                    return Ok(LitExpr {intVal.unwrap(), tok});
                 }
             }
 
