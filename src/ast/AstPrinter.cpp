@@ -154,16 +154,16 @@ namespace jc::ast {
         printNodeId(mod);
     }
 
-    void AstPrinter::visit(const Struct & _struct) {
-        printVis(_struct.vis);
+    void AstPrinter::visit(const Struct & st) {
+        printVis(st.vis);
 
         log.raw("struct ");
-        colorizeNameDecl(_struct.id, _struct.name);
+        colorizeNameDecl(st.id, st.name);
         log.raw(" ");
 
-        printDelim(_struct.fields, "{", "}", ",\n");
+        printDelim(st.fields, "{", "}", ",\n");
 
-        printNodeId(_struct);
+        printNodeId(st);
     }
 
     void AstPrinter::visit(const StructField & field) {
