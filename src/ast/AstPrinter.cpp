@@ -746,11 +746,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const LitPat & pat) {
-        if (pat.neg) {
-            log.raw("-");
-        }
-
-        log.raw(pat.literal);
+        pat.expr.autoAccept(*this);
 
         printNodeId(pat);
     }
