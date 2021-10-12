@@ -170,9 +170,13 @@ namespace jc::ast {
     };
 
     struct TuplePat : Pat {
-        TuplePat(Pat::List && els, Span span) : Pat {PatKind::Tuple, span}, els {std::move(els)} {}
+        using RestPatIndexT = Option<size_t>;
+
+        TuplePat(Pat::List && els, RestPatIndexT restPatIndex, Span span)
+            : Pat {PatKind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
         Pat::List els;
+        RestPatIndexT restPatIndex;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

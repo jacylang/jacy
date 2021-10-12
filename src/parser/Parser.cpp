@@ -2230,7 +2230,7 @@ namespace jc::parser {
             return parseRefPat();
         }
 
-        // `(pattern)`
+        // `(pattern)` or `(p1, ..., pn)` pattern
         if (is(TokenKind::LParen)) {
             return parseParenPat();
         }
@@ -2420,6 +2420,7 @@ namespace jc::parser {
         Pat::List els;
         bool tuple = false;
         bool first = true;
+        Option<size_t> restPatIndex;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
