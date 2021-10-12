@@ -113,6 +113,7 @@ namespace jc::ast {
         void visit(const WildcardPat & pat) override;
         void visit(const RestPat & pat) override;
         void visit(const StructPat & pat) override;
+        void visit(const TuplePat & pat) override;
 
     private:
         message::MessageHolder msg;

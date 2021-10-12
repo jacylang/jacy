@@ -660,6 +660,15 @@ namespace jc::ast {
         }
     }
 
+    void Validator::visit(const TuplePat & pat) {
+        for (const auto & el : pat.els) {
+            // Same as for `StructPat` validator -- allow `...` pattern in tuple pattern
+            if (el.err() or el.unwrap()->kind != PatKind::Rest) {
+                el.autoAccept(*this);
+            }
+        }
+    }
+
     // Helpers //
     bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
