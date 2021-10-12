@@ -134,6 +134,10 @@ namespace jc::ast {
         Mutability mut;
         Pat::Ptr pat;
 
+        bool isMut() const {
+            return mut == Mutability::Mut;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
