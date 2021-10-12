@@ -605,6 +605,10 @@ namespace jc::ast {
     }
 
     // Patterns //
+    void Validator::visit(const MultiPat & pat) {
+        validateEach(pat.patterns);
+    }
+
     void Validator::visit(const ParenPat & pat) {
         pat.pat.autoAccept(*this);
     }
