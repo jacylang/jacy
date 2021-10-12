@@ -115,11 +115,11 @@ namespace jc::ast {
         validateEach(mod.items);
     }
 
-    void Validator::visit(const Struct & _struct) {
-        _struct.name.autoAccept(*this);
+    void Validator::visit(const Struct & st) {
+        st.name.autoAccept(*this);
 
-        if (_struct.generics.some()) {
-            validateEach(_struct.generics.unwrap());
+        if (st.generics.some()) {
+            validateEach(st.generics.unwrap());
         }
 
         pushContext(ValidatorCtx::Struct);
