@@ -669,6 +669,11 @@ namespace jc::ast {
         }
     }
 
+    void Validator::visit(const SlicePat & pat) {
+        validateEach(pat.before);
+        validateEach(pat.after);
+    }
+
     // Helpers //
     bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
