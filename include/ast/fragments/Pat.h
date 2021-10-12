@@ -173,6 +173,10 @@ namespace jc::ast {
         TuplePat(Pat::List && els, Span span) : Pat {PatKind::Tuple, span}, els {std::move(els)} {}
 
         Pat::List els;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     // TODO: Tuple pattern
