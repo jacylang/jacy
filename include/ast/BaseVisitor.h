@@ -89,6 +89,7 @@ namespace jc::ast {
     struct RestPat;
     struct StructPat;
     struct TuplePat;
+    struct SlicePat;
 
     class BaseVisitor {
     public:
@@ -181,6 +182,7 @@ namespace jc::ast {
         virtual void visit(const RestPat&) = 0;
         virtual void visit(const StructPat&) = 0;
         virtual void visit(const TuplePat&) = 0;
+        virtual void visit(const SlicePat&) = 0;
     };
 }
 

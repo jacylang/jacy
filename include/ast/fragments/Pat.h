@@ -194,6 +194,10 @@ namespace jc::ast {
         Pat::List before;
         Span::Opt restPatSpan;
         Pat::List after;
+
+        void accept(BaseVisitor & visitor) const override {
+            return visitor.visit(*this);
+        }
     };
 
     // TODO: Slice pattern
