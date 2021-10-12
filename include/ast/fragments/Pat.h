@@ -25,13 +25,14 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pat(PatKind kind, const Span & span) : Node{span}, kind{kind} {}
+        Pat(PatKind kind, const Span & span) : Node {span}, kind {kind} {
+        }
 
         PatKind kind;
 
         template<class T>
         static T * as(const N<Pat> & pat) {
-            return static_cast<T*>(pat.get());
+            return static_cast<T *>(pat.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
@@ -39,7 +40,8 @@ namespace jc::ast {
 
     struct MultiPat : Pat {
         MultiPat(Pat::List && patterns, Span span)
-            : Pat {PatKind::Multi, span}, patterns {std::move(patterns)} {}
+            : Pat {PatKind::Multi, span}, patterns {std::move(patterns)} {
+        }
 
         Pat::List patterns;
 
@@ -49,7 +51,8 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pat {
-        ParenPat(Pat::Ptr && pat, const Span & span) : Pat{PatKind::Paren, span}, pat{std::move(pat)} {}
+        ParenPat(Pat::Ptr && pat, const Span & span) : Pat {PatKind::Paren, span}, pat {std::move(pat)} {
+        }
 
         Pat::Ptr pat;
 
@@ -60,7 +63,8 @@ namespace jc::ast {
 
     struct LitPat : Pat {
         LitPat(Expr::Ptr && expr, const Span & span)
-            : Pat{PatKind::Lit, span}, expr {std::move(expr)} {}
+            : Pat {PatKind::Lit, span}, expr {std::move(expr)} {
+        }
 
         Expr::Ptr expr;
 
@@ -84,10 +88,11 @@ namespace jc::ast {
             Ident::PR && name,
             Pat::OptPtr && pat,
             const Span & span
-        ) : Pat{PatKind::Ident, span},
+        ) : Pat {PatKind::Ident, span},
             anno {anno},
-            name{std::move(name)},
-            pat{std::move(pat)} {}
+            name {std::move(name)},
+            pat {std::move(pat)} {
+        }
 
         IdentPatAnno anno;
         Ident::PR name;
@@ -129,7 +134,8 @@ namespace jc::ast {
     /// `&mut pattern`
     struct RefPat : Pat {
         RefPat(Mutability mut, Pat::Ptr && pat, const Span & span)
-            : Pat{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
+            : Pat {PatKind::Ref, span}, mut {mut}, pat {std::move(pat)} {
+        }
 
         Mutability mut;
         Pat::Ptr pat;
@@ -145,7 +151,8 @@ namespace jc::ast {
 
     struct PathPat : Pat {
         PathPat(PathExpr::Ptr && path, const Span & span)
-            : Pat{PatKind::Path, span}, path{std::move(path)} {}
+            : Pat {PatKind::Path, span}, path {std::move(path)} {
+        }
 
         PathExpr::Ptr path;
 
@@ -155,7 +162,8 @@ namespace jc::ast {
     };
 
     struct WildcardPat : Pat {
-        WildcardPat(const Span & span) : Pat{PatKind::Wildcard, span} {}
+        WildcardPat(const Span & span) : Pat {PatKind::Wildcard, span} {
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -163,7 +171,8 @@ namespace jc::ast {
     };
 
     struct RestPat : Pat {
-        RestPat(const Span & span) : Pat{PatKind::Rest, span} {}
+        RestPat(const Span & span) : Pat {PatKind::Rest, span} {
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -195,7 +204,8 @@ namespace jc::ast {
             StructPatField::List && fields,
             const parser::Token::Opt & rest,
             const Span & span
-        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}
+        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {
+        }
 
         PathExpr::Ptr path;
         StructPatField::List fields;
@@ -210,7 +220,8 @@ namespace jc::ast {
         using RestPatIndexT = Option<size_t>;
 
         TuplePat(Pat::List && els, RestPatIndexT restPatIndex, Span span)
-            : Pat {PatKind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+            : Pat {PatKind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {
+        }
 
         Pat::List els;
 
@@ -228,7 +239,8 @@ namespace jc::ast {
             : Pat {PatKind::Slice, span},
               before {std::move(before)},
               restPatSpan {restPatSpan},
-              after {std::move(after)} {}
+              after {std::move(after)} {
+        }
 
         Pat::List before;
         Span::Opt restPatSpan;
