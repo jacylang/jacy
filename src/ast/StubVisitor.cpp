@@ -79,9 +79,9 @@ namespace jc::ast {
         visitEach(mod.items);
     }
 
-    void StubVisitor::visit(const Struct & _struct) {
-        _struct.name.autoAccept(*this);
-        visitEach(_struct.fields);
+    void StubVisitor::visit(const Struct & st) {
+        st.name.autoAccept(*this);
+        visitEach(st.fields);
     }
 
     void StubVisitor::visit(const StructField & field) {
