@@ -16,6 +16,7 @@ namespace jc::ast {
         Wildcard,
         Rest,
         Struct,
+        Tuple,
     };
 
     struct Pat : Node {
@@ -166,6 +167,12 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
+    };
+
+    struct TuplePat : Pat {
+        TuplePat(Pat::List && els, Span span) : Pat {PatKind::Tuple, span}, els {std::move(els)} {}
+
+        Pat::List els;
     };
 
     // TODO: Tuple pattern
