@@ -608,6 +608,25 @@ namespace jc::hir {
         return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, HirId::DUMMY, pat.span);
     }
 
+    Pat::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
+        // TODO: Resolutions
+        IdentPatAnno anno = IdentPatAnno::None;
+        if (pat.ref and pat.mut) {
+            anno = IdentPatAnno::RefMut;
+        } else if (pat.ref) {
+            anno = IdentPatAnno::Ref;
+        } else if (pat.mut) {
+            anno = IdentPatAnno::Mut;
+        }
+
+        Pat::OptPtr subPat = None;
+        if (pat.pat.some()) {
+            subPat = lowerPat(pat.pat.unwrap());
+        }
+
+        return makeBoxNode<IdentPat>(anno, HirId::DUMMY, pat.name.unwrap(), subPat, HirId::DUMMY, pat.span);
+    }
+
     // HIR Items //
     ItemId Lowering::addItem(ItemNode && item) {
         auto itemId = ItemId {item.defId};
