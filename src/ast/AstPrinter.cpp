@@ -752,11 +752,11 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const IdentPat & pat) {
-        if (pat.ref) {
+        if (pat.isRef()) {
             log.raw("ref ");
         }
 
-        if (pat.mut) {
+        if (pat.isMut()) {
             log.raw("mut ");
         }
 
