@@ -824,6 +824,25 @@ namespace jc::ast {
         printDelim(pat.els, "(", ")", ", ");
     }
 
+    void AstPrinter::visit(const SlicePat & pat) {
+        log.raw("[");
+
+        printDelim(pat.before, "", "", ", ");
+        if (pat.restPatSpan.some()) {
+            log.raw(", ...");
+        }
+
+        // Print additional comma before `after` patterns if `...` or other patterns went before
+        if ((pat.restPatSpan.some() or not pat.before.empty()) and not pat.after.empty()) {
+            log.raw(", ");
+        }
+
+        printDelim(pat.after, "", "", ", ");
+        log.raw("]");
+
+        printNodeId(pat);
+    }
+
     // Helpers //
     void AstPrinter::printVis(const Vis & vis) {
         switch (vis.kind) {
