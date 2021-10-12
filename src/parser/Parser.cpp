@@ -2322,7 +2322,7 @@ namespace jc::parser {
 
         const auto & begin = cspan();
         justSkip(TokenKind::Ampersand, "`&`", "`Parser::parseRefPat`");
-        bool mut = skipOptKw(Kw::Mut).some();
+        Mutability mut = skipOptKw(Kw::Mut).some() ? Mutability::Mut : Mutability::Immut;
         auto pat = parsePat();
 
         return makePRBoxNode<RefPat, Pat>(mut, std::move(pat), closeSpan(begin));
