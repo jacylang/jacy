@@ -2416,7 +2416,9 @@ namespace jc::parser {
     }
 
     Pat::Ptr Parser::parseParenPat() {
+        // Add log
         const auto & begin = cspan();
+        // Cleanup
         justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
 
         Pat::List els;
@@ -2442,6 +2444,7 @@ namespace jc::parser {
             }
 
             auto pat = parsePat();
+            // Cleanup
             if (pat.ok() and pat.unwrap()->kind == ast::PatKind::Rest) {
                 restPatIndex = index;
             }
@@ -2458,6 +2461,44 @@ namespace jc::parser {
         }
 
         return makePRBoxNode<ParenPat, Pat>(std::move(els.at(0)), closeSpan(begin));
+    }
+
+    Pat::Ptr Parser::parseSlicePat() {
+        const auto & begin = cspan();
+        justSkip(TokenKind::LBracket, "`[`", "`parseSlicePat`");
+
+        Pat::List before;
+        Span::Opt restPatSpan = None;
+        Pat::List after;
+
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::RBracket)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenKind::Comma, "Missing `,` delimiter between slice pattern elements");
+            }
+
+            auto pat = parsePat();
+
+            if (pat.ok() and pat.unwrap()->kind == PatKind::Rest) {
+                restPatSpan = pat.span();
+            }
+
+            if (restPatSpan.some()) {
+                after.emplace_back(std::move(pat));
+            } else {
+                before.emplace_back(std::move(pat));
+            }
+        }
+
+        skip(TokenKind::RBracket, "Closing `]`");
+
+        return makePRBoxNode<SlicePat, Pat>(std::move(before), restPatSpan, std::move(after), closeSpan(begin));
     }
 
     // Helpers //

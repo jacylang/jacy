@@ -249,6 +249,7 @@ namespace jc::parser {
         Pat::Ptr parseRefPat();
         Pat::Ptr parseStructPat(PathExpr::Ptr && path);
         Pat::Ptr parseParenPat();
+        Pat::Ptr parseSlicePat();
 
         // Messages //
     private:
