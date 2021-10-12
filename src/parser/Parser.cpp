@@ -2416,10 +2416,10 @@ namespace jc::parser {
     }
 
     Pat::Ptr Parser::parseParenPat() {
-        // Add log
+        logParse("TuplePat | ParenPat");
+
         const auto & begin = cspan();
-        // Cleanup
-        justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
+        justSkip(TokenKind::LParen, "`(`", "`parseParenPat`");
 
         Pat::List els;
         bool tuple = false;
@@ -2444,8 +2444,7 @@ namespace jc::parser {
             }
 
             auto pat = parsePat();
-            // Cleanup
-            if (pat.ok() and pat.unwrap()->kind == ast::PatKind::Rest) {
+            if (pat.ok() and pat.unwrap()->kind == PatKind::Rest) {
                 restPatIndex = index;
             }
 
