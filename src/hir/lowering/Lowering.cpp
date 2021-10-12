@@ -567,11 +567,7 @@ namespace jc::hir {
             }
             case ast::PatKind::Ref: {
                 const auto & astNode = pat->as<ast::RefPat>(pat);
-                Mutability mut = Mutability::Immut;
-                if (astNode->mut) {
-                    mut = Mutability::Mut;
-                }
-                return makeBoxNode<RefPat>(mut, lowerPat(astNode->pat), HirId::DUMMY, astNode->span);
+                return makeBoxNode<RefPat>(astNode->mut, lowerPat(astNode->pat), HirId::DUMMY, astNode->span);
             }
             case ast::PatKind::Path: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
