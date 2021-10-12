@@ -94,7 +94,7 @@ namespace jc::ast {
         void visit(const RefPat & pat) override;
         void visit(const PathPat & pat) override;
         void visit(const WildcardPat & pat) override;
-        void visit(const SpreadPat & pat) override;
+        void visit(const RestPat & pat) override;
         void visit(const StructPat & pat) override;
 
     protected:

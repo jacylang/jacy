@@ -2198,7 +2198,7 @@ namespace jc::parser {
 
         // `...`
         if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
-            return makePRBoxNode<SpreadPat, Pat>(spread.unwrap().span);
+            return makePRBoxNode<RestPat, Pat>(spread.unwrap().span);
         }
 
         // If pattern begins with `::` or with an identifier followed by `::` it is a path pattern

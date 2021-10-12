@@ -629,7 +629,7 @@ namespace jc::ast {
 
     void Validator::visit(const WildcardPat&) {}
 
-    void Validator::visit(const SpreadPat&) {}
+    void Validator::visit(const RestPat&) {}
 
     void Validator::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);

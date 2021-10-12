@@ -124,8 +124,8 @@ namespace jc::ast {
         }
     };
 
-    struct SpreadPat : Pat {
-        SpreadPat(const Span & span) : Pat{PatKind::Rest, span} {}
+    struct RestPat : Pat {
+        RestPat(const Span & span) : Pat{PatKind::Rest, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

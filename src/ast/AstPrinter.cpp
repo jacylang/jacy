@@ -796,7 +796,7 @@ namespace jc::ast {
         printNodeId(pat);
     }
 
-    void AstPrinter::visit(const SpreadPat & pat) {
+    void AstPrinter::visit(const RestPat & pat) {
         log.raw("...");
 
         printNodeId(pat);

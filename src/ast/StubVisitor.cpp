@@ -404,7 +404,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const WildcardPat&) {}
 
-    void StubVisitor::visit(const SpreadPat&) {}
+    void StubVisitor::visit(const RestPat&) {}
 
     void StubVisitor::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
