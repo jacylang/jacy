@@ -2459,8 +2459,9 @@ namespace jc::parser {
 
         skip(TokenKind::RParen, "Closing `)`");
 
-        // Check for unit pattern, aka empty tuple
-        if (tuple or els.empty()) {
+        // Check for unit pattern, aka empty tuple.
+        // Also check for `(...)` as it is a tuple pattern matching any tuple.
+        if (tuple or els.empty() or restPatIndex.some()) {
             return makePRBoxNode<TuplePat, Pat>(std::move(els), restPatIndex, closeSpan(begin));
         }
 
