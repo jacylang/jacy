@@ -629,8 +629,11 @@ namespace jc::ast {
 
     void Validator::visit(const WildcardPat&) {}
 
-    void Validator::visit(const RestPat&) {
-
+    void Validator::visit(const RestPat & pat) {
+        msg.error()
+           .setText("Rest pattern `...` is disallowed here, you can use it only in structure, tuple or slice patterns")
+           .setPrimaryLabel(pat.span, "`...` is disallowed here")
+           .emit();
     }
 
     void Validator::visit(const StructPat & pat) {
