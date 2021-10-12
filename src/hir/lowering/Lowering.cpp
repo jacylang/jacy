@@ -586,8 +586,10 @@ namespace jc::hir {
                 return makeBoxNode<WildcardPat>(HirId::DUMMY, astNode->span);
             }
             case ast::PatKind::Rest: {
-                // TODO: ?IDK?
-                break;
+                log::devPanic(
+                    "Got rest pattern (`...`) on lowering stage, it must not be present",
+                    "as a standalone pattern and be handled for patterns accepting it before"
+                );
             }
             case ast::PatKind::Struct: {
                 const auto & astNode = pat->as<ast::StructPat>(pat);
