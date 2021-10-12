@@ -380,6 +380,10 @@ namespace jc::ast {
     }
 
     // Patterns //
+    void StubVisitor::visit(const MultiPat & pat) {
+        visitEach(pat.patterns);
+    }
+
     void StubVisitor::visit(const ParenPat & pat) {
         pat.pat.autoAccept(*this);
     }
