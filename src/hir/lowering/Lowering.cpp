@@ -562,8 +562,8 @@ namespace jc::hir {
                 return makeBoxNode<LitPat>(lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
             }
             case ast::PatKind::Ident: {
-                // TODO: Requires extracting data from name resolution
-                break;
+                const auto & astNode = pat->as<ast::IdentPat>(pat);
+                return lowerIdentPat(*astNode);
             }
             case ast::PatKind::Ref: {
                 const auto & astNode = pat->as<ast::RefPat>(pat);
@@ -609,7 +609,8 @@ namespace jc::hir {
     }
 
     Pat::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
-        // TODO: Resolutions
+        // TODO!!!: Resolutions
+
         IdentPatAnno anno = IdentPatAnno::None;
         if (pat.ref and pat.mut) {
             anno = IdentPatAnno::RefMut;
