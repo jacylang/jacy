@@ -143,7 +143,9 @@ namespace jc::ast {
         }
 
         /// Shortcut is true when `:` is omitted, just a flag that has no syntax representation,
-        /// e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`
+        /// e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`.
+        /// Note!: Even though `shortcut` is a simplification for field pattern storing,
+        ///  when printing it, e.g. in `AstPrinter`, consider different user-inputs
         bool shortcut;
         Ident::PR ident;
         Pat::Ptr pat;
