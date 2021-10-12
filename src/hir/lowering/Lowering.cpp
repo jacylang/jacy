@@ -624,7 +624,7 @@ namespace jc::hir {
             subPat = lowerPat(pat.pat.unwrap());
         }
 
-        return makeBoxNode<IdentPat>(anno, HirId::DUMMY, pat.name.unwrap(), subPat, HirId::DUMMY, pat.span);
+        return makeBoxNode<IdentPat>(anno, HirId::DUMMY, pat.name.unwrap(), std::move(subPat), HirId::DUMMY, pat.span);
     }
 
     // HIR Items //
