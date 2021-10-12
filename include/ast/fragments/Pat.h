@@ -104,6 +104,18 @@ namespace jc::ast {
             return IdentPatAnno::None;
         }
 
+        bool isRefMut() const {
+            return anno == IdentPatAnno::RefMut;
+        }
+
+        bool isRef() const {
+            return isRefMut() or anno == IdentPatAnno::Ref;
+        }
+
+        bool isMut() const {
+            return isRefMut() or anno == IdentPatAnno::Mut;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
