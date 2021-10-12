@@ -6,6 +6,8 @@
 #include "hir/nodes/fragments.h"
 
 namespace jc::hir {
+    using ast::Mutability;
+
     struct MultiPat : Pat {
         MultiPat(Pat::List && pats, HirId hirId, Span span)
             : Pat {PatKind::Multi, hirId, span}, pats {std::move(pats)} {}
