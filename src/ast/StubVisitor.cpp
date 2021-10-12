@@ -409,21 +409,9 @@ namespace jc::ast {
     void StubVisitor::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
 
-        for (const auto & el : pat.fields) {
-            switch (el.kind) {
-                case StructPatEl::Kind::Destruct: {
-                    const auto & dp = std::get<StructPatternDestructEl>(el.el);
-                    dp.name.autoAccept(*this);
-                    dp.pat.autoAccept(*this);
-                    break;
-                }
-                case StructPatEl::Kind::Borrow: {
-                    const auto & bp = std::get<StructPatBorrowEl>(el.el);
-                    bp.name.autoAccept(*this);
-                    break;
-                }
-                case StructPatEl::Kind::Spread:;
-            }
+        for (const auto & field : pat.fields) {
+            field.ident.autoAccept(*this);
+            field.pat.autoAccept(*this);
         }
     }
 }
