@@ -414,4 +414,8 @@ namespace jc::ast {
             field.pat.autoAccept(*this);
         }
     }
+
+    void StubVisitor::visit(const TuplePat & pat) {
+        visitEach(pat.els);
+    }
 }
