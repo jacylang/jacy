@@ -2463,6 +2463,8 @@ namespace jc::parser {
     }
 
     Pat::Ptr Parser::parseSlicePat() {
+        logParse("SlicePat");
+
         const auto & begin = cspan();
         justSkip(TokenKind::LBracket, "`[`", "`parseSlicePat`");
 
