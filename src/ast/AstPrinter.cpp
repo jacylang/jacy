@@ -821,9 +821,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TuplePat & pat) {
-        log.raw("(");
-        printDelim(pat.els);
-        log.raw(")");
+        printDelim(pat.els, "(", ")", ", ");
     }
 
     // Helpers //
