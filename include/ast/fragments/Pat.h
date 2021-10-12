@@ -93,13 +93,17 @@ namespace jc::ast {
         }
     };
 
+    enum class Mutability {
+        Immut,
+        Mut,
+    };
+
     /// `&mut pattern`
     struct RefPat : Pat {
-        RefPat(bool mut, Pat::Ptr && pat, const Span & span)
+        RefPat(Mutability mut, Pat::Ptr && pat, const Span & span)
             : Pat{PatKind::Ref, span}, mut{mut}, pat{std::move(pat)} {}
 
-        // TODO: Use `Mutability` as for HIR
-        bool mut;
+        Mutability mut;
         Pat::Ptr pat;
 
         void accept(BaseVisitor & visitor) const override {

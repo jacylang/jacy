@@ -24,11 +24,6 @@ namespace jc::hir {
         RefMut,
     };
 
-    enum class Mutability {
-        Immut,
-        Mut,
-    };
-
     struct Pat : HirNode {
         using Ptr = std::unique_ptr<Pat>;
         using OptPtr = Option<Ptr>;
