@@ -97,6 +97,7 @@ namespace jc::ast {
         void visit(const RestPat & pat) override;
         void visit(const StructPat & pat) override;
         void visit(const TuplePat & pat) override;
+        void visit(const SlicePat & pat) override;
 
     protected:
         template<typename T>

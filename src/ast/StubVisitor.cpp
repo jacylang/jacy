@@ -418,4 +418,9 @@ namespace jc::ast {
     void StubVisitor::visit(const TuplePat & pat) {
         visitEach(pat.els);
     }
+
+    void StubVisitor::visit(const SlicePat & pat) {
+        visitEach(pat.before);
+        visitEach(pat.after);
+    }
 }
