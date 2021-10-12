@@ -483,7 +483,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const MatchArm & matchArm) {
-        validateEach(matchArm.pat);
+        matchArm.pat.autoAccept(*this);
         matchArm.body.autoAccept(*this);
     }
 
@@ -633,6 +633,7 @@ namespace jc::ast {
 
     void Validator::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
+
 
         size_t i = 0;
         for (const auto & el : pat.fields) {
