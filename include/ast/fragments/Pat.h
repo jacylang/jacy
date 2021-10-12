@@ -69,22 +69,27 @@ namespace jc::ast {
         }
     };
 
+    /// `ref` and `mut` combinations for simplicity and expressiveness
+    enum class IdentPatAnno {
+        None,
+        Ref,
+        Mut,
+        RefMut,
+    };
+
     /// `ref mut IDENT @ pattern`
     struct IdentPat : Pat {
         IdentPat(
-            bool ref,
-            bool mut,
+            IdentPatAnno anno,
             Ident::PR && name,
             Pat::OptPtr && pat,
             const Span & span
         ) : Pat{PatKind::Ident, span},
-            ref{ref},
-            mut{mut},
+            anno {anno},
             name{std::move(name)},
             pat{std::move(pat)} {}
 
-        bool ref;
-        bool mut;
+        IdentPatAnno anno;
         Ident::PR name;
         Pat::OptPtr pat;
 

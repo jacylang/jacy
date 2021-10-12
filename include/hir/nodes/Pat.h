@@ -16,14 +16,6 @@ namespace jc::hir {
         Struct,
     };
 
-    /// `ref` and `mut` combinations for simplicity and expressiveness
-    enum class IdentPatAnno {
-        None,
-        Ref,
-        Mut,
-        RefMut,
-    };
-
     struct Pat : HirNode {
         using Ptr = std::unique_ptr<Pat>;
         using OptPtr = Option<Ptr>;
