@@ -93,6 +93,17 @@ namespace jc::ast {
         Ident::PR name;
         Pat::OptPtr pat;
 
+        static IdentPatAnno getAnno(bool ref, bool mut) {
+            if (ref and mut) {
+                return IdentPatAnno::RefMut;
+            } else if (ref) {
+                return IdentPatAnno::Ref;
+            } else if (mut) {
+                return IdentPatAnno::Mut;
+            }
+            return IdentPatAnno::None;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
