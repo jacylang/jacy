@@ -2304,8 +2304,18 @@ namespace jc::parser {
         logParse("IdentPat");
 
         const auto & begin = cspan();
+
+        IdentPatAnno anno = IdentPatAnno::None;
         bool ref = skipOptKw(Kw::Ref).some();
         bool mut = skipOptKw(Kw::Mut).some();
+
+        if (ref and mut) {
+            anno = IdentPatAnno::RefMut;
+        } else if (ref) {
+            anno = IdentPatAnno::Ref;
+        } else if (mut) {
+            anno = IdentPatAnno::Mut;
+        }
 
         auto id = parseIdent("Missing identifier");
 
@@ -2314,7 +2324,7 @@ namespace jc::parser {
             pat = parsePat();
         }
 
-        return makePRBoxNode<IdentPat, Pat>(ref, mut, std::move(id), std::move(pat), closeSpan(begin));
+        return makePRBoxNode<IdentPat, Pat>(anno, std::move(id), std::move(pat), closeSpan(begin));
     }
 
     Pat::Ptr Parser::parseRefPat() {
