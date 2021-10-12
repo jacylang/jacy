@@ -2197,6 +2197,8 @@ namespace jc::parser {
         }
 
         // `...`
+        // Rest pattern is not allowed in every pattern, we parse it anyway,
+        // handling invalid cases later, in `Validator`
         if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
             return makePRBoxNode<RestPat, Pat>(spread.unwrap().span);
         }
@@ -2420,7 +2422,8 @@ namespace jc::parser {
         Pat::List els;
         bool tuple = false;
         bool first = true;
-        Option<size_t> restPatIndex;
+        TuplePat::RestPatIndexT restPatIndex = None;
+        size_t index = 0;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
@@ -2438,14 +2441,20 @@ namespace jc::parser {
                 break;
             }
 
-            els.emplace_back(parsePat());
+            auto pat = parsePat();
+            if (pat.ok() and pat.unwrap()->kind == ast::PatKind::Rest) {
+                restPatIndex = index;
+            }
+
+            els.emplace_back(std::move(pat));
+            index++;
         }
 
         skip(TokenKind::RParen, "Closing `)`");
 
         // Check for unit pattern, aka empty tuple
         if (tuple or els.empty()) {
-            return makePRBoxNode<TuplePat, Pat>(std::move(els), closeSpan(begin));
+            return makePRBoxNode<TuplePat, Pat>(std::move(els), restPatIndex, closeSpan(begin));
         }
 
         return makePRBoxNode<ParenPat, Pat>(std::move(els.at(0)), closeSpan(begin));
