@@ -2400,8 +2400,7 @@ namespace jc::parser {
                     true,
                     std::move(ident),
                     makePRBoxNode<IdentPat, Pat>(
-                        ref.some(),
-                        mut.some(),
+                        IdentPat::getAnno(ref.some(), mut.some()),
                         std::move(identCopy),
                         None,
                         closeSpan(fieldBegin)
