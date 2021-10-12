@@ -2232,11 +2232,7 @@ namespace jc::parser {
 
         // `(pattern)`
         if (is(TokenKind::LParen)) {
-            const auto & begin = cspan();
-            justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
-            auto pat = parsePat();
-            skip(TokenKind::RParen, "Closing `)`");
-            return makePRBoxNode<ParenPat, Pat>(std::move(pat), closeSpan(begin));
+            return parseParenPat();
         }
 
         msg.error()
@@ -2415,6 +2411,43 @@ namespace jc::parser {
         skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
 
         return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(fields), restPat, closeSpan(begin));
+    }
+
+    Pat::Ptr Parser::parseParenPat() {
+        const auto & begin = cspan();
+        justSkip(TokenKind::LParen, "`(`", "`parsePat` -> `ParenPat`");
+
+        Pat::List els;
+        bool tuple = false;
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                tuple = true;
+                skip(TokenKind::Comma, "Missing `,` delimiter between tuple pattern fields");
+            }
+
+            // Allow trailing comma for single-element tuple pattern
+            if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            els.emplace_back(parsePat());
+        }
+
+        skip(TokenKind::RParen, "Closing `)`");
+
+        // Check for unit pattern, aka empty tuple
+        if (tuple or els.empty()) {
+            return makePRBoxNode<TuplePat, Pat>(std::move(els), closeSpan(begin));
+        }
+
+        return makePRBoxNode<ParenPat, Pat>(std::move(els.at(0)), closeSpan(begin));
     }
 
     // Helpers //
