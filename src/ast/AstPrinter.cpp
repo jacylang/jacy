@@ -822,6 +822,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const TuplePat & pat) {
         printDelim(pat.els, "(", ")", ", ");
+        printNodeId(pat);
     }
 
     void AstPrinter::visit(const SlicePat & pat) {
