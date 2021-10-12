@@ -2305,17 +2305,10 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        IdentPatAnno anno = IdentPatAnno::None;
         bool ref = skipOptKw(Kw::Ref).some();
         bool mut = skipOptKw(Kw::Mut).some();
 
-        if (ref and mut) {
-            anno = IdentPatAnno::RefMut;
-        } else if (ref) {
-            anno = IdentPatAnno::Ref;
-        } else if (mut) {
-            anno = IdentPatAnno::Mut;
-        }
+        IdentPatAnno anno = IdentPat::getAnno(ref, mut);
 
         auto id = parseIdent("Missing identifier");
 
