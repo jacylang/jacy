@@ -7,6 +7,7 @@
 
 namespace jc::hir {
     using ast::Mutability;
+    using ast::IdentPatAnno;
 
     struct MultiPat : Pat {
         MultiPat(Pat::List && pats, HirId hirId, Span span)
