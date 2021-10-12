@@ -17,6 +17,7 @@ namespace jc::ast {
         Rest,
         Struct,
         Tuple,
+        Slice,
     };
 
     struct Pat : Node {
@@ -183,7 +184,17 @@ namespace jc::ast {
         }
     };
 
-    // TODO: Tuple pattern
+    struct SlicePat : Pat {
+        SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, Span span)
+            : Pat {PatKind::Slice, span},
+              before {std::move(before)},
+              restPatSpan {restPatSpan},
+              after {std::move(after)} {}
+
+        Pat::List before;
+        Span::Opt restPatSpan;
+        Pat::List after;
+    };
 
     // TODO: Slice pattern
 }
