@@ -585,7 +585,7 @@ namespace jc::hir {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
                 return makeBoxNode<WildcardPat>(HirId::DUMMY, astNode->span);
             }
-            case ast::PatKind::Spread: {
+            case ast::PatKind::Rest: {
                 // TODO: ?IDK?
                 break;
             }
