@@ -820,6 +820,12 @@ namespace jc::ast {
         printNodeId(pat);
     }
 
+    void AstPrinter::visit(const TuplePat & pat) {
+        log.raw("(");
+        printDelim(pat.els);
+        log.raw(")");
+    }
+
     // Helpers //
     void AstPrinter::printVis(const Vis & vis) {
         switch (vis.kind) {
