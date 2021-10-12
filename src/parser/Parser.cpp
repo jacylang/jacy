@@ -2237,6 +2237,11 @@ namespace jc::parser {
             return parseParenPat();
         }
 
+        // `[p1, ..., pn]`
+        if (is(TokenKind::LBracket)) {
+            return parseSlicePat();
+        }
+
         msg.error()
            .setText("Expected pattern, got ", peek().repr(true))
            .setPrimaryLabel(cspan(), "Expected pattern")
