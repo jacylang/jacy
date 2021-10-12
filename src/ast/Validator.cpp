@@ -629,7 +629,9 @@ namespace jc::ast {
 
     void Validator::visit(const WildcardPat&) {}
 
-    void Validator::visit(const RestPat&) {}
+    void Validator::visit(const RestPat&) {
+
+    }
 
     void Validator::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);
@@ -637,7 +639,12 @@ namespace jc::ast {
         size_t i = 0;
         for (const auto & field : pat.fields) {
             field.ident.autoAccept(*this);
-            field.pat.autoAccept(*this);
+
+            // Don't check `...` rest pattern in struct, because it is allowed in it.
+            // In other cases it is an error to have a standalone rest pattern
+            if (field.pat.err() or field.pat.unwrap()->kind != PatKind::Rest) {
+                field.pat.autoAccept(*this);
+            }
 
             if (i < pat.fields.size() - 1) {
                 msg.error()
