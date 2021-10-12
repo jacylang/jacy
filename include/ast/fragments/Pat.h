@@ -94,7 +94,7 @@ namespace jc::ast {
     };
 
     enum class Mutability {
-        Immut,
+        Unset,
         Mut,
     };
 
