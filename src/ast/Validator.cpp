@@ -638,6 +638,14 @@ namespace jc::ast {
         for (const auto & field : pat.fields) {
             field.ident.autoAccept(*this);
             field.pat.autoAccept(*this);
+
+            if (i < pat.fields.size() - 1) {
+                msg.error()
+                   .setText("Rest pattern `...` must go last in structure pattern")
+                   .setPrimaryLabel(field.pat.span(), "`...` must go last")
+                   .emit();
+            }
+
             i++;
         }
     }
