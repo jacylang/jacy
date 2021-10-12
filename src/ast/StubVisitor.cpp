@@ -278,7 +278,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const MatchArm & matchArm) {
-        visitEach(matchArm.pat);
+        matchArm.pat.autoAccept(*this);
         matchArm.body.autoAccept(*this);
     }
 
