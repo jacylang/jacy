@@ -639,6 +639,17 @@ namespace jc::hir {
         return makeBoxNode<TuplePat>(std::move(els), pat.restPatIndex, HirId::DUMMY, pat.span);
     }
 
+    Pat::List Lowering::lowerPatterns(const ast::Pat::List && pats) {
+        Pat::List lowered;
+        lowered.reserve(pats.size());
+
+        for (const auto & pat : pats) {
+            lowered.emplace_back(lowerPat(pat));
+        }
+
+        return lowered;
+    }
+
     // HIR Items //
     ItemId Lowering::addItem(ItemNode && item) {
         auto itemId = ItemId {item.defId};
