@@ -95,6 +95,19 @@ namespace jc::hir {
         Pat::List els;
         RestPatIndexT restPatIndex;
     };
+
+    struct SlicePat : Pat {
+        SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, HirId hirId, Span span)
+            : Pat {PatKind::Slice, hirId, span},
+              before {std::move(before)},
+              restPatSpan {restPatSpan},
+              after {std::move(after)} {
+        }
+
+        Pat::List before;
+        Span::Opt restPatSpan;
+        Pat::List after;
+    };
 }
 
 #endif // JACY_HIR_NODES_PATTERNS_H

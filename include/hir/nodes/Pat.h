@@ -15,6 +15,7 @@ namespace jc::hir {
         Ref,
         Struct,
         Tuple,
+        Slice,
     };
 
     struct Pat : HirNode {
