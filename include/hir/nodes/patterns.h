@@ -86,6 +86,8 @@ namespace jc::hir {
         parser::Token::Opt rest;
     };
 
+    // Explain why tuple not indexed with []?
+
     struct TuplePat : Pat {
         using RestPatIndexT = ast::TuplePat::RestPatIndexT;
 
