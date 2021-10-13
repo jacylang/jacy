@@ -624,6 +624,10 @@ namespace jc::hir {
         );
     }
 
+    Pat::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
+
+    }
+
     // HIR Items //
     ItemId Lowering::addItem(ItemNode && item) {
         auto itemId = ItemId {item.defId};
