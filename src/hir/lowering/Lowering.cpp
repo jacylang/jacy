@@ -591,6 +591,10 @@ namespace jc::hir {
                 const auto & astNode = pat->as<ast::StructPat>(pat);
                 return lowerStructPat(*astNode);
             }
+            case ast::PatKind::Tuple: {
+                const auto & astNode = pat->as<ast::TuplePat>(pat);
+                return lowerTuplePat(*astNode);
+            }
         }
     }
 
