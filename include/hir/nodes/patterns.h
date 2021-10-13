@@ -85,6 +85,16 @@ namespace jc::hir {
         StructPatField::List fields;
         parser::Token::Opt rest;
     };
+
+    struct TuplePat : Pat {
+        using RestPatIndexT = ast::TuplePat::RestPatIndexT;
+
+        TuplePat(Pat::List && els, RestPatIndexT restPatIndex, HirId hirId, Span span)
+            : Pat {PatKind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+
+        Pat::List els;
+        RestPatIndexT restPatIndex;
+    };
 }
 
 #endif // JACY_HIR_NODES_PATTERNS_H

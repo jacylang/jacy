@@ -14,6 +14,7 @@ namespace jc::hir {
         Path,
         Ref,
         Struct,
+        Tuple,
     };
 
     struct Pat : HirNode {
