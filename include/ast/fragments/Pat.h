@@ -234,6 +234,7 @@ namespace jc::ast {
         }
     };
 
+    // TODO: Rest pattern in sub-pattern, https://github.com/jacylang/jacy/issues/10
     struct SlicePat : Pat {
         SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, Span span)
             : Pat {PatKind::Slice, span},

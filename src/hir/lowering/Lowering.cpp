@@ -640,6 +640,8 @@ namespace jc::hir {
         auto before = lowerPatterns(pat.before);
         auto after = lowerPatterns(pat.after);
 
+        // TODO: Rest pattern in sub-pattern, https://github.com/jacylang/jacy/issues/10
+
         return makeBoxNode<SlicePat>(std::move(before), pat.restPatSpan, std::move(after), HirId::DUMMY, pat.span);
     }
 

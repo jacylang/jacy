@@ -36,7 +36,7 @@ namespace jc::hir {
             return T {std::forward<Args>(args)..., HirId::DUMMY, span};
         }
 
-        // Common //
+        // HIR identifiers and maps //
     private:
         ast::NodeId::NodeMap<HirId> nodeIdHirId;
 
