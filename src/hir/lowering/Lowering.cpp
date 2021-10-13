@@ -629,17 +629,10 @@ namespace jc::hir {
     }
 
     Pat::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
-        Pat::List els;
-        els.reserve(pat.els.size());
-
-        for (const auto & subPat : pat.els) {
-            els.emplace_back(lowerPat(subPat));
-        }
-
-        return makeBoxNode<TuplePat>(std::move(els), pat.restPatIndex, HirId::DUMMY, pat.span);
+        return makeBoxNode<TuplePat>(lowerPatterns(pat.els), pat.restPatIndex, HirId::DUMMY, pat.span);
     }
 
-    Pat::List Lowering::lowerPatterns(const ast::Pat::List && pats) {
+    Pat::List Lowering::lowerPatterns(const ast::Pat::List & pats) {
         Pat::List lowered;
         lowered.reserve(pats.size());
 
