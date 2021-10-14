@@ -15,11 +15,12 @@ namespace jc::ast {
             Type::Ptr type,
             Expr::OptPtr defaultValue,
             Span span
-        ) : Node{span},
-            label{std::move(label)},
-            pat{std::move(pat)},
-            type{std::move(type)},
-            defaultValue{std::move(defaultValue)} {}
+        ) : Node {span},
+            label {std::move(label)},
+            pat {std::move(pat)},
+            type {std::move(type)},
+            defaultValue {std::move(defaultValue)} {
+        }
 
         Ident::OptPR label;
         Pat::Ptr pat;
@@ -32,7 +33,8 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody{exprBody}, value{std::move(value)} {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {
+        }
 
         bool exprBody;
         Expr::Ptr value;
@@ -44,10 +46,11 @@ namespace jc::ast {
             FuncParam::List params,
             Type::OptPtr returnType,
             Span span
-        ) : modifiers{modifiers},
-            params{std::move(params)},
-            returnType{std::move(returnType)},
-            span{span} {}
+        ) : modifiers {modifiers},
+            params {std::move(params)},
+            returnType {std::move(returnType)},
+            span {span} {
+        }
 
         parser::Token::List modifiers;
         FuncParam::List params;
