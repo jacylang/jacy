@@ -42,7 +42,7 @@ namespace jc::resolve {
         log::notImplemented("getDefKindNS");
     }
 
-    bool Module::has(Namespace nsKind, const Symbol & name) const {
+    bool Module::has(Namespace nsKind, Symbol name) const {
         if (nsKind == Namespace::Any) {
             return has(Namespace::Value, name) or has(Namespace::Type, name) or has(Namespace::Lifetime, name);
         }
@@ -51,7 +51,7 @@ namespace jc::resolve {
         return ns.find(name) != ns.end();
     }
 
-    NameBinding::Opt Module::find(Namespace nsKind, const Symbol & name) const {
+    NameBinding::Opt Module::find(Namespace nsKind, Symbol name) const {
         const auto & ns = getNS(nsKind);
         const auto & def = ns.find(name);
         if (def == ns.end()) {
@@ -62,7 +62,7 @@ namespace jc::resolve {
 
     /// Search for name in all namespaces
     /// Mostly used to find alternatives for failed resolutions
-    PerNS<NameBinding::Opt> Module::findAll(const Symbol & name) const {
+    PerNS<NameBinding::Opt> Module::findAll(Symbol name) const {
         return {
             find(Namespace::Value, name),
             find(Namespace::Type, name),

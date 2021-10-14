@@ -308,7 +308,7 @@ namespace jc::resolve {
     message::Label::List PathResolver::suggestAltNames(
         span::Span span,
         Namespace target,
-        const Symbol & name,
+        Symbol name,
         const PerNS<NameBinding::Opt> & altDefs
     ) {
         message::Label::List labels;

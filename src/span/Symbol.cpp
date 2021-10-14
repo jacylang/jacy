@@ -81,15 +81,15 @@ namespace jc::span {
         return Interner::getInstance().get(fromKw(kw));
     }
 
-    std::ostream & operator<<(std::ostream & os, const Symbol & sym) {
+    std::ostream & operator<<(std::ostream & os, Symbol sym) {
         return os << Interner::getInstance().get(sym);
     }
 
-    Symbol Symbol::operator+(const Symbol & other) const {
+    Symbol Symbol::operator+(Symbol other) const {
         return intern(toString() + other.toString());
     }
 
-    Symbol & Symbol::operator+=(const Symbol & other) {
+    Symbol & Symbol::operator+=(Symbol other) {
         return *this = intern((*this + other).toString());
     }
 

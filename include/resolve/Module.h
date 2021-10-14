@@ -149,21 +149,21 @@ namespace jc::resolve {
         const NSMap & getNS(Namespace ns) const;
         NSMap & getNS(Namespace ns);
 
-        bool has(Namespace nsKind, const Symbol & name) const;
-        NameBinding::Opt find(Namespace nsKind, const Symbol & name) const;
-        PerNS<NameBinding::Opt> findAll(const Symbol & name) const;
+        bool has(Namespace nsKind, Symbol name) const;
+        NameBinding::Opt find(Namespace nsKind, Symbol name) const;
+        PerNS<NameBinding::Opt> findAll(Symbol name) const;
 
         dt::Result<FOSId::Opt, DefId> tryFindFOS(Symbol name) const;
 
         /// @deprecated
-//        DefId::Opt findDefOnly(Namespace nsKind, const Symbol & name) const;
-//        PerNS<DefId::Opt> findAllDefOnly(const Symbol & name) const;
+//        DefId::Opt findDefOnly(Namespace nsKind, Symbol name) const;
+//        PerNS<DefId::Opt> findAllDefOnly(Symbol name) const;
 
         /**
          * @brief Tries to define a new definition in the module
          * @return Old definition in case if redefined, None otherwise
          */
-        NameBinding::Opt tryDefine(Namespace ns, const Symbol & name, const DefId & defId) {
+        NameBinding::Opt tryDefine(Namespace ns, Symbol name, const DefId & defId) {
             return _tryDefine(ns, name, NameBinding {defId});
         }
 
@@ -174,7 +174,7 @@ namespace jc::resolve {
          * @param fosId Function Overload Set identifier
          * @return
          */
-        NameBinding::Opt tryDefineFOS(const Symbol & baseName, const FOSId & fosId) {
+        NameBinding::Opt tryDefineFOS(Symbol baseName, const FOSId & fosId) {
             const auto & redefined = _tryDefine(Namespace::Value, baseName, NameBinding {fosId});
             // When we try to add already defined function overload set -- it is okay.
             // But we cannot define function overload if some non-function definition uses its name.
@@ -241,7 +241,7 @@ namespace jc::resolve {
                 }
             }
 
-            std::sort(labels.begin(), labels.end(), [](const Symbol & lhs, const Symbol & rhs) {
+            std::sort(labels.begin(), labels.end(), [](Symbol lhs, Symbol rhs) {
                 return lhs < rhs;
             });
 

@@ -411,7 +411,7 @@ namespace jc::resolve {
      * @param path Path node referencing particular name
      * @return
      */
-    bool NameResolver::resolveLocal(const Symbol & name, const ast::Path & path) {
+    bool NameResolver::resolveLocal(Symbol name, const ast::Path & path) {
         auto depth = getDepth();
         auto pathNodeId = path.id;
         while (true) {
@@ -446,7 +446,7 @@ namespace jc::resolve {
         log.raw(ribsDebugOutput).nl();
     }
 
-    void NameResolver::appendModulePath(const Symbol & modName, DefId defId) {
+    void NameResolver::appendModulePath(Symbol modName, DefId defId) {
         // Check for dev mode here as getting definition might be an expensive operation
         if (not config.checkDevStage(config::Config::DevStage::NameRes)) {
             return;

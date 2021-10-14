@@ -27,9 +27,9 @@ namespace jc::resolve {
 
         /// Define new local.
         /// Returns local node_id that was already defined if it was
-        NodeId::Opt defineLocal(NodeId nodeId, const Symbol & name);
+        NodeId::Opt defineLocal(NodeId nodeId, Symbol name);
 
-        NodeId::Opt findLocal(const Symbol & name);
+        NodeId::Opt findLocal(Symbol name);
 
         void bindMod(Module::Ptr module);
 

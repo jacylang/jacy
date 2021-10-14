@@ -85,13 +85,13 @@ namespace jc::resolve {
         Resolutions _resolutions;
         void resolveSimplePath(const ast::SimplePath & simplePath);
         void resolvePath(Namespace targetNS, const ast::Path & path, const Symbol::Opt & suffix = None);
-        bool resolveLocal(const Symbol & name, const ast::Path & path);
+        bool resolveLocal(Symbol name, const ast::Path & path);
 
         // Messages //
     private:
         message::MessageHolder msg;
 
-        void suggestAltNames(Namespace target, const Symbol & name, const PerNS<NameBinding::Opt> & altDefs);
+        void suggestAltNames(Namespace target, Symbol name, const PerNS<NameBinding::Opt> & altDefs);
 
         // Debug //
     private:
@@ -102,7 +102,7 @@ namespace jc::resolve {
         void dumpRibs();
 
         std::vector<std::string> scopePath;
-        void appendModulePath(const Symbol & modName, DefId defId);
+        void appendModulePath(Symbol modName, DefId defId);
         void appendBlockPath(NodeId nodeId);
         void appendCustomPath(const std::string & segment);
         void removePathSeg();

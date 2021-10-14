@@ -90,11 +90,11 @@ namespace jc::span {
         std::string toString() const;
         std::string slice(size_t begin, size_t end = std::string::npos) const;
 
-        bool operator==(const Symbol & other) const {
+        bool operator==(Symbol other) const {
             return id == other.id;
         }
 
-        bool operator<(const Symbol & other) const {
+        bool operator<(Symbol other) const {
             return id < other.id;
         }
 
@@ -102,8 +102,8 @@ namespace jc::span {
             return std::underlying_type_t<Kw>(kw) == id.val;
         }
 
-        Symbol operator+(const Symbol & other) const;
-        Symbol & operator+=(const Symbol & other);
+        Symbol operator+(Symbol other) const;
+        Symbol & operator+=(Symbol other);
 
         static Symbol intern(const std::string & str);
 
@@ -137,7 +137,7 @@ namespace jc::span {
 
         static std::string kwToString(Kw kw);
 
-        friend std::ostream & operator<<(std::ostream & os, const Symbol & sym);
+        friend std::ostream & operator<<(std::ostream & os, Symbol sym);
 
         static const std::map<Kw, std::string> keywords;
     };
@@ -170,7 +170,7 @@ namespace jc::span {
             return sym;
         }
 
-        const std::string & get(const Symbol & sym) const {
+        const std::string & get(Symbol sym) const {
             return utils::arr::expectAt(internedStrings, sym.id.val, "`Interner::get`");
         }
 

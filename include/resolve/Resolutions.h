@@ -46,7 +46,7 @@ namespace jc::resolve {
         Str, // Note!!!: Order matters -- keep Str last
     };
 
-    inline Option<PrimType> getPrimType(const span::Symbol & typeName) {
+    inline Option<PrimType> getPrimType(span::Symbol typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
             {"bool", PrimType::Bool},
             {"int",  PrimType::Int},
@@ -70,7 +70,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    inline Option<PrimTypeSet> getPrimTypeBitMask(const span::Symbol & typeName) {
+    inline Option<PrimTypeSet> getPrimTypeBitMask(span::Symbol typeName) {
         const auto primType = getPrimType(typeName);
         if (primType.none()) {
             return None;
