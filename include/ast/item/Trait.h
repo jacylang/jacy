@@ -11,7 +11,7 @@ namespace jc::ast {
             GenericParam::OptList && generics,
             TypePath::List && superTraits,
             Item::List && members,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::Trait},
             name{std::move(name)},
             generics{std::move(generics)},

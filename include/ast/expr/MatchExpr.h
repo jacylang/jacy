@@ -12,7 +12,7 @@ namespace jc::ast {
         MatchArm(
             Pat::Ptr pat,
             Expr::Ptr body,
-            const Span & span
+            Span span
         ) : Node {span},
             pat {std::move(pat)},
             body {std::move(body)} {
@@ -30,7 +30,7 @@ namespace jc::ast {
         MatchExpr(
             Expr::Ptr subject,
             MatchArm::List entries,
-            const Span & span
+            Span span
         ) : Expr {span, ExprKind::Match},
             subject {std::move(subject)},
             arms {std::move(entries)} {

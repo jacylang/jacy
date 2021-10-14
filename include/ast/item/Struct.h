@@ -11,7 +11,7 @@ namespace jc::ast {
         StructField(
             Ident::PR name,
             Type::Ptr type,
-            const Span & span
+            Span span
         ) : Node{span},
             name{std::move(name)},
             type{std::move(type)} {}
@@ -29,7 +29,7 @@ namespace jc::ast {
             Ident::PR name,
             GenericParam::OptList generics,
             StructField::List fields,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::Struct},
             name{std::move(name)},
             generics{std::move(generics)},

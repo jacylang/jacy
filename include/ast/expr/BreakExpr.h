@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct BreakExpr : Expr {
-        BreakExpr(Expr::OptPtr && expr, const Span & span)
+        BreakExpr(Expr::OptPtr && expr, Span span)
             : Expr{span, ExprKind::Break},
               expr{std::move(expr)} {}
 

@@ -8,7 +8,7 @@ namespace jc::ast {
         Postfix(
             Expr::Ptr && lhs,
             const parser::Token & op,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::Postfix},
             lhs{std::move(lhs)},
             op{op} {}

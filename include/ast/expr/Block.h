@@ -10,7 +10,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Block(Stmt::List && stmts, const Span & span)
+        Block(Stmt::List && stmts, Span span)
             : Expr{span, ExprKind::Block},
               stmts{std::move(stmts)} {}
 

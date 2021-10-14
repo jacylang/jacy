@@ -14,7 +14,7 @@ namespace jc::ast {
             Pat::Ptr pat,
             Type::Ptr type,
             Expr::OptPtr defaultValue,
-            const Span & span
+            Span span
         ) : Node{span},
             label{std::move(label)},
             pat{std::move(pat)},
@@ -43,7 +43,7 @@ namespace jc::ast {
             parser::Token::List && modifiers,
             FuncParam::List params,
             Type::OptPtr returnType,
-            const Span & span
+            Span span
         ) : modifiers{modifiers},
             params{std::move(params)},
             returnType{std::move(returnType)},

@@ -11,7 +11,7 @@ namespace jc::ast {
             Pat::Ptr && pat,
             Expr::Ptr && inExpr,
             Block::Ptr && body,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::For},
             pat{std::move(pat)},
             inExpr{std::move(inExpr)},

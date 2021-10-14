@@ -11,7 +11,7 @@ namespace jc::ast {
             PR<TypePath::Ptr> && traitTypePath,
             Type::OptPtr && forType,
             Item::List && members,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::Impl},
             generics{std::move(generics)},
             traitTypePath{std::move(traitTypePath)},

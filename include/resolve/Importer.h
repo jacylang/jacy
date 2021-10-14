@@ -80,7 +80,7 @@ namespace jc::resolve {
 
         void reportCannotImport(
             Symbol redefinedName,
-            const span::Span & span,
+            span::Span span,
             const NameBinding & prevModDef,
             Symbol::Opt suffix = None
         );

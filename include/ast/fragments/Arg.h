@@ -8,7 +8,7 @@ namespace jc::ast {
     struct Arg : Node {
         using List = std::vector<Arg>;
 
-        Arg(Ident::OptPR && name, Expr::Ptr && value, const Span & span)
+        Arg(Ident::OptPR && name, Expr::Ptr && value, Span span)
             : Node{span}, name{std::move(name)}, value{std::move(value)} {}
 
         Ident::OptPR name;

@@ -52,12 +52,12 @@ namespace jc::sess {
         return line;
     }
 
-    std::string SourceMap::sliceBySpan(const span::Span & span) {
+    std::string SourceMap::sliceBySpan(span::Span span) {
         const auto & src = getSourceFile(span.fileId).src;
         return src.unwrap().substr(span.pos, span.len);
     }
 
-    std::vector<Line> SourceMap::getLines(const span::Span & span) {
+    std::vector<Line> SourceMap::getLines(span::Span span) {
         // TODO: End-inclusive collection of lines
         std::vector<Line> lines;
         const auto begin = span.pos;

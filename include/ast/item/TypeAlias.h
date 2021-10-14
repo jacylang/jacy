@@ -10,7 +10,7 @@ namespace jc::ast {
         TypeAlias(
             Ident::PR && name,
             Type::OptPtr && type,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::TypeAlias},
             name{std::move(name)},
             type{std::move(type)} {}

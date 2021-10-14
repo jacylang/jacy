@@ -616,7 +616,7 @@ namespace jc::hir {
             fields.emplace_back(field.shortcut, field.ident.unwrap(), lowerPat(field.pat), HirId::DUMMY, field.span);
         }
 
-        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, lowerNodeId(astNode->id), pat.span);
+        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, lowerNodeId(pat.id), pat.span);
     }
 
     Pat::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {

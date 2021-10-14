@@ -8,7 +8,7 @@ namespace jc::ast {
         BorrowExpr(
             bool mut,
             Expr::Ptr expr,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::Borrow},
             mut{mut},
             expr{std::move(expr)} {}

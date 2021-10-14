@@ -8,7 +8,7 @@ namespace jc::ast {
         Mod(
             Ident::PR && name,
             Item::List && items,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::Mod},
             name{std::move(name)},
             items{std::move(items)} {}

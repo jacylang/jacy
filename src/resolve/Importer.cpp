@@ -243,7 +243,7 @@ namespace jc::resolve {
     // Suggestions //
     void Importer::reportCannotImport(
         Symbol redefinedName,
-        const span::Span & span,
+        span::Span span,
         const NameBinding & prevModDef,
         Symbol::Opt suffix
     ) {

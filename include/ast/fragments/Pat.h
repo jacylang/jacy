@@ -25,7 +25,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pat(PatKind kind, const Span & span) : Node {span}, kind {kind} {
+        Pat(PatKind kind, Span span) : Node {span}, kind {kind} {
         }
 
         PatKind kind;
@@ -51,7 +51,7 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pat {
-        ParenPat(Pat::Ptr && pat, const Span & span) : Pat {PatKind::Paren, span}, pat {std::move(pat)} {
+        ParenPat(Pat::Ptr && pat, Span span) : Pat {PatKind::Paren, span}, pat {std::move(pat)} {
         }
 
         Pat::Ptr pat;
@@ -62,7 +62,7 @@ namespace jc::ast {
     };
 
     struct LitPat : Pat {
-        LitPat(Expr::Ptr && expr, const Span & span)
+        LitPat(Expr::Ptr && expr, Span span)
             : Pat {PatKind::Lit, span}, expr {std::move(expr)} {
         }
 
@@ -87,7 +87,7 @@ namespace jc::ast {
             IdentPatAnno anno,
             Ident::PR && name,
             Pat::OptPtr && pat,
-            const Span & span
+            Span span
         ) : Pat {PatKind::Ident, span},
             anno {anno},
             name {std::move(name)},
@@ -133,7 +133,7 @@ namespace jc::ast {
 
     /// `&mut pattern`
     struct RefPat : Pat {
-        RefPat(Mutability mut, Pat::Ptr && pat, const Span & span)
+        RefPat(Mutability mut, Pat::Ptr && pat, Span span)
             : Pat {PatKind::Ref, span}, mut {mut}, pat {std::move(pat)} {
         }
 
@@ -150,7 +150,7 @@ namespace jc::ast {
     };
 
     struct PathPat : Pat {
-        PathPat(PathExpr::Ptr && path, const Span & span)
+        PathPat(PathExpr::Ptr && path, Span span)
             : Pat {PatKind::Path, span}, path {std::move(path)} {
         }
 
@@ -162,7 +162,7 @@ namespace jc::ast {
     };
 
     struct WildcardPat : Pat {
-        WildcardPat(const Span & span) : Pat {PatKind::Wildcard, span} {
+        WildcardPat(Span span) : Pat {PatKind::Wildcard, span} {
         }
 
         void accept(BaseVisitor & visitor) const override {
@@ -171,7 +171,7 @@ namespace jc::ast {
     };
 
     struct RestPat : Pat {
-        RestPat(const Span & span) : Pat {PatKind::Rest, span} {
+        RestPat(Span span) : Pat {PatKind::Rest, span} {
         }
 
         void accept(BaseVisitor & visitor) const override {
@@ -203,7 +203,7 @@ namespace jc::ast {
             PathExpr::Ptr && path,
             StructPatField::List && fields,
             const parser::Token::Opt & rest,
-            const Span & span
+            Span span
         ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {
         }
 

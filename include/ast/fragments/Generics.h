@@ -16,7 +16,7 @@ namespace jc::ast {
         using List = std::vector<N<GenericParam>>;
         using OptList = Option<List>;
 
-        explicit GenericParam(GenericParamKind kind, const Span & span) : Node{span}, kind{kind} {}
+        explicit GenericParam(GenericParamKind kind, Span span) : Node{span}, kind{kind} {}
         virtual ~GenericParam() = default;
 
         GenericParamKind kind;
@@ -28,7 +28,7 @@ namespace jc::ast {
         TypeParam(
             Ident::PR name,
             Option<PR<N<Type>>> type,
-            const Span & span
+            Span span
         ) : GenericParam{GenericParamKind::Type, span},
             name{std::move(name)},
             boundType{std::move(type)} {}
@@ -42,7 +42,7 @@ namespace jc::ast {
     };
 
     struct Lifetime : GenericParam {
-        Lifetime(Ident::PR name, const Span & span)
+        Lifetime(Ident::PR name, Span span)
             : GenericParam{GenericParamKind::Lifetime, span},
               name{std::move(name)} {}
 
@@ -58,7 +58,7 @@ namespace jc::ast {
             Ident::PR name,
             PR<N<Type>> type,
             Expr::OptPtr defaultValue,
-            const Span & span
+            Span span
         ) : GenericParam{GenericParamKind::Const, span},
             name{std::move(name)},
             type{std::move(type)},

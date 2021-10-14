@@ -32,9 +32,9 @@ namespace jc::sess {
         std::string getLine(span::Span::FileId fileId, Line::IndexT index);
 
         // As far as Span can capture multiple lines, we return all we found
-        std::vector<Line> getLines(const span::Span & span);
+        std::vector<Line> getLines(span::Span span);
 
-        std::string sliceBySpan(const span::Span & span);
+        std::string sliceBySpan(span::Span span);
 
     private:
         std::map<span::Span::FileId, Option<SourceFile>> sources;

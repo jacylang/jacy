@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct ItemStmt : Stmt {
-        explicit ItemStmt(Item::Ptr && item, const Span & span)
+        explicit ItemStmt(Item::Ptr && item, Span span)
             : Stmt{span, StmtKind::Item}, item{std::move(item)} {}
 
         Item::Ptr item;

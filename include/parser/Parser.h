@@ -115,7 +115,7 @@ namespace jc::parser {
         }
 
         template<class T>
-        inline PR<T> makeErrPR(const Span & span) const {
+        inline PR<T> makeErrPR(Span span) const {
             ErrorNode node(span);
             sess->nodeStorage.addNode(node);
             return Err(node);
@@ -234,7 +234,7 @@ namespace jc::parser {
         Type::OptPtr parseOptType();
         TupleTypeEl::List parseParenType();
         Type::Ptr parseArrayType();
-        Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, const Span & span);
+        Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, Span span);
         TupleTypeEl::List parseTupleFields();
 
         // Type fragments //

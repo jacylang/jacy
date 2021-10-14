@@ -56,7 +56,7 @@ namespace jc::ast {
         using Ptr = N<Node>;
         using List = std::vector<Ptr>;
 
-        explicit Node(const Span & span) : span{span} {}
+        explicit Node(Span span) : span{span} {}
         virtual ~Node() = default;
 
         NodeId id{NodeId::DUMMY};
@@ -73,7 +73,7 @@ namespace jc::ast {
     };
 
     struct ErrorNode : Node {
-        explicit ErrorNode(const Span & span) : Node{span} {}
+        explicit ErrorNode(Span span) : Node{span} {}
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
@@ -87,7 +87,7 @@ namespace jc::ast {
     public:
         using Result<T, ErrorNode>::Result;
 
-        const Span & span() const {
+        Span span() const {
             if (this->err()) {
                 return this->err_unchecked().span;
             } else if constexpr (dt::is_ptr_like<T>::value) {

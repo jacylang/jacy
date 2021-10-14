@@ -9,7 +9,7 @@ namespace jc::ast {
         FieldExpr(
             Expr::Ptr && lhs,
             Ident::PR && field,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::Field},
             lhs{std::move(lhs)},
             field{std::move(field)} {}

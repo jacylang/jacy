@@ -12,7 +12,7 @@ namespace jc::ast {
             Expr::Ptr condition,
             Block::OptPtr ifBranch,
             Block::OptPtr elseBranch,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::If},
             condition{std::move(condition)},
             ifBranch{std::move(ifBranch)},

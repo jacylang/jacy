@@ -15,7 +15,7 @@ namespace jc::ast {
             GenericParam::OptList generics,
             Ident::PR name,
             Option<Body> && body,
-            const Span & span
+            Span span
         ) : Item{span, ItemKind::Func},
             sig{std::move(sig)},
             generics{std::move(generics)},

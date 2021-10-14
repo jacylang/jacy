@@ -15,7 +15,7 @@ namespace jc::span {
             sym = token.asSymbol();
             span = token.span;
         }
-        Ident(const Symbol & sym, const Span & span) : sym{sym}, span{span} {}
+        Ident(const Symbol & sym, Span span) : sym{sym}, span{span} {}
 
         Symbol sym;
         Span span;

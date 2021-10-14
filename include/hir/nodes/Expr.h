@@ -77,7 +77,7 @@ namespace jc::hir {
 //                TupleExpr
 //            >;
 
-        Expr(ExprKind kind, const HirId & hirId, const Span & span) : HirNode {hirId, span}, kind {kind} {}
+        Expr(ExprKind kind, const HirId & hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         ExprKind kind;
     };

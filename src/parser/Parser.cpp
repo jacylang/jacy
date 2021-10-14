@@ -2081,7 +2081,7 @@ namespace jc::parser {
         return makePRBoxNode<SliceType, Type>(std::move(type), closeSpan(begin));
     }
 
-    Type::Ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, const Span & span) {
+    Type::Ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, Span span) {
         enterEntity("FuncType");
 
         Type::List params;

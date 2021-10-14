@@ -9,7 +9,7 @@ namespace jc::ast {
         WhileExpr(
             Expr::Ptr && condition,
             Block::Ptr && body,
-            const Span & span
+            Span span
         ) : Expr{span, ExprKind::While},
             condition{std::move(condition)},
             body{std::move(body)} {}
