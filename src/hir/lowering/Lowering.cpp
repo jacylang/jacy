@@ -148,7 +148,7 @@ namespace jc::hir {
     }
 
     Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
-        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), HirId::DUMMY, exprStmt.span);
+        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), lowerNodeId(exprStmt.id), exprStmt.span);
     }
 
     // Expressions //
