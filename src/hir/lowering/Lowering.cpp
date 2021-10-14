@@ -345,7 +345,7 @@ namespace jc::hir {
             lowerExpr(assign.lhs),
             assign.op,
             lowerExpr(assign.rhs),
-            HirId::DUMMY,
+            lowerNodeId(assign.id),
             assign.span
         );
     }
@@ -406,7 +406,7 @@ namespace jc::hir {
 
         loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(ifCondExpr->span, std::move(ifCondExpr)));
 
-        return makeBoxNode<LoopExpr>(std::move(loweredBody), HirId::DUMMY, whileExpr.span);
+        return makeBoxNode<LoopExpr>(std::move(loweredBody), lowerNodeId(whileExpr.id), whileExpr.span);
     }
 
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
