@@ -9,7 +9,7 @@ namespace jc::hir {
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
-        Arg(const span::Ident::Opt & ident, Expr::Ptr && value, const HirId & hirId, Span span)
+        Arg(const span::Ident::Opt & ident, Expr::Ptr && value, HirId hirId, Span span)
             : HirNode{hirId, span}, ident{ident}, value{std::move(value)} {}
 
         span::Ident::Opt ident;
@@ -19,7 +19,7 @@ namespace jc::hir {
     struct Block : HirNode {
         using Opt = Option<Block>;
 
-        Block(Stmt::List && stmts, const HirId & hirId, Span span)
+        Block(Stmt::List && stmts, HirId hirId, Span span)
             : HirNode{hirId, span}, stmts{std::move(stmts)} {}
 
         Stmt::List stmts;
@@ -29,7 +29,7 @@ namespace jc::hir {
     struct PathSeg : HirNode {
         using List = std::vector<PathSeg>;
 
-        PathSeg(const span::Ident & name, const HirId & hirId, Span span)
+        PathSeg(const span::Ident & name, HirId hirId, Span span)
             : HirNode{hirId, span}, name{std::move(name)} {}
 
         span::Ident name;

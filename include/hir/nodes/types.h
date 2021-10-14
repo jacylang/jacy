@@ -6,14 +6,14 @@
 
 namespace jc::hir {
     struct TupleType : Type {
-        TupleType(Type::List && types, const HirId & hirId, Span span)
+        TupleType(Type::List && types, HirId hirId, Span span)
             : Type{TypeKind::Tuple, hirId, span}, types{std::move(types)} {}
 
         Type::List types;
     };
 
     struct FuncType : Type {
-        FuncType(Type::List && inputs, Type::Ptr && ret, const HirId & hirId, Span span)
+        FuncType(Type::List && inputs, Type::Ptr && ret, HirId hirId, Span span)
             : Type{TypeKind::Func, hirId, span}, inputs{std::move(inputs)}, ret{std::move(ret)} {}
 
         Type::List inputs;
@@ -21,14 +21,14 @@ namespace jc::hir {
     };
 
     struct SliceType : Type {
-        SliceType(Type::Ptr && type, const HirId & hirId, Span span)
+        SliceType(Type::Ptr && type, HirId hirId, Span span)
             : Type{TypeKind::Slice, hirId, span}, type{std::move(type)} {}
 
         Type::Ptr type;
     };
 
     struct ArrayType : Type {
-        ArrayType(Type::Ptr && type, Expr::Ptr && size, const HirId & hirId, Span span)
+        ArrayType(Type::Ptr && type, Expr::Ptr && size, HirId hirId, Span span)
             : Type{TypeKind::Array, hirId, span}, type{std::move(type)}, size{std::move(size)} {}
 
         Type::Ptr type;
@@ -36,7 +36,7 @@ namespace jc::hir {
     };
 
     struct TypePath : Type {
-        TypePath(Path && path, const HirId & hirId, Span span)
+        TypePath(Path && path, HirId hirId, Span span)
             : Type{TypeKind::Path, hirId, span}, path{std::move(path)} {}
 
         Path path;

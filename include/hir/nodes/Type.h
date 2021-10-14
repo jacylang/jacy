@@ -17,11 +17,11 @@ namespace jc::hir {
         using Ptr = N<Type>;
         using List = std::vector<Type::Ptr>;
 
-        Type(TypeKind kind, const HirId & hirId, Span span) : HirNode{hirId, span}, kind{kind} {}
+        Type(TypeKind kind, HirId hirId, Span span) : HirNode{hirId, span}, kind{kind} {}
 
         TypeKind kind;
 
-        static Ptr makeInferType(const HirId & hirId, Span span) {
+        static Ptr makeInferType(HirId hirId, Span span) {
             return std::make_unique<Type>(TypeKind::Infer, hirId, span);
         }
     };

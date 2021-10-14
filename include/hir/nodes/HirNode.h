@@ -30,7 +30,7 @@ namespace jc::hir {
     };
 
     struct HirNode {
-        HirNode(const HirId & hirId, Span span) : hirId{hirId}, span{span} {}
+        HirNode(HirId hirId, Span span) : hirId{hirId}, span{span} {}
 
         HirId hirId;
         Span span;
