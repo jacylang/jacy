@@ -616,7 +616,7 @@ namespace jc::hir {
             fields.emplace_back(field.shortcut, field.ident.unwrap(), lowerPat(field.pat), HirId::DUMMY, field.span);
         }
 
-        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, HirId::DUMMY, pat.span);
+        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, lowerNodeId(astNode->id), pat.span);
     }
 
     Pat::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
@@ -632,13 +632,13 @@ namespace jc::hir {
             HirId::DUMMY,
             pat.name.unwrap(),
             std::move(subPat),
-            HirId::DUMMY,
+            lowerNodeId(pat.id),
             pat.span
         );
     }
 
     Pat::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
-        return makeBoxNode<TuplePat>(lowerPatterns(pat.els), pat.restPatIndex, HirId::DUMMY, pat.span);
+        return makeBoxNode<TuplePat>(lowerPatterns(pat.els), pat.restPatIndex, lowerNodeId(pat.id), pat.span);
     }
 
     Pat::Ptr Lowering::lowerSlicePat(const ast::SlicePat & pat) {
@@ -647,7 +647,13 @@ namespace jc::hir {
 
         // TODO: Rest pattern in sub-pattern, https://github.com/jacylang/jacy/issues/10
 
-        return makeBoxNode<SlicePat>(std::move(before), pat.restPatSpan, std::move(after), HirId::DUMMY, pat.span);
+        return makeBoxNode<SlicePat>(
+            std::move(before),
+            pat.restPatSpan,
+            std::move(after),
+            lowerNodeId(pat.id),
+            pat.span
+        );
     }
 
     Pat::List Lowering::lowerPatterns(const ast::Pat::List & pats) {
