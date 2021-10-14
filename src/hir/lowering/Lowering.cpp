@@ -550,7 +550,7 @@ namespace jc::hir {
                 for (const auto & pat : astNode->patterns) {
                     pats.emplace_back(lowerPat(pat));
                 }
-                return makeBoxNode<MultiPat>(std::move(pats), HirId::DUMMY, astNode->span);
+                return makeBoxNode<MultiPat>(std::move(pats), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::PatKind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
@@ -559,7 +559,7 @@ namespace jc::hir {
             }
             case ast::PatKind::Lit: {
                 const auto & astNode = pat->as<ast::LitPat>(pat);
-                return makeBoxNode<LitPat>(lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
+                return makeBoxNode<LitPat>(lowerExpr(astNode->expr), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::PatKind::Ident: {
                 const auto & astNode = pat->as<ast::IdentPat>(pat);
@@ -567,19 +567,24 @@ namespace jc::hir {
             }
             case ast::PatKind::Ref: {
                 const auto & astNode = pat->as<ast::RefPat>(pat);
-                return makeBoxNode<RefPat>(astNode->mut, lowerPat(astNode->pat), HirId::DUMMY, astNode->span);
+                return makeBoxNode<RefPat>(
+                    astNode->mut,
+                    lowerPat(astNode->pat),
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::PatKind::Path: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
                 return makeBoxNode<PathPat>(
                     lowerPath(astNode->path.unwrap()->path),
-                    HirId::DUMMY,
+                    lowerNodeId(astNode->id),
                     astNode->span
                 );
             }
             case ast::PatKind::Wildcard: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
-                return makeBoxNode<WildcardPat>(HirId::DUMMY, astNode->span);
+                return makeBoxNode<WildcardPat>(lowerNodeId(astNode->id), astNode->span);
             }
             case ast::PatKind::Rest: {
                 log::devPanic(
