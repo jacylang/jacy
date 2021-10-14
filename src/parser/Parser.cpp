@@ -2522,7 +2522,7 @@ namespace jc::parser {
         return lookup().span;
     }
 
-    Span Parser::closeSpan(const Span & begin) {
+    Span Parser::closeSpan(Span begin) {
         return begin.to(prev().span);
     }
 

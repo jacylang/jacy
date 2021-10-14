@@ -26,7 +26,7 @@ namespace jc::sess {
             nodeSpanMap.emplace(node->id, node->span);
         }
 
-        const span::Span & getNodeSpan(ast::NodeId nodeId) const {
+        Span getNodeSpan(ast::NodeId nodeId) const {
             return nodeSpanMap.at(nodeId);
         }
 

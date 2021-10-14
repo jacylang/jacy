@@ -20,7 +20,7 @@ namespace jc::span {
         /// Constructor for file span (points to start)
 //        explicit Span(Span && rhs)
 //            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
-//        explicit Span(const Span & rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
+//        explicit Span(Span rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
         explicit Span(FileId fileId) : fileId{fileId} {}
         explicit Span(Pos lowBound, Pos highBound, FileId fileId) {
             pos = lowBound;
@@ -51,7 +51,7 @@ namespace jc::span {
             return Span {pos + len, len, fileId};
         }
 
-        Span to(const Span & end) const {
+        Span to(Span end) const {
             if (end.fileId != fileId) {
                 log::devPanic("Called `Span::to` with spans from different files");
             }

@@ -260,7 +260,7 @@ namespace jc::parser {
         /// Shortcut for `peek().span`
         Span cspan();
         Span nspan();
-        Span closeSpan(const Span & begin);
+        Span closeSpan(Span begin);
 
         // DEV //
     private:
