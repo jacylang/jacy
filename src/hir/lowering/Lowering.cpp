@@ -163,7 +163,12 @@ namespace jc::hir {
             }
             case ast::ExprKind::Borrow: {
                 const auto & astNode = expr->as<ast::BorrowExpr>(expr);
-                return makeBoxNode<BorrowExpr>(astNode->mut, lowerExpr(astNode->expr), HirId::DUMMY, astNode->span);
+                return makeBoxNode<BorrowExpr>(
+                    astNode->mut,
+                    lowerExpr(astNode->expr),
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::ExprKind::Break: {
                 const auto & astNode = expr->as<ast::BreakExpr>(expr);
@@ -173,11 +178,11 @@ namespace jc::hir {
                     loweredValue = lowerExpr(astNode->expr.unwrap("`Lowering::lowerExpr` -> `astNode->expr`"));
                 }
 
-                return makeBoxNode<BreakExpr>(std::move(loweredValue), HirId::DUMMY, astNode->span);
+                return makeBoxNode<BreakExpr>(std::move(loweredValue), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Continue: {
                 const auto & astNode = expr->as<ast::ContinueExpr>(expr);
-                return makeBoxNode<ContinueExpr>(HirId::DUMMY, astNode->span);
+                return makeBoxNode<ContinueExpr>(lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::For: {
                 const auto & astNode = expr->as<ast::ForExpr>(expr);
@@ -201,7 +206,7 @@ namespace jc::hir {
                     std::move(cond),
                     std::move(ifBranch),
                     std::move(elseBranch),
-                    HirId::DUMMY,
+                    lowerNodeId(astNode->id),
                     astNode->span
                 );
             }
@@ -212,7 +217,13 @@ namespace jc::hir {
                 auto binOp = lowerBinOp(astNode->op);
                 auto rhs = lowerExpr(astNode->rhs);
 
-                return makeBoxNode<InfixExpr>(std::move(lhs), binOp, std::move(rhs), HirId::DUMMY, astNode->span);
+                return makeBoxNode<InfixExpr>(
+                    std::move(lhs),
+                    binOp,
+                    std::move(rhs),
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::ExprKind::Invoke: {
                 const auto & astNode = expr->as<ast::Invoke>(expr);
@@ -224,10 +235,15 @@ namespace jc::hir {
                     if (arg.name.some()) {
                         name = arg.name.unwrap().unwrap();
                     }
-                    args.emplace_back(name, lowerExpr(arg.value), HirId::DUMMY, arg.span);
+                    args.emplace_back(name, lowerExpr(arg.value), lowerNodeId(arg.id), arg.span);
                 }
 
-                return makeBoxNode<InvokeExpr>(std::move(lhs), std::move(args), HirId::DUMMY, astNode->span);
+                return makeBoxNode<InvokeExpr>(
+                    std::move(lhs),
+                    std::move(args),
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::ExprKind::Lambda: {
                 log::notImplemented("`ast::ExprKind::Lambda` lowering");
@@ -237,18 +253,18 @@ namespace jc::hir {
             }
             case ast::ExprKind::LiteralConstant: {
                 const auto & astNode = expr->as<ast::LitExpr>(expr);
-                return makeBoxNode<LitExpr>(astNode->kind, astNode->val, HirId::DUMMY, astNode->span);
+                return makeBoxNode<LitExpr>(astNode->kind, astNode->val, lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Loop: {
                 const auto & astNode = expr->as<ast::LoopExpr>(expr);
                 auto body = lowerBlock(*astNode->body.unwrap());
-                return makeBoxNode<LoopExpr>(std::move(body), HirId::DUMMY, astNode->span);
+                return makeBoxNode<LoopExpr>(std::move(body), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Field: {
                 const auto & astNode = expr->as<ast::FieldExpr>(expr);
                 auto lhs = lowerExpr(astNode->lhs);
                 auto field = astNode->field.unwrap();
-                return makeBoxNode<FieldExpr>(std::move(lhs), field, HirId::DUMMY, astNode->span);
+                return makeBoxNode<FieldExpr>(std::move(lhs), field, lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Paren: {
                 const auto & astNode = expr->as<ast::ParenExpr>(expr);
@@ -258,7 +274,7 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::PathExpr>(expr);
                 return makeBoxNode<PathExpr>(
                     lowerPath(astNode->path),
-                    HirId::DUMMY,
+                    lowerNodeId(astNode->id),
                     astNode->span
                 );
             }
@@ -268,7 +284,7 @@ namespace jc::hir {
                 return makeBoxNode<PostfixExpr>(
                     std::move(lhs),
                     PostfixOp {PostfixOpKind::Quest, astNode->span},
-                    HirId::DUMMY,
+                    lowerNodeId(astNode->id),
                     astNode->span
                 );
             }
@@ -276,7 +292,7 @@ namespace jc::hir {
                 const auto & astNode = expr->as<ast::Prefix>(expr);
                 auto prefixOp = lowerPrefixOp(astNode->op);
                 auto rhs = lowerExpr(astNode->rhs);
-                return makeBoxNode<PrefixExpr>(prefixOp, std::move(rhs), HirId::DUMMY, astNode->span);
+                return makeBoxNode<PrefixExpr>(prefixOp, std::move(rhs), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Return: {
                 const auto & astNode = expr->as<ast::ReturnExpr>(expr);
@@ -284,7 +300,7 @@ namespace jc::hir {
                 if (astNode->expr.some()) {
                     value = lowerExpr(astNode->expr.unwrap());
                 }
-                return makeBoxNode<ReturnExpr>(std::move(value), HirId::DUMMY, astNode->span);
+                return makeBoxNode<ReturnExpr>(std::move(value), lowerNodeId(astNode->id), astNode->span);
             }
             case ast::ExprKind::Spread: {
                 log::notImplemented("`ast::ExprKind::Spread` lowering");
@@ -308,7 +324,12 @@ namespace jc::hir {
                 for (const auto & arm : astNode->arms) {
                     arms.emplace_back(lowerMatchArm(arm));
                 }
-                return makeBoxNode<MatchExpr>(std::move(subject), std::move(arms), HirId::DUMMY, astNode->span);
+                return makeBoxNode<MatchExpr>(
+                    std::move(subject),
+                    std::move(arms),
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::ExprKind::While: {
                 const auto & astNode = expr->as<ast::WhileExpr>(expr);
