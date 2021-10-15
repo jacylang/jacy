@@ -1564,30 +1564,25 @@ namespace jc::parser {
 
         auto params = parseFuncParamList();
 
-        bool typeAnnotated = false;
+        Option<FuncSig::ReturnType> returnType = None;
+
         const auto & maybeColonToken = peek();
         if (skipOpt(TokenKind::Colon).some()) {
             typeAnnotated = true;
+            returnType = parseType("function return type after `:`");
         } else if (skipOpt(TokenKind::Arrow).some()) {
             msg.error()
                .setText("Expected `:` instead of `->` in function return type annotation")
                .setPrimaryLabel(maybeColonToken.span, "Use `:` instead of `->`")
                .emit();
-        }
-
-        const auto & returnTypeToken = peek();
-        auto returnType = parseOptType();
-        if (typeAnnotated and returnType.none()) {
-            msg.error()
-               .setText("Expected function return type after `:`")
-               .setPrimaryLabel(returnTypeToken.span, "Expected type")
-               .emit();
+        } else {
+            returnType = prev().span.fromStartWithLen(1);
         }
 
         return FuncSig {
             std::move(modifiers),
             std::move(params),
-            std::move(returnType),
+            std::move(returnType.take()),
             closeSpan(begin)
         };
     }
