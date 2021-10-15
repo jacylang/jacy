@@ -172,18 +172,8 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::MatchArm & arm) {
-        // Note: Each pattern in arm is separate rib, thus we need separate handler for it here
-
-        const auto prevDepth = getDepth();
-
-        for (const auto & pat : arm.pat) {
-            enterRib();
-            pat.autoAccept(*this);
-        }
-
+        arm.pat.autoAccept(*this);
         arm.body.autoAccept(*this);
-
-        liftToDepth(prevDepth);
     }
 
     void NameResolver::visit(const ast::Invoke & invoke) {
