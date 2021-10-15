@@ -88,13 +88,11 @@ namespace jc::ast {
             FuncParam::List params,
             ReturnType && returnType,
             Span span
-        ) : modifiers {modifiers},
-            params {std::move(params)},
+        ) : params {std::move(params)},
             returnType {std::move(returnType)},
             span {span} {
         }
 
-        parser::Token::List modifiers;
         FuncParam::List params;
         ReturnType returnType;
         Span span;
