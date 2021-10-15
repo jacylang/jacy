@@ -221,7 +221,7 @@ namespace jc::parser {
         auto vis = parseVis();
 
         if (isKw(Kw::Func)) {
-            maybeItem = parseFunc(std::move(modifiers));
+            maybeItem = parseFunc(FuncHeader {std::move(modifiers)});
         }
 
         if (isKw(Kw::Enum)) {
@@ -1560,7 +1560,7 @@ namespace jc::parser {
         return makeNode<MatchArm>(std::move(pat), std::move(body), closeSpan(begin));
     }
 
-    FuncSig Parser::parseFuncSig(parser::Token::List && modifiers) {
+    FuncSig Parser::parseFuncSig() {
         const auto & begin = cspan();
 
         auto params = parseFuncParamList();
@@ -1580,7 +1580,6 @@ namespace jc::parser {
         }
 
         return FuncSig {
-            std::move(modifiers),
             std::move(params),
             std::move(returnType.take()),
             closeSpan(begin)

@@ -216,7 +216,7 @@ namespace jc::parser {
         MatchArm parseMatchArm();
 
         // Fragments //
-        FuncSig parseFuncSig(parser::Token::List && modifiers);
+        FuncSig parseFuncSig();
         Option<Body> parseFuncBody();
         Attr::List parseAttrList();
         Option<Attr> parseAttr();
