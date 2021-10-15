@@ -73,7 +73,7 @@ namespace jc::ast {
 
         func.name.autoAccept(*this);
 
-
+        validateFuncSig(func.sig);
 
         pushContext(ValidatorCtx::Func);
         if (func.body.some()) {
