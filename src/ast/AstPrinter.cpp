@@ -76,14 +76,14 @@ namespace jc::ast {
     void AstPrinter::visit(const Func & func) {
         printVis(func.vis);
 
-        printModifiers(func.sig.modifiers);
+        printFuncHeader(func.header);
         log.raw("func");
         printGenerics(func.generics);
         log.raw(" ");
 
         colorizeNameDecl(func.id, func.name);
 
-
+        printFuncSig(func.sig);
 
         func.body.then([&](const Body & body) {
             if (body.exprBody) {
@@ -269,12 +269,7 @@ namespace jc::ast {
 
         log.raw("init");
 
-        printDelim(init.sig.params, "(", ")");
-
-        init.sig.returnType.then([&](const auto & returnType) {
-            log.raw(": ");
-            returnType.autoAccept(*this);
-        });
+        printFuncSig(init.sig);
 
         init.body.then([&](const Body & body) {
             if (body.exprBody) {
