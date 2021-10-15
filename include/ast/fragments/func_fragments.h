@@ -40,8 +40,8 @@ namespace jc::ast {
         Expr::Ptr value;
     };
 
+    template<class SomeType>
     struct FuncReturnType {
-        using SomeType = Type::Ptr;
         using ValueT = std::variant<Span, SomeType>;
 
         enum class Kind {
@@ -74,10 +74,12 @@ namespace jc::ast {
     };
 
     struct FuncSig {
+        using ReturnType = FuncReturnType<Type::Ptr>;
+
         FuncSig(
             parser::Token::List && modifiers,
             FuncParam::List params,
-            FuncReturnType && returnType,
+            ReturnType && returnType,
             Span span
         ) : modifiers {modifiers},
             params {std::move(params)},
@@ -87,7 +89,7 @@ namespace jc::ast {
 
         parser::Token::List modifiers;
         FuncParam::List params;
-        FuncReturnType returnType;
+        ReturnType returnType;
         Span span;
     };
 }
