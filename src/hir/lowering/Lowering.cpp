@@ -534,7 +534,7 @@ namespace jc::hir {
         for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
-        return Block {std::move(stmts), HirId::DUMMY, block.span};
+        return Block {std::move(stmts), lowerNodeId(block.id), block.span};
     }
 
     Body Lowering::lowerBody(const ast::Body & astBody) {
