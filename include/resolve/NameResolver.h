@@ -91,8 +91,6 @@ namespace jc::resolve {
     private:
         message::MessageHolder msg;
 
-        void suggestAltNames(Namespace target, Symbol name, const PerNS<NameBinding::Opt> & altDefs);
-
         // Debug //
     private:
         bool printRibsFlag{false};
