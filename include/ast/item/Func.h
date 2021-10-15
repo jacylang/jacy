@@ -11,17 +11,20 @@
 namespace jc::ast {
     struct Func : Item {
         Func(
+            FuncHeader header,
             FuncSig && sig,
             GenericParam::OptList generics,
             Ident::PR name,
             Option<Body> && body,
             Span span
         ) : Item{span, ItemKind::Func},
+            header {std::move(header)},
             sig{std::move(sig)},
             generics{std::move(generics)},
             name{std::move(name)},
             body{std::move(body)} {}
 
+        FuncHeader header;
         FuncSig sig;
         GenericParam::OptList generics;
         Ident::PR name;
