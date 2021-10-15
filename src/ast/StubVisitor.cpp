@@ -43,8 +43,7 @@ namespace jc::ast {
             visitEach(func.generics.unwrap());
         }
         func.name.autoAccept(*this);
-
-
+        visitFuncSig(func.sig);
 
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
@@ -129,11 +128,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Init & init) {
-        visitEach(init.sig.params);
-
-        if (init.sig.returnType.some()) {
-            init.sig.returnType.unwrap().autoAccept(*this);
-        }
+        visitFuncSig(init.sig);
 
         if (init.body.some()) {
             init.body.unwrap().value.autoAccept(*this);
