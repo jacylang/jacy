@@ -98,8 +98,8 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Init & init) {
         enterFuncModule(span::Symbol::fromKw(span::Kw::Init), Module::getFuncSuffix(init.sig));
 
-        if (init.sig.returnType.some()) {
-            init.sig.returnType.unwrap().autoAccept(*this);
+        if (init.sig.returnType.isSome()) {
+            init.sig.returnType.asSome().autoAccept(*this);
         }
 
         enterRib(); // -> (params) rib
