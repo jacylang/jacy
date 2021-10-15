@@ -879,6 +879,10 @@ namespace jc::ast {
         });
     }
 
+    void AstPrinter::printFuncHeader(const FuncHeader & header) {
+        printModifiers(header.modifiers);
+    }
+
     // Indentation //
     void AstPrinter::printIndent() const {
         log.raw(log::Indent<4>(indent));
