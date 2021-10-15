@@ -73,11 +73,18 @@ namespace jc::ast {
         ValueT val;
     };
 
+    // Function header, contains modifiers, e.g. `static`
+    struct FuncHeader {
+        FuncHeader(parser::Token::List && modifiers) : modifiers {std::move(modifiers)} {}
+
+        parser::Token::List modifiers;
+    };
+
+    // The function signature, i.e. input types and output one
     struct FuncSig {
         using ReturnType = FuncReturnType<Type::Ptr>;
 
         FuncSig(
-            parser::Token::List && modifiers,
             FuncParam::List params,
             ReturnType && returnType,
             Span span

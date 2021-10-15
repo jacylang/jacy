@@ -1568,7 +1568,6 @@ namespace jc::parser {
 
         const auto & maybeColonToken = peek();
         if (skipOpt(TokenKind::Colon).some()) {
-            typeAnnotated = true;
             returnType = parseType("function return type after `:`");
         } else if (skipOpt(TokenKind::Arrow).some()) {
             msg.error()
