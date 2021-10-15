@@ -34,8 +34,8 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Func & func) {
         enterFuncModule(func.name.unwrap().sym, Module::getFuncSuffix(func.sig));
 
-        if (func.sig.returnType.some()) {
-            func.sig.returnType.unwrap().autoAccept(*this);
+        if (func.sig.returnType.isSome()) {
+            func.sig.returnType.asSome().autoAccept(*this);
         }
 
         enterRib(); // -> (params) rib
