@@ -343,11 +343,6 @@ namespace jc::resolve {
     }
 
     // Resolution //
-    void NameResolver::resolveSimplePath(const ast::SimplePath &) {
-        // TODO
-        // Simple-dimple LOL
-    }
-
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
     void NameResolver::resolvePath(Namespace targetNs, const ast::Path & path, const Symbol::Opt & suffix) {
