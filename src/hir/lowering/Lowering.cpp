@@ -138,6 +138,14 @@ namespace jc::hir {
         }
     }
 
+    FuncSig::ReturnType Lowering::lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType) {
+        if (returnType.isDefault()) {
+            return FuncSig::ReturnType {returnType.asDefault()};
+        }
+
+        return FuncSig::ReturnType {lowerType(returnType.asSome())};
+    }
+
     // Statements //
     Stmt::Ptr Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");

@@ -61,6 +61,7 @@ namespace jc::hir {
         Item::Ptr lowerMod(const ast::Item::List & astItems);
         Item::Ptr lowerFunc(const ast::Func & astFunc);
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
+        FuncSig::ReturnType lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType);
 
         // Statements //
     private:
