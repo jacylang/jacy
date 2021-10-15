@@ -40,10 +40,13 @@ namespace jc::hir {
     /// Function signature used for raw `func`
     /// and `func` signatures without implementations (in traits)
     struct FuncSig {
-        FuncSig(Type::List && inputs, Type::Ptr && ret) : inputs{std::move(inputs)}, ret{std::move(ret)} {}
+        using ReturnType = ast::FuncReturnType<Type::Ptr>;
+
+        FuncSig(Type::List && inputs, ReturnType && returnType)
+            : inputs{std::move(inputs)}, returnType{std::move(returnType)} {}
 
         Type::List inputs;
-        Type::Ptr ret;
+        ReturnType returnType;
     };
 
     struct Func : Item {
