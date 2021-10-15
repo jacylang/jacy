@@ -20,7 +20,8 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(std::vector<Variant> && variants) : Item{ItemKind::Enum}, variants{std::move(variants)} {}
+        Enum(std::vector<Variant> && variants) : Item {ItemKind::Enum}, variants {std::move(variants)} {
+        }
 
         std::vector<Variant> variants;
     };
@@ -28,7 +29,8 @@ namespace jc::hir {
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody{exprBody}, value{std::move(value)} {}
+        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {
+        }
 
         /// Denotes that `func`'s body was defined with `=`
         bool exprBody;
@@ -43,14 +45,16 @@ namespace jc::hir {
         using ReturnType = ast::FuncReturnType<Type::Ptr>;
 
         FuncSig(Type::List && inputs, ReturnType && returnType)
-            : inputs{std::move(inputs)}, returnType{std::move(returnType)} {}
+            : inputs {std::move(inputs)}, returnType {std::move(returnType)} {
+        }
 
         Type::List inputs;
         ReturnType returnType;
     };
 
     struct Func : Item {
-        Func(FuncSig && sig, Body && body) : Item{ItemKind::Func}, sig{std::move(sig)}, body{std::move(body)} {}
+        Func(FuncSig && sig, Body && body) : Item {ItemKind::Func}, sig {std::move(sig)}, body {std::move(body)} {
+        }
 
         FuncSig sig;
         Body body;
@@ -59,7 +63,8 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(ItemId::List && items) : Item{ItemKind::Mod}, items{std::move(items)} {}
+        Mod(ItemId::List && items) : Item {ItemKind::Mod}, items {std::move(items)} {
+        }
 
         ItemId::List items;
     };
