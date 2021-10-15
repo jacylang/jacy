@@ -634,7 +634,13 @@ namespace jc::hir {
         StructPatField::List fields;
 
         for (const auto & field : pat.fields) {
-            fields.emplace_back(field.shortcut, field.ident.unwrap(), lowerPat(field.pat), HirId::DUMMY, field.span);
+            fields.emplace_back(
+                field.shortcut,
+                field.ident.unwrap(),
+                lowerPat(field.pat),
+                lowerNodeId(field.id),
+                field.span
+            );
         }
 
         return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, lowerNodeId(pat.id), pat.span);
