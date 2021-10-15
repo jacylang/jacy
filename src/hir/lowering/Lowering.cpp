@@ -115,23 +115,27 @@ namespace jc::hir {
     }
 
     Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
-        Type::List inputs;
-        for (const auto & param : astFunc.sig.params) {
-            inputs.emplace_back(lowerType(param.type));
-        }
-
-        Type::Ptr ret = Type::makeInferType(HirId::DUMMY, Span {astFunc.sig.span.fromEndWithLen(1)});
-
-        if (astFunc.sig.returnType.some()) {
-            ret = lowerType(astFunc.sig.returnType.unwrap("`Lowering::lowerFunc` -> `astFunc.sig.returnType`"));
-        }
+        auto sig = lowerFuncSig(astFunc.sig);
 
         Body body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"));
 
         return makeBoxNode<Func>(
-            FuncSig {std::move(inputs), std::move(ret)},
+            std::move(sig),
             std::move(body)
         );
+    }
+
+    FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
+        Type::List inputs;
+        for (const auto & param : sig.params) {
+            inputs.emplace_back(lowerType(param.type));
+        }
+
+        Type::Ptr ret = Span {sig.span.fromEndWithLen(1)};
+
+        if (astFunc.sig.returnType.some()) {
+            ret = lowerType(astFunc.sig.returnType.unwrap("`Lowering::lowerFunc` -> `astFunc.sig.returnType`"));
+        }
     }
 
     // Statements //

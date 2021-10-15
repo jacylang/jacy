@@ -60,6 +60,7 @@ namespace jc::hir {
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
         Item::Ptr lowerMod(const ast::Item::List & astItems);
         Item::Ptr lowerFunc(const ast::Func & astFunc);
+        FuncSig lowerFuncSig(const ast::FuncSig & sig);
 
         // Statements //
     private:
