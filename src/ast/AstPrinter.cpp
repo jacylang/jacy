@@ -83,12 +83,7 @@ namespace jc::ast {
 
         colorizeNameDecl(func.id, func.name);
 
-        printDelim(func.sig.params, "(", ")");
 
-        func.sig.returnType.then([&](const auto & returnType) {
-            log.raw(": ");
-            returnType.autoAccept(*this);
-        });
 
         func.body.then([&](const Body & body) {
             if (body.exprBody) {
@@ -272,7 +267,6 @@ namespace jc::ast {
     void AstPrinter::visit(const Init & init) {
         printVis(init.vis);
 
-        printModifiers(init.sig.modifiers);
         log.raw("init");
 
         printDelim(init.sig.params, "(", ")");
@@ -881,6 +875,15 @@ namespace jc::ast {
 
     void AstPrinter::printFuncHeader(const FuncHeader & header) {
         printModifiers(header.modifiers);
+    }
+
+    void AstPrinter::printFuncSig(const FuncSig & sig) {
+        printDelim(sig.params, "(", ")");
+
+        if (sig.returnType.isSome()) {
+            log.raw(": ");
+            sig.returnType.asSome().autoAccept(*this);
+        }
     }
 
     // Indentation //

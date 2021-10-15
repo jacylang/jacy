@@ -124,6 +124,7 @@ namespace jc::ast {
         void printModifiers(const parser::Token::List & modifiers);
         void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
         void printFuncHeader(const FuncHeader & header);
+        void printFuncSig(const FuncSig & sig);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 
