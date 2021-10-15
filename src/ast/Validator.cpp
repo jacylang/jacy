@@ -73,11 +73,7 @@ namespace jc::ast {
 
         func.name.autoAccept(*this);
 
-        validateEach(func.sig.params);
 
-        if (func.sig.returnType.some()) {
-            func.sig.returnType.unwrap().autoAccept(*this);
-        }
 
         pushContext(ValidatorCtx::Func);
         if (func.body.some()) {
@@ -676,6 +672,14 @@ namespace jc::ast {
     void Validator::visit(const SlicePat & pat) {
         validateEach(pat.before);
         validateEach(pat.after);
+    }
+
+    void Validator::validateFuncSig(const FuncSig & sig) {
+        validateEach(sig.params);
+
+        if (sig.returnType.isSome()) {
+            sig.returnType.asSome().autoAccept(*this);
+        }
     }
 
     // Helpers //

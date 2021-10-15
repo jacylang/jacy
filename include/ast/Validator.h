@@ -118,6 +118,9 @@ namespace jc::ast {
         void visit(const SlicePat & pat) override;
 
     private:
+        void validateFuncSig(const FuncSig & sig);
+
+    private:
         message::MessageHolder msg;
 
         // Helpers //
