@@ -11,7 +11,8 @@ namespace jc::hir {
 
     struct MultiPat : Pat {
         MultiPat(Pat::List && pats, HirId hirId, Span span)
-            : Pat {PatKind::Multi, hirId, span}, pats {std::move(pats)} {}
+            : Pat {PatKind::Multi, hirId, span}, pats {std::move(pats)} {
+        }
 
         Pat::List pats;
     };
@@ -65,7 +66,8 @@ namespace jc::hir {
         using List = std::vector<StructPatField>;
 
         StructPatField(bool shortcut, span::Ident ident, Pat::Ptr && pat, HirId hirId, Span span)
-            : HirNode {hirId, span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
+            : HirNode {hirId, span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {
+        }
 
         // Note: Read about shortcut in `ast::StructPatField`
         bool shortcut;
@@ -90,7 +92,8 @@ namespace jc::hir {
         using RestPatIndexT = ast::TuplePat::RestPatIndexT;
 
         TuplePat(Pat::List && els, RestPatIndexT restPatIndex, HirId hirId, Span span)
-            : Pat {PatKind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+            : Pat {PatKind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {
+        }
 
         Pat::List els;
         RestPatIndexT restPatIndex;

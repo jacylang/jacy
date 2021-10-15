@@ -116,7 +116,6 @@ namespace jc::hir {
 
     Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         auto sig = lowerFuncSig(astFunc.sig);
-
         Body body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"));
 
         return makeBoxNode<Func>(
