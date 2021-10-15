@@ -44,11 +44,7 @@ namespace jc::ast {
         }
         func.name.autoAccept(*this);
 
-        visitEach(func.sig.params);
 
-        if (func.sig.returnType.some()) {
-            func.sig.returnType.unwrap().autoAccept(*this);
-        }
 
         if (func.body.some()) {
             func.body.unwrap().value.autoAccept(*this);
@@ -426,5 +422,13 @@ namespace jc::ast {
     void StubVisitor::visit(const SlicePat & pat) {
         visitEach(pat.before);
         visitEach(pat.after);
+    }
+
+    void StubVisitor::visitFuncSig(const FuncSig & sig) {
+        visitEach(sig.params);
+
+        if (sig.returnType.isSome()) {
+            sig.returnType.asSome().autoAccept(*this);
+        }
     }
 }

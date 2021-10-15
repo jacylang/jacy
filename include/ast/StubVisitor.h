@@ -101,6 +101,9 @@ namespace jc::ast {
         void visit(const SlicePat & pat) override;
 
     protected:
+        void visitFuncSig(const FuncSig & sig);
+
+    protected:
         template<typename T>
         void visitEach(const std::vector<T> & entities) {
             for (const auto & entity : entities) {
