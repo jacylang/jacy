@@ -77,7 +77,7 @@ namespace jc::ast {
         FuncSig(
             parser::Token::List && modifiers,
             FuncParam::List params,
-            Type::OptPtr returnType,
+            FuncReturnType && returnType,
             Span span
         ) : modifiers {modifiers},
             params {std::move(params)},
@@ -87,7 +87,7 @@ namespace jc::ast {
 
         parser::Token::List modifiers;
         FuncParam::List params;
-        Type::OptPtr returnType;
+        FuncReturnType returnType;
         Span span;
     };
 }
