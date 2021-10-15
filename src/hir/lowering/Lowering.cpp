@@ -558,7 +558,7 @@ namespace jc::hir {
         auto pat = lowerPat(arm.pat);
         auto body = lowerExpr(arm.body);
 
-        return MatchArm {std::move(pat), std::move(body), HirId::DUMMY, arm.span};
+        return MatchArm {std::move(pat), std::move(body), lowerNodeId(arm.id), arm.span};
     }
 
     // Patterns //
