@@ -2249,7 +2249,8 @@ namespace jc::parser {
         auto lhs = parsePat();
 
         if (skipOpt(TokenKind::BitOr).some()) {
-            Pat::List patterns = {std::move(lhs)};
+            Pat::List patterns;
+            patterns.emplace_back(std::move(lhs));
 
             while (true) {
                 patterns.emplace_back(parsePat());
