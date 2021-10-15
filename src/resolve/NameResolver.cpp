@@ -350,7 +350,7 @@ namespace jc::resolve {
 
     /// Resolves any kind of path
     /// Namespace used for last segment in path, e.g. in `a::b::c` `c` must be in specified namespace
-    void NameResolver::resolvePath(Namespace targetNS, const ast::Path & path, const Symbol::Opt & suffix) {
+    void NameResolver::resolvePath(Namespace targetNs, const ast::Path & path, const Symbol::Opt & suffix) {
         // TODO: Resolve segment generics
 
         // Resolve local //
@@ -367,7 +367,7 @@ namespace jc::resolve {
 
         auto res = pathResolver.resolve(
             currentModule,
-            targetNS,
+            targetNs,
             path,
             suffix,
             ResMode::Specific
