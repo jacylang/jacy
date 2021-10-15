@@ -405,7 +405,7 @@ namespace jc::parser {
         return makeNode<EnumEntry>(EnumEntryKind::Raw, std::move(name), closeSpan(begin));
     }
 
-    Item::Ptr Parser::parseFunc(parser::Token::List && modifiers) {
+    Item::Ptr Parser::parseFunc(FuncHeader header) {
         enterEntity("Func");
 
         const auto & begin = cspan();
@@ -415,13 +415,14 @@ namespace jc::parser {
         auto generics = parseOptGenerics();
         auto name = parseIdent("`func` name");
 
-        auto sig = parseFuncSig(std::move(modifiers));
+        auto sig = parseFuncSig();
 
         auto body = parseFuncBody();
 
         exitEntity();
 
         return makePRBoxNode<Func, Item>(
+            std::move(header),
             std::move(sig),
             std::move(generics),
             std::move(name),
