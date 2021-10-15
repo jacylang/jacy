@@ -253,7 +253,7 @@ namespace jc::parser {
         }
 
         if (isKw(Kw::Init)) {
-            maybeItem = parseInit(std::move(modifiers));
+            maybeItem = parseInit();
         }
 
         if (maybeItem.some()) {
@@ -710,14 +710,14 @@ namespace jc::parser {
         return makeErrPR<UseTree>(closeSpan(begin));
     }
 
-    Item::Ptr Parser::parseInit(parser::Token::List && modifiers) {
+    Item::Ptr Parser::parseInit() {
         enterEntity("Init");
 
         const auto & begin = cspan();
 
         justSkipKw(Kw::Init, "`init`", "`parseInit`");
 
-        auto sig = parseFuncSig(std::move(modifiers));
+        auto sig = parseFuncSig();
         auto body = parseFuncBody();
 
         exitEntity();
