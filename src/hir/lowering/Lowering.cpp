@@ -131,11 +131,9 @@ namespace jc::hir {
             inputs.emplace_back(lowerType(param.type));
         }
 
-        Type::Ptr ret = Span {sig.span.fromEndWithLen(1)};
+        auto returnType = lowerFuncReturnType(sig.returnType);
 
-        if (astFunc.sig.returnType.some()) {
-            ret = lowerType(astFunc.sig.returnType.unwrap("`Lowering::lowerFunc` -> `astFunc.sig.returnType`"));
-        }
+        return FuncSig {std::move(inputs), std::move(returnType)};
     }
 
     FuncSig::ReturnType Lowering::lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType) {
