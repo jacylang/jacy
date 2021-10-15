@@ -40,6 +40,39 @@ namespace jc::ast {
         Expr::Ptr value;
     };
 
+    struct FuncReturnType {
+        using SomeType = Type::Ptr;
+        using ValueT = std::variant<Span, SomeType>;
+
+        enum class Kind {
+            Default,
+            Some,
+        };
+
+        FuncReturnType(Span span) : kind {Kind::Default}, val {span} {}
+        FuncReturnType(SomeType && type) : kind {Kind::Some}, val {std::move(type)} {}
+
+        auto asDefault() const {
+            return std::get<Span>(val);
+        }
+
+        const auto & asSome() const {
+            return std::get<SomeType>(val);
+        }
+
+        auto isDefault() const {
+            return kind == Kind::Default;
+        }
+
+        auto isSome() const {
+            return kind == Kind::Some;
+        }
+
+    private:
+        Kind kind;
+        ValueT val;
+    };
+
     struct FuncSig {
         FuncSig(
             parser::Token::List && modifiers,
