@@ -176,25 +176,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Init & init) {
-        for (const auto & modifier : init.sig.modifiers) {
-            if (!isInside(ValidatorCtx::Struct)) {
-                switch (modifier.kind) {
-                    default: {
-                        // No modifiers for `init` (might be changed in the future)
-                        msg.error()
-                           .setText("`init` methods do not allow any modifiers so far")
-                           .setPrimaryLabel(modifier.span, "`init` cannot have modifiers")
-                           .emit();
-                    }
-                }
-            }
-        }
-
-        validateEach(init.sig.params);
-
-        if (init.sig.returnType.some()) {
-            init.sig.returnType.unwrap().autoAccept(*this);
-        }
+        validateFuncSig(init.sig);
 
         pushContext(ValidatorCtx::Func);
         if (init.body.some()) {
