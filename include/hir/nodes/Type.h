@@ -20,10 +20,6 @@ namespace jc::hir {
         Type(TypeKind kind, HirId hirId, Span span) : HirNode{hirId, span}, kind{kind} {}
 
         TypeKind kind;
-
-        static Ptr makeInferType(HirId hirId, Span span) {
-            return std::make_unique<Type>(TypeKind::Infer, hirId, span);
-        }
     };
 }
 
