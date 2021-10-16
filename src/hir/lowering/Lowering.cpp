@@ -40,8 +40,10 @@ namespace jc::hir {
 
     // Items //
     ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
-        auto loweredItem = lowerItemKind(astItem);
         const auto & i = astItem.unwrap("`Lowering::lowerItem`");
+        enterOwner(i->id);
+
+        auto loweredItem = lowerItemKind(astItem);
 
         auto item = ItemNode {
             i->getName(),
@@ -49,6 +51,8 @@ namespace jc::hir {
             lowerNodeId(i->id).owner,
             i->span
         };
+
+        exitOwner();
 
         return addItem(std::move(item));
     }
@@ -105,9 +109,7 @@ namespace jc::hir {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
             const auto & i = item.unwrap("`Lowering::lowerMod`");
-            enterOwner(i->id);
             auto itemId = lowerItem(item);
-            exitOwner();
             itemIds.emplace_back(itemId);
         }
 

@@ -11,6 +11,7 @@ namespace jc::hir {
     template<class T>
     using N = std::unique_ptr<T>;
 
+    /// The structure used for saving the closest owner definition
     struct OwnerDef {
         using IdT = uint32_t;
 
