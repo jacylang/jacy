@@ -108,7 +108,6 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            const auto & i = item.unwrap("`Lowering::lowerMod`");
             auto itemId = lowerItem(item);
             itemIds.emplace_back(itemId);
         }
