@@ -16,9 +16,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-g -Og")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+set(compile_flags "
+        ${CMAKE_CXX_FLAGS}
+        -std=c++17
 
-add_compile_options(
         # WARNINGS #
         -Wall
     #   Uncomment this line when want to suffer a little bit
@@ -61,7 +62,7 @@ add_compile_options(
         # I appreciate omitting parenthesis for `&&`/`||`
         -Wno-logical-op-parentheses
 #        -ftime-report
-)
+")
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Release")
     add_compile_options(
@@ -110,3 +111,4 @@ target_compile_options(${PROJECT_NAME} PRIVATE)
 
 target_link_libraries(${PROJECT_NAME} jon::jon)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${jon_SOURCE_DIR})
+target_compile_options(${PROJECT_NAME} compile_flags)

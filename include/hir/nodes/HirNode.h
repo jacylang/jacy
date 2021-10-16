@@ -14,23 +14,29 @@ namespace jc::hir {
     struct OwnerDef {
         using IdT = uint32_t;
 
-        OwnerDef(DefId defId, IdT initialId) : defId{defId}, nextId{initialId} {}
+        OwnerDef(DefId defId, IdT initialId) : defId {defId}, nextId {initialId} {
+        }
 
         DefId defId;
         IdT nextId;
     };
 
     struct HirId {
-        HirId(const resolve::DefId & defId, const OwnerDef::IdT & id) : defId{defId}, id{id} {}
+        HirId(const resolve::DefId & owner, const OwnerDef::IdT & id) : owner {owner}, id {id} {
+        }
 
         static const HirId DUMMY;
 
-        resolve::DefId defId;
+        /// The owner of the HIR node (e.g. `struct`)
+        resolve::DefId owner;
+
+        /// An identifier unique per each owner, i.e. in each item the first node has id of 0
         OwnerDef::IdT id;
     };
 
     struct HirNode {
-        HirNode(HirId hirId, Span span) : hirId{hirId}, span{span} {}
+        HirNode(HirId hirId, Span span) : hirId {hirId}, span {span} {
+        }
 
         HirId hirId;
         Span span;
