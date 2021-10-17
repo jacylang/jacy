@@ -23,5 +23,5 @@ jobs:
         with:
             additional-packages: font-fira-code
             working-directory: '.'
-            doxyfile-path: 'docs/Doxygen'
+            doxyfile-path: 'Doxyfile'
             enable-latex: true
