@@ -1,6 +1,12 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
+    HirId Lowering::addHirId(ast::NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId) {
+        auto id = HirId {ownerDefId, uniqueId};
+        nodeIdHirId.emplace(nodeId, id);
+        return id;
+    }
+
     void Lowering::newHirIdCounter(ast::NodeId ownerNodeId) {
         // Note: `emplace` does not affect old entry, so it is safe to call it multiple times
         ownersItemIds.emplace(ownerNodeId, 0);
@@ -20,7 +26,7 @@ namespace jc::hir {
         return hirId;
     }
 
-    void Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
+    HirId Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
         auto nextId = ownersItemIds.at(ownerNodeId)++;
         auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
 

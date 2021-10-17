@@ -42,6 +42,10 @@ namespace jc::hir {
 
         ast::NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
 
+        /// Constructor for new HirId with applied post-processing logic,
+        /// e.g. registering it in mapping NodeId -> HirId
+        HirId addHirId(ast::NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId);
+
         /// Allocate a new owner item identifiers collection.
         void newHirIdCounter(ast::NodeId ownerNodeId);
 
@@ -49,7 +53,7 @@ namespace jc::hir {
         HirId lowerNodeId(ast::NodeId nodeId);
 
         /// Same as `lowerNodeId` but with a specified owner node (not the closest one)
-        void lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId);
+        HirId lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId);
 
         void enterOwner(ast::NodeId itemNodeId);
         void exitOwner();
