@@ -62,6 +62,8 @@ namespace jc::hir {
         void enterOwner(NodeId itemNodeId);
         void exitOwner();
 
+        ItemId addItem(ItemNode && item);
+
         /// Used to track current owner for items.
         /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
         /// When we encounter owner-like item (e.g. `mod`) - new owner is pushed and popped after insides are visited.
@@ -119,12 +121,6 @@ namespace jc::hir {
         Pat::Ptr lowerSlicePat(const ast::SlicePat & pat);
 
         Pat::List lowerPatterns(const ast::Pat::List & pats);
-
-        // HIR Items //
-    private:
-        Party::ItemMap items;
-
-        ItemId addItem(ItemNode && item);
 
     private:
         message::MessageHolder msg;

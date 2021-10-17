@@ -36,6 +36,7 @@ namespace jc::hir {
     }
 
     void Lowering::enterOwner(NodeId itemNodeId) {
+        newHirIdCounter(itemNodeId);
         ownerStack.emplace_back(itemNodeId, sess->defTable.getDefIdByNodeId(itemNodeId), ownersItemIds.at(itemNodeId));
     }
 
@@ -45,6 +46,12 @@ namespace jc::hir {
         ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
 
         ownerStack.pop_back();
+    }
+
+    ItemId Lowering::addItem(ItemNode && item) {
+        auto itemId = ItemId {item.defId};
+        items.emplace(itemId, std::move(item));
+        return itemId;
     }
 
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
@@ -728,12 +735,5 @@ namespace jc::hir {
         }
 
         return lowered;
-    }
-
-    // HIR Items //
-    ItemId Lowering::addItem(ItemNode && item) {
-        auto itemId = ItemId {item.defId};
-        items.emplace(itemId, std::move(item));
-        return itemId;
     }
 }
