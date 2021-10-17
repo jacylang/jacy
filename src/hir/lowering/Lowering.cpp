@@ -22,6 +22,9 @@ namespace jc::hir {
 
     void Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
         auto nextId = ownersItemIds.at(ownerNodeId)++;
+        auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
+
+        return HirId {ownerDefId, nextId};
     }
 
     void Lowering::enterOwner(ast::NodeId itemNodeId) {
