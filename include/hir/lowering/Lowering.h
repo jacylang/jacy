@@ -48,6 +48,10 @@ namespace jc::hir {
             {resolve::DefId::ROOT_DEF_ID, 0}
         };
 
+        Party::Owners owners;
+        Party::Bodies bodies;
+        Party::Modules modules;
+
         HirId lowerNodeId(ast::NodeId nodeId);
         void enterOwner(ast::NodeId itemNodeId);
         void exitOwner();
