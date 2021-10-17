@@ -10,8 +10,9 @@ var searchData=
   ['messageresult_7',['MessageResult',['../structjc_1_1message_1_1_message_result.html',1,'jc::message']]],
   ['mod_8',['Mod',['../structjc_1_1ast_1_1_mod.html',1,'jc::ast::Mod'],['../structjc_1_1hir_1_1_mod.html',1,'jc::hir::Mod']]],
   ['module_9',['Module',['../structjc_1_1resolve_1_1_module.html',1,'jc::resolve']]],
-  ['moduletreebuilder_10',['ModuleTreeBuilder',['../classjc_1_1resolve_1_1_module_tree_builder.html',1,'jc::resolve']]],
-  ['moduletreeprinter_11',['ModuleTreePrinter',['../structjc_1_1resolve_1_1_module_tree_printer.html',1,'jc::resolve']]],
-  ['move_12',['Move',['../structjc_1_1log_1_1_move.html',1,'jc::log']]],
-  ['multipat_13',['MultiPat',['../structjc_1_1ast_1_1_multi_pat.html',1,'jc::ast::MultiPat'],['../structjc_1_1hir_1_1_multi_pat.html',1,'jc::hir::MultiPat']]]
+  ['moduleitems_10',['ModuleItems',['../structjc_1_1hir_1_1_module_items.html',1,'jc::hir']]],
+  ['moduletreebuilder_11',['ModuleTreeBuilder',['../classjc_1_1resolve_1_1_module_tree_builder.html',1,'jc::resolve']]],
+  ['moduletreeprinter_12',['ModuleTreePrinter',['../structjc_1_1resolve_1_1_module_tree_printer.html',1,'jc::resolve']]],
+  ['move_13',['Move',['../structjc_1_1log_1_1_move.html',1,'jc::log']]],
+  ['multipat_14',['MultiPat',['../structjc_1_1ast_1_1_multi_pat.html',1,'jc::ast::MultiPat'],['../structjc_1_1hir_1_1_multi_pat.html',1,'jc::hir::MultiPat']]]
 ];
