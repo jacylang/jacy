@@ -42,8 +42,15 @@ namespace jc::hir {
 
         ast::NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
 
+        /// Allocate a new owner item identifiers collection.
         void newHirIdCounter(ast::NodeId ownerNodeId);
+
+        /// Lowers NodeId, producing an HirId, safe to be called multiple times with the same NodeId
         HirId lowerNodeId(ast::NodeId nodeId);
+
+        /// Same as `lowerNodeId` but with a specified owner node (not the closest one)
+        void lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId);
+
         void enterOwner(ast::NodeId itemNodeId);
         void exitOwner();
 

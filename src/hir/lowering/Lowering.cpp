@@ -20,6 +20,10 @@ namespace jc::hir {
         return hirId;
     }
 
+    void Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
+        auto nextId = ownersItemIds.at(ownerNodeId)++;
+    }
+
     void Lowering::enterOwner(ast::NodeId itemNodeId) {
         ownerStack.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
     }
