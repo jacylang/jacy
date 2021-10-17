@@ -24,6 +24,7 @@ namespace jc::ast {
         uint32_t val;
 
         static const NodeId DUMMY;
+        static const NodeId ROOT_NODE_ID;
 
         bool operator==(const NodeId & other) const {
             return val == other.val;
