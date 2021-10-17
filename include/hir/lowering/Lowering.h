@@ -53,7 +53,7 @@ namespace jc::hir {
         HirId lowerNodeId(ast::NodeId nodeId);
 
         /// Same as `lowerNodeId` but with a specified owner node (not the closest one)
-        HirId lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId);
+        HirId lowerNodeIdOwner(ast::NodeId nodeId, ast::NodeId ownerNodeId);
 
         void enterOwner(ast::NodeId itemNodeId);
         void exitOwner();

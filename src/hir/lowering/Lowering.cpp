@@ -23,11 +23,10 @@ namespace jc::hir {
         return addHirId(nodeId, ownerStack.back().defId, uniqueId);
     }
 
-    HirId Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
+    HirId Lowering::lowerNodeIdOwner(ast::NodeId nodeId, ast::NodeId ownerNodeId) {
         auto nextId = ownersItemIds.at(ownerNodeId)++;
         auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
-
-        return HirId {ownerDefId, nextId};
+        return addHirId(nodeId, ownerDefId, nextId);
     }
 
     void Lowering::enterOwner(ast::NodeId itemNodeId) {
