@@ -1,6 +1,11 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
+    void Lowering::newHirIdCounter(ast::NodeId ownerNodeId) {
+        // Note: `emplace` does not affect old entry, so it is safe to call it multiple times
+        ownersItemIds.emplace(ownerNodeId, 0);
+    }
+
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 

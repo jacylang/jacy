@@ -40,6 +40,10 @@ namespace jc::hir {
     private:
         ast::NodeId::NodeMap<HirId> nodeIdHirId;
 
+        ast::NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
+
+        void newHirIdCounter(ast::NodeId ownerNodeId);
+
         /// Used to track current owner for items.
         /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
         /// When we encounter owner-like item (e.g. `mod`) - new owner is pushed and popped after insides are visited.
