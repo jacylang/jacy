@@ -26,6 +26,12 @@ namespace jc::hir {
         std::vector<Variant> variants;
     };
 
+    /// Identifier of the `Body` declared below
+    /// For now, just a wrapper over `HirId`
+    struct BodyId {
+        HirId hirId;
+    };
+
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
