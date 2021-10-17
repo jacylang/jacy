@@ -23,8 +23,8 @@ namespace jc::hir {
             return found->second;
         }
 
-        auto uniqueId = ownerDef.back().nextId++;
-        auto hirId = HirId {ownerDef.back().defId, uniqueId};
+        auto uniqueId = ownerStack.back().nextId++;
+        auto hirId = HirId {ownerStack.back().defId, uniqueId};
 
         nodeIdHirId.emplace(nodeId, hirId);
 
@@ -32,11 +32,11 @@ namespace jc::hir {
     }
 
     void Lowering::enterOwner(ast::NodeId itemNodeId) {
-        ownerDef.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
+        ownerStack.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
     }
 
     void Lowering::exitOwner() {
-        ownerDef.pop_back();
+        ownerStack.pop_back();
     }
 
     // Items //
