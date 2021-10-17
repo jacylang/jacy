@@ -24,6 +24,11 @@ namespace jc::hir {
     }
 
     HirId Lowering::lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId) {
+        const auto & found = nodeIdHirId.find(nodeId);
+        if (found != nodeIdHirId.end()) {
+            return found->second;
+        }
+
         auto nextId = ownersItemIds.at(ownerNodeId)++;
         auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
         return addHirId(nodeId, ownerDefId, nextId);
