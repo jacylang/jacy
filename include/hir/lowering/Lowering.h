@@ -43,6 +43,9 @@ namespace jc::hir {
         ast::NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
 
         void newHirIdCounter(ast::NodeId ownerNodeId);
+        HirId lowerNodeId(ast::NodeId nodeId);
+        void enterOwner(ast::NodeId itemNodeId);
+        void exitOwner();
 
         /// Used to track current owner for items.
         /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
@@ -55,10 +58,6 @@ namespace jc::hir {
         Party::Owners owners;
         Party::Bodies bodies;
         Party::Modules modules;
-
-        HirId lowerNodeId(ast::NodeId nodeId);
-        void enterOwner(ast::NodeId itemNodeId);
-        void exitOwner();
 
         // Items //
     private:

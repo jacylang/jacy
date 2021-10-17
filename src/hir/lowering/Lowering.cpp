@@ -6,22 +6,6 @@ namespace jc::hir {
         ownersItemIds.emplace(ownerNodeId, 0);
     }
 
-    message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
-        this->sess = sess;
-
-        auto rootMod = lowerMod(party.items);
-
-        return {
-            Party(
-                std::move(owners),
-                std::move(bodies),
-                std::move(modules)
-            ),
-            msg.extractMessages()
-        };
-    }
-
-    // Common //
     HirId Lowering::lowerNodeId(ast::NodeId nodeId) {
         const auto & found = nodeIdHirId.find(nodeId);
         if (found != nodeIdHirId.end()) {
@@ -42,6 +26,21 @@ namespace jc::hir {
 
     void Lowering::exitOwner() {
         ownerStack.pop_back();
+    }
+
+    message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
+        this->sess = sess;
+
+        auto rootMod = lowerMod(party.items);
+
+        return {
+            Party(
+                std::move(owners),
+                std::move(bodies),
+                std::move(modules)
+            ),
+            msg.extractMessages()
+        };
     }
 
     // Items //
