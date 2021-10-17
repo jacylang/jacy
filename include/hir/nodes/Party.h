@@ -21,16 +21,13 @@ namespace jc::hir {
     };
 
     struct Party {
-        using ItemMap = std::map<ItemId, ItemNode>;
+        using Owners = std::map<resolve::DefId, OwnerNode>;
 
         Party(
-            Mod && rootMod,
-            ItemMap && items
-        ) : rootMod{std::move(rootMod)},
-            items{std::move(items)} {}
+            Owners && owners
+        ) : owners {std::move(owners)} {}
 
-        Mod rootMod;
-        ItemMap items;
+        Owners owners;
     };
 }
 
