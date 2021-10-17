@@ -50,7 +50,9 @@ namespace jc::hir {
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
+        enterOwner(NodeId::ROOT_NODE_ID);
         auto rootMod = lowerMod(party.items);
+        exitOwner();
 
         return {
             Party(
