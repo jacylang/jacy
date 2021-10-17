@@ -22,12 +22,14 @@ namespace jc::hir {
 
     struct Party {
         using Owners = std::map<resolve::DefId, OwnerNode>;
+        using Bodies = std::map<BodyId, Body>;
 
         Party(
             Owners && owners
         ) : owners {std::move(owners)} {}
 
         Owners owners;
+        Bodies bodies;
     };
 }
 
