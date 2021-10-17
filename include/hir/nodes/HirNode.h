@@ -16,9 +16,10 @@ namespace jc::hir {
     struct OwnerDef {
         using IdT = uint32_t;
 
-        OwnerDef(DefId defId, IdT initialId) : defId {defId}, nextId {initialId} {
+        OwnerDef(NodeId nodeId, DefId defId, IdT initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {
         }
 
+        NodeId nodeId;
         DefId defId;
         IdT nextId;
     };

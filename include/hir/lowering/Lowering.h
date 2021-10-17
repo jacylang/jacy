@@ -66,9 +66,7 @@ namespace jc::hir {
         /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
         /// When we encounter owner-like item (e.g. `mod`) - new owner is pushed and popped after insides are visited.
         /// Note: Root def already emplaced as `Party` does not have node id to map it to def id
-        std::vector<OwnerDef> ownerStack {
-            {resolve::DefId::ROOT_DEF_ID, 0}
-        };
+        std::vector<OwnerDef> ownerStack {};
 
         Party::Owners owners;
         Party::Bodies bodies;

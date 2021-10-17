@@ -36,10 +36,14 @@ namespace jc::hir {
     }
 
     void Lowering::enterOwner(NodeId itemNodeId) {
-        ownerStack.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
+        ownerStack.emplace_back(itemNodeId, sess->defTable.getDefIdByNodeId(itemNodeId), ownersItemIds.at(itemNodeId));
     }
 
     void Lowering::exitOwner() {
+        // Update counter in exited owner
+        const auto & lastOwner = ownerStack.back();
+        ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
+
         ownerStack.pop_back();
     }
 
