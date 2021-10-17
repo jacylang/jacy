@@ -5,7 +5,10 @@ body {
 }
 
 #projectname {
+    position: relative;
+    top: -2px;
     font-family: 'Courgette', cursive;
+    color: #f03e3e;
 }
 
 address.footer {
