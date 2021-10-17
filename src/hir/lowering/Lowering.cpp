@@ -8,7 +8,7 @@ namespace jc::hir {
 
         return {
             Party(
-                std::move(*static_cast<Mod *>(rootMod.get())),
+                std::move(*static_cast<Mod*>(rootMod.get())),
                 std::move(items)
             ),
             msg.extractMessages()
