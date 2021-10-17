@@ -6,6 +6,7 @@
 
 namespace jc::hir {
     using span::Span;
+    using ast::NodeId;
     using resolve::DefId;
 
     template<class T>

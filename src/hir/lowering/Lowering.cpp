@@ -1,18 +1,18 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    HirId Lowering::addHirId(ast::NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId) {
+    HirId Lowering::addHirId(NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId) {
         auto id = HirId {ownerDefId, uniqueId};
         nodeIdHirId.emplace(nodeId, id);
         return id;
     }
 
-    void Lowering::newHirIdCounter(ast::NodeId ownerNodeId) {
+    void Lowering::newHirIdCounter(NodeId ownerNodeId) {
         // Note: `emplace` does not affect old entry, so it is safe to call it multiple times
         ownersItemIds.emplace(ownerNodeId, 0);
     }
 
-    HirId Lowering::lowerNodeId(ast::NodeId nodeId) {
+    HirId Lowering::lowerNodeId(NodeId nodeId) {
         const auto & found = nodeIdHirId.find(nodeId);
         if (found != nodeIdHirId.end()) {
             return found->second;
@@ -23,13 +23,13 @@ namespace jc::hir {
         return addHirId(nodeId, ownerStack.back().defId, uniqueId);
     }
 
-    HirId Lowering::lowerNodeIdOwner(ast::NodeId nodeId, ast::NodeId ownerNodeId) {
+    HirId Lowering::lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId) {
         auto nextId = ownersItemIds.at(ownerNodeId)++;
         auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
         return addHirId(nodeId, ownerDefId, nextId);
     }
 
-    void Lowering::enterOwner(ast::NodeId itemNodeId) {
+    void Lowering::enterOwner(NodeId itemNodeId) {
         ownerStack.emplace_back(sess->defTable.getDefIdByNodeId(itemNodeId), 0);
     }
 

@@ -38,24 +38,24 @@ namespace jc::hir {
 
         // HIR identifiers and maps //
     private:
-        ast::NodeId::NodeMap<HirId> nodeIdHirId;
+        NodeId::NodeMap<HirId> nodeIdHirId;
 
-        ast::NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
+        NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
 
         /// Constructor for new HirId with applied post-processing logic,
         /// e.g. registering it in mapping NodeId -> HirId
-        HirId addHirId(ast::NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId);
+        HirId addHirId(NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId);
 
         /// Allocate a new owner item identifiers collection.
-        void newHirIdCounter(ast::NodeId ownerNodeId);
+        void newHirIdCounter(NodeId ownerNodeId);
 
         /// Lowers NodeId, producing an HirId, safe to be called multiple times with the same NodeId
-        HirId lowerNodeId(ast::NodeId nodeId);
+        HirId lowerNodeId(NodeId nodeId);
 
         /// Same as `lowerNodeId` but with a specified owner node (not the closest one)
-        HirId lowerNodeIdOwner(ast::NodeId nodeId, ast::NodeId ownerNodeId);
+        HirId lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId);
 
-        void enterOwner(ast::NodeId itemNodeId);
+        void enterOwner(NodeId itemNodeId);
         void exitOwner();
 
         /// Used to track current owner for items.
