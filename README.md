@@ -4,6 +4,7 @@
     <a href="https://c.tenor.com/jFn8sS1Et-0AAAAM/cat.gif"><img alt="Размер репы" src="https://img.shields.io/github/repo-size/jacylang/Jacy?color=%23f25858&style=flat-square"></a>
     <a href="https://c.tenor.com/jFn8sS1Et-0AAAAM/cat.gif"><img alt="строчечки" src="https://img.shields.io/tokei/lines/github/jacylang/jacy?color=f25858&style=flat-square"></a>
     <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/y/jacylang/jacy?color=f25858&style=flat-square">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/jacylang/jacy/Doxygen?color=f25858&label=Doxygen&logoColor=f25858&style=flat-square">
 </p>
 
 <br>
