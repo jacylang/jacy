@@ -7,9 +7,10 @@ namespace jc::hir {
         return id;
     }
 
-    void Lowering::newHirIdCounter(NodeId ownerNodeId) {
+    HirId Lowering::newHirIdCounter(NodeId ownerNodeId) {
         // Note: `emplace` does not affect old entry, so it is safe to call it multiple times
         ownersItemIds.emplace(ownerNodeId, 0);
+        return lowerNodeIdOwner(ownerNodeId, ownerNodeId);
     }
 
     HirId Lowering::lowerNodeId(NodeId nodeId) {

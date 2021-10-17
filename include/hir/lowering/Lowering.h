@@ -46,8 +46,12 @@ namespace jc::hir {
         /// e.g. registering it in mapping NodeId -> HirId
         HirId addHirId(NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId);
 
-        /// Allocate a new owner item identifiers collection.
-        void newHirIdCounter(NodeId ownerNodeId);
+        /**
+         * @brief Allocate a new owner item identifiers collection.
+         * @param ownerNodeId Owner NodeId
+         * @returns Owner HirId
+         */
+        HirId newHirIdCounter(NodeId ownerNodeId);
 
         /// Lowers NodeId, producing an HirId, safe to be called multiple times with the same NodeId
         HirId lowerNodeId(NodeId nodeId);
