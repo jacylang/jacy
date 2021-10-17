@@ -23,3 +23,9 @@ jobs:
         with:
             working-directory: '.'
             doxyfile-path: 'Doxyfile'
+
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
