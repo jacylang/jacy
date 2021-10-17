@@ -21,7 +21,6 @@ jobs:
       - name: Generate Doxygen
         uses: mattnotmitt/doxygen-action@v1
         with:
-            additional-packages: font-fira-code
             working-directory: '.'
             doxyfile-path: 'Doxyfile'
             enable-latex: true
