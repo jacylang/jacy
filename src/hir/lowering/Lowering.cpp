@@ -19,11 +19,8 @@ namespace jc::hir {
         }
 
         auto uniqueId = ownerStack.back().nextId++;
-        auto hirId = HirId {ownerStack.back().defId, uniqueId};
 
-        nodeIdHirId.emplace(nodeId, hirId);
-
-        return hirId;
+        return addHirId(nodeId, ownerStack.back().defId, uniqueId);
     }
 
     HirId Lowering::lowerNodeIdOwner(ast::NodeId targetNodeId, ast::NodeId ownerNodeId) {
