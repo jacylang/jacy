@@ -20,18 +20,26 @@ namespace jc::hir {
         ValueT node;
     };
 
+    struct ModuleItems {
+        ItemId::List items;
+    };
+
     struct Party {
         using Owners = std::map<resolve::DefId, OwnerNode>;
         using Bodies = std::map<BodyId, Body>;
+        using Modules = std::map<resolve::DefId, ModuleItems>;
 
         Party(
             Owners && owners,
-            Bodies && bodies
+            Bodies && bodies,
+            Modules && modules
         ) : owners {std::move(owners)},
-            bodies {std::move(bodies)} {}
+            bodies {std::move(bodies)},
+            modules {std::move(modules)} {}
 
         Owners owners;
         Bodies bodies;
+        Modules modules;
     };
 }
 
