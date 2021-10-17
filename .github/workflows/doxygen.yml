@@ -1,0 +1,26 @@
+name: Doxygen
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-deploy:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate Doxygen
+        uses: mattnotmitt/doxygen-action@v1
+        with:
+            working-directory: 'submodule/'
+            doxyfile-path: 'docs/Doxygen'
+            enable-latex: true
