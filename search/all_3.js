@@ -10,6 +10,5 @@ var searchData=
   ['derefexpr_7',['DerefExpr',['../structjc_1_1hir_1_1_deref_expr.html',1,'jc::hir']]],
   ['deverror_8',['DevError',['../structjc_1_1common_1_1_dev_error.html',1,'jc::common']]],
   ['distinctint_9',['DistinctInt',['../structjc_1_1utils_1_1num_1_1_distinct_int.html',1,'jc::utils::num']]],
-  ['doxygen_20with_20github_10',['Doxygen with github',['../index.html',1,'']]],
-  ['duplication_11',['Duplication',['../structjc_1_1cli_1_1_c_l_i_flag.html#a0be52d9a5375eb9e609cb8e6ca2a8dc3',1,'jc::cli::CLIFlag']]]
+  ['duplication_10',['Duplication',['../structjc_1_1cli_1_1_c_l_i_flag.html#a0be52d9a5375eb9e609cb8e6ca2a8dc3',1,'jc::cli::CLIFlag']]]
 ];
