@@ -25,8 +25,10 @@ namespace jc::hir {
         using Bodies = std::map<BodyId, Body>;
 
         Party(
-            Owners && owners
-        ) : owners {std::move(owners)} {}
+            Owners && owners,
+            Bodies && bodies
+        ) : owners {std::move(owners)},
+            bodies {std::move(bodies)} {}
 
         Owners owners;
         Bodies bodies;
