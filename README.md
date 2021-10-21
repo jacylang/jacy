@@ -25,6 +25,6 @@
 
 | Resource | Description |
 | --- | --- |
-| [Dev Book](https://jacylang.github.io/Jacy-Dev-Book/) | Development notes about everything |
-| [Dev Book Source](https://github.com/jacylang/Jacy-Dev-Book) | Source code for Dev Book |
+| [Dev Book](https://jacylang.github.io/dev-book/) | Development notes about everything |
+| [Dev Book Source](https://github.com/jacylang/dev-book) | Source code for Dev Book |
 | [Doxygen Code Docs](https://jacylang.github.io/jacy/)  | WIP Doxygen-generated documentation for source code |
