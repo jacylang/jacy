@@ -19,8 +19,8 @@ namespace jc::hir {
         span::Ident ident;
     };
 
-    struct Enum : Item {
-        Enum(std::vector<Variant> && variants) : Item {ItemKind::Enum}, variants {std::move(variants)} {
+    struct Enum : ItemInner {
+        Enum(std::vector<Variant> && variants) : ItemInner {ItemKind::Enum}, variants {std::move(variants)} {
         }
 
         std::vector<Variant> variants;
@@ -58,30 +58,30 @@ namespace jc::hir {
         ReturnType returnType;
     };
 
-    struct Func : Item {
-        Func(FuncSig && sig, Body && body) : Item {ItemKind::Func}, sig {std::move(sig)}, body {std::move(body)} {
+    struct Func : ItemInner {
+        Func(FuncSig && sig, Body && body) : ItemInner {ItemKind::Func}, sig {std::move(sig)}, body {std::move(body)} {
         }
 
         FuncSig sig;
         Body body;
     };
 
-    struct Impl : Item {};
+    struct Impl : ItemInner {};
 
-    struct Mod : Item {
-        Mod(ItemId::List && items) : Item {ItemKind::Mod}, items {std::move(items)} {
+    struct Mod : ItemInner {
+        Mod(ItemId::List && items) : ItemInner {ItemKind::Mod}, items {std::move(items)} {
         }
 
         ItemId::List items;
     };
 
-    struct Struct : Item {};
+    struct Struct : ItemInner {};
 
-    struct Trait : Item {};
+    struct Trait : ItemInner {};
 
-    struct TypeAlias : Item {};
+    struct TypeAlias : ItemInner {};
 
-    struct UseDecl : Item {};
+    struct UseDecl : ItemInner {};
 }
 
 #endif // JACY_HIR_NODES_ITEMS_H

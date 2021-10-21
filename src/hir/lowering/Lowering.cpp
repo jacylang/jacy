@@ -48,9 +48,9 @@ namespace jc::hir {
         ownerStack.pop_back();
     }
 
-    ItemId Lowering::addItem(ItemNode && item) {
+    ItemId Lowering::addItem(Item && item) {
         auto itemId = ItemId {item.defId};
-        items.emplace(itemId, std::move(item));
+        owners.emplace(item.defId, OwnerNode {std::move(item)});
         return itemId;
     }
 
@@ -78,7 +78,7 @@ namespace jc::hir {
 
         auto loweredItem = lowerItemKind(astItem);
 
-        auto item = ItemNode {
+        auto item = Item {
             i->getName(),
             std::move(loweredItem),
             lowerNodeId(i->id).owner,
@@ -90,7 +90,7 @@ namespace jc::hir {
         return addItem(std::move(item));
     }
 
-    Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
+    ItemInner::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
             case ast::ItemKind::Enum: {
@@ -117,7 +117,7 @@ namespace jc::hir {
         }
     }
 
-    Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
+    ItemInner::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
         std::vector<Variant> variants;
         for (const auto & variant : astEnum.entries) {
             variants.emplace_back(lowerVariant(variant));
@@ -138,7 +138,7 @@ namespace jc::hir {
         }
     }
 
-    Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
+    ItemInner::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
             auto itemId = lowerItem(item);
@@ -148,7 +148,7 @@ namespace jc::hir {
         return makeBoxNode<Mod>(std::move(itemIds));
     }
 
-    Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+    ItemInner::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         auto sig = lowerFuncSig(astFunc.sig);
         Body body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"));
 
