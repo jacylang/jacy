@@ -10,6 +10,8 @@
 <br>
 
 <div align="center">
+    <img src="img/logo.svg" height="110">
+    <br>
     <img src="img/JacyLarge.png" height="110">
 </div>
 
@@ -20,6 +22,8 @@
     </p>
     <a align="center" href="https://jacylang.github.io/"><b>Home Page</b></a>
 </div>
+
+__This is an experimental branch where AST is translated directly to C__
 
 <br>
 
