@@ -24,6 +24,7 @@ namespace jc::hir {
         ItemId::List items;
     };
 
+    /// The root node of the party (package)
     struct Party {
         using Owners = std::map<resolve::DefId, OwnerNode>;
         using Bodies = std::map<BodyId, Body>;

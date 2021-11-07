@@ -475,7 +475,7 @@ namespace jc::hir {
     }
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
-        BinOpKind kind {}; // initialize with [idk what's gonna be inside], just don't warn, cpp
+        BinOpKind kind {}; // initialize with [I don't know what's going to be inside], just don't warn, cpp
 
         switch (tok.kind) {
             case parser::TokenKind::Add:
