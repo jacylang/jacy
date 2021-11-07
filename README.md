@@ -10,6 +10,8 @@
 <br>
 
 <div align="center">
+    <img src="img/logo.svg" height="110">
+    <br>
     <img src="img/JacyLarge.png" height="110">
 </div>
 
