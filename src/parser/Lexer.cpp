@@ -719,7 +719,7 @@ namespace jc::parser {
 
         parseSess->sourceFile.linesIndices = std::move(linesIndices);
 
-        return std::move(tokens);
+        return {std::move(tokens), msg.extractMessages()};
     }
 
     Token::List Lexer::lexInternal(const std::string & source) {

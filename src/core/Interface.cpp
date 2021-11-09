@@ -188,11 +188,13 @@ namespace jc::core {
 
         const auto & fileSize = parseSess->sourceFile.src.unwrap().size();
 
+        log.dev("Lex file ", file.getPath());
+
         sess->beginStep(filePathRootRel + " lexing", MeasUnit::Char);
-        auto tokens = lexer.lex(sess, parseSess);
+        auto[tokens, lexerMessages] = lexer.lex(sess, parseSess).extract();
         sess->endStep(fileSize);
 
-        log.dev("Tokenize file ", file.getPath());
+        collectMessages(std::move(lexerMessages));
 
         printSource(parseSess, filePathRootRel, fileSize);
         printTokens(filePathRootRel, tokens);
