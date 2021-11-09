@@ -2,7 +2,7 @@
 #define JACY_MESSAGE_MESSAGERESULT_H
 
 #include "session/Session.h"
-#include "message/MessageDumper.h"
+#include "message/Message.h"
 
 namespace jc::message {
     template<class T>
@@ -14,23 +14,13 @@ namespace jc::message {
             return {std::move(value), std::move(messages)};
         }
 
-        T take(sess::Session::Ptr sess, const std::string & stageName = "") {
-            check(sess, messages, stageName);
-            return std::move(value);
+        const auto & getMessages() const {
+            return messages;
         }
 
-        static void check(
-            sess::Session::Ptr sess,
-            const Message::List & messages,
-            const std::string & stageName = ""
-        );
-
-        static void dump(
-            sess::Session::Ptr sess,
-            const Message::List & messages,
-            const std::string & emptyMessage = ""
-        );
-
+        T takeUnchecked() {
+            return std::move(value);
+        }
 
     private:
         T value;

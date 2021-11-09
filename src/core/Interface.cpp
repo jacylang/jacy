@@ -28,7 +28,7 @@ namespace jc::core {
                 log.nl();
                 log.error("Something went wrong: ", e.what());
                 log.dev("Here is some debug info: ");
-                message::MessageResult<dt::none_t>::dump(sess, messages, "No suggestions extracted");
+                messageHandler.dump(messages, "No suggestions extracted");
                 sess->printSteps();
             }
 
@@ -43,6 +43,7 @@ namespace jc::core {
     void Interface::init() {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
+        messageHandler.setSession(sess);
     }
 
     void Interface::workflow() {
@@ -128,7 +129,10 @@ namespace jc::core {
         log.printTitleDev("AST validation");
 
         sess->beginStep("AST Validation", MeasUnit::Node);
-        astValidator.lint(party.unwrap()).take(sess, "validation");
+
+        auto validationResult = astValidator.lint(party.unwrap());
+        messageHandler.checkResult(validationResult, "AST validation");
+
         sess->endStep();
     }
 
@@ -332,7 +336,10 @@ namespace jc::core {
         log.printTitleDev("Module Tree Building");
         log.dev("Building module tree...");
         sess->beginStep("Module tree building", MeasUnit::Node);
-        moduleTreeBuilder.build(sess, party.unwrap()).take(sess, "module tree building");
+        messageHandler.checkResult(
+            moduleTreeBuilder.build(sess, party.unwrap()),
+            "module tree building"
+        );
         sess->endStep();
 
         printDefinitions("module tree building");
@@ -341,7 +348,10 @@ namespace jc::core {
         log.printTitleDev("Importation");
         log.dev("Resolving imports...");
         sess->beginStep("Import resolution", MeasUnit::Node);
-        importer.declare(sess, party.unwrap()).take(sess, "imports resolution");
+        messageHandler.checkResult(
+            importer.declare(sess, party.unwrap()),
+            "imports resolution"
+        );
         sess->endStep();
 
         printDefinitions("imports resolution");
@@ -350,7 +360,10 @@ namespace jc::core {
         log.printTitleDev("Name Resolution");
         log.dev("Resolving names...");
         sess->beginStep("Name resolution", MeasUnit::Node);
-        nameResolver.resolve(sess, party.unwrap()).take(sess, "name resolution");
+        messageHandler.checkResult(
+            nameResolver.resolve(sess, party.unwrap()),
+            "name resolution"
+        );
         sess->endStep();
 
         printResolutions();
@@ -432,7 +445,10 @@ namespace jc::core {
     // Lowering //
     void Interface::lower() {
         log.printTitleDev("Lowering");
-        lowering.lower(sess, party.unwrap()).take(sess, "lowering");
+        messageHandler.checkResult(
+            lowering.lower(sess, party.unwrap()),
+            "lowering"
+        );
     }
 
     // Messages //
@@ -447,7 +463,7 @@ namespace jc::core {
             return;
         }
         // Use `none_t` as stub
-        message::MessageResult<dt::none_t>::check(sess, messages, stageName);
+        messageHandler.check(messages, stageName);
         messages.clear();
     }
 }

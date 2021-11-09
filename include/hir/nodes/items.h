@@ -5,6 +5,7 @@
 #include "hir/nodes/Expr.h"
 #include "span/Ident.h"
 #include "hir/nodes/Type.h"
+#include "ast/fragments/func_fragments.h"
 
 namespace jc::hir {
     struct Variant : HirNode {

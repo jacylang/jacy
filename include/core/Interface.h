@@ -10,8 +10,7 @@
 #include "parser/Lexer.h"
 #include "parser/Parser.h"
 #include "ast/AstPrinter.h"
-#include "message/MessageDumper.h"
-#include "message/TermEmitter.h"
+#include "message/MessageHandler.h"
 #include "ast/Validator.h"
 #include "resolve/ModuleTreeBuilder.h"
 #include "resolve/Importer.h"
@@ -102,6 +101,7 @@ namespace jc::core {
 
         // Messages //
     private:
+        message::MessageHandler messageHandler;
         message::Highlighter highlighter;
 
         message::Message::List messages;
