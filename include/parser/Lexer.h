@@ -7,23 +7,20 @@
 #include "parser/ParseSess.h"
 #include "session/Session.h"
 #include "utils/num.h"
+#include "message/MessageResult.h"
+#include "message/MessageBuilder.h"
 
 namespace jc::parser {
     using span::Kw;
     using span::Symbol;
     using namespace utils::num;
 
-    // TODO: Suggestions instead of errors
-    struct LexerError : common::Error {
-        explicit LexerError(const std::string & msg) : Error(msg) {}
-    };
-
     class Lexer {
     public:
         Lexer();
-        virtual ~Lexer() = default;
+        ~Lexer() = default;
 
-        Token::List lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess);
+        message::MessageResult<Token::List> lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess);
 
         /**
          * @brief Method same as `lex` but may be used to lex non-user code, e.g. for highlighting code in terminal
@@ -108,7 +105,10 @@ namespace jc::parser {
         void lexString();
         void lexOp();
 
-        // Errors
+        // Diagnostics //
+    private:
+        message::MessageHolder msg;
+
         void error(const std::string & msg);
         void unexpectedTokenError();
         void unexpectedEof();

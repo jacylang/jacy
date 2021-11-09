@@ -44,7 +44,7 @@ namespace jc::parser {
      * @return Token from stop point
      */
     char Lexer::advance(uint8_t distance) {
-        for (int i = 0; i < distance; i++) {
+        for (int i = 0 ; i < distance ; i++) {
             if (isNl()) {
                 linesIndices.emplace_back(index + 1);
                 loc.line++;
@@ -168,21 +168,25 @@ namespace jc::parser {
 
         if (is('.')) {
             if (not isDigit(lookup())) {
-                addLitToken({
-                    TokLit::Kind::DecLiteral,
-                    Symbol::intern(num),
-                    None
-                }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`"));
+                addLitToken(
+                    {
+                        TokLit::Kind::DecLiteral,
+                        Symbol::intern(num),
+                        None
+                    }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`")
+                );
                 return;
             }
 
             lexFloatLiteral(num);
         } else {
-            addLitToken({
-                TokLit::Kind::DecLiteral,
-                Symbol::intern(num),
-                None
-            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`"));
+            addLitToken(
+                {
+                    TokLit::Kind::DecLiteral,
+                    Symbol::intern(num),
+                    None
+                }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexNumber`")
+            );
         }
     }
 
@@ -194,11 +198,13 @@ namespace jc::parser {
             num += forward();
         }
 
-        addLitToken({
-            TokLit::Kind::BinLiteral,
-            Symbol::intern(num),
-            None
-        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexBinLiteral`"));
+        addLitToken(
+            {
+                TokLit::Kind::BinLiteral,
+                Symbol::intern(num),
+                None
+            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexBinLiteral`")
+        );
     }
 
     void Lexer::lexOctLiteral() {
@@ -209,11 +215,13 @@ namespace jc::parser {
             num += forward();
         }
 
-        addLitToken({
-            TokLit::Kind::OctLiteral,
-            Symbol::intern(num),
-            None
-        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexOctLiteral`"));
+        addLitToken(
+            {
+                TokLit::Kind::OctLiteral,
+                Symbol::intern(num),
+                None
+            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexOctLiteral`")
+        );
     }
 
     void Lexer::lexHexLiteral() {
@@ -224,11 +232,13 @@ namespace jc::parser {
             num += forward();
         }
 
-        addLitToken({
-            TokLit::Kind::HexLiteral,
-            Symbol::intern(num),
-            None
-        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexHexLiteral`"));
+        addLitToken(
+            {
+                TokLit::Kind::HexLiteral,
+                Symbol::intern(num),
+                None
+            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::lexHexLiteral`")
+        );
     }
 
     void Lexer::lexFloatLiteral(const std::string & start) {
@@ -240,11 +250,13 @@ namespace jc::parser {
 
         // TODO: Exponents
 
-        addLitToken({
-            TokLit::Kind::FloatLiteral,
-            Symbol::intern(num),
-            None
-        }, checkedAs<span::Span::Len>(num.size(), "`Lexer::FloatLiteral`"));
+        addLitToken(
+            {
+                TokLit::Kind::FloatLiteral,
+                Symbol::intern(num),
+                None
+            }, checkedAs<span::Span::Len>(num.size(), "`Lexer::FloatLiteral`")
+        );
     }
 
     void Lexer::lexId() {
@@ -254,10 +266,12 @@ namespace jc::parser {
             id += forward();
         }
 
-        addToken(Token {
-            TokenKind::Id,
-            Symbol::intern(id)
-        }, checkedAs<span::Span::Len>(id.size(), "`Lexer::lexId`"));
+        addToken(
+            Token {
+                TokenKind::Id,
+                Symbol::intern(id)
+            }, checkedAs<span::Span::Len>(id.size(), "`Lexer::lexId`")
+        );
     }
 
     void Lexer::lexString() {
@@ -342,7 +356,7 @@ namespace jc::parser {
                             and isHexDigit(lookup(2))
                             and isHexDigit(lookup(3))
                             and isHexDigit(lookup(4))
-                            ) {
+                        ) {
                             advance(); // Skip `U`
                             // Hex representation of unicode point
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
@@ -358,8 +372,8 @@ namespace jc::parser {
 
             if (
                 (isMultiline and isSeq(quote, quote, quote))
-                or (not isMultiline and (isNl() or is(quote)))
-            ) {
+                    or (not isMultiline and (isNl() or is(quote)))
+                ) {
                 closed = true;
                 break;
             }
@@ -376,11 +390,13 @@ namespace jc::parser {
 
         advance(isMultiline ? 3 : 1);
 
-        addLitToken({
-            kind,
-            Symbol::intern(val),
-            None
-        }, checkedAs<span::Span::Len>(val.size(), "`Lexer::lexString`"));
+        addLitToken(
+            {
+                kind,
+                Symbol::intern(val),
+                None
+            }, checkedAs<span::Span::Len>(val.size(), "`Lexer::lexString`")
+        );
     }
 
     void Lexer::lexOp() {
@@ -401,7 +417,8 @@ namespace jc::parser {
                     addToken(TokenKind::Assign, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '+': {
                 if (lookup() == '=') {
                     addToken(TokenKind::AddAssign, 2);
@@ -410,7 +427,8 @@ namespace jc::parser {
                     addToken(TokenKind::Add, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '-': {
                 if (lookup() == '=') {
                     addToken(TokenKind::SubAssign, 2);
@@ -422,7 +440,8 @@ namespace jc::parser {
                     addToken(TokenKind::Sub, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '*': {
                 if (lookup() == '*') {
                     if (lookup(2) == '=') {
@@ -439,7 +458,8 @@ namespace jc::parser {
                     addToken(TokenKind::Mul, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '/': {
                 if (lookup() == '/') {
                     std::string content;
@@ -475,7 +495,8 @@ namespace jc::parser {
                     addToken(TokenKind::Div, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '%': {
                 if (lookup() == '=') {
                     addToken(TokenKind::ModAssign, 2);
@@ -484,39 +505,48 @@ namespace jc::parser {
                     addToken(TokenKind::Rem, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case ';': {
                 addToken(TokenKind::Semi, 1);
                 advance();
-            } break;
+            }
+                break;
             case '(': {
                 addToken(TokenKind::LParen, 1);
                 advance();
-            } break;
+            }
+                break;
             case ')': {
                 addToken(TokenKind::RParen, 1);
                 advance();
-            } break;
+            }
+                break;
             case '{': {
                 addToken(TokenKind::LBrace, 1);
                 advance();
-            } break;
+            }
+                break;
             case '}': {
                 addToken(TokenKind::RBrace, 1);
                 advance();
-            } break;
+            }
+                break;
             case '[': {
                 addToken(TokenKind::LBracket, 1);
                 advance();
-            } break;
+            }
+                break;
             case ']': {
                 addToken(TokenKind::RBracket, 1);
                 advance();
-            } break;
+            }
+                break;
             case ',': {
                 addToken(TokenKind::Comma, 1);
                 advance();
-            } break;
+            }
+                break;
             case ':': {
                 if (lookup() == ':') {
                     addToken(TokenKind::Path, 2);
@@ -525,7 +555,8 @@ namespace jc::parser {
                     addToken(TokenKind::Colon, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '.': {
                 if (isDigit(lookup())) {
                     lexFloatLiteral(".");
@@ -544,7 +575,8 @@ namespace jc::parser {
                     addToken(TokenKind::Dot, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '&': {
                 if (lookup() == '=') {
                     addToken(TokenKind::BitAndAssign, 2);
@@ -553,7 +585,8 @@ namespace jc::parser {
                     addToken(TokenKind::Ampersand, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '!': {
                 if (lookup() == '=') {
                     if (lookup(2) == '=') {
@@ -567,7 +600,8 @@ namespace jc::parser {
                     addKwToken(Kw::Not, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '|': {
                 if (lookup() == '>') {
                     addToken(TokenKind::Pipe, 2);
@@ -579,7 +613,8 @@ namespace jc::parser {
                     addToken(TokenKind::BitOr, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '<': {
                 if (lookup() == '=') {
                     if (lookup(2) == '>') {
@@ -601,7 +636,8 @@ namespace jc::parser {
                     addToken(TokenKind::LAngle, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '>': {
                 if (lookup() == '=') {
                     addToken(TokenKind::GE, 2);
@@ -618,7 +654,8 @@ namespace jc::parser {
                     addToken(TokenKind::RAngle, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '^': {
                 if (lookup() == '=') {
                     addToken(TokenKind::XorAssign, 2);
@@ -627,35 +664,43 @@ namespace jc::parser {
                     addToken(TokenKind::Xor, 1);
                     advance();
                 }
-            } break;
+            }
+                break;
             case '~': {
                 addToken(TokenKind::Inv, 1);
                 advance();
-            } break;
+            }
+                break;
             case '?': {
                 addToken(TokenKind::Quest, 1);
                 advance();
-            } break;
+            }
+                break;
             case '$': {
                 addToken(TokenKind::Dollar, 1);
                 advance();
-            } break;
+            }
+                break;
             case '@': {
                 addToken(TokenKind::At, 1);
                 advance();
-            } break;
+            }
+                break;
             case '`': {
                 addToken(TokenKind::Backtick, 1);
                 advance();
-            } break;
+            }
+                break;
             case '_': {
                 addKwToken(Kw::Underscore, 1);
                 advance();
-            } break;
+            }
+                break;
             case '\\': {
                 addToken(TokenKind::Backslash, 1);
                 advance();
-            } break;
+            }
+                break;
             default: {
                 unexpectedTokenError();
             }
@@ -664,7 +709,7 @@ namespace jc::parser {
 
     //
 
-    Token::List Lexer::lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess) {
+    message::MessageResult<Token::List> Lexer::lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess) {
         this->sess = sess;
         this->parseSess = parseSess;
         this->source = parseSess->sourceFile.src.unwrap();
@@ -723,8 +768,8 @@ namespace jc::parser {
         addToken(TokenKind::Eof, 1);
     }
 
-    void Lexer::error(const std::string & msg) {
-        throw LexerError(msg);
+    void Lexer::error(const std::string & text) {
+
     }
 
     void Lexer::unexpectedTokenError() {
