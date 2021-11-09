@@ -45,7 +45,7 @@ namespace jc::parser {
      */
     char Lexer::advance(uint8_t distance) {
         for (int i = 0; i < distance; i++) {
-            if (isNL()) {
+            if (isNl()) {
                 linesIndices.emplace_back(index + 1);
                 loc.line++;
                 loc.col = 0;
@@ -76,7 +76,7 @@ namespace jc::parser {
         return peek() == c;
     }
 
-    bool Lexer::isNL() const {
+    bool Lexer::isNl() const {
         return is('\n');
     }
 
@@ -358,7 +358,7 @@ namespace jc::parser {
 
             if (
                 (isMultiline and isSeq(quote, quote, quote))
-                or (not isMultiline and (isNL() or is(quote)))
+                or (not isMultiline and (isNl() or is(quote)))
             ) {
                 closed = true;
                 break;
@@ -446,7 +446,7 @@ namespace jc::parser {
                     while (not eof()) {
                         content += peek();
                         advance();
-                        if (isNL()) {
+                        if (isNl()) {
                             break;
                         }
                     }
@@ -670,7 +670,7 @@ namespace jc::parser {
         this->source = parseSess->sourceFile.src.unwrap();
         fileId = parseSess->fileId;
 
-        _lex();
+        lexGeneric();
 
         parseSess->sourceFile.linesIndices = std::move(linesIndices);
 
@@ -679,11 +679,11 @@ namespace jc::parser {
 
     Token::List Lexer::lexInternal(const std::string & source) {
         this->source = source;
-        _lex();
+        lexGeneric();
         return std::move(tokens);
     }
 
-    void Lexer::_lex() {
+    void Lexer::lexGeneric() {
         tokens.clear();
         tokenStartIndex = 0;
         index = 0;

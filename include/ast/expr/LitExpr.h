@@ -69,10 +69,10 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
-        static dt::Result <Int, LitPreEvalErr> intValue(
+        static dt::Result<Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,
             span::Symbol sym,
-            span::Symbol::Opt suffix
+            span::Symbol::Opt /*TODO: suffix*/
         ) {
             uint8_t base = 0;
             switch (kind) {

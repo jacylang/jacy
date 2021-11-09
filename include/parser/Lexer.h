@@ -24,10 +24,19 @@ namespace jc::parser {
         virtual ~Lexer() = default;
 
         Token::List lex(const sess::Session::Ptr & sess, const ParseSess::Ptr & parseSess);
+
+        /**
+         * @brief Method same as `lex` but may be used to lex non-user code, e.g. for highlighting code in terminal
+         * @param source Source as string
+         * @return Token list
+         */
         Token::List lexInternal(const std::string & source);
 
     private:
-        void _lex();
+        /**
+         * @brief The actual entry point to lexing logic.
+         */
+        void lexGeneric();
 
     private:
         span::Span::FileId fileId;
@@ -58,7 +67,7 @@ namespace jc::parser {
         bool eof() const;
         bool isIgnorable() const;
         bool is(char c) const;
-        bool isNL() const;
+        bool isNl() const;
         bool isDigit();
         bool isDigit(char c);
         bool isBinDigit();
