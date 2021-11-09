@@ -1,9 +1,9 @@
 #ifndef JACY_MESSAGE_HIGHLIGHTER_H
 #define JACY_MESSAGE_HIGHLIGHTER_H
 
+#include "parser/Lexer.h"
 #include "parser/Token.h"
 #include "message/themes.h"
-#include "parser/Lexer.h"
 
 namespace jc::message {
     using parser::TokenKind;
