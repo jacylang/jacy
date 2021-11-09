@@ -1,6 +1,5 @@
 #include "message/MessageResult.h"
 #include "message/TermEmitter.h"
-#include "message/MessageDumper.h"
 
 namespace jc::message {
     template<class T>

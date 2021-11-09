@@ -2,6 +2,7 @@
 #define JACY_MESSAGE_MESSAGERESULT_H
 
 #include "session/Session.h"
+#include "message/MessageDumper.h"
 
 namespace jc::message {
     template<class T>

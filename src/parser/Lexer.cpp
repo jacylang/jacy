@@ -769,14 +769,17 @@ namespace jc::parser {
     }
 
     void Lexer::error(const std::string & text) {
-
+        msg.error()
+           .setText(text)
+           .setPrimaryLabel(span::Span {index, 1, fileId}, text)
+           .emit();
     }
 
     void Lexer::unexpectedTokenError() {
-        throw common::UnexpectedTokenError(std::string(1, peek()));
+        error(log::fmt("Unexpected token '", peek(), "'"));
     }
 
     void Lexer::unexpectedEof() {
-        throw common::UnexpectedEof();
+        error("Unexpected [EOF]");
     }
 }

@@ -22,11 +22,6 @@ namespace jc::span {
 //            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}
 //        explicit Span(Span rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}
         explicit Span(FileId fileId) : fileId{fileId} {}
-        explicit Span(Pos lowBound, Pos highBound, FileId fileId) {
-            pos = lowBound;
-            len = static_cast<Len>(highBound - lowBound);
-            this->fileId = fileId;
-        }
 
         explicit Span(Pos pos, Len len, FileId fileId)
             : pos{pos}, len{len}, fileId{fileId} {}
@@ -34,6 +29,10 @@ namespace jc::span {
         Pos pos{0};
         Len len{0};
         FileId fileId{0};
+
+        static Span fromBounds(Pos lowBound, Pos highBound, FileId fileId) {
+            return Span {lowBound, static_cast<Len>(highBound - lowBound), fileId};
+        }
 
         std::string toString() const {
             return std::to_string(pos) + "; len = " + std::to_string(static_cast<unsigned long>(len));
@@ -55,7 +54,7 @@ namespace jc::span {
             if (end.fileId != fileId) {
                 log::devPanic("Called `Span::to` with spans from different files");
             }
-            return Span(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);
+            return Span::fromBounds(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);
         }
     };
 
