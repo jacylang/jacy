@@ -187,9 +187,10 @@ namespace jc::resolve {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
             resolvePath(Namespace::Value, pathExpr->path, suffix);
         } else if (gotLabels) {
-            // Labeled calls are not allowed in non-path invocations as we cannot resolve them.
-            // This case must be handled in `Validator`, thus it is a bug
-            log::devPanic("[NameResolver] Got invocation with labels with non-path lhs expression");
+            msg.error()
+               .setText("Labeled invocation not allowed with computed expression call")
+               .setPrimaryLabel(invoke.span, "Cannot use labels here")
+               .emit();
         } else {
             invoke.lhs.autoAccept(*this);
             visitEach(invoke.args);
