@@ -240,25 +240,36 @@ namespace jc::resolve {
         // so give different error message
         const auto & urs = unresSeg.unwrap();
         const auto & unresolvedSegIdent = path.getSegIdent(urs.segIndex);
-
-        const auto & unresolvedSegName = unresolvedSegIdent.sym;
+        auto unresolvedSegIndex = urs.segIndex;
+        auto unresolvedSegName = unresolvedSegIdent.sym;
 
         if (urs.inaccessible) {
-            const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
             // Report "Cannot access" error
+            const auto & defKind = sess->defTable.getDef(urs.defId.unwrap()).kindStr();
             msg.error()
                .setText("Cannot access private ", defKind, " '", unresolvedSegName, "' in '", pathStr, "'")
                .setPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is private")
                .emit();
         } else {
             // Report "Not defined" error
-            auto errMsg = log::fmt("'", unresolvedSegName, "' is not defined");
+
+            std::string errMsg;
+
+            // Check if segment is last one, and we have a suffix for function invocation to produce different error.
+            // Only if this is a last segment, we can say that function resolution failed.
+            if (urs.segIndex == path.size() - 1 and suffix.some()) {
+                errMsg = log::fmt("No matching function '", unresolvedSegName, suffix.unwrap().toString(), "'");
+            } else {
+                errMsg = log::fmt("'", unresolvedSegName, "' is not defined");
+            }
+
             if (not pathStr.empty()) {
                 errMsg += " in '" + pathStr + "'";
             }
+
             msg.error()
                .setText(errMsg)
-               .setPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined")
+               .setPrimaryLabel(unresolvedSegIdent.span, errMsg)
                .addLabels(suggestAltNames(unresolvedSegIdent.span, targetNs, unresolvedSegName, altDefs))
                .emit();
         }
