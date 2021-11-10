@@ -94,57 +94,56 @@ $(function() {
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">//            : pos(std::move(rhs.pos)), len(std::move(rhs.len)), fileId(std::move(rhs.fileId)) {}</span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">//        explicit Span(Span rhs) : pos(rhs.pos), len(rhs.len), fileId(rhs.fileId) {}</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structjc_1_1span_1_1_span.html#a70549f9c88375a6c4f6fdba8aa92d3dd">   24</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="structjc_1_1span_1_1_span.html#a70549f9c88375a6c4f6fdba8aa92d3dd">Span</a>(FileId fileId) : fileId{fileId} {}</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">explicit</span> <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a>(Pos lowBound, Pos highBound, FileId fileId) {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            pos = lowBound;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            len = <span class="keyword">static_cast&lt;</span>Len<span class="keyword">&gt;</span>(highBound - lowBound);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            this-&gt;fileId = fileId;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keyword">explicit</span> Span(Pos pos, Len len, FileId fileId)</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            : pos{pos}, len{len}, fileId{fileId} {}</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        Pos pos{0};</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        Len len{0};</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        FileId fileId{0};</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        std::string toString()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> std::to_string(pos) + <span class="stringliteral">&quot;; len = &quot;</span> + std::to_string(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(len));</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        Pos getHighBound()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">return</span> pos + len;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        Span fromStartWithLen(Len len)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">return</span> Span {pos, len, fileId};</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        Span fromEndWithLen(Len len)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keywordflow">return</span> Span {pos + len, len, fileId};</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        }</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        Span to(Span end)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <span class="keywordflow">if</span> (end.fileId != fileId) {</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>                log::devPanic(<span class="stringliteral">&quot;Called `Span::to` with spans from different files&quot;</span>);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            }</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">return</span> Span(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    };</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">const</span> Span NONE_SPAN {0, <span class="keyword">static_cast&lt;</span>Span::Len<span class="keyword">&gt;</span>(0), 0};</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="structjc_1_1span_1_1_spanned.html">   65</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1span_1_1_spanned.html">Spanned</a> {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        T node;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    };</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif </span><span class="comment">// JACY_SPAN_H</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">explicit</span> <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a>(Pos pos, Len len, FileId fileId)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            : pos{pos}, len{len}, fileId{fileId} {}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        Pos pos{0};</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        Len len{0};</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        FileId fileId{0};</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keyword">static</span> Span fromBounds(Pos lowBound, Pos highBound, FileId fileId) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> Span {lowBound, <span class="keyword">static_cast&lt;</span>Len<span class="keyword">&gt;</span>(highBound - lowBound), fileId};</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        std::string toString()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> std::to_string(pos) + <span class="stringliteral">&quot;; len = &quot;</span> + std::to_string(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">long</span><span class="keyword">&gt;</span>(len));</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        Pos getHighBound()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keywordflow">return</span> pos + len;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        Span fromStartWithLen(Len len)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> Span {pos, len, fileId};</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        Span fromEndWithLen(Len len)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">return</span> Span {pos + len, len, fileId};</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        Span to(Span end)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">if</span> (end.fileId != fileId) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>                log::devPanic(<span class="stringliteral">&quot;Called `Span::to` with spans from different files&quot;</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">return</span> Span::fromBounds(std::min(pos, end.pos), std::max(getHighBound(), end.getHighBound()), fileId);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    };</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">const</span> Span NONE_SPAN {0, <span class="keyword">static_cast&lt;</span>Span::Len<span class="keyword">&gt;</span>(0), 0};</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structjc_1_1span_1_1_spanned.html">   64</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1span_1_1_spanned.html">Spanned</a> {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        T node;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    };</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif </span><span class="comment">// JACY_SPAN_H</span></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html_a70549f9c88375a6c4f6fdba8aa92d3dd"><div class="ttname"><a href="structjc_1_1span_1_1_span.html#a70549f9c88375a6c4f6fdba8aa92d3dd">jc::span::Span::Span</a></div><div class="ttdeci">Span(FileId fileId)</div><div class="ttdoc">Constructor for file span (points to start)</div><div class="ttdef"><b>Definition:</b> Span.h:24</div></div>
-<div class="ttc" id="astructjc_1_1span_1_1_spanned_html"><div class="ttname"><a href="structjc_1_1span_1_1_spanned.html">jc::span::Spanned</a></div><div class="ttdef"><b>Definition:</b> Span.h:65</div></div>
+<div class="ttc" id="astructjc_1_1span_1_1_spanned_html"><div class="ttname"><a href="structjc_1_1span_1_1_spanned.html">jc::span::Spanned</a></div><div class="ttdef"><b>Definition:</b> Span.h:64</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

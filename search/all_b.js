@@ -5,7 +5,7 @@ var searchData=
   ['lambdaparam_2',['LambdaParam',['../structjc_1_1ast_1_1_lambda_param.html',1,'jc::ast']]],
   ['letstmt_3',['LetStmt',['../structjc_1_1ast_1_1_let_stmt.html',1,'jc::ast']]],
   ['lexer_4',['Lexer',['../classjc_1_1parser_1_1_lexer.html',1,'jc::parser']]],
-  ['lexererror_5',['LexerError',['../structjc_1_1parser_1_1_lexer_error.html',1,'jc::parser']]],
+  ['lexinternal_5',['lexInternal',['../classjc_1_1parser_1_1_lexer.html#ad5bf0526d1c20502bfa0fb2c9659d917',1,'jc::parser::Lexer']]],
   ['lifetime_6',['Lifetime',['../structjc_1_1ast_1_1_lifetime.html',1,'jc::ast']]],
   ['line_7',['Line',['../structjc_1_1sess_1_1_line.html',1,'jc::sess']]],
   ['listexpr_8',['ListExpr',['../structjc_1_1ast_1_1_list_expr.html',1,'jc::ast']]],

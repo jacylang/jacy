@@ -138,10 +138,10 @@ $(function() {
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        LitExpr(ValueT val, <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp; token)</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keyword">static</span> dt::Result &lt;Int, LitPreEvalErr&gt; intValue(</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keyword">static</span> dt::Result&lt;Int, LitPreEvalErr&gt; intValue(</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            parser::TokLit::Kind kind,</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            span::Symbol sym,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            span::Symbol::Opt suffix</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            span::Symbol::Opt <span class="comment">/*TODO: suffix*/</span></div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        ) {</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            uint8_t base = 0;</div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            <span class="keywordflow">switch</span> (kind) {</div>

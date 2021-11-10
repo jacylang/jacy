@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['printtitledev_0',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger']]]
+  ['lexinternal_0',['lexInternal',['../classjc_1_1parser_1_1_lexer.html#ad5bf0526d1c20502bfa0fb2c9659d917',1,'jc::parser::Lexer']]]
 ];

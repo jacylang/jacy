@@ -70,7 +70,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="structjc_1_1message_1_1_message_result-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">jc::message::MessageResult&lt; T &gt; Struct Template Reference</div></div>
 </div><!--header-->
@@ -87,18 +86,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abc139380333f468d3a98d136575c0673"><td class="memItemLeft" align="right" valign="top"><a id="abc139380333f468d3a98d136575c0673" name="abc139380333f468d3a98d136575c0673"></a>
 std::tuple&lt; T, message::Message::List &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>extract</b> ()</td></tr>
 <tr class="separator:abc139380333f468d3a98d136575c0673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2fce02223c8e0230b1567fe3ccf454a"><td class="memItemLeft" align="right" valign="top"><a id="af2fce02223c8e0230b1567fe3ccf454a" name="af2fce02223c8e0230b1567fe3ccf454a"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><b>take</b> (sess::Session::Ptr sess, const std::string &amp;stageName=&quot;&quot;)</td></tr>
-<tr class="separator:af2fce02223c8e0230b1567fe3ccf454a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a496e020498b66afe19001ae602c142e0"><td class="memItemLeft" align="right" valign="top"><a id="a496e020498b66afe19001ae602c142e0" name="a496e020498b66afe19001ae602c142e0"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>check</b> (sess::Session::Ptr sess, const Message::List &amp;messages, const std::string &amp;stageName=&quot;&quot;)</td></tr>
-<tr class="separator:a496e020498b66afe19001ae602c142e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af92adf5a05ee12f506072fef5b0655be"><td class="memItemLeft" align="right" valign="top"><a id="af92adf5a05ee12f506072fef5b0655be" name="af92adf5a05ee12f506072fef5b0655be"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> (sess::Session::Ptr sess, const Message::List &amp;messages, const std::string &amp;emptyMessage=&quot;&quot;)</td></tr>
-<tr class="separator:af92adf5a05ee12f506072fef5b0655be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fd49a462b1208f349b2fbbf78067b9f"><td class="memItemLeft" align="right" valign="top"><a id="a5fd49a462b1208f349b2fbbf78067b9f" name="a5fd49a462b1208f349b2fbbf78067b9f"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getMessages</b> () const</td></tr>
+<tr class="separator:a5fd49a462b1208f349b2fbbf78067b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d152a636e53e9c3efcb7415c629f64a"><td class="memItemLeft" align="right" valign="top"><a id="a8d152a636e53e9c3efcb7415c629f64a" name="a8d152a636e53e9c3efcb7415c629f64a"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><b>takeUnchecked</b> ()</td></tr>
+<tr class="separator:a8d152a636e53e9c3efcb7415c629f64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/message/<a class="el" href="_message_result_8h_source.html">MessageResult.h</a></li>
