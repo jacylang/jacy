@@ -352,11 +352,11 @@ namespace jc::parser {
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
                         } else if (
                             is('U')
-                            and isHexDigit(lookup())
-                            and isHexDigit(lookup(2))
-                            and isHexDigit(lookup(3))
-                            and isHexDigit(lookup(4))
-                        ) {
+                                and isHexDigit(lookup())
+                                and isHexDigit(lookup(2))
+                                and isHexDigit(lookup(3))
+                                and isHexDigit(lookup(4))
+                            ) {
                             advance(); // Skip `U`
                             // Hex representation of unicode point
                             val += static_cast<char>(hexCharToInt(advance()) * 16 + hexCharToInt(advance()));
@@ -417,8 +417,8 @@ namespace jc::parser {
                     addToken(TokenKind::Assign, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '+': {
                 if (lookup() == '=') {
                     addToken(TokenKind::AddAssign, 2);
@@ -427,8 +427,8 @@ namespace jc::parser {
                     addToken(TokenKind::Add, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '-': {
                 if (lookup() == '=') {
                     addToken(TokenKind::SubAssign, 2);
@@ -440,8 +440,8 @@ namespace jc::parser {
                     addToken(TokenKind::Sub, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '*': {
                 if (lookup() == '*') {
                     if (lookup(2) == '=') {
@@ -458,8 +458,8 @@ namespace jc::parser {
                     addToken(TokenKind::Mul, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '/': {
                 if (lookup() == '/') {
                     std::string content;
@@ -495,8 +495,8 @@ namespace jc::parser {
                     addToken(TokenKind::Div, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '%': {
                 if (lookup() == '=') {
                     addToken(TokenKind::ModAssign, 2);
@@ -505,48 +505,48 @@ namespace jc::parser {
                     addToken(TokenKind::Rem, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case ';': {
                 addToken(TokenKind::Semi, 1);
                 advance();
-            }
                 break;
+            }
             case '(': {
                 addToken(TokenKind::LParen, 1);
                 advance();
-            }
                 break;
+            }
             case ')': {
                 addToken(TokenKind::RParen, 1);
                 advance();
-            }
                 break;
+            }
             case '{': {
                 addToken(TokenKind::LBrace, 1);
                 advance();
-            }
                 break;
+            }
             case '}': {
                 addToken(TokenKind::RBrace, 1);
                 advance();
-            }
                 break;
+            }
             case '[': {
                 addToken(TokenKind::LBracket, 1);
                 advance();
-            }
                 break;
+            }
             case ']': {
                 addToken(TokenKind::RBracket, 1);
                 advance();
-            }
                 break;
+            }
             case ',': {
                 addToken(TokenKind::Comma, 1);
                 advance();
-            }
                 break;
+            }
             case ':': {
                 if (lookup() == ':') {
                     addToken(TokenKind::Path, 2);
@@ -555,8 +555,8 @@ namespace jc::parser {
                     addToken(TokenKind::Colon, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '.': {
                 if (isDigit(lookup())) {
                     lexFloatLiteral(".");
@@ -575,8 +575,8 @@ namespace jc::parser {
                     addToken(TokenKind::Dot, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '&': {
                 if (lookup() == '=') {
                     addToken(TokenKind::BitAndAssign, 2);
@@ -585,8 +585,8 @@ namespace jc::parser {
                     addToken(TokenKind::Ampersand, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '!': {
                 if (lookup() == '=') {
                     if (lookup(2) == '=') {
@@ -600,8 +600,8 @@ namespace jc::parser {
                     addKwToken(Kw::Not, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '|': {
                 if (lookup() == '>') {
                     addToken(TokenKind::Pipe, 2);
@@ -613,8 +613,8 @@ namespace jc::parser {
                     addToken(TokenKind::BitOr, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '<': {
                 if (lookup() == '=') {
                     if (lookup(2) == '>') {
@@ -636,8 +636,8 @@ namespace jc::parser {
                     addToken(TokenKind::LAngle, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '>': {
                 if (lookup() == '=') {
                     addToken(TokenKind::GE, 2);
@@ -654,8 +654,8 @@ namespace jc::parser {
                     addToken(TokenKind::RAngle, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '^': {
                 if (lookup() == '=') {
                     addToken(TokenKind::XorAssign, 2);
@@ -664,43 +664,43 @@ namespace jc::parser {
                     addToken(TokenKind::Xor, 1);
                     advance();
                 }
-            }
                 break;
+            }
             case '~': {
                 addToken(TokenKind::Inv, 1);
                 advance();
-            }
                 break;
+            }
             case '?': {
                 addToken(TokenKind::Quest, 1);
                 advance();
-            }
                 break;
+            }
             case '$': {
                 addToken(TokenKind::Dollar, 1);
                 advance();
-            }
                 break;
+            }
             case '@': {
                 addToken(TokenKind::At, 1);
                 advance();
-            }
                 break;
+            }
             case '`': {
                 addToken(TokenKind::Backtick, 1);
                 advance();
-            }
                 break;
+            }
             case '_': {
                 addKwToken(Kw::Underscore, 1);
                 advance();
-            }
                 break;
+            }
             case '\\': {
                 addToken(TokenKind::Backslash, 1);
                 advance();
-            }
                 break;
+            }
             default: {
                 unexpectedTokenError();
             }
