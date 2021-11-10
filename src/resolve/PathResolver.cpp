@@ -3,7 +3,7 @@
 namespace jc::resolve {
     ResResult PathResolver::resolve(
         Module::Ptr beginSearchMod,
-        Namespace targetNS,
+        Namespace targetNs,
         const ast::PathInterface & path,
         Symbol::Opt suffix,
         ResMode resMode
@@ -39,7 +39,7 @@ namespace jc::resolve {
             bool isPrefixSeg = i < path.size() - 1;
             bool isLastSeg = i == path.size() - 1;
             bool isSingleOrPrefix = isFirstSeg or isPrefixSeg;
-            Namespace ns = isPrefixSeg ? Namespace::Type : targetNS;
+            Namespace ns = isPrefixSeg ? Namespace::Type : targetNs;
 
             const auto & segName = path.getSegIdent(i).sym;
 
@@ -50,9 +50,9 @@ namespace jc::resolve {
 
                 // TODO: Optimize - try to merge `find` with `has` to avoid additional searching if found
 
-                auto searchNS = isFirstSeg ? targetNS : Namespace::Type;
+                auto searchNs = isFirstSeg ? targetNs : Namespace::Type;
                 while (true) {
-                    if (searchMod->has(searchNS, segName)) {
+                    if (searchMod->has(searchNs, segName)) {
                         break;
                     }
 
@@ -148,7 +148,7 @@ namespace jc::resolve {
                     );
                 }
 
-                const auto & defsPerNS = searchMod->findAll(segName);
+                const auto & defsPerNs = searchMod->findAll(segName);
 
                 // If no public item found -- it is an error as we have nothing to import
                 DefId::Opt singleInaccessible = None;
@@ -158,7 +158,7 @@ namespace jc::resolve {
                 // Collection of all found definitions in each namespace
                 NameBinding::PerNS collectedDefs = {None, None, None};
 
-                defsPerNS.each([&](const NameBinding::Opt & maybeNameBinding, Namespace ns) {
+                defsPerNs.each([&](const NameBinding::Opt & maybeNameBinding, Namespace ns) {
                     if (maybeNameBinding.none()) {
                         return;
                     }
@@ -259,7 +259,7 @@ namespace jc::resolve {
             msg.error()
                .setText(errMsg)
                .setPrimaryLabel(unresolvedSegIdent.span, "'", unresolvedSegName, "' is not defined")
-               .addLabels(suggestAltNames(unresolvedSegIdent.span, targetNS, unresolvedSegName, altDefs))
+               .addLabels(suggestAltNames(unresolvedSegIdent.span, targetNs, unresolvedSegName, altDefs))
                .emit();
         }
 

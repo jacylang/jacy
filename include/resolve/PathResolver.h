@@ -106,7 +106,7 @@ namespace jc::resolve {
 
         ResResult resolve(
             Module::Ptr maybeNameBinding,
-            Namespace targetNS,
+            Namespace targetNs,
             const ast::PathInterface & path,
             Symbol::Opt suffix,
             ResMode resMode

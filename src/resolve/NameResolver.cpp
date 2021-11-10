@@ -188,7 +188,7 @@ namespace jc::resolve {
             resolvePath(Namespace::Value, pathExpr->path, suffix);
         } else if (gotLabels) {
             msg.error()
-               .setText("Labeled invocation not allowed with computed expression call")
+               .setText("Labeled invocation not allowed with non-path left-hand side")
                .setPrimaryLabel(invoke.span, "Cannot use labels here")
                .emit();
         } else {
