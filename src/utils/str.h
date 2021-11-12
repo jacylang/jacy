@@ -1,0 +1,32 @@
+#ifndef JACY_STR_H
+#define JACY_STR_H
+
+#include <string>
+#include <algorithm>
+#include <stdexcept>
+
+namespace jc::utils::str {
+    using StrVec = std::vector<std::string>;
+
+    size_t utf8Size(const std::string & str);
+    bool startsWith(const std::string & str, const std::string & prefix);
+    bool endsWith(const std::string & str, const std::string & suffix);
+    std::string repeat(const std::string & rep, size_t count);
+    std::string padStart(const std::string & str, size_t targetLen, const std::string & rep = " ");
+    std::string padStartOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch = ' ');
+    std::string padEnd(const std::string & str, size_t targetLen, const std::string & rep = " ");
+    std::string padEndOverflow(const std::string & str, size_t targetLen, size_t minSpaceSize, char ch = ' ');
+    std::string pointLine(size_t lineLen, size_t pos, size_t spanLen);
+    std::string clipEnd(const std::string & str, size_t targetLen, const std::string & suffix = "...");
+    std::string clipStart(const std::string & str, size_t targetLen, const std::string & prefix = "...");
+    std::string hardWrap(const std::string & str, uint8_t wrapLen);
+    std::string trimStart(const std::string & str, char remove = ' ');
+    std::string trimEnd(const std::string & str, char remove = ' ');
+    std::string trim(const std::string & str, char remove = ' ');
+    StrVec split(const std::string & str, const std::string & delimiters);
+    StrVec splitKeep(const std::string & str, const std::string & delimiters);
+    std::string toLower(const std::string & str);
+    uint8_t hexCharToInt(char c);
+}
+
+#endif // JACY_STR_H
