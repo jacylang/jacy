@@ -81,6 +81,8 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:ad843b77563e0e9fd0d242050efad928d"><td class="memItemLeft" align="right" valign="top"><a id="ad843b77563e0e9fd0d242050efad928d" name="ad843b77563e0e9fd0d242050efad928d"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Mode</b> { <b>Repl</b>
 , <b>Source</b>
+, <b>Repl</b>
+, <b>Source</b>
  }</td></tr>
 <tr class="separator:ad843b77563e0e9fd0d242050efad928d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a782f64581d593d2a59bcf65ad119e8a3"><td class="memItemLeft" align="right" valign="top"><a id="a782f64581d593d2a59bcf65ad119e8a3" name="a782f64581d593d2a59bcf65ad119e8a3"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DevPrint</b> { <br />
@@ -100,25 +102,62 @@ Public Types</h2></td></tr>
 , <b>Resolutions</b>
 , <br />
 &#160;&#160;<b>All</b>
+, <b>Messages</b>
+, <b>Summary</b>
+, <b>DirTree</b>
+, <br />
+&#160;&#160;<b>Source</b>
+, <b>Tokens</b>
+, <b>Ast</b>
+, <b>AstNodeMap</b>
+, <br />
+&#160;&#160;<b>AstNames</b>
+, <b>ModTree</b>
+, <b>Ribs</b>
+, <b>Definitions</b>
+, <br />
+&#160;&#160;<b>Resolutions</b>
+, <b>All</b>
 <br />
  }</td></tr>
 <tr class="separator:a782f64581d593d2a59bcf65ad119e8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82953afb325d61c647aa6991696490f8"><td class="memItemLeft" align="right" valign="top"><a id="a82953afb325d61c647aa6991696490f8" name="a82953afb325d61c647aa6991696490f8"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DevStage</b> { <b>Lexer</b>
+<tr class="memitem:a82953afb325d61c647aa6991696490f8"><td class="memItemLeft" align="right" valign="top"><a id="a82953afb325d61c647aa6991696490f8" name="a82953afb325d61c647aa6991696490f8"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DevStage</b> { <br />
+&#160;&#160;<b>Lexer</b>
 , <b>Parser</b>
 , <b>NameRes</b>
 , <b>Lowering</b>
+, <br />
+&#160;&#160;<b>Lexer</b>
+, <b>Parser</b>
+, <b>NameRes</b>
+, <b>Lowering</b>
+<br />
  }</td></tr>
 <tr class="separator:a82953afb325d61c647aa6991696490f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a279ab6022985f033735a80a068dca3ea"><td class="memItemLeft" align="right" valign="top"><a id="a279ab6022985f033735a80a068dca3ea" name="a279ab6022985f033735a80a068dca3ea"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>CompileDepth</b> : uint8_t { <b>Parser</b>
+<tr class="memitem:a279ab6022985f033735a80a068dca3ea"><td class="memItemLeft" align="right" valign="top"><a id="a279ab6022985f033735a80a068dca3ea" name="a279ab6022985f033735a80a068dca3ea"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>CompileDepth</b> : uint8_t { <br />
+&#160;&#160;<b>Parser</b>
 , <b>NameResolution</b>
 , <b>Lowering</b>
 , <b>Full</b>
+, <br />
+&#160;&#160;<b>Parser</b>
+, <b>NameResolution</b>
+, <b>Lowering</b>
+, <b>Full</b>
+<br />
  }</td></tr>
 <tr class="separator:a279ab6022985f033735a80a068dca3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f3d93b49e3f01f7b0387ea9a95be5db"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5db">BenchmarkKind</a> : uint8_t { <b>Verbose</b>
+<tr class="memitem:a7f3d93b49e3f01f7b0387ea9a95be5db"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5db">BenchmarkKind</a> : uint8_t { <br />
+&#160;&#160;<b>Verbose</b>
 , <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261">SubStage</a>
 , <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d">Stage</a>
 , <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3">Final</a>
+, <br />
+&#160;&#160;<b>Verbose</b>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261">SubStage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d">Stage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3">Final</a>
+<br />
  }</td></tr>
 <tr class="separator:a7f3d93b49e3f01f7b0387ea9a95be5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f5ec0102598e126972d9bf3a4696124"><td class="memItemLeft" align="right" valign="top"><a id="a2f5ec0102598e126972d9bf3a4696124" name="a2f5ec0102598e126972d9bf3a4696124"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>LogLevel</b> : uint8_t { <br />
@@ -128,12 +167,132 @@ Public Types</h2></td></tr>
 , <b>Error</b>
 , <br />
 &#160;&#160;<b>Unknown</b>
+, <b>Debug</b>
+, <b>Info</b>
+, <b>Warn</b>
+, <br />
+&#160;&#160;<b>Error</b>
+, <b>Unknown</b>
 <br />
  }</td></tr>
 <tr class="separator:a2f5ec0102598e126972d9bf3a4696124"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a288c3f9eefdd71a368a33fc32420d1ec"><td class="memItemLeft" align="right" valign="top"><a id="a288c3f9eefdd71a368a33fc32420d1ec" name="a288c3f9eefdd71a368a33fc32420d1ec"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>ParserExtraDebug</b> : uint8_t { <b>No</b>
+<tr class="memitem:a288c3f9eefdd71a368a33fc32420d1ec"><td class="memItemLeft" align="right" valign="top"><a id="a288c3f9eefdd71a368a33fc32420d1ec" name="a288c3f9eefdd71a368a33fc32420d1ec"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>ParserExtraDebug</b> : uint8_t { <br />
+&#160;&#160;<b>No</b>
 , <b>Entries</b>
 , <b>All</b>
+, <b>No</b>
+, <br />
+&#160;&#160;<b>Entries</b>
+, <b>All</b>
+<br />
+ }</td></tr>
+<tr class="separator:a288c3f9eefdd71a368a33fc32420d1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad843b77563e0e9fd0d242050efad928d"><td class="memItemLeft" align="right" valign="top"><a id="ad843b77563e0e9fd0d242050efad928d" name="ad843b77563e0e9fd0d242050efad928d"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Mode</b> { <b>Repl</b>
+, <b>Source</b>
+, <b>Repl</b>
+, <b>Source</b>
+ }</td></tr>
+<tr class="separator:ad843b77563e0e9fd0d242050efad928d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a782f64581d593d2a59bcf65ad119e8a3"><td class="memItemLeft" align="right" valign="top"><a id="a782f64581d593d2a59bcf65ad119e8a3" name="a782f64581d593d2a59bcf65ad119e8a3"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DevPrint</b> { <br />
+&#160;&#160;<b>Messages</b>
+, <b>Summary</b>
+, <b>DirTree</b>
+, <b>Source</b>
+, <br />
+&#160;&#160;<b>Tokens</b>
+, <b>Ast</b>
+, <b>AstNodeMap</b>
+, <b>AstNames</b>
+, <br />
+&#160;&#160;<b>ModTree</b>
+, <b>Ribs</b>
+, <b>Definitions</b>
+, <b>Resolutions</b>
+, <br />
+&#160;&#160;<b>All</b>
+, <b>Messages</b>
+, <b>Summary</b>
+, <b>DirTree</b>
+, <br />
+&#160;&#160;<b>Source</b>
+, <b>Tokens</b>
+, <b>Ast</b>
+, <b>AstNodeMap</b>
+, <br />
+&#160;&#160;<b>AstNames</b>
+, <b>ModTree</b>
+, <b>Ribs</b>
+, <b>Definitions</b>
+, <br />
+&#160;&#160;<b>Resolutions</b>
+, <b>All</b>
+<br />
+ }</td></tr>
+<tr class="separator:a782f64581d593d2a59bcf65ad119e8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82953afb325d61c647aa6991696490f8"><td class="memItemLeft" align="right" valign="top"><a id="a82953afb325d61c647aa6991696490f8" name="a82953afb325d61c647aa6991696490f8"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>DevStage</b> { <br />
+&#160;&#160;<b>Lexer</b>
+, <b>Parser</b>
+, <b>NameRes</b>
+, <b>Lowering</b>
+, <br />
+&#160;&#160;<b>Lexer</b>
+, <b>Parser</b>
+, <b>NameRes</b>
+, <b>Lowering</b>
+<br />
+ }</td></tr>
+<tr class="separator:a82953afb325d61c647aa6991696490f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a279ab6022985f033735a80a068dca3ea"><td class="memItemLeft" align="right" valign="top"><a id="a279ab6022985f033735a80a068dca3ea" name="a279ab6022985f033735a80a068dca3ea"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>CompileDepth</b> : uint8_t { <br />
+&#160;&#160;<b>Parser</b>
+, <b>NameResolution</b>
+, <b>Lowering</b>
+, <b>Full</b>
+, <br />
+&#160;&#160;<b>Parser</b>
+, <b>NameResolution</b>
+, <b>Lowering</b>
+, <b>Full</b>
+<br />
+ }</td></tr>
+<tr class="separator:a279ab6022985f033735a80a068dca3ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f3d93b49e3f01f7b0387ea9a95be5db"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5db">BenchmarkKind</a> : uint8_t { <br />
+&#160;&#160;<b>Verbose</b>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261">SubStage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d">Stage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3">Final</a>
+, <br />
+&#160;&#160;<b>Verbose</b>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261">SubStage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d">Stage</a>
+, <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3">Final</a>
+<br />
+ }</td></tr>
+<tr class="separator:a7f3d93b49e3f01f7b0387ea9a95be5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f5ec0102598e126972d9bf3a4696124"><td class="memItemLeft" align="right" valign="top"><a id="a2f5ec0102598e126972d9bf3a4696124" name="a2f5ec0102598e126972d9bf3a4696124"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>LogLevel</b> : uint8_t { <br />
+&#160;&#160;<b>Debug</b>
+, <b>Info</b>
+, <b>Warn</b>
+, <b>Error</b>
+, <br />
+&#160;&#160;<b>Unknown</b>
+, <b>Debug</b>
+, <b>Info</b>
+, <b>Warn</b>
+, <br />
+&#160;&#160;<b>Error</b>
+, <b>Unknown</b>
+<br />
+ }</td></tr>
+<tr class="separator:a2f5ec0102598e126972d9bf3a4696124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a288c3f9eefdd71a368a33fc32420d1ec"><td class="memItemLeft" align="right" valign="top"><a id="a288c3f9eefdd71a368a33fc32420d1ec" name="a288c3f9eefdd71a368a33fc32420d1ec"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>ParserExtraDebug</b> : uint8_t { <br />
+&#160;&#160;<b>No</b>
+, <b>Entries</b>
+, <b>All</b>
+, <b>No</b>
+, <br />
+&#160;&#160;<b>Entries</b>
+, <b>All</b>
+<br />
  }</td></tr>
 <tr class="separator:a288c3f9eefdd71a368a33fc32420d1ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -187,16 +346,67 @@ std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;&#160;<
 <tr class="memitem:a76352456ee82bf47fb75c0dd1d4eb783"><td class="memItemLeft" align="right" valign="top"><a id="a76352456ee82bf47fb75c0dd1d4eb783" name="a76352456ee82bf47fb75c0dd1d4eb783"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>boolOptionStr</b> (const <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; bool &gt; &amp;val) const</td></tr>
 <tr class="separator:a76352456ee82bf47fb75c0dd1d4eb783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad86bc69e56e838c1e94da075ca38bcd8"><td class="memItemLeft" align="right" valign="top"><a id="ad86bc69e56e838c1e94da075ca38bcd8" name="ad86bc69e56e838c1e94da075ca38bcd8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Config</b> (<a class="el" href="classjc_1_1config_1_1_config.html">Config</a> const &amp;)=delete</td></tr>
+<tr class="separator:ad86bc69e56e838c1e94da075ca38bcd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb4db2ebb9db2cc10ed7848978576180"><td class="memItemLeft" align="right" valign="top"><a id="acb4db2ebb9db2cc10ed7848978576180" name="acb4db2ebb9db2cc10ed7848978576180"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classjc_1_1config_1_1_config.html">Config</a> const &amp;)=delete</td></tr>
+<tr class="separator:acb4db2ebb9db2cc10ed7848978576180"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e59cb105a34a6ba65f3a12fb82338cf"><td class="memItemLeft" align="right" valign="top"><a id="a4e59cb105a34a6ba65f3a12fb82338cf" name="a4e59cb105a34a6ba65f3a12fb82338cf"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkMode</b> (Mode mode) const</td></tr>
+<tr class="separator:a4e59cb105a34a6ba65f3a12fb82338cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14c4ed4070d6f6176d8cedd404b0b3fe"><td class="memItemLeft" align="right" valign="top"><a id="a14c4ed4070d6f6176d8cedd404b0b3fe" name="a14c4ed4070d6f6176d8cedd404b0b3fe"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkBenchmark</b> (<a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5db">BenchmarkKind</a> benchmark) const</td></tr>
+<tr class="separator:a14c4ed4070d6f6176d8cedd404b0b3fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6154a8888c14aec4c9913d7707884c0"><td class="memItemLeft" align="right" valign="top"><a id="af6154a8888c14aec4c9913d7707884c0" name="af6154a8888c14aec4c9913d7707884c0"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkCompileDepth</b> (CompileDepth compileDepth) const</td></tr>
+<tr class="separator:af6154a8888c14aec4c9913d7707884c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3f0b9512125277f856aa62dac737481"><td class="memItemLeft" align="right" valign="top"><a id="ac3f0b9512125277f856aa62dac737481" name="ac3f0b9512125277f856aa62dac737481"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkLogLevel</b> (LogLevel logLevel, const std::string &amp;owner=GLOBAL_LOG_LEVEL_NAME) const</td></tr>
+<tr class="separator:ac3f0b9512125277f856aa62dac737481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19228f7d8866ef0800904fcd40e99223"><td class="memItemLeft" align="right" valign="top"><a id="a19228f7d8866ef0800904fcd40e99223" name="a19228f7d8866ef0800904fcd40e99223"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkParserExtraDebug</b> (ParserExtraDebug parserExtraDebug) const</td></tr>
+<tr class="separator:a19228f7d8866ef0800904fcd40e99223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30ced29c1ff73d9a8f80e0c4851633e6"><td class="memItemLeft" align="right" valign="top"><a id="a30ced29c1ff73d9a8f80e0c4851633e6" name="a30ced29c1ff73d9a8f80e0c4851633e6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkDevMode</b> () const</td></tr>
+<tr class="separator:a30ced29c1ff73d9a8f80e0c4851633e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac929e36ac8203431ce550988f03a9d99"><td class="memItemLeft" align="right" valign="top"><a id="ac929e36ac8203431ce550988f03a9d99" name="ac929e36ac8203431ce550988f03a9d99"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkDevFull</b> () const</td></tr>
+<tr class="separator:ac929e36ac8203431ce550988f03a9d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8926dd0b66dd07a290d7bbb4260fc953"><td class="memItemLeft" align="right" valign="top"><a id="a8926dd0b66dd07a290d7bbb4260fc953" name="a8926dd0b66dd07a290d7bbb4260fc953"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkDevLog</b> (const std::string &amp;object) const</td></tr>
+<tr class="separator:a8926dd0b66dd07a290d7bbb4260fc953"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025a083997e6656cc5fa79568c579c08"><td class="memItemLeft" align="right" valign="top"><a id="a025a083997e6656cc5fa79568c579c08" name="a025a083997e6656cc5fa79568c579c08"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkDevPrint</b> (const DevPrint &amp;printKind) const</td></tr>
+<tr class="separator:a025a083997e6656cc5fa79568c579c08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb8b70285d249a651e3fb8a7ffcf0bbd"><td class="memItemLeft" align="right" valign="top"><a id="aeb8b70285d249a651e3fb8a7ffcf0bbd" name="aeb8b70285d249a651e3fb8a7ffcf0bbd"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkDevStage</b> (const DevStage &amp;stage) const</td></tr>
+<tr class="separator:aeb8b70285d249a651e3fb8a7ffcf0bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1eb20ec5a1605916b6ddae2de15d655e"><td class="memItemLeft" align="right" valign="top"><a id="a1eb20ec5a1605916b6ddae2de15d655e" name="a1eb20ec5a1605916b6ddae2de15d655e"></a>
+LogLevel&#160;</td><td class="memItemRight" valign="bottom"><b>getLogLevel</b> (const std::string &amp;owner=GLOBAL_LOG_LEVEL_NAME) const</td></tr>
+<tr class="separator:a1eb20ec5a1605916b6ddae2de15d655e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e14d0bd175bbf7ffd3683d0eec4c76"><td class="memItemLeft" align="right" valign="top"><a id="ad7e14d0bd175bbf7ffd3683d0eec4c76" name="ad7e14d0bd175bbf7ffd3683d0eec4c76"></a>
+const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getRootFile</b> () const</td></tr>
+<tr class="separator:ad7e14d0bd175bbf7ffd3683d0eec4c76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaaf492955f5e2b28533282cd0dd170de"><td class="memItemLeft" align="right" valign="top"><a id="aaaf492955f5e2b28533282cd0dd170de" name="aaaf492955f5e2b28533282cd0dd170de"></a>
+std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getOptionsMap</b> () const</td></tr>
+<tr class="separator:aaaf492955f5e2b28533282cd0dd170de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76352456ee82bf47fb75c0dd1d4eb783"><td class="memItemLeft" align="right" valign="top"><a id="a76352456ee82bf47fb75c0dd1d4eb783" name="a76352456ee82bf47fb75c0dd1d4eb783"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>boolOptionStr</b> (const <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; bool &gt; &amp;val) const</td></tr>
+<tr class="separator:a76352456ee82bf47fb75c0dd1d4eb783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a17b307a32b1d679065b9592fb47d7267"><td class="memItemLeft" align="right" valign="top"><a id="a17b307a32b1d679065b9592fb47d7267" name="a17b307a32b1d679065b9592fb47d7267"></a>
 static <a class="el" href="classjc_1_1config_1_1_config.html">Config</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getInstance</b> ()</td></tr>
 <tr class="separator:a17b307a32b1d679065b9592fb47d7267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17b307a32b1d679065b9592fb47d7267"><td class="memItemLeft" align="right" valign="top"><a id="a17b307a32b1d679065b9592fb47d7267" name="a17b307a32b1d679065b9592fb47d7267"></a>
+static <a class="el" href="classjc_1_1config_1_1_config.html">Config</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getInstance</b> ()</td></tr>
+<tr class="separator:a17b307a32b1d679065b9592fb47d7267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a7f3d93b49e3f01f7b0387ea9a95be5db" name="a7f3d93b49e3f01f7b0387ea9a95be5db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f3d93b49e3f01f7b0387ea9a95be5db">&#9670;&nbsp;</a></span>BenchmarkKind</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f3d93b49e3f01f7b0387ea9a95be5db">&#9670;&nbsp;</a></span>BenchmarkKind <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -221,12 +431,55 @@ static <a class="el" href="classjc_1_1config_1_1_config.html">Config</a> &amp;&#
 </td></tr>
 <tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3" name="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3"></a>Final&#160;</td><td class="fielddoc"><p >The whole one stage, e.g. full Parsing stage. </p>
 </td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261" name="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261"></a>SubStage&#160;</td><td class="fielddoc"><p >Each process, e.g. printing some debug info. Used to check if some debug process runs too long. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d" name="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d"></a>Stage&#160;</td><td class="fielddoc"><p >E.g. Lexing at Parsing stage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3" name="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3"></a>Final&#160;</td><td class="fielddoc"><p >The whole one stage, e.g. full Parsing stage. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7f3d93b49e3f01f7b0387ea9a95be5db" name="a7f3d93b49e3f01f7b0387ea9a95be5db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f3d93b49e3f01f7b0387ea9a95be5db">&#9670;&nbsp;</a></span>BenchmarkKind <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5db">jc::config::Config::BenchmarkKind</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261" name="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261"></a>SubStage&#160;</td><td class="fielddoc"><p >Each process, e.g. printing some debug info. Used to check if some debug process runs too long. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d" name="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d"></a>Stage&#160;</td><td class="fielddoc"><p >E.g. Lexing at Parsing stage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3" name="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3"></a>Final&#160;</td><td class="fielddoc"><p >The whole one stage, e.g. full Parsing stage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261" name="a7f3d93b49e3f01f7b0387ea9a95be5dba1ca8adb1ce8f700c17c71cdb32b53261"></a>SubStage&#160;</td><td class="fielddoc"><p >Each process, e.g. printing some debug info. Used to check if some debug process runs too long. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d" name="a7f3d93b49e3f01f7b0387ea9a95be5dba64c6da2436465d11573858d46056b95d"></a>Stage&#160;</td><td class="fielddoc"><p >E.g. Lexing at Parsing stage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3" name="a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3"></a>Final&#160;</td><td class="fielddoc"><p >The whole one stage, e.g. full Parsing stage. </p>
+</td></tr>
 </table>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/config/<a class="el" href="config_2_config_8h_source.html">Config.h</a></li>
+<li>include/config/<a class="el" href="include_2config_2_config_8h_source.html">Config.h</a></li>
+<li>src/config/<a class="el" href="src_2config_2_config_8h_source.html">Config.h</a></li>
 <li>src/config/Config.cpp</li>
 </ul>
 </div><!-- contents -->

@@ -85,9 +85,27 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Interval</b> = std::
 <tr class="memitem:a2559c653f91d6ebe2b7a9292d2027115"><td class="memItemLeft" align="right" valign="top"><a id="a2559c653f91d6ebe2b7a9292d2027115" name="a2559c653f91d6ebe2b7a9292d2027115"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>FrameList</b> = std::vector&lt; std::string &gt;</td></tr>
 <tr class="separator:a2559c653f91d6ebe2b7a9292d2027115"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af04266baf7f96adf826818da3dc8bff2"><td class="memItemLeft" align="right" valign="top"><a id="af04266baf7f96adf826818da3dc8bff2" name="af04266baf7f96adf826818da3dc8bff2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Interval</b> = std::size_t</td></tr>
+<tr class="separator:af04266baf7f96adf826818da3dc8bff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2559c653f91d6ebe2b7a9292d2027115"><td class="memItemLeft" align="right" valign="top"><a id="a2559c653f91d6ebe2b7a9292d2027115" name="a2559c653f91d6ebe2b7a9292d2027115"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FrameList</b> = std::vector&lt; std::string &gt;</td></tr>
+<tr class="separator:a2559c653f91d6ebe2b7a9292d2027115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a0ee811cdf7b563ef8cdd3ef723a4fdc4"><td class="memItemLeft" align="right" valign="top"><a id="a0ee811cdf7b563ef8cdd3ef723a4fdc4" name="a0ee811cdf7b563ef8cdd3ef723a4fdc4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Anim</b> (const Interval interval, const FrameList &amp;frames)</td></tr>
+<tr class="separator:a0ee811cdf7b563ef8cdd3ef723a4fdc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a416483cac2bde7574f8331ebcaeb47ae"><td class="memItemLeft" align="right" valign="top"><a id="a416483cac2bde7574f8331ebcaeb47ae" name="a416483cac2bde7574f8331ebcaeb47ae"></a>
+Interval&#160;</td><td class="memItemRight" valign="bottom"><b>getInterval</b> () const noexcept</td></tr>
+<tr class="separator:a416483cac2bde7574f8331ebcaeb47ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97987640f5310c8cf5100e6a4e1ba286"><td class="memItemLeft" align="right" valign="top"><a id="a97987640f5310c8cf5100e6a4e1ba286" name="a97987640f5310c8cf5100e6a4e1ba286"></a>
+const FrameList &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getFrames</b> () const noexcept</td></tr>
+<tr class="separator:a97987640f5310c8cf5100e6a4e1ba286"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c27afa91e130bb7d341cda3ce283f6"><td class="memItemLeft" align="right" valign="top"><a id="ae4c27afa91e130bb7d341cda3ce283f6" name="ae4c27afa91e130bb7d341cda3ce283f6"></a>
+const std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getFrame</b> (size_t iteration) const noexcept</td></tr>
+<tr class="separator:ae4c27afa91e130bb7d341cda3ce283f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ee811cdf7b563ef8cdd3ef723a4fdc4"><td class="memItemLeft" align="right" valign="top"><a id="a0ee811cdf7b563ef8cdd3ef723a4fdc4" name="a0ee811cdf7b563ef8cdd3ef723a4fdc4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Anim</b> (const Interval interval, const FrameList &amp;frames)</td></tr>
 <tr class="separator:a0ee811cdf7b563ef8cdd3ef723a4fdc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,9 +124,13 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ab97be391843645c680af658f142bbf17"><td class="memItemLeft" align="right" valign="top"><a id="ab97be391843645c680af658f142bbf17" name="ab97be391843645c680af658f142bbf17"></a>
 static const <a class="el" href="classjc_1_1log_1_1_anim.html">Anim</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getAnim</b> (AnimKind kind)</td></tr>
 <tr class="separator:ab97be391843645c680af658f142bbf17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab97be391843645c680af658f142bbf17"><td class="memItemLeft" align="right" valign="top"><a id="ab97be391843645c680af658f142bbf17" name="ab97be391843645c680af658f142bbf17"></a>
+static const <a class="el" href="classjc_1_1log_1_1_anim.html">Anim</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getAnim</b> (AnimKind kind)</td></tr>
+<tr class="separator:ab97be391843645c680af658f142bbf17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/log/<a class="el" href="data__types_8h_source.html">data_types.h</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/log/<a class="el" href="include_2log_2data__types_8h_source.html">data_types.h</a></li>
+<li>src/log/<a class="el" href="src_2log_2data__types_8h_source.html">data_types.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

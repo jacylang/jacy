@@ -80,8 +80,19 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:a44e218d7c1bb9619a7808cd2509e08cd"><td class="memItemLeft" align="right" valign="top"><a id="a44e218d7c1bb9619a7808cd2509e08cd" name="a44e218d7c1bb9619a7808cd2509e08cd"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>File</b>
 , <b>Dir</b>
+, <b>File</b>
+, <b>Dir</b>
  }</td></tr>
 <tr class="separator:a44e218d7c1bb9619a7808cd2509e08cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e218d7c1bb9619a7808cd2509e08cd"><td class="memItemLeft" align="right" valign="top"><a id="a44e218d7c1bb9619a7808cd2509e08cd" name="a44e218d7c1bb9619a7808cd2509e08cd"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>File</b>
+, <b>Dir</b>
+, <b>File</b>
+, <b>Dir</b>
+ }</td></tr>
+<tr class="separator:a44e218d7c1bb9619a7808cd2509e08cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f2fab9bfd3f4f742c41a19e56026292"><td class="memItemLeft" align="right" valign="top"><a id="a4f2fab9bfd3f4f742c41a19e56026292" name="a4f2fab9bfd3f4f742c41a19e56026292"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1fs_1_1_entry.html">Entry</a> &gt;</td></tr>
+<tr class="separator:a4f2fab9bfd3f4f742c41a19e56026292"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f2fab9bfd3f4f742c41a19e56026292"><td class="memItemLeft" align="right" valign="top"><a id="a4f2fab9bfd3f4f742c41a19e56026292" name="a4f2fab9bfd3f4f742c41a19e56026292"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1fs_1_1_entry.html">Entry</a> &gt;</td></tr>
 <tr class="separator:a4f2fab9bfd3f4f742c41a19e56026292"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,9 +117,28 @@ Entry::List &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>ext
 <tr class="memitem:a2060425c33351b4d02e61999fdca7a85"><td class="memItemLeft" align="right" valign="top"><a id="a2060425c33351b4d02e61999fdca7a85" name="a2060425c33351b4d02e61999fdca7a85"></a>
 std::string &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>extractContent</b> ()</td></tr>
 <tr class="separator:a2060425c33351b4d02e61999fdca7a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9eecb35a3f3215d0fe226c949b30f964"><td class="memItemLeft" align="right" valign="top"><a id="a9eecb35a3f3215d0fe226c949b30f964" name="a9eecb35a3f3215d0fe226c949b30f964"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Entry</b> (const std_fs::path &amp;path, Entry::List &amp;&amp;files)</td></tr>
+<tr class="separator:a9eecb35a3f3215d0fe226c949b30f964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a955d0b846c4ddc06af38ece765f52148"><td class="memItemLeft" align="right" valign="top"><a id="a955d0b846c4ddc06af38ece765f52148" name="a955d0b846c4ddc06af38ece765f52148"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Entry</b> (const std_fs::path &amp;path, std::string &amp;&amp;content)</td></tr>
+<tr class="separator:a955d0b846c4ddc06af38ece765f52148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a028be56c393b4baa4c3b8308d2860abe"><td class="memItemLeft" align="right" valign="top"><a id="a028be56c393b4baa4c3b8308d2860abe" name="a028be56c393b4baa4c3b8308d2860abe"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isDir</b> () const</td></tr>
+<tr class="separator:a028be56c393b4baa4c3b8308d2860abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaae7f0742d94661671bbecf92bd2b09"><td class="memItemLeft" align="right" valign="top"><a id="acaae7f0742d94661671bbecf92bd2b09" name="acaae7f0742d94661671bbecf92bd2b09"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>getPath</b> () const</td></tr>
+<tr class="separator:acaae7f0742d94661671bbecf92bd2b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a464a1ad11539bb2d7b410b12352bf"><td class="memItemLeft" align="right" valign="top"><a id="aa9a464a1ad11539bb2d7b410b12352bf" name="aa9a464a1ad11539bb2d7b410b12352bf"></a>
+Entry::List &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>extractEntries</b> ()</td></tr>
+<tr class="separator:aa9a464a1ad11539bb2d7b410b12352bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2060425c33351b4d02e61999fdca7a85"><td class="memItemLeft" align="right" valign="top"><a id="a2060425c33351b4d02e61999fdca7a85" name="a2060425c33351b4d02e61999fdca7a85"></a>
+std::string &amp;&amp;&#160;</td><td class="memItemRight" valign="bottom"><b>extractContent</b> ()</td></tr>
+<tr class="separator:a2060425c33351b4d02e61999fdca7a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/fs/<a class="el" href="_entry_8h_source.html">Entry.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/fs/<a class="el" href="include_2fs_2_entry_8h_source.html">Entry.h</a></li>
+<li>src/fs/<a class="el" href="src_2fs_2_entry_8h_source.html">Entry.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -5,7 +5,7 @@ var searchData=
   ['unitexpr_2',['UnitExpr',['../structjc_1_1ast_1_1_unit_expr.html',1,'jc::ast']]],
   ['unittype_3',['UnitType',['../structjc_1_1ast_1_1_unit_type.html',1,'jc::ast']]],
   ['unresseg_4',['UnresSeg',['../structjc_1_1resolve_1_1_unres_seg.html',1,'jc::resolve']]],
-  ['unwinddefid_5',['unwindDefId',['../structjc_1_1resolve_1_1_def_table.html#aad9b783262bb6c2624a1ed4a49fb98e3',1,'jc::resolve::DefTable']]],
+  ['unwinddefid_5',['unwindDefId',['../structjc_1_1resolve_1_1_def_table.html#aad9b783262bb6c2624a1ed4a49fb98e3',1,'jc::resolve::DefTable::unwindDefId(DefId defId) const'],['../structjc_1_1resolve_1_1_def_table.html#aad9b783262bb6c2624a1ed4a49fb98e3',1,'jc::resolve::DefTable::unwindDefId(DefId defId) const']]],
   ['usedecl_6',['UseDecl',['../structjc_1_1ast_1_1_use_decl.html',1,'jc::ast::UseDecl'],['../structjc_1_1hir_1_1_use_decl.html',1,'jc::hir::UseDecl']]],
   ['usetree_7',['UseTree',['../structjc_1_1ast_1_1_use_tree.html',1,'jc::ast']]]
 ];

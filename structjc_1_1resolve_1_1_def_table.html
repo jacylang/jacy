@@ -87,6 +87,15 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>FOSList</b> = std::v
 <tr class="memitem:a55eb8c39909b496d30079724ba543c6e"><td class="memItemLeft" align="right" valign="top"><a id="a55eb8c39909b496d30079724ba543c6e" name="a55eb8c39909b496d30079724ba543c6e"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>FuncDefResult</b> = <a class="el" href="classjc_1_1dt_1_1_result.html">Result</a>&lt; <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a>, std::pair&lt; <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &gt; &gt;</td></tr>
 <tr class="separator:a55eb8c39909b496d30079724ba543c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dd5f32a8efec2269d126dcc5bc36ec5"><td class="memItemLeft" align="right" valign="top"><a id="a4dd5f32a8efec2269d126dcc5bc36ec5" name="a4dd5f32a8efec2269d126dcc5bc36ec5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FOSMap</b> = std::map&lt; <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &gt;</td></tr>
+<tr class="separator:a4dd5f32a8efec2269d126dcc5bc36ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc2cd9ed29ca798793ad4ca38c172cc1"><td class="memItemLeft" align="right" valign="top"><a id="abc2cd9ed29ca798793ad4ca38c172cc1" name="abc2cd9ed29ca798793ad4ca38c172cc1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FOSList</b> = std::vector&lt; FOSMap &gt;</td></tr>
+<tr class="separator:abc2cd9ed29ca798793ad4ca38c172cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55eb8c39909b496d30079724ba543c6e"><td class="memItemLeft" align="right" valign="top"><a id="a55eb8c39909b496d30079724ba543c6e" name="a55eb8c39909b496d30079724ba543c6e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FuncDefResult</b> = <a class="el" href="classjc_1_1dt_1_1_result.html">Result</a>&lt; <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a>, std::pair&lt; <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &gt; &gt;</td></tr>
+<tr class="separator:a55eb8c39909b496d30079724ba543c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -151,6 +160,95 @@ const FOSMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getFOS<
 <tr class="memitem:a554de8242eb69dbb2bd9aa0a6655f407"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjc_1_1dt_1_1_result.html">FuncDefResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_def_table.html#a554de8242eb69dbb2bd9aa0a6655f407">tryDefineFunc</a> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="classjc_1_1dt_1_1_option.html">FOSId::Opt</a> fosId, <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> suffix)</td></tr>
 <tr class="memdesc:a554de8242eb69dbb2bd9aa0a6655f407"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines function in given FOS, if no <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html" title="FOSId (stands for Function Overload Set Id) is an identifier pointing to particular function overload...">FOSId</a> given creates one.  <a href="structjc_1_1resolve_1_1_def_table.html#a554de8242eb69dbb2bd9aa0a6655f407">More...</a><br /></td></tr>
 <tr class="separator:a554de8242eb69dbb2bd9aa0a6655f407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1664f92fecb113e61f8f86cd38dc573c"><td class="memItemLeft" align="right" valign="top"><a id="a1664f92fecb113e61f8f86cd38dc573c" name="a1664f92fecb113e61f8f86cd38dc573c"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getFOSFirstDef</b> (<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> fosId) const</td></tr>
+<tr class="memdesc:a1664f92fecb113e61f8f86cd38dc573c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get defId of the first overload from some function overload set. <br /></td></tr>
+<tr class="separator:a1664f92fecb113e61f8f86cd38dc573c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8255a5caf3b7f3bc584506fa80edb939"><td class="memItemLeft" align="right" valign="top"><a id="a8255a5caf3b7f3bc584506fa80edb939" name="a8255a5caf3b7f3bc584506fa80edb939"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">span::Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getFOSFirstSpan</b> (<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> fosId) const</td></tr>
+<tr class="memdesc:a8255a5caf3b7f3bc584506fa80edb939"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get span of the first overload from some function overload set. <br /></td></tr>
+<tr class="separator:a8255a5caf3b7f3bc584506fa80edb939"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ea114b1cd62ac1fabd32e635c85ddc"><td class="memItemLeft" align="right" valign="top"><a id="a79ea114b1cd62ac1fabd32e635c85ddc" name="a79ea114b1cd62ac1fabd32e635c85ddc"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>defineImportAlias</b> (Vis importVis, <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> pathNodeId, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> importDefId)</td></tr>
+<tr class="separator:a79ea114b1cd62ac1fabd32e635c85ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f52e584ece2a8071fbc5391feee1a6b"><td class="memItemLeft" align="right" valign="top"><a id="a6f52e584ece2a8071fbc5391feee1a6b" name="a6f52e584ece2a8071fbc5391feee1a6b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setUseDeclModule</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, Module::Ptr module)</td></tr>
+<tr class="separator:a6f52e584ece2a8071fbc5391feee1a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39ced904bfdb52bdbd42777ff7cf0cab"><td class="memItemLeft" align="right" valign="top"><a id="a39ced904bfdb52bdbd42777ff7cf0cab" name="a39ced904bfdb52bdbd42777ff7cf0cab"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>getUseDeclModule</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId) const</td></tr>
+<tr class="separator:a39ced904bfdb52bdbd42777ff7cf0cab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af170b51d3ea09f24d86e6ac124871504"><td class="memItemLeft" align="right" valign="top"><a id="af170b51d3ea09f24d86e6ac124871504" name="af170b51d3ea09f24d86e6ac124871504"></a>
+<a class="el" href="structjc_1_1resolve_1_1_fos_redefs.html">FosRedefs</a>&#160;</td><td class="memItemRight" valign="bottom"><b>importFos</b> (Vis importVis, <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> pathNodeId, <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> importFosId, <a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> targetFosId)</td></tr>
+<tr class="separator:af170b51d3ea09f24d86e6ac124871504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfcd07e7da75c31f380bc88b562bf92d"><td class="memItemLeft" align="right" valign="top"><a id="adfcd07e7da75c31f380bc88b562bf92d" name="adfcd07e7da75c31f380bc88b562bf92d"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getImportAlias</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> aliasDefId) const</td></tr>
+<tr class="separator:adfcd07e7da75c31f380bc88b562bf92d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa23772128b061dde37678114590fc34"><td class="memItemLeft" align="right" valign="top"><a id="afa23772128b061dde37678114590fc34" name="afa23772128b061dde37678114590fc34"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getUseDeclModules</b> () const</td></tr>
+<tr class="separator:afa23772128b061dde37678114590fc34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d97c73429820d0e500cd21f3f887095"><td class="memItemLeft" align="right" valign="top"><a id="a2d97c73429820d0e500cd21f3f887095" name="a2d97c73429820d0e500cd21f3f887095"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>size</b> () const</td></tr>
+<tr class="separator:a2d97c73429820d0e500cd21f3f887095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5574507fd4ca935442220cadfae77ccc"><td class="memItemLeft" align="right" valign="top"><a id="a5574507fd4ca935442220cadfae77ccc" name="a5574507fd4ca935442220cadfae77ccc"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getDefinitions</b> () const</td></tr>
+<tr class="separator:a5574507fd4ca935442220cadfae77ccc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad9b783262bb6c2624a1ed4a49fb98e3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_def_table.html#aad9b783262bb6c2624a1ed4a49fb98e3">unwindDefId</a> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId) const</td></tr>
+<tr class="memdesc:aad9b783262bb6c2624a1ed4a49fb98e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unwinds definition in case if it is an alias Note: Always use <code>unwindDefId</code> if you want to get "real" def id.  <a href="structjc_1_1resolve_1_1_def_table.html#aad9b783262bb6c2624a1ed4a49fb98e3">More...</a><br /></td></tr>
+<tr class="separator:aad9b783262bb6c2624a1ed4a49fb98e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08006422160d63ee36d2d9c545806dc3"><td class="memItemLeft" align="right" valign="top"><a id="a08006422160d63ee36d2d9c545806dc3" name="a08006422160d63ee36d2d9c545806dc3"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def.html">Def</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getDef</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_index.html">DefIndex</a> &amp;index) const</td></tr>
+<tr class="separator:a08006422160d63ee36d2d9c545806dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10ded3fff4faf246b08c70996d2a2623"><td class="memItemLeft" align="right" valign="top"><a id="a10ded3fff4faf246b08c70996d2a2623" name="a10ded3fff4faf246b08c70996d2a2623"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def.html">Def</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getDef</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:a10ded3fff4faf246b08c70996d2a2623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4a7e15cba96cfb5362a0ed6a9c78c62"><td class="memItemLeft" align="right" valign="top"><a id="af4a7e15cba96cfb5362a0ed6a9c78c62" name="af4a7e15cba96cfb5362a0ed6a9c78c62"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def.html">Def</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getDefUnwind</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:af4a7e15cba96cfb5362a0ed6a9c78c62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb8c5ae3c51a95c8e47cb079b3e9f12d"><td class="memItemLeft" align="right" valign="top"><a id="aeb8c5ae3c51a95c8e47cb079b3e9f12d" name="aeb8c5ae3c51a95c8e47cb079b3e9f12d"></a>
+Vis&#160;</td><td class="memItemRight" valign="bottom"><b>getDefVis</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:aeb8c5ae3c51a95c8e47cb079b3e9f12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0df45de8c2a5754390d24b16e2fc0612"><td class="memItemLeft" align="right" valign="top"><a id="a0df45de8c2a5754390d24b16e2fc0612" name="a0df45de8c2a5754390d24b16e2fc0612"></a>
+const <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getNodeIdByDefId</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:a0df45de8c2a5754390d24b16e2fc0612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d61868857cdb0e32952f0f8dc218ca1"><td class="memItemLeft" align="right" valign="top"><a id="a5d61868857cdb0e32952f0f8dc218ca1" name="a5d61868857cdb0e32952f0f8dc218ca1"></a>
+const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getDefIdByNodeId</b> (const <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> &amp;nodeId) const</td></tr>
+<tr class="separator:a5d61868857cdb0e32952f0f8dc218ca1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29680914a43e8f33c8db193128aa0c14"><td class="memItemLeft" align="right" valign="top"><a id="a29680914a43e8f33c8db193128aa0c14" name="a29680914a43e8f33c8db193128aa0c14"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">span::Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getDefNameSpan</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:a29680914a43e8f33c8db193128aa0c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d6b0ef8ee6b9c3d3e6f1acdcf3ed3c5"><td class="memItemLeft" align="right" valign="top"><a id="a7d6b0ef8ee6b9c3d3e6f1acdcf3ed3c5" name="a7d6b0ef8ee6b9c3d3e6f1acdcf3ed3c5"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>define</b> (Vis vis, <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, DefKind kind, const <a class="el" href="structjc_1_1span_1_1_ident.html">span::Ident</a> &amp;ident)</td></tr>
+<tr class="separator:a7d6b0ef8ee6b9c3d3e6f1acdcf3ed3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad2f7aa5baaee52503436a55bc3700a8"><td class="memItemLeft" align="right" valign="top"><a id="aad2f7aa5baaee52503436a55bc3700a8" name="aad2f7aa5baaee52503436a55bc3700a8"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>getModule</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId) const</td></tr>
+<tr class="separator:aad2f7aa5baaee52503436a55bc3700a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fde1f3d74d7a96ef167d44639bf1946"><td class="memItemLeft" align="right" valign="top"><a id="a9fde1f3d74d7a96ef167d44639bf1946" name="a9fde1f3d74d7a96ef167d44639bf1946"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>getBlock</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId) const</td></tr>
+<tr class="separator:a9fde1f3d74d7a96ef167d44639bf1946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe197c00a8e99f9d48a786bbef45440f"><td class="memItemLeft" align="right" valign="top"><a id="afe197c00a8e99f9d48a786bbef45440f" name="afe197c00a8e99f9d48a786bbef45440f"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>getFuncModule</b> (<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> overloadId, <a class="el" href="structjc_1_1span_1_1_symbol.html">span::Symbol</a> suffix) const</td></tr>
+<tr class="separator:afe197c00a8e99f9d48a786bbef45440f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a166052c4ca33ff6129df66b9e64253bc"><td class="memItemLeft" align="right" valign="top"><a id="a166052c4ca33ff6129df66b9e64253bc" name="a166052c4ca33ff6129df66b9e64253bc"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>addModule</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> &amp;defId, Module::Ptr module)</td></tr>
+<tr class="separator:a166052c4ca33ff6129df66b9e64253bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb2bf1a9ebeae23c47a91b14d7d2c214"><td class="memItemLeft" align="right" valign="top"><a id="afb2bf1a9ebeae23c47a91b14d7d2c214" name="afb2bf1a9ebeae23c47a91b14d7d2c214"></a>
+Module::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>addBlock</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, Module::Ptr module)</td></tr>
+<tr class="separator:afb2bf1a9ebeae23c47a91b14d7d2c214"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b6e185cdcd9e4c42a6983890210f187"><td class="memItemLeft" align="right" valign="top"><a id="a6b6e185cdcd9e4c42a6983890210f187" name="a6b6e185cdcd9e4c42a6983890210f187"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getBlocks</b> () const</td></tr>
+<tr class="separator:a6b6e185cdcd9e4c42a6983890210f187"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab356e92cf663b2a436a18f711acedd9e"><td class="memItemLeft" align="right" valign="top"><a id="ab356e92cf663b2a436a18f711acedd9e" name="ab356e92cf663b2a436a18f711acedd9e"></a>
+const FOSList &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getFOSList</b> () const</td></tr>
+<tr class="separator:ab356e92cf663b2a436a18f711acedd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d24407ed602c76f254b880c2297e13c"><td class="memItemLeft" align="right" valign="top"><a id="a0d24407ed602c76f254b880c2297e13c" name="a0d24407ed602c76f254b880c2297e13c"></a>
+const FOSMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getFOS</b> (<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> fosId) const</td></tr>
+<tr class="separator:a0d24407ed602c76f254b880c2297e13c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83e29d139ef1dbec087fa77f062dee1a"><td class="memItemLeft" align="right" valign="top"><a id="a83e29d139ef1dbec087fa77f062dee1a" name="a83e29d139ef1dbec087fa77f062dee1a"></a>
+<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>newEmptyFOS</b> ()</td></tr>
+<tr class="separator:a83e29d139ef1dbec087fa77f062dee1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa13ae2545dad71cfac5f7e2d401af677"><td class="memItemLeft" align="right" valign="top"><a id="aa13ae2545dad71cfac5f7e2d401af677" name="aa13ae2545dad71cfac5f7e2d401af677"></a>
+<a class="el" href="classjc_1_1dt_1_1_result.html">FuncDefResult</a>&#160;</td><td class="memItemRight" valign="bottom"><b>tryDefineFunc</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="classjc_1_1dt_1_1_option.html">FOSId::Opt</a> fosId, <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> suffix)</td></tr>
+<tr class="separator:aa13ae2545dad71cfac5f7e2d401af677"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1664f92fecb113e61f8f86cd38dc573c"><td class="memItemLeft" align="right" valign="top"><a id="a1664f92fecb113e61f8f86cd38dc573c" name="a1664f92fecb113e61f8f86cd38dc573c"></a>
 <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getFOSFirstDef</b> (<a class="el" href="structjc_1_1resolve_1_1_f_o_s_id.html">FOSId</a> fosId) const</td></tr>
 <tr class="memdesc:a1664f92fecb113e61f8f86cd38dc573c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get defId of the first overload from some function overload set. <br /></td></tr>
@@ -270,7 +368,42 @@ const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getUseDec
 </div>
 </div>
 <a id="aad9b783262bb6c2624a1ed4a49fb98e3" name="aad9b783262bb6c2624a1ed4a49fb98e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aad9b783262bb6c2624a1ed4a49fb98e3">&#9670;&nbsp;</a></span>unwindDefId()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9b783262bb6c2624a1ed4a49fb98e3">&#9670;&nbsp;</a></span>unwindDefId() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> jc::resolve::DefTable::unwindDefId </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td>
+          <td class="paramname"><em>defId</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Unwinds definition in case if it is an alias Note: Always use <code>unwindDefId</code> if you want to get "real" def id. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">defId</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="aad9b783262bb6c2624a1ed4a49fb98e3" name="aad9b783262bb6c2624a1ed4a49fb98e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9b783262bb6c2624a1ed4a49fb98e3">&#9670;&nbsp;</a></span>unwindDefId() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -305,7 +438,8 @@ const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getUseDec
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/resolve/<a class="el" href="_def_table_8h_source.html">DefTable.h</a></li>
+<li>include/resolve/<a class="el" href="include_2resolve_2_def_table_8h_source.html">DefTable.h</a></li>
+<li>src/resolve/<a class="el" href="src_2resolve_2_def_table_8h_source.html">DefTable.h</a></li>
 <li>src/resolve/DefTable.cpp</li>
 </ul>
 </div><!-- contents -->

@@ -82,11 +82,25 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:a7044b6bffdc31ff97fbc05a87568d44a"><td class="memItemLeft" align="right" valign="top"><a id="a7044b6bffdc31ff97fbc05a87568d44a" name="a7044b6bffdc31ff97fbc05a87568d44a"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Font</b>
 , <b>Background</b>
+, <b>Font</b>
+, <b>Background</b>
+ }</td></tr>
+<tr class="separator:a7044b6bffdc31ff97fbc05a87568d44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7044b6bffdc31ff97fbc05a87568d44a"><td class="memItemLeft" align="right" valign="top"><a id="a7044b6bffdc31ff97fbc05a87568d44a" name="a7044b6bffdc31ff97fbc05a87568d44a"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Font</b>
+, <b>Background</b>
+, <b>Font</b>
+, <b>Background</b>
  }</td></tr>
 <tr class="separator:a7044b6bffdc31ff97fbc05a87568d44a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aadd70b863dd2fa12921e3f8ef6725549"><td class="memItemLeft" align="right" valign="top"><a id="aadd70b863dd2fa12921e3f8ef6725549" name="aadd70b863dd2fa12921e3f8ef6725549"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TrueColor</b> (uint8_t r, uint8_t g, uint8_t b)</td></tr>
+<tr class="separator:aadd70b863dd2fa12921e3f8ef6725549"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6e59eb102f6951ef60e32bb4f97f551"><td class="memItemLeft" align="right" valign="top"><a id="ae6e59eb102f6951ef60e32bb4f97f551" name="ae6e59eb102f6951ef60e32bb4f97f551"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TrueColor</b> (const std::string &amp;str)</td></tr>
+<tr class="separator:ae6e59eb102f6951ef60e32bb4f97f551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aadd70b863dd2fa12921e3f8ef6725549"><td class="memItemLeft" align="right" valign="top"><a id="aadd70b863dd2fa12921e3f8ef6725549" name="aadd70b863dd2fa12921e3f8ef6725549"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>TrueColor</b> (uint8_t r, uint8_t g, uint8_t b)</td></tr>
 <tr class="separator:aadd70b863dd2fa12921e3f8ef6725549"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,6 +116,12 @@ static <a class="el" href="structjc_1_1log_1_1_true_color.html">TrueColor</a>&#1
 <tr class="memitem:a480e0224e6a5df095ddc804d3600ba5b"><td class="memItemLeft" align="right" valign="top"><a id="a480e0224e6a5df095ddc804d3600ba5b" name="a480e0224e6a5df095ddc804d3600ba5b"></a>
 static <a class="el" href="structjc_1_1log_1_1_true_color.html">TrueColor</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromHex3</b> (uint16_t value)</td></tr>
 <tr class="separator:a480e0224e6a5df095ddc804d3600ba5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dbab589838cb93e6ee8b84d3142b958"><td class="memItemLeft" align="right" valign="top"><a id="a7dbab589838cb93e6ee8b84d3142b958" name="a7dbab589838cb93e6ee8b84d3142b958"></a>
+static <a class="el" href="structjc_1_1log_1_1_true_color.html">TrueColor</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromHex6</b> (uint32_t value)</td></tr>
+<tr class="separator:a7dbab589838cb93e6ee8b84d3142b958"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88d85575482bfaaeb57632b85c9076d2"><td class="memItemLeft" align="right" valign="top"><a id="a88d85575482bfaaeb57632b85c9076d2" name="a88d85575482bfaaeb57632b85c9076d2"></a>
+static <a class="el" href="structjc_1_1log_1_1_true_color.html">TrueColor</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromHex3</b> (uint16_t value)</td></tr>
+<tr class="separator:a88d85575482bfaaeb57632b85c9076d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -119,7 +139,8 @@ Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b> {Kind::Font}
 <tr class="separator:a16540c8ca385a238c0493cc64ef7db2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/log/<a class="el" href="data__types_8h_source.html">data_types.h</a></li>
+<li>include/log/<a class="el" href="include_2log_2data__types_8h_source.html">data_types.h</a></li>
+<li>src/log/<a class="el" href="src_2log_2data__types_8h_source.html">data_types.h</a></li>
 <li>src/log/data_types.cpp</li>
 </ul>
 </div><!-- contents -->

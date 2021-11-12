@@ -80,8 +80,19 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:abc14ca099e007522e53a498c41e84244"><td class="memItemLeft" align="right" valign="top"><a id="abc14ca099e007522e53a498c41e84244" name="abc14ca099e007522e53a498c41e84244"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Default</b>
 , <b>Some</b>
+, <b>Default</b>
+, <b>Some</b>
  }</td></tr>
 <tr class="separator:abc14ca099e007522e53a498c41e84244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc14ca099e007522e53a498c41e84244"><td class="memItemLeft" align="right" valign="top"><a id="abc14ca099e007522e53a498c41e84244" name="abc14ca099e007522e53a498c41e84244"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Default</b>
+, <b>Some</b>
+, <b>Default</b>
+, <b>Some</b>
+ }</td></tr>
+<tr class="separator:abc14ca099e007522e53a498c41e84244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac810f3f5c4debfa1d934beac9a5c40aa"><td class="memItemLeft" align="right" valign="top"><a id="ac810f3f5c4debfa1d934beac9a5c40aa" name="ac810f3f5c4debfa1d934beac9a5c40aa"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1span_1_1_span.html">Span</a>, SomeType &gt;</td></tr>
+<tr class="separator:ac810f3f5c4debfa1d934beac9a5c40aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac810f3f5c4debfa1d934beac9a5c40aa"><td class="memItemLeft" align="right" valign="top"><a id="ac810f3f5c4debfa1d934beac9a5c40aa" name="ac810f3f5c4debfa1d934beac9a5c40aa"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1span_1_1_span.html">Span</a>, SomeType &gt;</td></tr>
 <tr class="separator:ac810f3f5c4debfa1d934beac9a5c40aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -106,9 +117,28 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>isDefault</b> () cons
 <tr class="memitem:ade2cccd1d5b741f2ac5fa251103d8d72"><td class="memItemLeft" align="right" valign="top"><a id="ade2cccd1d5b741f2ac5fa251103d8d72" name="ade2cccd1d5b741f2ac5fa251103d8d72"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>isSome</b> () const</td></tr>
 <tr class="separator:ade2cccd1d5b741f2ac5fa251103d8d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53249f8ecbf883b9d61d622340be15aa"><td class="memItemLeft" align="right" valign="top"><a id="a53249f8ecbf883b9d61d622340be15aa" name="a53249f8ecbf883b9d61d622340be15aa"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FuncReturnType</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a53249f8ecbf883b9d61d622340be15aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817a604d6cbc5dda9445d060c23c5d03"><td class="memItemLeft" align="right" valign="top"><a id="a817a604d6cbc5dda9445d060c23c5d03" name="a817a604d6cbc5dda9445d060c23c5d03"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>FuncReturnType</b> (SomeType &amp;&amp;type)</td></tr>
+<tr class="separator:a817a604d6cbc5dda9445d060c23c5d03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb5611aabe9bb7c51ecc6fd2c4b56b62"><td class="memItemLeft" align="right" valign="top"><a id="aeb5611aabe9bb7c51ecc6fd2c4b56b62" name="aeb5611aabe9bb7c51ecc6fd2c4b56b62"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>asDefault</b> () const</td></tr>
+<tr class="separator:aeb5611aabe9bb7c51ecc6fd2c4b56b62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a846f23784e3e650f5ffab25d78ec805c"><td class="memItemLeft" align="right" valign="top"><a id="a846f23784e3e650f5ffab25d78ec805c" name="a846f23784e3e650f5ffab25d78ec805c"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asSome</b> () const</td></tr>
+<tr class="separator:a846f23784e3e650f5ffab25d78ec805c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad41e09fdd55f8454322da0c7acdf9848"><td class="memItemLeft" align="right" valign="top"><a id="ad41e09fdd55f8454322da0c7acdf9848" name="ad41e09fdd55f8454322da0c7acdf9848"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>isDefault</b> () const</td></tr>
+<tr class="separator:ad41e09fdd55f8454322da0c7acdf9848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade2cccd1d5b741f2ac5fa251103d8d72"><td class="memItemLeft" align="right" valign="top"><a id="ade2cccd1d5b741f2ac5fa251103d8d72" name="ade2cccd1d5b741f2ac5fa251103d8d72"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>isSome</b> () const</td></tr>
+<tr class="separator:ade2cccd1d5b741f2ac5fa251103d8d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/ast/fragments/<a class="el" href="func__fragments_8h_source.html">func_fragments.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/ast/fragments/<a class="el" href="include_2ast_2fragments_2func__fragments_8h_source.html">func_fragments.h</a></li>
+<li>src/ast/fragments/<a class="el" href="src_2ast_2fragments_2func__fragments_8h_source.html">func_fragments.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

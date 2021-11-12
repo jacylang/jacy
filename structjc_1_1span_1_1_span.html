@@ -92,9 +92,43 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>FileId</b> = size_t<
 <tr class="memitem:a379d57efff2390b67cea4ae6e0b8db8c"><td class="memItemLeft" align="right" valign="top"><a id="a379d57efff2390b67cea4ae6e0b8db8c" name="a379d57efff2390b67cea4ae6e0b8db8c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> &gt;</td></tr>
 <tr class="separator:a379d57efff2390b67cea4ae6e0b8db8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af925aa171c55bf2b9e8686a9ac8e9c0f"><td class="memItemLeft" align="right" valign="top"><a id="af925aa171c55bf2b9e8686a9ac8e9c0f" name="af925aa171c55bf2b9e8686a9ac8e9c0f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Pos</b> = uint32_t</td></tr>
+<tr class="separator:af925aa171c55bf2b9e8686a9ac8e9c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd3f48dee4f44ba04a09187c949cb69"><td class="memItemLeft" align="right" valign="top"><a id="a6dd3f48dee4f44ba04a09187c949cb69" name="a6dd3f48dee4f44ba04a09187c949cb69"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Len</b> = uint16_t</td></tr>
+<tr class="separator:a6dd3f48dee4f44ba04a09187c949cb69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26a46633030088e8451ebcfd6b71ffa2"><td class="memItemLeft" align="right" valign="top"><a id="a26a46633030088e8451ebcfd6b71ffa2" name="a26a46633030088e8451ebcfd6b71ffa2"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FileId</b> = size_t</td></tr>
+<tr class="separator:a26a46633030088e8451ebcfd6b71ffa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a379d57efff2390b67cea4ae6e0b8db8c"><td class="memItemLeft" align="right" valign="top"><a id="a379d57efff2390b67cea4ae6e0b8db8c" name="a379d57efff2390b67cea4ae6e0b8db8c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> &gt;</td></tr>
+<tr class="separator:a379d57efff2390b67cea4ae6e0b8db8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a70549f9c88375a6c4f6fdba8aa92d3dd"><td class="memItemLeft" align="right" valign="top"><a id="a70549f9c88375a6c4f6fdba8aa92d3dd" name="a70549f9c88375a6c4f6fdba8aa92d3dd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Span</b> (FileId fileId)</td></tr>
+<tr class="memdesc:a70549f9c88375a6c4f6fdba8aa92d3dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for file span (points to start) <br /></td></tr>
+<tr class="separator:a70549f9c88375a6c4f6fdba8aa92d3dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a213e16b3662881d26506e473f1f21e5c"><td class="memItemLeft" align="right" valign="top"><a id="a213e16b3662881d26506e473f1f21e5c" name="a213e16b3662881d26506e473f1f21e5c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Span</b> (Pos pos, Len len, FileId fileId)</td></tr>
+<tr class="separator:a213e16b3662881d26506e473f1f21e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae171e9d372f0c92fe07e9afc419ba84d"><td class="memItemLeft" align="right" valign="top"><a id="ae171e9d372f0c92fe07e9afc419ba84d" name="ae171e9d372f0c92fe07e9afc419ba84d"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> () const</td></tr>
+<tr class="separator:ae171e9d372f0c92fe07e9afc419ba84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a81b6af7986ec6f38c0aecef142e870"><td class="memItemLeft" align="right" valign="top"><a id="a5a81b6af7986ec6f38c0aecef142e870" name="a5a81b6af7986ec6f38c0aecef142e870"></a>
+Pos&#160;</td><td class="memItemRight" valign="bottom"><b>getHighBound</b> () const</td></tr>
+<tr class="separator:a5a81b6af7986ec6f38c0aecef142e870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8e2687cb4f92b8a3f3e66b08c14c5d2"><td class="memItemLeft" align="right" valign="top"><a id="af8e2687cb4f92b8a3f3e66b08c14c5d2" name="af8e2687cb4f92b8a3f3e66b08c14c5d2"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromStartWithLen</b> (Len len) const</td></tr>
+<tr class="separator:af8e2687cb4f92b8a3f3e66b08c14c5d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33e96978510596c41b1aa26e233823b0"><td class="memItemLeft" align="right" valign="top"><a id="a33e96978510596c41b1aa26e233823b0" name="a33e96978510596c41b1aa26e233823b0"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromEndWithLen</b> (Len len) const</td></tr>
+<tr class="separator:a33e96978510596c41b1aa26e233823b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6ff362dd42b1148eed8a2f021ceb25b"><td class="memItemLeft" align="right" valign="top"><a id="af6ff362dd42b1148eed8a2f021ceb25b" name="af6ff362dd42b1148eed8a2f021ceb25b"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>to</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> end) const</td></tr>
+<tr class="separator:af6ff362dd42b1148eed8a2f021ceb25b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70549f9c88375a6c4f6fdba8aa92d3dd"><td class="memItemLeft" align="right" valign="top"><a id="a70549f9c88375a6c4f6fdba8aa92d3dd" name="a70549f9c88375a6c4f6fdba8aa92d3dd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Span</b> (FileId fileId)</td></tr>
 <tr class="memdesc:a70549f9c88375a6c4f6fdba8aa92d3dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for file span (points to start) <br /></td></tr>
@@ -123,6 +157,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:ad43ab00c9e0779273eb9aef60d7d5e45"><td class="memItemLeft" align="right" valign="top"><a id="ad43ab00c9e0779273eb9aef60d7d5e45" name="ad43ab00c9e0779273eb9aef60d7d5e45"></a>
 static <a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromBounds</b> (Pos lowBound, Pos highBound, FileId fileId)</td></tr>
 <tr class="separator:ad43ab00c9e0779273eb9aef60d7d5e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad43ab00c9e0779273eb9aef60d7d5e45"><td class="memItemLeft" align="right" valign="top"><a id="ad43ab00c9e0779273eb9aef60d7d5e45" name="ad43ab00c9e0779273eb9aef60d7d5e45"></a>
+static <a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fromBounds</b> (Pos lowBound, Pos highBound, FileId fileId)</td></tr>
+<tr class="separator:ad43ab00c9e0779273eb9aef60d7d5e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -136,8 +173,9 @@ Len&#160;</td><td class="memItemRight" valign="bottom"><b>len</b> {0}</td></tr>
 FileId&#160;</td><td class="memItemRight" valign="bottom"><b>fileId</b> {0}</td></tr>
 <tr class="separator:aaabc9ef936e4497f06d8c7bb77d8b5cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/span/<a class="el" href="_span_8h_source.html">Span.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/span/<a class="el" href="include_2span_2_span_8h_source.html">Span.h</a></li>
+<li>src/span/<a class="el" href="src_2span_2_span_8h_source.html">Span.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

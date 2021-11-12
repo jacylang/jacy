@@ -83,6 +83,8 @@ Inheritance diagram for jc::ast::Path:</div>
   <map id="jc::ast::Path_map" name="jc::ast::Path_map">
 <area href="structjc_1_1ast_1_1_node.html" alt="jc::ast::Node" shape="rect" coords="0,0,125,24"/>
 <area href="structjc_1_1ast_1_1_path_interface.html" alt="jc::ast::PathInterface" shape="rect" coords="135,0,260,24"/>
+<area href="structjc_1_1ast_1_1_node.html" alt="jc::ast::Node" shape="rect" coords="270,0,395,24"/>
+<area href="structjc_1_1ast_1_1_path_interface.html" alt="jc::ast::PathInterface" shape="rect" coords="405,0,530,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -108,7 +110,33 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memItemLeft" align="right" valign="top"><a id="ae5dbc5c39da8c3dc87e130791b69fcc7" name="ae5dbc5c39da8c3dc87e130791b69fcc7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
 <tr class="separator:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a978fc7f04eb0887960f0a2f7dbd26572"><td class="memItemLeft" align="right" valign="top"><a id="a978fc7f04eb0887960f0a2f7dbd26572" name="a978fc7f04eb0887960f0a2f7dbd26572"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Path</b> (bool global, PathSeg::List &amp;&amp;segments, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a978fc7f04eb0887960f0a2f7dbd26572"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2985e337676f131c69710ef544bba2cc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#a2985e337676f131c69710ef544bba2cc">getNodeId</a> () const override</td></tr>
+<tr class="separator:a2985e337676f131c69710ef544bba2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a163a5b7f89e54e86254d63af5c9be228"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#a163a5b7f89e54e86254d63af5c9be228">isGlobal</a> () const override</td></tr>
+<tr class="separator:a163a5b7f89e54e86254d63af5c9be228"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7eabcf513a304d9efe77734b1568d1d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#ab7eabcf513a304d9efe77734b1568d1d">size</a> () const override</td></tr>
+<tr class="separator:ab7eabcf513a304d9efe77734b1568d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae276074f627cf2164676b5b823c2ffa8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#ae276074f627cf2164676b5b823c2ffa8">getSegIdent</a> (size_t index) const override</td></tr>
+<tr class="separator:ae276074f627cf2164676b5b823c2ffa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a819539d98a8473279a5c66c24c39cbd6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#a819539d98a8473279a5c66c24c39cbd6">lastSegIdent</a> () const override</td></tr>
+<tr class="separator:a819539d98a8473279a5c66c24c39cbd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a463e4e1c9772f7182812f0e52b69a1d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#a463e4e1c9772f7182812f0e52b69a1d7">segHasGenerics</a> (size_t index) const override</td></tr>
+<tr class="separator:a463e4e1c9772f7182812f0e52b69a1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9711486a9849f7f4ecd44793d073a85"><td class="memItemLeft" align="right" valign="top">const GenericParam::List &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#aa9711486a9849f7f4ecd44793d073a85">getSegGenerics</a> (size_t index) const override</td></tr>
+<tr class="separator:aa9711486a9849f7f4ecd44793d073a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memItemLeft" align="right" valign="top"><a id="ae5dbc5c39da8c3dc87e130791b69fcc7" name="ae5dbc5c39da8c3dc87e130791b69fcc7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
+<tr class="separator:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
+<tr class="memitem:acf02ead7614c6590f2fd55944b92ec1b inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="acf02ead7614c6590f2fd55944b92ec1b" name="acf02ead7614c6590f2fd55944b92ec1b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Node</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:acf02ead7614c6590f2fd55944b92ec1b inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db896f347017d02d4534fa5645bb022 inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="a0db896f347017d02d4534fa5645bb022" name="a0db896f347017d02d4534fa5645bb022"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setNodeId</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId)</td></tr>
+<tr class="separator:a0db896f347017d02d4534fa5645bb022 inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf02ead7614c6590f2fd55944b92ec1b inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="acf02ead7614c6590f2fd55944b92ec1b" name="acf02ead7614c6590f2fd55944b92ec1b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Node</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
 <tr class="separator:acf02ead7614c6590f2fd55944b92ec1b inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,7 +169,17 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = N&lt; <a c
 <tr class="memitem:aadd12a693e5fe3cce95485c12ab48f02 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="aadd12a693e5fe3cce95485c12ab48f02" name="aadd12a693e5fe3cce95485c12ab48f02"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; Ptr &gt;</td></tr>
 <tr class="separator:aadd12a693e5fe3cce95485c12ab48f02 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f34cc1c49bddffa0343ea1e28089b9 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="a85f34cc1c49bddffa0343ea1e28089b9" name="a85f34cc1c49bddffa0343ea1e28089b9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = N&lt; <a class="el" href="structjc_1_1ast_1_1_node.html">Node</a> &gt;</td></tr>
+<tr class="separator:a85f34cc1c49bddffa0343ea1e28089b9 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadd12a693e5fe3cce95485c12ab48f02 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="aadd12a693e5fe3cce95485c12ab48f02" name="aadd12a693e5fe3cce95485c12ab48f02"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; Ptr &gt;</td></tr>
+<tr class="separator:aadd12a693e5fe3cce95485c12ab48f02 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
+<tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplParams" colspan="2"><a id="a770f1193c54009c05ebc3598b59ce804" name="a770f1193c54009c05ebc3598b59ce804"></a>
+template&lt;class T &gt; </td></tr>
+<tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplItemLeft" align="right" valign="top">static const T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>cast</b> (const <a class="el" href="structjc_1_1ast_1_1_node.html">Node</a> *node)</td></tr>
+<tr class="separator:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplParams" colspan="2"><a id="a770f1193c54009c05ebc3598b59ce804" name="a770f1193c54009c05ebc3598b59ce804"></a>
 template&lt;class T &gt; </td></tr>
 <tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplItemLeft" align="right" valign="top">static const T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>cast</b> (const <a class="el" href="structjc_1_1ast_1_1_node.html">Node</a> *node)</td></tr>
@@ -149,7 +187,34 @@ template&lt;class T &gt; </td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a2985e337676f131c69710ef544bba2cc" name="a2985e337676f131c69710ef544bba2cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2985e337676f131c69710ef544bba2cc">&#9670;&nbsp;</a></span>getNodeId()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2985e337676f131c69710ef544bba2cc">&#9670;&nbsp;</a></span>getNodeId() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> jc::ast::Path::getNodeId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="a2985e337676f131c69710ef544bba2cc" name="a2985e337676f131c69710ef544bba2cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2985e337676f131c69710ef544bba2cc">&#9670;&nbsp;</a></span>getNodeId() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,7 +241,35 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="aa9711486a9849f7f4ecd44793d073a85" name="aa9711486a9849f7f4ecd44793d073a85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9711486a9849f7f4ecd44793d073a85">&#9670;&nbsp;</a></span>getSegGenerics()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9711486a9849f7f4ecd44793d073a85">&#9670;&nbsp;</a></span>getSegGenerics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const GenericParam::List &amp; jc::ast::Path::getSegGenerics </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="aa9711486a9849f7f4ecd44793d073a85" name="aa9711486a9849f7f4ecd44793d073a85"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9711486a9849f7f4ecd44793d073a85">&#9670;&nbsp;</a></span>getSegGenerics() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -204,7 +297,35 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="ae276074f627cf2164676b5b823c2ffa8" name="ae276074f627cf2164676b5b823c2ffa8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae276074f627cf2164676b5b823c2ffa8">&#9670;&nbsp;</a></span>getSegIdent()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae276074f627cf2164676b5b823c2ffa8">&#9670;&nbsp;</a></span>getSegIdent() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> jc::ast::Path::getSegIdent </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="ae276074f627cf2164676b5b823c2ffa8" name="ae276074f627cf2164676b5b823c2ffa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae276074f627cf2164676b5b823c2ffa8">&#9670;&nbsp;</a></span>getSegIdent() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +353,34 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="a163a5b7f89e54e86254d63af5c9be228" name="a163a5b7f89e54e86254d63af5c9be228"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a163a5b7f89e54e86254d63af5c9be228">&#9670;&nbsp;</a></span>isGlobal()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a163a5b7f89e54e86254d63af5c9be228">&#9670;&nbsp;</a></span>isGlobal() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jc::ast::Path::isGlobal </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="a163a5b7f89e54e86254d63af5c9be228" name="a163a5b7f89e54e86254d63af5c9be228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a163a5b7f89e54e86254d63af5c9be228">&#9670;&nbsp;</a></span>isGlobal() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,7 +407,34 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="a819539d98a8473279a5c66c24c39cbd6" name="a819539d98a8473279a5c66c24c39cbd6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a819539d98a8473279a5c66c24c39cbd6">&#9670;&nbsp;</a></span>lastSegIdent()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a819539d98a8473279a5c66c24c39cbd6">&#9670;&nbsp;</a></span>lastSegIdent() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> jc::ast::Path::lastSegIdent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="a819539d98a8473279a5c66c24c39cbd6" name="a819539d98a8473279a5c66c24c39cbd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a819539d98a8473279a5c66c24c39cbd6">&#9670;&nbsp;</a></span>lastSegIdent() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +461,35 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="a463e4e1c9772f7182812f0e52b69a1d7" name="a463e4e1c9772f7182812f0e52b69a1d7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a463e4e1c9772f7182812f0e52b69a1d7">&#9670;&nbsp;</a></span>segHasGenerics()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a463e4e1c9772f7182812f0e52b69a1d7">&#9670;&nbsp;</a></span>segHasGenerics() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jc::ast::Path::segHasGenerics </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<a id="a463e4e1c9772f7182812f0e52b69a1d7" name="a463e4e1c9772f7182812f0e52b69a1d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a463e4e1c9772f7182812f0e52b69a1d7">&#9670;&nbsp;</a></span>segHasGenerics() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -314,7 +517,7 @@ template&lt;class T &gt; </td></tr>
 </div>
 </div>
 <a id="ab7eabcf513a304d9efe77734b1568d1d" name="ab7eabcf513a304d9efe77734b1568d1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab7eabcf513a304d9efe77734b1568d1d">&#9670;&nbsp;</a></span>size()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7eabcf513a304d9efe77734b1568d1d">&#9670;&nbsp;</a></span>size() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,8 +543,36 @@ template&lt;class T &gt; </td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/ast/fragments/<a class="el" href="_path_8h_source.html">Path.h</a></li>
+<a id="ab7eabcf513a304d9efe77734b1568d1d" name="ab7eabcf513a304d9efe77734b1568d1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7eabcf513a304d9efe77734b1568d1d">&#9670;&nbsp;</a></span>size() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t jc::ast::Path::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="structjc_1_1ast_1_1_path_interface.html">jc::ast::PathInterface</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/ast/fragments/<a class="el" href="include_2ast_2fragments_2_path_8h_source.html">Path.h</a></li>
+<li>src/ast/fragments/<a class="el" href="src_2ast_2fragments_2_path_8h_source.html">Path.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

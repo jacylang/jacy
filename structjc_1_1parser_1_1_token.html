@@ -90,9 +90,62 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 <tr class="memitem:a77e3b3d57acbafa9d8e1d437557e6722"><td class="memItemLeft" align="right" valign="top"><a id="a77e3b3d57acbafa9d8e1d437557e6722" name="a77e3b3d57acbafa9d8e1d437557e6722"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &gt;</td></tr>
 <tr class="separator:a77e3b3d57acbafa9d8e1d437557e6722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e8480021dce303fd34d4510acb7413f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1parser_1_1_token.html#a0e8480021dce303fd34d4510acb7413f">ValueT</a> = std::variant&lt; std::monostate, <a class="el" href="structjc_1_1span_1_1_symbol.html">span::Symbol</a>, <a class="el" href="structjc_1_1parser_1_1_tok_lit.html">TokLit</a> &gt;</td></tr>
+<tr class="separator:a0e8480021dce303fd34d4510acb7413f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9c4cd16e3943f4b9bff5b9b01c7dbf1"><td class="memItemLeft" align="right" valign="top"><a id="aa9c4cd16e3943f4b9bff5b9b01c7dbf1" name="aa9c4cd16e3943f4b9bff5b9b01c7dbf1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &gt;</td></tr>
+<tr class="separator:aa9c4cd16e3943f4b9bff5b9b01c7dbf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77e3b3d57acbafa9d8e1d437557e6722"><td class="memItemLeft" align="right" valign="top"><a id="a77e3b3d57acbafa9d8e1d437557e6722" name="a77e3b3d57acbafa9d8e1d437557e6722"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &gt;</td></tr>
+<tr class="separator:a77e3b3d57acbafa9d8e1d437557e6722"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ab7663ee1edb3c8a84dea904d0e7c5161"><td class="memItemLeft" align="right" valign="top"><a id="ab7663ee1edb3c8a84dea904d0e7c5161" name="ab7663ee1edb3c8a84dea904d0e7c5161"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Token</b> (<a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> kind, <a class="el" href="structjc_1_1parser_1_1_token.html#a0e8480021dce303fd34d4510acb7413f">ValueT</a> &amp;&amp;val)</td></tr>
+<tr class="separator:ab7663ee1edb3c8a84dea904d0e7c5161"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25216af50186738e3782214abb0c95b7"><td class="memItemLeft" align="right" valign="top"><a id="a25216af50186738e3782214abb0c95b7" name="a25216af50186738e3782214abb0c95b7"></a>
+<a class="el" href="structjc_1_1span_1_1_symbol.html">span::Symbol</a>&#160;</td><td class="memItemRight" valign="bottom"><b>asSymbol</b> () const</td></tr>
+<tr class="separator:a25216af50186738e3782214abb0c95b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6788c94738ec1759c84637a14b2ea66"><td class="memItemLeft" align="right" valign="top"><a id="ab6788c94738ec1759c84637a14b2ea66" name="ab6788c94738ec1759c84637a14b2ea66"></a>
+const <a class="el" href="structjc_1_1parser_1_1_tok_lit.html">TokLit</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asLit</b> () const</td></tr>
+<tr class="separator:ab6788c94738ec1759c84637a14b2ea66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdad113979c65ac0428982f3b2930967"><td class="memItemLeft" align="right" valign="top"><a id="acdad113979c65ac0428982f3b2930967" name="acdad113979c65ac0428982f3b2930967"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>is</b> (<a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> kind) const</td></tr>
+<tr class="separator:acdad113979c65ac0428982f3b2930967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1aed4e669f951e9ba4843a4686adbe1"><td class="memItemLeft" align="right" valign="top"><a id="ad1aed4e669f951e9ba4843a4686adbe1" name="ad1aed4e669f951e9ba4843a4686adbe1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isIdentLike</b> (<a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> kind, <a class="el" href="classjc_1_1dt_1_1_option.html">span::Symbol::Opt</a> sym) const</td></tr>
+<tr class="separator:ad1aed4e669f951e9ba4843a4686adbe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19a12def9b2410aa4329bee93a15896e"><td class="memItemLeft" align="right" valign="top"><a id="a19a12def9b2410aa4329bee93a15896e" name="a19a12def9b2410aa4329bee93a15896e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isKw</b> (span::Kw kw) const</td></tr>
+<tr class="separator:a19a12def9b2410aa4329bee93a15896e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e8004b1807d34e4581b37d0af5f7adb"><td class="memItemLeft" align="right" valign="top"><a id="a4e8004b1807d34e4581b37d0af5f7adb" name="a4e8004b1807d34e4581b37d0af5f7adb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isHidden</b> () const</td></tr>
+<tr class="separator:a4e8004b1807d34e4581b37d0af5f7adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9416d9bdcd1c8c4640d8582475306707"><td class="memItemLeft" align="right" valign="top"><a id="a9416d9bdcd1c8c4640d8582475306707" name="a9416d9bdcd1c8c4640d8582475306707"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isSomeOp</b> () const</td></tr>
+<tr class="separator:a9416d9bdcd1c8c4640d8582475306707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e298bdbd83e35754ee53b11520e44a1"><td class="memItemLeft" align="right" valign="top"><a id="a9e298bdbd83e35754ee53b11520e44a1" name="a9e298bdbd83e35754ee53b11520e44a1"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isAssignOp</b> () const</td></tr>
+<tr class="separator:a9e298bdbd83e35754ee53b11520e44a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6934cd19b6c0fe315abc128797fca36b"><td class="memItemLeft" align="right" valign="top"><a id="a6934cd19b6c0fe315abc128797fca36b" name="a6934cd19b6c0fe315abc128797fca36b"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isLiteral</b> () const</td></tr>
+<tr class="separator:a6934cd19b6c0fe315abc128797fca36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbec9c21e9fbbf7ff3ee7fd769447d82"><td class="memItemLeft" align="right" valign="top"><a id="adbec9c21e9fbbf7ff3ee7fd769447d82" name="adbec9c21e9fbbf7ff3ee7fd769447d82"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isSomeKeyword</b> () const</td></tr>
+<tr class="separator:adbec9c21e9fbbf7ff3ee7fd769447d82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92a4d41fc659c8b0b5e7744b62e13806"><td class="memItemLeft" align="right" valign="top"><a id="a92a4d41fc659c8b0b5e7744b62e13806" name="a92a4d41fc659c8b0b5e7744b62e13806"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isPathIdent</b> () const</td></tr>
+<tr class="separator:a92a4d41fc659c8b0b5e7744b62e13806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a7978d8b20e5d6cf47c83f9d124dee4"><td class="memItemLeft" align="right" valign="top"><a id="a9a7978d8b20e5d6cf47c83f9d124dee4" name="a9a7978d8b20e5d6cf47c83f9d124dee4"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>repr</b> (bool prettyQuotes=true) const</td></tr>
+<tr class="separator:a9a7978d8b20e5d6cf47c83f9d124dee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d971a2cfc436b1a86079e6272c05343"><td class="memItemLeft" align="right" valign="top"><a id="a4d971a2cfc436b1a86079e6272c05343" name="a4d971a2cfc436b1a86079e6272c05343"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindToString</b> () const</td></tr>
+<tr class="separator:a4d971a2cfc436b1a86079e6272c05343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b30ca3a89fd803c7eda3560e1e28f1"><td class="memItemLeft" align="right" valign="top"><a id="a93b30ca3a89fd803c7eda3560e1e28f1" name="a93b30ca3a89fd803c7eda3560e1e28f1"></a>
+std::string&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> (bool withLoc=true) const</td></tr>
+<tr class="separator:a93b30ca3a89fd803c7eda3560e1e28f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7663ee1edb3c8a84dea904d0e7c5161"><td class="memItemLeft" align="right" valign="top"><a id="ab7663ee1edb3c8a84dea904d0e7c5161" name="ab7663ee1edb3c8a84dea904d0e7c5161"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Token</b> (<a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> kind, <a class="el" href="structjc_1_1parser_1_1_token.html#a0e8480021dce303fd34d4510acb7413f">ValueT</a> &amp;&amp;val)</td></tr>
 <tr class="separator:ab7663ee1edb3c8a84dea904d0e7c5161"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,6 +203,15 @@ static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindToS
 <tr class="memitem:aaff60420b76284312d8f3db5bfdbf41c"><td class="memItemLeft" align="right" valign="top"><a id="aaff60420b76284312d8f3db5bfdbf41c" name="aaff60420b76284312d8f3db5bfdbf41c"></a>
 static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>listKindToString</b> (const Token::List &amp;tokens)</td></tr>
 <tr class="separator:aaff60420b76284312d8f3db5bfdbf41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46fc1b828db39464afeeb82370ee8f77"><td class="memItemLeft" align="right" valign="top"><a id="a46fc1b828db39464afeeb82370ee8f77" name="a46fc1b828db39464afeeb82370ee8f77"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindToString</b> (<a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> kind)</td></tr>
+<tr class="separator:a46fc1b828db39464afeeb82370ee8f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a837f20c59e996769f4dadab862e22d29"><td class="memItemLeft" align="right" valign="top"><a id="a837f20c59e996769f4dadab862e22d29" name="a837f20c59e996769f4dadab862e22d29"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindToString</b> (const <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &amp;token)</td></tr>
+<tr class="separator:a837f20c59e996769f4dadab862e22d29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a130f995e5c9acbc96a4d3344131d22f9"><td class="memItemLeft" align="right" valign="top"><a id="a130f995e5c9acbc96a4d3344131d22f9" name="a130f995e5c9acbc96a4d3344131d22f9"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>listKindToString</b> (const Token::List &amp;tokens)</td></tr>
+<tr class="separator:a130f995e5c9acbc96a4d3344131d22f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -165,21 +227,43 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:aa2ee4430f1568b8226c6f03ed1a9b702"><td class="memItemLeft" align="right" valign="top"><a id="aa2ee4430f1568b8226c6f03ed1a9b702" name="aa2ee4430f1568b8226c6f03ed1a9b702"></a>
+<tr class="memitem:afc2d97407df5a47db2ca30c3b005c791"><td class="memItemLeft" align="right" valign="top"><a id="afc2d97407df5a47db2ca30c3b005c791" name="afc2d97407df5a47db2ca30c3b005c791"></a>
 static const std::map&lt; <a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a>, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>tokenKindStrings</b></td></tr>
-<tr class="separator:aa2ee4430f1568b8226c6f03ed1a9b702"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06a5fdb06c004b5d231bd317a9a7d3c9"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; <a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1parser_1_1_token.html#a06a5fdb06c004b5d231bd317a9a7d3c9">assignOperators</a></td></tr>
-<tr class="separator:a06a5fdb06c004b5d231bd317a9a7d3c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:afc2d97407df5a47db2ca30c3b005c791"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23fbdbf495a4917aae8b1545e1c7e211"><td class="memItemLeft" align="right" valign="top">static const std::vector&lt; <a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1parser_1_1_token.html#a23fbdbf495a4917aae8b1545e1c7e211">assignOperators</a></td></tr>
+<tr class="separator:a23fbdbf495a4917aae8b1545e1c7e211"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:abe142e9574481fef3f1f07e5f4cb6338"><td class="memItemLeft" align="right" valign="top"><a id="abe142e9574481fef3f1f07e5f4cb6338" name="abe142e9574481fef3f1f07e5f4cb6338"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &amp;token)</td></tr>
 <tr class="separator:abe142e9574481fef3f1f07e5f4cb6338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe142e9574481fef3f1f07e5f4cb6338"><td class="memItemLeft" align="right" valign="top"><a id="abe142e9574481fef3f1f07e5f4cb6338" name="abe142e9574481fef3f1f07e5f4cb6338"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &amp;token)</td></tr>
+<tr class="separator:abe142e9574481fef3f1f07e5f4cb6338"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a0e8480021dce303fd34d4510acb7413f" name="a0e8480021dce303fd34d4510acb7413f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e8480021dce303fd34d4510acb7413f">&#9670;&nbsp;</a></span>ValueT</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e8480021dce303fd34d4510acb7413f">&#9670;&nbsp;</a></span>ValueT <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structjc_1_1parser_1_1_token.html#a0e8480021dce303fd34d4510acb7413f">jc::parser::Token::ValueT</a> =  std::variant&lt;std::monostate, <a class="el" href="structjc_1_1span_1_1_symbol.html">span::Symbol</a>, <a class="el" href="structjc_1_1parser_1_1_tok_lit.html">TokLit</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >ValueT variants:</p><ul>
+<li><code>None</code> for tag-only tokens like operators</li>
+<li><code>Symbol</code> for identifiers and keywords</li>
+<li><code><a class="el" href="structjc_1_1parser_1_1_tok_lit.html">TokLit</a></code> for literals </li>
+</ul>
+
+</div>
+</div>
+<a id="a0e8480021dce303fd34d4510acb7413f" name="a0e8480021dce303fd34d4510acb7413f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e8480021dce303fd34d4510acb7413f">&#9670;&nbsp;</a></span>ValueT <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -198,8 +282,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a06a5fdb06c004b5d231bd317a9a7d3c9" name="a06a5fdb06c004b5d231bd317a9a7d3c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06a5fdb06c004b5d231bd317a9a7d3c9">&#9670;&nbsp;</a></span>assignOperators</h2>
+<a id="a23fbdbf495a4917aae8b1545e1c7e211" name="a23fbdbf495a4917aae8b1545e1c7e211"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23fbdbf495a4917aae8b1545e1c7e211">&#9670;&nbsp;</a></span>assignOperators</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,7 +292,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> &gt; jc::parser::Token::assignOperators</td>
+          <td class="memname">static const std::vector&lt; <a class="el" href="namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee">TokenKind</a> &gt; jc::parser::Token::assignOperators</td>
         </tr>
       </table>
   </td>
@@ -235,7 +319,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/parser/<a class="el" href="_token_8h_source.html">Token.h</a></li>
+<li>include/parser/<a class="el" href="include_2parser_2_token_8h_source.html">Token.h</a></li>
+<li>src/parser/<a class="el" href="src_2parser_2_token_8h_source.html">Token.h</a></li>
 <li>src/parser/Token.cpp</li>
 </ul>
 </div><!-- contents -->

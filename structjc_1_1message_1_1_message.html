@@ -77,10 +77,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_message_8h_source.html">Message.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="include_2message_2_message_8h_source.html">Message.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a515d3ee5bc189c9bd91336f58d446a88"><td class="memItemLeft" align="right" valign="top"><a id="a515d3ee5bc189c9bd91336f58d446a88" name="a515d3ee5bc189c9bd91336f58d446a88"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TextT</b> = Label::TextT</td></tr>
+<tr class="separator:a515d3ee5bc189c9bd91336f58d446a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7590c687c7bb63bc774ad24c217bf1d"><td class="memItemLeft" align="right" valign="top"><a id="ad7590c687c7bb63bc774ad24c217bf1d" name="ad7590c687c7bb63bc774ad24c217bf1d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1message_1_1_message.html">Message</a> &gt;</td></tr>
+<tr class="separator:ad7590c687c7bb63bc774ad24c217bf1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a515d3ee5bc189c9bd91336f58d446a88"><td class="memItemLeft" align="right" valign="top"><a id="a515d3ee5bc189c9bd91336f58d446a88" name="a515d3ee5bc189c9bd91336f58d446a88"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>TextT</b> = Label::TextT</td></tr>
 <tr class="separator:a515d3ee5bc189c9bd91336f58d446a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,17 +117,39 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkLevel</b> (Level
 <tr class="memitem:a47604bc6090b6c2943ad1de75df62080"><td class="memItemLeft" align="right" valign="top"><a id="a47604bc6090b6c2943ad1de75df62080" name="a47604bc6090b6c2943ad1de75df62080"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addLabel</b> (<a class="el" href="structjc_1_1message_1_1_label.html">Label</a> &amp;&amp;label)</td></tr>
 <tr class="separator:a47604bc6090b6c2943ad1de75df62080"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a962f1b11c3be1c0957d36bdf52b57b54"><td class="memItemLeft" align="right" valign="top"><a id="a962f1b11c3be1c0957d36bdf52b57b54" name="a962f1b11c3be1c0957d36bdf52b57b54"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLevel</b> () const</td></tr>
+<tr class="separator:a962f1b11c3be1c0957d36bdf52b57b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5784e806004c1d8b8e0094739ed8f739"><td class="memItemLeft" align="right" valign="top"><a id="a5784e806004c1d8b8e0094739ed8f739" name="a5784e806004c1d8b8e0094739ed8f739"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getText</b> () const</td></tr>
+<tr class="separator:a5784e806004c1d8b8e0094739ed8f739"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0669310b41a21e861dffeaeee69e1a"><td class="memItemLeft" align="right" valign="top"><a id="aac0669310b41a21e861dffeaeee69e1a" name="aac0669310b41a21e861dffeaeee69e1a"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>getEID</b> () const</td></tr>
+<tr class="separator:aac0669310b41a21e861dffeaeee69e1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b1d3dcee7d475dd59531a7547f74281"><td class="memItemLeft" align="right" valign="top"><a id="a6b1d3dcee7d475dd59531a7547f74281" name="a6b1d3dcee7d475dd59531a7547f74281"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getPrimaryLabel</b> () const</td></tr>
+<tr class="separator:a6b1d3dcee7d475dd59531a7547f74281"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4e7cbee281bd928369e0458818d822e"><td class="memItemLeft" align="right" valign="top"><a id="ab4e7cbee281bd928369e0458818d822e" name="ab4e7cbee281bd928369e0458818d822e"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLabels</b> () const</td></tr>
+<tr class="separator:ab4e7cbee281bd928369e0458818d822e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06672d086415801aee01bbf3d058e7fe"><td class="memItemLeft" align="right" valign="top"><a id="a06672d086415801aee01bbf3d058e7fe" name="a06672d086415801aee01bbf3d058e7fe"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>checkLevel</b> (Level level) const</td></tr>
+<tr class="separator:a06672d086415801aee01bbf3d058e7fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47604bc6090b6c2943ad1de75df62080"><td class="memItemLeft" align="right" valign="top"><a id="a47604bc6090b6c2943ad1de75df62080" name="a47604bc6090b6c2943ad1de75df62080"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addLabel</b> (<a class="el" href="structjc_1_1message_1_1_label.html">Label</a> &amp;&amp;label)</td></tr>
+<tr class="separator:a47604bc6090b6c2943ad1de75df62080"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a05939596569af59a21b8b053f6e41295"><td class="memItemLeft" align="right" valign="top"><a id="a05939596569af59a21b8b053f6e41295" name="a05939596569af59a21b8b053f6e41295"></a>
+<tr class="memitem:a98c71dd733441509ac696eb6153f5472"><td class="memItemLeft" align="right" valign="top"><a id="a98c71dd733441509ac696eb6153f5472" name="a98c71dd733441509ac696eb6153f5472"></a>
 friend&#160;</td><td class="memItemRight" valign="bottom"><b>MessageBuilder</b></td></tr>
-<tr class="separator:a05939596569af59a21b8b053f6e41295"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a98c71dd733441509ac696eb6153f5472"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section remark"><dt>Remarks</dt><dd>Currently, <code><a class="el" href="structjc_1_1message_1_1_message.html">Message</a></code> can hold only one primary message, it might be likely needed to extend this feature as having multiple primary labels. Now there's only one primary label because we use its span as the <code><a class="el" href="structjc_1_1message_1_1_message.html">Message</a></code> span, i.e. point where error/warning occurred. </dd></dl>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/message/<a class="el" href="_message_8h_source.html">Message.h</a></li>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/message/<a class="el" href="include_2message_2_message_8h_source.html">Message.h</a></li>
+<li>src/message/<a class="el" href="src_2message_2_message_8h_source.html">Message.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

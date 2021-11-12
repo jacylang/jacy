@@ -81,6 +81,7 @@ Inheritance diagram for jc::ast::AstPrinter:</div>
   <img src="classjc_1_1ast_1_1_ast_printer.png" usemap="#jc::ast::AstPrinter_map" alt=""/>
   <map id="jc::ast::AstPrinter_map" name="jc::ast::AstPrinter_map">
 <area href="classjc_1_1ast_1_1_base_visitor.html" alt="jc::ast::BaseVisitor" shape="rect" coords="0,0,114,24"/>
+<area href="classjc_1_1ast_1_1_base_visitor.html" alt="jc::ast::BaseVisitor" shape="rect" coords="124,0,238,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -237,10 +238,189 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 <tr class="separator:ac781f4aa66b1997e5154ad70e7f40151"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a407d19ebfd3902d6d00880166fcdc4ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a407d19ebfd3902d6d00880166fcdc4ce">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_slice_pat.html">SlicePat</a> &amp;pat) override</td></tr>
 <tr class="separator:a407d19ebfd3902d6d00880166fcdc4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d6bdb67197bb8e3964b0d51c529ffdc"><td class="memItemLeft" align="right" valign="top"><a id="a3d6bdb67197bb8e3964b0d51c529ffdc" name="a3d6bdb67197bb8e3964b0d51c529ffdc"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess::Session::Ptr &amp;sess, const <a class="el" href="classjc_1_1ast_1_1_party.html">Party</a> &amp;party, AstPrinterMode mode=AstPrinterMode::Parsing)</td></tr>
+<tr class="separator:a3d6bdb67197bb8e3964b0d51c529ffdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e0cdf6791f4e2466bb6b699e2dc3da8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a6e0cdf6791f4e2466bb6b699e2dc3da8">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_error_node.html">ErrorNode</a> &amp;errorNode) override</td></tr>
+<tr class="separator:a6e0cdf6791f4e2466bb6b699e2dc3da8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e304019899ac66596ed2c21997c986"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a17e304019899ac66596ed2c21997c986">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_enum.html">Enum</a> &amp;enumDecl) override</td></tr>
+<tr class="separator:a17e304019899ac66596ed2c21997c986"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e8c98babd052a2360e799bf9ad65312"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a5e8c98babd052a2360e799bf9ad65312">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_enum_entry.html">EnumEntry</a> &amp;enumEntry) override</td></tr>
+<tr class="separator:a5e8c98babd052a2360e799bf9ad65312"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98ec5b014f383d2f3f6a000616ff0b8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a98ec5b014f383d2f3f6a000616ff0b8f">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_func.html">Func</a> &amp;func) override</td></tr>
+<tr class="separator:a98ec5b014f383d2f3f6a000616ff0b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04c6703453bb4591b25883d32dad8508"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a04c6703453bb4591b25883d32dad8508">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_func_param.html">FuncParam</a> &amp;funcParam) override</td></tr>
+<tr class="separator:a04c6703453bb4591b25883d32dad8508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6ef55944f0f27e073ebb067e669024a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ac6ef55944f0f27e073ebb067e669024a">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_impl.html">Impl</a> &amp;impl) override</td></tr>
+<tr class="separator:ac6ef55944f0f27e073ebb067e669024a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55df7a7c72c12e9ace76a74e6d6e4dad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a55df7a7c72c12e9ace76a74e6d6e4dad">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_mod.html">Mod</a> &amp;mod) override</td></tr>
+<tr class="separator:a55df7a7c72c12e9ace76a74e6d6e4dad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4ccacb6fa39472d1fd8247ea0028873"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ae4ccacb6fa39472d1fd8247ea0028873">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_struct.html">Struct</a> &amp;st) override</td></tr>
+<tr class="separator:ae4ccacb6fa39472d1fd8247ea0028873"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17708936a63d054744c3effb0126f2e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a17708936a63d054744c3effb0126f2e8">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_struct_field.html">StructField</a> &amp;field) override</td></tr>
+<tr class="separator:a17708936a63d054744c3effb0126f2e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ddd29ecf39d0e6d5e9ea579df06131e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a3ddd29ecf39d0e6d5e9ea579df06131e">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_trait.html">Trait</a> &amp;trait) override</td></tr>
+<tr class="separator:a3ddd29ecf39d0e6d5e9ea579df06131e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a467c9bcf9f0b5d47db36c49ab51b3823"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a467c9bcf9f0b5d47db36c49ab51b3823">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_type_alias.html">TypeAlias</a> &amp;typeAlias) override</td></tr>
+<tr class="separator:a467c9bcf9f0b5d47db36c49ab51b3823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442fd8e9fc69f6006b84d5ee7960c906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a442fd8e9fc69f6006b84d5ee7960c906">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_use_decl.html">UseDecl</a> &amp;useDecl) override</td></tr>
+<tr class="separator:a442fd8e9fc69f6006b84d5ee7960c906"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2982574115a42627558e7822c3d7ad96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a2982574115a42627558e7822c3d7ad96">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_use_tree.html">UseTree</a> &amp;useTree) override</td></tr>
+<tr class="separator:a2982574115a42627558e7822c3d7ad96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3b108dd72e10768f98d4db8a5930159"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aa3b108dd72e10768f98d4db8a5930159">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_init.html">Init</a> &amp;init) override</td></tr>
+<tr class="separator:aa3b108dd72e10768f98d4db8a5930159"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2ebeb8dad052b21e11661dde940f66f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#af2ebeb8dad052b21e11661dde940f66f">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_expr_stmt.html">ExprStmt</a> &amp;exprStmt) override</td></tr>
+<tr class="separator:af2ebeb8dad052b21e11661dde940f66f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa29abfadaa84978c71fb9879975a1c4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aa29abfadaa84978c71fb9879975a1c4b">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_item_stmt.html">ItemStmt</a> &amp;itemStmt) override</td></tr>
+<tr class="separator:aa29abfadaa84978c71fb9879975a1c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58e4f4bcca081b07ade1705276a88376"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a58e4f4bcca081b07ade1705276a88376">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_let_stmt.html">LetStmt</a> &amp;letStmt) override</td></tr>
+<tr class="separator:a58e4f4bcca081b07ade1705276a88376"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8cc1ac65d6d8f16317160a2a10c9598"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ae8cc1ac65d6d8f16317160a2a10c9598">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_assign.html">Assign</a> &amp;assignment) override</td></tr>
+<tr class="separator:ae8cc1ac65d6d8f16317160a2a10c9598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1de52bb52e78b129c3158654efba05c7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a1de52bb52e78b129c3158654efba05c7">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_block.html">Block</a> &amp;block) override</td></tr>
+<tr class="separator:a1de52bb52e78b129c3158654efba05c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6db13c01fa4f677f4312037476bbe712"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a6db13c01fa4f677f4312037476bbe712">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_borrow_expr.html">BorrowExpr</a> &amp;borrowExpr) override</td></tr>
+<tr class="separator:a6db13c01fa4f677f4312037476bbe712"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16c2afc60396ca7a5fceed11d144fc90"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a16c2afc60396ca7a5fceed11d144fc90">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a> &amp;breakExpr) override</td></tr>
+<tr class="separator:a16c2afc60396ca7a5fceed11d144fc90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a741512f458adf36238e84dd6ccdc6c82"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a741512f458adf36238e84dd6ccdc6c82">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_continue_expr.html">ContinueExpr</a> &amp;continueExpr) override</td></tr>
+<tr class="separator:a741512f458adf36238e84dd6ccdc6c82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95fcd3ea5a0ee8ef1736fe1eec208642"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a95fcd3ea5a0ee8ef1736fe1eec208642">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_for_expr.html">ForExpr</a> &amp;forStmt) override</td></tr>
+<tr class="separator:a95fcd3ea5a0ee8ef1736fe1eec208642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5708dfd3fe48e07f7bac00c69800f9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ab5708dfd3fe48e07f7bac00c69800f9d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_if_expr.html">IfExpr</a> &amp;ifExpr) override</td></tr>
+<tr class="separator:ab5708dfd3fe48e07f7bac00c69800f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc5450174c95bebfc650942d3eb7d97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aadc5450174c95bebfc650942d3eb7d97">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_infix.html">Infix</a> &amp;infix) override</td></tr>
+<tr class="separator:aadc5450174c95bebfc650942d3eb7d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701bb38e93764cca6af12423aedad483"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a701bb38e93764cca6af12423aedad483">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_invoke.html">Invoke</a> &amp;invoke) override</td></tr>
+<tr class="separator:a701bb38e93764cca6af12423aedad483"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac094073bae38f3c5bd42e1a17fab1ab8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ac094073bae38f3c5bd42e1a17fab1ab8">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_lambda.html">Lambda</a> &amp;lambdaExpr) override</td></tr>
+<tr class="separator:ac094073bae38f3c5bd42e1a17fab1ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fcb20f1a73af18500c6bd0be5a79b47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a1fcb20f1a73af18500c6bd0be5a79b47">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_lambda_param.html">LambdaParam</a> &amp;param) override</td></tr>
+<tr class="separator:a1fcb20f1a73af18500c6bd0be5a79b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95a2275cd561f22fd5908959dfe2d418"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a95a2275cd561f22fd5908959dfe2d418">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_list_expr.html">ListExpr</a> &amp;listExpr) override</td></tr>
+<tr class="separator:a95a2275cd561f22fd5908959dfe2d418"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba40e78d357a74697c559abcabb1ef31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aba40e78d357a74697c559abcabb1ef31">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_lit_expr.html">LitExpr</a> &amp;literalConstant) override</td></tr>
+<tr class="separator:aba40e78d357a74697c559abcabb1ef31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa1d23bdcedb93005c4917c852829704"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aaa1d23bdcedb93005c4917c852829704">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_loop_expr.html">LoopExpr</a> &amp;loopExpr) override</td></tr>
+<tr class="separator:aaa1d23bdcedb93005c4917c852829704"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24f5e88ca0b7bfe1231563f518059e77"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a24f5e88ca0b7bfe1231563f518059e77">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_field_expr.html">FieldExpr</a> &amp;memberAccess) override</td></tr>
+<tr class="separator:a24f5e88ca0b7bfe1231563f518059e77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc2c564c3649a0f71f8fa5bb26f2e29a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#afc2c564c3649a0f71f8fa5bb26f2e29a">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_paren_expr.html">ParenExpr</a> &amp;parenExpr) override</td></tr>
+<tr class="separator:afc2c564c3649a0f71f8fa5bb26f2e29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf8db62e50b96a322592b5e3b77c6b0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#acf8db62e50b96a322592b5e3b77c6b0b">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_path_expr.html">PathExpr</a> &amp;pathExpr) override</td></tr>
+<tr class="separator:acf8db62e50b96a322592b5e3b77c6b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f0612a797d00376127380c556f42d53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a3f0612a797d00376127380c556f42d53">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_prefix.html">Prefix</a> &amp;prefix) override</td></tr>
+<tr class="separator:a3f0612a797d00376127380c556f42d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a184c36618aaf429c27d728bb614f5344"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a184c36618aaf429c27d728bb614f5344">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_postfix.html">Postfix</a> &amp;questExpr) override</td></tr>
+<tr class="separator:a184c36618aaf429c27d728bb614f5344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff5d38ab3c90020e6a8b2c9a15c6b2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#acff5d38ab3c90020e6a8b2c9a15c6b2d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_return_expr.html">ReturnExpr</a> &amp;returnExpr) override</td></tr>
+<tr class="separator:acff5d38ab3c90020e6a8b2c9a15c6b2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79a004395e59ccd51eeaab2a064a8f5d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a79a004395e59ccd51eeaab2a064a8f5d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_spread_expr.html">SpreadExpr</a> &amp;spreadExpr) override</td></tr>
+<tr class="separator:a79a004395e59ccd51eeaab2a064a8f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2efe4afc67a6a8d1dc46f9d35e96588"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aa2efe4afc67a6a8d1dc46f9d35e96588">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_subscript.html">Subscript</a> &amp;subscript) override</td></tr>
+<tr class="separator:aa2efe4afc67a6a8d1dc46f9d35e96588"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a1277aebff19a44c445a37aadac851"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a11a1277aebff19a44c445a37aadac851">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_self_expr.html">SelfExpr</a> &amp;selfExpr) override</td></tr>
+<tr class="separator:a11a1277aebff19a44c445a37aadac851"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c8d675d8721f68bb5f3e1e95be7e275"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a7c8d675d8721f68bb5f3e1e95be7e275">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_tuple_expr.html">TupleExpr</a> &amp;tupleExpr) override</td></tr>
+<tr class="separator:a7c8d675d8721f68bb5f3e1e95be7e275"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa762d0bfab5a69e0e253efddb5c85db"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aaa762d0bfab5a69e0e253efddb5c85db">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_unit_expr.html">UnitExpr</a> &amp;unitExpr) override</td></tr>
+<tr class="separator:aaa762d0bfab5a69e0e253efddb5c85db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5463d97265070aac58dd5a1d5013ab62"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a5463d97265070aac58dd5a1d5013ab62">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_match_expr.html">MatchExpr</a> &amp;matchExpr) override</td></tr>
+<tr class="separator:a5463d97265070aac58dd5a1d5013ab62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10bf55fcd7f6897ab45c8b48c39219be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a10bf55fcd7f6897ab45c8b48c39219be">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_match_arm.html">MatchArm</a> &amp;matchArm) override</td></tr>
+<tr class="separator:a10bf55fcd7f6897ab45c8b48c39219be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bf458deaf0babf8954d530cb048c7dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a6bf458deaf0babf8954d530cb048c7dc">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_while_expr.html">WhileExpr</a> &amp;whileStmt) override</td></tr>
+<tr class="separator:a6bf458deaf0babf8954d530cb048c7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefc8ceb9a43442a158c5601e27814907"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aefc8ceb9a43442a158c5601e27814907">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_paren_type.html">ParenType</a> &amp;parenType) override</td></tr>
+<tr class="separator:aefc8ceb9a43442a158c5601e27814907"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fd20258c304ad6c2c8ba5b00900f925"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a8fd20258c304ad6c2c8ba5b00900f925">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_tuple_type.html">TupleType</a> &amp;tupleType) override</td></tr>
+<tr class="separator:a8fd20258c304ad6c2c8ba5b00900f925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19edf61c791ca3757ccca3a8a70f3274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a19edf61c791ca3757ccca3a8a70f3274">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_tuple_type_el.html">TupleTypeEl</a> &amp;el) override</td></tr>
+<tr class="separator:a19edf61c791ca3757ccca3a8a70f3274"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a285b7aa1f4d9063fcc2a2fd7acc7c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a7a285b7aa1f4d9063fcc2a2fd7acc7c3">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_func_type.html">FuncType</a> &amp;funcType) override</td></tr>
+<tr class="separator:a7a285b7aa1f4d9063fcc2a2fd7acc7c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0a1560deb387d92bd79e3515c529e1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ab0a1560deb387d92bd79e3515c529e1d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_slice_type.html">SliceType</a> &amp;listType) override</td></tr>
+<tr class="separator:ab0a1560deb387d92bd79e3515c529e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07315cc120d500c047d7d08003356a08"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a07315cc120d500c047d7d08003356a08">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_array_type.html">ArrayType</a> &amp;arrayType) override</td></tr>
+<tr class="separator:a07315cc120d500c047d7d08003356a08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2109135be078535ed2cd1a0f21a7a68b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a2109135be078535ed2cd1a0f21a7a68b">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_type_path.html">TypePath</a> &amp;typePath) override</td></tr>
+<tr class="separator:a2109135be078535ed2cd1a0f21a7a68b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9666ac9eb6a285e8453fab7b146bd5d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a9666ac9eb6a285e8453fab7b146bd5d8">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_unit_type.html">UnitType</a> &amp;unitType) override</td></tr>
+<tr class="separator:a9666ac9eb6a285e8453fab7b146bd5d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b2395589482c3cdaf4bda2828691eb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a4b2395589482c3cdaf4bda2828691eb2">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_type_param.html">TypeParam</a> &amp;typeParam) override</td></tr>
+<tr class="separator:a4b2395589482c3cdaf4bda2828691eb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206f6975c64a14229bb82d58cda4cd19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a206f6975c64a14229bb82d58cda4cd19">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_lifetime.html">Lifetime</a> &amp;lifetime) override</td></tr>
+<tr class="separator:a206f6975c64a14229bb82d58cda4cd19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad731bd1ac6f10966641c84d1d12d2ed6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ad731bd1ac6f10966641c84d1d12d2ed6">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_const_param.html">ConstParam</a> &amp;constParam) override</td></tr>
+<tr class="separator:ad731bd1ac6f10966641c84d1d12d2ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf517cae639d36128d2c8fe114d4f289"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#acf517cae639d36128d2c8fe114d4f289">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_attr.html">Attr</a> &amp;attr) override</td></tr>
+<tr class="separator:acf517cae639d36128d2c8fe114d4f289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86258f1b30a2bbb17da27fd689ead51a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a86258f1b30a2bbb17da27fd689ead51a">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> &amp;ident) override</td></tr>
+<tr class="separator:a86258f1b30a2bbb17da27fd689ead51a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a306ca7f02bf847fa02f24064cd71069c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a306ca7f02bf847fa02f24064cd71069c">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_arg.html">Arg</a> &amp;el) override</td></tr>
+<tr class="separator:a306ca7f02bf847fa02f24064cd71069c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a5144c7587e5c4e3a167bc8335b6ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a34a5144c7587e5c4e3a167bc8335b6ec">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_path.html">Path</a> &amp;path) override</td></tr>
+<tr class="separator:a34a5144c7587e5c4e3a167bc8335b6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06cea4d7cd8d21e2899aa58772b27722"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a06cea4d7cd8d21e2899aa58772b27722">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_path_seg.html">PathSeg</a> &amp;seg) override</td></tr>
+<tr class="separator:a06cea4d7cd8d21e2899aa58772b27722"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c887d1d54f51229e1ee55dff76de14c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a3c887d1d54f51229e1ee55dff76de14c">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_simple_path.html">SimplePath</a> &amp;path) override</td></tr>
+<tr class="separator:a3c887d1d54f51229e1ee55dff76de14c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a069e5051f8332ecff6637f737fcf4a00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a069e5051f8332ecff6637f737fcf4a00">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_simple_path_seg.html">SimplePathSeg</a> &amp;seg) override</td></tr>
+<tr class="separator:a069e5051f8332ecff6637f737fcf4a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8359d70a7c370e2aff721c23fe92083e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a8359d70a7c370e2aff721c23fe92083e">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_multi_pat.html">MultiPat</a> &amp;pat) override</td></tr>
+<tr class="separator:a8359d70a7c370e2aff721c23fe92083e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48ed0e1d227fa5bc884a84e1853b396"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ab48ed0e1d227fa5bc884a84e1853b396">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_paren_pat.html">ParenPat</a> &amp;pat) override</td></tr>
+<tr class="separator:ab48ed0e1d227fa5bc884a84e1853b396"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad002c44ae6597f6e17872e548cedfbf1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ad002c44ae6597f6e17872e548cedfbf1">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_lit_pat.html">LitPat</a> &amp;pat) override</td></tr>
+<tr class="separator:ad002c44ae6597f6e17872e548cedfbf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9890f6c2ccdd18a34f804ea88109ec86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a9890f6c2ccdd18a34f804ea88109ec86">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_ident_pat.html">IdentPat</a> &amp;pat) override</td></tr>
+<tr class="separator:a9890f6c2ccdd18a34f804ea88109ec86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdd5cbae31638ce9db78b83ebc65b04d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#abdd5cbae31638ce9db78b83ebc65b04d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_ref_pat.html">RefPat</a> &amp;pat) override</td></tr>
+<tr class="separator:abdd5cbae31638ce9db78b83ebc65b04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a17f310a07ba35b6210997d83d0e55d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a4a17f310a07ba35b6210997d83d0e55d">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_path_pat.html">PathPat</a> &amp;pat) override</td></tr>
+<tr class="separator:a4a17f310a07ba35b6210997d83d0e55d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1398203459e0a4222b3c1f4be665612a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a1398203459e0a4222b3c1f4be665612a">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_wildcard_pat.html">WildcardPat</a> &amp;pat) override</td></tr>
+<tr class="separator:a1398203459e0a4222b3c1f4be665612a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeaadcfaf65663acdc9fdcbe72197b6c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#aeeaadcfaf65663acdc9fdcbe72197b6c">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_rest_pat.html">RestPat</a> &amp;pat) override</td></tr>
+<tr class="separator:aeeaadcfaf65663acdc9fdcbe72197b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a86679458012212042c0f54132310fe"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a8a86679458012212042c0f54132310fe">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_struct_pat.html">StructPat</a> &amp;pat) override</td></tr>
+<tr class="separator:a8a86679458012212042c0f54132310fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac781f4aa66b1997e5154ad70e7f40151"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#ac781f4aa66b1997e5154ad70e7f40151">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_tuple_pat.html">TuplePat</a> &amp;pat) override</td></tr>
+<tr class="separator:ac781f4aa66b1997e5154ad70e7f40151"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a407d19ebfd3902d6d00880166fcdc4ce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classjc_1_1ast_1_1_ast_printer.html#a407d19ebfd3902d6d00880166fcdc4ce">visit</a> (const <a class="el" href="structjc_1_1ast_1_1_slice_pat.html">SlicePat</a> &amp;pat) override</td></tr>
+<tr class="separator:a407d19ebfd3902d6d00880166fcdc4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a306ca7f02bf847fa02f24064cd71069c" name="a306ca7f02bf847fa02f24064cd71069c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a306ca7f02bf847fa02f24064cd71069c">&#9670;&nbsp;</a></span>visit() <span class="overload">[1/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a306ca7f02bf847fa02f24064cd71069c">&#9670;&nbsp;</a></span>visit() <span class="overload">[1/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_arg.html">Arg</a> &amp;&#160;</td>
+          <td class="paramname"><em>el</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a306ca7f02bf847fa02f24064cd71069c" name="a306ca7f02bf847fa02f24064cd71069c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a306ca7f02bf847fa02f24064cd71069c">&#9670;&nbsp;</a></span>visit() <span class="overload">[2/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -268,7 +448,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a07315cc120d500c047d7d08003356a08" name="a07315cc120d500c047d7d08003356a08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07315cc120d500c047d7d08003356a08">&#9670;&nbsp;</a></span>visit() <span class="overload">[2/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a07315cc120d500c047d7d08003356a08">&#9670;&nbsp;</a></span>visit() <span class="overload">[3/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_array_type.html">ArrayType</a> &amp;&#160;</td>
+          <td class="paramname"><em>arrayType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a07315cc120d500c047d7d08003356a08" name="a07315cc120d500c047d7d08003356a08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07315cc120d500c047d7d08003356a08">&#9670;&nbsp;</a></span>visit() <span class="overload">[4/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -296,7 +504,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ae8cc1ac65d6d8f16317160a2a10c9598" name="ae8cc1ac65d6d8f16317160a2a10c9598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8cc1ac65d6d8f16317160a2a10c9598">&#9670;&nbsp;</a></span>visit() <span class="overload">[3/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8cc1ac65d6d8f16317160a2a10c9598">&#9670;&nbsp;</a></span>visit() <span class="overload">[5/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_assign.html">Assign</a> &amp;&#160;</td>
+          <td class="paramname"><em>assignment</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ae8cc1ac65d6d8f16317160a2a10c9598" name="ae8cc1ac65d6d8f16317160a2a10c9598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8cc1ac65d6d8f16317160a2a10c9598">&#9670;&nbsp;</a></span>visit() <span class="overload">[6/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -324,7 +560,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="acf517cae639d36128d2c8fe114d4f289" name="acf517cae639d36128d2c8fe114d4f289"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf517cae639d36128d2c8fe114d4f289">&#9670;&nbsp;</a></span>visit() <span class="overload">[4/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acf517cae639d36128d2c8fe114d4f289">&#9670;&nbsp;</a></span>visit() <span class="overload">[7/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_attr.html">Attr</a> &amp;&#160;</td>
+          <td class="paramname"><em>attr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="acf517cae639d36128d2c8fe114d4f289" name="acf517cae639d36128d2c8fe114d4f289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf517cae639d36128d2c8fe114d4f289">&#9670;&nbsp;</a></span>visit() <span class="overload">[8/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -352,7 +616,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a1de52bb52e78b129c3158654efba05c7" name="a1de52bb52e78b129c3158654efba05c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1de52bb52e78b129c3158654efba05c7">&#9670;&nbsp;</a></span>visit() <span class="overload">[5/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1de52bb52e78b129c3158654efba05c7">&#9670;&nbsp;</a></span>visit() <span class="overload">[9/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_block.html">Block</a> &amp;&#160;</td>
+          <td class="paramname"><em>block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a1de52bb52e78b129c3158654efba05c7" name="a1de52bb52e78b129c3158654efba05c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1de52bb52e78b129c3158654efba05c7">&#9670;&nbsp;</a></span>visit() <span class="overload">[10/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -380,7 +672,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a6db13c01fa4f677f4312037476bbe712" name="a6db13c01fa4f677f4312037476bbe712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6db13c01fa4f677f4312037476bbe712">&#9670;&nbsp;</a></span>visit() <span class="overload">[6/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6db13c01fa4f677f4312037476bbe712">&#9670;&nbsp;</a></span>visit() <span class="overload">[11/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_borrow_expr.html">BorrowExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>borrowExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a6db13c01fa4f677f4312037476bbe712" name="a6db13c01fa4f677f4312037476bbe712"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6db13c01fa4f677f4312037476bbe712">&#9670;&nbsp;</a></span>visit() <span class="overload">[12/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -408,7 +728,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a16c2afc60396ca7a5fceed11d144fc90" name="a16c2afc60396ca7a5fceed11d144fc90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16c2afc60396ca7a5fceed11d144fc90">&#9670;&nbsp;</a></span>visit() <span class="overload">[7/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a16c2afc60396ca7a5fceed11d144fc90">&#9670;&nbsp;</a></span>visit() <span class="overload">[13/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>breakExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a16c2afc60396ca7a5fceed11d144fc90" name="a16c2afc60396ca7a5fceed11d144fc90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16c2afc60396ca7a5fceed11d144fc90">&#9670;&nbsp;</a></span>visit() <span class="overload">[14/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -436,7 +784,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ad731bd1ac6f10966641c84d1d12d2ed6" name="ad731bd1ac6f10966641c84d1d12d2ed6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad731bd1ac6f10966641c84d1d12d2ed6">&#9670;&nbsp;</a></span>visit() <span class="overload">[8/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad731bd1ac6f10966641c84d1d12d2ed6">&#9670;&nbsp;</a></span>visit() <span class="overload">[15/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_const_param.html">ConstParam</a> &amp;&#160;</td>
+          <td class="paramname"><em>constParam</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ad731bd1ac6f10966641c84d1d12d2ed6" name="ad731bd1ac6f10966641c84d1d12d2ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad731bd1ac6f10966641c84d1d12d2ed6">&#9670;&nbsp;</a></span>visit() <span class="overload">[16/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -464,7 +840,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a741512f458adf36238e84dd6ccdc6c82" name="a741512f458adf36238e84dd6ccdc6c82"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a741512f458adf36238e84dd6ccdc6c82">&#9670;&nbsp;</a></span>visit() <span class="overload">[9/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a741512f458adf36238e84dd6ccdc6c82">&#9670;&nbsp;</a></span>visit() <span class="overload">[17/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_continue_expr.html">ContinueExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>continueExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a741512f458adf36238e84dd6ccdc6c82" name="a741512f458adf36238e84dd6ccdc6c82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a741512f458adf36238e84dd6ccdc6c82">&#9670;&nbsp;</a></span>visit() <span class="overload">[18/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -492,7 +896,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a17e304019899ac66596ed2c21997c986" name="a17e304019899ac66596ed2c21997c986"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17e304019899ac66596ed2c21997c986">&#9670;&nbsp;</a></span>visit() <span class="overload">[10/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e304019899ac66596ed2c21997c986">&#9670;&nbsp;</a></span>visit() <span class="overload">[19/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_enum.html">Enum</a> &amp;&#160;</td>
+          <td class="paramname"><em>enumDecl</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a17e304019899ac66596ed2c21997c986" name="a17e304019899ac66596ed2c21997c986"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e304019899ac66596ed2c21997c986">&#9670;&nbsp;</a></span>visit() <span class="overload">[20/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -520,7 +952,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a5e8c98babd052a2360e799bf9ad65312" name="a5e8c98babd052a2360e799bf9ad65312"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5e8c98babd052a2360e799bf9ad65312">&#9670;&nbsp;</a></span>visit() <span class="overload">[11/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e8c98babd052a2360e799bf9ad65312">&#9670;&nbsp;</a></span>visit() <span class="overload">[21/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_enum_entry.html">EnumEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>enumEntry</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a5e8c98babd052a2360e799bf9ad65312" name="a5e8c98babd052a2360e799bf9ad65312"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e8c98babd052a2360e799bf9ad65312">&#9670;&nbsp;</a></span>visit() <span class="overload">[22/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -548,7 +1008,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a6e0cdf6791f4e2466bb6b699e2dc3da8" name="a6e0cdf6791f4e2466bb6b699e2dc3da8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6e0cdf6791f4e2466bb6b699e2dc3da8">&#9670;&nbsp;</a></span>visit() <span class="overload">[12/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e0cdf6791f4e2466bb6b699e2dc3da8">&#9670;&nbsp;</a></span>visit() <span class="overload">[23/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_error_node.html">ErrorNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>errorNode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a6e0cdf6791f4e2466bb6b699e2dc3da8" name="a6e0cdf6791f4e2466bb6b699e2dc3da8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e0cdf6791f4e2466bb6b699e2dc3da8">&#9670;&nbsp;</a></span>visit() <span class="overload">[24/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -576,7 +1064,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="af2ebeb8dad052b21e11661dde940f66f" name="af2ebeb8dad052b21e11661dde940f66f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2ebeb8dad052b21e11661dde940f66f">&#9670;&nbsp;</a></span>visit() <span class="overload">[13/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af2ebeb8dad052b21e11661dde940f66f">&#9670;&nbsp;</a></span>visit() <span class="overload">[25/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_expr_stmt.html">ExprStmt</a> &amp;&#160;</td>
+          <td class="paramname"><em>exprStmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="af2ebeb8dad052b21e11661dde940f66f" name="af2ebeb8dad052b21e11661dde940f66f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2ebeb8dad052b21e11661dde940f66f">&#9670;&nbsp;</a></span>visit() <span class="overload">[26/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -604,7 +1120,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a24f5e88ca0b7bfe1231563f518059e77" name="a24f5e88ca0b7bfe1231563f518059e77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24f5e88ca0b7bfe1231563f518059e77">&#9670;&nbsp;</a></span>visit() <span class="overload">[14/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f5e88ca0b7bfe1231563f518059e77">&#9670;&nbsp;</a></span>visit() <span class="overload">[27/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_field_expr.html">FieldExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>memberAccess</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a24f5e88ca0b7bfe1231563f518059e77" name="a24f5e88ca0b7bfe1231563f518059e77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f5e88ca0b7bfe1231563f518059e77">&#9670;&nbsp;</a></span>visit() <span class="overload">[28/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -632,7 +1176,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a95fcd3ea5a0ee8ef1736fe1eec208642" name="a95fcd3ea5a0ee8ef1736fe1eec208642"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95fcd3ea5a0ee8ef1736fe1eec208642">&#9670;&nbsp;</a></span>visit() <span class="overload">[15/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95fcd3ea5a0ee8ef1736fe1eec208642">&#9670;&nbsp;</a></span>visit() <span class="overload">[29/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_for_expr.html">ForExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>forStmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a95fcd3ea5a0ee8ef1736fe1eec208642" name="a95fcd3ea5a0ee8ef1736fe1eec208642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95fcd3ea5a0ee8ef1736fe1eec208642">&#9670;&nbsp;</a></span>visit() <span class="overload">[30/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -660,7 +1232,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a98ec5b014f383d2f3f6a000616ff0b8f" name="a98ec5b014f383d2f3f6a000616ff0b8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98ec5b014f383d2f3f6a000616ff0b8f">&#9670;&nbsp;</a></span>visit() <span class="overload">[16/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a98ec5b014f383d2f3f6a000616ff0b8f">&#9670;&nbsp;</a></span>visit() <span class="overload">[31/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_func.html">Func</a> &amp;&#160;</td>
+          <td class="paramname"><em>func</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a98ec5b014f383d2f3f6a000616ff0b8f" name="a98ec5b014f383d2f3f6a000616ff0b8f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98ec5b014f383d2f3f6a000616ff0b8f">&#9670;&nbsp;</a></span>visit() <span class="overload">[32/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -688,7 +1288,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a04c6703453bb4591b25883d32dad8508" name="a04c6703453bb4591b25883d32dad8508"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04c6703453bb4591b25883d32dad8508">&#9670;&nbsp;</a></span>visit() <span class="overload">[17/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a04c6703453bb4591b25883d32dad8508">&#9670;&nbsp;</a></span>visit() <span class="overload">[33/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_func_param.html">FuncParam</a> &amp;&#160;</td>
+          <td class="paramname"><em>funcParam</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a04c6703453bb4591b25883d32dad8508" name="a04c6703453bb4591b25883d32dad8508"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04c6703453bb4591b25883d32dad8508">&#9670;&nbsp;</a></span>visit() <span class="overload">[34/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -716,7 +1344,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a7a285b7aa1f4d9063fcc2a2fd7acc7c3" name="a7a285b7aa1f4d9063fcc2a2fd7acc7c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7a285b7aa1f4d9063fcc2a2fd7acc7c3">&#9670;&nbsp;</a></span>visit() <span class="overload">[18/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a285b7aa1f4d9063fcc2a2fd7acc7c3">&#9670;&nbsp;</a></span>visit() <span class="overload">[35/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_func_type.html">FuncType</a> &amp;&#160;</td>
+          <td class="paramname"><em>funcType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a7a285b7aa1f4d9063fcc2a2fd7acc7c3" name="a7a285b7aa1f4d9063fcc2a2fd7acc7c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a285b7aa1f4d9063fcc2a2fd7acc7c3">&#9670;&nbsp;</a></span>visit() <span class="overload">[36/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -744,7 +1400,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a86258f1b30a2bbb17da27fd689ead51a" name="a86258f1b30a2bbb17da27fd689ead51a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86258f1b30a2bbb17da27fd689ead51a">&#9670;&nbsp;</a></span>visit() <span class="overload">[19/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a86258f1b30a2bbb17da27fd689ead51a">&#9670;&nbsp;</a></span>visit() <span class="overload">[37/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> &amp;&#160;</td>
+          <td class="paramname"><em>ident</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a86258f1b30a2bbb17da27fd689ead51a" name="a86258f1b30a2bbb17da27fd689ead51a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86258f1b30a2bbb17da27fd689ead51a">&#9670;&nbsp;</a></span>visit() <span class="overload">[38/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -772,7 +1456,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a9890f6c2ccdd18a34f804ea88109ec86" name="a9890f6c2ccdd18a34f804ea88109ec86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9890f6c2ccdd18a34f804ea88109ec86">&#9670;&nbsp;</a></span>visit() <span class="overload">[20/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9890f6c2ccdd18a34f804ea88109ec86">&#9670;&nbsp;</a></span>visit() <span class="overload">[39/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_ident_pat.html">IdentPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a9890f6c2ccdd18a34f804ea88109ec86" name="a9890f6c2ccdd18a34f804ea88109ec86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9890f6c2ccdd18a34f804ea88109ec86">&#9670;&nbsp;</a></span>visit() <span class="overload">[40/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -800,7 +1512,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ab5708dfd3fe48e07f7bac00c69800f9d" name="ab5708dfd3fe48e07f7bac00c69800f9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab5708dfd3fe48e07f7bac00c69800f9d">&#9670;&nbsp;</a></span>visit() <span class="overload">[21/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5708dfd3fe48e07f7bac00c69800f9d">&#9670;&nbsp;</a></span>visit() <span class="overload">[41/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_if_expr.html">IfExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>ifExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ab5708dfd3fe48e07f7bac00c69800f9d" name="ab5708dfd3fe48e07f7bac00c69800f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5708dfd3fe48e07f7bac00c69800f9d">&#9670;&nbsp;</a></span>visit() <span class="overload">[42/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -828,7 +1568,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ac6ef55944f0f27e073ebb067e669024a" name="ac6ef55944f0f27e073ebb067e669024a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6ef55944f0f27e073ebb067e669024a">&#9670;&nbsp;</a></span>visit() <span class="overload">[22/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6ef55944f0f27e073ebb067e669024a">&#9670;&nbsp;</a></span>visit() <span class="overload">[43/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_impl.html">Impl</a> &amp;&#160;</td>
+          <td class="paramname"><em>impl</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ac6ef55944f0f27e073ebb067e669024a" name="ac6ef55944f0f27e073ebb067e669024a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6ef55944f0f27e073ebb067e669024a">&#9670;&nbsp;</a></span>visit() <span class="overload">[44/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -856,7 +1624,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aadc5450174c95bebfc650942d3eb7d97" name="aadc5450174c95bebfc650942d3eb7d97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aadc5450174c95bebfc650942d3eb7d97">&#9670;&nbsp;</a></span>visit() <span class="overload">[23/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc5450174c95bebfc650942d3eb7d97">&#9670;&nbsp;</a></span>visit() <span class="overload">[45/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_infix.html">Infix</a> &amp;&#160;</td>
+          <td class="paramname"><em>infix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aadc5450174c95bebfc650942d3eb7d97" name="aadc5450174c95bebfc650942d3eb7d97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aadc5450174c95bebfc650942d3eb7d97">&#9670;&nbsp;</a></span>visit() <span class="overload">[46/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -884,7 +1680,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aa3b108dd72e10768f98d4db8a5930159" name="aa3b108dd72e10768f98d4db8a5930159"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3b108dd72e10768f98d4db8a5930159">&#9670;&nbsp;</a></span>visit() <span class="overload">[24/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3b108dd72e10768f98d4db8a5930159">&#9670;&nbsp;</a></span>visit() <span class="overload">[47/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_init.html">Init</a> &amp;&#160;</td>
+          <td class="paramname"><em>init</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aa3b108dd72e10768f98d4db8a5930159" name="aa3b108dd72e10768f98d4db8a5930159"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3b108dd72e10768f98d4db8a5930159">&#9670;&nbsp;</a></span>visit() <span class="overload">[48/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -912,7 +1736,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a701bb38e93764cca6af12423aedad483" name="a701bb38e93764cca6af12423aedad483"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a701bb38e93764cca6af12423aedad483">&#9670;&nbsp;</a></span>visit() <span class="overload">[25/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a701bb38e93764cca6af12423aedad483">&#9670;&nbsp;</a></span>visit() <span class="overload">[49/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_invoke.html">Invoke</a> &amp;&#160;</td>
+          <td class="paramname"><em>invoke</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a701bb38e93764cca6af12423aedad483" name="a701bb38e93764cca6af12423aedad483"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a701bb38e93764cca6af12423aedad483">&#9670;&nbsp;</a></span>visit() <span class="overload">[50/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -940,7 +1792,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aa29abfadaa84978c71fb9879975a1c4b" name="aa29abfadaa84978c71fb9879975a1c4b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa29abfadaa84978c71fb9879975a1c4b">&#9670;&nbsp;</a></span>visit() <span class="overload">[26/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29abfadaa84978c71fb9879975a1c4b">&#9670;&nbsp;</a></span>visit() <span class="overload">[51/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_item_stmt.html">ItemStmt</a> &amp;&#160;</td>
+          <td class="paramname"><em>itemStmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aa29abfadaa84978c71fb9879975a1c4b" name="aa29abfadaa84978c71fb9879975a1c4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa29abfadaa84978c71fb9879975a1c4b">&#9670;&nbsp;</a></span>visit() <span class="overload">[52/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -968,7 +1848,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ac094073bae38f3c5bd42e1a17fab1ab8" name="ac094073bae38f3c5bd42e1a17fab1ab8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac094073bae38f3c5bd42e1a17fab1ab8">&#9670;&nbsp;</a></span>visit() <span class="overload">[27/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac094073bae38f3c5bd42e1a17fab1ab8">&#9670;&nbsp;</a></span>visit() <span class="overload">[53/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_lambda.html">Lambda</a> &amp;&#160;</td>
+          <td class="paramname"><em>lambdaExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ac094073bae38f3c5bd42e1a17fab1ab8" name="ac094073bae38f3c5bd42e1a17fab1ab8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac094073bae38f3c5bd42e1a17fab1ab8">&#9670;&nbsp;</a></span>visit() <span class="overload">[54/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -996,7 +1904,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a1fcb20f1a73af18500c6bd0be5a79b47" name="a1fcb20f1a73af18500c6bd0be5a79b47"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1fcb20f1a73af18500c6bd0be5a79b47">&#9670;&nbsp;</a></span>visit() <span class="overload">[28/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fcb20f1a73af18500c6bd0be5a79b47">&#9670;&nbsp;</a></span>visit() <span class="overload">[55/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_lambda_param.html">LambdaParam</a> &amp;&#160;</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a1fcb20f1a73af18500c6bd0be5a79b47" name="a1fcb20f1a73af18500c6bd0be5a79b47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fcb20f1a73af18500c6bd0be5a79b47">&#9670;&nbsp;</a></span>visit() <span class="overload">[56/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1024,7 +1960,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a58e4f4bcca081b07ade1705276a88376" name="a58e4f4bcca081b07ade1705276a88376"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a58e4f4bcca081b07ade1705276a88376">&#9670;&nbsp;</a></span>visit() <span class="overload">[29/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e4f4bcca081b07ade1705276a88376">&#9670;&nbsp;</a></span>visit() <span class="overload">[57/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_let_stmt.html">LetStmt</a> &amp;&#160;</td>
+          <td class="paramname"><em>letStmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a58e4f4bcca081b07ade1705276a88376" name="a58e4f4bcca081b07ade1705276a88376"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58e4f4bcca081b07ade1705276a88376">&#9670;&nbsp;</a></span>visit() <span class="overload">[58/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1052,7 +2016,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a206f6975c64a14229bb82d58cda4cd19" name="a206f6975c64a14229bb82d58cda4cd19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a206f6975c64a14229bb82d58cda4cd19">&#9670;&nbsp;</a></span>visit() <span class="overload">[30/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a206f6975c64a14229bb82d58cda4cd19">&#9670;&nbsp;</a></span>visit() <span class="overload">[59/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_lifetime.html">Lifetime</a> &amp;&#160;</td>
+          <td class="paramname"><em>lifetime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a206f6975c64a14229bb82d58cda4cd19" name="a206f6975c64a14229bb82d58cda4cd19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206f6975c64a14229bb82d58cda4cd19">&#9670;&nbsp;</a></span>visit() <span class="overload">[60/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1080,7 +2072,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a95a2275cd561f22fd5908959dfe2d418" name="a95a2275cd561f22fd5908959dfe2d418"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95a2275cd561f22fd5908959dfe2d418">&#9670;&nbsp;</a></span>visit() <span class="overload">[31/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a95a2275cd561f22fd5908959dfe2d418">&#9670;&nbsp;</a></span>visit() <span class="overload">[61/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_list_expr.html">ListExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>listExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a95a2275cd561f22fd5908959dfe2d418" name="a95a2275cd561f22fd5908959dfe2d418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95a2275cd561f22fd5908959dfe2d418">&#9670;&nbsp;</a></span>visit() <span class="overload">[62/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1108,7 +2128,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aba40e78d357a74697c559abcabb1ef31" name="aba40e78d357a74697c559abcabb1ef31"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba40e78d357a74697c559abcabb1ef31">&#9670;&nbsp;</a></span>visit() <span class="overload">[32/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aba40e78d357a74697c559abcabb1ef31">&#9670;&nbsp;</a></span>visit() <span class="overload">[63/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_lit_expr.html">LitExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>literalConstant</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aba40e78d357a74697c559abcabb1ef31" name="aba40e78d357a74697c559abcabb1ef31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba40e78d357a74697c559abcabb1ef31">&#9670;&nbsp;</a></span>visit() <span class="overload">[64/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1136,7 +2184,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ad002c44ae6597f6e17872e548cedfbf1" name="ad002c44ae6597f6e17872e548cedfbf1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad002c44ae6597f6e17872e548cedfbf1">&#9670;&nbsp;</a></span>visit() <span class="overload">[33/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad002c44ae6597f6e17872e548cedfbf1">&#9670;&nbsp;</a></span>visit() <span class="overload">[65/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_lit_pat.html">LitPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ad002c44ae6597f6e17872e548cedfbf1" name="ad002c44ae6597f6e17872e548cedfbf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad002c44ae6597f6e17872e548cedfbf1">&#9670;&nbsp;</a></span>visit() <span class="overload">[66/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1164,7 +2240,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aaa1d23bdcedb93005c4917c852829704" name="aaa1d23bdcedb93005c4917c852829704"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa1d23bdcedb93005c4917c852829704">&#9670;&nbsp;</a></span>visit() <span class="overload">[34/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa1d23bdcedb93005c4917c852829704">&#9670;&nbsp;</a></span>visit() <span class="overload">[67/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_loop_expr.html">LoopExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>loopExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aaa1d23bdcedb93005c4917c852829704" name="aaa1d23bdcedb93005c4917c852829704"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa1d23bdcedb93005c4917c852829704">&#9670;&nbsp;</a></span>visit() <span class="overload">[68/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1192,7 +2296,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a10bf55fcd7f6897ab45c8b48c39219be" name="a10bf55fcd7f6897ab45c8b48c39219be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a10bf55fcd7f6897ab45c8b48c39219be">&#9670;&nbsp;</a></span>visit() <span class="overload">[35/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a10bf55fcd7f6897ab45c8b48c39219be">&#9670;&nbsp;</a></span>visit() <span class="overload">[69/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_match_arm.html">MatchArm</a> &amp;&#160;</td>
+          <td class="paramname"><em>matchArm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a10bf55fcd7f6897ab45c8b48c39219be" name="a10bf55fcd7f6897ab45c8b48c39219be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10bf55fcd7f6897ab45c8b48c39219be">&#9670;&nbsp;</a></span>visit() <span class="overload">[70/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1220,7 +2352,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a5463d97265070aac58dd5a1d5013ab62" name="a5463d97265070aac58dd5a1d5013ab62"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5463d97265070aac58dd5a1d5013ab62">&#9670;&nbsp;</a></span>visit() <span class="overload">[36/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5463d97265070aac58dd5a1d5013ab62">&#9670;&nbsp;</a></span>visit() <span class="overload">[71/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_match_expr.html">MatchExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>matchExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a5463d97265070aac58dd5a1d5013ab62" name="a5463d97265070aac58dd5a1d5013ab62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5463d97265070aac58dd5a1d5013ab62">&#9670;&nbsp;</a></span>visit() <span class="overload">[72/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1248,7 +2408,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a55df7a7c72c12e9ace76a74e6d6e4dad" name="a55df7a7c72c12e9ace76a74e6d6e4dad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a55df7a7c72c12e9ace76a74e6d6e4dad">&#9670;&nbsp;</a></span>visit() <span class="overload">[37/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a55df7a7c72c12e9ace76a74e6d6e4dad">&#9670;&nbsp;</a></span>visit() <span class="overload">[73/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_mod.html">Mod</a> &amp;&#160;</td>
+          <td class="paramname"><em>mod</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a55df7a7c72c12e9ace76a74e6d6e4dad" name="a55df7a7c72c12e9ace76a74e6d6e4dad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55df7a7c72c12e9ace76a74e6d6e4dad">&#9670;&nbsp;</a></span>visit() <span class="overload">[74/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1276,7 +2464,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a8359d70a7c370e2aff721c23fe92083e" name="a8359d70a7c370e2aff721c23fe92083e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8359d70a7c370e2aff721c23fe92083e">&#9670;&nbsp;</a></span>visit() <span class="overload">[38/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8359d70a7c370e2aff721c23fe92083e">&#9670;&nbsp;</a></span>visit() <span class="overload">[75/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_multi_pat.html">MultiPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a8359d70a7c370e2aff721c23fe92083e" name="a8359d70a7c370e2aff721c23fe92083e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8359d70a7c370e2aff721c23fe92083e">&#9670;&nbsp;</a></span>visit() <span class="overload">[76/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1304,7 +2520,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="afc2c564c3649a0f71f8fa5bb26f2e29a" name="afc2c564c3649a0f71f8fa5bb26f2e29a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afc2c564c3649a0f71f8fa5bb26f2e29a">&#9670;&nbsp;</a></span>visit() <span class="overload">[39/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afc2c564c3649a0f71f8fa5bb26f2e29a">&#9670;&nbsp;</a></span>visit() <span class="overload">[77/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_paren_expr.html">ParenExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>parenExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="afc2c564c3649a0f71f8fa5bb26f2e29a" name="afc2c564c3649a0f71f8fa5bb26f2e29a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc2c564c3649a0f71f8fa5bb26f2e29a">&#9670;&nbsp;</a></span>visit() <span class="overload">[78/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1332,7 +2576,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ab48ed0e1d227fa5bc884a84e1853b396" name="ab48ed0e1d227fa5bc884a84e1853b396"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab48ed0e1d227fa5bc884a84e1853b396">&#9670;&nbsp;</a></span>visit() <span class="overload">[40/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48ed0e1d227fa5bc884a84e1853b396">&#9670;&nbsp;</a></span>visit() <span class="overload">[79/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_paren_pat.html">ParenPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ab48ed0e1d227fa5bc884a84e1853b396" name="ab48ed0e1d227fa5bc884a84e1853b396"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48ed0e1d227fa5bc884a84e1853b396">&#9670;&nbsp;</a></span>visit() <span class="overload">[80/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1360,7 +2632,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aefc8ceb9a43442a158c5601e27814907" name="aefc8ceb9a43442a158c5601e27814907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aefc8ceb9a43442a158c5601e27814907">&#9670;&nbsp;</a></span>visit() <span class="overload">[41/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc8ceb9a43442a158c5601e27814907">&#9670;&nbsp;</a></span>visit() <span class="overload">[81/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_paren_type.html">ParenType</a> &amp;&#160;</td>
+          <td class="paramname"><em>parenType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aefc8ceb9a43442a158c5601e27814907" name="aefc8ceb9a43442a158c5601e27814907"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefc8ceb9a43442a158c5601e27814907">&#9670;&nbsp;</a></span>visit() <span class="overload">[82/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1388,7 +2688,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a34a5144c7587e5c4e3a167bc8335b6ec" name="a34a5144c7587e5c4e3a167bc8335b6ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34a5144c7587e5c4e3a167bc8335b6ec">&#9670;&nbsp;</a></span>visit() <span class="overload">[42/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a5144c7587e5c4e3a167bc8335b6ec">&#9670;&nbsp;</a></span>visit() <span class="overload">[83/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_path.html">Path</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a34a5144c7587e5c4e3a167bc8335b6ec" name="a34a5144c7587e5c4e3a167bc8335b6ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a5144c7587e5c4e3a167bc8335b6ec">&#9670;&nbsp;</a></span>visit() <span class="overload">[84/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1416,7 +2744,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="acf8db62e50b96a322592b5e3b77c6b0b" name="acf8db62e50b96a322592b5e3b77c6b0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acf8db62e50b96a322592b5e3b77c6b0b">&#9670;&nbsp;</a></span>visit() <span class="overload">[43/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acf8db62e50b96a322592b5e3b77c6b0b">&#9670;&nbsp;</a></span>visit() <span class="overload">[85/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_path_expr.html">PathExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>pathExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="acf8db62e50b96a322592b5e3b77c6b0b" name="acf8db62e50b96a322592b5e3b77c6b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf8db62e50b96a322592b5e3b77c6b0b">&#9670;&nbsp;</a></span>visit() <span class="overload">[86/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1444,7 +2800,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a4a17f310a07ba35b6210997d83d0e55d" name="a4a17f310a07ba35b6210997d83d0e55d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a17f310a07ba35b6210997d83d0e55d">&#9670;&nbsp;</a></span>visit() <span class="overload">[44/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a17f310a07ba35b6210997d83d0e55d">&#9670;&nbsp;</a></span>visit() <span class="overload">[87/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_path_pat.html">PathPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a4a17f310a07ba35b6210997d83d0e55d" name="a4a17f310a07ba35b6210997d83d0e55d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a17f310a07ba35b6210997d83d0e55d">&#9670;&nbsp;</a></span>visit() <span class="overload">[88/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1472,7 +2856,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a06cea4d7cd8d21e2899aa58772b27722" name="a06cea4d7cd8d21e2899aa58772b27722"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06cea4d7cd8d21e2899aa58772b27722">&#9670;&nbsp;</a></span>visit() <span class="overload">[45/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a06cea4d7cd8d21e2899aa58772b27722">&#9670;&nbsp;</a></span>visit() <span class="overload">[89/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_path_seg.html">PathSeg</a> &amp;&#160;</td>
+          <td class="paramname"><em>seg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a06cea4d7cd8d21e2899aa58772b27722" name="a06cea4d7cd8d21e2899aa58772b27722"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06cea4d7cd8d21e2899aa58772b27722">&#9670;&nbsp;</a></span>visit() <span class="overload">[90/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1500,7 +2912,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a184c36618aaf429c27d728bb614f5344" name="a184c36618aaf429c27d728bb614f5344"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a184c36618aaf429c27d728bb614f5344">&#9670;&nbsp;</a></span>visit() <span class="overload">[46/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a184c36618aaf429c27d728bb614f5344">&#9670;&nbsp;</a></span>visit() <span class="overload">[91/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_postfix.html">Postfix</a> &amp;&#160;</td>
+          <td class="paramname"><em>questExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a184c36618aaf429c27d728bb614f5344" name="a184c36618aaf429c27d728bb614f5344"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a184c36618aaf429c27d728bb614f5344">&#9670;&nbsp;</a></span>visit() <span class="overload">[92/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1528,7 +2968,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a3f0612a797d00376127380c556f42d53" name="a3f0612a797d00376127380c556f42d53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f0612a797d00376127380c556f42d53">&#9670;&nbsp;</a></span>visit() <span class="overload">[47/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f0612a797d00376127380c556f42d53">&#9670;&nbsp;</a></span>visit() <span class="overload">[93/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_prefix.html">Prefix</a> &amp;&#160;</td>
+          <td class="paramname"><em>prefix</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a3f0612a797d00376127380c556f42d53" name="a3f0612a797d00376127380c556f42d53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f0612a797d00376127380c556f42d53">&#9670;&nbsp;</a></span>visit() <span class="overload">[94/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1556,7 +3024,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="abdd5cbae31638ce9db78b83ebc65b04d" name="abdd5cbae31638ce9db78b83ebc65b04d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abdd5cbae31638ce9db78b83ebc65b04d">&#9670;&nbsp;</a></span>visit() <span class="overload">[48/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#abdd5cbae31638ce9db78b83ebc65b04d">&#9670;&nbsp;</a></span>visit() <span class="overload">[95/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_ref_pat.html">RefPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="abdd5cbae31638ce9db78b83ebc65b04d" name="abdd5cbae31638ce9db78b83ebc65b04d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdd5cbae31638ce9db78b83ebc65b04d">&#9670;&nbsp;</a></span>visit() <span class="overload">[96/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1584,7 +3080,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aeeaadcfaf65663acdc9fdcbe72197b6c" name="aeeaadcfaf65663acdc9fdcbe72197b6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeeaadcfaf65663acdc9fdcbe72197b6c">&#9670;&nbsp;</a></span>visit() <span class="overload">[49/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeaadcfaf65663acdc9fdcbe72197b6c">&#9670;&nbsp;</a></span>visit() <span class="overload">[97/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_rest_pat.html">RestPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aeeaadcfaf65663acdc9fdcbe72197b6c" name="aeeaadcfaf65663acdc9fdcbe72197b6c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeaadcfaf65663acdc9fdcbe72197b6c">&#9670;&nbsp;</a></span>visit() <span class="overload">[98/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1612,7 +3136,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="acff5d38ab3c90020e6a8b2c9a15c6b2d" name="acff5d38ab3c90020e6a8b2c9a15c6b2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acff5d38ab3c90020e6a8b2c9a15c6b2d">&#9670;&nbsp;</a></span>visit() <span class="overload">[50/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acff5d38ab3c90020e6a8b2c9a15c6b2d">&#9670;&nbsp;</a></span>visit() <span class="overload">[99/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_return_expr.html">ReturnExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>returnExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="acff5d38ab3c90020e6a8b2c9a15c6b2d" name="acff5d38ab3c90020e6a8b2c9a15c6b2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff5d38ab3c90020e6a8b2c9a15c6b2d">&#9670;&nbsp;</a></span>visit() <span class="overload">[100/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1640,7 +3192,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a11a1277aebff19a44c445a37aadac851" name="a11a1277aebff19a44c445a37aadac851"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11a1277aebff19a44c445a37aadac851">&#9670;&nbsp;</a></span>visit() <span class="overload">[51/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a1277aebff19a44c445a37aadac851">&#9670;&nbsp;</a></span>visit() <span class="overload">[101/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_self_expr.html">SelfExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>selfExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a11a1277aebff19a44c445a37aadac851" name="a11a1277aebff19a44c445a37aadac851"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11a1277aebff19a44c445a37aadac851">&#9670;&nbsp;</a></span>visit() <span class="overload">[102/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1668,7 +3248,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a3c887d1d54f51229e1ee55dff76de14c" name="a3c887d1d54f51229e1ee55dff76de14c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3c887d1d54f51229e1ee55dff76de14c">&#9670;&nbsp;</a></span>visit() <span class="overload">[52/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c887d1d54f51229e1ee55dff76de14c">&#9670;&nbsp;</a></span>visit() <span class="overload">[103/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_simple_path.html">SimplePath</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a3c887d1d54f51229e1ee55dff76de14c" name="a3c887d1d54f51229e1ee55dff76de14c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c887d1d54f51229e1ee55dff76de14c">&#9670;&nbsp;</a></span>visit() <span class="overload">[104/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1696,7 +3304,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a069e5051f8332ecff6637f737fcf4a00" name="a069e5051f8332ecff6637f737fcf4a00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a069e5051f8332ecff6637f737fcf4a00">&#9670;&nbsp;</a></span>visit() <span class="overload">[53/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a069e5051f8332ecff6637f737fcf4a00">&#9670;&nbsp;</a></span>visit() <span class="overload">[105/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_simple_path_seg.html">SimplePathSeg</a> &amp;&#160;</td>
+          <td class="paramname"><em>seg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a069e5051f8332ecff6637f737fcf4a00" name="a069e5051f8332ecff6637f737fcf4a00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a069e5051f8332ecff6637f737fcf4a00">&#9670;&nbsp;</a></span>visit() <span class="overload">[106/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1724,7 +3360,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a407d19ebfd3902d6d00880166fcdc4ce" name="a407d19ebfd3902d6d00880166fcdc4ce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a407d19ebfd3902d6d00880166fcdc4ce">&#9670;&nbsp;</a></span>visit() <span class="overload">[54/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a407d19ebfd3902d6d00880166fcdc4ce">&#9670;&nbsp;</a></span>visit() <span class="overload">[107/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_slice_pat.html">SlicePat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a407d19ebfd3902d6d00880166fcdc4ce" name="a407d19ebfd3902d6d00880166fcdc4ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a407d19ebfd3902d6d00880166fcdc4ce">&#9670;&nbsp;</a></span>visit() <span class="overload">[108/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1752,7 +3416,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ab0a1560deb387d92bd79e3515c529e1d" name="ab0a1560deb387d92bd79e3515c529e1d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab0a1560deb387d92bd79e3515c529e1d">&#9670;&nbsp;</a></span>visit() <span class="overload">[55/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0a1560deb387d92bd79e3515c529e1d">&#9670;&nbsp;</a></span>visit() <span class="overload">[109/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_slice_type.html">SliceType</a> &amp;&#160;</td>
+          <td class="paramname"><em>listType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ab0a1560deb387d92bd79e3515c529e1d" name="ab0a1560deb387d92bd79e3515c529e1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0a1560deb387d92bd79e3515c529e1d">&#9670;&nbsp;</a></span>visit() <span class="overload">[110/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1780,7 +3472,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a79a004395e59ccd51eeaab2a064a8f5d" name="a79a004395e59ccd51eeaab2a064a8f5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79a004395e59ccd51eeaab2a064a8f5d">&#9670;&nbsp;</a></span>visit() <span class="overload">[56/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a004395e59ccd51eeaab2a064a8f5d">&#9670;&nbsp;</a></span>visit() <span class="overload">[111/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_spread_expr.html">SpreadExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>spreadExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a79a004395e59ccd51eeaab2a064a8f5d" name="a79a004395e59ccd51eeaab2a064a8f5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a79a004395e59ccd51eeaab2a064a8f5d">&#9670;&nbsp;</a></span>visit() <span class="overload">[112/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1808,7 +3528,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ae4ccacb6fa39472d1fd8247ea0028873" name="ae4ccacb6fa39472d1fd8247ea0028873"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4ccacb6fa39472d1fd8247ea0028873">&#9670;&nbsp;</a></span>visit() <span class="overload">[57/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ccacb6fa39472d1fd8247ea0028873">&#9670;&nbsp;</a></span>visit() <span class="overload">[113/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_struct.html">Struct</a> &amp;&#160;</td>
+          <td class="paramname"><em>st</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ae4ccacb6fa39472d1fd8247ea0028873" name="ae4ccacb6fa39472d1fd8247ea0028873"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4ccacb6fa39472d1fd8247ea0028873">&#9670;&nbsp;</a></span>visit() <span class="overload">[114/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1836,7 +3584,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a17708936a63d054744c3effb0126f2e8" name="a17708936a63d054744c3effb0126f2e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17708936a63d054744c3effb0126f2e8">&#9670;&nbsp;</a></span>visit() <span class="overload">[58/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a17708936a63d054744c3effb0126f2e8">&#9670;&nbsp;</a></span>visit() <span class="overload">[115/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_struct_field.html">StructField</a> &amp;&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a17708936a63d054744c3effb0126f2e8" name="a17708936a63d054744c3effb0126f2e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17708936a63d054744c3effb0126f2e8">&#9670;&nbsp;</a></span>visit() <span class="overload">[116/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1864,7 +3640,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a8a86679458012212042c0f54132310fe" name="a8a86679458012212042c0f54132310fe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a86679458012212042c0f54132310fe">&#9670;&nbsp;</a></span>visit() <span class="overload">[59/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a86679458012212042c0f54132310fe">&#9670;&nbsp;</a></span>visit() <span class="overload">[117/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_struct_pat.html">StructPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a8a86679458012212042c0f54132310fe" name="a8a86679458012212042c0f54132310fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a86679458012212042c0f54132310fe">&#9670;&nbsp;</a></span>visit() <span class="overload">[118/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1892,7 +3696,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aa2efe4afc67a6a8d1dc46f9d35e96588" name="aa2efe4afc67a6a8d1dc46f9d35e96588"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa2efe4afc67a6a8d1dc46f9d35e96588">&#9670;&nbsp;</a></span>visit() <span class="overload">[60/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2efe4afc67a6a8d1dc46f9d35e96588">&#9670;&nbsp;</a></span>visit() <span class="overload">[119/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_subscript.html">Subscript</a> &amp;&#160;</td>
+          <td class="paramname"><em>subscript</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aa2efe4afc67a6a8d1dc46f9d35e96588" name="aa2efe4afc67a6a8d1dc46f9d35e96588"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2efe4afc67a6a8d1dc46f9d35e96588">&#9670;&nbsp;</a></span>visit() <span class="overload">[120/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1920,7 +3752,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a3ddd29ecf39d0e6d5e9ea579df06131e" name="a3ddd29ecf39d0e6d5e9ea579df06131e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ddd29ecf39d0e6d5e9ea579df06131e">&#9670;&nbsp;</a></span>visit() <span class="overload">[61/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ddd29ecf39d0e6d5e9ea579df06131e">&#9670;&nbsp;</a></span>visit() <span class="overload">[121/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_trait.html">Trait</a> &amp;&#160;</td>
+          <td class="paramname"><em>trait</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a3ddd29ecf39d0e6d5e9ea579df06131e" name="a3ddd29ecf39d0e6d5e9ea579df06131e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ddd29ecf39d0e6d5e9ea579df06131e">&#9670;&nbsp;</a></span>visit() <span class="overload">[122/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1948,7 +3808,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a7c8d675d8721f68bb5f3e1e95be7e275" name="a7c8d675d8721f68bb5f3e1e95be7e275"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c8d675d8721f68bb5f3e1e95be7e275">&#9670;&nbsp;</a></span>visit() <span class="overload">[62/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c8d675d8721f68bb5f3e1e95be7e275">&#9670;&nbsp;</a></span>visit() <span class="overload">[123/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_tuple_expr.html">TupleExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>tupleExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a7c8d675d8721f68bb5f3e1e95be7e275" name="a7c8d675d8721f68bb5f3e1e95be7e275"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c8d675d8721f68bb5f3e1e95be7e275">&#9670;&nbsp;</a></span>visit() <span class="overload">[124/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1976,7 +3864,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="ac781f4aa66b1997e5154ad70e7f40151" name="ac781f4aa66b1997e5154ad70e7f40151"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac781f4aa66b1997e5154ad70e7f40151">&#9670;&nbsp;</a></span>visit() <span class="overload">[63/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac781f4aa66b1997e5154ad70e7f40151">&#9670;&nbsp;</a></span>visit() <span class="overload">[125/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_tuple_pat.html">TuplePat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="ac781f4aa66b1997e5154ad70e7f40151" name="ac781f4aa66b1997e5154ad70e7f40151"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac781f4aa66b1997e5154ad70e7f40151">&#9670;&nbsp;</a></span>visit() <span class="overload">[126/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2004,7 +3920,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a8fd20258c304ad6c2c8ba5b00900f925" name="a8fd20258c304ad6c2c8ba5b00900f925"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fd20258c304ad6c2c8ba5b00900f925">&#9670;&nbsp;</a></span>visit() <span class="overload">[64/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fd20258c304ad6c2c8ba5b00900f925">&#9670;&nbsp;</a></span>visit() <span class="overload">[127/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_tuple_type.html">TupleType</a> &amp;&#160;</td>
+          <td class="paramname"><em>tupleType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a8fd20258c304ad6c2c8ba5b00900f925" name="a8fd20258c304ad6c2c8ba5b00900f925"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fd20258c304ad6c2c8ba5b00900f925">&#9670;&nbsp;</a></span>visit() <span class="overload">[128/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2032,7 +3976,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a19edf61c791ca3757ccca3a8a70f3274" name="a19edf61c791ca3757ccca3a8a70f3274"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19edf61c791ca3757ccca3a8a70f3274">&#9670;&nbsp;</a></span>visit() <span class="overload">[65/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a19edf61c791ca3757ccca3a8a70f3274">&#9670;&nbsp;</a></span>visit() <span class="overload">[129/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_tuple_type_el.html">TupleTypeEl</a> &amp;&#160;</td>
+          <td class="paramname"><em>el</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a19edf61c791ca3757ccca3a8a70f3274" name="a19edf61c791ca3757ccca3a8a70f3274"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19edf61c791ca3757ccca3a8a70f3274">&#9670;&nbsp;</a></span>visit() <span class="overload">[130/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2060,7 +4032,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a467c9bcf9f0b5d47db36c49ab51b3823" name="a467c9bcf9f0b5d47db36c49ab51b3823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a467c9bcf9f0b5d47db36c49ab51b3823">&#9670;&nbsp;</a></span>visit() <span class="overload">[66/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a467c9bcf9f0b5d47db36c49ab51b3823">&#9670;&nbsp;</a></span>visit() <span class="overload">[131/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_type_alias.html">TypeAlias</a> &amp;&#160;</td>
+          <td class="paramname"><em>typeAlias</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a467c9bcf9f0b5d47db36c49ab51b3823" name="a467c9bcf9f0b5d47db36c49ab51b3823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a467c9bcf9f0b5d47db36c49ab51b3823">&#9670;&nbsp;</a></span>visit() <span class="overload">[132/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2088,7 +4088,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a4b2395589482c3cdaf4bda2828691eb2" name="a4b2395589482c3cdaf4bda2828691eb2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b2395589482c3cdaf4bda2828691eb2">&#9670;&nbsp;</a></span>visit() <span class="overload">[67/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b2395589482c3cdaf4bda2828691eb2">&#9670;&nbsp;</a></span>visit() <span class="overload">[133/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_type_param.html">TypeParam</a> &amp;&#160;</td>
+          <td class="paramname"><em>typeParam</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a4b2395589482c3cdaf4bda2828691eb2" name="a4b2395589482c3cdaf4bda2828691eb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b2395589482c3cdaf4bda2828691eb2">&#9670;&nbsp;</a></span>visit() <span class="overload">[134/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2116,7 +4144,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a2109135be078535ed2cd1a0f21a7a68b" name="a2109135be078535ed2cd1a0f21a7a68b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2109135be078535ed2cd1a0f21a7a68b">&#9670;&nbsp;</a></span>visit() <span class="overload">[68/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2109135be078535ed2cd1a0f21a7a68b">&#9670;&nbsp;</a></span>visit() <span class="overload">[135/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_type_path.html">TypePath</a> &amp;&#160;</td>
+          <td class="paramname"><em>typePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a2109135be078535ed2cd1a0f21a7a68b" name="a2109135be078535ed2cd1a0f21a7a68b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2109135be078535ed2cd1a0f21a7a68b">&#9670;&nbsp;</a></span>visit() <span class="overload">[136/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2144,7 +4200,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="aaa762d0bfab5a69e0e253efddb5c85db" name="aaa762d0bfab5a69e0e253efddb5c85db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa762d0bfab5a69e0e253efddb5c85db">&#9670;&nbsp;</a></span>visit() <span class="overload">[69/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa762d0bfab5a69e0e253efddb5c85db">&#9670;&nbsp;</a></span>visit() <span class="overload">[137/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_unit_expr.html">UnitExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>unitExpr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="aaa762d0bfab5a69e0e253efddb5c85db" name="aaa762d0bfab5a69e0e253efddb5c85db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa762d0bfab5a69e0e253efddb5c85db">&#9670;&nbsp;</a></span>visit() <span class="overload">[138/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2172,7 +4256,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a9666ac9eb6a285e8453fab7b146bd5d8" name="a9666ac9eb6a285e8453fab7b146bd5d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9666ac9eb6a285e8453fab7b146bd5d8">&#9670;&nbsp;</a></span>visit() <span class="overload">[70/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a9666ac9eb6a285e8453fab7b146bd5d8">&#9670;&nbsp;</a></span>visit() <span class="overload">[139/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_unit_type.html">UnitType</a> &amp;&#160;</td>
+          <td class="paramname"><em>unitType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a9666ac9eb6a285e8453fab7b146bd5d8" name="a9666ac9eb6a285e8453fab7b146bd5d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9666ac9eb6a285e8453fab7b146bd5d8">&#9670;&nbsp;</a></span>visit() <span class="overload">[140/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2200,7 +4312,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a442fd8e9fc69f6006b84d5ee7960c906" name="a442fd8e9fc69f6006b84d5ee7960c906"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a442fd8e9fc69f6006b84d5ee7960c906">&#9670;&nbsp;</a></span>visit() <span class="overload">[71/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a442fd8e9fc69f6006b84d5ee7960c906">&#9670;&nbsp;</a></span>visit() <span class="overload">[141/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_use_decl.html">UseDecl</a> &amp;&#160;</td>
+          <td class="paramname"><em>useDecl</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a442fd8e9fc69f6006b84d5ee7960c906" name="a442fd8e9fc69f6006b84d5ee7960c906"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a442fd8e9fc69f6006b84d5ee7960c906">&#9670;&nbsp;</a></span>visit() <span class="overload">[142/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2228,7 +4368,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a2982574115a42627558e7822c3d7ad96" name="a2982574115a42627558e7822c3d7ad96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2982574115a42627558e7822c3d7ad96">&#9670;&nbsp;</a></span>visit() <span class="overload">[72/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a2982574115a42627558e7822c3d7ad96">&#9670;&nbsp;</a></span>visit() <span class="overload">[143/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_use_tree.html">UseTree</a> &amp;&#160;</td>
+          <td class="paramname"><em>useTree</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a2982574115a42627558e7822c3d7ad96" name="a2982574115a42627558e7822c3d7ad96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2982574115a42627558e7822c3d7ad96">&#9670;&nbsp;</a></span>visit() <span class="overload">[144/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2256,7 +4424,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a6bf458deaf0babf8954d530cb048c7dc" name="a6bf458deaf0babf8954d530cb048c7dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6bf458deaf0babf8954d530cb048c7dc">&#9670;&nbsp;</a></span>visit() <span class="overload">[73/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bf458deaf0babf8954d530cb048c7dc">&#9670;&nbsp;</a></span>visit() <span class="overload">[145/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_while_expr.html">WhileExpr</a> &amp;&#160;</td>
+          <td class="paramname"><em>whileStmt</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a6bf458deaf0babf8954d530cb048c7dc" name="a6bf458deaf0babf8954d530cb048c7dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bf458deaf0babf8954d530cb048c7dc">&#9670;&nbsp;</a></span>visit() <span class="overload">[146/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2284,7 +4480,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <a id="a1398203459e0a4222b3c1f4be665612a" name="a1398203459e0a4222b3c1f4be665612a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1398203459e0a4222b3c1f4be665612a">&#9670;&nbsp;</a></span>visit() <span class="overload">[74/74]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1398203459e0a4222b3c1f4be665612a">&#9670;&nbsp;</a></span>visit() <span class="overload">[147/148]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void jc::ast::AstPrinter::visit </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1ast_1_1_wildcard_pat.html">WildcardPat</a> &amp;&#160;</td>
+          <td class="paramname"><em>pat</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a>.</p>
+
+</div>
+</div>
+<a id="a1398203459e0a4222b3c1f4be665612a" name="a1398203459e0a4222b3c1f4be665612a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1398203459e0a4222b3c1f4be665612a">&#9670;&nbsp;</a></span>visit() <span class="overload">[148/148]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2312,7 +4536,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>print</b> (const sess
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/ast/<a class="el" href="_ast_printer_8h_source.html">AstPrinter.h</a></li>
+<li>include/ast/<a class="el" href="include_2ast_2_ast_printer_8h_source.html">AstPrinter.h</a></li>
+<li>src/ast/<a class="el" href="src_2ast_2_ast_printer_8h_source.html">AstPrinter.h</a></li>
 <li>src/ast/AstPrinter.cpp</li>
 </ul>
 </div><!-- contents -->

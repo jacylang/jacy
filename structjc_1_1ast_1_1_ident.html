@@ -84,6 +84,7 @@ Inheritance diagram for jc::ast::Ident:</div>
   <img src="structjc_1_1ast_1_1_ident.png" usemap="#jc::ast::Ident_map" alt=""/>
   <map id="jc::ast::Ident_map" name="jc::ast::Ident_map">
 <area href="structjc_1_1span_1_1_ident.html" alt="jc::span::Ident" shape="rect" coords="0,0,88,24"/>
+<area href="structjc_1_1span_1_1_ident.html" alt="jc::span::Ident" shape="rect" coords="98,0,186,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -95,7 +96,16 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>PR</b> = PR&lt; <a c
 <tr class="memitem:a54822afeaa2134590584fcfae9db59f4"><td class="memItemLeft" align="right" valign="top"><a id="a54822afeaa2134590584fcfae9db59f4" name="a54822afeaa2134590584fcfae9db59f4"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>OptPR</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; Ident::PR &gt;</td></tr>
 <tr class="separator:a54822afeaa2134590584fcfae9db59f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a075815e6c5bfac9a2d5395d716ed77cb"><td class="memItemLeft" align="right" valign="top"><a id="a075815e6c5bfac9a2d5395d716ed77cb" name="a075815e6c5bfac9a2d5395d716ed77cb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>PR</b> = PR&lt; <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> &gt;</td></tr>
+<tr class="separator:a075815e6c5bfac9a2d5395d716ed77cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54822afeaa2134590584fcfae9db59f4"><td class="memItemLeft" align="right" valign="top"><a id="a54822afeaa2134590584fcfae9db59f4" name="a54822afeaa2134590584fcfae9db59f4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>OptPR</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; Ident::PR &gt;</td></tr>
+<tr class="separator:a54822afeaa2134590584fcfae9db59f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_structjc_1_1span_1_1_ident"><td colspan="2" onclick="javascript:toggleInherit('pub_types_structjc_1_1span_1_1_ident')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="structjc_1_1span_1_1_ident.html">jc::span::Ident</a></td></tr>
+<tr class="memitem:ae628e6b02e82dbccaf062c5e1f740d2a inherit pub_types_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="ae628e6b02e82dbccaf062c5e1f740d2a" name="ae628e6b02e82dbccaf062c5e1f740d2a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> &gt;</td></tr>
+<tr class="separator:ae628e6b02e82dbccaf062c5e1f740d2a inherit pub_types_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae628e6b02e82dbccaf062c5e1f740d2a inherit pub_types_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="ae628e6b02e82dbccaf062c5e1f740d2a" name="ae628e6b02e82dbccaf062c5e1f740d2a"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> &gt;</td></tr>
 <tr class="separator:ae628e6b02e82dbccaf062c5e1f740d2a inherit pub_types_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,7 +121,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1114f763023bfbd2faf9674b84c6677b"><td class="memItemLeft" align="right" valign="top"><a id="a1114f763023bfbd2faf9674b84c6677b" name="a1114f763023bfbd2faf9674b84c6677b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
 <tr class="separator:a1114f763023bfbd2faf9674b84c6677b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67affe887d32be1959355da767a722b4"><td class="memItemLeft" align="right" valign="top"><a id="a67affe887d32be1959355da767a722b4" name="a67affe887d32be1959355da767a722b4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Ident</b> (<a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> sym, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a67affe887d32be1959355da767a722b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea2b372f1c35827c0efc7d7c3ea8cfe4"><td class="memItemLeft" align="right" valign="top"><a id="aea2b372f1c35827c0efc7d7c3ea8cfe4" name="aea2b372f1c35827c0efc7d7c3ea8cfe4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Ident</b> (const <a class="el" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp;token)</td></tr>
+<tr class="separator:aea2b372f1c35827c0efc7d7c3ea8cfe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1114f763023bfbd2faf9674b84c6677b"><td class="memItemLeft" align="right" valign="top"><a id="a1114f763023bfbd2faf9674b84c6677b" name="a1114f763023bfbd2faf9674b84c6677b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
+<tr class="separator:a1114f763023bfbd2faf9674b84c6677b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1span_1_1_ident"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1span_1_1_ident')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1span_1_1_ident.html">jc::span::Ident</a></td></tr>
+<tr class="memitem:aa2205d3ff9b99fd8ad0e2df46d4871bd inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="aa2205d3ff9b99fd8ad0e2df46d4871bd" name="aa2205d3ff9b99fd8ad0e2df46d4871bd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Ident</b> (const <a class="el" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp;token)</td></tr>
+<tr class="separator:aa2205d3ff9b99fd8ad0e2df46d4871bd inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a074b722393badd32bff1aa63642c3ded inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="a074b722393badd32bff1aa63642c3ded" name="a074b722393badd32bff1aa63642c3ded"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Ident</b> (<a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> sym, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a074b722393badd32bff1aa63642c3ded inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2205d3ff9b99fd8ad0e2df46d4871bd inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="aa2205d3ff9b99fd8ad0e2df46d4871bd" name="aa2205d3ff9b99fd8ad0e2df46d4871bd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Ident</b> (const <a class="el" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp;token)</td></tr>
 <tr class="separator:aa2205d3ff9b99fd8ad0e2df46d4871bd inherit pub_methods_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +162,9 @@ Friends</h2></td></tr>
 <tr class="memitem:a37efe2f0354157d069f0903fd6e29b7b"><td class="memItemLeft" align="right" valign="top"><a id="a37efe2f0354157d069f0903fd6e29b7b" name="a37efe2f0354157d069f0903fd6e29b7b"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> &amp;ident)</td></tr>
 <tr class="separator:a37efe2f0354157d069f0903fd6e29b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37efe2f0354157d069f0903fd6e29b7b"><td class="memItemLeft" align="right" valign="top"><a id="a37efe2f0354157d069f0903fd6e29b7b" name="a37efe2f0354157d069f0903fd6e29b7b"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a> &amp;ident)</td></tr>
+<tr class="separator:a37efe2f0354157d069f0903fd6e29b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -144,9 +172,13 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a7db7b6fb325dd641f72939c10be317d9 inherit pub_static_methods_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="a7db7b6fb325dd641f72939c10be317d9" name="a7db7b6fb325dd641f72939c10be317d9"></a>
 static <a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><b>empty</b> ()</td></tr>
 <tr class="separator:a7db7b6fb325dd641f72939c10be317d9 inherit pub_static_methods_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7db7b6fb325dd641f72939c10be317d9 inherit pub_static_methods_structjc_1_1span_1_1_ident"><td class="memItemLeft" align="right" valign="top"><a id="a7db7b6fb325dd641f72939c10be317d9" name="a7db7b6fb325dd641f72939c10be317d9"></a>
+static <a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><b>empty</b> ()</td></tr>
+<tr class="separator:a7db7b6fb325dd641f72939c10be317d9 inherit pub_static_methods_structjc_1_1span_1_1_ident"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/ast/fragments/<a class="el" href="ast_2fragments_2_ident_8h_source.html">Ident.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/ast/fragments/<a class="el" href="include_2ast_2fragments_2_ident_8h_source.html">Ident.h</a></li>
+<li>src/ast/fragments/<a class="el" href="src_2ast_2fragments_2_ident_8h_source.html">Ident.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

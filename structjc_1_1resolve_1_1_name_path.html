@@ -77,10 +77,19 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_resolutions_8h_source.html">Resolutions.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="include_2resolve_2_resolutions_8h_source.html">Resolutions.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:a8693f30f065d607783658661072f0698"><td class="memItemLeft" align="right" valign="top"><a id="a8693f30f065d607783658661072f0698" name="a8693f30f065d607783658661072f0698"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>NamePath</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId)</td></tr>
+<tr class="separator:a8693f30f065d607783658661072f0698"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4c206605b09faf4d64170307b4a3078"><td class="memItemLeft" align="right" valign="top"><a id="ab4c206605b09faf4d64170307b4a3078" name="ab4c206605b09faf4d64170307b4a3078"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="structjc_1_1resolve_1_1_name_path.html">NamePath</a> &amp;other) const</td></tr>
+<tr class="separator:ab4c206605b09faf4d64170307b4a3078"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c0b7df6da75383937c4f968f6af3d10"><td class="memItemLeft" align="right" valign="top"><a id="a5c0b7df6da75383937c4f968f6af3d10" name="a5c0b7df6da75383937c4f968f6af3d10"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;</b> (const <a class="el" href="structjc_1_1resolve_1_1_name_path.html">NamePath</a> &amp;other) const</td></tr>
+<tr class="separator:a5c0b7df6da75383937c4f968f6af3d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8693f30f065d607783658661072f0698"><td class="memItemLeft" align="right" valign="top"><a id="a8693f30f065d607783658661072f0698" name="a8693f30f065d607783658661072f0698"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>NamePath</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId)</td></tr>
 <tr class="separator:a8693f30f065d607783658661072f0698"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -102,6 +111,9 @@ Friends</h2></td></tr>
 <tr class="memitem:a50c758acb4310909d069f0fe3c48e79c"><td class="memItemLeft" align="right" valign="top"><a id="a50c758acb4310909d069f0fe3c48e79c" name="a50c758acb4310909d069f0fe3c48e79c"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1resolve_1_1_name_path.html">NamePath</a> &amp;name)</td></tr>
 <tr class="separator:a50c758acb4310909d069f0fe3c48e79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50c758acb4310909d069f0fe3c48e79c"><td class="memItemLeft" align="right" valign="top"><a id="a50c758acb4310909d069f0fe3c48e79c" name="a50c758acb4310909d069f0fe3c48e79c"></a>
+std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1resolve_1_1_name_path.html">NamePath</a> &amp;name)</td></tr>
+<tr class="separator:a50c758acb4310909d069f0fe3c48e79c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p ><code>Name</code> is a pointer to path-like node. In <code><a class="el" href="classjc_1_1resolve_1_1_resolutions.html" title="Collection of {path: node} names resolutions.">Resolutions</a></code> it is mapped to specific <code><a class="el" href="structjc_1_1resolve_1_1_res.html">Res</a></code> and can point to</p><ul>
@@ -109,8 +121,9 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <li>definition id</li>
 <li>primitive type </li>
 </ul>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>include/resolve/<a class="el" href="_resolutions_8h_source.html">Resolutions.h</a></li>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/resolve/<a class="el" href="include_2resolve_2_resolutions_8h_source.html">Resolutions.h</a></li>
+<li>src/resolve/<a class="el" href="src_2resolve_2_resolutions_8h_source.html">Resolutions.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
