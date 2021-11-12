@@ -82,35 +82,9 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:addeec1eb1e83641a836a1bac05c66075"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_res.html#addeec1eb1e83641a836a1bac05c66075">ValueType</a> = std::variant&lt; <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, PrimType &gt;</td></tr>
 <tr class="separator:addeec1eb1e83641a836a1bac05c66075"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addeec1eb1e83641a836a1bac05c66075"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_res.html#addeec1eb1e83641a836a1bac05c66075">ValueType</a> = std::variant&lt; <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, PrimType &gt;</td></tr>
-<tr class="separator:addeec1eb1e83641a836a1bac05c66075"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac6e2d66b1d665ad29ac37fa1cfb05f5f"><td class="memItemLeft" align="right" valign="top"><a id="ac6e2d66b1d665ad29ac37fa1cfb05f5f" name="ac6e2d66b1d665ad29ac37fa1cfb05f5f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Res</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId)</td></tr>
-<tr class="separator:ac6e2d66b1d665ad29ac37fa1cfb05f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98a24063685cc33989ddae3221ceb9a3"><td class="memItemLeft" align="right" valign="top"><a id="a98a24063685cc33989ddae3221ceb9a3" name="a98a24063685cc33989ddae3221ceb9a3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Res</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId)</td></tr>
-<tr class="separator:a98a24063685cc33989ddae3221ceb9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a250b65a01aad94c551deba2a73ae50c2"><td class="memItemLeft" align="right" valign="top"><a id="a250b65a01aad94c551deba2a73ae50c2" name="a250b65a01aad94c551deba2a73ae50c2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Res</b> (PrimType primType)</td></tr>
-<tr class="separator:a250b65a01aad94c551deba2a73ae50c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c47f0562e0f59e9fd3da6f92bba15d4"><td class="memItemLeft" align="right" valign="top"><a id="a9c47f0562e0f59e9fd3da6f92bba15d4" name="a9c47f0562e0f59e9fd3da6f92bba15d4"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> () const</td></tr>
-<tr class="separator:a9c47f0562e0f59e9fd3da6f92bba15d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a535bf8898343d807ae6c5ed809237cd4"><td class="memItemLeft" align="right" valign="top"><a id="a535bf8898343d807ae6c5ed809237cd4" name="a535bf8898343d807ae6c5ed809237cd4"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isErr</b> () const</td></tr>
-<tr class="separator:a535bf8898343d807ae6c5ed809237cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7968b6db63816677678ed4d2f6ab07e5"><td class="memItemLeft" align="right" valign="top"><a id="a7968b6db63816677678ed4d2f6ab07e5" name="a7968b6db63816677678ed4d2f6ab07e5"></a>
-const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asDef</b> () const</td></tr>
-<tr class="separator:a7968b6db63816677678ed4d2f6ab07e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a101b8bcde6a6e9f643e074aa9621699a"><td class="memItemLeft" align="right" valign="top"><a id="a101b8bcde6a6e9f643e074aa9621699a" name="a101b8bcde6a6e9f643e074aa9621699a"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>asLocal</b> () const</td></tr>
-<tr class="separator:a101b8bcde6a6e9f643e074aa9621699a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4740236f9c947c52814099bf887083d"><td class="memItemLeft" align="right" valign="top"><a id="aa4740236f9c947c52814099bf887083d" name="aa4740236f9c947c52814099bf887083d"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>asPrimType</b> () const</td></tr>
-<tr class="separator:aa4740236f9c947c52814099bf887083d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6e2d66b1d665ad29ac37fa1cfb05f5f"><td class="memItemLeft" align="right" valign="top"><a id="ac6e2d66b1d665ad29ac37fa1cfb05f5f" name="ac6e2d66b1d665ad29ac37fa1cfb05f5f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Res</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId)</td></tr>
 <tr class="separator:ac6e2d66b1d665ad29ac37fa1cfb05f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,13 +124,10 @@ Friends</h2></td></tr>
 <tr class="memitem:a89c4d1f415764f07f92c5cc986d13856"><td class="memItemLeft" align="right" valign="top"><a id="a89c4d1f415764f07f92c5cc986d13856" name="a89c4d1f415764f07f92c5cc986d13856"></a>
 std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1resolve_1_1_res.html">Res</a> &amp;res)</td></tr>
 <tr class="separator:a89c4d1f415764f07f92c5cc986d13856"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89c4d1f415764f07f92c5cc986d13856"><td class="memItemLeft" align="right" valign="top"><a id="a89c4d1f415764f07f92c5cc986d13856" name="a89c4d1f415764f07f92c5cc986d13856"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="structjc_1_1resolve_1_1_res.html">Res</a> &amp;res)</td></tr>
-<tr class="separator:a89c4d1f415764f07f92c5cc986d13856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="addeec1eb1e83641a836a1bac05c66075" name="addeec1eb1e83641a836a1bac05c66075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addeec1eb1e83641a836a1bac05c66075">&#9670;&nbsp;</a></span>ValueType <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#addeec1eb1e83641a836a1bac05c66075">&#9670;&nbsp;</a></span>ValueType</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -170,24 +141,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 
 </div>
 </div>
-<a id="addeec1eb1e83641a836a1bac05c66075" name="addeec1eb1e83641a836a1bac05c66075"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addeec1eb1e83641a836a1bac05c66075">&#9670;&nbsp;</a></span>ValueType <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using <a class="el" href="structjc_1_1resolve_1_1_res.html#addeec1eb1e83641a836a1bac05c66075">jc::resolve::Res::ValueType</a> =  std::variant&lt;<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, PrimType&gt;</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Resolution type NodeId - local variable <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> - definition id PrimType - primitive type </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/resolve/<a class="el" href="include_2resolve_2_resolutions_8h_source.html">Resolutions.h</a></li>
-<li>src/resolve/<a class="el" href="src_2resolve_2_resolutions_8h_source.html">Resolutions.h</a></li>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/resolve/<a class="el" href="_resolutions_8h_source.html">Resolutions.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

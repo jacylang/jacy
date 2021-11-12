@@ -80,25 +80,14 @@ $(function() {
 <p>Flag passed to cli.  
  <a href="structjc_1_1cli_1_1_passed_flag.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="include_2cli_2_c_l_i_command_8h_source.html">CLICommand.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_c_l_i_command_8h_source.html">CLICommand.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:acc6ab974270f20522081e2e5a0d4f6fe"><td class="memItemLeft" align="right" valign="top"><a id="acc6ab974270f20522081e2e5a0d4f6fe" name="acc6ab974270f20522081e2e5a0d4f6fe"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Bool</b>
 , <b>Str</b>
-, <b>Bool</b>
-, <b>Str</b>
  }</td></tr>
 <tr class="separator:acc6ab974270f20522081e2e5a0d4f6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc6ab974270f20522081e2e5a0d4f6fe"><td class="memItemLeft" align="right" valign="top"><a id="acc6ab974270f20522081e2e5a0d4f6fe" name="acc6ab974270f20522081e2e5a0d4f6fe"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Bool</b>
-, <b>Str</b>
-, <b>Bool</b>
-, <b>Str</b>
- }</td></tr>
-<tr class="separator:acc6ab974270f20522081e2e5a0d4f6fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9016e87af5e04727212bdccda45c3de9"><td class="memItemLeft" align="right" valign="top"><a id="a9016e87af5e04727212bdccda45c3de9" name="a9016e87af5e04727212bdccda45c3de9"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueList</b> = std::set&lt; std::string &gt;</td></tr>
-<tr class="separator:a9016e87af5e04727212bdccda45c3de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9016e87af5e04727212bdccda45c3de9"><td class="memItemLeft" align="right" valign="top"><a id="a9016e87af5e04727212bdccda45c3de9" name="a9016e87af5e04727212bdccda45c3de9"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueList</b> = std::set&lt; std::string &gt;</td></tr>
 <tr class="separator:a9016e87af5e04727212bdccda45c3de9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,36 +112,17 @@ const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgs</
 <tr class="memitem:a9ad853b4aac74bce038bd9a84d039ee7"><td class="memItemLeft" align="right" valign="top"><a id="a9ad853b4aac74bce038bd9a84d039ee7" name="a9ad853b4aac74bce038bd9a84d039ee7"></a>
 auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgs</b> ()</td></tr>
 <tr class="separator:a9ad853b4aac74bce038bd9a84d039ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a861a5320be80f529161b9b5150836bf5"><td class="memItemLeft" align="right" valign="top"><a id="a861a5320be80f529161b9b5150836bf5" name="a861a5320be80f529161b9b5150836bf5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PassedFlag</b> (ValueList &amp;&amp;value)</td></tr>
-<tr class="separator:a861a5320be80f529161b9b5150836bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acabf3764e0fe188f448da13fdce3ab5a"><td class="memItemLeft" align="right" valign="top"><a id="acabf3764e0fe188f448da13fdce3ab5a" name="acabf3764e0fe188f448da13fdce3ab5a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>PassedFlag</b> (bool value)</td></tr>
-<tr class="separator:acabf3764e0fe188f448da13fdce3ab5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0ad36cf0925703a35661337da64e12a"><td class="memItemLeft" align="right" valign="top"><a id="af0ad36cf0925703a35661337da64e12a" name="af0ad36cf0925703a35661337da64e12a"></a>
-Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b> () const</td></tr>
-<tr class="separator:af0ad36cf0925703a35661337da64e12a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0c84f6b40a87bef5e3a20c43de576d2"><td class="memItemLeft" align="right" valign="top"><a id="ad0c84f6b40a87bef5e3a20c43de576d2" name="ad0c84f6b40a87bef5e3a20c43de576d2"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>getBool</b> () const</td></tr>
-<tr class="separator:ad0c84f6b40a87bef5e3a20c43de576d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe2d6cc2d69fb028f47aec7e1ea744b9"><td class="memItemLeft" align="right" valign="top"><a id="afe2d6cc2d69fb028f47aec7e1ea744b9" name="afe2d6cc2d69fb028f47aec7e1ea744b9"></a>
-const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgs</b> () const</td></tr>
-<tr class="separator:afe2d6cc2d69fb028f47aec7e1ea744b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ad853b4aac74bce038bd9a84d039ee7"><td class="memItemLeft" align="right" valign="top"><a id="a9ad853b4aac74bce038bd9a84d039ee7" name="a9ad853b4aac74bce038bd9a84d039ee7"></a>
-auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getArgs</b> ()</td></tr>
-<tr class="separator:a9ad853b4aac74bce038bd9a84d039ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a89af73b94a217685d0136a459bad8463"><td class="memItemLeft" align="right" valign="top"><a id="a89af73b94a217685d0136a459bad8463" name="a89af73b94a217685d0136a459bad8463"></a>
+<tr class="memitem:aa41157275773bf4c4a6bc237cc13b925"><td class="memItemLeft" align="right" valign="top"><a id="aa41157275773bf4c4a6bc237cc13b925" name="aa41157275773bf4c4a6bc237cc13b925"></a>
 std::variant&lt; bool, ValueList &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
-<tr class="separator:a89af73b94a217685d0136a459bad8463"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aa41157275773bf4c4a6bc237cc13b925"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Flag passed to cli. </p>
-</div><hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/cli/<a class="el" href="include_2cli_2_c_l_i_command_8h_source.html">CLICommand.h</a></li>
-<li>src/cli/<a class="el" href="src_2cli_2_c_l_i_command_8h_source.html">CLICommand.h</a></li>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/cli/<a class="el" href="_c_l_i_command_8h_source.html">CLICommand.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

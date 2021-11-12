@@ -93,15 +93,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>TimeRatio</b> = std:
 <tr class="memitem:ad51e85230472fd6ef88d7e831519ca66"><td class="memItemLeft" align="right" valign="top"><a id="ad51e85230472fd6ef88d7e831519ca66" name="ad51e85230472fd6ef88d7e831519ca66"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>BenchT</b> = std::chrono::time_point&lt; std::chrono::high_resolution_clock &gt;</td></tr>
 <tr class="separator:ad51e85230472fd6ef88d7e831519ca66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79854c787eeee45497244397748e9c00"><td class="memItemLeft" align="right" valign="top"><a id="a79854c787eeee45497244397748e9c00" name="a79854c787eeee45497244397748e9c00"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = std::shared_ptr&lt; <a class="el" href="classjc_1_1sess_1_1_step.html">Step</a> &gt;</td></tr>
-<tr class="separator:a79854c787eeee45497244397748e9c00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71f463632250617a0b762ea771270696"><td class="memItemLeft" align="right" valign="top"><a id="a71f463632250617a0b762ea771270696" name="a71f463632250617a0b762ea771270696"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>TimeRatio</b> = std::ratio&lt; 1, 1000 &gt;</td></tr>
-<tr class="separator:a71f463632250617a0b762ea771270696"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad51e85230472fd6ef88d7e831519ca66"><td class="memItemLeft" align="right" valign="top"><a id="ad51e85230472fd6ef88d7e831519ca66" name="ad51e85230472fd6ef88d7e831519ca66"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>BenchT</b> = std::chrono::time_point&lt; std::chrono::high_resolution_clock &gt;</td></tr>
-<tr class="separator:ad51e85230472fd6ef88d7e831519ca66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -145,50 +136,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>endFailed</b> ()</td>
 <tr class="memitem:ae7952154ce717be4e0bacc6bf0f174bc"><td class="memItemLeft" align="right" valign="top"><a id="ae7952154ce717be4e0bacc6bf0f174bc" name="ae7952154ce717be4e0bacc6bf0f174bc"></a>
 constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>unitStr</b> () const</td></tr>
 <tr class="separator:ae7952154ce717be4e0bacc6bf0f174bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8656b5018231e1a6b11427888b8b1f2c"><td class="memItemLeft" align="right" valign="top"><a id="a8656b5018231e1a6b11427888b8b1f2c" name="a8656b5018231e1a6b11427888b8b1f2c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Step</b> (<a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; Ptr &gt; parent, const std::string &amp;name, MeasUnit measUnit)</td></tr>
-<tr class="separator:a8656b5018231e1a6b11427888b8b1f2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afab49a55e659a8f3754252e341f035ee"><td class="memTemplParams" colspan="2"><a id="afab49a55e659a8f3754252e341f035ee" name="afab49a55e659a8f3754252e341f035ee"></a>
-template&lt;class ... Args&gt; </td></tr>
-<tr class="memitem:afab49a55e659a8f3754252e341f035ee"><td class="memTemplItemLeft" align="right" valign="top">Ptr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>addChild</b> (Args &amp;&amp;...args)</td></tr>
-<tr class="separator:afab49a55e659a8f3754252e341f035ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ea06b15cba8dabd09d2f60ac6ceebd0"><td class="memItemLeft" align="right" valign="top"><a id="a2ea06b15cba8dabd09d2f60ac6ceebd0" name="a2ea06b15cba8dabd09d2f60ac6ceebd0"></a>
-MeasUnit&#160;</td><td class="memItemRight" valign="bottom"><b>getUnit</b> () const</td></tr>
-<tr class="separator:a2ea06b15cba8dabd09d2f60ac6ceebd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a428b80aac5486536a2f5801767c0eab1"><td class="memItemLeft" align="right" valign="top"><a id="a428b80aac5486536a2f5801767c0eab1" name="a428b80aac5486536a2f5801767c0eab1"></a>
-const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getName</b> () const</td></tr>
-<tr class="separator:a428b80aac5486536a2f5801767c0eab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b40854dab76b002f871bcf223bca98c"><td class="memItemLeft" align="right" valign="top"><a id="a3b40854dab76b002f871bcf223bca98c" name="a3b40854dab76b002f871bcf223bca98c"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>childrenCount</b> () const</td></tr>
-<tr class="separator:a3b40854dab76b002f871bcf223bca98c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a784029fd3a9cae934e4d8e587328b4aa"><td class="memItemLeft" align="right" valign="top"><a id="a784029fd3a9cae934e4d8e587328b4aa" name="a784029fd3a9cae934e4d8e587328b4aa"></a>
-<a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; Ptr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>getParent</b> () const</td></tr>
-<tr class="separator:a784029fd3a9cae934e4d8e587328b4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dd8a2f3e77fd61ea7f6064d2f3a9fec"><td class="memItemLeft" align="right" valign="top"><a id="a0dd8a2f3e77fd61ea7f6064d2f3a9fec" name="a0dd8a2f3e77fd61ea7f6064d2f3a9fec"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getBenchmark</b> () const</td></tr>
-<tr class="separator:a0dd8a2f3e77fd61ea7f6064d2f3a9fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a942ead1691b665786a4fe33986c1f4e3"><td class="memItemLeft" align="right" valign="top"><a id="a942ead1691b665786a4fe33986c1f4e3" name="a942ead1691b665786a4fe33986c1f4e3"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>getUnitCount</b> () const</td></tr>
-<tr class="separator:a942ead1691b665786a4fe33986c1f4e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b2d64c8756dc69100d13ebff005b247"><td class="memItemLeft" align="right" valign="top"><a id="a1b2d64c8756dc69100d13ebff005b247" name="a1b2d64c8756dc69100d13ebff005b247"></a>
-const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getChildren</b> () const</td></tr>
-<tr class="separator:a1b2d64c8756dc69100d13ebff005b247"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c75249388f3510cdb169e62a65d4025"><td class="memItemLeft" align="right" valign="top"><a id="a7c75249388f3510cdb169e62a65d4025" name="a7c75249388f3510cdb169e62a65d4025"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>isComplete</b> () const</td></tr>
-<tr class="separator:a7c75249388f3510cdb169e62a65d4025"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7bbcd123e61362c5030eac3a26f05ac"><td class="memItemLeft" align="right" valign="top"><a id="ab7bbcd123e61362c5030eac3a26f05ac" name="ab7bbcd123e61362c5030eac3a26f05ac"></a>
-Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>end</b> (<a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; size_t &gt; procUnitCount)</td></tr>
-<tr class="separator:ab7bbcd123e61362c5030eac3a26f05ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeacba6f4cc2ab34465a7b1b328b53668"><td class="memItemLeft" align="right" valign="top"><a id="aeacba6f4cc2ab34465a7b1b328b53668" name="aeacba6f4cc2ab34465a7b1b328b53668"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>endFailed</b> ()</td></tr>
-<tr class="separator:aeacba6f4cc2ab34465a7b1b328b53668"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7952154ce717be4e0bacc6bf0f174bc"><td class="memItemLeft" align="right" valign="top"><a id="ae7952154ce717be4e0bacc6bf0f174bc" name="ae7952154ce717be4e0bacc6bf0f174bc"></a>
-constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>unitStr</b> () const</td></tr>
-<tr class="separator:ae7952154ce717be4e0bacc6bf0f174bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/session/<a class="el" href="include_2session_2diagnostics_8h_source.html">diagnostics.h</a></li>
-<li>src/session/<a class="el" href="src_2session_2diagnostics_8h_source.html">diagnostics.h</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li>src/session/<a class="el" href="diagnostics_8h_source.html">diagnostics.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

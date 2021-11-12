@@ -30,5 +30,5 @@ var searchData=
   ['precparser_27',['PrecParser',['../structjc_1_1parser_1_1_prec_parser.html',1,'jc::parser']]],
   ['prefix_28',['Prefix',['../structjc_1_1ast_1_1_prefix.html',1,'jc::ast']]],
   ['prefixexpr_29',['PrefixExpr',['../structjc_1_1hir_1_1_prefix_expr.html',1,'jc::hir']]],
-  ['printtitledev_30',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger::printTitleDev(Args &amp;&amp;...args)'],['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger::printTitleDev(Args &amp;&amp;...args)']]]
+  ['printtitledev_30',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger']]]
 ];

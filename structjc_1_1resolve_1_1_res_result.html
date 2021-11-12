@@ -79,35 +79,12 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aa32f0b0e3af6228caed869349ee92421"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> : uint8_t { <br />
-&#160;&#160;<b>Error</b>
+<tr class="memitem:aa32f0b0e3af6228caed869349ee92421"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> : uint8_t { <b>Error</b>
 , <b>Specific</b>
 , <b>Module</b>
 , <b>Import</b>
-, <br />
-&#160;&#160;<b>Error</b>
-, <b>Specific</b>
-, <b>Module</b>
-, <b>Import</b>
-<br />
  }</td></tr>
 <tr class="separator:aa32f0b0e3af6228caed869349ee92421"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa32f0b0e3af6228caed869349ee92421"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> : uint8_t { <br />
-&#160;&#160;<b>Error</b>
-, <b>Specific</b>
-, <b>Module</b>
-, <b>Import</b>
-, <br />
-&#160;&#160;<b>Error</b>
-, <b>Specific</b>
-, <b>Module</b>
-, <b>Import</b>
-<br />
- }</td></tr>
-<tr class="separator:aa32f0b0e3af6228caed869349ee92421"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c068cd875ea165bbc660de10098742e"><td class="memItemLeft" align="right" valign="top"><a id="a8c068cd875ea165bbc660de10098742e" name="a8c068cd875ea165bbc660de10098742e"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, NameBinding::PerNS &gt;</td></tr>
-<tr class="separator:a8c068cd875ea165bbc660de10098742e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c068cd875ea165bbc660de10098742e"><td class="memItemLeft" align="right" valign="top"><a id="a8c068cd875ea165bbc660de10098742e" name="a8c068cd875ea165bbc660de10098742e"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, NameBinding::PerNS &gt;</td></tr>
 <tr class="separator:a8c068cd875ea165bbc660de10098742e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -141,46 +118,16 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>asModuleDef</b> () co
 <tr class="memitem:a8830c4bfb2993cf2f13eecbb6d837a7a"><td class="memItemLeft" align="right" valign="top"><a id="a8830c4bfb2993cf2f13eecbb6d837a7a" name="a8830c4bfb2993cf2f13eecbb6d837a7a"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>asImport</b> () const</td></tr>
 <tr class="separator:a8830c4bfb2993cf2f13eecbb6d837a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf7dac3b7d500ebde8fea4750208d036"><td class="memItemLeft" align="right" valign="top"><a id="aaf7dac3b7d500ebde8fea4750208d036" name="aaf7dac3b7d500ebde8fea4750208d036"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ResResult</b> (<a class="el" href="structjc_1_1dt_1_1none__t.html">dt::none_t</a>)</td></tr>
-<tr class="separator:aaf7dac3b7d500ebde8fea4750208d036"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a005c7b70d0b100bcd5598aa8caa87d1e"><td class="memItemLeft" align="right" valign="top"><a id="a005c7b70d0b100bcd5598aa8caa87d1e" name="a005c7b70d0b100bcd5598aa8caa87d1e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ResResult</b> (<a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> kind, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId)</td></tr>
-<tr class="separator:a005c7b70d0b100bcd5598aa8caa87d1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aa485ede37fb99090327328f972b60d"><td class="memItemLeft" align="right" valign="top"><a id="a1aa485ede37fb99090327328f972b60d" name="a1aa485ede37fb99090327328f972b60d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ResResult</b> (NameBinding::PerNS &amp;&amp;defs)</td></tr>
-<tr class="separator:a1aa485ede37fb99090327328f972b60d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7b262484625da3111ac862e16bc6610"><td class="memItemLeft" align="right" valign="top"><a id="ad7b262484625da3111ac862e16bc6610" name="ad7b262484625da3111ac862e16bc6610"></a>
-constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> () const</td></tr>
-<tr class="separator:ad7b262484625da3111ac862e16bc6610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a12d0c2793ecddf74e6fbcc71a65153"><td class="memItemLeft" align="right" valign="top"><a id="a0a12d0c2793ecddf74e6fbcc71a65153" name="a0a12d0c2793ecddf74e6fbcc71a65153"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>err</b> () const</td></tr>
-<tr class="separator:a0a12d0c2793ecddf74e6fbcc71a65153"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a109fa40ae5dc43a798f0934a6b447664"><td class="memItemLeft" align="right" valign="top"><a id="a109fa40ae5dc43a798f0934a6b447664" name="a109fa40ae5dc43a798f0934a6b447664"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>ok</b> () const</td></tr>
-<tr class="separator:a109fa40ae5dc43a798f0934a6b447664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc14a683faab08fbab1cd6d8731ccf61"><td class="memItemLeft" align="right" valign="top"><a id="afc14a683faab08fbab1cd6d8731ccf61" name="afc14a683faab08fbab1cd6d8731ccf61"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>asSpecific</b> () const</td></tr>
-<tr class="separator:afc14a683faab08fbab1cd6d8731ccf61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a84c1a3658f35b7c8929699474eada0"><td class="memItemLeft" align="right" valign="top"><a id="a4a84c1a3658f35b7c8929699474eada0" name="a4a84c1a3658f35b7c8929699474eada0"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>asModuleDef</b> () const</td></tr>
-<tr class="separator:a4a84c1a3658f35b7c8929699474eada0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8830c4bfb2993cf2f13eecbb6d837a7a"><td class="memItemLeft" align="right" valign="top"><a id="a8830c4bfb2993cf2f13eecbb6d837a7a" name="a8830c4bfb2993cf2f13eecbb6d837a7a"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>asImport</b> () const</td></tr>
-<tr class="separator:a8830c4bfb2993cf2f13eecbb6d837a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a1016da2dfd42e9ca0ab48b4da4af32db"><td class="memItemLeft" align="right" valign="top"><a id="a1016da2dfd42e9ca0ab48b4da4af32db" name="a1016da2dfd42e9ca0ab48b4da4af32db"></a>
 static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> (<a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> kind)</td></tr>
 <tr class="separator:a1016da2dfd42e9ca0ab48b4da4af32db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1016da2dfd42e9ca0ab48b4da4af32db"><td class="memItemLeft" align="right" valign="top"><a id="a1016da2dfd42e9ca0ab48b4da4af32db" name="a1016da2dfd42e9ca0ab48b4da4af32db"></a>
-static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> (<a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">Kind</a> kind)</td></tr>
-<tr class="separator:a1016da2dfd42e9ca0ab48b4da4af32db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="aa32f0b0e3af6228caed869349ee92421" name="aa32f0b0e3af6228caed869349ee92421"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa32f0b0e3af6228caed869349ee92421">&#9670;&nbsp;</a></span>Kind <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aa32f0b0e3af6228caed869349ee92421">&#9670;&nbsp;</a></span>Kind</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -202,32 +149,8 @@ static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"
 
 </div>
 </div>
-<a id="aa32f0b0e3af6228caed869349ee92421" name="aa32f0b0e3af6228caed869349ee92421"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa32f0b0e3af6228caed869349ee92421">&#9670;&nbsp;</a></span>Kind <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum class <a class="el" href="structjc_1_1resolve_1_1_res_result.html#aa32f0b0e3af6228caed869349ee92421">jc::resolve::ResResult::Kind</a> : uint8_t</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p >Kind is useless from view of logic and used for safety as we use <code><a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a></code> variant for both <a class="el" href="structjc_1_1resolve_1_1_module.html">Module</a> and Specific. It can be removed in the future. </p>
-
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>include/resolve/<a class="el" href="include_2resolve_2_path_resolver_8h_source.html">PathResolver.h</a></li>
-<li>src/resolve/<a class="el" href="src_2resolve_2_path_resolver_8h_source.html">PathResolver.h</a></li>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/resolve/<a class="el" href="_path_resolver_8h_source.html">PathResolver.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
