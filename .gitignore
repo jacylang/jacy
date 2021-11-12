@@ -4,5 +4,8 @@ cmake*
 .idea
 build
 
+*.pyc
+test_package/build
+
 # This file you can use to run some quick checks
 src/check.cpp
