@@ -25,9 +25,9 @@ namespace jc::parser {
         /**
          * @brief Method same as `lex` but may be used to lex non-user code, e.g. for highlighting code in terminal
          * @param source Source as string
-         * @return Token list
+         * @return Lexing result
          */
-        Token::List lexInternal(const std::string & source);
+        message::MessageResult<Token::List> lexInternal(const std::string & source);
 
     private:
         /**

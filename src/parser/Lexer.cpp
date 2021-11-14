@@ -723,10 +723,10 @@ namespace jc::parser {
         return {std::move(tokens), msg.extractMessages()};
     }
 
-    Token::List Lexer::lexInternal(const std::string & source) {
+    message::MessageResult<Token::List> Lexer::lexInternal(const std::string & source) {
         this->source = source;
         lexGeneric();
-        return std::move(tokens);
+        return {std::move(tokens), msg.extractMessages()};
     }
 
     void Lexer::lexGeneric() {
