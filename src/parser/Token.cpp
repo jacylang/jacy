@@ -2,7 +2,7 @@
 
 namespace jc::parser {
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {
-        {TokenKind::Error,        "ERROR"},
+        {TokenKind::Error,        "[ERROR]"},
 
         {TokenKind::Eof,          "EOF"},
         {TokenKind::Id,           "ID"},
@@ -104,7 +104,8 @@ namespace jc::parser {
     }
 
     bool Token::isHidden() const {
-        return is(TokenKind::Whitespace)
+        return is(TokenKind::Error)
+            or is(TokenKind::Whitespace)
             or is(TokenKind::Tab)
             or is(TokenKind::NL)
             or is(TokenKind::LineComment)
