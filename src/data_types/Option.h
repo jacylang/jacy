@@ -123,6 +123,16 @@ namespace jc::dt {
             return storage.index() == SOME_INDEX;
         }
 
+        // Operators //
+    public:
+        constexpr bool operator==(const Option<T> & other) const {
+            if (some() and other.some()) {
+                return unchecked() == other.unchecked();
+            }
+
+            return none() and other.none();
+        }
+
     private:
         constexpr const T & unchecked() const & noexcept {
             return std::get<T>(storage);
