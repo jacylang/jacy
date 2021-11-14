@@ -81,7 +81,7 @@ namespace jc::core {
         log.printTitleDev("Parsing");
 
         const auto & rootFileName = config.getRootFile();
-        auto rootFileEntry = fs::readfile(rootFileName);
+        auto rootFileEntry = fs::readFile(rootFileName);
         const auto & rootFilePath = fs::std_fs::absolute(rootFileEntry.getPath());
         log.dev("Root file path: ", rootFilePath);
 

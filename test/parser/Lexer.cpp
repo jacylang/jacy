@@ -14,7 +14,7 @@ static auto & getLexer() {
 }
 
 auto lexFile(const std::filesystem::path & path) {
-    return getLexer().lexInternal(fs::readfile(path).extractContent());
+    return getLexer().lexInternal(fs::readFile(path).extractContent());
 }
 
 auto lex(const std::string & source) {

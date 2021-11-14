@@ -13,9 +13,9 @@ namespace jc::fs {
      */
     bool exists(const std_fs::path & path);
 
-    Entry readfile(const std_fs::path & path);
+    Entry readFile(const std_fs::path & path);
 
-    Entry::List readdirRecEntries(const std_fs::path & path, const std::string & allowedExt = "");
+    Entry::List readDirRecEntries(const std_fs::path & path, const std::string & allowedExt = "");
 
     Entry readDirRec(const std_fs::path & path, const std::string & allowedExt = "");
 }

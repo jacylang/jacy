@@ -5,9 +5,9 @@ namespace jc::fs {
         return std_fs::exists(std_fs::relative(path));
     }
 
-    Entry readfile(const std_fs::path & path) {
+    Entry readFile(const std_fs::path & path) {
         if (not fs::exists(path)) {
-            log::devPanic("Called `fs::readfile` with non-existent file");
+            log::devPanic("Called `fs::readFile` with non-existent file");
         }
 
         std::fstream file(path);
@@ -24,24 +24,24 @@ namespace jc::fs {
         return Entry(path, std::move(data));
     }
 
-    Entry::List readdirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
+    Entry::List readDirRecEntries(const std_fs::path & path, const std::string & allowedExt) {
         Entry::List entries;
         for (const auto & entry : std_fs::directory_iterator(path)) {
             const auto & entryPath = entry.path();
             if (entry.is_directory()) {
-                entries.emplace_back(entryPath, readdirRecEntries(entryPath, allowedExt));
+                entries.emplace_back(entryPath, readDirRecEntries(entryPath, allowedExt));
             } else if (entry.is_regular_file()) {
                 if (not allowedExt.empty() and entryPath.extension() != allowedExt) {
                     continue;
                 }
 
-                entries.emplace_back(readfile(entryPath));
+                entries.emplace_back(readFile(entryPath));
             }
         }
         return entries;
     }
 
     Entry readDirRec(const std_fs::path & path, const std::string & allowedExt) {
-        return Entry(path, readdirRecEntries(path, allowedExt));
+        return Entry(path, readDirRecEntries(path, allowedExt));
     }
 }
