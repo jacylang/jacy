@@ -4,15 +4,25 @@
 #include "doctest/doctest.h"
 #include "parser/Lexer.h"
 
-TEST_CASE("Lexer basic tests") {
-    using namespace jc;
+using namespace jc;
 
-    auto sess = std::make_shared<sess::Session>();
-    parser::Lexer lexer;
+auto & getLexer() {
+    static parser::Lexer lexer;
+    return lexer;
+}
 
-    const auto & lexFile = [&](const std::filesystem::path & path) {
-        return lexer.lexInternal(fs::readfile(path).extractContent());
-    };
+auto lexFile(const std::filesystem::path & path) {
+    return getLexer().lexInternal(fs::readfile(path).extractContent());
+}
+
+auto lex(const std::string & source) {
+    return getLexer().lexInternal(source);
+}
+
+TEST_SUITE("Lexer basic tests") {
+    TEST_CASE("Check unexpected tokens") {
+        CHECK_EQ(lex("№").getMessages(), {});
+    }
 }
 
 #endif // JACY_TEST_PARSER_LEXER_CPP

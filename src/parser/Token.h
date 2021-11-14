@@ -230,6 +230,47 @@ namespace jc::parser {
             }
         }
 
+        /**
+         * @brief Partial equality, i.e. the equality is not absolute.
+         *  Error always != any other Error
+         *  Hidden tokens (comments, new-lines, white-spaces, etc.) are equal
+         *
+         * @param other Other token to compare this one with
+         * @return Comparison result
+         */
+        bool operator==(const Token & other) const {
+            if (kind != other.kind) {
+                return false;
+            }
+
+            switch (kind) {
+                case TokenKind::Error: {
+                    return false;
+                }
+                case TokenKind::Eof: {
+                    return true;
+                }
+                case TokenKind::Whitespace:
+                case TokenKind::Tab:
+                case TokenKind::NL:
+                case TokenKind::LineComment:
+                case TokenKind::BlockComment: {
+                    return true;
+                }
+                case TokenKind::Lit: {
+                    return asLit().kind == other.asLit().kind
+                        and asLit().sym == other.asLit().sym
+                        and asLit().suffix == other.asLit().suffix;
+                }
+                case TokenKind::Id: {
+                    return asSymbol() == other.asSymbol();
+                }
+                default: {
+                    return true;
+                }
+            }
+        }
+
         // Debug //
         std::string dump(bool withLoc = true) const;
     };
