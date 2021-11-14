@@ -2,6 +2,8 @@
 
 namespace jc::parser {
     const std::map<TokenKind, std::string> Token::tokenKindStrings = {
+        {TokenKind::Error,        "ERROR"},
+
         {TokenKind::Eof,          "EOF"},
         {TokenKind::Id,           "ID"},
         {TokenKind::Whitespace,   "[WS]"},

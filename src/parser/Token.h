@@ -27,6 +27,8 @@ namespace jc::parser {
     /// Note: Some keywords marked with RNU (Reserved but Not Used)
 
     enum class TokenKind : uint8_t {
+        Error,
+
         Eof,
         Whitespace,
         Tab,
