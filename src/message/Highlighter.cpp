@@ -34,7 +34,7 @@ namespace jc::message {
     };
 
     std::string Highlighter::highlight(const std::string & source) {
-        auto tokens = lexer.lexInternal(source);
+        auto[tokens, messages] = lexer.lexInternal(source).extract();
 
         std::stringstream result;
 
