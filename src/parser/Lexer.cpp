@@ -703,6 +703,7 @@ namespace jc::parser {
             }
             default: {
                 unexpectedTokenError();
+                addToken(TokenKind::Error, 1);
                 advance();
             }
         }
