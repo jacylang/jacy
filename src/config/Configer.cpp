@@ -4,6 +4,11 @@ namespace jc::config {
     void Configer::applyCLIArgs(const cli::PassedCommand & args) {
         auto & config = Config::getInstance();
 
+        // TODO: Prettify error, now it's uncaught
+        if (args.getEntryFile().none()) {
+            throw std::runtime_error("Please, specify entry file");
+        }
+
         config.rootFile = args.getEntryFile().unwrap();
 
         // Apply bool args //

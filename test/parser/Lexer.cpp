@@ -1,12 +1,14 @@
 #ifndef JACY_TEST_PARSER_LEXER_CPP
 #define JACY_TEST_PARSER_LEXER_CPP
 
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+
 #include "doctest/doctest.h"
 #include "parser/Lexer.h"
 
 using namespace jc;
 
-auto & getLexer() {
+static auto & getLexer() {
     static parser::Lexer lexer;
     return lexer;
 }
@@ -21,7 +23,8 @@ auto lex(const std::string & source) {
 
 TEST_SUITE("Lexer basic tests") {
     TEST_CASE("Check unexpected tokens") {
-        CHECK_EQ(lex("№").getMessages(), {});
+        CHECK_EQ(lex("№").takeUnchecked(),
+                 parser::Token::List {parser::Token {parser::TokenKind::Error, span::Symbol {}}});
     }
 }
 
