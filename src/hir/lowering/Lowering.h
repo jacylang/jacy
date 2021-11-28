@@ -11,12 +11,13 @@ namespace jc::hir {
     class Lowering {
     public:
         Lowering() = default;
+
         virtual ~Lowering() = default;
 
         message::MessageResult<Party> lower(const sess::Session::Ptr & sess, const ast::Party & party);
 
     private:
-        log::Logger log{"lowering"};
+        log::Logger log {"lowering"};
 
     private:
         template<class T, class ...Args>
@@ -60,6 +61,7 @@ namespace jc::hir {
         HirId lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId);
 
         void enterOwner(NodeId itemNodeId);
+
         void exitOwner();
 
         ItemId addItem(Item && item);
@@ -77,28 +79,41 @@ namespace jc::hir {
         // Items //
     private:
         ItemId lowerItem(const ast::Item::Ptr & astItem);
+
         ItemInner::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
+
         ItemInner::Ptr lowerEnum(const ast::Enum & astEnum);
+
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
+
         ItemInner::Ptr lowerMod(const ast::Item::List & astItems);
+
         ItemInner::Ptr lowerFunc(const ast::Func & astFunc);
+
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
+
         FuncSig::ReturnType lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType);
 
         // Statements //
     private:
         Stmt::Ptr lowerStmt(const ast::Stmt::Ptr & astStmt);
+
         Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
         // Expressions //
     private:
         Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
+
         Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
+
         Expr::Ptr lowerBlockExpr(const ast::Block & block);
+
         Expr::Ptr lowerForExpr(const ast::ForExpr & forExpr);
+
         Expr::Ptr lowerWhileExpr(const ast::WhileExpr & whileExpr);
 
         BinOp lowerBinOp(const parser::Token & tok);
+
         PrefixOp lowerPrefixOp(const parser::Token & tok);
 
         // Types //
@@ -108,16 +123,23 @@ namespace jc::hir {
         // Fragments //
     private:
         Block lowerBlock(const ast::Block & block);
+
         Body lowerBody(const ast::Body & astBody);
+
         Path lowerPath(const ast::Path & path);
+
         MatchArm lowerMatchArm(const ast::MatchArm & arm);
 
         // Patterns //
     private:
         Pat::Ptr lowerPat(const ast::Pat::Ptr & patPr);
+
         Pat::Ptr lowerStructPat(const ast::StructPat & pat);
+
         Pat::Ptr lowerIdentPat(const ast::IdentPat & pat);
+
         Pat::Ptr lowerTuplePat(const ast::TuplePat & pat);
+
         Pat::Ptr lowerSlicePat(const ast::SlicePat & pat);
 
         Pat::List lowerPatterns(const ast::Pat::List & pats);
