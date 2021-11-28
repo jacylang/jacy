@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['span_0',['Span',['../structjc_1_1span_1_1_span.html#a70549f9c88375a6c4f6fdba8aa92d3dd',1,'jc::span::Span']]]
+  ['printtitledev_0',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger']]]
 ];

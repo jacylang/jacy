@@ -135,6 +135,9 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>repr</b> (bool
 <tr class="memitem:a4d971a2cfc436b1a86079e6272c05343"><td class="memItemLeft" align="right" valign="top"><a id="a4d971a2cfc436b1a86079e6272c05343" name="a4d971a2cfc436b1a86079e6272c05343"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindToString</b> () const</td></tr>
 <tr class="separator:a4d971a2cfc436b1a86079e6272c05343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ddcace19f355c292fdfb21df6272a0d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1parser_1_1_token.html#a9ddcace19f355c292fdfb21df6272a0d">operator==</a> (const <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &amp;other) const</td></tr>
+<tr class="memdesc:a9ddcace19f355c292fdfb21df6272a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partial equality, i.e. the equality is not absolute. Error always != any other Error Hidden tokens (comments, new-lines, white-spaces, etc.) are equal.  <a href="structjc_1_1parser_1_1_token.html#a9ddcace19f355c292fdfb21df6272a0d">More...</a><br /></td></tr>
+<tr class="separator:a9ddcace19f355c292fdfb21df6272a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93b30ca3a89fd803c7eda3560e1e28f1"><td class="memItemLeft" align="right" valign="top"><a id="a93b30ca3a89fd803c7eda3560e1e28f1" name="a93b30ca3a89fd803c7eda3560e1e28f1"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>dump</b> (bool withLoc=true) const</td></tr>
 <tr class="separator:a93b30ca3a89fd803c7eda3560e1e28f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -194,6 +197,42 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <li><code>Symbol</code> for identifiers and keywords</li>
 <li><code><a class="el" href="structjc_1_1parser_1_1_tok_lit.html">TokLit</a></code> for literals </li>
 </ul>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a9ddcace19f355c292fdfb21df6272a0d" name="a9ddcace19f355c292fdfb21df6272a0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ddcace19f355c292fdfb21df6272a0d">&#9670;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool jc::parser::Token::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structjc_1_1parser_1_1_token.html">Token</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Partial equality, i.e. the equality is not absolute. Error always != any other Error Hidden tokens (comments, new-lines, white-spaces, etc.) are equal. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>Other token to compare this one with </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Comparison result </dd></dl>
 
 </div>
 </div>
