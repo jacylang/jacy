@@ -11,7 +11,7 @@ namespace jc::resolve {
         // Note: Maybe define ROOT_NODE_ID?
         auto rootModuleDef = _defTable.define(
             Vis::Pub,
-            ast::NodeId::DUMMY,
+            ast::NodeId::ROOT_NODE_ID,
             DefKind::Mod,
             span::Ident {span::Symbol::fromKw(span::Kw::Root), span::Span {}}
         );

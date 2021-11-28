@@ -44,9 +44,10 @@ namespace jc::hir {
     void Lowering::exitOwner() {
         // Update counter in exited owner
         const auto & lastOwner = ownerStack.back();
-        ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
 
         log.dev("Enter owner ", lastOwner.defId, ":", lastOwner.nodeId);
+
+        ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
 
         ownerStack.pop_back();
     }
