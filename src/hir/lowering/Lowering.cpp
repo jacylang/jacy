@@ -36,6 +36,7 @@ namespace jc::hir {
     }
 
     void Lowering::enterOwner(NodeId itemNodeId) {
+        log.dev("Enter owner ", itemNodeId);
         newHirIdCounter(itemNodeId);
         ownerStack.emplace_back(itemNodeId, sess->defTable.getDefIdByNodeId(itemNodeId), ownersItemIds.at(itemNodeId));
     }
@@ -44,6 +45,8 @@ namespace jc::hir {
         // Update counter in exited owner
         const auto & lastOwner = ownerStack.back();
         ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
+
+        log.dev("Enter owner ", lastOwner.defId, ":", lastOwner.nodeId);
 
         ownerStack.pop_back();
     }

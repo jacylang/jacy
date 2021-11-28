@@ -1,8 +1,8 @@
-mod a {
-
+mod m {
+    pub func foo {}
 }
 
 func foo {
     let a = 123;
-    a::foo(a: 123);
+    m::foo();
 }
