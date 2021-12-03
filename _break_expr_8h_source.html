@@ -77,24 +77,24 @@ $(function() {
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;ast/expr/Expr.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>jc::ast {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_break_expr.html">    7</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a>(<a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> &amp;&amp; expr, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a>{span, ExprKind::Break},</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>              expr{std::move(expr)} {}</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> expr;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    };</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif </span><span class="comment">// JACY_BREAKEXPR_H</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_break_expr.html">    8</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_break_expr.html">BreakExpr</a>(<a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> &amp;&amp; expr, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a>{span, ExprKind::Break},</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>              expr{std::move(expr)} {}</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> expr;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        }</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    };</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif </span><span class="comment">// JACY_BREAKEXPR_H</span></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_break_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_break_expr.html">jc::ast::BreakExpr</a></div><div class="ttdef"><b>Definition:</b> BreakExpr.h:7</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdef"><b>Definition:</b> Expr.h:38</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_break_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_break_expr.html">jc::ast::BreakExpr</a></div><div class="ttdoc">break EXPR?;</div><div class="ttdef"><b>Definition:</b> BreakExpr.h:8</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:41</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
