@@ -4,6 +4,7 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
+    /// `break EXPR?;`
     struct BreakExpr : Expr {
         BreakExpr(Expr::OptPtr && expr, Span span)
             : Expr{span, ExprKind::Break},

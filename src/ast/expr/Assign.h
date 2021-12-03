@@ -4,6 +4,7 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
+    /// `Expr = Expr`
     struct Assign : Expr {
         Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, span::Span span)
             : Expr{span, ExprKind::Assign}, lhs{std::move(lhs)}, op{op}, rhs{std::move(rhs)} {}

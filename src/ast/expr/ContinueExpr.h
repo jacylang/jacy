@@ -4,6 +4,7 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
+    /// `continue`
     struct ContinueExpr : Expr {
         explicit ContinueExpr(Span span) : Expr{span, ExprKind::Continue} {}
 

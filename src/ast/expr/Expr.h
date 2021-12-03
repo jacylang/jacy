@@ -35,6 +35,9 @@ namespace jc::ast {
         While,
     };
 
+    /**
+     * @brief Base expression class
+     */
     struct Expr : Node {
         using Ptr = PR<N<Expr>>;
         using OptPtr = Option<Ptr>;

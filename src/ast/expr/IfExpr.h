@@ -7,6 +7,7 @@
 #include "Block.h"
 
 namespace jc::ast {
+    /// If expression
     struct IfExpr : Expr {
         IfExpr(
             Expr::Ptr condition,
