@@ -49,7 +49,6 @@ namespace jc::core {
         log.dev(
             "Identifier structures colors:\n",
             "NodeId: ", ast::NodeId::DUMMY, "\n",
-            "SymbolId: ", span::SymbolId {0}, "\n",
             "DefId: ", resolve::DefId::ROOT_DEF_ID, "\n",
             "FOSId", resolve::FOSId {0}, "\n",
             "HirId: ", hir::HirId::DUMMY, "\n",
