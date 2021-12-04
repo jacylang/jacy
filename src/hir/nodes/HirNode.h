@@ -37,7 +37,8 @@ namespace jc::hir {
         OwnerDef::IdT id;
 
         friend std::ostream & operator<<(std::ostream & os, const HirId & hirId) {
-            return os << log::Color::Magenta << "#" << hirId.owner << "@" << hirId.id << "" << log::Color::Reset;
+            return os << hirId.owner << log::Color::DarkBlue << "@" << hirId.id
+                      << log::Color::Reset;
         }
     };
 
