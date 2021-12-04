@@ -44,6 +44,18 @@ namespace jc::core {
         log.printTitleDev("Initialization");
         sess = std::make_shared<sess::Session>();
         messageHandler.setSession(sess);
+
+        // Dev info //
+        log.dev(
+            "Identifier structures colors:\n",
+            "NodeId: ", ast::NodeId::DUMMY, "\n",
+            "SymbolId: ", span::SymbolId {0}, "\n",
+            "DefId: ", resolve::DefId::ROOT_DEF_ID, "\n",
+            "FOSId", resolve::FOSId {0}, "\n",
+            "HirId: ", hir::HirId::DUMMY, "\n",
+            "ItemId: ", hir::ItemId {resolve::DefId::ROOT_DEF_ID}, "\n",
+            "BodyId: ", hir::BodyId {hir::HirId::DUMMY}
+        );
     }
 
     void Interface::workflow() {
