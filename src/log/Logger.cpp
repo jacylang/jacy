@@ -22,5 +22,5 @@ namespace jc::log {
     };
 
     const Color Logger::devLogsColor = Color::Magenta;
-    const std::string Logger::devLogName = "[DEV]";
+    const std::string Logger::devLogName = "dev";
 }
