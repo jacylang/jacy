@@ -50,8 +50,9 @@ namespace jc::core {
             "Identifier structures colors:\n",
             "NodeId: ", ast::NodeId::DUMMY, "\n",
             "DefId: ", resolve::DefId::ROOT_DEF_ID, "\n",
-            "FOSId", resolve::FOSId {0}, "\n",
-            "HirId: ", hir::HirId::DUMMY, "\n"
+            "FOSId: ", resolve::FOSId {0}, "\n",
+            "HirId: ", hir::HirId::DUMMY, "\n",
+            "EID: ", message::EID {0}
         );
     }
 
