@@ -26,7 +26,7 @@ const Logger & Logger::dev(Args && ...args) const {
     if (not config.devLogs) {
         return *this;
     }
-    out(std::cout, devLogsColor, devLogName, Color::Reset, ": ", std::forward<Args>(args)...);
+    out(std::cout, devLogsColor, devLogName, ": ", Color::Reset, std::forward<Args>(args)...);
     nl();
     return *this;
 }
