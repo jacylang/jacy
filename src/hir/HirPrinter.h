@@ -6,9 +6,12 @@
 namespace jc::hir {
     class HirPrinter {
     public:
-        HirPrinter() = default;
+        HirPrinter(Party & party);
 
-        void print(const Party & party);
+        void print();
+
+    private:
+        Party & party;
     };
 }
 

@@ -1,7 +1,9 @@
 #include "hir/HirPrinter.h"
 
 namespace jc::hir {
-    void HirPrinter::print(const Party & party) {
+    HirPrinter::HirPrinter(Party & party) : party {party} {}
+
+    void HirPrinter::print() {
 
     }
 }

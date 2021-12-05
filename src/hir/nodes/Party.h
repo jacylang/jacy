@@ -4,6 +4,8 @@
 #include "hir/nodes/items.h"
 
 namespace jc::hir {
+    using resolve::DefId;
+
     struct OwnerNode {
         // Note: `Mod` and `Item` are not separated, `Mod` is only for top-level `Party` module
         using ValueT = std::variant<Mod, Item>;
@@ -26,9 +28,9 @@ namespace jc::hir {
 
     /// The root node of the party (package)
     struct Party {
-        using Owners = std::map<resolve::DefId, OwnerNode>;
+        using Owners = std::map<DefId, OwnerNode>;
         using Bodies = std::map<BodyId, Body>;
-        using Modules = std::map<resolve::DefId, ModuleItems>;
+        using Modules = std::map<DefId, ModuleItems>;
 
         Party(
             Owners && owners,
@@ -41,6 +43,10 @@ namespace jc::hir {
         Owners owners;
         Bodies bodies;
         Modules modules;
+
+        const auto & expectPartyOwner() const {
+            return utils::map::expectAt(owners, DefId::ROOT_DEF_ID, "`hir::Party` -> `expectPartyOwner`");
+        }
     };
 }
 
