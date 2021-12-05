@@ -11,6 +11,10 @@ namespace jc::hir {
         void print();
 
     private:
+        void printMod(const Mod & mod);
+        void printItem(const ItemId & itemId);
+
+    private:
         Party & party;
     };
 }
