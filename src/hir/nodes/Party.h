@@ -21,7 +21,7 @@ namespace jc::hir {
         Kind kind;
         ValueT node;
 
-        auto & item() {
+        const auto & item() const {
             if (kind != Kind::Item) {
                 log::devPanic("Expected `OwnerNode` to be item");
             }
@@ -54,6 +54,10 @@ namespace jc::hir {
 
         const auto & expectPartyOwner() const {
             return utils::map::expectAt(owners, DefId::ROOT_DEF_ID, "`hir::Party::expectPartyOwner`");
+        }
+
+        const auto & item(ItemId id) const {
+            return utils::map::expectAt(owners, id.defId, "`hir::Party::item`").item();
         }
     };
 }
