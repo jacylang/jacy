@@ -14,6 +14,10 @@ namespace jc::hir {
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
-        
+        const auto & item = party.item(itemId);
+
+        switch (item.item->kind) {
+
+        }
     }
 }

@@ -30,7 +30,8 @@ namespace jc::hir {
     struct ItemInner {
         using Ptr = std::unique_ptr<ItemInner>;
 
-        ItemInner(ItemKind kind) : kind{kind} {}
+        ItemInner(ItemKind kind) : kind {kind} {
+        }
 
         ItemKind kind;
     };
@@ -39,7 +40,10 @@ namespace jc::hir {
     /// It is useful because we can lower specific item independently and then construct the full `Item`.
     struct Item {
         Item(span::Ident && name, ItemInner::Ptr && item, DefId defId, Span span)
-            : name{std::move(name)}, item{std::move(item)}, defId{defId}, span{span} {}
+            : name {std::move(name)},
+              item {std::move(item)},
+              defId {defId},
+              span {span} {}
 
         span::Ident name;
         ItemInner::Ptr item;
