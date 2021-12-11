@@ -83,6 +83,7 @@ namespace jc::hir {
         auto loweredItem = lowerItemKind(astItem);
 
         auto item = Item {
+            astItem.unwrap()->vis,
             i->getName(),
             std::move(loweredItem),
             lowerNodeId(i->id).owner,

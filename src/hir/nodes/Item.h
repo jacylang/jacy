@@ -39,7 +39,7 @@ namespace jc::hir {
     /// The wrapper over `ItemInner` and its additional info.
     /// It is useful because we can lower specific item independently and then construct the full `Item`.
     struct Item {
-        using Vis = span::Spanned<resolve::Vis>;
+        using Vis = ast::Vis;
 
         Item(Vis vis, span::Ident && name, ItemInner::Ptr && item, DefId defId, Span span)
             : vis {vis},

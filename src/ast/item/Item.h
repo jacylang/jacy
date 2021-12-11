@@ -21,6 +21,8 @@ namespace jc::ast {
         Pub,
     };
 
+    /// Visibility (`pub` or unset)
+    // TODO: Don't use optional span, try to figure out where user would place `pub` or not to make suggestions better.
     struct Vis {
         Vis() : kind{VisKind::Unset}, span{None} {}
         Vis(VisKind kind, const span::Span::Opt & span) : kind{kind}, span{span} {}
