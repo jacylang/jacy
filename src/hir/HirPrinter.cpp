@@ -16,6 +16,8 @@ namespace jc::hir {
     void HirPrinter::printItem(const ItemId & itemId) {
         const auto & item = party.item(itemId);
 
+        printVis(item.vis);
+
         switch (item.item->kind) {
             case ItemKind::Enum: {
 
@@ -35,6 +37,12 @@ namespace jc::hir {
                 break;
             case ItemKind::Use:
                 break;
+        }
+    }
+
+    void HirPrinter::printVis(Item::Vis vis) {
+        if (vis.kind == ast::VisKind::Pub) {
+            log.raw("pub ");
         }
     }
 }

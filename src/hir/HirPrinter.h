@@ -15,7 +15,13 @@ namespace jc::hir {
         void printItem(const ItemId & itemId);
 
     private:
+        void printVis(Item::Vis vis);
+
+    private:
         Party & party;
+
+    private:
+        log::Logger log {"hir-printer"};
     };
 }
 
