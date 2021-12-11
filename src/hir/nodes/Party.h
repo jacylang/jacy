@@ -28,6 +28,14 @@ namespace jc::hir {
 
             return std::get<Item>(node);
         }
+
+        const auto & party() const {
+            if (kind != Kind::Party) {
+                log::devPanic("Expected `OwnerNode` to be party");
+            }
+
+            return std::get<Mod>(node);
+        }
     };
 
     struct ModuleItems {
@@ -52,11 +60,15 @@ namespace jc::hir {
         Bodies bodies;
         Modules modules;
 
-        const auto & expectPartyOwner() const {
+        const OwnerNode & expectPartyOwner() const {
             return utils::map::expectAt(owners, DefId::ROOT_DEF_ID, "`hir::Party::expectPartyOwner`");
         }
 
-        const auto & item(ItemId id) const {
+        const Mod & rootMod() const {
+            return expectPartyOwner().party();
+        }
+
+        const Item & item(ItemId id) const {
             return utils::map::expectAt(owners, id.defId, "`hir::Party::item`").item();
         }
     };
