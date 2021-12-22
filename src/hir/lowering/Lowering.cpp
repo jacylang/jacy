@@ -140,17 +140,24 @@ namespace jc::hir {
                     HirId::DUMMY,
                     enumEntry.span
                 };
-                break;
             }
             case ast::EnumEntryKind::Discriminant: {
                 // TODO: Strange one
                 break;
             }
             case ast::EnumEntryKind::Tuple: {
+                return Variant {
+                    enumEntry.name.unwrap(),
+                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(enumEntry.body)),
+                    Variant::Kind::Tuple,
+                    HirId::DUMMY,
+                    enumEntry.span
+                };
+            }
+            case ast::EnumEntryKind::Struct: {
+
                 break;
             }
-            case ast::EnumEntryKind::Struct:
-                break;
         }
     }
 
