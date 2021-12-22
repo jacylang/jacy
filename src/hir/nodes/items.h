@@ -33,18 +33,15 @@ namespace jc::hir {
             Unit, // Variant with optional discriminant (such as `Foo = 1` or just `Bar`)
         };
 
-        Variant(Ident ident, Span span, Data && data, Kind kind, HirId hirId)
-            : ident {ident},
-              span {span},
+        Variant(Ident ident, Data && data, Kind kind, HirId hirId, Span span)
+            : HirNode {hirId, span},
+              ident {ident},
               data {std::move(data)},
-              kind {kind},
-              hirId {hirId} {}
+              kind {kind} {}
 
         Ident ident;
-        Span span;
         Data data;
         Kind kind;
-        HirId hirId;
 
         // TODO: Add discriminant for Unit kind
     };
