@@ -511,7 +511,7 @@ namespace jc::hir {
             if (named) {
                 name = ty.name.unwrap().unwrap();
             }
-            fields.emplace_back(name, ty.span, HirId::DUMMY, lowerType(ty.type.unwrap()));
+            fields.emplace_back(name, lowerType(ty.type.unwrap()), HirId::DUMMY, ty.span);
         }
 
         return fields;
@@ -521,7 +521,7 @@ namespace jc::hir {
         CommonField::List fields;
 
         for (const auto & field : fs) {
-            fields.emplace_back(field.name.unwrap(), field.span, HirId::DUMMY, lowerType(field.type));
+            fields.emplace_back(field.name.unwrap(), lowerType(field.type), HirId::DUMMY, field.span);
         }
 
         return fields;

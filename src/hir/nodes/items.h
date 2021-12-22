@@ -8,18 +8,15 @@
 #include "ast/fragments/func_fragments.h"
 
 namespace jc::hir {
-    struct CommonField {
+    struct CommonField : HirNode {
         using List = std::vector<CommonField>;
 
-        CommonField(Ident ident, Span span, HirId hirId, Type::Ptr && type)
-            : ident {ident},
-              span {span},
-              hirId {hirId},
+        CommonField(Ident ident, Type::Ptr && type, HirId hirId, Span span)
+            : HirNode {hirId, span},
+              ident {ident},
               type {std::move(type)} {}
 
         Ident ident;
-        Span span;
-        HirId hirId;
         Type::Ptr type;
     };
 
