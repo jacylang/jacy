@@ -11,16 +11,16 @@ namespace jc::hir {
     struct CommonField {
         using List = std::vector<CommonField>;
 
-        CommonField(Ident ident, Span span, HirId hirId, Type && type)
+        CommonField(Ident ident, Span span, HirId hirId, Type::Ptr && type)
             : ident {ident},
               span {span},
               hirId {hirId},
-              type {type} {}
+              type {std::move(type)} {}
 
         Ident ident;
         Span span;
         HirId hirId;
-        Type type;
+        Type::Ptr type;
     };
 
     struct Variant : HirNode {

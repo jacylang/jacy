@@ -132,12 +132,23 @@ namespace jc::hir {
 
     Variant Lowering::lowerVariant(const ast::EnumEntry & enumEntry) {
         switch (enumEntry.kind) {
-            case ast::EnumEntryKind::Raw:
+            case ast::EnumEntryKind::Raw: {
+                return Variant {
+                    enumEntry.name.unwrap(),
+                    std::monostate {},
+                    Variant::Kind::Unit,
+                    HirId::DUMMY,
+                    enumEntry.span
+                };
                 break;
-            case ast::EnumEntryKind::Discriminant:
+            }
+            case ast::EnumEntryKind::Discriminant: {
+                // TODO: Strange one
                 break;
-            case ast::EnumEntryKind::Tuple:
+            }
+            case ast::EnumEntryKind::Tuple: {
                 break;
+            }
             case ast::EnumEntryKind::Struct:
                 break;
         }
@@ -457,6 +468,7 @@ namespace jc::hir {
         return makeBoxNode<LoopExpr>(std::move(loweredBody), lowerNodeId(whileExpr.id), whileExpr.span);
     }
 
+    // Types //
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap("`Lowering::lowerType`");
         switch (type->kind) {
@@ -477,6 +489,20 @@ namespace jc::hir {
                 break;
         }
         log::notImplemented("Lowering::lowerType");
+    }
+
+    CommonField::List Lowering::lowerTupleTysToFields(const ast::TupleTypeEl::List & types, bool named) {
+        CommonField::List fields;
+
+        for (const auto & ty : types) {
+            Ident name = Ident::empty();
+            if (named) {
+                name = ty.name.unwrap().unwrap();
+            }
+            fields.emplace_back(name, ty.span, HirId::DUMMY, lowerType(ty.type.unwrap()));
+        }
+
+        return fields;
     }
 
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
