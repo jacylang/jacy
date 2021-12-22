@@ -6,6 +6,7 @@
 
 namespace jc::hir {
     using span::Span;
+    using span::Ident;
     using ast::NodeId;
     using resolve::DefId;
 

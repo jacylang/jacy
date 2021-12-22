@@ -8,6 +8,19 @@
 #include "ast/fragments/func_fragments.h"
 
 namespace jc::hir {
+    struct CommonField {
+        CommonField(Ident ident, Span span, HirId hirId, Type && type)
+            : ident {ident},
+              span {span},
+              hirId {hirId},
+              type {type} {}
+
+        Ident ident;
+        Span span;
+        HirId hirId;
+        Type type;
+    };
+
     struct Variant : HirNode {
         // TODO: Requires unification for AST `Enum` field types
 
