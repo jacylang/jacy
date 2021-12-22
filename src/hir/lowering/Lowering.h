@@ -64,7 +64,7 @@ namespace jc::hir {
 
         void exitOwner();
 
-        ItemId addItem(Item && item);
+        ItemId addItem(ItemWrapper && item);
 
         /// Used to track current owner for items.
         /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
@@ -80,15 +80,15 @@ namespace jc::hir {
     private:
         ItemId lowerItem(const ast::Item::Ptr & astItem);
 
-        ItemInner::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
+        Item::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
 
-        ItemInner::Ptr lowerEnum(const ast::Enum & astEnum);
+        Item::Ptr lowerEnum(const ast::Enum & astEnum);
 
         Variant lowerVariant(const ast::EnumEntry & enumEntry);
 
-        ItemInner::Ptr lowerMod(const ast::Item::List & astItems);
+        Item::Ptr lowerMod(const ast::Item::List & astItems);
 
-        ItemInner::Ptr lowerFunc(const ast::Func & astFunc);
+        Item::Ptr lowerFunc(const ast::Func & astFunc);
 
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 

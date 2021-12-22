@@ -47,7 +47,7 @@ namespace jc::hir {
     }
 
     // Fragments printers //
-    void HirPrinter::printVis(Item::Vis vis) {
+    void HirPrinter::printVis(ItemWrapper::Vis vis) {
         if (vis.kind == ast::VisKind::Pub) {
             log.raw("pub ");
         }

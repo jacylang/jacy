@@ -8,7 +8,7 @@ namespace jc::hir {
 
     struct OwnerNode {
         // Note: `Mod` and `Item` are not separated, `Mod` is only for top-level `Party` module
-        using ValueT = std::variant<Mod, Item>;
+        using ValueT = std::variant<Mod, ItemWrapper>;
 
         enum class Kind {
             Party,
@@ -16,7 +16,7 @@ namespace jc::hir {
         };
 
         OwnerNode(Mod && mod) : kind {Kind::Party}, node {std::move(mod)} {}
-        OwnerNode(Item && item) : kind {Kind::Item}, node {std::move(item)} {}
+        OwnerNode(ItemWrapper && item) : kind {Kind::Item}, node {std::move(item)} {}
 
         Kind kind;
         ValueT node;
@@ -26,7 +26,7 @@ namespace jc::hir {
                 log::devPanic("Expected `OwnerNode` to be item");
             }
 
-            return std::get<Item>(node);
+            return std::get<ItemWrapper>(node);
         }
 
         const auto & party() const {
@@ -68,7 +68,7 @@ namespace jc::hir {
             return expectPartyOwner().party();
         }
 
-        const Item & item(ItemId id) const {
+        const ItemWrapper & item(ItemId id) const {
             return utils::map::expectAt(owners, id.defId, "`hir::Party::item`").item();
         }
     };
