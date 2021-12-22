@@ -19,13 +19,15 @@ namespace jc::hir {
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
-        const auto & item = party.item(itemId);
+        const auto & itemWrapper = party.item(itemId);
 
-        printVis(item.vis);
+        printVis(itemWrapper.vis);
 
-        switch (item.item->kind) {
+        const auto & item = itemWrapper.item;
+
+        switch (item->kind) {
             case ItemKind::Enum: {
-                log.raw("enum ", item.name);
+                log.raw("enum ", itemWrapper.name);
                 // TODO: Generics
                 break;
             }

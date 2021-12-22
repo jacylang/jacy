@@ -34,6 +34,11 @@ namespace jc::hir {
         }
 
         ItemKind kind;
+
+        template<class T>
+        static T * as(const Ptr & item) {
+            return static_cast<T*>(item.get());
+        }
     };
 
     /// The wrapper over `ItemInner` and its additional info.
