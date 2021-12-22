@@ -512,6 +512,16 @@ namespace jc::hir {
         return fields;
     }
 
+    CommonField::List Lowering::lowerStructFields(const ast::StructField::List & fs) {
+        CommonField::List fields;
+
+        for (const auto & field : fs) {
+            fields.emplace_back(field.name.unwrap(), field.span, HirId::DUMMY, lowerType(field.type));
+        }
+
+        return fields;
+    }
+
     BinOp Lowering::lowerBinOp(const parser::Token & tok) {
         BinOpKind kind {}; // initialize with [I don't know what's going to be inside], just don't warn, cpp
 
