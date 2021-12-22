@@ -17,7 +17,11 @@ namespace jc::hir {
             Unit, // Variant with optional discriminant (such as `Foo = 1` or just `Bar`)
         };
 
+        HirId hirId;
         span::Ident ident;
+        span::Span span;
+
+        // TODO: Add discriminant for Unit kind
     };
 
     struct Enum : Item {
