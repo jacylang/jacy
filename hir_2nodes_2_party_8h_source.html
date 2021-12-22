@@ -76,52 +76,85 @@ $(function() {
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;hir/nodes/items.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>jc::hir {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_owner_node.html">    7</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="comment">// Note: `Mod` and `Item` are not separated, `Mod` is only for top-level `Party` module</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="keyword">using</span> ValueT = std::variant&lt;Mod, Item&gt;;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">enum class</span> Kind {</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a>,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        };</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp; mod) : kind {Kind::Party}, node {std::move(mod)} {}</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a> &amp;&amp; item) : kind {Kind::Item}, node {std::move(item)} {}</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        Kind kind;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        ValueT node;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    };</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_module_items.html">   23</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_module_items.html">ModuleItems</a> {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        ItemId::List items;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    };</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_party.html">   28</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a> {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keyword">using</span> Owners = std::map&lt;resolve::DefId, OwnerNode&gt;;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">using</span> Bodies = std::map&lt;BodyId, Body&gt;;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keyword">using</span> Modules = std::map&lt;resolve::DefId, ModuleItems&gt;;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>(</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            Owners &amp;&amp; owners,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            Bodies &amp;&amp; bodies,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            Modules &amp;&amp; modules</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        ) : owners {std::move(owners)},</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            bodies {std::move(bodies)},</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            modules {std::move(modules)} {}</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacejc_1_1hir.html">jc::hir</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">using</span> resolve::DefId;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_owner_node.html">    9</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="comment">// Note: `Mod` and `Item` are not separated, `Mod` is only for top-level `Party` module</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">using</span> ValueT = std::variant&lt;Mod, ItemWrapper&gt;;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <span class="keyword">enum class</span> Kind {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a>,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        };</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp; mod) : kind {Kind::Party}, node {std::move(mod)} {}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_item_wrapper.html">ItemWrapper</a> &amp;&amp; item) : kind {Kind::Item}, node {std::move(item)} {}</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        Kind kind;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        ValueT node;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp; item()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keywordflow">if</span> (kind != Kind::Item) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                log::devPanic(<span class="stringliteral">&quot;Expected `OwnerNode` to be item&quot;</span>);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span> std::get&lt;ItemWrapper&gt;(node);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp; party()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            <span class="keywordflow">if</span> (kind != Kind::Party) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                log::devPanic(<span class="stringliteral">&quot;Expected `OwnerNode` to be party&quot;</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            <span class="keywordflow">return</span> std::get&lt;Mod&gt;(node);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    };</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        Owners owners;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        Bodies bodies;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        Modules modules;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_PARTY_H</span></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:40</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:72</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_module_items_html"><div class="ttname"><a href="structjc_1_1hir_1_1_module_items.html">jc::hir::ModuleItems</a></div><div class="ttdef"><b>Definition:</b> Party.h:23</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_owner_node_html"><div class="ttname"><a href="structjc_1_1hir_1_1_owner_node.html">jc::hir::OwnerNode</a></div><div class="ttdef"><b>Definition:</b> Party.h:7</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_party_html"><div class="ttname"><a href="structjc_1_1hir_1_1_party.html">jc::hir::Party</a></div><div class="ttdoc">The root node of the party (package)</div><div class="ttdef"><b>Definition:</b> Party.h:28</div></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_module_items.html">   41</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_module_items.html">ModuleItems</a> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        ItemId::List items;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    };</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_party.html">   46</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">using</span> Owners = std::map&lt;DefId, OwnerNode&gt;;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">using</span> Bodies = std::map&lt;BodyId, Body&gt;;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keyword">using</span> Modules = std::map&lt;DefId, ModuleItems&gt;;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>(</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            Owners &amp;&amp; owners,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            Bodies &amp;&amp; bodies,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            Modules &amp;&amp; modules</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        ) : owners {std::move(owners)},</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            bodies {std::move(bodies)},</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            modules {std::move(modules)} {}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        Owners owners;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        Bodies bodies;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        Modules modules;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_owner_node.html">OwnerNode</a> &amp; expectPartyOwner()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">return</span> utils::map::expectAt(owners, DefId::ROOT_DEF_ID, <span class="stringliteral">&quot;`hir::Party::expectPartyOwner`&quot;</span>);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp; rootMod()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <span class="keywordflow">return</span> expectPartyOwner().party();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_item_wrapper.html">ItemWrapper</a> &amp; item(<a class="code hl_struct" href="structjc_1_1hir_1_1_item_id.html">ItemId</a> <span class="keywordtype">id</span>)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">return</span> utils::map::expectAt(owners, <span class="keywordtype">id</span>.defId, <span class="stringliteral">&quot;`hir::Party::item`&quot;</span>).item();</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    };</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>}</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_PARTY_H</span></div>
+<div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdoc">The base class for all items.</div><div class="ttdef"><b>Definition:</b> Item.h:30</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:8</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_wrapper_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_wrapper.html">jc::hir::ItemWrapper</a></div><div class="ttdef"><b>Definition:</b> Item.h:46</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:95</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_module_items_html"><div class="ttname"><a href="structjc_1_1hir_1_1_module_items.html">jc::hir::ModuleItems</a></div><div class="ttdef"><b>Definition:</b> Party.h:41</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_owner_node_html"><div class="ttname"><a href="structjc_1_1hir_1_1_owner_node.html">jc::hir::OwnerNode</a></div><div class="ttdef"><b>Definition:</b> Party.h:9</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_party_html"><div class="ttname"><a href="structjc_1_1hir_1_1_party.html">jc::hir::Party</a></div><div class="ttdoc">The root node of the party (package)</div><div class="ttdef"><b>Definition:</b> Party.h:46</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
