@@ -148,15 +148,20 @@ namespace jc::hir {
             case ast::EnumEntryKind::Tuple: {
                 return Variant {
                     enumEntry.name.unwrap(),
-                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(enumEntry.body)),
+                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(enumEntry.body), false),
                     Variant::Kind::Tuple,
                     HirId::DUMMY,
                     enumEntry.span
                 };
             }
             case ast::EnumEntryKind::Struct: {
-
-                break;
+                return Variant {
+                    enumEntry.name.unwrap(),
+                    lowerStructFields(std::get<ast::StructField::List>(enumEntry.body)),
+                    Variant::Kind::Struct,
+                    HirId::DUMMY,
+                    enumEntry.span
+                };
             }
         }
     }
