@@ -4,6 +4,7 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
+    /// `&mut? EXPR`
     struct BorrowExpr : Expr {
         BorrowExpr(
             bool mut,

@@ -5,6 +5,7 @@
 #include "ast/fragments/Ident.h"
 
 namespace jc::ast {
+    /// `EXPR.EXPR`
     struct FieldExpr : Expr {
         FieldExpr(
             Expr::Ptr && lhs,
