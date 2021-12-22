@@ -9,6 +9,8 @@
 
 namespace jc::hir {
     struct CommonField {
+        using List = std::vector<CommonField>;
+
         CommonField(Ident ident, Span span, HirId hirId, Type && type)
             : ident {ident},
               span {span},
@@ -22,17 +24,27 @@ namespace jc::hir {
     };
 
     struct Variant : HirNode {
-        // TODO: Requires unification for AST `Enum` field types
+        using Data = std::variant<CommonField::List, std::monostate>;
 
+        // TODO: Requires unification for AST `Enum` field types
         enum class Kind {
             Struct, // Struct variant (`{field: Type, ...}`)
             Tuple, // Tuple variant (`(Types...)`)
             Unit, // Variant with optional discriminant (such as `Foo = 1` or just `Bar`)
         };
 
+        Variant(Ident ident, Span span, Data && data, Kind kind, HirId hirId)
+            : ident {ident},
+              span {span},
+              data {std::move(data)},
+              kind {kind},
+              hirId {hirId} {}
+
+        Ident ident;
+        Span span;
+        Data data;
+        Kind kind;
         HirId hirId;
-        span::Ident ident;
-        span::Span span;
 
         // TODO: Add discriminant for Unit kind
     };
