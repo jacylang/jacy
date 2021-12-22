@@ -1,5 +1,10 @@
 #include "hir/HirPrinter.h"
 
+/**
+ * TODO:
+ *  - Add common printer for AST to use for raw AST printing (AstPrinter) and HIR printing (HIR printer)
+ */
+
 namespace jc::hir {
     HirPrinter::HirPrinter(Party & party) : party {party} {}
 
@@ -20,7 +25,8 @@ namespace jc::hir {
 
         switch (item.item->kind) {
             case ItemKind::Enum: {
-
+                log.raw("enum ", item.name);
+                // TODO: Generics
                 break;
             }
             case ItemKind::Func:
@@ -40,9 +46,21 @@ namespace jc::hir {
         }
     }
 
+    // Fragments printers //
     void HirPrinter::printVis(Item::Vis vis) {
         if (vis.kind == ast::VisKind::Pub) {
             log.raw("pub ");
         }
+    }
+
+    // Indentation and blocks //
+    void HirPrinter::beginBlock() {
+        log.raw("{");
+        indent++;
+    }
+
+    void HirPrinter::endBlock() {
+        indent--;
+        log.raw("}");
     }
 }

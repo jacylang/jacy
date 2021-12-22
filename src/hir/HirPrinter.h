@@ -14,8 +14,15 @@ namespace jc::hir {
         void printMod(const Mod & mod);
         void printItem(const ItemId & itemId);
 
+        // Fragments printers //
     private:
         void printVis(Item::Vis vis);
+
+        // Indentation and blocks //
+    private:
+        uint32_t indent {0};
+        void beginBlock();
+        void endBlock();
 
     private:
         Party & party;
