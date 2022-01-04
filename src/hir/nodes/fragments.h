@@ -10,7 +10,8 @@ namespace jc::hir {
         using List = std::vector<Arg>;
 
         Arg(const span::Ident::Opt & ident, Expr::Ptr && value, HirId hirId, Span span)
-            : HirNode{hirId, span}, ident{ident}, value{std::move(value)} {}
+            : HirNode {hirId, span}, ident {ident}, value {std::move(value)} {
+        }
 
         span::Ident::Opt ident;
         Expr::Ptr value;
@@ -20,7 +21,8 @@ namespace jc::hir {
         using Opt = Option<Block>;
 
         Block(Stmt::List && stmts, HirId hirId, Span span)
-            : HirNode{hirId, span}, stmts{std::move(stmts)} {}
+            : HirNode {hirId, span}, stmts {std::move(stmts)} {
+        }
 
         Stmt::List stmts;
     };
@@ -30,7 +32,8 @@ namespace jc::hir {
         using List = std::vector<PathSeg>;
 
         PathSeg(const span::Ident & name, HirId hirId, Span span)
-            : HirNode{hirId, span}, name{std::move(name)} {}
+            : HirNode {hirId, span}, name {std::move(name)} {
+        }
 
         span::Ident name;
         // TODO: Generic args
@@ -38,7 +41,8 @@ namespace jc::hir {
 
     struct Path {
         Path(const resolve::Res & res, PathSeg::List && segments, Span span)
-            : res{res}, segments{std::move(segments)}, span{span} {}
+            : res {res}, segments {std::move(segments)}, span {span} {
+        }
 
         resolve::Res res;
         PathSeg::List segments;
@@ -54,7 +58,8 @@ namespace jc::hir {
         };
 
         GenericParam(Kind kind, Ident name, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {kind}, name {name} {}
+            : HirNode {hirId, span}, kind {kind}, name {name} {
+        }
 
         Kind kind;
         Ident name;
