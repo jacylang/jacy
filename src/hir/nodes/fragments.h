@@ -44,6 +44,21 @@ namespace jc::hir {
         PathSeg::List segments;
         Span span;
     };
+
+    struct GenericParam : HirNode {
+        using List = std::vector<GenericParam>;
+
+        enum class Kind {
+            Type,
+            Lifetime,
+        };
+
+        GenericParam(Kind kind, Ident name, HirId hirId, Span span)
+            : HirNode {hirId, span}, kind {kind}, name {name} {}
+
+        Kind kind;
+        Ident name;
+    };
 }
 
 #endif // JACY_HIR_NODES_FRAGMENTS_H
