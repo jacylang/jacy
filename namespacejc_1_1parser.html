@@ -195,13 +195,13 @@ Enumerations</h2></td></tr>
 <tr class="separator:a1f70a9122d1fab3175c623ee06c984ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h1><a class="anchor" id="autotoc_md2"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md0"></a>
 Some notes about parser</h1>
-<h2><a class="anchor" id="autotoc_md3"></a>
+<h2><a class="anchor" id="autotoc_md1"></a>
 &lt;tt&gt;just&lt;/tt&gt; parsers and &lt;tt&gt;justSkip&lt;/tt&gt;</h2>
 <p ><code>just</code> prefix in parser functions means that you want to parse something you know that will be next. For example, if you checked that <code>peek()</code> is <code>TokenKind::Id</code>, then you use <code>justParseIdent</code> and there will be <code>devPanic</code> if no <code>Id</code> found. <code>just</code> parsers don't return the pointer to type that it parses, it returns (in all cases for now) a pointer to expression (that's to avoid static_cast to <code>Option</code> type of entities that will <code>just</code> parsed when we already know what is that). So, when we use <code>just</code> parser we don't need to use returned Node for current parsing entity. <code>just</code> parsers only exists for functions that already have non-<code>just</code> analogue (to make everything a little bit non-complex). <code>justSkip</code> has the same logic, it just skips something that we already know is going to be next.</p>
 <p >Note: Be careful with using <code>just</code> parsers which returns <code>Option</code> &ndash; unwrap can lead to devPanic. Note: If parser returns not <code>expr_ptr</code> but <code>*_ptr</code> it can be safely statically casted to <code>expr_ptr</code></p>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md2"></a>
 How suggestions collected if error occurred</h2>
 <p >This is kind of hard work, but what we do is trying to split parsing into as small parts as possible and following this rules (nested parser parses fragment or atomic, and super parser parses ):</p><ul>
 <li>If nested parser has error we return <code>Option::None</code></li>

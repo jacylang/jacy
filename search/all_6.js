@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['genericparam_0',['GenericParam',['../structjc_1_1ast_1_1_generic_param.html',1,'jc::ast']]],
+  ['genericparam_0',['GenericParam',['../structjc_1_1ast_1_1_generic_param.html',1,'jc::ast::GenericParam'],['../structjc_1_1hir_1_1_generic_param.html',1,'jc::hir::GenericParam']]],
   ['getcallsuffix_1',['getCallSuffix',['../structjc_1_1resolve_1_1_module.html#af6928b8d513d980fe6de855884e0150b',1,'jc::resolve::Module']]],
   ['getdef_2',['getDef',['../structjc_1_1resolve_1_1_def_table.html#a08006422160d63ee36d2d9c545806dc3',1,'jc::resolve::DefTable']]],
   ['getfosfirstdef_3',['getFOSFirstDef',['../structjc_1_1resolve_1_1_def_table.html#a1664f92fecb113e61f8f86cd38dc573c',1,'jc::resolve::DefTable']]],

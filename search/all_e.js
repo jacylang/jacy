@@ -16,6 +16,5 @@ var searchData=
   ['option_3c_20token_20_3e_13',['Option&lt; Token &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['owner_14',['owner',['../structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6',1,'jc::hir::HirId']]],
   ['ownerdef_15',['OwnerDef',['../structjc_1_1hir_1_1_owner_def.html',1,'jc::hir']]],
-  ['ownernode_16',['OwnerNode',['../structjc_1_1hir_1_1_owner_node.html',1,'jc::hir']]],
-  ['ownership_20problems_17',['Ownership problems',['../md_dev_notes__ownership_problems.html',1,'']]]
+  ['ownernode_16',['OwnerNode',['../structjc_1_1hir_1_1_owner_node.html',1,'jc::hir']]]
 ];
