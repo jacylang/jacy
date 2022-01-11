@@ -1,7 +1,5 @@
 #include "core/Interface.h"
 
-// Strange track, but I like it: https://open.spotify.com/track/3dBKhZCi905UfyeodO8Epl?si=e36d5b4b2cad43d2
-
 namespace jc::core {
     using sess::MeasUnit;
 

@@ -1,6 +1,7 @@
 #ifndef JACY_HIR_NODES_PARTY_H
 #define JACY_HIR_NODES_PARTY_H
 
+#include "utils/map.h"
 #include "hir/nodes/items.h"
 
 namespace jc::hir {
