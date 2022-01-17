@@ -6,7 +6,7 @@ namespace jc::ast {
 
     // Items //
     struct Enum;
-    struct EnumEntry;
+    struct Variant;
     struct Func;
     struct FuncParam;
     struct Impl;
@@ -99,7 +99,7 @@ namespace jc::ast {
 
         // Items //
         virtual void visit(const Enum&) = 0;
-        virtual void visit(const EnumEntry&) = 0;
+        virtual void visit(const Variant&) = 0;
         virtual void visit(const Func&) = 0;
         virtual void visit(const FuncParam&) = 0;
         virtual void visit(const Impl&) = 0;

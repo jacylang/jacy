@@ -51,7 +51,7 @@ namespace jc::ast {
         printNodeId(enumDecl);
     }
 
-    void AstPrinter::visit(const EnumEntry & enumEntry) {
+    void AstPrinter::visit(const Variant & enumEntry) {
         enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;

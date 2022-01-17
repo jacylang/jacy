@@ -11,7 +11,7 @@ namespace jc::ast {
         visitEach(enumDecl.entries);
     }
 
-    void StubVisitor::visit(const EnumEntry & enumEntry) {
+    void StubVisitor::visit(const Variant & enumEntry) {
         enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;

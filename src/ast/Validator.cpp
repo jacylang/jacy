@@ -23,7 +23,7 @@ namespace jc::ast {
         popContext();
     }
 
-    void Validator::visit(const EnumEntry & enumEntry) {
+    void Validator::visit(const Variant & enumEntry) {
         enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
             case EnumEntryKind::Raw: break;

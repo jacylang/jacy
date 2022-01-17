@@ -130,7 +130,7 @@ namespace jc::hir {
         return makeBoxNode<Enum>(std::move(variants));
     }
 
-    Variant Lowering::lowerVariant(const ast::EnumEntry & enumEntry) {
+    Variant Lowering::lowerVariant(const ast::Variant & enumEntry) {
         switch (enumEntry.kind) {
             case ast::EnumEntryKind::Raw: {
                 return Variant {

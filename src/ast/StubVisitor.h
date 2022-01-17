@@ -15,7 +15,7 @@ namespace jc::ast {
 
         // Items //
         virtual void visit(const Enum & enumDecl) override;
-        virtual void visit(const EnumEntry & enumEntry) override;
+        virtual void visit(const Variant & enumEntry) override;
         virtual void visit(const Func & func) override;
         virtual void visit(const FuncParam & funcParam) override;
         virtual void visit(const Impl & impl) override;

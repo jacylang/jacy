@@ -35,7 +35,7 @@ namespace jc::resolve {
         exitMod();
     }
 
-    void ModuleTreeBuilder::visit(const ast::EnumEntry & enumEntry) {
+    void ModuleTreeBuilder::visit(const ast::Variant & enumEntry) {
         // Note: Enum variants are always public
         addDef(Vis::Pub, enumEntry.id, DefKind::Variant, enumEntry.name.unwrap());
     }
