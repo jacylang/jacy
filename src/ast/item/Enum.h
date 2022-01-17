@@ -18,7 +18,7 @@ namespace jc::ast {
             Struct, // `A {a, b, c...}`
         };
 
-        Variant(Kind kind, Ident::PR && name, Expr::Ptr && disc, Span span)
+        Variant(Kind kind, Ident::PR && name, Expr::OptPtr && disc, Span span)
             : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(disc)} {
         }
 

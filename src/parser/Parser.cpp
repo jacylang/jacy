@@ -384,9 +384,9 @@ namespace jc::parser {
         auto name = parseIdent("`enum` entry name");
 
         if (skipOpt(TokenKind::Assign).some()) {
-            auto discriminant = parseExpr("Expected constant expression after `=`");
+            auto disc = parseExpr("Expected constant expression after `=`");
             exitEntity();
-            return makeNode<Variant>(Variant::Kind::Discriminant, std::move(name), closeSpan(begin));
+            return makeNode<Variant>(Variant::Kind::Unit, std::move(name), std::move(disc), closeSpan(begin));
         } else if (skipOpt(TokenKind::LParen).some()) {
             auto tupleFields = parseTupleFields();
             exitEntity();
@@ -402,7 +402,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return makeNode<Variant>(Variant::Kind::Raw, std::move(name), closeSpan(begin));
+        return makeNode<Variant>(Variant::Kind::Unit, std::move(name), None, closeSpan(begin));
     }
 
     Item::Ptr Parser::parseFunc(FuncHeader header) {
