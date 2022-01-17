@@ -130,15 +130,15 @@ namespace jc::hir {
         return makeBoxNode<Enum>(std::move(variants));
     }
 
-    Variant Lowering::lowerVariant(const ast::Variant & enumEntry) {
-        switch (enumEntry.kind) {
+    Variant Lowering::lowerVariant(const ast::Variant & variant) {
+        switch (variant.kind) {
             case ast::Variant::Kind::Raw: {
                 return Variant {
-                    enumEntry.name.unwrap(),
+                    variant.name.unwrap(),
                     std::monostate {},
                     Variant::Kind::Unit,
                     HirId::DUMMY,
-                    enumEntry.span
+                    variant.span
                 };
             }
             case ast::Variant::Kind::Discriminant: {
@@ -147,20 +147,20 @@ namespace jc::hir {
             }
             case ast::Variant::Kind::Tuple: {
                 return Variant {
-                    enumEntry.name.unwrap(),
-                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(enumEntry.body), false),
+                    variant.name.unwrap(),
+                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(variant.body), false),
                     Variant::Kind::Tuple,
                     HirId::DUMMY,
-                    enumEntry.span
+                    variant.span
                 };
             }
             case ast::Variant::Kind::Struct: {
                 return Variant {
-                    enumEntry.name.unwrap(),
-                    lowerStructFields(std::get<ast::StructField::List>(enumEntry.body)),
+                    variant.name.unwrap(),
+                    lowerStructFields(std::get<ast::StructField::List>(variant.body)),
                     Variant::Kind::Struct,
                     HirId::DUMMY,
-                    enumEntry.span
+                    variant.span
                 };
             }
         }

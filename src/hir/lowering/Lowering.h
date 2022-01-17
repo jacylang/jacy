@@ -84,7 +84,7 @@ namespace jc::hir {
 
         Item::Ptr lowerEnum(const ast::Enum & astEnum);
 
-        Variant lowerVariant(const ast::Variant & enumEntry);
+        Variant lowerVariant(const ast::Variant & variant);
 
         Item::Ptr lowerMod(const ast::Item::List & astItems);
 
