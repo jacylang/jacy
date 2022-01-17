@@ -18,12 +18,8 @@ namespace jc::ast {
             Struct, // `A {a, b, c...}`
         };
 
-        Variant(Kind kind, Ident::PR && name, Span span)
-            : Node {span}, kind {kind}, name {std::move(name)}, body {std::monostate {}} {
-        }
-
-        Variant(Kind kind, Ident::PR && name, Expr::Ptr && discriminant, Span span)
-            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(discriminant)} {
+        Variant(Kind kind, Ident::PR && name, Expr::Ptr && disc, Span span)
+            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(disc)} {
         }
 
         Variant(Kind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
@@ -36,7 +32,7 @@ namespace jc::ast {
 
         Kind kind;
         Ident::PR name;
-        std::variant<std::monostate, Expr::Ptr, TupleTypeEl::List, StructField::List> body;
+        std::variant<Expr::OptPtr, TupleTypeEl::List, StructField::List> body;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
