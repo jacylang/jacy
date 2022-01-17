@@ -51,27 +51,27 @@ namespace jc::ast {
         printNodeId(enumDecl);
     }
 
-    void AstPrinter::visit(const Variant & enumEntry) {
-        enumEntry.name.autoAccept(*this);
-        switch (enumEntry.kind) {
+    void AstPrinter::visit(const Variant & variant) {
+        variant.name.autoAccept(*this);
+        switch (variant.kind) {
             case Variant::Kind::Unit: {
                 log.raw(" = ");
-                if (const auto & disc = std::get<Expr::OptPtr>(enumEntry.body); disc.some()) {
-                    std::get<Expr::OptPtr>(enumEntry.body).unwrap().autoAccept(*this);
+                if (const auto & disc = std::get<Expr::OptPtr>(variant.body); disc.some()) {
+                    std::get<Expr::OptPtr>(variant.body).unwrap().autoAccept(*this);
                 }
                 break;
             }
             case Variant::Kind::Tuple: {
-                printDelim(std::get<TupleTypeEl::List>(enumEntry.body), "(", ")");
+                printDelim(std::get<TupleTypeEl::List>(variant.body), "(", ")");
                 break;
             }
             case Variant::Kind::Struct: {
-                printBodyLike(std::get<StructField::List>(enumEntry.body));
+                printBodyLike(std::get<StructField::List>(variant.body));
                 break;
             }
         }
 
-        printNodeId(enumEntry);
+        printNodeId(variant);
     }
 
     void AstPrinter::visit(const Func & func) {
