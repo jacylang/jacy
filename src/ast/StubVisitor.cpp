@@ -14,9 +14,10 @@ namespace jc::ast {
     void StubVisitor::visit(const Variant & enumEntry) {
         enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
-            case Variant::Kind::Raw: break;
-            case Variant::Kind::Discriminant: {
-                std::get<Expr::Ptr>(enumEntry.body).autoAccept(*this);
+            case Variant::Kind::Unit: {
+                if (const auto & disc = std::get<Expr::OptPtr>(enumEntry.body); disc.some()) {
+                    std::get<Expr::OptPtr>(enumEntry.body).unwrap().autoAccept(*this);
+                }
                 break;
             }
             case Variant::Kind::Tuple: {
