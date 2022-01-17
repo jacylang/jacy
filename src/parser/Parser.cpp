@@ -364,7 +364,7 @@ namespace jc::parser {
                     break;
                 }
 
-                entries.emplace_back(parseEnumEntry());
+                entries.emplace_back(parseVariant());
             }
 
             skip(TokenKind::RBrace, "closing `}` at the end of `enum` body");
@@ -377,7 +377,7 @@ namespace jc::parser {
         return makePRBoxNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
     }
 
-    Variant Parser::parseEnumEntry() {
+    Variant Parser::parseVariant() {
         enterEntity("EnumEntry");
 
         const auto & begin = cspan();

@@ -165,7 +165,7 @@ namespace jc::parser {
 
         Vis parseVis();
         Item::Ptr parseEnum();
-        Variant parseEnumEntry();
+        Variant parseVariant();
         Item::Ptr parseFunc(FuncHeader header);
         Item::Ptr parseImpl();
         Item::Ptr parseStruct();
