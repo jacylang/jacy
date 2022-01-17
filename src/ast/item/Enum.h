@@ -13,8 +13,7 @@ namespace jc::ast {
         using List = std::vector<Variant>;
 
         enum class Kind {
-            Raw, // `A`
-            Discriminant, // `A = const expr`
+            Unit, // `A = const expr` (optional discriminant)
             Tuple, // `A(a, b, c...)`
             Struct, // `A {a, b, c...}`
         };
