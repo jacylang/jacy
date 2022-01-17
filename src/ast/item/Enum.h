@@ -20,16 +20,20 @@ namespace jc::ast {
         };
 
         Variant(Kind kind, Ident::PR && name, Span span)
-            : Node{span}, kind{kind}, name{std::move(name)}, body{std::monostate{}} {}
+            : Node {span}, kind {kind}, name {std::move(name)}, body {std::monostate {}} {
+        }
 
         Variant(Kind kind, Ident::PR && name, Expr::Ptr && discriminant, Span span)
-            : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(discriminant)} {}
+            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(discriminant)} {
+        }
 
         Variant(Kind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
-            : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(tupleFields)} {}
+            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(tupleFields)} {
+        }
 
         Variant(Kind kind, Ident::PR && name, StructField::List && fields, Span span)
-            : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(fields)} {}
+            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(fields)} {
+        }
 
         Kind kind;
         Ident::PR name;
@@ -42,10 +46,11 @@ namespace jc::ast {
 
     struct Enum : Item {
         Enum(Ident::PR && name, Variant::List && entries, Span span)
-            : Item{span, ItemKind::Enum}, name{std::move(name)}, entries{std::move(entries)} {}
+            : Item {span, ItemKind::Enum}, name {std::move(name)}, entries {std::move(entries)} {
+        }
 
         Ident::PR name;
-        Variant::List entries{};
+        Variant::List entries {};
 
         span::Ident getName() const override {
             return name.unwrap();
