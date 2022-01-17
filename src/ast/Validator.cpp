@@ -23,21 +23,21 @@ namespace jc::ast {
         popContext();
     }
 
-    void Validator::visit(const Variant & enumEntry) {
-        enumEntry.name.autoAccept(*this);
-        switch (enumEntry.kind) {
+    void Validator::visit(const Variant & variant) {
+        variant.name.autoAccept(*this);
+        switch (variant.kind) {
             case Variant::Kind::Unit: {
-                if (const auto & disc = std::get<Expr::OptPtr>(enumEntry.body); disc.some()) {
-                    std::get<Expr::OptPtr>(enumEntry.body).unwrap().autoAccept(*this);
+                if (const auto & disc = std::get<Expr::OptPtr>(variant.body); disc.some()) {
+                    std::get<Expr::OptPtr>(variant.body).unwrap().autoAccept(*this);
                 }
                 break;
             }
             case Variant::Kind::Tuple: {
-                validateEach(std::get<TupleTypeEl::List>(enumEntry.body));
+                validateEach(std::get<TupleTypeEl::List>(variant.body));
                 break;
             }
             case Variant::Kind::Struct: {
-                validateEach(std::get<StructField::List>(enumEntry.body));
+                validateEach(std::get<StructField::List>(variant.body));
                 break;
             }
         }
