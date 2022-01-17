@@ -11,21 +11,21 @@ namespace jc::ast {
         visitEach(enumDecl.entries);
     }
 
-    void StubVisitor::visit(const Variant & enumEntry) {
-        enumEntry.name.autoAccept(*this);
-        switch (enumEntry.kind) {
+    void StubVisitor::visit(const Variant & variant) {
+        variant.name.autoAccept(*this);
+        switch (variant.kind) {
             case Variant::Kind::Unit: {
-                if (const auto & disc = std::get<Expr::OptPtr>(enumEntry.body); disc.some()) {
-                    std::get<Expr::OptPtr>(enumEntry.body).unwrap().autoAccept(*this);
+                if (const auto & disc = std::get<Expr::OptPtr>(variant.body); disc.some()) {
+                    std::get<Expr::OptPtr>(variant.body).unwrap().autoAccept(*this);
                 }
                 break;
             }
             case Variant::Kind::Tuple: {
-                visitEach(std::get<TupleTypeEl::List>(enumEntry.body));
+                visitEach(std::get<TupleTypeEl::List>(variant.body));
                 break;
             }
             case Variant::Kind::Struct: {
-                visitEach(std::get<StructField::List>(enumEntry.body));
+                visitEach(std::get<StructField::List>(variant.body));
                 break;
             }
         }
