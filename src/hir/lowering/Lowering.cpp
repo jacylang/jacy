@@ -132,7 +132,7 @@ namespace jc::hir {
 
     Variant Lowering::lowerVariant(const ast::Variant & enumEntry) {
         switch (enumEntry.kind) {
-            case ast::EnumEntryKind::Raw: {
+            case ast::Variant::Kind::Raw: {
                 return Variant {
                     enumEntry.name.unwrap(),
                     std::monostate {},
@@ -141,11 +141,11 @@ namespace jc::hir {
                     enumEntry.span
                 };
             }
-            case ast::EnumEntryKind::Discriminant: {
+            case ast::Variant::Kind::Discriminant: {
                 // TODO: Strange one
                 break;
             }
-            case ast::EnumEntryKind::Tuple: {
+            case ast::Variant::Kind::Tuple: {
                 return Variant {
                     enumEntry.name.unwrap(),
                     lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(enumEntry.body), false),
@@ -154,7 +154,7 @@ namespace jc::hir {
                     enumEntry.span
                 };
             }
-            case ast::EnumEntryKind::Struct: {
+            case ast::Variant::Kind::Struct: {
                 return Variant {
                     enumEntry.name.unwrap(),
                     lowerStructFields(std::get<ast::StructField::List>(enumEntry.body)),

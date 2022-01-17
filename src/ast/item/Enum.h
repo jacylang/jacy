@@ -9,29 +9,29 @@
 #include "ast/item/Struct.h"
 
 namespace jc::ast {
-    enum class EnumEntryKind {
-        Raw, // `A`
-        Discriminant, // `A = const expr`
-        Tuple, // `A(a, b, c...)`
-        Struct, // `A {a, b, c...}`
-    };
-
     struct Variant : Node {
         using List = std::vector<Variant>;
 
-        Variant(EnumEntryKind kind, Ident::PR && name, Span span)
+        enum class Kind {
+            Raw, // `A`
+            Discriminant, // `A = const expr`
+            Tuple, // `A(a, b, c...)`
+            Struct, // `A {a, b, c...}`
+        };
+
+        Variant(Kind kind, Ident::PR && name, Span span)
             : Node{span}, kind{kind}, name{std::move(name)}, body{std::monostate{}} {}
 
-        Variant(EnumEntryKind kind, Ident::PR && name, Expr::Ptr && discriminant, Span span)
+        Variant(Kind kind, Ident::PR && name, Expr::Ptr && discriminant, Span span)
             : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(discriminant)} {}
 
-        Variant(EnumEntryKind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
+        Variant(Kind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
             : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(tupleFields)} {}
 
-        Variant(EnumEntryKind kind, Ident::PR && name, StructField::List && fields, Span span)
+        Variant(Kind kind, Ident::PR && name, StructField::List && fields, Span span)
             : Node{span}, kind{kind}, name{std::move(name)}, body{std::move(fields)} {}
 
-        EnumEntryKind kind;
+        Kind kind;
         Ident::PR name;
         std::variant<std::monostate, Expr::Ptr, TupleTypeEl::List, StructField::List> body;
 

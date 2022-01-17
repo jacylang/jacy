@@ -54,17 +54,17 @@ namespace jc::ast {
     void AstPrinter::visit(const Variant & enumEntry) {
         enumEntry.name.autoAccept(*this);
         switch (enumEntry.kind) {
-            case EnumEntryKind::Raw: break;
-            case EnumEntryKind::Discriminant: {
+            case Variant::Kind::Raw: break;
+            case Variant::Kind::Discriminant: {
                 log.raw(" = ");
                 std::get<Expr::Ptr>(enumEntry.body).autoAccept(*this);
                 break;
             }
-            case EnumEntryKind::Tuple: {
+            case Variant::Kind::Tuple: {
                 printDelim(std::get<TupleTypeEl::List>(enumEntry.body), "(", ")");
                 break;
             }
-            case EnumEntryKind::Struct: {
+            case Variant::Kind::Struct: {
                 printBodyLike(std::get<StructField::List>(enumEntry.body));
                 break;
             }
