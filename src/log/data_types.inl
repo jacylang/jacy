@@ -100,5 +100,4 @@ namespace jc::log {
 }
 
 // Common data structures std::ostream overloads //
-namespace jc::log {
-}
+namespace jc::log {}

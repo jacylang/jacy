@@ -22,8 +22,7 @@ namespace jc::ast {
             sig {std::move(sig)},
             generics {std::move(generics)},
             name {std::move(name)},
-            body {std::move(body)} {
-        }
+            body {std::move(body)} {}
 
         FuncHeader header;
         FuncSig sig;

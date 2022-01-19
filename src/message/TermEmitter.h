@@ -16,8 +16,7 @@ namespace jc::message {
     using FileId = Span::FileId;
 
     struct SuggestionError : std::logic_error {
-        SuggestionError(const std::string & msg) : std::logic_error(msg) {
-        }
+        SuggestionError(const std::string & msg) : std::logic_error(msg) {}
     };
 
     /**

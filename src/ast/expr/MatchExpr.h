@@ -15,8 +15,7 @@ namespace jc::ast {
             Span span
         ) : Node {span},
             pat {std::move(pat)},
-            body {std::move(body)} {
-        }
+            body {std::move(body)} {}
 
         Pat::Ptr pat;
         Expr::Ptr body;
@@ -33,8 +32,7 @@ namespace jc::ast {
             Span span
         ) : Expr {span, ExprKind::Match},
             subject {std::move(subject)},
-            arms {std::move(entries)} {
-        }
+            arms {std::move(entries)} {}
 
         Expr::Ptr subject;
         MatchArm::List arms;

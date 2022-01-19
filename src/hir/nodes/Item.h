@@ -30,8 +30,7 @@ namespace jc::hir {
     struct Item {
         using Ptr = std::unique_ptr<Item>;
 
-        Item(ItemKind kind) : kind {kind} {
-        }
+        Item(ItemKind kind) : kind {kind} {}
 
         ItemKind kind;
 

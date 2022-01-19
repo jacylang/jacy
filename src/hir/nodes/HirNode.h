@@ -17,8 +17,7 @@ namespace jc::hir {
     struct OwnerDef {
         using IdT = uint32_t;
 
-        OwnerDef(NodeId nodeId, DefId defId, IdT initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {
-        }
+        OwnerDef(NodeId nodeId, DefId defId, IdT initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {}
 
         NodeId nodeId;
         DefId defId;
@@ -26,8 +25,7 @@ namespace jc::hir {
     };
 
     struct HirId {
-        HirId(const resolve::DefId & owner, const OwnerDef::IdT & id) : owner {owner}, id {id} {
-        }
+        HirId(const resolve::DefId & owner, const OwnerDef::IdT & id) : owner {owner}, id {id} {}
 
         static const HirId DUMMY;
 
@@ -44,8 +42,7 @@ namespace jc::hir {
     };
 
     struct HirNode {
-        HirNode(HirId hirId, Span span) : hirId {hirId}, span {span} {
-        }
+        HirNode(HirId hirId, Span span) : hirId {hirId}, span {span} {}
 
         HirId hirId;
         Span span;

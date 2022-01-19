@@ -19,8 +19,7 @@ namespace jc::ast {
             label {std::move(label)},
             pat {std::move(pat)},
             type {std::move(type)},
-            defaultValue {std::move(defaultValue)} {
-        }
+            defaultValue {std::move(defaultValue)} {}
 
         Ident::OptPR label;
         Pat::Ptr pat;

@@ -1,5 +1,3 @@
 #include "utils/arr.h"
 
-namespace jc::utils::arr {
-
-}
+namespace jc::utils::arr {}
