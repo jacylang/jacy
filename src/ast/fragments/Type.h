@@ -18,7 +18,7 @@ namespace jc::ast {
     };
 
     struct Type : Node {
-        using Ptr = PR <N<Type>>;
+        using Ptr = PR<N<Type>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
@@ -29,7 +29,7 @@ namespace jc::ast {
         TypeKind kind;
 
         template<class T>
-        static T * as(const N <Type> & item) {
+        static T * as(const N<Type> & item) {
             return static_cast<T*>(item.get());
         }
 

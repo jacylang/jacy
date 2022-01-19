@@ -27,7 +27,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        static T * as(const N <Stmt> & stmt) {
+        static T * as(const N<Stmt> & stmt) {
             return static_cast<T*>(stmt.get());
         }
 
