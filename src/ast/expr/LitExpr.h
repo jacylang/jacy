@@ -69,17 +69,29 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
 
-        static dt::Result<Int, LitPreEvalErr> intValue(
+        static dt::Result <Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,
             span::Symbol sym,
             span::Symbol::Opt /*TODO: suffix*/
         ) {
             uint8_t base = 0;
             switch (kind) {
-                case parser::TokLit::Kind::DecLiteral: base = 10; break;
-                case parser::TokLit::Kind::BinLiteral: base = 2; break;
-                case parser::TokLit::Kind::OctLiteral: base = 8; break;
-                case parser::TokLit::Kind::HexLiteral: base = 16; break;
+                case parser::TokLit::Kind::DecLiteral: {
+                    base = 10;
+                    break;
+                }
+                case parser::TokLit::Kind::BinLiteral: {
+                    base = 2;
+                    break;
+                }
+                case parser::TokLit::Kind::OctLiteral: {
+                    base = 8;
+                    break;
+                }
+                case parser::TokLit::Kind::HexLiteral: {
+                    base = 16;
+                    break;
+                }
                 default: {
                     log::devPanic("Got non-integer literal kind in `ast::LitExpr::intValue`");
                 }
@@ -96,7 +108,7 @@ namespace jc::ast {
             }
 
             uint64_t value;
-            auto [ptr, errCode] {
+            auto[ptr, errCode] {
                 std::from_chars(strValue.data(), strValue.data() + strValue.size(), value, base)
             };
 
@@ -110,7 +122,7 @@ namespace jc::ast {
         }
 
     public:
-        static dt::Result<LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
+        static dt::Result <LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
             if (not tok.isLiteral()) {
                 log::devPanic("Called `ast::LitExpr::fromToken` with non-literal token '", tok.dump(), "'");
             }

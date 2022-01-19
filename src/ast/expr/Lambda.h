@@ -9,9 +9,9 @@ namespace jc::ast {
         using List = std::vector<LambdaParam>;
 
         LambdaParam(Pat::Ptr pat, Type::OptPtr type, Span span)
-            : Node{span},
-              pat{std::move(pat)},
-              type{std::move(type)} {}
+            : Node {span},
+              pat {std::move(pat)},
+              type {std::move(type)} {}
 
         Pat::Ptr pat;
         Type::OptPtr type;
@@ -27,10 +27,10 @@ namespace jc::ast {
             Type::OptPtr returnType,
             Expr::Ptr body,
             Span span
-        ) : Expr{span, ExprKind::Lambda},
-            params{std::move(params)},
-            returnType{std::move(returnType)},
-            body{std::move(body)} {}
+        ) : Expr {span, ExprKind::Lambda},
+            params {std::move(params)},
+            returnType {std::move(returnType)},
+            body {std::move(body)} {}
 
         LambdaParam::List params;
         Type::OptPtr returnType;

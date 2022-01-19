@@ -9,7 +9,7 @@
 namespace jc::ast {
     struct SimplePathSeg : Node {
         SimplePathSeg(Ident::PR && ident, Span span)
-            : Node{span}, ident{std::move(ident)} {}
+            : Node {span}, ident {std::move(ident)} {}
 
         Ident::PR ident;
 
@@ -25,9 +25,9 @@ namespace jc::ast {
             bool global,
             std::vector<SimplePathSeg> && segments,
             Span span
-        ) : Node{span},
-            global{global},
-            segments{std::move(segments)} {}
+        ) : Node {span},
+            global {global},
+            segments {std::move(segments)} {}
 
         bool global;
         std::vector<SimplePathSeg> segments;

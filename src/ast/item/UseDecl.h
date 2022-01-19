@@ -20,16 +20,16 @@ namespace jc::ast {
         };
 
         UseTree(SimplePath::Opt && path, span::Span span)
-            : Node{span}, kind{Kind::Raw}, path{std::move(path)}, val{std::monostate {}} {}
+            : Node {span}, kind {Kind::Raw}, path {std::move(path)}, val {std::monostate {}} {}
 
         UseTree(SimplePath::Opt && path, bool, span::Span span)
-            : Node{span}, kind{Kind::All}, path{std::move(path)}, val{std::monostate {}} {}
+            : Node {span}, kind {Kind::All}, path {std::move(path)}, val {std::monostate {}} {}
 
         UseTree(SimplePath::Opt && path, UseTree::List && specifics, span::Span span)
-            : Node{span}, kind{Kind::Specific}, path{std::move(path)}, val{std::move(specifics)} {}
+            : Node {span}, kind {Kind::Specific}, path {std::move(path)}, val {std::move(specifics)} {}
 
         UseTree(SimplePath::Opt && path, Ident::PR && rebinding, span::Span span)
-            : Node{span}, kind{Kind::Rebind}, path{std::move(path)}, val{std::move(rebinding)} {}
+            : Node {span}, kind {Kind::Rebind}, path {std::move(path)}, val {std::move(rebinding)} {}
 
         Kind kind;
         SimplePath::Opt path;
@@ -56,8 +56,8 @@ namespace jc::ast {
         UseDecl(
             UseTree::PR && useTree,
             Span span
-        ) : Item{span, ItemKind::Use},
-            useTree{std::move(useTree)} {}
+        ) : Item {span, ItemKind::Use},
+            useTree {std::move(useTree)} {}
 
         UseTree::PR useTree;
 

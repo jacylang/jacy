@@ -11,9 +11,9 @@ namespace jc::ast {
             Expr::Ptr && lhs,
             Ident::PR && field,
             Span span
-        ) : Expr{span, ExprKind::Field},
-            lhs{std::move(lhs)},
-            field{std::move(field)} {}
+        ) : Expr {span, ExprKind::Field},
+            lhs {std::move(lhs)},
+            field {std::move(field)} {}
 
         Expr::Ptr lhs;
         Ident::PR field;

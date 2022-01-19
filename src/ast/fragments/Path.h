@@ -13,9 +13,9 @@ namespace jc::ast {
             Ident::PR ident,
             GenericParam::OptList generics,
             Span span
-        ) : Node{span},
-            ident{std::move(ident)},
-            generics{std::move(generics)} {}
+        ) : Node {span},
+            ident {std::move(ident)},
+            generics {std::move(generics)} {}
 
         Ident::PR ident;
         GenericParam::OptList generics = None;
@@ -27,7 +27,7 @@ namespace jc::ast {
 
     struct Path : Node, PathInterface {
         Path(bool global, PathSeg::List && segments, Span span)
-            : Node{span}, global{global}, segments{std::move(segments)} {}
+            : Node {span}, global {global}, segments {std::move(segments)} {}
 
         bool global;
         PathSeg::List segments;

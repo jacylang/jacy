@@ -378,7 +378,7 @@ namespace jc::parser {
     }
 
     Variant Parser::parseVariant() {
-        enterEntity("EnumEntry");
+        enterEntity("Variant");
 
         const auto & begin = cspan();
         auto name = parseIdent("`enum` entry name");

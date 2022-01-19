@@ -6,7 +6,7 @@
 namespace jc::ast {
     /// `continue`
     struct ContinueExpr : Expr {
-        explicit ContinueExpr(Span span) : Expr{span, ExprKind::Continue} {}
+        explicit ContinueExpr(Span span) : Expr {span, ExprKind::Continue} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);

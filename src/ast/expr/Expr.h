@@ -43,7 +43,8 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Expr(Span span, ExprKind kind) : Node{span}, kind{kind} {}
+        Expr(Span span, ExprKind kind) : Node {span}, kind {kind} {}
+
         virtual ~Expr() = default;
 
         ExprKind kind;
@@ -54,12 +55,12 @@ namespace jc::ast {
 
         bool isSimple() const {
             return kind == ExprKind::LiteralConstant
-                   or kind == ExprKind::Path;
+                or kind == ExprKind::Path;
         }
 
         template<class T>
         static T * as(const N<Expr> & expr) {
-            return static_cast<T*>(expr.get());
+            return static_cast<T *>(expr.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;

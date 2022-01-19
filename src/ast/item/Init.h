@@ -10,9 +10,9 @@ namespace jc::ast {
             FuncSig && sig,
             Option<Body> && body,
             Span span
-        ) : Item{span, ItemKind::Init},
-            sig{std::move(sig)},
-            body{std::move(body)} {}
+        ) : Item {span, ItemKind::Init},
+            sig {std::move(sig)},
+            body {std::move(body)} {}
 
         FuncSig sig;
         Option<Body> body;

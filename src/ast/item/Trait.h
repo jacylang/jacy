@@ -12,11 +12,11 @@ namespace jc::ast {
             TypePath::List && superTraits,
             Item::List && members,
             Span span
-        ) : Item{span, ItemKind::Trait},
-            name{std::move(name)},
-            generics{std::move(generics)},
-            superTraits{std::move(superTraits)},
-            members{std::move(members)} {}
+        ) : Item {span, ItemKind::Trait},
+            name {std::move(name)},
+            generics {std::move(generics)},
+            superTraits {std::move(superTraits)},
+            members {std::move(members)} {}
 
         Ident::PR name;
         GenericParam::OptList generics;

@@ -9,9 +9,9 @@ namespace jc::ast {
             Expr::Ptr && lhs,
             const parser::Token & op,
             Span span
-        ) : Expr{span, ExprKind::Postfix},
-            lhs{std::move(lhs)},
-            op{op} {}
+        ) : Expr {span, ExprKind::Postfix},
+            lhs {std::move(lhs)},
+            op {op} {}
 
         Expr::Ptr lhs;
         parser::Token op;

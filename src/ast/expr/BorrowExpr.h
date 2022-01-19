@@ -10,9 +10,9 @@ namespace jc::ast {
             bool mut,
             Expr::Ptr expr,
             Span span
-        ) : Expr{span, ExprKind::Borrow},
-            mut{mut},
-            expr{std::move(expr)} {}
+        ) : Expr {span, ExprKind::Borrow},
+            mut {mut},
+            expr {std::move(expr)} {}
 
         bool mut;
         Expr::Ptr expr;

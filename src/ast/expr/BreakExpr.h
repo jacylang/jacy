@@ -7,8 +7,8 @@ namespace jc::ast {
     /// `break EXPR?;`
     struct BreakExpr : Expr {
         BreakExpr(Expr::OptPtr && expr, Span span)
-            : Expr{span, ExprKind::Break},
-              expr{std::move(expr)} {}
+            : Expr {span, ExprKind::Break},
+              expr {std::move(expr)} {}
 
         Expr::OptPtr expr;
 

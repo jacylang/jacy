@@ -33,8 +33,7 @@ namespace jc::ast {
     };
 
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {
-        }
+        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {}
 
         bool exprBody;
         Expr::Ptr value;
@@ -50,6 +49,7 @@ namespace jc::ast {
         };
 
         FuncReturnType(Span span) : kind {Kind::Default}, val {span} {}
+
         FuncReturnType(SomeType && type) : kind {Kind::Some}, val {std::move(type)} {}
 
         auto asDefault() const {
@@ -90,8 +90,7 @@ namespace jc::ast {
             Span span
         ) : params {std::move(params)},
             returnType {std::move(returnType)},
-            span {span} {
-        }
+            span {span} {}
 
         FuncParam::List params;
         ReturnType returnType;

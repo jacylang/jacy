@@ -13,10 +13,11 @@ namespace jc::ast {
         using PR = PR<Ident>;
         using OptPR = Option<Ident::PR>;
 
-        Ident(Symbol sym, Span span) : span::Ident{sym, span} {}
-        Ident(const parser::Token & token) : span::Ident{token} {}
+        Ident(Symbol sym, Span span) : span::Ident {sym, span} {}
 
-        NodeId id{NodeId::DUMMY};
+        Ident(const parser::Token & token) : span::Ident {token} {}
+
+        NodeId id {NodeId::DUMMY};
 
         void accept(BaseVisitor & visitor) const {
             visitor.visit(*this);

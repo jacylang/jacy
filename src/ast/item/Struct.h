@@ -12,9 +12,9 @@ namespace jc::ast {
             Ident::PR name,
             Type::Ptr type,
             Span span
-        ) : Node{span},
-            name{std::move(name)},
-            type{std::move(type)} {}
+        ) : Node {span},
+            name {std::move(name)},
+            type {std::move(type)} {}
 
         Ident::PR name;
         Type::Ptr type;
@@ -30,10 +30,10 @@ namespace jc::ast {
             GenericParam::OptList generics,
             StructField::List fields,
             Span span
-        ) : Item{span, ItemKind::Struct},
-            name{std::move(name)},
-            generics{std::move(generics)},
-            fields{std::move(fields)} {}
+        ) : Item {span, ItemKind::Struct},
+            name {std::move(name)},
+            generics {std::move(generics)},
+            fields {std::move(fields)} {}
 
         Ident::PR name;
         GenericParam::OptList generics;

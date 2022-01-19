@@ -10,9 +10,9 @@ namespace jc::ast {
             Expr::Ptr && condition,
             Block::Ptr && body,
             Span span
-        ) : Expr{span, ExprKind::While},
-            condition{std::move(condition)},
-            body{std::move(body)} {}
+        ) : Expr {span, ExprKind::While},
+            condition {std::move(condition)},
+            body {std::move(body)} {}
 
         Expr::Ptr condition;
         Block::Ptr body;
