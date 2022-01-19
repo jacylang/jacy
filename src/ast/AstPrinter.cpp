@@ -14,7 +14,7 @@ namespace jc::ast {
         printDelim(party.items, "", "", "\n");
     }
 
-    void AstPrinter::visit(const ErrorNode&) {
+    void AstPrinter::visit(const ErrorNode &) {
         log.raw(log::Color::Red, "[ERROR]", log::Color::Reset);
     }
 

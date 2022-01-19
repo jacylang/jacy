@@ -9,7 +9,7 @@ namespace jc::ast {
         return {None, msg.extractMessages()};
     }
 
-    void Validator::visit(const ErrorNode&) {
+    void Validator::visit(const ErrorNode &) {
         log::devPanic("Unexpected [ERROR] node on ast validation stage");
     }
 
@@ -57,16 +57,16 @@ namespace jc::ast {
         using span::Kw;
 
         // Useless validation
-//        for (const auto & modifier : func.sig.modifiers) {
-//            if (!isInside(ValidatorCtx::Struct)) {
-//                if (modifier.isKw(span::Kw::Static) or modifier.isKw(span::Kw::Mut) or modifier.isKw(span::Kw::Move)) {
-//                    suggestErrorMsg(
-//                        modifier.toString() + " functions can only appear as methods",
-//                        modifier.span
-//                    );
-//                }
-//            }
-//        }
+        //        for (const auto & modifier : func.sig.modifiers) {
+        //            if (!isInside(ValidatorCtx::Struct)) {
+        //                if (modifier.isKw(span::Kw::Static) or modifier.isKw(span::Kw::Mut) or modifier.isKw(span::Kw::Move)) {
+        //                    suggestErrorMsg(
+        //                        modifier.toString() + " functions can only appear as methods",
+        //                        modifier.span
+        //                    );
+        //                }
+        //            }
+        //        }
 
         if (func.generics.some()) {
             validateEach(func.generics.unwrap());
@@ -162,7 +162,8 @@ namespace jc::ast {
 
         switch (useTree.kind) {
             case UseTree::Kind::Raw:
-            case UseTree::Kind::All: break;
+            case UseTree::Kind::All:
+                break;
             case UseTree::Kind::Specific: {
                 for (const auto & specific : useTree.expectSpecifics()) {
                     specific.autoAccept(*this);
@@ -367,7 +368,7 @@ namespace jc::ast {
         validateEach(listExpr.elements);
     }
 
-    void Validator::visit(const LitExpr&) {
+    void Validator::visit(const LitExpr &) {
         // What's here?
     }
 
@@ -444,7 +445,7 @@ namespace jc::ast {
         validateEach(subscript.indices);
     }
 
-    void Validator::visit(const SelfExpr&) {
+    void Validator::visit(const SelfExpr &) {
         // A??
     }
 
@@ -452,7 +453,7 @@ namespace jc::ast {
         validateEach(tupleExpr.elements);
     }
 
-    void Validator::visit(const UnitExpr&) {
+    void Validator::visit(const UnitExpr &) {
         // Meow
     }
 
@@ -521,7 +522,7 @@ namespace jc::ast {
         typePath.path.accept(*this);
     }
 
-    void Validator::visit(const UnitType&) {
+    void Validator::visit(const UnitType &) {
         // Meow...
     }
 
@@ -551,7 +552,7 @@ namespace jc::ast {
         validateEach(attr.params);
     }
 
-    void Validator::visit(const Ident&) {}
+    void Validator::visit(const Ident &) {}
 
     void Validator::visit(const Arg & el) {
         if (el.name.some()) {
@@ -592,7 +593,7 @@ namespace jc::ast {
         pat.pat.autoAccept(*this);
     }
 
-    void Validator::visit(const LitPat&) {}
+    void Validator::visit(const LitPat &) {}
 
     void Validator::visit(const IdentPat & pat) {
         pat.name.autoAccept(*this);
@@ -610,7 +611,7 @@ namespace jc::ast {
         pat.path.autoAccept(*this);
     }
 
-    void Validator::visit(const WildcardPat&) {}
+    void Validator::visit(const WildcardPat &) {}
 
     void Validator::visit(const RestPat & pat) {
         msg.error()
@@ -669,7 +670,7 @@ namespace jc::ast {
     bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
         if (expr->is(ExprKind::Paren)) {
-            return isPlaceExpr((*static_cast<ParenExpr*>(expr.get())).expr);
+            return isPlaceExpr((*static_cast<ParenExpr *>(expr.get())).expr);
         }
         return expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
     }

@@ -114,7 +114,8 @@ namespace jc::ast {
 
         switch (useTree.kind) {
             case UseTree::Kind::Raw:
-            case UseTree::Kind::All: break;
+            case UseTree::Kind::All:
+                break;
             case UseTree::Kind::Specific: {
                 for (const auto & specific : useTree.expectSpecifics()) {
                     specific.autoAccept(*this);
@@ -167,7 +168,7 @@ namespace jc::ast {
         }
     }
 
-    void StubVisitor::visit(const ContinueExpr&) {}
+    void StubVisitor::visit(const ContinueExpr &) {}
 
     void StubVisitor::visit(const ForExpr & forStmt) {
         forStmt.pat.autoAccept(*this);
@@ -216,7 +217,7 @@ namespace jc::ast {
         visitEach(listExpr.elements);
     }
 
-    void StubVisitor::visit(const LitExpr&) {}
+    void StubVisitor::visit(const LitExpr &) {}
 
     void StubVisitor::visit(const LoopExpr & loopExpr) {
         loopExpr.body.autoAccept(*this);
@@ -256,13 +257,13 @@ namespace jc::ast {
         visitEach(subscript.indices);
     }
 
-    void StubVisitor::visit(const SelfExpr&) {}
+    void StubVisitor::visit(const SelfExpr &) {}
 
     void StubVisitor::visit(const TupleExpr & tupleExpr) {
         visitEach(tupleExpr.elements);
     }
 
-    void StubVisitor::visit(const UnitExpr&) {}
+    void StubVisitor::visit(const UnitExpr &) {}
 
     void StubVisitor::visit(const MatchExpr & matchExpr) {
         matchExpr.subject.autoAccept(*this);
@@ -315,7 +316,7 @@ namespace jc::ast {
         typePath.path.accept(*this);
     }
 
-    void StubVisitor::visit(const UnitType&) {}
+    void StubVisitor::visit(const UnitType &) {}
 
     // Type params //
     void StubVisitor::visit(const TypeParam & typeParam) {
@@ -343,7 +344,7 @@ namespace jc::ast {
         visitEach(attr.params);
     }
 
-    void StubVisitor::visit(const Ident&) {}
+    void StubVisitor::visit(const Ident &) {}
 
     void StubVisitor::visit(const Arg & el) {
         if (el.name.some()) {
@@ -380,7 +381,7 @@ namespace jc::ast {
         pat.pat.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const LitPat&) {}
+    void StubVisitor::visit(const LitPat &) {}
 
     void StubVisitor::visit(const IdentPat & pat) {
         pat.name.autoAccept(*this);
@@ -398,9 +399,9 @@ namespace jc::ast {
         pat.path.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const WildcardPat&) {}
+    void StubVisitor::visit(const WildcardPat &) {}
 
-    void StubVisitor::visit(const RestPat&) {}
+    void StubVisitor::visit(const RestPat &) {}
 
     void StubVisitor::visit(const StructPat & pat) {
         pat.path.autoAccept(*this);

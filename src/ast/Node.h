@@ -57,10 +57,11 @@ namespace jc::ast {
         using Ptr = N<Node>;
         using List = std::vector<Ptr>;
 
-        explicit Node(Span span) : span{span} {}
+        explicit Node(Span span) : span {span} {}
+
         virtual ~Node() = default;
 
-        NodeId id{NodeId::DUMMY};
+        NodeId id {NodeId::DUMMY};
         Span span;
 
         void setNodeId(NodeId nodeId) {
@@ -69,12 +70,12 @@ namespace jc::ast {
 
         template<class T>
         static const T * cast(const Node * node) {
-            return static_cast<const T*>(node);
+            return static_cast<const T *>(node);
         }
     };
 
     struct ErrorNode : Node {
-        explicit ErrorNode(Span span) : Node{span} {}
+        explicit ErrorNode(Span span) : Node {span} {}
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
@@ -104,7 +105,7 @@ namespace jc::ast {
                 return ParseResult<N<U>>(Err(std::move(*this).err_unchecked()));
             } else if constexpr (dt::is_unique_ptr<T>()) {
                 return ParseResult<N<U>>(Ok(
-                    std::unique_ptr<U>(static_cast<U*>(std::move(*this).ok_unchecked().release()))
+                    std::unique_ptr<U>(static_cast<U *>(std::move(*this).ok_unchecked().release()))
                 ));
             } else {
                 static_assert(true, "Invalid types given for `Result::as`");

@@ -27,103 +27,174 @@ namespace jc::ast {
 
         // Items //
         void visit(const Enum & enumDecl) override;
+
         void visit(const Variant & variant) override;
+
         void visit(const Func & func) override;
+
         void visit(const FuncParam & funcParam) override;
+
         void visit(const Impl & impl) override;
+
         void visit(const Mod & mod) override;
+
         void visit(const Struct & st) override;
+
         void visit(const StructField & field) override;
+
         void visit(const Trait & trait) override;
+
         void visit(const TypeAlias & typeAlias) override;
+
         void visit(const UseDecl & useDecl) override;
+
         void visit(const UseTree & useTree) override;
+
         void visit(const Init & init) override;
 
         // Statements //
         void visit(const ExprStmt & exprStmt) override;
+
         void visit(const ItemStmt & itemStmt) override;
+
         void visit(const LetStmt & letStmt) override;
 
         // Expressions //
         void visit(const Assign & assignment) override;
+
         void visit(const Block & block) override;
+
         void visit(const BorrowExpr & borrowExpr) override;
+
         void visit(const BreakExpr & breakExpr) override;
+
         void visit(const ContinueExpr & continueExpr) override;
+
         void visit(const ForExpr & forStmt) override;
+
         void visit(const IfExpr & ifExpr) override;
+
         void visit(const Infix & infix) override;
+
         void visit(const Invoke & invoke) override;
+
         void visit(const Lambda & lambdaExpr) override;
+
         void visit(const LambdaParam & param) override;
+
         void visit(const ListExpr & listExpr) override;
+
         void visit(const LitExpr & literalConstant) override;
+
         void visit(const LoopExpr & loopExpr) override;
+
         void visit(const FieldExpr & memberAccess) override;
+
         void visit(const ParenExpr & parenExpr) override;
+
         void visit(const PathExpr & pathExpr) override;
+
         void visit(const Prefix & prefix) override;
+
         void visit(const Postfix & questExpr) override;
+
         void visit(const ReturnExpr & returnExpr) override;
+
         void visit(const SpreadExpr & spreadExpr) override;
+
         void visit(const Subscript & subscript) override;
+
         void visit(const SelfExpr & selfExpr) override;
+
         void visit(const TupleExpr & tupleExpr) override;
+
         void visit(const UnitExpr & unitExpr) override;
+
         void visit(const MatchExpr & matchExpr) override;
+
         void visit(const MatchArm & matchArm) override;
+
         void visit(const WhileExpr & whileStmt) override;
 
         // Types //
         void visit(const ParenType & parenType) override;
+
         void visit(const TupleType & tupleType) override;
+
         void visit(const TupleTypeEl & el) override;
+
         void visit(const FuncType & funcType) override;
+
         void visit(const SliceType & listType) override;
+
         void visit(const ArrayType & arrayType) override;
+
         void visit(const TypePath & typePath) override;
+
         void visit(const UnitType & unitType) override;
 
         // Generics //
         void visit(const TypeParam & typeParam) override;
+
         void visit(const Lifetime & lifetime) override;
+
         void visit(const ConstParam & constParam) override;
 
         // Fragments //
         void visit(const Attr & attr) override;
+
         void visit(const Ident & ident) override;
+
         void visit(const Arg & el) override;
+
         void visit(const Path & path) override;
+
         void visit(const PathSeg & seg) override;
+
         void visit(const SimplePath & path) override;
+
         void visit(const SimplePathSeg & seg) override;
 
         // Patterns //
         void visit(const MultiPat & pat) override;
+
         void visit(const ParenPat & pat) override;
+
         void visit(const LitPat & pat) override;
+
         void visit(const IdentPat & pat) override;
+
         void visit(const RefPat & pat) override;
+
         void visit(const PathPat & pat) override;
+
         void visit(const WildcardPat & pat) override;
+
         void visit(const RestPat & pat) override;
+
         void visit(const StructPat & pat) override;
+
         void visit(const TuplePat & pat) override;
+
         void visit(const SlicePat & pat) override;
 
     private:
         sess::Session::Ptr sess;
-        log::Logger log{"ast-printer"};
-        AstPrinterMode mode{AstPrinterMode::Parsing};
+        log::Logger log {"ast-printer"};
+        AstPrinterMode mode {AstPrinterMode::Parsing};
 
         // Helpers //
     private:
         void printVis(const Vis & vis);
+
         void printAttributes(const Attr::List & attributes);
+
         void printModifiers(const parser::Token::List & modifiers);
+
         void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
+
         void printFuncHeader(const FuncHeader & header);
+
         void printFuncSig(const FuncSig & sig);
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
@@ -135,7 +206,7 @@ namespace jc::ast {
             const std::string & end,
             const std::string & delim,
             uint8_t chopTH,
-            const std::function<void(const T&)> & cb
+            const std::function<void(const T &)> & cb
         ) {
             const auto chop = elements.size() > chopTH;
             if (not begin.empty()) {
@@ -213,14 +284,19 @@ namespace jc::ast {
         // Indentation //
     private:
         void printIndent() const;
+
         void incIndent();
+
         void decIndent();
-        uint16_t indent{0};
+
+        uint16_t indent {0};
 
         // NodeMap mode //
     private:
-        bool printAstNodeMap{false};
+        bool printAstNodeMap {false};
+
         void printNodeId(NodeId id) const;
+
         void printNodeId(const Node & node) const;
 
         // Names mode //
@@ -238,10 +314,15 @@ namespace jc::ast {
         const static Color noneNodeColor = Color::LightGray;
         std::map<NodeId, Color> namesColors;
         uint8_t lastColor;
+
         void colorizeNameDecl(NodeId nodeId, const Ident::PR & ident);
+
         void colorizePathName(NodeId pathNodeId);
+
         void resetNameColor();
+
         Color getNameColor(NodeId nodeId);
+
         Option<Color> getNameColorChecked(NodeId nodeId);
 
         template<class T>
