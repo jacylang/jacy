@@ -18,7 +18,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Stmt(Span span, StmtKind kind) : Node{span}, kind{kind} {}
+        Stmt(Span span, StmtKind kind) : Node {span}, kind {kind} {}
 
         StmtKind kind;
 
@@ -27,7 +27,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        static T * as(const N<Stmt> & stmt) {
+        static T * as(const N <Stmt> & stmt) {
             return static_cast<T*>(stmt.get());
         }
 

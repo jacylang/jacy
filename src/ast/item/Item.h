@@ -56,7 +56,7 @@ namespace jc::ast {
 
         template<class T>
         static T * as(const N<Item> & item) {
-            return static_cast<T *>(item.get());
+            return static_cast<T*>(item.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;

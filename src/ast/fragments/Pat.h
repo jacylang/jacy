@@ -32,7 +32,7 @@ namespace jc::ast {
 
         template<class T>
         static T * as(const N<Pat> & pat) {
-            return static_cast<T *>(pat.get());
+            return static_cast<T*>(pat.get());
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;

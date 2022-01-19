@@ -13,10 +13,10 @@ namespace jc::ast {
             Type::OptPtr && type,
             Expr::OptPtr && assignExpr,
             Span span
-        ) : Stmt{span, StmtKind::Let},
-            pat{std::move(pat)},
-            type{std::move(type)},
-            assignExpr{std::move(assignExpr)} {}
+        ) : Stmt {span, StmtKind::Let},
+            pat {std::move(pat)},
+            type {std::move(type)},
+            assignExpr {std::move(assignExpr)} {}
 
         Pat::Ptr pat;
         Type::OptPtr type;
