@@ -79,7 +79,7 @@ $(function() {
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>jc::ast {</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_subscript.html">    7</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_subscript.html">Subscript</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_subscript.html">Subscript</a>(<a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &amp;&amp; lhs, Expr::List &amp;&amp; indices, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a>{span, ExprKind::Subscript}, lhs{std::move(lhs)}, indices{std::move(indices)} {}</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {span, ExprKind::Subscript}, lhs {std::move(lhs)}, indices {std::move(indices)} {}</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> lhs;</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        Expr::List indices;</div>
@@ -92,7 +92,7 @@ $(function() {
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_EXPR_SUBSCRIPT_H</span></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:85</div></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:86</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:41</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_subscript_html"><div class="ttname"><a href="structjc_1_1ast_1_1_subscript.html">jc::ast::Subscript</a></div><div class="ttdef"><b>Definition:</b> Subscript.h:7</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>

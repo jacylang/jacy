@@ -83,7 +83,7 @@ $(function() {
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">using</span> List = std::vector&lt;Attr&gt;;</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_attr.html">Attr</a>(Ident::PR name, Arg::List params, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a>{span}, name{std::move(name)}, params{std::move(params)} {}</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, name {std::move(name)}, params {std::move(params)} {}</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Ident::PR name;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        Arg::List params;</div>

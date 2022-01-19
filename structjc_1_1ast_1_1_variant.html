@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Jacy: jc::ast::EnumEntry Struct Reference</title>
+<title>Jacy: jc::ast::Variant Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,7 +64,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>jc</b></li><li class="navelem"><b>ast</b></li><li class="navelem"><a class="el" href="structjc_1_1ast_1_1_enum_entry.html">EnumEntry</a></li>  </ul>
+<li class="navelem"><b>jc</b></li><li class="navelem"><b>ast</b></li><li class="navelem"><a class="el" href="structjc_1_1ast_1_1_variant.html">Variant</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -72,25 +72,30 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structjc_1_1ast_1_1_enum_entry-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">jc::ast::EnumEntry Struct Reference</div></div>
+<a href="structjc_1_1ast_1_1_variant-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">jc::ast::Variant Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Inheritance diagram for jc::ast::EnumEntry:</div>
+Inheritance diagram for jc::ast::Variant:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="structjc_1_1ast_1_1_enum_entry.png" usemap="#jc::ast::EnumEntry_map" alt=""/>
-  <map id="jc::ast::EnumEntry_map" name="jc::ast::EnumEntry_map">
-<area href="structjc_1_1ast_1_1_node.html" alt="jc::ast::Node" shape="rect" coords="0,0,111,24"/>
+  <img src="structjc_1_1ast_1_1_variant.png" usemap="#jc::ast::Variant_map" alt=""/>
+  <map id="jc::ast::Variant_map" name="jc::ast::Variant_map">
+<area href="structjc_1_1ast_1_1_node.html" alt="jc::ast::Node" shape="rect" coords="0,0,91,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a839f486dd343d19ca29740463c1b1c88"><td class="memItemLeft" align="right" valign="top"><a id="a839f486dd343d19ca29740463c1b1c88" name="a839f486dd343d19ca29740463c1b1c88"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1ast_1_1_enum_entry.html">EnumEntry</a> &gt;</td></tr>
-<tr class="separator:a839f486dd343d19ca29740463c1b1c88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131f31b74d6e6f9efad3250b6e833703"><td class="memItemLeft" align="right" valign="top"><a id="a131f31b74d6e6f9efad3250b6e833703" name="a131f31b74d6e6f9efad3250b6e833703"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Unit</b>
+, <b>Tuple</b>
+, <b>Struct</b>
+ }</td></tr>
+<tr class="separator:a131f31b74d6e6f9efad3250b6e833703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42a07d3f8f02a9b1f4b322aa54df6583"><td class="memItemLeft" align="right" valign="top"><a id="a42a07d3f8f02a9b1f4b322aa54df6583" name="a42a07d3f8f02a9b1f4b322aa54df6583"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1ast_1_1_variant.html">Variant</a> &gt;</td></tr>
+<tr class="separator:a42a07d3f8f02a9b1f4b322aa54df6583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_types_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:a85f34cc1c49bddffa0343ea1e28089b9 inherit pub_types_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="a85f34cc1c49bddffa0343ea1e28089b9" name="a85f34cc1c49bddffa0343ea1e28089b9"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = N&lt; <a class="el" href="structjc_1_1ast_1_1_node.html">Node</a> &gt;</td></tr>
@@ -101,21 +106,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a324637fb8019fbdf49e1c23afc8e20e7"><td class="memItemLeft" align="right" valign="top"><a id="a324637fb8019fbdf49e1c23afc8e20e7" name="a324637fb8019fbdf49e1c23afc8e20e7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EnumEntry</b> (EnumEntryKind kind, Ident::PR &amp;&amp;name, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a324637fb8019fbdf49e1c23afc8e20e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d91d81d0e1a68f68c2e1866c93321ca"><td class="memItemLeft" align="right" valign="top"><a id="a5d91d81d0e1a68f68c2e1866c93321ca" name="a5d91d81d0e1a68f68c2e1866c93321ca"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EnumEntry</b> (EnumEntryKind kind, Ident::PR &amp;&amp;name, <a class="el" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &amp;&amp;discriminant, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a5d91d81d0e1a68f68c2e1866c93321ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e1065c3679af601e02f212481cccbb4"><td class="memItemLeft" align="right" valign="top"><a id="a1e1065c3679af601e02f212481cccbb4" name="a1e1065c3679af601e02f212481cccbb4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EnumEntry</b> (EnumEntryKind kind, Ident::PR &amp;&amp;name, TupleTypeEl::List &amp;&amp;tupleFields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a1e1065c3679af601e02f212481cccbb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0753d5179f10b6f070a30bb685a1105"><td class="memItemLeft" align="right" valign="top"><a id="ae0753d5179f10b6f070a30bb685a1105" name="ae0753d5179f10b6f070a30bb685a1105"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EnumEntry</b> (EnumEntryKind kind, Ident::PR &amp;&amp;name, StructField::List &amp;&amp;fields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:ae0753d5179f10b6f070a30bb685a1105"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac431b753604fc669c3b06dcc34ab0eee"><td class="memItemLeft" align="right" valign="top"><a id="ac431b753604fc669c3b06dcc34ab0eee" name="ac431b753604fc669c3b06dcc34ab0eee"></a>
+<tr class="memitem:aaf1f4be92fe99977612e518b6ed06d12"><td class="memItemLeft" align="right" valign="top"><a id="aaf1f4be92fe99977612e518b6ed06d12" name="aaf1f4be92fe99977612e518b6ed06d12"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, <a class="el" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> &amp;&amp;disc, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:aaf1f4be92fe99977612e518b6ed06d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c2c100774283f97937c6c4227ad207b"><td class="memItemLeft" align="right" valign="top"><a id="a6c2c100774283f97937c6c4227ad207b" name="a6c2c100774283f97937c6c4227ad207b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, TupleTypeEl::List &amp;&amp;tupleFields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a6c2c100774283f97937c6c4227ad207b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e5c83c87fcd745aa47b5ec055c3f768"><td class="memItemLeft" align="right" valign="top"><a id="a4e5c83c87fcd745aa47b5ec055c3f768" name="a4e5c83c87fcd745aa47b5ec055c3f768"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, StructField::List &amp;&amp;fields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a4e5c83c87fcd745aa47b5ec055c3f768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab87cd3bec3d00f18eafa0d6bfc6ad8c"><td class="memItemLeft" align="right" valign="top"><a id="aab87cd3bec3d00f18eafa0d6bfc6ad8c" name="aab87cd3bec3d00f18eafa0d6bfc6ad8c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
-<tr class="separator:ac431b753604fc669c3b06dcc34ab0eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:aab87cd3bec3d00f18eafa0d6bfc6ad8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:acf02ead7614c6590f2fd55944b92ec1b inherit pub_methods_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="acf02ead7614c6590f2fd55944b92ec1b" name="acf02ead7614c6590f2fd55944b92ec1b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Node</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
@@ -126,15 +128,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setNodeId</b> (<a cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a416059a8d2d1a9f49ee0a4ffe2098abd"><td class="memItemLeft" align="right" valign="top"><a id="a416059a8d2d1a9f49ee0a4ffe2098abd" name="a416059a8d2d1a9f49ee0a4ffe2098abd"></a>
-EnumEntryKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:a416059a8d2d1a9f49ee0a4ffe2098abd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1966c933bcd809fc91f26212aa77bbd7"><td class="memItemLeft" align="right" valign="top"><a id="a1966c933bcd809fc91f26212aa77bbd7" name="a1966c933bcd809fc91f26212aa77bbd7"></a>
+<tr class="memitem:a798fa0de2183e147dad4700ca434ab0d"><td class="memItemLeft" align="right" valign="top"><a id="a798fa0de2183e147dad4700ca434ab0d" name="a798fa0de2183e147dad4700ca434ab0d"></a>
+Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<tr class="separator:a798fa0de2183e147dad4700ca434ab0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fa70da3615a684c0ebce205ff748e44"><td class="memItemLeft" align="right" valign="top"><a id="a7fa70da3615a684c0ebce205ff748e44" name="a7fa70da3615a684c0ebce205ff748e44"></a>
 Ident::PR&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
-<tr class="separator:a1966c933bcd809fc91f26212aa77bbd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe26ed2802bcc41aa679b655444dfa12"><td class="memItemLeft" align="right" valign="top"><a id="abe26ed2802bcc41aa679b655444dfa12" name="abe26ed2802bcc41aa679b655444dfa12"></a>
-std::variant&lt; std::monostate, <a class="el" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a>, TupleTypeEl::List, StructField::List &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
-<tr class="separator:abe26ed2802bcc41aa679b655444dfa12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a7fa70da3615a684c0ebce205ff748e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac50a116fb738a40da52633fe60cebf9e"><td class="memItemLeft" align="right" valign="top"><a id="ac50a116fb738a40da52633fe60cebf9e" name="ac50a116fb738a40da52633fe60cebf9e"></a>
+std::variant&lt; <a class="el" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a>, TupleTypeEl::List, StructField::List &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
+<tr class="separator:ac50a116fb738a40da52633fe60cebf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:ab51f5798f9bfffd1cc558955f07772e2 inherit pub_attribs_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="ab51f5798f9bfffd1cc558955f07772e2" name="ab51f5798f9bfffd1cc558955f07772e2"></a>
 <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> {NodeId::DUMMY}</td></tr>

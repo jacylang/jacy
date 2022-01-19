@@ -142,7 +142,7 @@ $(function() {
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        Item::Ptr lowerEnum(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_enum.html">ast::Enum</a> &amp; astEnum);</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_variant.html">Variant</a> lowerVariant(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_enum_entry.html">ast::EnumEntry</a> &amp; enumEntry);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_variant.html">Variant</a> lowerVariant(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_variant.html">ast::Variant</a> &amp; variant);</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        Item::Ptr lowerMod(<span class="keyword">const</span> ast::Item::List &amp; astItems);</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
@@ -211,7 +211,7 @@ $(function() {
 <div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>}</div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_LOWERING_H</span></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:85</div></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:86</div></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_party_html"><div class="ttname"><a href="classjc_1_1ast_1_1_party.html">jc::ast::Party</a></div><div class="ttdef"><b>Definition:</b> Party.h:9</div></div>
 <div class="ttc" id="aclassjc_1_1hir_1_1_lowering_html"><div class="ttname"><a href="classjc_1_1hir_1_1_lowering.html">jc::hir::Lowering</a></div><div class="ttdef"><b>Definition:</b> Lowering.h:11</div></div>
 <div class="ttc" id="aclassjc_1_1log_1_1_logger_html"><div class="ttname"><a href="classjc_1_1log_1_1_logger.html">jc::log::Logger</a></div><div class="ttdef"><b>Definition:</b> Logger.h:21</div></div>
@@ -219,30 +219,30 @@ $(function() {
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_assign_html"><div class="ttname"><a href="structjc_1_1ast_1_1_assign.html">jc::ast::Assign</a></div><div class="ttdoc">Expr = Expr</div><div class="ttdef"><b>Definition:</b> Assign.h:8</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_block_html"><div class="ttname"><a href="structjc_1_1ast_1_1_block.html">jc::ast::Block</a></div><div class="ttdoc">{(EXPR;)*}</div><div class="ttdef"><b>Definition:</b> Block.h:9</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_body_html"><div class="ttname"><a href="structjc_1_1ast_1_1_body.html">jc::ast::Body</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:35</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_enum_entry_html"><div class="ttname"><a href="structjc_1_1ast_1_1_enum_entry.html">jc::ast::EnumEntry</a></div><div class="ttdef"><b>Definition:</b> Enum.h:19</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_enum_html"><div class="ttname"><a href="structjc_1_1ast_1_1_enum.html">jc::ast::Enum</a></div><div class="ttdef"><b>Definition:</b> Enum.h:43</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_body_html"><div class="ttname"><a href="structjc_1_1ast_1_1_body.html">jc::ast::Body</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:34</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_enum_html"><div class="ttname"><a href="structjc_1_1ast_1_1_enum.html">jc::ast::Enum</a></div><div class="ttdef"><b>Definition:</b> Enum.h:39</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_expr_stmt_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr_stmt.html">jc::ast::ExprStmt</a></div><div class="ttdef"><b>Definition:</b> ExprStmt.h:8</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_for_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_for_expr.html">jc::ast::ForExpr</a></div><div class="ttdoc">For-Loop.</div><div class="ttdef"><b>Definition:</b> ForExpr.h:10</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_func_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func.html">jc::ast::Func</a></div><div class="ttdef"><b>Definition:</b> Func.h:12</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_func_return_type_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_return_type.html">jc::ast::FuncReturnType&lt; Type::Ptr &gt;</a></div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:84</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_ident_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ident_pat.html">jc::ast::IdentPat</a></div><div class="ttdoc">ref mut IDENT @ pattern</div><div class="ttdef"><b>Definition:</b> Pat.h:85</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:83</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_ident_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ident_pat.html">jc::ast::IdentPat</a></div><div class="ttdoc">ref mut IDENT @ pattern</div><div class="ttdef"><b>Definition:</b> Pat.h:81</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_match_arm_html"><div class="ttname"><a href="structjc_1_1ast_1_1_match_arm.html">jc::ast::MatchArm</a></div><div class="ttdef"><b>Definition:</b> MatchExpr.h:9</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_id_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node_id.html">jc::ast::NodeId</a></div><div class="ttdef"><b>Definition:</b> Node.h:18</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_path_html"><div class="ttname"><a href="structjc_1_1ast_1_1_path.html">jc::ast::Path</a></div><div class="ttdef"><b>Definition:</b> Path.h:28</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_slice_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_slice_pat.html">jc::ast::SlicePat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:238</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_struct_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_struct_pat.html">jc::ast::StructPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:201</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_tuple_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_tuple_pat.html">jc::ast::TuplePat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:219</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_slice_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_slice_pat.html">jc::ast::SlicePat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:226</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_struct_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_struct_pat.html">jc::ast::StructPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:191</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_tuple_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_tuple_pat.html">jc::ast::TuplePat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:208</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_variant_html"><div class="ttname"><a href="structjc_1_1ast_1_1_variant.html">jc::ast::Variant</a></div><div class="ttdef"><b>Definition:</b> Enum.h:12</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_while_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_while_expr.html">jc::ast::WhileExpr</a></div><div class="ttdef"><b>Definition:</b> WhileExpr.h:8</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_block_html"><div class="ttname"><a href="structjc_1_1hir_1_1_block.html">jc::hir::Block</a></div><div class="ttdef"><b>Definition:</b> fragments.h:20</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_body_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body.html">jc::hir::Body</a></div><div class="ttdef"><b>Definition:</b> items.h:61</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1hir_1_1_func_sig.html">jc::hir::FuncSig</a></div><div class="ttdef"><b>Definition:</b> items.h:74</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html">jc::hir::HirId</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:28</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_block_html"><div class="ttname"><a href="structjc_1_1hir_1_1_block.html">jc::hir::Block</a></div><div class="ttdef"><b>Definition:</b> fragments.h:19</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_body_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body.html">jc::hir::Body</a></div><div class="ttdef"><b>Definition:</b> items.h:60</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1hir_1_1_func_sig.html">jc::hir::FuncSig</a></div><div class="ttdef"><b>Definition:</b> items.h:72</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html">jc::hir::HirId</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:27</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:8</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_wrapper_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_wrapper.html">jc::hir::ItemWrapper</a></div><div class="ttdef"><b>Definition:</b> Item.h:46</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_match_arm_html"><div class="ttname"><a href="structjc_1_1hir_1_1_match_arm.html">jc::hir::MatchArm</a></div><div class="ttdef"><b>Definition:</b> exprs.h:172</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_path_html"><div class="ttname"><a href="structjc_1_1hir_1_1_path.html">jc::hir::Path</a></div><div class="ttdef"><b>Definition:</b> fragments.h:42</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_wrapper_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_wrapper.html">jc::hir::ItemWrapper</a></div><div class="ttdef"><b>Definition:</b> Item.h:45</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_match_arm_html"><div class="ttname"><a href="structjc_1_1hir_1_1_match_arm.html">jc::hir::MatchArm</a></div><div class="ttdef"><b>Definition:</b> exprs.h:161</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_path_html"><div class="ttname"><a href="structjc_1_1hir_1_1_path.html">jc::hir::Path</a></div><div class="ttdef"><b>Definition:</b> fragments.h:39</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_variant_html"><div class="ttname"><a href="structjc_1_1hir_1_1_variant.html">jc::hir::Variant</a></div><div class="ttdef"><b>Definition:</b> items.h:23</div></div>
 <div class="ttc" id="astructjc_1_1message_1_1_message_result_html"><div class="ttname"><a href="structjc_1_1message_1_1_message_result.html">jc::message::MessageResult</a></div><div class="ttdef"><b>Definition:</b> MessageResult.h:9</div></div>
 <div class="ttc" id="astructjc_1_1parser_1_1_token_html"><div class="ttname"><a href="structjc_1_1parser_1_1_token.html">jc::parser::Token</a></div><div class="ttdef"><b>Definition:</b> Token.h:149</div></div>

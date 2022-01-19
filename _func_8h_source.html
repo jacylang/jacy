@@ -95,36 +95,35 @@ $(function() {
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            sig {std::move(sig)},</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            generics {std::move(generics)},</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            name {std::move(name)},</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            body {std::move(body)} {</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_func_header.html">FuncHeader</a> header;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_func_sig.html">FuncSig</a> sig;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">GenericParam::OptList</a> generics;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        Ident::PR name;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Option&lt;Body&gt;</a> body;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_ident.html">span::Ident</a> getName()<span class="keyword"> const override </span>{</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <span class="keywordflow">return</span> name.unwrap();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        }</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">NodeId::Opt</a> getNameNodeId()<span class="keyword"> const override </span>{</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> name.unwrap().id;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        }</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    };</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_ITEM_FUNC_H</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            body {std::move(body)} {}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_func_header.html">FuncHeader</a> header;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_func_sig.html">FuncSig</a> sig;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">GenericParam::OptList</a> generics;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        Ident::PR name;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Option&lt;Body&gt;</a> body;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_ident.html">span::Ident</a> getName()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> name.unwrap();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">NodeId::Opt</a> getNameNodeId()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> name.unwrap().id;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    };</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_ITEM_FUNC_H</span></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_func_header_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_header.html">jc::ast::FuncHeader</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:77</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_func_header_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_header.html">jc::ast::FuncHeader</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:76</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_func_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func.html">jc::ast::Func</a></div><div class="ttdef"><b>Definition:</b> Func.h:12</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:84</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_item_html"><div class="ttname"><a href="structjc_1_1ast_1_1_item.html">jc::ast::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:34</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:83</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_item_html"><div class="ttname"><a href="structjc_1_1ast_1_1_item.html">jc::ast::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:35</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_ident_html"><div class="ttname"><a href="structjc_1_1span_1_1_ident.html">jc::span::Ident</a></div><div class="ttdef"><b>Definition:</b> Ident.h:8</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
