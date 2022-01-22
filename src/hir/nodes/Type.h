@@ -17,7 +17,7 @@ namespace jc::hir {
         using Ptr = N<Type>;
         using List = std::vector<Type::Ptr>;
 
-        Type(TypeKind kind, HirId hirId, Span span) : HirNode{hirId, span}, kind{kind} {}
+        Type(TypeKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         TypeKind kind;
     };

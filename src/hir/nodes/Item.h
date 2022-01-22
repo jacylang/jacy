@@ -36,7 +36,7 @@ namespace jc::hir {
 
         template<class T>
         static T * as(const Ptr & item) {
-            return static_cast<T*>(item.get());
+            return static_cast<T *>(item.get());
         }
     };
 

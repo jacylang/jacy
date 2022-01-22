@@ -17,6 +17,7 @@ namespace jc::hir {
         };
 
         OwnerNode(Mod && mod) : kind {Kind::Party}, node {std::move(mod)} {}
+
         OwnerNode(ItemWrapper && item) : kind {Kind::Item}, node {std::move(item)} {}
 
         Kind kind;

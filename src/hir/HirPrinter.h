@@ -12,6 +12,7 @@ namespace jc::hir {
 
     private:
         void printMod(const Mod & mod);
+
         void printItem(const ItemId & itemId);
 
         // Fragments printers //
@@ -21,7 +22,9 @@ namespace jc::hir {
         // Indentation and blocks //
     private:
         uint32_t indent {0};
+
         void beginBlock();
+
         void endBlock();
 
     private:

@@ -119,7 +119,9 @@ namespace jc::hir {
         // Types //
     private:
         Type::Ptr lowerType(const ast::Type::Ptr & astType);
+
         CommonField::List lowerTupleTysToFields(const ast::TupleTypeEl::List & types, bool named);
+
         CommonField::List lowerStructFields(const ast::StructField::List & fs);
 
         // Fragments //
