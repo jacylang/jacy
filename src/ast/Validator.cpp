@@ -17,7 +17,7 @@ namespace jc::ast {
     // Statements //
     ////////////////
     void Validator::visit(const Enum & enumDecl) {
-        validateEach(enumDecl.entries);
+        validateEach(enumDecl.variants);
 
         pushContext(ValidatorCtx::Struct);
         popContext();

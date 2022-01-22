@@ -46,7 +46,7 @@ namespace jc::ast {
         log.raw("enum ");
         colorizeNameDecl(enumDecl.id, enumDecl.name);
 
-        printBodyLike(enumDecl.entries, ",\n");
+        printBodyLike(enumDecl.variants, ",\n");
 
         printNodeId(enumDecl);
     }

@@ -38,10 +38,10 @@ namespace jc::ast {
 
     struct Enum : Item {
         Enum(Ident::PR && name, Variant::List && entries, Span span)
-            : Item {span, ItemKind::Enum}, name {std::move(name)}, entries {std::move(entries)} {}
+            : Item {span, ItemKind::Enum}, name {std::move(name)}, variants {std::move(entries)} {}
 
         Ident::PR name;
-        Variant::List entries {};
+        Variant::List variants {};
 
         span::Ident getName() const override {
             return name.unwrap();

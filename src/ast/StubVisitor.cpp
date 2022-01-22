@@ -8,7 +8,7 @@ namespace jc::ast {
     // Statements //
     void StubVisitor::visit(const Enum & enumDecl) {
         enumDecl.name.autoAccept(*this);
-        visitEach(enumDecl.entries);
+        visitEach(enumDecl.variants);
     }
 
     void StubVisitor::visit(const Variant & variant) {

@@ -31,7 +31,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
         enterModule(getItemVis(_enum), _enum.id, DefKind::Enum, _enum.name.unwrap());
-        visitEach(_enum.entries);
+        visitEach(_enum.variants);
         exitMod();
     }
 

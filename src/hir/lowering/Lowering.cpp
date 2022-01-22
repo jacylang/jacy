@@ -124,7 +124,7 @@ namespace jc::hir {
 
     Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
         std::vector<Variant> variants;
-        for (const auto & variant : astEnum.entries) {
+        for (const auto & variant : astEnum.variants) {
             variants.emplace_back(lowerVariant(variant));
         }
         return makeBoxNode<Enum>(std::move(variants));
