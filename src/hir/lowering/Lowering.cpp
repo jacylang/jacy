@@ -132,7 +132,7 @@ namespace jc::hir {
 
     Variant Lowering::lowerVariant(const ast::Variant & variant) {
         switch (variant.kind) {
-            case ast::Variant::Kind::Raw: {
+            case ast::Variant::Kind::Unit: {
                 return Variant {
                     variant.name.unwrap(),
                     std::monostate {},
@@ -140,10 +140,6 @@ namespace jc::hir {
                     HirId::DUMMY,
                     variant.span
                 };
-            }
-            case ast::Variant::Kind::Discriminant: {
-                // TODO: Strange one
-                break;
             }
             case ast::Variant::Kind::Tuple: {
                 return Variant {
