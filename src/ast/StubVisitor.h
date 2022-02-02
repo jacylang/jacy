@@ -129,6 +129,8 @@ namespace jc::ast {
 
         virtual void visit(const ConstParam & constParam) override;
 
+        virtual void visit(const GenericArg & arg) override;
+
         // Fragments //
         virtual void visit(const Attr & attr) override;
 

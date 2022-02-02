@@ -654,6 +654,23 @@ namespace jc::ast {
         printNodeId(constParam);
     }
 
+    void AstPrinter::visit(const GenericArg & arg) {
+        switch (arg.kind) {
+            case GenericArg::Kind::Type: {
+                std::get<Type::Ptr>(arg.value).autoAccept(*this);
+                break;
+            }
+            case GenericArg::Kind::Lifetime: {
+                std::get<Lifetime>(arg.value).accept(*this);
+                break;
+            }
+            case GenericArg::Kind::Const: {
+                std::get<Expr::Ptr>(arg.value).autoAccept(*this);
+                break;
+            }
+        }
+    }
+
     // Fragments //
     void AstPrinter::visit(const Attr & attr) {
         log.raw("@");
