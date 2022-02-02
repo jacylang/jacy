@@ -328,7 +328,7 @@ namespace jc::parser {
         TupleTypeEl::List parseTupleFields();
 
         // Type fragments //
-        GenericParam::OptList parseOptGenerics();
+        GenericParam::OptList parseOptGenericParams();
 
         TypePath::Ptr parseTypePath();
 

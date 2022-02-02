@@ -339,7 +339,7 @@ namespace jc::parser {
         justSkipKw(Kw::Enum, "`enum`", "`parseEnum`");
 
         auto name = parseIdent("`enum` name");
-        auto generics = parseOptGenerics();
+        auto generics = parseOptGenericParams();
 
         Variant::List entries;
         if (not isSemis()) {
@@ -412,7 +412,7 @@ namespace jc::parser {
 
         justSkipKw(Kw::Func, "`func`", "`parseFunc`");
 
-        auto generics = parseOptGenerics();
+        auto generics = parseOptGenericParams();
         auto name = parseIdent("`func` name");
 
         auto sig = parseFuncSig();
@@ -438,7 +438,7 @@ namespace jc::parser {
 
         justSkipKw(Kw::Impl, "`impl`", "`parseImpl`");
 
-        auto generics = parseOptGenerics();
+        auto generics = parseOptGenericParams();
         auto traitTypePath = parseTypePath();
 
         Type::OptPtr forType = None;
@@ -463,7 +463,7 @@ namespace jc::parser {
         justSkipKw(Kw::Struct, "`struct`", "`parseStruct`");
 
         auto name = parseIdent("`struct` name");
-        auto generics = parseOptGenerics();
+        auto generics = parseOptGenericParams();
 
         StructField::List fields;
         if (not isSemis()) {
@@ -533,7 +533,7 @@ namespace jc::parser {
         justSkipKw(Kw::Trait, "`trait`", "`parseTrait`");
 
         auto name = parseIdent("`trait` name");
-        auto generics = parseOptGenerics();
+        auto generics = parseOptGenericParams();
 
         TypePath::List superTraits;
         if (skipOpt(TokenKind::Colon).some()) {
@@ -1880,7 +1880,7 @@ namespace jc::parser {
             // But, `or` is short-circuit, so order matters!!! we need to skip `::` if it is given
             const auto & continuePath = skipOpt(TokenKind::Path);
             if (continuePath.some() or not inExpr) {
-                generics = parseOptGenerics();
+                generics = parseOptGenericParams();
                 pathNotGeneric = continuePath.some() and generics.none();
             }
 
@@ -2101,8 +2101,8 @@ namespace jc::parser {
         return makePRBoxNode<FuncType, Type>(std::move(params), std::move(returnType), span.to(cspan()));
     }
 
-    GenericParam::OptList Parser::parseOptGenerics() {
-        logParseExtra("[opt] Generics");
+    GenericParam::OptList Parser::parseOptGenericParams() {
+        logParseExtra("[opt] GenericParam::List");
 
         if (not is(TokenKind::LAngle)) {
             return None;
@@ -2110,7 +2110,7 @@ namespace jc::parser {
 
         enterEntity("Generics");
 
-        justSkip(TokenKind::LAngle, "`<`", "`parseOptGenerics`");
+        justSkip(TokenKind::LAngle, "`<`", "`parseOptGenericParams`");
 
         GenericParam::List generics;
 
@@ -2132,7 +2132,7 @@ namespace jc::parser {
                 auto name = parseIdent("lifetime parameter name");
                 generics.push_back(makeBoxNode<Lifetime>(std::move(name), closeSpan(genBegin)));
             } else if (is(TokenKind::Id)) {
-                auto name = justParseIdent("`parseOptGenerics`");
+                auto name = justParseIdent("`parseOptGenericParams`");
                 Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
