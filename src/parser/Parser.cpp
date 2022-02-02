@@ -702,7 +702,8 @@ namespace jc::parser {
         msg.error()
            .setText("Expected path in `use` declaration")
            .setPrimaryLabel(cspan(), "Expected path")
-            .emit();
+           .emit();
+
         advance();
 
         exitEntity();
@@ -1608,7 +1609,7 @@ namespace jc::parser {
 
     Attr::List Parser::parseAttrList() {
         Attr::List attributes;
-        for (auto attr = parseAttr() ; attr.some() ;) {
+        for (auto attr = parseAttr(); attr.some();) {
             attributes.push_back(attr.take());
         }
 

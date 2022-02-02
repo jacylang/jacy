@@ -78,6 +78,7 @@ namespace jc::parser {
     class Parser {
     public:
         Parser();
+
         virtual ~Parser() = default;
 
         message::MessageResult<Item::List> parse(
@@ -87,10 +88,10 @@ namespace jc::parser {
         );
 
     private:
-        log::Logger log{"parser"};
+        log::Logger log {"parser"};
 
         Token::List tokens;
-        size_t index{0};
+        size_t index {0};
 
         sess::Session::Ptr sess;
 
@@ -104,7 +105,7 @@ namespace jc::parser {
 
         template<class T, class B, class ...Args>
         inline PR<N<B>> makePRBoxNode(Args && ...args) const {
-            return Ok<N<B>>(N<B>(static_cast<B*>(makeBoxNode<T>(std::forward<Args>(args)...).release())));
+            return Ok<N<B>>(N<B>(static_cast<B *>(makeBoxNode<T>(std::forward<Args>(args)...).release())));
         }
 
         template<class T, class ...Args>
@@ -123,37 +124,51 @@ namespace jc::parser {
 
         template<class T, class B>
         inline N<B> nodeCast(N<T> && node) const {
-            return N<B>(static_cast<B*>(std::move(node).release()));
+            return N<B>(static_cast<B *>(std::move(node).release()));
         }
 
     private:
         ParseSess::Ptr parseSess;
 
         Token peek();
+
         Token advance(uint8_t distance = 1);
+
         Token lookup();
+
         Token prev();
 
         // Checkers //
         bool eof();
+
         bool is(TokenKind kind);
+
         bool isIdentLike(TokenKind kind, Symbol::Opt sym);
+
         bool isKw(Kw kw);
+
         bool is(const std::vector<TokenKind> & kinds);
+
         bool isSemis();
 
         // Skippers //
         void skipSemi();
+
         Token::Opt skip(
             TokenKind kind,
             const std::string & expected,
             Recovery recovery = Recovery::None,
             Symbol::Opt sym = None
         );
+
         Token::Opt skipKw(Kw kw, const std::string & expected, Recovery recovery = Recovery::None);
+
         void justSkip(TokenKind kind, const std::string & expected, const std::string & panicIn);
+
         void justSkipKw(Kw kw, const std::string & expected, const std::string & panicIn);
+
         Token::Opt skipOpt(TokenKind kind);
+
         Token::Opt skipOptKw(Kw kw);
 
         // Parsers //
@@ -161,94 +176,151 @@ namespace jc::parser {
 
         // Items //
         Option<Item::Ptr> parseOptItem();
+
         Item::List parseItemList(const std::string & gotExprMsg, TokenKind stopToken);
 
         Vis parseVis();
+
         Item::Ptr parseEnum();
+
         Variant parseVariant();
+
         Item::Ptr parseFunc(FuncHeader header);
+
         Item::Ptr parseImpl();
+
         Item::Ptr parseStruct();
+
         StructField::List parseStructFields();
+
         Item::Ptr parseTrait();
+
         Item::Ptr parseTypeAlias();
+
         Item::Ptr parseMod();
+
         Item::Ptr parseUseDecl();
+
         UseTree::PR parseUseTree();
+
         Item::Ptr parseInit();
 
         // Statements //
         Stmt::Ptr parseStmt();
+
         Stmt::Ptr parseLetStmt();
 
         // Expressions //
         Expr::OptPtr parseOptExpr();
+
         Expr::Ptr parseExpr(const std::string & expectedMsg);
+
         Expr::Ptr parseLambda();
+
         Expr::OptPtr assignment();
+
         Expr::OptPtr precParse(uint8_t index);
 
         const static std::vector<PrecParser> precTable;
 
         Expr::OptPtr prefix();
+
         Expr::OptPtr postfix();
+
         Expr::OptPtr call();
+
         Expr::OptPtr memberAccess();
+
         Expr::OptPtr parsePrimary();
 
         // Atomic expressions //
         Ident::PR justParseIdent(const std::string & panicIn);
+
         Ident::PR parseIdent(const std::string & expected);
+
         Ident::PR parsePathSegIdent();
+
         PathExpr::Ptr parsePathExpr();
+
         Expr::Ptr parseLiteral();
+
         Expr::Ptr parseListExpr();
+
         Expr::Ptr parseParenLikeExpr();
 
         Block::Ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
         Expr::Ptr parseForExpr();
+
         Expr::Ptr parseWhileExpr();
+
         Expr::Ptr parseIfExpr(bool isElif = false);
+
         Expr::Ptr parseLoopExpr();
+
         Expr::Ptr parseMatchExpr();
+
         MatchArm parseMatchArm();
 
         // Fragments //
         FuncSig parseFuncSig();
+
         Option<Body> parseFuncBody();
+
         Attr::List parseAttrList();
+
         Option<Attr> parseAttr();
+
         Arg::List parseArgList(const std::string & construction);
+
         parser::Token::List parseModifiers();
+
         FuncParam::List parseFuncParamList();
+
         FuncParam parseFuncParam();
+
         Item::List parseMembers(const std::string & construction);
+
         PR<SimplePath> parseSimplePath(const std::string & construction);
+
         Option<SimplePath> parseOptSimplePath();
+
         Path parsePath(bool inExpr);
 
         // Types //
         Type::Ptr parseType(const std::string & expectedMsg);
+
         Type::OptPtr parseOptType();
+
         TupleTypeEl::List parseParenType();
+
         Type::Ptr parseArrayType();
+
         Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, Span span);
+
         TupleTypeEl::List parseTupleFields();
 
         // Type fragments //
         GenericParam::OptList parseOptGenerics();
+
         TypePath::Ptr parseTypePath();
 
         // Patterns //
         Pat::Ptr parsePat();
+
         Pat::Ptr parseMultiPat();
+
         Pat::Ptr parseLitPat();
+
         Pat::Ptr parseIdentPat();
+
         Pat::Ptr parseRefPat();
+
         Pat::Ptr parseStructPat(PathExpr::Ptr && path);
+
         Pat::Ptr parseParenPat();
+
         Pat::Ptr parseSlicePat();
 
         // Messages //
@@ -259,18 +331,25 @@ namespace jc::parser {
     private:
         /// Shortcut for `peek().span`
         Span cspan();
+
         Span nspan();
+
         Span closeSpan(Span begin);
 
         // DEV //
     private:
-        bool extraDebugEntities{false};
-        bool extraDebugAll{false};
+        bool extraDebugEntities {false};
+        bool extraDebugAll {false};
         std::vector<std::string> entitiesEntries;
+
         void enterEntity(const std::string & entity);
+
         void exitEntity();
+
         void logEntry(bool enter, const std::string & entity);
+
         void logParse(const std::string & entity);
+
         void logParseExtra(const std::string & entity);
 
         template<class ...Args>
