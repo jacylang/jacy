@@ -11,14 +11,14 @@ namespace jc::ast {
 
         PathSeg(
             Ident::PR ident,
-            GenericParam::OptList generics,
+            GenericArg::OptList generics,
             Span span
         ) : Node {span},
             ident {std::move(ident)},
             generics {std::move(generics)} {}
 
         Ident::PR ident;
-        GenericParam::OptList generics = None;
+        GenericArg::OptList generics = None;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
@@ -56,7 +56,7 @@ namespace jc::ast {
             return segments.at(index).unwrap().generics.some();
         }
 
-        const GenericParam::List & getSegGenerics(size_t index) const override {
+        const GenericArg::List & getSegGenerics(size_t index) const override {
             return segments.at(index).unwrap().generics.unwrap();
         }
 

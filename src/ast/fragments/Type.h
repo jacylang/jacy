@@ -62,7 +62,6 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-
         TupleType(TupleTypeEl::List elements, Span span)
             : Type {span, TypeKind::Tuple}, elements {std::move(elements)} {}
 

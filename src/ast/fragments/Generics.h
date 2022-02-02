@@ -2,9 +2,11 @@
 #define JACY_AST_FRAGMENTS_GENERICS_H
 
 #include "ast/fragments/Ident.h"
-#include "ast/fragments/Type.h"
 
 namespace jc::ast {
+    struct Type;
+    using GenericsTypePtr = N<Type>;
+
     // Generic Parameters //
     enum class GenericParamKind {
         Type,
@@ -27,7 +29,7 @@ namespace jc::ast {
     struct TypeParam : GenericParam {
         TypeParam(
             Ident::PR name,
-            Option<PR<N<Type>>> type,
+            Option<PR<GenericsTypePtr>> type,
             Span span
         ) : GenericParam{GenericParamKind::Type, span},
             name{std::move(name)},
@@ -78,7 +80,9 @@ namespace jc::ast {
 
     // Generic arguments //
     struct GenericArg {
-        using ValueT = std::variant<Type::Ptr, Lifetime, Expr::Ptr>;
+        using List = std::vector<GenericArg>;
+        using OptList = Option<List>;
+        using ValueT = std::variant<GenericsTypePtr, Lifetime, Expr::Ptr>;
 
         enum class Kind {
             Type,
@@ -86,7 +90,7 @@ namespace jc::ast {
             Const,
         };
 
-        GenericArg(Type::Ptr && type) : kind {Kind::Type}, value {std::move(type)} {}
+        GenericArg(GenericsTypePtr && type) : kind {Kind::Type}, value {std::move(type)} {}
         GenericArg(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
         GenericArg(Expr::Ptr && expr) : kind {Kind::Const}, value {std::move(expr)} {}
 

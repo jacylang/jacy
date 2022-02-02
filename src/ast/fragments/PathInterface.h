@@ -19,7 +19,7 @@ namespace jc::ast {
 
         virtual bool segHasGenerics(size_t index) const = 0;
 
-        virtual const GenericParam::List & getSegGenerics(size_t index) const = 0;
+        virtual const GenericArg::List & getSegGenerics(size_t index) const = 0;
     };
 }
 
