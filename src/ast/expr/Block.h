@@ -5,7 +5,7 @@
 #include "ast/stmt/Stmt.h"
 
 namespace jc::ast {
-    /// `{(EXPR;)*}`
+    /// `{(STMT;)*}`
     struct Block : Expr {
         using Ptr = PR<N<Block>>;
         using OptPtr = Option<Ptr>;

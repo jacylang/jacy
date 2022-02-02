@@ -179,6 +179,7 @@ namespace jc::parser {
 
         Item::List parseItemList(const std::string & gotExprMsg, TokenKind stopToken);
 
+        /// Common parser for visibility token (`pub` or nothing actually)
         Vis parseVis();
 
         Item::Ptr parseEnum();
@@ -238,16 +239,24 @@ namespace jc::parser {
 
         Ident::PR parseIdent(const std::string & expected);
 
+        /// Parses identifier in path segment (e.g. `super` or `self`, etc.)
         Ident::PR parsePathSegIdent();
 
+        /// Parse path in expression
         PathExpr::Ptr parsePathExpr();
 
         Expr::Ptr parseLiteral();
 
+        /// Parse array/list (e.g. `[1, 2, 3]`)
         Expr::Ptr parseListExpr();
 
+        /// Parses an expression that starts with a parenthesis.
+        /// Possible branches:
+        /// - Tuple, possibly empty one (unit literal)
+        /// - Parenthesized expression
         Expr::Ptr parseParenLikeExpr();
 
+        /// Parse block, i.e. statement list enclosed into `{}`
         Block::Ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
         // Control-flow expressions //
@@ -261,31 +270,48 @@ namespace jc::parser {
 
         Expr::Ptr parseMatchExpr();
 
+        /// Parse a single `match`-arm, starting from a pattern, ending after arm body (some expression, possibly a block)
         MatchArm parseMatchArm();
 
         // Fragments //
+        /// Parses a function signature that consist of parameters, return type
+        ///  and other things not implemented yey (e.g. `where` clause)
         FuncSig parseFuncSig();
 
+        /// Parses function body. Function body differs from a block expression
+        ///  in that function can be a single expression if it starts with `=`
         Option<Body> parseFuncBody();
 
+        /// Parse a list of attributes (`@attr1 @attr2(kek) @attr3(kek: 'lol')`)
         Attr::List parseAttrList();
 
+        /// Parse a single attribute
         Option<Attr> parseAttr();
 
+        /// Parse a list of arguments which can be labeled
         Arg::List parseArgList(const std::string & construction);
 
+        /// Parse function modifiers (`move`, `mut` or `static`, and others not present yet)
         parser::Token::List parseModifiers();
 
+        /// Parse function parameters (called from `Parser::parseFuncSig`)
         FuncParam::List parseFuncParamList();
 
+        /// Parse a single function parameter (`patter: type = defaultValue`)
         FuncParam parseFuncParam();
 
+        /// Parse members of `trait` or `impl`, accepts any items
         Item::List parseMembers(const std::string & construction);
 
+        /// Parse a simple path, used only in `use` declaration where generics are not allowed in path segments
         PR<SimplePath> parseSimplePath(const std::string & construction);
 
+        /// Parse simple path optionally
         Option<SimplePath> parseOptSimplePath();
 
+        /// Parse common path (in either type or expression context)
+        /// @param inExpr Says that we are parsing path in expression so turbofish is required for generic args,
+        ///  whereas in type context turbofish is optional (btw, possible)
         Path parsePath(bool inExpr);
 
         // Types //
