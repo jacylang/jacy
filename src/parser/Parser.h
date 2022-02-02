@@ -314,7 +314,7 @@ namespace jc::parser {
         ///  whereas in type context turbofish is optional (btw, possible)
         Path parsePath(bool inExpr);
 
-
+        GenericArg::OptList parseOptGenericArgs();
 
         // Types //
         Type::Ptr parseType(const std::string & expectedMsg);
