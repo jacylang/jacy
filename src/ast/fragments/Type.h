@@ -2,7 +2,6 @@
 #define JACY_AST_FRAGMENTS_TYPE_H
 
 #include "ast/Node.h"
-#include "ast/fragments/Generics.h"
 #include "ast/BaseVisitor.h"
 #include "ast/fragments/Path.h"
 

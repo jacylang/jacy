@@ -2,10 +2,10 @@
 #define JACY_AST_FRAGMENTS_GENERICS_H
 
 #include "ast/fragments/Ident.h"
+#include "ast/fragments/Type.h"
 
 namespace jc::ast {
-    struct Type;
-
+    // Generic Parameters //
     enum class GenericParamKind {
         Type,
         Lifetime,
@@ -41,6 +41,9 @@ namespace jc::ast {
         }
     };
 
+    /// Common structure for generic parameters and arguments as being just an identifier
+    /// Span of the Lifetime (from `GenericParam <- Node`) is a span of lifetime with quote `'`
+    /// whereas `name`'s span does not include it.
     struct Lifetime : GenericParam {
         Lifetime(Ident::PR name, Span span)
             : GenericParam{GenericParamKind::Lifetime, span},
@@ -71,6 +74,24 @@ namespace jc::ast {
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
+    };
+
+    // Generic arguments //
+    struct GenericArg {
+        using ValueT = std::variant<Type::Ptr, Lifetime, Expr::Ptr>;
+
+        enum class Kind {
+            Type,
+            Lifetime,
+            Const,
+        };
+
+        GenericArg(Type::Ptr && type) : kind {Kind::Type}, value {std::move(type)} {}
+        GenericArg(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+        GenericArg(Expr::Ptr && expr) : kind {Kind::Const}, value {std::move(expr)} {}
+
+        Kind kind;
+        ValueT value;
     };
 }
 

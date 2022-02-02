@@ -27,6 +27,7 @@ namespace jc::hir {
     };
 
     struct GenericArg {
+        using List = std::vector<GenericArg>;
         // TODO: Lifetime
         using ValueT = std::variant<Type::Ptr>;
 
@@ -49,7 +50,7 @@ namespace jc::hir {
             : HirNode {hirId, span}, name {std::move(name)} {}
 
         span::Ident name;
-        // TODO: Generic args
+        GenericArg::List generics;
     };
 
     struct Path {
