@@ -1873,14 +1873,14 @@ namespace jc::parser {
             bool isUnrecoverableError = false;
             auto segIdent = parsePathSegIdent();
 
-            GenericParam::OptList generics = None;
+            GenericArg::OptList generics = None;
             bool pathNotGeneric = false;
 
             // Type path supports optional `::`, so check if turbofish is not required or that `::` is provided
             // But, `or` is short-circuit, so order matters!!! we need to skip `::` if it is given
             const auto & continuePath = skipOpt(TokenKind::Path);
             if (continuePath.some() or not inExpr) {
-                generics = parseOptGenericParams();
+                generics = parseOptGenericArgs();
                 pathNotGeneric = continuePath.some() and generics.none();
             }
 
