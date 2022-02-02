@@ -104,8 +104,10 @@ namespace jc::hir {
             case ast::ItemKind::Func: {
                 return lowerFunc(*item->as<ast::Func>(item));
             }
-            case ast::ItemKind::Impl:
+            case ast::ItemKind::Impl: {
                 break;
+//                return lowerImpl(*item->as<ast::Impl>(item));
+            }
             case ast::ItemKind::Mod: {
                 return lowerMod(item->as<ast::Mod>(item)->items);
             }
@@ -181,6 +183,8 @@ namespace jc::hir {
             std::move(body)
         );
     }
+
+    Item::Ptr Lowering::lowerImpl(const ast::Impl & impl) {}
 
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;

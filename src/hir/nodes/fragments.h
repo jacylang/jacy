@@ -4,6 +4,7 @@
 #include "span/Ident.h"
 #include "hir/nodes/Stmt.h"
 #include "hir/nodes/Expr.h"
+#include "hir/nodes/Type.h"
 
 namespace jc::hir {
     struct Arg : HirNode {
@@ -23,6 +24,21 @@ namespace jc::hir {
             : HirNode {hirId, span}, stmts {std::move(stmts)} {}
 
         Stmt::List stmts;
+    };
+
+    struct GenericArg {
+        // TODO: Lifetime
+        using ValueT = std::variant<Type::Ptr>;
+
+        enum class Kind {
+            Type,
+            Lifetime,
+        };
+
+        GenericArg(Type::Ptr && type) : value {std::move(type)}, kind {Kind::Type} {}
+
+        ValueT value;
+        Kind kind;
     };
 
     /// General path fragment used for type and expression paths

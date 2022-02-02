@@ -90,6 +90,8 @@ namespace jc::hir {
 
         Item::Ptr lowerFunc(const ast::Func & astFunc);
 
+        Item::Ptr lowerImpl(const ast::Impl & impl);
+
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 
         FuncSig::ReturnType lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType);
