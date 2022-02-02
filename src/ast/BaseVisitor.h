@@ -69,6 +69,9 @@ namespace jc::ast {
     struct Lifetime;
     struct ConstParam;
 
+    // Generic arguments //
+    struct GenericArg;
+
     // Fragments //
     struct Attr;
     struct Ident;
@@ -211,6 +214,9 @@ namespace jc::ast {
         virtual void visit(const Lifetime &) = 0;
 
         virtual void visit(const ConstParam &) = 0;
+
+        // Generic Args //
+        virtual void visit(const GenericArg &) = 0;
 
         // Fragments //
         virtual void visit(const Attr &) = 0;
