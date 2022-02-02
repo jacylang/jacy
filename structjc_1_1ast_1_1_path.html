@@ -103,8 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a819539d98a8473279a5c66c24c39cbd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a463e4e1c9772f7182812f0e52b69a1d7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#a463e4e1c9772f7182812f0e52b69a1d7">segHasGenerics</a> (size_t index) const override</td></tr>
 <tr class="separator:a463e4e1c9772f7182812f0e52b69a1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9711486a9849f7f4ecd44793d073a85"><td class="memItemLeft" align="right" valign="top">const GenericParam::List &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#aa9711486a9849f7f4ecd44793d073a85">getSegGenerics</a> (size_t index) const override</td></tr>
-<tr class="separator:aa9711486a9849f7f4ecd44793d073a85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3323f0fd7475a1f85809a8c43ccd167"><td class="memItemLeft" align="right" valign="top">const GenericArg::List &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_path.html#ae3323f0fd7475a1f85809a8c43ccd167">getSegGenerics</a> (size_t index) const override</td></tr>
+<tr class="separator:ae3323f0fd7475a1f85809a8c43ccd167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memItemLeft" align="right" valign="top"><a id="ae5dbc5c39da8c3dc87e130791b69fcc7" name="ae5dbc5c39da8c3dc87e130791b69fcc7"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
 <tr class="separator:ae5dbc5c39da8c3dc87e130791b69fcc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,9 +133,9 @@ virtual <a class="el" href="structjc_1_1ast_1_1_ident.html">Ident</a>&#160;</td>
 <tr class="memitem:ac3de393ace2130ada5b8510b4ed358a3"><td class="memItemLeft" align="right" valign="top"><a id="ac3de393ace2130ada5b8510b4ed358a3" name="ac3de393ace2130ada5b8510b4ed358a3"></a>
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>segHasGenerics</b> (size_t index) const =0</td></tr>
 <tr class="separator:ac3de393ace2130ada5b8510b4ed358a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a751a78b3df7494d10b9bdfe34e12a8a1"><td class="memItemLeft" align="right" valign="top"><a id="a751a78b3df7494d10b9bdfe34e12a8a1" name="a751a78b3df7494d10b9bdfe34e12a8a1"></a>
-virtual const GenericParam::List &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getSegGenerics</b> (size_t index) const =0</td></tr>
-<tr class="separator:a751a78b3df7494d10b9bdfe34e12a8a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb0a97f011b1ee4837fbf1906e6a2df3"><td class="memItemLeft" align="right" valign="top"><a id="abb0a97f011b1ee4837fbf1906e6a2df3" name="abb0a97f011b1ee4837fbf1906e6a2df3"></a>
+virtual const GenericArg::List &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getSegGenerics</b> (size_t index) const =0</td></tr>
+<tr class="separator:abb0a97f011b1ee4837fbf1906e6a2df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -196,8 +196,8 @@ template&lt;class T &gt; </td></tr>
 
 </div>
 </div>
-<a id="aa9711486a9849f7f4ecd44793d073a85" name="aa9711486a9849f7f4ecd44793d073a85"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9711486a9849f7f4ecd44793d073a85">&#9670;&nbsp;</a></span>getSegGenerics()</h2>
+<a id="ae3323f0fd7475a1f85809a8c43ccd167" name="ae3323f0fd7475a1f85809a8c43ccd167"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3323f0fd7475a1f85809a8c43ccd167">&#9670;&nbsp;</a></span>getSegGenerics()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,7 +206,7 @@ template&lt;class T &gt; </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const GenericParam::List &amp; jc::ast::Path::getSegGenerics </td>
+          <td class="memname">const GenericArg::List &amp; jc::ast::Path::getSegGenerics </td>
           <td>(</td>
           <td class="paramtype">size_t&#160;</td>
           <td class="paramname"><em>index</em></td><td>)</td>
