@@ -646,12 +646,7 @@ namespace jc::ast {
                 break;
             }
             case GenericParam::Kind::Lifetime: {
-                const auto & lifetime = std::get<Lifetime>(param.value);
-
-                log.raw("`");
-                lifetime.name.autoAccept(*this);
-
-                printNodeId(lifetime);
+                std::get<Lifetime>(param.value).accept(*this);
                 break;
             }
             case GenericParam::Kind::Const: {
@@ -679,7 +674,7 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                std::get<Lifetime>(arg.value);
+                std::get<Lifetime>(arg.value).accept(*this);
                 break;
             }
             case GenericArg::Kind::Const: {
