@@ -64,12 +64,8 @@ namespace jc::ast {
     struct TypePath;
     struct UnitType;
 
-    // Type params //
-    struct TypeParam;
-    struct Lifetime;
-    struct ConstParam;
-
-    // Generic arguments //
+    // Generics //
+    struct GenericParam;
     struct GenericArg;
 
     // Fragments //
@@ -208,14 +204,8 @@ namespace jc::ast {
 
         virtual void visit(const UnitType &) = 0;
 
-        // Type params //
-        virtual void visit(const TypeParam &) = 0;
-
-        virtual void visit(const Lifetime &) = 0;
-
-        virtual void visit(const ConstParam &) = 0;
-
-        // Generic Args //
+        // Generics //
+        virtual void visit(const GenericParam &) = 0;
         virtual void visit(const GenericArg &) = 0;
 
         // Fragments //
