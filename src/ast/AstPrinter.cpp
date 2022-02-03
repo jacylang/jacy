@@ -634,7 +634,7 @@ namespace jc::ast {
     void AstPrinter::visit(const GenericParam & param) {
         switch (param.kind) {
             case GenericParam::Kind::Type: {
-                const auto & typeParam = std::get<TypeParam>(param.value);
+                const auto & typeParam = param.getTypeParam();
 
                 typeParam.name.autoAccept(*this);
                 if (typeParam.boundType.some()) {
@@ -646,11 +646,11 @@ namespace jc::ast {
                 break;
             }
             case GenericParam::Kind::Lifetime: {
-                std::get<Lifetime>(param.value).accept(*this);
+                param.getLifetime().accept(*this);
                 break;
             }
             case GenericParam::Kind::Const: {
-                const auto & constParam = std::get<ConstParam>(param.value);
+                const auto & constParam = param.getConstParam();
 
                 log.raw("const");
                 constParam.name.autoAccept(*this);
@@ -670,15 +670,15 @@ namespace jc::ast {
     void AstPrinter::visit(const GenericArg & arg) {
         switch (arg.kind) {
             case GenericArg::Kind::Type: {
-                std::get<Type::Ptr>(arg.value).autoAccept(*this);
+                arg.getTypeArg().autoAccept(*this);
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                std::get<Lifetime>(arg.value).accept(*this);
+                arg.getLifetime().accept(*this);
                 break;
             }
             case GenericArg::Kind::Const: {
-                std::get<Expr::Ptr>(arg.value).autoAccept(*this);
+                arg.getConstArg().autoAccept(*this);
                 break;
             }
         }
