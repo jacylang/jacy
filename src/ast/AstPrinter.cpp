@@ -79,7 +79,7 @@ namespace jc::ast {
 
         printFuncHeader(func.header);
         log.raw("func");
-        printGenerics(func.generics);
+        printGenericParams(func.generics);
         log.raw(" ");
 
         colorizeNameDecl(func.id, func.name);
@@ -126,7 +126,7 @@ namespace jc::ast {
         printVis(impl.vis);
 
         log.raw("impl");
-        printGenerics(impl.generics);
+        printGenericParams(impl.generics);
         log.raw(" ");
         impl.traitTypePath.autoAccept(*this);
 
@@ -177,7 +177,7 @@ namespace jc::ast {
 
         colorizeNameDecl(trait.id, trait.name);
 
-        printGenerics(trait.generics);
+        printGenericParams(trait.generics);
 
         if (!trait.superTraits.empty()) {
             log.raw(" : ");
@@ -712,7 +712,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const PathSeg & seg) {
         seg.ident.autoAccept(*this);
-        printGenerics(seg.generics, true);
+        printGenericParams(seg.generics, true);
 
         printNodeId(seg);
     }
@@ -874,8 +874,8 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printGenerics(const ast::GenericParam::OptList & generics, bool pathPrefix) {
-        generics.then([&](const auto & generics) {
+    void AstPrinter::printGenericParams(const ast::GenericParam::OptList & optGenerics, bool pathPrefix) {
+        optGenerics.then([&](const auto & generics) {
             if (generics.empty()) {
                 return;
             } else if (pathPrefix) {

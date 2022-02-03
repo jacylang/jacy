@@ -193,7 +193,7 @@ namespace jc::ast {
 
         void printModifiers(const parser::Token::List & modifiers);
 
-        void printGenerics(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
+        void printGenericParams(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
 
         void printFuncHeader(const FuncHeader & header);
 
