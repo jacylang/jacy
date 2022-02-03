@@ -72,7 +72,22 @@ namespace jc::ast {
         GenericParam(ConstParam && constParam) : kind {Kind::Const}, value {std::move(constParam)} {}
 
         Kind kind;
+
+    private:
         ValueT value;
+
+    public:
+        const auto & getTypeParam() const {
+            return std::get<TypeParam>(value);
+        }
+
+        const auto & getLifetime() const {
+            return std::get<Lifetime>(value);
+        }
+
+        const auto & getConstParam() const {
+            return std::get<ConstParam>(value);
+        }
     };
 
     // Generic arguments //
