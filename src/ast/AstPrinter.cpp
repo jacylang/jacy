@@ -624,34 +624,45 @@ namespace jc::ast {
     }
 
     // Generics //
-    void AstPrinter::visit(const TypeParam & typeParam) {
-        typeParam.name.autoAccept(*this);
-        if (typeParam.boundType.some()) {
-            log.raw(": ");
-            typeParam.boundType.unwrap().autoAccept(*this);
+    void AstPrinter::visit(const GenericParam & param) {
+        switch (param.kind) {
+            case GenericParam::Kind::Type: {
+                const auto & typeParam = std::get<TypeParam>(param.value);
+
+                typeParam.name.autoAccept(*this);
+                if (typeParam.boundType.some()) {
+                    log.raw(": ");
+                    typeParam.boundType.unwrap().autoAccept(*this);
+                }
+
+                printNodeId(typeParam);
+                break;
+            }
+            case GenericParam::Kind::Lifetime: {
+                const auto & lifetime = std::get<Lifetime>(param.value);
+
+                log.raw("`");
+                lifetime.name.autoAccept(*this);
+
+                printNodeId(lifetime);
+                break;
+            }
+            case GenericParam::Kind::Const: {
+                const auto & constParam = std::get<ConstParam>(param.value);
+
+                log.raw("const");
+                constParam.name.autoAccept(*this);
+                log.raw(": ");
+                constParam.type.autoAccept(*this);
+                if (constParam.defaultValue.some()) {
+                    log.raw(" = ");
+                    constParam.defaultValue.unwrap().autoAccept(*this);
+                }
+
+                printNodeId(constParam);
+                break;
+            }
         }
-
-        printNodeId(typeParam);
-    }
-
-    void AstPrinter::visit(const Lifetime & lifetime) {
-        log.raw("`");
-        lifetime.name.autoAccept(*this);
-
-        printNodeId(lifetime);
-    }
-
-    void AstPrinter::visit(const ConstParam & constParam) {
-        log.raw("const");
-        constParam.name.autoAccept(*this);
-        log.raw(": ");
-        constParam.type.autoAccept(*this);
-        if (constParam.defaultValue.some()) {
-            log.raw(" = ");
-            constParam.defaultValue.unwrap().autoAccept(*this);
-        }
-
-        printNodeId(constParam);
     }
 
     void AstPrinter::visit(const GenericArg & arg) {
