@@ -109,7 +109,22 @@ namespace jc::ast {
         GenericArg(Expr::Ptr && expr) : kind {Kind::Const}, value {std::move(expr)} {}
 
         Kind kind;
+
+    private:
         ValueT value;
+
+    public:
+        const auto & getTypeArg() const {
+            return std::get<GenericsTypePtr>(value);
+        }
+
+        const auto & getLifetime() const {
+            return std::get<Lifetime>(value);
+        }
+
+        const auto & getConstArg() const {
+            return std::get<Expr::Ptr>(value);
+        }
     };
 }
 
