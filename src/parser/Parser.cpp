@@ -2174,16 +2174,14 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick).some()) {
                 auto name = parseIdent("lifetime parameter name");
-                generics.push_back(makeBoxNode<Lifetime>(std::move(name), closeSpan(genBegin)));
+                generics.emplace_back(Lifetime {std::move(name), closeSpan(genBegin)});
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenericParams`");
                 Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                generics.push_back(
-                    makeBoxNode<TypeParam>(std::move(name), std::move(type), closeSpan(genBegin))
-                );
+                generics.emplace_back(TypeParam {std::move(name), std::move(type), closeSpan(genBegin)});
             } else if (skipOptKw(Kw::Const).some()) {
                 auto name = parseIdent("`const` parameter name");
                 skip(
@@ -2196,11 +2194,12 @@ namespace jc::parser {
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseExpr("Expected `const` generic default value after `=`");
                 }
-                generics.push_back(
-                    makeBoxNode<ConstParam>(
-                        std::move(name), std::move(type), std::move(defaultValue), closeSpan(genBegin)
-                    )
-                );
+                generics.emplace_back(ConstParam {
+                    std::move(name),
+                    std::move(type),
+                    std::move(defaultValue),
+                    closeSpan(genBegin)
+                });
             } else {
                 msg.error()
                    .setText("Expected type parameter")
