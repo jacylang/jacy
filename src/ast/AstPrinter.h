@@ -195,6 +195,8 @@ namespace jc::ast {
 
         void printGenericParams(const GenericParam::OptList & optGenerics, bool pathPrefix = false);
 
+        void printGenericArgs(const GenericArg::OptList & optArgs, bool pathPrefix = false);
+
         void printFuncHeader(const FuncHeader & header);
 
         void printFuncSig(const FuncSig & sig);

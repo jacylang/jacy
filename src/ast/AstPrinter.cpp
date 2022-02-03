@@ -712,7 +712,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const PathSeg & seg) {
         seg.ident.autoAccept(*this);
-        printGenericParams(seg.generics, true);
+        printGenericArgs(seg.generics, true);
 
         printNodeId(seg);
     }
@@ -874,8 +874,20 @@ namespace jc::ast {
         }
     }
 
-    void AstPrinter::printGenericParams(const ast::GenericParam::OptList & optGenerics, bool pathPrefix) {
-        optGenerics.then([&](const auto & generics) {
+    void AstPrinter::printGenericParams(const GenericParam::OptList & optGenerics, bool pathPrefix) {
+        optGenerics.then([&](const GenericParam::List & generics) {
+            if (generics.empty()) {
+                return;
+            } else if (pathPrefix) {
+                log.raw("::");
+            }
+
+            printDelim(generics, "<", ">");
+        });
+    }
+
+    void AstPrinter::printGenericArgs(const GenericArg::OptList & optArgs, bool pathPrefix) {
+        optArgs.then([&](const GenericArg::List & generics) {
             if (generics.empty()) {
                 return;
             } else if (pathPrefix) {
