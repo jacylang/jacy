@@ -55,12 +55,12 @@ namespace jc::ast {
         Option <GenericsTypePtr> boundType;
     };
 
-    struct GenericParam : Node {
+    struct GenericParam {
         using ValueT = std::variant<TypeParam, ConstParam, Lifetime>;
         using List = std::vector<N < GenericParam>>;
         using OptList = Option<List>;
 
-        explicit GenericParam(GenericParamKind kind, Span span) : Node {span}, kind {kind} {}
+        explicit GenericParam(GenericParamKind kind) : kind {kind} {}
 
         GenericParamKind kind;
     };
