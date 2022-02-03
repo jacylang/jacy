@@ -8,11 +8,6 @@ namespace jc::ast {
     using GenericsTypePtr = PR <N<Type>>;
 
     // Generic Parameters //
-    enum class GenericParamKind {
-        Type,
-        Lifetime,
-        Const,
-    };
 
     /// Common structure for generic parameters and arguments as being just an identifier
     /// Span of the Lifetime (from `GenericParam <- Node`) is a span of lifetime with quote `'`
@@ -57,12 +52,18 @@ namespace jc::ast {
 
     struct GenericParam {
         using ValueT = std::variant<TypeParam, ConstParam, Lifetime>;
-        using List = std::vector<N < GenericParam>>;
+        using List = std::vector<GenericParam>;
         using OptList = Option<List>;
 
-        explicit GenericParam(GenericParamKind kind) : kind {kind} {}
+        enum class Kind {
+            Type,
+            Lifetime,
+            Const,
+        };
 
-        GenericParamKind kind;
+        explicit GenericParam(Kind kind) : kind {kind} {}
+
+        Kind kind;
     };
 
     // Generic arguments //
