@@ -229,21 +229,21 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
         maybeGenerics.then([&](const ast::GenericParam::List & generics) {
-            for (const auto & gen: generics) {
-                switch (gen->kind) {
-                    case ast::GenericParamKind::Type: {
-                        const auto & typeParam = ast::Node::cast<ast::TypeParam>(gen.get());
-                        addDef(Vis::Pub, typeParam->id, DefKind::TypeParam, typeParam->name.unwrap());
+            for (const auto & param: generics) {
+                switch (param.kind) {
+                    case ast::GenericParam::Kind::Type: {
+                        const auto & typeParam = param.getTypeParam();
+                        addDef(Vis::Pub, typeParam.id, DefKind::TypeParam, typeParam.name.unwrap());
                         break;
                     }
-                    case ast::GenericParamKind::Const: {
-                        const auto & constParam = ast::Node::cast<ast::ConstParam>(gen.get());
-                        addDef(Vis::Pub, constParam->id, DefKind::ConstParam, constParam->name.unwrap());
+                    case ast::GenericParam::Kind::Lifetime: {
+                        const auto & lifetimeParam = param.getLifetime();
+                        addDef(Vis::Pub, lifetimeParam.id, DefKind::Lifetime, lifetimeParam.name.unwrap());
                         break;
                     }
-                    case ast::GenericParamKind::Lifetime: {
-                        const auto & lifetimeParam = ast::Node::cast<ast::Lifetime>(gen.get());
-                        addDef(Vis::Pub, lifetimeParam->id, DefKind::Lifetime, lifetimeParam->name.unwrap());
+                    case ast::GenericParam::Kind::Const: {
+                        const auto & constParam = param.getConstParam();
+                        addDef(Vis::Pub, constParam.id, DefKind::ConstParam, constParam.name.unwrap());
                         break;
                     }
                 }
