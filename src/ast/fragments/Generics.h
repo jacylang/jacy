@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Type;
-    using GenericsTypePtr = PR<N<Type>>;
+    using GenericsTypePtr = PR <N<Type>>;
 
     // Generic Parameters //
     enum class GenericParamKind {
@@ -20,7 +20,7 @@ namespace jc::ast {
     struct Lifetime : Node {
         Lifetime(Ident::PR name, Span span)
             : Node(span),
-              name{std::move(name)} {}
+              name {std::move(name)} {}
 
         Ident::PR name;
         Span span;
@@ -33,9 +33,9 @@ namespace jc::ast {
             Expr::OptPtr defaultValue,
             Span span
         ) : Node {span},
-            name{std::move(name)},
-            type{std::move(type)},
-            defaultValue{std::move(defaultValue)} {}
+            name {std::move(name)},
+            type {std::move(type)},
+            defaultValue {std::move(defaultValue)} {}
 
         Ident::PR name;
         GenericsTypePtr type;
@@ -45,22 +45,22 @@ namespace jc::ast {
     struct TypeParam : Node {
         TypeParam(
             Ident::PR name,
-            Option<GenericsTypePtr> type,
+            Option <GenericsTypePtr> type,
             Span span
         ) : Node {span},
-            name{std::move(name)},
-            boundType{std::move(type)} {}
+            name {std::move(name)},
+            boundType {std::move(type)} {}
 
         Ident::PR name;
-        Option<GenericsTypePtr> boundType;
+        Option <GenericsTypePtr> boundType;
     };
 
     struct GenericParam : Node {
         using ValueT = std::variant<TypeParam, ConstParam, Lifetime>;
-        using List = std::vector<N<GenericParam>>;
+        using List = std::vector<N < GenericParam>>;
         using OptList = Option<List>;
 
-        explicit GenericParam(GenericParamKind kind, Span span) : Node{span}, kind{kind} {}
+        explicit GenericParam(GenericParamKind kind, Span span) : Node {span}, kind {kind} {}
 
         GenericParamKind kind;
     };
@@ -78,7 +78,9 @@ namespace jc::ast {
         };
 
         GenericArg(GenericsTypePtr && type) : kind {Kind::Type}, value {std::move(type)} {}
+
         GenericArg(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+
         GenericArg(Expr::Ptr && expr) : kind {Kind::Const}, value {std::move(expr)} {}
 
         Kind kind;
