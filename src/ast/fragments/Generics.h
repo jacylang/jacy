@@ -61,9 +61,9 @@ namespace jc::ast {
             Const,
         };
 
-        GenericParam(TypeParam && type) : value {std::move(type)}, kind {Kind::Type} {}
-        GenericParam(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Lifetime} {}
-        GenericParam(ConstParam && constParam) : value {std::move(constParam)}, kind {Kind::Const} {}
+        GenericParam(TypeParam && type) : kind {Kind::Type}, value {std::move(type)} {}
+        GenericParam(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+        GenericParam(ConstParam && constParam) : kind {Kind::Const}, value {std::move(constParam)} {}
 
         Kind kind;
         ValueT value;
