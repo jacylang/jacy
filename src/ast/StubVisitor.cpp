@@ -319,22 +319,35 @@ namespace jc::ast {
     void StubVisitor::visit(const UnitType &) {}
 
     // Type params //
-    void StubVisitor::visit(const TypeParam & typeParam) {
-        typeParam.name.autoAccept(*this);
-        if (typeParam.boundType.some()) {
-            typeParam.boundType.unwrap().autoAccept(*this);
-        }
-    }
-
     void StubVisitor::visit(const Lifetime & lifetime) {
         lifetime.name.autoAccept(*this);
     }
 
-    void StubVisitor::visit(const ConstParam & constParam) {
-        constParam.name.autoAccept(*this);
-        constParam.type.autoAccept(*this);
-        if (constParam.defaultValue.some()) {
-            constParam.defaultValue.unwrap().autoAccept(*this);
+    void StubVisitor::visit(const GenericParam & param) {
+        switch (param.kind) {
+            case GenericParam::Kind::Type: {
+                const auto & typeParam = std::get<TypeParam>(param.value);
+
+                typeParam.name.autoAccept(*this);
+                if (typeParam.boundType.some()) {
+                    typeParam.boundType.unwrap().autoAccept(*this);
+                }
+                break;
+            }
+            case GenericParam::Kind::Lifetime: {
+                std::get<Lifetime>(param.value).accept(*this);
+                break;
+            }
+            case GenericParam::Kind::Const: {
+                const auto & constParam = std::get<ConstParam>(param.value);
+
+                constParam.name.autoAccept(*this);
+                constParam.type.autoAccept(*this);
+                if (constParam.defaultValue.some()) {
+                    constParam.defaultValue.unwrap().autoAccept(*this);
+                }
+                break;
+            }
         }
     }
 
