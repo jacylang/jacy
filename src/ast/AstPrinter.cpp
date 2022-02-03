@@ -624,6 +624,13 @@ namespace jc::ast {
     }
 
     // Generics //
+    void AstPrinter::visit(const Lifetime & lifetime) {
+        log.raw("`");
+        lifetime.name.autoAccept(*this);
+
+        printNodeId(lifetime);
+    }
+
     void AstPrinter::visit(const GenericParam & param) {
         switch (param.kind) {
             case GenericParam::Kind::Type: {
@@ -672,7 +679,7 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                std::get<Lifetime>(arg.value).accept(*this);
+                std::get<Lifetime>(arg.value);
                 break;
             }
             case GenericArg::Kind::Const: {
@@ -883,13 +890,6 @@ namespace jc::ast {
         for (const auto & mod : modifiers) {
             log.raw(mod.kindToString());
         }
-    }
-
-    void AstPrinter::printLifetime(const Lifetime & lifetime) {
-        log.raw("`");
-        lifetime.name.autoAccept(*this);
-
-        printNodeId(lifetime);
     }
 
     void AstPrinter::printGenericParams(const GenericParam::OptList & optGenerics) {

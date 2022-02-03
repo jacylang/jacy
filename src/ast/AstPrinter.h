@@ -134,6 +134,7 @@ namespace jc::ast {
         void visit(const UnitType & unitType) override;
 
         // Generics //
+        void visit(const Lifetime & lifetime) override;
         void visit(const GenericParam & param) override;
         void visit(const GenericArg & arg) override;
 
@@ -187,8 +188,6 @@ namespace jc::ast {
         void printAttributes(const Attr::List & attributes);
 
         void printModifiers(const parser::Token::List & modifiers);
-
-        void printLifetime(const Lifetime & lifetime);
 
         /// Print generic parameters (for items, e.g. `struct`)
         void printGenericParams(const GenericParam::OptList & optGenerics);

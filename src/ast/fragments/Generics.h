@@ -19,6 +19,10 @@ namespace jc::ast {
 
         Ident::PR name;
         Span span;
+
+        void accept(BaseVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
     };
 
     struct ConstParam : Node {
