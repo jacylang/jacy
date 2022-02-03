@@ -5,7 +5,7 @@
 
 namespace jc::ast {
     struct Type;
-    using GenericsTypePtr = N<Type>;
+    using GenericsTypePtr = PR<N<Type>>;
 
     // Generic Parameters //
     enum class GenericParamKind {
@@ -29,7 +29,7 @@ namespace jc::ast {
     struct TypeParam : GenericParam {
         TypeParam(
             Ident::PR name,
-            Option<PR<GenericsTypePtr>> type,
+            Option<GenericsTypePtr> type,
             Span span
         ) : GenericParam{GenericParamKind::Type, span},
             name{std::move(name)},

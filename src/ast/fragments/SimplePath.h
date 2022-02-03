@@ -56,7 +56,7 @@ namespace jc::ast {
             return false;
         }
 
-        const GenericParam::List & getSegGenerics(size_t) const override {
+        const GenericArg::List & getSegGenerics(size_t) const override {
             log::devPanic("Called `ast::SimplePath::getSegGenerics`");
         }
 
