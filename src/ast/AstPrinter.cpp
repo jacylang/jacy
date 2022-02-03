@@ -885,6 +885,13 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::printLifetime(const Lifetime & lifetime) {
+        log.raw("`");
+        lifetime.name.autoAccept(*this);
+
+        printNodeId(lifetime);
+    }
+
     void AstPrinter::printGenericParams(const GenericParam::OptList & optGenerics) {
         optGenerics.then([&](const GenericParam::List & generics) {
             if (generics.empty()) {

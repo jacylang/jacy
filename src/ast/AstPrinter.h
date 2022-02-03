@@ -188,6 +188,8 @@ namespace jc::ast {
 
         void printModifiers(const parser::Token::List & modifiers);
 
+        void printLifetime(const Lifetime & lifetime);
+
         /// Print generic parameters (for items, e.g. `struct`)
         void printGenericParams(const GenericParam::OptList & optGenerics);
 
