@@ -77,6 +77,10 @@ namespace jc::ast {
         ValueT value;
 
     public:
+        void accept(BaseVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
+
         const auto & getTypeParam() const {
             return std::get<TypeParam>(value);
         }
@@ -114,6 +118,10 @@ namespace jc::ast {
         ValueT value;
 
     public:
+        void accept(BaseVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
+
         const auto & getTypeArg() const {
             return std::get<GenericsTypePtr>(value);
         }
