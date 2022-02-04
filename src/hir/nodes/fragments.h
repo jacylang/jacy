@@ -40,7 +40,7 @@ namespace jc::hir {
         enum class Kind {
             Type,
             Lifetime,
-            Const, // TODO
+            Const,
         };
 
         GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Type} {}
@@ -72,18 +72,34 @@ namespace jc::hir {
     };
 
     struct GenericParam : HirNode {
+        /// Lifetime parameter
+        struct Lifetime {
+            Ident name;
+            // TODO: Bounds
+        };
+
+        /// Generic type parameter
+        struct Type {
+            // TODO: Default type (`func<T = i32> foo()`)
+        };
+
+        using ValueT = std::variant<Lifetime, Type>;
         using List = std::vector<GenericParam>;
 
         enum class Kind {
             Type,
             Lifetime,
+            Const,
         };
 
-        GenericParam(Kind kind, Ident name, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {kind}, name {name} {}
+        GenericParam(Lifetime lifetime, HirId hirId, Span span)
+            : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+
+        GenericParam(Type type, HirId hirId, Span span)
+            : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(type)} {}
 
         Kind kind;
-        Ident name;
+        ValueT value;
     };
 }
 
