@@ -89,7 +89,12 @@ namespace jc::hir {
             // TODO: Default type (`func<T = i32> foo()`)
         };
 
-        using ValueT = std::variant<Lifetime, Type, AnonConst>;
+        struct Const {
+            hir::Type::Ptr type;
+            // TODO: Default
+        };
+
+        using ValueT = std::variant<Lifetime, Type, Const>;
         using List = std::vector<GenericParam>;
 
         enum class Kind {
@@ -104,7 +109,7 @@ namespace jc::hir {
         GenericParam(Lifetime lifetime, HirId hirId, Span span)
             : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(lifetime)} {}
 
-        GenericParam(AnonConst anonConst, HirId hirId, Span span)
+        GenericParam(Const anonConst, HirId hirId, Span span)
             : HirNode {hirId, span}, kind {Kind::Const}, value {std::move(anonConst)} {}
 
         Kind kind;
