@@ -77,26 +77,6 @@ namespace jc::hir {
         Kind kind;
     };
 
-    /// General path fragment used for type and expression paths
-    struct PathSeg : HirNode {
-        using List = std::vector<PathSeg>;
-
-        PathSeg(const span::Ident & name, HirId hirId, Span span)
-            : HirNode {hirId, span}, name {std::move(name)} {}
-
-        span::Ident name;
-        GenericArg::List generics;
-    };
-
-    struct Path {
-        Path(const resolve::Res & res, PathSeg::List && segments, Span span)
-            : res {res}, segments {std::move(segments)}, span {span} {}
-
-        resolve::Res res;
-        PathSeg::List segments;
-        Span span;
-    };
-
     struct GenericParam : HirNode {
         /// Lifetime parameter
         struct Lifetime {
@@ -129,6 +109,26 @@ namespace jc::hir {
 
         Kind kind;
         ValueT value;
+    };
+
+    /// General path fragment used for type and expression paths
+    struct PathSeg : HirNode {
+        using List = std::vector<PathSeg>;
+
+        PathSeg(const span::Ident & name, HirId hirId, Span span)
+            : HirNode {hirId, span}, name {std::move(name)} {}
+
+        span::Ident name;
+        GenericArg::List generics;
+    };
+
+    struct Path {
+        Path(const resolve::Res & res, PathSeg::List && segments, Span span)
+            : res {res}, segments {std::move(segments)}, span {span} {}
+
+        resolve::Res res;
+        PathSeg::List segments;
+        Span span;
     };
 }
 
