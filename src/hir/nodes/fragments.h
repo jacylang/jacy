@@ -44,6 +44,12 @@ namespace jc::hir {
         Expr::Ptr value;
     };
 
+    /// Anonymous constant, used in `const` parameters and arguments, etc.
+    struct AnonConst {
+        HirId hirId;
+        BodyId bodyId;
+    };
+
     struct GenericArg {
         struct Lifetime {
             HirId hirId;
@@ -53,7 +59,7 @@ namespace jc::hir {
 
         using List = std::vector<GenericArg>;
         // TODO: ConstArg as AnonConst
-        using ValueT = std::variant<Type::Ptr, Lifetime>;
+        using ValueT = std::variant<Type::Ptr, Lifetime, AnonConst>;
 
         enum class Kind {
             Type,
@@ -61,9 +67,11 @@ namespace jc::hir {
             Const,
         };
 
-        GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Type} {}
-
         GenericArg(Type::Ptr && type) : value {std::move(type)}, kind {Kind::Type} {}
+
+        GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Lifetime} {}
+
+        GenericArg(AnonConst && anonConst) : value {std::move(anonConst)}, kind {Kind::Const} {}
 
         ValueT value;
         Kind kind;
@@ -101,7 +109,7 @@ namespace jc::hir {
             // TODO: Default type (`func<T = i32> foo()`)
         };
 
-        using ValueT = std::variant<Lifetime, Type>;
+        using ValueT = std::variant<Lifetime, Type, AnonConst>;
         using List = std::vector<GenericParam>;
 
         enum class Kind {
@@ -110,11 +118,14 @@ namespace jc::hir {
             Const,
         };
 
+        GenericParam(Type type, HirId hirId, Span span)
+            : HirNode {hirId, span}, kind {Kind::Type}, value {std::move(type)} {}
+
         GenericParam(Lifetime lifetime, HirId hirId, Span span)
             : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(lifetime)} {}
 
-        GenericParam(Type type, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(type)} {}
+        GenericParam(AnonConst anonConst, HirId hirId, Span span)
+            : HirNode {hirId, span}, kind {Kind::Const}, value {std::move(anonConst)} {}
 
         Kind kind;
         ValueT value;
