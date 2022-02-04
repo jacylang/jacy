@@ -27,14 +27,23 @@ namespace jc::hir {
     };
 
     struct GenericArg {
+        struct Lifetime {
+            HirId hirId;
+            Span span; // Span including `'`
+            Ident name;
+        };
+
         using List = std::vector<GenericArg>;
-        // TODO: Lifetime
-        using ValueT = std::variant<Type::Ptr>;
+        // TODO: ConstArg as AnonConst
+        using ValueT = std::variant<Type::Ptr, Lifetime>;
 
         enum class Kind {
             Type,
             Lifetime,
+            Const, // TODO
         };
+
+        GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Type} {}
 
         GenericArg(Type::Ptr && type) : value {std::move(type)}, kind {Kind::Type} {}
 
