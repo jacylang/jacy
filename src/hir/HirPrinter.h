@@ -18,6 +18,7 @@ namespace jc::hir {
         // Fragments printers //
     private:
         void printVis(ItemWrapper::Vis vis);
+        void printGenericParams(const GenericParam::List & params);
 
         // Indentation and blocks //
     private:

@@ -55,6 +55,36 @@ namespace jc::hir {
         }
     }
 
+    void HirPrinter::printGenericParams(const GenericParam::List & params) {
+        if (params.empty()) {
+            return;
+        }
+
+        log.raw("<");
+
+        for (size_t i = 0; i < params.size(); i++) {
+            const auto & param = params.at(i);
+            switch (param.kind) {
+                case GenericParam::Kind::Type: {
+
+                    break;
+                }
+                case GenericParam::Kind::Lifetime: {
+                    break;
+                }
+                case GenericParam::Kind::Const: {
+                    break;
+                }
+            }
+
+            if (i < params.size() - 1) {
+                log.raw(", ");
+            }
+        }
+
+        log.raw(">");
+    }
+
     // Indentation and blocks //
     void HirPrinter::beginBlock() {
         log.raw("{");

@@ -92,10 +92,12 @@ namespace jc::hir {
 
         /// Generic type parameter
         struct Type {
+            Ident name;
             // TODO: Default type (`func<T = i32> foo()`)
         };
 
         struct Const {
+            Ident name;
             hir::Type::Ptr type;
             // TODO: Default
         };
