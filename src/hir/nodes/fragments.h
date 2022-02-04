@@ -26,6 +26,24 @@ namespace jc::hir {
         Stmt::List stmts;
     };
 
+    /// Identifier of the `Body` declared below
+    /// For now, just a wrapper over `HirId`
+    struct BodyId {
+        HirId hirId;
+    };
+
+    /// Function body
+    /// Separated from `Func` as it is type checked apart
+    struct Body {
+        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {}
+
+        /// Denotes that `func`'s body was defined with `=`
+        bool exprBody;
+
+        /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
+        Expr::Ptr value;
+    };
+
     struct GenericArg {
         struct Lifetime {
             HirId hirId;

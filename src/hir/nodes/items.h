@@ -6,6 +6,7 @@
 #include "span/Ident.h"
 #include "hir/nodes/Type.h"
 #include "ast/fragments/func_fragments.h"
+#include "hir/nodes/fragments.h"
 
 namespace jc::hir {
     struct CommonField : HirNode {
@@ -47,24 +48,6 @@ namespace jc::hir {
         Enum(std::vector<Variant> && variants) : Item {ItemKind::Enum}, variants {std::move(variants)} {}
 
         std::vector<Variant> variants;
-    };
-
-    /// Identifier of the `Body` declared below
-    /// For now, just a wrapper over `HirId`
-    struct BodyId {
-        HirId hirId;
-    };
-
-    /// Function body
-    /// Separated from `Func` as it is type checked apart
-    struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {}
-
-        /// Denotes that `func`'s body was defined with `=`
-        bool exprBody;
-
-        /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
-        Expr::Ptr value;
     };
 
     /// Function signature used for raw `func`
