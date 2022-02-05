@@ -22,7 +22,24 @@ namespace jc::hir {
         // Fragments printers //
     private:
         void printVis(ItemWrapper::Vis vis);
+
         void printGenericParams(const GenericParam::List & params);
+
+        // Helpers //
+    private:
+        template<class T>
+        void printDelim(
+            const std::vector<T> & els,
+            const std::string & delim,
+            const std::function<void(const T &)> & cb
+        ) {
+            for (size_t i = 0; i < els.size(); i++) {
+                cb(els.at(i));
+                if (i < els.size() - 1) {
+                    log.raw(delim);
+                }
+            }
+        }
 
         // Indentation and blocks //
     private:
