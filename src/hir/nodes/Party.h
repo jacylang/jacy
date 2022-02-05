@@ -2,6 +2,7 @@
 #define JACY_HIR_NODES_PARTY_H
 
 #include "utils/map.h"
+#include "hir/nodes/exprs.h"
 #include "hir/nodes/items.h"
 #include "hir/nodes/types.h"
 

@@ -48,6 +48,152 @@ namespace jc::hir {
         }
     }
 
+    // Expr //
+    void HirPrinter::printExpr(const Expr::Ptr & expr) {
+        switch (expr->kind) {
+            case ExprKind::Array: {
+                const auto & array = Expr::as<ArrayExpr>(expr);
+                log.raw("[");
+                printDelim(array->elements, [&](const auto & el) {
+                    printExpr(el);
+                });
+                log.raw("]");
+                break;
+            }
+            case ExprKind::Assign: {
+                const auto & assign = Expr::as<AssignExpr>(expr);
+                printExpr(assign->lhs);
+                // TODO!: Operators
+                printExpr(assign->rhs);
+                break;
+            }
+            case ExprKind::Block: {
+                const auto & assign = Expr::as<Block>(expr);
+                // TODO!!!: `printBlock`
+                break;
+            }
+            case ExprKind::Borrow: {
+                const auto & borrow = Expr::as<BorrowExpr>(expr);
+                log.raw("&", borrow->mut ? "mut " : " ");
+                printExpr(borrow->rhs);
+                break;
+            }
+            case ExprKind::Break: {
+                const auto & breakExpr = Expr::as<BreakExpr>(expr);
+                log.raw("break");
+                breakExpr->value.then([&](const auto & val) {
+                    log.raw(" ");
+                    printExpr(val);
+                });
+                break;
+            }
+            case ExprKind::Continue: {
+                log.raw("continue");
+                break;
+            }
+            case ExprKind::Deref: {
+                const auto & deref = Expr::as<DerefExpr>(expr);
+                log.raw("*");
+                deref->rhs.then([&](const auto & rhs) {
+                    printExpr(rhs);
+                });
+                break;
+            }
+            case ExprKind::Field: {
+                const auto & field = Expr::as<FieldExpr>(expr);
+                printExpr(field->lhs);
+                log.raw(".");
+                log.raw(field->field);
+                break;
+            }
+            case ExprKind::If: {
+                const auto & ifExpr = Expr::as<IfExpr>(expr);
+
+                log.raw("if ");
+                printExpr(ifExpr->cond);
+                // TODO!!!: `printBLock` and `printOptBlock` (with semi)
+
+                break;
+            }
+            case ExprKind::Infix: {
+                const auto & infix = Expr::as<InfixExpr>(expr);
+                printExpr(infix->lhs);
+                // TODO!!: Print operators
+                printExpr(infix->rhs);
+                break;
+            }
+            case ExprKind::Invoke: {
+                const auto & invoke = Expr::as<InvokeExpr>(expr);
+                printExpr(invoke->lhs);
+                log.raw("(");
+                printDelim(invoke->args, [&](const Arg & arg) {
+                    arg.ident.then([&](const auto & name) {
+                        log.raw(name, ": ");
+                    });
+
+                    printExpr(arg.value);
+                });
+                log.raw(")");
+                break;
+            }
+            case ExprKind::Literal: {
+                const auto & lit = Expr::as<LitExpr>(expr);
+                log.raw(lit->val.token);
+                break;
+            }
+            case ExprKind::Loop: {
+                const auto & loop = Expr::as<LoopExpr>(expr);
+                log.raw("loop ");
+                // TODO!!!: `printBlock`
+                break;
+            }
+            case ExprKind::Match: {
+                const auto & match = Expr::as<MatchExpr>(expr);
+                log.raw("match ");
+
+                printExpr(match->subject);
+
+                // TODO: `printBody`
+
+                printDelim(match->arms, [&](const MatchArm & arm) {
+                    // TODO!: `printPat`
+                    log.raw(" => ");
+                    printExpr(arm.body);
+                });
+
+                break;
+            }
+            case ExprKind::Path: {
+                // TODO: `printPath`
+                break;
+            }
+            case ExprKind::Prefix: {
+                const auto & prefix = Expr::as<PrefixExpr>(expr);
+                // TODO: Print operators
+                printExpr(prefix->rhs);
+                break;
+            }
+            case ExprKind::Return: {
+                const auto & returnExpr = Expr::as<ReturnExpr>(expr);
+                log.raw("return");
+                returnExpr->value.then([&](const auto & val) {
+                    log.raw(" ");
+                    printExpr(val);
+                });
+                break;
+            }
+            case ExprKind::Tuple: {
+                const auto & tuple = Expr::as<TupleExpr>(expr);
+                log.raw("(");
+                printDelim(tuple->values, [&](const Expr::Ptr & val) {
+                    printExpr(val);
+                });
+                log.raw(")");
+                break;
+            }
+        }
+    }
+
     // Types //
     void HirPrinter::printType(const Type::Ptr & type) {
         switch (type->kind) {

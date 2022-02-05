@@ -80,6 +80,11 @@ namespace jc::hir {
         Expr(ExprKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         ExprKind kind;
+
+        template<class T>
+        static T * as(const Ptr & expr) {
+            return static_cast<T*>(expr.get());
+        }
     };
 }
 

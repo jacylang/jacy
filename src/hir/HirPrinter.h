@@ -16,6 +16,10 @@ namespace jc::hir {
 
         void printItem(const ItemId & itemId);
 
+        // Expr //
+    private:
+        void printExpr(const Expr::Ptr & expr);
+
         // Types //
     private:
         void printType(const Type::Ptr & type);
