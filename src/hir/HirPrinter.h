@@ -10,6 +10,7 @@ namespace jc::hir {
 
         void print();
 
+        // Items //
     private:
         void printMod(const Mod & mod);
 
@@ -27,11 +28,11 @@ namespace jc::hir {
 
         // Helpers //
     private:
-        template<class T>
+        template<typename C>
         void printDelim(
-            const std::vector<T> & els,
-            const std::string & delim,
-            const std::function<void(const T &)> & cb
+            const C & els,
+            const std::function<void(const typename C::value_type &)> & cb,
+            const std::string & delim = ", "
         ) {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i));

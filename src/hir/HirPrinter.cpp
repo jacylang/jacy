@@ -57,16 +57,48 @@ namespace jc::hir {
             }
             case TypeKind::Tuple: {
                 const auto & tuple = Type::as<TupleType>(type);
+                log.raw("(");
+                printDelim(tuple->types, [&](const auto & el) {
+                    printType(el);
+                });
+                log.raw(")");
                 break;
             }
-            case TypeKind::Func:
+            case TypeKind::Func: {
+                const auto & func = Type::as<FuncType>(type);
+                log.raw("func ");
+                // TODO: Generics
+
+                log.raw("(");
+                printDelim(func->inputs, [&](const auto & param) {
+                    printType(param);
+                });
+                log.raw(") -> ");
+
+                printType(func->ret);
+
                 break;
-            case TypeKind::Slice:
+            }
+            case TypeKind::Slice: {
+                const auto & slice = Type::as<SliceType>(type);
+                log.raw("[");
+                printType(slice->type);
+                log.raw("]");
                 break;
-            case TypeKind::Array:
+            }
+            case TypeKind::Array: {
+                const auto & array = Type::as<ArrayType>(type);
+                log.raw("[");
+                printType(array->type);
+                log.raw("; ");
+                // TODO: Print size anon const
+                log.raw("]");
                 break;
-            case TypeKind::Path:
+            }
+            case TypeKind::Path: {
+                // TODO
                 break;
+            }
         }
     }
 
