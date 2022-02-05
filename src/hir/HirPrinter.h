@@ -34,6 +34,8 @@ namespace jc::hir {
 
         void printGenericParams(const GenericParam::List & params);
 
+        void printBlock(const Block & block);
+
         // Helpers //
     private:
         template<typename C>
@@ -53,6 +55,8 @@ namespace jc::hir {
         // Indentation and blocks //
     private:
         uint32_t indent {0};
+
+        void printIndent();
 
         void beginBlock();
 

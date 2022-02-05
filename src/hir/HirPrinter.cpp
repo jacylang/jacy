@@ -301,7 +301,19 @@ namespace jc::hir {
         log.raw(">");
     }
 
+    void HirPrinter::printBlock(const Block & block) {
+        beginBlock();
+        printDelim(block.stmts, [&](const Stmt::Ptr & stmt) {
+            printStmt(stmt);
+        });
+        endBlock();
+    }
+
     // Indentation and blocks //
+    void HirPrinter::printIndent() {
+        log.raw(log::Indent<4>(indent));
+    }
+
     void HirPrinter::beginBlock() {
         log.raw("{");
         indent++;
