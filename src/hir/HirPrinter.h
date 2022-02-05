@@ -36,6 +36,10 @@ namespace jc::hir {
 
         void printBlock(const Block & block);
 
+        /// Print optional block
+        /// @param printSemi Puts `;` if block is `None`
+        void printOptBlock(const Block::Opt & block, bool printSemi = true);
+
         // Helpers //
     private:
         template<typename C>

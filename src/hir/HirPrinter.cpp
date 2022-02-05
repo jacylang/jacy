@@ -161,7 +161,7 @@ namespace jc::hir {
             case ExprKind::Loop: {
                 const auto & loop = Expr::as<LoopExpr>(expr);
                 log.raw("loop ");
-                // TODO!!!: `printBlock`
+                printBlock(loop->body);
                 break;
             }
             case ExprKind::Match: {
@@ -307,6 +307,17 @@ namespace jc::hir {
             printStmt(stmt);
         });
         endBlock();
+    }
+
+    void HirPrinter::printOptBlock(const Block::Opt & block, bool printSemi) {
+        if (block.none()) {
+            if (printSemi) {
+                log.raw(";");
+            }
+            return;
+        }
+
+        printBlock(block.unwrap());
     }
 
     // Indentation and blocks //
