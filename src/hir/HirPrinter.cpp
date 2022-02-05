@@ -55,6 +55,8 @@ namespace jc::hir {
                 break;
             }
             case StmtKind::Item: {
+                const auto & itemStmt = Stmt::as<ItemStmt>(stmt);
+                printItem(itemStmt->item);
                 break;
             }
             case StmtKind::Expr: {
