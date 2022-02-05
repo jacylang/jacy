@@ -7,6 +7,7 @@
 #include "hir/nodes/Type.h"
 
 namespace jc::hir {
+
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
@@ -95,11 +96,56 @@ namespace jc::hir {
         }
     };
 
+    /// General path fragment used for type and expression paths
+    struct PathSeg : HirNode {
+        using List = std::vector<PathSeg>;
+
+        PathSeg(const span::Ident & name, HirId hirId, Span span)
+            : HirNode {hirId, span}, name {std::move(name)} {}
+
+        span::Ident name;
+        GenericArg::List generics;
+    };
+
+    struct Path {
+        Path(const resolve::Res & res, PathSeg::List && segments, Span span)
+            : res {res}, segments {std::move(segments)}, span {span} {}
+
+        resolve::Res res;
+        PathSeg::List segments;
+        Span span;
+    };
+
+    struct GenericBound {
+        /// Trait bound
+        struct Trait {
+            Path path;
+        };
+
+        struct Lifetime : HirNode {
+            Lifetime(Ident name, HirId hirId, Span span) : HirNode {hirId, span}, name {name} {}
+
+            Ident name;
+        };
+
+        using ValueT = std::variant<Trait, Lifetime>;
+
+        enum class Kind {
+            Trait,
+            Lifetime,
+        };
+
+        GenericBound(Trait && trait) : kind {Kind::Trait}, value {std::move(trait)} {}
+        GenericBound(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+
+        Kind kind;
+        ValueT value;
+    };
+
     struct GenericParam : HirNode {
         /// Lifetime parameter
         struct Lifetime {
             Ident name;
-            // TODO: Bounds
         };
 
         /// Generic type parameter
@@ -146,26 +192,6 @@ namespace jc::hir {
         const auto & getConstParam() const {
             return std::get<Const>(value);
         }
-    };
-
-    /// General path fragment used for type and expression paths
-    struct PathSeg : HirNode {
-        using List = std::vector<PathSeg>;
-
-        PathSeg(const span::Ident & name, HirId hirId, Span span)
-            : HirNode {hirId, span}, name {std::move(name)} {}
-
-        span::Ident name;
-        GenericArg::List generics;
-    };
-
-    struct Path {
-        Path(const resolve::Res & res, PathSeg::List && segments, Span span)
-            : res {res}, segments {std::move(segments)}, span {span} {}
-
-        resolve::Res res;
-        PathSeg::List segments;
-        Span span;
     };
 }
 
