@@ -134,6 +134,18 @@ namespace jc::hir {
 
         Kind kind;
         ValueT value;
+
+        const auto & getType() const {
+            return std::get<Type>(value);
+        }
+
+        const auto & getLifetime() const {
+            return std::get<Lifetime>(value);
+        }
+
+        const auto & getConstArg() const {
+            return std::get<Const>(value);
+        }
     };
 
     /// General path fragment used for type and expression paths
