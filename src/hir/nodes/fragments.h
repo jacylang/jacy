@@ -81,6 +81,18 @@ namespace jc::hir {
 
         ValueT value;
         Kind kind;
+
+        const auto & getType() const {
+            return std::get<Type::Ptr>(value);
+        }
+
+        const auto & getLifetime() const {
+            return std::get<Lifetime>(value);
+        }
+
+        const auto & getConstParam() const {
+            return std::get<Const>(value);
+        }
     };
 
     struct GenericParam : HirNode {
