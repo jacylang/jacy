@@ -143,7 +143,7 @@ namespace jc::hir {
             return std::get<Lifetime>(value);
         }
 
-        const auto & getConstArg() const {
+        const auto & getConstParam() const {
             return std::get<Const>(value);
         }
     };

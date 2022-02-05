@@ -293,12 +293,19 @@ namespace jc::hir {
             const auto & param = params.at(i);
             switch (param.kind) {
                 case GenericParam::Kind::Type: {
+                    const auto & typeParam = param.getType();
+                    log.raw(typeParam.name);
                     break;
                 }
                 case GenericParam::Kind::Lifetime: {
+                    const auto & lifetime = param.getLifetime();
+                    log.raw("'", lifetime.name);
                     break;
                 }
                 case GenericParam::Kind::Const: {
+                    const auto & constParam = param.getConstParam();
+                    log.raw("const ", constParam.name, ": ");
+                    printType(constParam.type);
                     break;
                 }
             }
