@@ -85,8 +85,8 @@ namespace jc::hir {
                 break;
             }
             case ExprKind::Block: {
-                const auto & assign = Expr::as<Block>(expr);
-                // TODO!!!: `printBlock`
+                const auto & block = Expr::as<BlockExpr>(expr);
+                printBlock(block->block);
                 break;
             }
             case ExprKind::Borrow: {
@@ -128,7 +128,15 @@ namespace jc::hir {
 
                 log.raw("if ");
                 printExpr(ifExpr->cond);
-                // TODO!!!: `printBLock` and `printOptBlock` (with semi)
+                log.raw(" ");
+
+                printOptBlock(ifExpr->ifBranch);
+
+                if (ifExpr->elseBranch.some()) {
+                    log.raw(" else ");
+                }
+
+                printOptBlock(ifExpr->elseBranch);
 
                 break;
             }
