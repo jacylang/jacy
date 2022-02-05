@@ -4,6 +4,7 @@
 #include "hir/nodes/Stmt.h"
 #include "hir/nodes/patterns.h"
 #include "hir/nodes/fragments.h"
+#include "hir/nodes/Item.h"
 
 namespace jc::hir {
     struct ExprStmt : Stmt {
@@ -28,6 +29,13 @@ namespace jc::hir {
         Pat::Ptr pat;
         Type::Ptr type;
         Expr::Ptr value;
+    };
+
+    struct ItemStmt : Stmt {
+        ItemStmt(Item::Ptr && item, HirId hirId, Span span)
+            : Stmt {StmtKind::Item, hirId, span}, item {std::move(item)} {}
+
+        Item::Ptr item;
     };
 }
 
