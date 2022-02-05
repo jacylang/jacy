@@ -117,6 +117,8 @@ namespace jc::hir {
     };
 
     struct GenericBound {
+        using List = std::vector<GenericBound>;
+
         /// Trait bound
         struct Trait {
             Path path;
@@ -169,17 +171,27 @@ namespace jc::hir {
             Const,
         };
 
-        GenericParam(Type type, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {Kind::Type}, value {std::move(type)} {}
+        GenericParam(Type type, GenericBound::List && bounds, HirId hirId, Span span)
+            : HirNode {hirId, span},
+              kind {Kind::Type},
+              value {std::move(type)},
+              bounds {std::move(bounds)} {}
 
-        GenericParam(Lifetime lifetime, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {Kind::Lifetime}, value {std::move(lifetime)} {}
+        GenericParam(Lifetime lifetime, GenericBound::List && bounds, HirId hirId, Span span)
+            : HirNode {hirId, span},
+              kind {Kind::Lifetime},
+              value {std::move(lifetime)},
+              bounds {std::move(bounds)} {}
 
-        GenericParam(Const anonConst, HirId hirId, Span span)
-            : HirNode {hirId, span}, kind {Kind::Const}, value {std::move(anonConst)} {}
+        GenericParam(Const anonConst, GenericBound::List && bounds, HirId hirId, Span span)
+            : HirNode {hirId, span},
+              kind {Kind::Const},
+              value {std::move(anonConst)},
+              bounds {std::move(bounds)} {}
 
         Kind kind;
         ValueT value;
+        GenericBound::List bounds;
 
         const auto & getType() const {
             return std::get<Type>(value);
