@@ -32,10 +32,10 @@ namespace jc::hir {
     };
 
     struct ItemStmt : Stmt {
-        ItemStmt(Item::Ptr && item, HirId hirId, Span span)
+        ItemStmt(ItemId && item, HirId hirId, Span span)
             : Stmt {StmtKind::Item, hirId, span}, item {std::move(item)} {}
 
-        Item::Ptr item;
+        ItemId item;
     };
 }
 
