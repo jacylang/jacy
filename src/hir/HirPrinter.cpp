@@ -48,6 +48,23 @@ namespace jc::hir {
         }
     }
 
+    // Stmt //
+    void HirPrinter::printStmt(const Stmt::Ptr & stmt) {
+        switch (stmt->kind) {
+            case StmtKind::Let: {
+                break;
+            }
+            case StmtKind::Item: {
+                break;
+            }
+            case StmtKind::Expr: {
+                const auto & exprStmt = Stmt::as<ExprStmt>(stmt);
+                printExpr(exprStmt->expr);
+                break;
+            }
+        }
+    }
+
     // Expr //
     void HirPrinter::printExpr(const Expr::Ptr & expr) {
         switch (expr->kind) {
