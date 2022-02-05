@@ -48,6 +48,28 @@ namespace jc::hir {
         }
     }
 
+    // Types //
+    void HirPrinter::printType(const Type::Ptr & type) {
+        switch (type->kind) {
+            case TypeKind::Infer: {
+                // TODO: `_` or nothing?
+                break;
+            }
+            case TypeKind::Tuple: {
+                const auto & tuple = Type::as<TupleType>(type);
+                break;
+            }
+            case TypeKind::Func:
+                break;
+            case TypeKind::Slice:
+                break;
+            case TypeKind::Array:
+                break;
+            case TypeKind::Path:
+                break;
+        }
+    }
+
     // Fragments printers //
     void HirPrinter::printVis(ItemWrapper::Vis vis) {
         if (vis.kind == ast::VisKind::Pub) {
@@ -66,7 +88,6 @@ namespace jc::hir {
             const auto & param = params.at(i);
             switch (param.kind) {
                 case GenericParam::Kind::Type: {
-
                     break;
                 }
                 case GenericParam::Kind::Lifetime: {

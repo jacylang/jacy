@@ -20,6 +20,11 @@ namespace jc::hir {
         Type(TypeKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         TypeKind kind;
+
+        template<class T>
+        static T * as(const Ptr & item) {
+            return static_cast<T*>(item.get());
+        }
     };
 }
 

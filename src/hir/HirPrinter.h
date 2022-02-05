@@ -15,6 +15,10 @@ namespace jc::hir {
 
         void printItem(const ItemId & itemId);
 
+        // Types //
+    private:
+        void printType(const Type::Ptr & type);
+
         // Fragments printers //
     private:
         void printVis(ItemWrapper::Vis vis);

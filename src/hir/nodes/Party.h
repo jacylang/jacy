@@ -3,6 +3,7 @@
 
 #include "utils/map.h"
 #include "hir/nodes/items.h"
+#include "hir/nodes/types.h"
 
 namespace jc::hir {
     using resolve::DefId;

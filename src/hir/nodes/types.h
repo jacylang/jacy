@@ -3,6 +3,7 @@
 
 #include "hir/nodes/Type.h"
 #include "hir/nodes/Expr.h"
+#include "hir/nodes/fragments.h"
 
 namespace jc::hir {
     struct TupleType : Type {
