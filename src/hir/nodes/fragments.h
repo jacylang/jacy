@@ -32,6 +32,12 @@ namespace jc::hir {
         HirId hirId;
     };
 
+    struct Param : HirNode {
+        Param(Pat::Ptr && pat, HirId hirId, Span span) : HirNode {hirId, span}, pat {std::move(pat)} {}
+
+        Pat::Ptr pat;
+    };
+
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
