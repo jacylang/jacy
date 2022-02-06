@@ -85,7 +85,7 @@ namespace jc::hir {
     };
 
     struct Struct : Item {
-        Struct(CommonField::List && fields, GenericParam::List && generics, HirId hirId, Span span)
+        Struct(CommonField::List && fields, GenericParam::List && generics)
             : Item {ItemKind::Struct},
               fields {std::move(fields)},
               generics {std::move(generics)} {}
