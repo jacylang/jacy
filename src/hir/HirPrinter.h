@@ -28,6 +28,9 @@ namespace jc::hir {
     private:
         void printType(const Type::Ptr & type);
 
+    private:
+        void printPat(const Pat::Ptr & pat);
+
         // Fragments printers //
     private:
         void printVis(ItemWrapper::Vis vis);
@@ -50,6 +53,20 @@ namespace jc::hir {
         ) {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i));
+                if (i < els.size() - 1) {
+                    log.raw(delim);
+                }
+            }
+        }
+
+        template<class C>
+        void printDelim(
+            const C & els,
+            const std::function<void(const typename C::value_type &, size_t)> & cb,
+            const std::string & delim = ", "
+        ) {
+            for (size_t i = 0; i < els.size(); i++) {
+                cb(els.at(i), i);
                 if (i < els.size() - 1) {
                     log.raw(delim);
                 }
