@@ -37,6 +37,8 @@ namespace jc::hir {
 
         void printGenericParams(const GenericParam::List & params);
 
+        void printGenericArgs(const GenericArg::List & args);
+
         void printBlock(const Block & block);
 
         /// Print optional block

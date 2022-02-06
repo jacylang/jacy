@@ -437,6 +437,33 @@ namespace jc::hir {
         log.raw(">");
     }
 
+    void HirPrinter::printGenericArgs(const GenericArg::List & args) {
+        if (args.empty()) {
+            return;
+        }
+
+        log.raw("<");
+
+        printDelim(args, [&](const GenericArg & arg) {
+            switch (arg.kind) {
+                case GenericArg::Kind::Type: {
+                    printType(arg.getType());
+                    break;
+                }
+                case GenericArg::Kind::Lifetime: {
+                    log.raw("'", arg.getLifetime().name);
+                    break;
+                }
+                case GenericArg::Kind::Const: {
+                    // TODO: `printAnonConst`
+                    break;
+                }
+            }
+        });
+
+        log.raw(">");
+    }
+
     void HirPrinter::printBlock(const Block & block) {
         beginBlock();
         printDelim(block.stmts, [&](const Stmt::Ptr & stmt) {

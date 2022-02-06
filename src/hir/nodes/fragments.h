@@ -7,7 +7,6 @@
 #include "hir/nodes/Type.h"
 
 namespace jc::hir {
-
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
