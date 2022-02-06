@@ -98,7 +98,15 @@ namespace jc::hir {
 
     struct Trait : Item {};
 
-    struct TypeAlias : Item {};
+    struct TypeAlias : Item {
+        TypeAlias(GenericParam::List && generics, Type::Ptr && type)
+            : Item {ItemKind::TypeAlias},
+              generics {std::move(generics)},
+              type {std::move(type)} {}
+
+        GenericParam::List generics;
+        Type::Ptr type;
+    };
 
     struct UseDecl : Item {};
 }
