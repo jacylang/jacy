@@ -82,8 +82,21 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Struct:
+            case ItemKind::Struct: {
+                const auto & structItem = Item::as<Struct>(item);
+
+                log.raw("struct ", itemWrapper.name);
+                printGenericParams(structItem->generics);
+
+                beginBlock();
+                printDelim(structItem->fields, [&](const CommonField & field) {
+                    log.raw(field.ident, ": ");
+                    printType(field.type);
+                });
+                endBlock();
+
                 break;
+            }
             case ItemKind::Trait:
                 break;
             case ItemKind::TypeAlias:
