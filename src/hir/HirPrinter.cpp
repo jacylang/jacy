@@ -538,6 +538,16 @@ namespace jc::hir {
         }
     }
 
+    void HirPrinter::printBody(BodyId bodyId) {
+        const auto & body = party.bodies.at(bodyId);
+
+        if (body.exprBody) {
+            log.raw(" = ");
+        }
+
+        printExpr(body.value);
+    }
+
     // Indentation and blocks //
     void HirPrinter::printIndent() {
         log.raw(log::Indent<4>(indent));

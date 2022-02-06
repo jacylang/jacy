@@ -49,6 +49,8 @@ namespace jc::hir {
 
         void printFuncSig(const FuncSig & sig, BodyId bodyId);
 
+        void printBody(BodyId bodyId);
+
         // Helpers //
     private:
         template<typename C>
