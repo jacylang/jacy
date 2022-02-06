@@ -273,7 +273,8 @@ namespace jc::hir {
                 break;
             }
             case TypeKind::Path: {
-                // TODO
+                const auto & typePath = Type::as<TypePath>(type);
+                printPath(typePath->path);
                 break;
             }
         }
