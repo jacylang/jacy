@@ -4,6 +4,7 @@
 #include "hir/nodes/Pat.h"
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/fragments.h"
+#include "ast/fragments/Pat.h"
 
 namespace jc::hir {
     using ast::Mutability;
@@ -27,6 +28,7 @@ namespace jc::hir {
         Expr::Ptr value;
     };
 
+    /// `ref mut IDENT @ pattern`
     struct IdentPat : Pat {
         IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::OptPtr && pat, HirId hirId, Span span)
             : Pat {PatKind::Ident, hirId, span},
@@ -41,6 +43,7 @@ namespace jc::hir {
         Pat::OptPtr pat;
     };
 
+    /// `&mut pattern`
     struct RefPat : Pat {
         RefPat(Mutability mut, Pat::Ptr && pat, HirId hirId, Span span)
             : Pat {PatKind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {}

@@ -4,8 +4,6 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct IdentPat;
-
     enum class PatKind {
         Multi,
         Wildcard,
@@ -26,6 +24,11 @@ namespace jc::hir {
         Pat(PatKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
         PatKind kind;
+
+        template<class T>
+        static T * as(const Ptr & pat) {
+            return static_cast<T*>(pat.get());
+        }
     };
 }
 

@@ -179,8 +179,8 @@ namespace jc::ast {
         StructPatField(bool shortcut, Ident::PR && ident, Pat::Ptr && pat, Span span)
             : Node {span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
 
-        /// Shortcut is true when `:` is omitted, just a flag that has no syntax representation,
-        /// e.g. `Struct {ref mut a}`, which is the same as `Struct {a: ref mut a}`.
+        /// Shortcut is true when `:` is omitted, just a flag,
+        /// e.g. `Struct {ref mut a}` which is the same as `Struct {a: ref mut a}`.
         /// Note!: Even though `shortcut` is a simplification for field pattern storing,
         ///  when printing it, e.g. in `AstPrinter`, consider different user-inputs
         bool shortcut;

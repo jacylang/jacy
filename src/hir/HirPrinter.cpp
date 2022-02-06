@@ -180,13 +180,16 @@ namespace jc::hir {
 
                 printExpr(match->subject);
 
-                // TODO: `printBody`
+                beginBlock();
 
                 printDelim(match->arms, [&](const MatchArm & arm) {
+                    printIndent();
                     // TODO!: `printPat`
                     log.raw(" => ");
                     printExpr(arm.body);
                 });
+
+                endBlock();
 
                 break;
             }
@@ -270,6 +273,118 @@ namespace jc::hir {
             }
             case TypeKind::Path: {
                 // TODO
+                break;
+            }
+        }
+    }
+
+    void HirPrinter::printPat(const Pat::Ptr & pat) {
+        switch (pat->kind) {
+            case PatKind::Multi: {
+                const auto & multiPat = Pat::as<MultiPat>(pat);
+                printDelim(multiPat->pats, [&](const Pat::Ptr & pat) {
+                    printPat(pat);
+                }, " | ");
+                break;
+            }
+            case PatKind::Wildcard: {
+                log.raw("_");
+                break;
+            }
+            case PatKind::Lit: {
+                const auto & litPat = Pat::as<LitPat>(pat);
+                printExpr(litPat->value);
+                break;
+            }
+            case PatKind::Ident: {
+                const auto & identPat = Pat::as<IdentPat>(pat);
+                switch (identPat->anno) {
+                    case IdentPatAnno::None:
+                        break;
+                    case IdentPatAnno::Ref: {
+                        log.raw("ref ");
+                        break;
+                    }
+                    case IdentPatAnno::Mut: {
+                        log.raw("mut ");
+                        break;
+                    }
+                    case IdentPatAnno::RefMut: {
+                        log.raw("ref mut ");
+                        break;
+                    }
+                }
+                log.raw(identPat->ident);
+                identPat->pat.then([&](const auto & pat) {
+                    printPat(pat);
+                });
+                break;
+            }
+            case PatKind::Path: {
+                // TODO: `printPath`
+                break;
+            }
+            case PatKind::Ref: {
+                const auto & refPat = Pat::as<RefPat>(pat);
+                log.raw("&");
+                switch (refPat->mut) {
+                    case Mutability::Unset:
+                        break;
+                    case Mutability::Mut: {
+                        log.raw("mut ");
+                        break;
+                    }
+                }
+                printPat(refPat->pat);
+                break;
+            }
+            case PatKind::Struct: {
+                const auto & structPat = Pat::as<StructPat>(pat);
+                // TODO: `printPath`
+
+                log.raw("{");
+
+                printDelim(structPat->fields, [&](const StructPatField & field) {
+                    if (field.shortcut) {
+                        printPat(field.pat);
+                    } else {
+                        log.raw(field.ident, ": ");
+                        printPat(field.pat);
+                    }
+                });
+
+                if (structPat->rest.some()) {
+                    log.raw(", ...");
+                }
+
+                log.raw("}");
+                break;
+            }
+            case PatKind::Tuple: {
+                const auto & tuplePat = Pat::as<TuplePat>(pat);
+                log.raw("(");
+                printDelim(tuplePat->els, [&](const Pat::Ptr & el) {
+                    printPat(el);
+                });
+                log.raw(")");
+                break;
+            }
+            case PatKind::Slice: {
+                const auto & slicePat = Pat::as<SlicePat>(pat);
+
+                log.raw("[");
+                printDelim(slicePat->before, [&](const auto & el) { printPat(el); });
+
+                if (slicePat->restPatSpan.some()) {
+                    log.raw(", ...");
+                }
+
+                if ((slicePat->restPatSpan.some() or not slicePat->before.empty()) and not slicePat->after.empty()) {
+                    log.raw(", ");
+                }
+
+                printDelim(slicePat->before, [&](const auto & el) { printPat(el); });
+                log.raw("]");
                 break;
             }
         }

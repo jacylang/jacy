@@ -2432,8 +2432,10 @@ namespace jc::parser {
 
                 fields.emplace_back(false, std::move(ident), std::move(pat), closeSpan(fieldBegin));
             } else {
-                auto identCopy = ident;
                 // `ref? mut? field` case
+
+                auto identCopy = ident;
+
                 // What about binding sub-pattern? `ref mut field @ sub-pattern`?
                 fields.emplace_back(
                     true,

@@ -6,6 +6,7 @@
 #include "hir/nodes/stmts.h"
 #include "hir/nodes/items.h"
 #include "hir/nodes/types.h"
+#include "hir/nodes/patterns.h"
 
 namespace jc::hir {
     using resolve::DefId;
