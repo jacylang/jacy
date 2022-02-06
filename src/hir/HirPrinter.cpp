@@ -70,11 +70,18 @@ namespace jc::hir {
                 break;
             }
             case ItemKind::Impl: {
+                break;
+            }
+            case ItemKind::Mod: {
+                const auto & mod = Item::as<Mod>(item);
+
+                log.raw("mod ", itemWrapper.name);
+                beginBlock();
+                printMod(*mod);
+                endBlock();
 
                 break;
             }
-            case ItemKind::Mod:
-                break;
             case ItemKind::Struct:
                 break;
             case ItemKind::Trait:
