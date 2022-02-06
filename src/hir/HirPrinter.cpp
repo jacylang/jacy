@@ -184,7 +184,7 @@ namespace jc::hir {
 
                 printDelim(match->arms, [&](const MatchArm & arm) {
                     printIndent();
-                    // TODO!: `printPat`
+                    printPat(arm.pat);
                     log.raw(" => ");
                     printExpr(arm.body);
                 });
