@@ -41,6 +41,10 @@ namespace jc::hir {
         Data data;
         Kind kind;
 
+        const auto & getCommonFields() const {
+            return std::get<CommonField::List>(data);
+        }
+
         // TODO: Add discriminant for Unit kind
     };
 

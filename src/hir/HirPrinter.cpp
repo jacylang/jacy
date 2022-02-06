@@ -28,7 +28,33 @@ namespace jc::hir {
         switch (item->kind) {
             case ItemKind::Enum: {
                 log.raw("enum ", itemWrapper.name);
-                // TODO: Generics
+                const auto & enumItem = Item::as<Enum>(item);
+                beginBlock();
+                printDelim(enumItem->variants, [&](const Variant & variant) {
+                    printIndent();
+                    log.raw(variant.ident);
+
+                    switch (variant.kind) {
+                        case Variant::Kind::Struct:
+                        case Variant::Kind::Tuple: {
+                            const auto & fields = variant.getCommonFields();
+                            bool structVariant = variant.kind == Variant::Kind::Struct;
+
+                            printDelim(fields, [&](const CommonField & field) {
+                                if (structVariant) {
+                                    log.raw(field.ident, ": ");
+                                }
+                                printType(field.type);
+                            });
+
+                            break;
+                        }
+                        case Variant::Kind::Unit:
+                            break;
+                    }
+
+                }, ",\n");
+                endBlock();
                 break;
             }
             case ItemKind::Func:
@@ -243,8 +269,6 @@ namespace jc::hir {
             }
             case TypeKind::Func: {
                 const auto & func = Type::as<FuncType>(type);
-                log.raw("func ");
-                // TODO: Generics
 
                 log.raw("(");
                 printDelim(func->inputs, [&](const auto & param) {
