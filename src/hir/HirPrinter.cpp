@@ -82,7 +82,7 @@ namespace jc::hir {
             case ExprKind::Assign: {
                 const auto & assign = Expr::as<AssignExpr>(expr);
                 printExpr(assign->lhs);
-                // TODO!: Operators
+                log.raw(" ", assign->op, " ");
                 printExpr(assign->rhs);
                 break;
             }
@@ -145,7 +145,7 @@ namespace jc::hir {
             case ExprKind::Infix: {
                 const auto & infix = Expr::as<InfixExpr>(expr);
                 printExpr(infix->lhs);
-                // TODO!!: Print operators
+                log.raw(" ", infix->op, " ");
                 printExpr(infix->rhs);
                 break;
             }
@@ -196,7 +196,7 @@ namespace jc::hir {
             }
             case ExprKind::Prefix: {
                 const auto & prefix = Expr::as<PrefixExpr>(expr);
-                // TODO: Print operators
+                log.raw(prefix->op);
                 printExpr(prefix->rhs);
                 break;
             }
