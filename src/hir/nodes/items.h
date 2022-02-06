@@ -65,15 +65,15 @@ namespace jc::hir {
     };
 
     struct Func : Item {
-        Func(FuncSig && sig, GenericParam::List && generics, Body && body)
+        Func(FuncSig && sig, GenericParam::List && generics, BodyId body)
             : Item {ItemKind::Func},
               sig {std::move(sig)},
               generics {std::move(generics)},
-              body {std::move(body)} {}
+              body {body} {}
 
         FuncSig sig;
         GenericParam::List generics;
-        Body body;
+        BodyId body;
     };
 
     struct Impl : Item {};

@@ -54,15 +54,19 @@ namespace jc::hir {
                             break;
                         }
                     }
-
                 }, ",\n");
                 endBlock();
                 break;
             }
             case ItemKind::Func: {
                 const auto & funcItem = Item::as<Func>(item);
+
                 log.raw("func ");
-                printGenericParams(funcItem)
+                printGenericParams(funcItem->generics);
+                log.raw(itemWrapper.name);
+                printFuncSig(funcItem->sig, funcItem->body);
+                // TODO: `printBody`
+
                 break;
             }
             case ItemKind::Impl:
