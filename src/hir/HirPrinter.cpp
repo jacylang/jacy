@@ -65,12 +65,14 @@ namespace jc::hir {
                 printGenericParams(funcItem->generics);
                 log.raw(itemWrapper.name);
                 printFuncSig(funcItem->sig, funcItem->body);
-                // TODO: `printBody`
+                printBody(funcItem->body);
 
                 break;
             }
-            case ItemKind::Impl:
+            case ItemKind::Impl: {
+
                 break;
+            }
             case ItemKind::Mod:
                 break;
             case ItemKind::Struct:
