@@ -84,7 +84,17 @@ namespace jc::hir {
         ItemId::List items;
     };
 
-    struct Struct : Item {};
+    struct Struct : Item {
+        Struct(CommonField::List && fields, GenericParam::List && generics, HirId hirId, Span span)
+            : Item {ItemKind::Struct},
+              fields {std::move(fields)},
+              generics {std::move(generics)} {}
+
+        /// Using `CommonField`s as `struct` field list
+        CommonField::List fields;
+
+        GenericParam::List generics;
+    };
 
     struct Trait : Item {};
 
