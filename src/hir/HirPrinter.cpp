@@ -452,6 +452,13 @@ namespace jc::hir {
         printBlock(block.unwrap());
     }
 
+    void HirPrinter::printPath(const Path & path) {
+        printDelim(path.segments, [&](const PathSeg & seg) {
+            log.raw(seg.name);
+            // TODO: `printGenericArgs`
+        }, "::");
+    }
+
     // Indentation and blocks //
     void HirPrinter::printIndent() {
         log.raw(log::Indent<4>(indent));
