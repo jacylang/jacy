@@ -38,15 +38,7 @@ namespace jc::hir {
                         case Variant::Kind::Struct:
                         case Variant::Kind::Tuple: {
                             const auto & fields = variant.getCommonFields();
-                            bool structVariant = variant.kind == Variant::Kind::Struct;
-
-                            printDelim(fields, [&](const CommonField & field) {
-                                if (structVariant) {
-                                    log.raw(field.ident, ": ");
-                                }
-                                printType(field.type);
-                            });
-
+                            printCommonFields(fields, variant.kind == Variant::Kind::Struct);
                             break;
                         }
                         case Variant::Kind::Unit: {
@@ -89,10 +81,7 @@ namespace jc::hir {
                 printGenericParams(structItem->generics);
 
                 beginBlock();
-                printDelim(structItem->fields, [&](const CommonField & field) {
-                    log.raw(field.ident, ": ");
-                    printType(field.type);
-                });
+                printCommonFields(structItem->fields, true);
                 endBlock();
 
                 break;
