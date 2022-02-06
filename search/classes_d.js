@@ -9,7 +9,7 @@ var searchData=
   ['option_3c_20ident_20_3e_6',['Option&lt; Ident &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['option_3c_20ident_3a_3apr_20_3e_7',['Option&lt; Ident::PR &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['option_3c_20jc_3a_3aast_3a_3abody_20_3e_8',['Option&lt; jc::ast::Body &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
-  ['option_3c_20jc_3a_3aast_3a_3aparseresult_3c_20n_3c_20jc_3a_3aast_3a_3atype_20_3e_20_3e_20_3e_9',['Option&lt; jc::ast::ParseResult&lt; N&lt; jc::ast::Type &gt; &gt; &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
+  ['option_3c_20jc_3a_3aast_3a_3aparseresult_20_3e_9',['Option&lt; jc::ast::ParseResult &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['option_3c_20jc_3a_3aast_3a_3aparty_20_3e_10',['Option&lt; jc::ast::Party &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['option_3c_20jc_3a_3amessage_3a_3alabel_20_3e_11',['Option&lt; jc::message::Label &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],
   ['option_3c_20list_20_3e_12',['Option&lt; List &gt;',['../classjc_1_1dt_1_1_option.html',1,'jc::dt']]],

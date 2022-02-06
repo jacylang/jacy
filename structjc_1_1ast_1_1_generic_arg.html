@@ -91,13 +91,13 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 using&#160;</td><td class="memItemRight" valign="bottom"><b>OptList</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; List &gt;</td></tr>
 <tr class="separator:aa04717c922a056f5aca10de83be24d70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf4a730293c68f4879b6b4960157b8e5"><td class="memItemLeft" align="right" valign="top"><a id="aaf4a730293c68f4879b6b4960157b8e5" name="aaf4a730293c68f4879b6b4960157b8e5"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; GenericsTypePtr, <a class="el" href="structjc_1_1ast_1_1_lifetime.html">Lifetime</a>, <a class="el" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &gt;</td></tr>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="classjc_1_1ast_1_1_parse_result.html">GenericsTypePtr</a>, <a class="el" href="structjc_1_1ast_1_1_lifetime.html">Lifetime</a>, <a class="el" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &gt;</td></tr>
 <tr class="separator:aaf4a730293c68f4879b6b4960157b8e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:afedda377164195deabdd9cb0ad226525"><td class="memItemLeft" align="right" valign="top"><a id="afedda377164195deabdd9cb0ad226525" name="afedda377164195deabdd9cb0ad226525"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GenericArg</b> (GenericsTypePtr &amp;&amp;type)</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GenericArg</b> (<a class="el" href="classjc_1_1ast_1_1_parse_result.html">GenericsTypePtr</a> &amp;&amp;type)</td></tr>
 <tr class="separator:afedda377164195deabdd9cb0ad226525"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e52410493efbeefe90f6b80d8fc1b5d"><td class="memItemLeft" align="right" valign="top"><a id="a9e52410493efbeefe90f6b80d8fc1b5d" name="a9e52410493efbeefe90f6b80d8fc1b5d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenericArg</b> (<a class="el" href="structjc_1_1ast_1_1_lifetime.html">Lifetime</a> &amp;&amp;lifetime)</td></tr>
@@ -105,15 +105,24 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6f98024ca17f4296fe2791ab4bed9b60"><td class="memItemLeft" align="right" valign="top"><a id="a6f98024ca17f4296fe2791ab4bed9b60" name="a6f98024ca17f4296fe2791ab4bed9b60"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenericArg</b> (<a class="el" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &amp;&amp;expr)</td></tr>
 <tr class="separator:a6f98024ca17f4296fe2791ab4bed9b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c7d236b53537ddac5d89e404426ac96"><td class="memItemLeft" align="right" valign="top"><a id="a9c7d236b53537ddac5d89e404426ac96" name="a9c7d236b53537ddac5d89e404426ac96"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
+<tr class="separator:a9c7d236b53537ddac5d89e404426ac96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a721d012a2c0460ca52296afccac9d76d"><td class="memItemLeft" align="right" valign="top"><a id="a721d012a2c0460ca52296afccac9d76d" name="a721d012a2c0460ca52296afccac9d76d"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getTypeArg</b> () const</td></tr>
+<tr class="separator:a721d012a2c0460ca52296afccac9d76d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b0aa3f61452478271b1bf9428f37314"><td class="memItemLeft" align="right" valign="top"><a id="a9b0aa3f61452478271b1bf9428f37314" name="a9b0aa3f61452478271b1bf9428f37314"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLifetime</b> () const</td></tr>
+<tr class="separator:a9b0aa3f61452478271b1bf9428f37314"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a2cb80027d89de15b7254104fb1cb68"><td class="memItemLeft" align="right" valign="top"><a id="a0a2cb80027d89de15b7254104fb1cb68" name="a0a2cb80027d89de15b7254104fb1cb68"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getConstArg</b> () const</td></tr>
+<tr class="separator:a0a2cb80027d89de15b7254104fb1cb68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:ad1d711a1968c46b8e822135848bb9c87"><td class="memItemLeft" align="right" valign="top"><a id="ad1d711a1968c46b8e822135848bb9c87" name="ad1d711a1968c46b8e822135848bb9c87"></a>
 Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
 <tr class="separator:ad1d711a1968c46b8e822135848bb9c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c9c494384deaf0890afbd039a89791"><td class="memItemLeft" align="right" valign="top"><a id="a55c9c494384deaf0890afbd039a89791" name="a55c9c494384deaf0890afbd039a89791"></a>
-ValueT&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
-<tr class="separator:a55c9c494384deaf0890afbd039a89791"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/ast/fragments/<a class="el" href="_generics_8h_source.html">Generics.h</a></li>

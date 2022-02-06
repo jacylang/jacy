@@ -7,7 +7,7 @@ var searchData=
   ['token_4',['Token',['../structjc_1_1parser_1_1_token.html',1,'jc::parser']]],
   ['tokenkind_5',['TokenKind',['../namespacejc_1_1parser.html#a1f70a9122d1fab3175c623ee06c984ee',1,'jc::parser']]],
   ['toklit_6',['TokLit',['../structjc_1_1parser_1_1_tok_lit.html',1,'jc::parser']]],
-  ['trait_7',['Trait',['../structjc_1_1ast_1_1_trait.html',1,'jc::ast::Trait'],['../structjc_1_1hir_1_1_trait.html',1,'jc::hir::Trait']]],
+  ['trait_7',['Trait',['../structjc_1_1ast_1_1_trait.html',1,'jc::ast::Trait'],['../structjc_1_1hir_1_1_generic_bound_1_1_trait.html',1,'jc::hir::GenericBound::Trait'],['../structjc_1_1hir_1_1_trait.html',1,'jc::hir::Trait']]],
   ['truecolor_8',['TrueColor',['../structjc_1_1log_1_1_true_color.html',1,'jc::log']]],
   ['trydefine_9',['tryDefine',['../structjc_1_1resolve_1_1_module.html#a931f7ce0ba34aca9da3f446d046d5c1f',1,'jc::resolve::Module']]],
   ['trydefinefos_10',['tryDefineFOS',['../structjc_1_1resolve_1_1_module.html#ad742b8583beb8125ab4a9943f4850d7b',1,'jc::resolve::Module']]],
@@ -17,7 +17,7 @@ var searchData=
   ['tuplepat_14',['TuplePat',['../structjc_1_1ast_1_1_tuple_pat.html',1,'jc::ast::TuplePat'],['../structjc_1_1hir_1_1_tuple_pat.html',1,'jc::hir::TuplePat']]],
   ['tupletype_15',['TupleType',['../structjc_1_1ast_1_1_tuple_type.html',1,'jc::ast::TupleType'],['../structjc_1_1hir_1_1_tuple_type.html',1,'jc::hir::TupleType']]],
   ['tupletypeel_16',['TupleTypeEl',['../structjc_1_1ast_1_1_tuple_type_el.html',1,'jc::ast']]],
-  ['type_17',['Type',['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
+  ['type_17',['Type',['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_generic_param_1_1_type.html',1,'jc::hir::GenericParam::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
   ['typealias_18',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
   ['typeparam_19',['TypeParam',['../structjc_1_1ast_1_1_type_param.html',1,'jc::ast']]],
   ['typepath_20',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]

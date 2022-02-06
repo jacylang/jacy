@@ -153,10 +153,15 @@ $(function() {
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_expr.html">Expr</a>(ExprKind kind, <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a> {hirId, span}, kind {kind} {}</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        ExprKind kind;</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    };</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_EXPR_H</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keyword">static</span> T * as(<span class="keyword">const</span> Ptr &amp; expr) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(expr.get());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    };</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_EXPR_H</span></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_expr_html"><div class="ttname"><a href="structjc_1_1hir_1_1_expr.html">jc::hir::Expr</a></div><div class="ttdef"><b>Definition:</b> Expr.h:54</div></div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['locals_0',['locals',['../structjc_1_1resolve_1_1_rib.html#ac0b0c164d0ee58c1f56cc55d2e570417',1,'jc::resolve::Rib']]]
+  ['id_0',['id',['../structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021',1,'jc::hir::HirId']]]
 ];

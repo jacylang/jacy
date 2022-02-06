@@ -90,10 +90,15 @@ $(function() {
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_stmt.html">Stmt</a>(StmtKind kind, <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a> {hirId, span}, kind {kind} {}</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        StmtKind kind;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    };</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_STMT_H</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">static</span> T * as(<span class="keyword">const</span> Ptr &amp; expr) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(expr.get());</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    };</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_STMT_H</span></div>
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html">jc::hir::HirId</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:27</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_hir_node_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:44</div></div>

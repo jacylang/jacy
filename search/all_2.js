@@ -9,7 +9,8 @@ var searchData=
   ['compile_6',['Compile',['../classjc_1_1cli_1_1_compile.html',1,'jc::cli']]],
   ['config_7',['Config',['../classjc_1_1config_1_1_config.html',1,'jc::config']]],
   ['configer_8',['Configer',['../classjc_1_1config_1_1_configer.html',1,'jc::config']]],
-  ['constparam_9',['ConstParam',['../structjc_1_1ast_1_1_const_param.html',1,'jc::ast']]],
-  ['continueexpr_10',['ContinueExpr',['../structjc_1_1ast_1_1_continue_expr.html',1,'jc::ast::ContinueExpr'],['../structjc_1_1hir_1_1_continue_expr.html',1,'jc::hir::ContinueExpr']]],
-  ['cursor_11',['Cursor',['../structjc_1_1log_1_1_cursor.html',1,'jc::log']]]
+  ['const_9',['Const',['../structjc_1_1hir_1_1_generic_arg_1_1_const.html',1,'jc::hir::GenericArg::Const'],['../structjc_1_1hir_1_1_generic_param_1_1_const.html',1,'jc::hir::GenericParam::Const']]],
+  ['constparam_10',['ConstParam',['../structjc_1_1ast_1_1_const_param.html',1,'jc::ast']]],
+  ['continueexpr_11',['ContinueExpr',['../structjc_1_1ast_1_1_continue_expr.html',1,'jc::ast::ContinueExpr'],['../structjc_1_1hir_1_1_continue_expr.html',1,'jc::hir::ContinueExpr']]],
+  ['cursor_12',['Cursor',['../structjc_1_1log_1_1_cursor.html',1,'jc::log']]]
 ];
