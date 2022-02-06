@@ -22,7 +22,7 @@ namespace jc::hir {
     };
 
     struct Variant : HirNode {
-        using Data = std::variant<CommonField::List, Option<AnonConst>>;
+        using Data = std::variant<CommonField::List, Option < AnonConst>>;
 
         // TODO: Requires unification for AST `Enum` field types
         enum class Kind {
@@ -65,9 +65,14 @@ namespace jc::hir {
     };
 
     struct Func : Item {
-        Func(FuncSig && sig, Body && body) : Item {ItemKind::Func}, sig {std::move(sig)}, body {std::move(body)} {}
+        Func(FuncSig && sig, GenericParam::List && generics, Body && body)
+            : Item {ItemKind::Func},
+              sig {std::move(sig)},
+              generics {std::move(generics)},
+              body {std::move(body)} {}
 
         FuncSig sig;
+        GenericParam::List generics;
         Body body;
     };
 
