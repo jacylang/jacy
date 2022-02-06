@@ -408,8 +408,7 @@ namespace jc::hir {
 
         log.raw("<");
 
-        for (size_t i = 0; i < params.size(); i++) {
-            const auto & param = params.at(i);
+        printDelim(params, [&](const GenericParam & param) {
             switch (param.kind) {
                 case GenericParam::Kind::Type: {
                     const auto & typeParam = param.getType();
@@ -428,11 +427,7 @@ namespace jc::hir {
                     break;
                 }
             }
-
-            if (i < params.size() - 1) {
-                log.raw(", ");
-            }
-        }
+        });
 
         log.raw(">");
     }
