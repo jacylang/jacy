@@ -59,8 +59,12 @@ namespace jc::hir {
                 endBlock();
                 break;
             }
-            case ItemKind::Func:
+            case ItemKind::Func: {
+                const auto & funcItem = Item::as<Func>(item);
+                log.raw("func ");
+                printGenericParams(funcItem)
                 break;
+            }
             case ItemKind::Impl:
                 break;
             case ItemKind::Mod:
@@ -509,6 +513,25 @@ namespace jc::hir {
             log.raw(seg.name);
             printGenericArgs(seg.generics);
         }, "::");
+    }
+
+    void HirPrinter::printFuncSig(const FuncSig & sig, BodyId bodyId) {
+        log.raw("(");
+
+        const auto & body = party.bodies.at(bodyId);
+
+        printDelim(sig.inputs, [&](const Type::Ptr & type, size_t index) {
+            printPat(body.params.at(index).pat);
+            log.raw(": ");
+            printType(type);
+        });
+
+        log.raw(")");
+
+        if (sig.returnType.isSome()) {
+            log.raw(": ");
+            printType(sig.returnType.asSome());
+        }
     }
 
     // Indentation and blocks //

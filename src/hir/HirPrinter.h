@@ -47,6 +47,8 @@ namespace jc::hir {
 
         void printPath(const Path & path);
 
+        void printFuncSig(const FuncSig & sig, BodyId bodyId);
+
         // Helpers //
     private:
         template<typename C>
