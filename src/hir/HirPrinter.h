@@ -51,6 +51,8 @@ namespace jc::hir {
 
         void printBody(BodyId bodyId);
 
+        void printCommonFields(const CommonField::List & fields, bool structFields);
+
         // Helpers //
     private:
         template<typename C>

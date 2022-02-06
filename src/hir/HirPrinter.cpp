@@ -570,6 +570,15 @@ namespace jc::hir {
         printExpr(body.value);
     }
 
+    void HirPrinter::printCommonFields(const CommonField::List & fields, bool structFields) {
+        printDelim(fields, [&](const CommonField & field) {
+            if (structFields) {
+                log.raw(field.ident, ": ");
+            }
+            printType(field.type);
+        });
+    }
+
     // Indentation and blocks //
     void HirPrinter::printIndent() {
         log.raw(log::Indent<4>(indent));
