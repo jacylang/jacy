@@ -194,7 +194,8 @@ namespace jc::hir {
                 break;
             }
             case ExprKind::Path: {
-                // TODO: `printPath`
+                const auto & pathExpr = Expr::as<PathExpr>(expr);
+                printPat(pathExpr->path);
                 break;
             }
             case ExprKind::Prefix: {
@@ -321,7 +322,8 @@ namespace jc::hir {
                 break;
             }
             case PatKind::Path: {
-                // TODO: `printPath`
+                const auto & pathPat = Pat::as<PathPat>(pat);
+                printPat(pathPat->path);
                 break;
             }
             case PatKind::Ref: {
@@ -340,7 +342,8 @@ namespace jc::hir {
             }
             case PatKind::Struct: {
                 const auto & structPat = Pat::as<StructPat>(pat);
-                // TODO: `printPath`
+
+                printPat(structPat->path);
 
                 log.raw("{");
 
