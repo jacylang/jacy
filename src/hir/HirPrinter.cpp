@@ -49,8 +49,10 @@ namespace jc::hir {
 
                             break;
                         }
-                        case Variant::Kind::Unit:
+                        case Variant::Kind::Unit: {
+                            // TODO: Print optional discriminant
                             break;
+                        }
                     }
 
                 }, ",\n");

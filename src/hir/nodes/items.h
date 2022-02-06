@@ -22,7 +22,7 @@ namespace jc::hir {
     };
 
     struct Variant : HirNode {
-        using Data = std::variant<CommonField::List, std::monostate>;
+        using Data = std::variant<CommonField::List, Option<AnonConst>>;
 
         // TODO: Requires unification for AST `Enum` field types
         enum class Kind {
@@ -44,8 +44,6 @@ namespace jc::hir {
         const auto & getCommonFields() const {
             return std::get<CommonField::List>(data);
         }
-
-        // TODO: Add discriminant for Unit kind
     };
 
     struct Enum : Item {
