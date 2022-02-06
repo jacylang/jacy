@@ -33,6 +33,8 @@ namespace jc::hir {
     };
 
     struct Param : HirNode {
+        using List = std::vector<Param>;
+
         Param(Pat::Ptr && pat, HirId hirId, Span span) : HirNode {hirId, span}, pat {std::move(pat)} {}
 
         Pat::Ptr pat;
@@ -41,13 +43,16 @@ namespace jc::hir {
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value) : exprBody {exprBody}, value {std::move(value)} {}
+        Body(bool exprBody, Expr::Ptr && value, Param::List && params)
+            : exprBody {exprBody}, value {std::move(value)}, params {std::move(params)} {}
 
         /// Denotes that `func`'s body was defined with `=`
         bool exprBody;
 
         /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
         Expr::Ptr value;
+
+        Param::List params;
     };
 
     /// Anonymous constant, used in `const` parameters and arguments, etc.
