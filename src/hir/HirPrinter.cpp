@@ -486,7 +486,7 @@ namespace jc::hir {
     void HirPrinter::printPath(const Path & path) {
         printDelim(path.segments, [&](const PathSeg & seg) {
             log.raw(seg.name);
-            // TODO: `printGenericArgs`
+            printGenericArgs(seg.generics);
         }, "::");
     }
 
