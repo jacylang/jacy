@@ -5,6 +5,7 @@
 #include "hir/nodes/Stmt.h"
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/Type.h"
+#include "hir/nodes/Pat.h"
 
 namespace jc::hir {
     struct Arg : HirNode {
