@@ -130,9 +130,9 @@ namespace jc::hir {
     private:
         Block lowerBlock(const ast::Block & block);
 
-        Body lowerBody(const ast::Body & astBody);
-
         Param::List lowerFuncParams(const ast::FuncParam::List & params);
+
+        BodyId lowerBody(const ast::Body & body, const ast::FuncParam::List & params);
 
         Path lowerPath(const ast::Path & path);
 

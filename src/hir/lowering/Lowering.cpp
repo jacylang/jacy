@@ -636,16 +636,18 @@ namespace jc::hir {
         return Block {std::move(stmts), lowerNodeId(block.id), block.span};
     }
 
-    Body Lowering::lowerBody(const ast::Body & astBody) {
-        // TODO!!!: Params
-        return Body {astBody.exprBody, lowerExpr(astBody.value), {}};
-    }
-
     Param::List Lowering::lowerFuncParams(const ast::FuncParam::List & funcParams) {
         Param::List params;
         for (const auto & param : funcParams) {
             params.emplace_back(lowerPat(param.pat), lowerNodeId(param.id), param.span);
         }
+    }
+
+    BodyId Lowering::lowerBody(const ast::Body & astBody, const ast::FuncParam::List & params) {
+        auto body = Body {astBody.exprBody, lowerExpr(astBody.value), lowerFuncParams(params)};
+        auto bodyId = body.getId();
+        bodies.emplace(bodyId, std::move(body));
+        return bodyId;
     }
 
     Path Lowering::lowerPath(const ast::Path & path) {
@@ -670,7 +672,7 @@ namespace jc::hir {
 
     AnonConst Lowering::lowerAnonConst(const ast::AnonConst & anonConst) {
         return AnonConst {
-            lowerNodeId(anonConst.nodeId),
+            lowerNodeId(anonConst.id),
             lowerExprAsBody(anonConst.expr)
         };
     }
