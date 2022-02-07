@@ -4,12 +4,14 @@
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
-    struct AnonConst {
+    struct AnonConst : Node {
         using Opt = Option<AnonConst>;
 
-        AnonConst(NodeId nodeId, Expr::Ptr && expr) : nodeId {nodeId}, expr {std::move(expr)} {}
+        // TODO: Think how to get rid of useless `Span` from `Node` (`AnonConst` need to be child of `Node`)
 
-        NodeId nodeId;
+        AnonConst(Expr::Ptr && expr)
+            : Node {expr.span()}, expr {std::move(expr)} {}
+
         Expr::Ptr expr;
 
         void accept(BaseVisitor & visitor) const {
