@@ -31,6 +31,18 @@ namespace jc::ast {
         Ident::PR name;
         std::variant<Expr::OptPtr, TupleTypeEl::List, StructField::List> body;
 
+        const auto & getDisc() const {
+            return std::get<Expr::OptPtr>(body);
+        }
+
+        const auto & getTuple() const {
+            return std::get<TupleTypeEl::List>(body);
+        }
+
+        const auto & getStruct() const {
+            return std::get<StructField::List>(body);
+        }
+
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
