@@ -183,7 +183,7 @@ namespace jc::resolve {
 
         auto [gotLabels, suffix] = Module::getCallSuffix(invoke.args);
 
-        if (invoke.lhs.unwrap()->kind == ast::ExprKind::Path) {
+        if (invoke.lhs.unwrap()->kind == ast::Expr::Kind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
             resolvePath(Namespace::Value, pathExpr->path, suffix);
         } else if (gotLabels) {

@@ -211,26 +211,26 @@ namespace jc::ast {
 
         const auto & span = assign.op.span;
         switch (assign.lhs.unwrap()->kind) {
-            case ExprKind::Assign: {
+            case Expr::Kind::Assign: {
                 msg.error()
                    .setText("Chained assignment is not allowed")
                    .setPrimaryLabel(span, "Chained assignment is not allowed")
                    .emit();
                 break;
             }
-            case ExprKind::Paren: {
+            case Expr::Kind::Paren: {
                 // Note: Checks for `(expr) = expr` go here...
                 break;
             }
-            case ExprKind::Path: {
+            case Expr::Kind::Path: {
                 // Note: Checks for `path::to::something = expr` go here...
                 break;
             }
-            case ExprKind::Subscript: {
+            case Expr::Kind::Subscript: {
                 // Note: Checks for `expr[expr, ...] = expr` go here...
                 break;
             }
-            case ExprKind::Tuple: {
+            case Expr::Kind::Tuple: {
                 // Note: Checks for `(a, b, c) = expr` go here..
                 // Note: This is destructuring, it won't appear in first version
                 break;
@@ -384,7 +384,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ParenExpr & parenExpr) {
-        if (parenExpr.expr.unwrap()->kind == ExprKind::Paren) {
+        if (parenExpr.expr.unwrap()->kind == Expr::Kind::Paren) {
             msg.warn()
                .setText("Useless double-wrapped parenthesized expression")
                .setPrimaryLabel(parenExpr.span, "Remove the second parentheses")
@@ -699,10 +699,10 @@ namespace jc::ast {
     // Helpers //
     bool Validator::isPlaceExpr(const Expr::Ptr & maybeExpr) {
         const auto & expr = maybeExpr.unwrap();
-        if (expr->is(ExprKind::Paren)) {
+        if (expr->is(Expr::Kind::Paren)) {
             return isPlaceExpr((*static_cast<ParenExpr *>(expr.get())).expr);
         }
-        return expr->is(ExprKind::Path) or expr->is(ExprKind::Subscript);
+        return expr->is(Expr::Kind::Path) or expr->is(Expr::Kind::Subscript);
     }
 
     void Validator::validateAttrs(const ast::Attr::List & attrs) {
