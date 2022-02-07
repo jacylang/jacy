@@ -17,7 +17,7 @@ namespace jc::ast {
             Ident::PR name,
             Option<Body> && body,
             Span span
-        ) : Item {span, ItemKind::Func},
+        ) : Item {span, Item::Kind::Func},
             header {std::move(header)},
             sig {std::move(sig)},
             generics {std::move(generics)},

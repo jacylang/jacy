@@ -12,7 +12,7 @@ namespace jc::ast {
             TypePath::List && superTraits,
             Item::List && members,
             Span span
-        ) : Item {span, ItemKind::Trait},
+        ) : Item {span, Item::Kind::Trait},
             name {std::move(name)},
             generics {std::move(generics)},
             superTraits {std::move(superTraits)},

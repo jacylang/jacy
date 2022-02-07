@@ -56,7 +56,7 @@ namespace jc::ast {
         UseDecl(
             UseTree::PR && useTree,
             Span span
-        ) : Item {span, ItemKind::Use},
+        ) : Item {span, Item::Kind::Use},
             useTree {std::move(useTree)} {}
 
         UseTree::PR useTree;

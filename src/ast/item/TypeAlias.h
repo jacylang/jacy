@@ -11,7 +11,7 @@ namespace jc::ast {
             Ident::PR && name,
             Type::OptPtr && type,
             Span span
-        ) : Item {span, ItemKind::TypeAlias},
+        ) : Item {span, Item::Kind::TypeAlias},
             name {std::move(name)},
             type {std::move(type)} {}
 

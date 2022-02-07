@@ -4,18 +4,6 @@
 #include "ast/fragments/Attr.h"
 
 namespace jc::ast {
-    enum class ItemKind {
-        Enum,
-        Func,
-        Impl,
-        Init,
-        Mod,
-        Struct,
-        Trait,
-        TypeAlias,
-        Use,
-    };
-
     enum class VisKind {
         Unset,
         Pub,
@@ -36,10 +24,22 @@ namespace jc::ast {
         using Ptr = PR<N<Item>>;
         using List = std::vector<Ptr>;
 
-        Item(Span span, ItemKind kind) : Node {span}, kind {kind} {}
+        enum class Kind {
+            Enum,
+            Func,
+            Impl,
+            Init,
+            Mod,
+            Struct,
+            Trait,
+            TypeAlias,
+            Use,
+        };
+
+        Item(Span span, Kind kind) : Node {span}, kind {kind} {}
 
         Attr::List attributes;
-        ItemKind kind;
+        Kind kind;
         Vis vis;
 
         void setAttributes(Attr::List && attributes) {
