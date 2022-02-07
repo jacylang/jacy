@@ -675,6 +675,11 @@ namespace jc::hir {
         return bodyId;
     }
 
+    GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::List & params) {
+        // TODO!!!
+        return {};
+    }
+
     // Patterns //
     Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
