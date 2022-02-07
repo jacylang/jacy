@@ -58,6 +58,8 @@ namespace jc::hir {
 
     /// Anonymous constant, used in `const` parameters and arguments, etc.
     struct AnonConst {
+        using Opt = Option<AnonConst>;
+
         HirId hirId;
         BodyId bodyId;
     };
