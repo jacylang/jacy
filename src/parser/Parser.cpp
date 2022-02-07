@@ -392,7 +392,7 @@ namespace jc::parser {
         auto name = parseIdent("`enum` entry name");
 
         if (skipOpt(TokenKind::Assign).some()) {
-            auto disc = parseExpr("Expected constant expression after `=`");
+            auto disc = parseAnonConst("Expected constant expression after `=`");
             exitEntity();
             return makeNode<Variant>(Variant::Kind::Unit, std::move(name), std::move(disc), closeSpan(begin));
         } else if (skipOpt(TokenKind::LParen).some()) {
