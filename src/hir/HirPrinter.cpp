@@ -61,9 +61,8 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Impl: {
+            case ItemKind::Impl: // TODO
                 break;
-            }
             case ItemKind::Mod: {
                 const auto & mod = Item::as<Mod>(item);
 
@@ -86,7 +85,7 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Trait:
+            case ItemKind::Trait: // TODO
                 break;
             case ItemKind::TypeAlias: {
                 const auto & typeAlias = Item::as<TypeAlias>(item);
@@ -129,6 +128,22 @@ namespace jc::hir {
     void HirPrinter::printStmt(const Stmt::Ptr & stmt) {
         switch (stmt->kind) {
             case StmtKind::Let: {
+                const auto & letStmt = Stmt::as<LetStmt>(stmt);
+
+                log.raw("let ");
+                printPat(letStmt->pat);
+
+                if (letStmt->type.some()) {
+                    log.raw(": ");
+                    printType(letStmt->type.unwrap());
+                }
+
+                if (letStmt->value.some()) {
+                    log.raw(" = ");
+                    printExpr(letStmt->value.unwrap());
+                }
+
+                log.raw(";");
                 break;
             }
             case StmtKind::Item: {
