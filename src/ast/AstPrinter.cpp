@@ -745,6 +745,11 @@ namespace jc::ast {
         printNodeId(seg);
     }
 
+    void AstPrinter::visit(const AnonConst & anonConst) {
+        anonConst.expr.autoAccept(*this);
+        printNodeId(anonConst.nodeId);
+    }
+
     // Patterns //
     void AstPrinter::visit(const MultiPat & pat) {
         for (size_t i = 0; i < pat.patterns.size(); i++) {

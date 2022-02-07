@@ -2,6 +2,7 @@
 #define JACY_AST_FRAGMENTS_GENERICS_H
 
 #include "ast/fragments/Ident.h"
+#include "ast/fragments/AnonConst.h"
 
 namespace jc::ast {
     struct Type;

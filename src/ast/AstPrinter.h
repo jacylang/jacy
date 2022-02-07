@@ -153,6 +153,8 @@ namespace jc::ast {
 
         void visit(const SimplePathSeg & seg) override;
 
+        void visit(const AnonConst & anonConst) override;
+
         // Patterns //
         void visit(const MultiPat & pat) override;
 
