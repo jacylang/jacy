@@ -7,6 +7,7 @@
 #include "hir/nodes/Type.h"
 #include "ast/fragments/func_fragments.h"
 #include "hir/nodes/fragments.h"
+#include "ast/item/UseDecl.h"
 
 namespace jc::hir {
     struct CommonField : HirNode {

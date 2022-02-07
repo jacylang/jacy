@@ -3,7 +3,7 @@
 
 #include "ast/nodes.h"
 #include "session/Session.h"
-#include "hir/nodes/nodes.h"
+#include "hir/nodes/Party.h"
 #include "message/MessageBuilder.h"
 #include "message/MessageResult.h"
 
