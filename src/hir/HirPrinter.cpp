@@ -613,6 +613,10 @@ namespace jc::hir {
         });
     }
 
+    void HirPrinter::printAnonConst(const AnonConst & anonConst) {
+        printExpr(party.bodies.at(anonConst.bodyId).value);
+    }
+
     // Indentation and blocks //
     void HirPrinter::printIndent() {
         log.raw(log::Indent<4>(indent));

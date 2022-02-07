@@ -53,6 +53,8 @@ namespace jc::hir {
 
         void printCommonFields(const CommonField::List & fields, bool structFields);
 
+        void printAnonConst(const AnonConst & anonConst);
+
         // Helpers //
     private:
         template<typename C>
