@@ -127,6 +127,13 @@ namespace jc::parser {
             return node;
         }
 
+        template<class T, class ...Args>
+        inline T makeNodeLike(Args && ...args) {
+            auto nodeLike = T(std::forward<Args>(args)...);
+            lastCodeTestItem = sess->nodeStorage.addNodeLike(nodeLike);
+            return nodeLike;
+        }
+
         template<class T>
         inline PR<T> makeErrPR(Span span) {
             ErrorNode node(span);
