@@ -10,14 +10,16 @@ namespace jc::parser {
     }
 
     Token Parser::peek() {
-        if (mode == ParsingMode::CodeTest and tokens.at(index).is(TokenKind::LineComment)) {
-            addCodeTestComment(tokens.at(index));
+        const auto & token = tokens.at(index);
+
+        if (mode == ParsingMode::CodeTest and token.is(TokenKind::LineComment)) {
+            addCodeTestComment(token);
         }
 
-        while (tokens.at(index).isHidden()) {
+        while (token.isHidden()) {
             advance();
         }
-        return tokens.at(index);
+        return token;
     }
 
     Token Parser::advance(uint8_t distance) {
