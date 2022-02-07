@@ -361,7 +361,7 @@ namespace jc::hir {
                 log.raw("[");
                 printType(array->type);
                 log.raw("; ");
-                // TODO: Print size anon const
+                printAnonConst(array->size);
                 log.raw("]");
                 break;
             }

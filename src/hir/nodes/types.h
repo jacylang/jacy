@@ -29,11 +29,11 @@ namespace jc::hir {
     };
 
     struct ArrayType : Type {
-        ArrayType(Type::Ptr && type, Expr::Ptr && size, HirId hirId, Span span)
+        ArrayType(Type::Ptr && type, AnonConst && size, HirId hirId, Span span)
             : Type {TypeKind::Array, hirId, span}, type {std::move(type)}, size {std::move(size)} {}
 
         Type::Ptr type;
-        Expr::Ptr size;
+        AnonConst size;
     };
 
     struct TypePath : Type {
