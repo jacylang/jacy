@@ -540,7 +540,7 @@ namespace jc::hir {
                     break;
                 }
                 case GenericArg::Kind::Const: {
-                    // TODO: `printAnonConst`
+                    printAnonConst(arg.getConstParam().value);
                     break;
                 }
             }
