@@ -484,20 +484,20 @@ namespace jc::hir {
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap("`Lowering::lowerType`");
         switch (type->kind) {
-            case ast::TypeKind::Paren: {
+            case ast::Type::Kind::Paren: {
                 return lowerType(type->as<ast::ParenType>(type)->type);
             }
-            case ast::TypeKind::Tuple:
+            case ast::Type::Kind::Tuple:
                 break;
-            case ast::TypeKind::Func:
+            case ast::Type::Kind::Func:
                 break;
-            case ast::TypeKind::Slice:
+            case ast::Type::Kind::Slice:
                 break;
-            case ast::TypeKind::Array:
+            case ast::Type::Kind::Array:
                 break;
-            case ast::TypeKind::Path:
+            case ast::Type::Kind::Path:
                 break;
-            case ast::TypeKind::Unit:
+            case ast::Type::Kind::Unit:
                 break;
         }
         log::notImplemented("Lowering::lowerType");

@@ -323,11 +323,11 @@ namespace jc::hir {
     // Types //
     void HirPrinter::printType(const Type::Ptr & type) {
         switch (type->kind) {
-            case TypeKind::Infer: {
+            case Type::Kind::Infer: {
                 // TODO: `_` or nothing?
                 break;
             }
-            case TypeKind::Tuple: {
+            case Type::Kind::Tuple: {
                 const auto & tuple = Type::as<TupleType>(type);
                 log.raw("(");
                 printDelim(tuple->types, [&](const auto & el) {
@@ -336,7 +336,7 @@ namespace jc::hir {
                 log.raw(")");
                 break;
             }
-            case TypeKind::Func: {
+            case Type::Kind::Func: {
                 const auto & func = Type::as<FuncType>(type);
 
                 log.raw("(");
@@ -349,14 +349,14 @@ namespace jc::hir {
 
                 break;
             }
-            case TypeKind::Slice: {
+            case Type::Kind::Slice: {
                 const auto & slice = Type::as<SliceType>(type);
                 log.raw("[");
                 printType(slice->type);
                 log.raw("]");
                 break;
             }
-            case TypeKind::Array: {
+            case Type::Kind::Array: {
                 const auto & array = Type::as<ArrayType>(type);
                 log.raw("[");
                 printType(array->type);
@@ -365,7 +365,7 @@ namespace jc::hir {
                 log.raw("]");
                 break;
             }
-            case TypeKind::Path: {
+            case Type::Kind::Path: {
                 const auto & typePath = Type::as<TypePath>(type);
                 printPath(typePath->path);
                 break;

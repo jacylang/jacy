@@ -4,23 +4,23 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    enum class TypeKind {
-        Infer,
-        Tuple,
-        Func,
-        Slice,
-        Array,
-        Path,
-    };
-
     struct Type : HirNode {
+        enum class Kind {
+            Infer,
+            Tuple,
+            Func,
+            Slice,
+            Array,
+            Path,
+        };
+
         using Ptr = N<Type>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Type::Ptr>;
 
-        Type(TypeKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
+        Type(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
-        TypeKind kind;
+        Kind kind;
 
         template<class T>
         static T * as(const Ptr & item) {
