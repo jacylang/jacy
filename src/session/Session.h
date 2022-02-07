@@ -29,8 +29,9 @@ namespace jc::sess {
         }
 
         template<class T>
-        ast::NodeId addNodeLike(T & nodeLike) {
+        ast::NodeId addNodeLike(T & nodeLike, span::Span span) {
             nodeLike.id.val = nextNodeId.val++;
+            nodeSpanMap.emplace(nodeLike.id, span);
             return nodeLike.id;
         }
 
