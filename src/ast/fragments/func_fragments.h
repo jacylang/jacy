@@ -3,6 +3,7 @@
 
 #include "ast/fragments/Pat.h"
 #include "ast/fragments/Type.h"
+#include "ast/fragments/AnonConst.h"
 #include "ast/expr/Expr.h"
 
 namespace jc::ast {
@@ -13,7 +14,7 @@ namespace jc::ast {
             Ident::OptPR && label,
             Pat::Ptr pat,
             Type::Ptr type,
-            Expr::OptPtr defaultValue,
+            AnonConst::Opt defaultValue,
             Span span
         ) : Node {span},
             label {std::move(label)},
@@ -24,7 +25,7 @@ namespace jc::ast {
         Ident::OptPR label;
         Pat::Ptr pat;
         Type::Ptr type;
-        Expr::OptPtr defaultValue;
+        AnonConst::Opt defaultValue;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
