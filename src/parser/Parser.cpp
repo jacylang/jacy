@@ -1952,6 +1952,10 @@ namespace jc::parser {
         return Some(std::move(args));
     }
 
+    AnonConst Parser::parseAnonConst() {
+        return makeNode<AnonConst>(parseExpr("[TODO]"));
+    }
+
     TupleTypeEl::List Parser::parseTupleFields() {
         enterEntity("TupleFields");
 
