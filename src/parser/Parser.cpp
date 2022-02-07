@@ -1449,7 +1449,7 @@ namespace jc::parser {
         const auto & maybeParen = peek();
         auto condition = parseExpr("Expected condition in `if` expression");
 
-        if (not condition.err() and condition.take()->is(ExprKind::Paren)) {
+        if (not condition.err() and condition.take()->is(Expr::Kind::Paren)) {
             msg.warn()
                .setText("Unnecessary parentheses around `if` condition")
                .addHelp(maybeParen.span, "Remove parentheses")
@@ -2500,7 +2500,7 @@ namespace jc::parser {
             }
 
             auto pat = parsePat();
-            if (pat.ok() and pat.unwrap()->kind == PatKind::Rest) {
+            if (pat.ok() and pat.unwrap()->kind == Pat::Kind::Rest) {
                 restPatIndex = index;
             }
 
@@ -2543,7 +2543,7 @@ namespace jc::parser {
 
             auto pat = parsePat();
 
-            if (pat.ok() and pat.unwrap()->kind == PatKind::Rest) {
+            if (pat.ok() and pat.unwrap()->kind == Pat::Kind::Rest) {
                 restPatSpan = pat.span();
             }
 
