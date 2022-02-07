@@ -97,8 +97,31 @@ namespace jc::hir {
                 printType(typeAlias->type);
                 break;
             }
-            case ItemKind::Use:
+            case ItemKind::Use: {
+                const auto & useDecl = Item::as<UseDecl>(item);
+
+                printPat(useDecl->path);
+
+                switch (useDecl->kind) {
+                    case ast::UseTree::Kind::Raw: break;
+                    case ast::UseTree::Kind::All: {
+                        log.raw("::*");
+                        break;
+                    }
+                    case ast::UseTree::Kind::Specific: {
+                        // Note: When `Specific` `UseDecl` is lowered we split it into separate `UseDecl`,
+                        //  thus just print to know that there was a `Specific` `UseDecl`
+                        // TODO: Remove `Specific` at all?
+                        log.raw("::{}");
+                        break;
+                    }
+                    case ast::UseTree::Kind::Rebind: {
+                        log.raw(" as ", itemWrapper.name);
+                        break;
+                    }
+                }
                 break;
+            }
         }
     }
 
