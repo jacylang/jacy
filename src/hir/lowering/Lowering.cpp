@@ -182,6 +182,7 @@ namespace jc::hir {
 
         return makeBoxNode<Func>(
             std::move(sig),
+            lowerGenericParams(astFunc.generics),
             std::move(body)
         );
     }
@@ -640,6 +641,13 @@ namespace jc::hir {
         return Body {astBody.exprBody, lowerExpr(astBody.value), {}};
     }
 
+    Param::List Lowering::lowerFuncParams(const ast::FuncParam::List & funcParams) {
+        Param::List params;
+        for (const auto & param : funcParams) {
+            params.emplace_back(lowerPat(param.pat), lowerNodeId(param.id), param.span);
+        }
+    }
+
     Path Lowering::lowerPath(const ast::Path & path) {
         const auto & res = sess->resolutions.getRes({path.id});
 
@@ -675,7 +683,7 @@ namespace jc::hir {
         return bodyId;
     }
 
-    GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::List & params) {
+    GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::OptList & params) {
         // TODO!!!
         return {};
     }

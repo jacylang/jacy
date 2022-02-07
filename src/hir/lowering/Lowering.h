@@ -132,6 +132,8 @@ namespace jc::hir {
 
         Body lowerBody(const ast::Body & astBody);
 
+        Param::List lowerFuncParams(const ast::FuncParam::List & params);
+
         Path lowerPath(const ast::Path & path);
 
         MatchArm lowerMatchArm(const ast::MatchArm & arm);
@@ -140,7 +142,7 @@ namespace jc::hir {
 
         BodyId lowerExprAsBody(const ast::Expr::Ptr & expr);
 
-        GenericParam::List lowerGenericParams(const ast::GenericParam::List & params);
+        GenericParam::List lowerGenericParams(const ast::GenericParam::OptList & params);
 
         // Patterns //
     private:
