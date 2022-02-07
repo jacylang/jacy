@@ -614,6 +614,10 @@ namespace jc::ast {
         seg.ident.autoAccept(*this);
     }
 
+    void Validator::visit(const AnonConst & anonConst) {
+        anonConst.expr.autoAccept(*this);
+    }
+
     // Patterns //
     void Validator::visit(const MultiPat & pat) {
         validateEach(pat.patterns);

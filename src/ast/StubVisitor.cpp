@@ -402,6 +402,10 @@ namespace jc::ast {
         seg.ident.autoAccept(*this);
     }
 
+    void StubVisitor::visit(const AnonConst & anonConst) {
+        anonConst.expr.autoAccept(*this);
+    }
+
     // Patterns //
     void StubVisitor::visit(const MultiPat & pat) {
         visitEach(pat.patterns);
