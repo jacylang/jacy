@@ -657,6 +657,13 @@ namespace jc::hir {
         return MatchArm {std::move(pat), std::move(body), lowerNodeId(arm.id), arm.span};
     }
 
+    AnonConst Lowering::lowerAnonConst(const ast::AnonConst & anonConst) {
+        return AnonConst {
+            lowerNodeId(anonConst.nodeId),
+            lowerExprAsBody(anonConst.expr)
+        };
+    }
+
     BodyId Lowering::lowerExprAsBody(const ast::Expr::Ptr & expr) {
         /// Note (on `{}`):  Standalone expression does not have parameters
         auto body = Body(false, lowerExpr(expr), {});
