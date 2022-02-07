@@ -97,6 +97,7 @@ namespace jc::hir {
                 printGenericParams(typeAlias->generics);
                 log.raw(" = ");
                 printType(typeAlias->type);
+                log.raw(";");
                 break;
             }
             case Item::Kind::Use: {
@@ -122,6 +123,8 @@ namespace jc::hir {
                         break;
                     }
                 }
+
+                log.raw(";");
                 break;
             }
         }
@@ -157,6 +160,7 @@ namespace jc::hir {
             case Stmt::Kind::Expr: {
                 const auto & exprStmt = Stmt::as<ExprStmt>(stmt);
                 printExpr(exprStmt->expr);
+                log.raw(";");
                 break;
             }
         }
