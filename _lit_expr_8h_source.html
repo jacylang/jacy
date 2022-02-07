@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        LitExpr(ValueT val, <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp; token)</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, val {val} {}</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keyword">static</span> dt::Result &lt;Int, LitPreEvalErr&gt; intValue(</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            parser::TokLit::Kind kind,</div>
@@ -245,7 +245,7 @@ $(function() {
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_EXPR_LITEXPR_H</span></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:41</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:12</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_lit_expr_1_1_bool_html"><div class="ttname"><a href="structjc_1_1ast_1_1_lit_expr_1_1_bool.html">jc::ast::LitExpr::Bool</a></div><div class="ttdef"><b>Definition:</b> LitExpr.h:10</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_lit_expr_1_1_float_html"><div class="ttname"><a href="structjc_1_1ast_1_1_lit_expr_1_1_float.html">jc::ast::LitExpr::Float</a></div><div class="ttdef"><b>Definition:</b> LitExpr.h:38</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_lit_expr_1_1_float_html_ad34cf612b036fe09d25cbbb8ebb4669c"><div class="ttname"><a href="structjc_1_1ast_1_1_lit_expr_1_1_float.html#ad34cf612b036fe09d25cbbb8ebb4669c">jc::ast::LitExpr::Float::sym</a></div><div class="ttdeci">span::Symbol sym</div><div class="ttdef"><b>Definition:</b> LitExpr.h:48</div></div>

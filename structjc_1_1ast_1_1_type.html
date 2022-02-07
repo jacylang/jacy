@@ -96,6 +96,18 @@ Inheritance diagram for jc::ast::Type:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:ae0b60f04556c705367a7e4fa2f88207b"><td class="memItemLeft" align="right" valign="top"><a id="ae0b60f04556c705367a7e4fa2f88207b" name="ae0b60f04556c705367a7e4fa2f88207b"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
+&#160;&#160;<b>Paren</b>
+, <b>Tuple</b>
+, <b>Func</b>
+, <b>Slice</b>
+, <br />
+&#160;&#160;<b>Array</b>
+, <b>Path</b>
+, <b>Unit</b>
+<br />
+ }</td></tr>
+<tr class="separator:ae0b60f04556c705367a7e4fa2f88207b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac223abaeb4375208d375684f856edf5a"><td class="memItemLeft" align="right" valign="top"><a id="ac223abaeb4375208d375684f856edf5a" name="ac223abaeb4375208d375684f856edf5a"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = <a class="el" href="classjc_1_1ast_1_1_parse_result.html">PR</a>&lt; N&lt; <a class="el" href="structjc_1_1ast_1_1_type.html">Type</a> &gt; &gt;</td></tr>
 <tr class="separator:ac223abaeb4375208d375684f856edf5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -115,9 +127,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab58995315d19a5ba20873e9556decda4"><td class="memItemLeft" align="right" valign="top"><a id="ab58995315d19a5ba20873e9556decda4" name="ab58995315d19a5ba20873e9556decda4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span, TypeKind kind)</td></tr>
-<tr class="separator:ab58995315d19a5ba20873e9556decda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af25fc0d86b019e36e8b2704ffa5bae92"><td class="memItemLeft" align="right" valign="top"><a id="af25fc0d86b019e36e8b2704ffa5bae92" name="af25fc0d86b019e36e8b2704ffa5bae92"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> (<a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span, Kind kind)</td></tr>
+<tr class="separator:af25fc0d86b019e36e8b2704ffa5bae92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc7f4bb8145a695b34f605a81c0c18b2"><td class="memItemLeft" align="right" valign="top"><a id="adc7f4bb8145a695b34f605a81c0c18b2" name="adc7f4bb8145a695b34f605a81c0c18b2"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const =0</td></tr>
 <tr class="separator:adc7f4bb8145a695b34f605a81c0c18b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,9 +155,9 @@ template&lt;class T &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a5f295d790a3a03910b84c3e0099e4e6f"><td class="memItemLeft" align="right" valign="top"><a id="a5f295d790a3a03910b84c3e0099e4e6f" name="a5f295d790a3a03910b84c3e0099e4e6f"></a>
-TypeKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:a5f295d790a3a03910b84c3e0099e4e6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a882ac3550134a6a3cf2d6a4f1a6ed0e5"><td class="memItemLeft" align="right" valign="top"><a id="a882ac3550134a6a3cf2d6a4f1a6ed0e5" name="a882ac3550134a6a3cf2d6a4f1a6ed0e5"></a>
+Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<tr class="separator:a882ac3550134a6a3cf2d6a4f1a6ed0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:ab51f5798f9bfffd1cc558955f07772e2 inherit pub_attribs_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="ab51f5798f9bfffd1cc558955f07772e2" name="ab51f5798f9bfffd1cc558955f07772e2"></a>
 <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> {NodeId::DUMMY}</td></tr>

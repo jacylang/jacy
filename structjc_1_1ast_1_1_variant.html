@@ -106,15 +106,24 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaf1f4be92fe99977612e518b6ed06d12"><td class="memItemLeft" align="right" valign="top"><a id="aaf1f4be92fe99977612e518b6ed06d12" name="aaf1f4be92fe99977612e518b6ed06d12"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, <a class="el" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a> &amp;&amp;disc, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:aaf1f4be92fe99977612e518b6ed06d12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50301f153b3349719b029c86ab066caf"><td class="memItemLeft" align="right" valign="top"><a id="a50301f153b3349719b029c86ab066caf" name="a50301f153b3349719b029c86ab066caf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, <a class="el" href="classjc_1_1dt_1_1_option.html">AnonConst::Opt</a> &amp;&amp;disc, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a50301f153b3349719b029c86ab066caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c2c100774283f97937c6c4227ad207b"><td class="memItemLeft" align="right" valign="top"><a id="a6c2c100774283f97937c6c4227ad207b" name="a6c2c100774283f97937c6c4227ad207b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, TupleTypeEl::List &amp;&amp;tupleFields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
 <tr class="separator:a6c2c100774283f97937c6c4227ad207b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e5c83c87fcd745aa47b5ec055c3f768"><td class="memItemLeft" align="right" valign="top"><a id="a4e5c83c87fcd745aa47b5ec055c3f768" name="a4e5c83c87fcd745aa47b5ec055c3f768"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Variant</b> (Kind kind, Ident::PR &amp;&amp;name, StructField::List &amp;&amp;fields, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
 <tr class="separator:a4e5c83c87fcd745aa47b5ec055c3f768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6686a56e50673d4b09a91d749226d779"><td class="memItemLeft" align="right" valign="top"><a id="a6686a56e50673d4b09a91d749226d779" name="a6686a56e50673d4b09a91d749226d779"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getDisc</b> () const</td></tr>
+<tr class="separator:a6686a56e50673d4b09a91d749226d779"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a564962522198189cd74597ea62ed137b"><td class="memItemLeft" align="right" valign="top"><a id="a564962522198189cd74597ea62ed137b" name="a564962522198189cd74597ea62ed137b"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getTuple</b> () const</td></tr>
+<tr class="separator:a564962522198189cd74597ea62ed137b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e265aaacf84cb4e2d699df79f77576b"><td class="memItemLeft" align="right" valign="top"><a id="a6e265aaacf84cb4e2d699df79f77576b" name="a6e265aaacf84cb4e2d699df79f77576b"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getStruct</b> () const</td></tr>
+<tr class="separator:a6e265aaacf84cb4e2d699df79f77576b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab87cd3bec3d00f18eafa0d6bfc6ad8c"><td class="memItemLeft" align="right" valign="top"><a id="aab87cd3bec3d00f18eafa0d6bfc6ad8c" name="aab87cd3bec3d00f18eafa0d6bfc6ad8c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>accept</b> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const</td></tr>
 <tr class="separator:aab87cd3bec3d00f18eafa0d6bfc6ad8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -134,9 +143,9 @@ Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
 <tr class="memitem:a7fa70da3615a684c0ebce205ff748e44"><td class="memItemLeft" align="right" valign="top"><a id="a7fa70da3615a684c0ebce205ff748e44" name="a7fa70da3615a684c0ebce205ff748e44"></a>
 Ident::PR&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
 <tr class="separator:a7fa70da3615a684c0ebce205ff748e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac50a116fb738a40da52633fe60cebf9e"><td class="memItemLeft" align="right" valign="top"><a id="ac50a116fb738a40da52633fe60cebf9e" name="ac50a116fb738a40da52633fe60cebf9e"></a>
-std::variant&lt; <a class="el" href="classjc_1_1dt_1_1_option.html">Expr::OptPtr</a>, TupleTypeEl::List, StructField::List &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
-<tr class="separator:ac50a116fb738a40da52633fe60cebf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b4dea5055d07376b1c9f0c459ea5df4"><td class="memItemLeft" align="right" valign="top"><a id="a1b4dea5055d07376b1c9f0c459ea5df4" name="a1b4dea5055d07376b1c9f0c459ea5df4"></a>
+std::variant&lt; <a class="el" href="classjc_1_1dt_1_1_option.html">AnonConst::Opt</a>, TupleTypeEl::List, StructField::List &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
+<tr class="separator:a1b4dea5055d07376b1c9f0c459ea5df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:ab51f5798f9bfffd1cc558955f07772e2 inherit pub_attribs_structjc_1_1ast_1_1_node"><td class="memItemLeft" align="right" valign="top"><a id="ab51f5798f9bfffd1cc558955f07772e2" name="ab51f5798f9bfffd1cc558955f07772e2"></a>
 <a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> {NodeId::DUMMY}</td></tr>

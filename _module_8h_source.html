@@ -284,7 +284,7 @@ $(function() {
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp; param : sig.params) {</div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                <span class="keywordflow">if</span> (param.label.some()) {</div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                    labels.emplace_back(param.label.unwrap().unwrap().sym);</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param.pat.unwrap()-&gt;kind == ast::PatKind::Ident) {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (param.pat.unwrap()-&gt;kind == ast::Pat::Kind::Ident) {</div>
 <div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                    <span class="comment">// If no label present and IdentPat (such as `ref? mut? IDENT @ Pattern`) used -- use IDENT</span></div>
 <div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                    labels.emplace_back(ast::Pat::as&lt;ast::IdentPat&gt;(param.pat.unwrap())-&gt;name.unwrap().sym);</div>
 <div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                } <span class="keywordflow">else</span> {</div>
@@ -351,7 +351,7 @@ $(function() {
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><span class="preprocessor">#endif </span><span class="comment">// JACY_RESOLVE_MODULE_H</span></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_result_html"><div class="ttname"><a href="classjc_1_1dt_1_1_result.html">jc::dt::Result</a></div><div class="ttdef"><b>Definition:</b> Result.h:107</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:83</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_func_sig_html"><div class="ttname"><a href="structjc_1_1ast_1_1_func_sig.html">jc::ast::FuncSig</a></div><div class="ttdef"><b>Definition:</b> func_fragments.h:84</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_init_html"><div class="ttname"><a href="structjc_1_1ast_1_1_init.html">jc::ast::Init</a></div><div class="ttdef"><b>Definition:</b> Init.h:8</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></div><div class="ttdef"><b>Definition:</b> Node.h:56</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_id_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node_id.html">jc::ast::NodeId</a></div><div class="ttdef"><b>Definition:</b> Node.h:18</div></div>

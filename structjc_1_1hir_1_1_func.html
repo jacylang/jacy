@@ -91,9 +91,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Func</b> (<a class="el" href="structjc_1_1hir_1_1_func_sig.html">FuncSig</a> &amp;&amp;sig, GenericParam::List &amp;&amp;generics, <a class="el" href="structjc_1_1hir_1_1_body_id.html">BodyId</a> body)</td></tr>
 <tr class="separator:a379c29c7ccee335cf8f2efd80e17a6d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1hir_1_1_item"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1hir_1_1_item')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></td></tr>
-<tr class="memitem:a30a76077192b5a52f2ca231fcfa21881 inherit pub_methods_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="a30a76077192b5a52f2ca231fcfa21881" name="a30a76077192b5a52f2ca231fcfa21881"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Item</b> (ItemKind kind)</td></tr>
-<tr class="separator:a30a76077192b5a52f2ca231fcfa21881 inherit pub_methods_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61ee44c45c5c85388b27c0ff4de09ace inherit pub_methods_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="a61ee44c45c5c85388b27c0ff4de09ace" name="a61ee44c45c5c85388b27c0ff4de09ace"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Item</b> (Kind kind)</td></tr>
+<tr class="separator:a61ee44c45c5c85388b27c0ff4de09ace inherit pub_methods_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -107,13 +107,26 @@ GenericParam::List&#160;</td><td class="memItemRight" valign="bottom"><b>generic
 <a class="el" href="structjc_1_1hir_1_1_body_id.html">BodyId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>body</b></td></tr>
 <tr class="separator:aa6dc0ca567e2064567c0f106ffe03519"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structjc_1_1hir_1_1_item"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1hir_1_1_item')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></td></tr>
-<tr class="memitem:a516d551fa0172d299a721b127ca220ff inherit pub_attribs_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="a516d551fa0172d299a721b127ca220ff" name="a516d551fa0172d299a721b127ca220ff"></a>
-ItemKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:a516d551fa0172d299a721b127ca220ff inherit pub_attribs_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa36151c2d0d1a9dc6ec5a36e153879b9 inherit pub_attribs_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="aa36151c2d0d1a9dc6ec5a36e153879b9" name="aa36151c2d0d1a9dc6ec5a36e153879b9"></a>
+Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<tr class="separator:aa36151c2d0d1a9dc6ec5a36e153879b9 inherit pub_attribs_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_structjc_1_1hir_1_1_item"><td colspan="2" onclick="javascript:toggleInherit('pub_types_structjc_1_1hir_1_1_item')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></td></tr>
+<tr class="memitem:af94828ee10b75928af7b67fb29c1a113 inherit pub_types_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="af94828ee10b75928af7b67fb29c1a113" name="af94828ee10b75928af7b67fb29c1a113"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
+&#160;&#160;<b>Enum</b>
+, <b>Func</b>
+, <b>Impl</b>
+, <b>Mod</b>
+, <br />
+&#160;&#160;<b>Struct</b>
+, <b>Trait</b>
+, <b>TypeAlias</b>
+, <b>Use</b>
+<br />
+ }</td></tr>
+<tr class="separator:af94828ee10b75928af7b67fb29c1a113 inherit pub_types_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af576f3d86505e3787b2caadbf140d81e inherit pub_types_structjc_1_1hir_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="af576f3d86505e3787b2caadbf140d81e" name="af576f3d86505e3787b2caadbf140d81e"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = std::unique_ptr&lt; <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &gt;</td></tr>
 <tr class="separator:af576f3d86505e3787b2caadbf140d81e inherit pub_types_structjc_1_1hir_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>

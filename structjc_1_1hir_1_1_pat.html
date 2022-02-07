@@ -98,6 +98,21 @@ Inheritance diagram for jc::hir::Pat:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a5db8430810859b4f7d407dbce02b42d4"><td class="memItemLeft" align="right" valign="top"><a id="a5db8430810859b4f7d407dbce02b42d4" name="a5db8430810859b4f7d407dbce02b42d4"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
+&#160;&#160;<b>Multi</b>
+, <b>Wildcard</b>
+, <b>Lit</b>
+, <b>Ident</b>
+, <br />
+&#160;&#160;<b>Path</b>
+, <b>Ref</b>
+, <b>Struct</b>
+, <b>Tuple</b>
+, <br />
+&#160;&#160;<b>Slice</b>
+<br />
+ }</td></tr>
+<tr class="separator:a5db8430810859b4f7d407dbce02b42d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22502944561799dd9a7112a1c3fbce98"><td class="memItemLeft" align="right" valign="top"><a id="a22502944561799dd9a7112a1c3fbce98" name="a22502944561799dd9a7112a1c3fbce98"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = std::unique_ptr&lt; <a class="el" href="structjc_1_1hir_1_1_pat.html">Pat</a> &gt;</td></tr>
 <tr class="separator:a22502944561799dd9a7112a1c3fbce98"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,9 +125,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae797d3322d477ea5feebfc3c6df1bb2e"><td class="memItemLeft" align="right" valign="top"><a id="ae797d3322d477ea5feebfc3c6df1bb2e" name="ae797d3322d477ea5feebfc3c6df1bb2e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Pat</b> (PatKind kind, <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:ae797d3322d477ea5feebfc3c6df1bb2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5010b97974bdc7dbad44fad45c45ef2a"><td class="memItemLeft" align="right" valign="top"><a id="a5010b97974bdc7dbad44fad45c45ef2a" name="a5010b97974bdc7dbad44fad45c45ef2a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Pat</b> (Kind kind, <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a5010b97974bdc7dbad44fad45c45ef2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1hir_1_1_hir_node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1hir_1_1_hir_node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></td></tr>
 <tr class="memitem:a686d057078206bc30e71eec972286539 inherit pub_methods_structjc_1_1hir_1_1_hir_node"><td class="memItemLeft" align="right" valign="top"><a id="a686d057078206bc30e71eec972286539" name="a686d057078206bc30e71eec972286539"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>HirNode</b> (<a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
@@ -127,9 +142,9 @@ template&lt;class T &gt; </td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a294ef642a46fa2ac7ec6cffcdcdaa3fc"><td class="memItemLeft" align="right" valign="top"><a id="a294ef642a46fa2ac7ec6cffcdcdaa3fc" name="a294ef642a46fa2ac7ec6cffcdcdaa3fc"></a>
-PatKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:a294ef642a46fa2ac7ec6cffcdcdaa3fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab63f66fa49267048776eb259dbbaf56e"><td class="memItemLeft" align="right" valign="top"><a id="ab63f66fa49267048776eb259dbbaf56e" name="ab63f66fa49267048776eb259dbbaf56e"></a>
+Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<tr class="separator:ab63f66fa49267048776eb259dbbaf56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_structjc_1_1hir_1_1_hir_node"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1hir_1_1_hir_node')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></td></tr>
 <tr class="memitem:ac0c71f02ebfec4d024553e0e84bff03a inherit pub_attribs_structjc_1_1hir_1_1_hir_node"><td class="memItemLeft" align="right" valign="top"><a id="ac0c71f02ebfec4d024553e0e84bff03a" name="ac0c71f02ebfec4d024553e0e84bff03a"></a>
 <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>hirId</b></td></tr>

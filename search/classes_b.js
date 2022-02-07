@@ -2,7 +2,7 @@ var searchData=
 [
   ['matcharm_0',['MatchArm',['../structjc_1_1ast_1_1_match_arm.html',1,'jc::ast::MatchArm'],['../structjc_1_1hir_1_1_match_arm.html',1,'jc::hir::MatchArm']]],
   ['matchexpr_1',['MatchExpr',['../structjc_1_1ast_1_1_match_expr.html',1,'jc::ast::MatchExpr'],['../structjc_1_1hir_1_1_match_expr.html',1,'jc::hir::MatchExpr']]],
-  ['message_2',['Message',['../structjc_1_1message_1_1_message.html',1,'jc::message']]],
+  ['message_2',['Message',['../structcode__test_1_1_message.html',1,'code_test::Message'],['../structjc_1_1message_1_1_message.html',1,'jc::message::Message']]],
   ['messagebuilder_3',['MessageBuilder',['../classjc_1_1message_1_1_message_builder.html',1,'jc::message']]],
   ['messagedumper_4',['MessageDumper',['../classjc_1_1message_1_1_message_dumper.html',1,'jc::message']]],
   ['messageemitter_5',['MessageEmitter',['../classjc_1_1message_1_1_message_emitter.html',1,'jc::message']]],

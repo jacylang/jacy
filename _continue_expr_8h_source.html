@@ -78,7 +78,7 @@ $(function() {
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>jc::ast {</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_continue_expr.html">    8</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_continue_expr.html">ContinueExpr</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="keyword">explicit</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_continue_expr.html">ContinueExpr</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {span, ExprKind::Continue} {}</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        <span class="keyword">explicit</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_continue_expr.html">ContinueExpr</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_expr.html">Expr</a> {span, Expr::Kind::Continue} {}</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
@@ -87,9 +87,9 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_EXPR_CONTINUEEXPR_H</span></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:95</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_continue_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_continue_expr.html">jc::ast::ContinueExpr</a></div><div class="ttdoc">continue</div><div class="ttdef"><b>Definition:</b> ContinueExpr.h:8</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:41</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_expr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_expr.html">jc::ast::Expr</a></div><div class="ttdoc">Base expression class.</div><div class="ttdef"><b>Definition:</b> Expr.h:12</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

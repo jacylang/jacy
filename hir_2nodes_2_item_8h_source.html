@@ -88,23 +88,23 @@ $(function() {
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        }</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    };</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">enum class</span> ItemKind {</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_enum.html">Enum</a>,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_func.html">Func</a>,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_impl.html">Impl</a>,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a>,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_struct.html">Struct</a>,</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_trait.html">Trait</a>,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_type_alias.html">TypeAlias</a>,</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        Use,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    };</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_item.html">   30</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a> {</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keyword">using</span> Ptr = std::unique_ptr&lt;Item&gt;;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_item.html">   19</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keyword">using</span> Ptr = std::unique_ptr&lt;Item&gt;;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keyword">enum class</span> Kind {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_enum.html">Enum</a>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_func.html">Func</a>,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_impl.html">Impl</a>,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a>,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_struct.html">Struct</a>,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_trait.html">Trait</a>,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_type_alias.html">TypeAlias</a>,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            Use,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        };</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a>(ItemKind kind) : kind {kind} {}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a>(Kind kind) : kind {kind} {}</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        ItemKind kind;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        Kind kind;</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">static</span> T * as(<span class="keyword">const</span> Ptr &amp; item) {</div>
@@ -132,17 +132,17 @@ $(function() {
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_ITEM_H</span></div>
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_vis_html"><div class="ttname"><a href="structjc_1_1ast_1_1_vis.html">jc::ast::Vis</a></div><div class="ttdoc">Visibility (pub or unset)</div><div class="ttdef"><b>Definition:</b> Item.h:26</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_enum_html"><div class="ttname"><a href="structjc_1_1hir_1_1_enum.html">jc::hir::Enum</a></div><div class="ttdef"><b>Definition:</b> items.h:49</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_func_html"><div class="ttname"><a href="structjc_1_1hir_1_1_func.html">jc::hir::Func</a></div><div class="ttdef"><b>Definition:</b> items.h:67</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_impl_html"><div class="ttname"><a href="structjc_1_1hir_1_1_impl.html">jc::hir::Impl</a></div><div class="ttdef"><b>Definition:</b> items.h:79</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdoc">The base class for all items.</div><div class="ttdef"><b>Definition:</b> Item.h:30</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_vis_html"><div class="ttname"><a href="structjc_1_1ast_1_1_vis.html">jc::ast::Vis</a></div><div class="ttdoc">Visibility (pub or unset)</div><div class="ttdef"><b>Definition:</b> Item.h:14</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_enum_html"><div class="ttname"><a href="structjc_1_1hir_1_1_enum.html">jc::hir::Enum</a></div><div class="ttdef"><b>Definition:</b> items.h:54</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_func_html"><div class="ttname"><a href="structjc_1_1hir_1_1_func.html">jc::hir::Func</a></div><div class="ttdef"><b>Definition:</b> items.h:72</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_impl_html"><div class="ttname"><a href="structjc_1_1hir_1_1_impl.html">jc::hir::Impl</a></div><div class="ttdef"><b>Definition:</b> items.h:84</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdoc">The base class for all items.</div><div class="ttdef"><b>Definition:</b> Item.h:19</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:8</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_item_wrapper_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_wrapper.html">jc::hir::ItemWrapper</a></div><div class="ttdef"><b>Definition:</b> Item.h:45</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:81</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_struct_html"><div class="ttname"><a href="structjc_1_1hir_1_1_struct.html">jc::hir::Struct</a></div><div class="ttdef"><b>Definition:</b> items.h:87</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_trait_html"><div class="ttname"><a href="structjc_1_1hir_1_1_trait.html">jc::hir::Trait</a></div><div class="ttdef"><b>Definition:</b> items.h:99</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_type_alias_html"><div class="ttname"><a href="structjc_1_1hir_1_1_type_alias.html">jc::hir::TypeAlias</a></div><div class="ttdef"><b>Definition:</b> items.h:101</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:86</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_struct_html"><div class="ttname"><a href="structjc_1_1hir_1_1_struct.html">jc::hir::Struct</a></div><div class="ttdef"><b>Definition:</b> items.h:92</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_trait_html"><div class="ttname"><a href="structjc_1_1hir_1_1_trait.html">jc::hir::Trait</a></div><div class="ttdef"><b>Definition:</b> items.h:104</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_type_alias_html"><div class="ttname"><a href="structjc_1_1hir_1_1_type_alias.html">jc::hir::TypeAlias</a></div><div class="ttdef"><b>Definition:</b> items.h:106</div></div>
 <div class="ttc" id="astructjc_1_1resolve_1_1_def_id_html"><div class="ttname"><a href="structjc_1_1resolve_1_1_def_id.html">jc::resolve::DefId</a></div><div class="ttdef"><b>Definition:</b> Definition.h:38</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_ident_html"><div class="ttname"><a href="structjc_1_1span_1_1_ident.html">jc::span::Ident</a></div><div class="ttdef"><b>Definition:</b> Ident.h:8</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>

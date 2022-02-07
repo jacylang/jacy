@@ -79,28 +79,28 @@ $(function() {
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;ast/expr/PathExpr.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>jc::ast {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">enum class</span> PatKind {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        Multi,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        Paren,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        Lit,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        Ident,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        Ref,</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Path,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        Wildcard,</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        Rest,</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        Struct,</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        Tuple,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        Slice,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    };</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_pat.html">   23</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keyword">using</span> <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Ptr</a> = <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">PR&lt;N&lt;Pat&gt;</a>&gt;;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">using</span> <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">OptPtr</a> = <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Option&lt;Ptr&gt;</a>;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">using</span> List = std::vector&lt;Ptr&gt;;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_pat.html">    9</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">using</span> <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Ptr</a> = <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">PR&lt;N&lt;Pat&gt;</a>&gt;;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">using</span> <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">OptPtr</a> = <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Option&lt;Ptr&gt;</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <span class="keyword">using</span> List = std::vector&lt;Ptr&gt;;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keyword">enum class</span> Kind {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            Multi,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            Paren,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            Lit,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            <a class="code hl_struct" href="structjc_1_1ast_1_1_ident.html">Ident</a>,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            Ref,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <a class="code hl_struct" href="structjc_1_1ast_1_1_path.html">Path</a>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            Wildcard,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            Rest,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <a class="code hl_struct" href="structjc_1_1ast_1_1_struct.html">Struct</a>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            Tuple,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            Slice,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        };</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a>(PatKind kind, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, kind {kind} {}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a>(Kind kind, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, kind {kind} {}</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        PatKind kind;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        Kind kind;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keyword">static</span> T * as(<span class="keyword">const</span> N&lt;Pat&gt; &amp; pat) {</div>
@@ -112,7 +112,7 @@ $(function() {
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_multi_pat.html">   40</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_multi_pat.html">MultiPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_multi_pat.html">MultiPat</a>(Pat::List &amp;&amp; patterns, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Multi, span}, patterns {std::move(patterns)} {}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Multi, span}, patterns {std::move(patterns)} {}</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        Pat::List patterns;</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
@@ -122,7 +122,7 @@ $(function() {
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    };</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_paren_pat.html">   51</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_paren_pat.html">ParenPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_paren_pat.html">ParenPat</a>(<a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> &amp;&amp; pat, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Paren, span}, pat {std::move(pat)} {}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_paren_pat.html">ParenPat</a>(<a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> &amp;&amp; pat, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Paren, span}, pat {std::move(pat)} {}</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> pat;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_lit_pat.html">   61</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_lit_pat.html">LitPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_lit_pat.html">LitPat</a>(<a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> &amp;&amp; expr, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Lit, span}, expr {std::move(expr)} {}</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Lit, span}, expr {std::move(expr)} {}</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Expr::Ptr</a> expr;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
@@ -155,7 +155,7 @@ $(function() {
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            Ident::PR &amp;&amp; name,</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Pat::OptPtr</a> &amp;&amp; pat,</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        ) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Ident, span},</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        ) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Ident, span},</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            anno {anno},</div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            name {std::move(name)},</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            pat {std::move(pat)} {}</div>
@@ -199,7 +199,7 @@ $(function() {
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_ref_pat.html">  130</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_ref_pat.html">RefPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_ref_pat.html">RefPat</a>(Mutability mut, <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> &amp;&amp; pat, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Ref, span}, mut {mut}, pat {std::move(pat)} {}</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Ref, span}, mut {mut}, pat {std::move(pat)} {}</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        Mutability mut;</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> pat;</div>
@@ -215,7 +215,7 @@ $(function() {
 <div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_path_pat.html">  146</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_path_pat.html">PathPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_path_pat.html">PathPat</a>(<a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">PathExpr::Ptr</a> &amp;&amp; path, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Path, span}, path {std::move(path)} {}</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Path, span}, path {std::move(path)} {}</div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">PathExpr::Ptr</a> path;</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
@@ -225,7 +225,7 @@ $(function() {
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    };</div>
 <div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_wildcard_pat.html">  157</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_wildcard_pat.html">WildcardPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_wildcard_pat.html">WildcardPat</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Wildcard, span} {}</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_wildcard_pat.html">WildcardPat</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Wildcard, span} {}</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
 <div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
 <div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
@@ -233,7 +233,7 @@ $(function() {
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    };</div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
 <div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_rest_pat.html">  165</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_rest_pat.html">RestPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_rest_pat.html">RestPat</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Rest, span} {}</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_rest_pat.html">RestPat</a>(<a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Rest, span} {}</div>
 <div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const override </span>{</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
@@ -260,7 +260,7 @@ $(function() {
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            StructPatField::List &amp;&amp; fields,</div>
 <div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            <span class="keyword">const</span> <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">parser::Token::Opt</a> &amp; rest,</div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        ) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        ) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
 <div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">PathExpr::Ptr</a> path;</div>
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        StructPatField::List fields;</div>
@@ -275,7 +275,7 @@ $(function() {
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <span class="keyword">using</span> <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">RestPatIndexT</a> = <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Option&lt;size_t&gt;</a>;</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_tuple_pat.html">TuplePat</a>(Pat::List &amp;&amp; els, <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">RestPatIndexT</a> restPatIndex, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
 <div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        Pat::List els;</div>
 <div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
@@ -291,7 +291,7 @@ $(function() {
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">// TODO: Rest pattern in sub-pattern, https://github.com/jacylang/jacy/issues/10</span></div>
 <div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_slice_pat.html">  226</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_slice_pat.html">SlicePat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_slice_pat.html">SlicePat</a>(Pat::List &amp;&amp; before, <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Span::Opt</a> restPatSpan, Pat::List &amp;&amp; after, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {PatKind::Slice, span},</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Slice, span},</div>
 <div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>              before {std::move(before)},</div>
 <div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>              restPatSpan {restPatSpan},</div>
 <div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>              after {std::move(after)} {}</div>
@@ -307,19 +307,22 @@ $(function() {
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>}</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_FRAGMENTS_PAT_H</span></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:95</div></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:86</div></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_ident_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ident.html">jc::ast::Ident</a></div><div class="ttdef"><b>Definition:</b> Ident.h:12</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_ident_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ident_pat.html">jc::ast::IdentPat</a></div><div class="ttdoc">ref mut IDENT @ pattern</div><div class="ttdef"><b>Definition:</b> Pat.h:81</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_lit_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_lit_pat.html">jc::ast::LitPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:61</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_multi_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_multi_pat.html">jc::ast::MultiPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:40</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></div><div class="ttdef"><b>Definition:</b> Node.h:56</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_paren_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_paren_pat.html">jc::ast::ParenPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:51</div></div>
-<div class="ttc" id="astructjc_1_1ast_1_1_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_pat.html">jc::ast::Pat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:23</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_pat.html">jc::ast::Pat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:9</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_path_html"><div class="ttname"><a href="structjc_1_1ast_1_1_path.html">jc::ast::Path</a></div><div class="ttdef"><b>Definition:</b> Path.h:28</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_path_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_path_pat.html">jc::ast::PathPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:146</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_ref_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ref_pat.html">jc::ast::RefPat</a></div><div class="ttdoc">&amp;mut pattern</div><div class="ttdef"><b>Definition:</b> Pat.h:130</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_rest_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_rest_pat.html">jc::ast::RestPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:165</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_slice_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_slice_pat.html">jc::ast::SlicePat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:226</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_struct_html"><div class="ttname"><a href="structjc_1_1ast_1_1_struct.html">jc::ast::Struct</a></div><div class="ttdef"><b>Definition:</b> Struct.h:27</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_struct_pat_field_html"><div class="ttname"><a href="structjc_1_1ast_1_1_struct_pat_field.html">jc::ast::StructPatField</a></div><div class="ttdef"><b>Definition:</b> Pat.h:176</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_struct_pat_field_html_ad2d07b168ba4a410776420f66a3ee0d9"><div class="ttname"><a href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">jc::ast::StructPatField::shortcut</a></div><div class="ttdeci">bool shortcut</div><div class="ttdef"><b>Definition:</b> Pat.h:186</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_struct_pat_html"><div class="ttname"><a href="structjc_1_1ast_1_1_struct_pat.html">jc::ast::StructPat</a></div><div class="ttdef"><b>Definition:</b> Pat.h:191</div></div>
