@@ -192,7 +192,7 @@ namespace jc::hir {
             case ExprKind::Break: {
                 const auto & breakExpr = Expr::as<BreakExpr>(expr);
                 log.raw("break");
-                breakExpr->value.then([&](const auto & val) {
+                breakExpr->value.then([this](const auto & val) {
                     log.raw(" ");
                     printExpr(val);
                 });
@@ -205,7 +205,7 @@ namespace jc::hir {
             case ExprKind::Deref: {
                 const auto & deref = Expr::as<DerefExpr>(expr);
                 log.raw("*");
-                deref->rhs.then([&](const auto & rhs) {
+                deref->rhs.then([this](const auto & rhs) {
                     printExpr(rhs);
                 });
                 break;
@@ -246,7 +246,7 @@ namespace jc::hir {
                 printExpr(invoke->lhs);
                 log.raw("(");
                 printDelim(invoke->args, [&](const Arg & arg) {
-                    arg.ident.then([&](const auto & name) {
+                    arg.ident.then([this](const auto & name) {
                         log.raw(name, ": ");
                     });
 
@@ -299,7 +299,7 @@ namespace jc::hir {
             case ExprKind::Return: {
                 const auto & returnExpr = Expr::as<ReturnExpr>(expr);
                 log.raw("return");
-                returnExpr->value.then([&](const auto & val) {
+                returnExpr->value.then([this](const auto & val) {
                     log.raw(" ");
                     printExpr(val);
                 });
@@ -407,7 +407,7 @@ namespace jc::hir {
                     }
                 }
                 log.raw(identPat->ident);
-                identPat->pat.then([&](const auto & pat) {
+                identPat->pat.then([this](const auto & pat) {
                     printPat(pat);
                 });
                 break;
