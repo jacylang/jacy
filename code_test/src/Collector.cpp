@@ -1,5 +1,7 @@
 #include "Collector.h"
 
-void Collector::collectResources() {
+namespace code_test {
+    void Collector::collectResources() {
 
+    }
 }
