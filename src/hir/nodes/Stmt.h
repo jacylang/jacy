@@ -4,19 +4,19 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    enum class StmtKind {
-        Let,
-        Item,
-        Expr,
-    };
-
     struct Stmt : HirNode {
+        enum class Kind {
+            Let,
+            Item,
+            Expr,
+        };
+
         using Ptr = N<Stmt>;
         using List = std::vector<Stmt::Ptr>;
 
-        Stmt(StmtKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
+        Stmt(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
-        StmtKind kind;
+        Kind kind;
 
         template<class T>
         static T * as(const Ptr & expr) {

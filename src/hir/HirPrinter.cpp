@@ -130,7 +130,7 @@ namespace jc::hir {
     // Stmt //
     void HirPrinter::printStmt(const Stmt::Ptr & stmt) {
         switch (stmt->kind) {
-            case StmtKind::Let: {
+            case Stmt::Kind::Let: {
                 const auto & letStmt = Stmt::as<LetStmt>(stmt);
 
                 log.raw("let ");
@@ -149,12 +149,12 @@ namespace jc::hir {
                 log.raw(";");
                 break;
             }
-            case StmtKind::Item: {
+            case Stmt::Kind::Item: {
                 const auto & itemStmt = Stmt::as<ItemStmt>(stmt);
                 printItem(itemStmt->item);
                 break;
             }
-            case StmtKind::Expr: {
+            case Stmt::Kind::Expr: {
                 const auto & exprStmt = Stmt::as<ExprStmt>(stmt);
                 printExpr(exprStmt->expr);
                 break;
