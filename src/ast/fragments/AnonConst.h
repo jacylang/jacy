@@ -5,6 +5,8 @@
 
 namespace jc::ast {
     struct AnonConst {
+        using Opt = Option<AnonConst>;
+
         AnonConst(NodeId nodeId, Expr::Ptr && expr) : nodeId {nodeId}, expr {std::move(expr)} {}
 
         NodeId nodeId;

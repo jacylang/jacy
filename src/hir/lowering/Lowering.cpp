@@ -178,6 +178,8 @@ namespace jc::hir {
         auto sig = lowerFuncSig(astFunc.sig);
         Body body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"));
 
+        // TODO: Generics
+
         return makeBoxNode<Func>(
             std::move(sig),
             std::move(body)
@@ -634,7 +636,8 @@ namespace jc::hir {
     }
 
     Body Lowering::lowerBody(const ast::Body & astBody) {
-        return Body {astBody.exprBody, lowerExpr(astBody.value)};
+        // TODO!!!: Params
+        return Body {astBody.exprBody, lowerExpr(astBody.value), {}};
     }
 
     Path Lowering::lowerPath(const ast::Path & path) {

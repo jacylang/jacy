@@ -18,7 +18,7 @@ namespace jc::ast {
             Struct, // `A {a, b, c...}`
         };
 
-        Variant(Kind kind, Ident::PR && name, Expr::OptPtr && disc, Span span)
+        Variant(Kind kind, Ident::PR && name, AnonConst::Opt && disc, Span span)
             : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(disc)} {}
 
         Variant(Kind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
@@ -29,10 +29,10 @@ namespace jc::ast {
 
         Kind kind;
         Ident::PR name;
-        std::variant<Expr::OptPtr, TupleTypeEl::List, StructField::List> body;
+        std::variant<AnonConst::Opt, TupleTypeEl::List, StructField::List> body;
 
         const auto & getDisc() const {
-            return std::get<Expr::OptPtr>(body);
+            return std::get<AnonConst::Opt>(body);
         }
 
         const auto & getTuple() const {
