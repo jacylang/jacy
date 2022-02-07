@@ -77,6 +77,7 @@ namespace jc::ast {
     struct PathSeg;
     struct SimplePath;
     struct SimplePathSeg;
+    struct AnonConst;
 
     // Patterns //
     struct MultiPat;
@@ -207,7 +208,9 @@ namespace jc::ast {
 
         // Generics //
         virtual void visit(const Lifetime &) = 0;
+
         virtual void visit(const GenericParam &) = 0;
+
         virtual void visit(const GenericArg &) = 0;
 
         // Fragments //
@@ -224,6 +227,8 @@ namespace jc::ast {
         virtual void visit(const SimplePath &) = 0;
 
         virtual void visit(const SimplePathSeg &) = 0;
+
+        virtual void visit(const AnonConst &) = 0;
 
         // Patterns //
         virtual void visit(const MultiPat &) = 0;
