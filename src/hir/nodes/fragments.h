@@ -55,6 +55,11 @@ namespace jc::hir {
         Expr::Ptr value;
 
         Param::List params;
+
+        BodyId getId() const {
+            // Note: The BodyId is actually an HirId of expression inside Body
+            return BodyId {value->hirId};
+        }
     };
 
     /// Anonymous constant, used in `const` parameters and arguments, etc.

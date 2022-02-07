@@ -657,6 +657,14 @@ namespace jc::hir {
         return MatchArm {std::move(pat), std::move(body), lowerNodeId(arm.id), arm.span};
     }
 
+    BodyId Lowering::lowerExprAsBody(const ast::Expr::Ptr & expr) {
+        /// Note (on `{}`):  Standalone expression does not have parameters
+        auto body = Body(false, lowerExpr(expr), {});
+        auto bodyId = body.getId();
+        bodies.emplace(bodyId, std::move(body));
+        return bodyId;
+    }
+
     // Patterns //
     Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");

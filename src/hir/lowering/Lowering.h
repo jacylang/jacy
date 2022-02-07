@@ -136,6 +136,8 @@ namespace jc::hir {
 
         MatchArm lowerMatchArm(const ast::MatchArm & arm);
 
+        BodyId lowerExprAsBody(const ast::Expr::Ptr & expr);
+
         // Patterns //
     private:
         Pat::Ptr lowerPat(const ast::Pat::Ptr & patPr);
