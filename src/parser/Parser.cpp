@@ -1952,8 +1952,8 @@ namespace jc::parser {
         return Some(std::move(args));
     }
 
-    AnonConst Parser::parseAnonConst() {
-        return makeNode<AnonConst>(parseExpr("[TODO]"));
+    AnonConst Parser::parseAnonConst(const std::string & expectedMsg) {
+        return makeNode<AnonConst>(parseExpr(expectedMsg));
     }
 
     TupleTypeEl::List Parser::parseTupleFields() {

@@ -329,7 +329,7 @@ namespace jc::parser {
         GenericArg::OptList parseOptGenericArgs();
 
         /// Actually, parses an expression but wraps it in `AnonConst`
-        AnonConst parseAnonConst();
+        AnonConst parseAnonConst(const std::string & expectedMsg);
 
         // Types //
         Type::Ptr parseType(const std::string & expectedMsg);
