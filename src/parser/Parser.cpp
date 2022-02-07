@@ -1953,7 +1953,7 @@ namespace jc::parser {
     }
 
     AnonConst Parser::parseAnonConst(const std::string & expectedMsg) {
-        return makeNode<AnonConst>(parseExpr(expectedMsg));
+        return makeNodeLike<AnonConst>(parseExpr(expectedMsg));
     }
 
     TupleTypeEl::List Parser::parseTupleFields() {
