@@ -12,18 +12,18 @@ namespace jc::hir {
 
     struct MultiPat : Pat {
         MultiPat(Pat::List && pats, HirId hirId, Span span)
-            : Pat {PatKind::Multi, hirId, span}, pats {std::move(pats)} {}
+            : Pat {Pat::Kind::Multi, hirId, span}, pats {std::move(pats)} {}
 
         Pat::List pats;
     };
 
     struct WildcardPat : Pat {
-        WildcardPat(HirId hirId, Span span) : Pat {PatKind::Wildcard, hirId, span} {}
+        WildcardPat(HirId hirId, Span span) : Pat {Pat::Kind::Wildcard, hirId, span} {}
     };
 
     struct LitPat : Pat {
         LitPat(Expr::Ptr && value, HirId hirId, Span span)
-            : Pat {PatKind::Lit, hirId, span}, value {std::move(value)} {}
+            : Pat {Pat::Kind::Lit, hirId, span}, value {std::move(value)} {}
 
         Expr::Ptr value;
     };
@@ -31,7 +31,7 @@ namespace jc::hir {
     /// `ref mut IDENT @ pattern`
     struct IdentPat : Pat {
         IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::OptPtr && pat, HirId hirId, Span span)
-            : Pat {PatKind::Ident, hirId, span},
+            : Pat {Pat::Kind::Ident, hirId, span},
               anno {anno},
               nameHirId {nameHirId},
               ident {ident},
@@ -46,7 +46,7 @@ namespace jc::hir {
     /// `&mut pattern`
     struct RefPat : Pat {
         RefPat(Mutability mut, Pat::Ptr && pat, HirId hirId, Span span)
-            : Pat {PatKind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {}
+            : Pat {Pat::Kind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {}
 
         Mutability mut;
         Pat::Ptr pat;
@@ -54,7 +54,7 @@ namespace jc::hir {
 
     struct PathPat : Pat {
         PathPat(Path && path, HirId hirId, Span span)
-            : Pat {PatKind::Path, hirId, span}, path {std::move(path)} {}
+            : Pat {Pat::Kind::Path, hirId, span}, path {std::move(path)} {}
 
         Path path;
     };
@@ -73,7 +73,7 @@ namespace jc::hir {
 
     struct StructPat : Pat {
         StructPat(Path && path, StructPatField::List && fields, const parser::Token::Opt & rest, HirId hirId, Span span)
-            : Pat {PatKind::Struct, hirId, span},
+            : Pat {Pat::Kind::Struct, hirId, span},
               path {std::move(path)},
               fields {std::move(fields)},
               rest {rest} {}
@@ -87,7 +87,7 @@ namespace jc::hir {
         using RestPatIndexT = ast::TuplePat::RestPatIndexT;
 
         TuplePat(Pat::List && els, RestPatIndexT restPatIndex, HirId hirId, Span span)
-            : Pat {PatKind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+            : Pat {Pat::Kind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
         Pat::List els;
         RestPatIndexT restPatIndex;
@@ -95,7 +95,7 @@ namespace jc::hir {
 
     struct SlicePat : Pat {
         SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, HirId hirId, Span span)
-            : Pat {PatKind::Slice, hirId, span},
+            : Pat {Pat::Kind::Slice, hirId, span},
               before {std::move(before)},
               restPatSpan {restPatSpan},
               after {std::move(after)} {}

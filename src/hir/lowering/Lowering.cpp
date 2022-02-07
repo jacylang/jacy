@@ -661,7 +661,7 @@ namespace jc::hir {
     Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
-            case ast::PatKind::Multi: {
+            case ast::Pat::Kind::Multi: {
                 const auto & astNode = pat->as<ast::MultiPat>(pat);
                 Pat::List pats;
                 for (const auto & pat : astNode->patterns) {
@@ -669,20 +669,20 @@ namespace jc::hir {
                 }
                 return makeBoxNode<MultiPat>(std::move(pats), lowerNodeId(astNode->id), astNode->span);
             }
-            case ast::PatKind::Paren: {
+            case ast::Pat::Kind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
                 // TODO: Replace recursion with loop
                 return lowerPat(astNode->pat);
             }
-            case ast::PatKind::Lit: {
+            case ast::Pat::Kind::Lit: {
                 const auto & astNode = pat->as<ast::LitPat>(pat);
                 return makeBoxNode<LitPat>(lowerExpr(astNode->expr), lowerNodeId(astNode->id), astNode->span);
             }
-            case ast::PatKind::Ident: {
+            case ast::Pat::Kind::Ident: {
                 const auto & astNode = pat->as<ast::IdentPat>(pat);
                 return lowerIdentPat(*astNode);
             }
-            case ast::PatKind::Ref: {
+            case ast::Pat::Kind::Ref: {
                 const auto & astNode = pat->as<ast::RefPat>(pat);
                 return makeBoxNode<RefPat>(
                     astNode->mut,
@@ -691,7 +691,7 @@ namespace jc::hir {
                     astNode->span
                 );
             }
-            case ast::PatKind::Path: {
+            case ast::Pat::Kind::Path: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
                 return makeBoxNode<PathPat>(
                     lowerPath(astNode->path.unwrap()->path),
@@ -699,25 +699,25 @@ namespace jc::hir {
                     astNode->span
                 );
             }
-            case ast::PatKind::Wildcard: {
+            case ast::Pat::Kind::Wildcard: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
                 return makeBoxNode<WildcardPat>(lowerNodeId(astNode->id), astNode->span);
             }
-            case ast::PatKind::Rest: {
+            case ast::Pat::Kind::Rest: {
                 log::devPanic(
                     "Got rest pattern (`...`) on lowering stage, it must not be present",
                     "as a standalone pattern and be handled for patterns accepting it before"
                 );
             }
-            case ast::PatKind::Struct: {
+            case ast::Pat::Kind::Struct: {
                 const auto & astNode = pat->as<ast::StructPat>(pat);
                 return lowerStructPat(*astNode);
             }
-            case ast::PatKind::Tuple: {
+            case ast::Pat::Kind::Tuple: {
                 const auto & astNode = pat->as<ast::TuplePat>(pat);
                 return lowerTuplePat(*astNode);
             }
-            case ast::PatKind::Slice: {
+            case ast::Pat::Kind::Slice: {
                 const auto & astNode = pat->as<ast::SlicePat>(pat);
                 return lowerSlicePat(*astNode);
             }
