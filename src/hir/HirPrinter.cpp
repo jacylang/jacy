@@ -42,7 +42,10 @@ namespace jc::hir {
                             break;
                         }
                         case Variant::Kind::Unit: {
-                            // TODO: Print optional discriminant
+                            variant.getDiscriminant().then([&](const AnonConst & disc) {
+                                log.raw(" = ");
+                                printAnonConst(disc);
+                            });
                             break;
                         }
                     }
