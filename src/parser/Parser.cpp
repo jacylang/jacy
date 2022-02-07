@@ -190,8 +190,10 @@ namespace jc::parser {
     message::MessageResult<Item::List> Parser::parse(
         const sess::Session::Ptr & sess,
         const ParseSess::Ptr & parseSess,
-        const Token::List & tokens
+        const Token::List & tokens,
+        ParsingMode mode
     ) {
+        this->mode = mode;
         this->tokens.clear();
         this->index = 0;
         entitiesEntries.clear();

@@ -47,6 +47,11 @@ namespace jc::parser {
     using span::Kw;
     using span::Symbol;
 
+    enum class ParsingMode {
+        Normal,
+        CodeTest,
+    };
+
     // Note: Usage
     //  0b00000011 - `0` are unused
     //  0. --
@@ -84,11 +89,13 @@ namespace jc::parser {
         message::MessageResult<Item::List> parse(
             const sess::Session::Ptr & sess,
             const ParseSess::Ptr & parseSess,
-            const Token::List & tokens
+            const Token::List & tokens,
+            ParsingMode mode
         );
 
     private:
         log::Logger log {"parser"};
+        ParsingMode mode;
 
         Token::List tokens;
         size_t index {0};

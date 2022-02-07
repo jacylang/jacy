@@ -214,7 +214,7 @@ namespace jc::core {
         log.dev("Parse file ", file.getPath());
 
         sess->beginStep(filePathRootRel + " parsing", MeasUnit::Token);
-        auto[items, parserSuggestions] = parser.parse(sess, parseSess, tokens).extract();
+        auto[items, parserSuggestions] = parser.parse(sess, parseSess, tokens, parser::ParsingMode::Normal).extract();
         sess->endStep(tokens.size());
 
         collectMessages(std::move(parserSuggestions));
