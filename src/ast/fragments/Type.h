@@ -4,6 +4,7 @@
 #include "ast/Node.h"
 #include "ast/BaseVisitor.h"
 #include "ast/fragments/Path.h"
+#include "ast/fragments/AnonConst.h"
 
 namespace jc::ast {
     struct Type : Node {
@@ -101,13 +102,13 @@ namespace jc::ast {
     };
 
     struct ArrayType : Type {
-        ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, Span span)
+        ArrayType(Type::Ptr type, AnonConst sizeExpr, Span span)
             : Type {span, Type::Kind::Array},
               type {std::move(type)},
               sizeExpr {std::move(sizeExpr)} {}
 
         Type::Ptr type;
-        Expr::Ptr sizeExpr;
+        AnonConst sizeExpr;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
