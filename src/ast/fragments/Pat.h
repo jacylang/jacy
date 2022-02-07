@@ -6,28 +6,28 @@
 #include "ast/expr/PathExpr.h"
 
 namespace jc::ast {
-    enum class PatKind {
-        Multi,
-        Paren,
-        Lit,
-        Ident,
-        Ref,
-        Path,
-        Wildcard,
-        Rest,
-        Struct,
-        Tuple,
-        Slice,
-    };
-
     struct Pat : Node {
         using Ptr = PR<N<Pat>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Pat(PatKind kind, Span span) : Node {span}, kind {kind} {}
+        enum class Kind {
+            Multi,
+            Paren,
+            Lit,
+            Ident,
+            Ref,
+            Path,
+            Wildcard,
+            Rest,
+            Struct,
+            Tuple,
+            Slice,
+        };
 
-        PatKind kind;
+        Pat(Kind kind, Span span) : Node {span}, kind {kind} {}
+
+        Kind kind;
 
         template<class T>
         static T * as(const N<Pat> & pat) {
@@ -39,7 +39,7 @@ namespace jc::ast {
 
     struct MultiPat : Pat {
         MultiPat(Pat::List && patterns, Span span)
-            : Pat {PatKind::Multi, span}, patterns {std::move(patterns)} {}
+            : Pat {Pat::Kind::::Multi, span}, patterns {std::move(patterns)} {}
 
         Pat::List patterns;
 
@@ -49,7 +49,7 @@ namespace jc::ast {
     };
 
     struct ParenPat : Pat {
-        ParenPat(Pat::Ptr && pat, Span span) : Pat {PatKind::Paren, span}, pat {std::move(pat)} {}
+        ParenPat(Pat::Ptr && pat, Span span) : Pat {Pat::Kind::::Paren, span}, pat {std::move(pat)} {}
 
         Pat::Ptr pat;
 
@@ -60,7 +60,7 @@ namespace jc::ast {
 
     struct LitPat : Pat {
         LitPat(Expr::Ptr && expr, Span span)
-            : Pat {PatKind::Lit, span}, expr {std::move(expr)} {}
+            : Pat {Pat::Kind::::Lit, span}, expr {std::move(expr)} {}
 
         Expr::Ptr expr;
 
@@ -84,7 +84,7 @@ namespace jc::ast {
             Ident::PR && name,
             Pat::OptPtr && pat,
             Span span
-        ) : Pat {PatKind::Ident, span},
+        ) : Pat {Pat::Kind::::Ident, span},
             anno {anno},
             name {std::move(name)},
             pat {std::move(pat)} {}
@@ -129,7 +129,7 @@ namespace jc::ast {
     /// `&mut pattern`
     struct RefPat : Pat {
         RefPat(Mutability mut, Pat::Ptr && pat, Span span)
-            : Pat {PatKind::Ref, span}, mut {mut}, pat {std::move(pat)} {}
+            : Pat {Pat::Kind::::Ref, span}, mut {mut}, pat {std::move(pat)} {}
 
         Mutability mut;
         Pat::Ptr pat;
@@ -145,7 +145,7 @@ namespace jc::ast {
 
     struct PathPat : Pat {
         PathPat(PathExpr::Ptr && path, Span span)
-            : Pat {PatKind::Path, span}, path {std::move(path)} {}
+            : Pat {Pat::Kind::::Path, span}, path {std::move(path)} {}
 
         PathExpr::Ptr path;
 
@@ -155,7 +155,7 @@ namespace jc::ast {
     };
 
     struct WildcardPat : Pat {
-        WildcardPat(Span span) : Pat {PatKind::Wildcard, span} {}
+        WildcardPat(Span span) : Pat {Pat::Kind::::Wildcard, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -163,7 +163,7 @@ namespace jc::ast {
     };
 
     struct RestPat : Pat {
-        RestPat(Span span) : Pat {PatKind::Rest, span} {}
+        RestPat(Span span) : Pat {Pat::Kind::::Rest, span} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -194,7 +194,7 @@ namespace jc::ast {
             StructPatField::List && fields,
             const parser::Token::Opt & rest,
             Span span
-        ) : Pat {PatKind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}
+        ) : Pat {Pat::Kind::::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}
 
         PathExpr::Ptr path;
         StructPatField::List fields;
@@ -209,7 +209,7 @@ namespace jc::ast {
         using RestPatIndexT = Option<size_t>;
 
         TuplePat(Pat::List && els, RestPatIndexT restPatIndex, Span span)
-            : Pat {PatKind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+            : Pat {Pat::Kind::::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
         Pat::List els;
 
@@ -225,7 +225,7 @@ namespace jc::ast {
     // TODO: Rest pattern in sub-pattern, https://github.com/jacylang/jacy/issues/10
     struct SlicePat : Pat {
         SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, Span span)
-            : Pat {PatKind::Slice, span},
+            : Pat {Pat::Kind::::Slice, span},
               before {std::move(before)},
               restPatSpan {restPatSpan},
               after {std::move(after)} {}

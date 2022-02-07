@@ -659,7 +659,7 @@ namespace jc::ast {
 
             // Don't check `...` rest pattern in struct, because it is allowed in it.
             // In other cases it is an error to have a standalone rest pattern
-            if (field.pat.err() or field.pat.unwrap()->kind != PatKind::Rest) {
+            if (field.pat.err() or field.pat.unwrap()->kind != Pat::Kind::::Rest) {
                 field.pat.autoAccept(*this);
             }
 
@@ -677,7 +677,7 @@ namespace jc::ast {
     void Validator::visit(const TuplePat & pat) {
         for (const auto & el : pat.els) {
             // Same as for `StructPat` validator -- allow `...` pattern in tuple pattern
-            if (el.err() or el.unwrap()->kind != PatKind::Rest) {
+            if (el.err() or el.unwrap()->kind != Pat::Kind::::Rest) {
                 el.autoAccept(*this);
             }
         }
