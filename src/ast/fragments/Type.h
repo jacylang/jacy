@@ -6,26 +6,26 @@
 #include "ast/fragments/Path.h"
 
 namespace jc::ast {
-    enum class TypeKind {
-        Paren,
-        Tuple,
-        Func,
-        Slice,
-        Array,
-        Path,
-        Unit,
-    };
-
     struct Type : Node {
         using Ptr = PR<N<Type>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Type(Span span, TypeKind kind) : Node {span}, kind {kind} {}
+        enum class Kind {
+            Paren,
+            Tuple,
+            Func,
+            Slice,
+            Array,
+            Path,
+            Unit,
+        };
+
+        Type(Span span, Kind kind) : Node {span}, kind {kind} {}
 
         virtual ~Type() = default;
 
-        TypeKind kind;
+        Kind kind;
 
         template<class T>
         static T * as(const N<Type> & item) {
@@ -36,7 +36,7 @@ namespace jc::ast {
     };
 
     struct ParenType : Type {
-        ParenType(Type::Ptr type, Span span) : Type {span, TypeKind::Paren}, type {std::move(type)} {}
+        ParenType(Type::Ptr type, Span span) : Type {span, Type::Kind::Paren}, type {std::move(type)} {}
 
         Type::Ptr type;
 
@@ -63,7 +63,7 @@ namespace jc::ast {
 
     struct TupleType : Type {
         TupleType(TupleTypeEl::List elements, Span span)
-            : Type {span, TypeKind::Tuple}, elements {std::move(elements)} {}
+            : Type {span, Type::Kind::Tuple}, elements {std::move(elements)} {}
 
         TupleTypeEl::List elements;
 
@@ -77,7 +77,7 @@ namespace jc::ast {
             Type::List params,
             Type::Ptr returnType,
             Span span
-        ) : Type {span, TypeKind::Func},
+        ) : Type {span, Type::Kind::Func},
             params {std::move(params)},
             returnType {std::move(returnType)} {}
 
@@ -91,7 +91,7 @@ namespace jc::ast {
 
     struct SliceType : Type {
         SliceType(Type::Ptr type, Span span)
-            : Type {span, TypeKind::Slice}, type {std::move(type)} {}
+            : Type {span, Type::Kind::Slice}, type {std::move(type)} {}
 
         Type::Ptr type;
 
@@ -102,7 +102,7 @@ namespace jc::ast {
 
     struct ArrayType : Type {
         ArrayType(Type::Ptr type, Expr::Ptr sizeExpr, Span span)
-            : Type {span, TypeKind::Array},
+            : Type {span, Type::Kind::Array},
               type {std::move(type)},
               sizeExpr {std::move(sizeExpr)} {}
 
@@ -119,7 +119,7 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        TypePath(Path && path) : Type {path.span, TypeKind::Path}, path {std::move(path)} {}
+        TypePath(Path && path) : Type {path.span, Type::Kind::Path}, path {std::move(path)} {}
 
         Path path;
 
@@ -129,7 +129,7 @@ namespace jc::ast {
     };
 
     struct UnitType : Type {
-        explicit UnitType(Span span) : Type {span, TypeKind::Unit} {}
+        explicit UnitType(Span span) : Type {span, Type::Kind::Unit} {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
