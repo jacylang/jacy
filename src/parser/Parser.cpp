@@ -10,6 +10,10 @@ namespace jc::parser {
     }
 
     Token Parser::peek() {
+        if (tokens.at(index).is(TokenKind::LineComment) and mode == ParsingMode::CodeTest) {
+
+        }
+
         while (tokens.at(index).isHidden()) {
             advance();
         }

@@ -54,7 +54,7 @@ namespace jc::parser {
 
     /// Possibly `CodeTest` comment
     struct CodeTestComment {
-        std::string content;
+        Token token;
     };
 
     // Note: Usage
@@ -109,28 +109,28 @@ namespace jc::parser {
 
     public:
         template<class T, class ...Args>
-        inline N<T> makeBoxNode(Args && ...args) const {
+        inline N<T> makeBoxNode(Args && ...args) {
             auto node = std::make_unique<T>(std::forward<Args>(args)...);
-            sess->nodeStorage.addNode(node);
+            lastCodeTestItem = sess->nodeStorage.addNode(node);
             return node;
         }
 
         template<class T, class B, class ...Args>
-        inline PR<N<B>> makePRBoxNode(Args && ...args) const {
+        inline PR<N<B>> makePRBoxNode(Args && ...args) {
             return Ok<N<B>>(N<B>(static_cast<B *>(makeBoxNode<T>(std::forward<Args>(args)...).release())));
         }
 
         template<class T, class ...Args>
-        inline T makeNode(Args && ...args) const {
+        inline T makeNode(Args && ...args) {
             auto node = T(std::forward<Args>(args)...);
-            sess->nodeStorage.addNode(node);
+            lastCodeTestItem = sess->nodeStorage.addNode(node);
             return node;
         }
 
         template<class T>
-        inline PR<T> makeErrPR(Span span) const {
+        inline PR<T> makeErrPR(Span span) {
             ErrorNode node(span);
-            sess->nodeStorage.addNode(node);
+            lastCodeTestItem = sess->nodeStorage.addNode(node);
             return Err(node);
         }
 
@@ -411,6 +411,11 @@ namespace jc::parser {
         using CodeTestCommentMap = NodeId::NodeMap<CodeTestComment>;
 
         CodeTestCommentMap codeTestComments;
+        NodeId lastCodeTestItem;
+
+        void addCodeTestComment(Token comment) {
+            codeTestComments.emplace(lastCodeTestItem, CodeTestComment {comment});
+        }
 
     public:
         CodeTestCommentMap && extractCodeTestComments() {

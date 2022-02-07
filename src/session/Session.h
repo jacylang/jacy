@@ -22,18 +22,20 @@ namespace jc::sess {
         }
 
         template<class T>
-        void addNode(ast::N<T> & node) {
+        ast::NodeId addNode(ast::N<T> & node) {
             node->id.val = nextNodeId.val++;
             nodeSpanMap.emplace(node->id, node->span);
+            return node->id;
         }
 
         span::Span getNodeSpan(ast::NodeId nodeId) const {
             return nodeSpanMap.at(nodeId);
         }
 
-        void addNode(ast::Ident & ident) {
+        ast::NodeId addNode(ast::Ident & ident) {
             ident.id.val = nextNodeId.val++;
             nodeSpanMap.emplace(ident.id, ident.span);
+            return ident.id;
         }
 
         ast::NodeId size() const {
