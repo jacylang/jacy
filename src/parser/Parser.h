@@ -52,6 +52,11 @@ namespace jc::parser {
         CodeTest,
     };
 
+    /// Possibly `CodeTest` comment
+    struct CodeTestComment {
+        std::string content;
+    };
+
     // Note: Usage
     //  0b00000011 - `0` are unused
     //  0. --
@@ -399,6 +404,17 @@ namespace jc::parser {
         void devLogWithIndent(Args && ...args) const {
             const auto indent = entitiesEntries.size();
             log.dev(log::Indent(indent), args...);
+        }
+
+        // CodeTest mode //
+    private:
+        using CodeTestCommentMap = NodeId::NodeMap<CodeTestComment>;
+
+        CodeTestCommentMap codeTestComments;
+
+    public:
+        CodeTestCommentMap && extractCodeTestComments() {
+            return std::move(codeTestComments);
         }
     };
 }
