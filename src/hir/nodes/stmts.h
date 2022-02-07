@@ -17,8 +17,8 @@ namespace jc::hir {
     struct LetStmt : Stmt {
         LetStmt(
             Pat::Ptr && pat,
-            Type::Ptr && type,
-            Expr::Ptr && value,
+            Type::OptPtr && type,
+            Expr::OptPtr && value,
             HirId hirId,
             Span span
         ) : Stmt {StmtKind::Let, hirId, span},
@@ -27,8 +27,8 @@ namespace jc::hir {
             value {std::move(value)} {}
 
         Pat::Ptr pat;
-        Type::Ptr type;
-        Expr::Ptr value;
+        Type::OptPtr type;
+        Expr::OptPtr value;
     };
 
     struct ItemStmt : Stmt {

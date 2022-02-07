@@ -15,6 +15,7 @@ namespace jc::hir {
 
     struct Type : HirNode {
         using Ptr = N<Type>;
+        using OptPtr = Option<Ptr>;
         using List = std::vector<Type::Ptr>;
 
         Type(TypeKind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
