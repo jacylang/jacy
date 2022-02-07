@@ -1752,10 +1752,10 @@ namespace jc::parser {
         ).some();
 
         auto type = parseType("Expected parameter type");
-        Expr::OptPtr defaultValue = None;
+        AnonConst::Opt defaultValue = None;
         if (peek().isAssignOp()) {
             advance();
-            defaultValue = parseExpr("Expression expected as default value of function parameter");
+            defaultValue = parseAnonConst("Expression expected as default value of function parameter");
         }
 
         exitEntity();
