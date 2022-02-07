@@ -15,24 +15,24 @@ namespace jc::hir {
         }
     };
 
-    enum class ItemKind {
-        Enum,
-        Func,
-        Impl,
-        Mod,
-        Struct,
-        Trait,
-        TypeAlias,
-        Use,
-    };
-
     /// The base class for all items
     struct Item {
+        enum class Kind {
+            Enum,
+            Func,
+            Impl,
+            Mod,
+            Struct,
+            Trait,
+            TypeAlias,
+            Use,
+        };
+
         using Ptr = std::unique_ptr<Item>;
 
-        Item(ItemKind kind) : kind {kind} {}
+        Item(Kind kind) : kind {kind} {}
 
-        ItemKind kind;
+        Kind kind;
 
         template<class T>
         static T * as(const Ptr & item) {

@@ -52,7 +52,7 @@ namespace jc::hir {
     };
 
     struct Enum : Item {
-        Enum(std::vector<Variant> && variants) : Item {ItemKind::Enum}, variants {std::move(variants)} {}
+        Enum(std::vector<Variant> && variants) : Item {Item::Kind::Enum}, variants {std::move(variants)} {}
 
         std::vector<Variant> variants;
     };
@@ -71,7 +71,7 @@ namespace jc::hir {
 
     struct Func : Item {
         Func(FuncSig && sig, GenericParam::List && generics, BodyId body)
-            : Item {ItemKind::Func},
+            : Item {Item::Kind::Func},
               sig {std::move(sig)},
               generics {std::move(generics)},
               body {body} {}
@@ -84,14 +84,14 @@ namespace jc::hir {
     struct Impl : Item {};
 
     struct Mod : Item {
-        Mod(ItemId::List && items) : Item {ItemKind::Mod}, items {std::move(items)} {}
+        Mod(ItemId::List && items) : Item {Item::Kind::Mod}, items {std::move(items)} {}
 
         ItemId::List items;
     };
 
     struct Struct : Item {
         Struct(CommonField::List && fields, GenericParam::List && generics)
-            : Item {ItemKind::Struct},
+            : Item {Item::Kind::Struct},
               fields {std::move(fields)},
               generics {std::move(generics)} {}
 
@@ -105,7 +105,7 @@ namespace jc::hir {
 
     struct TypeAlias : Item {
         TypeAlias(GenericParam::List && generics, Type::Ptr && type)
-            : Item {ItemKind::TypeAlias},
+            : Item {Item::Kind::TypeAlias},
               generics {std::move(generics)},
               type {std::move(type)} {}
 
@@ -116,7 +116,7 @@ namespace jc::hir {
     struct UseDecl : Item {
         using Kind = ast::UseTree::Kind;
 
-        UseDecl(Kind kind, Path && path) : Item {ItemKind::Use}, kind {kind}, path {std::move(path)} {}
+        UseDecl(Kind kind, Path && path) : Item {Item::Kind::Use}, kind {kind}, path {std::move(path)} {}
 
         Kind kind;
         Path path;

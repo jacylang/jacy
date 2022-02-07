@@ -98,28 +98,28 @@ namespace jc::hir {
     Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
-            case ast::ItemKind::Enum: {
+            case ast::Item::Kind::Enum: {
                 return lowerEnum(*item->as<ast::Enum>(item));
             }
-            case ast::ItemKind::Func: {
+            case ast::Item::Kind::Func: {
                 return lowerFunc(*item->as<ast::Func>(item));
             }
-            case ast::ItemKind::Impl: {
+            case ast::Item::Kind::Impl: {
                 break;
 //                return lowerImpl(*item->as<ast::Impl>(item));
             }
-            case ast::ItemKind::Mod: {
+            case ast::Item::Kind::Mod: {
                 return lowerMod(item->as<ast::Mod>(item)->items);
             }
-            case ast::ItemKind::Struct:
+            case ast::Item::Kind::Struct:
                 break;
-            case ast::ItemKind::Trait:
+            case ast::Item::Kind::Trait:
                 break;
-            case ast::ItemKind::TypeAlias:
+            case ast::Item::Kind::TypeAlias:
                 break;
-            case ast::ItemKind::Use:
+            case ast::Item::Kind::Use:
                 break;
-            case ast::ItemKind::Init:
+            case ast::Item::Kind::Init:
                 break;
         }
     }

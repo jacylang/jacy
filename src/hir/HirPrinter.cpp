@@ -26,7 +26,7 @@ namespace jc::hir {
         const auto & item = itemWrapper.item;
 
         switch (item->kind) {
-            case ItemKind::Enum: {
+            case Item::Kind::Enum: {
                 log.raw("enum ", itemWrapper.name);
                 const auto & enumItem = Item::as<Enum>(item);
                 beginBlock();
@@ -53,7 +53,7 @@ namespace jc::hir {
                 endBlock();
                 break;
             }
-            case ItemKind::Func: {
+            case Item::Kind::Func: {
                 const auto & funcItem = Item::as<Func>(item);
 
                 log.raw("func ");
@@ -64,9 +64,9 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Impl: // TODO
+            case Item::Kind::Impl: // TODO
                 break;
-            case ItemKind::Mod: {
+            case Item::Kind::Mod: {
                 const auto & mod = Item::as<Mod>(item);
 
                 log.raw("mod ", itemWrapper.name);
@@ -76,7 +76,7 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Struct: {
+            case Item::Kind::Struct: {
                 const auto & structItem = Item::as<Struct>(item);
 
                 log.raw("struct ", itemWrapper.name);
@@ -88,9 +88,9 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Trait: // TODO
+            case Item::Kind::Trait: // TODO
                 break;
-            case ItemKind::TypeAlias: {
+            case Item::Kind::TypeAlias: {
                 const auto & typeAlias = Item::as<TypeAlias>(item);
 
                 log.raw("type ", itemWrapper.name);
@@ -99,7 +99,7 @@ namespace jc::hir {
                 printType(typeAlias->type);
                 break;
             }
-            case ItemKind::Use: {
+            case Item::Kind::Use: {
                 const auto & useDecl = Item::as<UseDecl>(item);
 
                 printPat(useDecl->path);
