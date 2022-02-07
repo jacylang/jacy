@@ -15,9 +15,10 @@ namespace jc::sess {
     class NodeStorage {
     public:
         template<class T>
-        void addNode(T & node) {
+        ast::NodeId addNode(T & node) {
             node.id.val = nextNodeId.val++;
             nodeSpanMap.emplace(node.id, node.span);
+            return node.id;
         }
 
         template<class T>
