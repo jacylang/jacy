@@ -2202,9 +2202,9 @@ namespace jc::parser {
                     Recovery::Once
                 );
                 auto type = parseType("Expected `const` generic type");
-                Expr::OptPtr defaultValue = None;
+                AnonConst::Opt defaultValue = None;
                 if (skipOpt(TokenKind::Assign).some()) {
-                    defaultValue = parseExpr("Expected `const` generic default value after `=`");
+                    defaultValue = parseAnonConst("Expected `const` generic default value after `=`");
                 }
                 generics.emplace_back(ConstParam {
                     std::move(name),

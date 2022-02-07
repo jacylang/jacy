@@ -30,7 +30,7 @@ namespace jc::ast {
         ConstParam(
             Ident::PR name,
             GenericsTypePtr type,
-            AnonConst defaultValue,
+            AnonConst::Opt defaultValue,
             Span span
         ) : Node {span},
             name {std::move(name)},
@@ -39,7 +39,7 @@ namespace jc::ast {
 
         Ident::PR name;
         GenericsTypePtr type;
-        AnonConst defaultValue;
+        AnonConst::Opt defaultValue;
     };
 
     struct TypeParam : Node {
