@@ -133,15 +133,15 @@ namespace jc::hir {
                 log.raw("let ");
                 printPat(letStmt->pat);
 
-                if (letStmt->type.some()) {
+                letStmt->type.then([this](const Type::Ptr & type) {
                     log.raw(": ");
-                    printType(letStmt->type.unwrap());
-                }
+                    printType(type);
+                });
 
-                if (letStmt->value.some()) {
+                letStmt->value.then([this](const Expr::Ptr & value) {
                     log.raw(" = ");
-                    printExpr(letStmt->value.unwrap());
-                }
+                    printExpr(value);
+                });
 
                 log.raw(";");
                 break;
