@@ -7,7 +7,7 @@ namespace jc::ast {
     /// `expr '(' ((Identifier ':')? expr (',' (Identifier ':')? expr)* ',')? ')'`
     struct Invoke : Expr {
         Invoke(Expr::Ptr lhs, Arg::List args, Span span)
-            : Expr {span, ExprKind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
+            : Expr {span, Expr::Kind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
 
         Expr::Ptr lhs;
         Arg::List args;

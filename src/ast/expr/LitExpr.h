@@ -67,7 +67,7 @@ namespace jc::ast {
 
     private:
         LitExpr(ValueT val, const parser::Token & token)
-            : Expr {token.span, ExprKind::LiteralConstant}, token {token}, val {val} {}
+            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, val {val} {}
 
         static dt::Result <Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,

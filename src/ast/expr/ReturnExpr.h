@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct ReturnExpr : Expr {
         ReturnExpr(Expr::OptPtr && expr, Span span)
-            : Expr {span, ExprKind::Return},
+            : Expr {span, Expr::Kind::Return},
               expr {std::move(expr)} {}
 
         Expr::OptPtr expr;

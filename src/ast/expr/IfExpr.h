@@ -14,7 +14,7 @@ namespace jc::ast {
             Block::OptPtr ifBranch,
             Block::OptPtr elseBranch,
             Span span
-        ) : Expr {span, ExprKind::If},
+        ) : Expr {span, Expr::Kind::If},
             condition {std::move(condition)},
             ifBranch {std::move(ifBranch)},
             elseBranch {std::move(elseBranch)} {}

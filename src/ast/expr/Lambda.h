@@ -27,7 +27,7 @@ namespace jc::ast {
             Type::OptPtr returnType,
             Expr::Ptr body,
             Span span
-        ) : Expr {span, ExprKind::Lambda},
+        ) : Expr {span, Expr::Kind::Lambda},
             params {std::move(params)},
             returnType {std::move(returnType)},
             body {std::move(body)} {}

@@ -6,7 +6,7 @@
 namespace jc::ast {
     struct Prefix : Expr {
         Prefix(const parser::Token & op, Expr::Ptr && rhs, Span span)
-            : Expr {span, ExprKind::Prefix}, op {op}, rhs {std::move(rhs)} {}
+            : Expr {span, Expr::Kind::Prefix}, op {op}, rhs {std::move(rhs)} {}
 
         parser::Token op;
         Expr::Ptr rhs;

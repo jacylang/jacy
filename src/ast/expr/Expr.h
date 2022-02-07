@@ -6,35 +6,6 @@
 #include "data_types/Option.h"
 
 namespace jc::ast {
-    enum class ExprKind {
-        Assign,
-        Block,
-        Borrow,
-        Break,
-        Continue,
-        Field,
-        For,
-        If,
-        Infix,
-        Invoke,
-        Lambda,
-        List,
-        LiteralConstant,
-        Loop,
-        Paren,
-        Path,
-        Postfix,
-        Prefix,
-        Return,
-        Spread,
-        Subscript,
-        Self,
-        Tuple,
-        Unit,
-        Match,
-        While,
-    };
-
     /**
      * @brief Base expression class
      */
@@ -43,19 +14,48 @@ namespace jc::ast {
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Expr(Span span, ExprKind kind) : Node {span}, kind {kind} {}
+        enum class Kind {
+            Assign,
+            Block,
+            Borrow,
+            Break,
+            Continue,
+            Field,
+            For,
+            If,
+            Infix,
+            Invoke,
+            Lambda,
+            List,
+            LiteralConstant,
+            Loop,
+            Paren,
+            Path,
+            Postfix,
+            Prefix,
+            Return,
+            Spread,
+            Subscript,
+            Self,
+            Tuple,
+            Unit,
+            Match,
+            While,
+        };
+
+        Expr(Span span, Kind kind) : Node {span}, kind {kind} {}
 
         virtual ~Expr() = default;
 
-        ExprKind kind;
+        Kind kind;
 
-        bool is(ExprKind kind) const {
+        bool is(Kind kind) const {
             return this->kind == kind;
         }
 
         bool isSimple() const {
-            return kind == ExprKind::LiteralConstant
-                or kind == ExprKind::Path;
+            return kind == Kind::LiteralConstant
+                or kind == Kind::Path;
         }
 
         template<class T>
