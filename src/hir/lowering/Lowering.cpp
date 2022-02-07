@@ -135,9 +135,13 @@ namespace jc::hir {
     Variant Lowering::lowerVariant(const ast::Variant & variant) {
         switch (variant.kind) {
             case ast::Variant::Kind::Unit: {
+                auto disc = variant.getDisc().map<AnonConst>([&](const ast::AnonConst & astDisc) {
+                    return Some(lowerAnonConst(astDisc));
+                });
+
                 return Variant {
                     variant.name.unwrap(),
-                    std::monostate {},
+                    std::move(disc),
                     Variant::Kind::Unit,
                     HirId::DUMMY,
                     variant.span
