@@ -108,7 +108,14 @@ namespace jc::hir {
         Type::Ptr type;
     };
 
-    struct UseDecl : Item {};
+    struct UseDecl : Item {
+        using Kind = ast::UseTree::Kind;
+
+        UseDecl(Kind kind, Path && path) : Item {ItemKind::Use}, kind {kind}, path {std::move(path)} {}
+
+        Kind kind;
+        Path path;
+    };
 }
 
 #endif // JACY_HIR_NODES_ITEMS_H
