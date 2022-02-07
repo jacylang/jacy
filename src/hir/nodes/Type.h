@@ -5,6 +5,10 @@
 
 namespace jc::hir {
     struct Type : HirNode {
+        using Ptr = N<Type>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Type::Ptr>;
+
         enum class Kind {
             Infer,
             Tuple,
@@ -13,10 +17,6 @@ namespace jc::hir {
             Array,
             Path,
         };
-
-        using Ptr = N<Type>;
-        using OptPtr = Option<Ptr>;
-        using List = std::vector<Type::Ptr>;
 
         Type(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 

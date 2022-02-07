@@ -5,6 +5,10 @@
 
 namespace jc::hir {
     struct Pat : HirNode {
+        using Ptr = std::unique_ptr<Pat>;
+        using OptPtr = Option<Ptr>;
+        using List = std::vector<Ptr>;
+
         enum class Kind {
             Multi,
             Wildcard,
@@ -16,10 +20,6 @@ namespace jc::hir {
             Tuple,
             Slice,
         };
-
-        using Ptr = std::unique_ptr<Pat>;
-        using OptPtr = Option<Ptr>;
-        using List = std::vector<Ptr>;
 
         Pat(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 

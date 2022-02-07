@@ -17,6 +17,8 @@ namespace jc::hir {
 
     /// The base class for all items
     struct Item {
+        using Ptr = std::unique_ptr<Item>;
+
         enum class Kind {
             Enum,
             Func,
@@ -27,8 +29,6 @@ namespace jc::hir {
             TypeAlias,
             Use,
         };
-
-        using Ptr = std::unique_ptr<Item>;
 
         Item(Kind kind) : kind {kind} {}
 

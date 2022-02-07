@@ -5,14 +5,14 @@
 
 namespace jc::hir {
     struct Stmt : HirNode {
+        using Ptr = N<Stmt>;
+        using List = std::vector<Stmt::Ptr>;
+
         enum class Kind {
             Let,
             Item,
             Expr,
         };
-
-        using Ptr = N<Stmt>;
-        using List = std::vector<Stmt::Ptr>;
 
         Stmt(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
 
