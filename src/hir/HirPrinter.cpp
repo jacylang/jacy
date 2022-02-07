@@ -88,8 +88,15 @@ namespace jc::hir {
             }
             case ItemKind::Trait:
                 break;
-            case ItemKind::TypeAlias:
+            case ItemKind::TypeAlias: {
+                const auto & typeAlias = Item::as<TypeAlias>(item);
+
+                log.raw("type ", itemWrapper.name);
+                printGenericParams(typeAlias->generics);
+                log.raw(" = ");
+                printType(typeAlias->type);
                 break;
+            }
             case ItemKind::Use:
                 break;
         }
