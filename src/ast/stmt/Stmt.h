@@ -7,22 +7,22 @@
 #include "ast/BaseVisitor.h"
 
 namespace jc::ast {
-    enum class StmtKind {
-        Expr,
-        Let,
-        Item,
-    };
-
     struct Stmt : Node {
         using Ptr = PR<N<Stmt>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
-        Stmt(Span span, StmtKind kind) : Node {span}, kind {kind} {}
+        enum class Kind {
+            Expr,
+            Let,
+            Item,
+        };
 
-        StmtKind kind;
+        Stmt(Span span, Kind kind) : Node {span}, kind {kind} {}
 
-        bool is(StmtKind kind) const {
+        Kind kind;
+
+        bool is(Kind kind) const {
             return this->kind == kind;
         }
 
