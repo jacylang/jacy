@@ -28,6 +28,12 @@ namespace jc::sess {
             return node->id;
         }
 
+        template<class T>
+        ast::NodeId addNodeLike(T & nodeLike) {
+            nodeLike.id.val = nextNodeId.val++;
+            return nodeLike.id;
+        }
+
         span::Span getNodeSpan(ast::NodeId nodeId) const {
             return nodeSpanMap.at(nodeId);
         }
