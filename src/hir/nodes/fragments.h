@@ -39,6 +39,7 @@ namespace jc::hir {
         Param(Pat::Ptr && pat, HirId hirId, Span span) : HirNode {hirId, span}, pat {std::move(pat)} {}
 
         Pat::Ptr pat;
+        // TODO: Default value as `AnonConst`, should it be here or in `FuncSig`?
     };
 
     /// Function body
