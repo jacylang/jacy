@@ -9,48 +9,40 @@ namespace jc::ast {
     using GenericsTypePtr = PR<N<Type>>;
 
     // Generic Parameters //
-
-    /// Common structure for generic parameters and arguments as being just an identifier
-    /// Span of the Lifetime (from `GenericParam <- Node`) is a span of lifetime with quote `'`
-    /// whereas `name`'s span does not include it.
-    struct Lifetime {
-        Lifetime(Ident::PR name, Span span) : name {std::move(name)}, span {span} {}
-
-        Ident::PR name;
-        Span span;
-
-        void accept(BaseVisitor & visitor) const {
-            return visitor.visit(*this);
-        }
-    };
-
-    struct ConstParam {
-        ConstParam(
-            Ident::PR name,
-            GenericsTypePtr type,
-            AnonConst::Opt defaultValue
-        ) : name {std::move(name)},
-            type {std::move(type)},
-            defaultValue {std::move(defaultValue)} {}
-
-        Ident::PR name;
-        GenericsTypePtr type;
-        AnonConst::Opt defaultValue;
-    };
-
-    struct TypeParam {
-        TypeParam(
-            Ident::PR name,
-            Option<GenericsTypePtr> type
-        ) : name {std::move(name)},
-            boundType {std::move(type)} {}
-
-        Ident::PR name;
-        Option<GenericsTypePtr> boundType;
-    };
-
     struct GenericParam {
-        using ValueT = std::variant<TypeParam, ConstParam, Lifetime>;
+        struct Lifetime {
+            Lifetime(Ident::PR name, Span span) : name {std::move(name)}, span {span} {}
+
+            Ident::PR name;
+            Span span;
+        };
+
+        struct Const {
+            Const(
+                Ident::PR name,
+                GenericsTypePtr type,
+                AnonConst::Opt defaultValue
+            ) : name {std::move(name)},
+                type {std::move(type)},
+                defaultValue {std::move(defaultValue)} {}
+
+            Ident::PR name;
+            GenericsTypePtr type;
+            AnonConst::Opt defaultValue;
+        };
+
+        struct Type {
+            Type(
+                Ident::PR name,
+                Option<GenericsTypePtr> type
+            ) : name {std::move(name)},
+                boundType {std::move(type)} {}
+
+            Ident::PR name;
+            Option<GenericsTypePtr> boundType;
+        };
+
+        using ValueT = std::variant<Type, Const, Lifetime>;
         using List = std::vector<GenericParam>;
         using OptList = Option<List>;
 
@@ -60,11 +52,11 @@ namespace jc::ast {
             Const,
         };
 
-        GenericParam(TypeParam && type) : kind {Kind::Type}, value {std::move(type)} {}
+        GenericParam(Type && type) : kind {Kind::Type}, value {std::move(type)} {}
 
         GenericParam(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
 
-        GenericParam(ConstParam && constParam) : kind {Kind::Const}, value {std::move(constParam)} {}
+        GenericParam(Const && constParam) : kind {Kind::Const}, value {std::move(constParam)} {}
 
         NodeId id;
         Kind kind;
@@ -78,7 +70,7 @@ namespace jc::ast {
         }
 
         const auto & getTypeParam() const {
-            return std::get<TypeParam>(value);
+            return std::get<Type>(value);
         }
 
         const auto & getLifetime() const {
@@ -86,7 +78,7 @@ namespace jc::ast {
         }
 
         const auto & getConstParam() const {
-            return std::get<ConstParam>(value);
+            return std::get<Const>(value);
         }
 
         const Ident & name() const {
@@ -106,6 +98,14 @@ namespace jc::ast {
 
     // Generic arguments //
     struct GenericArg {
+        struct Lifetime {
+            Lifetime(Ident::PR && name, Span span) : name {std::move(name)}, span {span} {}
+
+            Ident::PR name;
+            Span span;
+            NodeId id;
+        };
+
         using List = std::vector<GenericArg>;
         using OptList = Option<List>;
         using ValueT = std::variant<GenericsTypePtr, Lifetime, AnonConst>;
