@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct Type;
-    using GenericsTypePtr = PR <N<Type>>;
+    using GenericsTypePtr = PR<N<Type>>;
 
     // Generic Parameters //
 
@@ -19,7 +19,6 @@ namespace jc::ast {
               name {std::move(name)} {}
 
         Ident::PR name;
-        Span span;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
@@ -45,14 +44,14 @@ namespace jc::ast {
     struct TypeParam : Node {
         TypeParam(
             Ident::PR name,
-            Option <GenericsTypePtr> type,
+            Option<GenericsTypePtr> type,
             Span span
         ) : Node {span},
             name {std::move(name)},
             boundType {std::move(type)} {}
 
         Ident::PR name;
-        Option <GenericsTypePtr> boundType;
+        Option<GenericsTypePtr> boundType;
     };
 
     struct GenericParam {
