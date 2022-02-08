@@ -8,8 +8,8 @@
 
 namespace jc::ast {
     struct SimplePathSeg : Node {
-        SimplePathSeg(Ident::PR && ident, Span span)
-            : Node {span}, ident {std::move(ident)} {}
+        SimplePathSeg(Ident::PR ident, Span span)
+            : Node {span}, ident {ident} {}
 
         Ident::PR ident;
 

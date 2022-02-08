@@ -81,12 +81,12 @@ namespace jc::ast {
     struct IdentPat : Pat {
         IdentPat(
             IdentPatAnno anno,
-            Ident::PR && name,
+            Ident::PR name,
             Pat::OptPtr && pat,
             Span span
         ) : Pat {Pat::Kind::Ident, span},
             anno {anno},
-            name {std::move(name)},
+            name {name},
             pat {std::move(pat)} {}
 
         IdentPatAnno anno;
@@ -176,7 +176,7 @@ namespace jc::ast {
     struct StructPatField : Node {
         using List = std::vector<StructPatField>;
 
-        StructPatField(bool shortcut, Ident::PR && ident, Pat::Ptr && pat, Span span)
+        StructPatField(bool shortcut, Ident::PR ident, Pat::Ptr && pat, Span span)
             : Node {span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
 
         /// Shortcut is true when `:` is omitted, just a flag,

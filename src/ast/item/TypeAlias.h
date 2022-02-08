@@ -8,11 +8,11 @@
 namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
-            Ident::PR && name,
+            Ident::PR name,
             Type::OptPtr && type,
             Span span
         ) : Item {span, Item::Kind::TypeAlias},
-            name {std::move(name)},
+            name {name},
             type {std::move(type)} {}
 
         Ident::PR name;

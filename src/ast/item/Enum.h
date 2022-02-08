@@ -18,14 +18,14 @@ namespace jc::ast {
             Struct, // `A {a, b, c...}`
         };
 
-        Variant(Kind kind, Ident::PR && name, AnonConst::Opt && disc, Span span)
-            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(disc)} {}
+        Variant(Kind kind, Ident::PR name, AnonConst::Opt && disc, Span span)
+            : Node {span}, kind {kind}, name {name}, body {std::move(disc)} {}
 
-        Variant(Kind kind, Ident::PR && name, TupleTypeEl::List && tupleFields, Span span)
-            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(tupleFields)} {}
+        Variant(Kind kind, Ident::PR name, TupleTypeEl::List && tupleFields, Span span)
+            : Node {span}, kind {kind}, name {name}, body {std::move(tupleFields)} {}
 
-        Variant(Kind kind, Ident::PR && name, StructField::List && fields, Span span)
-            : Node {span}, kind {kind}, name {std::move(name)}, body {std::move(fields)} {}
+        Variant(Kind kind, Ident::PR name, StructField::List && fields, Span span)
+            : Node {span}, kind {kind}, name {name}, body {std::move(fields)} {}
 
         Kind kind;
         Ident::PR name;
@@ -49,8 +49,8 @@ namespace jc::ast {
     };
 
     struct Enum : Item {
-        Enum(Ident::PR && name, Variant::List && entries, Span span)
-            : Item {span, Item::Kind::Enum}, name {std::move(name)}, variants {std::move(entries)} {}
+        Enum(Ident::PR name, Variant::List && entries, Span span)
+            : Item {span, Item::Kind::Enum}, name {name}, variants {std::move(entries)} {}
 
         Ident::PR name;
         Variant::List variants {};

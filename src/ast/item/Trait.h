@@ -7,13 +7,13 @@
 namespace jc::ast {
     struct Trait : Item {
         Trait(
-            Ident::PR && name,
+            Ident::PR name,
             GenericParam::OptList && generics,
             TypePath::List && superTraits,
             Item::List && members,
             Span span
         ) : Item {span, Item::Kind::Trait},
-            name {std::move(name)},
+            name {name},
             generics {std::move(generics)},
             superTraits {std::move(superTraits)},
             members {std::move(members)} {}

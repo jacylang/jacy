@@ -9,11 +9,11 @@ namespace jc::ast {
     struct FieldExpr : Expr {
         FieldExpr(
             Expr::Ptr && lhs,
-            Ident::PR && field,
+            Ident::PR field,
             Span span
         ) : Expr {span, Expr::Kind::Field},
             lhs {std::move(lhs)},
-            field {std::move(field)} {}
+            field {field} {}
 
         Expr::Ptr lhs;
         Ident::PR field;
@@ -24,4 +24,4 @@ namespace jc::ast {
     };
 }
 
-#endif // JACY_AST_EXPR_FIELDEXPR_H
+#endif // JACY_AST_EXPR_FIELDER_H

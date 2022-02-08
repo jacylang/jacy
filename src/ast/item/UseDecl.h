@@ -28,8 +28,8 @@ namespace jc::ast {
         UseTree(SimplePath::Opt && path, UseTree::List && specifics, span::Span span)
             : Node {span}, kind {Kind::Specific}, path {std::move(path)}, val {std::move(specifics)} {}
 
-        UseTree(SimplePath::Opt && path, Ident::PR && rebinding, span::Span span)
-            : Node {span}, kind {Kind::Rebind}, path {std::move(path)}, val {std::move(rebinding)} {}
+        UseTree(SimplePath::Opt && path, Ident::PR rebinding, span::Span span)
+            : Node {span}, kind {Kind::Rebind}, path {std::move(path)}, val {rebinding} {}
 
         Kind kind;
         SimplePath::Opt path;
