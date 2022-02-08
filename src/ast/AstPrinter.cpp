@@ -638,7 +638,8 @@ namespace jc::ast {
                 break;
             }
             case GenericParam::Kind::Lifetime: {
-                log.raw("'", param.getLifetime().name);
+                log.raw("'");
+                param.getLifetime().name.autoAccept(*this);
                 break;
             }
             case GenericParam::Kind::Const: {
@@ -666,7 +667,8 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                log.raw("`", arg.getLifetime().name);
+                log.raw("`");
+                arg.getLifetime().name.autoAccept(*this);
                 printNodeId(arg.getLifetime().id);
                 break;
             }

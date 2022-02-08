@@ -39,6 +39,10 @@ namespace jc::hir {
             return os << hirId.owner << log::Color::DarkBlue << "@" << hirId.id
                       << log::Color::Reset;
         }
+
+        bool operator<(const HirId & other) const {
+            return std::tie(owner, id) < std::tie(other.owner, other.id);
+        }
     };
 
     struct HirNode {

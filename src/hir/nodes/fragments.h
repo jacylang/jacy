@@ -32,6 +32,10 @@ namespace jc::hir {
     /// For now, just a wrapper over `HirId`
     struct BodyId {
         HirId hirId;
+
+        bool operator<(const BodyId & other) const {
+            return hirId < other.hirId;
+        }
     };
 
     struct Param : HirNode {
