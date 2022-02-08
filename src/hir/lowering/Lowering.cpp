@@ -697,8 +697,9 @@ namespace jc::hir {
         GenericParam::List params;
 
         for (const auto & param : maybeAstParams.unwrap()) {
+            auto name = param.name();
             auto bounds = GenericBound::List {/* TODO: BOUNDS */};
-            auto span = param.name().span;
+            auto span = name.span;
             auto hirId = lowerNodeId(param.id);
 
             switch (param.kind) {
@@ -706,7 +707,7 @@ namespace jc::hir {
                     const auto & typeParam = param.getTypeParam();
                     // TODO: Replace HirId::DUMMY with a lowered `Type` param when it will have
                     params.emplace_back(
-                        GenericParam::Type {typeParam.name.unwrap()},
+                        GenericParam::Type {name},
                         std::move(bounds),
                         hirId,
                         span
@@ -716,7 +717,7 @@ namespace jc::hir {
                 case ast::GenericParam::Kind::Lifetime: {
                     const auto & lifetime = param.getLifetime();
                     params.emplace_back(
-                        GenericParam::Lifetime {lifetime.name.unwrap()},
+                        GenericParam::Lifetime {name},
                         std::move(bounds),
                         hirId,
                         span
@@ -726,7 +727,7 @@ namespace jc::hir {
                 case ast::GenericParam::Kind::Const: {
                     const auto & constParam = param.getConstParam();
                     params.emplace_back(
-                        GenericParam::Const {constParam.name.unwrap(), lowerType(constParam.type)},
+                        GenericParam::Const {name, lowerType(constParam.type)},
                         std::move(bounds),
                         hirId,
                         span
