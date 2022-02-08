@@ -333,8 +333,6 @@ namespace jc::parser {
         ///  whereas in type context turbofish is optional (btw, possible)
         Path parsePath(bool inExpr);
 
-        GenericArg::OptList parseOptGenericArgs();
-
         /// Actually, parses an expression but wraps it in `AnonConst`
         AnonConst parseAnonConst(const std::string & expectedMsg);
 
@@ -352,6 +350,8 @@ namespace jc::parser {
         TupleTypeEl::List parseTupleFields();
 
         // Type fragments //
+        GenericArg::OptList parseOptGenericArgs();
+
         GenericParam::OptList parseOptGenericParams();
 
         TypePath::Ptr parseTypePath();
