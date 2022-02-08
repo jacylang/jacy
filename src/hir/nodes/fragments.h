@@ -119,7 +119,7 @@ namespace jc::hir {
     struct PathSeg : HirNode {
         using List = std::vector<PathSeg>;
 
-        PathSeg(const span::Ident & name, HirId hirId, Span span)
+        PathSeg(const span::Ident & name, GenericArg::List && generics, HirId hirId, Span span)
             : HirNode {hirId, span}, name {std::move(name)} {}
 
         span::Ident name;

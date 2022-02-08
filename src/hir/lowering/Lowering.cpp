@@ -659,9 +659,13 @@ namespace jc::hir {
 
         PathSeg::List segments;
         for (const auto & astSeg : path.segments) {
-            // TODO: Generics
             const auto & seg = astSeg.unwrap("`Lowering::lowerPath`");
-            segments.emplace_back(seg.ident.unwrap("`Lowering::lowerPath`"), HirId::DUMMY, seg.span);
+            segments.emplace_back(
+                seg.ident.unwrap("`Lowering::lowerPath`"),
+                lowerGenericArgs(seg.generics),
+                HirId::DUMMY,
+                seg.span
+            );
         }
 
         return Path {res, std::move(segments), path.span};
@@ -735,7 +739,7 @@ namespace jc::hir {
             }
         }
 
-        return {};
+        return params;
     }
 
     GenericArg::List Lowering::lowerGenericArgs(const ast::GenericArg::OptList & maybeGenericArgs) {
@@ -765,6 +769,8 @@ namespace jc::hir {
                 }
             }
         }
+
+        return args;
     }
 
     // Patterns //
