@@ -607,7 +607,7 @@ namespace jc::ast {
         log.raw("[");
         arrayType.type.autoAccept(*this);
         log.raw("; ");
-        arrayType.sizeExpr.autoAccept(*this);
+        arrayType.sizeExpr.accept(*this);
         log.raw("]");
 
         printNodeId(arrayType);
@@ -627,8 +627,6 @@ namespace jc::ast {
     void AstPrinter::visit(const Lifetime & lifetime) {
         log.raw("`");
         lifetime.name.autoAccept(*this);
-
-        printNodeId(lifetime);
     }
 
     void AstPrinter::visit(const GenericParam & param) {
@@ -642,7 +640,6 @@ namespace jc::ast {
                     typeParam.boundType.unwrap().autoAccept(*this);
                 }
 
-                printNodeId(typeParam);
                 break;
             }
             case GenericParam::Kind::Lifetime: {
@@ -658,13 +655,13 @@ namespace jc::ast {
                 constParam.type.autoAccept(*this);
                 if (constParam.defaultValue.some()) {
                     log.raw(" = ");
-                    constParam.defaultValue.unwrap().autoAccept(*this);
+                    constParam.defaultValue.unwrap().accept(*this);
                 }
-
-                printNodeId(constParam);
                 break;
             }
         }
+
+        printNodeId(param.id);
     }
 
     void AstPrinter::visit(const GenericArg & arg) {
@@ -674,11 +671,12 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                arg.getLifetime().accept(*this);
+                log.raw("'", arg.getLifetime().name);
+                printNodeId(arg.getLifetime().id);
                 break;
             }
             case GenericArg::Kind::Const: {
-                arg.getConstArg().autoAccept(*this);
+                arg.getConstArg().accept(*this);
                 break;
             }
         }
@@ -747,7 +745,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const AnonConst & anonConst) {
         anonConst.expr.autoAccept(*this);
-        printNodeId(anonConst.nodeId);
+        printNodeId(anonConst.id);
     }
 
     // Patterns //
