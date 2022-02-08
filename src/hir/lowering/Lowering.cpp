@@ -704,7 +704,6 @@ namespace jc::hir {
 
             switch (param.kind) {
                 case ast::GenericParam::Kind::Type: {
-                    const auto & typeParam = param.getTypeParam();
                     // TODO: Replace HirId::DUMMY with a lowered `Type` param when it will have
                     params.emplace_back(
                         GenericParam::Type {name},
@@ -715,7 +714,6 @@ namespace jc::hir {
                     break;
                 }
                 case ast::GenericParam::Kind::Lifetime: {
-                    const auto & lifetime = param.getLifetime();
                     params.emplace_back(
                         GenericParam::Lifetime {name},
                         std::move(bounds),
