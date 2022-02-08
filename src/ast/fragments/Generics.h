@@ -14,10 +14,10 @@ namespace jc::ast {
     /// Span of the Lifetime (from `GenericParam <- Node`) is a span of lifetime with quote `'`
     /// whereas `name`'s span does not include it.
     struct Lifetime {
-        Lifetime(Ident::PR name) : name {std::move(name)} {}
+        Lifetime(Ident::PR name, Span span) : name {std::move(name)}, span {span} {}
 
-        // TODO: Add Span for name with `'`?
         Ident::PR name;
+        Span span;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
@@ -106,13 +106,6 @@ namespace jc::ast {
 
     // Generic arguments //
     struct GenericArg {
-        struct Lifetime {
-            Lifetime(Ident::PR name) : name {name} {}
-
-            Ident::PR name;
-            NodeId id;
-        };
-
         using List = std::vector<GenericArg>;
         using OptList = Option<List>;
         using ValueT = std::variant<GenericsTypePtr, Lifetime, AnonConst>;
