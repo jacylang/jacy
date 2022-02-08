@@ -106,9 +106,14 @@ namespace jc::ast {
 
     // Generic arguments //
     struct GenericArg {
+        struct Lifetime {
+            Ident::PR name;
+            NodeId id;
+        };
+
         using List = std::vector<GenericArg>;
         using OptList = Option<List>;
-        using ValueT = std::variant<GenericsTypePtr, Lifetime, Expr::Ptr>;
+        using ValueT = std::variant<GenericsTypePtr, Lifetime, AnonConst>;
 
         enum class Kind {
             Type,
@@ -120,7 +125,7 @@ namespace jc::ast {
 
         GenericArg(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
 
-        GenericArg(Expr::Ptr && expr) : kind {Kind::Const}, value {std::move(expr)} {}
+        GenericArg(AnonConst && expr) : kind {Kind::Const}, value {std::move(expr)} {}
 
         Kind kind;
 
@@ -141,7 +146,7 @@ namespace jc::ast {
         }
 
         const auto & getConstArg() const {
-            return std::get<Expr::Ptr>(value);
+            return std::get<AnonConst>(value);
         }
     };
 }
