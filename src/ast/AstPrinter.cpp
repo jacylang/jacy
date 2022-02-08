@@ -624,11 +624,6 @@ namespace jc::ast {
     }
 
     // Generics //
-    void AstPrinter::visit(const Lifetime & lifetime) {
-        log.raw("`");
-        lifetime.name.autoAccept(*this);
-    }
-
     void AstPrinter::visit(const GenericParam & param) {
         switch (param.kind) {
             case GenericParam::Kind::Type: {
@@ -643,7 +638,7 @@ namespace jc::ast {
                 break;
             }
             case GenericParam::Kind::Lifetime: {
-                param.getLifetime().accept(*this);
+                log.raw("'", param.getLifetime().name);
                 break;
             }
             case GenericParam::Kind::Const: {

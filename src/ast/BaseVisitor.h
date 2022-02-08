@@ -65,7 +65,6 @@ namespace jc::ast {
     struct UnitType;
 
     // Generics //
-    struct Lifetime;
     struct GenericParam;
     struct GenericArg;
 
@@ -207,8 +206,6 @@ namespace jc::ast {
         virtual void visit(const UnitType &) = 0;
 
         // Generics //
-        virtual void visit(const Lifetime &) = 0;
-
         virtual void visit(const GenericParam &) = 0;
 
         virtual void visit(const GenericArg &) = 0;
