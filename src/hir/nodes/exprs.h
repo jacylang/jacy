@@ -4,6 +4,7 @@
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/fragments.h"
 #include "hir/nodes/Pat.h"
+#include "ast/expr/LitExpr.h"
 
 namespace jc::hir {
     enum class BinOpKind {
@@ -144,11 +145,14 @@ namespace jc::hir {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;
 
-        LitExpr(Kind kind, ValueT val, HirId hirId, Span span)
-            : Expr {Expr::Kind::Literal, hirId, span}, kind {kind}, val {val} {}
+        LitExpr(Kind kind, ValueT val, parser::Token token, HirId hirId, Span span)
+            : Expr {Expr::Kind::Literal, hirId, span}, kind {kind}, val {val}, token {token} {}
 
         Kind kind;
         ValueT val;
+
+        // TODO: Maybe remove token and add to-token-conversion API
+        parser::Token token;
     };
 
     struct LoopExpr : Expr {

@@ -331,7 +331,13 @@ namespace jc::hir {
             }
             case ast::Expr::Kind::LiteralConstant: {
                 const auto & astNode = expr->as<ast::LitExpr>(expr);
-                return makeBoxNode<LitExpr>(astNode->kind, astNode->val, lowerNodeId(astNode->id), astNode->span);
+                return makeBoxNode<LitExpr>(
+                    astNode->kind,
+                    astNode->val,
+                    astNode->token,
+                    lowerNodeId(astNode->id),
+                    astNode->span
+                );
             }
             case ast::Expr::Kind::Loop: {
                 const auto & astNode = expr->as<ast::LoopExpr>(expr);
