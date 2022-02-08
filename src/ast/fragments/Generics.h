@@ -11,8 +11,6 @@ namespace jc::ast {
     // Generic Parameters //
     struct GenericParam {
         struct Lifetime {
-            Lifetime(Ident::PR name, Span span) : name {std::move(name)}, span {span} {}
-
             Ident::PR name;
             Span span;
         };
@@ -98,12 +96,10 @@ namespace jc::ast {
 
     // Generic arguments //
     struct GenericArg {
-        struct Lifetime {
-            Lifetime(Ident::PR && name, Span span) : name {std::move(name)}, span {span} {}
+        struct Lifetime : Node {
+            Lifetime(Ident::PR && name, Span span) : Node {span}, name {std::move(name)} {}
 
             Ident::PR name;
-            Span span;
-            NodeId id;
         };
 
         using List = std::vector<GenericArg>;
