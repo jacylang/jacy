@@ -144,6 +144,8 @@ namespace jc::hir {
 
         GenericParam::List lowerGenericParams(const ast::GenericParam::OptList & maybeAstParams);
 
+        GenericArg::List lowerGenericArgs(const ast::GenericArg::OptList & maybeGenericArgs);
+
         // Patterns //
     private:
         Pat::Ptr lowerPat(const ast::Pat::Ptr & patPr);

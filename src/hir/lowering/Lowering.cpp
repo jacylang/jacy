@@ -738,6 +738,35 @@ namespace jc::hir {
         return {};
     }
 
+    GenericArg::List Lowering::lowerGenericArgs(const ast::GenericArg::OptList & maybeGenericArgs) {
+        if (maybeGenericArgs.none()) {
+            return {};
+        }
+
+        const auto & genericArgs = maybeGenericArgs.unwrap();
+        GenericArg::List args;
+
+        for (const auto & arg : genericArgs) {
+            switch (arg.kind) {
+                case ast::GenericArg::Kind::Type: {
+                    const auto & typeParam = arg.getTypeArg();
+                    args.emplace_back(lowerType(typeParam));
+                    break;
+                }
+                case ast::GenericArg::Kind::Lifetime: {
+                    const auto & lifetime = arg.getLifetime();
+                    auto name = lifetime.name.unwrap();
+                    args.emplace_back(GenericArg::Lifetime {lowerNodeId(lifetime.id), name.span, name});
+                }
+                case ast::GenericArg::Kind::Const: {
+                    const auto & constParam = arg.getConstArg();
+                    args.emplace_back(GenericArg::Const {lowerAnonConst(constParam), constParam.expr.unwrap()->span});
+                    break;
+                }
+            }
+        }
+    }
+
     // Patterns //
     Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");

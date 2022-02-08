@@ -2143,6 +2143,7 @@ namespace jc::parser {
                 auto name = parseIdent("lifetime parameter name");
                 args.emplace_back(makeNodeLike<GenericArg::Lifetime>(name.span(), std::move(name)));
             } else if (is(TokenKind::Sub) and lookup().isLiteral() or peek().isLiteral()) {
+                // TODO: Replace condition with a special function for `Token`
                 auto expr = parseLiteral();
                 args.emplace_back(makeNodeLike<AnonConst>(expr.span(), std::move(expr)));
             } else if (is(TokenKind::LBrace)) {
