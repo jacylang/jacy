@@ -56,9 +56,9 @@ namespace jc::ast {
         switch (variant.kind) {
             case Variant::Kind::Unit: {
                 log.raw(" = ");
-                if (const auto & disc = std::get<Expr::OptPtr>(variant.body); disc.some()) {
-                    std::get<Expr::OptPtr>(variant.body).unwrap().autoAccept(*this);
-                }
+                variant.getDisc().then([this](const AnonConst & disc) {
+                    disc.accept(*this);
+                });
                 break;
             }
             case Variant::Kind::Tuple: {
