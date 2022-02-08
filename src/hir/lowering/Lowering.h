@@ -142,7 +142,7 @@ namespace jc::hir {
 
         BodyId lowerExprAsBody(const ast::Expr::Ptr & expr);
 
-        GenericParam::List lowerGenericParams(const ast::GenericParam::OptList & params);
+        GenericParam::List lowerGenericParams(const ast::GenericParam::OptList & maybeAstParams);
 
         // Patterns //
     private:

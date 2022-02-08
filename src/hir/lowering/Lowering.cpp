@@ -106,7 +106,7 @@ namespace jc::hir {
             }
             case ast::Item::Kind::Impl: {
                 break;
-//                return lowerImpl(*item->as<ast::Impl>(item));
+                //                return lowerImpl(*item->as<ast::Impl>(item));
             }
             case ast::Item::Kind::Mod: {
                 return lowerMod(item->as<ast::Mod>(item)->items);
@@ -689,8 +689,53 @@ namespace jc::hir {
         return bodyId;
     }
 
-    GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::OptList & params) {
-        // TODO!!!
+    GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::OptList & maybeAstParams) {
+        if (maybeAstParams.none()) {
+            return {};
+        }
+
+        GenericParam::List params;
+
+        for (const auto & param : maybeAstParams.unwrap()) {
+            auto bounds = GenericBound::List {/* TODO: BOUNDS */};
+            auto span = param.name().span;
+            auto hirId = lowerNodeId(param.id);
+
+            switch (param.kind) {
+                case ast::GenericParam::Kind::Type: {
+                    const auto & typeParam = param.getTypeParam();
+                    // TODO: Replace HirId::DUMMY with a lowered `Type` param when it will have
+                    params.emplace_back(
+                        GenericParam::Type {typeParam.name.unwrap()},
+                        std::move(bounds),
+                        hirId,
+                        span
+                    );
+                    break;
+                }
+                case ast::GenericParam::Kind::Lifetime: {
+                    const auto & lifetime = param.getLifetime();
+                    params.emplace_back(
+                        GenericParam::Lifetime {lifetime.name.unwrap()},
+                        std::move(bounds),
+                        hirId,
+                        span
+                    );
+                    break;
+                }
+                case ast::GenericParam::Kind::Const: {
+                    const auto & constParam = param.getConstParam();
+                    params.emplace_back(
+                        GenericParam::Const {constParam.name.unwrap(), lowerType(constParam.type)},
+                        std::move(bounds),
+                        hirId,
+                        span
+                    );
+                    break;
+                }
+            }
+        }
+
         return {};
     }
 
