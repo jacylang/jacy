@@ -88,6 +88,20 @@ namespace jc::ast {
         const auto & getConstParam() const {
             return std::get<ConstParam>(value);
         }
+
+        const Ident & name() const {
+            switch (kind) {
+                case Kind::Type: {
+                    return getTypeParam().name.unwrap();
+                }
+                case Kind::Lifetime: {
+                    return getLifetime().name.unwrap();
+                }
+                case Kind::Const: {
+                    return getConstParam().name.unwrap();
+                }
+            }
+        }
     };
 
     // Generic arguments //
