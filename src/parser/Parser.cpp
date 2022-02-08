@@ -1934,7 +1934,7 @@ namespace jc::parser {
             auto argBegin = cspan();
             if (is(TokenKind::Backtick)) {
                 auto name = parseIdent("lifetime parameter name");
-                args.emplace_back(makeNode<Lifetime>(std::move(name), closeSpan(argBegin)));
+                args.emplace_back(makeNode<Lifetime>(std::move(name)));
             } else if (is(TokenKind::Sub) and lookup().isLiteral() or peek().isLiteral()) {
                 args.emplace_back(parseLiteral());
             } else if (is(TokenKind::LBrace)) {
@@ -2188,14 +2188,14 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick).some()) {
                 auto name = parseIdent("lifetime parameter name");
-                generics.emplace_back(Lifetime {std::move(name), closeSpan(genBegin)});
+                generics.emplace_back(Lifetime {std::move(name)});
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenericParams`");
                 Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                generics.emplace_back(TypeParam {std::move(name), std::move(type), closeSpan(genBegin)});
+                generics.emplace_back(TypeParam {std::move(name), std::move(type)});
             } else if (skipOptKw(Kw::Const).some()) {
                 auto name = parseIdent("`const` parameter name");
                 skip(
@@ -2211,8 +2211,7 @@ namespace jc::parser {
                 generics.emplace_back(ConstParam {
                     std::move(name),
                     std::move(type),
-                    std::move(defaultValue),
-                    closeSpan(genBegin)
+                    std::move(defaultValue)
                 });
             } else {
                 msg.error()

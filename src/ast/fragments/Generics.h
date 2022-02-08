@@ -41,8 +41,7 @@ namespace jc::ast {
     struct TypeParam {
         TypeParam(
             Ident::PR name,
-            Option<GenericsTypePtr> type,
-            Span span
+            Option<GenericsTypePtr> type
         ) : name {std::move(name)},
             boundType {std::move(type)} {}
 
