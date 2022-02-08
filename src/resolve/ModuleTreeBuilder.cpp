@@ -233,17 +233,17 @@ namespace jc::resolve {
                 switch (param.kind) {
                     case ast::GenericParam::Kind::Type: {
                         const auto & typeParam = param.getTypeParam();
-                        addDef(Vis::Pub, typeParam.id, DefKind::TypeParam, typeParam.name.unwrap());
+                        addDef(Vis::Pub, param.id, DefKind::TypeParam, typeParam.name.unwrap());
                         break;
                     }
                     case ast::GenericParam::Kind::Lifetime: {
                         const auto & lifetimeParam = param.getLifetime();
-                        addDef(Vis::Pub, lifetimeParam.id, DefKind::Lifetime, lifetimeParam.name.unwrap());
+                        addDef(Vis::Pub, param.id, DefKind::Lifetime, lifetimeParam.name.unwrap());
                         break;
                     }
                     case ast::GenericParam::Kind::Const: {
                         const auto & constParam = param.getConstParam();
-                        addDef(Vis::Pub, constParam.id, DefKind::ConstParam, constParam.name.unwrap());
+                        addDef(Vis::Pub, param.id, DefKind::ConstParam, constParam.name.unwrap());
                         break;
                     }
                 }

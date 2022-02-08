@@ -20,7 +20,6 @@ namespace jc::ast {
             /// Note: Do not default the kind of int
             enum class Kind {
                 Unset,
-
                 U8,
                 U16,
                 U32,
@@ -38,7 +37,6 @@ namespace jc::ast {
         struct Float {
             enum class Kind {
                 Unset,
-
                 F32,
                 F64,
             };

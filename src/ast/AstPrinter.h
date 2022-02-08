@@ -134,7 +134,6 @@ namespace jc::ast {
         void visit(const UnitType & unitType) override;
 
         // Generics //
-        void visit(const Lifetime & lifetime) override;
         void visit(const GenericParam & param) override;
         void visit(const GenericArg & arg) override;
 

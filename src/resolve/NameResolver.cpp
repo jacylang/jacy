@@ -47,7 +47,7 @@ namespace jc::resolve {
             param.type.autoAccept(*this);
 
             if (param.defaultValue.some()) {
-                param.defaultValue.unwrap().autoAccept(*this);
+                param.defaultValue.unwrap().accept(*this);
             }
 
             param.pat.autoAccept(*this);
@@ -107,7 +107,7 @@ namespace jc::resolve {
         for (const auto & param : init.sig.params) {
             param.pat.autoAccept(*this);
             if (param.defaultValue.some()) {
-                param.defaultValue.unwrap().autoAccept(*this);
+                param.defaultValue.unwrap().accept(*this);
             }
         }
 

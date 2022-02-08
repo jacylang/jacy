@@ -103,7 +103,7 @@ namespace jc::hir {
             case Item::Kind::Use: {
                 const auto & useDecl = Item::as<UseDecl>(item);
 
-                printPat(useDecl->path);
+                printPath(useDecl->path);
 
                 switch (useDecl->kind) {
                     case ast::UseTree::Kind::Raw: break;
@@ -264,7 +264,7 @@ namespace jc::hir {
             }
             case Expr::Kind::Literal: {
                 const auto & lit = Expr::as<LitExpr>(expr);
-                log.raw(lit->val.token);
+                log.raw(lit->token);
                 break;
             }
             case Expr::Kind::Loop: {

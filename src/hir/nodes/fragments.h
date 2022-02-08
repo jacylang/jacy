@@ -6,6 +6,7 @@
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/Type.h"
 #include "hir/nodes/Pat.h"
+#include "resolve/Resolutions.h"
 
 namespace jc::hir {
     struct Arg : HirNode {
