@@ -107,6 +107,8 @@ namespace jc::ast {
     // Generic arguments //
     struct GenericArg {
         struct Lifetime {
+            Lifetime(Ident::PR name) : name {name} {}
+
             Ident::PR name;
             NodeId id;
         };

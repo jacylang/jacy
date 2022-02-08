@@ -2141,11 +2141,13 @@ namespace jc::parser {
             auto argBegin = cspan();
             if (is(TokenKind::Backtick)) {
                 auto name = parseIdent("lifetime parameter name");
-                args.emplace_back(makeNode<Lifetime>(std::move(name)));
+                args.emplace_back(makeNodeLike<GenericArg::Lifetime>(name.span(), std::move(name)));
             } else if (is(TokenKind::Sub) and lookup().isLiteral() or peek().isLiteral()) {
-                args.emplace_back(parseLiteral());
+                auto expr = parseLiteral();
+                args.emplace_back(makeNodeLike<AnonConst>(expr.span(), std::move(expr)));
             } else if (is(TokenKind::LBrace)) {
-                args.emplace_back(parseBlock("const generic argument", BlockParsing::Just).as<Expr>());
+                auto blockExpr = parseBlock("const generic argument", BlockParsing::Just).as<Expr>();
+                args.emplace_back(makeNodeLike<AnonConst>(blockExpr.span(), std::move(blockExpr)));
             } else {
                 msg.error()
                    .setText("Expected generic argument")
