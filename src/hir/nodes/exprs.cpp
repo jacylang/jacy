@@ -53,5 +53,11 @@ namespace jc::hir {
             case PrefixOpKind::Deref:return "*";
         }
     }
+
+    std::string postfixOpKind(PostfixOpKind postfixOp) {
+        switch (postfixOp) {
+            case PostfixOpKind::Quest: return "?";
+        }
+    }
 }
 

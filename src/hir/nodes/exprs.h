@@ -44,6 +44,8 @@ namespace jc::hir {
         Quest,
     };
 
+    static inline std::string postfixOpKind(PostfixOpKind postfixOp);
+
     using BinOp = span::Spanned<BinOpKind>;
     using PrefixOp = span::Spanned<PrefixOpKind>;
     using PostfixOp = span::Spanned<PostfixOpKind>;
