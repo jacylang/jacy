@@ -13,11 +13,10 @@ namespace jc::ast {
     /// Common structure for generic parameters and arguments as being just an identifier
     /// Span of the Lifetime (from `GenericParam <- Node`) is a span of lifetime with quote `'`
     /// whereas `name`'s span does not include it.
-    struct Lifetime : Node {
-        Lifetime(Ident::PR name, Span span)
-            : Node(span),
-              name {std::move(name)} {}
+    struct Lifetime {
+        Lifetime(Ident::PR name) : name {std::move(name)} {}
 
+        // TODO: Add Span for name with `'`?
         Ident::PR name;
 
         void accept(BaseVisitor & visitor) const {
@@ -25,14 +24,12 @@ namespace jc::ast {
         }
     };
 
-    struct ConstParam : Node {
+    struct ConstParam {
         ConstParam(
             Ident::PR name,
             GenericsTypePtr type,
-            AnonConst::Opt defaultValue,
-            Span span
-        ) : Node {span},
-            name {std::move(name)},
+            AnonConst::Opt defaultValue
+        ) : name {std::move(name)},
             type {std::move(type)},
             defaultValue {std::move(defaultValue)} {}
 
@@ -41,13 +38,12 @@ namespace jc::ast {
         AnonConst::Opt defaultValue;
     };
 
-    struct TypeParam : Node {
+    struct TypeParam {
         TypeParam(
             Ident::PR name,
             Option<GenericsTypePtr> type,
             Span span
-        ) : Node {span},
-            name {std::move(name)},
+        ) : name {std::move(name)},
             boundType {std::move(type)} {}
 
         Ident::PR name;
@@ -71,6 +67,7 @@ namespace jc::ast {
 
         GenericParam(ConstParam && constParam) : kind {Kind::Const}, value {std::move(constParam)} {}
 
+        NodeId id;
         Kind kind;
 
     private:
