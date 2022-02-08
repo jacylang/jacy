@@ -15,9 +15,9 @@ namespace jc::ast {
         variant.name.autoAccept(*this);
         switch (variant.kind) {
             case Variant::Kind::Unit: {
-                if (const auto & disc = std::get<Expr::OptPtr>(variant.body); disc.some()) {
-                    std::get<Expr::OptPtr>(variant.body).unwrap().autoAccept(*this);
-                }
+                variant.getDisc().then([this](const AnonConst & disc) {
+                    disc.accept(*this);
+                });
                 break;
             }
             case Variant::Kind::Tuple: {
@@ -55,7 +55,7 @@ namespace jc::ast {
         funcParam.pat.autoAccept(*this);
         funcParam.type.autoAccept(*this);
         if (funcParam.defaultValue.some()) {
-            funcParam.defaultValue.unwrap().autoAccept(*this);
+            funcParam.defaultValue.unwrap().accept(*this);
         }
     }
 
@@ -309,7 +309,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const ArrayType & arrayType) {
         arrayType.type.autoAccept(*this);
-        arrayType.sizeExpr.autoAccept(*this);
+        arrayType.sizeExpr.accept(*this);
     }
 
     void StubVisitor::visit(const TypePath & typePath) {
@@ -319,10 +319,6 @@ namespace jc::ast {
     void StubVisitor::visit(const UnitType &) {}
 
     // Type params //
-    void StubVisitor::visit(const Lifetime & lifetime) {
-        lifetime.name.autoAccept(*this);
-    }
-
     void StubVisitor::visit(const GenericParam & param) {
         switch (param.kind) {
             case GenericParam::Kind::Type: {
@@ -335,7 +331,7 @@ namespace jc::ast {
                 break;
             }
             case GenericParam::Kind::Lifetime: {
-                param.getLifetime().accept(*this);
+                param.getLifetime().name.autoAccept(*this);
                 break;
             }
             case GenericParam::Kind::Const: {
@@ -344,7 +340,7 @@ namespace jc::ast {
                 constParam.name.autoAccept(*this);
                 constParam.type.autoAccept(*this);
                 if (constParam.defaultValue.some()) {
-                    constParam.defaultValue.unwrap().autoAccept(*this);
+                    constParam.defaultValue.unwrap().accept(*this);
                 }
                 break;
             }
@@ -358,11 +354,11 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                arg.getLifetime().accept(*this);
+                arg.getLifetime().name.autoAccept(*this);
                 break;
             }
             case GenericArg::Kind::Const: {
-                arg.getConstArg().autoAccept(*this);
+                arg.getConstArg().accept(*this);
                 break;
             }
         }

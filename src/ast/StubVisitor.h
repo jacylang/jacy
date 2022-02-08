@@ -123,8 +123,6 @@ namespace jc::ast {
         virtual void visit(const UnitType & unitType) override;
 
         // Type params //
-        virtual void visit(const Lifetime & lifetime) override;
-
         virtual void visit(const GenericParam & param) override;
 
         virtual void visit(const GenericArg & arg) override;
