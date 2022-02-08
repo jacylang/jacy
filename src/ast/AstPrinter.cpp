@@ -62,11 +62,11 @@ namespace jc::ast {
                 break;
             }
             case Variant::Kind::Tuple: {
-                printDelim(std::get<TupleTypeEl::List>(variant.body), "(", ")");
+                printDelim(variant.getTuple(), "(", ")");
                 break;
             }
             case Variant::Kind::Struct: {
-                printBodyLike(std::get<StructField::List>(variant.body));
+                printBodyLike(variant.getStruct());
                 break;
             }
         }
