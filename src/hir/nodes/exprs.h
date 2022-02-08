@@ -30,6 +30,8 @@ namespace jc::hir {
         NE,
     };
 
+    static inline std::string binOpStr(BinOpKind binOp);
+
     enum class PrefixOpKind {
         Not,
         Neg,
