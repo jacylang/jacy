@@ -514,7 +514,7 @@ namespace jc::hir {
                 }
                 case GenericParam::Kind::Lifetime: {
                     const auto & lifetime = param.getLifetime();
-                    log.raw("'", lifetime.name);
+                    log.raw("`", lifetime.name);
                     break;
                 }
                 case GenericParam::Kind::Const: {
@@ -543,7 +543,7 @@ namespace jc::hir {
                     break;
                 }
                 case GenericArg::Kind::Lifetime: {
-                    log.raw("'", arg.getLifetime().name);
+                    log.raw("`", arg.getLifetime().name);
                     break;
                 }
                 case GenericArg::Kind::Const: {

@@ -671,7 +671,7 @@ namespace jc::ast {
                 break;
             }
             case GenericArg::Kind::Lifetime: {
-                log.raw("'", arg.getLifetime().name);
+                log.raw("`", arg.getLifetime().name);
                 printNodeId(arg.getLifetime().id);
                 break;
             }
