@@ -45,5 +45,13 @@ namespace jc::hir {
                 return "!=";
         }
     }
+
+    std::string prefixOpStr(PrefixOpKind prefixOp) {
+        switch (prefixOp) {
+            case PrefixOpKind::Not:return "not";
+            case PrefixOpKind::Neg:return "-";
+            case PrefixOpKind::Deref:return "*";
+        }
+    }
 }
 

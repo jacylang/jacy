@@ -38,6 +38,8 @@ namespace jc::hir {
         Deref,
     };
 
+    static inline std::string prefixOpStr(PrefixOpKind prefixOp);
+
     enum class PostfixOpKind {
         Quest,
     };

@@ -244,7 +244,7 @@ namespace jc::hir {
             case Expr::Kind::Infix: {
                 const auto & infix = Expr::as<InfixExpr>(expr);
                 printExpr(infix->lhs);
-                log.raw(" ", infix->op, " ");
+                log.raw(" ", binOpStr(infix->op.node), " ");
                 printExpr(infix->rhs);
                 break;
             }
@@ -299,7 +299,7 @@ namespace jc::hir {
             }
             case Expr::Kind::Prefix: {
                 const auto & prefix = Expr::as<PrefixExpr>(expr);
-                log.raw(prefix->op);
+                log.raw(prefixOpStr(prefix->op.node));
                 printExpr(prefix->rhs);
                 break;
             }
