@@ -114,9 +114,9 @@ namespace jc::ast {
         log.raw(": ");
         funcParam.type.autoAccept(*this);
 
-        funcParam.defaultValue.then([&](const auto & defaultValue) {
+        funcParam.defaultValue.then([&](const AnonConst & defaultValue) {
             log.raw(" = ");
-            defaultValue.autoAccept(*this);
+            defaultValue.accept(*this);
         });
 
         printNodeId(funcParam);
