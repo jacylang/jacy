@@ -16,10 +16,10 @@ namespace jc::parser {
             addCodeTestComment(token);
         }
 
-        while (token.isHidden()) {
+        while (tokens.at(index).isHidden()) {
             advance();
         }
-        return token;
+        return tokens.at(index);
     }
 
     Token Parser::advance(uint8_t distance) {
