@@ -7,8 +7,13 @@
 namespace jc::message {
     template<class T>
     struct MessageResult {
-        MessageResult(const T & value, Message::List && messages) : value{value}, messages{std::move(messages)} {}
-        MessageResult(T && value, Message::List && messages) : value{std::move(value)}, messages{std::move(messages)} {}
+        MessageResult(const T & value, Message::List && messages)
+            : value {value},
+              messages {std::move(messages)} {}
+
+        MessageResult(T && value, Message::List && messages)
+            : value {std::move(value)},
+              messages {std::move(messages)} {}
 
         std::tuple<T, message::Message::List> extract() {
             return {std::move(value), std::move(messages)};
@@ -18,7 +23,7 @@ namespace jc::message {
             return messages;
         }
 
-        T takeUnchecked() {
+        T && takeUnchecked() {
             return std::move(value);
         }
 
