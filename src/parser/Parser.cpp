@@ -1996,13 +1996,9 @@ namespace jc::parser {
             } else {
                 if (tupleElements.empty()) {
                     return makePRBoxNode<UnitType, Type>(closeSpan(begin));
-                } else if (
-                    tupleElements.size() == 1 and
-                        tupleElements.at(0).name.none() and
-                        tupleElements.at(0).type.some()
-                    ) {
+                } else if (tupleElements.size() == 1 and tupleElements.at(0).name.none()) {
                     return makePRBoxNode<ParenType, Type>(
-                        tupleElements.at(0).type.take(), closeSpan(begin)
+                        std::move(tupleElements.at(0).type), closeSpan(begin)
                     );
                 }
                 return makePRBoxNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
@@ -2053,12 +2049,8 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in tuple type");
             }
 
-            tupleElements.push_back(
-                makeNode<TupleTypeEl>(
-                    std::move(name), std::move(type), elBegin.to(
-                        cspan()
-                    )
-                )
+            tupleElements.emplace_back(
+                makeNode<TupleTypeEl>(std::move(name), type.take(), elBegin.to(cspan()))
             );
             elIndex++;
         }
@@ -2103,10 +2095,7 @@ namespace jc::parser {
                    .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
                    .emit();
             }
-            if (tupleEl.type.none()) {
-                log::devPanic("Parser::parseFuncType -> tupleEl -> type is none, but function allowed");
-            }
-            params.push_back(tupleEl.type.take());
+            params.emplace_back(std::move(tupleEl.type));
         }
 
         auto returnType = parseType("Expected return type in function type after `->`");

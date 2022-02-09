@@ -49,13 +49,13 @@ namespace jc::ast {
     struct TupleTypeEl : Node {
         using List = std::vector<TupleTypeEl>;
 
-        TupleTypeEl(Ident::OptPR name, Type::OptPtr type, Span span)
+        TupleTypeEl(Ident::OptPR name, Type::Ptr type, Span span)
             : Node {span},
               name {std::move(name)},
               type {std::move(type)} {}
 
         Ident::OptPR name;
-        Type::OptPtr type;
+        Type::Ptr type;
 
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
