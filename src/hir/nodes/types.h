@@ -42,6 +42,10 @@ namespace jc::hir {
 
         Path path;
     };
+
+    struct UnitType : Type {
+        UnitType(HirId hirId, Span span) : Type {Type::Kind::Unit, hirId, span} {}
+    };
 }
 
 #endif // JACY_HIR_NODES_TYPES_H

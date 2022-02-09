@@ -16,6 +16,7 @@ namespace jc::hir {
             Slice,
             Array,
             Path,
+            Unit,
         };
 
         Type(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
