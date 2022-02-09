@@ -555,7 +555,7 @@ namespace jc::hir {
             if (named) {
                 name = ty.name.unwrap().unwrap();
             }
-            fields.emplace_back(name, lowerType(ty.type.unwrap()), HirId::DUMMY, ty.span);
+            fields.emplace_back(name, lowerType(ty.type), HirId::DUMMY, ty.span);
         }
 
         return fields;
