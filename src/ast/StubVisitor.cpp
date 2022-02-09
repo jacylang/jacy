@@ -293,9 +293,7 @@ namespace jc::ast {
         if (el.name.some()) {
             el.name.unwrap().autoAccept(*this);
         }
-        if (el.type.some()) {
-            el.type.unwrap().autoAccept(*this);
-        }
+        el.type.autoAccept(*this);
     }
 
     void StubVisitor::visit(const FuncType & funcType) {

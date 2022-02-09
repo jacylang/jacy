@@ -576,13 +576,10 @@ namespace jc::ast {
     void AstPrinter::visit(const TupleTypeEl & el) {
         el.name.then([&](const auto & name) {
             name.autoAccept(*this);
+            log.raw(": ");
         });
-        if (el.type.some()) {
-            if (el.name.some()) {
-                log.raw(": ");
-            }
-            el.type.unwrap().autoAccept(*this);
-        }
+
+        el.type.autoAccept(*this);
 
         printNodeId(el);
     }
