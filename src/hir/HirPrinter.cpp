@@ -6,7 +6,7 @@
  */
 
 namespace jc::hir {
-    HirPrinter::HirPrinter(Party & party) : party {party} {}
+    HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
     void HirPrinter::print() {
         printMod(party.rootMod());

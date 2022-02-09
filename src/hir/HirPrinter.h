@@ -6,7 +6,7 @@
 namespace jc::hir {
     class HirPrinter {
     public:
-        HirPrinter(Party & party);
+        HirPrinter(const Party & party);
 
         void print();
 
@@ -96,7 +96,7 @@ namespace jc::hir {
         void endBlock();
 
     private:
-        Party & party;
+        const Party & party;
 
     private:
         log::Logger log {"hir-printer"};
