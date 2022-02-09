@@ -541,14 +541,27 @@ namespace jc::hir {
                 }
                 return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), hirId, funcType->span);
             }
-            case ast::Type::Kind::Slice:
-                break;
-            case ast::Type::Kind::Array:
-                break;
-            case ast::Type::Kind::Path:
-                break;
-            case ast::Type::Kind::Unit:
-                break;
+            case ast::Type::Kind::Slice: {
+                const auto & sliceType = ast::Type::as<ast::SliceType>(type);
+                return makeBoxNode<SliceType>(lowerType(sliceType->type), hirId, sliceType->span);
+            }
+            case ast::Type::Kind::Array: {
+                const auto & arrayType = ast::Type::as<ast::ArrayType>(type);
+                return makeBoxNode<ArrayType>(
+                    lowerType(arrayType->type),
+                    lowerAnonConst(arrayType->sizeExpr),
+                    hirId,
+                    arrayType->span
+                );
+            }
+            case ast::Type::Kind::Path: {
+                const auto & typePath = ast::Type::as<ast::TypePath>(type);
+                return makeBoxNode<TypePath>(lowerPath(typePath->path), hirId, typePath->span);
+            }
+            case ast::Type::Kind::Unit: {
+                const auto & unitType = ast::Type::as<ast::UnitType>(type);
+                return makeBoxNode<UnitType>(hirId, unitType->span);
+            }
         }
         log::notImplemented("Lowering::lowerType");
     }
