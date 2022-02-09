@@ -122,6 +122,8 @@ namespace jc::hir {
             case ast::Item::Kind::Init:
                 break;
         }
+
+        log::notImplemented("Lowering::lowerItemKind");
     }
 
     Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
@@ -191,7 +193,9 @@ namespace jc::hir {
         );
     }
 
-    Item::Ptr Lowering::lowerImpl(const ast::Impl & impl) {}
+    Item::Ptr Lowering::lowerImpl(const ast::Impl & impl) {
+        log::notImplemented("Lowering::lowerImpl");
+    }
 
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;
@@ -218,8 +222,9 @@ namespace jc::hir {
         switch (stmt->kind) {
             case ast::Stmt::Kind::Expr:
                 return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
-            case ast::Stmt::Kind::Let:
-                break;
+            case ast::Stmt::Kind::Let: {
+                return lowerLetStmt(*stmt->as<ast::LetStmt>(stmt));
+            }
             case ast::Stmt::Kind::Item:
                 break;
         }
@@ -227,6 +232,18 @@ namespace jc::hir {
 
     Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
         return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), lowerNodeId(exprStmt.id), exprStmt.span);
+    }
+
+    Stmt::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
+        auto hirId = lowerNodeId(letStmt.id);
+        auto type = letStmt.type.map<Type::Ptr>([this](const ast::Type::Ptr & type) {
+            return lowerType(type);
+        });
+        auto expr = letStmt.assignExpr.map<Expr::Ptr>([this](const ast::Expr::Ptr & expr) {
+            return lowerExpr(expr);
+        });
+
+        return makeBoxNode<LetStmt>(lowerPat(letStmt.pat), std::move(type), std::move(expr), hirId, letStmt.span);
     }
 
     // Expressions //
@@ -651,6 +668,7 @@ namespace jc::hir {
         for (const auto & param : funcParams) {
             params.emplace_back(lowerPat(param.pat), lowerNodeId(param.id), param.span);
         }
+        return params;
     }
 
     BodyId Lowering::lowerBody(const ast::Body & astBody, const ast::FuncParam::List & params) {

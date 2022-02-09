@@ -102,6 +102,8 @@ namespace jc::hir {
 
         Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
+        Stmt::Ptr lowerLetStmt(const ast::LetStmt & letStmt);
+
         // Expressions //
     private:
         Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
