@@ -221,12 +221,12 @@ namespace jc::hir {
         const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");
         switch (stmt->kind) {
             case ast::Stmt::Kind::Expr:
-                return lowerExprStmt(*stmt->as<ast::ExprStmt>(stmt));
+                return lowerExprStmt(*ast::Stmt::as<ast::ExprStmt>(stmt));
             case ast::Stmt::Kind::Let: {
-                return lowerLetStmt(*stmt->as<ast::LetStmt>(stmt));
+                return lowerLetStmt(*ast::Stmt::as<ast::LetStmt>(stmt));
             }
             case ast::Stmt::Kind::Item: {
-                return lowerItemStmt(*stmt->as<ast::ItemStmt>(stmt));
+                return lowerItemStmt(*ast::Stmt::as<ast::ItemStmt>(stmt));
             }
         }
     }
