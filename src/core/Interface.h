@@ -61,7 +61,7 @@ namespace jc::core {
         parser::Parser parser;
         ast::AstPrinter astPrinter;
         ast::Validator astValidator;
-        Option<ast::Party> party = None;
+        Option<ast::Party> astParty = None;
 
         void parse();
         void validateAst();
@@ -92,6 +92,7 @@ namespace jc::core {
         // Lowering //
     private:
         hir::Lowering lowering;
+        hir::Party hirParty;
 
         void lower();
 

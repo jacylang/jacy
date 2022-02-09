@@ -765,7 +765,6 @@ namespace jc::hir {
 
             switch (param.kind) {
                 case ast::GenericParam::Kind::Type: {
-                    // TODO: Replace HirId::DUMMY with a lowered `Type` param when it will have
                     params.emplace_back(
                         GenericParam::Type {name},
                         std::move(bounds),

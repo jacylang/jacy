@@ -119,7 +119,7 @@ namespace jc::core {
                     std::make_move_iterator(rootDir->items.end())
                 );
 
-        party = ast::Party(std::move(rootFile->items));
+        astParty = ast::Party(std::move(rootFile->items));
 
         if (config.checkDevPrint(Config::DevPrint::DirTree)) {
             log.info("Printing directory tree (`--print=dir-tree`)");
@@ -138,7 +138,7 @@ namespace jc::core {
 
         sess->beginStep("AST Validation", MeasUnit::Node);
 
-        auto validationResult = astValidator.lint(party.unwrap());
+        auto validationResult = astValidator.lint(astParty.unwrap());
         messageHandler.checkResult(validationResult, "AST validation");
 
         sess->endStep();
@@ -331,7 +331,7 @@ namespace jc::core {
         log.info("Printing AST after ", modeStr, " (`--print=", cliParam, "`)");
 
         sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
-        astPrinter.print(sess, party.unwrap(), mode);
+        astPrinter.print(sess, astParty.unwrap(), mode);
         sess->endStep();
 
         log::Logger::nl();
@@ -345,7 +345,7 @@ namespace jc::core {
         log.dev("Building module tree...");
         sess->beginStep("Module tree building", MeasUnit::Node);
         messageHandler.checkResult(
-            moduleTreeBuilder.build(sess, party.unwrap()),
+            moduleTreeBuilder.build(sess, astParty.unwrap()),
             "module tree building"
         );
         sess->endStep();
@@ -357,7 +357,7 @@ namespace jc::core {
         log.dev("Resolving imports...");
         sess->beginStep("Import resolution", MeasUnit::Node);
         messageHandler.checkResult(
-            importer.declare(sess, party.unwrap()),
+            importer.declare(sess, astParty.unwrap()),
             "imports resolution"
         );
         sess->endStep();
@@ -369,7 +369,7 @@ namespace jc::core {
         log.dev("Resolving names...");
         sess->beginStep("Name resolution", MeasUnit::Node);
         messageHandler.checkResult(
-            nameResolver.resolve(sess, party.unwrap()),
+            nameResolver.resolve(sess, astParty.unwrap()),
             "name resolution"
         );
         sess->endStep();
@@ -453,10 +453,9 @@ namespace jc::core {
     // Lowering //
     void Interface::lower() {
         log.printTitleDev("Lowering");
-        messageHandler.checkResult(
-            lowering.lower(sess, party.unwrap()),
-            "lowering"
-        );
+
+        auto loweringResult = lowering.lower(sess, astParty.unwrap());
+        messageHandler.checkResult(loweringResult, "lowering");
     }
 
     // Messages //
