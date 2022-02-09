@@ -518,12 +518,21 @@ namespace jc::hir {
     // Types //
     Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap("`Lowering::lowerType`");
+        auto hirId = lowerNodeId(astType.unwrap()->id);
         switch (type->kind) {
             case ast::Type::Kind::Paren: {
-                return lowerType(type->as<ast::ParenType>(type)->type);
+                // Getting rid of useless parentheses
+                return lowerType(ast::Type::as<ast::ParenType>(type)->type);
             }
-            case ast::Type::Kind::Tuple:
-                break;
+            case ast::Type::Kind::Tuple: {
+                const auto & tupleType = ast::Type::as<ast::TupleType>(type);
+                Type::List els;
+                for (const auto & el : tupleType->elements) {
+                    // TODO: Named tuples
+                    els.emplace_back(lowerType(el.type));
+                }
+                return makeBoxNode<TupleType>(std::move(els), hirId, tupleType->span);
+            }
             case ast::Type::Kind::Func:
                 break;
             case ast::Type::Kind::Slice:
