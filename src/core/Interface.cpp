@@ -458,11 +458,11 @@ namespace jc::core {
         messageHandler.checkResult(loweringResult, "lowering");
         hirParty = loweringResult.takeUnchecked();
 
-        printHir();
+        printHir(hirParty);
     }
 
-    void Interface::printHir() {
-        hir::HirPrinter hirPrinter(hirParty);
+    void Interface::printHir(const hir::Party & party) {
+        hir::HirPrinter hirPrinter(party);
         hirPrinter.print();
     }
 

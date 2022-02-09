@@ -96,7 +96,7 @@ namespace jc::core {
         hir::Party hirParty;
 
         void lower();
-        void printHir();
+        void printHir(const hir::Party & party);
 
         // Logging //
     private:
