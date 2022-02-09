@@ -225,8 +225,9 @@ namespace jc::hir {
             case ast::Stmt::Kind::Let: {
                 return lowerLetStmt(*stmt->as<ast::LetStmt>(stmt));
             }
-            case ast::Stmt::Kind::Item:
-                break;
+            case ast::Stmt::Kind::Item: {
+                return lowerItemStmt(*stmt->as<ast::ItemStmt>(stmt));
+            }
         }
     }
 
@@ -244,6 +245,10 @@ namespace jc::hir {
         });
 
         return makeBoxNode<LetStmt>(lowerPat(letStmt.pat), std::move(type), std::move(expr), hirId, letStmt.span);
+    }
+
+    Stmt::Ptr Lowering::lowerItemStmt(const ast::ItemStmt & itemStmt) {
+        return makeBoxNode<ItemStmt>(lowerItem(itemStmt.item), lowerNodeId(itemStmt.id), itemStmt.span);
     }
 
     // Expressions //
