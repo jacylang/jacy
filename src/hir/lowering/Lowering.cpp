@@ -533,8 +533,14 @@ namespace jc::hir {
                 }
                 return makeBoxNode<TupleType>(std::move(els), hirId, tupleType->span);
             }
-            case ast::Type::Kind::Func:
-                break;
+            case ast::Type::Kind::Func: {
+                const auto & funcType = ast::Type::as<ast::FuncType>(type);
+                Type::List inputs;
+                for (const auto & type : funcType->params) {
+                    inputs.emplace_back(lowerType(type));
+                }
+                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), hirId, funcType->span);
+            }
             case ast::Type::Kind::Slice:
                 break;
             case ast::Type::Kind::Array:
