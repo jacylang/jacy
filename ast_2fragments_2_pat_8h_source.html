@@ -152,12 +152,12 @@ $(function() {
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_ident_pat.html">   81</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_ident_pat.html">IdentPat</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {</div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_ident_pat.html">IdentPat</a>(</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            IdentPatAnno anno,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            Ident::PR &amp;&amp; name,</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            Ident::PR name,</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">Pat::OptPtr</a> &amp;&amp; pat,</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        ) : <a class="code hl_struct" href="structjc_1_1ast_1_1_pat.html">Pat</a> {Pat::Kind::Ident, span},</div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            anno {anno},</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            name {std::move(name)},</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            name {name},</div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            pat {std::move(pat)} {}</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        IdentPatAnno anno;</div>
@@ -246,7 +246,7 @@ $(function() {
 <div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_struct_pat_field.html">  176</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_struct_pat_field.html">StructPatField</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {</div>
 <div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keyword">using</span> List = std::vector&lt;StructPatField&gt;;</div>
 <div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_struct_pat_field.html">StructPatField</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">shortcut</a>, Ident::PR &amp;&amp; ident, <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> &amp;&amp; pat, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_struct_pat_field.html">StructPatField</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">shortcut</a>, Ident::PR ident, <a class="code hl_class" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a> &amp;&amp; pat, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
 <div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, <a class="code hl_variable" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">shortcut</a> {<a class="code hl_variable" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">shortcut</a>}, ident {std::move(ident)}, pat {std::move(pat)} {}</div>
 <div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
 <div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">  186</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structjc_1_1ast_1_1_struct_pat_field.html#ad2d07b168ba4a410776420f66a3ee0d9">shortcut</a>;</div>
@@ -307,7 +307,7 @@ $(function() {
 <div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>}</div>
 <div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
 <div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_FRAGMENTS_PAT_H</span></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:95</div></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_parse_result_html"><div class="ttname"><a href="classjc_1_1ast_1_1_parse_result.html">jc::ast::ParseResult</a></div><div class="ttdef"><b>Definition:</b> Node.h:86</div></div>
 <div class="ttc" id="aclassjc_1_1dt_1_1_option_html"><div class="ttname"><a href="classjc_1_1dt_1_1_option.html">jc::dt::Option</a></div><div class="ttdef"><b>Definition:</b> Option.h:23</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_ident_html"><div class="ttname"><a href="structjc_1_1ast_1_1_ident.html">jc::ast::Ident</a></div><div class="ttdef"><b>Definition:</b> Ident.h:12</div></div>

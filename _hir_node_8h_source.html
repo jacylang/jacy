@@ -109,23 +109,27 @@ $(function() {
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> os &lt;&lt; hirId.<a class="code hl_variable" href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">owner</a> &lt;&lt; log::Color::DarkBlue &lt;&lt; <span class="stringliteral">&quot;@&quot;</span> &lt;&lt; hirId.<a class="code hl_variable" href="structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021">id</a></div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                      &lt;&lt; log::Color::Reset;</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    };</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_hir_node.html">   44</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a> {</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : hirId {hirId}, span {span} {}</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    };</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_HIRNODE_H</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordtype">bool</span> operator&lt;(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> &amp; other)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> std::tie(<a class="code hl_variable" href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">owner</a>, <span class="keywordtype">id</span>) &lt; std::tie(other.<a class="code hl_variable" href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">owner</a>, other.<a class="code hl_variable" href="structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021">id</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    };</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_hir_node.html">   48</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a> {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_node.html">HirNode</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : hirId {hirId}, span {span} {}</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    };</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_HIRNODE_H</span></div>
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_id_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node_id.html">jc::ast::NodeId</a></div><div class="ttdef"><b>Definition:</b> Node.h:18</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html">jc::hir::HirId</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:27</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html_a8ba3e6909136427d0c79885b57d88dc6"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">jc::hir::HirId::owner</a></div><div class="ttdeci">resolve::DefId owner</div><div class="ttdoc">The owner of the HIR node (e.g. struct)</div><div class="ttdef"><b>Definition:</b> HirNode.h:33</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html_ad3bd7a9b6175eb55ec6a84251cc01021"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021">jc::hir::HirId::id</a></div><div class="ttdeci">OwnerDef::IdT id</div><div class="ttdoc">An identifier unique per each owner, i.e. in each item the first node has id of 0.</div><div class="ttdef"><b>Definition:</b> HirNode.h:36</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_hir_node_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:44</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_hir_node_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></div><div class="ttdef"><b>Definition:</b> HirNode.h:48</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_owner_def_html"><div class="ttname"><a href="structjc_1_1hir_1_1_owner_def.html">jc::hir::OwnerDef</a></div><div class="ttdoc">The structure used for saving the closest owner definition.</div><div class="ttdef"><b>Definition:</b> HirNode.h:17</div></div>
 <div class="ttc" id="astructjc_1_1resolve_1_1_def_id_html"><div class="ttname"><a href="structjc_1_1resolve_1_1_def_id.html">jc::resolve::DefId</a></div><div class="ttdef"><b>Definition:</b> Definition.h:38</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
