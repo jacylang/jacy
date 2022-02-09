@@ -21,6 +21,7 @@
 #include "fs/fs.h"
 #include "session/Session.h"
 #include "hir/lowering/Lowering.h"
+#include "hir/HirPrinter.h"
 
 namespace jc::core {
     using config::Config;
@@ -95,6 +96,7 @@ namespace jc::core {
         hir::Party hirParty;
 
         void lower();
+        void printHir();
 
         // Logging //
     private:

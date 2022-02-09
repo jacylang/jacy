@@ -456,6 +456,14 @@ namespace jc::core {
 
         auto loweringResult = lowering.lower(sess, astParty.unwrap());
         messageHandler.checkResult(loweringResult, "lowering");
+        hirParty = loweringResult.takeUnchecked();
+
+        printHir();
+    }
+
+    void Interface::printHir() {
+        hir::HirPrinter hirPrinter(hirParty);
+        hirPrinter.print();
     }
 
     // Messages //
