@@ -64,6 +64,7 @@ namespace jc::config {
             Ribs,
             Definitions,
             Resolutions,
+            Hir,
 
             All,
         };

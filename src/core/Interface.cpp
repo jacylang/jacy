@@ -243,7 +243,7 @@ namespace jc::core {
             }
         );
 
-        for (size_t i = 0 ; i < entries.size() ; i++) {
+        for (size_t i = 0; i < entries.size(); i++) {
             const auto & entry = entries.at(i);
             const auto & branches = i == entries.size() - 1 ? finalBranches : innerBranches;
             log.raw(prefix, branches[0], entry->name, (entry->isDir ? "/" : ".jc")).nl();
@@ -277,7 +277,7 @@ namespace jc::core {
         const auto & src = sourceFile.src.unwrap("Interface::printSource");
 
         const auto & maxIndent = log::Indent<1>(std::to_string(sourceFile.linesIndices.size()).size());
-        for (size_t i = 0 ; i < sourceFile.linesIndices.size() ; i++) {
+        for (size_t i = 0; i < sourceFile.linesIndices.size(); i++) {
             std::string line;
             const auto & pos = sourceFile.linesIndices.at(i);
             if (i < sourceFile.linesIndices.size() - 1) {
@@ -462,7 +462,16 @@ namespace jc::core {
     }
 
     void Interface::printHir(const hir::Party & party) {
+        if (not config.checkDevPrint(Config::DevPrint::Hir)) {
+            return;
+        }
+
+        log.info("Printing HIR  (`--print=hir`)");
+
+        sess->beginStep("HIR Printing", MeasUnit::NA);
         hir::HirPrinter hirPrinter(party);
+        sess->endStep();
+
         hirPrinter.print();
     }
 

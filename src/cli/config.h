@@ -142,6 +142,7 @@ commands: {
                     'ribs'
                     'definitions'
                     'resolutions'
+                    'hir'
                     'all'
                 ]
             }

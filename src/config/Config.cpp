@@ -43,12 +43,13 @@ namespace jc::config {
         {"ribs",         Config::DevPrint::Ribs},
         {"definitions",  Config::DevPrint::Definitions},
         {"resolutions",  Config::DevPrint::Resolutions},
+        {"hir",          Config::DevPrint::Hir},
         {"all",          Config::DevPrint::All},
     };
 
     const std::map<std::string, Config::DevStage> Config::devStagesKinds = {
-        {"lexer", Config::DevStage::Lexer},
-        {"parser", Config::DevStage::Parser},
+        {"lexer",    Config::DevStage::Lexer},
+        {"parser",   Config::DevStage::Parser},
         {"name-res", Config::DevStage::NameRes},
         {"lowering", Config::DevStage::Lowering},
     };
@@ -286,6 +287,10 @@ namespace jc::config {
                 }
                 case DevPrint::Definitions: {
                     res["print"].emplace_back("definitions");
+                    break;
+                }
+                case DevPrint::Hir: {
+                    res["print"].emplace_back("hir");
                     break;
                 }
                 case DevPrint::All: {
