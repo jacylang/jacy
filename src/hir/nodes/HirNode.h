@@ -35,6 +35,17 @@ namespace jc::hir {
         /// An identifier unique per each owner, i.e. in each item the first node has id of 0
         OwnerDef::IdT id;
 
+        DefId::Opt asOwner() const {
+            if (id == 0) {
+                return owner;
+            }
+            return None;
+        }
+
+        static HirId makeOwner(DefId defId) {
+            return HirId(defId, 0);
+        }
+
         friend std::ostream & operator<<(std::ostream & os, const HirId & hirId) {
             return os << hirId.owner << log::Color::DarkBlue << "@" << hirId.id
                       << log::Color::Reset;
