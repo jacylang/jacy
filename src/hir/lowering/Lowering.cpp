@@ -30,7 +30,9 @@ namespace jc::hir {
     }
 
     HirId Lowering::lowerNodeId(NodeId nodeId) {
-        nodeIdHirId.emplace(nodeId, nextHirId());
+        auto hirId = nextHirId();
+        nodeIdHirId.emplace(nodeId, hirId);
+        return hirId;
     }
 
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
