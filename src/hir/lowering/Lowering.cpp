@@ -721,7 +721,8 @@ namespace jc::hir {
         /// Note (on `{}`):  Standalone expression does not have parameters
         auto body = Body(false, lowerExpr(expr), {});
         auto bodyId = body.getId();
-        bodies.emplace(bodyId, std::move(body));
+        // TODO: Unify with `lowerBody`
+        bodies.emplace(bodyId.hirId.id, std::move(body));
         return bodyId;
     }
 
