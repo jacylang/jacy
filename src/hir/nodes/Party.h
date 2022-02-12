@@ -24,6 +24,20 @@ namespace jc::hir {
 
         Kind kind;
         ValueT value;
+
+        const Mod & asParty() const {
+            if (kind != Kind::Party) {
+                log::devPanic("Called `OwnerNode::asParty` on non-party `OwnerNode`");
+            }
+            return std::get<Mod>(value);
+        }
+
+        const ItemWrapper & asItem() const {
+            if (kind != Kind::Item) {
+                log::devPanic("Called `OwnerNode::asItem` on non-item `OwnerNode`");
+            }
+            return std::get<ItemWrapper>(value);
+        }
     };
 
     struct OwnerInfo {
@@ -36,6 +50,10 @@ namespace jc::hir {
 
         Bodies bodies;
         Nodes nodes;
+
+        const HirNode::Ptr & ownerNode() const {
+            return nodes.at(ChildId::ownerChild());
+        }
     };
 
     /// The root node of the party (package)
@@ -45,6 +63,10 @@ namespace jc::hir {
         Party(Owners && owners) : owners {std::move(owners)} {}
 
         Owners owners;
+
+        const Mod & partyMod() const {
+            return owners.at(DefId::ROOT_DEF_ID).ownerNode();
+        }
     };
 }
 
