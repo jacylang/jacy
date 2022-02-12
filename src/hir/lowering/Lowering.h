@@ -8,15 +8,6 @@
 #include "message/MessageResult.h"
 
 namespace jc::hir {
-    /// The structure used for saving the closest owner definition
-    struct OwnerDef {
-        OwnerDef(NodeId nodeId, DefId defId, ChildId initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {}
-
-        NodeId nodeId;
-        DefId defId;
-        ChildId nextId;
-    };
-
     class Lowering {
     public:
         Lowering() = default;

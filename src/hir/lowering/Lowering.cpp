@@ -15,7 +15,8 @@ namespace jc::hir {
         auto oldNextChildId = nextChildId;
         nextChildId = ChildId::firstChild();
 
-        nodeIdHirId.emplace(ownerNodeId, HirId::makeOwner(ownerDefId));
+        auto ownerHirId = HirId::makeOwner(ownerDefId);
+        nodeIdHirId.emplace(ownerNodeId, ownerHirId);
 
         auto loweredNode = lower();
         auto ownerInfo = OwnerInfo(std::move(bodies), std::move(nodes));
