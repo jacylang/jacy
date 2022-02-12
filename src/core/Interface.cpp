@@ -456,7 +456,7 @@ namespace jc::core {
 
         auto loweringResult = lowering.lower(sess, astParty.unwrap());
         messageHandler.checkResult(loweringResult, "lowering");
-        hirParty = loweringResult.takeUnchecked();
+        auto hirParty = loweringResult.takeUnchecked();
 
         printHir(hirParty);
     }

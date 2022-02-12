@@ -93,7 +93,6 @@ namespace jc::core {
         // Lowering //
     private:
         hir::Lowering lowering;
-        hir::Party hirParty;
 
         void lower();
         void printHir(const hir::Party & party);
