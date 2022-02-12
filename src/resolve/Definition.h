@@ -18,6 +18,10 @@ namespace jc::resolve {
             return val == other.val;
         }
 
+        constexpr bool operator!=(const DefIndex & other) const {
+            return val != other.val;
+        }
+
         constexpr bool operator<(const DefIndex & other) const {
             return val < other.val;
         }
@@ -49,6 +53,10 @@ namespace jc::resolve {
 
         constexpr bool operator==(const DefId & other) const {
             return other.index == index;
+        }
+
+        constexpr bool operator!=(const DefId & other) const {
+            return other.index != index;
         }
 
         constexpr bool operator<(const DefId & other) const {

@@ -10,6 +10,10 @@ namespace jc::hir {
 
         resolve::DefId defId;
 
+        HirId hirId() const {
+            return HirId::makeOwner(defId);
+        }
+
         bool operator<(const ItemId & other) const {
             return defId < other.defId;
         }

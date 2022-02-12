@@ -12,7 +12,6 @@ namespace jc::hir {
     using resolve::DefId;
 
     struct OwnerNode {
-        // Note: `Mod` and `Item` are not separated, `Mod` is only for top-level `Party` module
         using ValueT = std::variant<Mod, ItemWrapper>;
 
         enum class Kind {
@@ -20,63 +19,32 @@ namespace jc::hir {
             Item,
         };
 
-        OwnerNode(Mod && mod) : kind {Kind::Party}, node {std::move(mod)} {}
-
-        OwnerNode(ItemWrapper && item) : kind {Kind::Item}, node {std::move(item)} {}
+        OwnerNode(Mod && rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
+        OwnerNode(ItemWrapper && item) : kind {Kind::Item}, value {std::move(item)} {}
 
         Kind kind;
-        ValueT node;
-
-        const auto & item() const {
-            if (kind != Kind::Item) {
-                log::devPanic("Expected `OwnerNode` to be item");
-            }
-
-            return std::get<ItemWrapper>(node);
-        }
-
-        const auto & party() const {
-            if (kind != Kind::Party) {
-                log::devPanic("Expected `OwnerNode` to be party");
-            }
-
-            return std::get<Mod>(node);
-        }
+        ValueT value;
     };
 
-    struct ModuleItems {
-        ItemId::List items;
+    struct OwnerInfo {
+        /// The `ChildId` identifier is used instead of `BodyId` as `BodyId` is actually just a `HirId`
+        ///  but we know that this bodies belong to current owner, thus no need to store owner `DefId`
+        using Bodies = std::map<ChildId, Body>;
+        using Nodes = std::map<ChildId, HirNode::Ptr>;
+
+        OwnerInfo(Bodies && bodies, Nodes && nodes) : bodies {std::move(bodies)}, nodes {std::move(nodes)} {}
+
+        Bodies bodies;
+        Nodes nodes;
     };
 
     /// The root node of the party (package)
     struct Party {
-        using Owners = std::map<DefId, OwnerNode>;
-        using Bodies = std::map<BodyId, Body>;
-        using Modules = std::map<DefId, ModuleItems>;
+        using Owners = std::map<DefId, OwnerInfo>;
 
-        Party(
-            Owners && owners,
-            Bodies && bodies,
-            Modules && modules
-        ) : owners {std::move(owners)},
-            bodies {std::move(bodies)},
-            modules {std::move(modules)} {}
+        Party(Owners && owners) : owners {std::move(owners)} {}
 
         Owners owners;
-        Bodies bodies;
-        Modules modules;
-
-        const OwnerNode & expectPartyOwner() const {
-            return utils::map::expectAt(owners, DefId::ROOT_DEF_ID, "`hir::Party::expectPartyOwner`");
-        }
-
-        const Mod & rootMod() const {
-            return expectPartyOwner().party();
-        }
-
-        const ItemWrapper & item(ItemId id) const {
-            return utils::map::expectAt(owners, id.defId, "`hir::Party::item`").item();
-        }
     };
 }
 

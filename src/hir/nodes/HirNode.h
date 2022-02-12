@@ -13,19 +13,27 @@ namespace jc::hir {
     template<class T>
     using N = std::unique_ptr<T>;
 
-    /// The structure used for saving the closest owner definition
-    struct OwnerDef {
-        using IdT = uint32_t;
+    struct ChildId {
+        using ValueT = uint32_t;
 
-        OwnerDef(NodeId nodeId, DefId defId, IdT initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {}
+        ValueT value;
 
-        NodeId nodeId;
-        DefId defId;
-        IdT nextId;
+        /// The identifier of the first child, as `0` is the `ChildId` of owner itself
+        static ChildId firstChild() {
+            return ChildId {1};
+        }
+
+        static ChildId ownerChild() {
+            return ChildId {0};
+        }
+
+        ChildId operator++(int) {
+            return ChildId {value++};
+        }
     };
 
     struct HirId {
-        HirId(const resolve::DefId & owner, const OwnerDef::IdT & id) : owner {owner}, id {id} {}
+        HirId(const resolve::DefId & owner, const ChildId & id) : owner {owner}, id {id} {}
 
         static const HirId DUMMY;
 
@@ -33,30 +41,32 @@ namespace jc::hir {
         resolve::DefId owner;
 
         /// An identifier unique per each owner, i.e. in each item the first node has id of 0
-        OwnerDef::IdT id;
+        ChildId id;
 
         DefId::Opt asOwner() const {
-            if (id == 0) {
+            if (id.value == 0) {
                 return owner;
             }
             return None;
         }
 
         static HirId makeOwner(DefId defId) {
-            return HirId(defId, 0);
+            return HirId(defId, ChildId {0});
         }
 
         friend std::ostream & operator<<(std::ostream & os, const HirId & hirId) {
-            return os << hirId.owner << log::Color::DarkBlue << "@" << hirId.id
+            return os << hirId.owner << log::Color::DarkBlue << "@" << hirId.id.value
                       << log::Color::Reset;
         }
 
         bool operator<(const HirId & other) const {
-            return std::tie(owner, id) < std::tie(other.owner, other.id);
+            return std::tie(owner, id.value) < std::tie(other.owner, other.id.value);
         }
     };
 
     struct HirNode {
+        using Ptr = std::unique_ptr<HirNode>;
+
         HirNode(HirId hirId, Span span) : hirId {hirId}, span {span} {}
 
         HirId hirId;

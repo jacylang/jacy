@@ -8,6 +8,15 @@
 #include "message/MessageResult.h"
 
 namespace jc::hir {
+    /// The structure used for saving the closest owner definition
+    struct OwnerDef {
+        OwnerDef(NodeId nodeId, DefId defId, ChildId initialId) : nodeId {nodeId}, defId {defId}, nextId {initialId} {}
+
+        NodeId nodeId;
+        DefId defId;
+        ChildId nextId;
+    };
+
     class Lowering {
     public:
         Lowering() = default;
@@ -41,40 +50,32 @@ namespace jc::hir {
     private:
         NodeId::NodeMap<HirId> nodeIdHirId;
 
-        NodeId::NodeMap<OwnerDef::IdT> ownersItemIds;
+        Party::Owners owners;
 
-        /// Constructor for new HirId with applied post-processing logic,
-        /// e.g. registering it in mapping NodeId -> HirId
-        HirId addHirId(NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId);
+        DefId currentOwner;
+        ChildId nextChildId;
+        OwnerInfo::Bodies bodies;
+        OwnerInfo::Nodes nodes;
 
-        /**
-         * @brief Allocate a new owner item identifiers collection.
-         * @param ownerNodeId Owner NodeId
-         * @returns Owner HirId
-         */
-        HirId newHirIdCounter(NodeId ownerNodeId);
+        DefId lowerOwner(NodeId ownerNodeId, std::function<OwnerNode()> lower);
 
-        /// Lowers NodeId, producing an HirId, safe to be called multiple times with the same NodeId
         HirId lowerNodeId(NodeId nodeId);
 
-        /// Same as `lowerNodeId` but with a specified owner node (not the closest one)
-        HirId lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId);
+        void addBody(ChildId id, Body && body) {
+            bodies.emplace(id, std::move(body));
+        }
 
-        void enterOwner(NodeId itemNodeId);
+        void addNode(HirNode::Ptr && node) {
+            if (node->hirId.owner != currentOwner) {
+                log::devPanic("Called `OwnerDef::addNode` with `HirNode` not owned by this owner");
+            }
 
-        void exitOwner();
+            nodes.emplace(node->hirId.id, std::move(node));
+        }
 
-        ItemId addItem(ItemWrapper && item);
-
-        /// Used to track current owner for items.
-        /// When a new hir node is allocated we set defId to owner definition and next unique (per owner) id in it.
-        /// When we encounter owner-like item (e.g. `mod`) - new owner is pushed and popped after insides are visited.
-        /// Note: Root def already emplaced as `Party` does not have node id to map it to def id
-        std::vector<OwnerDef> ownerStack {};
-
-        Party::Owners owners;
-        Party::Bodies bodies;
-        Party::Modules modules;
+        HirId nextHirId() {
+            return HirId {currentOwner, nextChildId++};
+        }
 
         // Items //
     private:
@@ -86,7 +87,9 @@ namespace jc::hir {
 
         Variant lowerVariant(const ast::Variant & variant);
 
-        Item::Ptr lowerMod(const ast::Item::List & astItems);
+        Item::Ptr lowerMod(const ast::Mod & mod);
+
+        ItemId::List lowerModItems(const ast::Item::List & items);
 
         Item::Ptr lowerFunc(const ast::Func & astFunc);
 

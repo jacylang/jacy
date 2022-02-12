@@ -1,76 +1,46 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    HirId Lowering::addHirId(NodeId nodeId, DefId ownerDefId, OwnerDef::IdT uniqueId) {
-        auto id = HirId {ownerDefId, uniqueId};
-        nodeIdHirId.emplace(nodeId, id);
-        return id;
-    }
+    DefId Lowering::lowerOwner(NodeId ownerNodeId, std::function<OwnerNode()> lower) {
+        auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
 
-    HirId Lowering::newHirIdCounter(NodeId ownerNodeId) {
-        // Note: `emplace` does not affect old entry, so it is safe to call it multiple times
-        ownersItemIds.emplace(ownerNodeId, 0);
-        return lowerNodeIdOwner(ownerNodeId, ownerNodeId);
+        log.dev("Lowering owner ", ownerDefId);
+
+        auto oldBodies = bodies;
+        bodies = {};
+
+        auto oldNodes = nodes;
+        nodes = {};
+
+        auto oldNextChildId = nextChildId;
+        nextChildId = ChildId::firstChild();
+
+        nodeIdHirId.emplace(ownerNodeId, HirId::makeOwner(ownerDefId));
+
+        auto loweredNode = lower();
+        auto ownerInfo = OwnerInfo(std::move(bodies), std::move(nodes));
+        owners.emplace(ownerDefId, ownerInfo);
+
+        bodies = oldBodies;
+        nodes = oldNodes;
+        nextChildId = oldNextChildId;
+
+        return ownerDefId;
     }
 
     HirId Lowering::lowerNodeId(NodeId nodeId) {
-        const auto & found = nodeIdHirId.find(nodeId);
-        if (found != nodeIdHirId.end()) {
-            return found->second;
-        }
-
-        auto uniqueId = ownerStack.back().nextId++;
-
-        return addHirId(nodeId, ownerStack.back().defId, uniqueId);
-    }
-
-    HirId Lowering::lowerNodeIdOwner(NodeId nodeId, NodeId ownerNodeId) {
-        const auto & found = nodeIdHirId.find(nodeId);
-        if (found != nodeIdHirId.end()) {
-            return found->second;
-        }
-
-        auto nextId = ownersItemIds.at(ownerNodeId)++;
-        auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
-        return addHirId(nodeId, ownerDefId, nextId);
-    }
-
-    void Lowering::enterOwner(NodeId itemNodeId) {
-        log.dev("Enter owner ", itemNodeId);
-        newHirIdCounter(itemNodeId);
-        ownerStack.emplace_back(itemNodeId, sess->defTable.getDefIdByNodeId(itemNodeId), ownersItemIds.at(itemNodeId));
-    }
-
-    void Lowering::exitOwner() {
-        // Update counter in exited owner
-        const auto & lastOwner = ownerStack.back();
-
-        log.dev("Exit owner ", lastOwner.defId, ":", lastOwner.nodeId);
-
-        ownersItemIds.at(lastOwner.nodeId) = lastOwner.nextId;
-
-        ownerStack.pop_back();
-    }
-
-    ItemId Lowering::addItem(ItemWrapper && item) {
-        auto itemId = ItemId {item.defId};
-        owners.emplace(item.defId, OwnerNode {std::move(item)});
-        return itemId;
+        nodeIdHirId.emplace(nodeId, nextHirId());
     }
 
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
-        enterOwner(NodeId::ROOT_NODE_ID);
-        auto rootMod = lowerMod(party.items);
-        exitOwner();
+        lowerOwner(NodeId::ROOT_NODE_ID, [&]() {
+            return OwnerNode(lowerModItems(party.items));
+        });
 
         return {
-            Party(
-                std::move(owners),
-                std::move(bodies),
-                std::move(modules)
-            ),
+            Party(std::move(owners)),
             msg.extractMessages()
         };
     }
@@ -78,21 +48,20 @@ namespace jc::hir {
     // Items //
     ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         const auto & i = astItem.unwrap("`Lowering::lowerItem`");
-        enterOwner(i->id);
 
-        auto loweredItem = lowerItemKind(astItem);
+        lowerOwner(i->id, [&]() {
+            auto loweredItem = lowerItemKind(astItem);
 
-        auto item = ItemWrapper {
-            astItem.unwrap()->vis,
-            i->getName(),
-            std::move(loweredItem),
-            lowerNodeId(i->id).owner,
-            i->span
-        };
+            return OwnerNode(ItemWrapper {
+                astItem.unwrap()->vis,
+                i->getName(),
+                std::move(loweredItem),
+                lowerNodeId(i->id).owner,
+                i->span
+            });
+        });
 
-        exitOwner();
-
-        return addItem(std::move(item));
+        return ItemId {sess->defTable.getDefIdByNodeId(i->id)};
     }
 
     Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
@@ -109,7 +78,7 @@ namespace jc::hir {
                 //                return lowerImpl(*item->as<ast::Impl>(item));
             }
             case ast::Item::Kind::Mod: {
-                return lowerMod(item->as<ast::Mod>(item)->items);
+                return lowerMod(*item->as<ast::Mod>(item));
             }
             case ast::Item::Kind::Struct:
                 break;
@@ -170,14 +139,20 @@ namespace jc::hir {
         }
     }
 
-    Item::Ptr Lowering::lowerMod(const ast::Item::List & astItems) {
+    Item::Ptr Lowering::lowerMod(const ast::Mod & mod) {
+        return makeBoxNode<Mod>(lowerModItems(mod.items));
+    }
+
+    ItemId::List Lowering::lowerModItems(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
+            // TODO: Consider different lowering logic for `use` declarations
+
             auto itemId = lowerItem(item);
             itemIds.emplace_back(itemId);
         }
 
-        return makeBoxNode<Mod>(std::move(itemIds));
+        return itemIds;
     }
 
     Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
@@ -707,7 +682,7 @@ namespace jc::hir {
     BodyId Lowering::lowerBody(const ast::Body & astBody, const ast::FuncParam::List & params) {
         auto body = Body {astBody.exprBody, lowerExpr(astBody.value), lowerFuncParams(params)};
         auto bodyId = body.getId();
-        bodies.emplace(bodyId, std::move(body));
+        bodies.emplace(bodyId.hirId.id, std::move(body));
         return bodyId;
     }
 
