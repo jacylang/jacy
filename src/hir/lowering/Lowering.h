@@ -46,6 +46,12 @@ namespace jc::hir {
             return Expr {makeBoxNode<T>(std::forward<Args>(args)...), nextHirId(), span};
         }
 
+        Expr synthBlockExpr(Span span, Block && block);
+
+        Expr synthBreakExpr(Span span, Expr::Opt && value);
+
+        Expr synthIfExpr(Span span, Expr && cond, Block::Opt && ifBranch, Block::Opt && elseBranch);
+
         Stmt synthExprStmt(Expr && expr);
 
         // HIR identifiers and maps //

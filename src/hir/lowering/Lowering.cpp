@@ -40,6 +40,18 @@ namespace jc::hir {
         return lowerNodeId(sess->nodeStorage.nextNodeId());
     }
 
+    Expr Lowering::synthBlockExpr(Span span, Block && block) {
+        return synthExpr<BlockExpr>(span, std::move(block));
+    }
+
+    Expr Lowering::synthBreakExpr(Span span, Expr::Opt && value) {
+        return synthExpr<BreakExpr>(span, std::move(value));
+    }
+
+    Expr Lowering::synthIfExpr(Span span, Expr && cond, Block::Opt && ifBranch, Block::Opt && elseBranch) {
+        return synthExpr<IfExpr>(span, std::move(cond), std::move(ifBranch), std::move(elseBranch));
+    }
+
     Stmt Lowering::synthExprStmt(Expr && expr) {
         return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), nextHirId(), expr.span};
     }
