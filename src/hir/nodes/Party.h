@@ -11,6 +11,36 @@
 namespace jc::hir {
     using resolve::DefId;
 
+    struct OwnerNode {
+        using ValueT = std::variant<Mod, Item>;
+
+        enum class Kind {
+            Party,
+            Item,
+        };
+
+        OwnerNode(Mod && rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
+
+        OwnerNode(Item && item) : kind {Kind::Item}, value {std::move(item)} {}
+
+        Kind kind;
+        ValueT value;
+
+        const Mod & asParty() const {
+            if (kind != Kind::Party) {
+                log::devPanic("Called `OwnerNode::asParty` on non-party `OwnerNode`");
+            }
+            return std::get<Mod>(value);
+        }
+
+        const Item & asItem() const {
+            if (kind != Kind::Item) {
+                log::devPanic("Called `OwnerNode::asItem` on non-item `OwnerNode`");
+            }
+            return std::get<Item>(value);
+        }
+    };
+
     struct HirNode {
         template<class T>
         using N = T*;
@@ -30,7 +60,8 @@ namespace jc::hir {
             N<GenericArg::Lifetime>,
             N<GenericParam>,
             N<CommonField>,
-            N<Variant>
+            N<Variant>,
+            N<Mod>
         >;
 
         enum class Kind {
@@ -45,7 +76,8 @@ namespace jc::hir {
             GenericArgLifetime,
             GenericParam,
             CommonField,
-            Variant
+            Variant,
+            Party,
         };
 
     private:
@@ -63,6 +95,10 @@ namespace jc::hir {
         template<class T>
         static Kind kindByType() {
             using NT = N<T>;
+
+            // NOTE!!!: If `ValueT` need to contain one type for different nodes kinds,
+            //  this method must be deleted and some other way must be used to determine kind by type.
+            //  As we cannot know, for example, if `Mod` for `Kind::Crate` and `Mod` for `Kind::Something` is the same.
 
             if constexpr (std::is_same<NT, Expr>::value) {
                 return Kind::Expr;
@@ -100,38 +136,11 @@ namespace jc::hir {
             if constexpr (std::is_same<NT, Variant>::value) {
                 return Kind::Variant;
             }
+            if constexpr (std::is_same<NT, Mod>::value) {
+                return Kind::Party;
+            }
 
             log::devPanic("Called `HirNode::kindByType` with non-supported `HirNode` type");
-        }
-    };
-
-    struct OwnerNode {
-        using ValueT = std::variant<Mod, Item>;
-
-        enum class Kind {
-            Party,
-            Item,
-        };
-
-        OwnerNode(Mod && rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
-
-        OwnerNode(Item && item) : kind {Kind::Item}, value {std::move(item)} {}
-
-        Kind kind;
-        ValueT value;
-
-        const Mod & asParty() const {
-            if (kind != Kind::Party) {
-                log::devPanic("Called `OwnerNode::asParty` on non-party `OwnerNode`");
-            }
-            return std::get<Mod>(value);
-        }
-
-        const Item & asItem() const {
-            if (kind != Kind::Item) {
-                log::devPanic("Called `OwnerNode::asItem` on non-item `OwnerNode`");
-            }
-            return std::get<Item>(value);
         }
     };
 
@@ -174,7 +183,7 @@ namespace jc::hir {
         Owners owners;
 
         const Mod & partyMod() const {
-            return owners.at(DefId::ROOT_DEF_ID).ownerNode();
+            return owners.at(DefId::ROOT_DEF_ID).ownerNode().;
         }
     };
 }
