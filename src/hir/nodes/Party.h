@@ -231,14 +231,6 @@ namespace jc::hir {
         const HirNode & ownerNode() const {
             return node(ChildId::ownerChild());
         }
-
-        void addNode(HirId hirId, HirNode && hirNode) {
-            if (hirId.owner != owner) {
-                log::devPanic("Called `OwnerInfo::addNode` with `HirId` which does not own this `OwnerInfo`");
-            }
-
-            nodes.emplace(hirId.id, std::move(hirNode));
-        }
     };
 
     /// The root node of the party (package)
@@ -249,8 +241,8 @@ namespace jc::hir {
 
         Owners owners;
 
-        const Mod & partyMod() const {
-            return owners.at(DefId::ROOT_DEF_ID).ownerNode().;
+        const Mod * partyMod() const {
+            return owners.at(DefId::ROOT_DEF_ID).ownerNode().asOwnerNode().asParty();
         }
     };
 }

@@ -1,7 +1,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    DefId Lowering::lowerOwner(NodeId ownerNodeId, std::function<OwnerNode()> lower) {
+    DefId Lowering::lowerOwner(NodeId ownerNodeId, std::function<void()> lower) {
         auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
 
         log.dev("Lowering owner ", ownerDefId);
@@ -18,8 +18,10 @@ namespace jc::hir {
         auto ownerHirId = HirId::makeOwner(ownerDefId);
         nodeIdHirId.emplace(ownerNodeId, ownerHirId);
 
-        auto loweredNode = lower();
-        auto ownerInfo = OwnerInfo(std::move(bodies), std::move(nodes));
+        lower();
+
+        // Make `OwnerInfo` for lowered owner. We pass `ownerDefId` as an owner we lowered above
+        auto ownerInfo = OwnerInfo(ownerDefId, std::move(bodies), std::move(nodes));
         owners.emplace(ownerDefId, ownerInfo);
 
         bodies = oldBodies;
@@ -69,7 +71,7 @@ namespace jc::hir {
         this->sess = sess;
 
         lowerOwner(NodeId::ROOT_NODE_ID, [&]() {
-            return OwnerNode(lowerModItems(party.items));
+            lowerModItems(party.items);
         });
 
         return {
@@ -85,13 +87,13 @@ namespace jc::hir {
         lowerOwner(i->id, [&]() {
             auto loweredItem = lowerItemKind(astItem);
 
-            return OwnerNode(Item {
+            Item {
                 astItem.unwrap()->vis,
                 i->getName(),
                 std::move(loweredItem),
                 lowerNodeId(i->id).owner,
                 i->span
-            });
+            };
         });
 
         return ItemId {sess->defTable.getDefIdByNodeId(i->id)};

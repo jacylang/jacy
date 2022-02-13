@@ -69,7 +69,7 @@ namespace jc::hir {
         OwnerInfo::Bodies bodies;
         OwnerInfo::Nodes nodes;
 
-        DefId lowerOwner(NodeId ownerNodeId, std::function<OwnerNode()> lower);
+        DefId lowerOwner(NodeId ownerNodeId, std::function<void()> lower);
 
         HirId lowerNodeId(NodeId nodeId);
 
@@ -77,12 +77,12 @@ namespace jc::hir {
             bodies.emplace(id, std::move(body));
         }
 
-        void addNode(HirNode::Ptr && node) {
-            if (node->hirId.owner != currentOwner) {
-                log::devPanic("Called `OwnerDef::addNode` with `HirNode` not owned by this owner");
+        void addNode(HirNode && node, HirId hirId) {
+            if (hirId.owner != currentOwner) {
+                log::devPanic("Called `Lowering::addNode` with `HirNode` not owned by this owner");
             }
 
-            nodes.emplace(node->hirId.id, std::move(node));
+            nodes.emplace(hirId.id, std::move(node));
         }
 
         HirId nextHirId() {
