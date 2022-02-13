@@ -4,7 +4,7 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Type : HirNode {
+    struct Type  {
         using Ptr = N<Type>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Type::Ptr>;
@@ -19,8 +19,10 @@ namespace jc::hir {
             Unit,
         };
 
-        Type(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
+        Type(Kind kind, HirId hirId, Span span) : hirId {hirId}, span {span}, kind {kind} {}
 
+        HirId hirId;
+        Span span;
         Kind kind;
 
         template<class T>

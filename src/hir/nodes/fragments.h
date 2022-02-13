@@ -9,7 +9,7 @@
 #include "resolve/Resolutions.h"
 
 namespace jc::hir {
-    struct Arg : HirNode {
+    struct Arg {
         using List = std::vector<Arg>;
 
         Arg(const span::Ident::Opt & ident, Expr && value)
@@ -19,7 +19,7 @@ namespace jc::hir {
         Expr value;
     };
 
-    struct Block : HirNode {
+    struct Block {
         using Opt = Option<Block>;
 
         Block(Stmt::List && stmts, HirId hirId, Span span)
@@ -40,7 +40,7 @@ namespace jc::hir {
         }
     };
 
-    struct Param : HirNode {
+    struct Param {
         using List = std::vector<Param>;
 
         Param(Pat::Ptr && pat, HirId hirId, Span span) : hirId {hirId}, span {span}, pat {std::move(pat)} {}
@@ -125,7 +125,7 @@ namespace jc::hir {
     };
 
     /// General path fragment used for type and expression paths
-    struct PathSeg : HirNode {
+    struct PathSeg {
         using List = std::vector<PathSeg>;
 
         PathSeg(const span::Ident & name, GenericArg::List && generics)
@@ -152,7 +152,7 @@ namespace jc::hir {
             Path path;
         };
 
-        struct Lifetime : HirNode {
+        struct Lifetime {
             Lifetime(Ident name, HirId hirId, Span span) : hirId {hirId}, span {span}, name {name} {}
 
             HirId hirId;
@@ -175,7 +175,7 @@ namespace jc::hir {
         ValueT value;
     };
 
-    struct GenericParam : HirNode {
+    struct GenericParam {
         /// Lifetime parameter
         struct Lifetime {
             Ident name;

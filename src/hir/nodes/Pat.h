@@ -4,7 +4,7 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Pat : HirNode {
+    struct Pat  {
         using Ptr = std::unique_ptr<Pat>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
@@ -21,7 +21,7 @@ namespace jc::hir {
             Slice,
         };
 
-        Pat(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
+        Pat(Kind kind, HirId hirId, Span span)  {hirId, span}, kind {kind} {}
 
         Kind kind;
 

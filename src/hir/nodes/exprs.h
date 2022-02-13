@@ -219,7 +219,7 @@ namespace jc::hir {
         Block body;
     };
 
-    struct MatchArm : HirNode {
+    struct MatchArm {
         using List = std::vector<MatchArm>;
 
         MatchArm(Pat::Ptr && pat, Expr && body, HirId hirId, Span span)
