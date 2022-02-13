@@ -152,7 +152,7 @@ namespace jc::hir {
 
             // NOTE!!!: If `ValueT` need to contain one type for different nodes kinds,
             //  this method must be deleted and some other way must be used to determine `Kind` by type.
-            //  As we cannot know, for example, if `Mod` for `Kind::Crate` and `Mod` for `Kind::Something` is the same.
+            //  As we cannot know, for example, if `Mod` for `Kind::Party` and `Mod` for `Kind::Something` is the same.
 
             if constexpr (std::is_same<NT, Expr>::value) {
                 return Kind::Expr;

@@ -71,7 +71,8 @@ namespace jc::hir {
         this->sess = sess;
 
         lowerOwner(NodeId::ROOT_NODE_ID, [&]() {
-            lowerModItems(party.items);
+            auto partyMod = makeBoxNode<Mod>(lowerModItems(party.items));
+            addNode(HirNode::create(partyMod.get()), HirId::);
         });
 
         return {

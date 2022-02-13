@@ -36,6 +36,7 @@ namespace jc::hir {
         HirId(const resolve::DefId & owner, const ChildId & id) : owner {owner}, id {id} {}
 
         static const HirId DUMMY;
+        static const HirId ROOT;
 
         /// The owner of the HIR node (e.g. `struct`)
         resolve::DefId owner;
