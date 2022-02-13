@@ -53,7 +53,7 @@ namespace jc::hir {
     }
 
     Stmt Lowering::synthExprStmt(Expr && expr) {
-        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), nextHirId(), expr.span};
+        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), synthHirId(), expr.span};
     }
 
     Block Lowering::synthBlock(Span span, Stmt::List && stmts) {
