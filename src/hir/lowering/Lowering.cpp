@@ -199,7 +199,12 @@ namespace jc::hir {
     }
 
     // Statements //
-    Stmt::Ptr Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
+    StmtWrapper Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
+        const auto & stmt = astStmt.unwrap();
+        return StmtWrapper(lowerStmtKind(astStmt), lowerNodeId(stmt->id), stmt->span);
+    }
+
+    Stmt::Ptr Lowering::lowerStmtKind(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");
         switch (stmt->kind) {
             case ast::Stmt::Kind::Expr:

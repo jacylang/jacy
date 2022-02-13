@@ -101,7 +101,9 @@ namespace jc::hir {
 
         // Statements //
     private:
-        Stmt::Ptr lowerStmt(const ast::Stmt::Ptr & astStmt);
+        StmtWrapper lowerStmt(const ast::Stmt::Ptr & astStmt);
+
+        Stmt::Ptr lowerStmtKind(const ast::Stmt::Ptr & astStmt);
 
         Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
