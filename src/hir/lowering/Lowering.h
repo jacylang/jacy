@@ -102,7 +102,9 @@ namespace jc::hir {
 
         // Expressions //
     private:
-        Expr::Ptr lowerExpr(const ast::Expr::Ptr & expr);
+        ExprWrapper lowerExpr(const ast::Expr::Ptr & expr);
+
+        Expr::Ptr lowerExprKind(const ast::Expr::Ptr & expr);
 
         Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
 
