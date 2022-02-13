@@ -42,6 +42,8 @@ namespace jc::hir {
     };
 
     struct ExprWrapper {
+        using Opt = Option<ExprWrapper>;
+
         ExprWrapper(Expr::Ptr && expr, HirId hirId, Span span) : expr {std::move(expr)}, hirId {hirId}, span {span} {}
 
         Expr::Ptr expr;

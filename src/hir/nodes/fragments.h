@@ -12,11 +12,11 @@ namespace jc::hir {
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
-        Arg(const span::Ident::Opt & ident, Expr::Ptr && value)
+        Arg(const span::Ident::Opt & ident, ExprWrapper && value)
             : ident {ident}, value {std::move(value)} {}
 
         span::Ident::Opt ident;
-        Expr::Ptr value;
+        ExprWrapper value;
     };
 
     struct Block : HirNode {
@@ -54,20 +54,20 @@ namespace jc::hir {
     /// Function body
     /// Separated from `Func` as it is type checked apart
     struct Body {
-        Body(bool exprBody, Expr::Ptr && value, Param::List && params)
+        Body(bool exprBody, ExprWrapper && value, Param::List && params)
             : exprBody {exprBody}, value {std::move(value)}, params {std::move(params)} {}
 
         /// Denotes that `func`'s body was defined with `=`
         bool exprBody;
 
         /// Function body value, BlockExpr if `func` was declared with `{}` and any expr if with `=`
-        Expr::Ptr value;
+        ExprWrapper value;
 
         Param::List params;
 
         BodyId getId() const {
             // Note: The BodyId is actually an HirId of expression inside Body
-            return BodyId {value->hirId};
+            return BodyId {value.hirId};
         }
     };
 
