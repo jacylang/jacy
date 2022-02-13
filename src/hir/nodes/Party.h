@@ -11,6 +11,95 @@
 namespace jc::hir {
     using resolve::DefId;
 
+    struct HirNode {
+        /// HIR nodes types.
+        /// It's easy to remember that here are only the nodes that contain `HirId`,
+        ///  whereas other nodes are just "fragment" nodes
+        using ValueT = std::variant<
+            Expr,
+            Item,
+            Stmt,
+            Pat,
+            Type,
+            Block,
+            Param,
+            AnonConst,
+            GenericArg::Lifetime,
+            GenericParam,
+            CommonField,
+            Variant
+        >;
+
+        enum class Kind {
+            Expr,
+            Item,
+            Stmt,
+            Pat,
+            Type,
+            Block,
+            Param,
+            AnonConst,
+            GenericArgLifetime,
+            GenericParam,
+            CommonField,
+            Variant
+        };
+
+    private:
+        HirNode(Kind kind, ValueT && value) : kind {kind}, value {std::move(value)} {}
+
+    public:
+        template<class T>
+        static HirNode create(T && node) {
+            return HirNode {kindByType<T>(), std::move(node)};
+        }
+
+        Kind kind;
+        ValueT value;
+
+        template<class T>
+        static Kind kindByType() {
+            if constexpr (std::is_same<T, Expr>::value) {
+                return Kind::Expr;
+            }
+            if constexpr (std::is_same<T, Item>::value) {
+                return Kind::Item;
+            }
+            if constexpr (std::is_same<T, Stmt>::value) {
+                return Kind::Stmt;
+            }
+            if constexpr (std::is_same<T, Pat>::value) {
+                return Kind::Pat;
+            }
+            if constexpr (std::is_same<T, Type>::value) {
+                return Kind::Type;
+            }
+            if constexpr (std::is_same<T, Block>::value) {
+                return Kind::Block;
+            }
+            if constexpr (std::is_same<T, Param>::value) {
+                return Kind::Param;
+            }
+            if constexpr (std::is_same<T, AnonConst>::value) {
+                return Kind::AnonConst;
+            }
+            if constexpr (std::is_same<T, GenericArg::Lifetime>::value) {
+                return Kind::GenericArgLifetime;
+            }
+            if constexpr (std::is_same<T, GenericParam>::value) {
+                return Kind::GenericParam;
+            }
+            if constexpr (std::is_same<T, CommonField>::value) {
+                return Kind::CommonField;
+            }
+            if constexpr (std::is_same<T, Variant>::value) {
+                return Kind::Variant;
+            }
+
+            log::devPanic("Called `HirNode::kindByType` with non-supported `HirNode` type");
+        }
+    };
+
     struct OwnerNode {
         using ValueT = std::variant<Mod, Item>;
 
@@ -20,6 +109,7 @@ namespace jc::hir {
         };
 
         OwnerNode(Mod && rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
+
         OwnerNode(Item && item) : kind {Kind::Item}, value {std::move(item)} {}
 
         Kind kind;
