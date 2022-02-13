@@ -219,7 +219,7 @@ namespace jc::hir {
     }
 
     Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
-        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr), lowerNodeId(exprStmt.id), exprStmt.span);
+        return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr));
     }
 
     Stmt::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
@@ -231,11 +231,11 @@ namespace jc::hir {
             return lowerExpr(expr);
         });
 
-        return makeBoxNode<LetStmt>(lowerPat(letStmt.pat), std::move(type), std::move(expr), hirId, letStmt.span);
+        return makeBoxNode<LetStmt>(lowerPat(letStmt.pat), std::move(type), std::move(expr));
     }
 
     Stmt::Ptr Lowering::lowerItemStmt(const ast::ItemStmt & itemStmt) {
-        return makeBoxNode<ItemStmt>(lowerItem(itemStmt.item), lowerNodeId(itemStmt.id), itemStmt.span);
+        return makeBoxNode<ItemStmt>(lowerItem(itemStmt.item));
     }
 
     // Expressions //
