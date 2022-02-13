@@ -81,19 +81,19 @@ namespace jc::hir {
     private:
         ItemId lowerItem(const ast::Item::Ptr & astItem);
 
-        Item::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
+        ItemKind::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
 
-        Item::Ptr lowerEnum(const ast::Enum & astEnum);
+        ItemKind::Ptr lowerEnum(const ast::Enum & astEnum);
 
         Variant lowerVariant(const ast::Variant & variant);
 
-        Item::Ptr lowerMod(const ast::Mod & mod);
+        ItemKind::Ptr lowerMod(const ast::Mod & mod);
 
         ItemId::List lowerModItems(const ast::Item::List & items);
 
-        Item::Ptr lowerFunc(const ast::Func & astFunc);
+        ItemKind::Ptr lowerFunc(const ast::Func & astFunc);
 
-        Item::Ptr lowerImpl(const ast::Impl & impl);
+        ItemKind::Ptr lowerImpl(const ast::Impl & impl);
 
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 

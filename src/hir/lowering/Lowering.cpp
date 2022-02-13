@@ -59,7 +59,7 @@ namespace jc::hir {
         lowerOwner(i->id, [&]() {
             auto loweredItem = lowerItemKind(astItem);
 
-            return OwnerNode(ItemWrapper {
+            return OwnerNode(Item {
                 astItem.unwrap()->vis,
                 i->getName(),
                 std::move(loweredItem),
@@ -71,7 +71,7 @@ namespace jc::hir {
         return ItemId {sess->defTable.getDefIdByNodeId(i->id)};
     }
 
-    Item::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
+    ItemKind::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
             case ast::Item::Kind::Enum: {
@@ -102,7 +102,7 @@ namespace jc::hir {
         log::notImplemented("Lowering::lowerItemKind");
     }
 
-    Item::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
+    ItemKind::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {
         std::vector<Variant> variants;
         for (const auto & variant : astEnum.variants) {
             variants.emplace_back(lowerVariant(variant));
@@ -146,7 +146,7 @@ namespace jc::hir {
         }
     }
 
-    Item::Ptr Lowering::lowerMod(const ast::Mod & mod) {
+    ItemKind::Ptr Lowering::lowerMod(const ast::Mod & mod) {
         return makeBoxNode<Mod>(lowerModItems(mod.items));
     }
 
@@ -162,7 +162,7 @@ namespace jc::hir {
         return itemIds;
     }
 
-    Item::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
+    ItemKind::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         auto sig = lowerFuncSig(astFunc.sig);
         auto body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"), astFunc.sig.params);
 
@@ -175,7 +175,7 @@ namespace jc::hir {
         );
     }
 
-    Item::Ptr Lowering::lowerImpl(const ast::Impl & impl) {
+    ItemKind::Ptr Lowering::lowerImpl(const ast::Impl & impl) {
         log::notImplemented("Lowering::lowerImpl");
     }
 

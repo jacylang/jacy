@@ -51,8 +51,8 @@ namespace jc::hir {
         }
     };
 
-    struct Enum : Item {
-        Enum(std::vector<Variant> && variants) : Item {Item::Kind::Enum}, variants {std::move(variants)} {}
+    struct Enum : ItemKind {
+        Enum(std::vector<Variant> && variants) : ItemKind {ItemKind::Kind::Enum}, variants {std::move(variants)} {}
 
         std::vector<Variant> variants;
     };
@@ -69,9 +69,9 @@ namespace jc::hir {
         ReturnType returnType;
     };
 
-    struct Func : Item {
+    struct Func : ItemKind {
         Func(FuncSig && sig, GenericParam::List && generics, BodyId body)
-            : Item {Item::Kind::Func},
+            : ItemKind {ItemKind::Kind::Func},
               sig {std::move(sig)},
               generics {std::move(generics)},
               body {body} {}
@@ -81,17 +81,17 @@ namespace jc::hir {
         BodyId body;
     };
 
-    struct Impl : Item {};
+    struct Impl : ItemKind {};
 
-    struct Mod : Item {
-        Mod(ItemId::List && items) : Item {Item::Kind::Mod}, items {std::move(items)} {}
+    struct Mod : ItemKind {
+        Mod(ItemId::List && items) : ItemKind {ItemKind::Kind::Mod}, items {std::move(items)} {}
 
         ItemId::List items;
     };
 
-    struct Struct : Item {
+    struct Struct : ItemKind {
         Struct(CommonField::List && fields, GenericParam::List && generics)
-            : Item {Item::Kind::Struct},
+            : ItemKind {ItemKind::Kind::Struct},
               fields {std::move(fields)},
               generics {std::move(generics)} {}
 
@@ -101,11 +101,11 @@ namespace jc::hir {
         GenericParam::List generics;
     };
 
-    struct Trait : Item {};
+    struct Trait : ItemKind {};
 
-    struct TypeAlias : Item {
+    struct TypeAlias : ItemKind {
         TypeAlias(GenericParam::List && generics, Type::Ptr && type)
-            : Item {Item::Kind::TypeAlias},
+            : ItemKind {ItemKind::Kind::TypeAlias},
               generics {std::move(generics)},
               type {std::move(type)} {}
 
@@ -113,10 +113,10 @@ namespace jc::hir {
         Type::Ptr type;
     };
 
-    struct UseDecl : Item {
+    struct UseDecl : ItemKind {
         using Kind = ast::UseTree::Kind;
 
-        UseDecl(Kind kind, Path && path) : Item {Item::Kind::Use}, kind {kind}, path {std::move(path)} {}
+        UseDecl(Kind kind, Path && path) : ItemKind {ItemKind::Kind::Use}, kind {kind}, path {std::move(path)} {}
 
         Kind kind;
         Path path;

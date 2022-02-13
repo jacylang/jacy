@@ -20,8 +20,8 @@ namespace jc::hir {
     };
 
     /// The base class for all items
-    struct Item {
-        using Ptr = std::unique_ptr<Item>;
+    struct ItemKind {
+        using Ptr = std::unique_ptr<ItemKind>;
 
         enum class Kind {
             Enum,
@@ -34,7 +34,7 @@ namespace jc::hir {
             Use,
         };
 
-        Item(Kind kind) : kind {kind} {}
+        ItemKind(Kind kind) : kind {kind} {}
 
         Kind kind;
 
@@ -46,10 +46,10 @@ namespace jc::hir {
 
     /// The wrapper over `Item` and its additional info.
     /// It is useful because we can lower specific item independently and then construct the full `Item`.
-    struct ItemWrapper {
+    struct Item {
         using Vis = ast::Vis;
 
-        ItemWrapper(Vis vis, span::Ident && name, Item::Ptr && item, DefId defId, Span span)
+        Item(Vis vis, span::Ident && name, ItemKind::Ptr && item, DefId defId, Span span)
             : vis {vis},
               name {std::move(name)},
               item {std::move(item)},
@@ -58,7 +58,7 @@ namespace jc::hir {
 
         Vis vis;
         span::Ident name;
-        Item::Ptr item;
+        ItemKind::Ptr item;
         DefId defId;
         Span span;
     };

@@ -26,9 +26,9 @@ namespace jc::hir {
         const auto & item = itemWrapper.item;
 
         switch (item->kind) {
-            case Item::Kind::Enum: {
+            case ItemKind::Kind::Enum: {
                 log.raw("enum ", itemWrapper.name);
-                const auto & enumItem = Item::as<Enum>(item);
+                const auto & enumItem = ItemKind::as<Enum>(item);
                 beginBlock();
                 printDelim(enumItem->variants, [&](const Variant & variant) {
                     printIndent();
@@ -53,8 +53,8 @@ namespace jc::hir {
                 endBlock();
                 break;
             }
-            case Item::Kind::Func: {
-                const auto & funcItem = Item::as<Func>(item);
+            case ItemKind::Kind::Func: {
+                const auto & funcItem = ItemKind::as<Func>(item);
 
                 log.raw("func ");
                 printGenericParams(funcItem->generics);
@@ -64,10 +64,10 @@ namespace jc::hir {
 
                 break;
             }
-            case Item::Kind::Impl: // TODO
+            case ItemKind::Kind::Impl: // TODO
                 break;
-            case Item::Kind::Mod: {
-                const auto & mod = Item::as<Mod>(item);
+            case ItemKind::Kind::Mod: {
+                const auto & mod = ItemKind::as<Mod>(item);
 
                 log.raw("mod ", itemWrapper.name);
                 beginBlock();
@@ -76,8 +76,8 @@ namespace jc::hir {
 
                 break;
             }
-            case Item::Kind::Struct: {
-                const auto & structItem = Item::as<Struct>(item);
+            case ItemKind::Kind::Struct: {
+                const auto & structItem = ItemKind::as<Struct>(item);
 
                 log.raw("struct ", itemWrapper.name);
                 printGenericParams(structItem->generics);
@@ -88,10 +88,10 @@ namespace jc::hir {
 
                 break;
             }
-            case Item::Kind::Trait: // TODO
+            case ItemKind::Kind::Trait: // TODO
                 break;
-            case Item::Kind::TypeAlias: {
-                const auto & typeAlias = Item::as<TypeAlias>(item);
+            case ItemKind::Kind::TypeAlias: {
+                const auto & typeAlias = ItemKind::as<TypeAlias>(item);
 
                 log.raw("type ", itemWrapper.name);
                 printGenericParams(typeAlias->generics);
@@ -100,8 +100,8 @@ namespace jc::hir {
                 log.raw(";");
                 break;
             }
-            case Item::Kind::Use: {
-                const auto & useDecl = Item::as<UseDecl>(item);
+            case ItemKind::Kind::Use: {
+                const auto & useDecl = ItemKind::as<UseDecl>(item);
 
                 printPath(useDecl->path);
 
@@ -492,7 +492,7 @@ namespace jc::hir {
     }
 
     // Fragments printers //
-    void HirPrinter::printVis(ItemWrapper::Vis vis) {
+    void HirPrinter::printVis(Item::Vis vis) {
         if (vis.kind == ast::VisKind::Pub) {
             log.raw("pub ");
         }
