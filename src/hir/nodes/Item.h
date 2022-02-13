@@ -1,7 +1,7 @@
 #ifndef JACY_HIR_NODES_ITEM_H
 #define JACY_HIR_NODES_ITEM_H
 
-#include "hir/nodes/HirNode.h"
+#include "hir/nodes/HirId.h"
 
 namespace jc::hir {
     // Wrapper for type strictness

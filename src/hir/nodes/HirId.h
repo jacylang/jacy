@@ -63,9 +63,6 @@ namespace jc::hir {
             return std::tie(owner, id.value) < std::tie(other.owner, other.id.value);
         }
     };
-
-    struct HirNode {
-    };
 }
 
 #endif // JACY_HIR_NODES_HIRNODE_H
