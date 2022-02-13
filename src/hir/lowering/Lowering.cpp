@@ -496,12 +496,7 @@ namespace jc::hir {
         auto body = lowerBlock(*whileExpr.body.unwrap());
 
         // {break}
-        auto elseBreakBlock = synthBlock(
-            body.span,
-            Stmt::List {
-                synthExprStmt(synthBreakExpr(whileExpr.span, None))
-            }
-        );
+        auto elseBreakBlock = synthBlockSingleExpr(body.span, synthBreakExpr(whileExpr.span, None));
 
         // Generate `if [EXPR] {...} else {break}` expression
         auto ifCondExpr = synthIfExpr(
@@ -511,10 +506,7 @@ namespace jc::hir {
             std::move(elseBreakBlock)
         );
 
-        auto loopBlock = synthBlock(
-            whileExpr.span,
-            Stmt::List {synthExprStmt(std::move(ifCondExpr))}
-        );
+        auto loopBlock = synthBlockSingleExpr(whileExpr.span, std::move(ifCondExpr));
 
         return makeBoxNode<LoopExpr>(std::move(loopBlock));
     }
