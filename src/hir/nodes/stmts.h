@@ -8,8 +8,8 @@
 
 namespace jc::hir {
     struct ExprStmt : Stmt {
-        ExprStmt(ExprWrapper && expr, HirId hirId, Span span)
-            : Stmt {Stmt::Kind::Expr, hirId, span}, expr {std::move(expr)} {}
+        ExprStmt(ExprWrapper && expr)
+            : Stmt {Stmt::Kind::Expr}, expr {std::move(expr)} {}
 
         ExprWrapper expr;
     };
@@ -18,10 +18,8 @@ namespace jc::hir {
         LetStmt(
             Pat::Ptr && pat,
             Type::OptPtr && type,
-            ExprWrapper::Opt && value,
-            HirId hirId,
-            Span span
-        ) : Stmt {Stmt::Kind::Let, hirId, span},
+            ExprWrapper::Opt && value
+        ) : Stmt {Stmt::Kind::Let},
             pat {std::move(pat)},
             type {std::move(type)},
             value {std::move(value)} {}
@@ -32,8 +30,8 @@ namespace jc::hir {
     };
 
     struct ItemStmt : Stmt {
-        ItemStmt(ItemId && item, HirId hirId, Span span)
-            : Stmt {Stmt::Kind::Item, hirId, span}, item {std::move(item)} {}
+        ItemStmt(ItemId && item)
+            : Stmt {Stmt::Kind::Item}, item {std::move(item)} {}
 
         ItemId item;
     };
