@@ -108,10 +108,10 @@ namespace jc::hir {
     using PostfixOp = span::Spanned<PostfixOpKind>;
 
     struct ArrayExpr : ExprKind {
-        ArrayExpr(ExprKind::List && elements)
+        ArrayExpr(Expr::List && elements)
             : ExprKind {ExprKind::Kind::Array}, elements {std::move(elements)} {}
 
-        ExprKind::List elements;
+        Expr::List elements;
     };
 
     struct AssignExpr : ExprKind {
@@ -275,10 +275,10 @@ namespace jc::hir {
     };
 
     struct TupleExpr : ExprKind {
-        TupleExpr(ExprKind::List && values)
+        TupleExpr(Expr::List && values)
             : ExprKind {ExprKind::Kind::Tuple}, values {std::move(values)} {}
 
-        ExprKind::List values;
+        Expr::List values;
     };
 }
 

@@ -12,8 +12,6 @@ namespace jc::hir {
 
     struct ExprKind {
         using Ptr = std::unique_ptr<ExprKind>;
-        using OptPtr = Option<Ptr>;
-        using List = std::vector<Ptr>;
 
         enum class Kind {
             Array,
@@ -43,6 +41,7 @@ namespace jc::hir {
 
     struct Expr {
         using Opt = Option<Expr>;
+        using List = std::vector<Expr>;
 
         Expr(ExprKind::Ptr && expr, HirId hirId, Span span) : expr {std::move(expr)}, hirId {hirId}, span {span} {}
 
