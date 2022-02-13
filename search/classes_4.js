@@ -7,5 +7,6 @@ var searchData=
   ['error_4',['Error',['../structjc_1_1common_1_1_error.html',1,'jc::common']]],
   ['errornode_5',['ErrorNode',['../structjc_1_1ast_1_1_error_node.html',1,'jc::ast']]],
   ['expr_6',['Expr',['../structjc_1_1ast_1_1_expr.html',1,'jc::ast::Expr'],['../structjc_1_1hir_1_1_expr.html',1,'jc::hir::Expr']]],
-  ['exprstmt_7',['ExprStmt',['../structjc_1_1ast_1_1_expr_stmt.html',1,'jc::ast::ExprStmt'],['../structjc_1_1hir_1_1_expr_stmt.html',1,'jc::hir::ExprStmt']]]
+  ['exprkind_7',['ExprKind',['../structjc_1_1hir_1_1_expr_kind.html',1,'jc::hir']]],
+  ['exprstmt_8',['ExprStmt',['../structjc_1_1ast_1_1_expr_stmt.html',1,'jc::ast::ExprStmt'],['../structjc_1_1hir_1_1_expr_stmt.html',1,'jc::hir::ExprStmt']]]
 ];

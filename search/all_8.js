@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['id_0',['id',['../structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021',1,'jc::hir::HirId']]],
+  ['id_0',['id',['../structjc_1_1hir_1_1_hir_id.html#a00e7537aa178d02859d0420e69568636',1,'jc::hir::HirId']]],
   ['ident_1',['Ident',['../structjc_1_1ast_1_1_ident.html',1,'jc::ast::Ident'],['../structjc_1_1span_1_1_ident.html',1,'jc::span::Ident']]],
   ['identpat_2',['IdentPat',['../structjc_1_1ast_1_1_ident_pat.html',1,'jc::ast::IdentPat'],['../structjc_1_1hir_1_1_ident_pat.html',1,'jc::hir::IdentPat']]],
   ['ifexpr_3',['IfExpr',['../structjc_1_1ast_1_1_if_expr.html',1,'jc::ast::IfExpr'],['../structjc_1_1hir_1_1_if_expr.html',1,'jc::hir::IfExpr']]],
@@ -26,6 +26,6 @@ var searchData=
   ['is_5funique_5fptr_3c_20std_3a_3aunique_5fptr_3c_20t_20_3e_20_3e_23',['is_unique_ptr&lt; std::unique_ptr&lt; T &gt; &gt;',['../structjc_1_1dt_1_1is__unique__ptr_3_01std_1_1unique__ptr_3_01_t_01_4_01_4.html',1,'jc::dt']]],
   ['item_24',['Item',['../structjc_1_1ast_1_1_item.html',1,'jc::ast::Item'],['../structjc_1_1hir_1_1_item.html',1,'jc::hir::Item']]],
   ['itemid_25',['ItemId',['../structjc_1_1hir_1_1_item_id.html',1,'jc::hir']]],
-  ['itemstmt_26',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]],
-  ['itemwrapper_27',['ItemWrapper',['../structjc_1_1hir_1_1_item_wrapper.html',1,'jc::hir']]]
+  ['itemkind_26',['ItemKind',['../structjc_1_1hir_1_1_item_kind.html',1,'jc::hir']]],
+  ['itemstmt_27',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]]
 ];

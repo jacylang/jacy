@@ -25,6 +25,6 @@ var searchData=
   ['is_5funique_5fptr_3c_20std_3a_3aunique_5fptr_3c_20t_20_3e_20_3e_22',['is_unique_ptr&lt; std::unique_ptr&lt; T &gt; &gt;',['../structjc_1_1dt_1_1is__unique__ptr_3_01std_1_1unique__ptr_3_01_t_01_4_01_4.html',1,'jc::dt']]],
   ['item_23',['Item',['../structjc_1_1ast_1_1_item.html',1,'jc::ast::Item'],['../structjc_1_1hir_1_1_item.html',1,'jc::hir::Item']]],
   ['itemid_24',['ItemId',['../structjc_1_1hir_1_1_item_id.html',1,'jc::hir']]],
-  ['itemstmt_25',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]],
-  ['itemwrapper_26',['ItemWrapper',['../structjc_1_1hir_1_1_item_wrapper.html',1,'jc::hir']]]
+  ['itemkind_25',['ItemKind',['../structjc_1_1hir_1_1_item_kind.html',1,'jc::hir']]],
+  ['itemstmt_26',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]]
 ];

@@ -19,5 +19,6 @@ var searchData=
   ['tupletypeel_16',['TupleTypeEl',['../structjc_1_1ast_1_1_tuple_type_el.html',1,'jc::ast']]],
   ['type_17',['Type',['../structjc_1_1ast_1_1_generic_param_1_1_type.html',1,'jc::ast::GenericParam::Type'],['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_generic_param_1_1_type.html',1,'jc::hir::GenericParam::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
   ['typealias_18',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
-  ['typepath_19',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
+  ['typekind_19',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir']]],
+  ['typepath_20',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
 ];

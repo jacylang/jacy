@@ -81,9 +81,9 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a47c085f24f9ea942e9700a779291fc12"><td class="memItemLeft" align="right" valign="top"><a id="a47c085f24f9ea942e9700a779291fc12" name="a47c085f24f9ea942e9700a779291fc12"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>HirId</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">resolve::DefId</a> &amp;<a class="el" href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">owner</a>, const OwnerDef::IdT &amp;<a class="el" href="structjc_1_1hir_1_1_hir_id.html#ad3bd7a9b6175eb55ec6a84251cc01021">id</a>)</td></tr>
-<tr class="separator:a47c085f24f9ea942e9700a779291fc12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6b1bd5bcfb0b7482b88b1f1b58f726"><td class="memItemLeft" align="right" valign="top"><a id="a3b6b1bd5bcfb0b7482b88b1f1b58f726" name="a3b6b1bd5bcfb0b7482b88b1f1b58f726"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>HirId</b> (const <a class="el" href="structjc_1_1resolve_1_1_def_id.html">resolve::DefId</a> &amp;<a class="el" href="structjc_1_1hir_1_1_hir_id.html#a8ba3e6909136427d0c79885b57d88dc6">owner</a>, const <a class="el" href="structjc_1_1hir_1_1_child_id.html">ChildId</a> &amp;<a class="el" href="structjc_1_1hir_1_1_hir_id.html#a00e7537aa178d02859d0420e69568636">id</a>)</td></tr>
+<tr class="separator:a3b6b1bd5bcfb0b7482b88b1f1b58f726"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a347347e04bc92c039db074a34e967660"><td class="memItemLeft" align="right" valign="top"><a id="a347347e04bc92c039db074a34e967660" name="a347347e04bc92c039db074a34e967660"></a>
 <a class="el" href="classjc_1_1dt_1_1_option.html">DefId::Opt</a>&#160;</td><td class="memItemRight" valign="bottom"><b>asOwner</b> () const</td></tr>
 <tr class="separator:a347347e04bc92c039db074a34e967660"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,16 +103,19 @@ Public Attributes</h2></td></tr>
 <a class="el" href="structjc_1_1resolve_1_1_def_id.html">resolve::DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>owner</b></td></tr>
 <tr class="memdesc:a8ba3e6909136427d0c79885b57d88dc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">The owner of the HIR node (e.g. <code>struct</code>) <br /></td></tr>
 <tr class="separator:a8ba3e6909136427d0c79885b57d88dc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3bd7a9b6175eb55ec6a84251cc01021"><td class="memItemLeft" align="right" valign="top"><a id="ad3bd7a9b6175eb55ec6a84251cc01021" name="ad3bd7a9b6175eb55ec6a84251cc01021"></a>
-OwnerDef::IdT&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
-<tr class="memdesc:ad3bd7a9b6175eb55ec6a84251cc01021"><td class="mdescLeft">&#160;</td><td class="mdescRight">An identifier unique per each owner, i.e. in each item the first node has id of 0. <br /></td></tr>
-<tr class="separator:ad3bd7a9b6175eb55ec6a84251cc01021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00e7537aa178d02859d0420e69568636"><td class="memItemLeft" align="right" valign="top"><a id="a00e7537aa178d02859d0420e69568636" name="a00e7537aa178d02859d0420e69568636"></a>
+<a class="el" href="structjc_1_1hir_1_1_child_id.html">ChildId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>id</b></td></tr>
+<tr class="memdesc:a00e7537aa178d02859d0420e69568636"><td class="mdescLeft">&#160;</td><td class="mdescRight">An identifier unique per each owner, i.e. in each item the first node has id of 0. <br /></td></tr>
+<tr class="separator:a00e7537aa178d02859d0420e69568636"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:a2794cc18b2715b313e8decee67636f51"><td class="memItemLeft" align="right" valign="top"><a id="a2794cc18b2715b313e8decee67636f51" name="a2794cc18b2715b313e8decee67636f51"></a>
-static const <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DUMMY</b> = <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>(<a class="el" href="structjc_1_1resolve_1_1_def_id.html">resolve::DefId</a>(<a class="el" href="structjc_1_1resolve_1_1_def_index.html">resolve::DefIndex</a> {0}), 0)</td></tr>
+static const <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>DUMMY</b> = <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>(<a class="el" href="structjc_1_1resolve_1_1_def_id.html">resolve::DefId</a>(<a class="el" href="structjc_1_1resolve_1_1_def_index.html">resolve::DefIndex</a> {0}), ChildId::ownerChild())</td></tr>
 <tr class="separator:a2794cc18b2715b313e8decee67636f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1faef720227fc0b179eb056331719fd0"><td class="memItemLeft" align="right" valign="top"><a id="a1faef720227fc0b179eb056331719fd0" name="a1faef720227fc0b179eb056331719fd0"></a>
+static const <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>ROOT</b> = <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>(resolve::DefId::ROOT_DEF_ID, ChildId::ownerChild())</td></tr>
+<tr class="separator:a1faef720227fc0b179eb056331719fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -121,8 +124,8 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <tr class="separator:a2c403b1ffbf076207df4855cb21293c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following files:<ul>
-<li>src/hir/nodes/<a class="el" href="_hir_node_8h_source.html">HirNode.h</a></li>
-<li>src/hir/nodes/HirNode.cpp</li>
+<li>src/hir/nodes/<a class="el" href="_hir_id_8h_source.html">HirId.h</a></li>
+<li>src/hir/nodes/HirId.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

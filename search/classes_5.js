@@ -11,7 +11,8 @@ var searchData=
   ['funcheader_8',['FuncHeader',['../structjc_1_1ast_1_1_func_header.html',1,'jc::ast']]],
   ['funcparam_9',['FuncParam',['../structjc_1_1ast_1_1_func_param.html',1,'jc::ast']]],
   ['funcreturntype_10',['FuncReturnType',['../structjc_1_1ast_1_1_func_return_type.html',1,'jc::ast']]],
-  ['funcreturntype_3c_20type_3a_3aptr_20_3e_11',['FuncReturnType&lt; Type::Ptr &gt;',['../structjc_1_1ast_1_1_func_return_type.html',1,'jc::ast']]],
-  ['funcsig_12',['FuncSig',['../structjc_1_1ast_1_1_func_sig.html',1,'jc::ast::FuncSig'],['../structjc_1_1hir_1_1_func_sig.html',1,'jc::hir::FuncSig']]],
-  ['functype_13',['FuncType',['../structjc_1_1ast_1_1_func_type.html',1,'jc::ast::FuncType'],['../structjc_1_1hir_1_1_func_type.html',1,'jc::hir::FuncType']]]
+  ['funcreturntype_3c_20type_20_3e_11',['FuncReturnType&lt; Type &gt;',['../structjc_1_1ast_1_1_func_return_type.html',1,'jc::ast']]],
+  ['funcreturntype_3c_20type_3a_3aptr_20_3e_12',['FuncReturnType&lt; Type::Ptr &gt;',['../structjc_1_1ast_1_1_func_return_type.html',1,'jc::ast']]],
+  ['funcsig_13',['FuncSig',['../structjc_1_1ast_1_1_func_sig.html',1,'jc::ast::FuncSig'],['../structjc_1_1hir_1_1_func_sig.html',1,'jc::hir::FuncSig']]],
+  ['functype_14',['FuncType',['../structjc_1_1ast_1_1_func_type.html',1,'jc::ast::FuncType'],['../structjc_1_1hir_1_1_func_type.html',1,'jc::hir::FuncType']]]
 ];

@@ -71,81 +71,38 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structjc_1_1hir_1_1_type-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">jc::hir::Type Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for jc::hir::Type:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="structjc_1_1hir_1_1_type.png" usemap="#jc::hir::Type_map" alt=""/>
-  <map id="jc::hir::Type_map" name="jc::hir::Type_map">
-<area href="structjc_1_1hir_1_1_hir_node.html" alt="jc::hir::HirNode" shape="rect" coords="300,0,410,24"/>
-<area href="structjc_1_1hir_1_1_array_type.html" alt="jc::hir::ArrayType" shape="rect" coords="0,112,110,136"/>
-<area href="structjc_1_1hir_1_1_func_type.html" alt="jc::hir::FuncType" shape="rect" coords="120,112,230,136"/>
-<area href="structjc_1_1hir_1_1_slice_type.html" alt="jc::hir::SliceType" shape="rect" coords="240,112,350,136"/>
-<area href="structjc_1_1hir_1_1_tuple_type.html" alt="jc::hir::TupleType" shape="rect" coords="360,112,470,136"/>
-<area href="structjc_1_1hir_1_1_type_path.html" alt="jc::hir::TypePath" shape="rect" coords="480,112,590,136"/>
-<area href="structjc_1_1hir_1_1_unit_type.html" alt="jc::hir::UnitType" shape="rect" coords="600,112,710,136"/>
-  </map>
-</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a6df7ec4047d942e3301fa21f97c739e5"><td class="memItemLeft" align="right" valign="top"><a id="a6df7ec4047d942e3301fa21f97c739e5" name="a6df7ec4047d942e3301fa21f97c739e5"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
-&#160;&#160;<b>Infer</b>
-, <b>Tuple</b>
-, <b>Func</b>
-, <b>Slice</b>
-, <br />
-&#160;&#160;<b>Array</b>
-, <b>Path</b>
-, <b>Unit</b>
-<br />
- }</td></tr>
-<tr class="separator:a6df7ec4047d942e3301fa21f97c739e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a2129a8f95ad9afd109c59e48ddfaa4"><td class="memItemLeft" align="right" valign="top"><a id="a9a2129a8f95ad9afd109c59e48ddfaa4" name="a9a2129a8f95ad9afd109c59e48ddfaa4"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = N&lt; <a class="el" href="structjc_1_1hir_1_1_type.html">Type</a> &gt;</td></tr>
-<tr class="separator:a9a2129a8f95ad9afd109c59e48ddfaa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7df4c59a7e5165e379aa143817b7b290"><td class="memItemLeft" align="right" valign="top"><a id="a7df4c59a7e5165e379aa143817b7b290" name="a7df4c59a7e5165e379aa143817b7b290"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>OptPtr</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; Ptr &gt;</td></tr>
-<tr class="separator:a7df4c59a7e5165e379aa143817b7b290"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a33aa6940c120752c2158daf1089483ab"><td class="memItemLeft" align="right" valign="top"><a id="a33aa6940c120752c2158daf1089483ab" name="a33aa6940c120752c2158daf1089483ab"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; Type::Ptr &gt;</td></tr>
-<tr class="separator:a33aa6940c120752c2158daf1089483ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ba5ad40614aa7ea890ca11c8b6ac78d"><td class="memItemLeft" align="right" valign="top"><a id="a7ba5ad40614aa7ea890ca11c8b6ac78d" name="a7ba5ad40614aa7ea890ca11c8b6ac78d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Opt</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1hir_1_1_type.html">Type</a> &gt;</td></tr>
+<tr class="separator:a7ba5ad40614aa7ea890ca11c8b6ac78d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4defc171fb0e02274fe7c81e0c83389"><td class="memItemLeft" align="right" valign="top"><a id="ab4defc171fb0e02274fe7c81e0c83389" name="ab4defc171fb0e02274fe7c81e0c83389"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1hir_1_1_type.html">Type</a> &gt;</td></tr>
+<tr class="separator:ab4defc171fb0e02274fe7c81e0c83389"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a21611b583b170338b5ecc054eb820d52"><td class="memItemLeft" align="right" valign="top"><a id="a21611b583b170338b5ecc054eb820d52" name="a21611b583b170338b5ecc054eb820d52"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> (Kind kind, <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a21611b583b170338b5ecc054eb820d52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_structjc_1_1hir_1_1_hir_node"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1hir_1_1_hir_node')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></td></tr>
-<tr class="memitem:a686d057078206bc30e71eec972286539 inherit pub_methods_structjc_1_1hir_1_1_hir_node"><td class="memItemLeft" align="right" valign="top"><a id="a686d057078206bc30e71eec972286539" name="a686d057078206bc30e71eec972286539"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>HirNode</b> (<a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a686d057078206bc30e71eec972286539 inherit pub_methods_structjc_1_1hir_1_1_hir_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a3494813d9a975816f2594832faff3ed9"><td class="memTemplParams" colspan="2"><a id="a3494813d9a975816f2594832faff3ed9" name="a3494813d9a975816f2594832faff3ed9"></a>
-template&lt;class T &gt; </td></tr>
-<tr class="memitem:a3494813d9a975816f2594832faff3ed9"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> (const Ptr &amp;item)</td></tr>
-<tr class="separator:a3494813d9a975816f2594832faff3ed9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af583e48639448f322f89614f8197f1cb"><td class="memItemLeft" align="right" valign="top"><a id="af583e48639448f322f89614f8197f1cb" name="af583e48639448f322f89614f8197f1cb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> (TypeKind::Ptr &amp;&amp;kind, <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:af583e48639448f322f89614f8197f1cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a4d370d9d8ff7bd7de1a5898282cc5dcc"><td class="memItemLeft" align="right" valign="top"><a id="a4d370d9d8ff7bd7de1a5898282cc5dcc" name="a4d370d9d8ff7bd7de1a5898282cc5dcc"></a>
-Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:a4d370d9d8ff7bd7de1a5898282cc5dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_attribs_structjc_1_1hir_1_1_hir_node"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_structjc_1_1hir_1_1_hir_node')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="structjc_1_1hir_1_1_hir_node.html">jc::hir::HirNode</a></td></tr>
-<tr class="memitem:ac0c71f02ebfec4d024553e0e84bff03a inherit pub_attribs_structjc_1_1hir_1_1_hir_node"><td class="memItemLeft" align="right" valign="top"><a id="ac0c71f02ebfec4d024553e0e84bff03a" name="ac0c71f02ebfec4d024553e0e84bff03a"></a>
+<tr class="memitem:a3c3720fe397f8049614ccf18cd1e562a"><td class="memItemLeft" align="right" valign="top"><a id="a3c3720fe397f8049614ccf18cd1e562a" name="a3c3720fe397f8049614ccf18cd1e562a"></a>
 <a class="el" href="structjc_1_1hir_1_1_hir_id.html">HirId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>hirId</b></td></tr>
-<tr class="separator:ac0c71f02ebfec4d024553e0e84bff03a inherit pub_attribs_structjc_1_1hir_1_1_hir_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfc3540c04b5023a0d6a644ba7842758 inherit pub_attribs_structjc_1_1hir_1_1_hir_node"><td class="memItemLeft" align="right" valign="top"><a id="abfc3540c04b5023a0d6a644ba7842758" name="abfc3540c04b5023a0d6a644ba7842758"></a>
+<tr class="separator:a3c3720fe397f8049614ccf18cd1e562a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd0018b4ec3d35aa2301e7753e50072"><td class="memItemLeft" align="right" valign="top"><a id="afdd0018b4ec3d35aa2301e7753e50072" name="afdd0018b4ec3d35aa2301e7753e50072"></a>
 <a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>span</b></td></tr>
-<tr class="separator:abfc3540c04b5023a0d6a644ba7842758 inherit pub_attribs_structjc_1_1hir_1_1_hir_node"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:afdd0018b4ec3d35aa2301e7753e50072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e81482e77efc9fffeb8a8be627da603"><td class="memItemLeft" align="right" valign="top"><a id="a7e81482e77efc9fffeb8a8be627da603" name="a7e81482e77efc9fffeb8a8be627da603"></a>
+TypeKind::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
+<tr class="separator:a7e81482e77efc9fffeb8a8be627da603"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/hir/nodes/<a class="el" href="hir_2nodes_2_type_8h_source.html">Type.h</a></li>

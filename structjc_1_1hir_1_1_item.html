@@ -71,74 +71,46 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structjc_1_1hir_1_1_item-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">jc::hir::Item Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>The base class for all items.  
- <a href="structjc_1_1hir_1_1_item.html#details">More...</a></p>
-
 <p><code>#include &lt;<a class="el" href="hir_2nodes_2_item_8h_source.html">Item.h</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for jc::hir::Item:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="structjc_1_1hir_1_1_item.png" usemap="#jc::hir::Item_map" alt=""/>
-  <map id="jc::hir::Item_map" name="jc::hir::Item_map">
-<area href="structjc_1_1hir_1_1_enum.html" alt="jc::hir::Enum" shape="rect" coords="115,56,220,80"/>
-<area href="structjc_1_1hir_1_1_func.html" alt="jc::hir::Func" shape="rect" coords="115,112,220,136"/>
-<area href="structjc_1_1hir_1_1_impl.html" alt="jc::hir::Impl" shape="rect" coords="115,168,220,192"/>
-<area href="structjc_1_1hir_1_1_mod.html" alt="jc::hir::Mod" shape="rect" coords="115,224,220,248"/>
-<area href="structjc_1_1hir_1_1_struct.html" alt="jc::hir::Struct" shape="rect" coords="115,280,220,304"/>
-<area href="structjc_1_1hir_1_1_trait.html" alt="jc::hir::Trait" shape="rect" coords="115,336,220,360"/>
-<area href="structjc_1_1hir_1_1_type_alias.html" alt="jc::hir::TypeAlias" shape="rect" coords="115,392,220,416"/>
-<area href="structjc_1_1hir_1_1_use_decl.html" alt="jc::hir::UseDecl" shape="rect" coords="115,448,220,472"/>
-  </map>
-</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:af94828ee10b75928af7b67fb29c1a113"><td class="memItemLeft" align="right" valign="top"><a id="af94828ee10b75928af7b67fb29c1a113" name="af94828ee10b75928af7b67fb29c1a113"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
-&#160;&#160;<b>Enum</b>
-, <b>Func</b>
-, <b>Impl</b>
-, <b>Mod</b>
-, <br />
-&#160;&#160;<b>Struct</b>
-, <b>Trait</b>
-, <b>TypeAlias</b>
-, <b>Use</b>
-<br />
- }</td></tr>
-<tr class="separator:af94828ee10b75928af7b67fb29c1a113"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af576f3d86505e3787b2caadbf140d81e"><td class="memItemLeft" align="right" valign="top"><a id="af576f3d86505e3787b2caadbf140d81e" name="af576f3d86505e3787b2caadbf140d81e"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Ptr</b> = std::unique_ptr&lt; <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &gt;</td></tr>
-<tr class="separator:af576f3d86505e3787b2caadbf140d81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3db0584a495be4076b251faa0c96e5d6"><td class="memItemLeft" align="right" valign="top"><a id="a3db0584a495be4076b251faa0c96e5d6" name="a3db0584a495be4076b251faa0c96e5d6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Vis</b> = <a class="el" href="structjc_1_1ast_1_1_vis.html">ast::Vis</a></td></tr>
+<tr class="separator:a3db0584a495be4076b251faa0c96e5d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a61ee44c45c5c85388b27c0ff4de09ace"><td class="memItemLeft" align="right" valign="top"><a id="a61ee44c45c5c85388b27c0ff4de09ace" name="a61ee44c45c5c85388b27c0ff4de09ace"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Item</b> (Kind kind)</td></tr>
-<tr class="separator:a61ee44c45c5c85388b27c0ff4de09ace"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0151475dc46e8a61d3beec250221e164"><td class="memTemplParams" colspan="2"><a id="a0151475dc46e8a61d3beec250221e164" name="a0151475dc46e8a61d3beec250221e164"></a>
-template&lt;class T &gt; </td></tr>
-<tr class="memitem:a0151475dc46e8a61d3beec250221e164"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> (const Ptr &amp;item)</td></tr>
-<tr class="separator:a0151475dc46e8a61d3beec250221e164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a3f238c22fd95b415d29301bc5d6309"><td class="memItemLeft" align="right" valign="top"><a id="a1a3f238c22fd95b415d29301bc5d6309" name="a1a3f238c22fd95b415d29301bc5d6309"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Item</b> (<a class="el" href="structjc_1_1ast_1_1_vis.html">Vis</a> vis, <a class="el" href="structjc_1_1span_1_1_ident.html">span::Ident</a> &amp;&amp;name, ItemKind::Ptr &amp;&amp;item, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a1a3f238c22fd95b415d29301bc5d6309"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:aa36151c2d0d1a9dc6ec5a36e153879b9"><td class="memItemLeft" align="right" valign="top"><a id="aa36151c2d0d1a9dc6ec5a36e153879b9" name="aa36151c2d0d1a9dc6ec5a36e153879b9"></a>
-Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
-<tr class="separator:aa36151c2d0d1a9dc6ec5a36e153879b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64c5519fb47c84d4fc3d45be76d0f024"><td class="memItemLeft" align="right" valign="top"><a id="a64c5519fb47c84d4fc3d45be76d0f024" name="a64c5519fb47c84d4fc3d45be76d0f024"></a>
+<a class="el" href="structjc_1_1ast_1_1_vis.html">Vis</a>&#160;</td><td class="memItemRight" valign="bottom"><b>vis</b></td></tr>
+<tr class="separator:a64c5519fb47c84d4fc3d45be76d0f024"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8965f68b15b69c6d2bfaa05f1f19a77c"><td class="memItemLeft" align="right" valign="top"><a id="a8965f68b15b69c6d2bfaa05f1f19a77c" name="a8965f68b15b69c6d2bfaa05f1f19a77c"></a>
+<a class="el" href="structjc_1_1span_1_1_ident.html">span::Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><b>name</b></td></tr>
+<tr class="separator:a8965f68b15b69c6d2bfaa05f1f19a77c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadde2136ab1c9383d20235eb5edfe444"><td class="memItemLeft" align="right" valign="top"><a id="aadde2136ab1c9383d20235eb5edfe444" name="aadde2136ab1c9383d20235eb5edfe444"></a>
+ItemKind::Ptr&#160;</td><td class="memItemRight" valign="bottom"><b>item</b></td></tr>
+<tr class="separator:aadde2136ab1c9383d20235eb5edfe444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a874b671e261a154345f2093b999e0d42"><td class="memItemLeft" align="right" valign="top"><a id="a874b671e261a154345f2093b999e0d42" name="a874b671e261a154345f2093b999e0d42"></a>
+<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>defId</b></td></tr>
+<tr class="separator:a874b671e261a154345f2093b999e0d42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8de48ba23a1b6fd9fe3485d55b287c5e"><td class="memItemLeft" align="right" valign="top"><a id="a8de48ba23a1b6fd9fe3485d55b287c5e" name="a8de48ba23a1b6fd9fe3485d55b287c5e"></a>
+<a class="el" href="structjc_1_1span_1_1_span.html">Span</a>&#160;</td><td class="memItemRight" valign="bottom"><b>span</b></td></tr>
+<tr class="separator:a8de48ba23a1b6fd9fe3485d55b287c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >The base class for all items. </p>
+<div class="textblock"><p >The wrapper over <code><a class="el" href="structjc_1_1hir_1_1_item.html">Item</a></code> and its additional info. It is useful because we can lower specific item independently and then construct the full <code><a class="el" href="structjc_1_1hir_1_1_item.html">Item</a></code>. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/hir/nodes/<a class="el" href="hir_2nodes_2_item_8h_source.html">Item.h</a></li>
 </ul>

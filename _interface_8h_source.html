@@ -166,27 +166,26 @@ $(function() {
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="comment">// Lowering //</span></div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keyword">private</span>:</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <a class="code hl_class" href="classjc_1_1hir_1_1_lowering.html">hir::Lowering</a> lowering;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">hir::Party</a> hirParty;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">void</span> lower();</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordtype">void</span> printHir(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">hir::Party</a> &amp; party);</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="comment">// Logging //</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <a class="code hl_class" href="classjc_1_1log_1_1_logger.html">log::Logger</a> log{<span class="stringliteral">&quot;interface&quot;</span>};</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="comment">// Messages //</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <a class="code hl_class" href="classjc_1_1message_1_1_message_handler.html">message::MessageHandler</a> messageHandler;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <a class="code hl_class" href="classjc_1_1message_1_1_highlighter.html">message::Highlighter</a> highlighter;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        message::Message::List messages;</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordtype">void</span> collectMessages(message::Message::List &amp;&amp; additional);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordtype">void</span> checkMessages(<span class="keyword">const</span> std::string &amp; stageName);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    };</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#endif </span><span class="comment">// JACY_CORE_INTERFACE_H</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordtype">void</span> lower();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordtype">void</span> printHir(<span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">hir::Party</a> &amp; party);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// Logging //</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <a class="code hl_class" href="classjc_1_1log_1_1_logger.html">log::Logger</a> log{<span class="stringliteral">&quot;interface&quot;</span>};</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="comment">// Messages //</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <a class="code hl_class" href="classjc_1_1message_1_1_message_handler.html">message::MessageHandler</a> messageHandler;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <a class="code hl_class" href="classjc_1_1message_1_1_highlighter.html">message::Highlighter</a> highlighter;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        message::Message::List messages;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordtype">void</span> collectMessages(message::Message::List &amp;&amp; additional);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordtype">void</span> checkMessages(<span class="keyword">const</span> std::string &amp; stageName);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    };</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#endif </span><span class="comment">// JACY_CORE_INTERFACE_H</span></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_ast_printer_html"><div class="ttname"><a href="classjc_1_1ast_1_1_ast_printer.html">jc::ast::AstPrinter</a></div><div class="ttdef"><b>Definition:</b> AstPrinter.h:20</div></div>
 <div class="ttc" id="aclassjc_1_1ast_1_1_validator_html"><div class="ttname"><a href="classjc_1_1ast_1_1_validator.html">jc::ast::Validator</a></div><div class="ttdef"><b>Definition:</b> Validator.h:24</div></div>
 <div class="ttc" id="aclassjc_1_1config_1_1_config_html"><div class="ttname"><a href="classjc_1_1config_1_1_config.html">jc::config::Config</a></div><div class="ttdef"><b>Definition:</b> Config.h:17</div></div>
@@ -203,7 +202,7 @@ $(function() {
 <div class="ttc" id="aclassjc_1_1resolve_1_1_name_resolver_html"><div class="ttname"><a href="classjc_1_1resolve_1_1_name_resolver.html">jc::resolve::NameResolver</a></div><div class="ttdef"><b>Definition:</b> NameResolver.h:15</div></div>
 <div class="ttc" id="astructjc_1_1core_1_1_f_s_entry_html"><div class="ttname"><a href="structjc_1_1core_1_1_f_s_entry.html">jc::core::FSEntry</a></div><div class="ttdef"><b>Definition:</b> Interface.h:29</div></div>
 <div class="ttc" id="astructjc_1_1fs_1_1_entry_html"><div class="ttname"><a href="structjc_1_1fs_1_1_entry.html">jc::fs::Entry</a></div><div class="ttdef"><b>Definition:</b> Entry.h:18</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_party_html"><div class="ttname"><a href="structjc_1_1hir_1_1_party.html">jc::hir::Party</a></div><div class="ttdoc">The root node of the party (package)</div><div class="ttdef"><b>Definition:</b> Party.h:52</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_party_html"><div class="ttname"><a href="structjc_1_1hir_1_1_party.html">jc::hir::Party</a></div><div class="ttdoc">The root node of the party (package)</div><div class="ttdef"><b>Definition:</b> Party.h:237</div></div>
 <div class="ttc" id="astructjc_1_1resolve_1_1_module_tree_printer_html"><div class="ttname"><a href="structjc_1_1resolve_1_1_module_tree_printer.html">jc::resolve::ModuleTreePrinter</a></div><div class="ttdef"><b>Definition:</b> ModuleTreePrinter.h:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
