@@ -37,6 +37,8 @@ namespace jc::hir {
             return T {std::forward<Args>(args)..., HirId::DUMMY, span};
         }
 
+        HirId synthHirId();
+
         // HIR identifiers and maps //
     private:
         NodeId::NodeMap<HirId> nodeIdHirId;
