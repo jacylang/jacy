@@ -208,7 +208,7 @@ namespace jc::hir {
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;
         for (const auto & param : sig.params) {
-            inputs.emplace_back(lowerType(param.type));
+            inputs.emplace_back(lowerTypeKind(param.type));
         }
 
         auto returnType = lowerFuncReturnType(sig.returnType);
@@ -221,7 +221,7 @@ namespace jc::hir {
             return FuncSig::ReturnType {returnType.asDefault()};
         }
 
-        return FuncSig::ReturnType {lowerType(returnType.asSome())};
+        return FuncSig::ReturnType {lowerTypeKind(returnType.asSome())};
     }
 
     // Statements //
@@ -251,7 +251,7 @@ namespace jc::hir {
     StmtKind::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
         auto hirId = lowerNodeId(letStmt.id);
         auto type = letStmt.type.map<Type::Ptr>([this](const ast::Type::Ptr & type) {
-            return lowerType(type);
+            return lowerTypeKind(type);
         });
         auto expr = letStmt.assignExpr.map<Expr>([this](const ast::Expr::Ptr & expr) {
             return lowerExpr(expr);
@@ -512,20 +512,25 @@ namespace jc::hir {
     }
 
     // Types //
-    Type::Ptr Lowering::lowerType(const ast::Type::Ptr & astType) {
-        const auto & type = astType.unwrap("`Lowering::lowerType`");
+    Type Lowering::lowerType(const ast::Type::Ptr && astType) {
+        const auto & type = astType.unwrap();
+        return Type(lowerTypeKind(astType), lowerNodeId(type->id), type->span);
+    }
+
+    TypeKind::Ptr Lowering::lowerTypeKind(const ast::Type::Ptr & astType) {
+        const auto & type = astType.unwrap("`Lowering::lowerTypeKind`");
         auto hirId = lowerNodeId(astType.unwrap()->id);
         switch (type->kind) {
             case ast::Type::Kind::Paren: {
                 // Getting rid of useless parentheses
-                return lowerType(ast::Type::as<ast::ParenType>(type)->type);
+                return lowerTypeKind(ast::Type::as<ast::ParenType>(type)->type);
             }
             case ast::Type::Kind::Tuple: {
                 const auto & tupleType = ast::Type::as<ast::TupleType>(type);
                 Type::List els;
                 for (const auto & el : tupleType->elements) {
                     // TODO: Named tuples
-                    els.emplace_back(lowerType(el.type));
+                    els.emplace_back(lowerTypeKind(el.type));
                 }
                 return makeBoxNode<TupleType>(std::move(els), hirId, tupleType->span);
             }
@@ -533,18 +538,18 @@ namespace jc::hir {
                 const auto & funcType = ast::Type::as<ast::FuncType>(type);
                 Type::List inputs;
                 for (const auto & type : funcType->params) {
-                    inputs.emplace_back(lowerType(type));
+                    inputs.emplace_back(lowerTypeKind(type));
                 }
-                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), hirId, funcType->span);
+                return makeBoxNode<FuncType>(std::move(inputs), lowerTypeKind(funcType->returnType), hirId, funcType->span);
             }
             case ast::Type::Kind::Slice: {
                 const auto & sliceType = ast::Type::as<ast::SliceType>(type);
-                return makeBoxNode<SliceType>(lowerType(sliceType->type), hirId, sliceType->span);
+                return makeBoxNode<SliceType>(lowerTypeKind(sliceType->type), hirId, sliceType->span);
             }
             case ast::Type::Kind::Array: {
                 const auto & arrayType = ast::Type::as<ast::ArrayType>(type);
                 return makeBoxNode<ArrayType>(
-                    lowerType(arrayType->type),
+                    lowerTypeKind(arrayType->type),
                     lowerAnonConst(arrayType->sizeExpr),
                     hirId,
                     arrayType->span
@@ -559,7 +564,7 @@ namespace jc::hir {
                 return makeBoxNode<UnitType>(hirId, unitType->span);
             }
         }
-        log::notImplemented("Lowering::lowerType");
+        log::notImplemented("Lowering::lowerTypeKind");
     }
 
     CommonField::List Lowering::lowerTupleTysToFields(const ast::TupleTypeEl::List & types, bool named) {
@@ -570,7 +575,7 @@ namespace jc::hir {
             if (named) {
                 name = ty.name.unwrap().unwrap();
             }
-            fields.emplace_back(name, lowerType(ty.type), HirId::DUMMY, ty.span);
+            fields.emplace_back(name, lowerTypeKind(ty.type), HirId::DUMMY, ty.span);
         }
 
         return fields;
@@ -580,7 +585,7 @@ namespace jc::hir {
         CommonField::List fields;
 
         for (const auto & field : fs) {
-            fields.emplace_back(field.name.unwrap(), lowerType(field.type), HirId::DUMMY, field.span);
+            fields.emplace_back(field.name.unwrap(), lowerTypeKind(field.type), HirId::DUMMY, field.span);
         }
 
         return fields;
@@ -780,7 +785,7 @@ namespace jc::hir {
                 case ast::GenericParam::Kind::Const: {
                     const auto & constParam = param.getConstParam();
                     params.emplace_back(
-                        GenericParam::Const {name, lowerType(constParam.type)},
+                        GenericParam::Const {name, lowerTypeKind(constParam.type)},
                         std::move(bounds),
                         hirId,
                         span
@@ -805,7 +810,7 @@ namespace jc::hir {
             switch (arg.kind) {
                 case ast::GenericArg::Kind::Type: {
                     const auto & typeParam = arg.getTypeArg();
-                    args.emplace_back(lowerType(typeParam));
+                    args.emplace_back(lowerTypeKind(typeParam));
                     break;
                 }
                 case ast::GenericArg::Kind::Lifetime: {

@@ -31,12 +31,12 @@ namespace jc::hir {
     struct Type  {
         using List = std::vector<Type>;
 
-        Type(TypeKind && kind, HirId hirId, Span span)
+        Type(TypeKind::Ptr && kind, HirId hirId, Span span)
             : hirId {hirId}, span {span}, kind {std::move(kind)} {}
 
         HirId hirId;
         Span span;
-        TypeKind kind;
+        TypeKind::Ptr kind;
     };
 }
 
