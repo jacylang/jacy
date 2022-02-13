@@ -491,24 +491,28 @@ namespace jc::hir {
         auto cond = lowerExpr(whileExpr.condition);
         auto body = lowerBlock(*whileExpr.body.unwrap());
 
-        // Generate `if [EXPR] {...} else {break}` expression
-        auto ifCondExpr = synthBoxNode<IfExpr>(
-            std::move(cond),
-            std::move(body),
-            synthNode<Block>(body.span, StmtKind::List {})
+        // {break}
+        auto elseBreakBlock = synthBlock(
+            body.span,
+            Stmt::List {
+                synthExprStmt(synthBreakExpr(whileExpr.span, None))
+            }
         );
 
-        ifCondExpr->elseBranch
-                  .unwrap()
-                  .stmts
-                  .emplace_back(synthBoxNode<ExprStmt>(synthBoxNode<BreakExpr>(None)));
+        // Generate `if [EXPR] {...} else {break}` expression
+        auto ifCondExpr = synthIfExpr(
+            whileExpr.span,
+            std::move(cond),
+            std::move(body),
+            std::move(elseBreakBlock)
+        );
 
-        // Put `ifConditionBlock` to loop body block
-        auto loweredBody = synthNode<Block>(whileExpr.span, StmtKind::List {});
+        auto loopBlock = synthBlock(
+            whileExpr.span,
+            Stmt::List {synthExprStmt(std::move(ifCondExpr))}
+        );
 
-        loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(std::move(ifCondExpr)));
-
-        return makeBoxNode<LoopExpr>(std::move(loweredBody));
+        return makeBoxNode<LoopExpr>(std::move(loopBlock));
     }
 
     // Types //
