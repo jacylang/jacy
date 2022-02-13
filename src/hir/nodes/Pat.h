@@ -4,10 +4,8 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Pat  {
-        using Ptr = std::unique_ptr<Pat>;
-        using OptPtr = Option<Ptr>;
-        using List = std::vector<Ptr>;
+    struct PatKind {
+        using Ptr = std::unique_ptr<PatKind>;
 
         enum class Kind {
             Multi,
@@ -21,7 +19,7 @@ namespace jc::hir {
             Slice,
         };
 
-        Pat(Kind kind, HirId hirId, Span span)  {hirId, span}, kind {kind} {}
+        PatKind(Kind kind) : kind {kind} {}
 
         Kind kind;
 
@@ -29,6 +27,17 @@ namespace jc::hir {
         static T * as(const Ptr & pat) {
             return static_cast<T*>(pat.get());
         }
+    };
+
+    struct Pat  {
+        using Opt = Option<Pat>;
+        using List = std::vector<Pat>;
+
+        Pat(PatKind && kind, HirId hirId, Span span) : hirId {hirId}, span {span}, kind {std::move(kind)} {}
+
+        HirId hirId;
+        Span span;
+        PatKind kind;
     };
 }
 
