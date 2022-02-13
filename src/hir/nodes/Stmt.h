@@ -6,7 +6,6 @@
 namespace jc::hir {
     struct StmtKind {
         using Ptr = N<StmtKind>;
-        using List = std::vector<StmtKind::Ptr>;
 
         enum class Kind {
             Let,
@@ -25,6 +24,8 @@ namespace jc::hir {
     };
 
     struct Stmt {
+        using List = std::vector<Stmt>;
+
         Stmt(StmtKind::Ptr && stmt, HirId hirId, Span span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}
 
         HirId hirId;
