@@ -10,8 +10,8 @@ namespace jc::hir {
 
     // It is impossible now to make Expr ADT instead of using boxing :(
 
-    struct Expr {
-        using Ptr = std::unique_ptr<Expr>;
+    struct ExprKind {
+        using Ptr = std::unique_ptr<ExprKind>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
@@ -36,17 +36,17 @@ namespace jc::hir {
             Tuple,
         };
 
-        Expr(Kind kind) : kind {kind} {}
+        ExprKind(Kind kind) : kind {kind} {}
 
         Kind kind;
     };
 
-    struct ExprWrapper {
-        using Opt = Option<ExprWrapper>;
+    struct Expr {
+        using Opt = Option<Expr>;
 
-        ExprWrapper(Expr::Ptr && expr, HirId hirId, Span span) : expr {std::move(expr)}, hirId {hirId}, span {span} {}
+        Expr(ExprKind::Ptr && expr, HirId hirId, Span span) : expr {std::move(expr)}, hirId {hirId}, span {span} {}
 
-        Expr::Ptr expr;
+        ExprKind::Ptr expr;
         HirId hirId;
         Span span;
     };

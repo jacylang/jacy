@@ -22,7 +22,7 @@ namespace jc::hir {
 
         // Expr //
     private:
-        void printExpr(const Expr::Ptr & expr);
+        void printExpr(const ExprKind::Ptr & expr);
 
         // Types //
     private:

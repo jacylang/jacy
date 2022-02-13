@@ -107,103 +107,103 @@ namespace jc::hir {
     using PrefixOp = span::Spanned<PrefixOpKind>;
     using PostfixOp = span::Spanned<PostfixOpKind>;
 
-    struct ArrayExpr : Expr {
-        ArrayExpr(Expr::List && elements)
-            : Expr {Expr::Kind::Array}, elements {std::move(elements)} {}
+    struct ArrayExpr : ExprKind {
+        ArrayExpr(ExprKind::List && elements)
+            : ExprKind {ExprKind::Kind::Array}, elements {std::move(elements)} {}
 
-        Expr::List elements;
+        ExprKind::List elements;
     };
 
-    struct AssignExpr : Expr {
-        AssignExpr(ExprWrapper && lhs, const parser::Token & op, ExprWrapper && rhs)
-            : Expr {Expr::Kind::Assign}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
+    struct AssignExpr : ExprKind {
+        AssignExpr(Expr && lhs, const parser::Token & op, Expr && rhs)
+            : ExprKind {ExprKind::Kind::Assign}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
 
-        ExprWrapper lhs;
+        Expr lhs;
         parser::Token op;
-        ExprWrapper rhs;
+        Expr rhs;
     };
 
-    struct BlockExpr : Expr {
+    struct BlockExpr : ExprKind {
         BlockExpr(Block && block)
-            : Expr {Expr::Kind::Block}, block {std::move(block)} {}
+            : ExprKind {ExprKind::Kind::Block}, block {std::move(block)} {}
 
         Block block;
     };
 
-    struct BorrowExpr : Expr {
-        BorrowExpr(bool mut, ExprWrapper && rhs)
-            : Expr {Expr::Kind::Borrow}, mut {mut}, rhs {std::move(rhs)} {}
+    struct BorrowExpr : ExprKind {
+        BorrowExpr(bool mut, Expr && rhs)
+            : ExprKind {ExprKind::Kind::Borrow}, mut {mut}, rhs {std::move(rhs)} {}
 
         bool mut;
-        ExprWrapper rhs;
+        Expr rhs;
     };
 
-    struct BreakExpr : Expr {
-        BreakExpr(ExprWrapper::Opt && value) : Expr {Expr::Kind::Break}, value {std::move(value)} {}
+    struct BreakExpr : ExprKind {
+        BreakExpr(Expr::Opt && value) : ExprKind {ExprKind::Kind::Break}, value {std::move(value)} {}
 
-        ExprWrapper::Opt value;
+        Expr::Opt value;
     };
 
-    struct ContinueExpr : Expr {
-        ContinueExpr() : Expr {Expr::Kind::Continue} {}
+    struct ContinueExpr : ExprKind {
+        ContinueExpr() : ExprKind {ExprKind::Kind::Continue} {}
     };
 
-    struct DerefExpr : Expr {
-        DerefExpr(ExprWrapper::Opt && rhs) : Expr {Expr::Kind::Deref}, rhs {std::move(rhs)} {}
+    struct DerefExpr : ExprKind {
+        DerefExpr(Expr::Opt && rhs) : ExprKind {ExprKind::Kind::Deref}, rhs {std::move(rhs)} {}
 
-        ExprWrapper::Opt rhs;
+        Expr::Opt rhs;
     };
 
-    struct FieldExpr : Expr {
+    struct FieldExpr : ExprKind {
         FieldExpr(
-            ExprWrapper && lhs,
+            Expr && lhs,
             const span::Ident & field
-        ) : Expr {Expr::Kind::Field},
+        ) : ExprKind {ExprKind::Kind::Field},
             lhs {std::move(lhs)},
             field {field} {}
 
-        ExprWrapper lhs;
+        Expr lhs;
         span::Ident field;
     };
 
-    struct IfExpr : Expr {
+    struct IfExpr : ExprKind {
         IfExpr(
-            ExprWrapper && cond,
+            Expr && cond,
             Block::Opt && ifBranch,
             Block::Opt && elseBranch
-        ) : Expr {Expr::Kind::If},
+        ) : ExprKind {ExprKind::Kind::If},
             cond {std::move(cond)},
             ifBranch {std::move(ifBranch)},
             elseBranch {std::move(elseBranch)} {}
 
-        ExprWrapper cond;
+        Expr cond;
         Block::Opt ifBranch;
         Block::Opt elseBranch;
     };
 
-    struct InfixExpr : Expr {
-        InfixExpr(ExprWrapper && lhs, BinOp op, ExprWrapper && rhs)
-            : Expr {Expr::Kind::Invoke}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
+    struct InfixExpr : ExprKind {
+        InfixExpr(Expr && lhs, BinOp op, Expr && rhs)
+            : ExprKind {ExprKind::Kind::Invoke}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
 
-        ExprWrapper lhs;
+        Expr lhs;
         BinOp op;
-        ExprWrapper rhs;
+        Expr rhs;
     };
 
-    struct InvokeExpr : Expr {
-        InvokeExpr(ExprWrapper && lhs, Arg::List && args)
-            : Expr {Expr::Kind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
+    struct InvokeExpr : ExprKind {
+        InvokeExpr(Expr && lhs, Arg::List && args)
+            : ExprKind {ExprKind::Kind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
 
-        ExprWrapper lhs;
+        Expr lhs;
         Arg::List args;
     };
 
-    struct LitExpr : Expr {
+    struct LitExpr : ExprKind {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;
 
         LitExpr(Kind kind, ValueT val, parser::Token token)
-            : Expr {Expr::Kind::Literal}, kind {kind}, val {val}, token {token} {}
+            : ExprKind {ExprKind::Kind::Literal}, kind {kind}, val {val}, token {token} {}
 
         Kind kind;
         ValueT val;
@@ -212,9 +212,9 @@ namespace jc::hir {
         parser::Token token;
     };
 
-    struct LoopExpr : Expr {
+    struct LoopExpr : ExprKind {
         LoopExpr(Block && body)
-            : Expr {Expr::Kind::Loop}, body {std::move(body)} {}
+            : ExprKind {ExprKind::Kind::Loop}, body {std::move(body)} {}
 
         Block body;
     };
@@ -222,7 +222,7 @@ namespace jc::hir {
     struct MatchArm : HirNode {
         using List = std::vector<MatchArm>;
 
-        MatchArm(Pat::Ptr && pat, ExprWrapper && body, HirId hirId, Span span)
+        MatchArm(Pat::Ptr && pat, Expr && body, HirId hirId, Span span)
             : hirId {hirId},
               span {span},
               pat {std::move(pat)},
@@ -231,54 +231,54 @@ namespace jc::hir {
         HirId hirId;
         Span span;
         Pat::Ptr pat;
-        ExprWrapper body;
+        Expr body;
     };
 
-    struct MatchExpr : Expr {
-        MatchExpr(ExprWrapper && expr, MatchArm::List && arms)
-            : Expr {Expr::Kind::Match},
+    struct MatchExpr : ExprKind {
+        MatchExpr(Expr && expr, MatchArm::List && arms)
+            : ExprKind {ExprKind::Kind::Match},
               subject {std::move(expr)},
               arms {std::move(arms)} {}
 
-        ExprWrapper subject;
+        Expr subject;
         MatchArm::List arms;
     };
 
-    struct PathExpr : Expr {
+    struct PathExpr : ExprKind {
         PathExpr(Path && path)
-            : Expr {Expr::Kind::Path}, path {std::move(path)} {}
+            : ExprKind {ExprKind::Kind::Path}, path {std::move(path)} {}
 
         Path path;
     };
 
-    struct PostfixExpr : Expr {
-        PostfixExpr(ExprWrapper && lhs, PostfixOp op)
-            : Expr {Expr::Kind::Loop}, lhs {std::move(lhs)}, op {op} {}
+    struct PostfixExpr : ExprKind {
+        PostfixExpr(Expr && lhs, PostfixOp op)
+            : ExprKind {ExprKind::Kind::Loop}, lhs {std::move(lhs)}, op {op} {}
 
-        ExprWrapper lhs;
+        Expr lhs;
         PostfixOp op;
     };
 
-    struct PrefixExpr : Expr {
-        PrefixExpr(PrefixOp op, ExprWrapper && rhs)
-            : Expr {Expr::Kind::Loop}, op {op}, rhs {std::move(rhs)} {}
+    struct PrefixExpr : ExprKind {
+        PrefixExpr(PrefixOp op, Expr && rhs)
+            : ExprKind {ExprKind::Kind::Loop}, op {op}, rhs {std::move(rhs)} {}
 
         PrefixOp op;
-        ExprWrapper rhs;
+        Expr rhs;
     };
 
-    struct ReturnExpr : Expr {
-        ReturnExpr(ExprWrapper::Opt && value)
-            : Expr {Expr::Kind::Return}, value {std::move(value)} {}
+    struct ReturnExpr : ExprKind {
+        ReturnExpr(Expr::Opt && value)
+            : ExprKind {ExprKind::Kind::Return}, value {std::move(value)} {}
 
-        ExprWrapper::Opt value;
+        Expr::Opt value;
     };
 
-    struct TupleExpr : Expr {
-        TupleExpr(Expr::List && values)
-            : Expr {Expr::Kind::Tuple}, values {std::move(values)} {}
+    struct TupleExpr : ExprKind {
+        TupleExpr(ExprKind::List && values)
+            : ExprKind {ExprKind::Kind::Tuple}, values {std::move(values)} {}
 
-        Expr::List values;
+        ExprKind::List values;
     };
 }
 

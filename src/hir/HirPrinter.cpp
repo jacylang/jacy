@@ -144,7 +144,7 @@ namespace jc::hir {
                     printType(type);
                 });
 
-                letStmt->value.then([this](const Expr::Ptr & value) {
+                letStmt->value.then([this](const ExprKind::Ptr & value) {
                     log.raw(" = ");
                     printExpr(value);
                 });
@@ -167,10 +167,10 @@ namespace jc::hir {
     }
 
     // Expr //
-    void HirPrinter::printExpr(const Expr::Ptr & expr) {
+    void HirPrinter::printExpr(const ExprKind::Ptr & expr) {
         switch (expr->kind) {
-            case Expr::Kind::Array: {
-                const auto & array = Expr::as<ArrayExpr>(expr);
+            case ExprKind::Kind::Array: {
+                const auto & array = ExprKind::as<ArrayExpr>(expr);
                 log.raw("[");
                 printDelim(array->elements, [&](const auto & el) {
                     printExpr(el);
@@ -178,26 +178,26 @@ namespace jc::hir {
                 log.raw("]");
                 break;
             }
-            case Expr::Kind::Assign: {
-                const auto & assign = Expr::as<AssignExpr>(expr);
+            case ExprKind::Kind::Assign: {
+                const auto & assign = ExprKind::as<AssignExpr>(expr);
                 printExpr(assign->lhs);
                 log.raw(" ", assign->op, " ");
                 printExpr(assign->rhs);
                 break;
             }
-            case Expr::Kind::Block: {
-                const auto & block = Expr::as<BlockExpr>(expr);
+            case ExprKind::Kind::Block: {
+                const auto & block = ExprKind::as<BlockExpr>(expr);
                 printBlock(block->block);
                 break;
             }
-            case Expr::Kind::Borrow: {
-                const auto & borrow = Expr::as<BorrowExpr>(expr);
+            case ExprKind::Kind::Borrow: {
+                const auto & borrow = ExprKind::as<BorrowExpr>(expr);
                 log.raw("&", borrow->mut ? "mut " : " ");
                 printExpr(borrow->rhs);
                 break;
             }
-            case Expr::Kind::Break: {
-                const auto & breakExpr = Expr::as<BreakExpr>(expr);
+            case ExprKind::Kind::Break: {
+                const auto & breakExpr = ExprKind::as<BreakExpr>(expr);
                 log.raw("break");
                 breakExpr->value.then([this](const auto & val) {
                     log.raw(" ");
@@ -205,27 +205,27 @@ namespace jc::hir {
                 });
                 break;
             }
-            case Expr::Kind::Continue: {
+            case ExprKind::Kind::Continue: {
                 log.raw("continue");
                 break;
             }
-            case Expr::Kind::Deref: {
-                const auto & deref = Expr::as<DerefExpr>(expr);
+            case ExprKind::Kind::Deref: {
+                const auto & deref = ExprKind::as<DerefExpr>(expr);
                 log.raw("*");
                 deref->rhs.then([this](const auto & rhs) {
                     printExpr(rhs);
                 });
                 break;
             }
-            case Expr::Kind::Field: {
-                const auto & field = Expr::as<FieldExpr>(expr);
+            case ExprKind::Kind::Field: {
+                const auto & field = ExprKind::as<FieldExpr>(expr);
                 printExpr(field->lhs);
                 log.raw(".");
                 log.raw(field->field);
                 break;
             }
-            case Expr::Kind::If: {
-                const auto & ifExpr = Expr::as<IfExpr>(expr);
+            case ExprKind::Kind::If: {
+                const auto & ifExpr = ExprKind::as<IfExpr>(expr);
 
                 log.raw("if ");
                 printExpr(ifExpr->cond);
@@ -241,15 +241,15 @@ namespace jc::hir {
 
                 break;
             }
-            case Expr::Kind::Infix: {
-                const auto & infix = Expr::as<InfixExpr>(expr);
+            case ExprKind::Kind::Infix: {
+                const auto & infix = ExprKind::as<InfixExpr>(expr);
                 printExpr(infix->lhs);
                 log.raw(" ", binOpStr(infix->op.node), " ");
                 printExpr(infix->rhs);
                 break;
             }
-            case Expr::Kind::Invoke: {
-                const auto & invoke = Expr::as<InvokeExpr>(expr);
+            case ExprKind::Kind::Invoke: {
+                const auto & invoke = ExprKind::as<InvokeExpr>(expr);
                 printExpr(invoke->lhs);
                 log.raw("(");
                 printDelim(invoke->args, [&](const Arg & arg) {
@@ -262,19 +262,19 @@ namespace jc::hir {
                 log.raw(")");
                 break;
             }
-            case Expr::Kind::Literal: {
-                const auto & lit = Expr::as<LitExpr>(expr);
+            case ExprKind::Kind::Literal: {
+                const auto & lit = ExprKind::as<LitExpr>(expr);
                 log.raw(lit->token);
                 break;
             }
-            case Expr::Kind::Loop: {
-                const auto & loop = Expr::as<LoopExpr>(expr);
+            case ExprKind::Kind::Loop: {
+                const auto & loop = ExprKind::as<LoopExpr>(expr);
                 log.raw("loop ");
                 printBlock(loop->body);
                 break;
             }
-            case Expr::Kind::Match: {
-                const auto & match = Expr::as<MatchExpr>(expr);
+            case ExprKind::Kind::Match: {
+                const auto & match = ExprKind::as<MatchExpr>(expr);
                 log.raw("match ");
 
                 printExpr(match->subject);
@@ -292,19 +292,19 @@ namespace jc::hir {
 
                 break;
             }
-            case Expr::Kind::Path: {
-                const auto & pathExpr = Expr::as<PathExpr>(expr);
+            case ExprKind::Kind::Path: {
+                const auto & pathExpr = ExprKind::as<PathExpr>(expr);
                 printPath(pathExpr->path);
                 break;
             }
-            case Expr::Kind::Prefix: {
-                const auto & prefix = Expr::as<PrefixExpr>(expr);
+            case ExprKind::Kind::Prefix: {
+                const auto & prefix = ExprKind::as<PrefixExpr>(expr);
                 log.raw(prefixOpStr(prefix->op.node));
                 printExpr(prefix->rhs);
                 break;
             }
-            case Expr::Kind::Return: {
-                const auto & returnExpr = Expr::as<ReturnExpr>(expr);
+            case ExprKind::Kind::Return: {
+                const auto & returnExpr = ExprKind::as<ReturnExpr>(expr);
                 log.raw("return");
                 returnExpr->value.then([this](const auto & val) {
                     log.raw(" ");
@@ -312,10 +312,10 @@ namespace jc::hir {
                 });
                 break;
             }
-            case Expr::Kind::Tuple: {
-                const auto & tuple = Expr::as<TupleExpr>(expr);
+            case ExprKind::Kind::Tuple: {
+                const auto & tuple = ExprKind::as<TupleExpr>(expr);
                 log.raw("(");
-                printDelim(tuple->values, [&](const Expr::Ptr & val) {
+                printDelim(tuple->values, [&](const ExprKind::Ptr & val) {
                     printExpr(val);
                 });
                 log.raw(")");

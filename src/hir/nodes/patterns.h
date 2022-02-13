@@ -22,10 +22,10 @@ namespace jc::hir {
     };
 
     struct LitPat : Pat {
-        LitPat(ExprWrapper && value, HirId hirId, Span span)
+        LitPat(Expr && value, HirId hirId, Span span)
             : Pat {Pat::Kind::Lit, hirId, span}, value {std::move(value)} {}
 
-        ExprWrapper value;
+        Expr value;
     };
 
     /// `ref mut IDENT @ pattern`

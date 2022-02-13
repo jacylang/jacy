@@ -227,7 +227,7 @@ namespace jc::hir {
         auto type = letStmt.type.map<Type::Ptr>([this](const ast::Type::Ptr & type) {
             return lowerType(type);
         });
-        auto expr = letStmt.assignExpr.map<ExprWrapper>([this](const ast::Expr::Ptr & expr) {
+        auto expr = letStmt.assignExpr.map<Expr>([this](const ast::Expr::Ptr & expr) {
             return lowerExpr(expr);
         });
 
@@ -239,17 +239,17 @@ namespace jc::hir {
     }
 
     // Expressions //
-    ExprWrapper Lowering::lowerExpr(const ast::Expr::Ptr & expr) {
+    Expr Lowering::lowerExpr(const ast::Expr::Ptr & expr) {
         const auto & e = expr.unwrap();
 
-        return ExprWrapper(
+        return Expr(
             lowerExprKind(expr),
             lowerNodeId(e->id),
             e->span
         );
     }
 
-    Expr::Ptr Lowering::lowerExprKind(const ast::Expr::Ptr & expr) {
+    ExprKind::Ptr Lowering::lowerExprKind(const ast::Expr::Ptr & expr) {
         const auto & e = expr.unwrap("`Lowering::lowerExprKind`");
         switch (e->kind) {
             case ast::Expr::Kind::Assign: {
@@ -268,7 +268,7 @@ namespace jc::hir {
             case ast::Expr::Kind::Break: {
                 const auto & astNode = e->as<ast::BreakExpr>(e);
 
-                ExprWrapper::Opt loweredValue = None;
+                Expr::Opt loweredValue = None;
                 if (astNode->expr.some()) {
                     loweredValue = lowerExpr(astNode->expr.unwrap("`Lowering::lowerExprKind` -> `astNode->expr`"));
                 }
@@ -383,7 +383,7 @@ namespace jc::hir {
             }
             case ast::Expr::Kind::Return: {
                 const auto & astNode = e->as<ast::ReturnExpr>(e);
-                ExprWrapper::Opt value = None;
+                Expr::Opt value = None;
                 if (astNode->expr.some()) {
                     value = lowerExpr(astNode->expr.unwrap());
                 }
@@ -425,7 +425,7 @@ namespace jc::hir {
         log::devPanic("Unhandled ast::ExprKind in `Lowering::lowerExprKind`");
     }
 
-    Expr::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
+    ExprKind::Ptr Lowering::lowerAssignExpr(const ast::Assign & assign) {
         return makeBoxNode<AssignExpr>(
             lowerExpr(assign.lhs),
             assign.op,
@@ -433,16 +433,16 @@ namespace jc::hir {
         );
     }
 
-    Expr::Ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
+    ExprKind::Ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
         auto block = lowerBlock(astBlock);
         return makeBoxNode<BlockExpr>(std::move(block));
     }
 
-    Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr &) {
+    ExprKind::Ptr Lowering::lowerForExpr(const ast::ForExpr &) {
         log::notImplemented("`Lowering::lowerForExpr`");
     }
 
-    Expr::Ptr Lowering::lowerWhileExpr(const ast::WhileExpr & whileExpr) {
+    ExprKind::Ptr Lowering::lowerWhileExpr(const ast::WhileExpr & whileExpr) {
         /**
          * Lower `while [condition expression] [block]`
          * Structure is simple, we make a `loop` where check for [condition expression] and break in case of false.

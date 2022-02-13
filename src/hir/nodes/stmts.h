@@ -8,17 +8,17 @@
 
 namespace jc::hir {
     struct ExprStmt : StmtKind {
-        ExprStmt(ExprWrapper && expr)
+        ExprStmt(Expr && expr)
             : StmtKind {StmtKind::Kind::Expr}, expr {std::move(expr)} {}
 
-        ExprWrapper expr;
+        Expr expr;
     };
 
     struct LetStmt : StmtKind {
         LetStmt(
             Pat::Ptr && pat,
             Type::OptPtr && type,
-            ExprWrapper::Opt && value
+            Expr::Opt && value
         ) : StmtKind {StmtKind::Kind::Let},
             pat {std::move(pat)},
             type {std::move(type)},
@@ -26,7 +26,7 @@ namespace jc::hir {
 
         Pat::Ptr pat;
         Type::OptPtr type;
-        ExprWrapper::Opt value;
+        Expr::Opt value;
     };
 
     struct ItemStmt : StmtKind {

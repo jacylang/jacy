@@ -42,8 +42,8 @@ namespace jc::hir {
         HirId synthHirId();
 
         template<class T, class ...Args>
-        ExprWrapper synthExpr(Span span, Args && ...args) {
-            return ExprWrapper {makeBoxNode<T>(std::forward<Args>(args)...), nextHirId(), span};
+        Expr synthExpr(Span span, Args && ...args) {
+            return Expr {makeBoxNode<T>(std::forward<Args>(args)...), nextHirId(), span};
         }
 
         // HIR identifiers and maps //
@@ -113,17 +113,17 @@ namespace jc::hir {
 
         // Expressions //
     private:
-        ExprWrapper lowerExpr(const ast::Expr::Ptr & expr);
+        Expr lowerExpr(const ast::Expr::Ptr & expr);
 
-        Expr::Ptr lowerExprKind(const ast::Expr::Ptr & expr);
+        ExprKind::Ptr lowerExprKind(const ast::Expr::Ptr & expr);
 
-        Expr::Ptr lowerAssignExpr(const ast::Assign & assign);
+        ExprKind::Ptr lowerAssignExpr(const ast::Assign & assign);
 
-        Expr::Ptr lowerBlockExpr(const ast::Block & block);
+        ExprKind::Ptr lowerBlockExpr(const ast::Block & block);
 
-        Expr::Ptr lowerForExpr(const ast::ForExpr & forExpr);
+        ExprKind::Ptr lowerForExpr(const ast::ForExpr & forExpr);
 
-        Expr::Ptr lowerWhileExpr(const ast::WhileExpr & whileExpr);
+        ExprKind::Ptr lowerWhileExpr(const ast::WhileExpr & whileExpr);
 
         BinOp lowerBinOp(const parser::Token & tok);
 
