@@ -4,10 +4,9 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Type  {
-        using Ptr = N<Type>;
+    struct TypeKind {
+        using Ptr = N<TypeKind>;
         using OptPtr = Option<Ptr>;
-        using List = std::vector<Type::Ptr>;
 
         enum class Kind {
             Infer,
@@ -19,16 +18,25 @@ namespace jc::hir {
             Unit,
         };
 
-        Type(Kind kind, HirId hirId, Span span) : hirId {hirId}, span {span}, kind {kind} {}
+        TypeKind(Kind kind) : kind {kind} {}
 
-        HirId hirId;
-        Span span;
         Kind kind;
 
         template<class T>
         static T * as(const Ptr & item) {
             return static_cast<T*>(item.get());
         }
+    };
+
+    struct Type  {
+        using List = std::vector<Type>;
+
+        Type(TypeKind && kind, HirId hirId, Span span)
+            : hirId {hirId}, span {span}, kind {std::move(kind)} {}
+
+        HirId hirId;
+        Span span;
+        TypeKind kind;
     };
 }
 
