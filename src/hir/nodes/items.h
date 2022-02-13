@@ -7,22 +7,25 @@
 #include "hir/nodes/Type.h"
 #include "ast/fragments/func_fragments.h"
 #include "hir/nodes/fragments.h"
-#include "ast/item/UseDecl.h"
+#include "ast/item/items.h"
 
 namespace jc::hir {
-    struct CommonField : HirNode {
+    struct CommonField {
         using List = std::vector<CommonField>;
 
         CommonField(Ident ident, Type::Ptr && type, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               ident {ident},
               type {std::move(type)} {}
 
+        HirId hirId;
+        Span span;
         Ident ident;
         Type::Ptr type;
     };
 
-    struct Variant : HirNode {
+    struct Variant {
         using Data = std::variant<CommonField::List, AnonConst::Opt>;
 
         // TODO: Requires unification for AST `Enum` field types
@@ -33,11 +36,14 @@ namespace jc::hir {
         };
 
         Variant(Ident ident, Data && data, Kind kind, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               ident {ident},
               data {std::move(data)},
               kind {kind} {}
 
+        HirId hirId;
+        Span span;
         Ident ident;
         Data data;
         Kind kind;
