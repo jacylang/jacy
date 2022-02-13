@@ -844,16 +844,16 @@ namespace jc::hir {
                 for (const auto & pat : astNode->patterns) {
                     pats.emplace_back(lowerPat(pat));
                 }
-                return makeBoxNode<MultiPat>(std::move(pats), lowerNodeId(astNode->id), astNode->span);
+                return makeBoxNode<MultiPat>(std::move(pats));
             }
             case ast::Pat::Kind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
                 // TODO: Replace recursion with loop
-                return lowerPat(astNode->pat);
+                return lowerPatKind(astNode->pat);
             }
             case ast::Pat::Kind::Lit: {
                 const auto & astNode = pat->as<ast::LitPat>(pat);
-                return makeBoxNode<LitPat>(lowerExpr(astNode->expr), lowerNodeId(astNode->id), astNode->span);
+                return makeBoxNode<LitPat>(lowerExpr(astNode->expr));
             }
             case ast::Pat::Kind::Ident: {
                 const auto & astNode = pat->as<ast::IdentPat>(pat);
@@ -863,22 +863,15 @@ namespace jc::hir {
                 const auto & astNode = pat->as<ast::RefPat>(pat);
                 return makeBoxNode<RefPat>(
                     astNode->mut,
-                    lowerPat(astNode->pat),
-                    lowerNodeId(astNode->id),
-                    astNode->span
+                    lowerPat(astNode->pat)
                 );
             }
             case ast::Pat::Kind::Path: {
                 const auto & astNode = pat->as<ast::PathPat>(pat);
-                return makeBoxNode<PathPat>(
-                    lowerPath(astNode->path),
-                    lowerNodeId(astNode->id),
-                    astNode->span
-                );
+                return makeBoxNode<PathPat>(lowerPath(astNode->path));
             }
             case ast::Pat::Kind::Wildcard: {
-                const auto & astNode = pat->as<ast::PathPat>(pat);
-                return makeBoxNode<WildcardPat>(lowerNodeId(astNode->id), astNode->span);
+                return makeBoxNode<WildcardPat>();
             }
             case ast::Pat::Kind::Rest: {
                 log::devPanic(
@@ -901,7 +894,7 @@ namespace jc::hir {
         }
     }
 
-    Pat::Ptr Lowering::lowerStructPat(const ast::StructPat & pat) {
+    PatKind::Ptr Lowering::lowerStructPat(const ast::StructPat & pat) {
         auto path = lowerPath(pat.path);
 
         StructPatField::List fields;
@@ -916,13 +909,13 @@ namespace jc::hir {
             );
         }
 
-        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest, lowerNodeId(pat.id), pat.span);
+        return makeBoxNode<StructPat>(std::move(path), std::move(fields), pat.rest);
     }
 
-    Pat::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
+    PatKind::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
         // TODO!!!: Resolutions
 
-        Pat::OptPtr subPat = None;
+        Pat::Opt subPat = None;
         if (pat.pat.some()) {
             subPat = lowerPat(pat.pat.unwrap());
         }
@@ -931,17 +924,15 @@ namespace jc::hir {
             pat.anno,
             HirId::DUMMY,
             pat.name.unwrap(),
-            std::move(subPat),
-            lowerNodeId(pat.id),
-            pat.span
+            std::move(subPat)
         );
     }
 
-    Pat::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
-        return makeBoxNode<TuplePat>(lowerPatterns(pat.els), pat.restPatIndex, lowerNodeId(pat.id), pat.span);
+    PatKind::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
+        return makeBoxNode<TuplePat>(lowerPatterns(pat.els), pat.restPatIndex);
     }
 
-    Pat::Ptr Lowering::lowerSlicePat(const ast::SlicePat & pat) {
+    PatKind::Ptr Lowering::lowerSlicePat(const ast::SlicePat & pat) {
         auto before = lowerPatterns(pat.before);
         auto after = lowerPatterns(pat.after);
 
@@ -950,9 +941,7 @@ namespace jc::hir {
         return makeBoxNode<SlicePat>(
             std::move(before),
             pat.restPatSpan,
-            std::move(after),
-            lowerNodeId(pat.id),
-            pat.span
+            std::move(after)
         );
     }
 
