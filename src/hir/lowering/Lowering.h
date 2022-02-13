@@ -34,7 +34,7 @@ namespace jc::hir {
         /// Same as `synthBoxNode` but without boxing
         template<class T, class ...Args>
         T synthNode(Span span, Args && ...args) {
-            return T {std::forward<Args>(args)..., HirId::DUMMY, span};
+            return T {std::forward<Args>(args)..., nextHirId(), span};
         }
 
         // Node synthesis //
@@ -53,6 +53,8 @@ namespace jc::hir {
         Expr synthIfExpr(Span span, Expr && cond, Block::Opt && ifBranch, Block::Opt && elseBranch);
 
         Stmt synthExprStmt(Expr && expr);
+
+        Block synthBlock(Span span, Stmt::List && stmts);
 
         // HIR identifiers and maps //
     private:
