@@ -200,10 +200,14 @@ namespace jc::hir {
     public:
         OwnerNode asOwnerNode() const {
             if (kind == Kind::Party) {
-                return OwnerNode();
+                return OwnerNode(getParty());
             }
 
-            return OwnerNode();
+            if (kind == Kind::Item) {
+                return OwnerNode(getItem());
+            }
+
+            log::devPanic("Called `HirNode::asOwnerNode` on non-owner node");
         }
     };
 
