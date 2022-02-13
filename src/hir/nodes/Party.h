@@ -92,12 +92,66 @@ namespace jc::hir {
         Kind kind;
         ValueT value;
 
+    public:
+        N<Expr> getExpr() const {
+            return std::get<N<Expr>>(value);
+        }
+
+        N<Item> getItem() const {
+            return std::get<N<Item>>(value);
+        }
+
+        N<Stmt> getStmt() const {
+            return std::get<N<Stmt>>(value);
+        }
+
+        N<Pat> getPat() const {
+            return std::get<N<Pat>>(value);
+        }
+
+        N<Type> getType() const {
+            return std::get<N<Type>>(value);
+        }
+
+        N<Block> getBlock() const {
+            return std::get<N<Block>>(value);
+        }
+
+        N<Param> getParam() const {
+            return std::get<N<Param>>(value);
+        }
+
+        N<AnonConst> getAnonConst() const {
+            return std::get<N<AnonConst>>(value);
+        }
+
+        N<GenericArg::Lifetime> getGenericArgLifetime() const {
+            return std::get<N<GenericArg::Lifetime>>(value);
+        }
+
+        N<GenericParam> getGenericParam() const {
+            return std::get<N<GenericParam>>(value);
+        }
+
+        N<CommonField> getCommonField() const {
+            return std::get<N<CommonField>>(value);
+        }
+
+        N<Variant> getVariant() const {
+            return std::get<N<Variant>>(value);
+        }
+
+        N<Mod> getParty() const {
+            return std::get<N<Mod>>(value);
+        }
+
+    private:
         template<class T>
         static Kind kindByType() {
             using NT = N<T>;
 
             // NOTE!!!: If `ValueT` need to contain one type for different nodes kinds,
-            //  this method must be deleted and some other way must be used to determine kind by type.
+            //  this method must be deleted and some other way must be used to determine `Kind` by type.
             //  As we cannot know, for example, if `Mod` for `Kind::Crate` and `Mod` for `Kind::Something` is the same.
 
             if constexpr (std::is_same<NT, Expr>::value) {
@@ -141,6 +195,15 @@ namespace jc::hir {
             }
 
             log::devPanic("Called `HirNode::kindByType` with non-supported `HirNode` type");
+        }
+
+    public:
+        OwnerNode asOwnerNode() const {
+            if (kind == Kind::Party) {
+                return OwnerNode();
+            }
+
+            return OwnerNode();
         }
     };
 
