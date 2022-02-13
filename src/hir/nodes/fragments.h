@@ -12,8 +12,8 @@ namespace jc::hir {
     struct Arg : HirNode {
         using List = std::vector<Arg>;
 
-        Arg(const span::Ident::Opt & ident, Expr::Ptr && value, HirId hirId, Span span)
-            : HirNode {hirId, span}, ident {ident}, value {std::move(value)} {}
+        Arg(const span::Ident::Opt & ident, Expr::Ptr && value)
+            : ident {ident}, value {std::move(value)} {}
 
         span::Ident::Opt ident;
         Expr::Ptr value;
@@ -23,8 +23,10 @@ namespace jc::hir {
         using Opt = Option<Block>;
 
         Block(Stmt::List && stmts, HirId hirId, Span span)
-            : HirNode {hirId, span}, stmts {std::move(stmts)} {}
+            : hirId {hirId}, span {span}, stmts {std::move(stmts)} {}
 
+        HirId hirId;
+        Span span;
         Stmt::List stmts;
     };
 
@@ -41,8 +43,10 @@ namespace jc::hir {
     struct Param : HirNode {
         using List = std::vector<Param>;
 
-        Param(Pat::Ptr && pat, HirId hirId, Span span) : HirNode {hirId, span}, pat {std::move(pat)} {}
+        Param(Pat::Ptr && pat, HirId hirId, Span span) : hirId {hirId}, span {span}, pat {std::move(pat)} {}
 
+        HirId hirId;
+        Span span;
         Pat::Ptr pat;
         // TODO: Default value as `AnonConst`, should it be here or in `FuncSig`?
     };
@@ -124,8 +128,8 @@ namespace jc::hir {
     struct PathSeg : HirNode {
         using List = std::vector<PathSeg>;
 
-        PathSeg(const span::Ident & name, GenericArg::List && generics, HirId hirId, Span span)
-            : HirNode {hirId, span}, name {std::move(name)}, generics {std::move(generics)} {}
+        PathSeg(const span::Ident & name, GenericArg::List && generics)
+            : name {std::move(name)}, generics {std::move(generics)} {}
 
         span::Ident name;
         GenericArg::List generics;
@@ -149,8 +153,10 @@ namespace jc::hir {
         };
 
         struct Lifetime : HirNode {
-            Lifetime(Ident name, HirId hirId, Span span) : HirNode {hirId, span}, name {name} {}
+            Lifetime(Ident name, HirId hirId, Span span) : hirId {hirId}, span {span}, name {name} {}
 
+            HirId hirId;
+            Span span;
             Ident name;
         };
 
@@ -162,6 +168,7 @@ namespace jc::hir {
         };
 
         GenericBound(Trait && trait) : kind {Kind::Trait}, value {std::move(trait)} {}
+
         GenericBound(Lifetime && lifetime) : kind {Kind::Lifetime}, value {std::move(lifetime)} {}
 
         Kind kind;
@@ -196,23 +203,28 @@ namespace jc::hir {
         };
 
         GenericParam(Type type, GenericBound::List && bounds, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               kind {Kind::Type},
               value {std::move(type)},
               bounds {std::move(bounds)} {}
 
         GenericParam(Lifetime lifetime, GenericBound::List && bounds, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               kind {Kind::Lifetime},
               value {std::move(lifetime)},
               bounds {std::move(bounds)} {}
 
         GenericParam(Const anonConst, GenericBound::List && bounds, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               kind {Kind::Const},
               value {std::move(anonConst)},
               bounds {std::move(bounds)} {}
 
+        HirId hirId;
+        Span span;
         Kind kind;
         ValueT value;
         GenericBound::List bounds;
