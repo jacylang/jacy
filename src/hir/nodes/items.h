@@ -13,7 +13,7 @@ namespace jc::hir {
     struct CommonField {
         using List = std::vector<CommonField>;
 
-        CommonField(Ident ident, Type::Ptr && type, HirId hirId, Span span)
+        CommonField(Ident ident, Type && type, HirId hirId, Span span)
             : hirId {hirId},
               span {span},
               ident {ident},
@@ -22,7 +22,7 @@ namespace jc::hir {
         HirId hirId;
         Span span;
         Ident ident;
-        Type::Ptr type;
+        Type type;
     };
 
     struct Variant {
@@ -66,7 +66,7 @@ namespace jc::hir {
     /// Function signature used for raw `func`
     /// and `func` signatures without implementations (in traits)
     struct FuncSig {
-        using ReturnType = ast::FuncReturnType<Type::Ptr>;
+        using ReturnType = ast::FuncReturnType<Type>;
 
         FuncSig(Type::List && inputs, ReturnType && returnType)
             : inputs {std::move(inputs)}, returnType {std::move(returnType)} {}
@@ -110,13 +110,13 @@ namespace jc::hir {
     struct Trait : ItemKind {};
 
     struct TypeAlias : ItemKind {
-        TypeAlias(GenericParam::List && generics, Type::Ptr && type)
+        TypeAlias(GenericParam::List && generics, Type && type)
             : ItemKind {ItemKind::Kind::TypeAlias},
               generics {std::move(generics)},
               type {std::move(type)} {}
 
         GenericParam::List generics;
-        Type::Ptr type;
+        Type type;
     };
 
     struct UseDecl : ItemKind {

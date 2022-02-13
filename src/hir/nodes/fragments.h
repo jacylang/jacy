@@ -94,7 +94,7 @@ namespace jc::hir {
 
         using List = std::vector<GenericArg>;
         // TODO: ConstArg as AnonConst
-        using ValueT = std::variant<Type::Ptr, Lifetime, Const>;
+        using ValueT = std::variant<Type, Lifetime, Const>;
 
         enum class Kind {
             Type,
@@ -102,7 +102,7 @@ namespace jc::hir {
             Const,
         };
 
-        GenericArg(Type::Ptr && type) : value {std::move(type)}, kind {Kind::Type} {}
+        GenericArg(Type && type) : value {std::move(type)}, kind {Kind::Type} {}
 
         GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Lifetime} {}
 
@@ -112,7 +112,7 @@ namespace jc::hir {
         Kind kind;
 
         const auto & getType() const {
-            return std::get<Type::Ptr>(value);
+            return std::get<Type>(value);
         }
 
         const auto & getLifetime() const {
@@ -189,7 +189,7 @@ namespace jc::hir {
 
         struct Const {
             Ident name;
-            hir::Type::Ptr type;
+            hir::Type type;
             // TODO: Default
         };
 

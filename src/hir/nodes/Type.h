@@ -6,7 +6,6 @@
 namespace jc::hir {
     struct TypeKind {
         using Ptr = N<TypeKind>;
-        using OptPtr = Option<Ptr>;
 
         enum class Kind {
             Infer,
@@ -29,6 +28,7 @@ namespace jc::hir {
     };
 
     struct Type  {
+        using Opt = Option<Type>;
         using List = std::vector<Type>;
 
         Type(TypeKind::Ptr && kind, HirId hirId, Span span)

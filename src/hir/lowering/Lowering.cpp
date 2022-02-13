@@ -250,7 +250,7 @@ namespace jc::hir {
 
     StmtKind::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
         auto hirId = lowerNodeId(letStmt.id);
-        auto type = letStmt.type.map<Type::Ptr>([this](const ast::Type::Ptr & type) {
+        auto type = letStmt.type.map<Type>([this](const ast::Type::Ptr & type) {
             return lowerType(type);
         });
         auto expr = letStmt.assignExpr.map<Expr>([this](const ast::Expr::Ptr & expr) {
