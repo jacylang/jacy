@@ -143,7 +143,7 @@ namespace jc::hir {
 
         // Types //
     private:
-        Type lowerType(const ast::Type::Ptr && astType);
+        Type lowerType(const ast::Type::Ptr & astType);
 
         TypeKind::Ptr lowerTypeKind(const ast::Type::Ptr & astType);
 
