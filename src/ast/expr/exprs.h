@@ -440,8 +440,6 @@ namespace jc::ast {
     };
 
     struct PathExpr : Expr {
-        using Ptr = PR<N<PathExpr>>;
-
         PathExpr(Path && path) : Expr {path.span, Expr::Kind::Path}, path {std::move(path)} {}
 
         Path path;

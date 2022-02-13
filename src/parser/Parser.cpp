@@ -1248,8 +1248,8 @@ namespace jc::parser {
         return makeErrPR<Ident>(span);
     }
 
-    PathExpr::Ptr Parser::parsePathExpr() {
-        return Ok(makeBoxNode<PathExpr>(parsePath(true)));
+    Expr::Ptr Parser::parsePathExpr() {
+        return makePRBoxNode<PathExpr, Expr>(parsePath(true));
     }
 
     Expr::Ptr Parser::parseLiteral() {

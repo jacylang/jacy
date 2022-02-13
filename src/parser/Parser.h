@@ -262,7 +262,7 @@ namespace jc::parser {
         Ident::PR parsePathSegIdent();
 
         /// Parse path in expression
-        PathExpr::Ptr parsePathExpr();
+        Expr::Ptr parsePathExpr();
 
         Expr::Ptr parseLiteral();
 
