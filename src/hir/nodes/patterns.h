@@ -10,28 +10,26 @@ namespace jc::hir {
     using ast::Mutability;
     using ast::IdentPatAnno;
 
-    struct MultiPat : Pat {
-        MultiPat(Pat::List && pats, HirId hirId, Span span)
-            : Pat {Pat::Kind::Multi, hirId, span}, pats {std::move(pats)} {}
+    struct MultiPat : PatKind {
+        MultiPat(Pat::List && pats) : PatKind {PatKind::Kind::Multi}, pats {std::move(pats)} {}
 
         Pat::List pats;
     };
 
-    struct WildcardPat : Pat {
-        WildcardPat(HirId hirId, Span span) : Pat {Pat::Kind::Wildcard, hirId, span} {}
+    struct WildcardPat : PatKind {
+        WildcardPat() : PatKind {PatKind::Kind::Wildcard} {}
     };
 
-    struct LitPat : Pat {
-        LitPat(Expr && value, HirId hirId, Span span)
-            : Pat {Pat::Kind::Lit, hirId, span}, value {std::move(value)} {}
+    struct LitPat : PatKind {
+        LitPat(Expr && value) : PatKind {PatKind::Kind::Lit}, value {std::move(value)} {}
 
         Expr value;
     };
 
     /// `ref mut IDENT @ pattern`
-    struct IdentPat : Pat {
-        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::OptPtr && pat, HirId hirId, Span span)
-            : Pat {Pat::Kind::Ident, hirId, span},
+    struct IdentPat : PatKind {
+        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::Opt && pat)
+            : PatKind {PatKind::Kind::Ident},
               anno {anno},
               nameHirId {nameHirId},
               ident {ident},
@@ -40,21 +38,21 @@ namespace jc::hir {
         IdentPatAnno anno;
         HirId nameHirId;
         span::Ident ident;
-        Pat::OptPtr pat;
+        Pat::Opt pat;
     };
 
     /// `&mut pattern`
-    struct RefPat : Pat {
-        RefPat(Mutability mut, Pat::Ptr && pat, HirId hirId, Span span)
-            : Pat {Pat::Kind::Ref, hirId, span}, mut {mut}, pat {std::move(pat)} {}
+    struct RefPat : PatKind {
+        RefPat(Mutability mut, Pat && pat)
+            : PatKind {PatKind::Kind::Ref}, mut {mut}, pat {std::move(pat)} {}
 
         Mutability mut;
-        Pat::Ptr pat;
+        Pat pat;
     };
 
-    struct PathPat : Pat {
-        PathPat(Path && path, HirId hirId, Span span)
-            : Pat {Pat::Kind::Path, hirId, span}, path {std::move(path)} {}
+    struct PathPat : PatKind {
+        PathPat(Path && path)
+            : PatKind {PatKind::Kind::Path}, path {std::move(path)} {}
 
         Path path;
     };
@@ -62,18 +60,18 @@ namespace jc::hir {
     struct StructPatField  {
         using List = std::vector<StructPatField>;
 
-        StructPatField(bool shortcut, span::Ident ident, Pat::Ptr && pat, HirId hirId, Span span)
-             {hirId, span}, shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
+        StructPatField(bool shortcut, span::Ident ident, Pat && pat)
+            : shortcut {shortcut}, ident {std::move(ident)}, pat {std::move(pat)} {}
 
         // Note: Read about shortcut in `ast::StructPatField`
         bool shortcut;
         span::Ident ident;
-        Pat::Ptr pat;
+        Pat pat;
     };
 
-    struct StructPat : Pat {
-        StructPat(Path && path, StructPatField::List && fields, const parser::Token::Opt & rest, HirId hirId, Span span)
-            : Pat {Pat::Kind::Struct, hirId, span},
+    struct StructPat : PatKind {
+        StructPat(Path && path, StructPatField::List && fields, const parser::Token::Opt & rest)
+            : PatKind {PatKind::Kind::Struct},
               path {std::move(path)},
               fields {std::move(fields)},
               rest {rest} {}
@@ -83,19 +81,19 @@ namespace jc::hir {
         parser::Token::Opt rest;
     };
 
-    struct TuplePat : Pat {
+    struct TuplePat : PatKind {
         using RestPatIndexT = ast::TuplePat::RestPatIndexT;
 
-        TuplePat(Pat::List && els, RestPatIndexT restPatIndex, HirId hirId, Span span)
-            : Pat {Pat::Kind::Tuple, hirId, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
+        TuplePat(Pat::List && els, RestPatIndexT restPatIndex)
+            : PatKind {PatKind::Kind::Tuple}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
         Pat::List els;
         RestPatIndexT restPatIndex;
     };
 
-    struct SlicePat : Pat {
-        SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after, HirId hirId, Span span)
-            : Pat {Pat::Kind::Slice, hirId, span},
+    struct SlicePat : PatKind {
+        SlicePat(Pat::List && before, Span::Opt restPatSpan, Pat::List && after)
+            : PatKind {PatKind::Kind::Slice},
               before {std::move(before)},
               restPatSpan {restPatSpan},
               after {std::move(after)} {}
