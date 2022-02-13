@@ -466,7 +466,6 @@ namespace jc::hir {
 
         // Generate `if [EXPR] {...} else {break}` expression
         auto ifCondExpr = synthBoxNode<IfExpr>(
-            whileExpr.span,
             std::move(cond),
             std::move(body),
             synthNode<Block>(body.span, Stmt::List {})
@@ -475,12 +474,12 @@ namespace jc::hir {
         ifCondExpr->elseBranch
                   .unwrap()
                   .stmts
-                  .emplace_back(synthBoxNode<ExprStmt>(body.span, synthBoxNode<BreakExpr>(body.span, None)));
+                  .emplace_back(synthBoxNode<ExprStmt>(synthBoxNode<BreakExpr>(None)));
 
         // Put `ifConditionBlock` to loop body block
         auto loweredBody = synthNode<Block>(whileExpr.span, Stmt::List {});
 
-        loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(ifCondExpr->span, std::move(ifCondExpr)));
+        loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(std::move(ifCondExpr)));
 
         return makeBoxNode<LoopExpr>(std::move(loweredBody));
     }

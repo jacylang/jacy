@@ -27,8 +27,8 @@ namespace jc::hir {
 
         /// Synthesizes boxed node, assuming that HirId in goes before span in constructor
         template<class T, class ...Args>
-        N<T> synthBoxNode(Span span, Args && ...args) {
-            return std::make_unique<T>(std::forward<Args>(args)..., HirId::DUMMY, span);
+        N<T> synthBoxNode(Args && ...args) {
+            return std::make_unique<T>(std::forward<Args>(args)...);
         }
 
         /// Same as `synthBoxNode` but without boxing
@@ -37,7 +37,14 @@ namespace jc::hir {
             return T {std::forward<Args>(args)..., HirId::DUMMY, span};
         }
 
+        // Node synthesis //
+    private:
         HirId synthHirId();
+
+        template<class T, class ...Args>
+        ExprWrapper synthExpr(Span span, Args && ...args) {
+            return ExprWrapper {makeBoxNode<T>(std::forward<Args>(args)...), nextHirId(), span};
+        }
 
         // HIR identifiers and maps //
     private:
