@@ -60,6 +60,10 @@ namespace jc::hir {
         return synthNode<Block>(span, std::move(stmts));
     }
 
+    Block Lowering::synthBlockSingleExpr(Span span, Expr && expr) {
+        return synthBlock(span, Stmt::List {synthExprStmt(std::move(expr))});
+    }
+
     // Lowering //
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;

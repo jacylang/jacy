@@ -56,6 +56,8 @@ namespace jc::hir {
 
         Block synthBlock(Span span, Stmt::List && stmts);
 
+        Block synthBlockSingleExpr(Span span, Expr && expr);
+
         // HIR identifiers and maps //
     private:
         NodeId::NodeMap<HirId> nodeIdHirId;
