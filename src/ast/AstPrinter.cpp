@@ -798,7 +798,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const PathPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
 
         printNodeId(pat);
     }
@@ -816,7 +816,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const StructPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
 
         // TODO!: Colorizing struct pattern fields requires
         //  `StructPatternDestructEl` and `StructPatBorrowEl` to inherit `Node`

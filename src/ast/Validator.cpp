@@ -636,7 +636,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const PathPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
     }
 
     void Validator::visit(const WildcardPat &) {}
@@ -649,7 +649,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const StructPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
 
         size_t i = 0;
         for (const auto & field : pat.fields) {

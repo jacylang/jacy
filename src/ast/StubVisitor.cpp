@@ -424,7 +424,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const PathPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
     }
 
     void StubVisitor::visit(const WildcardPat &) {}
@@ -432,7 +432,7 @@ namespace jc::ast {
     void StubVisitor::visit(const RestPat &) {}
 
     void StubVisitor::visit(const StructPat & pat) {
-        pat.path.autoAccept(*this);
+        pat.path.accept(*this);
 
         for (const auto & field : pat.fields) {
             field.ident.autoAccept(*this);
