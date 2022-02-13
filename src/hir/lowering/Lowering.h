@@ -173,15 +173,17 @@ namespace jc::hir {
 
         // Patterns //
     private:
-        Pat::Ptr lowerPat(const ast::Pat::Ptr & patPr);
+        Pat lowerPat(const ast::Pat::Ptr & astPat);
 
-        Pat::Ptr lowerStructPat(const ast::StructPat & pat);
+        PatKind::Ptr lowerPatKind(const ast::Pat::Ptr & patPr);
 
-        Pat::Ptr lowerIdentPat(const ast::IdentPat & pat);
+        Pat lowerStructPat(const ast::StructPat & pat);
 
-        Pat::Ptr lowerTuplePat(const ast::TuplePat & pat);
+        Pat lowerIdentPat(const ast::IdentPat & pat);
 
-        Pat::Ptr lowerSlicePat(const ast::SlicePat & pat);
+        Pat lowerTuplePat(const ast::TuplePat & pat);
+
+        Pat lowerSlicePat(const ast::SlicePat & pat);
 
         Pat::List lowerPatterns(const ast::Pat::List & pats);
 

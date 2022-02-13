@@ -830,7 +830,12 @@ namespace jc::hir {
     }
 
     // Patterns //
-    Pat::Ptr Lowering::lowerPat(const ast::Pat::Ptr & patPr) {
+    Pat Lowering::lowerPat(const ast::Pat::Ptr & astPat) {
+        const auto & pat = astPat.unwrap();
+        return Pat(lowerPatKind(astPat), lowerNodeId(pat->id), pat->span);
+    }
+
+    PatKind::Ptr Lowering::lowerPatKind(const ast::Pat::Ptr & patPr) {
         const auto & pat = patPr.unwrap("`Lowering::lowerPat`");
         switch (pat->kind) {
             case ast::Pat::Kind::Multi: {
