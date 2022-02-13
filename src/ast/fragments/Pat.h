@@ -3,7 +3,7 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
-#include "ast/expr/PathExpr.h"
+#include "ast/fragments/Path.h"
 
 namespace jc::ast {
     struct Pat : Node {
@@ -144,10 +144,10 @@ namespace jc::ast {
     };
 
     struct PathPat : Pat {
-        PathPat(PathExpr::Ptr && path, Span span)
+        PathPat(Path && path, Span span)
             : Pat {Pat::Kind::Path, span}, path {std::move(path)} {}
 
-        PathExpr::Ptr path;
+        Path path;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -190,13 +190,13 @@ namespace jc::ast {
 
     struct StructPat : Pat {
         StructPat(
-            PathExpr::Ptr && path,
+            Path && path,
             StructPatField::List && fields,
             const parser::Token::Opt & rest,
             Span span
         ) : Pat {Pat::Kind::Struct, span}, path {std::move(path)}, fields {std::move(fields)}, rest {rest} {}
 
-        PathExpr::Ptr path;
+        Path path;
         StructPatField::List fields;
         parser::Token::Opt rest;
 
