@@ -12,22 +12,25 @@ namespace jc::hir {
     using resolve::DefId;
 
     struct HirNode {
+        template<class T>
+        using N = T*;
+
         /// HIR nodes types.
         /// It's easy to remember that here are only the nodes that contain `HirId`,
         ///  whereas other nodes are just "fragment" nodes
         using ValueT = std::variant<
-            Expr,
-            Item,
-            Stmt,
-            Pat,
-            Type,
-            Block,
-            Param,
-            AnonConst,
-            GenericArg::Lifetime,
-            GenericParam,
-            CommonField,
-            Variant
+            N<Expr>,
+            N<Item>,
+            N<Stmt>,
+            N<Pat>,
+            N<Type>,
+            N<Block>,
+            N<Param>,
+            N<AnonConst>,
+            N<GenericArg::Lifetime>,
+            N<GenericParam>,
+            N<CommonField>,
+            N<Variant>
         >;
 
         enum class Kind {
@@ -59,40 +62,42 @@ namespace jc::hir {
 
         template<class T>
         static Kind kindByType() {
-            if constexpr (std::is_same<T, Expr>::value) {
+            using NT = N<T>;
+
+            if constexpr (std::is_same<NT, Expr>::value) {
                 return Kind::Expr;
             }
-            if constexpr (std::is_same<T, Item>::value) {
+            if constexpr (std::is_same<NT, Item>::value) {
                 return Kind::Item;
             }
-            if constexpr (std::is_same<T, Stmt>::value) {
+            if constexpr (std::is_same<NT, Stmt>::value) {
                 return Kind::Stmt;
             }
-            if constexpr (std::is_same<T, Pat>::value) {
+            if constexpr (std::is_same<NT, Pat>::value) {
                 return Kind::Pat;
             }
-            if constexpr (std::is_same<T, Type>::value) {
+            if constexpr (std::is_same<NT, Type>::value) {
                 return Kind::Type;
             }
-            if constexpr (std::is_same<T, Block>::value) {
+            if constexpr (std::is_same<NT, Block>::value) {
                 return Kind::Block;
             }
-            if constexpr (std::is_same<T, Param>::value) {
+            if constexpr (std::is_same<NT, Param>::value) {
                 return Kind::Param;
             }
-            if constexpr (std::is_same<T, AnonConst>::value) {
+            if constexpr (std::is_same<NT, AnonConst>::value) {
                 return Kind::AnonConst;
             }
-            if constexpr (std::is_same<T, GenericArg::Lifetime>::value) {
+            if constexpr (std::is_same<NT, GenericArg::Lifetime>::value) {
                 return Kind::GenericArgLifetime;
             }
-            if constexpr (std::is_same<T, GenericParam>::value) {
+            if constexpr (std::is_same<NT, GenericParam>::value) {
                 return Kind::GenericParam;
             }
-            if constexpr (std::is_same<T, CommonField>::value) {
+            if constexpr (std::is_same<NT, CommonField>::value) {
                 return Kind::CommonField;
             }
-            if constexpr (std::is_same<T, Variant>::value) {
+            if constexpr (std::is_same<NT, Variant>::value) {
                 return Kind::Variant;
             }
 
@@ -134,15 +139,29 @@ namespace jc::hir {
         /// The `ChildId` identifier is used instead of `BodyId` as `BodyId` is actually just a `HirId`
         ///  but we know that this bodies belong to current owner, thus no need to store owner `DefId`
         using Bodies = std::map<ChildId, Body>;
-        using Nodes = std::map<ChildId, HirNode::Ptr>;
+        using Nodes = std::map<ChildId, HirNode>;
 
-        OwnerInfo(Bodies && bodies, Nodes && nodes) : bodies {std::move(bodies)}, nodes {std::move(nodes)} {}
+        OwnerInfo(DefId owner, Bodies && bodies, Nodes && nodes)
+            : owner {owner}, bodies {std::move(bodies)}, nodes {std::move(nodes)} {}
 
+        DefId owner;
         Bodies bodies;
         Nodes nodes;
 
-        const HirNode::Ptr & ownerNode() const {
-            return nodes.at(ChildId::ownerChild());
+        const HirNode & node(ChildId childId) const {
+            return nodes.at(childId);
+        }
+
+        const HirNode & ownerNode() const {
+            return node(ChildId::ownerChild());
+        }
+
+        void addNode(HirId hirId, HirNode && hirNode) {
+            if (hirId.owner != owner) {
+                log::devPanic("Called `OwnerInfo::addNode` with `HirId` which does not own this `OwnerInfo`");
+            }
+
+            nodes.emplace(hirId.id, std::move(hirNode));
         }
     };
 
