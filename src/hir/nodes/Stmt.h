@@ -4,7 +4,7 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Stmt : HirNode {
+    struct Stmt {
         using Ptr = N<Stmt>;
         using List = std::vector<Stmt::Ptr>;
 
@@ -14,7 +14,7 @@ namespace jc::hir {
             Expr,
         };
 
-        Stmt(Kind kind, HirId hirId, Span span) : HirNode {hirId, span}, kind {kind} {}
+        Stmt(Kind kind) : kind {kind} {}
 
         Kind kind;
 
@@ -22,6 +22,14 @@ namespace jc::hir {
         static T * as(const Ptr & expr) {
             return static_cast<T*>(expr.get());
         }
+    };
+
+    struct StmtWrapper {
+        StmtWrapper(Stmt::Ptr && stmt, HirId hirId, Span span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}
+
+        HirId hirId;
+        Span span;
+        Stmt::Ptr stmt;
     };
 }
 
