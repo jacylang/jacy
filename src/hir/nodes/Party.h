@@ -12,32 +12,32 @@ namespace jc::hir {
     using resolve::DefId;
 
     struct OwnerNode {
-        using ValueT = std::variant<Mod, Item>;
+        using ValueT = std::variant<Mod*, Item*>;
 
         enum class Kind {
             Party,
             Item,
         };
 
-        OwnerNode(Mod && rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
+        OwnerNode(Mod * rootMod) : kind {Kind::Party}, value {std::move(rootMod)} {}
 
-        OwnerNode(Item && item) : kind {Kind::Item}, value {std::move(item)} {}
+        OwnerNode(Item * item) : kind {Kind::Item}, value {std::move(item)} {}
 
         Kind kind;
         ValueT value;
 
-        const Mod & asParty() const {
+        const Mod * asParty() const {
             if (kind != Kind::Party) {
                 log::devPanic("Called `OwnerNode::asParty` on non-party `OwnerNode`");
             }
-            return std::get<Mod>(value);
+            return std::get<Mod*>(value);
         }
 
-        const Item & asItem() const {
+        const Item * asItem() const {
             if (kind != Kind::Item) {
                 log::devPanic("Called `OwnerNode::asItem` on non-item `OwnerNode`");
             }
-            return std::get<Item>(value);
+            return std::get<Item*>(value);
         }
     };
 
