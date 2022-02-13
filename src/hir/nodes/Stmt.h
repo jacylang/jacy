@@ -4,9 +4,9 @@
 #include "hir/nodes/HirNode.h"
 
 namespace jc::hir {
-    struct Stmt {
-        using Ptr = N<Stmt>;
-        using List = std::vector<Stmt::Ptr>;
+    struct StmtKind {
+        using Ptr = N<StmtKind>;
+        using List = std::vector<StmtKind::Ptr>;
 
         enum class Kind {
             Let,
@@ -14,7 +14,7 @@ namespace jc::hir {
             Expr,
         };
 
-        Stmt(Kind kind) : kind {kind} {}
+        StmtKind(Kind kind) : kind {kind} {}
 
         Kind kind;
 
@@ -24,12 +24,12 @@ namespace jc::hir {
         }
     };
 
-    struct StmtWrapper {
-        StmtWrapper(Stmt::Ptr && stmt, HirId hirId, Span span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}
+    struct Stmt {
+        Stmt(StmtKind::Ptr && stmt, HirId hirId, Span span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}
 
         HirId hirId;
         Span span;
-        Stmt::Ptr stmt;
+        StmtKind::Ptr stmt;
     };
 }
 

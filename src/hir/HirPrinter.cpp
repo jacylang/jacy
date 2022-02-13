@@ -131,10 +131,10 @@ namespace jc::hir {
     }
 
     // Stmt //
-    void HirPrinter::printStmt(const Stmt::Ptr & stmt) {
+    void HirPrinter::printStmt(const StmtKind::Ptr & stmt) {
         switch (stmt->kind) {
-            case Stmt::Kind::Let: {
-                const auto & letStmt = Stmt::as<LetStmt>(stmt);
+            case StmtKind::Kind::Let: {
+                const auto & letStmt = StmtKind::as<LetStmt>(stmt);
 
                 log.raw("let ");
                 printPat(letStmt->pat);
@@ -152,13 +152,13 @@ namespace jc::hir {
                 log.raw(";");
                 break;
             }
-            case Stmt::Kind::Item: {
-                const auto & itemStmt = Stmt::as<ItemStmt>(stmt);
+            case StmtKind::Kind::Item: {
+                const auto & itemStmt = StmtKind::as<ItemStmt>(stmt);
                 printItem(itemStmt->item);
                 break;
             }
-            case Stmt::Kind::Expr: {
-                const auto & exprStmt = Stmt::as<ExprStmt>(stmt);
+            case StmtKind::Kind::Expr: {
+                const auto & exprStmt = StmtKind::as<ExprStmt>(stmt);
                 printExpr(exprStmt->expr);
                 log.raw(";");
                 break;
@@ -558,7 +558,7 @@ namespace jc::hir {
 
     void HirPrinter::printBlock(const Block & block) {
         beginBlock();
-        printDelim(block.stmts, [&](const Stmt::Ptr & stmt) {
+        printDelim(block.stmts, [&](const StmtKind::Ptr & stmt) {
             printStmt(stmt);
         });
         endBlock();

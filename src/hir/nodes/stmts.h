@@ -7,19 +7,19 @@
 #include "hir/nodes/Item.h"
 
 namespace jc::hir {
-    struct ExprStmt : Stmt {
+    struct ExprStmt : StmtKind {
         ExprStmt(ExprWrapper && expr)
-            : Stmt {Stmt::Kind::Expr}, expr {std::move(expr)} {}
+            : StmtKind {StmtKind::Kind::Expr}, expr {std::move(expr)} {}
 
         ExprWrapper expr;
     };
 
-    struct LetStmt : Stmt {
+    struct LetStmt : StmtKind {
         LetStmt(
             Pat::Ptr && pat,
             Type::OptPtr && type,
             ExprWrapper::Opt && value
-        ) : Stmt {Stmt::Kind::Let},
+        ) : StmtKind {StmtKind::Kind::Let},
             pat {std::move(pat)},
             type {std::move(type)},
             value {std::move(value)} {}
@@ -29,9 +29,9 @@ namespace jc::hir {
         ExprWrapper::Opt value;
     };
 
-    struct ItemStmt : Stmt {
+    struct ItemStmt : StmtKind {
         ItemStmt(ItemId && item)
-            : Stmt {Stmt::Kind::Item}, item {std::move(item)} {}
+            : StmtKind {StmtKind::Kind::Item}, item {std::move(item)} {}
 
         ItemId item;
     };

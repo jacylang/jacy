@@ -101,15 +101,15 @@ namespace jc::hir {
 
         // Statements //
     private:
-        StmtWrapper lowerStmt(const ast::Stmt::Ptr & astStmt);
+        Stmt lowerStmt(const ast::Stmt::Ptr & astStmt);
 
-        Stmt::Ptr lowerStmtKind(const ast::Stmt::Ptr & astStmt);
+        StmtKind::Ptr lowerStmtKind(const ast::Stmt::Ptr & astStmt);
 
-        Stmt::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
+        StmtKind::Ptr lowerExprStmt(const ast::ExprStmt & exprStmt);
 
-        Stmt::Ptr lowerLetStmt(const ast::LetStmt & letStmt);
+        StmtKind::Ptr lowerLetStmt(const ast::LetStmt & letStmt);
 
-        Stmt::Ptr lowerItemStmt(const ast::ItemStmt & itemStmt);
+        StmtKind::Ptr lowerItemStmt(const ast::ItemStmt & itemStmt);
 
         // Expressions //
     private:

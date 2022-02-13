@@ -199,12 +199,12 @@ namespace jc::hir {
     }
 
     // Statements //
-    StmtWrapper Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
+    Stmt Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap();
-        return StmtWrapper(lowerStmtKind(astStmt), lowerNodeId(stmt->id), stmt->span);
+        return Stmt(lowerStmtKind(astStmt), lowerNodeId(stmt->id), stmt->span);
     }
 
-    Stmt::Ptr Lowering::lowerStmtKind(const ast::Stmt::Ptr & astStmt) {
+    StmtKind::Ptr Lowering::lowerStmtKind(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap("`Lowering::lowerStmt`");
         switch (stmt->kind) {
             case ast::Stmt::Kind::Expr:
@@ -218,11 +218,11 @@ namespace jc::hir {
         }
     }
 
-    Stmt::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
+    StmtKind::Ptr Lowering::lowerExprStmt(const ast::ExprStmt & exprStmt) {
         return makeBoxNode<ExprStmt>(lowerExpr(exprStmt.expr));
     }
 
-    Stmt::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
+    StmtKind::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
         auto hirId = lowerNodeId(letStmt.id);
         auto type = letStmt.type.map<Type::Ptr>([this](const ast::Type::Ptr & type) {
             return lowerType(type);
@@ -234,7 +234,7 @@ namespace jc::hir {
         return makeBoxNode<LetStmt>(lowerPat(letStmt.pat), std::move(type), std::move(expr));
     }
 
-    Stmt::Ptr Lowering::lowerItemStmt(const ast::ItemStmt & itemStmt) {
+    StmtKind::Ptr Lowering::lowerItemStmt(const ast::ItemStmt & itemStmt) {
         return makeBoxNode<ItemStmt>(lowerItem(itemStmt.item));
     }
 
@@ -473,7 +473,7 @@ namespace jc::hir {
         auto ifCondExpr = synthBoxNode<IfExpr>(
             std::move(cond),
             std::move(body),
-            synthNode<Block>(body.span, Stmt::List {})
+            synthNode<Block>(body.span, StmtKind::List {})
         );
 
         ifCondExpr->elseBranch
@@ -482,7 +482,7 @@ namespace jc::hir {
                   .emplace_back(synthBoxNode<ExprStmt>(synthBoxNode<BreakExpr>(None)));
 
         // Put `ifConditionBlock` to loop body block
-        auto loweredBody = synthNode<Block>(whileExpr.span, Stmt::List {});
+        auto loweredBody = synthNode<Block>(whileExpr.span, StmtKind::List {});
 
         loweredBody.stmts.emplace_back(synthBoxNode<ExprStmt>(std::move(ifCondExpr)));
 
@@ -663,7 +663,7 @@ namespace jc::hir {
     // Fragments //
     Block Lowering::lowerBlock(const ast::Block & block) {
         // FIXME: One-line blocks will be removed!
-        Stmt::List stmts;
+        StmtKind::List stmts;
         for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }

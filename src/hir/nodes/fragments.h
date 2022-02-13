@@ -22,12 +22,12 @@ namespace jc::hir {
     struct Block : HirNode {
         using Opt = Option<Block>;
 
-        Block(Stmt::List && stmts, HirId hirId, Span span)
+        Block(StmtKind::List && stmts, HirId hirId, Span span)
             : hirId {hirId}, span {span}, stmts {std::move(stmts)} {}
 
         HirId hirId;
         Span span;
-        Stmt::List stmts;
+        StmtKind::List stmts;
     };
 
     /// Identifier of the `Body` declared below

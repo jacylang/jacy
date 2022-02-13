@@ -18,7 +18,7 @@ namespace jc::hir {
 
         // Statements //
     private:
-        void printStmt(const Stmt::Ptr & value);
+        void printStmt(const StmtKind::Ptr & value);
 
         // Expr //
     private:
