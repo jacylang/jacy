@@ -44,7 +44,7 @@ namespace jc::hir {
         }
     };
 
-    /// The wrapper over `ItemInner` and its additional info.
+    /// The wrapper over `Item` and its additional info.
     /// It is useful because we can lower specific item independently and then construct the full `Item`.
     struct ItemWrapper {
         using Vis = ast::Vis;

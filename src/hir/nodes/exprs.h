@@ -4,7 +4,7 @@
 #include "hir/nodes/Expr.h"
 #include "hir/nodes/fragments.h"
 #include "hir/nodes/Pat.h"
-#include "ast/expr/LitExpr.h"
+#include "ast/expr/exprs.h"
 
 namespace jc::hir {
     enum class BinOpKind {
@@ -108,15 +108,15 @@ namespace jc::hir {
     using PostfixOp = span::Spanned<PostfixOpKind>;
 
     struct ArrayExpr : Expr {
-        ArrayExpr(Expr::List && elements, HirId hirId, Span span)
-            : Expr {Expr::Kind::Array, hirId, span}, elements {std::move(elements)} {}
+        ArrayExpr(Expr::List && elements)
+            : Expr {Expr::Kind::Array}, elements {std::move(elements)} {}
 
         Expr::List elements;
     };
 
     struct AssignExpr : Expr {
-        AssignExpr(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, HirId hirId, Span span)
-            : Expr {Expr::Kind::Assign, hirId, span}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
+        AssignExpr(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs)
+            : Expr {Expr::Kind::Assign}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
 
         Expr::Ptr lhs;
         parser::Token op;
@@ -124,34 +124,34 @@ namespace jc::hir {
     };
 
     struct BlockExpr : Expr {
-        BlockExpr(Block && block, HirId hirId, Span span)
-            : Expr {Expr::Kind::Block, hirId, span}, block {std::move(block)} {}
+        BlockExpr(Block && block)
+            : Expr {Expr::Kind::Block}, block {std::move(block)} {}
 
         Block block;
     };
 
     struct BorrowExpr : Expr {
-        BorrowExpr(bool mut, Expr::Ptr && rhs, HirId hirId, Span span)
-            : Expr {Expr::Kind::Borrow, hirId, span}, mut {mut}, rhs {std::move(rhs)} {}
+        BorrowExpr(bool mut, Expr::Ptr && rhs)
+            : Expr {Expr::Kind::Borrow}, mut {mut}, rhs {std::move(rhs)} {}
 
         bool mut;
         Expr::Ptr rhs;
     };
 
     struct BreakExpr : Expr {
-        BreakExpr(Expr::OptPtr && value, HirId hirId, Span span)
-            : Expr {Expr::Kind::Break, hirId, span}, value {std::move(value)} {}
+        BreakExpr(Expr::OptPtr && value)
+            : Expr {Expr::Kind::Break}, value {std::move(value)} {}
 
         Expr::OptPtr value;
     };
 
     struct ContinueExpr : Expr {
-        ContinueExpr(HirId hirId, Span span) : Expr {Expr::Kind::Continue, hirId, span} {}
+        ContinueExpr() : Expr {Expr::Kind::Continue} {}
     };
 
     struct DerefExpr : Expr {
-        DerefExpr(Expr::OptPtr && rhs, HirId hirId, Span span)
-            : Expr {Expr::Kind::Deref, hirId, span}, rhs {std::move(rhs)} {}
+        DerefExpr(Expr::OptPtr && rhs)
+            : Expr {Expr::Kind::Deref}, rhs {std::move(rhs)} {}
 
         Expr::OptPtr rhs;
     };
@@ -159,10 +159,8 @@ namespace jc::hir {
     struct FieldExpr : Expr {
         FieldExpr(
             Expr::Ptr && lhs,
-            const span::Ident & field,
-            HirId hirId,
-            Span span
-        ) : Expr {Expr::Kind::Field, hirId, span},
+            const span::Ident & field
+        ) : Expr {Expr::Kind::Field},
             lhs {std::move(lhs)},
             field {field} {}
 
@@ -174,10 +172,8 @@ namespace jc::hir {
         IfExpr(
             Expr::Ptr && cond,
             Block::Opt && ifBranch,
-            Block::Opt && elseBranch,
-            HirId hirId,
-            Span span
-        ) : Expr {Expr::Kind::If, hirId, span},
+            Block::Opt && elseBranch
+        ) : Expr {Expr::Kind::If},
             cond {std::move(cond)},
             ifBranch {std::move(ifBranch)},
             elseBranch {std::move(elseBranch)} {}
@@ -188,8 +184,8 @@ namespace jc::hir {
     };
 
     struct InfixExpr : Expr {
-        InfixExpr(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs, HirId hirId, Span span)
-            : Expr {Expr::Kind::Invoke, hirId, span}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
+        InfixExpr(Expr::Ptr && lhs, BinOp op, Expr::Ptr && rhs)
+            : Expr {Expr::Kind::Invoke}, lhs {std::move(lhs)}, op {op}, rhs {std::move(rhs)} {}
 
         Expr::Ptr lhs;
         BinOp op;
@@ -197,8 +193,8 @@ namespace jc::hir {
     };
 
     struct InvokeExpr : Expr {
-        InvokeExpr(Expr::Ptr && lhs, Arg::List && args, HirId hirId, Span span)
-            : Expr {Expr::Kind::Invoke, hirId, span}, lhs {std::move(lhs)}, args {std::move(args)} {}
+        InvokeExpr(Expr::Ptr && lhs, Arg::List && args)
+            : Expr {Expr::Kind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
 
         Expr::Ptr lhs;
         Arg::List args;
@@ -208,8 +204,8 @@ namespace jc::hir {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;
 
-        LitExpr(Kind kind, ValueT val, parser::Token token, HirId hirId, Span span)
-            : Expr {Expr::Kind::Literal, hirId, span}, kind {kind}, val {val}, token {token} {}
+        LitExpr(Kind kind, ValueT val, parser::Token token)
+            : Expr {Expr::Kind::Literal}, kind {kind}, val {val}, token {token} {}
 
         Kind kind;
         ValueT val;
@@ -219,8 +215,8 @@ namespace jc::hir {
     };
 
     struct LoopExpr : Expr {
-        LoopExpr(Block && body, HirId hirId, Span span)
-            : Expr {Expr::Kind::Loop, hirId, span}, body {std::move(body)} {}
+        LoopExpr(Block && body)
+            : Expr {Expr::Kind::Loop}, body {std::move(body)} {}
 
         Block body;
     };
@@ -229,17 +225,20 @@ namespace jc::hir {
         using List = std::vector<MatchArm>;
 
         MatchArm(Pat::Ptr && pat, Expr::Ptr && body, HirId hirId, Span span)
-            : HirNode {hirId, span},
+            : hirId {hirId},
+              span {span},
               pat {std::move(pat)},
               body {std::move(body)} {}
 
+        HirId hirId;
+        Span span;
         Pat::Ptr pat;
         Expr::Ptr body;
     };
 
     struct MatchExpr : Expr {
-        MatchExpr(Expr::Ptr && expr, MatchArm::List && arms, HirId hirId, Span span)
-            : Expr {Expr::Kind::Match, hirId, span},
+        MatchExpr(Expr::Ptr && expr, MatchArm::List && arms)
+            : Expr {Expr::Kind::Match},
               subject {std::move(expr)},
               arms {std::move(arms)} {}
 
@@ -248,38 +247,38 @@ namespace jc::hir {
     };
 
     struct PathExpr : Expr {
-        PathExpr(Path && path, HirId hirId, Span span)
-            : Expr {Expr::Kind::Path, hirId, span}, path {std::move(path)} {}
+        PathExpr(Path && path)
+            : Expr {Expr::Kind::Path}, path {std::move(path)} {}
 
         Path path;
     };
 
     struct PostfixExpr : Expr {
-        PostfixExpr(Expr::Ptr && lhs, PostfixOp op, HirId hirId, Span span)
-            : Expr {Expr::Kind::Loop, hirId, span}, lhs {std::move(lhs)}, op {op} {}
+        PostfixExpr(Expr::Ptr && lhs, PostfixOp op)
+            : Expr {Expr::Kind::Loop}, lhs {std::move(lhs)}, op {op} {}
 
         Expr::Ptr lhs;
         PostfixOp op;
     };
 
     struct PrefixExpr : Expr {
-        PrefixExpr(PrefixOp op, Expr::Ptr && rhs, HirId hirId, Span span)
-            : Expr {Expr::Kind::Loop, hirId, span}, op {op}, rhs {std::move(rhs)} {}
+        PrefixExpr(PrefixOp op, Expr::Ptr && rhs)
+            : Expr {Expr::Kind::Loop}, op {op}, rhs {std::move(rhs)} {}
 
         PrefixOp op;
         Expr::Ptr rhs;
     };
 
     struct ReturnExpr : Expr {
-        ReturnExpr(Expr::OptPtr && value, HirId hirId, Span span)
-            : Expr {Expr::Kind::Return, hirId, span}, value {std::move(value)} {}
+        ReturnExpr(Expr::OptPtr && value)
+            : Expr {Expr::Kind::Return}, value {std::move(value)} {}
 
         Expr::OptPtr value;
     };
 
     struct TupleExpr : Expr {
-        TupleExpr(Expr::List && values, HirId hirId, Span span)
-            : Expr {Expr::Kind::Tuple, hirId, span}, values {std::move(values)} {}
+        TupleExpr(Expr::List && values)
+            : Expr {Expr::Kind::Tuple}, values {std::move(values)} {}
 
         Expr::List values;
     };

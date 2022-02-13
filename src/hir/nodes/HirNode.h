@@ -65,12 +65,6 @@ namespace jc::hir {
     };
 
     struct HirNode {
-        using Ptr = std::unique_ptr<HirNode>;
-
-        HirNode(HirId hirId, Span span) : hirId {hirId}, span {span} {}
-
-        HirId hirId;
-        Span span;
     };
 }
 
