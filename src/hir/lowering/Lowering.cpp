@@ -426,9 +426,7 @@ namespace jc::hir {
 
     Expr::Ptr Lowering::lowerBlockExpr(const ast::Block & astBlock) {
         auto block = lowerBlock(astBlock);
-        const auto hirId = block.hirId;
-        const auto span = block.span;
-        return makeBoxNode<BlockExpr>(std::move(block), hirId, span);
+        return makeBoxNode<BlockExpr>(std::move(block));
     }
 
     Expr::Ptr Lowering::lowerForExpr(const ast::ForExpr &) {
