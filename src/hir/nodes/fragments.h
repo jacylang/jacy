@@ -43,11 +43,11 @@ namespace jc::hir {
     struct Param {
         using List = std::vector<Param>;
 
-        Param(Pat::Ptr && pat, HirId hirId, Span span) : hirId {hirId}, span {span}, pat {std::move(pat)} {}
+        Param(Pat && pat, HirId hirId, Span span) : hirId {hirId}, span {span}, pat {std::move(pat)} {}
 
         HirId hirId;
         Span span;
-        Pat::Ptr pat;
+        Pat pat;
         // TODO: Default value as `AnonConst`, should it be here or in `FuncSig`?
     };
 
