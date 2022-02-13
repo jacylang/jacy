@@ -46,6 +46,8 @@ namespace jc::hir {
             return Expr {makeBoxNode<T>(std::forward<Args>(args)...), nextHirId(), span};
         }
 
+        Stmt synthExprStmt(Expr && expr);
+
         // HIR identifiers and maps //
     private:
         NodeId::NodeMap<HirId> nodeIdHirId;

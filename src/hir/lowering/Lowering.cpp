@@ -35,10 +35,16 @@ namespace jc::hir {
         return hirId;
     }
 
+    // Node synthesis //
     HirId Lowering::synthHirId() {
         return lowerNodeId(sess->nodeStorage.nextNodeId());
     }
 
+    Stmt Lowering::synthExprStmt(Expr && expr) {
+        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), nextHirId(), expr.span};
+    }
+
+    // Lowering //
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
