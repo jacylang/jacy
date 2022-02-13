@@ -367,7 +367,7 @@ namespace jc::parser {
 
         Pat::Ptr parseRefPat();
 
-        Pat::Ptr parseStructPat(PathExpr::Ptr && path);
+        Pat::Ptr parseStructPat(Path && path);
 
         Pat::Ptr parseParenPat();
 

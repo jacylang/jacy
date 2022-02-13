@@ -1164,8 +1164,7 @@ namespace jc::parser {
         }
 
         if (is(TokenKind::Id) or is(TokenKind::Path)) {
-            auto pathExpr = parsePathExpr();
-            return Some(PR<N<Expr>>(Ok(nodeCast<PathExpr, Expr>(pathExpr.take()))));
+            return parsePathExpr();
         }
 
         if (isKw(Kw::For)) {
@@ -2249,7 +2248,7 @@ namespace jc::parser {
         // If pattern begins with `::` or with an identifier followed by `::` it is a path pattern
         if (is(TokenKind::Path) or (is(TokenKind::Id) and lookup().is(TokenKind::Path))) {
             const auto & begin = cspan();
-            auto path = parsePathExpr();
+            auto path = parsePath(true);
 
             if (is(TokenKind::LBrace)) {
                 // `path::to::something {...}`
@@ -2375,7 +2374,7 @@ namespace jc::parser {
         return makePRBoxNode<RefPat, Pat>(mut, std::move(pat), closeSpan(begin));
     }
 
-    Pat::Ptr Parser::parseStructPat(PathExpr::Ptr && path) {
+    Pat::Ptr Parser::parseStructPat(Path && path) {
         logParse("StructPattern");
 
         justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
