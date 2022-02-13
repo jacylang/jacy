@@ -16,23 +16,27 @@ namespace jc::sess {
     public:
         template<class T>
         ast::NodeId addNode(T & node) {
-            node.id.val = nextNodeId.val++;
+            node.id = nextNodeId();
             nodeSpanMap.emplace(node.id, node.span);
             return node.id;
         }
 
         template<class T>
         ast::NodeId addNode(ast::N<T> & node) {
-            node->id.val = nextNodeId.val++;
+            node->id = nextNodeId();
             nodeSpanMap.emplace(node->id, node->span);
             return node->id;
         }
 
         template<class T>
         ast::NodeId addNodeLike(T & nodeLike, span::Span span) {
-            nodeLike.id.val = nextNodeId.val++;
+            nodeLike.id = nextNodeId();
             nodeSpanMap.emplace(nodeLike.id, span);
             return nodeLike.id;
+        }
+
+        ast::NodeId nextNodeId() {
+            return curNodeId++;
         }
 
         span::Span getNodeSpan(ast::NodeId nodeId) const {
@@ -40,17 +44,17 @@ namespace jc::sess {
         }
 
         ast::NodeId addNode(ast::Ident & ident) {
-            ident.id.val = nextNodeId.val++;
+            ident.id = nextNodeId();
             nodeSpanMap.emplace(ident.id, ident.span);
             return ident.id;
         }
 
         ast::NodeId size() const {
-            return nextNodeId;
+            return curNodeId;
         }
 
     private:
-        ast::NodeId nextNodeId{1}; // Reserve `0` for something :)
+        ast::NodeId curNodeId {1}; // Reserve `0` for something :)
         ast::NodeId::NodeMap<span::Span> nodeSpanMap;
     };
 

@@ -42,6 +42,10 @@ namespace jc::ast {
             return std::to_string(val);
         }
 
+        NodeId operator++(int) {
+            return NodeId {val++};
+        }
+
         friend std::ostream & operator<<(std::ostream & os, const NodeId & nodeId) {
             os << log::Color::LightGray << "#";
             if (nodeId.isDummy()) {
