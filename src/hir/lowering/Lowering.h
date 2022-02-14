@@ -69,6 +69,14 @@ namespace jc::hir {
             return itemId;
         }
 
+        template<class ...Args>
+        BodyId addBody(Args && ...args) {
+            auto body = Body {std::forward<Args>(args)...};
+            auto bodyId = body.getId();
+            bodies.emplace(bodyId, std::move(body));
+            return bodyId;
+        }
+
         // Items //
     private:
         ItemId lowerItem(const ast::Item::Ptr & astItem);
