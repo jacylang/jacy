@@ -74,11 +74,11 @@ $(function() {
 <div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef JACY_HIR_NODES_STMT_H</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define JACY_HIR_NODES_STMT_H</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;hir/nodes/HirId.h&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;span/Span.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespacejc_1_1hir.html">jc::hir</a> {</div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_stmt_kind.html">    7</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_stmt_kind.html">StmtKind</a> {</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keyword">using</span> Ptr = N&lt;StmtKind&gt;;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>        <span class="keyword">using</span> Ptr = std::unique_ptr&lt;StmtKind&gt;;</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">enum class</span> Kind {</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>            Let,</div>
@@ -99,19 +99,19 @@ $(function() {
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_stmt.html">   26</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_stmt.html">Stmt</a> {</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keyword">using</span> List = std::vector&lt;Stmt&gt;;</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_stmt.html">Stmt</a>(StmtKind::Ptr &amp;&amp; stmt, <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_stmt.html">Stmt</a>(StmtKind::Ptr &amp;&amp; stmt, <a class="code hl_struct" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span) : stmt {std::move(stmt)}, nodeId {nodeId}, span {span} {}</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_hir_id.html">HirId</a> hirId;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        StmtKind::Ptr stmt;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        StmtKind::Ptr stmt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    };</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_STMT_H</span></div>
 <div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_expr_html"><div class="ttname"><a href="structjc_1_1hir_1_1_expr.html">jc::hir::Expr</a></div><div class="ttdef"><b>Definition:</b> Expr.h:42</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_hir_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_hir_id.html">jc::hir::HirId</a></div><div class="ttdef"><b>Definition:</b> HirId.h:35</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:49</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_node_id_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node_id.html">jc::ast::NodeId</a></div><div class="ttdef"><b>Definition:</b> Node.h:18</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_expr_html"><div class="ttname"><a href="structjc_1_1hir_1_1_expr.html">jc::hir::Expr</a></div><div class="ttdef"><b>Definition:</b> Expr.h:47</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:47</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_stmt_html"><div class="ttname"><a href="structjc_1_1hir_1_1_stmt.html">jc::hir::Stmt</a></div><div class="ttdef"><b>Definition:</b> Stmt.h:26</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_stmt_kind_html"><div class="ttname"><a href="structjc_1_1hir_1_1_stmt_kind.html">jc::hir::StmtKind</a></div><div class="ttdef"><b>Definition:</b> Stmt.h:7</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>

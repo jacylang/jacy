@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['bodies_0',['Bodies',['../structjc_1_1hir_1_1_owner_info.html#a61365d2fb33455c9fc04a266e70c09a4',1,'jc::hir::OwnerInfo']]]
+  ['valuet_0',['ValueT',['../structjc_1_1parser_1_1_token.html#a0e8480021dce303fd34d4510acb7413f',1,'jc::parser::Token']]],
+  ['valuetype_1',['ValueType',['../structjc_1_1resolve_1_1_res.html#addeec1eb1e83641a836a1bac05c66075',1,'jc::resolve::Res']]]
 ];

@@ -84,24 +84,30 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4c696faaf27ac862e871ff9c11f56b4d"><td class="memItemLeft" align="right" valign="top"><a id="a4c696faaf27ac862e871ff9c11f56b4d" name="a4c696faaf27ac862e871ff9c11f56b4d"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Owners</b> = std::map&lt; <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>, <a class="el" href="structjc_1_1hir_1_1_owner_info.html">OwnerInfo</a> &gt;</td></tr>
-<tr class="separator:a4c696faaf27ac862e871ff9c11f56b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc9ce1a21238ea784736bc6344c8df83"><td class="memItemLeft" align="right" valign="top"><a id="acc9ce1a21238ea784736bc6344c8df83" name="acc9ce1a21238ea784736bc6344c8df83"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Items</b> = std::map&lt; <a class="el" href="structjc_1_1hir_1_1_item_id.html">ItemId</a>, <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &gt;</td></tr>
+<tr class="separator:acc9ce1a21238ea784736bc6344c8df83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a935b657cbbdecde13d5a4548e501891f"><td class="memItemLeft" align="right" valign="top"><a id="a935b657cbbdecde13d5a4548e501891f" name="a935b657cbbdecde13d5a4548e501891f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Bodies</b> = std::map&lt; <a class="el" href="structjc_1_1hir_1_1_body_id.html">BodyId</a>, <a class="el" href="structjc_1_1hir_1_1_body.html">Body</a> &gt;</td></tr>
+<tr class="separator:a935b657cbbdecde13d5a4548e501891f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:acf9ee7f41a5f42c46a4eb650a003f788"><td class="memItemLeft" align="right" valign="top"><a id="acf9ee7f41a5f42c46a4eb650a003f788" name="acf9ee7f41a5f42c46a4eb650a003f788"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Party</b> (Owners &amp;&amp;owners)</td></tr>
-<tr class="separator:acf9ee7f41a5f42c46a4eb650a003f788"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82e4354f1a097d408953de1b65fe10c9"><td class="memItemLeft" align="right" valign="top"><a id="a82e4354f1a097d408953de1b65fe10c9" name="a82e4354f1a097d408953de1b65fe10c9"></a>
-const <a class="el" href="structjc_1_1hir_1_1_mod.html">Mod</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>partyMod</b> () const</td></tr>
-<tr class="separator:a82e4354f1a097d408953de1b65fe10c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af39e52d49cd961190efc5a83264e1a07"><td class="memItemLeft" align="right" valign="top"><a id="af39e52d49cd961190efc5a83264e1a07" name="af39e52d49cd961190efc5a83264e1a07"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Party</b> (<a class="el" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp;rootMod, Items &amp;&amp;items, Bodies &amp;&amp;bodies)</td></tr>
+<tr class="separator:af39e52d49cd961190efc5a83264e1a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a8f2a0f1ac32382aea8832e828e8f4670"><td class="memItemLeft" align="right" valign="top"><a id="a8f2a0f1ac32382aea8832e828e8f4670" name="a8f2a0f1ac32382aea8832e828e8f4670"></a>
-Owners&#160;</td><td class="memItemRight" valign="bottom"><b>owners</b></td></tr>
-<tr class="separator:a8f2a0f1ac32382aea8832e828e8f4670"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae992f470a64c20aa90315e9384fd4ec5"><td class="memItemLeft" align="right" valign="top"><a id="ae992f470a64c20aa90315e9384fd4ec5" name="ae992f470a64c20aa90315e9384fd4ec5"></a>
+<a class="el" href="structjc_1_1hir_1_1_mod.html">Mod</a>&#160;</td><td class="memItemRight" valign="bottom"><b>rootMod</b></td></tr>
+<tr class="separator:ae992f470a64c20aa90315e9384fd4ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa059061782b54a9e9463541d03d0a6ec"><td class="memItemLeft" align="right" valign="top"><a id="aa059061782b54a9e9463541d03d0a6ec" name="aa059061782b54a9e9463541d03d0a6ec"></a>
+Items&#160;</td><td class="memItemRight" valign="bottom"><b>items</b></td></tr>
+<tr class="separator:aa059061782b54a9e9463541d03d0a6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af84baea8aa1a35da6011a0025d4f73d3"><td class="memItemLeft" align="right" valign="top"><a id="af84baea8aa1a35da6011a0025d4f73d3" name="af84baea8aa1a35da6011a0025d4f73d3"></a>
+Bodies&#160;</td><td class="memItemRight" valign="bottom"><b>bodies</b></td></tr>
+<tr class="separator:af84baea8aa1a35da6011a0025d4f73d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >The root node of the party (package) </p>
