@@ -49,6 +49,7 @@ namespace jc::hir {
             i->getName(),
             std::move(loweredItem),
             sess->defTable.getDefIdByNodeId(i->id),
+            i->id,
             i->span
         );
 
