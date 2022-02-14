@@ -484,7 +484,7 @@ namespace jc::hir {
                     // TODO: Named tuples
                     els.emplace_back(lowerType(el.type));
                 }
-                return makeBoxNode<TupleType>(std::move(els), tupleType->span);
+                return makeBoxNode<TupleType>(std::move(els));
             }
             case ast::Type::Kind::Func: {
                 const auto & funcType = ast::Type::as<ast::FuncType>(type);
@@ -492,27 +492,26 @@ namespace jc::hir {
                 for (const auto & type : funcType->params) {
                     inputs.emplace_back(lowerType(type));
                 }
-                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), funcType->span);
+                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType));
             }
             case ast::Type::Kind::Slice: {
                 const auto & sliceType = ast::Type::as<ast::SliceType>(type);
-                return makeBoxNode<SliceType>(lowerType(sliceType->type), sliceType->span);
+                return makeBoxNode<SliceType>(lowerType(sliceType->type));
             }
             case ast::Type::Kind::Array: {
                 const auto & arrayType = ast::Type::as<ast::ArrayType>(type);
                 return makeBoxNode<ArrayType>(
                     lowerType(arrayType->type),
-                    lowerAnonConst(arrayType->sizeExpr),
-                    arrayType->span
+                    lowerAnonConst(arrayType->sizeExpr)
                 );
             }
             case ast::Type::Kind::Path: {
                 const auto & typePath = ast::Type::as<ast::TypePath>(type);
-                return makeBoxNode<TypePath>(lowerPath(typePath->path), typePath->span);
+                return makeBoxNode<TypePath>(lowerPath(typePath->path));
             }
             case ast::Type::Kind::Unit: {
                 const auto & unitType = ast::Type::as<ast::UnitType>(type);
-                return makeBoxNode<UnitType>(unitType->span);
+                return makeBoxNode<UnitType>();
             }
         }
         log::notImplemented("Lowering::lowerType");
