@@ -61,6 +61,12 @@ namespace jc::hir {
         Party::Items items;
         Party::Bodies bodies;
 
+        ItemId addItem(Item && item) {
+            auto itemId = ItemId {item.defId};
+            items.emplace(itemId, std::move(item));
+            return itemId;
+        }
+
         // Items //
     private:
         ItemId lowerItem(const ast::Item::Ptr & astItem);
