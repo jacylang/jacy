@@ -225,6 +225,7 @@ namespace jc::hir {
 
         return Expr {
             lowerExprKind(expr),
+            e->id,
             e->span
         };
     }

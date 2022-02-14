@@ -3,9 +3,11 @@
 
 #include <memory>
 #include "span/Span.h"
+#include "ast/Node.h"
 
 namespace jc::hir {
     using span::Span;
+    using ast::NodeId;
 
     // It would be nice to have Expr and all other nodes as value types,
     // anyway, it would require usage of std::variant which is really inconvenient to work with when there are
@@ -46,9 +48,11 @@ namespace jc::hir {
         using Opt = Option<Expr>;
         using List = std::vector<Expr>;
 
-        Expr(ExprKind::Ptr && expr, Span span) : expr {std::move(expr)}, span {span} {}
+        Expr(ExprKind::Ptr && expr, NodeId nodeId, Span span)
+            : expr {std::move(expr)}, nodeId {nodeId}, span {span} {}
 
         ExprKind::Ptr expr;
+        NodeId nodeId;
         Span span;
     };
 }

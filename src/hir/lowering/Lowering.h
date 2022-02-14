@@ -39,9 +39,14 @@ namespace jc::hir {
 
         // Node synthesis //
     private:
+        template<class T, class Arg>
+        Expr synthExpr(Span span, Arg && arg) {
+            return Expr {makeBoxNode<T>(std::forward<Arg>(arg)), sess->nodeStorage.nextNodeId(), span};
+        }
+
         template<class T, class ...Args>
         Expr synthExpr(Span span, Args && ...args) {
-            return Expr {makeBoxNode<T>(std::forward<Args>(args)...), span};
+            return Expr {makeBoxNode<T>(std::forward<Args>(args)...), sess->nodeStorage.nextNodeId(), span};
         }
 
         Expr synthBlockExpr(Span span, Block && block);
