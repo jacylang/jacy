@@ -42,19 +42,17 @@ namespace jc::hir {
     ItemId Lowering::lowerItem(const ast::Item::Ptr & astItem) {
         const auto & i = astItem.unwrap("`Lowering::lowerItem`");
 
-        lowerOwner(i->id, [&]() {
-            auto loweredItem = lowerItemKind(astItem);
+        auto loweredItem = lowerItemKind(astItem);
 
-            Item {
-                astItem.unwrap()->vis,
-                i->getName(),
-                std::move(loweredItem),
-                lowerNodeId(i->id).owner,
-                i->span
-            };
-        });
+        auto itemId = addItem(
+            astItem.unwrap()->vis,
+            i->getName(),
+            std::move(loweredItem),
+            sess->defTable.getDefIdByNodeId(i->id),
+            i->span
+        );
 
-        return ItemId {sess->defTable.getDefIdByNodeId(i->id)};
+        return itemId;
     }
 
     ItemKind::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {

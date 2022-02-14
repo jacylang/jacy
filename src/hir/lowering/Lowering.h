@@ -61,7 +61,9 @@ namespace jc::hir {
         Party::Items items;
         Party::Bodies bodies;
 
-        ItemId addItem(Item && item) {
+        template<class ...Args>
+        ItemId addItem(Args && ...args) {
+            auto item = Item {std::forward<Args>(args)...};
             auto itemId = ItemId {item.defId};
             items.emplace(itemId, std::move(item));
             return itemId;
