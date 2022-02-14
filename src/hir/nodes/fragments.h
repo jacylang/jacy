@@ -12,6 +12,7 @@ namespace jc::hir {
     template<class T>
     using N = std::unique_ptr<T>;
 
+    using ast::NodeId;
     using span::Ident;
 
     struct Arg {
@@ -37,6 +38,8 @@ namespace jc::hir {
     /// Identifier of the `Body` declared below
     /// For now, just a wrapper over `HirId`
     struct BodyId {
+        NodeId nodeId;
+
 //        bool operator<(const BodyId & other) const {
 //            return hirId < other.hirId;
 //        }

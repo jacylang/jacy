@@ -30,13 +30,10 @@ namespace jc::hir {
     message::MessageResult<Party> Lowering::lower(const sess::Session::Ptr & sess, const ast::Party & party) {
         this->sess = sess;
 
-        lowerOwner(NodeId::ROOT_NODE_ID, [&]() {
-            auto partyMod = makeBoxNode<Mod>(lowerModItems(party.items));
-            addNode(HirNode::create(partyMod.get()), HirId::ROOT);
-        });
+        auto partyMod = Mod {lowerModItems(party.items)};
 
         return {
-            Party(std::move(owners)),
+            Party(std::move(partyMod), std::move(items), std::move(bodies)),
             msg.extractMessages()
         };
     }

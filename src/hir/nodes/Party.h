@@ -16,8 +16,10 @@ namespace jc::hir {
         using Items = std::map<ItemId, Item>;
         using Bodies = std::map<BodyId, Body>;
 
-        Party(Items && items, Bodies && bodies) : items {std::move(items)}, bodies {std::move(bodies)} {}
+        Party(Mod && rootMod, Items && items, Bodies && bodies)
+            : rootMod {std::move(rootMod)}, items {std::move(items)}, bodies {std::move(bodies)} {}
 
+        Mod rootMod;
         Items items;
         Bodies bodies;
     };
