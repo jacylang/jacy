@@ -1,9 +1,12 @@
 #ifndef JACY_HIR_NODES_EXPR_H
 #define JACY_HIR_NODES_EXPR_H
 
-#include "hir/nodes/HirId.h"
+#include <memory>
+#include "span/Span.h"
 
 namespace jc::hir {
+    using span::Span;
+
     // It would be nice to have Expr and all other nodes as value types,
     // anyway, it would require usage of std::variant which is really inconvenient to work with when there are
     // so many types. Thus, I'll just box Expr.
@@ -43,10 +46,9 @@ namespace jc::hir {
         using Opt = Option<Expr>;
         using List = std::vector<Expr>;
 
-        Expr(ExprKind::Ptr && expr, HirId hirId, Span span) : expr {std::move(expr)}, hirId {hirId}, span {span} {}
+        Expr(ExprKind::Ptr && expr, Span span) : expr {std::move(expr)}, span {span} {}
 
         ExprKind::Ptr expr;
-        HirId hirId;
         Span span;
     };
 }

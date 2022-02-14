@@ -222,13 +222,11 @@ namespace jc::hir {
     struct MatchArm {
         using List = std::vector<MatchArm>;
 
-        MatchArm(Pat && pat, Expr && body, HirId hirId, Span span)
-            : hirId {hirId},
-              span {span},
+        MatchArm(Pat && pat, Expr && body, Span span)
+            : span {span},
               pat {std::move(pat)},
               body {std::move(body)} {}
 
-        HirId hirId;
         Span span;
         Pat pat;
         Expr body;

@@ -13,13 +13,11 @@ namespace jc::hir {
     struct CommonField {
         using List = std::vector<CommonField>;
 
-        CommonField(Ident ident, Type && type, HirId hirId, Span span)
-            : hirId {hirId},
-              span {span},
+        CommonField(Ident ident, Type && type, Span span)
+            : span {span},
               ident {ident},
               type {std::move(type)} {}
 
-        HirId hirId;
         Span span;
         Ident ident;
         Type type;
@@ -35,14 +33,12 @@ namespace jc::hir {
             Unit, // Variant with optional discriminant (such as `Foo = 1` or just `Bar`)
         };
 
-        Variant(Ident ident, Data && data, Kind kind, HirId hirId, Span span)
-            : hirId {hirId},
-              span {span},
+        Variant(Ident ident, Data && data, Kind kind, Span span)
+            : span {span},
               ident {ident},
               data {std::move(data)},
               kind {kind} {}
 
-        HirId hirId;
         Span span;
         Ident ident;
         Data data;

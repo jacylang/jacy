@@ -1,11 +1,9 @@
 #ifndef JACY_HIR_NODES_TYPE_H
 #define JACY_HIR_NODES_TYPE_H
 
-#include "hir/nodes/HirId.h"
-
 namespace jc::hir {
     struct TypeKind {
-        using Ptr = N<TypeKind>;
+        using Ptr = std::unique_ptr<TypeKind>;
 
         enum class Kind {
             Infer,
@@ -31,10 +29,8 @@ namespace jc::hir {
         using Opt = Option<Type>;
         using List = std::vector<Type>;
 
-        Type(TypeKind::Ptr && kind, HirId hirId, Span span)
-            : hirId {hirId}, span {span}, kind {std::move(kind)} {}
+        Type(TypeKind::Ptr && kind, Span span) : span {span}, kind {std::move(kind)} {}
 
-        HirId hirId;
         Span span;
         TypeKind::Ptr kind;
     };

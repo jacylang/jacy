@@ -1,18 +1,16 @@
 #ifndef JACY_HIR_NODES_ITEM_H
 #define JACY_HIR_NODES_ITEM_H
 
-#include "hir/nodes/HirId.h"
+#include "resolve/Definition.h"
 
 namespace jc::hir {
+    using resolve::DefId;
+
     // Wrapper for type strictness
     struct ItemId {
         using List = std::vector<ItemId>;
 
         resolve::DefId defId;
-
-        HirId hirId() const {
-            return HirId::makeOwner(defId);
-        }
 
         bool operator<(const ItemId & other) const {
             return defId < other.defId;

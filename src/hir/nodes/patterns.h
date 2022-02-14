@@ -28,15 +28,13 @@ namespace jc::hir {
 
     /// `ref mut IDENT @ pattern`
     struct IdentPat : PatKind {
-        IdentPat(IdentPatAnno anno, HirId nameHirId, span::Ident ident, Pat::Opt && pat)
+        IdentPat(IdentPatAnno anno, span::Ident ident, Pat::Opt && pat)
             : PatKind {PatKind::Kind::Ident},
               anno {anno},
-              nameHirId {nameHirId},
               ident {ident},
               pat {std::move(pat)} {}
 
         IdentPatAnno anno;
-        HirId nameHirId;
         span::Ident ident;
         Pat::Opt pat;
     };
@@ -60,14 +58,12 @@ namespace jc::hir {
     struct StructPatField {
         using List = std::vector<StructPatField>;
 
-        StructPatField(bool shortcut, span::Ident ident, Pat && pat, HirId hirId, Span span)
-            : hirId {hirId},
-              span {span},
+        StructPatField(bool shortcut, span::Ident ident, Pat && pat, Span span)
+            : span {span},
               shortcut {shortcut},
               ident {std::move(ident)},
               pat {std::move(pat)} {}
 
-        HirId hirId;
         Span span;
         // Note: Read about shortcut in `ast::StructPatField`
         bool shortcut;

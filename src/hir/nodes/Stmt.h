@@ -1,11 +1,11 @@
 #ifndef JACY_HIR_NODES_STMT_H
 #define JACY_HIR_NODES_STMT_H
 
-#include "hir/nodes/HirId.h"
+#include "span/Span.h"
 
 namespace jc::hir {
     struct StmtKind {
-        using Ptr = N<StmtKind>;
+        using Ptr = std::unique_ptr<StmtKind>;
 
         enum class Kind {
             Let,
@@ -26,9 +26,8 @@ namespace jc::hir {
     struct Stmt {
         using List = std::vector<Stmt>;
 
-        Stmt(StmtKind::Ptr && stmt, HirId hirId, Span span) : hirId {hirId}, span {span}, stmt {std::move(stmt)} {}
+        Stmt(StmtKind::Ptr && stmt, Span span) : span {span}, stmt {std::move(stmt)} {}
 
-        HirId hirId;
         Span span;
         StmtKind::Ptr stmt;
     };

@@ -1,8 +1,6 @@
 #ifndef JACY_HIR_NODES_PAT_H
 #define JACY_HIR_NODES_PAT_H
 
-#include "hir/nodes/HirId.h"
-
 namespace jc::hir {
     struct PatKind {
         using Ptr = std::unique_ptr<PatKind>;
@@ -33,9 +31,8 @@ namespace jc::hir {
         using Opt = Option<Pat>;
         using List = std::vector<Pat>;
 
-        Pat(PatKind::Ptr && kind, HirId hirId, Span span) : hirId {hirId}, span {span}, kind {std::move(kind)} {}
+        Pat(PatKind::Ptr && kind, Span span) : span {span}, kind {std::move(kind)} {}
 
-        HirId hirId;
         Span span;
         PatKind::Ptr kind;
     };
