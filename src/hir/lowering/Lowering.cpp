@@ -656,10 +656,7 @@ namespace jc::hir {
     }
 
     BodyId Lowering::lowerBody(const ast::Body & astBody, const ast::FuncParam::List & params) {
-        auto body = Body {astBody.exprBody, lowerExpr(astBody.value), lowerFuncParams(params)};
-        auto bodyId = body.getId();
-        bodies.emplace(bodyId.hirId.id, std::move(body));
-        return bodyId;
+        return addBody(astBody.exprBody, lowerExpr(astBody.value), lowerFuncParams(params));
     }
 
     Path Lowering::lowerPath(const ast::Path & path) {
@@ -681,7 +678,7 @@ namespace jc::hir {
         auto pat = lowerPat(arm.pat);
         auto body = lowerExpr(arm.body);
 
-        return MatchArm {std::move(pat), std::move(body), lowerNodeId(arm.id), arm.span};
+        return MatchArm {std::move(pat), std::move(body), arm.span};
     }
 
     AnonConst Lowering::lowerAnonConst(const ast::AnonConst & anonConst) {
@@ -692,11 +689,7 @@ namespace jc::hir {
 
     BodyId Lowering::lowerExprAsBody(const ast::Expr::Ptr & expr) {
         /// Note (on `{}`):  Standalone expression does not have parameters
-        auto body = Body(false, lowerExpr(expr), {});
-        auto bodyId = body.getId();
-        // TODO: Unify with `lowerBody`
-        bodies.emplace(bodyId.hirId.id, std::move(body));
-        return bodyId;
+        return addBody(false, lowerExpr(expr), Param::List {});
     }
 
     GenericParam::List Lowering::lowerGenericParams(const ast::GenericParam::OptList & maybeAstParams) {
