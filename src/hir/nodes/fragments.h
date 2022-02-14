@@ -72,7 +72,7 @@ namespace jc::hir {
         BodyId getId() const {
             // Note: The BodyId is actually an HirId of expression inside Body
             // TODO!!!
-            return BodyId {};
+            return BodyId {value.nodeId};
         }
     };
 
