@@ -9,13 +9,15 @@
 #include "resolve/Resolutions.h"
 
 namespace jc::hir {
+    using span::Ident;
+
     struct Arg {
         using List = std::vector<Arg>;
 
-        Arg(const span::Ident::Opt & ident, Expr && value)
+        Arg(const Ident::Opt & ident, Expr && value)
             : ident {ident}, value {std::move(value)} {}
 
-        span::Ident::Opt ident;
+        Ident::Opt ident;
         Expr value;
     };
 
@@ -123,10 +125,10 @@ namespace jc::hir {
     struct PathSeg {
         using List = std::vector<PathSeg>;
 
-        PathSeg(const span::Ident & name, GenericArg::List && generics)
+        PathSeg(const Ident & name, GenericArg::List && generics)
             : name {std::move(name)}, generics {std::move(generics)} {}
 
-        span::Ident name;
+        Ident name;
         GenericArg::List generics;
     };
 
