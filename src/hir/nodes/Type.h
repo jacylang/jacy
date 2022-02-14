@@ -29,10 +29,12 @@ namespace jc::hir {
         using Opt = Option<Type>;
         using List = std::vector<Type>;
 
-        Type(TypeKind::Ptr && kind, Span span) : span {span}, kind {std::move(kind)} {}
+        Type(TypeKind::Ptr && kind, NodeId nodeId, Span span)
+            : kind {std::move(kind)}, nodeId {nodeId}, span {span} {}
 
-        Span span;
         TypeKind::Ptr kind;
+        NodeId nodeId;
+        Span span;
     };
 }
 

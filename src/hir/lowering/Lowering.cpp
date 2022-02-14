@@ -469,7 +469,7 @@ namespace jc::hir {
     // Types //
     Type Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap();
-        return Type {lowerTypeKind(astType), type->span};
+        return Type {lowerTypeKind(astType), type->id, type->span};
     }
 
     TypeKind::Ptr Lowering::lowerTypeKind(const ast::Type::Ptr & astType) {
