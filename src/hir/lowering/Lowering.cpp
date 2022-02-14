@@ -110,7 +110,6 @@ namespace jc::hir {
                     variant.name.unwrap(),
                     std::move(disc),
                     Variant::Kind::Unit,
-                    HirId::DUMMY,
                     variant.span
                 };
             }
@@ -119,7 +118,6 @@ namespace jc::hir {
                     variant.name.unwrap(),
                     lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(variant.body), false),
                     Variant::Kind::Tuple,
-                    HirId::DUMMY,
                     variant.span
                 };
             }
@@ -128,7 +126,6 @@ namespace jc::hir {
                     variant.name.unwrap(),
                     lowerStructFields(std::get<ast::StructField::List>(variant.body)),
                     Variant::Kind::Struct,
-                    HirId::DUMMY,
                     variant.span
                 };
             }
