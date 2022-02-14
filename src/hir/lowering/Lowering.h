@@ -34,16 +34,14 @@ namespace jc::hir {
         /// Same as `synthBoxNode` but without boxing
         template<class T, class ...Args>
         T synthNode(Span span, Args && ...args) {
-            return T {std::forward<Args>(args)..., synthHirId(), span};
+            return T {std::forward<Args>(args)..., span};
         }
 
         // Node synthesis //
     private:
-        HirId synthHirId();
-
         template<class T, class ...Args>
         Expr synthExpr(Span span, Args && ...args) {
-            return Expr {makeBoxNode<T>(std::forward<Args>(args)...), synthHirId(), span};
+            return Expr {makeBoxNode<T>(std::forward<Args>(args)...), span};
         }
 
         Expr synthBlockExpr(Span span, Block && block);
@@ -60,34 +58,8 @@ namespace jc::hir {
 
         // HIR identifiers and maps //
     private:
-        NodeId::NodeMap<HirId> nodeIdHirId;
-
-        Party::Owners owners;
-
-        DefId currentOwner;
-        ChildId nextChildId;
-        OwnerInfo::Bodies bodies;
-        OwnerInfo::Nodes nodes;
-
-        DefId lowerOwner(NodeId ownerNodeId, std::function<void()> lower);
-
-        HirId lowerNodeId(NodeId nodeId);
-
-        void addBody(ChildId id, Body && body) {
-            bodies.emplace(id, std::move(body));
-        }
-
-        void addNode(HirNode && node, HirId hirId) {
-            if (hirId.owner != currentOwner) {
-                log::devPanic("Called `Lowering::addNode` with `HirNode` not owned by this owner");
-            }
-
-            nodes.emplace(hirId.id, std::move(node));
-        }
-
-        HirId nextHirId() {
-            return HirId {currentOwner, nextChildId++};
-        }
+        Party::Items items;
+        Party::Bodies bodies;
 
         // Items //
     private:

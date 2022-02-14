@@ -9,6 +9,9 @@
 #include "resolve/Resolutions.h"
 
 namespace jc::hir {
+    template<class T>
+    using N = std::unique_ptr<T>;
+
     using span::Ident;
 
     struct Arg {

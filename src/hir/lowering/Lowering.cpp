@@ -1,47 +1,7 @@
 #include "hir/lowering/Lowering.h"
 
 namespace jc::hir {
-    DefId Lowering::lowerOwner(NodeId ownerNodeId, std::function<void()> lower) {
-        auto ownerDefId = sess->defTable.getDefIdByNodeId(ownerNodeId);
-
-        log.dev("Lowering owner ", ownerDefId);
-
-        auto oldBodies = bodies;
-        bodies = {};
-
-        auto oldNodes = nodes;
-        nodes = {};
-
-        auto oldNextChildId = nextChildId;
-        nextChildId = ChildId::firstChild();
-
-        auto ownerHirId = HirId::makeOwner(ownerDefId);
-        nodeIdHirId.emplace(ownerNodeId, ownerHirId);
-
-        lower();
-
-        // Make `OwnerInfo` for lowered owner. We pass `ownerDefId` as an owner we lowered above
-        auto ownerInfo = OwnerInfo(ownerDefId, std::move(bodies), std::move(nodes));
-        owners.emplace(ownerDefId, ownerInfo);
-
-        bodies = oldBodies;
-        nodes = oldNodes;
-        nextChildId = oldNextChildId;
-
-        return ownerDefId;
-    }
-
-    HirId Lowering::lowerNodeId(NodeId nodeId) {
-        auto hirId = nextHirId();
-        nodeIdHirId.emplace(nodeId, hirId);
-        return hirId;
-    }
-
     // Node synthesis //
-    HirId Lowering::synthHirId() {
-        return lowerNodeId(sess->nodeStorage.nextNodeId());
-    }
-
     Expr Lowering::synthBlockExpr(Span span, Block && block) {
         return synthExpr<BlockExpr>(span, std::move(block));
     }
@@ -55,7 +15,7 @@ namespace jc::hir {
     }
 
     Stmt Lowering::synthExprStmt(Expr && expr) {
-        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), synthHirId(), expr.span};
+        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), expr.span};
     }
 
     Block Lowering::synthBlock(Span span, Stmt::List && stmts) {
