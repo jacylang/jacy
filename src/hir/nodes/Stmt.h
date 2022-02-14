@@ -26,10 +26,11 @@ namespace jc::hir {
     struct Stmt {
         using List = std::vector<Stmt>;
 
-        Stmt(StmtKind::Ptr && stmt, Span span) : span {span}, stmt {std::move(stmt)} {}
+        Stmt(StmtKind::Ptr && stmt, NodeId nodeId, Span span) : stmt {std::move(stmt)}, nodeId {nodeId}, span {span} {}
 
-        Span span;
         StmtKind::Ptr stmt;
+        NodeId nodeId;
+        Span span;
     };
 }
 

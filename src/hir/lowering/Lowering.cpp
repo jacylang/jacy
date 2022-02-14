@@ -15,7 +15,7 @@ namespace jc::hir {
     }
 
     Stmt Lowering::synthExprStmt(Expr && expr) {
-        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), expr.span};
+        return Stmt {synthBoxNode<ExprStmt>(std::move(expr)), nextNodeId(), expr.span};
     }
 
     Block Lowering::synthBlock(Span span, Stmt::List && stmts) {
@@ -183,7 +183,7 @@ namespace jc::hir {
     // Statements //
     Stmt Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap();
-        return Stmt {lowerStmtKind(astStmt), stmt->span};
+        return Stmt {lowerStmtKind(astStmt), stmt->id, stmt->span};
     }
 
     StmtKind::Ptr Lowering::lowerStmtKind(const ast::Stmt::Ptr & astStmt) {
