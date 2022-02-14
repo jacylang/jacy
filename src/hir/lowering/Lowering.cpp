@@ -182,7 +182,7 @@ namespace jc::hir {
     // Statements //
     Stmt Lowering::lowerStmt(const ast::Stmt::Ptr & astStmt) {
         const auto & stmt = astStmt.unwrap();
-        return Stmt(lowerStmtKind(astStmt), lowerNodeId(stmt->id), stmt->span);
+        return Stmt {lowerStmtKind(astStmt), stmt->span};
     }
 
     StmtKind::Ptr Lowering::lowerStmtKind(const ast::Stmt::Ptr & astStmt) {
@@ -204,7 +204,6 @@ namespace jc::hir {
     }
 
     StmtKind::Ptr Lowering::lowerLetStmt(const ast::LetStmt & letStmt) {
-        auto hirId = lowerNodeId(letStmt.id);
         auto type = letStmt.type.map<Type>([this](const ast::Type::Ptr & type) {
             return lowerType(type);
         });
@@ -223,11 +222,10 @@ namespace jc::hir {
     Expr Lowering::lowerExpr(const ast::Expr::Ptr & expr) {
         const auto & e = expr.unwrap();
 
-        return Expr(
+        return Expr {
             lowerExprKind(expr),
-            lowerNodeId(e->id),
             e->span
-        );
+        };
     }
 
     ExprKind::Ptr Lowering::lowerExprKind(const ast::Expr::Ptr & expr) {
@@ -469,12 +467,11 @@ namespace jc::hir {
     // Types //
     Type Lowering::lowerType(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap();
-        return Type(lowerTypeKind(astType), lowerNodeId(type->id), type->span);
+        return Type {lowerTypeKind(astType), type->span};
     }
 
     TypeKind::Ptr Lowering::lowerTypeKind(const ast::Type::Ptr & astType) {
         const auto & type = astType.unwrap("`Lowering::lowerType`");
-        auto hirId = lowerNodeId(astType.unwrap()->id);
         switch (type->kind) {
             case ast::Type::Kind::Paren: {
                 // Getting rid of useless parentheses
@@ -487,7 +484,7 @@ namespace jc::hir {
                     // TODO: Named tuples
                     els.emplace_back(lowerType(el.type));
                 }
-                return makeBoxNode<TupleType>(std::move(els), hirId, tupleType->span);
+                return makeBoxNode<TupleType>(std::move(els), tupleType->span);
             }
             case ast::Type::Kind::Func: {
                 const auto & funcType = ast::Type::as<ast::FuncType>(type);
@@ -495,28 +492,27 @@ namespace jc::hir {
                 for (const auto & type : funcType->params) {
                     inputs.emplace_back(lowerType(type));
                 }
-                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), hirId, funcType->span);
+                return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType), funcType->span);
             }
             case ast::Type::Kind::Slice: {
                 const auto & sliceType = ast::Type::as<ast::SliceType>(type);
-                return makeBoxNode<SliceType>(lowerType(sliceType->type), hirId, sliceType->span);
+                return makeBoxNode<SliceType>(lowerType(sliceType->type), sliceType->span);
             }
             case ast::Type::Kind::Array: {
                 const auto & arrayType = ast::Type::as<ast::ArrayType>(type);
                 return makeBoxNode<ArrayType>(
                     lowerType(arrayType->type),
                     lowerAnonConst(arrayType->sizeExpr),
-                    hirId,
                     arrayType->span
                 );
             }
             case ast::Type::Kind::Path: {
                 const auto & typePath = ast::Type::as<ast::TypePath>(type);
-                return makeBoxNode<TypePath>(lowerPath(typePath->path), hirId, typePath->span);
+                return makeBoxNode<TypePath>(lowerPath(typePath->path), typePath->span);
             }
             case ast::Type::Kind::Unit: {
                 const auto & unitType = ast::Type::as<ast::UnitType>(type);
-                return makeBoxNode<UnitType>(hirId, unitType->span);
+                return makeBoxNode<UnitType>(unitType->span);
             }
         }
         log::notImplemented("Lowering::lowerType");
@@ -530,7 +526,7 @@ namespace jc::hir {
             if (named) {
                 name = ty.name.unwrap().unwrap();
             }
-            fields.emplace_back(name, lowerType(ty.type), HirId::DUMMY, ty.span);
+            fields.emplace_back(name, lowerType(ty.type), ty.span);
         }
 
         return fields;
@@ -540,7 +536,7 @@ namespace jc::hir {
         CommonField::List fields;
 
         for (const auto & field : fs) {
-            fields.emplace_back(field.name.unwrap(), lowerType(field.type), HirId::DUMMY, field.span);
+            fields.emplace_back(field.name.unwrap(), lowerType(field.type), field.span);
         }
 
         return fields;
@@ -649,13 +645,13 @@ namespace jc::hir {
         for (const auto & stmt : block.stmts) {
             stmts.emplace_back(lowerStmt(stmt));
         }
-        return Block {std::move(stmts), lowerNodeId(block.id), block.span};
+        return Block {std::move(stmts), block.span};
     }
 
     Param::List Lowering::lowerFuncParams(const ast::FuncParam::List & funcParams) {
         Param::List params;
         for (const auto & param : funcParams) {
-            params.emplace_back(lowerPat(param.pat), lowerNodeId(param.id), param.span);
+            params.emplace_back(lowerPat(param.pat), param.span);
         }
         return params;
     }
@@ -691,7 +687,6 @@ namespace jc::hir {
 
     AnonConst Lowering::lowerAnonConst(const ast::AnonConst & anonConst) {
         return AnonConst {
-            lowerNodeId(anonConst.id),
             lowerExprAsBody(anonConst.expr)
         };
     }
@@ -716,14 +711,12 @@ namespace jc::hir {
             auto name = param.name();
             auto bounds = GenericBound::List {/* TODO: BOUNDS */};
             auto span = name.span;
-            auto hirId = lowerNodeId(param.id);
 
             switch (param.kind) {
                 case ast::GenericParam::Kind::Type: {
                     params.emplace_back(
                         GenericParam::Type {name},
                         std::move(bounds),
-                        hirId,
                         span
                     );
                     break;
@@ -732,7 +725,6 @@ namespace jc::hir {
                     params.emplace_back(
                         GenericParam::Lifetime {name},
                         std::move(bounds),
-                        hirId,
                         span
                     );
                     break;
@@ -742,7 +734,6 @@ namespace jc::hir {
                     params.emplace_back(
                         GenericParam::Const {name, lowerType(constParam.type)},
                         std::move(bounds),
-                        hirId,
                         span
                     );
                     break;
@@ -771,7 +762,7 @@ namespace jc::hir {
                 case ast::GenericArg::Kind::Lifetime: {
                     const auto & lifetime = arg.getLifetime();
                     auto name = lifetime.name.unwrap();
-                    args.emplace_back(GenericArg::Lifetime {lowerNodeId(lifetime.id), name.span, name});
+                    args.emplace_back(GenericArg::Lifetime {name.span, name});
                 }
                 case ast::GenericArg::Kind::Const: {
                     const auto & constParam = arg.getConstArg();
@@ -787,7 +778,7 @@ namespace jc::hir {
     // Patterns //
     Pat Lowering::lowerPat(const ast::Pat::Ptr & astPat) {
         const auto & pat = astPat.unwrap();
-        return Pat(lowerPatKind(astPat), lowerNodeId(pat->id), pat->span);
+        return Pat(lowerPatKind(astPat), pat->span);
     }
 
     PatKind::Ptr Lowering::lowerPatKind(const ast::Pat::Ptr & patPr) {
@@ -859,7 +850,6 @@ namespace jc::hir {
                 field.shortcut,
                 field.ident.unwrap(),
                 lowerPat(field.pat),
-                lowerNodeId(field.id),
                 field.span
             );
         }
@@ -877,7 +867,6 @@ namespace jc::hir {
 
         return makeBoxNode<IdentPat>(
             pat.anno,
-            HirId::DUMMY,
             pat.name.unwrap(),
             std::move(subPat)
         );
