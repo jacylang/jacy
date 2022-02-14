@@ -772,7 +772,7 @@ namespace jc::hir {
     // Patterns //
     Pat Lowering::lowerPat(const ast::Pat::Ptr & astPat) {
         const auto & pat = astPat.unwrap();
-        return Pat(lowerPatKind(astPat), pat->id, pat->span);
+        return Pat {lowerPatKind(astPat), pat->id, pat->span};
     }
 
     PatKind::Ptr Lowering::lowerPatKind(const ast::Pat::Ptr & patPr) {
