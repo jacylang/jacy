@@ -83,7 +83,7 @@ namespace jc::hir {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i));
                 if (delim.trailing or i < els.size() - 1) {
-                    log.raw(delim);
+                    log.raw(delim.delim);
                 }
             }
         }
@@ -97,7 +97,7 @@ namespace jc::hir {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i), i);
                 if (delim.trailing or i < els.size() - 1) {
-                    log.raw(delim);
+                    log.raw(delim.delim);
                 }
             }
         }
@@ -111,9 +111,9 @@ namespace jc::hir {
             beginBlock();
             for (size_t i = 0; i < els.size(); i++) {
                 printIndent();
-                cb(els.at(i), i);
+                cb(els.at(i));
                 if (delim.trailing or i < els.size() - 1) {
-                    log.raw(delim);
+                    log.raw(delim.delim);
                 }
             }
             endBlock();
