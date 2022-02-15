@@ -23,7 +23,9 @@ namespace jc::hir {
     }
 
     Block Lowering::synthBlockSingleExpr(Span span, Expr && expr) {
-        return synthBlock(span, Stmt::List {synthExprStmt(std::move(expr))});
+        Stmt::List exprs;
+        exprs.emplace_back(synthExprStmt(std::move(expr)));
+        return synthBlock(span, std::move(exprs));
     }
 
     // Lowering //
