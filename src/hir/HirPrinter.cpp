@@ -6,6 +6,9 @@
  */
 
 namespace jc::hir {
+    const Delim Delim::DEFAULT = {", ", false};
+    const Delim Delim::COMMA_NL = {",\n", true};
+
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
     void HirPrinter::print() {
@@ -13,11 +16,9 @@ namespace jc::hir {
     }
 
     void HirPrinter::printMod(const Mod & mod) {
-        for (const auto & itemId : mod.items) {
-            printIndent();
+        printBlockLike(mod.items, [&](const ItemId itemId) {
             printItem(itemId);
-            log.nl();
-        }
+        });
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -31,9 +32,7 @@ namespace jc::hir {
             case ItemKind::Kind::Enum: {
                 log.raw("enum ", itemWrapper.name);
                 const auto & enumItem = ItemKind::as<Enum>(item);
-                beginBlock();
-                printDelim(enumItem->variants, [&](const Variant & variant) {
-                    printIndent();
+                printBlockLike(enumItem->variants, [&](const Variant & variant) {
                     log.raw(variant.ident);
 
                     switch (variant.kind) {
@@ -51,8 +50,7 @@ namespace jc::hir {
                             break;
                         }
                     }
-                }, ",\n");
-                endBlock();
+                }, Delim::COMMA_NL);
                 break;
             }
             case ItemKind::Kind::Func: {
@@ -407,7 +405,7 @@ namespace jc::hir {
                 const auto & multiPat = PatKind::as<MultiPat>(kind);
                 printDelim(multiPat->pats, [&](const Pat & pat) {
                     printPat(pat);
-                }, " | ");
+                }, Delim {" | ", false});
                 break;
             }
             case PatKind::Kind::Wildcard: {
@@ -581,13 +579,9 @@ namespace jc::hir {
     }
 
     void HirPrinter::printBlock(const Block & block) {
-        beginBlock();
-        printDelim(block.stmts, [&](const Stmt & stmt) {
-            printIndent();
+        printBlockLike(block.stmts, [&](const Stmt & stmt) {
             printStmt(stmt);
-            log.nl();
-        }, "");
-        endBlock();
+        });
     }
 
     void HirPrinter::printOptBlock(const Block::Opt & block, bool printSemi) {
@@ -605,7 +599,7 @@ namespace jc::hir {
         printDelim(path.segments, [&](const PathSeg & seg) {
             log.raw(seg.name);
             printGenericArgs(seg.generics);
-        }, "::");
+        }, Delim {"::"});
     }
 
     void HirPrinter::printFuncSig(const FuncSig & sig, BodyId bodyId) {

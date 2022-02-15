@@ -5,10 +5,15 @@
 
 namespace jc::hir {
     struct Delim {
-        bool trailing;
+        Delim(const std::string & delim, bool trailing = false, bool wrapSingle = false)
+            : delim {delim}, trailing {trailing}, wrapSingle {wrapSingle} {}
+
         std::string delim;
+        bool trailing;
+        bool wrapSingle;
 
         static const Delim DEFAULT;
+        static const Delim COMMA_NL;
     };
 
     class HirPrinter {
@@ -99,13 +104,18 @@ namespace jc::hir {
         template<class C>
         void printBlockLike(
             const C & els,
-            const std::function<void(const typename C::value_type &, size_t)> & cb
+            const std::function<void(const typename C::value_type &)> & cb,
+            const Delim & delim = Delim {"\n", true}
         ) {
+            beginBlock();
             for (size_t i = 0; i < els.size(); i++) {
                 printIndent();
                 cb(els.at(i), i);
-                log.nl();
+                if (delim.trailing or i < els.size() - 1) {
+                    log.raw(delim);
+                }
             }
+            endBlock();
         }
 
         // Indentation and blocks //
