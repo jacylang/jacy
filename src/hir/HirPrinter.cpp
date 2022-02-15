@@ -23,7 +23,7 @@ namespace jc::hir {
 
         printVis(itemWrapper.vis);
 
-        const auto & item = itemWrapper.item;
+        const auto & item = itemWrapper.kind;
 
         switch (item->kind) {
             case ItemKind::Kind::Enum: {
@@ -133,7 +133,7 @@ namespace jc::hir {
 
     // Stmt //
     void HirPrinter::printStmt(const Stmt & stmt) {
-        return printStmtKind(stmt.stmt);
+        return printStmtKind(stmt.kind);
     }
 
     void HirPrinter::printStmtKind(const StmtKind::Ptr & stmt) {
@@ -173,7 +173,7 @@ namespace jc::hir {
 
     // Expr //
     void HirPrinter::printExpr(const Expr & expr) {
-        return printExprKind(expr.expr);
+        return printExprKind(expr.kind);
     }
 
     void HirPrinter::printExprKind(const ExprKind::Ptr & expr) {

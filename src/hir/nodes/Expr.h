@@ -53,10 +53,10 @@ namespace jc::hir {
         using Opt = Option<Expr>;
         using List = std::vector<Expr>;
 
-        Expr(ExprKind::Ptr && expr, NodeId nodeId, Span span)
-            : expr {std::move(expr)}, nodeId {nodeId}, span {span} {}
+        Expr(ExprKind::Ptr && kind, NodeId nodeId, Span span)
+            : kind {std::move(kind)}, nodeId {nodeId}, span {span} {}
 
-        ExprKind::Ptr expr;
+        ExprKind::Ptr kind;
         NodeId nodeId;
         Span span;
     };

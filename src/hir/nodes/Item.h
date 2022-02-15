@@ -47,17 +47,17 @@ namespace jc::hir {
     struct Item {
         using Vis = ast::Vis;
 
-        Item(Vis vis, span::Ident && name, ItemKind::Ptr && item, DefId defId, NodeId nodeId, Span span)
+        Item(Vis vis, span::Ident && name, ItemKind::Ptr && kind, DefId defId, NodeId nodeId, Span span)
             : vis {vis},
               name {std::move(name)},
-              item {std::move(item)},
+              kind {std::move(kind)},
               defId {defId},
               nodeId {nodeId},
               span {span} {}
 
         Vis vis;
         span::Ident name;
-        ItemKind::Ptr item;
+        ItemKind::Ptr kind;
         DefId defId;
         NodeId nodeId;
         Span span;
