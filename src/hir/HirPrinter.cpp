@@ -390,26 +390,30 @@ namespace jc::hir {
         }
     }
 
-    void HirPrinter::printPat(const Pat::Ptr & pat) {
+    void HirPrinter::printPat(const Pat & pat) {
+        return printPatKind(pat.kind);
+    }
+
+    void HirPrinter::printPatKind(const PatKind::Ptr & pat) {
         switch (pat->kind) {
-            case Pat::Kind::Multi: {
-                const auto & multiPat = Pat::as<MultiPat>(pat);
-                printDelim(multiPat->pats, [&](const Pat::Ptr & pat) {
+            case PatKind::Kind::Multi: {
+                const auto & multiPat = PatKind::as<MultiPat>(pat);
+                printDelim(multiPat->pats, [&](const PatKind::Ptr & pat) {
                     printPat(pat);
                 }, " | ");
                 break;
             }
-            case Pat::Kind::Wildcard: {
+            case PatKind::Kind::Wildcard: {
                 log.raw("_");
                 break;
             }
-            case Pat::Kind::Lit: {
-                const auto & litPat = Pat::as<LitPat>(pat);
+            case PatKind::Kind::Lit: {
+                const auto & litPat = PatKind::as<LitPat>(pat);
                 printExpr(litPat->value);
                 break;
             }
-            case Pat::Kind::Ident: {
-                const auto & identPat = Pat::as<IdentPat>(pat);
+            case PatKind::Kind::Ident: {
+                const auto & identPat = PatKind::as<IdentPat>(pat);
                 switch (identPat->anno) {
                     case IdentPatAnno::None:
                         break;
@@ -432,13 +436,13 @@ namespace jc::hir {
                 });
                 break;
             }
-            case Pat::Kind::Path: {
-                const auto & pathPat = Pat::as<PathPat>(pat);
+            case PatKind::Kind::Path: {
+                const auto & pathPat = PatKind::as<PathPat>(pat);
                 printPath(pathPat->path);
                 break;
             }
-            case Pat::Kind::Ref: {
-                const auto & refPat = Pat::as<RefPat>(pat);
+            case PatKind::Kind::Ref: {
+                const auto & refPat = PatKind::as<RefPat>(pat);
                 log.raw("&");
                 switch (refPat->mut) {
                     case Mutability::Unset:
@@ -451,8 +455,8 @@ namespace jc::hir {
                 printPat(refPat->pat);
                 break;
             }
-            case Pat::Kind::Struct: {
-                const auto & structPat = Pat::as<StructPat>(pat);
+            case PatKind::Kind::Struct: {
+                const auto & structPat = PatKind::as<StructPat>(pat);
 
                 printPath(structPat->path);
 
@@ -474,17 +478,17 @@ namespace jc::hir {
                 log.raw("}");
                 break;
             }
-            case Pat::Kind::Tuple: {
-                const auto & tuplePat = Pat::as<TuplePat>(pat);
+            case PatKind::Kind::Tuple: {
+                const auto & tuplePat = PatKind::as<TuplePat>(pat);
                 log.raw("(");
-                printDelim(tuplePat->els, [&](const Pat::Ptr & el) {
+                printDelim(tuplePat->els, [&](const PatKind::Ptr & el) {
                     printPat(el);
                 });
                 log.raw(")");
                 break;
             }
-            case Pat::Kind::Slice: {
-                const auto & slicePat = Pat::as<SlicePat>(pat);
+            case PatKind::Kind::Slice: {
+                const auto & slicePat = PatKind::as<SlicePat>(pat);
 
                 log.raw("[");
                 printDelim(slicePat->before, [&](const auto & el) { printPat(el); });
