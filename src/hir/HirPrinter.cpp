@@ -315,7 +315,7 @@ namespace jc::hir {
             case ExprKind::Kind::Return: {
                 const auto & returnExpr = ExprKind::as<ReturnExpr>(kind);
                 log.raw("return");
-                returnExpr->value.then([this](const auto & val) {
+                returnExpr->value.then([this](const Expr & val) {
                     log.raw(" ");
                     printExpr(val);
                 });
@@ -324,7 +324,7 @@ namespace jc::hir {
             case ExprKind::Kind::Tuple: {
                 const auto & tuple = ExprKind::as<TupleExpr>(kind);
                 log.raw("(");
-                printDelim(tuple->values, [&](const ExprKind::Ptr & val) {
+                printDelim(tuple->values, [&](const Expr & val) {
                     printExpr(val);
                 });
                 log.raw(")");
@@ -398,7 +398,7 @@ namespace jc::hir {
         switch (kind->kind) {
             case PatKind::Kind::Multi: {
                 const auto & multiPat = PatKind::as<MultiPat>(kind);
-                printDelim(multiPat->pats, [&](const PatKind::Ptr & pat) {
+                printDelim(multiPat->pats, [&](const Pat & pat) {
                     printPat(pat);
                 }, " | ");
                 break;
@@ -481,7 +481,7 @@ namespace jc::hir {
             case PatKind::Kind::Tuple: {
                 const auto & tuplePat = PatKind::as<TuplePat>(kind);
                 log.raw("(");
-                printDelim(tuplePat->els, [&](const PatKind::Ptr & el) {
+                printDelim(tuplePat->els, [&](const Pat & el) {
                     printPat(el);
                 });
                 log.raw(")");
@@ -575,7 +575,7 @@ namespace jc::hir {
 
     void HirPrinter::printBlock(const Block & block) {
         beginBlock();
-        printDelim(block.stmts, [&](const StmtKind::Ptr & stmt) {
+        printDelim(block.stmts, [&](const Stmt & stmt) {
             printStmt(stmt);
         });
         endBlock();
@@ -604,7 +604,7 @@ namespace jc::hir {
 
         const auto & body = party.bodies.at(bodyId);
 
-        printDelim(sig.inputs, [&](const Type::Ptr & type, size_t index) {
+        printDelim(sig.inputs, [&](const Type & type, size_t index) {
             printPat(body.params.at(index).pat);
             log.raw(": ");
             printType(type);
