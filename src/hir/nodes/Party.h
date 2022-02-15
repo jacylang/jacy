@@ -22,6 +22,14 @@ namespace jc::hir {
         Mod rootMod;
         Items items;
         Bodies bodies;
+
+        const Item & item(ItemId itemId) const {
+            return items.at(itemId);
+        }
+
+        const Body & body(BodyId bodyId) const {
+            return bodies.at(bodyId);
+        }
     };
 }
 

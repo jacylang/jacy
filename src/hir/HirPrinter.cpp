@@ -9,7 +9,7 @@ namespace jc::hir {
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
     void HirPrinter::print() {
-        printMod(party.rootMod());
+        printMod(party.rootMod);
     }
 
     void HirPrinter::printMod(const Mod & mod) {
