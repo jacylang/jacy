@@ -8,7 +8,7 @@
 namespace jc::hir {
     const Delim Delim::DEFAULT = {", ", false};
     const Delim Delim::COMMA_NL = {",\n", true};
-    const Delim Delim::NL = {"\n", true};
+    const Delim Delim::NL = {"\n", true, true};
 
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
@@ -18,6 +18,7 @@ namespace jc::hir {
 
     void HirPrinter::printMod(const Mod & mod) {
         printDelim(mod.items, [&](const ItemId itemId) {
+            printIndent();
             printItem(itemId);
         }, Delim::NL);
     }
@@ -657,6 +658,7 @@ namespace jc::hir {
 
     void HirPrinter::endBlock() {
         indent--;
+        printIndent();
         log.raw("}");
     }
 }

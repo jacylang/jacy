@@ -106,8 +106,20 @@ namespace jc::hir {
         void printBlockLike(
             const C & els,
             const std::function<void(const typename C::value_type &)> & cb,
-            const Delim & delim = Delim {"\n", true}
+            const Delim & delim = Delim::NL
         ) {
+            if (delim.wrapSingle) {
+                if (els.size() == 1) {
+                    log.raw("{ ");
+                    cb(els.at(0));
+                    log.raw(" }");
+                    return;
+                } else {
+                    log.raw("{}");
+                    return;
+                }
+            }
+
             beginBlock();
             for (size_t i = 0; i < els.size(); i++) {
                 printIndent();
