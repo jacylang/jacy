@@ -106,7 +106,8 @@ namespace jc::hir {
                 printPath(useDecl->path);
 
                 switch (useDecl->kind) {
-                    case ast::UseTree::Kind::Raw: break;
+                    case ast::UseTree::Kind::Raw:
+                        break;
                     case ast::UseTree::Kind::All: {
                         log.raw("::*");
                         break;
@@ -139,12 +140,12 @@ namespace jc::hir {
                 log.raw("let ");
                 printPat(letStmt->pat);
 
-                letStmt->type.then([this](const Type::Ptr & type) {
+                letStmt->type.then([this](const Type & type) {
                     log.raw(": ");
                     printType(type);
                 });
 
-                letStmt->value.then([this](const ExprKind::Ptr & value) {
+                letStmt->value.then([this](const Expr & value) {
                     log.raw(" = ");
                     printExpr(value);
                 });
@@ -167,7 +168,11 @@ namespace jc::hir {
     }
 
     // Expr //
-    void HirPrinter::printExpr(const ExprKind::Ptr & expr) {
+    void HirPrinter::printExpr(const Expr & expr) {
+        return printExprKind(expr.expr);
+    }
+
+    void HirPrinter::printExprKind(const ExprKind::Ptr & expr) {
         switch (expr->kind) {
             case ExprKind::Kind::Array: {
                 const auto & array = ExprKind::as<ArrayExpr>(expr);

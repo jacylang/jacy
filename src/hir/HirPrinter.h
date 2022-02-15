@@ -22,7 +22,8 @@ namespace jc::hir {
 
         // Expr //
     private:
-        void printExpr(const ExprKind::Ptr & expr);
+        void printExpr(const Expr & expr);
+        void printExprKind(const ExprKind::Ptr & kind);
 
         // Types //
     private:

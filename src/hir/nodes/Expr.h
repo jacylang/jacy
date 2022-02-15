@@ -42,6 +42,11 @@ namespace jc::hir {
         ExprKind(Kind kind) : kind {kind} {}
 
         Kind kind;
+
+        template<class T>
+        static T * as(const Ptr & item) {
+            return static_cast<T *>(item.get());
+        }
     };
 
     struct Expr {
