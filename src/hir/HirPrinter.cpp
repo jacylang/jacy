@@ -13,9 +13,9 @@ namespace jc::hir {
     }
 
     void HirPrinter::printMod(const Mod & mod) {
-        for (const auto & itemId : mod.items) {
-            printItem(itemId);
-        }
+        printDelim(mod.items, [&](const ItemId & item) {
+            printItem(item);
+        }, "\n");
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -647,7 +647,7 @@ namespace jc::hir {
     }
 
     void HirPrinter::beginBlock() {
-        log.raw("{");
+        log.raw("{").nl();
         indent++;
     }
 
