@@ -4,6 +4,13 @@
 #include "hir/nodes/Party.h"
 
 namespace jc::hir {
+    struct Delim {
+        bool trailing;
+        std::string delim;
+
+        static const Delim DEFAULT;
+    };
+
     class HirPrinter {
     public:
         HirPrinter(const Party & party);
@@ -65,11 +72,11 @@ namespace jc::hir {
         void printDelim(
             const C & els,
             const std::function<void(const typename C::value_type &)> & cb,
-            const std::string & delim = ", "
+            const Delim & delim = Delim::DEFAULT
         ) {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i));
-                if (i < els.size() - 1) {
+                if (delim.trailing or i < els.size() - 1) {
                     log.raw(delim);
                 }
             }
@@ -79,13 +86,25 @@ namespace jc::hir {
         void printDelim(
             const C & els,
             const std::function<void(const typename C::value_type &, size_t)> & cb,
-            const std::string & delim = ", "
+            const Delim & delim = Delim::DEFAULT
         ) {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i), i);
-                if (i < els.size() - 1) {
+                if (delim.trailing or i < els.size() - 1) {
                     log.raw(delim);
                 }
+            }
+        }
+
+        template<class C>
+        void printBlockLike(
+            const C & els,
+            const std::function<void(const typename C::value_type &, size_t)> & cb
+        ) {
+            for (size_t i = 0; i < els.size(); i++) {
+                printIndent();
+                cb(els.at(i), i);
+                log.nl();
             }
         }
 
