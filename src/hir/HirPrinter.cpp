@@ -334,14 +334,18 @@ namespace jc::hir {
     }
 
     // Types //
-    void HirPrinter::printType(const Type::Ptr & type) {
+    void HirPrinter::printType(const Type & type) {
+        return printTypeKind(type.kind);
+    }
+
+    void HirPrinter::printTypeKind(const TypeKind::Ptr & type) {
         switch (type->kind) {
-            case Type::Kind::Infer: {
+            case TypeKind::Kind::Infer: {
                 // TODO: `_` or nothing?
                 break;
             }
-            case Type::Kind::Tuple: {
-                const auto & tuple = Type::as<TupleType>(type);
+            case TypeKind::Kind::Tuple: {
+                const auto & tuple = TypeKind::as<TupleType>(type);
                 log.raw("(");
                 printDelim(tuple->types, [&](const auto & el) {
                     printType(el);
@@ -349,8 +353,8 @@ namespace jc::hir {
                 log.raw(")");
                 break;
             }
-            case Type::Kind::Func: {
-                const auto & func = Type::as<FuncType>(type);
+            case TypeKind::Kind::Func: {
+                const auto & func = TypeKind::as<FuncType>(type);
 
                 log.raw("(");
                 printDelim(func->inputs, [&](const auto & param) {
@@ -362,15 +366,15 @@ namespace jc::hir {
 
                 break;
             }
-            case Type::Kind::Slice: {
-                const auto & slice = Type::as<SliceType>(type);
+            case TypeKind::Kind::Slice: {
+                const auto & slice = TypeKind::as<SliceType>(type);
                 log.raw("[");
                 printType(slice->type);
                 log.raw("]");
                 break;
             }
-            case Type::Kind::Array: {
-                const auto & array = Type::as<ArrayType>(type);
+            case TypeKind::Kind::Array: {
+                const auto & array = TypeKind::as<ArrayType>(type);
                 log.raw("[");
                 printType(array->type);
                 log.raw("; ");
@@ -378,8 +382,8 @@ namespace jc::hir {
                 log.raw("]");
                 break;
             }
-            case Type::Kind::Path: {
-                const auto & typePath = Type::as<TypePath>(type);
+            case TypeKind::Kind::Path: {
+                const auto & typePath = TypeKind::as<TypePath>(type);
                 printPath(typePath->path);
                 break;
             }

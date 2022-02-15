@@ -28,7 +28,8 @@ namespace jc::hir {
 
         // Types //
     private:
-        void printType(const Type::Ptr & type);
+        void printType(const Type & type);
+        void printTypeKind(const TypeKind::Ptr & type);
 
     private:
         void printPat(const Pat::Ptr & pat);
