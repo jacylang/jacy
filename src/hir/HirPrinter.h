@@ -47,7 +47,7 @@ namespace jc::hir {
 
         /// Print optional block
         /// @param printSemi Puts `;` if block is `None`
-        void printOptBlock(const Block::Opt & block, bool printSemi = true);
+        void printOptBlock(const Block::Opt & block, bool printSemi);
 
         void printPath(const Path & path);
 

@@ -240,13 +240,13 @@ namespace jc::hir {
                 printExpr(ifExpr->cond);
                 log.raw(" ");
 
-                printOptBlock(ifExpr->ifBranch);
+                printOptBlock(ifExpr->ifBranch, true);
 
                 if (ifExpr->elseBranch.some()) {
                     log.raw(" else ");
                 }
 
-                printOptBlock(ifExpr->elseBranch);
+                printOptBlock(ifExpr->elseBranch, true);
 
                 break;
             }
@@ -385,6 +385,10 @@ namespace jc::hir {
             case TypeKind::Kind::Path: {
                 const auto & typePath = TypeKind::as<TypePath>(kind);
                 printPath(typePath->path);
+                break;
+            }
+            case TypeKind::Kind::Unit: {
+                log.raw("()");
                 break;
             }
         }
