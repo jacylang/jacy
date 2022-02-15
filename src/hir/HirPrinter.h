@@ -24,16 +24,16 @@ namespace jc::hir {
         // Expr //
     private:
         void printExpr(const Expr & expr);
-        void printExprKind(const ExprKind::Ptr & expr);
+        void printExprKind(const ExprKind::Ptr & kind);
 
         // Types //
     private:
         void printType(const Type & type);
-        void printTypeKind(const TypeKind::Ptr & type);
+        void printTypeKind(const TypeKind::Ptr & kind);
 
     private:
         void printPat(const Pat & pat);
-        void printPatKind(const PatKind::Ptr & pat);
+        void printPatKind(const PatKind::Ptr & kind);
 
         // Fragments printers //
     private:
