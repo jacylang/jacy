@@ -40,9 +40,9 @@ namespace jc::hir {
     struct BodyId {
         NodeId nodeId;
 
-//        bool operator<(const BodyId & other) const {
-//            return hirId < other.hirId;
-//        }
+        bool operator<(const BodyId & other) const {
+            return nodeId < other.nodeId;
+        }
     };
 
     struct Param {
