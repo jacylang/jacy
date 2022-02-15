@@ -13,9 +13,11 @@ namespace jc::hir {
     }
 
     void HirPrinter::printMod(const Mod & mod) {
-        printDelim(mod.items, [&](const ItemId & item) {
-            printItem(item);
-        }, "\n");
+        for (const auto & itemId : mod.items) {
+            printIndent();
+            printItem(itemId);
+            log.nl();
+        }
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -60,6 +62,7 @@ namespace jc::hir {
                 printGenericParams(funcItem->generics);
                 log.raw(itemWrapper.name);
                 printFuncSig(funcItem->sig, funcItem->body);
+                log.raw(" ");
                 printBody(funcItem->body);
 
                 break;
@@ -580,8 +583,10 @@ namespace jc::hir {
     void HirPrinter::printBlock(const Block & block) {
         beginBlock();
         printDelim(block.stmts, [&](const Stmt & stmt) {
+            printIndent();
             printStmt(stmt);
-        });
+            log.nl();
+        }, "");
         endBlock();
     }
 
