@@ -8,6 +8,7 @@
 namespace jc::hir {
     const Delim Delim::DEFAULT = {", ", false};
     const Delim Delim::COMMA_NL = {",\n", true};
+    const Delim Delim::NL = {"\n", true};
 
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
@@ -16,9 +17,9 @@ namespace jc::hir {
     }
 
     void HirPrinter::printMod(const Mod & mod) {
-        printBlockLike(mod.items, [&](const ItemId itemId) {
+        printDelim(mod.items, [&](const ItemId itemId) {
             printItem(itemId);
-        });
+        }, Delim::NL);
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -70,7 +71,7 @@ namespace jc::hir {
             case ItemKind::Kind::Mod: {
                 const auto & mod = ItemKind::as<Mod>(item);
 
-                log.raw("mod ", itemWrapper.name);
+                log.raw("mod ", itemWrapper.name, " ");
                 beginBlock();
                 printMod(*mod);
                 endBlock();

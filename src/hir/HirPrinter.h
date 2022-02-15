@@ -14,6 +14,7 @@ namespace jc::hir {
 
         static const Delim DEFAULT;
         static const Delim COMMA_NL;
+        static const Delim NL;
     };
 
     class HirPrinter {
