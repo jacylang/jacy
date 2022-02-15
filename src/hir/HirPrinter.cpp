@@ -132,7 +132,11 @@ namespace jc::hir {
     }
 
     // Stmt //
-    void HirPrinter::printStmt(const StmtKind::Ptr & stmt) {
+    void HirPrinter::printStmt(const Stmt & stmt) {
+        return printStmtKind(stmt.stmt);
+    }
+
+    void HirPrinter::printStmtKind(const StmtKind::Ptr & stmt) {
         switch (stmt->kind) {
             case StmtKind::Kind::Let: {
                 const auto & letStmt = StmtKind::as<LetStmt>(stmt);

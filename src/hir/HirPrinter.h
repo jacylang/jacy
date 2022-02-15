@@ -18,12 +18,13 @@ namespace jc::hir {
 
         // Statements //
     private:
-        void printStmt(const StmtKind::Ptr & value);
+        void printStmt(const Stmt & stmt);
+        void printStmtKind(const StmtKind::Ptr & kind);
 
         // Expr //
     private:
         void printExpr(const Expr & expr);
-        void printExprKind(const ExprKind::Ptr & kind);
+        void printExprKind(const ExprKind::Ptr & expr);
 
         // Types //
     private:
