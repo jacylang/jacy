@@ -190,11 +190,11 @@ namespace jc::hir {
             });
 
             for (size_t i = 0; i < els.size(); i++) {
+                if (multiline) {
+                    printIndent();
+                }
                 cb(els.at(i), i);
                 if (trailing or i < els.size() - 1) {
-                    if (multiline) {
-                        printIndent();
-                    }
                     log.raw(delim.delim);
                 }
             }
