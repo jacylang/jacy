@@ -92,6 +92,10 @@ namespace jc::hir {
             return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Multiline::Yes};
         }
 
+        std::string getPairedTok() const {
+            return (begin.some() ? begin.unwrap() : ""s) + (end.some() ? end.unwrap() : ""s);
+        }
+
     public:
         bool checkChop(size_t elsCount) const {
             if (std::holds_alternative<std::monostate>(chop)) {
@@ -176,6 +180,12 @@ namespace jc::hir {
             const std::function<void(const typename C::value_type &, size_t)> & cb,
             const Delim & delim
         ) {
+            if (els.empty()) {
+                // TODO: Add specific `Delim::Multiline::Force` to put line-feed even if no elements present?
+                log.raw(delim.getPairedTok());
+                return;
+            }
+
             bool multiline = delim.multiline == Delim::Multiline::Yes
                 or (delim.multiline == Delim::Multiline::Auto and delim.checkChop(els.size()));
             bool trailing = delim.trailing == Delim::Trailing::Always
