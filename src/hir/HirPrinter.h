@@ -28,6 +28,7 @@ namespace jc::hir {
         enum class Multiline {
             Yes,
             No,
+            Auto,
         };
 
     private:
@@ -84,7 +85,7 @@ namespace jc::hir {
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {
-            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Multiline::Yes};
+            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Multiline::Auto};
         }
 
         static Delim createItemBlock(const std::string & delim = "\n", bool addBraces = true) {
@@ -175,7 +176,8 @@ namespace jc::hir {
             const std::function<void(const typename C::value_type &, size_t)> & cb,
             const Delim & delim
         ) {
-            bool multiline = delim.multiline or delim.checkChop(els.size());
+            bool multiline = delim.multiline == Delim::Multiline::Yes
+                or (delim.multiline == Delim::Multiline::Auto and delim.checkChop(els.size()));
             bool trailing = delim.trailing == Delim::Trailing::Always
                 or (delim.trailing == Delim::Trailing::Multiline and multiline);
 
