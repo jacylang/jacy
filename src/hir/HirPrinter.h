@@ -176,14 +176,15 @@ namespace jc::hir {
             const Delim & delim
         ) {
             bool multiline = delim.checkChop(els.size());
-            bool trailing =
-                delim.trailing == Delim::Trailing::Always or delim.trailing == Delim::Trailing::Multiline and multiline;
+            bool trailing = delim.trailing == Delim::Trailing::Always
+                or (delim.trailing == Delim::Trailing::Multiline and multiline);
             bool indentation = delim.indent == Delim::Indent::Yes and multiline;
 
             delim.begin.then([&](const auto & begin) {
                 log.raw(begin);
                 if (indentation) {
                     indent++;
+                    log.raw("\n");
                 }
             });
 
