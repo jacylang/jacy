@@ -136,43 +136,38 @@ namespace jc::hir {
         void printDelim(
             const C & els,
             const std::function<void(const typename C::value_type &, size_t)> & cb,
-            const Delim & delim = Delim::DEFAULT
+            const Delim & delim
         ) {
-            if (delim.wrapSingle) {
-                if (els.size() == 1) {
-                    log.raw(delim.delim);
-                    cb(els.at(0));
-                    log.raw(delim.delim);
-                    return;
-                } else {
-                    log.raw(delim);
-                    return;
+            bool multiline = delim.checkChop(els.size());
+            bool trailing = delim.trailing == Delim::Trailing::Always or delim.trailing == Delim::Trailing::Multiline and multiline;
+            bool indentation = delim.indent == Delim::Indent::Yes and multiline;
+
+            delim.begin.then([&](const auto & begin) {
+                log.raw(begin);
+                if (indentation) {
+                    indent++;
                 }
-            }
+            });
 
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i), i);
-                if (delim.trailing or i < els.size() - 1) {
+                if (trailing or i < els.size() - 1) {
+                    if (indentation) {
+                        printIndent();
+                    }
                     log.raw(delim.delim);
                 }
             }
-        }
 
-        template<class C>
-        void printBlockLike(
-            const C & els,
-            const std::function<void(const typename C::value_type &)> & cb,
-            const Delim & delim = Delim::NL
-        ) {
-            beginBlock();
-            for (size_t i = 0; i < els.size(); i++) {
-                printIndent();
-                cb(els.at(i));
-                if (delim.trailing or i < els.size() - 1) {
-                    log.raw(delim.delim);
+            delim.end.then([&](const auto & end) {
+                if (indentation) {
+                    indent--;
+                    // Note: `indentation` is true only if we split by lines,
+                    //  thus we need to print old indent before end.
+                    printIndent();
                 }
-            }
-            endBlock();
+                log.raw(end);
+            });
         }
 
         // Indentation and blocks //
