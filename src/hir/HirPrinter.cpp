@@ -16,7 +16,6 @@ namespace jc::hir {
 
     void HirPrinter::printMod(const Mod & mod) {
         printDelim(mod.items, [&](const ItemId itemId, size_t) {
-            printIndent();
             printItem(itemId);
         }, Delim::createItemBlock("\n", false));
     }
