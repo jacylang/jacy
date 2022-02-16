@@ -55,6 +55,14 @@ namespace jc::hir {
         }
 
     public:
+        bool checkChop(size_t elsCount) const {
+            if (std::holds_alternative<std::monostate>(chop)) {
+                return false;
+            }
+            return elsCount > std::get<uint32_t>(chop);
+        }
+
+    public:
         std::string delim;
         Option<std::string> begin;
         Option<std::string> end;
