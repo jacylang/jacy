@@ -82,9 +82,7 @@ namespace jc::hir {
                 log.raw("struct ", itemWrapper.name);
                 printGenericParams(structItem->generics);
 
-                beginBlock();
                 printCommonFields(structItem->fields, true);
-                endBlock();
 
                 break;
             }
