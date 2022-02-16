@@ -25,7 +25,7 @@ namespace jc::hir {
 
         using Chop = std::variant<std::monostate, uint32_t>;
 
-        enum class Indent {
+        enum class Multiline {
             Yes,
             No,
         };
@@ -36,7 +36,7 @@ namespace jc::hir {
             PairedTok pairedTok,
             Trailing trailing,
             Chop chop,
-            Indent indent
+            Multiline indent
         ) : delim {delim},
             begin {None},
             end {None},
@@ -73,22 +73,22 @@ namespace jc::hir {
         }
 
     public:
-        static Delim createDelim(const std::string & delim, Trailing trailing, Chop chop, Indent indent) {
+        static Delim createDelim(const std::string & delim, Trailing trailing, Chop chop, Multiline indent) {
             return Delim {delim, PairedTok::None, trailing, chop, indent};
         }
 
         static Delim createBlock(
             const std::string & delim
         ) {
-            return Delim {delim, PairedTok::Brace, Trailing::Always, 0u, Indent::Yes};
+            return Delim {delim, PairedTok::Brace, Trailing::Always, 0u, Multiline::Yes};
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {
-            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Indent::Yes};
+            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Multiline::Yes};
         }
 
         static Delim createItemBlock(const std::string & delim = "\n", bool addBraces = true) {
-            return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Indent::Yes};
+            return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Multiline::Yes};
         }
 
     public:
@@ -105,7 +105,7 @@ namespace jc::hir {
         Option<std::string> end;
         Trailing trailing;
         Chop chop;
-        Indent indent;
+        Multiline indent;
     };
 
     class HirPrinter {
@@ -178,7 +178,7 @@ namespace jc::hir {
             bool multiline = delim.checkChop(els.size());
             bool trailing = delim.trailing == Delim::Trailing::Always
                 or (delim.trailing == Delim::Trailing::Multiline and multiline);
-            bool indentation = delim.indent == Delim::Indent::Yes and multiline;
+            bool indentation = delim.indent == Delim::Multiline::Yes and multiline;
 
             delim.begin.then([&](const auto & begin) {
                 log.raw(begin);

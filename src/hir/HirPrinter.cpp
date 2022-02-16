@@ -388,7 +388,7 @@ namespace jc::hir {
                 const auto & multiPat = PatKind::as<MultiPat>(kind);
                 printDelim(multiPat->pats, [&](const Pat & pat, size_t) {
                     printPat(pat);
-                }, Delim::createDelim(" | ", Delim::Trailing::Never, Delim::NO_CHOP, Delim::Indent::No));
+                }, Delim::createDelim(" | ", Delim::Trailing::Never, Delim::NO_CHOP, Delim::Multiline::No));
                 break;
             }
             case PatKind::Kind::Wildcard: {
@@ -575,7 +575,7 @@ namespace jc::hir {
         printDelim(path.segments, [&](const PathSeg & seg, size_t) {
             log.raw(seg.name);
             printGenericArgs(seg.generics);
-        }, Delim::createDelim("::", Delim::Trailing::Never, Delim::NO_CHOP, Delim::Indent::No));
+        }, Delim::createDelim("::", Delim::Trailing::Never, Delim::NO_CHOP, Delim::Multiline::No));
     }
 
     void HirPrinter::printFuncSig(const FuncSig & sig, BodyId bodyId) {
