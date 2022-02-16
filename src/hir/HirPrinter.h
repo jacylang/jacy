@@ -20,7 +20,7 @@ namespace jc::hir {
         enum class Trailing {
             Never,
             Always,
-            Multiline,
+            WhenChop,
         };
 
         using Chop = std::variant<std::monostate, uint32_t>;
@@ -85,7 +85,7 @@ namespace jc::hir {
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {
-            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Multiline::Auto};
+            return Delim {", "s, pairedTok, Trailing::WhenChop, 0u, Multiline::Auto};
         }
 
         static Delim createItemBlock(const std::string & delim = "\n", bool addBraces = true) {
@@ -179,7 +179,7 @@ namespace jc::hir {
             bool multiline = delim.multiline == Delim::Multiline::Yes
                 or (delim.multiline == Delim::Multiline::Auto and delim.checkChop(els.size()));
             bool trailing = delim.trailing == Delim::Trailing::Always
-                or (delim.trailing == Delim::Trailing::Multiline and multiline);
+                or (delim.trailing == Delim::Trailing::WhenChop and multiline);
 
             delim.begin.then([&](const auto & begin) {
                 log.raw(begin);
