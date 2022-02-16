@@ -50,8 +50,10 @@ namespace jc::hir {
             return Delim {", "s, begin, end, Trailing::Multiline, 0u, Indent::Yes};
         }
 
-        static Delim createItemBlock() {
-            return Delim {"\n"s, "{"s, "}"s, Trailing::Always, 0u, Indent::Yes};
+        static Delim createItemBlock(bool addBraces = true) {
+            auto begin = addBraces ? Some("{"s) : None;
+            auto end = addBraces ? Some("}"s) : None;
+            return Delim {"\n"s, begin, end, Trailing::Always, 0u, Indent::Yes};
         }
 
     public:
