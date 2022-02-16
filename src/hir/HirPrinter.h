@@ -182,7 +182,7 @@ namespace jc::hir {
 
             delim.begin.then([&](const auto & begin) {
                 log.raw(begin);
-                if (indentation) {
+                if (multiline) {
                     indent++;
                     log.raw("\n");
                 }
