@@ -6,9 +6,6 @@
  */
 
 namespace jc::hir {
-    const Delim Delim::DEFAULT = {", ", false};
-    const Delim Delim::COMMA_NL = {",\n", true};
-    const Delim Delim::NL = {"\n", true, true};
 
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
