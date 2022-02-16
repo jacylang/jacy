@@ -7,6 +7,8 @@ namespace jc::hir {
     using namespace std::string_literals;
 
     struct Delim {
+        static const std::monostate NO_CHOP;
+
         enum class PairedTok {
             None,
             Brace,
