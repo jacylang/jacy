@@ -6,7 +6,6 @@
  */
 
 namespace jc::hir {
-
     HirPrinter::HirPrinter(const Party & party) : party {party} {}
 
     void HirPrinter::print() {
@@ -14,10 +13,10 @@ namespace jc::hir {
     }
 
     void HirPrinter::printMod(const Mod & mod) {
-        printDelim(mod.items, [&](const ItemId itemId) {
+        printDelim(mod.items, [&](const ItemId itemId, size_t) {
             printIndent();
             printItem(itemId);
-        }, Delim::NL);
+        }, Delim::createItemBlock("\n", false));
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -31,14 +30,13 @@ namespace jc::hir {
             case ItemKind::Kind::Enum: {
                 log.raw("enum ", itemWrapper.name);
                 const auto & enumItem = ItemKind::as<Enum>(item);
-                printBlockLike(enumItem->variants, [&](const Variant & variant) {
+                printDelim(enumItem->variants, [&](const Variant & variant, size_t) {
                     log.raw(variant.ident);
 
                     switch (variant.kind) {
                         case Variant::Kind::Struct:
                         case Variant::Kind::Tuple: {
-                            const auto & fields = variant.getCommonFields();
-                            printCommonFields(fields, variant.kind == Variant::Kind::Struct);
+                            printCommonFields(variant.getCommonFields(), variant.kind == Variant::Kind::Struct);
                             break;
                         }
                         case Variant::Kind::Unit: {
@@ -49,7 +47,7 @@ namespace jc::hir {
                             break;
                         }
                     }
-                }, Delim::COMMA_NL);
+                }, Delim::createItemBlock(",", true));
                 break;
             }
             case ItemKind::Kind::Func: {
@@ -180,11 +178,9 @@ namespace jc::hir {
         switch (kind->kind) {
             case ExprKind::Kind::Array: {
                 const auto & array = ExprKind::as<ArrayExpr>(kind);
-                log.raw("[");
-                printDelim(array->elements, [&](const auto & el) {
+                printDelim(array->elements, [&](const auto & el, size_t) {
                     printExpr(el);
-                });
-                log.raw("]");
+                }, Delim::createCommaDelim(Delim::PairedTok::Bracket));
                 break;
             }
             case ExprKind::Kind::Assign: {
@@ -260,15 +256,13 @@ namespace jc::hir {
             case ExprKind::Kind::Invoke: {
                 const auto & invoke = ExprKind::as<InvokeExpr>(kind);
                 printExpr(invoke->lhs);
-                log.raw("(");
-                printDelim(invoke->args, [&](const Arg & arg) {
+                printDelim(invoke->args, [&](const Arg & arg, size_t) {
                     arg.ident.then([this](const auto & name) {
                         log.raw(name, ": ");
                     });
 
                     printExpr(arg.value);
-                });
-                log.raw(")");
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
             case ExprKind::Kind::Literal: {
@@ -288,16 +282,11 @@ namespace jc::hir {
 
                 printExpr(match->subject);
 
-                beginBlock();
-
-                printDelim(match->arms, [&](const MatchArm & arm) {
-                    printIndent();
+                printDelim(match->arms, [&](const MatchArm & arm, size_t) {
                     printPat(arm.pat);
                     log.raw(" => ");
                     printExpr(arm.body);
-                });
-
-                endBlock();
+                }, Delim::createItemBlock(",", true));
 
                 break;
             }
@@ -323,11 +312,9 @@ namespace jc::hir {
             }
             case ExprKind::Kind::Tuple: {
                 const auto & tuple = ExprKind::as<TupleExpr>(kind);
-                log.raw("(");
-                printDelim(tuple->values, [&](const Expr & val) {
+                printDelim(tuple->values, [&](const Expr & val, size_t) {
                     printExpr(val);
-                });
-                log.raw(")");
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
         }
@@ -346,21 +333,18 @@ namespace jc::hir {
             }
             case TypeKind::Kind::Tuple: {
                 const auto & tuple = TypeKind::as<TupleType>(kind);
-                log.raw("(");
-                printDelim(tuple->types, [&](const auto & el) {
+                printDelim(tuple->types, [&](const auto & el, size_t) {
                     printType(el);
-                });
-                log.raw(")");
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
             case TypeKind::Kind::Func: {
                 const auto & func = TypeKind::as<FuncType>(kind);
 
-                log.raw("(");
-                printDelim(func->inputs, [&](const auto & param) {
+                printDelim(func->inputs, [&](const auto & param, size_t) {
                     printType(param);
-                });
-                log.raw(") -> ");
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
+                log.raw(" -> ");
 
                 printType(func->ret);
 
@@ -402,9 +386,9 @@ namespace jc::hir {
         switch (kind->kind) {
             case PatKind::Kind::Multi: {
                 const auto & multiPat = PatKind::as<MultiPat>(kind);
-                printDelim(multiPat->pats, [&](const Pat & pat) {
+                printDelim(multiPat->pats, [&](const Pat & pat, size_t) {
                     printPat(pat);
-                }, Delim {" | ", false});
+                }, Delim::createDelim(" | ", Delim::Trailing::Never, std::monostate {}, Delim::Indent::No));
                 break;
             }
             case PatKind::Kind::Wildcard: {
@@ -464,38 +448,37 @@ namespace jc::hir {
 
                 printPath(structPat->path);
 
-                log.raw("{");
-
-                printDelim(structPat->fields, [&](const StructPatField & field) {
+                printDelim(structPat->fields, [&](const StructPatField & field, size_t index) {
                     if (field.shortcut) {
                         printPat(field.pat);
                     } else {
                         log.raw(field.ident, ": ");
                         printPat(field.pat);
                     }
-                });
 
-                if (structPat->rest.some()) {
-                    log.raw(", ...");
-                }
+                    if (index == structPat->fields.size() - 1) {
+                        if (structPat->rest.some()) {
+                            log.raw(", ...");
+                        }
+                    }
+                }, Delim::createBlock(", "));
 
-                log.raw("}");
                 break;
             }
             case PatKind::Kind::Tuple: {
                 const auto & tuplePat = PatKind::as<TuplePat>(kind);
-                log.raw("(");
-                printDelim(tuplePat->els, [&](const Pat & el) {
+                printDelim(tuplePat->els, [&](const Pat & el, size_t) {
                     printPat(el);
-                });
-                log.raw(")");
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
             case PatKind::Kind::Slice: {
                 const auto & slicePat = PatKind::as<SlicePat>(kind);
 
                 log.raw("[");
-                printDelim(slicePat->before, [&](const auto & el) { printPat(el); });
+                printDelim(slicePat->before, [&](const auto & el, size_t) {
+                    printPat(el);
+                }, Delim::createCommaDelim(Delim::PairedTok::None));
 
                 if (slicePat->restPatSpan.some()) {
                     log.raw(", ...");
@@ -505,7 +488,9 @@ namespace jc::hir {
                     log.raw(", ");
                 }
 
-                printDelim(slicePat->before, [&](const auto & el) { printPat(el); });
+                printDelim(slicePat->before, [&](const auto & el, size_t) {
+                    printPat(el);
+                }, Delim::createCommaDelim(Delim::PairedTok::None));
                 log.raw("]");
                 break;
             }
@@ -524,9 +509,7 @@ namespace jc::hir {
             return;
         }
 
-        log.raw("<");
-
-        printDelim(params, [&](const GenericParam & param) {
+        printDelim(params, [&](const GenericParam & param, size_t) {
             switch (param.kind) {
                 case GenericParam::Kind::Type: {
                     const auto & typeParam = param.getType();
@@ -545,9 +528,7 @@ namespace jc::hir {
                     break;
                 }
             }
-        });
-
-        log.raw(">");
+        }, Delim::createCommaDelim(Delim::PairedTok::Angle));
     }
 
     void HirPrinter::printGenericArgs(const GenericArg::List & args) {
@@ -555,9 +536,7 @@ namespace jc::hir {
             return;
         }
 
-        log.raw("<");
-
-        printDelim(args, [&](const GenericArg & arg) {
+        printDelim(args, [&](const GenericArg & arg, size_t) {
             switch (arg.kind) {
                 case GenericArg::Kind::Type: {
                     printType(arg.getType());
@@ -572,15 +551,13 @@ namespace jc::hir {
                     break;
                 }
             }
-        });
-
-        log.raw(">");
+        }, Delim::createCommaDelim(Delim::PairedTok::Angle));
     }
 
     void HirPrinter::printBlock(const Block & block) {
-        printBlockLike(block.stmts, [&](const Stmt & stmt) {
+        printDelim(block.stmts, [&](const Stmt & stmt, size_t) {
             printStmt(stmt);
-        });
+        }, Delim::createBlock("\n"));
     }
 
     void HirPrinter::printOptBlock(const Block::Opt & block, bool printSemi) {
@@ -595,10 +572,10 @@ namespace jc::hir {
     }
 
     void HirPrinter::printPath(const Path & path) {
-        printDelim(path.segments, [&](const PathSeg & seg) {
+        printDelim(path.segments, [&](const PathSeg & seg, size_t) {
             log.raw(seg.name);
             printGenericArgs(seg.generics);
-        }, Delim {"::"});
+        }, Delim::createDelim("::", Delim::Trailing::Never, std::monostate {}, Delim::Indent::No));
     }
 
     void HirPrinter::printFuncSig(const FuncSig & sig, BodyId bodyId) {
@@ -610,7 +587,7 @@ namespace jc::hir {
             printPat(body.params.at(index).pat);
             log.raw(": ");
             printType(type);
-        });
+        }, Delim::createCommaDelim(Delim::PairedTok::Paren));
 
         log.raw(")");
 
@@ -631,12 +608,12 @@ namespace jc::hir {
     }
 
     void HirPrinter::printCommonFields(const CommonField::List & fields, bool structFields) {
-        printDelim(fields, [&](const CommonField & field) {
+        printDelim(fields, [this, structFields](const CommonField & field, size_t) {
             if (structFields) {
                 log.raw(field.ident, ": ");
             }
             printType(field.type);
-        });
+        }, Delim::createCommaDelim(structFields ? Delim::PairedTok::Brace : Delim::PairedTok::Paren));
     }
 
     void HirPrinter::printAnonConst(const AnonConst & anonConst) {
