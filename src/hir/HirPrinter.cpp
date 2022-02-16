@@ -581,8 +581,6 @@ namespace jc::hir {
     }
 
     void HirPrinter::printFuncSig(const FuncSig & sig, BodyId bodyId) {
-        log.raw("(");
-
         const auto & body = party.bodies.at(bodyId);
 
         printDelim(sig.inputs, [&](const Type & type, size_t index) {
@@ -590,8 +588,6 @@ namespace jc::hir {
             log.raw(": ");
             printType(type);
         }, Delim::createCommaDelim(Delim::PairedTok::Paren));
-
-        log.raw(")");
 
         if (sig.returnType.isSome()) {
             log.raw(": ");
