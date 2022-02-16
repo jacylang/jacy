@@ -7,6 +7,14 @@ namespace jc::hir {
     using namespace std::string_literals;
 
     struct Delim {
+        enum class PairedTok {
+            None,
+            Brace,
+            Paren,
+            Bracket,
+            Angle,
+        };
+
         enum class Trailing {
             Never,
             Always,
@@ -23,37 +31,62 @@ namespace jc::hir {
     private:
         Delim(
             const std::string & delim,
-            const Option<std::string> & begin,
-            const Option<std::string> & end,
+            PairedTok pairedTok,
             Trailing trailing,
             Chop chop,
             Indent indent
         ) : delim {delim},
-            begin {begin},
-            end {end},
+            begin {None},
+            end {None},
             trailing {trailing},
             chop {chop},
-            indent {indent} {}
+            indent {indent} {
+            switch (pairedTok) {
+                case PairedTok::None: {
+                    begin = None;
+                    end = None;
+                    break;
+                }
+                case PairedTok::Brace: {
+                    begin = "{";
+                    end = "}";
+                    break;
+                }
+                case PairedTok::Paren: {
+                    begin = "(";
+                    end = ")";
+                    break;
+                }
+                case PairedTok::Bracket: {
+                    begin = "[";
+                    end = "]";
+                    break;
+                }
+                case PairedTok::Angle: {
+                    begin = "<";
+                    end = ">";
+                    break;
+                }
+            }
+        }
 
     public:
         static Delim createDelim(const std::string & delim, Trailing trailing, Chop chop, Indent indent) {
-            return Delim {delim, None, None, trailing, chop, indent};
+            return Delim {delim, PairedTok::None, trailing, chop, indent};
         }
 
         static Delim createBlock(
             const std::string & delim
         ) {
-            return Delim {delim, "{"s, "}"s, Trailing::Always, 0u, Indent::Yes};
+            return Delim {delim, PairedTok::Brace, Trailing::Always, 0u, Indent::Yes};
         }
 
-        static Delim createCommaDelim(const std::string & begin, const std::string & end) {
-            return Delim {", "s, begin, end, Trailing::Multiline, 0u, Indent::Yes};
+        static Delim createCommaDelim(PairedTok pairedTok) {
+            return Delim {", "s, pairedTok, Trailing::Multiline, 0u, Indent::Yes};
         }
 
         static Delim createItemBlock(bool addBraces = true) {
-            auto begin = addBraces ? Some("{"s) : None;
-            auto end = addBraces ? Some("}"s) : None;
-            return Delim {"\n"s, begin, end, Trailing::Always, 0u, Indent::Yes};
+            return Delim {"\n"s, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Indent::Yes};
         }
 
     public:
@@ -141,7 +174,8 @@ namespace jc::hir {
             const Delim & delim
         ) {
             bool multiline = delim.checkChop(els.size());
-            bool trailing = delim.trailing == Delim::Trailing::Always or delim.trailing == Delim::Trailing::Multiline and multiline;
+            bool trailing =
+                delim.trailing == Delim::Trailing::Always or delim.trailing == Delim::Trailing::Multiline and multiline;
             bool indentation = delim.indent == Delim::Indent::Yes and multiline;
 
             delim.begin.then([&](const auto & begin) {
