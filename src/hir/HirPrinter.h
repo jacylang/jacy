@@ -36,13 +36,13 @@ namespace jc::hir {
             PairedTok pairedTok,
             Trailing trailing,
             Chop chop,
-            Multiline indent
+            Multiline multiline
         ) : delim {delim},
             begin {None},
             end {None},
             trailing {trailing},
             chop {chop},
-            indent {indent} {
+            multiline {multiline} {
             switch (pairedTok) {
                 case PairedTok::None: {
                     begin = None;
@@ -105,7 +105,7 @@ namespace jc::hir {
         Option<std::string> end;
         Trailing trailing;
         Chop chop;
-        Multiline indent;
+        Multiline multiline;
     };
 
     class HirPrinter {
@@ -175,10 +175,9 @@ namespace jc::hir {
             const std::function<void(const typename C::value_type &, size_t)> & cb,
             const Delim & delim
         ) {
-            bool multiline = delim.checkChop(els.size());
+            bool multiline = delim.multiline or delim.checkChop(els.size());
             bool trailing = delim.trailing == Delim::Trailing::Always
                 or (delim.trailing == Delim::Trailing::Multiline and multiline);
-            bool indentation = delim.indent == Delim::Multiline::Yes and multiline;
 
             delim.begin.then([&](const auto & begin) {
                 log.raw(begin);
@@ -191,7 +190,7 @@ namespace jc::hir {
             for (size_t i = 0; i < els.size(); i++) {
                 cb(els.at(i), i);
                 if (trailing or i < els.size() - 1) {
-                    if (indentation) {
+                    if (multiline) {
                         printIndent();
                     }
                     log.raw(delim.delim);
@@ -199,7 +198,7 @@ namespace jc::hir {
             }
 
             delim.end.then([&](const auto & end) {
-                if (indentation) {
+                if (multiline) {
                     indent--;
                     // Note: `indentation` is true only if we split by lines,
                     //  thus we need to print old indent before end.
