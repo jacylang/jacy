@@ -10,18 +10,7 @@
 #include "ast/item/items.h"
 
 namespace jc::hir {
-    struct CommonField {
-        using List = std::vector<CommonField>;
-
-        CommonField(Ident ident, Type && type, Span span)
-            : span {span},
-              ident {ident},
-              type {std::move(type)} {}
-
-        Span span;
-        Ident ident;
-        Type type;
-    };
+    using CommonField = NamedNode<Type>;
 
     struct Variant {
         using Data = std::variant<CommonField::List, AnonConst::Opt>;
