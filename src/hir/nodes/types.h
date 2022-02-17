@@ -7,10 +7,12 @@
 
 namespace jc::hir {
     struct TupleType : TypeKind {
-        TupleType(Type::List && types)
+        using Element = NamedNode<Type>;
+
+        TupleType(Element::List && types)
             : TypeKind {TypeKind::Kind::Tuple}, types {std::move(types)} {}
 
-        Type::List types;
+        Element::List types;
     };
 
     struct FuncType : TypeKind {
