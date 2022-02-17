@@ -29,6 +29,12 @@ namespace jc::ast {
             return os;
         }
     };
+
+    template<class T>
+    struct NamedNode {
+        Ident name;
+        T node;
+    };
 }
 
 #endif // JACY_AST_FRAGMENTS_IDENT_H

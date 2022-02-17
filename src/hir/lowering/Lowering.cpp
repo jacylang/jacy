@@ -137,7 +137,7 @@ namespace jc::hir {
     ItemId::List Lowering::lowerModItems(const ast::Item::List & astItems) {
         ItemId::List itemIds;
         for (const auto & item : astItems) {
-            // TODO: Consider different lowering logic for `use` declarations
+            // TODO: Consider different lowering logic for `use` declarations?
 
             auto itemId = lowerItem(item);
             itemIds.emplace_back(itemId);
@@ -149,8 +149,6 @@ namespace jc::hir {
     ItemKind::Ptr Lowering::lowerFunc(const ast::Func & astFunc) {
         auto sig = lowerFuncSig(astFunc.sig);
         auto body = lowerBody(astFunc.body.unwrap("`Lowering::lowerFunc` -> `astFunc.body`"), astFunc.sig.params);
-
-        // TODO: Generics
 
         return makeBoxNode<Func>(
             std::move(sig),
