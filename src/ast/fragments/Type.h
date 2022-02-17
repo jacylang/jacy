@@ -46,27 +46,13 @@ namespace jc::ast {
         }
     };
 
-    struct TupleTypeEl : Node {
-        using List = std::vector<TupleTypeEl>;
-
-        TupleTypeEl(Ident::OptPR name, Type::Ptr type, Span span)
-            : Node {span},
-              name {std::move(name)},
-              type {std::move(type)} {}
-
-        Ident::OptPR name;
-        Type::Ptr type;
-
-        void accept(BaseVisitor & visitor) const {
-            return visitor.visit(*this);
-        }
-    };
-
     struct TupleType : Type {
-        TupleType(TupleTypeEl::List elements, Span span)
+        using Element = NamedNode<Type::Ptr>;
+
+        TupleType(Element::List elements, Span span)
             : Type {span, Type::Kind::Tuple}, elements {std::move(elements)} {}
 
-        TupleTypeEl::List elements;
+        Element::List elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
