@@ -5,7 +5,6 @@
 #include "ast/stmt/Stmt.h"
 #include "ast/fragments/Ident.h"
 #include "ast/fragments/Pat.h"
-#include "ast/fragments/Arg.h"
 #include "ast/fragments/Type.h"
 #include <charconv>
 
@@ -157,6 +156,8 @@ namespace jc::ast {
 
     /// `expr '(' ((Identifier ':')? expr (',' (Identifier ':')? expr)* ',')? ')'`
     struct Invoke : Expr {
+        using Arg = NamedNode<Expr::Ptr, Ident::OptPR>;
+
         Invoke(Expr::Ptr lhs, Arg::List args, Span span)
             : Expr {span, Expr::Kind::Invoke}, lhs {std::move(lhs)}, args {std::move(args)} {}
 
