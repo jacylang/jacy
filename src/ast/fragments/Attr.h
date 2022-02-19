@@ -3,10 +3,10 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
-#include "ast/fragments/Arg.h"
 
 namespace jc::ast {
     struct Attr : Node {
+        using Arg = NamedNode<Expr::Ptr, Ident::OptPR>;
         using List = std::vector<Attr>;
 
         Attr(Ident::PR name, Arg::List params, Span span)
