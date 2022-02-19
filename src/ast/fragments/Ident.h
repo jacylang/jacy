@@ -30,14 +30,14 @@ namespace jc::ast {
         }
     };
 
-    template<class T>
+    template<class T, class Name = Ident::PR>
     struct NamedNode {
-        using List = std::vector<NamedNode<T>>;
+        using List = std::vector<NamedNode<T, Name>>;
 
-        NamedNode(Ident && name, T && node, Span span)
+        NamedNode(Name && name, T && node, Span span)
             : name {std::move(name)}, node {std::move(node)}, span {span} {}
 
-        Ident name;
+        Name name;
         T node;
 
         /// Span for the whole node

@@ -17,7 +17,7 @@ namespace jc::hir {
 
     template<class T, class Name = Ident>
     struct NamedNode {
-        using List = std::vector<NamedNode<T>>;
+        using List = std::vector<NamedNode<T, Name>>;
 
         NamedNode(Ident && name, T && node, Span span)
             : name {std::move(name)}, node {std::move(node)}, span {span} {}

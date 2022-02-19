@@ -10,7 +10,7 @@
 #include "ast/item/items.h"
 
 namespace jc::hir {
-    using CommonField = NamedNode<Type>;
+    using CommonField = NamedNode<Type, Ident::Opt>;
 
     struct Variant {
         using Data = std::variant<CommonField::List, AnonConst::Opt>;
