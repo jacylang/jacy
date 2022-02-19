@@ -525,10 +525,12 @@ namespace jc::ast {
     };
 
     struct TupleExpr : Expr {
-        TupleExpr(Expr::List && elements, Span span)
+        using Element = NamedNode<Expr::Ptr, Ident::OptPR>;
+
+        TupleExpr(Element::List && elements, Span span)
             : Expr {span, Expr::Kind::Tuple}, elements {std::move(elements)} {}
 
-        Expr::List elements;
+        Element::List elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
