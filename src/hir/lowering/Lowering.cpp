@@ -520,20 +520,6 @@ namespace jc::hir {
         log::notImplemented("Lowering::lowerType");
     }
 
-    CommonField::List Lowering::lowerTupleTysToFields(const ast::TupleTypeEl::List & types, bool named) {
-        CommonField::List fields;
-
-        for (const auto & ty : types) {
-            Ident name = Ident::empty();
-            if (named) {
-                name = ty.name.unwrap().unwrap();
-            }
-            fields.emplace_back(name, lowerType(ty.type), ty.span);
-        }
-
-        return fields;
-    }
-
     CommonField::List Lowering::lowerCommonFields(const ast::CommonField::List & astFields) {
         CommonField::List fields;
 
@@ -542,16 +528,6 @@ namespace jc::hir {
                 return name.unwrap();
             });
             fields.emplace_back(std::move(name), lowerType(field.node), field.span);
-        }
-
-        return fields;
-    }
-
-    CommonField::List Lowering::lowerStructFields(const ast::StructField::List & fs) {
-        CommonField::List fields;
-
-        for (const auto & field : fs) {
-            fields.emplace_back(field.name.unwrap(), lowerType(field.type), field.span);
         }
 
         return fields;
