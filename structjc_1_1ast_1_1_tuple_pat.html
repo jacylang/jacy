@@ -89,6 +89,9 @@ Inheritance diagram for jc::ast::TuplePat:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a79a7170d73645b800eab78bf9e4fa438"><td class="memItemLeft" align="right" valign="top"><a id="a79a7170d73645b800eab78bf9e4fa438" name="a79a7170d73645b800eab78bf9e4fa438"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Element</b> = <a class="el" href="structjc_1_1ast_1_1_named_node.html">NamedNode</a>&lt; <a class="el" href="classjc_1_1ast_1_1_parse_result.html">Pat::Ptr</a>, Ident::OptPR &gt;</td></tr>
+<tr class="separator:a79a7170d73645b800eab78bf9e4fa438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0d3505d998adaec304f30f90b98cb6d"><td class="memItemLeft" align="right" valign="top"><a id="ac0d3505d998adaec304f30f90b98cb6d" name="ac0d3505d998adaec304f30f90b98cb6d"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>RestPatIndexT</b> = <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; size_t &gt;</td></tr>
 <tr class="separator:ac0d3505d998adaec304f30f90b98cb6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,9 +132,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0319b1805ddf58cbfddce323378f25a7"><td class="memItemLeft" align="right" valign="top"><a id="a0319b1805ddf58cbfddce323378f25a7" name="a0319b1805ddf58cbfddce323378f25a7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TuplePat</b> (Pat::List &amp;&amp;els, <a class="el" href="classjc_1_1dt_1_1_option.html">RestPatIndexT</a> restPatIndex, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a0319b1805ddf58cbfddce323378f25a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a602e3e7e501e12fb18136fb7a7632a5f"><td class="memItemLeft" align="right" valign="top"><a id="a602e3e7e501e12fb18136fb7a7632a5f" name="a602e3e7e501e12fb18136fb7a7632a5f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TuplePat</b> (Element::List &amp;&amp;els, <a class="el" href="classjc_1_1dt_1_1_option.html">RestPatIndexT</a> restPatIndex, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a602e3e7e501e12fb18136fb7a7632a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5911abffbfab8e78ef55b2c79ab74df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_tuple_pat.html#af5911abffbfab8e78ef55b2c79ab74df">accept</a> (<a class="el" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp;visitor) const override</td></tr>
 <tr class="separator:af5911abffbfab8e78ef55b2c79ab74df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_structjc_1_1ast_1_1_pat"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_structjc_1_1ast_1_1_pat')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_pat.html">jc::ast::Pat</a></td></tr>
@@ -151,9 +154,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setNodeId</b> (<a cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a16c18f97b8a971a81d596fb8afb4361f"><td class="memItemLeft" align="right" valign="top"><a id="a16c18f97b8a971a81d596fb8afb4361f" name="a16c18f97b8a971a81d596fb8afb4361f"></a>
-Pat::List&#160;</td><td class="memItemRight" valign="bottom"><b>els</b></td></tr>
-<tr class="separator:a16c18f97b8a971a81d596fb8afb4361f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2558323fae90cd8dc3b4e8b45a34892"><td class="memItemLeft" align="right" valign="top"><a id="aa2558323fae90cd8dc3b4e8b45a34892" name="aa2558323fae90cd8dc3b4e8b45a34892"></a>
+Element::List&#160;</td><td class="memItemRight" valign="bottom"><b>els</b></td></tr>
+<tr class="separator:aa2558323fae90cd8dc3b4e8b45a34892"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26a4b1f3df7099e82c46da7fe6d0c287"><td class="memItemLeft" align="right" valign="top"><a id="a26a4b1f3df7099e82c46da7fe6d0c287" name="a26a4b1f3df7099e82c46da7fe6d0c287"></a>
 <a class="el" href="classjc_1_1dt_1_1_option.html">RestPatIndexT</a>&#160;</td><td class="memItemRight" valign="bottom"><b>restPatIndex</b></td></tr>
 <tr class="separator:a26a4b1f3df7099e82c46da7fe6d0c287"><td class="memSeparator" colspan="2">&#160;</td></tr>

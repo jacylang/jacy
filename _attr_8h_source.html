@@ -76,27 +76,29 @@ $(function() {
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;ast/Node.h&quot;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;ast/fragments/Ident.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;ast/fragments/Arg.h&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;ast/expr/Expr.h&quot;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span>jc::ast {</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="structjc_1_1ast_1_1_attr.html">    9</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1ast_1_1_attr.html">Attr</a> : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">using</span> List = std::vector&lt;Attr&gt;;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_attr.html">Attr</a>(Ident::PR name, Arg::List params, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, name {std::move(name)}, params {std::move(params)} {}</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        Ident::PR name;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        Arg::List params;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        }</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    };</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_FRAGMENTS_ATTR_H</span></div>
-<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:94</div></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">using</span> <a class="code hl_struct" href="structjc_1_1ast_1_1_named_node.html">Arg</a> = <a class="code hl_struct" href="structjc_1_1ast_1_1_named_node.html">NamedNode&lt;Expr::Ptr, Ident::OptPR&gt;</a>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keyword">using</span> List = std::vector&lt;Attr&gt;;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <a class="code hl_struct" href="structjc_1_1ast_1_1_attr.html">Attr</a>(Ident::PR name, Arg::List params, <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> span)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            : <a class="code hl_struct" href="structjc_1_1ast_1_1_node.html">Node</a> {span}, name {std::move(name)}, params {std::move(params)} {}</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        Ident::PR name;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        Arg::List params;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordtype">void</span> accept(<a class="code hl_class" href="classjc_1_1ast_1_1_base_visitor.html">BaseVisitor</a> &amp; visitor)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <span class="keywordflow">return</span> visitor.visit(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        }</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    };</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif </span><span class="comment">// JACY_AST_FRAGMENTS_ATTR_H</span></div>
+<div class="ttc" id="aclassjc_1_1ast_1_1_base_visitor_html"><div class="ttname"><a href="classjc_1_1ast_1_1_base_visitor.html">jc::ast::BaseVisitor</a></div><div class="ttdef"><b>Definition:</b> BaseVisitor.h:91</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_attr_html"><div class="ttname"><a href="structjc_1_1ast_1_1_attr.html">jc::ast::Attr</a></div><div class="ttdef"><b>Definition:</b> Attr.h:9</div></div>
+<div class="ttc" id="astructjc_1_1ast_1_1_named_node_html"><div class="ttname"><a href="structjc_1_1ast_1_1_named_node.html">jc::ast::NamedNode</a></div><div class="ttdef"><b>Definition:</b> Ident.h:34</div></div>
 <div class="ttc" id="astructjc_1_1ast_1_1_node_html"><div class="ttname"><a href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></div><div class="ttdef"><b>Definition:</b> Node.h:60</div></div>
 <div class="ttc" id="astructjc_1_1span_1_1_span_html"><div class="ttname"><a href="structjc_1_1span_1_1_span.html">jc::span::Span</a></div><div class="ttdef"><b>Definition:</b> Span.h:12</div></div>
 </div><!-- fragment --></div><!-- contents -->

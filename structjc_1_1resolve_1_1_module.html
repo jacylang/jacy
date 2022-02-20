@@ -154,12 +154,12 @@ static <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a>&#160;</t
 static <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getFuncSuffix</b> (const <a class="el" href="structjc_1_1ast_1_1_func_sig.html">ast::FuncSig</a> &amp;sig)</td></tr>
 <tr class="memdesc:ad2b88cfecc35d645ad46fa8111430029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get suffix of form like <code>(label1:label2:_:...)</code> <br /></td></tr>
 <tr class="separator:ad2b88cfecc35d645ad46fa8111430029"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6928b8d513d980fe6de855884e0150b"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; bool, <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_module.html#af6928b8d513d980fe6de855884e0150b">getCallSuffix</a> (const ast::Arg::List &amp;args)</td></tr>
-<tr class="memdesc:af6928b8d513d980fe6de855884e0150b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get suffix of form like <code>(label1:label2:_:...)</code> from function call expression or disambiguated invocation (such as <code>foo(label1:label2)</code> in case when <code>foo</code> has multiple overloads).  <a href="structjc_1_1resolve_1_1_module.html#af6928b8d513d980fe6de855884e0150b">More...</a><br /></td></tr>
-<tr class="separator:af6928b8d513d980fe6de855884e0150b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f6f8bad2cfdbff7b52a522701735a68"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_module.html#a5f6f8bad2cfdbff7b52a522701735a68">getStructDefaultInitSuffix</a> (const ast::StructField::List &amp;fields)</td></tr>
-<tr class="memdesc:a5f6f8bad2cfdbff7b52a522701735a68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synthesize default initializer name for <code>struct</code>, struct name span is used as initializer span.  <a href="structjc_1_1resolve_1_1_module.html#a5f6f8bad2cfdbff7b52a522701735a68">More...</a><br /></td></tr>
-<tr class="separator:a5f6f8bad2cfdbff7b52a522701735a68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63b2fbb658be08d56531e3309c627361"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; bool, <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_module.html#a63b2fbb658be08d56531e3309c627361">getCallSuffix</a> (const ast::Invoke::Arg::List &amp;args)</td></tr>
+<tr class="memdesc:a63b2fbb658be08d56531e3309c627361"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get suffix of form like <code>(label1:label2:_:...)</code> from function call expression or disambiguated invocation (such as <code>foo(label1:label2)</code> in case when <code>foo</code> has multiple overloads).  <a href="structjc_1_1resolve_1_1_module.html#a63b2fbb658be08d56531e3309c627361">More...</a><br /></td></tr>
+<tr class="separator:a63b2fbb658be08d56531e3309c627361"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03972137407b6af5376b7eb93f921c71"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1resolve_1_1_module.html#a03972137407b6af5376b7eb93f921c71">getStructDefaultInitSuffix</a> (const ast::CommonField::List &amp;fields)</td></tr>
+<tr class="memdesc:a03972137407b6af5376b7eb93f921c71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synthesize default initializer name for <code>struct</code>, struct name span is used as initializer span.  <a href="structjc_1_1resolve_1_1_module.html#a03972137407b6af5376b7eb93f921c71">More...</a><br /></td></tr>
+<tr class="separator:a03972137407b6af5376b7eb93f921c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17483231e3ae9c292090095429d1288d"><td class="memItemLeft" align="right" valign="top"><a id="a17483231e3ae9c292090095429d1288d" name="a17483231e3ae9c292090095429d1288d"></a>
 static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> (ModuleKind kind)</td></tr>
 <tr class="separator:a17483231e3ae9c292090095429d1288d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,8 +205,8 @@ PrimTypeSet&#160;</td><td class="memItemRight" valign="bottom"><b>shadowedPrimTy
 
 </div>
 </div>
-<a id="af6928b8d513d980fe6de855884e0150b" name="af6928b8d513d980fe6de855884e0150b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6928b8d513d980fe6de855884e0150b">&#9670;&nbsp;</a></span>getCallSuffix()</h2>
+<a id="a63b2fbb658be08d56531e3309c627361" name="a63b2fbb658be08d56531e3309c627361"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63b2fbb658be08d56531e3309c627361">&#9670;&nbsp;</a></span>getCallSuffix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +217,7 @@ PrimTypeSet&#160;</td><td class="memItemRight" valign="bottom"><b>shadowedPrimTy
         <tr>
           <td class="memname">static std::pair&lt; bool, <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> &gt; jc::resolve::Module::getCallSuffix </td>
           <td>(</td>
-          <td class="paramtype">const ast::Arg::List &amp;&#160;</td>
+          <td class="paramtype">const ast::Invoke::Arg::List &amp;&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
           <td></td>
         </tr>
@@ -267,8 +267,8 @@ PrimTypeSet&#160;</td><td class="memItemRight" valign="bottom"><b>shadowedPrimTy
 
 </div>
 </div>
-<a id="a5f6f8bad2cfdbff7b52a522701735a68" name="a5f6f8bad2cfdbff7b52a522701735a68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f6f8bad2cfdbff7b52a522701735a68">&#9670;&nbsp;</a></span>getStructDefaultInitSuffix()</h2>
+<a id="a03972137407b6af5376b7eb93f921c71" name="a03972137407b6af5376b7eb93f921c71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03972137407b6af5376b7eb93f921c71">&#9670;&nbsp;</a></span>getStructDefaultInitSuffix()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -279,7 +279,7 @@ PrimTypeSet&#160;</td><td class="memItemRight" valign="bottom"><b>shadowedPrimTy
         <tr>
           <td class="memname">static <a class="el" href="structjc_1_1span_1_1_symbol.html">Symbol</a> jc::resolve::Module::getStructDefaultInitSuffix </td>
           <td>(</td>
-          <td class="paramtype">const ast::StructField::List &amp;&#160;</td>
+          <td class="paramtype">const ast::CommonField::List &amp;&#160;</td>
           <td class="paramname"><em>fields</em></td><td>)</td>
           <td></td>
         </tr>

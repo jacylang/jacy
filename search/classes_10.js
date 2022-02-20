@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['selfexpr_0',['SelfExpr',['../structjc_1_1ast_1_1_self_expr.html',1,'jc::ast']]],
+  ['selfexpr_0',['SelfExpr',['../structjc_1_1ast_1_1_self_expr.html',1,'jc::ast::SelfExpr'],['../structjc_1_1hir_1_1_self_expr.html',1,'jc::hir::SelfExpr']]],
   ['session_1',['Session',['../structjc_1_1sess_1_1_session.html',1,'jc::sess']]],
   ['simplepath_2',['SimplePath',['../structjc_1_1ast_1_1_simple_path.html',1,'jc::ast']]],
   ['simplepathseg_3',['SimplePathSeg',['../structjc_1_1ast_1_1_simple_path_seg.html',1,'jc::ast']]],
@@ -19,12 +19,11 @@ var searchData=
   ['stmtkind_16',['StmtKind',['../structjc_1_1hir_1_1_stmt_kind.html',1,'jc::hir']]],
   ['str_17',['Str',['../structjc_1_1ast_1_1_lit_expr_1_1_str.html',1,'jc::ast::LitExpr']]],
   ['struct_18',['Struct',['../structjc_1_1ast_1_1_struct.html',1,'jc::ast::Struct'],['../structjc_1_1hir_1_1_struct.html',1,'jc::hir::Struct']]],
-  ['structfield_19',['StructField',['../structjc_1_1ast_1_1_struct_field.html',1,'jc::ast']]],
-  ['structpat_20',['StructPat',['../structjc_1_1ast_1_1_struct_pat.html',1,'jc::ast::StructPat'],['../structjc_1_1hir_1_1_struct_pat.html',1,'jc::hir::StructPat']]],
-  ['structpatfield_21',['StructPatField',['../structjc_1_1ast_1_1_struct_pat_field.html',1,'jc::ast::StructPatField'],['../structjc_1_1hir_1_1_struct_pat_field.html',1,'jc::hir::StructPatField']]],
-  ['stubvisitor_22',['StubVisitor',['../classjc_1_1ast_1_1_stub_visitor.html',1,'jc::ast']]],
-  ['subscript_23',['Subscript',['../structjc_1_1ast_1_1_subscript.html',1,'jc::ast']]],
-  ['suggestionerror_24',['SuggestionError',['../structjc_1_1message_1_1_suggestion_error.html',1,'jc::message']]],
-  ['symbol_25',['Symbol',['../structjc_1_1span_1_1_symbol.html',1,'jc::span']]],
-  ['symbolid_26',['SymbolId',['../structjc_1_1span_1_1_symbol_id.html',1,'jc::span']]]
+  ['structpat_19',['StructPat',['../structjc_1_1ast_1_1_struct_pat.html',1,'jc::ast::StructPat'],['../structjc_1_1hir_1_1_struct_pat.html',1,'jc::hir::StructPat']]],
+  ['structpatfield_20',['StructPatField',['../structjc_1_1ast_1_1_struct_pat_field.html',1,'jc::ast::StructPatField'],['../structjc_1_1hir_1_1_struct_pat_field.html',1,'jc::hir::StructPatField']]],
+  ['stubvisitor_21',['StubVisitor',['../classjc_1_1ast_1_1_stub_visitor.html',1,'jc::ast']]],
+  ['subscript_22',['Subscript',['../structjc_1_1ast_1_1_subscript.html',1,'jc::ast::Subscript'],['../structjc_1_1hir_1_1_subscript.html',1,'jc::hir::Subscript']]],
+  ['suggestionerror_23',['SuggestionError',['../structjc_1_1message_1_1_suggestion_error.html',1,'jc::message']]],
+  ['symbol_24',['Symbol',['../structjc_1_1span_1_1_symbol.html',1,'jc::span']]],
+  ['symbolid_25',['SymbolId',['../structjc_1_1span_1_1_symbol_id.html',1,'jc::span']]]
 ];

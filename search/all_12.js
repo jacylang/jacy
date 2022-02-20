@@ -16,9 +16,8 @@ var searchData=
   ['tupleexpr_13',['TupleExpr',['../structjc_1_1ast_1_1_tuple_expr.html',1,'jc::ast::TupleExpr'],['../structjc_1_1hir_1_1_tuple_expr.html',1,'jc::hir::TupleExpr']]],
   ['tuplepat_14',['TuplePat',['../structjc_1_1ast_1_1_tuple_pat.html',1,'jc::ast::TuplePat'],['../structjc_1_1hir_1_1_tuple_pat.html',1,'jc::hir::TuplePat']]],
   ['tupletype_15',['TupleType',['../structjc_1_1ast_1_1_tuple_type.html',1,'jc::ast::TupleType'],['../structjc_1_1hir_1_1_tuple_type.html',1,'jc::hir::TupleType']]],
-  ['tupletypeel_16',['TupleTypeEl',['../structjc_1_1ast_1_1_tuple_type_el.html',1,'jc::ast']]],
-  ['type_17',['Type',['../structjc_1_1ast_1_1_generic_param_1_1_type.html',1,'jc::ast::GenericParam::Type'],['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_generic_param_1_1_type.html',1,'jc::hir::GenericParam::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
-  ['typealias_18',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
-  ['typekind_19',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir']]],
-  ['typepath_20',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
+  ['type_16',['Type',['../structjc_1_1ast_1_1_generic_param_1_1_type.html',1,'jc::ast::GenericParam::Type'],['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_generic_param_1_1_type.html',1,'jc::hir::GenericParam::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
+  ['typealias_17',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
+  ['typekind_18',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir']]],
+  ['typepath_19',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
 ];
