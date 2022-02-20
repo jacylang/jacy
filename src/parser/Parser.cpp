@@ -2033,8 +2033,12 @@ namespace jc::parser {
         return tupleElements;
     }
 
-    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(const std::string & place) {
+    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(PairedTokens pairedTokens, const std::string & place) {
         NamedType::List tupleElements;
+
+        auto[opening, closing] = Token::getTokenPairs(pairedTokens);
+
+        skip(opening, log::fmt("opening ", Token::kindToString(opening), " in ", place));
 
         size_t elIndex = 0;
         bool first = true;
@@ -2073,7 +2077,7 @@ namespace jc::parser {
             elIndex++;
         }
 
-        skip(TokenKind::RParen, log::fmt("closing `)` in ", place));
+        skip(closing, log::fmt("closing ", Token::kindToString(closing), " in ", place));
 
         return {tupleElements, trailingComma};
     }
