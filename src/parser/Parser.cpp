@@ -1364,6 +1364,41 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
+    NamedNode<Expr::Ptr, Ident::OptPR>::List Parser::parseNamedExprList(const std::string & place) {
+        using Element = NamedNode<Expr::Ptr, Ident::OptPR>;
+
+        justSkip(TokenKind::LParen, "`(`", "parseNamedExprList");
+
+        Element::List els;
+
+        bool first = true;
+        while (not eof()) {
+            if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenKind::Comma, log::fmt("Missing `,` separator in `", place, "`"));
+            }
+
+            if (is(TokenKind::RParen)) {
+                // TODO: Store trailing comma?
+                break;
+            }
+
+            auto begin = cspan();
+            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
+                els.emplace_back(parseIdent("name"), parseExpr("expression"), closeSpan(begin));
+            } else {
+                els.emplace_back(None, parseExpr("expression"), closeSpan(begin));
+            }
+        }
+
+        return els;
+    }
+
     Block::Ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
         enterEntity("Block:" + construction);
 

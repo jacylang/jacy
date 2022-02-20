@@ -275,6 +275,8 @@ namespace jc::parser {
         /// - Parenthesized expression
         Expr::Ptr parseParenLikeExpr();
 
+        NamedNode<Expr::Ptr, Ident::OptPR>::List parseNamedExprList(const std::string & place);
+
         /// Parse block, i.e. statement list enclosed into `{}`
         Block::Ptr parseBlock(const std::string & construction, BlockParsing parsing);
 
