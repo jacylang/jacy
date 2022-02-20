@@ -13,7 +13,6 @@ namespace jc::ast {
     struct Init;
     struct Mod;
     struct Struct;
-    struct StructField;
     struct Trait;
     struct TypeAlias;
     struct UseDecl;
@@ -113,8 +112,6 @@ namespace jc::ast {
 
         virtual void visit(const Struct &) = 0;
 
-        virtual void visit(const StructField &) = 0;
-
         virtual void visit(const Trait &) = 0;
 
         virtual void visit(const TypeAlias &) = 0;
@@ -191,8 +188,6 @@ namespace jc::ast {
         virtual void visit(const ParenType &) = 0;
 
         virtual void visit(const TupleType &) = 0;
-
-        virtual void visit(const TupleTypeEl &) = 0;
 
         virtual void visit(const FuncType &) = 0;
 

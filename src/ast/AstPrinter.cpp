@@ -919,6 +919,30 @@ namespace jc::ast {
         }
     }
 
+    void AstPrinter::printNamedTypeList(
+        const NamedType::List & types,
+        const std::string & opening,
+        const std::string & closing
+    ) {
+        log.raw(opening);
+
+        for (size_t i = 0; i < types.size(); i++) {
+            const auto & ty = types.at(i);
+            ty.name.then([&](const Ident::PR & name) {
+                name.autoAccept(*this);
+                log.raw(": ");
+            });
+
+            ty.node.autoAccept(*this);
+
+            if (i < types.size() - 1) {
+                log.raw(", ");
+            }
+        }
+
+        log.raw(closing);
+    }
+
     // Indentation //
     void AstPrinter::printIndent() const {
         log.raw(log::Indent<4>(indent));

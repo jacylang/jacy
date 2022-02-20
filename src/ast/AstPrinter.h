@@ -40,8 +40,6 @@ namespace jc::ast {
 
         void visit(const Struct & st) override;
 
-        void visit(const StructField & field) override;
-
         void visit(const Trait & trait) override;
 
         void visit(const TypeAlias & typeAlias) override;
@@ -121,8 +119,6 @@ namespace jc::ast {
 
         void visit(const TupleType & tupleType) override;
 
-        void visit(const TupleTypeEl & el) override;
-
         void visit(const FuncType & funcType) override;
 
         void visit(const SliceType & listType) override;
@@ -199,6 +195,12 @@ namespace jc::ast {
         void printFuncHeader(const FuncHeader & header);
 
         void printFuncSig(const FuncSig & sig);
+
+        void printNamedTypeList(
+            const NamedType::List & types,
+            const std::string & opening,
+            const std::string & closing
+        );
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 
