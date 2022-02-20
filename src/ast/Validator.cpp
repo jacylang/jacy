@@ -32,12 +32,9 @@ namespace jc::ast {
                 });
                 break;
             }
-            case Variant::Kind::Tuple: {
-                validateEach(std::get<TupleTypeEl::List>(variant.body));
-                break;
-            }
+            case Variant::Kind::Tuple:
             case Variant::Kind::Struct: {
-                validateEach(std::get<StructField::List>(variant.body));
+                validateNamedNodeList<Type::Ptr>(variant.getFields());
                 break;
             }
         }
@@ -122,11 +119,6 @@ namespace jc::ast {
         pushContext(ValidatorCtx::Struct);
         // FIXME: Lint fields
         popContext();
-    }
-
-    void Validator::visit(const StructField & field) {
-        field.name.autoAccept(*this);
-        field.type.autoAccept(*this);
     }
 
     void Validator::visit(const Trait & trait) {
@@ -342,7 +334,7 @@ namespace jc::ast {
 
     void Validator::visit(const Invoke & invoke) {
         invoke.lhs.autoAccept(*this);
-        validateEach(invoke.args);
+        validateNamedNodeList<Expr::Ptr>(invoke.args);
     }
 
     void Validator::visit(const Lambda & lambdaExpr) {
@@ -450,7 +442,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const TupleExpr & tupleExpr) {
-        validateEach(tupleExpr.elements);
+        validateNamedNodeList<Expr::Ptr>(tupleExpr.elements);
     }
 
     void Validator::visit(const UnitExpr &) {
@@ -492,14 +484,7 @@ namespace jc::ast {
         }
 
         // FIXME: Add check for one-element tuple type, etc.
-        validateEach(tupleType.elements);
-    }
-
-    void Validator::visit(const TupleTypeEl & el) {
-        if (el.name.some()) {
-            el.name.unwrap().autoAccept(*this);
-        }
-        el.type.autoAccept(*this);
+        validateNamedNodeList<Type::Ptr>(tupleType.elements);
     }
 
     void Validator::visit(const FuncType & funcType) {
@@ -577,13 +562,6 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Ident &) {}
-
-    void Validator::visit(const Arg & el) {
-        if (el.name.some()) {
-            el.name.unwrap().autoAccept(*this);
-        }
-        el.value.autoAccept(*this);
-    }
 
     void Validator::visit(const Path & path) {
         validateEach(path.segments);

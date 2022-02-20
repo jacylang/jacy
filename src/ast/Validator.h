@@ -45,8 +45,6 @@ namespace jc::ast {
 
         void visit(const Struct & st) override;
 
-        void visit(const StructField & field) override;
-
         void visit(const Trait & trait) override;
 
         void visit(const TypeAlias & typeAlias) override;
@@ -126,8 +124,6 @@ namespace jc::ast {
 
         void visit(const TupleType & tupleType) override;
 
-        void visit(const TupleTypeEl & el) override;
-
         void visit(const FuncType & funcType) override;
 
         void visit(const SliceType & listType) override;
@@ -147,8 +143,6 @@ namespace jc::ast {
         void visit(const Attr & attr) override;
 
         void visit(const Ident & id) override;
-
-        void visit(const Arg & el) override;
 
         void visit(const Path & path) override;
 
@@ -212,6 +206,16 @@ namespace jc::ast {
         }
 
         void validateAttrs(const ast::Attr::List & attrs);
+
+        template<class N>
+        void validateNamedNodeList(const typename NamedNode<N, Ident::OptPR>::List & els) {
+            for (const auto & el : els) {
+                el.name.then([&](const Ident::PR & name) {
+                    name.autoAccept(*this);
+                });
+                el.node.autoAccept(*this);
+            }
+        }
 
         // Context //
     private:

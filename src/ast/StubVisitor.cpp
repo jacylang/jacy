@@ -20,10 +20,7 @@ namespace jc::ast {
                 });
                 break;
             }
-            case Variant::Kind::Tuple: {
-                visitNamedNodeList<Type::Ptr>(variant.getFields());
-                break;
-            }
+            case Variant::Kind::Tuple:
             case Variant::Kind::Struct: {
                 visitNamedNodeList<Type::Ptr>(variant.getFields());
                 break;
