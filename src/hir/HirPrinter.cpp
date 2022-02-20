@@ -256,11 +256,11 @@ namespace jc::hir {
                 const auto & invoke = ExprKind::as<InvokeExpr>(kind);
                 printExpr(invoke->lhs);
                 printDelim(invoke->args, [&](const Arg & arg, size_t) {
-                    arg.ident.then([this](const auto & name) {
+                    arg.name.then([this](const auto & name) {
                         log.raw(name, ": ");
                     });
 
-                    printExpr(arg.value);
+                    printExpr(arg.node);
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
@@ -333,7 +333,11 @@ namespace jc::hir {
             case TypeKind::Kind::Tuple: {
                 const auto & tuple = TypeKind::as<TupleType>(kind);
                 printDelim(tuple->types, [&](const auto & el, size_t) {
-                    printType(el);
+                    el.name.then([this](const auto & name) {
+                        log.raw(name, ": ");
+                    });
+
+                    printType(el.node);
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
@@ -466,8 +470,12 @@ namespace jc::hir {
             }
             case PatKind::Kind::Tuple: {
                 const auto & tuplePat = PatKind::as<TuplePat>(kind);
-                printDelim(tuplePat->els, [&](const Pat & el, size_t) {
-                    printPat(el);
+                printDelim(tuplePat->els, [&](const auto & el, size_t) {
+                    el.name.then([this](const auto & name) {
+                        log.raw(name, ": ");
+                    });
+
+                    printPat(el.node);
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
@@ -604,10 +612,11 @@ namespace jc::hir {
 
     void HirPrinter::printCommonFields(const CommonField::List & fields, bool structFields) {
         printDelim(fields, [this, structFields](const CommonField & field, size_t) {
-            if (structFields) {
-                log.raw(field.ident, ": ");
-            }
-            printType(field.type);
+            field.name.then([this](const auto & name) {
+                log.raw(name, ": ");
+            });
+
+            printType(field.node);
         }, Delim::createCommaDelim(structFields ? Delim::PairedTok::Brace : Delim::PairedTok::Paren));
     }
 
