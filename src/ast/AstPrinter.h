@@ -198,7 +198,8 @@ namespace jc::ast {
         void printNamedNodeList(
             const typename NamedNode<N, Ident::OptPR>::List & els,
             const std::string & opening,
-            const std::string & closing
+            const std::string & closing,
+            const std::string & sep
         ) {
             log.raw(opening);
 
@@ -212,7 +213,7 @@ namespace jc::ast {
                 el.node.autoAccept(*this);
 
                 if (i < els.size() - 1) {
-                    log.raw(", ");
+                    log.raw(sep);
                 }
             }
 

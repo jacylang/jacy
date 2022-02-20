@@ -62,11 +62,11 @@ namespace jc::ast {
                 break;
             }
             case Variant::Kind::Tuple: {
-                printNamedNodeList<Type::Ptr>(variant.getFields(), "(", ")");
+                printNamedNodeList<Type::Ptr>(variant.getFields(), "(", ")", ",\n");
                 break;
             }
             case Variant::Kind::Struct: {
-                printNamedNodeList<Type::Ptr>(variant.getFields(), "{", "}");
+                printNamedNodeList<Type::Ptr>(variant.getFields(), "{", "}", ",\n");
                 break;
             }
         }
@@ -157,7 +157,7 @@ namespace jc::ast {
         colorizeNameDecl(st.id, st.name);
         log.raw(" ");
 
-        printDelim(st.fields, "{", "}", ",\n");
+        printNamedNodeList<Type::Ptr>(st.fields, "{", "}", ",\n");
 
         printNodeId(st);
     }
@@ -396,7 +396,7 @@ namespace jc::ast {
 
     void AstPrinter::visit(const Invoke & invoke) {
         invoke.lhs.autoAccept(*this);
-        printNamedNodeList<Expr::Ptr>(invoke.args, "(", ")");
+        printNamedNodeList<Expr::Ptr>(invoke.args, "(", ")", ", ");
 
         printNodeId(invoke);
     }
@@ -514,7 +514,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleExpr & tupleExpr) {
-        printNamedNodeList<Expr::Ptr>(tupleExpr.elements, "(", ")");
+        printNamedNodeList<Expr::Ptr>(tupleExpr.elements, "(", ")", ", ");
 
         printNodeId(tupleExpr);
     }
@@ -560,7 +560,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
-        printNamedNodeList<Type::Ptr>(tupleType.elements, "(", ")");
+        printNamedNodeList<Type::Ptr>(tupleType.elements, "(", ")", ", ");
 
         printNodeId(tupleType);
     }
@@ -809,7 +809,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TuplePat & pat) {
-        printNamedNodeList<Pat::Ptr>(pat.els, "(", ")");
+        printNamedNodeList<Pat::Ptr>(pat.els, "(", ")", ", ");
         printNodeId(pat);
     }
 
