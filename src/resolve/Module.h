@@ -259,7 +259,7 @@ namespace jc::resolve {
          * @param args Call arguments
          * @return pair of `gotLabels` status (if got named label in call, such as "name: value") and interned suffix
          */
-        static inline std::pair<bool, Symbol> getCallSuffix(const ast::Arg::List & args) {
+        static inline std::pair<bool, Symbol> getCallSuffix(const ast::Invoke::Arg::List & args) {
             // Build suffix (from labels) and visit arguments
             bool gotLabels = false;
             std::string suffix = "(";
@@ -282,10 +282,10 @@ namespace jc::resolve {
          * @param structNameSpan Span of `struct` name identifier
          * @return Synthesized initializer name
          */
-        static inline Symbol getStructDefaultInitSuffix(const ast::StructField::List & fields) {
+        static inline Symbol getStructDefaultInitSuffix(const ast::CommonField::List & fields) {
             std::string suffix = "(";
             for (const auto & field : fields) {
-                suffix += field.name.unwrap().sym.toString() + ":";
+                suffix += field.name.unwrap().unwrap().sym.toString() + ":";
             }
             suffix += ")";
             return Symbol::intern(suffix);
