@@ -343,7 +343,11 @@ namespace jc::parser {
 
         Type::Ptr parseParenType();
 
-        std::tuple<NamedType::List, bool> parseNamedTypeList(PairedTokens pairedTokens, const std::string & place);
+        std::tuple<NamedType::List, bool> parseNamedTypeList(
+            PairedTokens pairedTokens,
+            TokenKind sep,
+            const std::string & place
+        );
 
         Type::Ptr parseArrayType();
 

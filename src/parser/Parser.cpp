@@ -1986,7 +1986,11 @@ namespace jc::parser {
         return makePRBoxNode<TupleType, Type>(std::move(elements), closeSpan(begin));
     }
 
-    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(PairedTokens pairedTokens, const std::string & place) {
+    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(
+        PairedTokens pairedTokens,
+        TokenKind sep,
+        const std::string & place
+    ) {
         NamedType::List elements;
 
         auto[opening, closing] = Token::getTokenPairs(pairedTokens);
@@ -2003,7 +2007,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenKind::Comma, log::fmt("Missing `,` separator in ", place));
+                skip(sep, log::fmt(Token::kindToString(sep), " separator in ", place));
             }
 
             if (is(TokenKind::RParen)) {
