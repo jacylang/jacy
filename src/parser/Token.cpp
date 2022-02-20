@@ -177,6 +177,23 @@ namespace jc::parser {
         return kind == TokenKind::Id and asSymbol().isPathSeg();
     }
 
+    std::tuple<TokenKind, TokenKind> Token::getTokenPairs(PairedTokens pair) {
+        switch (pair) {
+            case PairedTokens::Paren: {
+                return {TokenKind::LParen, TokenKind::RParen};
+            }
+            case PairedTokens::Brace: {
+                return {TokenKind::LBrace, TokenKind::RBrace};
+            }
+            case PairedTokens::Bracket: {
+                return {TokenKind::LBracket, TokenKind::RBracket};
+            }
+            case PairedTokens::Angle: {
+                return {TokenKind::LAngle, TokenKind::RAngle};
+            }
+        }
+    }
+
     std::string Token::kindToString(TokenKind kind) {
         const auto found = tokenKindStrings.find(kind);
         if (found != tokenKindStrings.end()) {

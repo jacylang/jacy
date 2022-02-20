@@ -104,6 +104,13 @@ namespace jc::parser {
         None,
     };
 
+    enum class PairedTokens {
+        Paren,
+        Brace,
+        Bracket,
+        Angle,
+    };
+
     struct TokLit {
         enum class Kind {
             Bool,
@@ -189,6 +196,8 @@ namespace jc::parser {
         bool isLiteral() const;
         bool isSomeKeyword() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
+
+        static std::tuple<TokenKind, TokenKind> getTokenPairs(PairedTokens pair);
 
         std::string repr(bool prettyQuotes = true) const;
         static std::string kindToString(TokenKind kind);
