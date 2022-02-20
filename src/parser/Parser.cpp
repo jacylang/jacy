@@ -395,22 +395,25 @@ namespace jc::parser {
             auto disc = parseAnonConst("Expected constant expression after `=`");
             exitEntity();
             return makeNode<Variant>(std::move(name), std::move(disc), closeSpan(begin));
-        } else if (skipOpt(TokenKind::LParen).some()) {
-            auto tupleFields = parseTupleFields();
-            exitEntity();
-            skip(TokenKind::RParen, "closing `)`");
-            return makeNode<Variant>(Variant::Kind::Tuple, std::move(name), std::move(tupleFields), closeSpan(begin));
-        } else if (skipOpt(TokenKind::LBrace).some()) {
-            auto fields = parseStructFields();
-
-            skip(TokenKind::RParen, "Expected closing `}`");
-
-            exitEntity();
-            return makeNode<Variant>(Variant::Kind::Struct, std::move(name), std::move(fields), closeSpan(begin));
         }
 
-        exitEntity();
-        return makeNode<Variant>(std::move(name), None, closeSpan(begin));
+        Variant::Kind kind;
+        PairedTokens pairedTokens;
+
+        if (is(TokenKind::LParen)) {
+            kind = Variant::Kind::Tuple;
+            pairedTokens = PairedTokens::Paren;
+        } else if (is(TokenKind::LBrace)) {
+            kind = Variant::Kind::Struct;
+            pairedTokens = PairedTokens::Brace;
+        } else {
+            exitEntity();
+            return makeNode<Variant>(std::move(name), None, closeSpan(begin));
+        }
+
+        auto[fields, _] = parseNamedTypeList(pairedTokens, TokenKind::Comma, "`enum` variant");
+
+        return makeNode<Variant>(kind, std::move(name), std::move(fields), closeSpan(begin));
     }
 
     Item::Ptr Parser::parseFunc(FuncHeader header) {
