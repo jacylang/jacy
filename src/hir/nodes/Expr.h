@@ -39,6 +39,7 @@ namespace jc::hir {
             Prefix,
             Return,
             Self,
+            Subscript,
             Tuple,
         };
 

@@ -303,6 +303,16 @@ namespace jc::hir {
         SelfExpr() : ExprKind {ExprKind::Kind::Self} {}
     };
 
+    struct Subscript : ExprKind {
+        Subscript(Expr && lhs, Expr::List && indices)
+            : ExprKind {ExprKind::Kind::Subscript},
+              lhs {std::move(lhs)},
+              indices {std::move(indices)} {}
+
+        Expr lhs;
+        Expr::List indices;
+    };
+
     struct TupleExpr : ExprKind {
         TupleExpr(Expr::List && values)
             : ExprKind {ExprKind::Kind::Tuple}, values {std::move(values)} {}
