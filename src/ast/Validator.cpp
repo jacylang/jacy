@@ -652,9 +652,12 @@ namespace jc::ast {
 
     void Validator::visit(const TuplePat & pat) {
         for (const auto & el : pat.els) {
+            el.name.then([&](const Ident::PR & name) {
+                name.autoAccept(*this);
+            });
             // Same as for `StructPat` validator -- allow `...` pattern in tuple pattern
-            if (el.err() or el.unwrap()->kind != Pat::Kind::Rest) {
-                el.autoAccept(*this);
+            if (el.node.err() or el.node.unwrap()->kind != Pat::Kind::Rest) {
+                el.node.autoAccept(*this);
             }
         }
     }
