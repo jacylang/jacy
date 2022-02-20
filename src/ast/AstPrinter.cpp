@@ -661,7 +661,7 @@ namespace jc::ast {
     void AstPrinter::visit(const Attr & attr) {
         log.raw("@");
         attr.name.autoAccept(*this);
-        printDelim(attr.params, "(", ")");
+        printNamedNodeList<Expr::Ptr>(attr.params, "(", ")", ", ");
         log.nl();
 
         printNodeId(attr);
