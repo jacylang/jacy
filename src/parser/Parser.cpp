@@ -526,7 +526,7 @@ namespace jc::parser {
             // TODO: Hint field type
             auto type = parseType("Expected type for field after `:`");
 
-            fields.emplace_back(makeNode<CommonField>(std::move(id), std::move(type), closeSpan(begin)));
+            fields.emplace_back(std::move(id), std::move(type), closeSpan(begin));
         }
 
         exitEntity();
@@ -1330,7 +1330,7 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        auto [els, trailingComma] = parseNamedExprList("tuple literal");
+        auto[els, trailingComma] = parseNamedExprList("tuple literal");
 
         if (not trailingComma and els.size() == 1 and els.at(0).name.none()) {
             exitEntity();
@@ -1679,10 +1679,10 @@ namespace jc::parser {
                 auto ident = justParseIdent("`parseArgList`");
                 justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
                 auto value = parseExpr("Expected value after `:`");
-                args.emplace_back(makeNode<Invoke::Arg>(std::move(ident), std::move(value), closeSpan(argBegin)));
+                args.emplace_back(std::move(ident), std::move(value), closeSpan(argBegin));
             } else {
                 auto value = parseExpr("Expression expected");
-                args.emplace_back(makeNode<Invoke::Arg>(None, std::move(value), closeSpan(argBegin)));
+                args.emplace_back(None, std::move(value), closeSpan(argBegin));
             }
         }
 
@@ -1846,7 +1846,7 @@ namespace jc::parser {
 
             auto ident = parsePathSegIdent();
 
-            segments.emplace_back(makeNode<SimplePathSeg>(std::move(ident), closeSpan(segBegin)));
+            segments.emplace_back(std::move(ident), closeSpan(segBegin));
 
             if (not is(TokenKind::Path) or not lookup().isPathIdent()) {
                 break;
@@ -1953,14 +1953,10 @@ namespace jc::parser {
                 auto name = justParseIdent("`parseTupleFields`");
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
-                tupleFields.emplace_back(
-                    makeNode<NamedType>(std::move(name), std::move(type), closeSpan(elBegin))
-                );
+                tupleFields.emplace_back(std::move(name), std::move(type), closeSpan(elBegin));
             } else {
                 auto type = parseType("Expected tuple field type");
-                tupleFields.emplace_back(
-                    makeNode<NamedType>(None, std::move(type), closeSpan(elBegin))
-                );
+                tupleFields.emplace_back(None, std::move(type), closeSpan(elBegin));
             }
         }
 
@@ -2062,9 +2058,7 @@ namespace jc::parser {
                 skip(TokenKind::Comma, "Missing `,` separator in tuple type");
             }
 
-            tupleElements.emplace_back(
-                makeNode<NamedType>(std::move(name), type.take(), elBegin.to(cspan()))
-            );
+            tupleElements.emplace_back(std::move(name), type.take(), elBegin.to(cspan()));
             elIndex++;
         }
         skip(TokenKind::RParen, "Missing closing `)` in tuple type");
@@ -2101,14 +2095,14 @@ namespace jc::parser {
         NamedType::List params;
         for (auto & tupleEl : tupleElements) {
             // TODO: Think about allowing named parameters
-//            if (tupleEl.name.some()) {
-//                // Note: We don't ignore `->` if there are named elements in tuple type
-//                //  'cause we want to check for problem like (name: string) -> type
-//                msg.error()
-//                   .setText("Cannot declare function type with named parameter")
-//                   .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
-//                   .emit();
-//            }
+            //            if (tupleEl.name.some()) {
+            //                // Note: We don't ignore `->` if there are named elements in tuple type
+            //                //  'cause we want to check for problem like (name: string) -> type
+            //                msg.error()
+            //                   .setText("Cannot declare function type with named parameter")
+            //                   .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
+            //                   .emit();
+            //            }
             params.emplace_back(std::move(tupleEl));
         }
 
@@ -2194,7 +2188,7 @@ namespace jc::parser {
 
             if (skipOpt(TokenKind::Backtick).some()) {
                 auto name = parseIdent("lifetime parameter name");
-                generics.emplace_back(GenericParam::Lifetime{std::move(name), closeSpan(genBegin)});
+                generics.emplace_back(GenericParam::Lifetime {std::move(name), closeSpan(genBegin)});
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenericParams`");
                 Type::OptPtr type = None;
