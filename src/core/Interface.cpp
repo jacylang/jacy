@@ -72,7 +72,7 @@ namespace jc::core {
             return;
         }
 
-        sess->beginStep("Lowering stage", MeasUnit::Node);
+        sess->beginStep("AST -> HIR Lowering stage", MeasUnit::Node);
         lower();
         sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
@@ -453,7 +453,10 @@ namespace jc::core {
     void Interface::lower() {
         log.printTitleDev("Lowering");
 
+        sess->beginStep("AST Lowering", MeasUnit::Node);
         auto loweringResult = lowering.lower(sess, astParty.unwrap());
+        sess->endStep();
+
         messageHandler.checkResult(loweringResult, "lowering");
         auto hirParty = loweringResult.takeUnchecked();
 
