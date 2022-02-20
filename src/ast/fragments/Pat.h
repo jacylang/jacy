@@ -206,12 +206,13 @@ namespace jc::ast {
     };
 
     struct TuplePat : Pat {
+        using Element = NamedNode<Pat::Ptr, Ident::OptPR>;
         using RestPatIndexT = Option<size_t>;
 
-        TuplePat(Pat::List && els, RestPatIndexT restPatIndex, Span span)
+        TuplePat(Element::List && els, RestPatIndexT restPatIndex, Span span)
             : Pat {Pat::Kind::Tuple, span}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
-        Pat::List els;
+        Element::List els;
 
         // Index of the `...` pattern in tuple if present.
         // Does not affect representation of the tuple pattern, just a helper for further work with it.
