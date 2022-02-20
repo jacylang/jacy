@@ -84,12 +84,13 @@ namespace jc::hir {
     };
 
     struct TuplePat : PatKind {
+        using Element = NamedNode<Pat, Ident::Opt>;
         using RestPatIndexT = ast::TuplePat::RestPatIndexT;
 
-        TuplePat(Pat::List && els, RestPatIndexT restPatIndex)
+        TuplePat(Element::List && els, RestPatIndexT restPatIndex)
             : PatKind {PatKind::Kind::Tuple}, els {std::move(els)}, restPatIndex {restPatIndex} {}
 
-        Pat::List els;
+        Element::List els;
         RestPatIndexT restPatIndex;
     };
 
