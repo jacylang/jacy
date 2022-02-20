@@ -2027,13 +2027,31 @@ namespace jc::parser {
             return {};
         }
 
-        std::vector<size_t> namedElements;
+        auto[tupleElements, trailingComma] = parseNamedTypeList("");
+
+        exitEntity();
+        return tupleElements;
+    }
+
+    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(const std::string & place) {
         NamedType::List tupleElements;
 
         size_t elIndex = 0;
         bool first = true;
+        bool trailingComma = false;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
+                break;
+            }
+
+            if (first) {
+                first = false;
+            } else {
+                skip(TokenKind::Comma, log::fmt("Missing `,` separator in ", place));
+            }
+
+            if (is(TokenKind::RParen)) {
+                trailingComma = true;
                 break;
             }
 
@@ -2046,25 +2064,18 @@ namespace jc::parser {
             Type::OptPtr type = None;
             if (name.some() and is(TokenKind::Colon)) {
                 // Named tuple element case
-                namedElements.push_back(elIndex);
-                type = parseType("Expected type in named tuple type after `:`");
+                type = parseType("Expected type after `:`");
             } else {
                 type = parseType("Expected type");
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator in tuple type");
             }
 
             tupleElements.emplace_back(std::move(name), type.take(), elBegin.to(cspan()));
             elIndex++;
         }
-        skip(TokenKind::RParen, "Missing closing `)` in tuple type");
 
-        exitEntity();
-        return tupleElements;
+        skip(TokenKind::RParen, log::fmt("closing `)` in ", place));
+
+        return {tupleElements, trailingComma};
     }
 
     Type::Ptr Parser::parseArrayType() {

@@ -345,6 +345,8 @@ namespace jc::parser {
 
         NamedType::List parseParenType();
 
+        std::tuple<NamedType::List, bool> parseNamedTypeList(const std::string & place);
+
         Type::Ptr parseArrayType();
 
         Type::Ptr parseFuncType(NamedType::List paramTypes, Span span);
