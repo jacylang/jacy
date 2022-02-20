@@ -1042,7 +1042,6 @@ namespace jc::parser {
         auto lhs = maybeLhs.take();
 
         while (not eof()) {
-            auto maybeOp = peek();
             if (skipOpt(TokenKind::LBracket).some()) {
                 enterEntity("Subscript");
 
@@ -1848,7 +1847,6 @@ namespace jc::parser {
 
             // TODO: Dynamic message for first or following segments (self and party can be only first)
 
-            bool isUnrecoverableError = false;
             auto segIdent = parsePathSegIdent();
 
             GenericArg::OptList generics = None;
@@ -2067,7 +2065,7 @@ namespace jc::parser {
             if (is(TokenKind::Backtick)) {
                 auto name = parseIdent("lifetime parameter name");
                 args.emplace_back(makeNode<GenericArg::Lifetime>(std::move(name), closeSpan(argBegin)));
-            } else if (is(TokenKind::Sub) and lookup().isLiteral() or peek().isLiteral()) {
+            } else if ((is(TokenKind::Sub) and lookup().isLiteral()) or peek().isLiteral()) {
                 // TODO: Replace condition with a special function for `Token`
                 auto expr = parseLiteral();
                 args.emplace_back(makeNodeLike<AnonConst>(expr.span(), std::move(expr)));
