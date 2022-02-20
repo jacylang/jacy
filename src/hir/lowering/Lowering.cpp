@@ -310,7 +310,20 @@ namespace jc::hir {
                 );
             }
             case ast::Expr::Kind::Lambda: {
-                log::notImplemented("`ast::Expr::Kind::Lambda` lowering");
+                const auto & astNode = e->as<ast::Lambda>(e);
+
+                LambdaParam::List params;
+                for (const auto & param : astNode->params) {
+                    params.emplace_back(lowerPat(param.pat), param.type.map<Type>([this](const ast::Type::Ptr & type) {
+                        return lowerType(type);
+                    }));
+                }
+
+                auto returnType = astNode->returnType.map<Type>([this](const ast::Type::Ptr & type) {
+                    return lowerType(type);
+                });
+
+                return makeBoxNode<LambdaExpr>(std::move(params), std::move(returnType), lowerExprAsBody(astNode->body));
             }
             case ast::Expr::Kind::List: {
                 log::notImplemented("`ast::Expr::Kind::List` lowering");
