@@ -405,7 +405,14 @@ namespace jc::hir {
                 return makeBoxNode<SelfExpr>();
             }
             case ast::Expr::Kind::Tuple: {
-                log::notImplemented("`ast::Expr::Kind::Tuple` lowering");
+                const auto & astNode = e->as<ast::TupleExpr>(e);
+
+                NamedExpr::List els;
+                for (const auto & el : astNode->elements) {
+                    els.emplace_back(lowerOptIdent(el.name), lowerExpr(el.node), el.span);
+                }
+
+                return makeBoxNode<TupleExpr>(std::move(els));
             }
             case ast::Expr::Kind::Unit: {
                 log::notImplemented("`ast::Expr::Kind::Unit` lowering");
