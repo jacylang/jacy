@@ -39,7 +39,7 @@ namespace jc::dt {
     template<class T>
     struct is_ptr_like<std::unique_ptr<T>> : std::true_type {};
 
-    template <typename T, typename E>
+    template<typename T, typename E>
     class Result;
 
     template<typename T>
@@ -47,8 +47,9 @@ namespace jc::dt {
     public:
         using ValueT = T;
 
-        explicit constexpr Err(const T & val) : m_value{val} {}
-        explicit constexpr Err(T && val) : m_value{std::move(val)} {}
+        explicit constexpr Err(const T & val) : m_value {val} {}
+
+        explicit constexpr Err(T && val) : m_value {std::move(val)} {}
 
         constexpr const T & value() const & {
             return m_value;
@@ -67,8 +68,12 @@ namespace jc::dt {
     public:
         using ValueT = T;
 
-        explicit constexpr Ok(const T & val) : m_value{val} {}
-        explicit constexpr Ok(T && val) : m_value{std::move(val)} {}
+        explicit constexpr Ok(const T & val) : m_value {val} {}
+
+        explicit constexpr Ok(T && val) : m_value {std::move(val)} {}
+
+        template<class ...Args>
+        constexpr Ok(Args && ...args) : m_value {std::forward<Args>(args)...} {}
 
         constexpr const T & value() const & {
             return m_value;
@@ -85,7 +90,7 @@ namespace jc::dt {
 
         template<typename E>
         constexpr operator Result<T, E>() && {
-            return Result<T, E>(Ok{std::move(m_value)});
+            return Result<T, E>(Ok {std::move(m_value)});
         }
 
     private:
@@ -103,7 +108,7 @@ namespace jc::dt {
         }
     }
 
-    template <typename T, typename E>
+    template<typename T, typename E>
     class Result {
     public:
         static constexpr size_t ValueIndex = 1;
@@ -127,20 +132,21 @@ namespace jc::dt {
                       "Cannot create a Result<T, E> object with E=void. You want an "
                       "optional<T>.");
 
-        Result() : _kind{ResultKind::Uninited}, storage{std::monostate{}} {}
-//        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
+        Result() : _kind {ResultKind::Uninited}, storage {std::monostate {}} {}
+        //        constexpr Result() noexcept(std::is_default_constructible<T>::value) : m_storage(Ok(T())) {}
 
-//        constexpr Result(Ok<T> value) : m_storage{std::move(value)} {}
-//        constexpr Result(Err<E> value) : m_storage{std::move(value)} {}
-        constexpr Result(Ok<T> && value) : _kind{ResultKind::Ok}, storage(std::move(value).value()) {}
-        constexpr Result(Err<E> && value) : _kind{ResultKind::Err}, storage(std::move(value).value()) {}
+        //        constexpr Result(Ok<T> value) : m_storage{std::move(value)} {}
+        //        constexpr Result(Err<E> value) : m_storage{std::move(value)} {}
+        constexpr Result(Ok<T> && value) : _kind {ResultKind::Ok}, storage(std::move(value).value()) {}
+
+        constexpr Result(Err<E> && value) : _kind {ResultKind::Err}, storage(std::move(value).value()) {}
 
         constexpr Result(const Result<T, E> & other) noexcept(
-            std::is_nothrow_copy_constructible<StorageT>::value
+        std::is_nothrow_copy_constructible<StorageT>::value
         ) = default;
 
         constexpr Result<T, E> & operator=(const Result<T, E> & other) noexcept(
-            std::is_nothrow_copy_assignable<StorageT>::value
+        std::is_nothrow_copy_assignable<StorageT>::value
         ) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("copy operator=");
@@ -155,11 +161,11 @@ namespace jc::dt {
         }
 
         constexpr Result(Result<T, E> && other) noexcept(
-            std::is_nothrow_move_constructible<StorageT>::value
+        std::is_nothrow_move_constructible<StorageT>::value
         ) = default;
 
         constexpr Result<T, E> & operator=(Result<T, E> && other) noexcept(
-            std::is_nothrow_move_assignable<StorageT>::value
+        std::is_nothrow_move_assignable<StorageT>::value
         ) {
             if (other.kind() == ResultKind::Uninited) {
                 details::useOfUninited("move operator=");
@@ -293,13 +299,13 @@ namespace jc::dt {
         StorageT storage;
     };
 
-    template <typename T>
+    template<typename T>
     inline std::ostream & operator<<(std::ostream & stream, const Ok<T> & ok) {
         stream << "Ok(" << ok.value() << ")";
         return stream;
     }
 
-    template <typename T>
+    template<typename T>
     inline std::ostream & operator<<(std::ostream & stream, const Err<T> & err) {
         stream << "Err(" << err.value() << ")";
         return stream;
