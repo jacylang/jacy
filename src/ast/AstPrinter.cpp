@@ -566,7 +566,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
-        printDelim(funcType.params, "(", ")");
+        printNamedNodeList<Type::Ptr>(funcType.params, "(", ")", ", ");
         log.raw(" -> ");
         funcType.returnType.autoAccept(*this);
 
