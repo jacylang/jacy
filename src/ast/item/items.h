@@ -182,7 +182,7 @@ namespace jc::ast {
         Struct(
             Ident::PR name,
             GenericParam::OptList generics,
-            StructField::List fields,
+            CommonField::List fields,
             Span span
         ) : Item {span, Item::Kind::Struct},
             name {std::move(name)},
@@ -191,7 +191,7 @@ namespace jc::ast {
 
         Ident::PR name;
         GenericParam::OptList generics;
-        StructField::List fields;
+        CommonField::List fields;
 
         span::Ident getName() const override {
             return name.unwrap();
