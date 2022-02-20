@@ -114,7 +114,7 @@ namespace jc::hir {
             case ast::Variant::Kind::Tuple: {
                 return Variant {
                     variant.name.unwrap(),
-                    lowerTupleTysToFields(std::get<ast::TupleTypeEl::List>(variant.body), false),
+                    lowerCommonFields(variant.getFields()),
                     Variant::Kind::Tuple,
                     variant.span
                 };
@@ -122,7 +122,7 @@ namespace jc::hir {
             case ast::Variant::Kind::Struct: {
                 return Variant {
                     variant.name.unwrap(),
-                    lowerStructFields(std::get<ast::StructField::List>(variant.body)),
+                    lowerCommonFields(variant.getFields()),
                     Variant::Kind::Struct,
                     variant.span
                 };
@@ -301,11 +301,10 @@ namespace jc::hir {
                 auto lhs = lowerExpr(astNode->lhs);
                 Arg::List args;
                 for (const auto & arg : astNode->args) {
-                    span::Ident::Opt name = None;
-                    if (arg.name.some()) {
-                        name = arg.name.unwrap().unwrap();
-                    }
-                    args.emplace_back(name, lowerExpr(arg.value));
+                    auto name = arg.name.map<Ident>([&](const ast::Ident::PR & name) {
+                        return name.unwrap();
+                    });
+                    args.emplace_back(std::move(name), lowerExpr(arg.node), arg.span);
                 }
 
                 return makeBoxNode<InvokeExpr>(
@@ -481,10 +480,12 @@ namespace jc::hir {
             }
             case ast::Type::Kind::Tuple: {
                 const auto & tupleType = ast::Type::as<ast::TupleType>(type);
-                Type::List els;
+                TupleType::Element::List els;
                 for (const auto & el : tupleType->elements) {
-                    // TODO: Named tuples
-                    els.emplace_back(lowerType(el.type));
+                    auto name = el.name.map<Ident>([&](const ast::Ident::PR & name) {
+                        return name.unwrap();
+                    });
+                    els.emplace_back(std::move(name), lowerType(el.node), el.span);
                 }
                 return makeBoxNode<TupleType>(std::move(els));
             }
@@ -492,7 +493,7 @@ namespace jc::hir {
                 const auto & funcType = ast::Type::as<ast::FuncType>(type);
                 Type::List inputs;
                 for (const auto & type : funcType->params) {
-                    inputs.emplace_back(lowerType(type));
+                    inputs.emplace_back(lowerType(type.node));
                 }
                 return makeBoxNode<FuncType>(std::move(inputs), lowerType(funcType->returnType));
             }
