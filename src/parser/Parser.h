@@ -353,8 +353,6 @@ namespace jc::parser {
 
         Type::Ptr parseFuncType(NamedType::List paramTypes, Span span);
 
-        NamedType::List parseTupleFields();
-
         // Type fragments //
     private:
         GenericArg::OptList parseOptGenericArgs();

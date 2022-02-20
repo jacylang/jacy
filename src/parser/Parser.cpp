@@ -1884,43 +1884,6 @@ namespace jc::parser {
         return makeNodeLike<AnonConst>(exprSpan, std::move(expr));
     }
 
-    NamedType::List Parser::parseTupleFields() {
-        enterEntity("TupleFields");
-
-        NamedType::List tupleFields;
-
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` delimiter between tuple fields");
-            }
-
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            auto elBegin = cspan();
-            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto name = justParseIdent("`parseTupleFields`");
-                justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
-                auto type = parseType("Expected tuple field type after `:`");
-                tupleFields.emplace_back(std::move(name), std::move(type), closeSpan(elBegin));
-            } else {
-                auto type = parseType("Expected tuple field type");
-                tupleFields.emplace_back(None, std::move(type), closeSpan(elBegin));
-            }
-        }
-
-        exitEntity();
-        return tupleFields;
-    }
-
     ///////////
     // Types //
     ///////////
@@ -1964,7 +1927,7 @@ namespace jc::parser {
 
         auto begin = cspan();
 
-        auto[elements, trailingComma] = parseNamedTypeList(PairedTokens::Paren, "tuple type");
+        auto[elements, trailingComma] = parseNamedTypeList(PairedTokens::Paren, TokenKind::Comma, "tuple type");
 
         exitEntity();
 
