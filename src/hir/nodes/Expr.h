@@ -38,6 +38,7 @@ namespace jc::hir {
             Path,
             Prefix,
             Return,
+            Self,
             Tuple,
         };
 

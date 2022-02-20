@@ -299,6 +299,10 @@ namespace jc::hir {
         Expr::Opt value;
     };
 
+    struct SelfExpr : ExprKind {
+        SelfExpr() : ExprKind {ExprKind::Kind::Self} {}
+    };
+
     struct TupleExpr : ExprKind {
         TupleExpr(Expr::List && values)
             : ExprKind {ExprKind::Kind::Tuple}, values {std::move(values)} {}
