@@ -1330,38 +1330,15 @@ namespace jc::parser {
 
         enterEntity("TupleExpr or ParenExpr");
 
-        Expr::List values;
-        bool first = true;
-        bool forceTuple = false;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
+        auto [els, trailingComma] = parseNamedExprList("tuple literal");
 
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator in tuple literal");
-            }
-
-            if (is(TokenKind::RParen)) {
-                // If there's a trailing comma -- it is 100% tuple
-                forceTuple = true;
-                break;
-            }
-
-            values.emplace_back(parseExpr("Expression expected"));
-        }
-
-        skip(TokenKind::RParen, "Expected closing `)`");
-
-        if (not forceTuple and values.size() == 1) {
+        if (not trailingComma and els.size() == 1 and els.at(0).name.none()) {
             exitEntity();
-            return makePRBoxNode<ParenExpr, Expr>(std::move(values.at(0)), closeSpan(begin));
+            return makePRBoxNode<ParenExpr, Expr>(std::move(els.at(0).node), closeSpan(begin));
         }
 
         exitEntity();
-        return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
+        return makePRBoxNode<TupleExpr, Expr>(std::move(els), closeSpan(begin));
     }
 
     std::tuple<Parser::NamedExpr::List, bool> Parser::parseNamedExprList(const std::string & place) {
@@ -1379,7 +1356,7 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                skip(TokenKind::Comma, log::fmt("Missing `,` separator in `", place, "`"));
+                skip(TokenKind::Comma, log::fmt("`,` separator in `", place, "`"));
             }
 
             if (is(TokenKind::RParen)) {
@@ -1395,6 +1372,8 @@ namespace jc::parser {
                 els.emplace_back(None, parseExpr("expression"), closeSpan(begin));
             }
         }
+
+        skip(TokenKind::RParen, log::fmt("closing `)` in `", place, "`"));
 
         return {std::move(els), trailingComma};
     }
