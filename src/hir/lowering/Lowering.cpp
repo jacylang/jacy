@@ -415,7 +415,7 @@ namespace jc::hir {
                 return makeBoxNode<TupleExpr>(std::move(els));
             }
             case ast::Expr::Kind::Unit: {
-                log::notImplemented("`ast::Expr::Kind::Unit` lowering");
+                return makeBoxNode<UnitExpr>();
             }
             case ast::Expr::Kind::Match: {
                 const auto & astNode = e->as<ast::MatchExpr>(e);
