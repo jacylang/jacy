@@ -74,7 +74,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const Struct & st) {
         st.name.autoAccept(*this);
-        visitEach(st.fields);
+        visitNamedNodeList<Type::Ptr>(st.fields);
     }
 
     void StubVisitor::visit(const Trait & trait) {
@@ -282,7 +282,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const FuncType & funcType) {
-        visitEach(funcType.params);
+        visitNamedNodeList<Type::Ptr>(funcType.params);
         funcType.returnType.autoAccept(*this);
     }
 
@@ -350,7 +350,7 @@ namespace jc::ast {
     // Fragments //
     void StubVisitor::visit(const Attr & attr) {
         attr.name.autoAccept(*this);
-        visitEach(attr.params);
+        visitNamedNodeList<Expr::Ptr>(attr.params);
     }
 
     void StubVisitor::visit(const Ident &) {}
