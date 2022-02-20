@@ -809,7 +809,7 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TuplePat & pat) {
-        printDelim(pat.els, "(", ")", ", ");
+        printNamedNodeList<Pat::Ptr>(pat.els, "(", ")");
         printNodeId(pat);
     }
 
