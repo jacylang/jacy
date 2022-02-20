@@ -31,6 +31,7 @@ namespace jc::hir {
             Infix,
             Invoke,
             Lambda,
+            List,
             Literal,
             Loop,
             Match,

@@ -219,6 +219,12 @@ namespace jc::hir {
         BodyId body;
     };
 
+    struct ListExpr : ExprKind {
+        ListExpr(Expr::List && els) : ExprKind {ExprKind::Kind::List}, els {std::move(els)} {}
+
+        Expr::List els;
+    };
+
     struct LitExpr : ExprKind {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;
