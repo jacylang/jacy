@@ -2410,11 +2410,11 @@ namespace jc::parser {
         const auto & begin = cspan();
         justSkip(TokenKind::LParen, "`(`", "`parseParenPat`");
 
-        Pat::List els;
-        bool tuple = false;
+        TuplePat::Element::List els;
         bool first = true;
         TuplePat::RestPatIndexT restPatIndex = None;
         size_t index = 0;
+        bool trailingComma = false;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
@@ -2423,33 +2423,36 @@ namespace jc::parser {
             if (first) {
                 first = false;
             } else {
-                tuple = true;
                 skip(TokenKind::Comma, "Missing `,` delimiter between tuple pattern fields");
             }
 
             // Allow trailing comma for single-element tuple pattern
             if (is(TokenKind::RParen)) {
+                trailingComma = true;
                 break;
             }
 
-            auto pat = parsePat();
-            if (pat.ok() and pat.unwrap()->kind == Pat::Kind::Rest) {
-                restPatIndex = index;
+            auto begin = cspan();
+            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
+                // FIXME: Named rest (`...`) pattern??
+                els.emplace_back(parseIdent("element name"), parsePat(), closeSpan(begin));
+            } else {
+                auto pat = parsePat();
+                if (pat.ok() and pat.unwrap()->kind == Pat::Kind::Rest) {
+                    restPatIndex = index;
+                }
             }
 
-            els.emplace_back(std::move(pat));
             index++;
         }
 
         skip(TokenKind::RParen, "Closing `)`");
 
-        // Check for unit pattern, aka empty tuple.
-        // Also check for `(...)` as it is a tuple pattern matching any tuple.
-        if (tuple or els.empty() or restPatIndex.some()) {
-            return makePRBoxNode<TuplePat, Pat>(std::move(els), restPatIndex, closeSpan(begin));
+        if (not trailingComma and els.size() == 1 and els.at(0).name.none()) {
+            return makePRBoxNode<ParenPat, Pat>(std::move(els.at(0).node), closeSpan(begin));
         }
 
-        return makePRBoxNode<ParenPat, Pat>(std::move(els.at(0)), closeSpan(begin));
+        return makePRBoxNode<TuplePat, Pat>(std::move(els), restPatIndex, closeSpan(begin));
     }
 
     Pat::Ptr Parser::parseSlicePat() {
