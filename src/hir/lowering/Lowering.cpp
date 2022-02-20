@@ -782,6 +782,12 @@ namespace jc::hir {
         return args;
     }
 
+    Ident::Opt Lowering::lowerOptIdent(const ast::Ident::OptPR & ident) {
+        return ident.map<Ident>([](const ast::Ident::PR & ident) {
+            return ident.unwrap();
+        });
+    }
+
     // Patterns //
     Pat Lowering::lowerPat(const ast::Pat::Ptr & astPat) {
         const auto & pat = astPat.unwrap();

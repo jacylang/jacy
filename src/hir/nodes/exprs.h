@@ -7,6 +7,8 @@
 #include "ast/expr/exprs.h"
 
 namespace jc::hir {
+    using NamedExpr = NamedNode<Expr, Ident::Opt>;
+
     enum class BinOpKind {
         Add,
         Sub,
@@ -314,10 +316,10 @@ namespace jc::hir {
     };
 
     struct TupleExpr : ExprKind {
-        TupleExpr(Expr::List && values)
+        TupleExpr(NamedExpr::List && values)
             : ExprKind {ExprKind::Kind::Tuple}, values {std::move(values)} {}
 
-        Expr::List values;
+        NamedExpr::List values;
     };
 
     struct UnitExpr : ExprKind {

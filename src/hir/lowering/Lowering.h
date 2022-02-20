@@ -166,6 +166,8 @@ namespace jc::hir {
 
         GenericArg::List lowerGenericArgs(const ast::GenericArg::OptList & maybeGenericArgs);
 
+        Ident::Opt lowerOptIdent(const ast::Ident::OptPR & ident);
+
         // Patterns //
     private:
         Pat lowerPat(const ast::Pat::Ptr & astPat);
