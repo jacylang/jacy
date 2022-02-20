@@ -9,24 +9,7 @@
 #include "ast/fragments/SimplePath.h"
 
 namespace jc::ast {
-    struct StructField : Node {
-        using List = std::vector<StructField>;
-
-        StructField(
-            Ident::PR name,
-            Type::Ptr type,
-            Span span
-        ) : Node {span},
-            name {std::move(name)},
-            type {std::move(type)} {}
-
-        Ident::PR name;
-        Type::Ptr type;
-
-        void accept(BaseVisitor & visitor) const {
-            return visitor.visit(*this);
-        }
-    };
+    using CommonField = NamedNode<Type::Ptr, Ident::OptPR>;
 
     struct Variant : Node {
         using List = std::vector<Variant>;
@@ -37,29 +20,22 @@ namespace jc::ast {
             Struct, // `A {a, b, c...}`
         };
 
-        Variant(Kind kind, Ident::PR name, AnonConst::Opt && disc, Span span)
-            : Node {span}, kind {kind}, name {name}, body {std::move(disc)} {}
+        Variant(Ident::PR name, AnonConst::Opt && disc, Span span)
+            : Node {span}, kind {Kind::Unit}, name {name}, body {std::move(disc)} {}
 
-        Variant(Kind kind, Ident::PR name, TupleTypeEl::List && tupleFields, Span span)
+        Variant(Kind kind, Ident::PR name, CommonField::List && tupleFields, Span span)
             : Node {span}, kind {kind}, name {name}, body {std::move(tupleFields)} {}
-
-        Variant(Kind kind, Ident::PR name, StructField::List && fields, Span span)
-            : Node {span}, kind {kind}, name {name}, body {std::move(fields)} {}
 
         Kind kind;
         Ident::PR name;
-        std::variant<AnonConst::Opt, TupleTypeEl::List, StructField::List> body;
+        std::variant<AnonConst::Opt, CommonField::List> body;
 
         const auto & getDisc() const {
             return std::get<AnonConst::Opt>(body);
         }
 
-        const auto & getTuple() const {
-            return std::get<TupleTypeEl::List>(body);
-        }
-
-        const auto & getStruct() const {
-            return std::get<StructField::List>(body);
+        const auto & getFields() const {
+            return std::get<CommonField::List>(body);
         }
 
         void accept(BaseVisitor & visitor) const {
