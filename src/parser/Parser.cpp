@@ -495,44 +495,6 @@ namespace jc::parser {
         );
     }
 
-    CommonField::List Parser::parseStructFields() {
-        enterEntity("StructFields");
-
-        CommonField::List fields;
-
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RBrace)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator between `struct` fields");
-            }
-
-            if (is(TokenKind::RBrace)) {
-                break;
-            }
-
-            const auto & begin = cspan();
-            Attr::List attributes = parseAttrList();
-            auto id = parseIdent("field name");
-
-            // TODO: Hint field name
-            skip(TokenKind::Colon, "Missing `:` to annotate field type");
-
-            // TODO: Hint field type
-            auto type = parseType("Expected type for field after `:`");
-
-            fields.emplace_back(std::move(id), std::move(type), closeSpan(begin));
-        }
-
-        exitEntity();
-        return fields;
-    }
-
     Item::Ptr Parser::parseTrait() {
         enterEntity("Trait");
 

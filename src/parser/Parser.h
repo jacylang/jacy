@@ -209,8 +209,6 @@ namespace jc::parser {
 
         Item::Ptr parseStruct();
 
-        CommonField::List parseStructFields();
-
         Item::Ptr parseTrait();
 
         Item::Ptr parseTypeAlias();
