@@ -1995,52 +1995,42 @@ namespace jc::parser {
             return Some(PR<N<Type>>(Ok(nodeCast<TypePath, Type>(parseTypePath()))));
         }
 
-        const auto & begin = cspan();
-
         if (is(TokenKind::LParen)) {
-            auto tupleElements = parseParenType();
-
-            if (skipOpt(TokenKind::Arrow).some()) {
-                return parseFuncType(std::move(tupleElements), begin);
-            } else {
-                if (tupleElements.empty()) {
-                    return makePRBoxNode<UnitType, Type>(closeSpan(begin));
-                } else if (tupleElements.size() == 1 and tupleElements.at(0).name.none()) {
-                    return makePRBoxNode<ParenType, Type>(
-                        std::move(tupleElements.at(0).node), closeSpan(begin)
-                    );
-                }
-                return makePRBoxNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
-            }
+            return parseParenType();
         }
 
         return None;
     }
 
-    NamedType::List Parser::parseParenType() {
+    Type::Ptr Parser::parseParenType() {
         enterEntity("ParenType");
 
-        justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
+        auto begin = cspan();
 
-        if (skipOpt(TokenKind::RParen).some()) {
-            exitEntity();
-            return {};
-        }
-
-        auto[tupleElements, trailingComma] = parseNamedTypeList("");
+        auto[elements, trailingComma] = parseNamedTypeList(PairedTokens::Paren, "tuple type");
 
         exitEntity();
-        return tupleElements;
+
+        if (not trailingComma and elements.size() == 1 and elements.at(0).name.none()) {
+            return makePRBoxNode<ParenType, Type>(
+                std::move(elements.at(0).node), closeSpan(begin)
+            );
+        }
+
+        if (skipOpt(TokenKind::Arrow).some()) {
+            return parseFuncType(std::move(elements), begin);
+        }
+
+        return makePRBoxNode<TupleType, Type>(std::move(elements), closeSpan(begin));
     }
 
     std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(PairedTokens pairedTokens, const std::string & place) {
-        NamedType::List tupleElements;
+        NamedType::List elements;
 
         auto[opening, closing] = Token::getTokenPairs(pairedTokens);
 
         skip(opening, log::fmt("opening ", Token::kindToString(opening), " in ", place));
 
-        size_t elIndex = 0;
         bool first = true;
         bool trailingComma = false;
         while (not eof()) {
@@ -2073,13 +2063,12 @@ namespace jc::parser {
                 type = parseType("Expected type");
             }
 
-            tupleElements.emplace_back(std::move(name), type.take(), elBegin.to(cspan()));
-            elIndex++;
+            elements.emplace_back(std::move(name), type.take(), elBegin.to(cspan()));
         }
 
         skip(closing, log::fmt("closing ", Token::kindToString(closing), " in ", place));
 
-        return {tupleElements, trailingComma};
+        return {elements, trailingComma};
     }
 
     Type::Ptr Parser::parseArrayType() {
