@@ -182,6 +182,23 @@ namespace jc::hir {
 
         Pat::List lowerPatterns(const ast::Pat::List & pats);
 
+        // Helpers //
+    private:
+        template<class AstN, class HirN>
+        NamedNode<AstN, Ident::Opt> lowerNamedNodeList(
+            const typename NamedNode<AstN, Ident::Opt>::List & els,
+            const std::function<HirN(const AstN&)> & lower
+        ) {
+            typename NamedNode<HirN, Ident::Opt>::List lowered;
+            for (const auto & el : els) {
+                auto name = el.name.template map<Ident>([&](const ast::Ident::PR & name) {
+                    return name.unwrap();
+                });
+                lowered.emplace_back(std::move(name), lower(el.node), el.span);
+            }
+            return lowered;
+        }
+
     private:
         message::MessageHolder msg;
         sess::Session::Ptr sess;
