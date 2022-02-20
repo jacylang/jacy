@@ -198,6 +198,27 @@ namespace jc::hir {
         Arg::List args;
     };
 
+    struct LambdaParam {
+        using List = std::vector<LambdaParam>;
+
+        LambdaParam(Pat && pat, Type::Opt && type) : pat {std::move(pat)}, type {std::move(type)} {}
+
+        Pat pat;
+        Type::Opt type;
+    };
+
+    struct LambdaExpr : ExprKind {
+        LambdaExpr(LambdaParam::List && params, Type::Opt && returnType, BodyId body)
+            : ExprKind(ExprKind::Kind::Lambda),
+              params {std::move(params)},
+              returnType {std::move(returnType)},
+              body {body} {}
+
+        LambdaParam::List params;
+        Type::Opt returnType;
+        BodyId body;
+    };
+
     struct LitExpr : ExprKind {
         using Kind = ast::LitExpr::Kind;
         using ValueT = ast::LitExpr::ValueT;

@@ -30,6 +30,7 @@ namespace jc::hir {
             If,
             Infix,
             Invoke,
+            Lambda,
             Literal,
             Loop,
             Match,
