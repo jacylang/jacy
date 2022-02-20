@@ -452,6 +452,7 @@ namespace jc::hir {
     }
 
     ExprKind::Ptr Lowering::lowerForExpr(const ast::ForExpr &) {
+        // Note: Lowering of `for` loop requires pre-defined resolutions to built-in iterators
         log::notImplemented("`Lowering::lowerForExpr`");
     }
 
@@ -814,7 +815,7 @@ namespace jc::hir {
             }
             case ast::Pat::Kind::Paren: {
                 const auto & astNode = pat->as<ast::ParenPat>(pat);
-                // TODO: Replace recursion with loop
+                // TODO: Replace recursion with a loop
                 return lowerPatKind(astNode->pat);
             }
             case ast::Pat::Kind::Lit: {
@@ -878,14 +879,13 @@ namespace jc::hir {
     }
 
     PatKind::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
-        // TODO!!!: Resolutions
-
         Pat::Opt subPat = None;
         if (pat.pat.some()) {
             subPat = lowerPat(pat.pat.unwrap());
         }
 
         return makeBoxNode<IdentPat>(
+            sess->resolutions.getRes(pat.id).asLocal(),
             pat.anno,
             pat.name.unwrap(),
             std::move(subPat)

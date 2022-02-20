@@ -28,12 +28,14 @@ namespace jc::hir {
 
     /// `ref mut IDENT @ pattern`
     struct IdentPat : PatKind {
-        IdentPat(IdentPatAnno anno, span::Ident ident, Pat::Opt && pat)
+        IdentPat(NodeId resNodeId, IdentPatAnno anno, span::Ident ident, Pat::Opt && pat)
             : PatKind {PatKind::Kind::Ident},
+              resNodeId {resNodeId},
               anno {anno},
               ident {ident},
               pat {std::move(pat)} {}
 
+        NodeId resNodeId;
         IdentPatAnno anno;
         span::Ident ident;
         Pat::Opt pat;
