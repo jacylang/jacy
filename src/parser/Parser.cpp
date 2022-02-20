@@ -410,7 +410,7 @@ namespace jc::parser {
         }
 
         exitEntity();
-        return makeNode<Variant>(Variant::Kind::Unit, std::move(name), None, closeSpan(begin));
+        return makeNode<Variant>(std::move(name), None, closeSpan(begin));
     }
 
     Item::Ptr Parser::parseFunc(FuncHeader header) {
@@ -1913,10 +1913,10 @@ namespace jc::parser {
         return makeNodeLike<AnonConst>(exprSpan, std::move(expr));
     }
 
-    TupleTypeEl::List Parser::parseTupleFields() {
+    TupleType::Element::List Parser::parseTupleFields() {
         enterEntity("TupleFields");
 
-        TupleTypeEl::List tupleFields;
+        TupleType::Element::List tupleFields;
 
         bool first = true;
         while (not eof()) {
@@ -1940,12 +1940,12 @@ namespace jc::parser {
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeEl>(std::move(name), std::move(type), closeSpan(elBegin))
+                    makeNode<TupleType::Element>(std::move(name), std::move(type), closeSpan(elBegin))
                 );
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeNode<TupleTypeEl>(None, std::move(type), closeSpan(elBegin))
+                    makeNode<TupleType::Element>(None, std::move(type), closeSpan(elBegin))
                 );
             }
         }

@@ -57,7 +57,6 @@ namespace jc::ast {
     // Types //
     struct ParenType;
     struct TupleType;
-    struct TupleTypeEl;
     struct FuncType;
     struct SliceType;
     struct ArrayType;

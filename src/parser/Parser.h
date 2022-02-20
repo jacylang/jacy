@@ -347,7 +347,7 @@ namespace jc::parser {
 
         Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, Span span);
 
-        TupleTypeEl::List parseTupleFields();
+        TupleType::Element::List parseTupleFields();
 
         // Type fragments //
         GenericArg::OptList parseOptGenericArgs();

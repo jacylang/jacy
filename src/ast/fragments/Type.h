@@ -47,7 +47,7 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        using Element = NamedNode<Type::Ptr>;
+        using Element = NamedNode<Type::Ptr, Ident::OptPR>;
 
         TupleType(Element::List elements, Span span)
             : Type {span, Type::Kind::Tuple}, elements {std::move(elements)} {}
