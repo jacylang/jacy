@@ -83,7 +83,7 @@ namespace jc::resolve {
     void NameResolver::visit(const ast::Struct & st) {
         enterModule(st.getName().sym); // -> `struct` mod
         for (const auto & field : st.fields) {
-            field.type.autoAccept(*this);
+            field.node.autoAccept(*this);
         }
         exitRib(); // <- `struct` mod
     }

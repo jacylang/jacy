@@ -533,6 +533,19 @@ namespace jc::hir {
         return fields;
     }
 
+    CommonField::List Lowering::lowerCommonFields(const ast::CommonField::List & astFields) {
+        CommonField::List fields;
+
+        for (const auto & field : astFields) {
+            Ident::Opt name = field.name.map<Ident>([&](const ast::Ident::PR & name) {
+                return name.unwrap();
+            });
+            fields.emplace_back(std::move(name), lowerType(field.node), field.span);
+        }
+
+        return fields;
+    }
+
     CommonField::List Lowering::lowerStructFields(const ast::StructField::List & fs) {
         CommonField::List fields;
 

@@ -144,6 +144,8 @@ namespace jc::hir {
 
         TypeKind::Ptr lowerTypeKind(const ast::Type::Ptr & astType);
 
+        CommonField::List lowerCommonFields(const ast::CommonField::List & astFields);
+
         CommonField::List lowerTupleTysToFields(const ast::TupleTypeEl::List & types, bool named);
 
         CommonField::List lowerStructFields(const ast::StructField::List & fs);
