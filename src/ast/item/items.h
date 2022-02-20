@@ -48,7 +48,7 @@ namespace jc::ast {
             : Item {span, Item::Kind::Enum}, name {name}, variants {std::move(entries)} {}
 
         Ident::PR name;
-        Variant::List variants {};
+        Variant::List variants;
 
         span::Ident getName() const override {
             return name.unwrap();

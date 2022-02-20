@@ -1990,7 +1990,7 @@ namespace jc::parser {
 
         skip(closing, log::fmt("closing ", Token::kindToString(closing), " in ", place));
 
-        return {elements, trailingComma};
+        return {std::move(elements), trailingComma};
     }
 
     Type::Ptr Parser::parseArrayType() {
