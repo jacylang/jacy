@@ -341,11 +341,11 @@ namespace jc::parser {
 
         Type::OptPtr parseOptType();
 
-        TupleTypeEl::List parseParenType();
+        TupleType::Element::List parseParenType();
 
         Type::Ptr parseArrayType();
 
-        Type::Ptr parseFuncType(TupleTypeEl::List paramTypes, Span span);
+        Type::Ptr parseFuncType(TupleType::Element::List paramTypes, Span span);
 
         TupleType::Element::List parseTupleFields();
 

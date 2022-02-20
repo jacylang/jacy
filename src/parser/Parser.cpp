@@ -2007,7 +2007,7 @@ namespace jc::parser {
         return None;
     }
 
-    TupleTypeEl::List Parser::parseParenType() {
+    TupleType::Element::List Parser::parseParenType() {
         enterEntity("ParenType");
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
@@ -2018,7 +2018,7 @@ namespace jc::parser {
         }
 
         std::vector<size_t> namedElements;
-        TupleTypeEl::List tupleElements;
+        TupleType::Element::List tupleElements;
 
         size_t elIndex = 0;
         bool first = true;
@@ -2049,7 +2049,7 @@ namespace jc::parser {
             }
 
             tupleElements.emplace_back(
-                makeNode<TupleTypeEl>(std::move(name), type.take(), elBegin.to(cspan()))
+                makeNode<TupleType::Element>(std::move(name), type.take(), elBegin.to(cspan()))
             );
             elIndex++;
         }
