@@ -390,7 +390,16 @@ namespace jc::hir {
                 log::notImplemented("`ast::Expr::Kind::Spread` lowering");
             }
             case ast::Expr::Kind::Subscript: {
-                log::notImplemented("`ast::Expr::Kind::Subscript` lowering");
+                const auto & astNode = e->as<ast::Subscript>(e);
+
+                auto lhs = lowerExpr(astNode->lhs);
+
+                Expr::List indices;
+                for (const auto & index : astNode->indices) {
+                    indices.emplace_back(lowerExpr(index));
+                }
+
+                return makeBoxNode<Subscript>(std::move(lhs), std::move(indices));
             }
             case ast::Expr::Kind::Self: {
                 log::notImplemented("`ast::Expr::Kind::Self` lowering");
