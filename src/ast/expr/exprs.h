@@ -9,6 +9,8 @@
 #include <charconv>
 
 namespace jc::ast {
+    using NamedExpr = NamedNode<Expr::Ptr, Ident::OptPR>;
+
     /// `Expr = Expr`
     struct Assign : Expr {
         Assign(Expr::Ptr && lhs, const parser::Token & op, Expr::Ptr && rhs, span::Span span)

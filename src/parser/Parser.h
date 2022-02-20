@@ -190,10 +190,8 @@ namespace jc::parser {
 
         Token::Opt skipOptKw(Kw kw);
 
-        // Parsers //
-    private:
-
         // Items //
+    private:
         Option<Item::Ptr> parseOptItem();
 
         Item::List parseItemList(const std::string & gotExprMsg, TokenKind stopToken);
@@ -226,11 +224,13 @@ namespace jc::parser {
         Item::Ptr parseInit();
 
         // Statements //
+    private:
         Stmt::Ptr parseStmt();
 
         Stmt::Ptr parseLetStmt();
 
         // Expressions //
+    private:
         Expr::OptPtr parseOptExpr();
 
         Expr::Ptr parseExpr(const std::string & expectedMsg);
@@ -274,8 +274,6 @@ namespace jc::parser {
         /// - Tuple, possibly empty one (unit literal)
         /// - Parenthesized expression
         Expr::Ptr parseParenLikeExpr();
-
-        using NamedExpr = NamedNode<Expr::Ptr, Ident::OptPR>;
 
         std::tuple<NamedExpr::List, bool> parseNamedExprList(const std::string & place);
 
@@ -354,6 +352,7 @@ namespace jc::parser {
         NamedType::List parseTupleFields();
 
         // Type fragments //
+    private:
         GenericArg::OptList parseOptGenericArgs();
 
         GenericParam::OptList parseOptGenericParams();
@@ -361,6 +360,7 @@ namespace jc::parser {
         TypePath::Ptr parseTypePath();
 
         // Patterns //
+    private:
         Pat::Ptr parsePat();
 
         Pat::Ptr parseMultiPat();

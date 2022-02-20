@@ -1341,7 +1341,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(els), closeSpan(begin));
     }
 
-    std::tuple<Parser::NamedExpr::List, bool> Parser::parseNamedExprList(const std::string & place) {
+    std::tuple<NamedExpr::List, bool> Parser::parseNamedExprList(const std::string & place) {
         justSkip(TokenKind::LParen, "`(`", "parseNamedExprList");
 
         NamedExpr::List els;
