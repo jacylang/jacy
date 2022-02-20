@@ -299,13 +299,10 @@ namespace jc::hir {
                 const auto & astNode = e->as<ast::Invoke>(e);
 
                 auto lhs = lowerExpr(astNode->lhs);
-                Arg::List args;
-                for (const auto & arg : astNode->args) {
-                    auto name = arg.name.map<Ident>([&](const ast::Ident::PR & name) {
-                        return name.unwrap();
+                auto args = lowerNamedNodeList<ast::Invoke::Expr::Ptr, Expr>(
+                    astNode->args, [this](const ast::Expr::Ptr & expr) {
+                        return lowerExpr(expr);
                     });
-                    args.emplace_back(std::move(name), lowerExpr(arg.node), arg.span);
-                }
 
                 return makeBoxNode<InvokeExpr>(
                     std::move(lhs),
@@ -480,13 +477,10 @@ namespace jc::hir {
             }
             case ast::Type::Kind::Tuple: {
                 const auto & tupleType = ast::Type::as<ast::TupleType>(type);
-                TupleType::Element::List els;
-                for (const auto & el : tupleType->elements) {
-                    auto name = el.name.map<Ident>([&](const ast::Ident::PR & name) {
-                        return name.unwrap();
+                auto els = lowerNamedNodeList<ast::Type::Ptr, Type>(
+                    tupleType->elements, [this](const ast::Type::Ptr & type) {
+                        return lowerType(type);
                     });
-                    els.emplace_back(std::move(name), lowerType(el.node), el.span);
-                }
                 return makeBoxNode<TupleType>(std::move(els));
             }
             case ast::Type::Kind::Func: {
