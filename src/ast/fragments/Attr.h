@@ -3,6 +3,7 @@
 
 #include "ast/Node.h"
 #include "ast/fragments/Ident.h"
+#include "ast/expr/Expr.h"
 
 namespace jc::ast {
     struct Attr : Node {

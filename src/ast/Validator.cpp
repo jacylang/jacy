@@ -488,7 +488,7 @@ namespace jc::ast {
     }
 
     void Validator::visit(const FuncType & funcType) {
-        validateEach(funcType.params);
+        validateNamedNodeList<Type::Ptr>(funcType.params);
         funcType.returnType.autoAccept(*this);
     }
 
@@ -558,7 +558,7 @@ namespace jc::ast {
     // Fragments //
     void Validator::visit(const Attr & attr) {
         attr.name.autoAccept(*this);
-        validateEach(attr.params);
+        validateNamedNodeList<Expr::Ptr>(attr.params);
     }
 
     void Validator::visit(const Ident &) {}

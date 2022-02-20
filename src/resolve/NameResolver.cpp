@@ -193,7 +193,7 @@ namespace jc::resolve {
                .emit();
         } else {
             invoke.lhs.autoAccept(*this);
-            visitEach(invoke.args);
+            visitNamedNodeList<ast::Expr::Ptr>(invoke.args);
         }
     }
 
