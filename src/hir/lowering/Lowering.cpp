@@ -326,7 +326,14 @@ namespace jc::hir {
                 return makeBoxNode<LambdaExpr>(std::move(params), std::move(returnType), lowerExprAsBody(astNode->body));
             }
             case ast::Expr::Kind::List: {
-                log::notImplemented("`ast::Expr::Kind::List` lowering");
+                const auto & astNode = e->as<ast::ListExpr>(e);
+
+                Expr::List els;
+                for (const auto & el : astNode->elements) {
+                    els.emplace_back(lowerExpr(el));
+                }
+
+                return makeBoxNode<ListExpr>(std::move(els));
             }
             case ast::Expr::Kind::LiteralConstant: {
                 const auto & astNode = e->as<ast::LitExpr>(e);
