@@ -1640,12 +1640,12 @@ namespace jc::parser {
         return makeNode<Attr>(std::move(name), std::move(params), closeSpan(begin));
     }
 
-    Arg::List Parser::parseArgList(const std::string & construction) {
+    Invoke::Arg::List Parser::parseArgList(const std::string & construction) {
         enterEntity("ArgList:" + construction);
 
         justSkip(TokenKind::LParen, "`(`", "`parseArgList`");
 
-        Arg::List args;
+        Invoke::Arg::List args;
 
         bool first = true;
         while (not eof()) {
@@ -1665,10 +1665,10 @@ namespace jc::parser {
                 auto ident = justParseIdent("`parseArgList`");
                 justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
                 auto value = parseExpr("Expected value after `:`");
-                args.emplace_back(makeNode<Arg>(std::move(ident), std::move(value), closeSpan(argBegin)));
+                args.emplace_back(makeNode<Invoke::Arg>(std::move(ident), std::move(value), closeSpan(argBegin)));
             } else {
                 auto value = parseExpr("Expression expected");
-                args.emplace_back(makeNode<Arg>(None, std::move(value), closeSpan(argBegin)));
+                args.emplace_back(makeNode<Invoke::Arg>(None, std::move(value), closeSpan(argBegin)));
             }
         }
 

@@ -308,7 +308,7 @@ namespace jc::parser {
         Option<Attr> parseAttr();
 
         /// Parse a list of arguments which can be labeled
-        Arg::List parseArgList(const std::string & construction);
+        Invoke::Arg::List parseArgList(const std::string & construction);
 
         /// Parse function modifiers (`move`, `mut` or `static`, and others not present yet)
         parser::Token::List parseModifiers();
