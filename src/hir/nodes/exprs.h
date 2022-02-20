@@ -319,6 +319,10 @@ namespace jc::hir {
 
         Expr::List values;
     };
+
+    struct UnitExpr : ExprKind {
+        UnitExpr() : ExprKind {ExprKind::Kind::Unit} {}
+    };
 }
 
 #endif // JACY_HIR_NODES_EXPRS_H

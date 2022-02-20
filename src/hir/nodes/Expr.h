@@ -41,6 +41,7 @@ namespace jc::hir {
             Self,
             Subscript,
             Tuple,
+            Unit,
         };
 
         ExprKind(Kind kind) : kind {kind} {}
