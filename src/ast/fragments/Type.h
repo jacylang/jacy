@@ -36,6 +36,8 @@ namespace jc::ast {
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
+    using NamedType = NamedNode<Type::Ptr, Ident::OptPR>;
+
     struct ParenType : Type {
         ParenType(Type::Ptr type, Span span) : Type {span, Type::Kind::Paren}, type {std::move(type)} {}
 
@@ -47,12 +49,10 @@ namespace jc::ast {
     };
 
     struct TupleType : Type {
-        using Element = NamedNode<Type::Ptr, Ident::OptPR>;
-
-        TupleType(Element::List elements, Span span)
+        TupleType(NamedType::List elements, Span span)
             : Type {span, Type::Kind::Tuple}, elements {std::move(elements)} {}
 
-        Element::List elements;
+        NamedType::List elements;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -61,14 +61,14 @@ namespace jc::ast {
 
     struct FuncType : Type {
         FuncType(
-            Type::List params,
+            NamedType::List params,
             Type::Ptr returnType,
             Span span
         ) : Type {span, Type::Kind::Func},
             params {std::move(params)},
             returnType {std::move(returnType)} {}
 
-        Type::List params;
+        NamedType::List params;
         Type::Ptr returnType;
 
         void accept(BaseVisitor & visitor) const override {

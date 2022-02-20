@@ -345,13 +345,13 @@ namespace jc::parser {
 
         Type::OptPtr parseOptType();
 
-        TupleType::Element::List parseParenType();
+        NamedType::List parseParenType();
 
         Type::Ptr parseArrayType();
 
-        Type::Ptr parseFuncType(TupleType::Element::List paramTypes, Span span);
+        Type::Ptr parseFuncType(NamedType::List paramTypes, Span span);
 
-        TupleType::Element::List parseTupleFields();
+        NamedType::List parseTupleFields();
 
         // Type fragments //
         GenericArg::OptList parseOptGenericArgs();

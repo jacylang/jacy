@@ -1927,10 +1927,10 @@ namespace jc::parser {
         return makeNodeLike<AnonConst>(exprSpan, std::move(expr));
     }
 
-    TupleType::Element::List Parser::parseTupleFields() {
+    NamedType::List Parser::parseTupleFields() {
         enterEntity("TupleFields");
 
-        TupleType::Element::List tupleFields;
+        NamedType::List tupleFields;
 
         bool first = true;
         while (not eof()) {
@@ -1954,12 +1954,12 @@ namespace jc::parser {
                 justSkip(TokenKind::Colon, "`:`", "`parseTupleFields`");
                 auto type = parseType("Expected tuple field type after `:`");
                 tupleFields.emplace_back(
-                    makeNode<TupleType::Element>(std::move(name), std::move(type), closeSpan(elBegin))
+                    makeNode<NamedType>(std::move(name), std::move(type), closeSpan(elBegin))
                 );
             } else {
                 auto type = parseType("Expected tuple field type");
                 tupleFields.emplace_back(
-                    makeNode<TupleType::Element>(None, std::move(type), closeSpan(elBegin))
+                    makeNode<NamedType>(None, std::move(type), closeSpan(elBegin))
                 );
             }
         }
@@ -2011,7 +2011,7 @@ namespace jc::parser {
                     return makePRBoxNode<UnitType, Type>(closeSpan(begin));
                 } else if (tupleElements.size() == 1 and tupleElements.at(0).name.none()) {
                     return makePRBoxNode<ParenType, Type>(
-                        std::move(tupleElements.at(0).type), closeSpan(begin)
+                        std::move(tupleElements.at(0).node), closeSpan(begin)
                     );
                 }
                 return makePRBoxNode<TupleType, Type>(std::move(tupleElements), closeSpan(begin));
@@ -2021,7 +2021,7 @@ namespace jc::parser {
         return None;
     }
 
-    TupleType::Element::List Parser::parseParenType() {
+    NamedType::List Parser::parseParenType() {
         enterEntity("ParenType");
 
         justSkip(TokenKind::LParen, "`(`", "`parseParenType`");
@@ -2032,7 +2032,7 @@ namespace jc::parser {
         }
 
         std::vector<size_t> namedElements;
-        TupleType::Element::List tupleElements;
+        NamedType::List tupleElements;
 
         size_t elIndex = 0;
         bool first = true;
@@ -2063,7 +2063,7 @@ namespace jc::parser {
             }
 
             tupleElements.emplace_back(
-                makeNode<TupleType::Element>(std::move(name), type.take(), elBegin.to(cspan()))
+                makeNode<NamedType>(std::move(name), type.take(), elBegin.to(cspan()))
             );
             elIndex++;
         }
@@ -2095,20 +2095,21 @@ namespace jc::parser {
         return makePRBoxNode<SliceType, Type>(std::move(type), closeSpan(begin));
     }
 
-    Type::Ptr Parser::parseFuncType(TupleTypeEl::List tupleElements, Span span) {
+    Type::Ptr Parser::parseFuncType(NamedType::List tupleElements, Span span) {
         enterEntity("FuncType");
 
-        Type::List params;
+        NamedType::List params;
         for (auto & tupleEl : tupleElements) {
-            if (tupleEl.name.some()) {
-                // Note: We don't ignore `->` if there are named elements in tuple type
-                //  'cause we want to check for problem like (name: string) -> type
-                msg.error()
-                   .setText("Cannot declare function type with named parameter")
-                   .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
-                   .emit();
-            }
-            params.emplace_back(std::move(tupleEl.type));
+            // TODO: Think about allowing named parameters
+//            if (tupleEl.name.some()) {
+//                // Note: We don't ignore `->` if there are named elements in tuple type
+//                //  'cause we want to check for problem like (name: string) -> type
+//                msg.error()
+//                   .setText("Cannot declare function type with named parameter")
+//                   .setPrimaryLabel(tupleEl.name.unwrap().span(), "Remove parameter name")
+//                   .emit();
+//            }
+            params.emplace_back(std::move(tupleEl));
         }
 
         auto returnType = parseType("Expected return type in function type after `->`");
