@@ -1364,14 +1364,13 @@ namespace jc::parser {
         return makePRBoxNode<TupleExpr, Expr>(std::move(values), closeSpan(begin));
     }
 
-    NamedNode<Expr::Ptr, Ident::OptPR>::List Parser::parseNamedExprList(const std::string & place) {
-        using Element = NamedNode<Expr::Ptr, Ident::OptPR>;
-
+    std::tuple<Parser::NamedExpr::List, bool> Parser::parseNamedExprList(const std::string & place) {
         justSkip(TokenKind::LParen, "`(`", "parseNamedExprList");
 
-        Element::List els;
+        NamedExpr::List els;
 
         bool first = true;
+        bool trailingComma = false;
         while (not eof()) {
             if (is(TokenKind::RParen)) {
                 break;
@@ -1384,6 +1383,7 @@ namespace jc::parser {
             }
 
             if (is(TokenKind::RParen)) {
+                trailingComma = true;
                 // TODO: Store trailing comma?
                 break;
             }
@@ -1396,7 +1396,7 @@ namespace jc::parser {
             }
         }
 
-        return els;
+        return {std::move(els), trailingComma};
     }
 
     Block::Ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
