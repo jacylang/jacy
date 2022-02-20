@@ -402,7 +402,7 @@ namespace jc::hir {
                 return makeBoxNode<Subscript>(std::move(lhs), std::move(indices));
             }
             case ast::Expr::Kind::Self: {
-                log::notImplemented("`ast::Expr::Kind::Self` lowering");
+                return makeBoxNode<SelfExpr>();
             }
             case ast::Expr::Kind::Tuple: {
                 log::notImplemented("`ast::Expr::Kind::Tuple` lowering");
