@@ -473,17 +473,9 @@ namespace jc::parser {
         auto name = parseIdent("`struct` name");
         auto generics = parseOptGenericParams();
 
-        StructField::List fields;
+        NamedType::List fields;
         if (not isSemis()) {
-            skip(
-                TokenKind::LBrace,
-                "Expected opening `{` or `;` to ignore body in `struct`",
-                Recovery::Once
-            );
-
-            fields = parseStructFields();
-
-            skip(TokenKind::RBrace, "Expected closing `}` in `struct`");
+            fields = parseNamedTypeList(PairedTokens::Brace, TokenKind::Comma, "`struct` body").first;
         } else if (not eof()) {
             justSkip(TokenKind::Semi, "`;`", "`parseStruct`");
         }
@@ -1986,7 +1978,7 @@ namespace jc::parser {
         return makePRBoxNode<TupleType, Type>(std::move(elements), closeSpan(begin));
     }
 
-    std::tuple<NamedType::List, bool> Parser::parseNamedTypeList(
+    std::pair<NamedType::List, bool> Parser::parseNamedTypeList(
         PairedTokens pairedTokens,
         TokenKind sep,
         const std::string & place
