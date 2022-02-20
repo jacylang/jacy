@@ -394,7 +394,7 @@ namespace jc::parser {
         if (skipOpt(TokenKind::Assign).some()) {
             auto disc = parseAnonConst("Expected constant expression after `=`");
             exitEntity();
-            return makeNode<Variant>(Variant::Kind::Unit, std::move(name), std::move(disc), closeSpan(begin));
+            return makeNode<Variant>(std::move(name), std::move(disc), closeSpan(begin));
         } else if (skipOpt(TokenKind::LParen).some()) {
             auto tupleFields = parseTupleFields();
             exitEntity();
@@ -495,10 +495,10 @@ namespace jc::parser {
         );
     }
 
-    StructField::List Parser::parseStructFields() {
+    CommonField::List Parser::parseStructFields() {
         enterEntity("StructFields");
 
-        StructField::List fields;
+        CommonField::List fields;
 
         bool first = true;
         while (not eof()) {
@@ -526,7 +526,7 @@ namespace jc::parser {
             // TODO: Hint field type
             auto type = parseType("Expected type for field after `:`");
 
-            fields.emplace_back(makeNode<StructField>(std::move(id), std::move(type), closeSpan(begin)));
+            fields.emplace_back(makeNode<CommonField>(std::move(id), std::move(type), closeSpan(begin)));
         }
 
         exitEntity();
