@@ -164,8 +164,8 @@ namespace jc::ast {
     protected:
         void visitFuncSig(const FuncSig & sig);
 
-        template<class Node>
-        void visitNamedNodeList(const NamedNode<Node, Ident::OptPR> & els) {
+        template<class N>
+        void visitNamedNodeList(const typename NamedNode<N, Ident::OptPR>::List & els) {
             for (const auto & el : els) {
                 el.name.then([&](const Ident::PR & name) {
                     name.autoAccept(*this);

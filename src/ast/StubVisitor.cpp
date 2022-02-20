@@ -21,11 +21,11 @@ namespace jc::ast {
                 break;
             }
             case Variant::Kind::Tuple: {
-                visitEach(std::get<TupleTypeEl::List>(variant.body));
+                visitNamedNodeList<Type::Ptr>(variant.getFields());
                 break;
             }
             case Variant::Kind::Struct: {
-                visitEach(std::get<StructField::List>(variant.body));
+                visitNamedNodeList<Type::Ptr>(variant.getFields());
                 break;
             }
         }
@@ -78,11 +78,6 @@ namespace jc::ast {
     void StubVisitor::visit(const Struct & st) {
         st.name.autoAccept(*this);
         visitEach(st.fields);
-    }
-
-    void StubVisitor::visit(const StructField & field) {
-        field.name.autoAccept(*this);
-        field.type.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Trait & trait) {
@@ -193,7 +188,7 @@ namespace jc::ast {
 
     void StubVisitor::visit(const Invoke & invoke) {
         invoke.lhs.autoAccept(*this);
-        visitEach(invoke.args);
+        visitNamedNodeList<Expr::Ptr>(invoke.args);
     }
 
     void StubVisitor::visit(const Lambda & lambdaExpr) {
@@ -260,7 +255,7 @@ namespace jc::ast {
     void StubVisitor::visit(const SelfExpr &) {}
 
     void StubVisitor::visit(const TupleExpr & tupleExpr) {
-        visitEach(tupleExpr.elements);
+        visitNamedNodeList<Expr::Ptr>(tupleExpr.elements);
     }
 
     void StubVisitor::visit(const UnitExpr &) {}
@@ -286,14 +281,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TupleType & tupleType) {
-        visitEach(tupleType.elements);
-    }
-
-    void StubVisitor::visit(const TupleTypeEl & el) {
-        if (el.name.some()) {
-            el.name.unwrap().autoAccept(*this);
-        }
-        el.type.autoAccept(*this);
+        visitNamedNodeList<Type::Ptr>(tupleType.elements);
     }
 
     void StubVisitor::visit(const FuncType & funcType) {
@@ -370,13 +358,6 @@ namespace jc::ast {
 
     void StubVisitor::visit(const Ident &) {}
 
-    void StubVisitor::visit(const Arg & el) {
-        if (el.name.some()) {
-            el.name.unwrap().autoAccept(*this);
-        }
-        el.value.autoAccept(*this);
-    }
-
     void StubVisitor::visit(const Path & path) {
         visitEach(path.segments);
     }
@@ -441,7 +422,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const TuplePat & pat) {
-        visitEach(pat.els);
+        visitNamedNodeList<Pat::Ptr>(pat.els);
     }
 
     void StubVisitor::visit(const SlicePat & pat) {

@@ -34,7 +34,7 @@ namespace jc::ast {
             return std::get<AnonConst::Opt>(body);
         }
 
-        const auto & getFields() const {
+        const CommonField::List & getFields() const {
             return std::get<CommonField::List>(body);
         }
 
