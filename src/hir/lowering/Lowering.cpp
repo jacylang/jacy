@@ -857,13 +857,9 @@ namespace jc::hir {
     }
 
     PatKind::Ptr Lowering::lowerTuplePat(const ast::TuplePat & pat) {
-        TuplePat::Element::List els;
-        for (const auto & el : pat.els) {
-            auto name = el.name.map<Ident>([&](const ast::Ident::PR & name) {
-                return name.unwrap();
-            });
-            els.emplace_back(std::move(name), lowerPat(el.node), el.span);
-        }
+        auto els = lowerNamedNodeList<ast::Pat::Ptr, Pat>(pat.els, [this](const ast::Pat::Ptr & el) {
+            return lowerPat(el);
+        });
         return makeBoxNode<TuplePat>(std::move(els), pat.restPatIndex);
     }
 
