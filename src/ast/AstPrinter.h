@@ -138,8 +138,6 @@ namespace jc::ast {
 
         void visit(const Ident & ident) override;
 
-        void visit(const Arg & el) override;
-
         void visit(const Path & path) override;
 
         void visit(const PathSeg & seg) override;
@@ -196,11 +194,30 @@ namespace jc::ast {
 
         void printFuncSig(const FuncSig & sig);
 
-        void printNamedTypeList(
-            const NamedType::List & types,
+        template<class N>
+        void printNamedNodeList(
+            const typename NamedNode<N, Ident::OptPR>::List & els,
             const std::string & opening,
             const std::string & closing
-        );
+        ) {
+            log.raw(opening);
+
+            for (size_t i = 0; i < els.size(); i++) {
+                const auto & el = els.at(i);
+                el.name.then([&](const Ident::PR & name) {
+                    name.autoAccept(*this);
+                    log.raw(": ");
+                });
+
+                el.node.autoAccept(*this);
+
+                if (i < els.size() - 1) {
+                    log.raw(", ");
+                }
+            }
+
+            log.raw(closing);
+        }
 
         static constexpr uint8_t DEFAULT_CHOP_THRESHOLD = 5;
 

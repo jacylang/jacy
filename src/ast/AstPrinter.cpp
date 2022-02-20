@@ -62,11 +62,11 @@ namespace jc::ast {
                 break;
             }
             case Variant::Kind::Tuple: {
-                printDelim(variant.getTuple(), "(", ")");
+                printNamedTypeList(variant.getFields(), "(", ")");
                 break;
             }
             case Variant::Kind::Struct: {
-                printBodyLike(variant.getStruct());
+                printNamedTypeList(variant.getFields(), "{", "}");
                 break;
             }
         }
@@ -160,14 +160,6 @@ namespace jc::ast {
         printDelim(st.fields, "{", "}", ",\n");
 
         printNodeId(st);
-    }
-
-    void AstPrinter::visit(const StructField & field) {
-        field.name.autoAccept(*this);
-        log.raw(": ");
-        field.type.autoAccept(*this);
-
-        printNodeId(field);
     }
 
     void AstPrinter::visit(const Trait & trait) {
@@ -568,20 +560,9 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const TupleType & tupleType) {
-        printDelim(tupleType.elements, "(", ")");
+        printNamedTypeList(tupleType.elements, "(", ")");
 
         printNodeId(tupleType);
-    }
-
-    void AstPrinter::visit(const TupleTypeEl & el) {
-        el.name.then([&](const auto & name) {
-            name.autoAccept(*this);
-            log.raw(": ");
-        });
-
-        el.type.autoAccept(*this);
-
-        printNodeId(el);
     }
 
     void AstPrinter::visit(const FuncType & funcType) {
@@ -690,16 +671,6 @@ namespace jc::ast {
         log.raw(ident.sym);
 
         printNodeId(ident.id);
-    }
-
-    void AstPrinter::visit(const Arg & el) {
-        if (el.name.some()) {
-            el.name.unwrap().autoAccept(*this);
-            log.raw(": ");
-        }
-        el.value.autoAccept(*this);
-
-        printNodeId(el);
     }
 
     void AstPrinter::visit(const Path & path) {
@@ -917,30 +888,6 @@ namespace jc::ast {
             log.raw(": ");
             sig.returnType.asSome().autoAccept(*this);
         }
-    }
-
-    void AstPrinter::printNamedTypeList(
-        const NamedType::List & types,
-        const std::string & opening,
-        const std::string & closing
-    ) {
-        log.raw(opening);
-
-        for (size_t i = 0; i < types.size(); i++) {
-            const auto & ty = types.at(i);
-            ty.name.then([&](const Ident::PR & name) {
-                name.autoAccept(*this);
-                log.raw(": ");
-            });
-
-            ty.node.autoAccept(*this);
-
-            if (i < types.size() - 1) {
-                log.raw(", ");
-            }
-        }
-
-        log.raw(closing);
     }
 
     // Indentation //
