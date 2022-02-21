@@ -119,6 +119,21 @@ namespace jc::pcomb {
             return result.err();
         }
 
+        const IO & unwrap() const {
+            return result.unwrap();
+        }
+
+        const E & unwrapErr() const {
+            return result.unwrapErr();
+        }
+
+        bool isIncomplete() {
+            if (ok()) {
+                return false;
+            }
+            return unwrapErr().kind == ParseError::Kind::Incomplete;
+        }
+
         O && take() {
             return std::move(result.take());
         }
@@ -241,7 +256,6 @@ namespace jc::pcomb {
             }
 
             if (list.size() < min) {
-                ctx.input().rollback(startState);
                 return ctx.incomplete(startState, errSpan);
             }
 
@@ -268,6 +282,11 @@ namespace jc::pcomb {
 
         PR<RList> operator()(Ctx ctx) const {
             RList list;
+
+            SingleR first = p(ctx);
+            if (first.isIncomplete()) {
+                return list;
+            }
 
             bool first = true;
             while (not ctx.input().eof()) {
