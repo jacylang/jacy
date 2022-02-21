@@ -82,7 +82,6 @@ namespace jc::pcomb {
         ParseError(Kind kind, ErrorNode && node) : kind {kind}, node {std::move(node)} {}
 
 
-
     private:
         Kind kind;
         ErrorNode node;
@@ -132,6 +131,13 @@ namespace jc::pcomb {
                 return false;
             }
             return unwrapErr().kind == ParseError::Kind::Incomplete;
+        }
+
+        bool isRecoverable() {
+            if (ok()) {
+                log::devPanic("Called `ParseResult::isRecoverable` on Ok `ParseResult`");
+            }
+            return unwrapErr().kind == ParseError::Kind::Error;
         }
 
         O && take() {
@@ -284,19 +290,28 @@ namespace jc::pcomb {
             RList list;
 
             SingleR first = p(ctx);
-            if (first.isIncomplete()) {
+            if (first.isRecoverable()) {
                 return list;
+            } else if (first.err()) {
+                return first.takeErr();
             }
 
-            bool first = true;
             while (not ctx.input().eof()) {
-                if (first) {
-                    first = false;
-                } else {
-                    ctx.skip(delim);
+                SingleR delR = delim(ctx);
+                if (delR.isRecoverable()) {
+                    return list;
+                } else if (delR.err()) {
+                    return delR.takeErr();
                 }
 
-                list.emplace_back(p(ctx));
+                SingleR el = p(ctx);
+                if (el.isRecoverable()) {
+                    return list;
+                } else if (el.err()) {
+                    return el.takeErr();
+                }
+
+                list.emplace_back(std::move(el));
             }
 
             return std::move(list);
