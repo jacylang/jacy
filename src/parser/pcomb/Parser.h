@@ -190,17 +190,8 @@ namespace jc::pcomb {
         TokenParser(TokenKind tokenKind) : tokenKind {tokenKind} {}
 
         PR<EmptyOutput> operator()(Ctx ctx) const {
-            if (ctx.input().eof()) {
-                return ctx.makeUnexpectedEof();
-            }
-
-            auto first = ctx.input().peek();
-            if (first.is(tokenKind)) {
-                return ctx.makeEmptyOk();
-            }
-
             // TODO: Expected X, got Y error message
-            return ctx.makeError(first.span);
+            return ctx.skip(tokenKind);
         }
 
     private:
@@ -293,6 +284,11 @@ namespace jc::pcomb {
         TokenKind delim;
         TokenKind closing;
         P p;
+    };
+
+    struct SepList {
+    public:
+
     };
 }
 
