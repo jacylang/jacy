@@ -73,8 +73,18 @@ namespace jc::pcomb {
 
     class ParseError {
     public:
-        ParseError(ErrorNode && node) : node {std::move(node)} {}
+        enum class Kind {
+            Incomplete,
+            Error,
+            Fail,
+        };
 
+        ParseError(Kind kind, ErrorNode && node) : kind {kind}, node {std::move(node)} {}
+
+
+
+    private:
+        Kind kind;
         ErrorNode node;
     };
 
@@ -111,6 +121,10 @@ namespace jc::pcomb {
 
         O && take() {
             return std::move(result.take());
+        }
+
+        E && takeErr() {
+            return std::move(result.takeErr());
         }
 
     private:
@@ -163,12 +177,12 @@ namespace jc::pcomb {
         // Errors //
 
         // TODO: Messages
-        ParseError makeError(Span span) {
-            return ParseError {ErrorNode {span}};
+        ParseError makeError(ParseError::Kind kind, Span span) {
+            return ParseError {kind, ErrorNode {span}};
         }
 
         ParseError makeUnexpectedEof() {
-            return ParseError {ErrorNode {input().getLast().span}};
+            return ParseError {ParseError::Kind::Fail, ErrorNode {input().getLast().span}};
         }
 
         // Raw Nodes //
@@ -234,37 +248,24 @@ namespace jc::pcomb {
         const P p;
     };
 
-    template<class O, class P>
-    class EnclosedDelim {
+    template<class O, class P, class Delim>
+    class SepBy {
     public:
         using SingleR = ParseResult<O>;
         using RList = std::vector<SingleR>;
 
     public:
-        EnclosedDelim(
-            TokenKind opening,
-            TokenKind delim,
-            TokenKind closing,
-            P p
-        ) : opening {opening},
-            delim {delim},
-            closing {closing},
-            p {p} {}
+        SepBy(
+            P p,
+            Delim delim
+        ) : p {p},
+            delim {delim} {}
 
         PR<RList> operator()(Ctx ctx) const {
             RList list;
 
-            if (not ctx.input().trySkip(opening)) {
-                // TODO: Error `Expected X, got Y`
-                return ctx.makeError(ctx.input().peek().span);
-            }
-
             bool first = true;
             while (not ctx.input().eof()) {
-                if (ctx.input().peek().is(closing)) {
-                    break;
-                }
-
                 if (first) {
                     first = false;
                 } else {
@@ -274,21 +275,12 @@ namespace jc::pcomb {
                 list.emplace_back(p(ctx));
             }
 
-            ctx.skip(closing);
-
             return std::move(list);
         }
 
     private:
-        TokenKind opening;
-        TokenKind delim;
-        TokenKind closing;
-        P p;
-    };
-
-    struct SepList {
-    public:
-
+        const P p;
+        const Delim delim;
     };
 }
 
