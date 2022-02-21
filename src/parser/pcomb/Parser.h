@@ -156,12 +156,14 @@ namespace jc::pcomb {
         }
 
         PR<EmptyOutput> skip(TokenKind kind) {
+            auto state = input().memo();
+
             if (input().eof()) {
                 return makeUnexpectedEof();
             }
 
             if (not input().peek().is(kind)) {
-                return makeError(input().peek().span);
+                return incomplete(state, input().peek().span);
             }
 
             return makeEmptyOk();
@@ -177,8 +179,9 @@ namespace jc::pcomb {
         // Errors //
 
         // TODO: Messages
-        ParseError makeError(ParseError::Kind kind, Span span) {
-            return ParseError {kind, ErrorNode {span}};
+        ParseError incomplete(ParseStream::State memoState, Span span) {
+            input().rollback(memoState);
+            return ParseError {ParseError::Kind::Incomplete, ErrorNode {span}};
         }
 
         ParseError makeUnexpectedEof() {
@@ -226,6 +229,7 @@ namespace jc::pcomb {
 
         PR<List> operator()(Ctx ctx) const {
             auto errSpan = ctx.input().peek().span;
+            auto startState = ctx.input().memo();
 
             List list;
             while (true) {
@@ -237,7 +241,8 @@ namespace jc::pcomb {
             }
 
             if (list.size() < min) {
-                return ctx.makeError(errSpan);
+                ctx.input().rollback(startState);
+                return ctx.incomplete(startState, errSpan);
             }
 
             return std::move(list);
