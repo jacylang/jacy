@@ -193,12 +193,6 @@ namespace jc::pcomb {
             return makeOk(token);
         }
 
-        auto skip(TokenKind kind) {
-            return skipIf([kind](Token tok) {
-                return tok.is(kind);
-            });
-        }
-
     private:
         ParseStream i;
 
@@ -248,7 +242,9 @@ namespace jc::pcomb {
 
         PR<O> operator()(Ctx ctx) const {
             // TODO: Expected X, got Y error message
-            return ctx.skip(tokenKind);
+            return ctx.skipIf([this](Token tok) {
+                return tok.is(tokenKind);
+            });
         }
 
     private:
@@ -258,6 +254,23 @@ namespace jc::pcomb {
     TokenParser tok(TokenKind tokenKind) {
         return TokenParser(tokenKind);
     }
+
+    class KeywordParser {
+    public:
+        using O = Token;
+
+        KeywordParser(span::Kw kw) : kw {kw} {}
+
+        PR<O> operator()(Ctx ctx) const {
+            // TODO: Expected X, got Y error message
+            return ctx.skipIf([this](Token tok) {
+                return tok.isKw(kw);
+            });
+        }
+
+    private:
+        span::Kw kw;
+    };
 
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
