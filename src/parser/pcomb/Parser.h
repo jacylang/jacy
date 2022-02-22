@@ -81,7 +81,6 @@ namespace jc::pcomb {
 
         ParseError(Kind kind, ErrorNode && node) : kind {kind}, node {std::move(node)} {}
 
-
     private:
         Kind kind;
         ErrorNode node;
@@ -170,14 +169,20 @@ namespace jc::pcomb {
             return {*this, EmptyOutput {}};
         }
 
+        template<class O>
+        IO<O> makeOk(const O & o) {
+            return {*this, o};
+        }
+
         // ParseStream API //
     public:
         auto & input() {
             return i;
         }
 
-        PR<EmptyOutput> skip(TokenKind kind) {
+        PR<Token> skip(TokenKind kind) {
             auto state = input().memo();
+            auto token = input().peek();
 
             if (input().eof()) {
                 return makeUnexpectedEof();
@@ -187,7 +192,7 @@ namespace jc::pcomb {
                 return incomplete(state, input().peek().span);
             }
 
-            return makeEmptyOk();
+            return makeOk(token);
         }
 
     private:
@@ -225,9 +230,11 @@ namespace jc::pcomb {
 
     class TokenParser {
     public:
+        using Result = ParseResult<Token>;
+
         TokenParser(TokenKind tokenKind) : tokenKind {tokenKind} {}
 
-        PR<EmptyOutput> operator()(Ctx ctx) const {
+        Result operator()(Ctx ctx) const {
             // TODO: Expected X, got Y error message
             return ctx.skip(tokenKind);
         }
@@ -276,7 +283,6 @@ namespace jc::pcomb {
     template<class O, class P, class Delim>
     class SepBy {
     public:
-        using SingleR = ParseResult<O>;
         using RList = std::vector<SingleR>;
 
     public:
