@@ -346,6 +346,9 @@ namespace jc::pcomb {
         using O = typename P::O;
         using PResult = PR<O>;
 
+    public:
+        Expect(P p) : p {p} {}
+
         PR<O> operator()(Ctx ctx) const {
             PResult result = p(ctx);
 
