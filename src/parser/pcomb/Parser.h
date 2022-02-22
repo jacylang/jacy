@@ -230,11 +230,11 @@ namespace jc::pcomb {
 
     class TokenParser {
     public:
-        using Result = ParseResult<Token>;
+        using O = Token;
 
         TokenParser(TokenKind tokenKind) : tokenKind {tokenKind} {}
 
-        Result operator()(Ctx ctx) const {
+        PR<O> operator()(Ctx ctx) const {
             // TODO: Expected X, got Y error message
             return ctx.skip(tokenKind);
         }
@@ -245,23 +245,24 @@ namespace jc::pcomb {
 
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
-    template<class O, class P>
+    template<class P>
     class RepeatMin {
     public:
-        using SingleR = ParseResult<O>;
-        using List = std::vector<O>;
+        using PO = typename P::O;
+        using R = PR<PO>;
+        using RList = std::vector<PO>;
         using CountT = size_t;
 
     public:
         RepeatMin(CountT min, P p) : min {min}, p {p} {}
 
-        PR<List> operator()(Ctx ctx) const {
+        PR<RList> operator()(Ctx ctx) const {
             auto errSpan = ctx.input().peek().span;
             auto startState = ctx.input().memo();
 
-            List list;
+            RList list;
             while (true) {
-                SingleR pr = p(ctx);
+                R pr = p(ctx);
                 if (pr.err()) {
                     break;
                 }
@@ -283,7 +284,11 @@ namespace jc::pcomb {
     template<class O, class P, class Delim>
     class SepBy {
     public:
-        using RList = std::vector<SingleR>;
+        using PO = typename P::O;
+        using DelimO = typename Delim::O;
+        using PResult = PR<PO>;
+        using DelimResult = PR<DelimO>;
+        using RList = std::vector<PResult>;
 
     public:
         SepBy(
@@ -295,7 +300,7 @@ namespace jc::pcomb {
         PR<RList> operator()(Ctx ctx) const {
             RList list;
 
-            SingleR first = p(ctx);
+            PResult first = p(ctx);
             if (first.isRecoverable()) {
                 return list;
             } else if (first.err()) {
@@ -303,14 +308,14 @@ namespace jc::pcomb {
             }
 
             while (not ctx.input().eof()) {
-                SingleR delR = delim(ctx);
+                DelimResult delR = delim(ctx);
                 if (delR.isRecoverable()) {
                     return list;
                 } else if (delR.err()) {
                     return delR.takeErr();
                 }
 
-                SingleR el = p(ctx);
+                PResult el = p(ctx);
                 if (el.isRecoverable()) {
                     return list;
                 } else if (el.err()) {
