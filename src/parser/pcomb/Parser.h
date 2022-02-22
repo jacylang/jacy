@@ -272,6 +272,10 @@ namespace jc::pcomb {
         span::Kw kw;
     };
 
+    KeywordParser kw(span::Kw kw) {
+        return KeywordParser(kw);
+    }
+
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
     template<class P>
