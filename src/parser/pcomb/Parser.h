@@ -178,7 +178,7 @@ namespace jc::pcomb {
             return i;
         }
 
-        PR<Token> skip(TokenKind kind) {
+        PR<Token> skipIf(const std::function<bool(Token)> & check) {
             auto state = input().memo();
             auto token = input().peek();
 
@@ -186,11 +186,17 @@ namespace jc::pcomb {
                 return makeUnexpectedEof();
             }
 
-            if (not input().peek().is(kind)) {
-                return makeError(state, input().peek().span);
+            if (not check(token)) {
+                return makeError(state, token.span);
             }
 
             return makeOk(token);
+        }
+
+        auto skip(TokenKind kind) {
+            return skipIf([kind](Token tok) {
+                return tok.is(kind);
+            });
         }
 
     private:
