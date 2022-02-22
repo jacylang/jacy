@@ -363,6 +363,31 @@ namespace jc::pcomb {
     private:
         const P p;
     };
+
+    /// Applies `P` then `G`, returning G result.
+    /// `>>.`
+    template<class P, class G>
+    class Then {
+    public:
+        using O = typename G::O;
+        using PResult = PR<typename P::O>;
+        using GResult = PR<typename G::O>;
+
+    public:
+        Then(P p, G g) : p {p}, g {g} {}
+
+        PR<O> operator()(Ctx ctx) const {
+            PResult pResult = p(ctx);
+            if (pResult.ok()) {
+                return g(ctx);
+            }
+            return pResult;
+        }
+
+    private:
+        const P p;
+        const G g;
+    };
 }
 
 #endif // JACY_SRC_PARSER_PCOMB_PARSER_H
