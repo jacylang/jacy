@@ -249,6 +249,10 @@ namespace jc::pcomb {
         TokenKind tokenKind;
     };
 
+    TokenParser tok(TokenKind tokenKind) {
+        return TokenParser(tokenKind);
+    }
+
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
     template<class P>
@@ -286,6 +290,11 @@ namespace jc::pcomb {
         CountT min;
         const P p;
     };
+
+    template<class P>
+    RepeatMin<P> repeatMin(typename RepeatMin<P>::CountT min, P p) {
+        return RepeatMin(min, p);
+    }
 
     template<class P, class Delim>
     class SepBy {
@@ -339,6 +348,41 @@ namespace jc::pcomb {
         const Delim delim;
     };
 
+    template<class P, class Delim>
+    SepBy<P, Delim> sepBy(P p, Delim delim) {
+        return SepBy(p, delim);
+    }
+
+    /// Applies `P` then `G`, returning G result.
+    /// `>>`
+    template<class P, class G>
+    class Then {
+    public:
+        using O = typename G::O;
+        using PResult = PR<typename P::O>;
+        using GResult = PR<typename G::O>;
+
+    public:
+        Then(P p, G g) : p {p}, g {g} {}
+
+        PR<O> operator()(Ctx ctx) const {
+            PResult pResult = p(ctx);
+            if (pResult.ok()) {
+                return g(ctx);
+            }
+            return pResult;
+        }
+
+    private:
+        const P p;
+        const G g;
+    };
+
+    template<class P, class G>
+    Then<P, G> operator>>(P p, G g) {
+        return Then(p, g);
+    }
+
     /// Emits an error if the passed parser produced one
     template<class P>
     class Expect {
@@ -364,30 +408,10 @@ namespace jc::pcomb {
         const P p;
     };
 
-    /// Applies `P` then `G`, returning G result.
-    /// `>>.`
-    template<class P, class G>
-    class Then {
-    public:
-        using O = typename G::O;
-        using PResult = PR<typename P::O>;
-        using GResult = PR<typename G::O>;
-
-    public:
-        Then(P p, G g) : p {p}, g {g} {}
-
-        PR<O> operator()(Ctx ctx) const {
-            PResult pResult = p(ctx);
-            if (pResult.ok()) {
-                return g(ctx);
-            }
-            return pResult;
-        }
-
-    private:
-        const P p;
-        const G g;
-    };
+    template<class P>
+    Expect<P> expect(P p) {
+        return Expect(p);
+    }
 }
 
 #endif // JACY_SRC_PARSER_PCOMB_PARSER_H
