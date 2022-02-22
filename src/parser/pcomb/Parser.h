@@ -231,6 +231,9 @@ namespace jc::pcomb {
         }
     };
 
+    /////////////////
+    // Combinators //
+    /////////////////
     class TokenParser {
     public:
         using O = Token;
@@ -253,17 +256,17 @@ namespace jc::pcomb {
     public:
         using PO = typename P::O;
         using R = PR<PO>;
-        using RList = std::vector<PO>;
+        using O = std::vector<PO>;
         using CountT = size_t;
 
     public:
         RepeatMin(CountT min, P p) : min {min}, p {p} {}
 
-        PR<RList> operator()(Ctx ctx) const {
+        PR<O> operator()(Ctx ctx) const {
             auto errSpan = ctx.input().peek().span;
             auto startState = ctx.input().memo();
 
-            RList list;
+            O list;
             while (true) {
                 R pr = p(ctx);
                 if (pr.err()) {
@@ -284,14 +287,14 @@ namespace jc::pcomb {
         const P p;
     };
 
-    template<class O, class P, class Delim>
+    template<class P, class Delim>
     class SepBy {
     public:
         using PO = typename P::O;
         using DelimO = typename Delim::O;
         using PResult = PR<PO>;
         using DelimResult = PR<DelimO>;
-        using RList = std::vector<PResult>;
+        using O = std::vector<PResult>;
 
     public:
         SepBy(
@@ -300,8 +303,8 @@ namespace jc::pcomb {
         ) : p {p},
             delim {delim} {}
 
-        PR<RList> operator()(Ctx ctx) const {
-            RList list;
+        PR<O> operator()(Ctx ctx) const {
+            O list;
 
             PResult first = p(ctx);
             if (first.isRecoverable()) {
