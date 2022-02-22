@@ -74,9 +74,7 @@ namespace jc::pcomb {
     class ParseError {
     public:
         enum class Kind {
-            Incomplete,
             Error,
-            Fail,
         };
 
         ParseError(Kind kind, ErrorNode && node) : kind {kind}, node {std::move(node)} {}
@@ -125,12 +123,12 @@ namespace jc::pcomb {
             return result.unwrapErr();
         }
 
-        bool isIncomplete() {
-            if (ok()) {
-                return false;
-            }
-            return unwrapErr().kind == ParseError::Kind::Incomplete;
-        }
+//        bool isIncomplete() {
+//            if (ok()) {
+//                return false;
+//            }
+//            return unwrapErr().kind == ParseError::Kind::Incomplete;
+//        }
 
         bool isRecoverable() {
             if (ok()) {
@@ -189,7 +187,7 @@ namespace jc::pcomb {
             }
 
             if (not input().peek().is(kind)) {
-                return incomplete(state, input().peek().span);
+                return makeError(state, input().peek().span);
             }
 
             return makeOk(token);
@@ -205,13 +203,18 @@ namespace jc::pcomb {
         // Errors //
 
         // TODO: Messages
-        ParseError incomplete(ParseStream::State memoState, Span span) {
+//        ParseError incomplete(ParseStream::State memoState, Span span) {
+//            input().rollback(memoState);
+//            return ParseError {ParseError::Kind::Incomplete, ErrorNode {span}};
+//        }
+
+        ParseError makeError(ParseStream::State memoState, Span span) {
             input().rollback(memoState);
-            return ParseError {ParseError::Kind::Incomplete, ErrorNode {span}};
+            return ParseError {ParseError::Kind::Error, ErrorNode {span}};
         }
 
         ParseError makeUnexpectedEof() {
-            return ParseError {ParseError::Kind::Fail, ErrorNode {input().getLast().span}};
+            return ParseError {ParseError::Kind::Error, ErrorNode {input().getLast().span}};
         }
 
         // Raw Nodes //
@@ -270,7 +273,7 @@ namespace jc::pcomb {
             }
 
             if (list.size() < min) {
-                return ctx.incomplete(startState, errSpan);
+                return ctx.makeError(startState, errSpan);
             }
 
             return std::move(list);
