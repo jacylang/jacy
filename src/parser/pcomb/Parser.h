@@ -338,6 +338,28 @@ namespace jc::pcomb {
         const P p;
         const Delim delim;
     };
+
+    /// Emits an error if the passed parser produced one
+    template<class P>
+    class Expect {
+    public:
+        using O = typename P::O;
+        using PResult = PR<O>;
+
+        PR<O> operator()(Ctx ctx) const {
+            PResult result = p(ctx);
+
+            if (result.ok()) {
+                return result;
+            }
+
+            // TODO!: Report an error produced by `P`
+            return result;
+        }
+
+    private:
+        const P p;
+    };
 }
 
 #endif // JACY_SRC_PARSER_PCOMB_PARSER_H
