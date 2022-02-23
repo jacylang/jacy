@@ -564,6 +564,33 @@ namespace jc::pcomb {
         return Between(opening, closing, p);
     }
 
+    class Operator {
+    public:
+        using ValueT = TokenKind;
+        using PrecT = uint8_t;
+
+        enum class Kind {
+            Prefix,
+            Postfix,
+            Infix,
+        };
+
+        enum class Assoc {
+            None,
+            Left,
+            Right,
+        };
+
+        Operator(ValueT value, Kind kind, Assoc assoc, PrecT prec)
+            : value {value}, kind {kind}, assoc {assoc}, prec {prec} {}
+
+    private:
+        ValueT value;
+        Kind kind;
+        Assoc assoc;
+        PrecT prec;
+    };
+
     /// Emits an error if the passed parser produced one
     template<class P>
     class Expect {
