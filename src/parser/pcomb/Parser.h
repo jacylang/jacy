@@ -585,6 +585,11 @@ namespace jc::pcomb {
     };
 
     template<class P, class G>
+    LIgnore<P, G> operator<<(const P & p, const G & g) {
+        return LIgnore(p, g);
+    }
+
+    template<class P, class G>
     class RIgnore {
         static_assert(P::IsParser::value and G::IsParser::value);
 
@@ -616,6 +621,11 @@ namespace jc::pcomb {
         const P p;
         const G g;
     };
+
+    template<class P, class G>
+    RIgnore<P, G> operator>>(const P & p, const G & g) {
+        return RIgnore(p, g);
+    }
 
     template<class Open, class Close, class P>
     class Between {
