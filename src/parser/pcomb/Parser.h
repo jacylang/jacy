@@ -394,7 +394,7 @@ namespace jc::pcomb {
 
     template<class P, class G>
     class OrComb {
-        static_assert(P::IsParser::value and G::IsParser::Value);
+        static_assert(P::IsParser::value and G::IsParser::value);
         static_assert(std::is_same<typename P::O, typename G::O>::value);
 
     public:
@@ -523,20 +523,53 @@ namespace jc::pcomb {
     }
 
     /// Applies `P` then `G`, returning G result.
-    /// `>>`
+    //    template<class P, class G>
+    //    class Then {
+    //        static_assert(P::IsParser::value and G::IsParser::value);
+    //
+    //    public:
+    //        using IsParser = std::true_type;
+    //        using PResult = typename P::R;
+    //        using GResult = typename G::R;
+    //        using O = typename G::O;
+    //        using R = GResult;
+    //
+    //    public:
+    //        constexpr Then(const P & p, const G & g) : p {p}, g {g} {}
+    //
+    //        R operator()(Ctx ctx) const {
+    //            PResult pResult = p(ctx);
+    //            if (pResult.ok()) {
+    //                return g(ctx);
+    //            }
+    //            return pResult;
+    //        }
+    //
+    //    private:
+    //        const P p;
+    //        const G g;
+    //    };
+    //
+    //    template<class P, class G>
+    //    Then<P, G> operator>>(const P & p, const G & g) {
+    //        return Then(p, g);
+    //    }
+
     template<class P, class G>
-    class Then {
+    class LIgnore {
         static_assert(P::IsParser::value and G::IsParser::value);
 
     public:
         using IsParser = std::true_type;
-        using PResult = typename P::R;
-        using GResult = typename G::R;
-        using O = typename G::O;
+        using PO = typename P::O;
+        using GO = typename G::O;
+        using PResult = PR<PO>;
+        using GResult = PR<GO>;
+        using O = GO;
         using R = GResult;
 
     public:
-        constexpr Then(const P & p, const G & g) : p {p}, g {g} {}
+        LIgnore(const P & p, const G & g) : p {p}, g {g} {}
 
         R operator()(Ctx ctx) const {
             PResult pResult = p(ctx);
@@ -550,11 +583,6 @@ namespace jc::pcomb {
         const P p;
         const G g;
     };
-
-    template<class P, class G>
-    Then<P, G> operator>>(const P & p, const G & g) {
-        return Then(p, g);
-    }
 
     template<class Open, class Close, class P>
     class Between {
