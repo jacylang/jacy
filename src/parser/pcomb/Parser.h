@@ -506,6 +506,31 @@ namespace jc::pcomb {
         return Then(p, g);
     }
 
+    template<class Open, class Close, class P>
+    class Between {
+    public:
+        using PO = typename P::O;
+        using OpenO = typename Open::O;
+        using CloseO = typename Close::O;
+        using PResult = PR<PO>;
+        using OpenResult = PR<OpenO>;
+        using CloseResult = PR<CloseO>;
+        using O = PO;
+        using R = PResult;
+
+    public:
+        Between(Open opening, Close closing, P p) : opening {opening}, closing {closing}, p {p} {}
+
+        R operator()(Ctx ctx) const {
+            return opening >> p >> closing;
+        }
+
+    private:
+        const Open opening;
+        const Close closing;
+        const P p;
+    };
+
     /// Emits an error if the passed parser produced one
     template<class P>
     class Expect {
