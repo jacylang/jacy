@@ -58,8 +58,9 @@ namespace jc::parser {
         Div,                        // /
         Rem,                        // %
         Power,                      // **
-        Or,                         // or (placed in keywords)
-        And,                        // and (placed in keywords)
+        Not,                        // not
+        Or,                         // or
+        And,                        // and
         Shl,                        // <<
         Shr,                        // >>
         Ampersand,                  // &
@@ -197,6 +198,7 @@ namespace jc::parser {
         bool isSomeKeyword() const; // Note: Use only for errors, not for general use
         bool isPathIdent() const;
 
+        static Option<TokenKind> keywordOperator(span::Kw kw);
         static std::tuple<TokenKind, TokenKind> getTokenPairs(PairedTokens pair);
 
         std::string repr(bool prettyQuotes = true) const;

@@ -177,6 +177,23 @@ namespace jc::parser {
         return kind == TokenKind::Id and asSymbol().isPathSeg();
     }
 
+    Option<TokenKind> Token::keywordOperator(span::Kw kw) {
+        switch (kw) {
+            case span::Kw::And: {
+                return TokenKind::And;
+            }
+            case span::Kw::Not:{
+                return TokenKind::Not;
+            }
+            case span::Kw::Or: {
+                return TokenKind::Or;
+            }
+            default: {
+                return None;
+            }
+        }
+    }
+
     std::tuple<TokenKind, TokenKind> Token::getTokenPairs(PairedTokens pair) {
         switch (pair) {
             case PairedTokens::Paren: {
