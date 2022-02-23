@@ -409,6 +409,11 @@ namespace jc::pcomb {
         const std::tuple<Parsers...> parsers;
     };
 
+    template<class ...Parsers>
+    Choice<Parsers...> choice(Parsers && ...parsers) {
+        return Choice(std::forward<Parsers>(parsers)...);
+    }
+
     template<class P, class Delim>
     class SepBy {
     public:
