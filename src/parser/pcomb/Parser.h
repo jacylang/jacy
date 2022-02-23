@@ -531,6 +531,11 @@ namespace jc::pcomb {
         const P p;
     };
 
+    template<class Open, class Close, class P>
+    Between<Open, Close, P> between(Open opening, Close closing, P p) {
+        return Between(opening, closing, p);
+    }
+
     /// Emits an error if the passed parser produced one
     template<class P>
     class Expect {
