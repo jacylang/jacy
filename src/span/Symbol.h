@@ -88,6 +88,7 @@ namespace jc::span {
         SymbolId id;
 
         std::string toString() const;
+
         std::string slice(size_t begin, size_t end = std::string::npos) const;
 
         bool operator==(Symbol other) const {
@@ -103,6 +104,7 @@ namespace jc::span {
         }
 
         Symbol operator+(Symbol other) const;
+
         Symbol & operator+=(Symbol other);
 
         static Symbol intern(const std::string & str);
@@ -127,6 +129,19 @@ namespace jc::span {
             return kwAsInt(kw) == id.val;
         }
 
+        Option<std::pair<Kw, size_t>> asOperatorKw() const {
+            if (isKw(Kw::Not)) {
+                return Some(std::pair<Kw, size_t> {Kw::Not, 3});
+            }
+            if (isKw(Kw::And)) {
+                return Some(std::pair<Kw, size_t> {Kw::And, 3});
+            }
+            if (isKw(Kw::Or)) {
+                return Some(std::pair<Kw, size_t> {Kw::Or, 3});
+            }
+            return None;
+        }
+
         bool isPathSeg() const {
             // Check if segment is a path segment keyword and not any another keyword, i.e. user-defined identifier
             return *this == Kw::Super
@@ -147,8 +162,9 @@ namespace jc::span {
         Interner();
 
         // Singleton //
-        Interner(Interner const&) = delete;
-        void operator=(Interner const&) = delete;
+        Interner(Interner const &) = delete;
+
+        void operator=(Interner const &) = delete;
 
         static auto & getInstance() {
             static Interner instance {};
