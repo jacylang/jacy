@@ -431,7 +431,7 @@ namespace jc::pcomb {
 
     template<class ...Parsers>
     class Choice {
-        static_assert(std::conjunction_v<typename Parsers::IsParser::value...>);
+        static_assert(std::conjunction_v<typename Parsers::IsParser...>);
 
         using FirstO = typename std::tuple_element_t<0, std::tuple<Parsers...>>::O;
         // Check that all the passed parsers resulting with the same type of output.
