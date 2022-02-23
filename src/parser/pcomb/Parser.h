@@ -283,6 +283,11 @@ namespace jc::pcomb {
         const List tokenKinds;
     };
 
+    template<class ...Tokens>
+    AnyToken anyToken(Tokens && ...tokens) {
+        return AnyToken(AnyToken::List {std::forward<Tokens>(tokens)...});
+    }
+
     class KeywordParser {
     public:
         using IsParser = std::true_type;
