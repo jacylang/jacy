@@ -276,6 +276,33 @@ namespace jc::pcomb {
         return KeywordParser(kw);
     }
 
+    /// Applies `P`, and if it fails returns `None` and `Some` result otherwise.
+    /// `Optional` is different from other parsers as it does not return `ParseResult`.
+    template<class P>
+    class Optional {
+    public:
+        using PO = typename P::O;
+        using PResult = PR<PO>;
+        using O = PO;
+        using R = Option<PR<PO>>;
+
+    public:
+        Optional(P p) : p {p} {}
+
+        R operator()(Ctx ctx) const {
+            PResult result = p(ctx);
+
+            if (result.ok()) {
+                return Some(result.take());
+            }
+
+            return None;
+        }
+
+    private:
+        const P p;
+    };
+
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
     template<class P>
