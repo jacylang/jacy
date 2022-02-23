@@ -311,7 +311,7 @@ namespace jc::pcomb {
     };
 
     template<class P>
-    Optional<P> opt(P p) {
+    Optional<P> opt(const P & p) {
         return Optional(p);
     }
 
@@ -357,7 +357,7 @@ namespace jc::pcomb {
     };
 
     template<class P>
-    RepeatMin<P> repeatMin(typename RepeatMin<P>::CountT min, P p) {
+    RepeatMin<P> repeatMin(typename RepeatMin<P>::CountT min, const P & p) {
         return RepeatMin(min, p);
     }
 
@@ -394,7 +394,7 @@ namespace jc::pcomb {
     };
 
     template<class P, class G>
-    OrComb<P, G> operator||(P p, G g) {
+    OrComb<P, G> operator||(const P & p, const G & g) {
         return OrComb(p, g);
     }
 
@@ -412,7 +412,7 @@ namespace jc::pcomb {
         using R = PR<O>;
 
     public:
-        constexpr Choice(const Parsers & ...parsers) : parsers {std::forward<Parsers>(parsers)...} {}
+        constexpr Choice(Parsers && ...parsers) : parsers {std::forward<Parsers>(parsers)...} {}
 
         R operator()(Ctx ctx) const {
             return std::apply([](auto ... parsers) {
@@ -487,7 +487,7 @@ namespace jc::pcomb {
     };
 
     template<class P, class Delim>
-    SepBy<P, Delim> sepBy(P p, Delim delim) {
+    SepBy<P, Delim> sepBy(const P & p, const Delim & delim) {
         return SepBy(p, delim);
     }
 
@@ -521,7 +521,7 @@ namespace jc::pcomb {
     };
 
     template<class P, class G>
-    Then<P, G> operator>>(P p, G g) {
+    Then<P, G> operator>>(const P & p, const G & g) {
         return Then(p, g);
     }
 
@@ -560,7 +560,7 @@ namespace jc::pcomb {
     };
 
     template<class Open, class Close, class P>
-    Between<Open, Close, P> between(Open opening, Close closing, P p) {
+    Between<Open, Close, P> between(const Open & opening, const Close & closing, const P & p) {
         return Between(opening, closing, p);
     }
 
@@ -594,7 +594,7 @@ namespace jc::pcomb {
     };
 
     template<class P>
-    Expect<P> expect(P p) {
+    Expect<P> expect(const P & p) {
         return Expect(p);
     }
 }
