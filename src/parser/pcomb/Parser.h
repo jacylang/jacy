@@ -584,6 +584,39 @@ namespace jc::pcomb {
         const G g;
     };
 
+    template<class P, class G>
+    class RIgnore {
+        static_assert(P::IsParser::value and G::IsParser::value);
+
+    public:
+        using IsParser = std::true_type;
+        using PO = typename P::O;
+        using GO = typename G::O;
+        using PResult = PR<PO>;
+        using GResult = PR<GO>;
+        using O = GO;
+        using R = GResult;
+
+    public:
+        RIgnore(const P & p, const G & g) : p {p}, g {g} {}
+
+        R operator()(Ctx ctx) const {
+            PResult pResult = p(ctx);
+            if (pResult.ok()) {
+                auto gResult = g(ctx);
+                if (gResult.ok()) {
+                    return pResult;
+                }
+                return gResult;
+            }
+            return pResult;
+        }
+
+    private:
+        const P p;
+        const G g;
+    };
+
     template<class Open, class Close, class P>
     class Between {
         static_assert(Open::IsParser::value and Close::IsParser::value and P::IsParser::value);
