@@ -266,12 +266,22 @@ namespace jc::parser {
             id += forward();
         }
 
-        addToken(
-            Token {
-                TokenKind::Id,
-                Symbol::intern(id)
-            }, checkedAs<span::Span::Len>(id.size(), "`Lexer::lexId`")
-        );
+        auto ident = Symbol::intern(id);
+
+        if (ident.isKw(span::Kw::Or)) {
+            addToken(TokenKind::Or, 2);
+        } else if (ident.isKw(span::Kw::And)) {
+            addToken(TokenKind::And, 3);
+        } else if (ident.isKw(span::Kw::Not)) {
+            addToken(TokenKind::Not, 3);
+        } else {
+            addToken(
+                Token {
+                    TokenKind::Id,
+                    ident,
+                }, checkedAs<span::Span::Len>(id.size(), "`Lexer::lexId`")
+            );
+        }
     }
 
     void Lexer::lexString() {
@@ -597,7 +607,7 @@ namespace jc::parser {
                         advance(2);
                     }
                 } else {
-                    addKwToken(Kw::Not, 1);
+                    addToken(TokenKind::Not, 1);
                     advance();
                 }
                 break;

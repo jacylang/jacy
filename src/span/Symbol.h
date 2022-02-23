@@ -129,19 +129,6 @@ namespace jc::span {
             return kwAsInt(kw) == id.val;
         }
 
-        Option<std::pair<Kw, size_t>> asOperatorKw() const {
-            if (isKw(Kw::Not)) {
-                return Some(std::pair<Kw, size_t> {Kw::Not, 3});
-            }
-            if (isKw(Kw::And)) {
-                return Some(std::pair<Kw, size_t> {Kw::And, 3});
-            }
-            if (isKw(Kw::Or)) {
-                return Some(std::pair<Kw, size_t> {Kw::Or, 3});
-            }
-            return None;
-        }
-
         bool isPathSeg() const {
             // Check if segment is a path segment keyword and not any another keyword, i.e. user-defined identifier
             return *this == Kw::Super
