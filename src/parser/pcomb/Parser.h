@@ -257,6 +257,32 @@ namespace jc::pcomb {
         return TokenParser(tokenKind);
     }
 
+    /// Optimized version of `TokenParser || TokenParser || ...`
+    class OneOfTokens {
+    public:
+        using IsParser = std::true_type;
+        using List = std::vector<TokenKind>;
+        using O = Token;
+        using R = PR<O>;
+
+    public:
+        OneOfTokens(const List & tokenKinds) : tokenKinds {tokenKinds} {}
+
+        R operator()(Ctx ctx) const {
+            return ctx.skipIf([this](Token tok) {
+                for (const auto & kind : tokenKinds) {
+                    if (tok.is(kind)) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+        }
+
+    private:
+        const List tokenKinds;
+    };
+
     class KeywordParser {
     public:
         using IsParser = std::true_type;
@@ -563,136 +589,6 @@ namespace jc::pcomb {
     Between<Open, Close, P> between(const Open & opening, const Close & closing, const P & p) {
         return Between(opening, closing, p);
     }
-
-    template<class Expr>
-    class Operator {
-    public:
-        using ValueT = TokenKind;
-        using PrecT = uint8_t;
-
-        enum class Kind {
-            Prefix,
-            Postfix,
-            Infix,
-        };
-
-        enum class Assoc {
-            None,
-            Left,
-            Right,
-        };
-
-        Operator(ValueT value, Kind kind, Assoc assoc, PrecT prec)
-            : value {value}, kind {kind}, assoc {assoc}, prec {prec} {}
-
-    public:
-        // TODO: Bit flags optimization
-        const ValueT value;
-        const Kind kind;
-        const Assoc assoc;
-        const PrecT prec;
-        const std::function<Expr(Expr, Operator, Expr)> & map;
-    };
-
-    template<class Expr, class Primary>
-    class OperatorParser {
-        static_assert(Expr::IsParser::value and Primary::IsParser::value);
-
-    private:
-        struct PrecTable {
-
-            template<class ...Args>
-            PrecTable & addOperator(Args && ...args) {
-                operators.emplace_back(std::forward<Args>(args)...);
-                return *this;
-            }
-
-            void done() {
-                std::sort(operators.begin(), operators.end(), [](Operator l, Operator r) {
-                    return l.prec < r.prec;
-                });
-
-                Operator::PrecT lastPrec = operators.back().prec;
-                for (const auto & op : operators) {
-                    if (lastPrec != op.prec) {
-                        lastPrec++;
-                        table.emplace_back(std::vector<Operator> {op});
-                    } else {
-                        table.back().emplace_back(op);
-                    }
-                }
-
-                filled = true;
-            }
-
-            auto getSize() const {
-                return table.size();
-            }
-
-            auto row(size_t index) const {
-                return table.at(index);
-            }
-
-            Option<Operator> findOp(size_t index, TokenKind tokenKind) const {
-                auto found = std::find(table.begin(), table.end(), [tokenKind](Operator op) {
-                    return op.value == tokenKind;
-                });
-                if (found == table.end()) {
-                    return None;
-                }
-                return Some(*found);
-            }
-
-        private:
-            bool filled {false};
-            std::vector<Operator> operators;
-            std::vector<std::vector<Operator>> table;
-        };
-
-    public:
-        using IsParser = std::true_type;
-        using ExprO = typename Expr::O;
-        using PrimaryO = typename Primary::O;
-        using ExprResult = PR<ExprO>;
-        using PrimaryResult = PR<PrimaryO>;
-        using O = typename Expr::O;
-        using R = PR<O>;
-
-        OperatorParser() = default;
-
-        R operator()(Ctx ctx) const {
-            if (not precTable.filled) {
-                log::devPanic(
-                    "Applied `OperatorParser` with an unready precedence table, call `done()` after all operators added"
-                );
-            }
-        }
-
-        R parse(Ctx ctx, uint8_t index) const {
-            ExprResult lhs = parse(index + 1);
-
-            if (lhs.err()) {
-                return lhs;
-            }
-
-            while (not ctx.input().eof()) {
-                // Find some operator from the current precedence table row that matches one from input
-                auto maybeOp = table().findOp(index, ctx.input().peek().kind);
-                if (maybeOp.none()) {
-                    break;
-                }
-
-            }
-        }
-
-    public:
-        PrecTable & table() {
-            return precTable;
-        }
-
-    private:
-        PrecTable precTable;
-    };
 
     /// Emits an error if the passed parser produced one
     template<class P>
