@@ -284,6 +284,8 @@ namespace jc::pcomb {
     /// `Optional` is different from other parsers as it does not return `ParseResult`.
     template<class P>
     class Optional {
+        static_assert(P::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using PO = typename P::O;
@@ -317,6 +319,8 @@ namespace jc::pcomb {
     ///  returning vector of results in case of success and error otherwise.
     template<class P>
     class RepeatMin {
+        static_assert(P::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using PO = typename P::O;
@@ -359,6 +363,7 @@ namespace jc::pcomb {
 
     template<class P, class G>
     class OrComb {
+        static_assert(P::IsParser::value and G::IsParser::Value);
         static_assert(std::is_same<typename P::O, typename G::O>::value);
 
     public:
@@ -395,6 +400,8 @@ namespace jc::pcomb {
 
     template<class ...Parsers>
     class Choice {
+        static_assert(std::conjunction_v<typename Parsers::IsParser::value...>);
+
         using FirstO = typename std::tuple_element_t<0, std::tuple<Parsers...>>::O;
         // Check that all the passed parsers resulting with the same type of output.
         static_assert(std::conjunction_v<std::is_same<FirstO, typename Parsers::O>...>);
@@ -424,6 +431,8 @@ namespace jc::pcomb {
 
     template<class P, class Delim>
     class SepBy {
+        static_assert(P::IsParser::value and Delim::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using PO = typename P::O;
@@ -486,6 +495,8 @@ namespace jc::pcomb {
     /// `>>`
     template<class P, class G>
     class Then {
+        static_assert(P::IsParser::value and G::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using PResult = typename P::R;
@@ -516,6 +527,8 @@ namespace jc::pcomb {
 
     template<class Open, class Close, class P>
     class Between {
+        static_assert(Open::IsParser::value and Close::IsParser::value and P::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using PO = typename P::O;
@@ -548,6 +561,8 @@ namespace jc::pcomb {
     /// Emits an error if the passed parser produced one
     template<class P>
     class Expect {
+        static_assert(P::IsParser::value);
+
     public:
         using IsParser = std::true_type;
         using O = typename P::O;
