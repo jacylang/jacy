@@ -236,6 +236,7 @@ namespace jc::pcomb {
     /////////////////
     class TokenParser {
     public:
+        using IsParser = std::true_type;
         using O = Token;
         using R = PR<O>;
 
@@ -258,6 +259,7 @@ namespace jc::pcomb {
 
     class KeywordParser {
     public:
+        using IsParser = std::true_type;
         using O = Token;
         using R = PR<O>;
 
@@ -283,6 +285,7 @@ namespace jc::pcomb {
     template<class P>
     class Optional {
     public:
+        using IsParser = std::true_type;
         using PO = typename P::O;
         using PResult = PR<PO>;
         using O = PO;
@@ -315,6 +318,7 @@ namespace jc::pcomb {
     template<class P>
     class RepeatMin {
     public:
+        using IsParser = std::true_type;
         using PO = typename P::O;
         using R = PR<PO>;
         using O = std::vector<PO>;
@@ -358,6 +362,7 @@ namespace jc::pcomb {
         static_assert(std::is_same<typename P::O, typename G::O>::value);
 
     public:
+        using IsParser = std::true_type;
         using PO = typename P::O;
         using GO = typename G::O;
         using PResult = PR<PO>;
@@ -395,6 +400,7 @@ namespace jc::pcomb {
         static_assert(std::conjunction_v<std::is_same<FirstO, typename Parsers::O>...>);
 
     public:
+        using IsParser = std::true_type;
         using O = FirstO;
         using R = PR<O>;
 
@@ -419,6 +425,7 @@ namespace jc::pcomb {
     template<class P, class Delim>
     class SepBy {
     public:
+        using IsParser = std::true_type;
         using PO = typename P::O;
         using DelimO = typename Delim::O;
         using PResult = typename P::R;
@@ -480,6 +487,7 @@ namespace jc::pcomb {
     template<class P, class G>
     class Then {
     public:
+        using IsParser = std::true_type;
         using PResult = typename P::R;
         using GResult = typename G::R;
         using O = typename G::O;
@@ -509,6 +517,7 @@ namespace jc::pcomb {
     template<class Open, class Close, class P>
     class Between {
     public:
+        using IsParser = std::true_type;
         using PO = typename P::O;
         using OpenO = typename Open::O;
         using CloseO = typename Close::O;
@@ -540,6 +549,7 @@ namespace jc::pcomb {
     template<class P>
     class Expect {
     public:
+        using IsParser = std::true_type;
         using O = typename P::O;
         using PResult = typename P::R;
         using R = PR<O>;
