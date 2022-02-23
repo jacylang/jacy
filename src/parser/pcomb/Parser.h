@@ -123,12 +123,12 @@ namespace jc::pcomb {
             return result.unwrapErr();
         }
 
-//        bool isIncomplete() {
-//            if (ok()) {
-//                return false;
-//            }
-//            return unwrapErr().kind == ParseError::Kind::Incomplete;
-//        }
+        //        bool isIncomplete() {
+        //            if (ok()) {
+        //                return false;
+        //            }
+        //            return unwrapErr().kind == ParseError::Kind::Incomplete;
+        //        }
 
         bool isRecoverable() {
             if (ok()) {
@@ -203,10 +203,10 @@ namespace jc::pcomb {
         // Errors //
 
         // TODO: Messages
-//        ParseError incomplete(ParseStream::State memoState, Span span) {
-//            input().rollback(memoState);
-//            return ParseError {ParseError::Kind::Incomplete, ErrorNode {span}};
-//        }
+        //        ParseError incomplete(ParseStream::State memoState, Span span) {
+        //            input().rollback(memoState);
+        //            return ParseError {ParseError::Kind::Incomplete, ErrorNode {span}};
+        //        }
 
         ParseError makeError(ParseStream::State memoState, Span span) {
             input().rollback(memoState);
@@ -350,6 +350,36 @@ namespace jc::pcomb {
     RepeatMin<P> repeatMin(typename RepeatMin<P>::CountT min, P p) {
         return RepeatMin(min, p);
     }
+
+    template<class P, class G>
+    class OrComb {
+        static_assert(std::is_same<typename P::O, typename G::O>::value);
+
+    public:
+        using PO = typename P::O;
+        using GO = typename G::O;
+        using PResult = PR<PO>;
+        using GResult = PR<GO>;
+        using O = PO;
+        using R = PR<PO>;
+
+    public:
+        OrComb(P p, G g) : p {p}, g {g} {}
+
+        R operator()(Ctx ctx) const {
+            PResult pResult = p(ctx);
+
+            if (pResult.ok()) {
+                return pResult;
+            }
+
+            return g(ctx);
+        }
+
+    private:
+        const P p;
+        const G g;
+    };
 
     template<class P, class Delim>
     class SepBy {
