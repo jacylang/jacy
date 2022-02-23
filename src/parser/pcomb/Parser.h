@@ -258,7 +258,7 @@ namespace jc::pcomb {
     }
 
     /// Optimized version of `TokenParser || TokenParser || ...`
-    class OneOfTokens {
+    class AnyToken {
     public:
         using IsParser = std::true_type;
         using List = std::vector<TokenKind>;
@@ -266,7 +266,7 @@ namespace jc::pcomb {
         using R = PR<O>;
 
     public:
-        OneOfTokens(const List & tokenKinds) : tokenKinds {tokenKinds} {}
+        AnyToken(const List & tokenKinds) : tokenKinds {tokenKinds} {}
 
         R operator()(Ctx ctx) const {
             return ctx.skipIf([this](Token tok) {
