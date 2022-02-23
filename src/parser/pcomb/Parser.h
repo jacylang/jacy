@@ -303,6 +303,11 @@ namespace jc::pcomb {
         const P p;
     };
 
+    template<class P>
+    Optional<P> opt(P p) {
+        return Optional(p);
+    }
+
     /// Runs passed parser at least `min` times (inclusive),
     ///  returning vector of results in case of success and error otherwise.
     template<class P>
