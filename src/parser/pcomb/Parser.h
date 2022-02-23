@@ -100,11 +100,11 @@ namespace jc::pcomb {
         using R = Result<IO, E>;
 
     public:
-        ParseResult(IO io) : result {Ok(std::move(io))} {}
+        ParseResult(const IO & io) : result {Ok(io)} {}
 
-        ParseResult(E err) : result {Err(err)} {}
+        ParseResult(const E & err) : result {Err(err)} {}
 
-        ParseResult(R result) : result {std::move(result)} {}
+        ParseResult(const R & result) : result {std::move(result)} {}
 
     public:
         bool ok() const {
@@ -294,7 +294,7 @@ namespace jc::pcomb {
         using R = Option<PR<PO>>;
 
     public:
-        Optional(P p) : p {p} {}
+        Optional(const P & p) : p {p} {}
 
         R operator()(Ctx ctx) const {
             PResult result = p(ctx);
@@ -329,7 +329,7 @@ namespace jc::pcomb {
         using CountT = size_t;
 
     public:
-        RepeatMin(CountT min, P p) : min {min}, p {p} {}
+        RepeatMin(CountT min, const P & p) : min {min}, p {p} {}
 
         PR<O> operator()(Ctx ctx) const {
             auto errSpan = ctx.input().peek().span;
@@ -376,7 +376,7 @@ namespace jc::pcomb {
         using R = PR<PO>;
 
     public:
-        OrComb(P p, G g) : p {p}, g {g} {}
+        OrComb(const P & p, const G & g) : p {p}, g {g} {}
 
         R operator()(Ctx ctx) const {
             PResult pResult = p(ctx);
@@ -412,7 +412,7 @@ namespace jc::pcomb {
         using R = PR<O>;
 
     public:
-        Choice(Parsers && ...parsers) : parsers {std::forward<Parsers>(parsers)...} {}
+        Choice(const Parsers & ...parsers) : parsers {std::forward<Parsers>(parsers)...} {}
 
         R operator()(Ctx ctx) const {
             return std::apply([](auto ... parsers) {
@@ -445,8 +445,8 @@ namespace jc::pcomb {
 
     public:
         SepBy(
-            P p,
-            Delim delim
+            const P & p,
+            const Delim & delim
         ) : p {p},
             delim {delim} {}
 
@@ -505,7 +505,7 @@ namespace jc::pcomb {
         using R = GResult;
 
     public:
-        Then(P p, G g) : p {p}, g {g} {}
+        Then(const P & p, const G & g) : p {p}, g {g} {}
 
         R operator()(Ctx ctx) const {
             PResult pResult = p(ctx);
@@ -541,7 +541,13 @@ namespace jc::pcomb {
         using R = PResult;
 
     public:
-        Between(Open opening, Close closing, P p) : opening {opening}, closing {closing}, p {p} {}
+        Between(
+            const Open & opening,
+            const Close & closing,
+            const P & p
+        ) : opening {opening},
+            closing {closing},
+            p {p} {}
 
         R operator()(Ctx ctx) const {
             return opening >> p >> closing;
@@ -570,7 +576,7 @@ namespace jc::pcomb {
         using R = PR<O>;
 
     public:
-        Expect(P p) : p {p} {}
+        Expect(const P & p) : p {p} {}
 
         R operator()(Ctx ctx) const {
             PResult result = p(ctx);
