@@ -381,6 +381,11 @@ namespace jc::pcomb {
         const G g;
     };
 
+    template<class P, class G>
+    OrComb<P, G> operator||(P p, G g) {
+        return OrComb(p, g);
+    }
+
     template<class P, class Delim>
     class SepBy {
     public:
