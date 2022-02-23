@@ -237,10 +237,11 @@ namespace jc::pcomb {
     class TokenParser {
     public:
         using O = Token;
+        using R = PR<O>;
 
         TokenParser(TokenKind tokenKind) : tokenKind {tokenKind} {}
 
-        PR<O> operator()(Ctx ctx) const {
+        R operator()(Ctx ctx) const {
             // TODO: Expected X, got Y error message
             return ctx.skipIf([this](Token tok) {
                 return tok.is(tokenKind);
@@ -258,10 +259,11 @@ namespace jc::pcomb {
     class KeywordParser {
     public:
         using O = Token;
+        using R = PR<O>;
 
         KeywordParser(span::Kw kw) : kw {kw} {}
 
-        PR<O> operator()(Ctx ctx) const {
+        R operator()(Ctx ctx) const {
             // TODO: Expected X, got Y error message
             return ctx.skipIf([this](Token tok) {
                 return tok.isKw(kw);
@@ -419,9 +421,11 @@ namespace jc::pcomb {
     public:
         using PO = typename P::O;
         using DelimO = typename Delim::O;
-        using PResult = PR<PO>;
-        using DelimResult = PR<DelimO>;
-        using O = std::vector<PResult>;
+        using PResult = typename P::R;
+        using DelimResult = typename Delim::R;
+        using List = std::vector<PResult>;
+        using O = List;
+        using R = PR<O>;
 
     public:
         SepBy(
@@ -430,7 +434,7 @@ namespace jc::pcomb {
         ) : p {p},
             delim {delim} {}
 
-        PR<O> operator()(Ctx ctx) const {
+        R operator()(Ctx ctx) const {
             O list;
 
             PResult first = p(ctx);
@@ -476,14 +480,15 @@ namespace jc::pcomb {
     template<class P, class G>
     class Then {
     public:
+        using PResult = typename P::R;
+        using GResult = typename G::R;
         using O = typename G::O;
-        using PResult = PR<typename P::O>;
-        using GResult = PR<typename G::O>;
+        using R = GResult;
 
     public:
         Then(P p, G g) : p {p}, g {g} {}
 
-        PR<O> operator()(Ctx ctx) const {
+        R operator()(Ctx ctx) const {
             PResult pResult = p(ctx);
             if (pResult.ok()) {
                 return g(ctx);
@@ -506,12 +511,13 @@ namespace jc::pcomb {
     class Expect {
     public:
         using O = typename P::O;
-        using PResult = PR<O>;
+        using PResult = typename P::R;
+        using R = PR<O>;
 
     public:
         Expect(P p) : p {p} {}
 
-        PR<O> operator()(Ctx ctx) const {
+        R operator()(Ctx ctx) const {
             PResult result = p(ctx);
 
             if (result.ok()) {
