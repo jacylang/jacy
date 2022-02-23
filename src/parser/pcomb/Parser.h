@@ -386,6 +386,29 @@ namespace jc::pcomb {
         return OrComb(p, g);
     }
 
+    template<class ...Parsers>
+    class Choice {
+        using FirstO = typename std::tuple_element_t<0, std::tuple<Parsers...>>::O;
+        // Check that all the passed parsers resulting with the same type of output.
+        static_assert(std::conjunction_v<std::is_same<FirstO, typename Parsers::O>...>);
+
+    public:
+        using O = FirstO;
+        using R = PR<O>;
+
+    public:
+        Choice(Parsers && ...parsers) : parsers {std::forward<Parsers>(parsers)...} {}
+
+        R operator()(Ctx ctx) const {
+            return std::apply([](auto ... parsers) {
+                return (parsers || ...);
+            }, parsers)(ctx);
+        }
+
+    private:
+        const std::tuple<Parsers...> parsers;
+    };
+
     template<class P, class Delim>
     class SepBy {
     public:
