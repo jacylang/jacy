@@ -469,6 +469,26 @@ namespace jc::pcomb {
         return Combine(p, g);
     }
 
+    template<class F, class ...Parsers>
+    class Pipe {
+    public:
+        using IsParser = std::true_type;
+        using R = std::result_of<F>;
+
+    public:
+        constexpr Pipe(const F & map, Parsers && ...parsers) : map {map}, parsers {std::forward<Parsers>(parsers)...} {}
+
+        R operator()(Ctx ctx) const {
+            return std::apply(map, std::apply([this, &ctx](Parsers && ...ps) -> std::tuple<typename Parsers::O...> {
+                return (ps(ctx) && ...);
+            })(ctx));
+        }
+
+    private:
+        const F map;
+        const std::tuple<Parsers...> parsers;
+    };
+
     template<class ...Parsers>
     class Choice {
         static_assert(std::conjunction_v<typename Parsers::IsParser...>);
