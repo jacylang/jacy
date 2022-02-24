@@ -320,6 +320,24 @@ namespace jc::hir {
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
+            case ExprKind::Kind::Lambda: {
+                const auto & lambda = ExprKind::as<LambdaExpr>(kind);
+                printDelim(lambda->params, [&](const LambdaParam & param, size_t) {
+                    printPat(param.pat);
+                    param.type.then([&](const auto & type) {
+                        log.raw(": ");
+                        printType(type);
+                    });
+                }, Delim::createCommaDelim(Delim::PairedTok::Paren));
+            }
+            case ExprKind::Kind::List:
+                break;
+            case ExprKind::Kind::Self:
+                break;
+            case ExprKind::Kind::Subscript:
+                break;
+            case ExprKind::Kind::Unit:
+                break;
         }
     }
 
