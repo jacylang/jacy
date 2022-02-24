@@ -86,21 +86,21 @@ namespace jc::pcomb {
 
     class ParseContext;
 
-    template<class O>
-    struct IO {
-        ParseContext & input;
-        O output;
-    };
+//    template<class O>
+//    struct IO {
+//        ParseContext & input;
+//        O output;
+//    };
 
-    template<class O>
+    template<class Output>
     class ParseResult {
     public:
+        using O = Output;
         using E = ParseError;
-        using IO = IO<O>;
-        using R = Result<IO, E>;
+        using R = Result<O, E>;
 
     public:
-        ParseResult(const IO & io) : result {Ok(io)} {}
+        ParseResult(const O & o) : result {Ok(o)} {}
 
         ParseResult(const E & err) : result {Err(err)} {}
 
@@ -115,7 +115,7 @@ namespace jc::pcomb {
             return result.err();
         }
 
-        const IO & unwrap() const {
+        const O & unwrap() const {
             return result.unwrap();
         }
 
@@ -163,13 +163,8 @@ namespace jc::pcomb {
         ParseContext(const ParseStream & i) : i {i} {}
 
     public:
-        IO<EmptyOutput> makeEmptyOk() {
-            return {*this, EmptyOutput {}};
-        }
-
-        template<class O>
-        IO<O> makeOk(const O & o) {
-            return {*this, o};
+        EmptyOutput makeEmptyOk() {
+            return EmptyOutput {};
         }
 
         // ParseStream API //
@@ -190,7 +185,7 @@ namespace jc::pcomb {
                 return makeError(state, token.span);
             }
 
-            return makeOk(token);
+            return token;
         }
 
     private:
@@ -471,6 +466,13 @@ namespace jc::pcomb {
 
     template<class F, class ...Parsers>
     class Pipe {
+        // Check that mapping function is invocable with ParseContext and results of all parsers.
+        static_assert(std::is_invocable_v<F, Ctx, typename Parsers::R...>);
+        // And also returns some parser result as
+        //  "is result of `F` is a `ParseResult` with `Some` type of `F` `Some` result". WTF!
+//        static_assert(std::is_same_v<std::result_of<F>, PR<typename std::result_of<F>::IO>>);
+        static_assert(std::conjunction_v<typename Parsers::IsParser...>);
+
     public:
         using IsParser = std::true_type;
         using R = std::result_of<F>;
@@ -490,7 +492,7 @@ namespace jc::pcomb {
     };
 
     template<class F, class ...Parsers>
-    Pipe<F, Parsers...> operator|(const F & map, Parsers && ...parsers) {
+    Pipe<F, Parsers...> pipe(const F & map, Parsers && ...parsers) {
         return Pipe(map, std::forward<Parsers>(parsers)...);
     }
 
