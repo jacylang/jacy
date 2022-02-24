@@ -464,6 +464,11 @@ namespace jc::pcomb {
         const G g;
     };
 
+    template<class P, class G>
+    Combine<P, G> operator&&(const P & p, const G & g) {
+        return Combine(p, g);
+    }
+
     template<class ...Parsers>
     class Choice {
         static_assert(std::conjunction_v<typename Parsers::IsParser...>);
