@@ -429,6 +429,41 @@ namespace jc::pcomb {
         return OrComb(p, g);
     }
 
+    template<class P, class G>
+    class Combine {
+        static_assert(P::IsParser::value and G::IsParser::value);
+
+    public:
+        using IsParser = std::true_type;
+        using PO = typename P::O;
+        using GO = typename G::O;
+        using PResult = PR<PO>;
+        using GResult = PR<GO>;
+        using O = PO;
+        using R = PR<std::tuple<PO>>;
+
+    public:
+        constexpr Combine(const P & p, const G & g) : p {p}, g {g} {}
+
+        R operator()(Ctx ctx) const {
+            PResult pResult = p(ctx);
+            if (not pResult.ok()) {
+                return pResult;
+            }
+
+            GResult gResult = g(ctx);
+            if (not gResult.ok()) {
+                return gResult;
+            }
+
+            return std::make_tuple(pResult, gResult);
+        }
+
+    private:
+        const P p;
+        const G g;
+    };
+
     template<class ...Parsers>
     class Choice {
         static_assert(std::conjunction_v<typename Parsers::IsParser...>);
