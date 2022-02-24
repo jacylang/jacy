@@ -338,8 +338,13 @@ namespace jc::hir {
                 printBody(lambda->body);
                 break;
             }
-            case ExprKind::Kind::List:
+            case ExprKind::Kind::List: {
+                const auto & list = ExprKind::as<ListExpr>(kind);
+                printDelim(list->els, [&](const Expr & el, size_t) {
+                    printExpr(el);
+                }, Delim::createCommaDelim(Delim::PairedTok::Bracket));
                 break;
+            }
             case ExprKind::Kind::Self:
                 break;
             case ExprKind::Kind::Subscript:

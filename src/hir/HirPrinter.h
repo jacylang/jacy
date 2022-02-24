@@ -135,7 +135,7 @@ namespace jc::hir {
     private:
         void printExpr(const Expr & expr);
 
-        void printExprKind(const ExprKind::Ptr & kind);
+        void printExprKind(const ExprKind::Ptr & el);
 
         // Types //
     private:
