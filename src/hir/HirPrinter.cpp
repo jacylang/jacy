@@ -345,10 +345,18 @@ namespace jc::hir {
                 }, Delim::createCommaDelim(Delim::PairedTok::Bracket));
                 break;
             }
-            case ExprKind::Kind::Self:
+            case ExprKind::Kind::Self: {
+                log.raw("self");
                 break;
-            case ExprKind::Kind::Subscript:
+            }
+            case ExprKind::Kind::Subscript: {
+                const auto & subscript = ExprKind::as<Subscript>(kind);
+                printExpr(subscript->lhs);
+                printDelim(subscript->indices, [&](const Expr & index, size_t) {
+                    printExpr(index);
+                }, Delim::createCommaDelim(Delim::PairedTok::Bracket));
                 break;
+            }
             case ExprKind::Kind::Unit:
                 break;
         }
