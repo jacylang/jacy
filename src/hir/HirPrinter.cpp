@@ -357,8 +357,10 @@ namespace jc::hir {
                 }, Delim::createCommaDelim(Delim::PairedTok::Bracket));
                 break;
             }
-            case ExprKind::Kind::Unit:
+            case ExprKind::Kind::Unit: {
+                log.raw("()");
                 break;
+            }
         }
     }
 
