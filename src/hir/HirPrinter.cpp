@@ -656,7 +656,7 @@ namespace jc::hir {
     }
 
     void HirPrinter::printCommonFields(const CommonField::List & fields, bool structFields) {
-        printDelim(fields, [this, structFields](const CommonField & field, size_t) {
+        printDelim(fields, [this](const CommonField & field, size_t) {
             field.name.then([this](const auto & name) {
                 log.raw(name, ": ");
             });
