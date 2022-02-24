@@ -489,6 +489,11 @@ namespace jc::pcomb {
         const std::tuple<Parsers...> parsers;
     };
 
+    template<class F, class ...Parsers>
+    Pipe<F, Parsers...> operator|(const F & map, Parsers && ...parsers) {
+        return Pipe(map, std::forward<Parsers>(parsers)...);
+    }
+
     template<class ...Parsers>
     class Choice {
         static_assert(std::conjunction_v<typename Parsers::IsParser...>);
