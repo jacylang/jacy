@@ -8,7 +8,7 @@
 
 namespace jc::ast {
     struct Type : Node {
-        using Ptr = APR<N<Type>>;
+        using Ptr = PR<N<Type>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 

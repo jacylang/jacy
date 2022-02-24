@@ -199,7 +199,7 @@ namespace jc::ast {
         }
 
         template<class T>
-        void validateEach(const std::vector<APR<T>> & entities) {
+        void validateEach(const std::vector<PR<T>> & entities) {
             for (const auto & entity : entities) {
                 entity.autoAccept(*this);
             }

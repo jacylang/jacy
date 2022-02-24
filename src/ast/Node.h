@@ -138,7 +138,7 @@ namespace jc::ast {
     };
 
     template<class T>
-    using APR = ParseResult<T>;
+    using PR = ParseResult<T>;
 }
 
 #endif // JACY_AST_NODE_H

@@ -27,7 +27,7 @@ namespace jc::ast {
 
     /// `{(STMT;)*}`
     struct Block : Expr {
-        using Ptr = APR<N<Block>>;
+        using Ptr = PR<N<Block>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 

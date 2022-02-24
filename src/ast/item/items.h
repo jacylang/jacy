@@ -100,7 +100,7 @@ namespace jc::ast {
     struct Impl : Item {
         Impl(
             GenericParam::OptList && generics,
-            APR<TypePath::Ptr> && traitTypePath,
+            PR<TypePath::Ptr> && traitTypePath,
             Type::OptPtr && forType,
             Item::List && members,
             Span span
@@ -111,7 +111,7 @@ namespace jc::ast {
             members {std::move(members)} {}
 
         GenericParam::OptList generics;
-        APR<TypePath::Ptr> traitTypePath;
+        PR<TypePath::Ptr> traitTypePath;
         Type::OptPtr forType;
         Item::List members;
 
@@ -263,7 +263,7 @@ namespace jc::ast {
     };
 
     struct UseTree : Node {
-        using PR = APR<UseTree>;
+        using PR = PR<UseTree>;
         using List = std::vector<PR>;
         using ValueT = std::variant<std::monostate, Ident::PR, UseTree::List>;
 

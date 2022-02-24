@@ -10,7 +10,7 @@ namespace jc::ast {
      * @brief Base expression class
      */
     struct Expr : Node {
-        using Ptr = APR<N<Expr>>;
+        using Ptr = PR<N<Expr>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 
