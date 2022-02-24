@@ -10,7 +10,7 @@ namespace jc::ast {
     using span::Symbol;
 
     struct Ident : span::Ident {
-        using PR = PR<Ident>;
+        using PR = APR<Ident>;
         using OptPR = Option<Ident::PR>;
 
         Ident(Symbol sym, Span span) : span::Ident {sym, span} {}

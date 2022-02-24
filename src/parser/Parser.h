@@ -14,6 +14,7 @@
 #include "message/MessageResult.h"
 
 #include "data_types/Option.h"
+#include "parser/pcomb/Parser.h"
 
 namespace jc::parser {
     using namespace ast;

@@ -7,7 +7,7 @@
 
 namespace jc::ast {
     struct Pat : Node {
-        using Ptr = PR<N<Pat>>;
+        using Ptr = APR<N<Pat>>;
         using OptPtr = Option<Ptr>;
         using List = std::vector<Ptr>;
 

@@ -123,6 +123,10 @@ namespace jc::pcomb {
             return result.unwrapErr();
         }
 
+        const O * operator->() const {
+            return &result.unwrap();
+        }
+
         //        bool isIncomplete() {
         //            if (ok()) {
         //                return false;

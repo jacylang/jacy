@@ -21,7 +21,7 @@ namespace jc::ast {
     };
 
     struct Item : Node {
-        using Ptr = PR<N<Item>>;
+        using Ptr = APR<N<Item>>;
         using List = std::vector<Ptr>;
 
         enum class Kind {

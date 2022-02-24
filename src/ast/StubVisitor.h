@@ -187,7 +187,7 @@ namespace jc::ast {
         }
 
         template<typename T>
-        void visitEach(const std::vector<PR<T>> & entities) {
+        void visitEach(const std::vector<APR<T>> & entities) {
             for (const auto & entity : entities) {
                 entity.autoAccept(*this);
             }

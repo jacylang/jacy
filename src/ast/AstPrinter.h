@@ -277,13 +277,13 @@ namespace jc::ast {
 
         template<typename T>
         void printDelim(
-            const std::vector<PR<T>> & elements,
+            const std::vector<APR<T>> & elements,
             const std::string & begin = "",
             const std::string & end = "",
             const std::string & delim = ",",
             uint8_t chopTH = DEFAULT_CHOP_THRESHOLD
         ) {
-            basePrintDelim<PR<T>>(elements, begin, end, delim, chopTH, [&](const PR<T> & el) {
+            basePrintDelim<APR<T>>(elements, begin, end, delim, chopTH, [&](const APR<T> & el) {
                 el.autoAccept(*this);
             });
         }
@@ -298,7 +298,7 @@ namespace jc::ast {
 
         template<class T>
         void printBodyLike(
-            const std::vector<PR<T>> & elements,
+            const std::vector<APR<T>> & elements,
             const std::string & delim = ","
         ) {
             printDelim(elements, " {", "}", delim, 0);

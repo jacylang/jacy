@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct PathSeg : Node {
-        using PR = PR<PathSeg>;
+        using PR = APR<PathSeg>;
         using List = std::vector<PR>;
 
         PathSeg(

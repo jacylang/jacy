@@ -6,7 +6,7 @@
 
 namespace jc::ast {
     struct Type;
-    using GenericsTypePtr = PR<N<Type>>;
+    using GenericsTypePtr = APR<N<Type>>;
 
     // Generic Parameters //
     struct GenericParam {
