@@ -329,6 +329,14 @@ namespace jc::hir {
                         printType(type);
                     });
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
+
+                lambda->returnType.then([&](const Type & type) {
+                    log.raw(" -> ");
+                    printType(type);
+                });
+
+                printBody(lambda->body);
+                break;
             }
             case ExprKind::Kind::List:
                 break;
