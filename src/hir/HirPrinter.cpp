@@ -311,8 +311,12 @@ namespace jc::hir {
             }
             case ExprKind::Kind::Tuple: {
                 const auto & tuple = ExprKind::as<TupleExpr>(kind);
-                printDelim(tuple->values, [&](const Expr & val, size_t) {
-                    printExpr(val);
+                printDelim(tuple->values, [&](const auto & el, size_t) {
+                    el.name.then([this](const auto & name) {
+                        log.raw(name, ": ");
+                    });
+
+                    printExpr(el.node);
                 }, Delim::createCommaDelim(Delim::PairedTok::Paren));
                 break;
             }
