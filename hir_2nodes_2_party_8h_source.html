@@ -85,34 +85,59 @@ $(function() {
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">using</span> resolve::DefId;</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_party.html">   15</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a> {</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">using</span> Items = std::map&lt;ItemId, Item&gt;;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">using</span> Bodies = std::map&lt;BodyId, Body&gt;;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp; rootMod, Items &amp;&amp; items, Bodies &amp;&amp; bodies)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            : rootMod {std::move(rootMod)}, items {std::move(items)}, bodies {std::move(bodies)} {}</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> rootMod;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        Items items;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        Bodies bodies;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a> &amp; item(<a class="code hl_struct" href="structjc_1_1hir_1_1_item_id.html">ItemId</a> itemId)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            <span class="keywordflow">return</span> items.at(itemId);</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_body.html">Body</a> &amp; body(<a class="code hl_struct" href="structjc_1_1hir_1_1_body_id.html">BodyId</a> bodyId)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">return</span> bodies.at(bodyId);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        }</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    };</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_PARTY_H</span></div>
-<div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:8</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_body_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body.html">jc::hir::Body</a></div><div class="ttdef"><b>Definition:</b> fragments.h:66</div></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">using</span> Items = ItemId::Map&lt;Item&gt;;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keyword">using</span> TraitMembers = TraitMemberId::Map&lt;TraitMember&gt;;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keyword">using</span> ImplMembers = ImplMemberId::Map&lt;ImplMember&gt;;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keyword">using</span> Bodies = std::map&lt;BodyId, Body&gt;;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_party.html">Party</a>(</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp; rootMod,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            Items &amp;&amp; items,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            TraitMembers &amp;&amp; traitMembers,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            ImplMembers &amp;&amp; implMembers,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            Bodies &amp;&amp; bodies</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        ) : rootMod {std::move(rootMod)},</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            items {std::move(items)},</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            traitMembers {traitMembers},</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            implMembers {implMembers},</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            bodies {std::move(bodies)} {}</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> rootMod;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        Items items;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        TraitMembers traitMembers;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        ImplMembers implMembers;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        Bodies bodies;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_item.html">Item</a> &amp; item(<a class="code hl_struct" href="structjc_1_1hir_1_1_item_id.html">ItemId</a> itemId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">return</span> items.at(itemId);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_trait_member.html">TraitMember</a> &amp; traitMember(<a class="code hl_struct" href="structjc_1_1hir_1_1_trait_member_id.html">TraitMemberId</a> traitMemberId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> traitMembers.at(traitMemberId);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_impl_member.html">ImplMember</a> &amp; implMember(<a class="code hl_struct" href="structjc_1_1hir_1_1_impl_member_id.html">ImplMemberId</a> implMemberId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">return</span> implMembers.at(implMemberId);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1hir_1_1_body.html">Body</a> &amp; body(<a class="code hl_struct" href="structjc_1_1hir_1_1_body_id.html">BodyId</a> bodyId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordflow">return</span> bodies.at(bodyId);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    };</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="preprocessor">#endif </span><span class="comment">// JACY_HIR_NODES_PARTY_H</span></div>
+<div class="ttc" id="anamespacejc_1_1hir_html"><div class="ttname"><a href="namespacejc_1_1hir.html">jc::hir</a></div><div class="ttdef"><b>Definition:</b> HirPrinter.cpp:10</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_body_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body.html">jc::hir::Body</a></div><div class="ttdef"><b>Definition:</b> fragments.h:68</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_body_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body_id.html">jc::hir::BodyId</a></div><div class="ttdef"><b>Definition:</b> fragments.h:46</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:47</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:10</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:77</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_impl_member_html"><div class="ttname"><a href="structjc_1_1hir_1_1_impl_member.html">jc::hir::ImplMember</a></div><div class="ttdef"><b>Definition:</b> items.h:75</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_impl_member_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_impl_member_id.html">jc::hir::ImplMemberId</a></div><div class="ttdef"><b>Definition:</b> Item.h:35</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item.html">jc::hir::Item</a></div><div class="ttdef"><b>Definition:</b> Item.h:75</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:9</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:176</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_party_html"><div class="ttname"><a href="structjc_1_1hir_1_1_party.html">jc::hir::Party</a></div><div class="ttdoc">The root node of the party (package)</div><div class="ttdef"><b>Definition:</b> Party.h:15</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_trait_member_html"><div class="ttname"><a href="structjc_1_1hir_1_1_trait_member.html">jc::hir::TraitMember</a></div><div class="ttdef"><b>Definition:</b> items.h:194</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_trait_member_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_trait_member_id.html">jc::hir::TraitMemberId</a></div><div class="ttdef"><b>Definition:</b> Item.h:22</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

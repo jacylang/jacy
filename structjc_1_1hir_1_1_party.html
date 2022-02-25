@@ -84,21 +84,33 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:acc9ce1a21238ea784736bc6344c8df83"><td class="memItemLeft" align="right" valign="top"><a id="acc9ce1a21238ea784736bc6344c8df83" name="acc9ce1a21238ea784736bc6344c8df83"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Items</b> = std::map&lt; <a class="el" href="structjc_1_1hir_1_1_item_id.html">ItemId</a>, <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &gt;</td></tr>
-<tr class="separator:acc9ce1a21238ea784736bc6344c8df83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d5a4417c4d1b1836bb89316093926bf"><td class="memItemLeft" align="right" valign="top"><a id="a5d5a4417c4d1b1836bb89316093926bf" name="a5d5a4417c4d1b1836bb89316093926bf"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Items</b> = ItemId::Map&lt; <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &gt;</td></tr>
+<tr class="separator:a5d5a4417c4d1b1836bb89316093926bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7becc3c7105be1237c8cd3c0e55d358a"><td class="memItemLeft" align="right" valign="top"><a id="a7becc3c7105be1237c8cd3c0e55d358a" name="a7becc3c7105be1237c8cd3c0e55d358a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>TraitMembers</b> = TraitMemberId::Map&lt; <a class="el" href="structjc_1_1hir_1_1_trait_member.html">TraitMember</a> &gt;</td></tr>
+<tr class="separator:a7becc3c7105be1237c8cd3c0e55d358a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03731b9035d2486c97fa4e0a662bf12b"><td class="memItemLeft" align="right" valign="top"><a id="a03731b9035d2486c97fa4e0a662bf12b" name="a03731b9035d2486c97fa4e0a662bf12b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMembers</b> = ImplMemberId::Map&lt; <a class="el" href="structjc_1_1hir_1_1_impl_member.html">ImplMember</a> &gt;</td></tr>
+<tr class="separator:a03731b9035d2486c97fa4e0a662bf12b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a935b657cbbdecde13d5a4548e501891f"><td class="memItemLeft" align="right" valign="top"><a id="a935b657cbbdecde13d5a4548e501891f" name="a935b657cbbdecde13d5a4548e501891f"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Bodies</b> = std::map&lt; <a class="el" href="structjc_1_1hir_1_1_body_id.html">BodyId</a>, <a class="el" href="structjc_1_1hir_1_1_body.html">Body</a> &gt;</td></tr>
 <tr class="separator:a935b657cbbdecde13d5a4548e501891f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af39e52d49cd961190efc5a83264e1a07"><td class="memItemLeft" align="right" valign="top"><a id="af39e52d49cd961190efc5a83264e1a07" name="af39e52d49cd961190efc5a83264e1a07"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Party</b> (<a class="el" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp;rootMod, Items &amp;&amp;items, Bodies &amp;&amp;bodies)</td></tr>
-<tr class="separator:af39e52d49cd961190efc5a83264e1a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ba32fd568ee808589826043b58717bf"><td class="memItemLeft" align="right" valign="top"><a id="a3ba32fd568ee808589826043b58717bf" name="a3ba32fd568ee808589826043b58717bf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Party</b> (<a class="el" href="structjc_1_1hir_1_1_mod.html">Mod</a> &amp;&amp;rootMod, Items &amp;&amp;items, TraitMembers &amp;&amp;traitMembers, ImplMembers &amp;&amp;implMembers, Bodies &amp;&amp;bodies)</td></tr>
+<tr class="separator:a3ba32fd568ee808589826043b58717bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a645c2a721a70e104456ecf7be0ef03b3"><td class="memItemLeft" align="right" valign="top"><a id="a645c2a721a70e104456ecf7be0ef03b3" name="a645c2a721a70e104456ecf7be0ef03b3"></a>
 const <a class="el" href="structjc_1_1hir_1_1_item.html">Item</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>item</b> (<a class="el" href="structjc_1_1hir_1_1_item_id.html">ItemId</a> itemId) const</td></tr>
 <tr class="separator:a645c2a721a70e104456ecf7be0ef03b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1194cb558456ec2a0da53a1d80409ad4"><td class="memItemLeft" align="right" valign="top"><a id="a1194cb558456ec2a0da53a1d80409ad4" name="a1194cb558456ec2a0da53a1d80409ad4"></a>
+const <a class="el" href="structjc_1_1hir_1_1_trait_member.html">TraitMember</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>traitMember</b> (<a class="el" href="structjc_1_1hir_1_1_trait_member_id.html">TraitMemberId</a> traitMemberId) const</td></tr>
+<tr class="separator:a1194cb558456ec2a0da53a1d80409ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c570fe34fa541d2c2db81be86ca121a"><td class="memItemLeft" align="right" valign="top"><a id="a2c570fe34fa541d2c2db81be86ca121a" name="a2c570fe34fa541d2c2db81be86ca121a"></a>
+const <a class="el" href="structjc_1_1hir_1_1_impl_member.html">ImplMember</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>implMember</b> (<a class="el" href="structjc_1_1hir_1_1_impl_member_id.html">ImplMemberId</a> implMemberId) const</td></tr>
+<tr class="separator:a2c570fe34fa541d2c2db81be86ca121a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3675a063be19d9509867e0f59863881a"><td class="memItemLeft" align="right" valign="top"><a id="a3675a063be19d9509867e0f59863881a" name="a3675a063be19d9509867e0f59863881a"></a>
 const <a class="el" href="structjc_1_1hir_1_1_body.html">Body</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>body</b> (<a class="el" href="structjc_1_1hir_1_1_body_id.html">BodyId</a> bodyId) const</td></tr>
 <tr class="separator:a3675a063be19d9509867e0f59863881a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,6 +123,12 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:aa059061782b54a9e9463541d03d0a6ec"><td class="memItemLeft" align="right" valign="top"><a id="aa059061782b54a9e9463541d03d0a6ec" name="aa059061782b54a9e9463541d03d0a6ec"></a>
 Items&#160;</td><td class="memItemRight" valign="bottom"><b>items</b></td></tr>
 <tr class="separator:aa059061782b54a9e9463541d03d0a6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc7fd9f61f9eb04975ce7f79ea581247"><td class="memItemLeft" align="right" valign="top"><a id="afc7fd9f61f9eb04975ce7f79ea581247" name="afc7fd9f61f9eb04975ce7f79ea581247"></a>
+TraitMembers&#160;</td><td class="memItemRight" valign="bottom"><b>traitMembers</b></td></tr>
+<tr class="separator:afc7fd9f61f9eb04975ce7f79ea581247"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bce07235edf5c44bfade0aa7a05b50d"><td class="memItemLeft" align="right" valign="top"><a id="a1bce07235edf5c44bfade0aa7a05b50d" name="a1bce07235edf5c44bfade0aa7a05b50d"></a>
+ImplMembers&#160;</td><td class="memItemRight" valign="bottom"><b>implMembers</b></td></tr>
+<tr class="separator:a1bce07235edf5c44bfade0aa7a05b50d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af84baea8aa1a35da6011a0025d4f73d3"><td class="memItemLeft" align="right" valign="top"><a id="af84baea8aa1a35da6011a0025d4f73d3" name="af84baea8aa1a35da6011a0025d4f73d3"></a>
 Bodies&#160;</td><td class="memItemRight" valign="bottom"><b>bodies</b></td></tr>
 <tr class="separator:af84baea8aa1a35da6011a0025d4f73d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
