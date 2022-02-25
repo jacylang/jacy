@@ -126,6 +126,7 @@ namespace jc::hir {
         void printItem(const ItemId & itemId);
 
         void printTraitMember(const TraitMemberId & memberId);
+        void printImplMember(const ImplMemberId & memberId);
 
         // Statements //
     private:

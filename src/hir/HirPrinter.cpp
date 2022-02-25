@@ -182,6 +182,43 @@ namespace jc::hir {
         }
     }
 
+    void HirPrinter::printImplMember(const ImplMemberId & memberId) {
+        const auto & member = party.implMember(memberId);
+
+        switch (member.kind) {
+            case ImplMember::Kind::Const: {
+                const auto & constItem = member.asConst();
+
+                log.raw("const ", member.name, ": ");
+                printType(constItem.type);
+                log.raw(" = ");
+                printBody(constItem.val);
+
+                break;
+            }
+            case ImplMember::Kind::Func: {
+                const auto & func = member.asFunc();
+
+                log.raw("func ");
+                printGenericParams(member.generics);
+                log.raw(member.name);
+                printFuncSig(func.sig, func.body);
+                log.raw(" ");
+                printBody(func.body);
+
+                break;
+            }
+            case ImplMember::Kind::TypeAlias: {
+                const auto & typeAlias = member.asTypeAlias();
+
+                log.raw("type ", member.name, " = ");
+                printType(typeAlias.type);
+
+                break;
+            }
+        }
+    }
+
     // Stmt //
     void HirPrinter::printStmt(const Stmt & stmt) {
         return printStmtKind(stmt.kind);
