@@ -26,6 +26,16 @@ namespace jc::hir {
         }
     };
 
+    struct ImplMemberId {
+        using List = std::vector<ImplMemberId>;
+
+        resolve::DefId defId;
+
+        bool operator<(const ImplMemberId & other) const {
+            return defId < other.defId;
+        }
+    };
+
     /// The base class for all items
     struct ItemKind {
         using Ptr = std::unique_ptr<ItemKind>;
