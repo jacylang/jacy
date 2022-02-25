@@ -158,14 +158,17 @@ namespace jc::hir {
         Impl(
             GenericParam::List && generics,
             ItemId::Opt trait,
+            Type forType,
             ImplMemberId::List && members
         ) : ItemKind {ItemKind::Kind::Impl},
             generics {std::move(generics)},
             trait {trait},
+            forType {std::move(forType)},
             members {std::move(members)} {}
 
         GenericParam::List generics;
         ItemId::Opt trait;
+        Type forType;
         ImplMemberId::List members;
     };
 
