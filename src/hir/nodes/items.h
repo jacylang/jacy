@@ -142,7 +142,20 @@ namespace jc::hir {
         Span span;
     };
 
-    struct Impl : ItemKind {};
+    struct Impl : ItemKind {
+        Impl(
+            GenericParam::List && generics,
+            ItemId::Opt trait,
+            ImplMemberId::List && members
+        ) : ItemKind {ItemKind::Kind::Impl},
+            generics {std::move(generics)},
+            trait {trait},
+            members {std::move(members)} {}
+
+        GenericParam::List generics;
+        ItemId::Opt trait;
+        ImplMemberId::List members;
+    };
 
     struct Mod : ItemKind {
         Mod(ItemId::List && items) : ItemKind {ItemKind::Kind::Mod}, items {std::move(items)} {}

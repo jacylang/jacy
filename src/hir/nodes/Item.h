@@ -7,6 +7,7 @@ namespace jc::hir {
     using resolve::DefId;
 
     struct ItemId {
+        using Opt = Option<ItemId>;
         using List = std::vector<ItemId>;
 
         resolve::DefId defId;
@@ -17,6 +18,7 @@ namespace jc::hir {
     };
 
     struct TraitMemberId {
+        using Opt = Option<TraitMemberId>;
         using List = std::vector<TraitMemberId>;
 
         resolve::DefId defId;
@@ -27,6 +29,7 @@ namespace jc::hir {
     };
 
     struct ImplMemberId {
+        using Opt = Option<ImplMemberId>;
         using List = std::vector<ImplMemberId>;
 
         resolve::DefId defId;
