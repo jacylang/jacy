@@ -93,6 +93,8 @@ namespace jc::hir {
     };
 
     struct TraitMember {
+        using List = std::vector<TraitMember>;
+
         struct Const {
             Type type;
             BodyId::Opt val;
@@ -179,7 +181,15 @@ namespace jc::hir {
         Span span;
     };
 
-    struct Trait : ItemKind {};
+    struct Trait : ItemKind {
+        Trait(GenericParam::List && generics, TraitMemberId::List && members)
+            : ItemKind {ItemKind::Kind::Trait},
+              generics {std::move(generics)},
+              members {std::move(members)} {}
+
+        GenericParam::List generics;
+        TraitMemberId::List members;
+    };
 
     struct TypeAlias : ItemKind {
         TypeAlias(GenericParam::List && generics, Type && type)
