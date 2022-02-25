@@ -6,13 +6,22 @@
 namespace jc::hir {
     using resolve::DefId;
 
-    // Wrapper for type strictness
     struct ItemId {
         using List = std::vector<ItemId>;
 
         resolve::DefId defId;
 
         bool operator<(const ItemId & other) const {
+            return defId < other.defId;
+        }
+    };
+
+    struct TraitMemberId {
+        using List = std::vector<TraitMemberId>;
+
+        resolve::DefId defId;
+
+        bool operator<(const TraitMemberId & other) const {
             return defId < other.defId;
         }
     };
