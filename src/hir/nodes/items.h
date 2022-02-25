@@ -268,6 +268,18 @@ namespace jc::hir {
             value {std::move(typeAlias)},
             span {span} {}
 
+        const auto & asConst() const {
+            return std::get<Const>(value);
+        }
+
+        const auto & asFunc() const {
+            return std::get<Func>(value);
+        }
+
+        const auto & asTypeAlias() const {
+            return std::get<TypeAlias>(value);
+        }
+
         Kind kind;
         Ident name;
         DefId defId;
