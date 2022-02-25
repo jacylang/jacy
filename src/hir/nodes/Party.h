@@ -13,14 +13,27 @@ namespace jc::hir {
 
     /// The root node of the party (package)
     struct Party {
-        using Items = std::map<ItemId, Item>;
+        using Items = ItemId::Map<Item>;
+        using TraitMembers = TraitMemberId::Map<TraitMember>;
+        using ImplMembers = ImplMemberId::Map<ImplMember>;
         using Bodies = std::map<BodyId, Body>;
 
-        Party(Mod && rootMod, Items && items, Bodies && bodies)
-            : rootMod {std::move(rootMod)}, items {std::move(items)}, bodies {std::move(bodies)} {}
+        Party(
+            Mod && rootMod,
+            Items && items,
+            TraitMembers && traitMembers,
+            ImplMembers && implMembers,
+            Bodies && bodies
+        ) : rootMod {std::move(rootMod)},
+            items {std::move(items)},
+            traitMembers {traitMembers},
+            implMembers {implMembers},
+            bodies {std::move(bodies)} {}
 
         Mod rootMod;
         Items items;
+        TraitMembers traitMembers;
+        ImplMembers implMembers;
         Bodies bodies;
 
         const Item & item(ItemId itemId) const {
