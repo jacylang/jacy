@@ -72,6 +72,76 @@ namespace jc::hir {
         BodyId body;
     };
 
+    struct ImplMember {
+        struct Const {
+            Type type;
+            BodyId val;
+        };
+
+        struct Func {
+            FuncSig sig;
+            BodyId body;
+        };
+
+        struct TypeAlias {
+            Type type;
+        };
+
+        using ValueT = std::variant<Const, Func, TypeAlias>;
+
+        enum class Kind {
+            Const,
+            Func,
+            TypeAlias,
+        };
+
+        ImplMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            Const && constItem,
+            Span span
+        ) : kind {Kind::Const},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(constItem)},
+            span {span} {}
+
+        ImplMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            Func && func,
+            Span span
+        ) : kind {Kind::Func},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(func)},
+            span {span} {}
+
+        ImplMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            TypeAlias && typeAlias,
+            Span span
+        ) : kind {Kind::TypeAlias},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(typeAlias)},
+            span {span} {}
+
+        Kind kind;
+        Ident name;
+        DefId defId;
+        GenericParam::List generics;
+        ValueT value;
+        Span span;
+    };
+
     struct Impl : ItemKind {};
 
     struct Mod : ItemKind {
