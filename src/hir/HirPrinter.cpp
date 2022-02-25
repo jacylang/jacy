@@ -86,8 +86,17 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Kind::Trait: // TODO
+            case ItemKind::Kind::Trait: {
+                const auto & trait = ItemKind::as<Trait>(item);
+
+                log.raw("trait ", itemWrapper.name);
+                printGenericParams(trait->generics);
+                printDelim(trait->members, [&](const TraitMemberId & memberId, size_t) {
+                    printTraitMember(memberId);
+                }, Delim::createItemBlock("\n"));
+
                 break;
+            }
             case ItemKind::Kind::TypeAlias: {
                 const auto & typeAlias = ItemKind::as<TypeAlias>(item);
 
@@ -124,6 +133,50 @@ namespace jc::hir {
                 }
 
                 log.raw(";");
+                break;
+            }
+        }
+    }
+
+    void HirPrinter::printTraitMember(const TraitMemberId & memberId) {
+        const auto & member = party.traitMember(memberId);
+
+        switch (member.kind) {
+            case TraitMember::Kind::Const: {
+                const auto & constItem = member.asConst();
+
+                log.raw("const ", member.name);
+                constItem.val.then([&](const auto & body) {
+                    log.raw(" = ");
+                    printBody(body);
+                });
+
+                break;
+            }
+            case TraitMember::Kind::Func: {
+                const auto & func = member.asFunc();
+
+                log.raw("func ");
+                printGenericParams(member.generics);
+                log.raw(member.name);
+                // TODO: Generalize `printFuncSig`
+                log.raw(" ");
+
+                if (func.isImplemented()) {
+                    printBody(func.asImplemented());
+                }
+
+                break;
+            }
+            case TraitMember::Kind::TypeAlias: {
+                const auto & typeAlias = member.asTypeAlias();
+
+                log.raw("type ", member.name);
+                typeAlias.type.then([&](const auto & type) {
+                    log.raw(" = ");
+                    printType(type);
+                });
+
                 break;
             }
         }
