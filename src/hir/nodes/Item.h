@@ -7,6 +7,8 @@ namespace jc::hir {
     using resolve::DefId;
 
     struct ItemId {
+        template<class T>
+        using Map = std::map<ItemId, T>;
         using Opt = Option<ItemId>;
         using List = std::vector<ItemId>;
 
@@ -18,6 +20,8 @@ namespace jc::hir {
     };
 
     struct TraitMemberId {
+        template<class T>
+        using Map = std::map<TraitMemberId, T>;
         using Opt = Option<TraitMemberId>;
         using List = std::vector<TraitMemberId>;
 
@@ -29,6 +33,8 @@ namespace jc::hir {
     };
 
     struct ImplMemberId {
+        template<class T>
+        using Map = std::map<ImplMemberId, T>;
         using Opt = Option<ImplMemberId>;
         using List = std::vector<ImplMemberId>;
 
