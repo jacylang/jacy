@@ -6,6 +6,7 @@
 
 namespace jc::span {
     struct Ident {
+        using List = std::vector<Ident>;
         using Opt = Option<Ident>;
 
         Ident(const parser::Token & token) {

@@ -92,6 +92,93 @@ namespace jc::hir {
         GenericParam::List generics;
     };
 
+    struct TraitMember {
+        struct Const {
+            Type type;
+            BodyId::Opt val;
+        };
+
+        struct Func {
+            using ValueT = std::variant<BodyId, Ident::List>;
+
+            FuncSig sig;
+
+        private:
+            ValueT body;
+
+        public:
+            auto isImplemented() const {
+                return std::holds_alternative<BodyId>(body);
+            }
+
+            const auto & asImplemented() const {
+                return std::get<BodyId>(body);
+            }
+
+            const auto & asNonImplemented() const {
+                return std::get<Ident::List>(body);
+            }
+        };
+
+        struct TypeAlias {
+            Type::Opt type;
+        };
+
+        using ValueT = std::variant<Const, Func, TypeAlias>;
+
+        enum class Kind {
+            Const,
+            Func,
+            TypeAlias,
+        };
+
+        TraitMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            Const && constItem,
+            Span span
+        ) : kind {Kind::Const},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(constItem)},
+            span {span} {}
+
+        TraitMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            Func && func,
+            Span span
+        ) : kind {Kind::Func},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(func)},
+            span {span} {}
+
+        TraitMember(
+            Ident name,
+            DefId defId,
+            GenericParam::List && generics,
+            TypeAlias && typeAlias,
+            Span span
+        ) : kind {Kind::TypeAlias},
+            name {name},
+            defId {defId},
+            generics {std::move(generics)},
+            value {std::move(typeAlias)},
+            span {span} {}
+
+        Kind kind;
+        Ident name;
+        DefId defId;
+        GenericParam::List generics;
+        ValueT value;
+        Span span;
+    };
+
     struct Trait : ItemKind {};
 
     struct TypeAlias : ItemKind {

@@ -5,6 +5,8 @@
  *  - Add common printer for AST to use for raw AST printing (AstPrinter) and HIR printing (HIR printer)
  */
 
+// AGENDA: Fix resolutions in patterns
+
 namespace jc::hir {
     const std::monostate Delim::NO_CHOP = std::monostate {};
 
@@ -80,7 +82,6 @@ namespace jc::hir {
 
                 log.raw("struct ", itemWrapper.name);
                 printGenericParams(structItem->generics);
-
                 printCommonFields(structItem->fields, true);
 
                 break;

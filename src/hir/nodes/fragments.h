@@ -44,6 +44,8 @@ namespace jc::hir {
     /// Identifier of the `Body` declared below
     /// For now, just a wrapper over `HirId`
     struct BodyId {
+        using Opt = Option<BodyId>;
+
         NodeId nodeId;
 
         bool operator<(const BodyId & other) const {
