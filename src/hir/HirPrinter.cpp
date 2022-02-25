@@ -65,8 +65,26 @@ namespace jc::hir {
 
                 break;
             }
-            case ItemKind::Kind::Impl: // TODO
+            case ItemKind::Kind::Impl: {
+                const auto & impl = ItemKind::as<Impl>(item);
+
+                log.raw("impl ");
+                printGenericParams(impl->generics);
+                log.raw(" ");
+
+                impl->trait.then([&](const auto & traitItemId) {
+                    // TODO?: Requires path to trait
+                    log.raw(" for ");
+                });
+
+                printType(impl->forType);
+
+                printDelim(impl->members, [&](const ImplMemberId & memberId, size_t) {
+                    printImplMember(memberId);
+                }, Delim::createItemBlock("\n"));
+
                 break;
+            }
             case ItemKind::Kind::Mod: {
                 const auto & mod = ItemKind::as<Mod>(item);
 

@@ -167,6 +167,7 @@ namespace jc::hir {
             members {std::move(members)} {}
 
         GenericParam::List generics;
+        // TODO: Store path to the trait
         ItemId::Opt trait;
         Type forType;
         ImplMemberId::List members;
