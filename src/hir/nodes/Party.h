@@ -40,6 +40,14 @@ namespace jc::hir {
             return items.at(itemId);
         }
 
+        const TraitMember & traitMember(TraitMemberId traitMemberId) const {
+            return traitMembers.at(traitMemberId);
+        }
+
+        const ImplMember & implMember(ImplMemberId implMemberId) const {
+            return implMembers.at(implMemberId);
+        }
+
         const Body & body(BodyId bodyId) const {
             return bodies.at(bodyId);
         }
