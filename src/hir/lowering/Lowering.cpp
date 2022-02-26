@@ -35,7 +35,13 @@ namespace jc::hir {
         auto partyMod = Mod {lowerModItems(party.items)};
 
         return {
-            Party(std::move(partyMod), std::move(items), std::move(bodies)),
+            Party {
+                std::move(partyMod),
+                std::move(items),
+                std::move(traitMembers),
+                std::move(implMembers),
+                std::move(bodies)
+            },
             msg.extractMessages()
         };
     }
