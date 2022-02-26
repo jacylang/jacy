@@ -20,9 +20,8 @@ namespace jc::ast {
         span::Span::Opt span;
     };
 
-    struct Item : Node {
-        using Ptr = PR<N<Item>>;
-        using List = std::vector<Ptr>;
+    struct ItemKind : Node {
+        using Ptr = PR<N<ItemKind>>;
 
         enum class Kind {
             Enum,
@@ -36,28 +35,34 @@ namespace jc::ast {
             Use,
         };
 
-        Item(Span span, Kind kind) : Node {span}, kind {kind} {}
+        ItemKind(Kind kind, Span span) : Node {span}, kind {kind} {}
+
+        Kind kind;
+
+        template<class T>
+        static T * as(const N<ItemKind> & item) {
+            return static_cast<T *>(item.get());
+        }
+    };
+
+    template<class KindT = ItemKind>
+    struct Item : Node {
+        using List = std::vector<Ptr>;
+
+        Item(Attr::List && attributes, Vis vis, Ident::PR && name, KindT && kind)
+            : Node {span},
+              attributes {std::move(attributes)},
+              vis {vis}, name {std::move(name)},
+              kind {std::move(kind)} {}
 
         Attr::List attributes;
-        Kind kind;
         Vis vis;
-
-        void setAttributes(Attr::List && attributes) {
-            this->attributes = std::move(attributes);
-        }
-
-        void setVis(Vis && vis) {
-            this->vis = std::move(vis);
-        }
+        Ident::PR name;
+        KindT kind;
 
         virtual span::Ident getName() const = 0;
 
         virtual NodeId::Opt getNameNodeId() const = 0;
-
-        template<class T>
-        static T * as(const N<Item> & item) {
-            return static_cast<T*>(item.get());
-        }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
