@@ -155,9 +155,16 @@ namespace jc::hir {
     };
 
     struct Impl : ItemKind {
+        struct TraitRef {
+            using Opt = Option<TraitRef>;
+
+            Path path;
+            ItemId traitItemId;
+        };
+
         Impl(
             GenericParam::List && generics,
-            ItemId::Opt trait,
+            TraitRef::Opt trait,
             Type forType,
             ImplMemberId::List && members
         ) : ItemKind {ItemKind::Kind::Impl},
@@ -167,8 +174,7 @@ namespace jc::hir {
             members {std::move(members)} {}
 
         GenericParam::List generics;
-        // TODO: Store path to the trait
-        ItemId::Opt trait;
+        TraitRef::Opt trait;
         Type forType;
         ImplMemberId::List members;
     };

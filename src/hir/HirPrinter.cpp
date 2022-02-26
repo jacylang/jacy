@@ -123,6 +123,7 @@ namespace jc::hir {
                 log.raw(" = ");
                 printType(typeAlias->type);
                 log.raw(";");
+
                 break;
             }
             case ItemKind::Kind::Use: {
@@ -151,6 +152,7 @@ namespace jc::hir {
                 }
 
                 log.raw(";");
+
                 break;
             }
         }
@@ -261,17 +263,22 @@ namespace jc::hir {
                 });
 
                 log.raw(";");
+
                 break;
             }
             case StmtKind::Kind::Item: {
                 const auto & itemStmt = StmtKind::as<ItemStmt>(kind);
+
                 printItem(itemStmt->item);
+
                 break;
             }
             case StmtKind::Kind::Expr: {
                 const auto & exprStmt = StmtKind::as<ExprStmt>(kind);
+
                 printExpr(exprStmt->expr);
                 log.raw(";");
+
                 break;
             }
         }
