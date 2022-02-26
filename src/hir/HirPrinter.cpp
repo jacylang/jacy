@@ -72,8 +72,8 @@ namespace jc::hir {
                 printGenericParams(impl->generics);
                 log.raw(" ");
 
-                impl->trait.then([&](const auto & traitItemId) {
-                    // TODO?: Requires path to trait
+                impl->trait.then([&](const auto & traitRef) {
+                    printPath(traitRef.path);
                     log.raw(" for ");
                 });
 
