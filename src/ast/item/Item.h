@@ -84,11 +84,10 @@ namespace jc::ast {
         Vis vis;
         Ident::PR name;
         KindT kind;
-
-        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     using Item = _Item<ItemKind::Ptr>;
+    using AssocItem = _Item<AssocItemKind>;
 }
 
 #endif // JACY_AST_ITEM_ITEM_H

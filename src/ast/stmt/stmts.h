@@ -19,10 +19,10 @@ namespace jc::ast {
     };
 
     struct ItemStmt : Stmt {
-        explicit ItemStmt(Item::Ptr && item, Span span)
+        explicit ItemStmt(Item && item, Span span)
             : Stmt {span, Stmt::Kind::Item}, item {std::move(item)} {}
 
-        Item::Ptr item;
+        Item item;
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
