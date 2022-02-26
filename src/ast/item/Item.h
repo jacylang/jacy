@@ -84,6 +84,10 @@ namespace jc::ast {
         Vis vis;
         Ident::PR name;
         KindT kind;
+
+        void accept(BaseVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
     };
 
     using Item = _Item<ItemKind::Ptr>;

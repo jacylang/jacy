@@ -5,6 +5,7 @@ namespace jc::ast {
     struct ErrorNode;
 
     // Items //
+    struct Item;
     struct Enum;
     struct Variant;
     struct Func;
@@ -95,6 +96,8 @@ namespace jc::ast {
         virtual void visit(const ErrorNode &) = 0;
 
         // Items //
+        virtual void visit(const Item &) = 0;
+
         virtual void visit(const Enum &) = 0;
 
         virtual void visit(const Variant &) = 0;
