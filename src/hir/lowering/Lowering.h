@@ -68,6 +68,8 @@ namespace jc::hir {
         // HIR identifiers and maps //
     private:
         Party::Items items;
+        Party::TraitMembers traitMembers;
+        Party::ImplMembers implMembers;
         Party::Bodies bodies;
 
         template<class ...Args>
@@ -76,6 +78,22 @@ namespace jc::hir {
             auto itemId = ItemId {item.defId};
             items.emplace(itemId, std::move(item));
             return itemId;
+        }
+
+        template<class ...Args>
+        TraitMemberId addTraitMember(Args && ...args) {
+            auto member = TraitMember {std::forward<Args>(args)...};
+            auto memberId = TraitMemberId {member.defId};
+            traitMembers.emplace(memberId, std::move(member));
+            return memberId;
+        }
+
+        template<class ...Args>
+        ImplMemberId addImplMember(Args && ...args) {
+            auto member = ImplMember {std::forward<Args>(args)...};
+            auto memberId = ImplMemberId {member.defId};
+            implMembers.emplace(memberId, std::move(member));
+            return memberId;
         }
 
         template<class ...Args>
