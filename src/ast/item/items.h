@@ -125,8 +125,10 @@ namespace jc::ast {
             Ident::PR && name,
             Item::List && items
         ) : ItemKind {ItemKind::Kind::Mod},
+            name {std::move(name)},
             items {std::move(items)} {}
 
+        Ident::PR name;
         Item::List items;
 
         void accept(BaseVisitor & visitor) const override {

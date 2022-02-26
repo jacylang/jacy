@@ -38,6 +38,10 @@ namespace jc::ast {
         ItemKind(Kind kind) : kind {kind} {}
         virtual ~ItemKind() = default;
 
+        // TODO!: This NodeId is actually a copy of a id of `Item` wrapper,
+        //  as we have visitors and ItemKind visitors do not have access to `Item` NodeId.
+        //  Thus, get rid of it when visitors will be removed or something else, idk.
+        NodeId id;
         Kind kind;
 
         template<class T>
