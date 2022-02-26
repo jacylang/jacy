@@ -131,7 +131,6 @@ namespace jc::ast {
             GenericParam::OptList generics,
             CommonField::List fields
         ) : ItemKind {ItemKind::Kind::Struct},
-            name {std::move(name)},
             generics {std::move(generics)},
             fields {std::move(fields)} {}
 
