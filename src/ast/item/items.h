@@ -44,8 +44,12 @@ namespace jc::ast {
     };
 
     struct Enum : ItemKind {
-        Enum(Variant::List && entries) : ItemKind {ItemKind::Kind::Enum}, variants {std::move(entries)} {}
+        Enum(Ident::PR && name, Variant::List && entries)
+            : ItemKind {ItemKind::Kind::Enum},
+              name {std::move(name)},
+              variants {std::move(entries)} {}
 
+        Ident::PR name;
         Variant::List variants;
 
         void accept(BaseVisitor & visitor) const override {
@@ -56,16 +60,19 @@ namespace jc::ast {
     struct Func : ItemKind {
         Func(
             FuncHeader header,
+            Ident::PR && name,
             FuncSig && sig,
             GenericParam::OptList generics,
             Option<Body> && body
         ) : ItemKind {ItemKind::Kind::Func},
             header {std::move(header)},
+            name {std::move(name)},
             sig {std::move(sig)},
             generics {std::move(generics)},
             body {std::move(body)} {}
 
         FuncHeader header;
+        Ident::PR name;
         FuncSig sig;
         GenericParam::OptList generics;
         Option<Body> body;
@@ -115,6 +122,7 @@ namespace jc::ast {
 
     struct Mod : ItemKind {
         Mod(
+            Ident::PR && name,
             Item::List && items
         ) : ItemKind {ItemKind::Kind::Mod},
             items {std::move(items)} {}
@@ -128,12 +136,15 @@ namespace jc::ast {
 
     struct Struct : ItemKind {
         Struct(
+            Ident::PR && name,
             GenericParam::OptList generics,
             CommonField::List fields
         ) : ItemKind {ItemKind::Kind::Struct},
+            name {std::move(name)},
             generics {std::move(generics)},
             fields {std::move(fields)} {}
 
+        Ident::PR name;
         GenericParam::OptList generics;
         CommonField::List fields;
 
@@ -144,14 +155,17 @@ namespace jc::ast {
 
     struct Trait : ItemKind {
         Trait(
+            Ident::PR && name,
             GenericParam::OptList && generics,
             TypePath::List && superTraits,
             Item::List && members
         ) : ItemKind {ItemKind::Kind::Trait},
+            name {std::move(name)},
             generics {std::move(generics)},
             superTraits {std::move(superTraits)},
             members {std::move(members)} {}
 
+        Ident::PR name;
         GenericParam::OptList generics;
         TypePath::List superTraits;
         Item::List members;
@@ -163,10 +177,13 @@ namespace jc::ast {
 
     struct TypeAlias : ItemKind {
         TypeAlias(
+            Ident::PR && name,
             Type::OptPtr && type
         ) : ItemKind {ItemKind::Kind::TypeAlias},
+            name {std::move(name)},
             type {std::move(type)} {}
 
+        Ident::PR name;
         Type::OptPtr type;
 
         void accept(BaseVisitor & visitor) const override {
