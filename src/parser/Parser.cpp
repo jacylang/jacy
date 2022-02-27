@@ -713,12 +713,13 @@ namespace jc::parser {
 
         justSkipKw(Kw::Init, "`init`", "`parseInit`");
 
+        auto generics = parseOptGenericParams();
         auto sig = parseFuncSig();
         auto body = parseFuncBody();
 
         exitEntity();
 
-        return makePRBoxNode<Init, Item>(std::move(sig), std::move(body), closeSpan(begin));
+        return makePRBoxNode<Init, Item>(std::move(generics), std::move(sig), std::move(body), closeSpan(begin));
     }
 
     ////////////////
