@@ -240,7 +240,7 @@ namespace jc::ast {
     struct TypeAlias : Item {
         TypeAlias(
             Ident::PR name,
-            GenericParam::List && generics,
+            GenericParam::OptList && generics,
             Type::OptPtr && type,
             Span span
         ) : Item {span, Item::Kind::TypeAlias},
@@ -249,7 +249,7 @@ namespace jc::ast {
             type {std::move(type)} {}
 
         Ident::PR name;
-        GenericParam::List generics;
+        GenericParam::OptList generics;
         Type::OptPtr type;
 
         span::Ident getName() const override {

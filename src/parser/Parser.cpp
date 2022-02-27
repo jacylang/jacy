@@ -558,6 +558,8 @@ namespace jc::parser {
 
         auto name = parseIdent("`type` name");
 
+        auto generics = parseOptGenericParams();
+
         Type::OptPtr type = None;
         if (skipOpt(TokenKind::Assign).some()) {
             type = parseType("Expected type");
@@ -568,7 +570,7 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<TypeAlias, Item>(
-            std::move(name), std::move(type), closeSpan(begin)
+            std::move(name), std::move(generics), std::move(type), closeSpan(begin)
         );
     }
 
