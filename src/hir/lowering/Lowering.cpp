@@ -67,8 +67,9 @@ namespace jc::hir {
     ItemKind::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
-            case ast::Item::Kind::Const:
-                break;
+            case ast::Item::Kind::Const: {
+                return lowerConst(*ast::Item::as<ast::Const>(item));
+            }
             case ast::Item::Kind::Enum: {
                 return lowerEnum(*item->as<ast::Enum>(item));
             }
@@ -94,6 +95,15 @@ namespace jc::hir {
         }
 
         log::notImplemented("Lowering::lowerItemKind");
+    }
+
+    ItemKind::Ptr Lowering::lowerConst(const ast::Const & constItem) {
+        return makeBoxNode<Const>(
+            lowerType(constItem.type),
+            lowerExprAsBody(constItem.value.unwrap("`const` item outside of trait must have body."
+                                                   "This restriction must be checked in AST `Validator`")
+            )
+        );
     }
 
     ItemKind::Ptr Lowering::lowerEnum(const ast::Enum & astEnum) {

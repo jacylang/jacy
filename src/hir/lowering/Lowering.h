@@ -110,6 +110,8 @@ namespace jc::hir {
 
         ItemKind::Ptr lowerItemKind(const ast::Item::Ptr & astItem);
 
+        ItemKind::Ptr lowerConst(const ast::Const & constItem);
+
         ItemKind::Ptr lowerEnum(const ast::Enum & astEnum);
 
         Variant lowerVariant(const ast::Variant & variant);
