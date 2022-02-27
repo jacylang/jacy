@@ -128,12 +128,13 @@ namespace jc::ast {
         log.raw("impl");
         printGenericParams(impl.generics);
         log.raw(" ");
-        impl.trait.autoAccept(*this);
 
-        impl.forType.then([&](const auto & forType) {
+        impl.trait.then([&](const auto & traitRef) {
+            traitRef.autoAccept(*this);
             log.raw(" for ");
-            forType.autoAccept(*this);
         });
+
+        impl.forType.autoAccept(*this);
 
         printBodyLike(impl.members, "\n");
 
