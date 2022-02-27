@@ -98,10 +98,16 @@ namespace jc::ast {
     };
 
     struct Impl : Item {
+        struct TraitRef {
+            using Opt = Option<TraitRef>;
+
+            Path path;
+        };
+
         Impl(
             GenericParam::OptList && generics,
-            PR<TypePath::Ptr> && traitTypePath,
-            Type::OptPtr && forType,
+            TraitRef::Opt && traitTypePath,
+            Type::Ptr && forType,
             Item::List && members,
             Span span
         ) : Item {span, Item::Kind::Impl},
@@ -111,8 +117,8 @@ namespace jc::ast {
             members {std::move(members)} {}
 
         GenericParam::OptList generics;
-        PR<TypePath::Ptr> traitTypePath;
-        Type::OptPtr forType;
+        TraitRef::Opt traitTypePath;
+        Type::Ptr forType;
         Item::List members;
 
         span::Ident getName() const override {
