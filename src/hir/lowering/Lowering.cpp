@@ -295,7 +295,11 @@ namespace jc::hir {
     }
 
     TraitMemberId::List Lowering::lowerTraitMemberList(const ast::Item::List & astMembers) {
-
+        TraitMemberId::List members;
+        for (const auto & member : astMembers) {
+            members.emplace_back(lowerTraitMember(member));
+        }
+        return members;
     }
 
     TraitMemberId Lowering::lowerTraitMember(const ast::Item::Ptr & astItem) {
