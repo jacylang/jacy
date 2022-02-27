@@ -15,6 +15,8 @@ namespace jc::ast {
         virtual void visit(const ErrorNode & errorNode) override;
 
         // Items //
+        void visit(const Item & item) override;
+
         virtual void visit(const Enum & enumDecl) override;
 
         virtual void visit(const Variant & variant) override;
