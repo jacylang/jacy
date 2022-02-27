@@ -298,6 +298,46 @@ namespace jc::hir {
 
     }
 
+    TraitMemberId Lowering::lowerTraitMember(const ast::Item::Ptr & astItem) {
+        const auto & item = astItem.unwrap();
+
+        auto name = item->getName();
+        auto defId = sess->defTable.getDefIdByNodeId(item->id);
+        auto span = item->span;
+
+        switch (item->kind) {
+            case ast::Item::Kind::Const: {
+                const auto & constItem = *item->as<ast::Const>(item);
+                auto type = lowerType(constItem.type);
+                auto body = constItem.value.map<BodyId>([&](const auto & body) {
+                    return lowerExprAsBody(body);
+                });
+
+                return addTraitMember(
+                    name,
+                    defId,
+                    TraitMember::Const {
+                        std::move(type),
+                        body
+                    },
+                    span
+                );
+            }
+            case ast::Item::Kind::Func:
+                break;
+            case ast::Item::Kind::Init:
+                break;
+            case ast::Item::Kind::TypeAlias:
+                break;
+            default: {
+                log::devPanic(
+                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of trait."
+                                                             "This restriction must be checked in AST `Validator`"
+                );
+            }
+        }
+    }
+
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;
         for (const auto & param : sig.params) {
