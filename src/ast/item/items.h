@@ -154,13 +154,16 @@ namespace jc::ast {
 
     struct Init : Item {
         Init(
+            GenericParam::OptList && generics,
             FuncSig && sig,
             Option<Body> && body,
             Span span
         ) : Item {span, Item::Kind::Init},
+            generics {std::move(generics)},
             sig {std::move(sig)},
             body {std::move(body)} {}
 
+        GenericParam::OptList generics;
         FuncSig sig;
         Option<Body> body;
 
