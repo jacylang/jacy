@@ -29,7 +29,10 @@ namespace jc::ast {
     }
 
     void AstPrinter::visit(const ItemStmt & itemStmt) {
-        itemStmt.item.accept(*this);
+        printAttributes(itemStmt.item.attributes);
+        itemStmt.item.kind.autoAccept(*this);
+
+        printNodeId(itemStmt);
     }
 
     ///////////
