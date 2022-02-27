@@ -287,6 +287,17 @@ namespace jc::hir {
         }
     }
 
+    ItemKind::Ptr Lowering::lowerTrait(const ast::Trait & trait) {
+        auto generics = lowerGenericParams(trait.generics);
+        auto members = lowerTraitMemberList(trait.members);
+
+        return makeBoxNode<Trait>(std::move(generics), std::move(members));
+    }
+
+    TraitMemberId::List Lowering::lowerTraitMemberList(const ast::Item::List & astMembers) {
+
+    }
+
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;
         for (const auto & param : sig.params) {
