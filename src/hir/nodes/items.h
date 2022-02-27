@@ -278,15 +278,27 @@ namespace jc::hir {
             span {span} {}
 
         TraitMember(
-            Kind kind,
             Ident name,
             DefId defId,
             Func && func,
             Span span
-        ) : kind {kind},
+        ) : kind {Kind::Func},
             name {name},
             defId {defId},
             value {std::move(func)},
+            span {span} {}
+
+        // Constructor for `Init`
+        TraitMember(
+            Ident name,
+            DefId defId,
+            Func && init,
+            Span span,
+            bool initFlag
+        ) : kind {Kind::Init},
+            name {name},
+            defId {defId},
+            value {std::move(init)},
             span {span} {}
 
         TraitMember(
@@ -300,15 +312,29 @@ namespace jc::hir {
             value {std::move(typeAlias)},
             span {span} {}
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("Assertion `TraitMember::assertKind` failed");
+            }
+        }
+
         const auto & asConst() const {
+            assertKind(Kind::Const);
             return std::get<Const>(value);
         }
 
         const auto & asFunc() const {
+            assertKind(Kind::Func);
+            return std::get<Func>(value);
+        }
+
+        const auto & asInit() const {
+            assertKind(Kind::Init);
             return std::get<Func>(value);
         }
 
         const auto & asTypeAlias() const {
+            assertKind(Kind::TypeAlias);
             return std::get<TypeAlias>(value);
         }
 
