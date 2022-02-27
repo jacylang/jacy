@@ -7,7 +7,6 @@ namespace jc::ast {
 
     // Statements //
     void StubVisitor::visit(const Item & item) {
-        visitEach(item.attributes);
         item.kind.autoAccept(*this);
     }
 

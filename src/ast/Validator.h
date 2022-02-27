@@ -31,8 +31,6 @@ namespace jc::ast {
         void visit(const ErrorNode & errorNode) override;
 
         // Items //
-        void visit(const Item & item) override;
-
         void visit(const Enum & enumDecl) override;
 
         void visit(const Variant & variant) override;

@@ -16,11 +16,6 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
-    void Validator::visit(const Item & item) {
-        validateEach(item.attributes);
-        item.kind.autoAccept(*this);
-    }
-
     void Validator::visit(const Enum & enumDecl) {
         validateEach(enumDecl.variants);
 
@@ -50,7 +45,9 @@ namespace jc::ast {
     }
 
     void Validator::visit(const ItemStmt & itemStmt) {
-        itemStmt.item.accept(*this);
+        validateAttrs(itemStmt.item.unwrap()->attributes);
+
+        itemStmt.item.autoAccept(*this);
     }
 
     void Validator::visit(const Func & func) {
