@@ -75,32 +75,25 @@ namespace jc::ast {
     };
 
     template<class KindT>
-    struct _Item {
+    struct _Item : Node {
         using List = std::vector<_Item>;
 
-        _Item(Attr::List && attributes, Vis vis, KindT && kind, Span span)
-            : attributes {std::move(attributes)},
+        _Item(Attr::List && attributes, Vis vis, KindT && kind)
+            : Node {span},
+              attributes {std::move(attributes)},
               vis {vis},
-              kind {std::move(kind)},
-              span {span} {}
-        virtual ~_Item() = default;
+              kind {std::move(kind)} {}
 
         Attr::List attributes;
         Vis vis;
         KindT kind;
-        Span span;
 
-        virtual NodeId nodeId() const = 0;
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct Item : _Item<ItemKind::Ptr> {
-        void accept(BaseVisitor & visitor) const override {
+        void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
-        }
-
-        NodeId nodeId() const override {
-            return kind.nodeId();
         }
     };
 

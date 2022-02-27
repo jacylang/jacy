@@ -42,7 +42,6 @@ namespace jc::ast {
         printAttributes(item.attributes);
         printVis(item.vis);
 
-        item.kind.autoAccept(*this);
     }
 
     void AstPrinter::visit(const Enum & enumDecl) {
