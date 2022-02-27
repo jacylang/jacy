@@ -22,7 +22,6 @@ namespace jc::ast {
 
     struct ItemKind {
         using Ptr = PR<N<ItemKind>>;
-        using Opt = Option<Ptr>;
 
         enum class Kind {
             Enum,
@@ -77,6 +76,8 @@ namespace jc::ast {
 
     template<class KindT>
     struct _Item {
+        using List = std::vector<_Item>;
+
         _Item(Attr::List && attributes, Vis vis, KindT && kind, Span span)
             : attributes {std::move(attributes)},
               vis {vis},
@@ -94,9 +95,6 @@ namespace jc::ast {
     };
 
     struct Item : _Item<ItemKind::Ptr> {
-        using Opt = Option<Item>;
-        using List = std::vector<Item>;
-
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }

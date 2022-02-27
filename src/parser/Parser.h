@@ -192,34 +192,34 @@ namespace jc::parser {
 
         // Items //
     private:
-        Item::Opt parseOptItem();
+        Option<Item::Ptr> parseOptItem();
 
         Item::List parseItemList(const std::string & gotExprMsg, TokenKind stopToken);
 
         /// Common parser for visibility token (`pub` or nothing actually)
         Vis parseVis();
 
-        ItemKind::Ptr parseEnum();
+        Item::Ptr parseEnum();
 
         Variant parseVariant();
 
-        ItemKind::Ptr parseFunc(FuncHeader header);
+        Item::Ptr parseFunc(FuncHeader header);
 
-        ItemKind::Ptr parseImpl();
+        Item::Ptr parseImpl();
 
-        ItemKind::Ptr parseStruct();
+        Item::Ptr parseStruct();
 
-        ItemKind::Ptr parseTrait();
+        Item::Ptr parseTrait();
 
-        ItemKind::Ptr parseTypeAlias();
+        Item::Ptr parseTypeAlias();
 
-        ItemKind::Ptr parseMod();
+        Item::Ptr parseMod();
 
-        ItemKind::Ptr parseUseDecl();
+        Item::Ptr parseUseDecl();
 
         UseTree::PR parseUseTree();
 
-        ItemKind::Ptr parseInit();
+        Item::Ptr parseInit();
 
         // Statements //
     private:

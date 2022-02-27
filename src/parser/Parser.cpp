@@ -219,12 +219,12 @@ namespace jc::parser {
     ///////////
     // Items //
     ///////////
-    Item::Opt Parser::parseOptItem() {
+    Option<Item::Ptr> Parser::parseOptItem() {
         logParseExtra("[opt] Item");
 
         Attr::List attributes = parseAttrList();
         parser::Token::List modifiers = parseModifiers();
-        ItemKind::Opt maybeItem = None;
+        Option<Item::Ptr> maybeItem = None;
 
         auto vis = parseVis();
 
@@ -339,7 +339,7 @@ namespace jc::parser {
         return Vis {kind, span};
     }
 
-    ItemKind::Ptr Parser::parseEnum() {
+    Item::Ptr Parser::parseEnum() {
         enterEntity("Enum");
 
         const auto & begin = cspan();
@@ -382,7 +382,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Enum, ItemKind>(std::move(name), std::move(entries), closeSpan(begin));
+        return makePRBoxNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
     }
 
     Variant Parser::parseVariant() {
@@ -416,7 +416,7 @@ namespace jc::parser {
         return makeNode<Variant>(kind, std::move(name), std::move(fields), closeSpan(begin));
     }
 
-    ItemKind::Ptr Parser::parseFunc(FuncHeader header) {
+    Item::Ptr Parser::parseFunc(FuncHeader header) {
         enterEntity("Func");
 
         const auto & begin = cspan();
@@ -442,7 +442,7 @@ namespace jc::parser {
         );
     }
 
-    ItemKind::Ptr Parser::parseImpl() {
+    Item::Ptr Parser::parseImpl() {
         enterEntity("Impl");
 
         const auto & begin = cspan();
@@ -466,7 +466,7 @@ namespace jc::parser {
         );
     }
 
-    ItemKind::Ptr Parser::parseStruct() {
+    Item::Ptr Parser::parseStruct() {
         enterEntity("Struct");
 
         const auto & begin = cspan();
@@ -490,7 +490,7 @@ namespace jc::parser {
         );
     }
 
-    ItemKind::Ptr Parser::parseTrait() {
+    Item::Ptr Parser::parseTrait() {
         enterEntity("Trait");
 
         const auto & begin = cspan();
@@ -527,7 +527,7 @@ namespace jc::parser {
         );
     }
 
-    ItemKind::Ptr Parser::parseTypeAlias() {
+    Item::Ptr Parser::parseTypeAlias() {
         enterEntity("TypeAlias");
 
         const auto & begin = cspan();
@@ -550,7 +550,7 @@ namespace jc::parser {
         );
     }
 
-    ItemKind::Ptr Parser::parseMod() {
+    Item::Ptr Parser::parseMod() {
         enterEntity("Mod");
 
         const auto & begin = cspan();
@@ -570,7 +570,7 @@ namespace jc::parser {
         return makePRBoxNode<Mod, Item>(std::move(name), std::move(items), closeSpan(begin));
     }
 
-    ItemKind::Ptr Parser::parseUseDecl() {
+    Item::Ptr Parser::parseUseDecl() {
         enterEntity("UseDecl");
 
         const auto & begin = cspan();
@@ -676,7 +676,7 @@ namespace jc::parser {
         return makeErrPR<UseTree>(closeSpan(begin));
     }
 
-    ItemKind::Ptr Parser::parseInit() {
+    Item::Ptr Parser::parseInit() {
         enterEntity("Init");
 
         const auto & begin = cspan();
