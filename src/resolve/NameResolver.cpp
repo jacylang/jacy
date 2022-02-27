@@ -3,7 +3,7 @@
 namespace jc::resolve {
     NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
-    message::MessageResult<dt::none_t> NameResolver::resolve(
+    message::MessageResult <dt::none_t> NameResolver::resolve(
         const sess::Session::Ptr & sess,
         const ast::Party & party
     ) {
@@ -63,11 +63,11 @@ namespace jc::resolve {
     }
 
     void NameResolver::visit(const ast::Impl & impl) {
-        impl.trait.autoAccept(*this);
+        impl.trait.then([&](const auto & traitRef) {
+            traitRef.autoAccept(*this);
+        });
 
-        if (impl.forType.some()) {
-            impl.forType.unwrap().autoAccept(*this);
-        }
+        impl.forType.autoAccept(*this);
 
         enterModule(Module::getImplName(impl), Namespace::Type); // -> `impl` mod
         visitEach(impl.members);
@@ -181,7 +181,7 @@ namespace jc::resolve {
         /// When function is called by path, i.e. `path::to::func(...)`,
         ///  we need to resolve it relying on specified labels
 
-        auto [gotLabels, suffix] = Module::getCallSuffix(invoke.args);
+        auto[gotLabels, suffix] = Module::getCallSuffix(invoke.args);
 
         if (invoke.lhs.unwrap()->kind == ast::Expr::Kind::Path) {
             const auto & pathExpr = ast::Expr::as<ast::PathExpr>(invoke.lhs.unwrap());
