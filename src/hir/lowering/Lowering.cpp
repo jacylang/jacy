@@ -71,16 +71,16 @@ namespace jc::hir {
                 return lowerConst(*ast::Item::as<ast::Const>(item));
             }
             case ast::Item::Kind::Enum: {
-                return lowerEnum(*item->as<ast::Enum>(item));
+                return lowerEnum(*ast::Item::as<ast::Enum>(item));
             }
             case ast::Item::Kind::Func: {
-                return lowerFunc(*item->as<ast::Func>(item));
+                return lowerFunc(*ast::Item::as<ast::Func>(item));
             }
             case ast::Item::Kind::Impl: {
-                return lowerImpl(*item->as<ast::Impl>(item));
+                return lowerImpl(*ast::Item::as<ast::Impl>(item));
             }
             case ast::Item::Kind::Mod: {
-                return lowerMod(*item->as<ast::Mod>(item));
+                return lowerMod(*ast::Item::as<ast::Mod>(item));
             }
             case ast::Item::Kind::Struct:
                 break;
