@@ -20,7 +20,7 @@ namespace jc::ast {
         span::Span::Opt span;
     };
 
-    struct ItemKind {
+    struct ItemKind : Node {
         using Ptr = PR<N<ItemKind>>;
 
         enum class Kind {
@@ -35,8 +35,7 @@ namespace jc::ast {
             Use,
         };
 
-        ItemKind(Kind kind) : kind {kind} {}
-        virtual ~ItemKind() = default;
+        ItemKind(Kind kind, Span span) : Node {span}, kind {kind} {}
 
         Kind kind;
 
@@ -44,15 +43,13 @@ namespace jc::ast {
         static T * as(const N<ItemKind> & item) {
             return static_cast<T *>(item.get());
         }
-
-        virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
-    template<class KindT>
-    struct _Item : Node {
-        using List = std::vector<_Item>;
+    template<class KindT = ItemKind>
+    struct Item : Node {
+        using List = std::vector<Ptr>;
 
-        _Item(Attr::List && attributes, Vis vis, Ident::PR && name, KindT && kind)
+        Item(Attr::List && attributes, Vis vis, Ident::PR && name, KindT && kind)
             : Node {span},
               attributes {std::move(attributes)},
               vis {vis}, name {std::move(name)},
@@ -63,10 +60,12 @@ namespace jc::ast {
         Ident::PR name;
         KindT kind;
 
+        virtual span::Ident getName() const = 0;
+
+        virtual NodeId::Opt getNameNodeId() const = 0;
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
-
-    using Item = _Item<ItemKind::Ptr>;
 }
 
 #endif // JACY_AST_ITEM_ITEM_H

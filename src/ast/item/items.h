@@ -43,45 +43,68 @@ namespace jc::ast {
         }
     };
 
-    struct Enum : ItemKind {
-        Enum(Variant::List && entries) : ItemKind {ItemKind::Kind::Enum}, variants {std::move(entries)} {}
+    struct Enum : Item {
+        Enum(Ident::PR name, Variant::List && entries, Span span)
+            : Item {span, Item::Kind::Enum}, name {name}, variants {std::move(entries)} {}
 
+        Ident::PR name;
         Variant::List variants;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Func : ItemKind {
+    struct Func : Item {
         Func(
             FuncHeader header,
             FuncSig && sig,
             GenericParam::OptList generics,
-            Option<Body> && body
-        ) : ItemKind {ItemKind::Kind::Func},
+            Ident::PR name,
+            Option<Body> && body,
+            Span span
+        ) : Item {span, Item::Kind::Func},
             header {std::move(header)},
             sig {std::move(sig)},
             generics {std::move(generics)},
+            name {std::move(name)},
             body {std::move(body)} {}
 
         FuncHeader header;
         FuncSig sig;
         GenericParam::OptList generics;
+        Ident::PR name;
         Option<Body> body;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Impl : ItemKind {
+    struct Impl : Item {
         Impl(
             GenericParam::OptList && generics,
             PR<TypePath::Ptr> && traitTypePath,
             Type::OptPtr && forType,
-            Item::List && members
-        ) : ItemKind {ItemKind::Kind::Impl},
+            Item::List && members,
+            Span span
+        ) : Item {span, Item::Kind::Impl},
             generics {std::move(generics)},
             traitTypePath {std::move(traitTypePath)},
             forType {std::move(forType)},
@@ -92,83 +115,147 @@ namespace jc::ast {
         Type::OptPtr forType;
         Item::List members;
 
+        span::Ident getName() const override {
+            return Ident::empty();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return None;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Init : ItemKind {
+    struct Init : Item {
         Init(
             FuncSig && sig,
-            Option<Body> && body
-        ) : ItemKind {ItemKind::Kind::Init},
+            Option<Body> && body,
+            Span span
+        ) : Item {span, Item::Kind::Init},
             sig {std::move(sig)},
             body {std::move(body)} {}
 
         FuncSig sig;
         Option<Body> body;
 
+        span::Ident getName() const override {
+            return span::Ident {span::Symbol::intern("init"), span.fromStartWithLen(4)};
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return None;
+        }
+
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Mod : ItemKind {
+    struct Mod : Item {
         Mod(
-            Item::List && items
-        ) : ItemKind {ItemKind::Kind::Mod},
+            Ident::PR name,
+            Item::List && items,
+            Span span
+        ) : Item {span, Item::Kind::Mod},
+            name {name},
             items {std::move(items)} {}
 
+        Ident::PR name;
         Item::List items;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Struct : ItemKind {
+    struct Struct : Item {
         Struct(
+            Ident::PR name,
             GenericParam::OptList generics,
-            CommonField::List fields
-        ) : ItemKind {ItemKind::Kind::Struct},
+            CommonField::List fields,
+            Span span
+        ) : Item {span, Item::Kind::Struct},
             name {std::move(name)},
             generics {std::move(generics)},
             fields {std::move(fields)} {}
 
+        Ident::PR name;
         GenericParam::OptList generics;
         CommonField::List fields;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct Trait : ItemKind {
+    struct Trait : Item {
         Trait(
+            Ident::PR name,
             GenericParam::OptList && generics,
             TypePath::List && superTraits,
-            Item::List && members
-        ) : ItemKind {ItemKind::Kind::Trait},
+            Item::List && members,
+            Span span
+        ) : Item {span, Item::Kind::Trait},
+            name {name},
             generics {std::move(generics)},
             superTraits {std::move(superTraits)},
             members {std::move(members)} {}
 
+        Ident::PR name;
         GenericParam::OptList generics;
         TypePath::List superTraits;
         Item::List members;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
 
-    struct TypeAlias : ItemKind {
+    struct TypeAlias : Item {
         TypeAlias(
-            Type::OptPtr && type
-        ) : ItemKind {ItemKind::Kind::TypeAlias},
+            Ident::PR name,
+            Type::OptPtr && type,
+            Span span
+        ) : Item {span, Item::Kind::TypeAlias},
+            name {name},
             type {std::move(type)} {}
 
+        Ident::PR name;
         Type::OptPtr type;
+
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
@@ -220,13 +307,22 @@ namespace jc::ast {
         }
     };
 
-    struct UseDecl : ItemKind {
+    struct UseDecl : Item {
         UseDecl(
-            UseTree::PR && useTree
-        ) : ItemKind {ItemKind::Kind::Use},
+            UseTree::PR && useTree,
+            Span span
+        ) : Item {span, Item::Kind::Use},
             useTree {std::move(useTree)} {}
 
         UseTree::PR useTree;
+
+        span::Ident getName() const override {
+            return Ident::empty();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return None;
+        }
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
