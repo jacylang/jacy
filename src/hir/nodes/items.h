@@ -262,6 +262,7 @@ namespace jc::hir {
         enum class Kind {
             Const,
             Func,
+            Init,
             TypeAlias,
         };
 
@@ -277,11 +278,12 @@ namespace jc::hir {
             span {span} {}
 
         TraitMember(
+            Kind kind,
             Ident name,
             DefId defId,
             Func && func,
             Span span
-        ) : kind {Kind::Func},
+        ) : kind {kind},
             name {name},
             defId {defId},
             value {std::move(func)},

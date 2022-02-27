@@ -323,7 +323,17 @@ namespace jc::hir {
                     span
                 );
             }
+            case ast::Item::Kind::Init:
             case ast::Item::Kind::Func: {
+                TraitMember::Kind kind;
+                if (item->kind == ast::Item::Kind::Init) {
+                    kind = TraitMember::Kind::Init;
+                } else if (item->kind == ast::Item::Kind::Func) {
+                    kind = TraitMember::Kind::Func;
+                } else {
+                    log::devPanic("Oops... Unhandled Item::Kind in `Lowering::lowerTraitMember`");
+                }
+
                 const auto & func = *item->as<ast::Func>(item);
 
                 // Note: monostate just to make a stub
@@ -343,6 +353,7 @@ namespace jc::hir {
                 });
 
                 return addTraitMember(
+                    kind,
                     name,
                     defId,
                     TraitMember::Func {
@@ -353,8 +364,6 @@ namespace jc::hir {
                     span
                 );
             }
-            case ast::Item::Kind::Init:
-                break;
             case ast::Item::Kind::TypeAlias:
                 break;
             default: {
