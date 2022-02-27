@@ -235,7 +235,20 @@ namespace jc::hir {
                 );
             }
             case ast::Item::Kind::Init: {
-                // TODO
+                const auto & init = *item->as<ast::Init>(item);
+                const auto & body = init.body.unwrap("Initializers inside implementations must have bodies."
+                                                     "This restriction must be checked in AST `Validator`");
+
+                return addImplMember(
+                    name,
+                    defId,
+                    ImplMember::Func {
+                        lowerFuncSig(init.sig),
+                        lowerGenericParams(init.generics),
+                        lowerBody(body, init.sig.params)
+                    },
+                    span
+                );
                 break;
             }
             case ast::Item::Kind::TypeAlias: {
