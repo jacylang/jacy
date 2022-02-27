@@ -195,9 +195,28 @@ namespace jc::hir {
     ImplMemberId Lowering::lowerImplMember(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap();
 
+        auto name = item->getName();
+        auto defId = sess->defTable.getDefIdByNodeId(item->id);
+        auto span = item->span;
+
+        // TODO: `Const` item when will be added
         switch (item->kind) {
-            case ast::Item::Kind::Func:
-                break;
+            case ast::Item::Kind::Func: {
+                const auto & func = *item->as<ast::Func>(item);
+                const auto & body = func.body.unwrap("Functions inside implementations must have bodies."
+                                                     "This restriction must be checked in AST `Validator`");
+
+                return addImplMember(
+                    name,
+                    defId,
+                    ImplMember::Func {
+                        lowerFuncSig(func.sig),
+                        lowerGenericParams(func.generics),
+                        lowerBody(body, func.sig.params)
+                    },
+                    span
+                );
+            }
             case ast::Item::Kind::Init:
                 break;
             case ast::Item::Kind::TypeAlias:
@@ -205,7 +224,7 @@ namespace jc::hir {
             default: {
                 log::devPanic(
                     "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of implementation."
-                    "This restriction must be checked in AST `Validator`"
+                                                             "This restriction must be checked in AST `Validator`"
                 );
             }
         }
