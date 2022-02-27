@@ -6,10 +6,6 @@ namespace jc::ast {
     }
 
     // Statements //
-    void StubVisitor::visit(const Item & item) {
-        item.kind.autoAccept(*this);
-    }
-
     void StubVisitor::visit(const Enum & enumDecl) {
         enumDecl.name.autoAccept(*this);
         visitEach(enumDecl.variants);
@@ -37,7 +33,7 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const ItemStmt & itemStmt) {
-        itemStmt.item.kind.autoAccept(*this);
+        itemStmt.item.autoAccept(*this);
     }
 
     void StubVisitor::visit(const Func & func) {
