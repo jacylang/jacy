@@ -339,6 +339,26 @@ namespace jc::parser {
         return Vis {kind, span};
     }
 
+    Item::Ptr Parser::parseConst() {
+        enterEntity("Const");
+
+        const auto & begin = cspan();
+
+        justSkipKw(span::Kw::Const, "`const`", "`parseConst`");
+
+        auto name = parseIdent("`const` name");
+
+        skip(TokenKind::Colon, "`:` before type annotation", Recovery::Once);
+
+        auto type = parseType("`const` item type annotation");
+
+        auto value = parseOptExpr();
+
+        exitEntity();
+
+        return makePRBoxNode<Const, Item>(std::move(name), std::move(type), std::move(value), closeSpan(begin));
+    }
+
     Item::Ptr Parser::parseEnum() {
         enterEntity("Enum");
 

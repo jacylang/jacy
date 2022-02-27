@@ -199,6 +199,8 @@ namespace jc::parser {
         /// Common parser for visibility token (`pub` or nothing actually)
         Vis parseVis();
 
+        Item::Ptr parseConst();
+
         Item::Ptr parseEnum();
 
         Variant parseVariant();
