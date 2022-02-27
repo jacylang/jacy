@@ -94,6 +94,7 @@ namespace jc::hir {
         enum class Kind {
             Const,
             Func,
+            Init, // TODO
             TypeAlias,
         };
 

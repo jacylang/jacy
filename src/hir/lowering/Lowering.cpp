@@ -217,10 +217,25 @@ namespace jc::hir {
                     span
                 );
             }
-            case ast::Item::Kind::Init:
+            case ast::Item::Kind::Init: {
+                // TODO
                 break;
-            case ast::Item::Kind::TypeAlias:
-                break;
+            }
+            case ast::Item::Kind::TypeAlias: {
+                const auto & typeAlias = *item->as<ast::TypeAlias>(item);
+                const auto & type = typeAlias.type.unwrap("Type aliases in implementations must be set"
+                                                          "This restriction must be checked in AST `Validator`");
+
+                return addImplMember(
+                    name,
+                    defId,
+                    ImplMember::TypeAlias {
+                        lowerGenericParams(typeAlias.generics),
+                        lowerType(type)
+                    },
+                    span
+                );
+            }
             default: {
                 log::devPanic(
                     "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of implementation."
