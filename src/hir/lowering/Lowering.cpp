@@ -177,9 +177,38 @@ namespace jc::hir {
 
         auto forType = lowerType(impl.forType);
 
-        auto members = lowerImplMembers(impl.members);
+        auto members = lowerImplMemberList(impl.members);
 
         return makeBoxNode<Impl>(std::move(generics), std::move(traitRef), std::move(forType), std::move(members));
+    }
+
+    ImplMemberId::List Lowering::lowerImplMemberList(const ast::Item::List & astMembers) {
+        ImplMemberId::List members;
+
+        for (const auto & member : astMembers) {
+            members.emplace_back(lowerImplMember(member));
+        }
+
+        return members;
+    }
+
+    ImplMemberId Lowering::lowerImplMember(const ast::Item::Ptr & astItem) {
+        const auto & item = astItem.unwrap();
+
+        switch (item->kind) {
+            case ast::Item::Kind::Func:
+                break;
+            case ast::Item::Kind::Init:
+                break;
+            case ast::Item::Kind::TypeAlias:
+                break;
+            default: {
+                log::devPanic(
+                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of implementation."
+                    "This restriction must be checked in AST `Validator`"
+                );
+            }
+        }
     }
 
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {

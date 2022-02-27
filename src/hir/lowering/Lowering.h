@@ -122,7 +122,9 @@ namespace jc::hir {
 
         ItemKind::Ptr lowerImpl(const ast::Impl & impl);
 
-        ImplMemberId::List lowerImplMembers(const ast::Item::List & members);
+        ImplMemberId::List lowerImplMemberList(const ast::Item::List & astMembers);
+
+        ImplMemberId lowerImplMember(const ast::Item::Ptr & astItem);
 
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 
