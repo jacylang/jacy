@@ -327,17 +327,7 @@ namespace jc::hir {
                     span
                 );
             }
-            case ast::Item::Kind::Init:
             case ast::Item::Kind::Func: {
-                TraitMember::Kind kind;
-                if (item->kind == ast::Item::Kind::Init) {
-                    kind = TraitMember::Kind::Init;
-                } else if (item->kind == ast::Item::Kind::Func) {
-                    kind = TraitMember::Kind::Func;
-                } else {
-                    log::devPanic("Oops... Unhandled Item::Kind in `Lowering::lowerTraitMember`");
-                }
-
                 const auto & func = *item->as<ast::Func>(item);
 
                 // Note: monostate just to make a stub
@@ -357,7 +347,6 @@ namespace jc::hir {
                 });
 
                 return addTraitMember(
-                    kind,
                     name,
                     defId,
                     TraitMember::Func {
@@ -366,6 +355,37 @@ namespace jc::hir {
                         std::move(body)
                     },
                     span
+                );
+            }
+            case ast::Item::Kind::Init: {
+                const auto & init = *item->as<ast::Init>(item);
+
+                // Note: monostate just to make a stub
+                TraitMember::Func::ValueT body = std::monostate {};
+                init.body.then([&](const auto & astBody) {
+                    body = lowerBody(astBody, init.sig.params);
+                }).otherwise([&]() {
+                    Ident::List paramNames;
+                    for (const auto & param : init.sig.params) {
+                        const auto & pat = param.pat.unwrap();
+                        if (pat->kind == ast::Pat::Kind::Ident) {
+                            paramNames.emplace_back(ast::Pat::as<ast::IdentPat>(pat)->name.unwrap());
+                        } else {
+                            paramNames.emplace_back(Ident::empty());
+                        }
+                    }
+                });
+
+                return addTraitMember(
+                    name,
+                    defId,
+                    TraitMember::Func {
+                        lowerGenericParams(init.generics),
+                        lowerFuncSig(init.sig),
+                        std::move(body)
+                    },
+                    span,
+                    true
                 );
             }
             case ast::Item::Kind::TypeAlias: {
