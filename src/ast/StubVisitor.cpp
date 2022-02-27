@@ -60,10 +60,10 @@ namespace jc::ast {
         if (impl.generics.some()) {
             visitEach(impl.generics.unwrap());
         }
-        impl.trait.autoAccept(*this);
-        if (impl.forType.some()) {
-            impl.forType.unwrap().autoAccept(*this);
-        }
+        impl.trait.then([&](const auto & traitRef) {
+            traitRef.autoAccept(*this);
+        });
+        impl.forType.autoAccept(*this);
         visitEach(impl.members);
     }
 
