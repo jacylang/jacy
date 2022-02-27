@@ -199,8 +199,25 @@ namespace jc::hir {
         auto defId = sess->defTable.getDefIdByNodeId(item->id);
         auto span = item->span;
 
-        // TODO: `Const` item when will be added
         switch (item->kind) {
+            case ast::Item::Kind::Const: {
+                const auto & constItem = *item->as<ast::Const>(item);
+                auto type = lowerType(constItem.type);
+                auto body = constItem.value.map<BodyId>([&](const auto & body) {
+                    return lowerExprAsBody(body);
+                }).unwrap("Associated constants in implementations must have value"
+                          "This restriction must be checked in AST `Validator`");
+
+                return addImplMember(
+                    name,
+                    defId,
+                    ImplMember::Const {
+                        std::move(type),
+                        body
+                    },
+                    span
+                );
+            }
             case ast::Item::Kind::Func: {
                 const auto & func = *item->as<ast::Func>(item);
                 const auto & body = func.body.unwrap("Functions inside implementations must have bodies."
