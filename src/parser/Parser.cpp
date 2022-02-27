@@ -288,7 +288,7 @@ namespace jc::parser {
 
             auto item = parseOptItem();
             if (item.some()) {
-                items.push_back(item.take("`parseItemList` -> `item`"));
+                items.emplace_back(item.take("`parseItemList` -> `item`"));
             } else {
                 const auto & exprToken = peek();
                 auto expr = parseOptExpr();
@@ -297,8 +297,7 @@ namespace jc::parser {
                     // TODO: Diff messages for label and header
                     msg.error().setText(gotExprMsg).setPrimaryLabel(exprToken.span, gotExprMsg).emit();
                 }
-                // TODO: Cannot add `ErrorNode` in case of `Expr` as Item is not a ParseResult
-                //                items.push_back(makeErrPR<N<ItemKind>>(exprToken.span));
+                items.emplace_back(makeErrPR<N<Item>>(exprToken.span));
                 // If expr is `None` we already made an error in `parsePrimary`
             }
         }
@@ -322,6 +321,8 @@ namespace jc::parser {
 
     ItemKind::Ptr Parser::parseEnum() {
         enterEntity("Enum");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Enum, "`enum`", "`parseEnum`");
 
@@ -361,7 +362,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Enum, ItemKind>(std::move(name), std::move(entries));
+        return makePRBoxNode<Enum, ItemKind>(std::move(name), std::move(entries), closeSpan(begin));
     }
 
     Variant Parser::parseVariant() {
@@ -398,6 +399,8 @@ namespace jc::parser {
     ItemKind::Ptr Parser::parseFunc(FuncHeader header) {
         enterEntity("Func");
 
+        const auto & begin = cspan();
+
         justSkipKw(Kw::Func, "`func`", "`parseFunc`");
 
         auto generics = parseOptGenericParams();
@@ -409,17 +412,20 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Func, ItemKind>(
+        return makePRBoxNode<Func, Item>(
             std::move(header),
-            std::move(name),
             std::move(sig),
             std::move(generics),
-            std::move(body)
+            std::move(name),
+            std::move(body),
+            closeSpan(begin)
         );
     }
 
     ItemKind::Ptr Parser::parseImpl() {
         enterEntity("Impl");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Impl, "`impl`", "`parseImpl`");
 
@@ -435,16 +441,15 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Impl, ItemKind>(
-            std::move(generics),
-            Ok {std::move(traitTypePath)},
-            std::move(forType),
-            std::move(members)
+        return makePRBoxNode<Impl, Item>(
+            std::move(generics), Ok {std::move(traitTypePath)}, std::move(forType), std::move(members), closeSpan(begin)
         );
     }
 
     ItemKind::Ptr Parser::parseStruct() {
         enterEntity("Struct");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Struct, "`struct`", "`parseStruct`");
 
@@ -460,11 +465,15 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Struct, ItemKind>(std::move(name), std::move(generics), std::move(fields));
+        return makePRBoxNode<Struct, Item>(
+            std::move(name), std::move(generics), std::move(fields), closeSpan(begin)
+        );
     }
 
     ItemKind::Ptr Parser::parseTrait() {
         enterEntity("Trait");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Trait, "`trait`", "`parseTrait`");
 
@@ -493,16 +502,15 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Trait, ItemKind>(
-            std::move(name),
-            std::move(generics),
-            std::move(superTraits),
-            std::move(members)
+        return makePRBoxNode<Trait, Item>(
+            std::move(name), std::move(generics), std::move(superTraits), std::move(members), closeSpan(begin)
         );
     }
 
     ItemKind::Ptr Parser::parseTypeAlias() {
         enterEntity("TypeAlias");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Type, "`type`", "`parseTypeAlias`");
 
@@ -517,11 +525,15 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<TypeAlias, ItemKind>(std::move(name), std::move(type));
+        return makePRBoxNode<TypeAlias, Item>(
+            std::move(name), std::move(type), closeSpan(begin)
+        );
     }
 
     ItemKind::Ptr Parser::parseMod() {
         enterEntity("Mod");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Mod, "`mod`", "`parseMod`");
 
@@ -535,11 +547,13 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Mod, ItemKind>(std::move(name), std::move(items));
+        return makePRBoxNode<Mod, Item>(std::move(name), std::move(items), closeSpan(begin));
     }
 
     ItemKind::Ptr Parser::parseUseDecl() {
         enterEntity("UseDecl");
+
+        const auto & begin = cspan();
 
         justSkipKw(Kw::Use, "`use`", "`parseUseDecl`");
 
@@ -549,7 +563,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<UseDecl, ItemKind>(std::move(useTree));
+        return makePRBoxNode<UseDecl, Item>(std::move(useTree), closeSpan(begin));
     }
 
     UseTree::PR Parser::parseUseTree() {
@@ -645,6 +659,8 @@ namespace jc::parser {
     ItemKind::Ptr Parser::parseInit() {
         enterEntity("Init");
 
+        const auto & begin = cspan();
+
         justSkipKw(Kw::Init, "`init`", "`parseInit`");
 
         auto sig = parseFuncSig();
@@ -652,7 +668,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return makePRBoxNode<Init, ItemKind>(std::move(sig), std::move(body));
+        return makePRBoxNode<Init, Item>(std::move(sig), std::move(body), closeSpan(begin));
     }
 
     ////////////////
