@@ -84,17 +84,23 @@ namespace jc::hir {
             BodyId body;
         };
 
+        struct Init {
+            FuncSig sig;
+            GenericParam::List generics;
+            BodyId body;
+        };
+
         struct TypeAlias {
             GenericParam::List generics;
             Type type;
         };
 
-        using ValueT = std::variant<Const, Func, TypeAlias>;
+        using ValueT = std::variant<Const, Func, Init, TypeAlias>;
 
         enum class Kind {
             Const,
             Func,
-            Init, // TODO
+            Init,
             TypeAlias,
         };
 
@@ -123,6 +129,17 @@ namespace jc::hir {
         ImplMember(
             Ident name,
             DefId defId,
+            Init && init,
+            Span span
+        ) : kind {Kind::Init},
+            name {name},
+            defId {defId},
+            value {std::move(init)},
+            span {span} {}
+
+        ImplMember(
+            Ident name,
+            DefId defId,
             TypeAlias && typeAlias,
             Span span
         ) : kind {Kind::TypeAlias},
@@ -137,6 +154,10 @@ namespace jc::hir {
 
         const auto & asFunc() const {
             return std::get<Func>(value);
+        }
+
+        const auto & asInit() const {
+            return std::get<Init>(value);
         }
 
         const auto & asTypeAlias() const {
