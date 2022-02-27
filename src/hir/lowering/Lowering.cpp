@@ -368,8 +368,22 @@ namespace jc::hir {
                     span
                 );
             }
-            case ast::Item::Kind::TypeAlias:
-                break;
+            case ast::Item::Kind::TypeAlias: {
+                const auto & typeAlias = *item->as<ast::TypeAlias>(item);
+                auto type = typeAlias.type.map<Type>([&](const auto & type) {
+                    return lowerType(type);
+                });
+
+                return addTraitMember(
+                    name,
+                    defId,
+                    TraitMember::TypeAlias {
+                        lowerGenericParams(typeAlias.generics),
+                        std::move(type)
+                    },
+                    span
+                );
+            }
             default: {
                 log::devPanic(
                     "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of trait."
