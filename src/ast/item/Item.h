@@ -48,28 +48,6 @@ namespace jc::ast {
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
-    struct AssocItemKind {
-        using Ptr = PR<N<AssocItemKind>>;
-
-        enum class Kind {
-            Const,
-            Func,
-            TypeAlias,
-        };
-
-        AssocItemKind(Kind kind) : kind {kind} {}
-        virtual ~AssocItemKind() = default;
-
-        Kind kind;
-
-        template<class T>
-        static T * as(const N<ItemKind> & item) {
-            return static_cast<T *>(item.get());
-        }
-
-        virtual void accept(BaseVisitor & visitor) const = 0;
-    };
-
     template<class KindT>
     struct _Item : Node {
         using List = std::vector<_Item>;
