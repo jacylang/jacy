@@ -234,6 +234,7 @@ namespace jc::hir {
         struct Func {
             using ValueT = std::variant<BodyId, Ident::List>;
 
+            GenericParam::List generics;
             FuncSig sig;
 
         private:
@@ -254,6 +255,7 @@ namespace jc::hir {
         };
 
         struct TypeAlias {
+            GenericParam::List generics;
             Type::Opt type;
         };
 
@@ -268,39 +270,33 @@ namespace jc::hir {
         TraitMember(
             Ident name,
             DefId defId,
-            GenericParam::List && generics,
             Const && constItem,
             Span span
         ) : kind {Kind::Const},
             name {name},
             defId {defId},
-            generics {std::move(generics)},
             value {std::move(constItem)},
             span {span} {}
 
         TraitMember(
             Ident name,
             DefId defId,
-            GenericParam::List && generics,
             Func && func,
             Span span
         ) : kind {Kind::Func},
             name {name},
             defId {defId},
-            generics {std::move(generics)},
             value {std::move(func)},
             span {span} {}
 
         TraitMember(
             Ident name,
             DefId defId,
-            GenericParam::List && generics,
             TypeAlias && typeAlias,
             Span span
         ) : kind {Kind::TypeAlias},
             name {name},
             defId {defId},
-            generics {std::move(generics)},
             value {std::move(typeAlias)},
             span {span} {}
 
@@ -319,7 +315,6 @@ namespace jc::hir {
         Kind kind;
         Ident name;
         DefId defId;
-        GenericParam::List generics;
         ValueT value;
         Span span;
     };
