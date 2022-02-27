@@ -98,20 +98,9 @@ namespace jc::ast {
     };
 
     struct Impl : Item {
-        struct TraitRef {
-            using PR = PR<TraitRef>;
-            using Opt = Option<TraitRef::PR>;
-
-            TraitRef(NodeId id, Path && path) : id {id}, path {std::move(path)} {}
-
-            // All nodes used in ParseResult have to contain NodeId
-            NodeId id;
-            Path path;
-        };
-
         Impl(
             GenericParam::OptList && generics,
-            TraitRef::Opt && trait,
+            Path::Opt && trait,
             Type::Ptr && forType,
             Item::List && members,
             Span span
@@ -122,7 +111,7 @@ namespace jc::ast {
             members {std::move(members)} {}
 
         GenericParam::OptList generics;
-        TraitRef::Opt trait;
+        Path::Opt trait;
         Type::Ptr forType;
         Item::List members;
 

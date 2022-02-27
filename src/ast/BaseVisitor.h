@@ -105,6 +105,8 @@ namespace jc::ast {
 
         virtual void visit(const Impl &) = 0;
 
+        virtual void visit(const TraitRef &) = 0;
+
         virtual void visit(const Init &) = 0;
 
         virtual void visit(const Mod &) = 0;

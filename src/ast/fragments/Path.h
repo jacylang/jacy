@@ -26,7 +26,8 @@ namespace jc::ast {
     };
 
     struct Path : Node, PathInterface {
-        using Opt = Option<Path>;
+        using PR = PR<Path>;
+        using Opt = Option<Path::PR>;
 
         Path(bool global, PathSeg::List && segments, Span span)
             : Node {span}, global {global}, segments {std::move(segments)} {}

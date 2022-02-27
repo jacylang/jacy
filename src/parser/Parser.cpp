@@ -453,13 +453,13 @@ namespace jc::parser {
 
         auto maybeTrait = parseType("path to trait or type to implement");
 
-        Impl::TraitRef::Opt traitRef = None;
+        Path::Opt traitRef = None;
         Type::OptPtr forType = None;
 
         if (skipOptKw(span::Kw::For).some()) {
             if (maybeTrait.err()) {
                 // In case if we failed to parse trait path we set an error parse result
-                traitRef = makeErrPR<Impl::TraitRef>(maybeTrait.span());
+                traitRef = makeErrPR<Path>(maybeTrait.span());
             } else {
                 const auto & trait = maybeTrait.unwrap();
                 if (trait->kind != ast::Type::Kind::Path) {
@@ -468,9 +468,7 @@ namespace jc::parser {
                        .setPrimaryLabel(maybeTrait.span(), "Expected path to trait")
                        .emit();
                 } else {
-                    auto typePath = std::move(Type::as<TypePath>(maybeTrait.take()));
-                    auto id = typePath->id;
-                    traitRef = Ok(makeNode<Impl::TraitRef>(id, std::move(typePath->path)));
+                    traitRef = Ok(std::move(Type::as<TypePath>(maybeTrait.take())->path));
                 }
             }
 
