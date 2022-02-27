@@ -93,11 +93,11 @@ namespace jc::ast {
             validateEach(impl.generics.unwrap());
         }
 
-        impl.trait.autoAccept(*this);
+        impl.trait.then([&](const auto & traitRef) {
+            traitRef.autoAccept(*this);
+        });
 
-        if (impl.forType.some()) {
-            impl.forType.unwrap().autoAccept(*this);
-        }
+        impl.forType.autoAccept(*this);
 
         pushContext(ValidatorCtx::Struct);
         validateEach(impl.members);
