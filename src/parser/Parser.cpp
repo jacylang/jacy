@@ -228,51 +228,31 @@ namespace jc::parser {
 
         auto vis = parseVis();
 
+        // TODO?: Think if begin of the item start from attributes
+        auto begin = cspan();
+
         if (isKw(Kw::Func)) {
             maybeItem = parseFunc(FuncHeader {std::move(modifiers)});
-        }
-
-        if (isKw(Kw::Enum)) {
+        } else if (isKw(Kw::Enum)) {
             maybeItem = parseEnum();
-        }
-
-        if (isKw(Kw::Type)) {
+        } else if (isKw(Kw::Type)) {
             maybeItem = parseTypeAlias();
-        }
-
-        if (isKw(Kw::Mod)) {
+        } else if (isKw(Kw::Mod)) {
             maybeItem = parseMod();
-        }
-
-        if (isKw(Kw::Struct)) {
+        } else if (isKw(Kw::Struct)) {
             maybeItem = parseStruct();
-        }
-
-        if (isKw(Kw::Impl)) {
+        } else if (isKw(Kw::Impl)) {
             maybeItem = parseImpl();
-        }
-
-        if (isKw(Kw::Trait)) {
+        } else if (isKw(Kw::Trait)) {
             maybeItem = parseTrait();
-        }
-
-        if (isKw(Kw::Use)) {
+        } else if (isKw(Kw::Use)) {
             maybeItem = parseUseDecl();
-        }
-
-        if (isKw(Kw::Init)) {
+        } else if (isKw(Kw::Init)) {
             maybeItem = parseInit();
         }
 
         if (maybeItem.some()) {
-            if (maybeItem.unwrap().ok()) {
-                auto item = maybeItem.take().take();
-                item->setAttributes(std::move(attributes));
-                item->setVis(std::move(vis));
-                return Some(PR<N<Item>>(Ok {std::move(item)}));
-            } else {
-                return maybeItem.take();
-            }
+            return Some(Item {std::move(attributes), vis, std::move(maybeItem.take()), closeSpan(begin)});
         }
 
         if (not attributes.empty()) {

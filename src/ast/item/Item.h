@@ -37,6 +37,7 @@ namespace jc::ast {
         };
 
         ItemKind(Kind kind) : kind {kind} {}
+
         virtual ~ItemKind() = default;
 
         // TODO!: This NodeId is actually a copy of a id of `Item` wrapper,
@@ -63,6 +64,7 @@ namespace jc::ast {
         };
 
         AssocItemKind(Kind kind) : kind {kind} {}
+
         virtual ~AssocItemKind() = default;
 
         Kind kind;
@@ -82,6 +84,7 @@ namespace jc::ast {
               vis {vis},
               kind {std::move(kind)},
               span {span} {}
+
         virtual ~_Item() = default;
 
         Attr::List attributes;
@@ -90,12 +93,20 @@ namespace jc::ast {
         Span span;
 
         virtual NodeId nodeId() const = 0;
+
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
 
     struct Item : _Item<ItemKind::Ptr> {
         using Opt = Option<Item>;
         using List = std::vector<Item>;
+
+        Item(
+            Attr::List && attributes,
+            Vis vis,
+            ItemKind::Ptr && kind,
+            Span span
+        ) : _Item<ItemKind::Ptr>(std::move(attributes), vis, std::move(kind), span) {}
 
         void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
