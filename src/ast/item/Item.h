@@ -61,18 +61,6 @@ namespace jc::ast {
 
         virtual void accept(BaseVisitor & visitor) const = 0;
     };
-
-    struct AssocItem : Node {
-        enum class Kind {
-            Const,
-            Func,
-            TypeAlias,
-        };
-
-        Kind kind;
-        Attr::List attributes;
-        Vis vis;
-    };
 }
 
 #endif // JACY_AST_ITEM_ITEM_H
