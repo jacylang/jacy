@@ -232,12 +232,10 @@ namespace jc::hir {
         };
 
         struct Func {
-            using ValueT = std::variant<BodyId, Ident::List>;
+            using ValueT = std::variant<std::monostate, BodyId, Ident::List>;
 
             GenericParam::List generics;
             FuncSig sig;
-
-        private:
             ValueT body;
 
         public:

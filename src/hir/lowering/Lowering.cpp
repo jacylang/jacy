@@ -323,8 +323,36 @@ namespace jc::hir {
                     span
                 );
             }
-            case ast::Item::Kind::Func:
-                break;
+            case ast::Item::Kind::Func: {
+                const auto & func = *item->as<ast::Func>(item);
+
+                // Note: monostate just to make a stub
+                TraitMember::Func::ValueT body = std::monostate {};
+                func.body.then([&](const auto & astBody) {
+                    body = lowerBody(astBody, func.sig.params);
+                }).otherwise([&]() {
+                    Ident::List paramNames;
+                    for (const auto & param : func.sig.params) {
+                        const auto & pat = param.pat.unwrap();
+                        if (pat->kind == ast::Pat::Kind::Ident) {
+                            paramNames.emplace_back(ast::Pat::as<ast::IdentPat>(pat)->name.unwrap());
+                        } else {
+                            paramNames.emplace_back(Ident::empty());
+                        }
+                    }
+                });
+
+                return addTraitMember(
+                    name,
+                    defId,
+                    TraitMember::Func {
+                        lowerGenericParams(func.generics),
+                        lowerFuncSig(func.sig),
+                        std::move(body)
+                    },
+                    span
+                );
+            }
             case ast::Item::Kind::Init:
                 break;
             case ast::Item::Kind::TypeAlias:
