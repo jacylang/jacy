@@ -74,8 +74,7 @@ namespace jc::hir {
                 return lowerFunc(*item->as<ast::Func>(item));
             }
             case ast::Item::Kind::Impl: {
-                break;
-                //                return lowerImpl(*item->as<ast::Impl>(item));
+                return lowerImpl(*item->as<ast::Impl>(item));
             }
             case ast::Item::Kind::Mod: {
                 return lowerMod(*item->as<ast::Mod>(item));
@@ -164,7 +163,23 @@ namespace jc::hir {
     }
 
     ItemKind::Ptr Lowering::lowerImpl(const ast::Impl & impl) {
-        log::notImplemented("Lowering::lowerImpl");
+        auto generics = lowerGenericParams(impl.generics);
+
+        Impl::TraitRef::Opt traitRef = None;
+
+        impl.trait.then([&](const ast::Path::PR & trait) {
+            // TODO!: Check this resolution logic is correct
+            traitRef = Impl::TraitRef {
+                lowerPath(trait.unwrap()),
+                ItemId {sess->getResDef(trait.unwrap().id).defId}
+            };
+        });
+
+        auto forType = lowerType(impl.forType);
+
+        auto members = lowerImplMembers(impl.members);
+
+        return makeBoxNode<Impl>(std::move(generics), std::move(traitRef), std::move(forType), std::move(members));
     }
 
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {

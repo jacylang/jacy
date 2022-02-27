@@ -122,6 +122,8 @@ namespace jc::hir {
 
         ItemKind::Ptr lowerImpl(const ast::Impl & impl);
 
+        ImplMemberId::List lowerImplMembers(const ast::Item::List & members);
+
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 
         FuncSig::ReturnType lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType);
