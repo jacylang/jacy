@@ -21,6 +21,10 @@ namespace jc::ast {
         Ident::PR name;
         Type::Ptr type;
         Expr::OptPtr value;
+
+        void accept(BaseVisitor & visitor) const {
+            return visitor.visit(*this);
+        }
     };
 
     struct Variant : Node {
