@@ -84,32 +84,34 @@ Inheritance diagram for jc::ast::Item:</div>
   <img src="structjc_1_1ast_1_1_item.png" usemap="#jc::ast::Item_map" alt=""/>
   <map id="jc::ast::Item_map" name="jc::ast::Item_map">
 <area href="structjc_1_1ast_1_1_node.html" alt="jc::ast::Node" shape="rect" coords="0,0,106,24"/>
-<area href="structjc_1_1ast_1_1_enum.html" alt="jc::ast::Enum" shape="rect" coords="116,112,222,136"/>
-<area href="structjc_1_1ast_1_1_func.html" alt="jc::ast::Func" shape="rect" coords="116,168,222,192"/>
-<area href="structjc_1_1ast_1_1_impl.html" alt="jc::ast::Impl" shape="rect" coords="116,224,222,248"/>
-<area href="structjc_1_1ast_1_1_init.html" alt="jc::ast::Init" shape="rect" coords="116,280,222,304"/>
-<area href="structjc_1_1ast_1_1_mod.html" alt="jc::ast::Mod" shape="rect" coords="116,336,222,360"/>
-<area href="structjc_1_1ast_1_1_struct.html" alt="jc::ast::Struct" shape="rect" coords="116,392,222,416"/>
-<area href="structjc_1_1ast_1_1_trait.html" alt="jc::ast::Trait" shape="rect" coords="116,448,222,472"/>
-<area href="structjc_1_1ast_1_1_type_alias.html" alt="jc::ast::TypeAlias" shape="rect" coords="116,504,222,528"/>
-<area href="structjc_1_1ast_1_1_use_decl.html" alt="jc::ast::UseDecl" shape="rect" coords="116,560,222,584"/>
+<area href="structjc_1_1ast_1_1_const.html" alt="jc::ast::Const" shape="rect" coords="116,112,222,136"/>
+<area href="structjc_1_1ast_1_1_enum.html" alt="jc::ast::Enum" shape="rect" coords="116,168,222,192"/>
+<area href="structjc_1_1ast_1_1_func.html" alt="jc::ast::Func" shape="rect" coords="116,224,222,248"/>
+<area href="structjc_1_1ast_1_1_impl.html" alt="jc::ast::Impl" shape="rect" coords="116,280,222,304"/>
+<area href="structjc_1_1ast_1_1_init.html" alt="jc::ast::Init" shape="rect" coords="116,336,222,360"/>
+<area href="structjc_1_1ast_1_1_mod.html" alt="jc::ast::Mod" shape="rect" coords="116,392,222,416"/>
+<area href="structjc_1_1ast_1_1_struct.html" alt="jc::ast::Struct" shape="rect" coords="116,448,222,472"/>
+<area href="structjc_1_1ast_1_1_trait.html" alt="jc::ast::Trait" shape="rect" coords="116,504,222,528"/>
+<area href="structjc_1_1ast_1_1_type_alias.html" alt="jc::ast::TypeAlias" shape="rect" coords="116,560,222,584"/>
+<area href="structjc_1_1ast_1_1_use_decl.html" alt="jc::ast::UseDecl" shape="rect" coords="116,616,222,640"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a4e55e5761130625d86b9508a98e874cd"><td class="memItemLeft" align="right" valign="top"><a id="a4e55e5761130625d86b9508a98e874cd" name="a4e55e5761130625d86b9508a98e874cd"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
-&#160;&#160;<b>Enum</b>
+&#160;&#160;<b>Const</b>
+, <b>Enum</b>
 , <b>Func</b>
 , <b>Impl</b>
-, <b>Init</b>
 , <br />
-&#160;&#160;<b>Mod</b>
+&#160;&#160;<b>Init</b>
+, <b>Mod</b>
 , <b>Struct</b>
 , <b>Trait</b>
-, <b>TypeAlias</b>
 , <br />
-&#160;&#160;<b>Use</b>
+&#160;&#160;<b>TypeAlias</b>
+, <b>Use</b>
 <br />
  }</td></tr>
 <tr class="separator:a4e55e5761130625d86b9508a98e874cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,6 +163,9 @@ Static Public Member Functions</h2></td></tr>
 template&lt;class T &gt; </td></tr>
 <tr class="memitem:a119656ff98434f32d3c6e0f1737f2792"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> (const N&lt; <a class="el" href="structjc_1_1ast_1_1_item.html">Item</a> &gt; &amp;item)</td></tr>
 <tr class="separator:a119656ff98434f32d3c6e0f1737f2792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca02ce84218b31ae6aeab34ec89f1a27"><td class="memItemLeft" align="right" valign="top"><a id="aca02ce84218b31ae6aeab34ec89f1a27" name="aca02ce84218b31ae6aeab34ec89f1a27"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> (Kind kind)</td></tr>
+<tr class="separator:aca02ce84218b31ae6aeab34ec89f1a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplParams" colspan="2"><a id="a770f1193c54009c05ebc3598b59ce804" name="a770f1193c54009c05ebc3598b59ce804"></a>
 template&lt;class T &gt; </td></tr>

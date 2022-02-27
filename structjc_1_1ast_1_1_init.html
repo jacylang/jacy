@@ -88,9 +88,9 @@ Inheritance diagram for jc::ast::Init:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a392dc9f44fa376937f35cd1887f44a4f"><td class="memItemLeft" align="right" valign="top"><a id="a392dc9f44fa376937f35cd1887f44a4f" name="a392dc9f44fa376937f35cd1887f44a4f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> (<a class="el" href="structjc_1_1ast_1_1_func_sig.html">FuncSig</a> &amp;&amp;sig, <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1ast_1_1_body.html">Body</a> &gt; &amp;&amp;body, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a392dc9f44fa376937f35cd1887f44a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13b019638d4d61bbae26758a95c291eb"><td class="memItemLeft" align="right" valign="top"><a id="a13b019638d4d61bbae26758a95c291eb" name="a13b019638d4d61bbae26758a95c291eb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> (<a class="el" href="classjc_1_1dt_1_1_option.html">GenericParam::OptList</a> &amp;&amp;generics, <a class="el" href="structjc_1_1ast_1_1_func_sig.html">FuncSig</a> &amp;&amp;sig, <a class="el" href="classjc_1_1dt_1_1_option.html">Option</a>&lt; <a class="el" href="structjc_1_1ast_1_1_body.html">Body</a> &gt; &amp;&amp;body, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a13b019638d4d61bbae26758a95c291eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abddd9ff5cc189b7f16c96ba8d925a8df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structjc_1_1span_1_1_ident.html">span::Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_init.html#abddd9ff5cc189b7f16c96ba8d925a8df">getName</a> () const override</td></tr>
 <tr class="separator:abddd9ff5cc189b7f16c96ba8d925a8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49d4b0d9bde4634352639e8687a25b6c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classjc_1_1dt_1_1_option.html">NodeId::Opt</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1ast_1_1_init.html#a49d4b0d9bde4634352639e8687a25b6c">getNameNodeId</a> () const override</td></tr>
@@ -126,6 +126,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setNodeId</b> (<a cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
+<tr class="memitem:a1811129b37ad70a1a7917b00cb400b59"><td class="memItemLeft" align="right" valign="top"><a id="a1811129b37ad70a1a7917b00cb400b59" name="a1811129b37ad70a1a7917b00cb400b59"></a>
+<a class="el" href="classjc_1_1dt_1_1_option.html">GenericParam::OptList</a>&#160;</td><td class="memItemRight" valign="bottom"><b>generics</b></td></tr>
+<tr class="separator:a1811129b37ad70a1a7917b00cb400b59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af68b594acc97567cd7854fef8039421d"><td class="memItemLeft" align="right" valign="top"><a id="af68b594acc97567cd7854fef8039421d" name="af68b594acc97567cd7854fef8039421d"></a>
 <a class="el" href="structjc_1_1ast_1_1_func_sig.html">FuncSig</a>&#160;</td><td class="memItemRight" valign="bottom"><b>sig</b></td></tr>
 <tr class="separator:af68b594acc97567cd7854fef8039421d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -154,17 +157,18 @@ Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_structjc_1_1ast_1_1_item"><td colspan="2" onclick="javascript:toggleInherit('pub_types_structjc_1_1ast_1_1_item')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="structjc_1_1ast_1_1_item.html">jc::ast::Item</a></td></tr>
 <tr class="memitem:a4e55e5761130625d86b9508a98e874cd inherit pub_types_structjc_1_1ast_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="a4e55e5761130625d86b9508a98e874cd" name="a4e55e5761130625d86b9508a98e874cd"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <br />
-&#160;&#160;<b>Enum</b>
+&#160;&#160;<b>Const</b>
+, <b>Enum</b>
 , <b>Func</b>
 , <b>Impl</b>
-, <b>Init</b>
 , <br />
-&#160;&#160;<b>Mod</b>
+&#160;&#160;<b>Init</b>
+, <b>Mod</b>
 , <b>Struct</b>
 , <b>Trait</b>
-, <b>TypeAlias</b>
 , <br />
-&#160;&#160;<b>Use</b>
+&#160;&#160;<b>TypeAlias</b>
+, <b>Use</b>
 <br />
  }</td></tr>
 <tr class="separator:a4e55e5761130625d86b9508a98e874cd inherit pub_types_structjc_1_1ast_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,6 +190,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vect
 template&lt;class T &gt; </td></tr>
 <tr class="memitem:a119656ff98434f32d3c6e0f1737f2792 inherit pub_static_methods_structjc_1_1ast_1_1_item"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> (const N&lt; <a class="el" href="structjc_1_1ast_1_1_item.html">Item</a> &gt; &amp;item)</td></tr>
 <tr class="separator:a119656ff98434f32d3c6e0f1737f2792 inherit pub_static_methods_structjc_1_1ast_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca02ce84218b31ae6aeab34ec89f1a27 inherit pub_static_methods_structjc_1_1ast_1_1_item"><td class="memItemLeft" align="right" valign="top"><a id="aca02ce84218b31ae6aeab34ec89f1a27" name="aca02ce84218b31ae6aeab34ec89f1a27"></a>
+static std::string&#160;</td><td class="memItemRight" valign="bottom"><b>kindStr</b> (Kind kind)</td></tr>
+<tr class="separator:aca02ce84218b31ae6aeab34ec89f1a27 inherit pub_static_methods_structjc_1_1ast_1_1_item"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_structjc_1_1ast_1_1_node"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_structjc_1_1ast_1_1_node')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="structjc_1_1ast_1_1_node.html">jc::ast::Node</a></td></tr>
 <tr class="memitem:a770f1193c54009c05ebc3598b59ce804 inherit pub_static_methods_structjc_1_1ast_1_1_node"><td class="memTemplParams" colspan="2"><a id="a770f1193c54009c05ebc3598b59ce804" name="a770f1193c54009c05ebc3598b59ce804"></a>
 template&lt;class T &gt; </td></tr>

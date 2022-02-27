@@ -84,6 +84,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_func.html">Func</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_init.html">Init</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_type_alias.html">TypeAlias</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -91,30 +93,40 @@ Classes</h2></td></tr>
 Public Types</h2></td></tr>
 <tr class="memitem:a7169c4ed414ea97d001f8006e1a3b29a"><td class="memItemLeft" align="right" valign="top"><a id="a7169c4ed414ea97d001f8006e1a3b29a" name="a7169c4ed414ea97d001f8006e1a3b29a"></a>enum class &#160;</td><td class="memItemRight" valign="bottom"><b>Kind</b> { <b>Const</b>
 , <b>Func</b>
+, <b>Init</b>
 , <b>TypeAlias</b>
  }</td></tr>
 <tr class="separator:a7169c4ed414ea97d001f8006e1a3b29a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb8ede15f5000282d0b263d02fb399e1"><td class="memItemLeft" align="right" valign="top"><a id="afb8ede15f5000282d0b263d02fb399e1" name="afb8ede15f5000282d0b263d02fb399e1"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_const.html">Const</a>, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_func.html">Func</a>, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_type_alias.html">TypeAlias</a> &gt;</td></tr>
-<tr class="separator:afb8ede15f5000282d0b263d02fb399e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcff3e60937be00dc54a7764ddc2f5a8"><td class="memItemLeft" align="right" valign="top"><a id="abcff3e60937be00dc54a7764ddc2f5a8" name="abcff3e60937be00dc54a7764ddc2f5a8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_const.html">Const</a>, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_func.html">Func</a>, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_init.html">Init</a>, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_type_alias.html">TypeAlias</a> &gt;</td></tr>
+<tr class="separator:abcff3e60937be00dc54a7764ddc2f5a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af9f27e6cf526005e04250da8cd0ca8c8"><td class="memItemLeft" align="right" valign="top"><a id="af9f27e6cf526005e04250da8cd0ca8c8" name="af9f27e6cf526005e04250da8cd0ca8c8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, GenericParam::List &amp;&amp;generics, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_const.html">Const</a> &amp;&amp;constItem, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:af9f27e6cf526005e04250da8cd0ca8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae357925f4d2281a8308e1bc2ece23eb5"><td class="memItemLeft" align="right" valign="top"><a id="ae357925f4d2281a8308e1bc2ece23eb5" name="ae357925f4d2281a8308e1bc2ece23eb5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, GenericParam::List &amp;&amp;generics, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_func.html">Func</a> &amp;&amp;func, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:ae357925f4d2281a8308e1bc2ece23eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adea8d371729c02edf7616ef8e068c283"><td class="memItemLeft" align="right" valign="top"><a id="adea8d371729c02edf7616ef8e068c283" name="adea8d371729c02edf7616ef8e068c283"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, GenericParam::List &amp;&amp;generics, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_type_alias.html">TypeAlias</a> &amp;&amp;typeAlias, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:adea8d371729c02edf7616ef8e068c283"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e614d65e0c0fd06d6239d261f90921a"><td class="memItemLeft" align="right" valign="top"><a id="a2e614d65e0c0fd06d6239d261f90921a" name="a2e614d65e0c0fd06d6239d261f90921a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_const.html">Const</a> &amp;&amp;constItem, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a2e614d65e0c0fd06d6239d261f90921a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f545ca399b226f026dabca158937193"><td class="memItemLeft" align="right" valign="top"><a id="a7f545ca399b226f026dabca158937193" name="a7f545ca399b226f026dabca158937193"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_func.html">Func</a> &amp;&amp;func, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a7f545ca399b226f026dabca158937193"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a895639c2ac2bc7042da699572f95daaa"><td class="memItemLeft" align="right" valign="top"><a id="a895639c2ac2bc7042da699572f95daaa" name="a895639c2ac2bc7042da699572f95daaa"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_init.html">Init</a> &amp;&amp;init, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a895639c2ac2bc7042da699572f95daaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6988b1faf4aa22128c0467a57c44aed3"><td class="memItemLeft" align="right" valign="top"><a id="a6988b1faf4aa22128c0467a57c44aed3" name="a6988b1faf4aa22128c0467a57c44aed3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ImplMember</b> (<a class="el" href="structjc_1_1span_1_1_ident.html">Ident</a> name, <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, <a class="el" href="structjc_1_1hir_1_1_impl_member_1_1_type_alias.html">TypeAlias</a> &amp;&amp;typeAlias, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a6988b1faf4aa22128c0467a57c44aed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a515e8955858fc6bfb89abde2d590ddef"><td class="memItemLeft" align="right" valign="top"><a id="a515e8955858fc6bfb89abde2d590ddef" name="a515e8955858fc6bfb89abde2d590ddef"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>assertKind</b> (Kind kind) const</td></tr>
+<tr class="separator:a515e8955858fc6bfb89abde2d590ddef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0f17676bab50f6c7f7b1d58270478333"><td class="memItemLeft" align="right" valign="top"><a id="a0f17676bab50f6c7f7b1d58270478333" name="a0f17676bab50f6c7f7b1d58270478333"></a>
 const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asConst</b> () const</td></tr>
 <tr class="separator:a0f17676bab50f6c7f7b1d58270478333"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c4c3334f2fbdc3f17c327d62c46a844"><td class="memItemLeft" align="right" valign="top"><a id="a2c4c3334f2fbdc3f17c327d62c46a844" name="a2c4c3334f2fbdc3f17c327d62c46a844"></a>
 const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asFunc</b> () const</td></tr>
 <tr class="separator:a2c4c3334f2fbdc3f17c327d62c46a844"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb18a29da365fcdc6dd10e44b7e30f5b"><td class="memItemLeft" align="right" valign="top"><a id="aeb18a29da365fcdc6dd10e44b7e30f5b" name="aeb18a29da365fcdc6dd10e44b7e30f5b"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asInit</b> () const</td></tr>
+<tr class="separator:aeb18a29da365fcdc6dd10e44b7e30f5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a292354178120e38cb43b4cff4baaa8cd"><td class="memItemLeft" align="right" valign="top"><a id="a292354178120e38cb43b4cff4baaa8cd" name="a292354178120e38cb43b4cff4baaa8cd"></a>
 const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>asTypeAlias</b> () const</td></tr>
 <tr class="separator:a292354178120e38cb43b4cff4baaa8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,9 +142,6 @@ Kind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b></td></tr>
 <tr class="memitem:a71920f26f6513f9f25a7ba29accdc1c3"><td class="memItemLeft" align="right" valign="top"><a id="a71920f26f6513f9f25a7ba29accdc1c3" name="a71920f26f6513f9f25a7ba29accdc1c3"></a>
 <a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a>&#160;</td><td class="memItemRight" valign="bottom"><b>defId</b></td></tr>
 <tr class="separator:a71920f26f6513f9f25a7ba29accdc1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cfc37e07dbcf6f49d52e82e063aa6ad"><td class="memItemLeft" align="right" valign="top"><a id="a7cfc37e07dbcf6f49d52e82e063aa6ad" name="a7cfc37e07dbcf6f49d52e82e063aa6ad"></a>
-GenericParam::List&#160;</td><td class="memItemRight" valign="bottom"><b>generics</b></td></tr>
-<tr class="separator:a7cfc37e07dbcf6f49d52e82e063aa6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3cd502ab143a75a363cd47200cc680e"><td class="memItemLeft" align="right" valign="top"><a id="af3cd502ab143a75a363cd47200cc680e" name="af3cd502ab143a75a363cd47200cc680e"></a>
 ValueT&#160;</td><td class="memItemRight" valign="bottom"><b>value</b></td></tr>
 <tr class="separator:af3cd502ab143a75a363cd47200cc680e"><td class="memSeparator" colspan="2">&#160;</td></tr>
