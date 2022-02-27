@@ -246,6 +246,8 @@ namespace jc::parser {
             maybeItem = parseUseDecl();
         } else if (isKw(Kw::Init)) {
             maybeItem = parseInit();
+        } else if (isKw(span::Kw::Const)) {
+            maybeItem = parseConst();
         }
 
         if (maybeItem.some()) {
