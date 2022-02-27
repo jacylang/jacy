@@ -157,19 +157,29 @@ namespace jc::hir {
             value {std::move(typeAlias)},
             span {span} {}
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("Assertion `ImplMember::assertKind` failed");
+            }
+        }
+
         const auto & asConst() const {
+            assertKind(Kind::Const);
             return std::get<Const>(value);
         }
 
         const auto & asFunc() const {
+            assertKind(Kind::Func);
             return std::get<Func>(value);
         }
 
         const auto & asInit() const {
+            assertKind(Kind::Init);
             return std::get<Init>(value);
         }
 
         const auto & asTypeAlias() const {
+            assertKind(Kind::TypeAlias);
             return std::get<TypeAlias>(value);
         }
 
