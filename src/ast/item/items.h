@@ -22,7 +22,15 @@ namespace jc::ast {
         Type::Ptr type;
         Expr::OptPtr value;
 
-        void accept(BaseVisitor & visitor) const {
+        span::Ident getName() const override {
+            return name.unwrap();
+        }
+
+        NodeId::Opt getNameNodeId() const override {
+            return name.unwrap().id;
+        }
+
+        void accept(BaseVisitor & visitor) const override {
             return visitor.visit(*this);
         }
     };
