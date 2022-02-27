@@ -25,6 +25,7 @@ namespace jc::ast {
         using List = std::vector<Ptr>;
 
         enum class Kind {
+            Const,
             Enum,
             Func,
             Impl,

@@ -11,6 +11,18 @@
 namespace jc::ast {
     using CommonField = NamedNode<Type::Ptr, Ident::OptPR>;
 
+    struct Const : Item {
+        Const(Ident::PR && name, Type::Ptr && type, Expr::OptPtr && value, Span span)
+            : Item {span, Item::Kind::Const},
+              name {std::move(name)},
+              type {std::move(type)},
+              value {std::move(value)} {}
+
+        Ident::PR name;
+        Type::Ptr type;
+        Expr::OptPtr value;
+    };
+
     struct Variant : Node {
         using List = std::vector<Variant>;
 
