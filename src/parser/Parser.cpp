@@ -450,11 +450,31 @@ namespace jc::parser {
         justSkipKw(Kw::Impl, "`impl`", "`parseImpl`");
 
         auto generics = parseOptGenericParams();
-        auto traitTypePath = parseTypePath();
 
+        auto maybeTrait = parseType("path to trait or type to implement");
+
+        Impl::TraitRef::Opt traitRef = None;
         Type::OptPtr forType = None;
-        if (skipOptKw(Kw::For).some()) {
-            forType = parseType("Missing type");
+
+        if (skipOptKw(span::Kw::For).some()) {
+            if (maybeTrait.err()) {
+                // In case if we failed to parse trait path we set an error parse result
+                traitRef = makeErrPR<Impl::TraitRef>(maybeTrait.span());
+            } else {
+                const auto & trait = maybeTrait.unwrap();
+                if (trait->kind != ast::Type::Kind::Path) {
+                    msg.error()
+                       .setText("Expected path to trait")
+                       .setPrimaryLabel(maybeTrait.span(), "Expected path to trait")
+                       .emit();
+                } else {
+                    auto typePath = std::move(Type::as<TypePath>(maybeTrait.take()));
+                    auto id = typePath->id;
+                    traitRef = Ok(makeNode<Impl::TraitRef>(id, std::move(typePath->path)));
+                }
+            }
+
+            forType = parseType("type to implement trait for");
         }
 
         Item::List members = parseMembers("impl");
@@ -462,7 +482,11 @@ namespace jc::parser {
         exitEntity();
 
         return makePRBoxNode<Impl, Item>(
-            std::move(generics), Ok {std::move(traitTypePath)}, std::move(forType), std::move(members), closeSpan(begin)
+            std::move(generics),
+            std::move(traitRef),
+            std::move(forType.take()),
+            std::move(members),
+            closeSpan(begin)
         );
     }
 

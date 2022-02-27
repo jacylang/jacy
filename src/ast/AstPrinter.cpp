@@ -128,7 +128,7 @@ namespace jc::ast {
         log.raw("impl");
         printGenericParams(impl.generics);
         log.raw(" ");
-        impl.traitTypePath.autoAccept(*this);
+        impl.trait.autoAccept(*this);
 
         impl.forType.then([&](const auto & forType) {
             log.raw(" for ");

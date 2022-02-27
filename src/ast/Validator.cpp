@@ -93,7 +93,7 @@ namespace jc::ast {
             validateEach(impl.generics.unwrap());
         }
 
-        impl.traitTypePath.autoAccept(*this);
+        impl.trait.autoAccept(*this);
 
         if (impl.forType.some()) {
             impl.forType.unwrap().autoAccept(*this);
