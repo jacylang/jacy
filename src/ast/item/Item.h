@@ -74,25 +74,23 @@ namespace jc::ast {
     struct _Item : Node {
         using List = std::vector<_Item>;
 
-        _Item(Attr::List && attributes, Vis vis, KindT && kind)
+        _Item(Attr::List && attributes, Vis vis, Ident::PR && name, KindT && kind)
             : Node {span},
               attributes {std::move(attributes)},
-              vis {vis},
+              vis {vis}, name {std::move(name)},
               kind {std::move(kind)} {}
 
         Attr::List attributes;
         Vis vis;
+        Ident::PR name;
         KindT kind;
 
-        virtual void accept(BaseVisitor & visitor) const = 0;
-    };
-
-    struct Item : _Item<ItemKind::Ptr> {
         void accept(BaseVisitor & visitor) const {
             return visitor.visit(*this);
         }
     };
 
+    using Item = _Item<ItemKind::Ptr>;
     using AssocItem = _Item<AssocItemKind>;
 }
 
