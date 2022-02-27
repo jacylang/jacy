@@ -12,6 +12,15 @@
 namespace jc::hir {
     using CommonField = NamedNode<Type, Ident::Opt>;
 
+    struct Const : ItemKind {
+        Const(Type && type, BodyId body) : ItemKind {ItemKind::Kind::Const}, type {std::move(type)}, body {body} {}
+
+        Type type;
+
+        // Note: Constants outside of traits must have bodies
+        BodyId body;
+    };
+
     struct Variant {
         using Data = std::variant<CommonField::List, AnonConst::Opt>;
 

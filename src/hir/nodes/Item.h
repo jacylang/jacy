@@ -50,6 +50,7 @@ namespace jc::hir {
         using Ptr = std::unique_ptr<ItemKind>;
 
         enum class Kind {
+            Const,
             Enum,
             Func,
             Impl,

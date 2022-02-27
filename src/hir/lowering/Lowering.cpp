@@ -67,6 +67,8 @@ namespace jc::hir {
     ItemKind::Ptr Lowering::lowerItemKind(const ast::Item::Ptr & astItem) {
         const auto & item = astItem.unwrap("`Lowering::lowerItemKind`");
         switch (item->kind) {
+            case ast::Item::Kind::Const:
+                break;
             case ast::Item::Kind::Enum: {
                 return lowerEnum(*item->as<ast::Enum>(item));
             }
