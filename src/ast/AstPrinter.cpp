@@ -263,6 +263,8 @@ namespace jc::ast {
 
         log.raw("init");
 
+        printGenericParams(init.generics);
+
         printFuncSig(init.sig);
 
         init.body.then([&](const Body & body) {

@@ -122,6 +122,10 @@ namespace jc::ast {
     }
 
     void StubVisitor::visit(const Init & init) {
+        init.generics.then([&](const auto & generics) {
+            visitEach(generics);
+        });
+
         visitFuncSig(init.sig);
 
         if (init.body.some()) {

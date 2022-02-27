@@ -170,6 +170,10 @@ namespace jc::ast {
     }
 
     void Validator::visit(const Init & init) {
+        init.generics.then([&](const auto & generics) {
+            validateEach(generics);
+        });
+
         validateFuncSig(init.sig);
 
         pushContext(ValidatorCtx::Func);
