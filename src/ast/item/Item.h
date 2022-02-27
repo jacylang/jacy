@@ -60,6 +60,38 @@ namespace jc::ast {
         }
 
         virtual void accept(BaseVisitor & visitor) const = 0;
+
+        static std::string kindStr(Kind kind) {
+            switch (kind) {
+                case Kind::Enum: {
+                    return "enumeration";
+                }
+                case Kind::Func: {
+                    return "function";
+                }
+                case Kind::Impl: {
+                    return "implementation";
+                }
+                case Kind::Init: {
+                    return "initializer";
+                }
+                case Kind::Mod: {
+                    return "module";
+                }
+                case Kind::Struct: {
+                    return "structure";
+                }
+                case Kind::Trait: {
+                    return "trait";
+                }
+                case Kind::TypeAlias:{
+                    return "type alias";
+                }
+                case Kind::Use: {
+                    return "use declaration";
+                }
+            }
+        }
     };
 }
 
