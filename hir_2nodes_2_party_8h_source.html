@@ -98,8 +98,8 @@ $(function() {
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            Bodies &amp;&amp; bodies</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        ) : rootMod {std::move(rootMod)},</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            items {std::move(items)},</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            traitMembers {traitMembers},</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            implMembers {implMembers},</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            traitMembers {std::move(traitMembers)},</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            implMembers {std::move(implMembers)},</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            bodies {std::move(bodies)} {}</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_mod.html">Mod</a> rootMod;</div>

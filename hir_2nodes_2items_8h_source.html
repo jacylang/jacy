@@ -271,12 +271,12 @@ $(function() {
 <div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
 <div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_impl.html">Impl</a>(</div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            GenericParam::List &amp;&amp; generics,</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">TraitRef::Opt</a> trait,</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_type.html">Type</a> forType,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <a class="code hl_class" href="classjc_1_1dt_1_1_option.html">TraitRef::Opt</a> &amp;&amp; trait,</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_type.html">Type</a> &amp;&amp; forType,</div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            ImplMemberId::List &amp;&amp; members</div>
 <div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        ) : <a class="code hl_struct" href="structjc_1_1hir_1_1_item_kind.html">ItemKind</a> {<a class="code hl_struct" href="structjc_1_1hir_1_1_item_kind.html">ItemKind</a>::Kind::<a class="code hl_struct" href="structjc_1_1hir_1_1_impl.html">Impl</a>},</div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            generics {std::move(generics)},</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            trait {trait},</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            trait {std::move(trait)},</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            forType {std::move(forType)},</div>
 <div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            members {std::move(members)} {}</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
@@ -474,7 +474,7 @@ $(function() {
 <div class="ttc" id="astructjc_1_1hir_1_1_item_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_id.html">jc::hir::ItemId</a></div><div class="ttdef"><b>Definition:</b> Item.h:9</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_item_kind_html"><div class="ttname"><a href="structjc_1_1hir_1_1_item_kind.html">jc::hir::ItemKind</a></div><div class="ttdoc">The base class for all items.</div><div class="ttdef"><b>Definition:</b> Item.h:49</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_mod_html"><div class="ttname"><a href="structjc_1_1hir_1_1_mod.html">jc::hir::Mod</a></div><div class="ttdef"><b>Definition:</b> items.h:218</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_path_html"><div class="ttname"><a href="structjc_1_1hir_1_1_path.html">jc::hir::Path</a></div><div class="ttdef"><b>Definition:</b> fragments.h:149</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_path_html"><div class="ttname"><a href="structjc_1_1hir_1_1_path.html">jc::hir::Path</a></div><div class="ttdef"><b>Definition:</b> fragments.h:148</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_struct_html"><div class="ttname"><a href="structjc_1_1hir_1_1_struct.html">jc::hir::Struct</a></div><div class="ttdef"><b>Definition:</b> items.h:224</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_struct_html_acd7f8c3d1c2c29b316dca3b8c7dbba54"><div class="ttname"><a href="structjc_1_1hir_1_1_struct.html#acd7f8c3d1c2c29b316dca3b8c7dbba54">jc::hir::Struct::fields</a></div><div class="ttdeci">CommonField::List fields</div><div class="ttdoc">Using CommonFields as struct field list.</div><div class="ttdef"><b>Definition:</b> items.h:231</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_trait_html"><div class="ttname"><a href="structjc_1_1hir_1_1_trait.html">jc::hir::Trait</a></div><div class="ttdef"><b>Definition:</b> items.h:358</div></div>
