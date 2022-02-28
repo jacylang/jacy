@@ -16,6 +16,14 @@ namespace jc::ast {
     ////////////////
     // Statements //
     ////////////////
+    void Validator::visit(const Const & constItem) {
+        constItem.name.autoAccept(*this);
+        constItem.type.autoAccept(*this);
+        constItem.value.then([&](const Expr::Ptr & value) {
+            value.autoAccept(*this);
+        });
+    }
+
     void Validator::visit(const Enum & enumDecl) {
         validateEach(enumDecl.variants);
 
