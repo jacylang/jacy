@@ -40,6 +40,17 @@ namespace jc::ast {
     ///////////
     // Items //
     ///////////
+    void AstPrinter::visit(const Const & constItem) {
+        printVis(constItem.vis);
+
+        log.raw("const ", constItem.name, ": ");
+        constItem.type.autoAccept(*this);
+
+        constItem.value.then([&](const Expr::Ptr & value) {
+            value.autoAccept(*this);
+        });
+    }
+
     void AstPrinter::visit(const Enum & enumDecl) {
         printVis(enumDecl.vis);
 
