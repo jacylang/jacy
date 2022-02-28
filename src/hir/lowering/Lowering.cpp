@@ -198,7 +198,8 @@ namespace jc::hir {
         ImplMemberId::List members;
 
         for (const auto & member : astMembers) {
-            members.emplace_back(lowerImplMember(member));
+            auto memberId = lowerImplMember(member);
+            members.emplace_back(memberId);
         }
 
         return members;
@@ -213,7 +214,7 @@ namespace jc::hir {
 
         switch (item->kind) {
             case ast::Item::Kind::Const: {
-                const auto & constItem = *item->as<ast::Const>(item);
+                const auto & constItem = *ast::Item::as<ast::Const>(item);
                 auto type = lowerType(constItem.type);
                 auto body = constItem.value.map<BodyId>([&](const auto & body) {
                     return lowerExprAsBody(body);
@@ -231,7 +232,7 @@ namespace jc::hir {
                 );
             }
             case ast::Item::Kind::Func: {
-                const auto & func = *item->as<ast::Func>(item);
+                const auto & func = *ast::Item::as<ast::Func>(item);
                 const auto & body = func.body.unwrap("Functions inside implementations must have bodies."
                                                      "This restriction must be checked in AST `Validator`");
 
@@ -247,7 +248,7 @@ namespace jc::hir {
                 );
             }
             case ast::Item::Kind::Init: {
-                const auto & init = *item->as<ast::Init>(item);
+                const auto & init = *ast::Item::as<ast::Init>(item);
                 const auto & body = init.body.unwrap("Initializers inside implementations must have bodies."
                                                      "This restriction must be checked in AST `Validator`");
 
@@ -263,7 +264,7 @@ namespace jc::hir {
                 );
             }
             case ast::Item::Kind::TypeAlias: {
-                const auto & typeAlias = *item->as<ast::TypeAlias>(item);
+                const auto & typeAlias = *ast::Item::as<ast::TypeAlias>(item);
                 const auto & type = typeAlias.type.unwrap("Type aliases in implementations must be set"
                                                           "This restriction must be checked in AST `Validator`");
 
@@ -296,7 +297,8 @@ namespace jc::hir {
     TraitMemberId::List Lowering::lowerTraitMemberList(const ast::Item::List & astMembers) {
         TraitMemberId::List members;
         for (const auto & member : astMembers) {
-            members.emplace_back(lowerTraitMember(member));
+            auto memberId = lowerTraitMember(member);
+            members.emplace_back(memberId);
         }
         return members;
     }
@@ -1022,17 +1024,17 @@ namespace jc::hir {
             switch (arg.kind) {
                 case ast::GenericArg::Kind::Type: {
                     const auto & typeParam = arg.getTypeArg();
-                    args.emplace_back(lowerType(typeParam));
+                    args.push_back(lowerType(typeParam));
                     break;
                 }
                 case ast::GenericArg::Kind::Lifetime: {
                     const auto & lifetime = arg.getLifetime();
                     auto name = lifetime.name.unwrap();
-                    args.emplace_back(GenericArg::Lifetime {name.span, name});
+                    args.push_back(GenericArg::Lifetime {name.span, std::move(name)});
                 }
                 case ast::GenericArg::Kind::Const: {
                     const auto & constParam = arg.getConstArg();
-                    args.emplace_back(GenericArg::Const {lowerAnonConst(constParam), constParam.expr.unwrap()->span});
+                    args.push_back(GenericArg::Const {lowerAnonConst(constParam), constParam.expr.unwrap()->span});
                     break;
                 }
             }

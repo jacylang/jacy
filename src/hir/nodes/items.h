@@ -200,12 +200,12 @@ namespace jc::hir {
 
         Impl(
             GenericParam::List && generics,
-            TraitRef::Opt trait,
-            Type forType,
+            TraitRef::Opt && trait,
+            Type && forType,
             ImplMemberId::List && members
         ) : ItemKind {ItemKind::Kind::Impl},
             generics {std::move(generics)},
-            trait {trait},
+            trait {std::move(trait)},
             forType {std::move(forType)},
             members {std::move(members)} {}
 

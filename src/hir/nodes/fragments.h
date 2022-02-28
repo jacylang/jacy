@@ -104,7 +104,6 @@ namespace jc::hir {
         };
 
         using List = std::vector<GenericArg>;
-        // TODO: ConstArg as AnonConst
         using ValueT = std::variant<Type, Lifetime, Const>;
 
         enum class Kind {
@@ -139,8 +138,8 @@ namespace jc::hir {
     struct PathSeg {
         using List = std::vector<PathSeg>;
 
-        PathSeg(const Ident & name, GenericArg::List && generics)
-            : name {std::move(name)}, generics {std::move(generics)} {}
+        PathSeg(Ident name, GenericArg::List && generics)
+            : name {name}, generics {std::move(generics)} {}
 
         Ident name;
         GenericArg::List generics;
