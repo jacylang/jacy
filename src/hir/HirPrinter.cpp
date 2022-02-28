@@ -206,6 +206,7 @@ namespace jc::hir {
                 const auto & typeAlias = member.asTypeAlias();
 
                 log.raw("type ", member.name);
+                printGenericParams(typeAlias.generics);
                 typeAlias.type.then([&](const auto & type) {
                     log.raw(" = ");
                     printType(type);
@@ -256,7 +257,9 @@ namespace jc::hir {
             case ImplMember::Kind::TypeAlias: {
                 const auto & typeAlias = member.asTypeAlias();
 
-                log.raw("type ", member.name, " = ");
+                log.raw("type ", member.name);
+                printGenericParams(typeAlias.generics);
+                log.raw(" = ");
                 printType(typeAlias.type);
 
                 break;
