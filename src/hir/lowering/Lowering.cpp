@@ -261,7 +261,6 @@ namespace jc::hir {
                     },
                     span
                 );
-                break;
             }
             case ast::Item::Kind::TypeAlias: {
                 const auto & typeAlias = *item->as<ast::TypeAlias>(item);
