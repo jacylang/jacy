@@ -43,7 +43,9 @@ namespace jc::ast {
     void AstPrinter::visit(const Const & constItem) {
         printVis(constItem.vis);
 
-        log.raw("const ", constItem.name, ": ");
+        log.raw("const ");
+        constItem.name.autoAccept(*this);
+        log.raw(": ");
         constItem.type.autoAccept(*this);
 
         constItem.value.then([&](const Expr::Ptr & value) {

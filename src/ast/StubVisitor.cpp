@@ -6,6 +6,14 @@ namespace jc::ast {
     }
 
     // Statements //
+    void StubVisitor::visit(const Const & constItem) {
+        constItem.name.autoAccept(*this);
+        constItem.type.autoAccept(*this);
+        constItem.value.then([&](const Expr::Ptr & value) {
+            value.autoAccept(*this);
+        });
+    }
+
     void StubVisitor::visit(const Enum & enumDecl) {
         enumDecl.name.autoAccept(*this);
         visitEach(enumDecl.variants);
