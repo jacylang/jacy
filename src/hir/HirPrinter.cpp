@@ -173,6 +173,18 @@ namespace jc::hir {
 
                 break;
             }
+            case TraitMember::Kind::Init: {
+                const auto & init = member.asInit();
+
+                log.raw("init");
+                printGenericParams(init.generics);
+                // TODO: Signature printing with params as ident list
+                log.raw(" ");
+
+                if (init.isImplemented()) {
+                    printBody(init.asImplemented());
+                }
+            }
             case TraitMember::Kind::Func: {
                 const auto & func = member.asFunc();
 
@@ -221,7 +233,6 @@ namespace jc::hir {
 
                 log.raw("init");
                 printGenericParams(init.generics);
-                log.raw(" ");
                 printFuncSig(init.sig, init.body);
                 log.raw(" ");
                 printBody(init.body);
