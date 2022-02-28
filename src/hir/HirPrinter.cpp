@@ -193,11 +193,13 @@ namespace jc::hir {
                 log.raw("func ");
                 printGenericParams(func.generics);
                 log.raw(member.name);
-                // TODO: Generalize `printFuncSig`
-                log.raw(" ");
 
                 if (func.isImplemented()) {
+                    printFuncSig(func.sig, func.asImplemented());
                     printBody(func.asImplemented());
+                } else {
+                    printFuncSig(func.sig, func.asNonImplemented());
+                    log.raw(";");
                 }
 
                 break;
