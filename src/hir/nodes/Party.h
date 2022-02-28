@@ -26,8 +26,8 @@ namespace jc::hir {
             Bodies && bodies
         ) : rootMod {std::move(rootMod)},
             items {std::move(items)},
-            traitMembers {traitMembers},
-            implMembers {implMembers},
+            traitMembers {std::move(traitMembers)},
+            implMembers {std::move(implMembers)},
             bodies {std::move(bodies)} {}
 
         Mod rootMod;
