@@ -17,6 +17,7 @@ namespace jc::resolve {
 
         message::MessageResult<dt::none_t> build(sess::Session::Ptr sess, const ast::Party & party);
 
+        void visit(const ast::Const & constItem) override;
         void visit(const ast::Enum & _enum) override;
         void visit(const ast::Variant & variant) override;
         void visit(const ast::Func & func) override;

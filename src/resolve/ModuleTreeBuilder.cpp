@@ -29,6 +29,10 @@ namespace jc::resolve {
         return {None, msg.extractMessages()};
     }
 
+    void ModuleTreeBuilder::visit(const ast::Const & constItem) {
+        addDef(getItemVis(constItem), constItem.id, DefKind::Const, constItem.name.unwrap());
+    }
+
     void ModuleTreeBuilder::visit(const ast::Enum & _enum) {
         enterModule(getItemVis(_enum), _enum.id, DefKind::Enum, _enum.name.unwrap());
         visitEach(_enum.variants);

@@ -126,6 +126,7 @@ namespace jc::hir {
         void printItem(const ItemId & itemId);
 
         void printTraitMember(const TraitMemberId & memberId);
+
         void printImplMember(const ImplMemberId & memberId);
 
         // Statements //
@@ -168,6 +169,7 @@ namespace jc::hir {
         void printPath(const Path & path);
 
         void printFuncSig(const FuncSig & sig, BodyId bodyId);
+
         void printFuncSig(const FuncSig & sig, const Ident::List & paramNames);
 
         void printBody(BodyId bodyId);
