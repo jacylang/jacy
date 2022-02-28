@@ -178,11 +178,13 @@ namespace jc::hir {
 
                 log.raw("init");
                 printGenericParams(init.generics);
-                // TODO: Signature printing with params as ident list
-                log.raw(" ");
 
                 if (init.isImplemented()) {
+                    printFuncSig(init.sig, init.asImplemented());
                     printBody(init.asImplemented());
+                } else {
+                    printFuncSig(init.sig, init.asNonImplemented());
+                    log.raw(";");
                 }
             }
             case TraitMember::Kind::Func: {
