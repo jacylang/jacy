@@ -784,6 +784,18 @@ namespace jc::hir {
         }
     }
 
+    void HirPrinter::printFuncSig(const FuncSig & sig, const Ident::List & paramNames) {
+        printDelim(sig.inputs, [&](const Type & type, size_t index) {
+            log.raw(paramNames.at(index), ": ");
+            printType(type);
+        }, Delim::createCommaDelim(Delim::PairedTok::Paren));
+
+        if (sig.returnType.isSome()) {
+            log.raw(": ");
+            printType(sig.returnType.asSome());
+        }
+    }
+
     void HirPrinter::printBody(BodyId bodyId) {
         const auto & body = party.bodies.at(bodyId);
 
