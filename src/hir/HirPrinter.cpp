@@ -177,7 +177,7 @@ namespace jc::hir {
                 const auto & func = member.asFunc();
 
                 log.raw("func ");
-                printGenericParams(member.generics);
+                printGenericParams(func.generics);
                 log.raw(member.name);
                 // TODO: Generalize `printFuncSig`
                 log.raw(" ");
@@ -220,7 +220,7 @@ namespace jc::hir {
                 const auto & func = member.asFunc();
 
                 log.raw("func ");
-                printGenericParams(member.generics);
+                printGenericParams(func.generics);
                 log.raw(member.name);
                 printFuncSig(func.sig, func.body);
                 log.raw(" ");
