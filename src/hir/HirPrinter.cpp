@@ -216,6 +216,18 @@ namespace jc::hir {
 
                 break;
             }
+            case ImplMember::Kind::Init: {
+                const auto & init = member.asInit();
+
+                log.raw("init");
+                printGenericParams(init.generics);
+                log.raw(" ");
+                printFuncSig(init.sig, init.body);
+                log.raw(" ");
+                printBody(init.body);
+
+                break;
+            }
             case ImplMember::Kind::Func: {
                 const auto & func = member.asFunc();
 
