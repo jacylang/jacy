@@ -30,6 +30,17 @@ namespace jc::hir {
         const auto & item = itemWrapper.kind;
 
         switch (item->kind) {
+            case ItemKind::Kind::Const: {
+                const auto & constItem = ItemKind::as<Const>(item);
+
+                log.raw("const ", itemWrapper.name, ": ");
+                printType(constItem->type);
+                log.raw(" = ");
+                printBody(constItem->body);
+                log.raw(";");
+
+                break;
+            }
             case ItemKind::Kind::Enum: {
                 log.raw("enum ", itemWrapper.name);
                 const auto & enumItem = ItemKind::as<Enum>(item);
