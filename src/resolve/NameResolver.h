@@ -77,7 +77,7 @@ namespace jc::resolve {
 
         // Definitions //
     private:
-        void defineLocal(NodeId localNodeId, const ast::Ident::PR & ident);
+        void defineLocal(NodeId identPatId, const ast::Ident::PR & ident);
 
         // Resolution //
     private:

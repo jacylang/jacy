@@ -329,11 +329,11 @@ namespace jc::resolve {
     }
 
     // Definitions //
-    void NameResolver::defineLocal(NodeId localNodeId, const ast::Ident::PR & ident) {
+    void NameResolver::defineLocal(NodeId identPatId, const ast::Ident::PR & ident) {
         const auto & name = ident.unwrap().sym;
         log.dev("Define '", name, "' local");
 
-        const auto & redecl = curRib()->defineLocal(localNodeId, name);
+        const auto & redecl = curRib()->defineLocal(identPatId, name);
 
         if (redecl.some()) {
             msg.error()
