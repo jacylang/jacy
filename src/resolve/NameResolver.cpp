@@ -3,7 +3,7 @@
 namespace jc::resolve {
     NameResolver::NameResolver() : StubVisitor("NameResolver"), config(config::Config::getInstance()) {}
 
-    message::MessageResult <dt::none_t> NameResolver::resolve(
+    message::MessageResult<dt::none_t> NameResolver::resolve(
         const sess::Session::Ptr & sess,
         const ast::Party & party
     ) {
@@ -123,7 +123,6 @@ namespace jc::resolve {
     // Statements //
     void NameResolver::visit(const ast::LetStmt & letStmt) {
         enterRib();
-        letStmt.pat.autoAccept(*this);
 
         if (letStmt.type.some()) {
             letStmt.type.unwrap().autoAccept(*this);
@@ -132,6 +131,10 @@ namespace jc::resolve {
         if (letStmt.assignExpr.some()) {
             letStmt.assignExpr.unwrap().autoAccept(*this);
         }
+
+        // Note: `let a = a;` must fail because assignment is right-associative.
+        //  Keep this visitor after `assignExpr` visitor!.
+        letStmt.pat.autoAccept(*this);
     }
 
     // Expressions //
