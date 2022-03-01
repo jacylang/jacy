@@ -340,6 +340,10 @@ namespace jc::resolve {
                .setText("'", name, "' has been already declared")
                .setPrimaryLabel(ident.span(), "'", name, "' has been already declared")
                .emit();
+        } else {
+            // TODO: Update logic for `a | b` pat.
+            //  This should only happen in case of fresh name in `a | b`
+            _resolutions.setRes(identPatId, Res {identPatId});
         }
     }
 
