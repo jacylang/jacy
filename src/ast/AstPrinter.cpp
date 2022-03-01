@@ -946,7 +946,6 @@ namespace jc::ast {
     void AstPrinter::colorizeNameDecl(NodeId nodeId, const Ident::PR & ident) {
         if (mode != AstPrinterMode::Names) {
             ident.autoAccept(*this);
-            log.raw(ident.unwrap().sym);
             return;
         }
         log.raw(getNameColor(nodeId));
