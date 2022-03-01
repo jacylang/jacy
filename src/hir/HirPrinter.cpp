@@ -197,6 +197,8 @@ namespace jc::hir {
                     printFuncSig(init.sig, init.asNonImplemented());
                     log.raw(";");
                 }
+
+                break;
             }
             case TraitMember::Kind::Func: {
                 const auto & func = member.asFunc();
