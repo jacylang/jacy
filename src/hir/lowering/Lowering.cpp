@@ -936,7 +936,7 @@ namespace jc::hir {
     }
 
     Path Lowering::lowerPath(const ast::Path & path) {
-        const auto & res = sess->resolutions.getRes({path.id});
+        const auto & res = sess->resolutions.getRes(resolve::NamePath {path.id});
 
         PathSeg::List segments;
         for (const auto & astSeg : path.segments) {

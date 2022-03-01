@@ -18,7 +18,7 @@ namespace jc::resolve {
         using Opt = Option<UnresSeg>;
 
         UnresSeg(size_t segIndex, DefId::Opt defId, const std::string & failPath, bool inaccessible)
-            : segIndex{segIndex}, defId{defId}, failPath{failPath}, inaccessible{inaccessible} {}
+            : segIndex {segIndex}, defId {defId}, failPath {failPath}, inaccessible {inaccessible} {}
 
         size_t segIndex;
         DefId::Opt defId;
@@ -46,7 +46,7 @@ namespace jc::resolve {
         Str, // Note!!!: Order matters -- keep Str last
     };
 
-    inline Option<PrimType> getPrimType(span::Symbol typeName) {
+    inline Option <PrimType> getPrimType(span::Symbol typeName) {
         static const std::map<std::string, PrimType> primTypesNames = {
             {"bool", PrimType::Bool},
             {"int",  PrimType::Int},
@@ -70,7 +70,7 @@ namespace jc::resolve {
         return found->second;
     }
 
-    inline Option<PrimTypeSet> getPrimTypeBitMask(span::Symbol typeName) {
+    inline Option <PrimTypeSet> getPrimTypeBitMask(span::Symbol typeName) {
         const auto primType = getPrimType(typeName);
         if (primType.none()) {
             return None;
@@ -152,20 +152,27 @@ namespace jc::resolve {
         /// PrimType - primitive type
         using ValueType = std::variant<NodeId, DefId, PrimType>;
 
-        Res() : kind{ResKind::Error} {}
-        Res(DefId defId) : kind{ResKind::Def}, val{defId} {}
-        Res(NodeId nodeId) : kind{ResKind::Local}, val{nodeId} {}
-        Res(PrimType primType) : kind{ResKind::PrimType}, val{primType} {}
+        Res() : kind {ResKind::Error} {}
+
+        Res(DefId defId) : kind {ResKind::Def}, val {defId} {}
+
+        Res(NodeId nodeId) : kind {ResKind::Local}, val {nodeId} {}
+
+        Res(PrimType primType) : kind {ResKind::PrimType}, val {primType} {}
 
         ResKind kind;
         ValueType val;
 
         std::string kindStr() const {
             switch (kind) {
-                case ResKind::Def: return "def";
-                case ResKind::Local: return "local";
-                case ResKind::PrimType: return "prim_type";
-                case ResKind::Error: return "[ERROR]";
+                case ResKind::Def:
+                    return "def";
+                case ResKind::Local:
+                    return "local";
+                case ResKind::PrimType:
+                    return "prim_type";
+                case ResKind::Error:
+                    return "[ERROR]";
             }
         }
 
@@ -212,7 +219,7 @@ namespace jc::resolve {
     /// - definition id
     /// - primitive type
     struct NamePath {
-        NamePath(NodeId nodeId) : nodeId{nodeId} {}
+        NamePath(NodeId nodeId) : nodeId {nodeId} {}
 
         NodeId nodeId;
 
