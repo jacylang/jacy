@@ -1132,10 +1132,9 @@ namespace jc::hir {
     }
 
     PatKind::Ptr Lowering::lowerIdentPat(const ast::IdentPat & pat) {
-        Pat::Opt subPat = None;
-        if (pat.pat.some()) {
-            subPat = lowerPat(pat.pat.unwrap());
-        }
+        auto subPat = pat.pat.map<Pat>([&](const auto & subPat) {
+            return lowerPat(subPat);
+        });
 
         return makeBoxNode<IdentPat>(
             sess->resolutions.getRes(pat.id).asLocal(),
