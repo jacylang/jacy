@@ -8,7 +8,7 @@
 
 namespace jc::resolve {
     struct DefIndex {
-        DefIndex(size_t val) : val{val} {}
+        DefIndex(size_t val) : val {val} {}
 
         size_t val;
 
@@ -45,7 +45,7 @@ namespace jc::resolve {
 
         static const DefId ROOT_DEF_ID;
 
-        explicit DefId(DefIndex index) : index{index} {}
+        explicit DefId(DefIndex index) : index {index} {}
 
         const DefIndex & getIndex() const {
             return index;
@@ -126,9 +126,12 @@ namespace jc::resolve {
 
         const T & get(Namespace ns) const {
             switch (ns) {
-                case Namespace::Value: return value;
-                case Namespace::Type: return type;
-                case Namespace::Lifetime: return lifetime;
+                case Namespace::Value:
+                    return value;
+                case Namespace::Type:
+                    return type;
+                case Namespace::Lifetime:
+                    return lifetime;
                 case Namespace::Any: {
                     log::devPanic("Called `PerNS::get` with `Namespace::Any`");
                 }
@@ -137,9 +140,12 @@ namespace jc::resolve {
 
         T & get(Namespace ns) {
             switch (ns) {
-                case Namespace::Value: return value;
-                case Namespace::Type: return type;
-                case Namespace::Lifetime: return lifetime;
+                case Namespace::Value:
+                    return value;
+                case Namespace::Type:
+                    return type;
+                case Namespace::Lifetime:
+                    return lifetime;
                 case Namespace::Any: {
                     log::devPanic("Called `PerNS::get` with `Namespace::Any`");
                 }
@@ -148,9 +154,15 @@ namespace jc::resolve {
 
         void set(Namespace ns, const T & t) {
             switch (ns) {
-                case Namespace::Value: value = t; break;
-                case Namespace::Type: type = t; break;
-                case Namespace::Lifetime: lifetime = t; break;
+                case Namespace::Value:
+                    value = t;
+                    break;
+                case Namespace::Type:
+                    type = t;
+                    break;
+                case Namespace::Lifetime:
+                    lifetime = t;
+                    break;
                 case Namespace::Any: {
                     log::devPanic("Called `PerNS::set` with `Namespace::Any`");
                 }
@@ -184,16 +196,18 @@ namespace jc::resolve {
         BaseDef(
             DefId defId,
             DefKind kind
-        ) : defId{defId},
-            kind{kind} {}
+        ) : defId {defId},
+            kind {kind} {}
 
         DefId defId;
         DefKind kind;
 
         static inline constexpr const char * visStr(Vis vis) {
             switch (vis) {
-                case Vis::Unset: return "";
-                case Vis::Pub: return "pub ";
+                case Vis::Unset:
+                    return "";
+                case Vis::Pub:
+                    return "pub ";
             }
         }
 
@@ -223,11 +237,11 @@ namespace jc::resolve {
                     return Namespace::Type;
                 }
                 case DefKind::Const: {
-                case DefKind::ConstParam:
-                case DefKind::Func:
-                case DefKind::Init:
-                case DefKind::DefaultInit:
-                    return Namespace::Value;
+                    case DefKind::ConstParam:
+                    case DefKind::Func:
+                    case DefKind::Init:
+                    case DefKind::DefaultInit:
+                        return Namespace::Value;
                 }
                 case DefKind::Lifetime: {
                     return Namespace::Lifetime;
@@ -301,7 +315,8 @@ namespace jc::resolve {
                     case DefKind::TypeParam: {
                         return true;
                     }
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
 
@@ -312,7 +327,8 @@ namespace jc::resolve {
                     case DefKind::Func: {
                         return true;
                     }
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
 
@@ -326,19 +342,27 @@ namespace jc::resolve {
 
         static std::string usageToString(NameUsage usage) {
             switch (usage) {
-                case NameUsage::Type: return "type";
-                case NameUsage::Value: return "value";
-                case NameUsage::Lifetime: return "lifetime";
-                default: return "[NO REPRESENTATION (bug)]";
+                case NameUsage::Type:
+                    return "type";
+                case NameUsage::Value:
+                    return "value";
+                case NameUsage::Lifetime:
+                    return "lifetime";
+                default:
+                    return "[NO REPRESENTATION (bug)]";
             }
         }
 
         static std::string nsAsUsageStr(Namespace ns) {
             switch (ns) {
-                case Namespace::Value: return "expression";
-                case Namespace::Type: return "type";
-                case Namespace::Lifetime: return "lifetime";
-                case Namespace::Any: return "[ANY]";
+                case Namespace::Value:
+                    return "expression";
+                case Namespace::Type:
+                    return "type";
+                case Namespace::Lifetime:
+                    return "lifetime";
+                case Namespace::Any:
+                    return "[ANY]";
             }
         }
     };
@@ -349,7 +373,7 @@ namespace jc::resolve {
     };
 
     struct Def : BaseDef {
-        Def(DefId defId, DefKind kind, span::Ident ident) : BaseDef{defId, kind}, ident{ident} {}
+        Def(DefId defId, DefKind kind, span::Ident ident) : BaseDef {defId, kind}, ident {ident} {}
 
         span::Ident ident;
     };

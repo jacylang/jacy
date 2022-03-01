@@ -227,6 +227,7 @@ namespace jc::ast {
                 if (useTree.path.some()) {
                     printColorizedByNodeId(useTree.expectPath());
                 }
+
                 break;
             }
             case UseTree::Kind::All: {
@@ -237,6 +238,7 @@ namespace jc::ast {
                     log.raw("::");
                 }
                 tryPrintStringColorized(color, "*");
+
                 break;
             }
             case UseTree::Kind::Specific: {
@@ -260,12 +262,14 @@ namespace jc::ast {
                     log.nl();
                 }
                 log.raw("}");
+
                 break;
             }
             case UseTree::Kind::Rebind: {
                 useTree.expectPath().accept(*this);
                 log.raw(" as ");
                 tryPrintColorized(getNameColorChecked(useTree.expectPath().id), useTree.expectRebinding());
+
                 break;
             }
         }
@@ -647,6 +651,7 @@ namespace jc::ast {
                     log.raw(" = ");
                     constParam.defaultValue.unwrap().accept(*this);
                 }
+
                 break;
             }
         }
