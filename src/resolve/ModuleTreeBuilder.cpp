@@ -233,7 +233,7 @@ namespace jc::resolve {
 
     void ModuleTreeBuilder::defineGenerics(const ast::GenericParam::OptList & maybeGenerics) {
         maybeGenerics.then([&](const ast::GenericParam::List & generics) {
-            for (const auto & param: generics) {
+            for (const auto & param : generics) {
                 switch (param.kind) {
                     case ast::GenericParam::Kind::Type: {
                         const auto & typeParam = param.getTypeParam();
@@ -348,14 +348,14 @@ namespace jc::resolve {
            .setPrimaryLabel(ident.span, "Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as))
            .emit();
 
-//        report(
-//            std::make_unique<message::MsgSpanLinkSugg>(
-//                log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
-//                ident.span,
-//                "Because it is already declared as " + prevDef.kindStr() + " here",
-//                prevDefSpan,
-//                message::Level::Error
-//            )
-//        );
+        //        report(
+        //            std::make_unique<message::MsgSpanLinkSugg>(
+        //                log::fmt("Cannot redeclare '", redefinedName, "' as ", Def::kindStr(as)),
+        //                ident.span,
+        //                "Because it is already declared as " + prevDef.kindStr() + " here",
+        //                prevDefSpan,
+        //                message::Level::Error
+        //            )
+        //        );
     }
 }
