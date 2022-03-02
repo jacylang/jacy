@@ -3,6 +3,6 @@ mod m {
 }
 
 func foo {
-    let a = a;
+    let a = 123;
     m::foo();
 }

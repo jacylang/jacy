@@ -78,8 +78,6 @@ namespace jc::hir {
         Param::List params;
 
         BodyId getId() const {
-            // Note: The BodyId is actually an HirId of expression inside Body
-            // TODO!!!
             return BodyId {value.nodeId};
         }
     };
@@ -198,7 +196,7 @@ namespace jc::hir {
 
         struct Const {
             Ident name;
-            hir::Type type;
+            Type type;
             // TODO: Default
         };
 
