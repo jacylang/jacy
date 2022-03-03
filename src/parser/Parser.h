@@ -402,15 +402,15 @@ namespace jc::parser {
 
         template<class T>
         struct ParseDelimResult {
-            std::vector<PR<T>> list;
+            std::vector<T> list;
             bool trailing;
         };
 
         template<class T>
-        ParseDelimResult<T> parseDelim(const std::function<PR<T>()> & parser, ParseDelimContext ctx) {
+        ParseDelimResult<T> parseDelim(const std::function<T()> & parser, ParseDelimContext ctx) {
             justSkip(ctx.open, Token::kindToString(ctx.open), "parseDelim");
 
-            std::vector<PR<T>> list;
+            std::vector<T> list;
             bool trailing = false;
             bool first = true;
             while (not eof()) {
@@ -429,10 +429,12 @@ namespace jc::parser {
                     break;
                 }
 
-                list.emplace_back(parser());
+                list.push_back(parser());
             }
 
-            return ParseDelimResult {
+            skip(ctx.close, "closing " + Token::kindToString(ctx.close));
+
+            return ParseDelimResult<T> {
                 std::move(list),
                 trailing,
             };
