@@ -212,9 +212,9 @@ namespace jc::hir {
                 cb(els.at(i), i);
                 if (trailing or i < els.size() - 1) {
                     log.raw(delim.delim);
-                    if (multiline) {
-                        log.nl();
-                    }
+                }
+                if (multiline) {
+                    log.nl();
                 }
             }
 
