@@ -982,7 +982,7 @@ namespace jc::hir {
             switch (param.kind) {
                 case ast::GenericParam::Kind::Type: {
                     params.emplace_back(
-                        GenericParam::Type {name},
+                        GenericParam::TypeParam {name},
                         std::move(bounds),
                         span
                     );
@@ -999,7 +999,7 @@ namespace jc::hir {
                 case ast::GenericParam::Kind::Const: {
                     const auto & constParam = param.getConstParam();
                     params.emplace_back(
-                        GenericParam::Const {name, lowerType(constParam.type)},
+                        GenericParam::ConstParam {name, lowerType(constParam.type)},
                         std::move(bounds),
                         span
                     );

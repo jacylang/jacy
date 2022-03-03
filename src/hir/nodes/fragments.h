@@ -189,18 +189,18 @@ namespace jc::hir {
         };
 
         /// Generic type parameter
-        struct Type {
+        struct TypeParam {
             Ident name;
             // TODO: Default type (`func<T = i32> foo()`)
         };
 
-        struct Const {
+        struct ConstParam {
             Ident name;
             Type type;
             // TODO: Default
         };
 
-        using ValueT = std::variant<Lifetime, Type, Const>;
+        using ValueT = std::variant<Lifetime, TypeParam, ConstParam>;
         using List = std::vector<GenericParam>;
 
         enum class Kind {
@@ -209,7 +209,7 @@ namespace jc::hir {
             Const,
         };
 
-        GenericParam(Type type, GenericBound::List && bounds, Span span)
+        GenericParam(TypeParam type, GenericBound::List && bounds, Span span)
             : span {span},
               kind {Kind::Type},
               value {std::move(type)},
@@ -221,7 +221,7 @@ namespace jc::hir {
               value {std::move(lifetime)},
               bounds {std::move(bounds)} {}
 
-        GenericParam(Const anonConst, GenericBound::List && bounds, Span span)
+        GenericParam(ConstParam anonConst, GenericBound::List && bounds, Span span)
             : span {span},
               kind {Kind::Const},
               value {std::move(anonConst)},
@@ -233,7 +233,7 @@ namespace jc::hir {
         GenericBound::List bounds;
 
         const auto & getType() const {
-            return std::get<Type>(value);
+            return std::get<TypeParam>(value);
         }
 
         const auto & getLifetime() const {
@@ -241,7 +241,7 @@ namespace jc::hir {
         }
 
         const auto & getConstParam() const {
-            return std::get<Const>(value);
+            return std::get<ConstParam>(value);
         }
     };
 }
