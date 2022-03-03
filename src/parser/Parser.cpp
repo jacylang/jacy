@@ -1307,21 +1307,20 @@ namespace jc::parser {
     Expr::Ptr Parser::parseParenLikeExpr() {
         const auto & begin = cspan();
 
-        justSkip(TokenKind::LParen, "`(`", "`parseParenLikeExpr`");
-
-        // Empty tuple //
-        if (skipOpt(TokenKind::RParen).some()) {
-            logParse("UnitExpr");
-            return makePRBoxNode<UnitExpr, Expr>(closeSpan(begin));
-        }
-
         enterEntity("TupleExpr or ParenExpr");
 
         auto[els, trailingComma] = parseNamedExprList("tuple literal");
 
-        if (not trailingComma and els.size() == 1 and els.at(0).name.none()) {
+        if (not trailingComma and els.size() == 1) {
             exitEntity();
-            return makePRBoxNode<ParenExpr, Expr>(std::move(els.at(0).node), closeSpan(begin));
+
+            // `(EXPR)`
+            if (els.at(0).name.none()) {
+                return makePRBoxNode<ParenExpr, Expr>(std::move(els.at(0).node), closeSpan(begin));
+            }
+
+            // `(IDENT?: EXPR)`
+            return makePRBoxNode<UnitExpr, Expr>(closeSpan(begin));
         }
 
         exitEntity();
