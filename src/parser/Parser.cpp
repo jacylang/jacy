@@ -1328,40 +1328,21 @@ namespace jc::parser {
     }
 
     std::tuple<NamedExpr::List, bool> Parser::parseNamedExprList(const std::string & place) {
-        justSkip(TokenKind::LParen, "`(`", "parseNamedExprList");
-
-        NamedExpr::List els;
-
-        bool first = true;
-        bool trailingComma = false;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, log::fmt("`,` separator in `", place, "`"));
-            }
-
-            if (is(TokenKind::RParen)) {
-                trailingComma = true;
-                // TODO: Store trailing comma?
-                break;
-            }
-
+        auto result = parseDelim<NamedExpr>([&]() {
             auto begin = cspan();
+
             if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                els.emplace_back(parseIdent("name"), parseExpr("expression"), closeSpan(begin));
-            } else {
-                els.emplace_back(None, parseExpr("expression"), closeSpan(begin));
+                return NamedExpr {parseIdent("name"), parseExpr("expression"), closeSpan(begin)};
             }
-        }
 
-        skip(TokenKind::RParen, log::fmt("closing `)` in `", place, "`"));
+            return NamedExpr {None, parseExpr("expression"), closeSpan(begin)};
+        }, ParseDelimContext {
+            TokenKind::LParen,
+            TokenKind::Comma,
+            TokenKind::RParen,
+        });
 
-        return {std::move(els), trailingComma};
+        return {std::move(result.list), result.trailing};
     }
 
     Block::Ptr Parser::parseBlock(const std::string & construction, BlockParsing parsing) {
