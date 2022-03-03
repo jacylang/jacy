@@ -666,7 +666,7 @@ namespace jc::hir {
                             log.raw(", ...");
                         }
                     }
-                }, Delim::createBlock(", ", Delim::Trailing::Never));
+                }, Delim::createCommaDelim(Delim::PairedTok::Brace));
 
                 break;
             }
