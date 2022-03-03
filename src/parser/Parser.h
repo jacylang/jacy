@@ -394,6 +394,48 @@ namespace jc::parser {
 
         Span closeSpan(Span begin);
 
+        struct Delim {
+            TokenKind open;
+            TokenKind delim;
+            TokenKind close;
+        };
+
+        template<class T>
+        struct ParseDelimResult {
+            std::vector<PR<T>> list;
+            bool trailing;
+        };
+
+        template<class T>
+        ParseDelimResult<T> parseDelim(const std::function<PR<T>()> & parser, Delim delim) {
+            std::vector<PR<T>> list;
+            bool trailing = false;
+            bool first = true;
+            while (not eof()) {
+                if (is(delim.close)) {
+                    break;
+                }
+
+                if (first) {
+                    first = false;
+                } else {
+                    skip(delim.delim, Token::kindToString(delim.delim) + " delimiter");
+                }
+
+                if (is(delim.close)) {
+                    trailing = true;
+                    break;
+                }
+
+                list.emplace_back(parser());
+            }
+
+            return ParseDelimResult {
+                std::move(list),
+                trailing,
+            };
+        }
+
         // DEV //
     private:
         bool extraDebugEntities {false};
