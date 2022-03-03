@@ -394,7 +394,7 @@ namespace jc::parser {
 
         Span closeSpan(Span begin);
 
-        struct Delim {
+        struct ParseDelimContext {
             TokenKind open;
             TokenKind delim;
             TokenKind close;
@@ -407,22 +407,24 @@ namespace jc::parser {
         };
 
         template<class T>
-        ParseDelimResult<T> parseDelim(const std::function<PR<T>()> & parser, Delim delim) {
+        ParseDelimResult<T> parseDelim(const std::function<PR<T>()> & parser, ParseDelimContext ctx) {
+            justSkip(ctx.open, Token::kindToString(ctx.open), "parseDelim");
+
             std::vector<PR<T>> list;
             bool trailing = false;
             bool first = true;
             while (not eof()) {
-                if (is(delim.close)) {
+                if (is(ctx.close)) {
                     break;
                 }
 
                 if (first) {
                     first = false;
                 } else {
-                    skip(delim.delim, Token::kindToString(delim.delim) + " delimiter");
+                    skip(ctx.delim, Token::kindToString(ctx.delim) + " delimiter");
                 }
 
-                if (is(delim.close)) {
+                if (is(ctx.close)) {
                     trailing = true;
                     break;
                 }
