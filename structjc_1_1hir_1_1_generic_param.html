@@ -80,13 +80,13 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const.html">Const</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const_param.html">ConstParam</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html">Lifetime</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html" title="Lifetime parameter.">Lifetime</a> parameter.  <a href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type.html">Type</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic type parameter.  <a href="structjc_1_1hir_1_1_generic_param_1_1_type.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type_param.html">TypeParam</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generic type parameter.  <a href="structjc_1_1hir_1_1_generic_param_1_1_type_param.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
@@ -96,24 +96,24 @@ Public Types</h2></td></tr>
 , <b>Const</b>
  }</td></tr>
 <tr class="separator:a30731a764b8adf4656cf9ab0d2069dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7fdc4421a15be417ca183236839d74a1"><td class="memItemLeft" align="right" valign="top"><a id="a7fdc4421a15be417ca183236839d74a1" name="a7fdc4421a15be417ca183236839d74a1"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html">Lifetime</a>, <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type.html">Type</a>, <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const.html">Const</a> &gt;</td></tr>
-<tr class="separator:a7fdc4421a15be417ca183236839d74a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad7471fca0f079d6525ca594921eabf"><td class="memItemLeft" align="right" valign="top"><a id="a7ad7471fca0f079d6525ca594921eabf" name="a7ad7471fca0f079d6525ca594921eabf"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ValueT</b> = std::variant&lt; <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html">Lifetime</a>, <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type_param.html">TypeParam</a>, <a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const_param.html">ConstParam</a> &gt;</td></tr>
+<tr class="separator:a7ad7471fca0f079d6525ca594921eabf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ac1b84d26c01cdad3d5f1f64b914ca0"><td class="memItemLeft" align="right" valign="top"><a id="a4ac1b84d26c01cdad3d5f1f64b914ca0" name="a4ac1b84d26c01cdad3d5f1f64b914ca0"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>List</b> = std::vector&lt; <a class="el" href="structjc_1_1hir_1_1_generic_param.html">GenericParam</a> &gt;</td></tr>
 <tr class="separator:a4ac1b84d26c01cdad3d5f1f64b914ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0938d0e4aac2225a5a4a3874c08b6ab3"><td class="memItemLeft" align="right" valign="top"><a id="a0938d0e4aac2225a5a4a3874c08b6ab3" name="a0938d0e4aac2225a5a4a3874c08b6ab3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GenericParam</b> (<a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type.html">Type</a> type, GenericBound::List &amp;&amp;bounds, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:a0938d0e4aac2225a5a4a3874c08b6ab3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98b6582260de1a16e3d28b8386b75adb"><td class="memItemLeft" align="right" valign="top"><a id="a98b6582260de1a16e3d28b8386b75adb" name="a98b6582260de1a16e3d28b8386b75adb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GenericParam</b> (<a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_type_param.html">TypeParam</a> type, GenericBound::List &amp;&amp;bounds, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a98b6582260de1a16e3d28b8386b75adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20bfa84bd748da57672aefee0cc6e3c4"><td class="memItemLeft" align="right" valign="top"><a id="a20bfa84bd748da57672aefee0cc6e3c4" name="a20bfa84bd748da57672aefee0cc6e3c4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>GenericParam</b> (<a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_lifetime.html">Lifetime</a> lifetime, GenericBound::List &amp;&amp;bounds, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
 <tr class="separator:a20bfa84bd748da57672aefee0cc6e3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae47b62dbe234eb068a8fe73cb8303689"><td class="memItemLeft" align="right" valign="top"><a id="ae47b62dbe234eb068a8fe73cb8303689" name="ae47b62dbe234eb068a8fe73cb8303689"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>GenericParam</b> (<a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const.html">Const</a> anonConst, GenericBound::List &amp;&amp;bounds, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
-<tr class="separator:ae47b62dbe234eb068a8fe73cb8303689"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aaeb2acc0b0accc8e9630ab4b3012f9"><td class="memItemLeft" align="right" valign="top"><a id="a9aaeb2acc0b0accc8e9630ab4b3012f9" name="a9aaeb2acc0b0accc8e9630ab4b3012f9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GenericParam</b> (<a class="el" href="structjc_1_1hir_1_1_generic_param_1_1_const_param.html">ConstParam</a> anonConst, GenericBound::List &amp;&amp;bounds, <a class="el" href="structjc_1_1span_1_1_span.html">Span</a> span)</td></tr>
+<tr class="separator:a9aaeb2acc0b0accc8e9630ab4b3012f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5003be4c138effd964477d1840caaf13"><td class="memItemLeft" align="right" valign="top"><a id="a5003be4c138effd964477d1840caaf13" name="a5003be4c138effd964477d1840caaf13"></a>
 const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getType</b> () const</td></tr>
 <tr class="separator:a5003be4c138effd964477d1840caaf13"><td class="memSeparator" colspan="2">&#160;</td></tr>
