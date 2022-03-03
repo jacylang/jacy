@@ -81,7 +81,7 @@ namespace jc::hir {
         static Delim createBlock(
             const std::string & delim
         ) {
-            return Delim {delim, PairedTok::Brace, Trailing::Always, 0u, Multiline::Yes};
+            return Delim {delim, PairedTok::Brace, Trailing::Never, 0u, Multiline::Yes};
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {
@@ -89,7 +89,7 @@ namespace jc::hir {
         }
 
         static Delim createItemBlock(const std::string & delim = "", bool addBraces = true) {
-            return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Multiline::Yes};
+            return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Never, 0u, Multiline::Yes};
         }
 
         std::string getPairedTok() const {
@@ -207,12 +207,14 @@ namespace jc::hir {
 
             for (size_t i = 0; i < els.size(); i++) {
                 if (multiline) {
-                    log.nl();
                     printIndent();
                 }
                 cb(els.at(i), i);
                 if (trailing or i < els.size() - 1) {
                     log.raw(delim.delim);
+                    if (multiline) {
+                        log.nl();
+                    }
                 }
             }
 
