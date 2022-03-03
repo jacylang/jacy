@@ -217,6 +217,7 @@ namespace jc::hir {
 
             delim.end.then([&](const auto & end) {
                 if (multiline) {
+                    log.nl();
                     indent--;
                     // Note: `indentation` is true only if we split by lines,
                     //  thus we need to print old indent before end.
