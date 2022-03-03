@@ -88,7 +88,7 @@ namespace jc::hir {
             return Delim {", "s, pairedTok, Trailing::WhenChop, 0u, Multiline::No};
         }
 
-        static Delim createItemBlock(const std::string & delim = "\n", bool addBraces = true) {
+        static Delim createItemBlock(const std::string & delim = "", bool addBraces = true) {
             return Delim {delim, addBraces ? PairedTok::Brace : PairedTok::None, Trailing::Always, 0u, Multiline::Yes};
         }
 

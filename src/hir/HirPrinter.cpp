@@ -17,7 +17,7 @@ namespace jc::hir {
     void HirPrinter::printMod(const Mod & mod) {
         printDelim(mod.items, [&](const ItemId itemId, size_t) {
             printItem(itemId);
-        }, Delim::createItemBlock("\n", false));
+        }, Delim::createItemBlock("", false));
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
@@ -90,7 +90,7 @@ namespace jc::hir {
 
                 printDelim(impl->members, [&](const ImplMemberId & memberId, size_t) {
                     printImplMember(memberId);
-                }, Delim::createItemBlock("\n"));
+                }, Delim::createItemBlock());
 
                 break;
             }
@@ -120,7 +120,7 @@ namespace jc::hir {
                 printGenericParams(trait->generics);
                 printDelim(trait->members, [&](const TraitMemberId & memberId, size_t) {
                     printTraitMember(memberId);
-                }, Delim::createItemBlock("\n"));
+                }, Delim::createItemBlock());
 
                 break;
             }
@@ -766,7 +766,7 @@ namespace jc::hir {
     void HirPrinter::printBlock(const Block & block) {
         printDelim(block.stmts, [&](const Stmt & stmt, size_t) {
             printStmt(stmt);
-        }, Delim::createBlock("\n"));
+        }, Delim::createBlock(""));
     }
 
     void HirPrinter::printOptBlock(const Block::Opt & block, bool printSemi) {
