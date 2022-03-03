@@ -85,7 +85,7 @@ namespace jc::hir {
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {
-            return Delim {", "s, pairedTok, Trailing::WhenChop, 0u, Multiline::Auto};
+            return Delim {", "s, pairedTok, Trailing::WhenChop, 0u, Multiline::No};
         }
 
         static Delim createItemBlock(const std::string & delim = "\n", bool addBraces = true) {
@@ -207,6 +207,7 @@ namespace jc::hir {
 
             for (size_t i = 0; i < els.size(); i++) {
                 if (multiline) {
+                    log.nl();
                     printIndent();
                 }
                 cb(els.at(i), i);
