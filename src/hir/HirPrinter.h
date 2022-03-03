@@ -79,9 +79,10 @@ namespace jc::hir {
         }
 
         static Delim createBlock(
-            const std::string & delim
+            const std::string & delim,
+            Trailing trailing
         ) {
-            return Delim {delim, PairedTok::Brace, Trailing::Never, 0u, Multiline::Yes};
+            return Delim {delim, PairedTok::Brace, trailing, 0u, Multiline::Yes};
         }
 
         static Delim createCommaDelim(PairedTok pairedTok) {

@@ -666,7 +666,7 @@ namespace jc::hir {
                             log.raw(", ...");
                         }
                     }
-                }, Delim::createBlock(", "));
+                }, Delim::createBlock(", ", Delim::Trailing::Never));
 
                 break;
             }
@@ -766,7 +766,7 @@ namespace jc::hir {
     void HirPrinter::printBlock(const Block & block) {
         printDelim(block.stmts, [&](const Stmt & stmt, size_t) {
             printStmt(stmt);
-        }, Delim::createBlock(""));
+        }, Delim::createBlock("", Delim::Trailing::Never));
     }
 
     void HirPrinter::printOptBlock(const Block::Opt & block, bool printSemi) {
