@@ -102,7 +102,8 @@ namespace jc::ast {
             Ident::PR name;
         };
 
-        using List = std::vector<GenericArg>;
+        using PR = PR<GenericArg>;
+        using List = std::vector<GenericArg::PR>;
         using OptList = Option<List>;
         using ValueT = std::variant<GenericsTypePtr, Lifetime, AnonConst>;
 
