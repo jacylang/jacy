@@ -102,7 +102,7 @@ namespace jc::hir {
     ItemKind::Ptr Lowering::lowerConst(const ast::Const & constItem) {
         return makeBoxNode<Const>(
             lowerType(constItem.type),
-            lowerExprAsBody(constItem.value.unwrap("`const` item outside of trait must have body."
+            lowerExprAsBody(constItem.value.unwrap("`const` item outside of trait must have body. "
                                                    "This restriction must be checked in AST `Validator`")
             )
         );
@@ -220,7 +220,7 @@ namespace jc::hir {
                 auto type = lowerType(constItem.type);
                 auto body = constItem.value.map<BodyId>([&](const auto & body) {
                     return lowerExprAsBody(body);
-                }).unwrap("Associated constants in implementations must have value"
+                }).unwrap("Associated constants in implementations must have value. "
                           "This restriction must be checked in AST `Validator`");
 
                 return addImplMember(
@@ -235,7 +235,7 @@ namespace jc::hir {
             }
             case ast::Item::Kind::Func: {
                 const auto & func = *ast::Item::as<ast::Func>(item);
-                const auto & body = func.body.unwrap("Functions inside implementations must have bodies."
+                const auto & body = func.body.unwrap("Functions inside implementations must have bodies. "
                                                      "This restriction must be checked in AST `Validator`");
 
                 return addImplMember(
@@ -251,7 +251,7 @@ namespace jc::hir {
             }
             case ast::Item::Kind::Init: {
                 const auto & init = *ast::Item::as<ast::Init>(item);
-                const auto & body = init.body.unwrap("Initializers inside implementations must have bodies."
+                const auto & body = init.body.unwrap("Initializers inside implementations must have bodies. "
                                                      "This restriction must be checked in AST `Validator`");
 
                 return addImplMember(
@@ -267,7 +267,7 @@ namespace jc::hir {
             }
             case ast::Item::Kind::TypeAlias: {
                 const auto & typeAlias = *ast::Item::as<ast::TypeAlias>(item);
-                const auto & type = typeAlias.type.unwrap("Type aliases in implementations must be set"
+                const auto & type = typeAlias.type.unwrap("Type aliases in implementations must be set. "
                                                           "This restriction must be checked in AST `Validator`");
 
                 return addImplMember(
@@ -282,7 +282,7 @@ namespace jc::hir {
             }
             default: {
                 log::devPanic(
-                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of implementation."
+                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of implementation. "
                                                              "This restriction must be checked in AST `Validator`"
                 );
             }
@@ -409,7 +409,7 @@ namespace jc::hir {
             }
             default: {
                 log::devPanic(
-                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of trait."
+                    "Item ", ast::Item::kindStr(item->kind), " is not allowed to be a member of trait. "
                                                              "This restriction must be checked in AST `Validator`"
                 );
             }
@@ -419,7 +419,7 @@ namespace jc::hir {
     ItemKind::Ptr Lowering::lowerTypeAlias(const ast::TypeAlias & typeAlias) {
         return makeBoxNode<TypeAlias>(
             lowerGenericParams(typeAlias.generics),
-            lowerType(typeAlias.type.unwrap("Type aliases outside of trait must have set type"
+            lowerType(typeAlias.type.unwrap("Type aliases outside of trait must have set type. "
                                             "This restriction must be checked in AST `Validator`"))
         );
     }
