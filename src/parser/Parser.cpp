@@ -1073,29 +1073,19 @@ namespace jc::parser {
         auto lhs = maybeLhs.take();
 
         while (not eof()) {
-            if (skipOpt(TokenKind::LBracket).some()) {
+            if (is(TokenKind::LBracket)) {
                 enterEntity("Subscript");
 
-                Expr::List indices;
-
-                bool first = true;
-                while (not eof()) {
-                    if (is(TokenKind::RBracket)) {
-                        break;
-                    }
-
-                    if (first) {
-                        first = false;
-                    } else {
-                        skip(TokenKind::Comma, "Missing `,` separator in subscript operator call");
-                    }
-
-                    indices.push_back(parseExpr("Expected index in subscript operator inside `[]`"));
-                }
-                skip(TokenKind::RParen, "Missing closing `]` in array expression");
+                auto result = parseDelim<Expr::Ptr>([&]() {
+                    return parseExpr("Expected index in subscript operator inside `[]`");
+                }, ParseDelimContext {
+                    TokenKind::LBracket,
+                    TokenKind::Comma,
+                    TokenKind::RBracket,
+                });
 
                 exitEntity();
-                lhs = makePRBoxNode<Subscript, Expr>(std::move(lhs), std::move(indices), closeSpan(begin));
+                lhs = makePRBoxNode<Subscript, Expr>(std::move(lhs), std::move(result.list), closeSpan(begin));
 
                 begin = cspan();
             } else if (is(TokenKind::LParen)) {
