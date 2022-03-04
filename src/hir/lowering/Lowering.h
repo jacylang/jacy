@@ -134,6 +134,8 @@ namespace jc::hir {
 
         TraitMemberId lowerTraitMember(const ast::Item::Ptr & astItem);
 
+        ItemKind::Ptr lowerTypeAlias(const ast::TypeAlias & typeAlias);
+
         FuncSig lowerFuncSig(const ast::FuncSig & sig);
 
         FuncSig::ReturnType lowerFuncReturnType(const ast::FuncSig::ReturnType & returnType);

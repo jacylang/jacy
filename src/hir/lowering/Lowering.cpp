@@ -415,6 +415,14 @@ namespace jc::hir {
         }
     }
 
+    ItemKind::Ptr Lowering::lowerTypeAlias(const ast::TypeAlias & typeAlias) {
+        return makeBoxNode<TypeAlias>(
+            lowerGenericParams(typeAlias.generics),
+            lowerType(typeAlias.type.unwrap("Type aliases outside of trait must have set type"
+                                            "This restriction must be checked in AST `Validator`"))
+        );
+    }
+
     FuncSig Lowering::lowerFuncSig(const ast::FuncSig & sig) {
         Type::List inputs;
         for (const auto & param : sig.params) {
