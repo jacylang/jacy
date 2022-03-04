@@ -2001,48 +2001,45 @@ namespace jc::parser {
     GenericArg::OptList Parser::parseOptGenericArgs() {
         enterEntity("[opt] GenericArg::List");
 
-        if (skipOpt(TokenKind::LAngle).none()) {
+        if (not is(TokenKind::LAngle)) {
             return None;
         }
 
-        GenericArg::List args;
-
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RAngle)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` delimiter in between generic arguments");
-            }
-
-            // TODO: Allow trailing comma?
-
+        auto result = parseDelim<GenericArg::PR>([&]() -> GenericArg::PR {
             auto argBegin = cspan();
             if (is(TokenKind::Backtick)) {
                 auto name = parseIdent("lifetime parameter name");
-                args.emplace_back(makeNode<GenericArg::Lifetime>(std::move(name), closeSpan(argBegin)));
+                return Ok(GenericArg {
+                    makeNode<GenericArg::Lifetime>(std::move(name), closeSpan(argBegin))
+                });
             } else if ((is(TokenKind::Sub) and lookup().isLiteral()) or peek().isLiteral()) {
                 // TODO: Replace condition with a special function for `Token`
                 auto expr = parseLiteral();
-                args.emplace_back(makeNodeLike<AnonConst>(expr.span(), std::move(expr)));
+                return Ok(GenericArg {
+                    makeNodeLike<AnonConst>(expr.span(), std::move(expr))
+                });
             } else if (is(TokenKind::LBrace)) {
                 auto blockExpr = parseBlock("const generic argument", BlockParsing::Just).as<Expr>();
-                args.emplace_back(makeNodeLike<AnonConst>(blockExpr.span(), std::move(blockExpr)));
-            } else {
-                msg.error()
-                   .setText("Expected generic argument")
-                   .setPrimaryLabel(argBegin, "Expected generic argument")
-                   .emit();
+                return Ok(GenericArg {
+                    makeNodeLike<AnonConst>(blockExpr.span(), std::move(blockExpr))
+                });
             }
-        }
+
+            msg.error()
+               .setText("Expected generic argument")
+               .setPrimaryLabel(argBegin, "Expected generic argument")
+               .emit();
+
+            return makeErrPR<GenericArg>(closeSpan(argBegin));
+        }, ParseDelimContext {
+            TokenKind::LAngle,
+            TokenKind::Comma,
+            TokenKind::RAngle,
+        });
 
         exitEntity();
 
-        return Some(std::move(args));
+        return Some(std::move(result.list));
     }
 
     GenericParam::OptList Parser::parseOptGenericParams() {
