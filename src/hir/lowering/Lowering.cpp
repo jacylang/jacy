@@ -87,8 +87,9 @@ namespace jc::hir {
             case ast::Item::Kind::Trait: {
                 return lowerTrait(*ast::Item::as<ast::Trait>(item));
             }
-            case ast::Item::Kind::TypeAlias:
-                break;
+            case ast::Item::Kind::TypeAlias: {
+                return lowerTypeAlias(*ast::Item::as<ast::TypeAlias>(item));
+            }
             case ast::Item::Kind::Use:
                 break;
             case ast::Item::Kind::Init:
