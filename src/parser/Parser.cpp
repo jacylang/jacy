@@ -1614,36 +1614,7 @@ namespace jc::parser {
     Invoke::Arg::List Parser::parseArgList(const std::string & construction) {
         enterEntity("ArgList:" + construction);
 
-        justSkip(TokenKind::LParen, "`(`", "`parseArgList`");
-
-        Invoke::Arg::List args;
-
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator between arguments in " + construction);
-            }
-
-            const auto & argBegin = cspan();
-
-            if (is(TokenKind::Id) and lookup().is(TokenKind::Colon)) {
-                auto ident = justParseIdent("`parseArgList`");
-                justSkip(TokenKind::Colon, "`:`", "`parseArgList`");
-                auto value = parseExpr("Expected value after `:`");
-                args.emplace_back(std::move(ident), std::move(value), closeSpan(argBegin));
-            } else {
-                auto value = parseExpr("Expression expected");
-                args.emplace_back(None, std::move(value), closeSpan(argBegin));
-            }
-        }
-
-        skip(TokenKind::RParen, "Expected closing `)` in " + construction);
+        auto[args, trailing] = parseNamedExprList("function call arguments");
 
         exitEntity();
 
