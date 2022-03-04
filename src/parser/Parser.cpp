@@ -1618,7 +1618,7 @@ namespace jc::parser {
 
         exitEntity();
 
-        return args;
+        return std::move(args);
     }
 
     parser::Token::List Parser::parseModifiers() {
@@ -1641,35 +1641,23 @@ namespace jc::parser {
     }
 
     FuncParam::List Parser::parseFuncParamList() {
-        if (skipOpt(TokenKind::LParen).none()) {
+        if (not is(TokenKind::LParen)) {
             return {};
         }
 
         enterEntity("FuncParam::List");
 
-        FuncParam::List params;
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else if (skip(TokenKind::Comma, "Missing `,` separator in tuple literal").none()) {
-                break;
-            }
-
-            auto param = parseFuncParam();
-
-            params.emplace_back(std::move(param));
-        }
-
-        skip(TokenKind::RParen, "Missing closing `)` after `func` parameter list");
+        auto result = parseDelim<FuncParam>([&]() {
+            return parseFuncParam();
+        }, ParseDelimContext {
+            TokenKind::LParen,
+            TokenKind::Comma,
+            TokenKind::RParen,
+        });
 
         exitEntity();
 
-        return params;
+        return std::move(result.list);
     }
 
     FuncParam Parser::parseFuncParam() {
