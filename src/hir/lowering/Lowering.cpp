@@ -807,7 +807,6 @@ namespace jc::hir {
                 return makeBoxNode<TypePath>(lowerPath(typePath->path));
             }
             case ast::Type::Kind::Unit: {
-                const auto & unitType = ast::Type::as<ast::UnitType>(type);
                 return makeBoxNode<UnitType>();
             }
         }
