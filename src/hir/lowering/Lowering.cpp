@@ -1029,7 +1029,8 @@ namespace jc::hir {
         const auto & genericArgs = maybeGenericArgs.unwrap();
         GenericArg::List args;
 
-        for (const auto & arg : genericArgs) {
+        for (const auto & astArg : genericArgs) {
+            const auto & arg = astArg.unwrap();
             switch (arg.kind) {
                 case ast::GenericArg::Kind::Type: {
                     const auto & typeParam = arg.getTypeArg();
