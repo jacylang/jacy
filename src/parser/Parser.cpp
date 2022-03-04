@@ -2023,6 +2023,11 @@ namespace jc::parser {
                 return Ok(GenericArg {
                     makeNodeLike<AnonConst>(blockExpr.span(), std::move(blockExpr))
                 });
+            } else {
+                auto type = parseOptType();
+                if (type.some()) {
+                    return Ok(GenericArg {type.take()});
+                }
             }
 
             msg.error()

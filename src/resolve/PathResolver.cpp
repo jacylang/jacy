@@ -99,7 +99,7 @@ namespace jc::resolve {
                         return;
                     }
 
-                    // If it's a prefix segment -- enter sub-module to continue search
+                    // If it's a prefix segment -- enter submodule to continue search
                     if (isPrefixSeg or resMode == ResMode::Descend) {
                         // TODO: Can user enter non-enter-able module?
                         searchMod = sess->defTable.getModule(defId);
