@@ -983,7 +983,9 @@ namespace jc::hir {
 
         GenericParam::List params;
 
-        for (const auto & param : maybeAstParams.unwrap()) {
+        for (const auto & astParam : maybeAstParams.unwrap()) {
+            const auto & param = astParam.unwrap();
+
             auto name = param.name();
             auto bounds = GenericBound::List {/* TODO: BOUNDS */};
             auto span = name.span;
