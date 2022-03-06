@@ -10,6 +10,10 @@ namespace jc::ast {
 
     // Generic Parameters //
     struct GenericParam {
+        using PR = PR<GenericParam>;
+        using List = std::vector<GenericParam::PR>;
+        using OptList = Option<List>;
+
         struct Lifetime {
             Ident::PR name;
             Span span;
@@ -41,8 +45,6 @@ namespace jc::ast {
         };
 
         using ValueT = std::variant<Type, Const, Lifetime>;
-        using List = std::vector<GenericParam>;
-        using OptList = Option<List>;
 
         enum class Kind {
             Type,

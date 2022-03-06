@@ -1925,7 +1925,7 @@ namespace jc::parser {
             return NamedType {std::move(name), type.take(), elBegin.to(cspan())};
         }, ParseDelimContext {
             pairedTokens,
-            TokenKind::Comma,
+            sep,
         });
 
         return {std::move(result.list), result.trailing};
@@ -2035,34 +2035,19 @@ namespace jc::parser {
 
         enterEntity("Generics");
 
-        justSkip(TokenKind::LAngle, "`<`", "`parseOptGenericParams`");
-
-        GenericParam::List generics;
-
-        bool first = true;
-        while (not eof()) {
-            if (is(TokenKind::RAngle)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator between type parameters");
-            }
-
+        auto result = parseDelim<GenericParam::PR>([&]() -> GenericParam::PR {
             const auto & genBegin = cspan();
 
             if (skipOpt(TokenKind::Backtick).some()) {
                 auto name = parseIdent("lifetime parameter name");
-                generics.emplace_back(GenericParam::Lifetime {std::move(name), closeSpan(genBegin)});
+                return Ok(GenericParam {GenericParam::Lifetime {std::move(name), closeSpan(genBegin)}});
             } else if (is(TokenKind::Id)) {
                 auto name = justParseIdent("`parseOptGenericParams`");
                 Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected bound type after `:` in type parameters");
                 }
-                generics.emplace_back(GenericParam::Type {std::move(name), std::move(type)});
+                return Ok(GenericParam {GenericParam::Type {std::move(name), std::move(type)}});
             } else if (skipOptKw(Kw::Const).some()) {
                 auto name = parseIdent("`const` parameter name");
                 skip(
@@ -2075,23 +2060,29 @@ namespace jc::parser {
                 if (skipOpt(TokenKind::Assign).some()) {
                     defaultValue = parseAnonConst("Expected `const` generic default value after `=`");
                 }
-                generics.emplace_back(GenericParam::Const {
-                    std::move(name),
-                    std::move(type),
-                    std::move(defaultValue)
+                return Ok(GenericParam {
+                    GenericParam::Const {
+                        std::move(name),
+                        std::move(type),
+                        std::move(defaultValue)
+                    }
                 });
-            } else {
-                msg.error()
-                   .setText("Expected type parameter")
-                   .setPrimaryLabel(genBegin, "Expected type parameter")
-                   .emit();
             }
-        }
-        skip(TokenKind::RAngle, "Missing closing `>` in type parameter list");
+
+            msg.error()
+               .setText("Expected type parameter")
+               .setPrimaryLabel(genBegin, "Expected type parameter")
+               .emit();
+
+            return makeErrPR<GenericParam>(closeSpan(genBegin));
+        }, ParseDelimContext {
+            PairedTokens::Angle,
+            TokenKind::Comma,
+        });
 
         exitEntity();
 
-        return generics;
+        return std::move(result.list);
     }
 
     TypePath::Ptr Parser::parseTypePath() {
