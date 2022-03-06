@@ -807,38 +807,27 @@ namespace jc::parser {
 
         bool allowReturnType = false;
         LambdaParam::List params;
-        if (skipOpt(TokenKind::LParen).some()) {
-            bool first = true;
-            while (not eof()) {
-                if (is(TokenKind::RParen)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(TokenKind::Comma, "Missing `,` separator between lambda parameters");
-                }
-
-                if (is(TokenKind::RParen)) {
-                    break;
-                }
-
+        if (is(TokenKind::LParen)) {
+            auto result = parseDelim<LambdaParam>([&]() {
                 const auto & paramBegin = cspan();
+
                 auto pat = parsePat();
+
                 Type::OptPtr type = None;
                 if (skipOpt(TokenKind::Colon).some()) {
                     type = parseType("Expected lambda parameter type after `:`");
                 }
 
-                params.push_back(
-                    makeNode<LambdaParam>(
-                        std::move(pat), std::move(type), closeSpan(paramBegin)
-                    )
+                return makeNode<LambdaParam>(
+                    std::move(pat), std::move(type), closeSpan(paramBegin)
                 );
-            }
+            }, ParseDelimContext {
+                ParseDelimContext::OpenExpect::JustSkip,
+                PairedTokens::Paren,
+                TokenKind::Comma,
+            });
 
-            skip(TokenKind::RParen, "Closing `)`");
+            params = std::move(result.list);
         }
 
         Type::OptPtr returnType = None;
