@@ -613,35 +613,21 @@ namespace jc::parser {
                 return Ok(makeNode<UseTree>(std::move(maybePath), true, closeSpan(begin)));
             }
 
-            if (skipOpt(TokenKind::LBrace).some()) {
+            if (is(TokenKind::LBrace)) {
                 // `{...}` case
-                UseTree::List specifics;
-
-                bool first = true;
-                while (not eof()) {
-                    if (is(TokenKind::RBrace)) {
-                        break;
-                    }
-
-                    if (first) {
-                        first = false;
-                    } else {
-                        skip(TokenKind::Comma, "Expected `,` delimiter between `use` specifics");
-                    }
-
-                    if (is(TokenKind::RBrace)) {
-                        break;
-                    }
-
-                    specifics.emplace_back(parseUseTree());
-                }
-                skip(TokenKind::RBrace, "Expected closing `}` in `use`");
+                auto result = parseDelim<UseTree::PR>([&]() {
+                    return parseUseTree();
+                }, ParseDelimContext {
+                    ParseDelimContext::OpenExpect::JustSkip,
+                    PairedTokens::Brace,
+                    TokenKind::Comma,
+                });
 
                 exitEntity();
 
                 return Ok(
                     makeNode<UseTree>(
-                        std::move(maybePath), std::move(specifics), closeSpan(begin)
+                        std::move(maybePath), std::move(result.list), closeSpan(begin)
                     )
                 );
             }
