@@ -433,7 +433,15 @@ namespace jc::parser {
 
         template<class T>
         ParseDelimResult<T> parseDelim(const std::function<T()> & parser, ParseDelimContext ctx) {
-            justSkip(ctx.open, Token::kindToString(ctx.open), "parseDelim");
+            switch (ctx.openExpect) {
+                case ParseDelimContext::OpenExpect::Expect: {
+                    skip(ctx.open, "opening " + Token::kindToString(ctx.open));
+                }
+                case ParseDelimContext::OpenExpect::JustSkip: {
+                    justSkip(ctx.open, Token::kindToString(ctx.open), "parseDelim");
+                    break;
+                }
+            }
 
             std::vector<T> list;
             bool trailing = false;
