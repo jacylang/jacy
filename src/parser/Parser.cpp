@@ -1219,38 +1219,26 @@ namespace jc::parser {
 
         const auto & begin = cspan();
 
-        justSkip(TokenKind::LBracket, "`[`", "`parseListExpr`");
-
-        Expr::List elements;
-
-        bool first = true;
-        while (not eof()) {
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator in list expression");
-            }
-
-            if (skipOpt(TokenKind::RBracket).some()) {
-                break;
-            }
-
+        auto result = parseDelim<Expr::Ptr>([&]() {
             const auto & maybeSpreadOp = peek();
             if (skipOpt(TokenKind::Spread).some()) {
-                elements.push_back(
-                    makePRBoxNode<SpreadExpr, Expr>(
-                        maybeSpreadOp,
-                        parseExpr("Expected expression after spread operator `...` in list expression"),
-                        maybeSpreadOp.span.to(cspan())
-                    )
+                return makePRBoxNode<SpreadExpr, Expr>(
+                    maybeSpreadOp,
+                    parseExpr("Expected expression after spread operator `...` in list expression"),
+                    maybeSpreadOp.span.to(cspan())
                 );
             } else {
-                elements.push_back(parseExpr("Expression expected"));
+                return parseExpr("Expression expected");
             }
-        }
+        }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::JustSkip,
+            PairedTokens::Bracket,
+            TokenKind::Comma,
+        });
 
         exitEntity();
-        return makePRBoxNode<ListExpr, Expr>(std::move(elements), closeSpan(begin));
+
+        return makePRBoxNode<ListExpr, Expr>(std::move(result.list), closeSpan(begin));
     }
 
     Expr::Ptr Parser::parseParenLikeExpr() {
