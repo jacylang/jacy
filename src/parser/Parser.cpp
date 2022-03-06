@@ -1079,9 +1079,9 @@ namespace jc::parser {
                 auto result = parseDelim<Expr::Ptr>([&]() {
                     return parseExpr("Expected index in subscript operator inside `[]`");
                 }, ParseDelimContext {
-                    TokenKind::LBracket,
+                    ParseDelimContext::OpenExpect::JustSkip,
+                    PairedTokens::Bracket,
                     TokenKind::Comma,
-                    TokenKind::RBracket,
                 });
 
                 exitEntity();
@@ -1327,9 +1327,9 @@ namespace jc::parser {
 
             return NamedExpr {None, parseExpr("expression"), closeSpan(begin)};
         }, ParseDelimContext {
-            TokenKind::LParen,
+            ParseDelimContext::OpenExpect::JustSkip,
+            PairedTokens::Paren,
             TokenKind::Comma,
-            TokenKind::RParen,
         });
 
         return {std::move(result.list), result.trailing};
@@ -1650,9 +1650,9 @@ namespace jc::parser {
         auto result = parseDelim<FuncParam>([&]() {
             return parseFuncParam();
         }, ParseDelimContext {
-            TokenKind::LParen,
+            ParseDelimContext::OpenExpect::JustSkip,
+            PairedTokens::Paren,
             TokenKind::Comma,
-            TokenKind::RParen,
         });
 
         exitEntity();
@@ -1924,6 +1924,7 @@ namespace jc::parser {
 
             return NamedType {std::move(name), type.take(), elBegin.to(cspan())};
         }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::JustSkip,
             pairedTokens,
             sep,
         });
@@ -2016,9 +2017,9 @@ namespace jc::parser {
 
             return makeErrPR<GenericArg>(closeSpan(argBegin));
         }, ParseDelimContext {
-            TokenKind::LAngle,
+            ParseDelimContext::OpenExpect::JustSkip,
+            PairedTokens::Angle,
             TokenKind::Comma,
-            TokenKind::RAngle,
         });
 
         exitEntity();
@@ -2076,6 +2077,7 @@ namespace jc::parser {
 
             return makeErrPR<GenericParam>(closeSpan(genBegin));
         }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::JustSkip,
             PairedTokens::Angle,
             TokenKind::Comma,
         });
@@ -2357,6 +2359,7 @@ namespace jc::parser {
 
             return TuplePat::Element {None, std::move(pat), closeSpan(begin)};
         }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::JustSkip,
             PairedTokens::Paren,
             TokenKind::Comma,
         });

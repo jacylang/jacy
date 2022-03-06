@@ -400,7 +400,7 @@ namespace jc::parser {
                 JustSkip,
             };
 
-            ParseDelimContext(PairedTokens pairedTokens, OpenExpect openExpect, TokenKind delim) {
+            ParseDelimContext(OpenExpect openExpect, PairedTokens pairedTokens, TokenKind delim) {
                 this->openExpect = openExpect;
 
                 auto[open, close] = Token::getTokenPairs(pairedTokens);
