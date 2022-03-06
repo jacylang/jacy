@@ -2174,34 +2174,18 @@ namespace jc::parser {
     Pat::Ptr Parser::parseStructPat(Path && path) {
         logParse("StructPattern");
 
-        justSkip(TokenKind::LBrace, "`{`", "`parseStructPat`");
-
         const auto & begin = cspan();
 
-        StructPatField::List fields;
-        bool first = false;
         Token::Opt restPat = None;
         bool restPatNotFirst = false;
-        while (not eof()) {
-            if (is(TokenKind::RBrace)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(TokenKind::Comma, "Missing `,` separator", Recovery::None);
-            }
-
-            if (is(TokenKind::RBrace)) {
-                break;
-            }
-
+        size_t index = 0;
+        auto result = parseDelim<StructPatField>([&]() {
+            index++;
+            // FIXME: Remove index
             // `...` case
             if (const auto & spread = skipOpt(TokenKind::Spread); spread.some()) {
                 restPat = spread.unwrap();
-                restPatNotFirst = not first;
-                continue;
+                restPatNotFirst = (index - 1) == 0;
             }
 
             auto fieldBegin = cspan();
@@ -2231,26 +2215,30 @@ namespace jc::parser {
 
                 auto pat = parsePat();
 
-                fields.emplace_back(false, std::move(ident), std::move(pat), closeSpan(fieldBegin));
-            } else {
-                // `ref? mut? field` case
-
-                auto identCopy = ident;
-
-                // What about binding sub-pattern? `ref mut field @ sub-pattern`?
-                fields.emplace_back(
-                    true,
-                    std::move(ident),
-                    makePRBoxNode<IdentPat, Pat>(
-                        IdentPat::getAnno(ref.some(), mut.some()),
-                        std::move(identCopy),
-                        None,
-                        closeSpan(fieldBegin)
-                    ),
-                    closeSpan(fieldBegin)
-                );
+                return StructPatField {false, std::move(ident), std::move(pat), closeSpan(fieldBegin)};
             }
-        }
+
+            // `ref? mut? field` case
+
+            auto identCopy = ident;
+
+            // What about binding sub-pattern? `ref mut field @ sub-pattern`?
+            return StructPatField {
+                true,
+                std::move(ident),
+                makePRBoxNode<IdentPat, Pat>(
+                    IdentPat::getAnno(ref.some(), mut.some()),
+                    std::move(identCopy),
+                    None,
+                    closeSpan(fieldBegin)
+                ),
+                closeSpan(fieldBegin)
+            };
+        }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::JustSkip,
+            PairedTokens::Brace,
+            TokenKind::Comma,
+        });
 
         if (restPatNotFirst and restPat.some()) {
             msg.error()
@@ -2259,9 +2247,7 @@ namespace jc::parser {
                .emit();
         }
 
-        skip(TokenKind::RBrace, "Missing closing `}` in struct pattern", Recovery::None);
-
-        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(fields), restPat, closeSpan(begin));
+        return makePRBoxNode<StructPat, Pat>(std::move(path), std::move(result.list), restPat, closeSpan(begin));
     }
 
     Pat::Ptr Parser::parseParenPat() {
