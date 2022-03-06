@@ -355,7 +355,7 @@ namespace jc::parser {
         auto name = parseIdent("`enum` name");
         auto generics = parseOptGenericParams();
 
-        Variant::List entries;
+        Variant::List variants;
         if (not isSemis()) {
             auto result = parseDelim<Variant>([&]() {
                 return parseVariant();
@@ -365,14 +365,14 @@ namespace jc::parser {
                 TokenKind::Comma,
             });
 
-            entries = std::move(result.list);
+            variants = std::move(result.list);
         } else if (not eof()) {
             justSkip(TokenKind::Semi, "`;`", "`parseEnum`");
         }
 
         exitEntity();
 
-        return makePRBoxNode<Enum, Item>(std::move(name), std::move(entries), closeSpan(begin));
+        return makePRBoxNode<Enum, Item>(std::move(name), std::move(variants), closeSpan(begin));
     }
 
     Variant Parser::parseVariant() {
