@@ -395,6 +395,21 @@ namespace jc::parser {
         Span closeSpan(Span begin);
 
         struct ParseDelimContext {
+            ParseDelimContext(PairedTokens pairedTokens, TokenKind delim) {
+                auto[open, close] = Token::getTokenPairs(pairedTokens);
+                this->open = open;
+                this->close = close;
+                this->delim = delim;
+            }
+
+            ParseDelimContext(
+                TokenKind open,
+                TokenKind delim,
+                TokenKind close
+            ) : open {open},
+                delim {delim},
+                close {close} {}
+
             TokenKind open;
             TokenKind delim;
             TokenKind close;
