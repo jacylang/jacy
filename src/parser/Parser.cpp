@@ -1435,36 +1435,17 @@ namespace jc::parser {
             return makePRBoxNode<MatchExpr, Expr>(std::move(subject), MatchArm::List {}, closeSpan(begin));
         }
 
-        skip(
-            TokenKind::LBrace,
-            "To start `match` body put `{` here or `;` to ignore body",
-            Recovery::Once
-        );
-
-        MatchArm::List arms;
-        bool first = true;
-        while (not eof()) {
-            if (first) {
-                first = false;
-            } else {
-                skip(
-                    TokenKind::Comma,
-                    "Missing `,` delimiter between `match` arms"
-                );
-            }
-
-            if (skipOpt(TokenKind::RBrace).some()) {
-                break;
-            }
-
-            arms.push_back(parseMatchArm());
-        }
-
-        skip(TokenKind::RBrace, "Missing closing `}` at the end of `match` body");
+        auto result = parseDelim<MatchArm>([&]() {
+            return parseMatchArm();
+        }, ParseDelimContext {
+            ParseDelimContext::OpenExpect::Expect,
+            PairedTokens::Brace,
+            TokenKind::Comma,
+        });
 
         exitEntity();
 
-        return makePRBoxNode<MatchExpr, Expr>(std::move(subject), std::move(arms), closeSpan(begin));
+        return makePRBoxNode<MatchExpr, Expr>(std::move(subject), std::move(result.list), closeSpan(begin));
     }
 
     MatchArm Parser::parseMatchArm() {
