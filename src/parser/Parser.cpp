@@ -1907,30 +1907,7 @@ namespace jc::parser {
         TokenKind sep,
         const std::string & place
     ) {
-        NamedType::List elements;
-
-        auto[opening, closing] = Token::getTokenPairs(pairedTokens);
-
-        skip(opening, log::fmt("opening ", Token::kindToString(opening), " in ", place));
-
-        bool first = true;
-        bool trailingComma = false;
-        while (not eof()) {
-            if (is(TokenKind::RParen)) {
-                break;
-            }
-
-            if (first) {
-                first = false;
-            } else {
-                skip(sep, log::fmt(Token::kindToString(sep), " separator in ", place));
-            }
-
-            if (is(TokenKind::RParen)) {
-                trailingComma = true;
-                break;
-            }
-
+        auto result = parseDelim<NamedType>([&]() {
             const auto & elBegin = cspan();
             Ident::OptPR name = None;
             if (is(TokenKind::Id)) {
@@ -1945,12 +1922,13 @@ namespace jc::parser {
                 type = parseType("Expected type");
             }
 
-            elements.emplace_back(std::move(name), type.take(), elBegin.to(cspan()));
-        }
+            return NamedType {std::move(name), type.take(), elBegin.to(cspan())};
+        }, ParseDelimContext {
+            pairedTokens,
+            TokenKind::Comma,
+        });
 
-        skip(closing, log::fmt("closing ", Token::kindToString(closing), " in ", place));
-
-        return {std::move(elements), trailingComma};
+        return {std::move(result.list), result.trailing};
     }
 
     Type::Ptr Parser::parseArrayType() {
@@ -2007,6 +1985,7 @@ namespace jc::parser {
 
         auto result = parseDelim<GenericArg::PR>([&]() -> GenericArg::PR {
             auto argBegin = cspan();
+
             if (is(TokenKind::Backtick)) {
                 auto name = parseIdent("lifetime parameter name");
                 return Ok(GenericArg {
