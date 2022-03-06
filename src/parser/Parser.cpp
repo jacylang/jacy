@@ -357,31 +357,15 @@ namespace jc::parser {
 
         Variant::List entries;
         if (not isSemis()) {
-            skip(TokenKind::LBrace, "`{` to start `enum` body here or `;` to ignore it", Recovery::Once);
+            auto result = parseDelim<Variant>([&]() {
+                return parseVariant();
+            }, ParseDelimContext {
+                ParseDelimContext::OpenExpect::Expect,
+                PairedTokens::Brace,
+                TokenKind::Comma,
+            });
 
-            bool first = true;
-            while (not eof()) {
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                if (first) {
-                    first = false;
-                } else {
-                    skip(
-                        TokenKind::Comma,
-                        "`,` separator between `enum` entries"
-                    );
-                }
-
-                if (is(TokenKind::RBrace)) {
-                    break;
-                }
-
-                entries.emplace_back(parseVariant());
-            }
-
-            skip(TokenKind::RBrace, "closing `}` at the end of `enum` body");
+            entries = std::move(result.list);
         } else if (not eof()) {
             justSkip(TokenKind::Semi, "`;`", "`parseEnum`");
         }
