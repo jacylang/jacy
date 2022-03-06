@@ -395,7 +395,14 @@ namespace jc::parser {
         Span closeSpan(Span begin);
 
         struct ParseDelimContext {
-            ParseDelimContext(PairedTokens pairedTokens, TokenKind delim) {
+            enum class OpenExpect {
+                Expect,
+                JustSkip,
+            };
+
+            ParseDelimContext(PairedTokens pairedTokens, OpenExpect openExpect, TokenKind delim) {
+                this->openExpect = openExpect;
+
                 auto[open, close] = Token::getTokenPairs(pairedTokens);
                 this->open = open;
                 this->close = close;
@@ -403,13 +410,16 @@ namespace jc::parser {
             }
 
             ParseDelimContext(
+                OpenExpect openExpect,
                 TokenKind open,
                 TokenKind delim,
                 TokenKind close
-            ) : open {open},
+            ) : openExpect {openExpect},
+                open {open},
                 delim {delim},
                 close {close} {}
 
+            OpenExpect openExpect;
             TokenKind open;
             TokenKind delim;
             TokenKind close;
