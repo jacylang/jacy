@@ -43,6 +43,7 @@ namespace jc::typeck {
 
             // Primitive types
             Bool,
+            Char,
             Int,
             Uint,
             I8,
@@ -53,7 +54,8 @@ namespace jc::typeck {
             U16,
             U32,
             U64,
-            Char,
+            F32,
+            F64,
             Str,
 
             // Compound types
