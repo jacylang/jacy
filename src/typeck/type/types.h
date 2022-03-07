@@ -29,20 +29,42 @@ namespace jc::typeck {
     };
 
     struct Int : TypeKind {
-        Int() : TypeKind {TypeKind::Kind::Int} {}
+        enum class Kind {
+            Int,
+            Uint,
+            I8,
+            I16,
+            I32,
+            I64,
+            U8,
+            U16,
+            U32,
+            U64,
+        };
+
+        Int(Kind kind) : TypeKind {TypeKind::Kind::Int}, kind {kind} {}
+
+        Kind kind;
 
         size_t hash() const override {
             return 0;
         }
     };
 
-//    struct Float : TypeKind {
-//        Float() : TypeKind {TypeKind::Kind::Bottom} {}
-//
-//        size_t hash() const override {
-//            return 0;
-//        }
-//    };
+    struct Float : TypeKind {
+        enum class Kind {
+            F32,
+            F64,
+        };
+
+        Float(Kind kind) : TypeKind {TypeKind::Kind::Float}, kind {kind} {}
+
+        Kind kind;
+
+        size_t hash() const override {
+            return 0;
+        }
+    };
 
     struct Str : TypeKind {
         Str() : TypeKind {TypeKind::Kind::Str} {}
