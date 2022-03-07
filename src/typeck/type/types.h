@@ -9,6 +9,10 @@ namespace jc::typeck {
 
         Region region;
         Type type;
+
+        size_t hash() const override {
+            return region.hash() ^ type.hash();
+        }
     };
 
     struct Pointer : TypeKind {
@@ -19,19 +23,31 @@ namespace jc::typeck {
 
         Mutability mutability;
         Type type;
+
+        size_t hash() const override {
+            return mutability.hash() ^ type.hash();
+        }
     };
 
     struct Slice : TypeKind {
         Slice(Type && type) : TypeKind {TypeKind::Kind::Slice}, type {std::move(type)} {}
 
         Type type;
+
+        size_t hash() const override {
+            return type.hash();
+        }
     };
 
     struct Array : TypeKind {
         Array(Type && type) : TypeKind {TypeKind::Kind::Array}, type {std::move(type)} {}
 
         Type type;
-        // TODO!: C
+        // TODO!: Const
+
+        size_t hash() const override {
+            return type.hash();
+        }
     };
 }
 

@@ -10,6 +10,11 @@ namespace jc::utils::hash {
         static std::hash<T> hasher;
         return hasher(value);
     }
+
+    template<class T>
+    size_t hashEnum(const T & en) {
+        return hash<std::underlying_type_t<T>>(en);
+    }
 }
 
 #endif // JACY_UTILS_HASH_H

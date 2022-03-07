@@ -2,6 +2,7 @@
 #define JACY_SRC_TYPECK_TYPE_H
 
 #include "span/Span.h"
+#include "utils/hash.h"
 
 namespace jc::typeck {
     struct Region {
@@ -11,16 +12,32 @@ namespace jc::typeck {
         };
 
         Kind kind;
+
+        size_t hash() const {
+            return utils::hash::hashEnum(kind);
+        }
     };
 
-    enum class Mutability {
-        Immut, // Default for references, `const` for pointers
-        Mut,   // `mut`
+    struct Mutability {
+        enum class Kind {
+            Immut, // Default for references, `const` for pointers
+            Mut,   // `mut`
+        };
+
+        Mutability(Kind kind) : kind {kind} {}
+
+        Kind kind;
+
+        size_t hash() const {
+            return utils::hash::hashEnum(kind);
+        }
     };
 
     struct TypeKind {
         using Ptr = std::unique_ptr<TypeKind>;
 
+        /// This is the only list of possible type kinds.
+        /// All types are either just primitives or compound of other kinds
         enum class Kind {
             Bottom,
 
@@ -47,17 +64,26 @@ namespace jc::typeck {
         };
 
         TypeKind(Kind kind) : kind {kind} {}
+        virtual ~TypeKind() = default;
 
         const Kind kind;
+
+        // Each `TypeKind` must implement `hash` function but must not hash its kind as this is done in `Type::hash`
+        virtual size_t hash() const = 0;
     };
 
     /// The main type representation structure
     class Type {
     public:
-        Type(TypeKind && kind) : kind {std::move(kind)} {}
+        Type(TypeKind::Ptr && kind) : kind {std::move(kind)} {}
+
+    public:
+        size_t hash() const {
+            return utils::hash::hashEnum(kind->kind) + kind->hash();
+        }
 
     private:
-        TypeKind kind;
+        TypeKind::Ptr kind;
     };
 }
 
