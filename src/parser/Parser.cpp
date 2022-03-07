@@ -2295,6 +2295,7 @@ namespace jc::parser {
         Span::Opt restPatSpan = None;
         Pat::List after;
 
+        // TODO: Use parse delim (need to slice parsed pattern list or something else)
         bool first = true;
         while (not eof()) {
             if (is(TokenKind::RBracket)) {
