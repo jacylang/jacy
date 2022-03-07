@@ -75,7 +75,7 @@ namespace jc::typeck {
     };
 
     struct Ref : TypeKind {
-        Ref(Region region, Ty && type) : TypeKind {TypeKind::Kind::Ref}, region {region}, type {std::move(type)} {}
+        Ref(Region region, Ty type) : TypeKind {TypeKind::Kind::Ref}, region {region}, type {type} {}
 
         Region region;
         Ty type;
@@ -86,10 +86,10 @@ namespace jc::typeck {
     };
 
     struct Pointer : TypeKind {
-        Pointer(Mutability mutability, Ty && type)
+        Pointer(Mutability mutability, Ty type)
             : TypeKind {TypeKind::Kind::Ptr},
               mutability {mutability},
-              type {std::move(type)} {}
+              type {type} {}
 
         Mutability mutability;
         Ty type;
@@ -100,7 +100,7 @@ namespace jc::typeck {
     };
 
     struct Slice : TypeKind {
-        Slice(Ty && type) : TypeKind {TypeKind::Kind::Slice}, type {std::move(type)} {}
+        Slice(Ty type) : TypeKind {TypeKind::Kind::Slice}, type {type} {}
 
         Ty type;
 
@@ -110,7 +110,7 @@ namespace jc::typeck {
     };
 
     struct Array : TypeKind {
-        Array(Ty && type) : TypeKind {TypeKind::Kind::Array}, type {std::move(type)} {}
+        Array(Ty type) : TypeKind {TypeKind::Kind::Array}, type {type} {}
 
         Ty type;
         // TODO!: Const
