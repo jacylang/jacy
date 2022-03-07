@@ -85,6 +85,8 @@ namespace jc::typeck {
     private:
         TypeKind::Ptr kind;
     };
+
+    using Ty = std::shared_ptr<Type>;
 }
 
 #endif // JACY_SRC_TYPECK_TYPE_H
