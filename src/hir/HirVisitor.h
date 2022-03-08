@@ -50,7 +50,7 @@ namespace jc::hir {
 
         virtual void visitTraitMember(const TraitMemberId & memberId) const;
 
-        virtual void visitTraitMemberKind(const TraitMember & member);
+        virtual void visitTraitMemberKind(const TraitMember & member) const;
 
         virtual void visitTypeAlias(const TypeAlias & typeAlias) const;
 

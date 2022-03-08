@@ -192,10 +192,10 @@ namespace jc::hir {
     }
 
     void HirVisitor::visitTraitMember(const TraitMemberId & memberId) const {
-        visitTraitMember(memberId);
+        visitTraitMemberKind(party.traitMember(memberId));
     }
 
-    void HirVisitor::visitTraitMemberKind(const TraitMember & member) {
+    void HirVisitor::visitTraitMemberKind(const TraitMember & member) const {
         switch (member.kind) {
             case TraitMember::Kind::Const: {
                 const auto & constItem = member.asConst();
@@ -280,11 +280,23 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitLetStmt(const LetStmt & letStmt) const {}
+    void HirVisitor::visitLetStmt(const LetStmt & letStmt) const {
+        visitPat(letStmt.pat);
+        letStmt.type.then([&](const Type & type) {
+            visitType(type);
+        });
+        letStmt.value.then([&](const Expr & expr) {
+            visitExpr(expr);
+        });
+    }
 
-    void HirVisitor::visitItemStmt(const ItemStmt & itemStmt) const {}
+    void HirVisitor::visitItemStmt(const ItemStmt & itemStmt) const {
+        visitItem(itemStmt.item);
+    }
 
-    void HirVisitor::visitExprStmt(const ExprStmt & exprStmt) const {}
+    void HirVisitor::visitExprStmt(const ExprStmt & exprStmt) const {
+        visitExpr(exprStmt.expr);
+    }
 
     // Expr //
     void HirVisitor::visitExpr(const Expr & expr) const {
