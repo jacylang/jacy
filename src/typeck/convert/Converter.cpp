@@ -23,6 +23,22 @@ namespace jc::typeck {
         }
     }
 
+    Ty Converter::convertPath(const hir::TypePath & typePath) {
+        const auto & res = typePath.path.res;
+
+        switch (res.kind) {
+            case resolve::ResKind::Def: {
+                break;
+            }
+            case resolve::ResKind::Local:
+                break;
+            case resolve::ResKind::PrimType:
+                break;
+            case resolve::ResKind::Error:
+                break;
+        }
+    }
+
     Ty Converter::convertTuple(const hir::TupleType & tupleType) {
         auto els = utils::arr::map<hir::TupleType::Element, Tuple::Element>(
             tupleType.elements, [&](const hir::TupleType::Element & el) -> Tuple::Element {

@@ -13,6 +13,7 @@ namespace jc::typeck {
 
     public:
         Ty convert(const hir::Type & type);
+        Ty convertPath(const hir::TypePath & typePath);
         Ty convertTuple(const hir::TupleType & tupleType);
 
     private:
