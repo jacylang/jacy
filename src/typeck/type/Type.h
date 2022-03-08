@@ -53,15 +53,23 @@ namespace jc::typeck {
             Ptr, // *mut T / *const T
             Slice, // [T]
             Array, // [T; n]
+
+            Infer,
         };
 
         TypeKind(Kind kind) : kind {kind} {}
+
         virtual ~TypeKind() = default;
 
         const Kind kind;
 
         // Each `TypeKind` must implement `hash` function but must not hash its kind as this is done in `Type::hash`
         virtual size_t hash() const = 0;
+
+        template<class T, class ...Args>
+        static Ptr make(Args && ...args) {
+            return std::make_unique<T>(std::forward<Args>(args)...);
+        }
     };
 
     /// The main type representation structure
