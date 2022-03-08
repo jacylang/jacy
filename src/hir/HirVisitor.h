@@ -138,6 +138,30 @@ namespace jc::hir {
 
         virtual void visitUnitType(const UnitType & unitType) const;
 
+        // Patterns //
+    public:
+        virtual void visitPat(const Pat & pat) const;
+
+        virtual void visitPatKind(const PatKind::Ptr & pat) const;
+
+        virtual void visitMultiPat(const MultiPat & multiPat) const;
+
+        virtual void visitWildcardPat(const WildcardPat & wildcardPat) const;
+
+        virtual void visitLitPat(const LitPat & litPat) const;
+
+        virtual void visitIdentPat(const IdentPat & identPat) const;
+
+        virtual void visitPathPat(const PathPat & pathPat) const;
+
+        virtual void visitRefPat(const RefPat & refPat) const;
+
+        virtual void visitStructPat(const StructPat & structPat) const;
+
+        virtual void visitTuplePat(const TuplePat & tuplePat) const;
+
+        virtual void visitSlicePat(const SlicePat & slicePat) const;
+
         // Fragments //
     public:
         virtual void visitAnonConst(const AnonConst & anonConst) const;

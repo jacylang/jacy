@@ -509,6 +509,70 @@ namespace jc::hir {
 
     void HirVisitor::visitUnitType(const UnitType & unitType) const {}
 
+    // Patterns //
+    void HirVisitor::visitPat(const Pat & pat) const {
+        visitPatKind(pat.kind);
+    }
+
+    void HirVisitor::visitPatKind(const PatKind::Ptr & pat) const {
+        switch (pat->kind) {
+            case PatKind::Kind::Multi: {
+                visitMultiPat(*PatKind::as<MultiPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Wildcard: {
+                visitWildcardPat(*PatKind::as<WildcardPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Lit: {
+                visitLitPat(*PatKind::as<LitPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Ident: {
+                visitIdentPat(*PatKind::as<IdentPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Path: {
+                visitPathPat(*PatKind::as<PathPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Ref: {
+                visitRefPat(*PatKind::as<RefPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Struct: {
+                visitStructPat(*PatKind::as<StructPat>(pat));
+                break;
+            }
+            case PatKind::Kind::Tuple: {
+                visitTuplePat(*PatKind::as<TuplePat>(pat));
+                break;
+            }
+            case PatKind::Kind::Slice: {
+                visitSlicePat(*PatKind::as<SlicePat>(pat));
+                break;
+            }
+        }
+    }
+
+    void HirVisitor::visitMultiPat(const MultiPat & multiPat) const {}
+
+    void HirVisitor::visitWildcardPat(const WildcardPat & wildcardPat) const {}
+
+    void HirVisitor::visitLitPat(const LitPat & litPat) const {}
+
+    void HirVisitor::visitIdentPat(const IdentPat & identPat) const {}
+
+    void HirVisitor::visitPathPat(const PathPat & pathPat) const {}
+
+    void HirVisitor::visitRefPat(const RefPat & refPat) const {}
+
+    void HirVisitor::visitStructPat(const StructPat & structPat) const {}
+
+    void HirVisitor::visitTuplePat(const TuplePat & tuplePat) const {}
+
+    void HirVisitor::visitSlicePat(const SlicePat & slicePat) const {}
+
     // Fragments //
     void HirVisitor::visitAnonConst(const AnonConst & anonConst) const {
         visitBody(anonConst.bodyId);
