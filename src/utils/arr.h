@@ -6,6 +6,7 @@
 #include <iterator>
 #include <sstream>
 #include <stdexcept>
+#include <functional>
 
 #include "log/Logger.h"
 
@@ -91,6 +92,15 @@ namespace jc::utils::arr {
             throw std::logic_error(ss.str());
         }
         return vec.at(index);
+    }
+
+    template<class T, class U>
+    std::vector<U> map(const std::vector<T> & init, const std::function<U(const T&)> & mapper) {
+        std::vector<U> result;
+        for (const auto & el : init) {
+            result.emplace_back(mapper(el));
+        }
+        return result;
     }
 }
 
