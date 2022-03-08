@@ -54,7 +54,9 @@ namespace jc::hir {
     }
 
     void HirVisitor::visitMod(const Mod & mod) const {
-        visitEach(mod.items);
+        visitEach<ItemId>(mod.items, [&](const ItemId & itemId) {
+            visitItem(itemId);
+        });
     }
 
     void HirVisitor::visitConst(const Const & constItem) const {
@@ -62,27 +64,198 @@ namespace jc::hir {
         visitBody(constItem.body);
     }
 
-    void HirVisitor::visitVariant(const Variant & variant) const {}
+    void HirVisitor::visitEnum(const Enum & enumItem) const {
+        visitEach<Variant>(enumItem.variants, [&](const auto & variant) {
+            visitVariant(variant);
+        });
+    }
 
-    void HirVisitor::visitEnum(const Enum & enumItem) const {}
+    void HirVisitor::visitVariant(const Variant & variant) const {
+        switch (variant.kind) {
+            case Variant::Kind::Struct: {
+                visitVariantStruct(variant.ident, variant.getCommonFields());
+                break;
+            }
+            case Variant::Kind::Tuple: {
+                visitVariantTuple(variant.ident, variant.getCommonFields());
+                break;
+            }
+            case Variant::Kind::Unit: {
+                visitVariantUnit(variant.ident, variant.getDiscriminant());
+                break;
+            }
+        }
+    }
 
-    void HirVisitor::visitFuncSig(const FuncSig & funcSig) const {}
+    void HirVisitor::visitVariantStruct(Ident ident, const CommonField::List & fields) const {
+        visitEach<CommonField>(fields, [&](const CommonField & field) {
+            // Note: Don't visit field name as visiting each identifier is nonsense,
+            //  but keep in mind that fields in Struct variant always have Some name
+            visitType(field.node);
+        });
+    }
 
-    void HirVisitor::visitFunc(const Func & func) const {}
+    void HirVisitor::visitVariantTuple(Ident ident, const CommonField::List & els) const {
+        visitEach<CommonField>(els, [&](const CommonField & field) {
+            visitType(field.node);
+        });
+    }
 
-    void HirVisitor::visitImplMember(const ImplMember & implMember) const {}
+    void HirVisitor::visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant) const {
+        discriminant.then([&](const auto & anonConst) {
+            visitAnonConst(anonConst);
+        });
+    }
 
-    void HirVisitor::visitImpl(const Impl & impl) const {}
+    void HirVisitor::visitFunc(const Func & func) const {
+        visitFuncSig(func.sig);
+        visitGenericParamList(func.generics);
+        visitBody(func.body);
+    }
 
-    void HirVisitor::visitStruct(const Struct & structItem) const {}
+    void HirVisitor::visitFuncSig(const FuncSig & funcSig) const {
+        visitEach<Type>(funcSig.inputs, [&](const auto & input) {
+            visitType(input);
+        });
 
-    void HirVisitor::visitTraitMember(const TraitMember & traitMember) const {}
+        if (funcSig.returnType.isSome()) {
+            visitType(funcSig.returnType.asSome());
+        }
+    }
 
-    void HirVisitor::visitTrait(const Trait & trait) const {}
+    void HirVisitor::visitImpl(const Impl & impl) const {
+        visitGenericParamList(impl.generics);
 
-    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) const {}
+        impl.trait.then([&](const Impl::TraitRef & traitRef) {
+            visitPath(traitRef.path);
+        });
 
-    void HirVisitor::visitUseDecl(const UseDecl & useDecl) const {}
+        visitType(impl.forType);
+
+        visitEach<ImplMemberId>(impl.members, [&](const ImplMemberId & member) {
+            visitImplMember(member);
+        });
+    }
+
+    void HirVisitor::visitImplMember(const ImplMemberId & memberId) const {
+        visitImplMemberKind(party.implMember(memberId));
+    }
+
+    void HirVisitor::visitImplMemberKind(const ImplMember & member) const {
+        switch (member.kind) {
+            case ImplMember::Kind::Const: {
+                const auto & constItem = member.asConst();
+                visitType(constItem.type);
+                visitBody(constItem.val);
+                break;
+            }
+            case ImplMember::Kind::Func: {
+                const auto & func = member.asFunc();
+                visitGenericParamList(func.generics);
+                visitFuncSig(func.sig);
+                visitBody(func.body);
+                break;
+            }
+            case ImplMember::Kind::Init: {
+                const auto & init = member.asInit();
+                visitGenericParamList(init.generics);
+                visitFuncSig(init.sig);
+                visitBody(init.body);
+                break;
+            }
+            case ImplMember::Kind::TypeAlias: {
+                const auto & typeAlias = member.asTypeAlias();
+                visitGenericParamList(typeAlias.generics);
+                visitType(typeAlias.type);
+                break;
+            }
+        }
+    }
+
+    void HirVisitor::visitStruct(const Struct & structItem) const {
+        visitGenericParamList(structItem.generics);
+
+        visitEach<CommonField>(structItem.fields, [&](const CommonField & field) {
+            visitStructField(field);
+        });
+    }
+
+    void HirVisitor::visitStructField(const CommonField & field) const {
+        visitType(field.node);
+    }
+
+    void HirVisitor::visitTrait(const Trait & trait) const {
+        visitGenericParamList(trait.generics);
+        visitEach<TraitMemberId>(trait.members, [&](const auto & memberId) {
+            visitTraitMember(memberId);
+        });
+    }
+
+    void HirVisitor::visitTraitMember(const TraitMemberId & memberId) const {
+        visitTraitMember(memberId);
+    }
+
+    void HirVisitor::visitTraitMemberKind(const TraitMember & member) {
+        switch (member.kind) {
+            case TraitMember::Kind::Const: {
+                const auto & constItem = member.asConst();
+
+                constItem.val.then([&](const auto & body) {
+                    visitBody(body);
+                });
+
+                break;
+            }
+            case TraitMember::Kind::Init: {
+                const auto & init = member.asInit();
+
+                visitGenericParamList(init.generics);
+
+                if (init.isImplemented()) {
+                    visitFuncSig(init.sig);
+                    visitBody(init.asImplemented());
+                } else {
+                    visitFuncSig(init.sig);
+                }
+
+                break;
+            }
+            case TraitMember::Kind::Func: {
+                const auto & func = member.asFunc();
+
+                visitGenericParamList(func.generics);
+
+                if (func.isImplemented()) {
+                    visitFuncSig(func.sig);
+                    visitBody(func.asImplemented());
+                } else {
+                    visitFuncSig(func.sig);
+                }
+
+                break;
+            }
+            case TraitMember::Kind::TypeAlias: {
+                const auto & typeAlias = member.asTypeAlias();
+
+                visitGenericParamList(typeAlias.generics);
+
+                typeAlias.type.then([&](const auto & type) {
+                    visitType(type);
+                });
+
+                break;
+            }
+        }
+    }
+
+    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) const {
+        visitGenericParamList(typeAlias.generics);
+        visitType(typeAlias.type);
+    }
+
+    void HirVisitor::visitUseDecl(const UseDecl & useDecl) const {
+        visitPath(useDecl.path);
+    }
 
     // Stmt //
     void HirVisitor::visitStmt(const Stmt & stmt) const {
@@ -335,4 +508,35 @@ namespace jc::hir {
     void HirVisitor::visitPathType(const TypePath & typePath) const {}
 
     void HirVisitor::visitUnitType(const UnitType & unitType) const {}
+
+    // Fragments //
+    void HirVisitor::visitAnonConst(const AnonConst & anonConst) const {
+        visitBody(anonConst.bodyId);
+    }
+
+    void HirVisitor::visitBody(const BodyId & bodyId) const {
+        visitExpr(party.body(bodyId).value);
+    }
+
+    void HirVisitor::visitPath(const Path & path) const {
+
+    }
+
+    void HirVisitor::visitGenericParamList(const GenericParam::List & generics) const {}
+
+    void HirVisitor::visitGenericParamLifetime(const GenericParam::Lifetime & lifetime) const {}
+
+    void HirVisitor::visitGenericParamType(const GenericParam::TypeParam & typeParam) const {}
+
+    void HirVisitor::visitGenericParamConst(const GenericParam::ConstParam & constParam) const {}
+
+    void HirVisitor::visitGenericArgList(const GenericArg::List & generics) const {}
+
+    void HirVisitor::visitGenericArg(const GenericArg & arg) const {}
+
+    void HirVisitor::visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const {}
+
+    void HirVisitor::visitGenericArgConst(const GenericArg::Const & constArg) const {}
+
+    void HirVisitor::visitGenericArgType(const Type & type) const {}
 }

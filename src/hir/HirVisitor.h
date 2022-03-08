@@ -22,23 +22,35 @@ namespace jc::hir {
 
         virtual void visitConst(const Const & constItem) const;
 
-        virtual void visitVariant(const Variant & variant) const;
-
         virtual void visitEnum(const Enum & enumItem) const;
 
-        virtual void visitFuncSig(const FuncSig & funcSig) const;
+        virtual void visitVariant(const Variant & variant) const;
+
+        virtual void visitVariantStruct(Ident ident, const CommonField::List & fields) const;
+
+        virtual void visitVariantTuple(Ident ident, const CommonField::List & els) const;
+
+        virtual void visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant) const;
 
         virtual void visitFunc(const Func & func) const;
 
-        virtual void visitImplMember(const ImplMember & implMember) const;
+        virtual void visitFuncSig(const FuncSig & funcSig) const;
 
         virtual void visitImpl(const Impl & impl) const;
 
+        virtual void visitImplMember(const ImplMemberId & memberId) const;
+
+        virtual void visitImplMemberKind(const ImplMember & member) const;
+
         virtual void visitStruct(const Struct & structItem) const;
 
-        virtual void visitTraitMember(const TraitMember & traitMember) const;
+        virtual void visitStructField(const CommonField & field) const;
 
         virtual void visitTrait(const Trait & trait) const;
+
+        virtual void visitTraitMember(const TraitMemberId & memberId) const;
+
+        virtual void visitTraitMemberKind(const TraitMember & member);
 
         virtual void visitTypeAlias(const TypeAlias & typeAlias) const;
 
@@ -128,13 +140,35 @@ namespace jc::hir {
 
         // Fragments //
     public:
+        virtual void visitAnonConst(const AnonConst & anonConst) const;
+
         virtual void visitBody(const BodyId & bodyId) const;
+
+        virtual void visitPath(const Path & path) const;
+
+        virtual void visitGenericParamList(const GenericParam::List & generics) const;
+
+        virtual void visitGenericParamLifetime(const GenericParam::Lifetime & lifetime) const;
+
+        virtual void visitGenericParamType(const GenericParam::TypeParam & typeParam) const;
+
+        virtual void visitGenericParamConst(const GenericParam::ConstParam & constParam) const;
+
+        virtual void visitGenericArgList(const GenericArg::List & generics) const;
+
+        virtual void visitGenericArg(const GenericArg & arg) const;
+
+        virtual void visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const;
+
+        virtual void visitGenericArgConst(const GenericArg::Const & constArg) const;
+
+        virtual void visitGenericArgType(const Type & type) const;
 
     private:
         template<class T>
-        void visitEach(const std::vector<T> & list) const {
+        void visitEach(const std::vector<T> & list, const std::function<void(const T &)> & visitor) const {
             for (const auto & el : list) {
-                visit(el);
+                visitor(el);
             }
         }
 
