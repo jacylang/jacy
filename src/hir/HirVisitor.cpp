@@ -555,23 +555,54 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitMultiPat(const MultiPat & multiPat) const {}
+    void HirVisitor::visitMultiPat(const MultiPat & multiPat) const {
+        visitEach<Pat>(multiPat.pats, [&](const Pat & pat) {
+            visitPat(pat);
+        });
+    }
 
     void HirVisitor::visitWildcardPat(const WildcardPat & wildcardPat) const {}
 
-    void HirVisitor::visitLitPat(const LitPat & litPat) const {}
+    void HirVisitor::visitLitPat(const LitPat & litPat) const {
+        // TODO: I'm not sure if we can here just visit expression from literal pattern
+    }
 
-    void HirVisitor::visitIdentPat(const IdentPat & identPat) const {}
+    void HirVisitor::visitIdentPat(const IdentPat & identPat) const {
+        identPat.pat.then([&](const Pat & pat) {
+            visitPat(pat);
+        });
+    }
 
-    void HirVisitor::visitPathPat(const PathPat & pathPat) const {}
+    void HirVisitor::visitPathPat(const PathPat & pathPat) const {
+        visitPath(pathPat.path);
+    }
 
-    void HirVisitor::visitRefPat(const RefPat & refPat) const {}
+    void HirVisitor::visitRefPat(const RefPat & refPat) const {
+        visitPat(refPat.pat);
+    }
 
-    void HirVisitor::visitStructPat(const StructPat & structPat) const {}
+    void HirVisitor::visitStructPat(const StructPat & structPat) const {
+        visitPath(structPat.path);
 
-    void HirVisitor::visitTuplePat(const TuplePat & tuplePat) const {}
+        visitEach<StructPatField>(structPat.fields, [&](const StructPatField & field) {
+            visitPat(field.pat);
+        });
+    }
 
-    void HirVisitor::visitSlicePat(const SlicePat & slicePat) const {}
+    void HirVisitor::visitTuplePat(const TuplePat & tuplePat) const {
+        visitEach<TuplePat::Element>(tuplePat.els, [&](const TuplePat::Element & el) {
+            visitPat(el.node);
+        });
+    }
+
+    void HirVisitor::visitSlicePat(const SlicePat & slicePat) const {
+        visitEach<Pat>(slicePat.before, [&](const Pat & pat) {
+            visitPat(pat);
+        });
+        visitEach<Pat>(slicePat.after, [&](const Pat & pat) {
+            visitPat(pat);
+        });
+    }
 
     // Fragments //
     void HirVisitor::visitAnonConst(const AnonConst & anonConst) const {
