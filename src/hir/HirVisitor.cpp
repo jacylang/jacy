@@ -752,13 +752,36 @@ namespace jc::hir {
         visitGenericBoundList(bounds);
     }
 
-    void HirVisitor::visitGenericArgList(const GenericArg::List & generics) const {}
+    void HirVisitor::visitGenericArgList(const GenericArg::List & generics) const {
+        visitEach<GenericArg>(generics, [&](const GenericArg & arg) {
+            visitGenericArg(arg);
+        });
+    }
 
-    void HirVisitor::visitGenericArg(const GenericArg & arg) const {}
+    void HirVisitor::visitGenericArg(const GenericArg & arg) const {
+        switch (arg.kind) {
+            case GenericArg::Kind::Type: {
+                visitGenericArgType(arg.getType());
+                break;
+            }
+            case GenericArg::Kind::Lifetime: {
+                visitGenericArgLifetime(arg.getLifetime());
+                break;
+            }
+            case GenericArg::Kind::Const: {
+                visitGenericArgConst(arg.getConstArg());
+                break;
+            }
+        }
+    }
 
     void HirVisitor::visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const {}
 
-    void HirVisitor::visitGenericArgConst(const GenericArg::Const & constArg) const {}
+    void HirVisitor::visitGenericArgConst(const GenericArg::Const & constArg) const {
+        visitAnonConst(constArg.value);
+    }
 
-    void HirVisitor::visitGenericArgType(const Type & type) const {}
+    void HirVisitor::visitGenericArgType(const Type & type) const {
+        visitType(type);
+    }
 }
