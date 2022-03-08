@@ -12,12 +12,13 @@ namespace jc::hir {
 
         virtual void visit(const Party & party) const;
 
-    private:
+        // Item //
+    public:
         virtual void visitItem(const ItemId & itemId) const;
 
-        virtual void visitMod(const Mod & mod) const;
-
         virtual void visitItemKind(const ItemKind::Ptr & item) const;
+
+        virtual void visitMod(const Mod & mod) const;
 
         virtual void visitConst(const Const & constItem) const;
 
@@ -43,12 +44,90 @@ namespace jc::hir {
 
         virtual void visitUseDecl(const UseDecl & useDecl) const;
 
+        // Stmt //
+    public:
         virtual void visitStmt(const Stmt & stmt) const;
 
+        virtual void visitStmtKind(const StmtKind::Ptr & stmt) const;
+
+        virtual void visitLetStmt(const LetStmt & letStmt) const;
+
+        virtual void visitItemStmt(const ItemStmt & itemStmt) const;
+
+        virtual void visitExprStmt(const ExprStmt & exprStmt) const;
+
+        // Expr //
+    public:
         virtual void visitExpr(const Expr & expr) const;
 
+        virtual void visitExprKind(const ExprKind::Ptr & expr) const;
+
+        virtual void visitArrayExpr(const ArrayExpr & array) const;
+
+        virtual void visitAssignExpr(const AssignExpr & assign) const;
+
+        virtual void visitBlockExpr(const BlockExpr & block) const;
+
+        virtual void visitBorrowExpr(const BorrowExpr & borrow) const;
+
+        virtual void visitBreakExpr(const BreakExpr & breakExpr) const;
+
+        virtual void visitContinueExpr(const ContinueExpr & continueExpr) const;
+
+        virtual void visitDerefExpr(const DerefExpr & deref) const;
+
+        virtual void visitFieldExpr(const FieldExpr & field) const;
+
+        virtual void visitIfExpr(const IfExpr & ifExpr) const;
+
+        virtual void visitInfixExpr(const InfixExpr & infix) const;
+
+        virtual void visitInvokeExpr(const InvokeExpr & invoke) const;
+
+        virtual void visitLambdaExpr(const LambdaExpr & lambda) const;
+
+        virtual void visitListExpr(const ListExpr & list) const;
+
+        virtual void visitLiteralExpr(const LitExpr & literal) const;
+
+        virtual void visitLoopExpr(const LoopExpr & loop) const;
+
+        virtual void visitMatchExpr(const MatchExpr & match) const;
+
+        virtual void visitPathExpr(const PathExpr & path) const;
+
+        virtual void visitPrefixExpr(const PrefixExpr & prefix) const;
+
+        virtual void visitReturnExpr(const ReturnExpr & returnExpr) const;
+
+        virtual void visitSelfExpr(const SelfExpr & self) const;
+
+        virtual void visitSubscriptExpr(const Subscript & subscript) const;
+
+        virtual void visitTupleExpr(const TupleExpr & tuple) const;
+
+        virtual void visitUnitExpr(const UnitExpr & unit) const;
+
+        // Type //
+    public:
         virtual void visitType(const Type & type) const;
 
+        virtual void visitTypeKind(const TypeKind::Ptr & type) const;
+
+        virtual void visitTupleType(const TupleType & tupleType) const;
+
+        virtual void visitFuncType(const FuncType & funcType) const;
+
+        virtual void visitSliceType(const SliceType & sliceType) const;
+
+        virtual void visitArrayType(const ArrayType & arrayType) const;
+
+        virtual void visitPathType(const TypePath & typePath) const;
+
+        virtual void visitUnitType(const UnitType & unitType) const;
+
+        // Fragments //
+    public:
         virtual void visitBody(const BodyId & bodyId) const;
 
     private:
