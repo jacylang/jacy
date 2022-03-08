@@ -2,41 +2,88 @@
 
 namespace jc::hir {
     void HirVisitor::visit(const Party & party) const {
-        visit(party.rootMod);
+        visitMod(party.rootMod);
     }
 
-    void HirVisitor::visit(const Mod & mod) const {
+    void HirVisitor::visitMod(const Mod & mod) const {
         visitEach(mod.items);
     }
 
-    void HirVisitor::visit(const ItemId & itemId) const {
+    void HirVisitor::visitItem(const ItemId & itemId) const {
         const auto & itemWrapper = party.item(itemId);
-
         const auto & item = itemWrapper.kind;
+        visitItemKind(item);
+    }
 
+    void HirVisitor::visitItemKind(const ItemKind::Ptr & item) const {
         switch (item->kind) {
-            case ItemKind::Kind::Const:
+            case ItemKind::Kind::Const: {
+                visitConst(*ItemKind::as<Const>(item));
                 break;
-            case ItemKind::Kind::Enum:
+            }
+            case ItemKind::Kind::Enum: {
+                visitEnum(*ItemKind::as<Enum>(item));
                 break;
-            case ItemKind::Kind::Func:
+            }
+            case ItemKind::Kind::Func: {
+                visitFunc(*ItemKind::as<Func>(item));
                 break;
-            case ItemKind::Kind::Impl:
+            }
+            case ItemKind::Kind::Impl: {
+                visitImpl(*ItemKind::as<Impl>(item));
                 break;
-            case ItemKind::Kind::Mod:
+            }
+            case ItemKind::Kind::Mod: {
+                visitMod(*ItemKind::as<Mod>(item));
                 break;
-            case ItemKind::Kind::Struct:
+            }
+            case ItemKind::Kind::Struct: {
+                visitStruct(*ItemKind::as<Struct>(item));
                 break;
-            case ItemKind::Kind::Trait:
+            }
+            case ItemKind::Kind::Trait: {
+                visitTrait(*ItemKind::as<Trait>(item));
                 break;
-            case ItemKind::Kind::TypeAlias:
+            }
+            case ItemKind::Kind::TypeAlias: {
+                visitTypeAlias(*ItemKind::as<TypeAlias>(item));
                 break;
-            case ItemKind::Kind::Use:
+            }
+            case ItemKind::Kind::Use: {
+                visitUseDecl(*ItemKind::as<UseDecl>(item));
                 break;
+            }
         }
     }
 
-    void HirVisitor::visit(const Stmt & stmt) const {
+    void HirVisitor::visitConst(const Const & constItem) const {
+        visitType(constItem.type);
+        visitBody(constItem.body);
+    }
+
+    void HirVisitor::visitVariant(const Variant & variant) const {}
+
+    void HirVisitor::visitEnum(const Enum & enumItem) const {}
+
+    void HirVisitor::visitFuncSig(const FuncSig & funcSig) const {}
+
+    void HirVisitor::visitFunc(const Func & func) const {}
+
+    void HirVisitor::visitImplMember(const ImplMember & implMember) const {}
+
+    void HirVisitor::visitImpl(const Impl & impl) const {}
+
+    void HirVisitor::visitStruct(const Struct & structItem) const {}
+
+    void HirVisitor::visitTraitMember(const TraitMember & traitMember) const {}
+
+    void HirVisitor::visitTrait(const Trait & trait) const {}
+
+    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) const {}
+
+    void HirVisitor::visitUseDecl(const UseDecl & useDecl) const {}
+
+    void HirVisitor::visitStmt(const Stmt & stmt) const {
         switch (stmt.kind->kind) {
             case StmtKind::Kind::Let:
                 break;
@@ -47,7 +94,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visit(const Expr & expr) const {
+    void HirVisitor::visitExpr(const Expr & expr) const {
         switch (expr.kind->kind) {
             case ExprKind::Kind::Array:
                 break;
