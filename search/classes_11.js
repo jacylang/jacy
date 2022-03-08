@@ -10,12 +10,14 @@ var searchData=
   ['traitmemberid_7',['TraitMemberId',['../structjc_1_1hir_1_1_trait_member_id.html',1,'jc::hir']]],
   ['traitref_8',['TraitRef',['../structjc_1_1hir_1_1_impl_1_1_trait_ref.html',1,'jc::hir::Impl']]],
   ['truecolor_9',['TrueColor',['../structjc_1_1log_1_1_true_color.html',1,'jc::log']]],
-  ['tupleexpr_10',['TupleExpr',['../structjc_1_1ast_1_1_tuple_expr.html',1,'jc::ast::TupleExpr'],['../structjc_1_1hir_1_1_tuple_expr.html',1,'jc::hir::TupleExpr']]],
-  ['tuplepat_11',['TuplePat',['../structjc_1_1ast_1_1_tuple_pat.html',1,'jc::ast::TuplePat'],['../structjc_1_1hir_1_1_tuple_pat.html',1,'jc::hir::TuplePat']]],
-  ['tupletype_12',['TupleType',['../structjc_1_1ast_1_1_tuple_type.html',1,'jc::ast::TupleType'],['../structjc_1_1hir_1_1_tuple_type.html',1,'jc::hir::TupleType']]],
-  ['type_13',['Type',['../structjc_1_1ast_1_1_generic_param_1_1_type.html',1,'jc::ast::GenericParam::Type'],['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type']]],
-  ['typealias_14',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_impl_member_1_1_type_alias.html',1,'jc::hir::ImplMember::TypeAlias'],['../structjc_1_1hir_1_1_trait_member_1_1_type_alias.html',1,'jc::hir::TraitMember::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
-  ['typekind_15',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir']]],
-  ['typeparam_16',['TypeParam',['../structjc_1_1hir_1_1_generic_param_1_1_type_param.html',1,'jc::hir::GenericParam']]],
-  ['typepath_17',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
+  ['tuple_10',['Tuple',['../structjc_1_1typeck_1_1_tuple.html',1,'jc::typeck']]],
+  ['tupleexpr_11',['TupleExpr',['../structjc_1_1ast_1_1_tuple_expr.html',1,'jc::ast::TupleExpr'],['../structjc_1_1hir_1_1_tuple_expr.html',1,'jc::hir::TupleExpr']]],
+  ['tuplepat_12',['TuplePat',['../structjc_1_1ast_1_1_tuple_pat.html',1,'jc::ast::TuplePat'],['../structjc_1_1hir_1_1_tuple_pat.html',1,'jc::hir::TuplePat']]],
+  ['tupletype_13',['TupleType',['../structjc_1_1ast_1_1_tuple_type.html',1,'jc::ast::TupleType'],['../structjc_1_1hir_1_1_tuple_type.html',1,'jc::hir::TupleType']]],
+  ['type_14',['Type',['../structjc_1_1ast_1_1_generic_param_1_1_type.html',1,'jc::ast::GenericParam::Type'],['../structjc_1_1ast_1_1_type.html',1,'jc::ast::Type'],['../structjc_1_1hir_1_1_type.html',1,'jc::hir::Type'],['../classjc_1_1typeck_1_1_type.html',1,'jc::typeck::Type']]],
+  ['typealias_15',['TypeAlias',['../structjc_1_1ast_1_1_type_alias.html',1,'jc::ast::TypeAlias'],['../structjc_1_1hir_1_1_impl_member_1_1_type_alias.html',1,'jc::hir::ImplMember::TypeAlias'],['../structjc_1_1hir_1_1_trait_member_1_1_type_alias.html',1,'jc::hir::TraitMember::TypeAlias'],['../structjc_1_1hir_1_1_type_alias.html',1,'jc::hir::TypeAlias']]],
+  ['typecontext_16',['TypeContext',['../classjc_1_1typeck_1_1_type_context.html',1,'jc::typeck']]],
+  ['typekind_17',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir::TypeKind'],['../structjc_1_1typeck_1_1_type_kind.html',1,'jc::typeck::TypeKind']]],
+  ['typeparam_18',['TypeParam',['../structjc_1_1hir_1_1_generic_param_1_1_type_param.html',1,'jc::hir::GenericParam']]],
+  ['typepath_19',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
 ];

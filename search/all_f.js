@@ -27,10 +27,11 @@ var searchData=
   ['patkind_24',['PatKind',['../structjc_1_1hir_1_1_pat_kind.html',1,'jc::hir']]],
   ['perns_25',['PerNS',['../structjc_1_1resolve_1_1_per_n_s.html',1,'jc::resolve']]],
   ['perns_3c_20nsmap_20_3e_26',['PerNS&lt; NSMap &gt;',['../structjc_1_1resolve_1_1_per_n_s.html',1,'jc::resolve']]],
-  ['postfix_27',['Postfix',['../structjc_1_1ast_1_1_postfix.html',1,'jc::ast']]],
-  ['postfixexpr_28',['PostfixExpr',['../structjc_1_1hir_1_1_postfix_expr.html',1,'jc::hir']]],
-  ['precparser_29',['PrecParser',['../structjc_1_1parser_1_1_prec_parser.html',1,'jc::parser']]],
-  ['prefix_30',['Prefix',['../structjc_1_1ast_1_1_prefix.html',1,'jc::ast']]],
-  ['prefixexpr_31',['PrefixExpr',['../structjc_1_1hir_1_1_prefix_expr.html',1,'jc::hir']]],
-  ['printtitledev_32',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger']]]
+  ['pointer_27',['Pointer',['../structjc_1_1typeck_1_1_pointer.html',1,'jc::typeck']]],
+  ['postfix_28',['Postfix',['../structjc_1_1ast_1_1_postfix.html',1,'jc::ast']]],
+  ['postfixexpr_29',['PostfixExpr',['../structjc_1_1hir_1_1_postfix_expr.html',1,'jc::hir']]],
+  ['precparser_30',['PrecParser',['../structjc_1_1parser_1_1_prec_parser.html',1,'jc::parser']]],
+  ['prefix_31',['Prefix',['../structjc_1_1ast_1_1_prefix.html',1,'jc::ast']]],
+  ['prefixexpr_32',['PrefixExpr',['../structjc_1_1hir_1_1_prefix_expr.html',1,'jc::hir']]],
+  ['printtitledev_33',['printTitleDev',['../classjc_1_1log_1_1_logger.html#a375a65bf9c65fe153e6ba8aebfb86cd4',1,'jc::log::Logger']]]
 ];

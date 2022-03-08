@@ -2,7 +2,7 @@ var searchData=
 [
   ['fieldexpr_0',['FieldExpr',['../structjc_1_1ast_1_1_field_expr.html',1,'jc::ast::FieldExpr'],['../structjc_1_1hir_1_1_field_expr.html',1,'jc::hir::FieldExpr']]],
   ['filenotfound_1',['FileNotFound',['../structjc_1_1common_1_1_file_not_found.html',1,'jc::common']]],
-  ['float_2',['Float',['../structjc_1_1ast_1_1_lit_expr_1_1_float.html',1,'jc::ast::LitExpr']]],
+  ['float_2',['Float',['../structjc_1_1ast_1_1_lit_expr_1_1_float.html',1,'jc::ast::LitExpr::Float'],['../structjc_1_1typeck_1_1_float.html',1,'jc::typeck::Float']]],
   ['forexpr_3',['ForExpr',['../structjc_1_1ast_1_1_for_expr.html',1,'jc::ast']]],
   ['fosid_4',['FOSId',['../structjc_1_1resolve_1_1_f_o_s_id.html',1,'jc::resolve']]],
   ['fosredefs_5',['FosRedefs',['../structjc_1_1resolve_1_1_fos_redefs.html',1,'jc::resolve']]],

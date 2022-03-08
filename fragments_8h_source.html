@@ -160,25 +160,25 @@ $(function() {
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <a class="code hl_struct" href="structjc_1_1span_1_1_ident.html">Ident</a> name;</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        };</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_generic_arg_1_1_const.html">   98</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_generic_arg_1_1_const.html">Const</a> {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html">   98</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html">ConstArg</a> {</div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_anon_const.html">AnonConst</a> value;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_generic_arg_1_1_const.html#a04cc13d3e6e5e3ebf458091bfeb09ada">  101</a></span>            <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> <a class="code hl_variable" href="structjc_1_1hir_1_1_generic_arg_1_1_const.html#a04cc13d3e6e5e3ebf458091bfeb09ada">span</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html#ac92a0303371241662708d0c78a5017e2">  101</a></span>            <a class="code hl_struct" href="structjc_1_1span_1_1_span.html">Span</a> <a class="code hl_variable" href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html#ac92a0303371241662708d0c78a5017e2">span</a>;</div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        };</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keyword">using</span> List = std::vector&lt;GenericArg&gt;;</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">using</span> ValueT = std::variant&lt;Type, Lifetime, Const&gt;;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keyword">using</span> ValueT = std::variant&lt;Type, Lifetime, ConstArg&gt;;</div>
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keyword">enum class</span> Kind {</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_type.html">Type</a>,</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_generic_arg_1_1_lifetime.html">Lifetime</a>,</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_generic_arg_1_1_const.html">Const</a>,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            <a class="code hl_struct" href="structjc_1_1hir_1_1_const.html">Const</a>,</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        };</div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <a class="code hl_struct" href="structjc_1_1hir_1_1_generic_arg.html">GenericArg</a>(<a class="code hl_struct" href="structjc_1_1hir_1_1_type.html">Type</a> &amp;&amp; type) : value {std::move(type)}, kind {Kind::<a class="code hl_struct" href="structjc_1_1hir_1_1_type.html">Type</a>} {}</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        GenericArg(Lifetime &amp;&amp; lifetime) : value {std::move(lifetime)}, kind {Kind::Lifetime} {}</div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        GenericArg(Const &amp;&amp; value) : value {std::move(value)}, kind {Kind::Const} {}</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        GenericArg(ConstArg &amp;&amp; value) : value {std::move(value)}, kind {Kind::Const} {}</div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
 <div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        ValueT value;</div>
 <div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        Kind kind;</div>
@@ -192,7 +192,7 @@ $(function() {
 <div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        }</div>
 <div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keyword">const</span> <span class="keyword">auto</span> &amp; getConstArg()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">return</span> std::get&lt;Const&gt;(value);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">return</span> std::get&lt;ConstArg&gt;(value);</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
 <div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    };</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
@@ -318,8 +318,8 @@ $(function() {
 <div class="ttc" id="astructjc_1_1hir_1_1_body_id_html"><div class="ttname"><a href="structjc_1_1hir_1_1_body_id.html">jc::hir::BodyId</a></div><div class="ttdef"><b>Definition:</b> fragments.h:46</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_const_html"><div class="ttname"><a href="structjc_1_1hir_1_1_const.html">jc::hir::Const</a></div><div class="ttdef"><b>Definition:</b> items.h:15</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_expr_html"><div class="ttname"><a href="structjc_1_1hir_1_1_expr.html">jc::hir::Expr</a></div><div class="ttdef"><b>Definition:</b> Expr.h:57</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_1_1_const_html"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg_1_1_const.html">jc::hir::GenericArg::Const</a></div><div class="ttdef"><b>Definition:</b> fragments.h:98</div></div>
-<div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_1_1_const_html_a04cc13d3e6e5e3ebf458091bfeb09ada"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg_1_1_const.html#a04cc13d3e6e5e3ebf458091bfeb09ada">jc::hir::GenericArg::Const::span</a></div><div class="ttdeci">Span span</div><div class="ttdoc">Span of the constant expression which is not stored directly inside AnonConst</div><div class="ttdef"><b>Definition:</b> fragments.h:101</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_1_1_const_arg_html"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html">jc::hir::GenericArg::ConstArg</a></div><div class="ttdef"><b>Definition:</b> fragments.h:98</div></div>
+<div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_1_1_const_arg_html_ac92a0303371241662708d0c78a5017e2"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg_1_1_const_arg.html#ac92a0303371241662708d0c78a5017e2">jc::hir::GenericArg::ConstArg::span</a></div><div class="ttdeci">Span span</div><div class="ttdoc">Span of the constant expression which is not stored directly inside AnonConst</div><div class="ttdef"><b>Definition:</b> fragments.h:101</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_1_1_lifetime_html"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg_1_1_lifetime.html">jc::hir::GenericArg::Lifetime</a></div><div class="ttdef"><b>Definition:</b> fragments.h:93</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_generic_arg_html"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_arg.html">jc::hir::GenericArg</a></div><div class="ttdef"><b>Definition:</b> fragments.h:92</div></div>
 <div class="ttc" id="astructjc_1_1hir_1_1_generic_bound_1_1_lifetime_html"><div class="ttname"><a href="structjc_1_1hir_1_1_generic_bound_1_1_lifetime.html">jc::hir::GenericBound::Lifetime</a></div><div class="ttdef"><b>Definition:</b> fragments.h:163</div></div>

@@ -8,7 +8,8 @@ var searchData=
   ['blockexpr_5',['BlockExpr',['../structjc_1_1hir_1_1_block_expr.html',1,'jc::hir']]],
   ['body_6',['Body',['../structjc_1_1ast_1_1_body.html',1,'jc::ast::Body'],['../structjc_1_1hir_1_1_body.html',1,'jc::hir::Body']]],
   ['bodyid_7',['BodyId',['../structjc_1_1hir_1_1_body_id.html',1,'jc::hir']]],
-  ['bool_8',['Bool',['../structjc_1_1ast_1_1_lit_expr_1_1_bool.html',1,'jc::ast::LitExpr']]],
+  ['bool_8',['Bool',['../structjc_1_1ast_1_1_lit_expr_1_1_bool.html',1,'jc::ast::LitExpr::Bool'],['../structjc_1_1typeck_1_1_bool.html',1,'jc::typeck::Bool']]],
   ['borrowexpr_9',['BorrowExpr',['../structjc_1_1ast_1_1_borrow_expr.html',1,'jc::ast::BorrowExpr'],['../structjc_1_1hir_1_1_borrow_expr.html',1,'jc::hir::BorrowExpr']]],
-  ['breakexpr_10',['BreakExpr',['../structjc_1_1ast_1_1_break_expr.html',1,'jc::ast::BreakExpr'],['../structjc_1_1hir_1_1_break_expr.html',1,'jc::hir::BreakExpr']]]
+  ['bottom_10',['Bottom',['../structjc_1_1typeck_1_1_bottom.html',1,'jc::typeck']]],
+  ['breakexpr_11',['BreakExpr',['../structjc_1_1ast_1_1_break_expr.html',1,'jc::ast::BreakExpr'],['../structjc_1_1hir_1_1_break_expr.html',1,'jc::hir::BreakExpr']]]
 ];

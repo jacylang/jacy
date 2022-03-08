@@ -14,5 +14,6 @@ var searchData=
   ['moduletreebuilder_11',['ModuleTreeBuilder',['../classjc_1_1resolve_1_1_module_tree_builder.html',1,'jc::resolve']]],
   ['moduletreeprinter_12',['ModuleTreePrinter',['../structjc_1_1resolve_1_1_module_tree_printer.html',1,'jc::resolve']]],
   ['move_13',['Move',['../structjc_1_1log_1_1_move.html',1,'jc::log']]],
-  ['multipat_14',['MultiPat',['../structjc_1_1ast_1_1_multi_pat.html',1,'jc::ast::MultiPat'],['../structjc_1_1hir_1_1_multi_pat.html',1,'jc::hir::MultiPat']]]
+  ['multipat_14',['MultiPat',['../structjc_1_1ast_1_1_multi_pat.html',1,'jc::ast::MultiPat'],['../structjc_1_1hir_1_1_multi_pat.html',1,'jc::hir::MultiPat']]],
+  ['mutability_15',['Mutability',['../structjc_1_1typeck_1_1_mutability.html',1,'jc::typeck']]]
 ];

@@ -5,7 +5,7 @@ var searchData=
   ['filenotfound_2',['FileNotFound',['../structjc_1_1common_1_1_file_not_found.html',1,'jc::common']]],
   ['final_3',['Final',['../classjc_1_1config_1_1_config.html#a7f3d93b49e3f01f7b0387ea9a95be5dbabeae421a14a34f831c113f61323d1ab3',1,'jc::config::Config']]],
   ['findall_4',['findAll',['../structjc_1_1resolve_1_1_module.html#af8e8e836247a96b8df0754eed1c3addc',1,'jc::resolve::Module']]],
-  ['float_5',['Float',['../structjc_1_1ast_1_1_lit_expr_1_1_float.html',1,'jc::ast::LitExpr']]],
+  ['float_5',['Float',['../structjc_1_1ast_1_1_lit_expr_1_1_float.html',1,'jc::ast::LitExpr::Float'],['../structjc_1_1typeck_1_1_float.html',1,'jc::typeck::Float']]],
   ['forexpr_6',['ForExpr',['../structjc_1_1ast_1_1_for_expr.html',1,'jc::ast']]],
   ['fos_7',['FOS',['../structjc_1_1resolve_1_1_name_binding.html#ae7042a6b6b0aed7c5f59091ea2b29dc3a12afbc0c8b3d0ec4d03bb3254eec87a0',1,'jc::resolve::NameBinding']]],
   ['fosid_8',['FOSId',['../structjc_1_1resolve_1_1_f_o_s_id.html',1,'jc::resolve']]],
