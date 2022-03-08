@@ -40,6 +40,7 @@ namespace jc::typeck {
         /// All types are either just primitives or compound of other kinds
         enum class Kind {
             Bottom,
+            Infer,
 
             // Primitive types
             Bool,
@@ -53,8 +54,7 @@ namespace jc::typeck {
             Ptr, // *mut T / *const T
             Slice, // [T]
             Array, // [T; n]
-
-            Infer,
+            Tuple,
         };
 
         TypeKind(Kind kind) : kind {kind} {}
@@ -75,6 +75,10 @@ namespace jc::typeck {
     /// The main type representation structure
     class Type {
     public:
+        using Ptr = std::shared_ptr<Type>;
+        using List = std::vector<Ptr>;
+
+    public:
         Type(TypeKind::Ptr && kind) : kind {std::move(kind)} {}
 
     public:
@@ -86,7 +90,7 @@ namespace jc::typeck {
         TypeKind::Ptr kind;
     };
 
-    using Ty = std::shared_ptr<Type>;
+    using Ty = Type::Ptr;
 }
 
 #endif // JACY_SRC_TYPECK_TYPE_H

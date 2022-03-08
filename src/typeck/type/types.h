@@ -12,6 +12,14 @@ namespace jc::typeck {
         }
     };
 
+    struct Infer : TypeKind {
+        Infer() : TypeKind {TypeKind::Kind::Infer} {}
+
+        size_t hash() const override {
+            return 0;
+        }
+    };
+
     struct Bool : TypeKind {
         Bool() : TypeKind {TypeKind::Kind::Bool} {}
 
@@ -120,12 +128,10 @@ namespace jc::typeck {
         }
     };
 
-    struct Infer : TypeKind {
-        Infer() : TypeKind {TypeKind::Kind::Infer} {}
+    struct Tuple : TypeKind {
+        Tuple(Type::List && types) : TypeKind {TypeKind::Kind::Tuple}, types {std::move(types)} {}
 
-        size_t hash() const override {
-            return 0;
-        }
+        Type::List types;
     };
 }
 
