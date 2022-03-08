@@ -1,9 +1,10 @@
 #ifndef JACY_SRC_TYPECK_CONVERT_CONVERTER_H
 #define JACY_SRC_TYPECK_CONVERT_CONVERTER_H
 
-#include "typeck/type/types.h"
-#include "hir/nodes/types.h"
 #include "session/Session.h"
+#include "utils/arr.h"
+#include "hir/nodes/types.h"
+#include "typeck/type/types.h"
 
 namespace jc::typeck {
     class Converter {
@@ -12,6 +13,7 @@ namespace jc::typeck {
 
     public:
         Ty convert(const hir::Type & type);
+        Ty convertTuple(const hir::TupleType & tupleType);
 
     private:
         sess::Session::Ptr sess;

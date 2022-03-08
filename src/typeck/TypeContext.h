@@ -67,6 +67,10 @@ namespace jc::typeck {
             return makeType(std::make_unique<Array>(type));
         }
 
+        Ty makeTuple(Tuple::Element::List && els) {
+            return makeType(std::make_unique<Tuple>(std::move(els)));
+        }
+
     private:
         TypeMap types;
     };

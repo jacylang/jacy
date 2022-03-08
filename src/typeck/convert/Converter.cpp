@@ -7,7 +7,7 @@ namespace jc::typeck {
                 return sess->typeCtx.makeInfer();
             }
             case hir::TypeKind::Kind::Tuple: {
-                break;
+                return convertTuple(*hir::TypeKind::as<hir::TupleType>(type.kind));
             }
             case hir::TypeKind::Kind::Func:
                 break;
@@ -21,5 +21,16 @@ namespace jc::typeck {
             case hir::TypeKind::Kind::Unit:
                 break;
         }
+    }
+
+    Ty Converter::convertTuple(const hir::TupleType & tupleType) {
+        auto els = utils::arr::map<hir::TupleType::Element, Tuple::Element>(
+            tupleType.elements, [&](const hir::TupleType::Element & el) -> Tuple::Element {
+                return Tuple::Element {
+                    el.name,
+                    convert(el.node),
+                };
+            });
+        return sess->typeCtx.makeTuple(std::move(els));
     }
 }
