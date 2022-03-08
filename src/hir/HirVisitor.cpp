@@ -557,7 +557,7 @@ namespace jc::hir {
                 break;
             }
             case TypeKind::Kind::Path: {
-                visitPathType(*TypeKind::as<TypePath>(type));
+                visitTypePath(*TypeKind::as<TypePath>(type));
                 break;
             }
             case TypeKind::Kind::Unit: {
@@ -567,15 +567,31 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitTupleType(const TupleType & tupleType) const {}
+    void HirVisitor::visitTupleType(const TupleType & tupleType) const {
+        visitEach<TupleType::Element>(tupleType.types, [&](const TupleType::Element & type) {
+            visitType(type.node);
+        });
+    }
 
-    void HirVisitor::visitFuncType(const FuncType & funcType) const {}
+    void HirVisitor::visitFuncType(const FuncType & funcType) const {
+        visitEach<Type>(funcType.inputs, [&](const Type & type) {
+            visitType(type);
+        });
+        visitType(funcType.ret);
+    }
 
-    void HirVisitor::visitSliceType(const SliceType & sliceType) const {}
+    void HirVisitor::visitSliceType(const SliceType & sliceType) const {
+        visitType(sliceType.type);
+    }
 
-    void HirVisitor::visitArrayType(const ArrayType & arrayType) const {}
+    void HirVisitor::visitArrayType(const ArrayType & arrayType) const {
+        visitType(arrayType.type);
+        visitAnonConst(arrayType.size);
+    }
 
-    void HirVisitor::visitPathType(const TypePath & typePath) const {}
+    void HirVisitor::visitTypePath(const TypePath & typePath) const {
+        visitPath(typePath.path);
+    }
 
     void HirVisitor::visitUnitType(const UnitType & unitType) const {}
 

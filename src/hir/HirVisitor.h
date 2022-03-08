@@ -134,7 +134,7 @@ namespace jc::hir {
 
         virtual void visitArrayType(const ArrayType & arrayType) const;
 
-        virtual void visitPathType(const TypePath & typePath) const;
+        virtual void visitTypePath(const TypePath & typePath) const;
 
         virtual void visitUnitType(const UnitType & unitType) const;
 
