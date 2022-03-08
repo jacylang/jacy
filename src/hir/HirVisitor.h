@@ -215,7 +215,7 @@ namespace jc::hir {
             }
         }
 
-    private:
+    protected:
         const hir::Party & party;
     };
 }

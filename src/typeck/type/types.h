@@ -119,6 +119,14 @@ namespace jc::typeck {
             return type->hash();
         }
     };
+
+    struct Infer : TypeKind {
+        Infer() : TypeKind {TypeKind::Kind::Infer} {}
+
+        size_t hash() const override {
+            return 0;
+        }
+    };
 }
 
 #endif // JACY_SRC_TYPECK_TYPE_TYPES_H

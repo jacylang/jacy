@@ -24,15 +24,15 @@ namespace jc::typeck {
         Ty makeBottom() {
             return makeType(std::make_unique<Bottom>());
         }
-        
+
         Ty makeBool() {
             return makeType(std::make_unique<Bool>());
         }
-        
+
         Ty makeInt(Int::Kind kind) {
             return makeType(std::make_unique<Int>(kind));
         }
-        
+
         Ty makeFloat(Float::Kind kind) {
             return makeType(std::make_unique<Float>(kind));
         }
@@ -44,7 +44,7 @@ namespace jc::typeck {
         Ty makeRef(Region region, Ty ty) {
             return makeType(std::make_unique<Ref>(region, ty));
         }
-        
+
         Ty makePointer(Mutability mutability, Ty type) {
             return makeType(std::make_unique<Pointer>(mutability, type));
         }
@@ -57,7 +57,7 @@ namespace jc::typeck {
         Ty makeArray(Ty type) {
             return makeType(std::make_unique<Array>(type));
         }
-        
+
     private:
         TypeMap types;
     };
