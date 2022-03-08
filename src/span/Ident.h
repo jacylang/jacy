@@ -32,6 +32,15 @@ namespace jc::span {
             return os;
         }
     };
+
+    template<class T>
+    struct Named {
+        using Opt = Option<Named>;
+        using List = std::vector<Named>;
+
+        Ident name;
+        T value;
+    };
 }
 
 #endif // JACY_SPAN_IDENT_H
