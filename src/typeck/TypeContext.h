@@ -13,6 +13,11 @@ namespace jc::typeck {
 
         Ty intern(TypeKind::Ptr && kind) {
             auto ty = std::make_shared<Type>(std::move(kind));
+            auto hash = ty->hash();
+            auto found = types.find(hash);
+            if (found != types.end()) {
+                return found->second;
+            }
             types.emplace(ty->hash(), ty);
             return ty;
         }
@@ -23,6 +28,10 @@ namespace jc::typeck {
 
         Ty makeBottom() {
             return makeType(std::make_unique<Bottom>());
+        }
+
+        Ty makeInfer() {
+            return makeType(std::make_unique<Infer>());
         }
 
         Ty makeBool() {

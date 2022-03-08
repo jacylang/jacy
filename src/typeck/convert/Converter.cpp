@@ -1,14 +1,10 @@
 #include "Converter.h"
 
 namespace jc::typeck {
-    Type Converter::convert(const hir::Type & type) {
-        return Type {convertTypeKind(type.kind)};
-    }
-
-    TypeKind::Ptr Converter::convertTypeKind(const hir::TypeKind::Ptr & type) {
-        switch (type->kind) {
+    Ty Converter::convert(const hir::Type & type) {
+        switch (type.kind->kind) {
             case hir::TypeKind::Kind::Infer: {
-                return TypeKind::make<Infer>();
+                return sess->typeCtx.makeInfer();
             }
             case hir::TypeKind::Kind::Tuple: {
                 break;
@@ -17,8 +13,9 @@ namespace jc::typeck {
                 break;
             case hir::TypeKind::Kind::Slice:
                 break;
-            case hir::TypeKind::Kind::Array:
+            case hir::TypeKind::Kind::Array: {
                 break;
+            }
             case hir::TypeKind::Kind::Path:
                 break;
             case hir::TypeKind::Kind::Unit:

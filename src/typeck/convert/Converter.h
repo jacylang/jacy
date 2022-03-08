@@ -3,16 +3,18 @@
 
 #include "typeck/type/types.h"
 #include "hir/nodes/types.h"
+#include "session/Session.h"
 
 namespace jc::typeck {
     class Converter {
     public:
-        Converter() = default;
+        Converter(const sess::Session::Ptr & sess) : sess {sess} {}
 
     public:
-        Type convert(const hir::Type & type);
+        Ty convert(const hir::Type & type);
 
-        TypeKind::Ptr convertTypeKind(const hir::TypeKind::Ptr & type);
+    private:
+        sess::Session::Ptr sess;
     };
 }
 
