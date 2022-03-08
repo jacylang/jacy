@@ -203,7 +203,7 @@ namespace jc::hir {
 
         virtual void visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const;
 
-        virtual void visitGenericArgConst(const GenericArg::Const & constArg) const;
+        virtual void visitGenericArgConst(const GenericArg::ConstArg & constArg) const;
 
         virtual void visitGenericArgType(const Type & type) const;
 

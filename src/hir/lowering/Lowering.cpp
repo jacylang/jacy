@@ -1045,7 +1045,7 @@ namespace jc::hir {
                 }
                 case ast::GenericArg::Kind::Const: {
                     const auto & constParam = arg.getConstArg();
-                    args.push_back(GenericArg::Const {lowerAnonConst(constParam), constParam.expr.unwrap()->span});
+                    args.push_back(GenericArg::ConstArg {lowerAnonConst(constParam), constParam.expr.unwrap()->span});
                     break;
                 }
             }

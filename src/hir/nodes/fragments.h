@@ -95,14 +95,14 @@ namespace jc::hir {
             Ident name;
         };
 
-        struct Const {
+        struct ConstArg {
             AnonConst value;
             /// Span of the constant expression which is not stored directly inside `AnonConst`
             Span span;
         };
 
         using List = std::vector<GenericArg>;
-        using ValueT = std::variant<Type, Lifetime, Const>;
+        using ValueT = std::variant<Type, Lifetime, ConstArg>;
 
         enum class Kind {
             Type,
@@ -114,7 +114,7 @@ namespace jc::hir {
 
         GenericArg(Lifetime && lifetime) : value {std::move(lifetime)}, kind {Kind::Lifetime} {}
 
-        GenericArg(Const && value) : value {std::move(value)}, kind {Kind::Const} {}
+        GenericArg(ConstArg && value) : value {std::move(value)}, kind {Kind::Const} {}
 
         ValueT value;
         Kind kind;
@@ -128,7 +128,7 @@ namespace jc::hir {
         }
 
         const auto & getConstArg() const {
-            return std::get<Const>(value);
+            return std::get<ConstArg>(value);
         }
     };
 

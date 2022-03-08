@@ -777,7 +777,7 @@ namespace jc::hir {
 
     void HirVisitor::visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const {}
 
-    void HirVisitor::visitGenericArgConst(const GenericArg::Const & constArg) const {
+    void HirVisitor::visitGenericArgConst(const GenericArg::ConstArg & constArg) const {
         visitAnonConst(constArg.value);
     }
 
