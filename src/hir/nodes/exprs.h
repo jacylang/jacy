@@ -151,9 +151,9 @@ namespace jc::hir {
     };
 
     struct DerefExpr : ExprKind {
-        DerefExpr(Expr::Opt && rhs) : ExprKind {ExprKind::Kind::Deref}, rhs {std::move(rhs)} {}
+        DerefExpr(Expr && rhs) : ExprKind {ExprKind::Kind::Deref}, rhs {std::move(rhs)} {}
 
-        Expr::Opt rhs;
+        Expr rhs;
     };
 
     struct FieldExpr : ExprKind {

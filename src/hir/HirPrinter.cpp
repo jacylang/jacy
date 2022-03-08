@@ -373,9 +373,7 @@ namespace jc::hir {
             case ExprKind::Kind::Deref: {
                 const auto & deref = ExprKind::as<DerefExpr>(kind);
                 log.raw("*");
-                deref->rhs.then([this](const auto & rhs) {
-                    printExpr(rhs);
-                });
+                printExpr(deref->rhs);
                 break;
             }
             case ExprKind::Kind::Field: {
