@@ -168,6 +168,8 @@ namespace jc::hir {
 
         virtual void visitBody(const BodyId & bodyId) const;
 
+        virtual void visitBlock(const Block & block) const;
+
         virtual void visitPath(const Path & path) const;
 
         virtual void visitGenericParamList(const GenericParam::List & generics) const;
