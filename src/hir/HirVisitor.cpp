@@ -568,7 +568,7 @@ namespace jc::hir {
     }
 
     void HirVisitor::visitTupleType(const TupleType & tupleType) const {
-        visitEach<TupleType::Element>(tupleType.types, [&](const TupleType::Element & type) {
+        visitEach<TupleType::Element>(tupleType.elements, [&](const TupleType::Element & type) {
             visitType(type.node);
         });
     }

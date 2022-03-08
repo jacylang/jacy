@@ -532,7 +532,7 @@ namespace jc::hir {
             }
             case TypeKind::Kind::Tuple: {
                 const auto & tuple = TypeKind::as<TupleType>(kind);
-                printDelim(tuple->types, [&](const auto & el, size_t) {
+                printDelim(tuple->elements, [&](const auto & el, size_t) {
                     el.name.then([this](const auto & name) {
                         log.raw(name, ": ");
                     });
