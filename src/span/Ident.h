@@ -26,6 +26,10 @@ namespace jc::span {
             return ident;
         }
 
+        size_t hash() const {
+            return sym.id.val;
+        }
+
         // Debug //
         friend std::ostream & operator<<(std::ostream & os, const Ident & ident) {
             os << ident.sym;

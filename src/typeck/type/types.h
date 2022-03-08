@@ -129,9 +129,19 @@ namespace jc::typeck {
     };
 
     struct Tuple : TypeKind {
-        Tuple(Type::List && types) : TypeKind {TypeKind::Kind::Tuple}, types {std::move(types)} {}
+        using Element = span::Named<Ty>;
 
-        Type::List types;
+        Tuple(Element::List && elements) : TypeKind {TypeKind::Kind::Tuple}, elements {std::move(elements)} {}
+
+        Element::List elements;
+
+        size_t hash() const override {
+            size_t hash;
+            for (const auto & el : elements) {
+                hash ^= el.name.hash() + el.value->hash();
+            }
+            return hash;
+        }
     };
 }
 
