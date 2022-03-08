@@ -174,11 +174,28 @@ namespace jc::hir {
 
         virtual void visitGenericParamList(const GenericParam::List & generics) const;
 
-        virtual void visitGenericParamLifetime(const GenericParam::Lifetime & lifetime) const;
+        virtual void visitGenericParam(const GenericParam & param) const;
 
-        virtual void visitGenericParamType(const GenericParam::TypeParam & typeParam) const;
+        virtual void visitGenericParamLifetime(
+            const GenericParam::Lifetime & lifetime,
+            const GenericBound::List & bounds
+        ) const;
 
-        virtual void visitGenericParamConst(const GenericParam::ConstParam & constParam) const;
+        virtual void visitGenericParamType(
+            const GenericParam::TypeParam & typeParam,
+            const GenericBound::List & bounds
+        ) const;
+
+        virtual void visitGenericParamConst(
+            const GenericParam::ConstParam & constParam,
+            const GenericBound::List & bounds
+        ) const;
+
+        virtual void visitGenericBoundList(const GenericBound::List & bounds) const;
+
+        virtual void visitGenericBoundTrait(const GenericBound::Trait & trait) const;
+
+        virtual void visitGenericBoundLifetime(const GenericBound::Lifetime & lifetime) const;
 
         virtual void visitGenericArgList(const GenericArg::List & generics) const;
 

@@ -705,17 +705,52 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitPath(const Path & path) const {
+    void HirVisitor::visitPath(const Path & path) const {}
 
+    void HirVisitor::visitGenericParamList(const GenericParam::List & generics) const {
+        visitEach<GenericParam>(generics, [&](const GenericParam & param) {
+            visitGenericParam(param);
+        });
     }
 
-    void HirVisitor::visitGenericParamList(const GenericParam::List & generics) const {}
+    void HirVisitor::visitGenericParam(const GenericParam & param) const {
+        switch (param.kind) {
+            case GenericParam::Kind::Type: {
+                visitGenericParamType(param.getType(), param.bounds);
+                break;
+            }
+            case GenericParam::Kind::Lifetime: {
+                visitGenericParamLifetime(param.getLifetime(), param.bounds);
+                break;
+            }
+            case GenericParam::Kind::Const: {
+                visitGenericParamConst(param.getConstParam(), param.bounds);
+                break;
+            }
+        }
+    }
 
-    void HirVisitor::visitGenericParamLifetime(const GenericParam::Lifetime & lifetime) const {}
+    void HirVisitor::visitGenericParamLifetime(
+        const GenericParam::Lifetime & lifetime,
+        const GenericBound::List & bounds
+    ) const {
+        visitGenericBoundList(bounds);
+    }
 
-    void HirVisitor::visitGenericParamType(const GenericParam::TypeParam & typeParam) const {}
+    void HirVisitor::visitGenericParamType(
+        const GenericParam::TypeParam & typeParam,
+        const GenericBound::List & bounds
+    ) const {
+        visitGenericBoundList(bounds);
+    }
 
-    void HirVisitor::visitGenericParamConst(const GenericParam::ConstParam & constParam) const {}
+    void HirVisitor::visitGenericParamConst(
+        const GenericParam::ConstParam & constParam,
+        const GenericBound::List & bounds
+    ) const {
+        visitType(constParam.type);
+        visitGenericBoundList(bounds);
+    }
 
     void HirVisitor::visitGenericArgList(const GenericArg::List & generics) const {}
 
