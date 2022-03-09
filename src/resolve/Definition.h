@@ -43,6 +43,9 @@ namespace jc::resolve {
         using Opt = Option<DefId>;
         using List = std::vector<DefId>;
 
+        template<class T>
+        using Map = std::map<DefId, T>;
+
         static const DefId ROOT_DEF_ID;
 
         explicit DefId(DefIndex index) : index {index} {}

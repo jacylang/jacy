@@ -71,8 +71,13 @@ namespace jc::typeck {
             return makeType(std::make_unique<Tuple>(std::move(els)));
         }
 
+        void addItemType(DefId defId, Ty type) {
+            utils::map::assertNewEmplace(itemsTypes.emplace(defId, type), "TypeContext::addItemType");
+        }
+
     private:
         TypeMap types;
+        DefId::Map<Ty> itemsTypes;
     };
 }
 
