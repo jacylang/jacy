@@ -136,11 +136,22 @@ namespace jc::typeck {
         Element::List elements;
 
         size_t hash() const override {
-            size_t hash;
+            size_t hash = 0;
             for (const auto & el : elements) {
                 hash ^= el.name.hash() + el.value->hash();
             }
             return hash;
+        }
+    };
+
+    struct Func : TypeKind {
+        Func() : TypeKind {TypeKind::Kind::Func} {}
+
+        DefId defId;
+
+
+        size_t hash() const override {
+
         }
     };
 }

@@ -3,8 +3,11 @@
 
 #include "span/Span.h"
 #include "utils/hash.h"
+#include "resolve/Definition.h"
 
 namespace jc::typeck {
+    using resolve::DefId;
+
     struct Region {
         enum class Kind {
             Static,
@@ -55,6 +58,8 @@ namespace jc::typeck {
             Slice, // [T]
             Array, // [T; n]
             Tuple,
+
+            Func,
         };
 
         TypeKind(Kind kind) : kind {kind} {}
@@ -81,12 +86,10 @@ namespace jc::typeck {
     public:
         Type(TypeKind::Ptr && kind) : kind {std::move(kind)} {}
 
-    public:
-        size_t hash() const {
+        static size_t hash(const TypeKind::Ptr & kind) {
             return utils::hash::hashEnum(kind->kind) + kind->hash();
         }
 
-    private:
         TypeKind::Ptr kind;
     };
 

@@ -13,12 +13,12 @@ namespace jc::typeck {
 
         Ty intern(TypeKind::Ptr && kind) {
             auto ty = std::make_shared<Type>(std::move(kind));
-            auto hash = ty->hash();
+            auto hash = Type::hash(ty->kind);
             auto found = types.find(hash);
             if (found != types.end()) {
                 return found->second;
             }
-            types.emplace(ty->hash(), ty);
+            types.emplace(hash, ty);
             return ty;
         }
 
