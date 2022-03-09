@@ -7,7 +7,7 @@ var searchData=
   ['fosid_4',['FOSId',['../structjc_1_1resolve_1_1_f_o_s_id.html',1,'jc::resolve']]],
   ['fosredefs_5',['FosRedefs',['../structjc_1_1resolve_1_1_fos_redefs.html',1,'jc::resolve']]],
   ['fsentry_6',['FSEntry',['../structjc_1_1core_1_1_f_s_entry.html',1,'jc::core']]],
-  ['func_7',['Func',['../structjc_1_1ast_1_1_func.html',1,'jc::ast::Func'],['../structjc_1_1hir_1_1_func.html',1,'jc::hir::Func'],['../structjc_1_1hir_1_1_impl_member_1_1_func.html',1,'jc::hir::ImplMember::Func'],['../structjc_1_1hir_1_1_trait_member_1_1_func.html',1,'jc::hir::TraitMember::Func']]],
+  ['func_7',['Func',['../structjc_1_1ast_1_1_func.html',1,'jc::ast::Func'],['../structjc_1_1hir_1_1_func.html',1,'jc::hir::Func'],['../structjc_1_1hir_1_1_impl_member_1_1_func.html',1,'jc::hir::ImplMember::Func'],['../structjc_1_1hir_1_1_trait_member_1_1_func.html',1,'jc::hir::TraitMember::Func'],['../structjc_1_1typeck_1_1_func.html',1,'jc::typeck::Func']]],
   ['funcheader_8',['FuncHeader',['../structjc_1_1ast_1_1_func_header.html',1,'jc::ast']]],
   ['funcparam_9',['FuncParam',['../structjc_1_1ast_1_1_func_param.html',1,'jc::ast']]],
   ['funcreturntype_10',['FuncReturnType',['../structjc_1_1ast_1_1_func_return_type.html',1,'jc::ast']]],
