@@ -86,7 +86,11 @@ namespace jc::typeck {
     public:
         Type(TypeKind::Ptr && kind) : kind {std::move(kind)} {}
 
-        static size_t hash(const TypeKind::Ptr & kind) {
+        size_t hash() const {
+            return hashKind(kind);
+        }
+
+        static size_t hashKind(const TypeKind::Ptr & kind) {
             return utils::hash::hashEnum(kind->kind) + kind->hash();
         }
 
