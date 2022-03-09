@@ -145,13 +145,25 @@ namespace jc::typeck {
     };
 
     struct Func : TypeKind {
-        Func() : TypeKind {TypeKind::Kind::Func} {}
+        Func(DefId defId, Type::List && inputs, Ty output)
+            : TypeKind {TypeKind::Kind::Func},
+              defId {defId},
+              inputs {std::move(inputs)},
+              output {output} {}
 
         DefId defId;
 
+        // TODO: Do we need parameter names? For arguments order check?
+        Type::List inputs;
+        Ty output;
 
         size_t hash() const override {
-
+            size_t hash = 0;
+            for (const auto & el : inputs) {
+                hash ^= el->hash();
+            }
+            hash ^= output->hash();
+            return hash;
         }
     };
 }
