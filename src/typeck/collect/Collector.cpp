@@ -1,7 +1,5 @@
-#include "typeck/collect/Collector.h"
+#include "typeck/collect/ItemCollector.h"
 
 namespace jc::typeck {
-    void Collector::collect() {
 
-    }
 }
