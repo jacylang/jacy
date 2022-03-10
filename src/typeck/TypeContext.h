@@ -2,6 +2,7 @@
 #define JACY_SRC_TYPECK_TYPECONTEXT_H
 
 #include "typeck/type/types.h"
+#include "typeck/convert/Converter.h"
 
 namespace jc::typeck {
     class TypeContext {
@@ -90,6 +91,7 @@ namespace jc::typeck {
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
+        Converter converter {*this};
     };
 }
 

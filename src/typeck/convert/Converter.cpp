@@ -1,4 +1,5 @@
 #include "Converter.h"
+#include "typeck/TypeContext.h"
 
 namespace jc::typeck {
     Ty Converter::convert(const hir::Type & type) {

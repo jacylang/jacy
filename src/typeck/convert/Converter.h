@@ -1,13 +1,14 @@
 #ifndef JACY_SRC_TYPECK_CONVERT_CONVERTER_H
 #define JACY_SRC_TYPECK_CONVERT_CONVERTER_H
 
-#include "session/Session.h"
 #include "utils/arr.h"
 #include "hir/nodes/types.h"
 #include "typeck/type/types.h"
 
 namespace jc::typeck {
     using resolve::PrimType;
+
+    class TypeContext;
 
     class Converter {
     public:
