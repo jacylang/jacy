@@ -11,7 +11,7 @@ namespace jc::typeck {
 
     class Converter {
     public:
-        Converter(const sess::Session::Ptr & sess) : sess {sess}, tyCtx {sess->tyCtx} {}
+        Converter(TypeContext & tyCtx) : tyCtx {tyCtx} {}
 
     public:
         Ty convert(const hir::Type & type);
@@ -20,7 +20,6 @@ namespace jc::typeck {
         Ty convertPrimType(PrimType primType);
 
     private:
-        sess::Session::Ptr sess;
         TypeContext & tyCtx;
     };
 }
