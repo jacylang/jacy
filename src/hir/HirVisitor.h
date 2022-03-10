@@ -10,7 +10,7 @@ namespace jc::hir {
 
         virtual ~HirVisitor() = default;
 
-        virtual void visit(const Party & party) const;
+        virtual void visit() const;
 
         // Item //
     public:

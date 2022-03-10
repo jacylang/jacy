@@ -88,10 +88,14 @@ namespace jc::typeck {
             return utils::map::expectAt(itemsTypes, defId, "TypeContext::getItemType");
         }
 
+        auto & converter() {
+            return _converter;
+        }
+
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
-        Converter converter {*this};
+        Converter _converter {*this};
     };
 }
 

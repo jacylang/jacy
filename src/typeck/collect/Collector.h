@@ -10,6 +10,7 @@ namespace jc::typeck {
     public:
         Collector(const hir::Party & party, const sess::Session::Ptr & sess) : hir::HirVisitor {party}, sess {sess} {}
 
+
     private:
         sess::Session::Ptr sess;
     };

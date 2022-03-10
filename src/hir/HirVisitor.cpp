@@ -1,7 +1,7 @@
 #include "hir/HirVisitor.h"
 
 namespace jc::hir {
-    void HirVisitor::visit(const Party & party) const {
+    void HirVisitor::visit() const {
         visitMod(party.rootMod);
     }
 
