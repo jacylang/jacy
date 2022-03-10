@@ -7,17 +7,21 @@
 #include "typeck/type/types.h"
 
 namespace jc::typeck {
+    using resolve::PrimType;
+
     class Converter {
     public:
-        Converter(const sess::Session::Ptr & sess) : sess {sess} {}
+        Converter(const sess::Session::Ptr & sess) : sess {sess}, tyCtx {sess->tyCtx} {}
 
     public:
         Ty convert(const hir::Type & type);
         Ty convertPath(const hir::TypePath & typePath);
         Ty convertTuple(const hir::TupleType & tupleType);
+        Ty convertPrimType(PrimType primType);
 
     private:
         sess::Session::Ptr sess;
+        TypeContext & tyCtx;
     };
 }
 

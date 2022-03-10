@@ -69,7 +69,7 @@ namespace jc::sess {
         NodeStorage nodeStorage; // TODO: Maybe remove?
         resolve::DefTable defTable;
         resolve::Resolutions resolutions;
-        typeck::TypeContext typeCtx;
+        typeck::TypeContext tyCtx;
 
         // TODO!: Move to separate wrapper for name resolution stage
         resolve::Def getResDef(ast::NodeId nodeId) const {

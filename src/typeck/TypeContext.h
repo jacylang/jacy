@@ -79,6 +79,10 @@ namespace jc::typeck {
             utils::map::assertNewEmplace(itemsTypes.emplace(defId, type), "TypeContext::addItemType");
         }
 
+        Ty getItemType(DefId defId) const {
+            return utils::map::expectAt(itemsTypes, defId, "TypeContext::getItemType");
+        }
+
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
