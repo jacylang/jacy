@@ -46,6 +46,10 @@ namespace jc::typeck {
             return makeType(std::make_unique<Float>(kind));
         }
 
+        Ty makeChar() {
+            return makeType(std::make_unique<Char>());
+        }
+
         Ty makeStr() {
             return makeType(std::make_unique<Str>());
         }
