@@ -16,8 +16,9 @@ namespace jc::typeck {
             case hir::TypeKind::Kind::Array: {
                 break;
             }
-            case hir::TypeKind::Kind::Path:
-                break;
+            case hir::TypeKind::Kind::Path: {
+                return convertPath(*hir::TypeKind::as<hir::TypePath>(type.kind));
+            }
             case hir::TypeKind::Kind::Unit:
                 break;
         }
@@ -32,8 +33,9 @@ namespace jc::typeck {
             }
             case resolve::ResKind::Local:
                 break;
-            case resolve::ResKind::PrimType:
-                break;
+            case resolve::ResKind::PrimType: {
+                return convertPrimType(res.asPrimType());
+            }
             case resolve::ResKind::Error: {
                 log::devPanic("Error type in `Converter::convertPath`");
             }
