@@ -76,6 +76,11 @@ namespace jc::typeck {
         static Ptr make(Args && ...args) {
             return std::make_unique<T>(std::forward<Args>(args)...);
         }
+
+        template<class T>
+        static T * as(const Ptr & type) {
+            return static_cast<T*>(type.get());
+        }
     };
 
     /// The main type representation structure

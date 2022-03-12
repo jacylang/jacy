@@ -92,6 +92,10 @@ namespace jc::typeck {
             return _converter;
         }
 
+        const auto & getItemsTypes() const {
+            return itemsTypes;
+        }
+
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
