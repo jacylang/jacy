@@ -7,6 +7,7 @@
 
 namespace jc::typeck {
     using resolve::DefId;
+    using span::Ident;
 
     struct Region {
         enum class Kind {
