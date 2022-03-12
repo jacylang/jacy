@@ -76,6 +76,14 @@ namespace jc::hir {
     struct Item {
         using Vis = ast::Vis;
 
+        // Special structure for data stored outside `ItemKind` kinds but may be passed with it to visitors
+        struct ItemData {
+            Vis vis;
+            Ident name;
+            DefId defId;
+            NodeId nodeId;
+        };
+
         Item(Vis vis, span::Ident && name, ItemKind::Ptr && kind, DefId defId, NodeId nodeId, Span span)
             : vis {vis},
               name {std::move(name)},
@@ -85,11 +93,20 @@ namespace jc::hir {
               span {span} {}
 
         Vis vis;
-        span::Ident name;
+        Ident name;
         ItemKind::Ptr kind;
         DefId defId;
         NodeId nodeId;
         Span span;
+
+        ItemData getItemData() const {
+            return ItemData {
+                vis,
+                name,
+                defId,
+                nodeId,
+            };
+        }
     };
 }
 
