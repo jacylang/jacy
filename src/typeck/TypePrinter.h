@@ -21,6 +21,8 @@ namespace jc::typeck {
         void printTupleType(const Tuple & tuple);
         void printFuncType(const Func & func);
 
+        void printMutability(const Mutability & mut, bool ofPointer);
+
     private:
         log::Logger log {"type-printer"};
         sess::Session::Ptr sess;

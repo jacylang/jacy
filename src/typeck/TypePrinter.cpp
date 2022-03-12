@@ -109,23 +109,42 @@ namespace jc::typeck {
     }
 
     void TypePrinter::printFloatType(const Float & floatType) {
-
+        switch (floatType.kind) {
+            case Float::Kind::F32: {
+                log.raw("f32");
+                break;
+            }
+            case Float::Kind::F64: {
+                log.raw("f64");
+                break;
+            }
+        }
     }
 
     void TypePrinter::printRefType(const Ref & ref) {
-
+        // TODO: Region
+        log.raw("&");
+        printType(ref.type);
     }
 
     void TypePrinter::printPtrType(const Pointer & ptr) {
-
+        log.raw("*");
+        printMutability(ptr.mutability, true);
+        printType(ptr.type);
     }
 
     void TypePrinter::printSliceType(const Slice & slice) {
-
+        log.raw("[");
+        printType(slice.type);
+        log.raw("]");
     }
 
     void TypePrinter::printArrayType(const Array & array) {
-
+        log.raw("[");
+        printType(array.type);
+        // TODO: const
+        log.raw("; TODO Const");
+        log.raw("]");
     }
 
     void TypePrinter::printTupleType(const Tuple & tuple) {
@@ -134,5 +153,20 @@ namespace jc::typeck {
 
     void TypePrinter::printFuncType(const Func & func) {
 
+    }
+
+    void TypePrinter::printMutability(const Mutability & mut, bool ofPointer) {
+        switch (mut.kind) {
+            case Mutability::Kind::Immut: {
+                if (ofPointer) {
+                    log.raw("const");
+                }
+                break;
+            }
+            case Mutability::Kind::Mut: {
+                log.raw("mut");
+                break;
+            }
+        }
     }
 }
