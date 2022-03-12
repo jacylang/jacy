@@ -3,6 +3,11 @@
 namespace jc::typeck {
     void TypePrinter::print() {
         const auto & itemsTypes = sess->tyCtx.getItemsTypes();
+        for (const auto & type : itemsTypes) {
+            log.raw(type.first, ": ");
+            printType(type.second);
+            log.nl();
+        }
     }
 
     void TypePrinter::printType(Ty ty) {
