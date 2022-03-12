@@ -148,7 +148,19 @@ namespace jc::typeck {
     }
 
     void TypePrinter::printTupleType(const Tuple & tuple) {
+        for (size_t i = 0; i < tuple.elements.size(); i++) {
+            const auto & el = tuple.elements.at(i);
 
+            el.name.then([&](const Ident & name) {
+                log.raw(name, ": ");
+            });
+
+            printType(el.value);
+
+            if (i < tuple.elements.size() - 1) {
+                log.raw(", ");
+            }
+        };
     }
 
     void TypePrinter::printFuncType(const Func & func) {
