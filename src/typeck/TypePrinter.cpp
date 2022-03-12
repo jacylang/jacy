@@ -62,4 +62,77 @@ namespace jc::typeck {
             }
         }
     }
+
+    void TypePrinter::printIntType(const Int & intType) {
+        switch (intType.kind) {
+            case Int::Kind::Int: {
+                log.raw("int");
+                break;
+            }
+            case Int::Kind::Uint: {
+                log.raw("uint");
+                break;
+            }
+            case Int::Kind::I8: {
+                log.raw("i8");
+                break;
+            }
+            case Int::Kind::I16: {
+                log.raw("i16");
+                break;
+            }
+            case Int::Kind::I32: {
+                log.raw("i32");
+                break;
+            }
+            case Int::Kind::I64: {
+                log.raw("i64");
+                break;
+            }
+            case Int::Kind::U8: {
+                log.raw("u8");
+                break;
+            }
+            case Int::Kind::U16: {
+                log.raw("u16");
+                break;
+            }
+            case Int::Kind::U32: {
+                log.raw("u32");
+                break;
+            }
+            case Int::Kind::U64: {
+                log.raw("u64");
+                break;
+            }
+        }
+    }
+
+    void TypePrinter::printFloatType(const Float & floatType) {
+
+    }
+
+    void TypePrinter::printRefType(const Ref & ref) {
+
+    }
+
+    void TypePrinter::printPtrType(const Pointer & ptr) {
+
+    }
+
+    void TypePrinter::printSliceType(const Slice & slice) {
+
+    }
+
+    void TypePrinter::printArrayType(const Array & array) {
+
+    }
+
+    void TypePrinter::printTupleType(const Tuple & tuple) {
+
+    }
+
+    void TypePrinter::printFuncType(const Func & func) {
+
+    }
 }
