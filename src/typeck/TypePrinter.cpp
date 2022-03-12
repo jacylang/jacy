@@ -148,6 +148,7 @@ namespace jc::typeck {
     }
 
     void TypePrinter::printTupleType(const Tuple & tuple) {
+        log.raw("(");
         for (size_t i = 0; i < tuple.elements.size(); i++) {
             const auto & el = tuple.elements.at(i);
 
@@ -160,11 +161,21 @@ namespace jc::typeck {
             if (i < tuple.elements.size() - 1) {
                 log.raw(", ");
             }
-        };
+        }
+        log.raw(")");
     }
 
     void TypePrinter::printFuncType(const Func & func) {
+        log.raw("(");
+        for (size_t i = 0; i < func.inputs.size(); i++) {
+            printType(func.inputs.at(i));
 
+            if (i < func.inputs.size() - 1) {
+                log.raw(", ");
+            }
+        }
+        log.raw(") -> ");
+        printType(func.output);
     }
 
     void TypePrinter::printMutability(const Mutability & mut, bool ofPointer) {
