@@ -129,7 +129,7 @@ namespace jc::typeck {
     };
 
     struct Tuple : TypeKind {
-        using Element = span::Named<Ty>;
+        using Element = span::Named<Ty, Ident::Opt>;
 
         Tuple(Element::List && elements) : TypeKind {TypeKind::Kind::Tuple}, elements {std::move(elements)} {}
 
@@ -138,7 +138,11 @@ namespace jc::typeck {
         size_t hash() const override {
             size_t hash = 0;
             for (const auto & el : elements) {
-                hash ^= el.name.hash() + el.value->hash();
+                auto elHash = el.value->hash();
+                el.name.then([&](const Ident & name) {
+                    elHash += name.hash();
+                });
+                hash ^= elHash;
             }
             return hash;
         }
@@ -154,6 +158,8 @@ namespace jc::typeck {
         DefId defId;
 
         // TODO: Do we need parameter names? For arguments order check?
+        //  The current answer is No! Because named arguments is a name resolution function overloading mechanism
+        //  but not type-dependent.
         Type::List inputs;
         Ty output;
 
