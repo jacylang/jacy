@@ -84,7 +84,7 @@ namespace jc::hir {
             NodeId nodeId;
         };
 
-        Item(Vis vis, span::Ident && name, ItemKind::Ptr && kind, DefId defId, NodeId nodeId, Span span)
+        Item(Vis vis, Ident && name, ItemKind::Ptr && kind, DefId defId, NodeId nodeId, Span span)
             : vis {vis},
               name {std::move(name)},
               kind {std::move(kind)},

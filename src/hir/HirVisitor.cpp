@@ -9,62 +9,63 @@ namespace jc::hir {
     void HirVisitor::visitItem(const ItemId & itemId) {
         const auto & itemWrapper = party.item(itemId);
         const auto & item = itemWrapper.kind;
-        visitItemKind(item);
+        auto itemData = itemWrapper.getItemData();
+        visitItemKind(item, itemData);
     }
 
-    void HirVisitor::visitItemKind(const ItemKind::Ptr & item) {
+    void HirVisitor::visitItemKind(const ItemKind::Ptr & item, const Item::ItemData & data) {
         switch (item->kind) {
             case ItemKind::Kind::Const: {
-                visitConst(*ItemKind::as<Const>(item));
+                visitConst(*ItemKind::as<Const>(item), data);
                 break;
             }
             case ItemKind::Kind::Enum: {
-                visitEnum(*ItemKind::as<Enum>(item));
+                visitEnum(*ItemKind::as<Enum>(item), data);
                 break;
             }
             case ItemKind::Kind::Func: {
-                visitFunc(*ItemKind::as<Func>(item));
+                visitFunc(*ItemKind::as<Func>(item), data);
                 break;
             }
             case ItemKind::Kind::Impl: {
-                visitImpl(*ItemKind::as<Impl>(item));
+                visitImpl(*ItemKind::as<Impl>(item), data);
                 break;
             }
             case ItemKind::Kind::Mod: {
-                visitMod(*ItemKind::as<Mod>(item));
+                visitMod(*ItemKind::as<Mod>(item), data);
                 break;
             }
             case ItemKind::Kind::Struct: {
-                visitStruct(*ItemKind::as<Struct>(item));
+                visitStruct(*ItemKind::as<Struct>(item), data);
                 break;
             }
             case ItemKind::Kind::Trait: {
-                visitTrait(*ItemKind::as<Trait>(item));
+                visitTrait(*ItemKind::as<Trait>(item), data);
                 break;
             }
             case ItemKind::Kind::TypeAlias: {
-                visitTypeAlias(*ItemKind::as<TypeAlias>(item));
+                visitTypeAlias(*ItemKind::as<TypeAlias>(item), data);
                 break;
             }
             case ItemKind::Kind::Use: {
-                visitUseDecl(*ItemKind::as<UseDecl>(item));
+                visitUseDecl(*ItemKind::as<UseDecl>(item), data);
                 break;
             }
         }
     }
 
-    void HirVisitor::visitMod(const Mod & mod) {
+    void HirVisitor::visitMod(const Mod & mod, const Item::ItemData & data) {
         visitEach<ItemId>(mod.items, [&](const ItemId & itemId) {
             visitItem(itemId);
         });
     }
 
-    void HirVisitor::visitConst(const Const & constItem) {
+    void HirVisitor::visitConst(const Const & constItem, const Item::ItemData & data) {
         visitType(constItem.type);
         visitBody(constItem.body);
     }
 
-    void HirVisitor::visitEnum(const Enum & enumItem) {
+    void HirVisitor::visitEnum(const Enum & enumItem, const Item::ItemData & data) {
         visitEach<Variant>(enumItem.variants, [&](const auto & variant) {
             visitVariant(variant);
         });
@@ -107,7 +108,7 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitFunc(const Func & func) {
+    void HirVisitor::visitFunc(const Func & func, const Item::ItemData & data) {
         visitFuncSig(func.sig);
         visitGenericParamList(func.generics);
         visitBody(func.body);
@@ -123,7 +124,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitImpl(const Impl & impl) {
+    void HirVisitor::visitImpl(const Impl & impl, const Item::ItemData & data) {
         visitGenericParamList(impl.generics);
 
         impl.trait.then([&](const Impl::TraitRef & traitRef) {
@@ -172,7 +173,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitStruct(const Struct & structItem) {
+    void HirVisitor::visitStruct(const Struct & structItem, const Item::ItemData & data) {
         visitGenericParamList(structItem.generics);
 
         visitEach<CommonField>(structItem.fields, [&](const CommonField & field) {
@@ -184,7 +185,7 @@ namespace jc::hir {
         visitType(field.node);
     }
 
-    void HirVisitor::visitTrait(const Trait & trait) {
+    void HirVisitor::visitTrait(const Trait & trait, const Item::ItemData & data) {
         visitGenericParamList(trait.generics);
         visitEach<TraitMemberId>(trait.members, [&](const auto & memberId) {
             visitTraitMember(memberId);
@@ -248,12 +249,12 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) {
+    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias, const Item::ItemData & data) {
         visitGenericParamList(typeAlias.generics);
         visitType(typeAlias.type);
     }
 
-    void HirVisitor::visitUseDecl(const UseDecl & useDecl) {
+    void HirVisitor::visitUseDecl(const UseDecl & useDecl, const Item::ItemData & data) {
         visitPath(useDecl.path);
     }
 

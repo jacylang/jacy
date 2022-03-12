@@ -16,13 +16,13 @@ namespace jc::hir {
     public:
         virtual void visitItem(const ItemId & itemId);
 
-        virtual void visitItemKind(const ItemKind::Ptr & item);
+        virtual void visitItemKind(const ItemKind::Ptr & item, const Item::ItemData & data);
 
-        virtual void visitMod(const Mod & mod);
+        virtual void visitMod(const Mod & mod, const Item::ItemData & data);
 
-        virtual void visitConst(const Const & constItem);
+        virtual void visitConst(const Const & constItem, const Item::ItemData & data);
 
-        virtual void visitEnum(const Enum & enumItem);
+        virtual void visitEnum(const Enum & enumItem, const Item::ItemData & data);
 
         virtual void visitVariant(const Variant & variant);
 
@@ -32,29 +32,29 @@ namespace jc::hir {
 
         virtual void visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant);
 
-        virtual void visitFunc(const Func & func);
+        virtual void visitFunc(const Func & func, const Item::ItemData & data);
 
         virtual void visitFuncSig(const FuncSig & funcSig);
 
-        virtual void visitImpl(const Impl & impl);
+        virtual void visitImpl(const Impl & impl, const Item::ItemData & data);
 
         virtual void visitImplMember(const ImplMemberId & memberId);
 
         virtual void visitImplMemberKind(const ImplMember & member);
 
-        virtual void visitStruct(const Struct & structItem);
+        virtual void visitStruct(const Struct & structItem, const Item::ItemData & data);
 
         virtual void visitStructField(const CommonField & field);
 
-        virtual void visitTrait(const Trait & trait);
+        virtual void visitTrait(const Trait & trait, const Item::ItemData & data);
 
         virtual void visitTraitMember(const TraitMemberId & memberId);
 
         virtual void visitTraitMemberKind(const TraitMember & member);
 
-        virtual void visitTypeAlias(const TypeAlias & typeAlias);
+        virtual void visitTypeAlias(const TypeAlias & typeAlias, const Item::ItemData & data);
 
-        virtual void visitUseDecl(const UseDecl & useDecl);
+        virtual void visitUseDecl(const UseDecl & useDecl, const Item::ItemData & data);
 
         // Stmt //
     public:
