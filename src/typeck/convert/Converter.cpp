@@ -97,4 +97,10 @@ namespace jc::typeck {
             }
         }
     }
+
+    Type::List Converter::convertTypeList(const hir::Type::List & list) {
+        return utils::arr::map<hir::Type, Ty>(list, [&](const hir::Type & type) {
+            return convert(type);
+        });
+    }
 }

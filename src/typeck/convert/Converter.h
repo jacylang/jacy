@@ -20,6 +20,8 @@ namespace jc::typeck {
         Ty convertTuple(const hir::TupleType & tupleType);
         Ty convertPrimType(PrimType primType);
 
+        Type::List convertTypeList(const hir::Type::List & list);
+
     private:
         TypeContext & tyCtx;
     };
