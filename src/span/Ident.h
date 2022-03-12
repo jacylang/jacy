@@ -37,12 +37,12 @@ namespace jc::span {
         }
     };
 
-    template<class T>
+    template<class T, class Name = Ident>
     struct Named {
         using Opt = Option<Named>;
         using List = std::vector<Named>;
 
-        Ident name;
+        Name name;
         T value;
     };
 }
