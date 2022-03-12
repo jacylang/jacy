@@ -1,18 +1,18 @@
 #include "hir/HirVisitor.h"
 
 namespace jc::hir {
-    void HirVisitor::visit() const {
+    void HirVisitor::visit() {
         visitMod(party.rootMod);
     }
 
     // Item //
-    void HirVisitor::visitItem(const ItemId & itemId) const {
+    void HirVisitor::visitItem(const ItemId & itemId) {
         const auto & itemWrapper = party.item(itemId);
         const auto & item = itemWrapper.kind;
         visitItemKind(item);
     }
 
-    void HirVisitor::visitItemKind(const ItemKind::Ptr & item) const {
+    void HirVisitor::visitItemKind(const ItemKind::Ptr & item) {
         switch (item->kind) {
             case ItemKind::Kind::Const: {
                 visitConst(*ItemKind::as<Const>(item));
@@ -53,24 +53,24 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitMod(const Mod & mod) const {
+    void HirVisitor::visitMod(const Mod & mod) {
         visitEach<ItemId>(mod.items, [&](const ItemId & itemId) {
             visitItem(itemId);
         });
     }
 
-    void HirVisitor::visitConst(const Const & constItem) const {
+    void HirVisitor::visitConst(const Const & constItem) {
         visitType(constItem.type);
         visitBody(constItem.body);
     }
 
-    void HirVisitor::visitEnum(const Enum & enumItem) const {
+    void HirVisitor::visitEnum(const Enum & enumItem) {
         visitEach<Variant>(enumItem.variants, [&](const auto & variant) {
             visitVariant(variant);
         });
     }
 
-    void HirVisitor::visitVariant(const Variant & variant) const {
+    void HirVisitor::visitVariant(const Variant & variant) {
         switch (variant.kind) {
             case Variant::Kind::Struct: {
                 visitVariantStruct(variant.ident, variant.getCommonFields());
@@ -87,7 +87,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitVariantStruct(Ident ident, const CommonField::List & fields) const {
+    void HirVisitor::visitVariantStruct(Ident ident, const CommonField::List & fields) {
         visitEach<CommonField>(fields, [&](const CommonField & field) {
             // Note: Don't visit field name as visiting each identifier is nonsense,
             //  but keep in mind that fields in Struct variant always have Some name
@@ -95,25 +95,25 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitVariantTuple(Ident ident, const CommonField::List & els) const {
+    void HirVisitor::visitVariantTuple(Ident ident, const CommonField::List & els) {
         visitEach<CommonField>(els, [&](const CommonField & field) {
             visitType(field.node);
         });
     }
 
-    void HirVisitor::visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant) const {
+    void HirVisitor::visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant) {
         discriminant.then([&](const auto & anonConst) {
             visitAnonConst(anonConst);
         });
     }
 
-    void HirVisitor::visitFunc(const Func & func) const {
+    void HirVisitor::visitFunc(const Func & func) {
         visitFuncSig(func.sig);
         visitGenericParamList(func.generics);
         visitBody(func.body);
     }
 
-    void HirVisitor::visitFuncSig(const FuncSig & funcSig) const {
+    void HirVisitor::visitFuncSig(const FuncSig & funcSig) {
         visitEach<Type>(funcSig.inputs, [&](const auto & input) {
             visitType(input);
         });
@@ -123,7 +123,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitImpl(const Impl & impl) const {
+    void HirVisitor::visitImpl(const Impl & impl) {
         visitGenericParamList(impl.generics);
 
         impl.trait.then([&](const Impl::TraitRef & traitRef) {
@@ -137,11 +137,11 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitImplMember(const ImplMemberId & memberId) const {
+    void HirVisitor::visitImplMember(const ImplMemberId & memberId) {
         visitImplMemberKind(party.implMember(memberId));
     }
 
-    void HirVisitor::visitImplMemberKind(const ImplMember & member) const {
+    void HirVisitor::visitImplMemberKind(const ImplMember & member) {
         switch (member.kind) {
             case ImplMember::Kind::Const: {
                 const auto & constItem = member.asConst();
@@ -172,7 +172,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitStruct(const Struct & structItem) const {
+    void HirVisitor::visitStruct(const Struct & structItem) {
         visitGenericParamList(structItem.generics);
 
         visitEach<CommonField>(structItem.fields, [&](const CommonField & field) {
@@ -180,22 +180,22 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitStructField(const CommonField & field) const {
+    void HirVisitor::visitStructField(const CommonField & field) {
         visitType(field.node);
     }
 
-    void HirVisitor::visitTrait(const Trait & trait) const {
+    void HirVisitor::visitTrait(const Trait & trait) {
         visitGenericParamList(trait.generics);
         visitEach<TraitMemberId>(trait.members, [&](const auto & memberId) {
             visitTraitMember(memberId);
         });
     }
 
-    void HirVisitor::visitTraitMember(const TraitMemberId & memberId) const {
+    void HirVisitor::visitTraitMember(const TraitMemberId & memberId) {
         visitTraitMemberKind(party.traitMember(memberId));
     }
 
-    void HirVisitor::visitTraitMemberKind(const TraitMember & member) const {
+    void HirVisitor::visitTraitMemberKind(const TraitMember & member) {
         switch (member.kind) {
             case TraitMember::Kind::Const: {
                 const auto & constItem = member.asConst();
@@ -248,22 +248,22 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) const {
+    void HirVisitor::visitTypeAlias(const TypeAlias & typeAlias) {
         visitGenericParamList(typeAlias.generics);
         visitType(typeAlias.type);
     }
 
-    void HirVisitor::visitUseDecl(const UseDecl & useDecl) const {
+    void HirVisitor::visitUseDecl(const UseDecl & useDecl) {
         visitPath(useDecl.path);
     }
 
     // Stmt //
-    void HirVisitor::visitStmt(const Stmt & stmt) const {
+    void HirVisitor::visitStmt(const Stmt & stmt) {
         const auto & stmtKind = stmt.kind;
         visitStmtKind(stmtKind);
     }
 
-    void HirVisitor::visitStmtKind(const StmtKind::Ptr & stmt) const {
+    void HirVisitor::visitStmtKind(const StmtKind::Ptr & stmt) {
         switch (stmt->kind) {
             case StmtKind::Kind::Let: {
                 visitLetStmt(*StmtKind::as<LetStmt>(stmt));
@@ -280,7 +280,7 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitLetStmt(const LetStmt & letStmt) const {
+    void HirVisitor::visitLetStmt(const LetStmt & letStmt) {
         visitPat(letStmt.pat);
         letStmt.type.then([&](const Type & type) {
             visitType(type);
@@ -290,21 +290,21 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitItemStmt(const ItemStmt & itemStmt) const {
+    void HirVisitor::visitItemStmt(const ItemStmt & itemStmt) {
         visitItem(itemStmt.item);
     }
 
-    void HirVisitor::visitExprStmt(const ExprStmt & exprStmt) const {
+    void HirVisitor::visitExprStmt(const ExprStmt & exprStmt) {
         visitExpr(exprStmt.expr);
     }
 
     // Expr //
-    void HirVisitor::visitExpr(const Expr & expr) const {
+    void HirVisitor::visitExpr(const Expr & expr) {
         const auto & exprKind = expr.kind;
         visitExprKind(exprKind);
     }
 
-    void HirVisitor::visitExprKind(const ExprKind::Ptr & expr) const {
+    void HirVisitor::visitExprKind(const ExprKind::Ptr & expr) {
         switch (expr->kind) {
             case ExprKind::Kind::Array: {
                 visitArrayExpr(*ExprKind::as<ArrayExpr>(expr));
@@ -401,42 +401,42 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitArrayExpr(const ArrayExpr & array) const {
+    void HirVisitor::visitArrayExpr(const ArrayExpr & array) {
         visitEach<Expr>(array.elements, [&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitAssignExpr(const AssignExpr & assign) const {
+    void HirVisitor::visitAssignExpr(const AssignExpr & assign) {
         visitExpr(assign.rhs);
         visitExpr(assign.lhs);
     }
 
-    void HirVisitor::visitBlockExpr(const BlockExpr & block) const {
+    void HirVisitor::visitBlockExpr(const BlockExpr & block) {
         visitBlock(block.block);
     }
 
-    void HirVisitor::visitBorrowExpr(const BorrowExpr & borrow) const {
+    void HirVisitor::visitBorrowExpr(const BorrowExpr & borrow) {
         visitExpr(borrow.rhs);
     }
 
-    void HirVisitor::visitBreakExpr(const BreakExpr & breakExpr) const {
+    void HirVisitor::visitBreakExpr(const BreakExpr & breakExpr) {
         breakExpr.value.then([&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitContinueExpr(const ContinueExpr & continueExpr) const {}
+    void HirVisitor::visitContinueExpr(const ContinueExpr & continueExpr) {}
 
-    void HirVisitor::visitDerefExpr(const DerefExpr & deref) const {
+    void HirVisitor::visitDerefExpr(const DerefExpr & deref) {
         visitExpr(deref.rhs);
     }
 
-    void HirVisitor::visitFieldExpr(const FieldExpr & field) const {
+    void HirVisitor::visitFieldExpr(const FieldExpr & field) {
         visitExpr(field.lhs);
     }
 
-    void HirVisitor::visitIfExpr(const IfExpr & ifExpr) const {
+    void HirVisitor::visitIfExpr(const IfExpr & ifExpr) {
         visitExpr(ifExpr.cond);
 
         ifExpr.ifBranch.then([&](const Block & block) {
@@ -448,19 +448,19 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitInfixExpr(const InfixExpr & infix) const {
+    void HirVisitor::visitInfixExpr(const InfixExpr & infix) {
         visitExpr(infix.lhs);
         visitExpr(infix.rhs);
     }
 
-    void HirVisitor::visitInvokeExpr(const InvokeExpr & invoke) const {
+    void HirVisitor::visitInvokeExpr(const InvokeExpr & invoke) {
         visitExpr(invoke.lhs);
         visitEach<Arg>(invoke.args, [&](const Arg & arg) {
             visitExpr(arg.node);
         });
     }
 
-    void HirVisitor::visitLambdaExpr(const LambdaExpr & lambda) const {
+    void HirVisitor::visitLambdaExpr(const LambdaExpr & lambda) {
         visitEach<LambdaParam>(lambda.params, [&](const LambdaParam & param) {
             visitPat(param.pat);
             param.type.then([&](const Type & type) {
@@ -475,19 +475,19 @@ namespace jc::hir {
         visitBody(lambda.body);
     }
 
-    void HirVisitor::visitListExpr(const ListExpr & list) const {
+    void HirVisitor::visitListExpr(const ListExpr & list) {
         visitEach<Expr>(list.els, [&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitLiteralExpr(const LitExpr & literal) const {}
+    void HirVisitor::visitLiteralExpr(const LitExpr & literal) {}
 
-    void HirVisitor::visitLoopExpr(const LoopExpr & loop) const {
+    void HirVisitor::visitLoopExpr(const LoopExpr & loop) {
         visitBlock(loop.body);
     }
 
-    void HirVisitor::visitMatchExpr(const MatchExpr & match) const {
+    void HirVisitor::visitMatchExpr(const MatchExpr & match) {
         visitExpr(match.subject);
 
         visitEach<MatchArm>(match.arms, [&](const MatchArm & arm) {
@@ -496,23 +496,23 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitPathExpr(const PathExpr & path) const {
+    void HirVisitor::visitPathExpr(const PathExpr & path) {
         visitPath(path.path);
     }
 
-    void HirVisitor::visitPrefixExpr(const PrefixExpr & prefix) const {
+    void HirVisitor::visitPrefixExpr(const PrefixExpr & prefix) {
         visitExpr(prefix.rhs);
     }
 
-    void HirVisitor::visitReturnExpr(const ReturnExpr & returnExpr) const {
+    void HirVisitor::visitReturnExpr(const ReturnExpr & returnExpr) {
         returnExpr.value.then([&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitSelfExpr(const SelfExpr & self) const {}
+    void HirVisitor::visitSelfExpr(const SelfExpr & self) {}
 
-    void HirVisitor::visitSubscriptExpr(const Subscript & subscript) const {
+    void HirVisitor::visitSubscriptExpr(const Subscript & subscript) {
         visitExpr(subscript.lhs);
 
         visitEach<Expr>(subscript.indices, [&](const Expr & expr) {
@@ -520,21 +520,21 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitTupleExpr(const TupleExpr & tuple) const {
+    void HirVisitor::visitTupleExpr(const TupleExpr & tuple) {
         visitEach<NamedExpr>(tuple.values, [&](const NamedExpr & expr) {
             visitExpr(expr.node);
         });
     }
 
-    void HirVisitor::visitUnitExpr(const UnitExpr & unit) const {}
+    void HirVisitor::visitUnitExpr(const UnitExpr & unit) {}
 
     // Type //
-    void HirVisitor::visitType(const Type & type) const {
+    void HirVisitor::visitType(const Type & type) {
         const auto & typeKind = type.kind;
         visitTypeKind(typeKind);
     }
 
-    void HirVisitor::visitTypeKind(const TypeKind::Ptr & type) const {
+    void HirVisitor::visitTypeKind(const TypeKind::Ptr & type) {
         switch (type->kind) {
             case TypeKind::Kind::Infer: {
                 // ?
@@ -567,40 +567,40 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitTupleType(const TupleType & tupleType) const {
+    void HirVisitor::visitTupleType(const TupleType & tupleType) {
         visitEach<TupleType::Element>(tupleType.elements, [&](const TupleType::Element & type) {
             visitType(type.node);
         });
     }
 
-    void HirVisitor::visitFuncType(const FuncType & funcType) const {
+    void HirVisitor::visitFuncType(const FuncType & funcType) {
         visitEach<Type>(funcType.inputs, [&](const Type & type) {
             visitType(type);
         });
         visitType(funcType.ret);
     }
 
-    void HirVisitor::visitSliceType(const SliceType & sliceType) const {
+    void HirVisitor::visitSliceType(const SliceType & sliceType) {
         visitType(sliceType.type);
     }
 
-    void HirVisitor::visitArrayType(const ArrayType & arrayType) const {
+    void HirVisitor::visitArrayType(const ArrayType & arrayType) {
         visitType(arrayType.type);
         visitAnonConst(arrayType.size);
     }
 
-    void HirVisitor::visitTypePath(const TypePath & typePath) const {
+    void HirVisitor::visitTypePath(const TypePath & typePath) {
         visitPath(typePath.path);
     }
 
-    void HirVisitor::visitUnitType(const UnitType & unitType) const {}
+    void HirVisitor::visitUnitType(const UnitType & unitType) {}
 
     // Patterns //
-    void HirVisitor::visitPat(const Pat & pat) const {
+    void HirVisitor::visitPat(const Pat & pat) {
         visitPatKind(pat.kind);
     }
 
-    void HirVisitor::visitPatKind(const PatKind::Ptr & pat) const {
+    void HirVisitor::visitPatKind(const PatKind::Ptr & pat) {
         switch (pat->kind) {
             case PatKind::Kind::Multi: {
                 visitMultiPat(*PatKind::as<MultiPat>(pat));
@@ -641,33 +641,33 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitMultiPat(const MultiPat & multiPat) const {
+    void HirVisitor::visitMultiPat(const MultiPat & multiPat) {
         visitEach<Pat>(multiPat.pats, [&](const Pat & pat) {
             visitPat(pat);
         });
     }
 
-    void HirVisitor::visitWildcardPat(const WildcardPat & wildcardPat) const {}
+    void HirVisitor::visitWildcardPat(const WildcardPat & wildcardPat) {}
 
-    void HirVisitor::visitLitPat(const LitPat & litPat) const {
+    void HirVisitor::visitLitPat(const LitPat & litPat) {
         // TODO: I'm not sure if we can here just visit expression from literal pattern
     }
 
-    void HirVisitor::visitIdentPat(const IdentPat & identPat) const {
+    void HirVisitor::visitIdentPat(const IdentPat & identPat) {
         identPat.pat.then([&](const Pat & pat) {
             visitPat(pat);
         });
     }
 
-    void HirVisitor::visitPathPat(const PathPat & pathPat) const {
+    void HirVisitor::visitPathPat(const PathPat & pathPat) {
         visitPath(pathPat.path);
     }
 
-    void HirVisitor::visitRefPat(const RefPat & refPat) const {
+    void HirVisitor::visitRefPat(const RefPat & refPat) {
         visitPat(refPat.pat);
     }
 
-    void HirVisitor::visitStructPat(const StructPat & structPat) const {
+    void HirVisitor::visitStructPat(const StructPat & structPat) {
         visitPath(structPat.path);
 
         visitEach<StructPatField>(structPat.fields, [&](const StructPatField & field) {
@@ -675,13 +675,13 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitTuplePat(const TuplePat & tuplePat) const {
+    void HirVisitor::visitTuplePat(const TuplePat & tuplePat) {
         visitEach<TuplePat::Element>(tuplePat.els, [&](const TuplePat::Element & el) {
             visitPat(el.node);
         });
     }
 
-    void HirVisitor::visitSlicePat(const SlicePat & slicePat) const {
+    void HirVisitor::visitSlicePat(const SlicePat & slicePat) {
         visitEach<Pat>(slicePat.before, [&](const Pat & pat) {
             visitPat(pat);
         });
@@ -691,29 +691,29 @@ namespace jc::hir {
     }
 
     // Fragments //
-    void HirVisitor::visitAnonConst(const AnonConst & anonConst) const {
+    void HirVisitor::visitAnonConst(const AnonConst & anonConst) {
         visitBody(anonConst.bodyId);
     }
 
-    void HirVisitor::visitBody(const BodyId & bodyId) const {
+    void HirVisitor::visitBody(const BodyId & bodyId) {
         visitExpr(party.body(bodyId).value);
     }
 
-    void HirVisitor::visitBlock(const Block & block) const {
+    void HirVisitor::visitBlock(const Block & block) {
         visitEach<Stmt>(block.stmts, [&](const Stmt & stmt) {
             visitStmt(stmt);
         });
     }
 
-    void HirVisitor::visitPath(const Path & path) const {}
+    void HirVisitor::visitPath(const Path & path) {}
 
-    void HirVisitor::visitGenericParamList(const GenericParam::List & generics) const {
+    void HirVisitor::visitGenericParamList(const GenericParam::List & generics) {
         visitEach<GenericParam>(generics, [&](const GenericParam & param) {
             visitGenericParam(param);
         });
     }
 
-    void HirVisitor::visitGenericParam(const GenericParam & param) const {
+    void HirVisitor::visitGenericParam(const GenericParam & param) {
         switch (param.kind) {
             case GenericParam::Kind::Type: {
                 visitGenericParamType(param.getType(), param.bounds);
@@ -733,32 +733,32 @@ namespace jc::hir {
     void HirVisitor::visitGenericParamLifetime(
         const GenericParam::Lifetime & lifetime,
         const GenericBound::List & bounds
-    ) const {
+    ) {
         visitGenericBoundList(bounds);
     }
 
     void HirVisitor::visitGenericParamType(
         const GenericParam::TypeParam & typeParam,
         const GenericBound::List & bounds
-    ) const {
+    ) {
         visitGenericBoundList(bounds);
     }
 
     void HirVisitor::visitGenericParamConst(
         const GenericParam::ConstParam & constParam,
         const GenericBound::List & bounds
-    ) const {
+    ) {
         visitType(constParam.type);
         visitGenericBoundList(bounds);
     }
 
-    void HirVisitor::visitGenericArgList(const GenericArg::List & generics) const {
+    void HirVisitor::visitGenericArgList(const GenericArg::List & generics) {
         visitEach<GenericArg>(generics, [&](const GenericArg & arg) {
             visitGenericArg(arg);
         });
     }
 
-    void HirVisitor::visitGenericArg(const GenericArg & arg) const {
+    void HirVisitor::visitGenericArg(const GenericArg & arg) {
         switch (arg.kind) {
             case GenericArg::Kind::Type: {
                 visitGenericArgType(arg.getType());
@@ -775,13 +775,13 @@ namespace jc::hir {
         }
     }
 
-    void HirVisitor::visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const {}
+    void HirVisitor::visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) {}
 
-    void HirVisitor::visitGenericArgConst(const GenericArg::ConstArg & constArg) const {
+    void HirVisitor::visitGenericArgConst(const GenericArg::ConstArg & constArg) {
         visitAnonConst(constArg.value);
     }
 
-    void HirVisitor::visitGenericArgType(const Type & type) const {
+    void HirVisitor::visitGenericArgType(const Type & type) {
         visitType(type);
     }
 }

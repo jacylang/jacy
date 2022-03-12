@@ -4,10 +4,10 @@
 #include <filesystem>
 
 namespace code_test {
-    class Collector {
+    class ItemCollector {
     public:
-        Collector() = default;
-        ~Collector() = default;
+        ItemCollector() = default;
+        ~ItemCollector() = default;
 
         void collectResources();
     };

@@ -10,202 +10,202 @@ namespace jc::hir {
 
         virtual ~HirVisitor() = default;
 
-        virtual void visit() const;
+        virtual void visit();
 
         // Item //
     public:
-        virtual void visitItem(const ItemId & itemId) const;
+        virtual void visitItem(const ItemId & itemId);
 
-        virtual void visitItemKind(const ItemKind::Ptr & item) const;
+        virtual void visitItemKind(const ItemKind::Ptr & item);
 
-        virtual void visitMod(const Mod & mod) const;
+        virtual void visitMod(const Mod & mod);
 
-        virtual void visitConst(const Const & constItem) const;
+        virtual void visitConst(const Const & constItem);
 
-        virtual void visitEnum(const Enum & enumItem) const;
+        virtual void visitEnum(const Enum & enumItem);
 
-        virtual void visitVariant(const Variant & variant) const;
+        virtual void visitVariant(const Variant & variant);
 
-        virtual void visitVariantStruct(Ident ident, const CommonField::List & fields) const;
+        virtual void visitVariantStruct(Ident ident, const CommonField::List & fields);
 
-        virtual void visitVariantTuple(Ident ident, const CommonField::List & els) const;
+        virtual void visitVariantTuple(Ident ident, const CommonField::List & els);
 
-        virtual void visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant) const;
+        virtual void visitVariantUnit(Ident ident, const AnonConst::Opt & discriminant);
 
-        virtual void visitFunc(const Func & func) const;
+        virtual void visitFunc(const Func & func);
 
-        virtual void visitFuncSig(const FuncSig & funcSig) const;
+        virtual void visitFuncSig(const FuncSig & funcSig);
 
-        virtual void visitImpl(const Impl & impl) const;
+        virtual void visitImpl(const Impl & impl);
 
-        virtual void visitImplMember(const ImplMemberId & memberId) const;
+        virtual void visitImplMember(const ImplMemberId & memberId);
 
-        virtual void visitImplMemberKind(const ImplMember & member) const;
+        virtual void visitImplMemberKind(const ImplMember & member);
 
-        virtual void visitStruct(const Struct & structItem) const;
+        virtual void visitStruct(const Struct & structItem);
 
-        virtual void visitStructField(const CommonField & field) const;
+        virtual void visitStructField(const CommonField & field);
 
-        virtual void visitTrait(const Trait & trait) const;
+        virtual void visitTrait(const Trait & trait);
 
-        virtual void visitTraitMember(const TraitMemberId & memberId) const;
+        virtual void visitTraitMember(const TraitMemberId & memberId);
 
-        virtual void visitTraitMemberKind(const TraitMember & member) const;
+        virtual void visitTraitMemberKind(const TraitMember & member);
 
-        virtual void visitTypeAlias(const TypeAlias & typeAlias) const;
+        virtual void visitTypeAlias(const TypeAlias & typeAlias);
 
-        virtual void visitUseDecl(const UseDecl & useDecl) const;
+        virtual void visitUseDecl(const UseDecl & useDecl);
 
         // Stmt //
     public:
-        virtual void visitStmt(const Stmt & stmt) const;
+        virtual void visitStmt(const Stmt & stmt);
 
-        virtual void visitStmtKind(const StmtKind::Ptr & stmt) const;
+        virtual void visitStmtKind(const StmtKind::Ptr & stmt);
 
-        virtual void visitLetStmt(const LetStmt & letStmt) const;
+        virtual void visitLetStmt(const LetStmt & letStmt);
 
-        virtual void visitItemStmt(const ItemStmt & itemStmt) const;
+        virtual void visitItemStmt(const ItemStmt & itemStmt);
 
-        virtual void visitExprStmt(const ExprStmt & exprStmt) const;
+        virtual void visitExprStmt(const ExprStmt & exprStmt);
 
         // Expr //
     public:
-        virtual void visitExpr(const Expr & expr) const;
+        virtual void visitExpr(const Expr & expr);
 
-        virtual void visitExprKind(const ExprKind::Ptr & expr) const;
+        virtual void visitExprKind(const ExprKind::Ptr & expr);
 
-        virtual void visitArrayExpr(const ArrayExpr & array) const;
+        virtual void visitArrayExpr(const ArrayExpr & array);
 
-        virtual void visitAssignExpr(const AssignExpr & assign) const;
+        virtual void visitAssignExpr(const AssignExpr & assign);
 
-        virtual void visitBlockExpr(const BlockExpr & block) const;
+        virtual void visitBlockExpr(const BlockExpr & block);
 
-        virtual void visitBorrowExpr(const BorrowExpr & borrow) const;
+        virtual void visitBorrowExpr(const BorrowExpr & borrow);
 
-        virtual void visitBreakExpr(const BreakExpr & breakExpr) const;
+        virtual void visitBreakExpr(const BreakExpr & breakExpr);
 
-        virtual void visitContinueExpr(const ContinueExpr & continueExpr) const;
+        virtual void visitContinueExpr(const ContinueExpr & continueExpr);
 
-        virtual void visitDerefExpr(const DerefExpr & deref) const;
+        virtual void visitDerefExpr(const DerefExpr & deref);
 
-        virtual void visitFieldExpr(const FieldExpr & field) const;
+        virtual void visitFieldExpr(const FieldExpr & field);
 
-        virtual void visitIfExpr(const IfExpr & ifExpr) const;
+        virtual void visitIfExpr(const IfExpr & ifExpr);
 
-        virtual void visitInfixExpr(const InfixExpr & infix) const;
+        virtual void visitInfixExpr(const InfixExpr & infix);
 
-        virtual void visitInvokeExpr(const InvokeExpr & invoke) const;
+        virtual void visitInvokeExpr(const InvokeExpr & invoke);
 
-        virtual void visitLambdaExpr(const LambdaExpr & lambda) const;
+        virtual void visitLambdaExpr(const LambdaExpr & lambda);
 
-        virtual void visitListExpr(const ListExpr & list) const;
+        virtual void visitListExpr(const ListExpr & list);
 
-        virtual void visitLiteralExpr(const LitExpr & literal) const;
+        virtual void visitLiteralExpr(const LitExpr & literal);
 
-        virtual void visitLoopExpr(const LoopExpr & loop) const;
+        virtual void visitLoopExpr(const LoopExpr & loop);
 
-        virtual void visitMatchExpr(const MatchExpr & match) const;
+        virtual void visitMatchExpr(const MatchExpr & match);
 
-        virtual void visitPathExpr(const PathExpr & path) const;
+        virtual void visitPathExpr(const PathExpr & path);
 
-        virtual void visitPrefixExpr(const PrefixExpr & prefix) const;
+        virtual void visitPrefixExpr(const PrefixExpr & prefix);
 
-        virtual void visitReturnExpr(const ReturnExpr & returnExpr) const;
+        virtual void visitReturnExpr(const ReturnExpr & returnExpr);
 
-        virtual void visitSelfExpr(const SelfExpr & self) const;
+        virtual void visitSelfExpr(const SelfExpr & self);
 
-        virtual void visitSubscriptExpr(const Subscript & subscript) const;
+        virtual void visitSubscriptExpr(const Subscript & subscript);
 
-        virtual void visitTupleExpr(const TupleExpr & tuple) const;
+        virtual void visitTupleExpr(const TupleExpr & tuple);
 
-        virtual void visitUnitExpr(const UnitExpr & unit) const;
+        virtual void visitUnitExpr(const UnitExpr & unit);
 
         // Type //
     public:
-        virtual void visitType(const Type & type) const;
+        virtual void visitType(const Type & type);
 
-        virtual void visitTypeKind(const TypeKind::Ptr & type) const;
+        virtual void visitTypeKind(const TypeKind::Ptr & type);
 
-        virtual void visitTupleType(const TupleType & tupleType) const;
+        virtual void visitTupleType(const TupleType & tupleType);
 
-        virtual void visitFuncType(const FuncType & funcType) const;
+        virtual void visitFuncType(const FuncType & funcType);
 
-        virtual void visitSliceType(const SliceType & sliceType) const;
+        virtual void visitSliceType(const SliceType & sliceType);
 
-        virtual void visitArrayType(const ArrayType & arrayType) const;
+        virtual void visitArrayType(const ArrayType & arrayType);
 
-        virtual void visitTypePath(const TypePath & typePath) const;
+        virtual void visitTypePath(const TypePath & typePath);
 
-        virtual void visitUnitType(const UnitType & unitType) const;
+        virtual void visitUnitType(const UnitType & unitType);
 
         // Patterns //
     public:
-        virtual void visitPat(const Pat & pat) const;
+        virtual void visitPat(const Pat & pat);
 
-        virtual void visitPatKind(const PatKind::Ptr & pat) const;
+        virtual void visitPatKind(const PatKind::Ptr & pat);
 
-        virtual void visitMultiPat(const MultiPat & multiPat) const;
+        virtual void visitMultiPat(const MultiPat & multiPat);
 
-        virtual void visitWildcardPat(const WildcardPat & wildcardPat) const;
+        virtual void visitWildcardPat(const WildcardPat & wildcardPat);
 
-        virtual void visitLitPat(const LitPat & litPat) const;
+        virtual void visitLitPat(const LitPat & litPat);
 
-        virtual void visitIdentPat(const IdentPat & identPat) const;
+        virtual void visitIdentPat(const IdentPat & identPat);
 
-        virtual void visitPathPat(const PathPat & pathPat) const;
+        virtual void visitPathPat(const PathPat & pathPat);
 
-        virtual void visitRefPat(const RefPat & refPat) const;
+        virtual void visitRefPat(const RefPat & refPat);
 
-        virtual void visitStructPat(const StructPat & structPat) const;
+        virtual void visitStructPat(const StructPat & structPat);
 
-        virtual void visitTuplePat(const TuplePat & tuplePat) const;
+        virtual void visitTuplePat(const TuplePat & tuplePat);
 
-        virtual void visitSlicePat(const SlicePat & slicePat) const;
+        virtual void visitSlicePat(const SlicePat & slicePat);
 
         // Fragments //
     public:
-        virtual void visitAnonConst(const AnonConst & anonConst) const;
+        virtual void visitAnonConst(const AnonConst & anonConst);
 
-        virtual void visitBody(const BodyId & bodyId) const;
+        virtual void visitBody(const BodyId & bodyId);
 
-        virtual void visitBlock(const Block & block) const;
+        virtual void visitBlock(const Block & block);
 
-        virtual void visitPath(const Path & path) const;
+        virtual void visitPath(const Path & path);
 
-        virtual void visitGenericParamList(const GenericParam::List & generics) const;
+        virtual void visitGenericParamList(const GenericParam::List & generics);
 
-        virtual void visitGenericParam(const GenericParam & param) const;
+        virtual void visitGenericParam(const GenericParam & param);
 
         virtual void visitGenericParamLifetime(
             const GenericParam::Lifetime & lifetime,
             const GenericBound::List & bounds
-        ) const;
+        );
 
         virtual void visitGenericParamType(
             const GenericParam::TypeParam & typeParam,
             const GenericBound::List & bounds
-        ) const;
+        );
 
         virtual void visitGenericParamConst(
             const GenericParam::ConstParam & constParam,
             const GenericBound::List & bounds
-        ) const;
+        );
 
-        virtual void visitGenericBoundList(const GenericBound::List & bounds) const;
+        virtual void visitGenericBoundList(const GenericBound::List & bounds);
 
-        virtual void visitGenericBoundTrait(const GenericBound::Trait & trait) const;
+        virtual void visitGenericBoundTrait(const GenericBound::Trait & trait);
 
-        virtual void visitGenericBoundLifetime(const GenericBound::Lifetime & lifetime) const;
+        virtual void visitGenericBoundLifetime(const GenericBound::Lifetime & lifetime);
 
-        virtual void visitGenericArgList(const GenericArg::List & generics) const;
+        virtual void visitGenericArgList(const GenericArg::List & generics);
 
-        virtual void visitGenericArg(const GenericArg & arg) const;
+        virtual void visitGenericArg(const GenericArg & arg);
 
-        virtual void visitGenericArgLifetime(const GenericArg::Lifetime & lifetime) const;
+        virtual void visitGenericArgLifetime(const GenericArg::Lifetime & lifetime);
 
-        virtual void visitGenericArgConst(const GenericArg::ConstArg & constArg) const;
+        virtual void visitGenericArgConst(const GenericArg::ConstArg & constArg);
 
-        virtual void visitGenericArgType(const Type & type) const;
+        virtual void visitGenericArgType(const Type & type);
 
     private:
         template<class T>
