@@ -2,6 +2,9 @@
 #define JACY_HIR_NODES_TYPE_H
 
 namespace jc::hir {
+    using ast::NodeId;
+    using span::Span;
+
     struct TypeKind {
         using Ptr = std::unique_ptr<TypeKind>;
 
