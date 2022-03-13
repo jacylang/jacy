@@ -102,6 +102,7 @@ namespace jc::core {
         // Type Check //
     private:
         void typeck(const hir::Party & party);
+        void printItemsTypes();
 
         // Logging //
     private:

@@ -491,7 +491,20 @@ namespace jc::core {
         itemCollector.visit();
         sess->endStep();
 
+        printItemsTypes();
+    }
 
+    void Interface::printItemsTypes() {
+        if (not config.checkDevPrint(Config::DevPrint::ItemsTypes)) {
+            return;
+        }
+
+        log.info("Printing item types (`--dev-print=items-types`)");
+
+        sess->beginStep("Item types printing", sess::MeasUnit::NA);
+        typeck::TypePrinter typePrinter {sess};
+        typePrinter.print();
+        sess->endStep();
     }
 
     // Messages //
