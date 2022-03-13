@@ -119,15 +119,24 @@ namespace jc::hir {
         ValueT value;
         Kind kind;
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("Assertion `GenericArg::assertKind` failed");
+            }
+        }
+
         const auto & getType() const {
+            assertKind(Kind::Type);
             return std::get<Type>(value);
         }
 
         const auto & getLifetime() const {
+            assertKind(Kind::Lifetime);
             return std::get<Lifetime>(value);
         }
 
         const auto & getConstArg() const {
+            assertKind(Kind::Const);
             return std::get<ConstArg>(value);
         }
     };
