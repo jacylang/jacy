@@ -212,9 +212,9 @@ namespace jc::hir {
 
                 visitGenericParamList(init.generics);
 
-                if (init.isImplemented()) {
+                if (init.hasBody()) {
                     visitFuncSig(init.sig);
-                    visitBody(init.asImplemented());
+                    visitBody(init.getBody());
                 } else {
                     visitFuncSig(init.sig);
                 }
@@ -226,9 +226,9 @@ namespace jc::hir {
 
                 visitGenericParamList(func.generics);
 
-                if (func.isImplemented()) {
+                if (func.hasBody()) {
                     visitFuncSig(func.sig);
-                    visitBody(func.asImplemented());
+                    visitBody(func.getBody());
                 } else {
                     visitFuncSig(func.sig);
                 }

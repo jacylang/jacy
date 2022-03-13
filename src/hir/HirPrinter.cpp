@@ -188,11 +188,11 @@ namespace jc::hir {
                 log.raw("init");
                 printGenericParams(init.generics);
 
-                if (init.isImplemented()) {
-                    printFuncSig(init.sig, init.asImplemented());
-                    printBody(init.asImplemented());
+                if (init.hasBody()) {
+                    printFuncSig(init.sig, init.getBody());
+                    printBody(init.getBody());
                 } else {
-                    printFuncSig(init.sig, init.asNonImplemented());
+                    printFuncSig(init.sig, init.getParamNames());
                     log.raw(";");
                 }
 
@@ -205,11 +205,11 @@ namespace jc::hir {
                 printGenericParams(func.generics);
                 log.raw(member.name);
 
-                if (func.isImplemented()) {
-                    printFuncSig(func.sig, func.asImplemented());
-                    printBody(func.asImplemented());
+                if (func.hasBody()) {
+                    printFuncSig(func.sig, func.getBody());
+                    printBody(func.getBody());
                 } else {
-                    printFuncSig(func.sig, func.asNonImplemented());
+                    printFuncSig(func.sig, func.getParamNames());
                     log.raw(";");
                 }
 

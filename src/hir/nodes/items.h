@@ -249,15 +249,21 @@ namespace jc::hir {
             ValueT body;
 
         public:
-            auto isImplemented() const {
+            auto hasBody() const {
                 return std::holds_alternative<BodyId>(body);
             }
 
-            const auto & asImplemented() const {
+            const auto & getBody() const {
+                if (not hasBody()) {
+                    log::devPanic("Called `hir::TraitMember::Func::getBody` on function item without body");
+                }
                 return std::get<BodyId>(body);
             }
 
-            const auto & asNonImplemented() const {
+            const auto & getParamNames() const {
+                if (hasBody()) {
+                    log::devPanic("Called `hir::TraitMember::Func::getParamNames` on function item with body");
+                }
                 return std::get<Ident::List>(body);
             }
         };
