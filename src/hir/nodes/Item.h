@@ -107,6 +107,15 @@ namespace jc::hir {
                 nodeId,
             };
         }
+
+        static ItemData partyItemData() {
+            return ItemData {
+                Vis {ast::VisKind::Pub, Span {}},
+                Ident::empty(),
+                DefId::ROOT_DEF_ID,
+                NodeId::ROOT_NODE_ID,
+            };
+        }
     };
 }
 

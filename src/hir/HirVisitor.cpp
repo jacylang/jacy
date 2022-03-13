@@ -2,7 +2,7 @@
 
 namespace jc::hir {
     void HirVisitor::visit() {
-        visitMod(party.rootMod);
+        visitMod(party.rootMod, Item::partyItemData());
     }
 
     // Item //
