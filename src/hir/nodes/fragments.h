@@ -180,6 +180,14 @@ namespace jc::hir {
 
         Kind kind;
         ValueT value;
+
+        const auto & getTrait() const {
+            return std::get<Trait>(value);
+        }
+
+        const auto & getLifetime() const {
+            return std::get<Lifetime>(value);
+        }
     };
 
     struct GenericParam {
