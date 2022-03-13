@@ -73,12 +73,20 @@ namespace jc::core {
         }
 
         sess->beginStep("AST -> HIR Lowering stage", MeasUnit::Node);
-        lower();
+
+        auto hirParty = lower();
+
+        printHir(hirParty);
+
         sess->endStep();
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
             log.info("Stop after lowering due to `-compile-depth=lowering`");
             return;
         }
+
+        sess->beginStep("Type check", MeasUnit::NA);
+        typeck(hirParty);
+        sess->endStep();
     }
 
     /////////////
@@ -450,7 +458,7 @@ namespace jc::core {
     }
 
     // Lowering //
-    void Interface::lower() {
+    hir::Party Interface::lower() {
         log.printTitleDev("Lowering");
 
         sess->beginStep("AST Lowering", MeasUnit::Node);
@@ -460,7 +468,7 @@ namespace jc::core {
         messageHandler.checkResult(loweringResult, "lowering");
         auto hirParty = loweringResult.takeUnchecked();
 
-        printHir(hirParty);
+        return hirParty;
     }
 
     void Interface::printHir(const hir::Party & party) {
@@ -475,6 +483,15 @@ namespace jc::core {
         sess->endStep();
 
         hirPrinter.print();
+    }
+
+    void Interface::typeck(const hir::Party & party) {
+        sess->beginStep("Collect items types", sess::MeasUnit::NA);
+        typeck::ItemCollector itemCollector {party, sess};
+        itemCollector.visit();
+        sess->endStep();
+
+
     }
 
     // Messages //

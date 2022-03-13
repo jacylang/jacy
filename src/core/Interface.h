@@ -22,6 +22,8 @@
 #include "session/Session.h"
 #include "hir/lowering/Lowering.h"
 #include "hir/HirPrinter.h"
+#include "typeck/TypePrinter.h"
+#include "typeck/collect/ItemCollector.h"
 
 namespace jc::core {
     using config::Config;
@@ -94,8 +96,12 @@ namespace jc::core {
     private:
         hir::Lowering lowering;
 
-        void lower();
+        hir::Party lower();
         void printHir(const hir::Party & party);
+
+        // Type Check //
+    private:
+        void typeck(const hir::Party & party);
 
         // Logging //
     private:
