@@ -43,10 +43,16 @@ namespace jc::hir {
         Kind kind;
 
         const auto & getCommonFields() const {
+            if (kind != Kind::Struct and kind != Kind::Tuple) {
+                log::devPanic("Called `Variant::getCommonFields` on a unit variant");
+            }
             return std::get<CommonField::List>(data);
         }
 
         const auto & getDiscriminant() const {
+            if (kind != Kind::Unit) {
+                log::devPanic("Called `Variant::getCommonFields` on a struct or tuple variant");
+            }
             return std::get<AnonConst::Opt>(data);
         }
     };
