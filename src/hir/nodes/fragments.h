@@ -257,15 +257,24 @@ namespace jc::hir {
         ValueT value;
         GenericBound::List bounds;
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("Assertion `GenericParam::assertKind` failed");
+            }
+        }
+
         const auto & getType() const {
+            assertKind(Kind::Type);
             return std::get<TypeParam>(value);
         }
 
         const auto & getLifetime() const {
+            assertKind(Kind::Lifetime);
             return std::get<Lifetime>(value);
         }
 
         const auto & getConstParam() const {
+            assertKind(Kind::Const);
             return std::get<ConstParam>(value);
         }
     };
