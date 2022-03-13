@@ -753,6 +753,25 @@ namespace jc::hir {
         visitGenericBoundList(bounds);
     }
 
+    void HirVisitor::visitGenericBoundList(const GenericBound::List & bounds) {
+        visitEach<GenericBound>(bounds, [&](const GenericBound & bound) {
+            visitGenericBound(bound);
+        });
+    }
+
+    void HirVisitor::visitGenericBound(const GenericBound & bound) {
+        switch (bound.kind) {
+            case GenericBound::Kind::Trait: {
+                visitGenericBoundTrait(bound.getTrait());
+                break;
+            }
+            case GenericBound::Kind::Lifetime: {
+                visitGenericBoundLifetime(bound.getLifetime());
+                break;
+            }
+        }
+    }
+
     void HirVisitor::visitGenericArgList(const GenericArg::List & generics) {
         visitEach<GenericArg>(generics, [&](const GenericArg & arg) {
             visitGenericArg(arg);

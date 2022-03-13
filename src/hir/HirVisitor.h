@@ -193,6 +193,8 @@ namespace jc::hir {
 
         virtual void visitGenericBoundList(const GenericBound::List & bounds);
 
+        virtual void visitGenericBound(const GenericBound & bound);
+
         virtual void visitGenericBoundTrait(const GenericBound::Trait & trait);
 
         virtual void visitGenericBoundLifetime(const GenericBound::Lifetime & lifetime);

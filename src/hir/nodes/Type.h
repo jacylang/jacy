@@ -1,6 +1,8 @@
 #ifndef JACY_HIR_NODES_TYPE_H
 #define JACY_HIR_NODES_TYPE_H
 
+#include "ast/Node.h"
+
 namespace jc::hir {
     using ast::NodeId;
     using span::Span;
