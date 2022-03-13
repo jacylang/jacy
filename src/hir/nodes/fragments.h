@@ -190,11 +190,19 @@ namespace jc::hir {
         Kind kind;
         ValueT value;
 
+        void assertKind(Kind kind) const {
+            if (this->kind != kind) {
+                log::devPanic("Assertion `GenericBound::assertKind` failed");
+            }
+        }
+
         const auto & getTrait() const {
+            assertKind(Kind::Trait);
             return std::get<Trait>(value);
         }
 
         const auto & getLifetime() const {
+            assertKind(Kind::Lifetime);
             return std::get<Lifetime>(value);
         }
     };
