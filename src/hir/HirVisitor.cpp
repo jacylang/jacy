@@ -772,6 +772,12 @@ namespace jc::hir {
         }
     }
 
+    void HirVisitor::visitGenericBoundTrait(const GenericBound::Trait & trait) {
+        visitPath(trait.path);
+    }
+
+    void HirVisitor::visitGenericBoundLifetime(const GenericBound::Lifetime & lifetime) {}
+
     void HirVisitor::visitGenericArgList(const GenericArg::List & generics) {
         visitEach<GenericArg>(generics, [&](const GenericArg & arg) {
             visitGenericArg(arg);
