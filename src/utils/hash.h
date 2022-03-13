@@ -13,7 +13,7 @@ namespace jc::utils::hash {
 
     template<class T>
     size_t hashEnum(const T & en) {
-        return hash<std::underlying_type_t<T>>(en);
+        return hash<std::underlying_type_t<T>>(static_cast<typename std::underlying_type<T>::type>(en));
     }
 }
 
