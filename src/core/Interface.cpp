@@ -73,12 +73,10 @@ namespace jc::core {
         }
 
         sess->beginStep("AST -> HIR Lowering stage", MeasUnit::Node);
-
         auto hirParty = lower();
-
         printHir(hirParty);
-
         sess->endStep();
+
         if (config.checkCompileDepth(Config::CompileDepth::Lowering)) {
             log.info("Stop after lowering due to `-compile-depth=lowering`");
             return;
@@ -486,6 +484,8 @@ namespace jc::core {
     }
 
     void Interface::typeck(const hir::Party & party) {
+        log.printTitleDev("Type check");
+
         sess->beginStep("Collect items types", sess::MeasUnit::NA);
         typeck::ItemCollector itemCollector {party, sess};
         itemCollector.visit();
