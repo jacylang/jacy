@@ -65,6 +65,10 @@ namespace jc::typeck {
                 printFuncType(*TypeKind::as<Func>(kind));
                 break;
             }
+            case TypeKind::Kind::Unit: {
+                log.raw("()");
+                break;
+            }
         }
     }
 
