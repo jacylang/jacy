@@ -103,4 +103,12 @@ namespace jc::typeck {
             return convert(type);
         });
     }
+
+    Ty Converter::convertFuncReturnType(const hir::FuncSig::ReturnType & returnType) {
+        if (returnType.isSome()) {
+            return convert(returnType.asSome());
+        }
+
+        return tyCtx.makeUnit();
+    }
 }

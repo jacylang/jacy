@@ -3,6 +3,7 @@
 
 #include "utils/arr.h"
 #include "hir/nodes/types.h"
+#include "hir/nodes/items.h"
 #include "typeck/type/types.h"
 
 namespace jc::typeck {
@@ -21,6 +22,8 @@ namespace jc::typeck {
         Ty convertPrimType(PrimType primType);
 
         Type::List convertTypeList(const hir::Type::List & list);
+
+        Ty convertFuncReturnType(const hir::FuncSig::ReturnType & returnType);
 
     private:
         TypeContext & tyCtx;
