@@ -20,8 +20,9 @@ namespace jc::typeck {
             case hir::TypeKind::Kind::Path: {
                 return convertPath(*hir::TypeKind::as<hir::TypePath>(type.kind));
             }
-            case hir::TypeKind::Kind::Unit:
-                break;
+            case hir::TypeKind::Kind::Unit: {
+                return tyCtx.makeUnit();
+            }
         }
     }
 
