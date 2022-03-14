@@ -59,6 +59,7 @@ namespace jc::typeck {
             Slice, // [T]
             Array, // [T; n]
             Tuple,
+            Unit,
 
             Func,
         };

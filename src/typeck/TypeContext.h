@@ -55,6 +55,10 @@ namespace jc::typeck {
             return makeType(std::make_unique<Str>());
         }
 
+        Ty makeUnit() {
+            return makeType(std::make_unique<Unit>());
+        }
+
         Ty makeRef(Region region, Ty ty) {
             return makeType(std::make_unique<Ref>(region, ty));
         }

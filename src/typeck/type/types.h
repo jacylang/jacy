@@ -148,6 +148,14 @@ namespace jc::typeck {
         }
     };
 
+    struct Unit : TypeKind {
+        Unit() : TypeKind {TypeKind::Kind::Unit} {}
+
+        size_t hash() const override {
+            return 0;
+        }
+    };
+
     struct Func : TypeKind {
         Func(DefId defId, Type::List && inputs, Ty output)
             : TypeKind {TypeKind::Kind::Func},
