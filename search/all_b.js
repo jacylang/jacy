@@ -13,9 +13,10 @@ var searchData=
   ['litexpr_10',['LitExpr',['../structjc_1_1ast_1_1_lit_expr.html',1,'jc::ast::LitExpr'],['../structjc_1_1hir_1_1_lit_expr.html',1,'jc::hir::LitExpr']]],
   ['litpat_11',['LitPat',['../structjc_1_1ast_1_1_lit_pat.html',1,'jc::ast::LitPat'],['../structjc_1_1hir_1_1_lit_pat.html',1,'jc::hir::LitPat']]],
   ['locals_12',['locals',['../structjc_1_1resolve_1_1_rib.html#ac0b0c164d0ee58c1f56cc55d2e570417',1,'jc::resolve::Rib']]],
-  ['location_13',['Location',['../structjc_1_1parser_1_1_location.html',1,'jc::parser']]],
-  ['logger_14',['Logger',['../classjc_1_1log_1_1_logger.html',1,'jc::log']]],
-  ['loggerconfig_15',['LoggerConfig',['../structjc_1_1log_1_1_logger_config.html',1,'jc::log']]],
-  ['loopexpr_16',['LoopExpr',['../structjc_1_1ast_1_1_loop_expr.html',1,'jc::ast::LoopExpr'],['../structjc_1_1hir_1_1_loop_expr.html',1,'jc::hir::LoopExpr']]],
-  ['lowering_17',['Lowering',['../classjc_1_1hir_1_1_lowering.html',1,'jc::hir']]]
+  ['localtypescollector_13',['LocalTypesCollector',['../classjc_1_1typeck_1_1_local_types_collector.html',1,'jc::typeck']]],
+  ['location_14',['Location',['../structjc_1_1parser_1_1_location.html',1,'jc::parser']]],
+  ['logger_15',['Logger',['../classjc_1_1log_1_1_logger.html',1,'jc::log']]],
+  ['loggerconfig_16',['LoggerConfig',['../structjc_1_1log_1_1_logger_config.html',1,'jc::log']]],
+  ['loopexpr_17',['LoopExpr',['../structjc_1_1ast_1_1_loop_expr.html',1,'jc::ast::LoopExpr'],['../structjc_1_1hir_1_1_loop_expr.html',1,'jc::hir::LoopExpr']]],
+  ['lowering_18',['Lowering',['../classjc_1_1hir_1_1_lowering.html',1,'jc::hir']]]
 ];

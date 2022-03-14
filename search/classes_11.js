@@ -19,5 +19,6 @@ var searchData=
   ['typecontext_16',['TypeContext',['../classjc_1_1typeck_1_1_type_context.html',1,'jc::typeck']]],
   ['typekind_17',['TypeKind',['../structjc_1_1hir_1_1_type_kind.html',1,'jc::hir::TypeKind'],['../structjc_1_1typeck_1_1_type_kind.html',1,'jc::typeck::TypeKind']]],
   ['typeparam_18',['TypeParam',['../structjc_1_1hir_1_1_generic_param_1_1_type_param.html',1,'jc::hir::GenericParam']]],
-  ['typepath_19',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]]
+  ['typepath_19',['TypePath',['../structjc_1_1ast_1_1_type_path.html',1,'jc::ast::TypePath'],['../structjc_1_1hir_1_1_type_path.html',1,'jc::hir::TypePath']]],
+  ['typeprinter_20',['TypePrinter',['../classjc_1_1typeck_1_1_type_printer.html',1,'jc::typeck']]]
 ];

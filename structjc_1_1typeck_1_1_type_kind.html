@@ -96,6 +96,7 @@ Inheritance diagram for jc::typeck::TypeKind:</div>
 <area href="structjc_1_1typeck_1_1_slice.html" alt="jc::typeck::Slice" shape="rect" coords="134,616,258,640"/>
 <area href="structjc_1_1typeck_1_1_str.html" alt="jc::typeck::Str" shape="rect" coords="134,672,258,696"/>
 <area href="structjc_1_1typeck_1_1_tuple.html" alt="jc::typeck::Tuple" shape="rect" coords="134,728,258,752"/>
+<area href="structjc_1_1typeck_1_1_unit.html" alt="jc::typeck::Unit" shape="rect" coords="134,784,258,808"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -117,7 +118,8 @@ Public Types</h2></td></tr>
 , <b>Array</b>
 , <b>Tuple</b>
 , <br />
-&#160;&#160;<b>Func</b>
+&#160;&#160;<b>Unit</b>
+, <b>Func</b>
 <br />
  }</td></tr>
 <tr class="separator:abaf796df008bbc4df10557a28a594e2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +142,10 @@ Static Public Member Functions</h2></td></tr>
 template&lt;class T , class ... Args&gt; </td></tr>
 <tr class="memitem:a3fd61309fe73fe4a22c0dcab777d89be"><td class="memTemplItemLeft" align="right" valign="top">static Ptr&#160;</td><td class="memTemplItemRight" valign="bottom"><b>make</b> (Args &amp;&amp;...args)</td></tr>
 <tr class="separator:a3fd61309fe73fe4a22c0dcab777d89be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2231daa416782b3bd512c4e6f6981ce8"><td class="memTemplParams" colspan="2"><a id="a2231daa416782b3bd512c4e6f6981ce8" name="a2231daa416782b3bd512c4e6f6981ce8"></a>
+template&lt;class T &gt; </td></tr>
+<tr class="memitem:a2231daa416782b3bd512c4e6f6981ce8"><td class="memTemplItemLeft" align="right" valign="top">static T *&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> (const Ptr &amp;type)</td></tr>
+<tr class="separator:a2231daa416782b3bd512c4e6f6981ce8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>

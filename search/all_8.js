@@ -28,7 +28,9 @@ var searchData=
   ['is_5funique_5fptr_25',['is_unique_ptr',['../structjc_1_1dt_1_1is__unique__ptr.html',1,'jc::dt']]],
   ['is_5funique_5fptr_3c_20std_3a_3aunique_5fptr_3c_20t_20_3e_20_3e_26',['is_unique_ptr&lt; std::unique_ptr&lt; T &gt; &gt;',['../structjc_1_1dt_1_1is__unique__ptr_3_01std_1_1unique__ptr_3_01_t_01_4_01_4.html',1,'jc::dt']]],
   ['item_27',['Item',['../structjc_1_1ast_1_1_item.html',1,'jc::ast::Item'],['../structjc_1_1hir_1_1_item.html',1,'jc::hir::Item']]],
-  ['itemid_28',['ItemId',['../structjc_1_1hir_1_1_item_id.html',1,'jc::hir']]],
-  ['itemkind_29',['ItemKind',['../structjc_1_1hir_1_1_item_kind.html',1,'jc::hir']]],
-  ['itemstmt_30',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]]
+  ['itemcollector_28',['ItemCollector',['../classcode__test_1_1_item_collector.html',1,'code_test::ItemCollector'],['../classjc_1_1typeck_1_1_item_collector.html',1,'jc::typeck::ItemCollector']]],
+  ['itemdata_29',['ItemData',['../structjc_1_1hir_1_1_item_1_1_item_data.html',1,'jc::hir::Item']]],
+  ['itemid_30',['ItemId',['../structjc_1_1hir_1_1_item_id.html',1,'jc::hir']]],
+  ['itemkind_31',['ItemKind',['../structjc_1_1hir_1_1_item_kind.html',1,'jc::hir']]],
+  ['itemstmt_32',['ItemStmt',['../structjc_1_1ast_1_1_item_stmt.html',1,'jc::ast::ItemStmt'],['../structjc_1_1hir_1_1_item_stmt.html',1,'jc::hir::ItemStmt']]]
 ];

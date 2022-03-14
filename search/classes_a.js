@@ -11,9 +11,10 @@ var searchData=
   ['listexpr_8',['ListExpr',['../structjc_1_1ast_1_1_list_expr.html',1,'jc::ast::ListExpr'],['../structjc_1_1hir_1_1_list_expr.html',1,'jc::hir::ListExpr']]],
   ['litexpr_9',['LitExpr',['../structjc_1_1ast_1_1_lit_expr.html',1,'jc::ast::LitExpr'],['../structjc_1_1hir_1_1_lit_expr.html',1,'jc::hir::LitExpr']]],
   ['litpat_10',['LitPat',['../structjc_1_1ast_1_1_lit_pat.html',1,'jc::ast::LitPat'],['../structjc_1_1hir_1_1_lit_pat.html',1,'jc::hir::LitPat']]],
-  ['location_11',['Location',['../structjc_1_1parser_1_1_location.html',1,'jc::parser']]],
-  ['logger_12',['Logger',['../classjc_1_1log_1_1_logger.html',1,'jc::log']]],
-  ['loggerconfig_13',['LoggerConfig',['../structjc_1_1log_1_1_logger_config.html',1,'jc::log']]],
-  ['loopexpr_14',['LoopExpr',['../structjc_1_1ast_1_1_loop_expr.html',1,'jc::ast::LoopExpr'],['../structjc_1_1hir_1_1_loop_expr.html',1,'jc::hir::LoopExpr']]],
-  ['lowering_15',['Lowering',['../classjc_1_1hir_1_1_lowering.html',1,'jc::hir']]]
+  ['localtypescollector_11',['LocalTypesCollector',['../classjc_1_1typeck_1_1_local_types_collector.html',1,'jc::typeck']]],
+  ['location_12',['Location',['../structjc_1_1parser_1_1_location.html',1,'jc::parser']]],
+  ['logger_13',['Logger',['../classjc_1_1log_1_1_logger.html',1,'jc::log']]],
+  ['loggerconfig_14',['LoggerConfig',['../structjc_1_1log_1_1_logger_config.html',1,'jc::log']]],
+  ['loopexpr_15',['LoopExpr',['../structjc_1_1ast_1_1_loop_expr.html',1,'jc::ast::LoopExpr'],['../structjc_1_1hir_1_1_loop_expr.html',1,'jc::hir::LoopExpr']]],
+  ['lowering_16',['Lowering',['../classjc_1_1hir_1_1_lowering.html',1,'jc::hir']]]
 ];
