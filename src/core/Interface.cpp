@@ -127,7 +127,7 @@ namespace jc::core {
         astParty = ast::Party(std::move(rootFile->items));
 
         if (config.checkDevPrint(Config::DevPrint::DirTree)) {
-            log.info("Printing directory tree (`--print=dir-tree`)");
+            log.info("Printing directory tree (`--dev-print=dir-tree`)");
             printDirTree(curFsEntry, "");
         }
 
@@ -274,7 +274,7 @@ namespace jc::core {
             sourceFile.path,
             "] by fileId [",
             parseSess->fileId,
-            "] (`--print source`)"
+            "] (`--dev-print source`)"
         );
 
         log.dev("Source lines indices: ", sourceFile.linesIndices);
@@ -304,7 +304,7 @@ namespace jc::core {
         sess->beginStep("Printing " + path.string() + " tokens", MeasUnit::Token);
 
         log::Logger::nl();
-        log.info("Printing tokens for file [", path, "] (`--print=tokens`) [Count of tokens: ", tokens.size(), "]");
+        log.info("Printing tokens for file [", path, "] (`--dev-print=tokens`) [Count of tokens: ", tokens.size(), "]");
         for (const auto & token : tokens) {
             log.raw(token.dump(true)).nl();
         }
@@ -333,7 +333,7 @@ namespace jc::core {
         log::Logger::nl();
 
         // TODO: Add count of nodes when replacement for NodeId::NodeMap will be implemented
-        log.info("Printing AST after ", modeStr, " (`--print=", cliParam, "`)");
+        log.info("Printing AST after ", modeStr, " (`--dev-print=", cliParam, "`)");
 
         sess->beginStep("AST Printing after " + modeStr, MeasUnit::Node);
         astPrinter.print(sess, astParty.unwrap(), mode);
@@ -390,7 +390,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing module tree after ", afterStage, " (`--print=mod-tree`)");
+        log.info("Printing module tree after ", afterStage, " (`--dev-print=mod-tree`)");
 
         sess->beginStep("Module tree printing after " + afterStage, MeasUnit::Def);
         moduleTreePrinter.print(sess);
@@ -404,7 +404,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing definitions after ", afterStage, " (`--print=definitions`)");
+        log.info("Printing definitions after ", afterStage, " (`--dev-print=definitions`)");
 
         // Linear, no benchmark needed
         for (const auto & def : sess->defTable.getDefinitions()) {
@@ -429,7 +429,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing resolutions (`--print=resolutions`)");
+        log.info("Printing resolutions (`--dev-print=resolutions`)");
 
         // Linear, no benchmark needed
         for (const auto & res : sess->resolutions.getResolutions()) {
@@ -474,7 +474,7 @@ namespace jc::core {
             return;
         }
 
-        log.info("Printing HIR  (`--print=hir`)");
+        log.info("Printing HIR  (`--dev-print=hir`)");
 
         sess->beginStep("HIR Printing", MeasUnit::NA);
         hir::HirPrinter hirPrinter(party);
