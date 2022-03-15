@@ -14,6 +14,8 @@ namespace jc::typeck {
 
     struct Infer : TypeKind {
         struct Var {
+            using ValueT = uint32_t;
+
             bool operator==(const Var & other) const {
                 return val == other.val;
             }
@@ -22,15 +24,33 @@ namespace jc::typeck {
                 return val < other.val;
             }
 
-            uint32_t val;
+            ValueT val;
         };
 
         using ValueT = std::variant<Var>;
 
-        Infer() : TypeKind {TypeKind::Kind::Infer} {}
+        enum class Kind {
+            Var,
+        };
+
+        Infer(Var var) : TypeKind {TypeKind::Kind::Infer}, value {var} {}
+
+        Kind kind;
+        ValueT value;
+
+        const Var & asVar() const {
+            return std::get<Var>(value);
+        }
 
         size_t hash() const override {
-            return 0;
+            size_t hash = utils::hash::hashEnum(kind);
+            switch (kind) {
+                case Kind::Var: {
+                    hash ^= asVar().val;
+                    break;
+                }
+            }
+            return hash;
         }
     };
 
