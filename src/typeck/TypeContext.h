@@ -163,14 +163,28 @@ namespace jc::typeck {
             return exprTypes;
         }
 
+        // Local types //
+    public:
+        void addLocalType(NodeId nodeId, Ty type) {
+            utils::map::assertNewEmplace(localTypes.emplace(nodeId, type), "TypeContext::addLocalType");
+        }
+
+        Ty getLocalType(NodeId nodeId) const {
+            return utils::map::expectAt(localTypes, nodeId, "TypeContext::getLocalType");
+        }
+
+        const auto & getLocalTypes() const {
+            return localTypes;
+        }
+
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
         NodeId::NodeMap<Ty> exprTypes;
+        NodeId::NodeMap<Ty> localTypes;
 
         Infer::Var lastTypeVar {0};
         std::unordered_map<Infer::Var, Ty> typeVars;
-
 
         Converter _converter {*this};
     };
