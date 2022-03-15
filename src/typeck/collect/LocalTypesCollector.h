@@ -18,7 +18,9 @@ namespace jc::typeck {
 
         virtual ~LocalTypesCollector() = default;
 
-
+        // Expressions //
+        void visitLiteralExpr(const hir::LitExpr & literal) override;
+        Ty getLitExprType(const hir::LitExpr::Kind & kind);
 
     private:
         sess::Session::Ptr sess;
