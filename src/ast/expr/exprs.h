@@ -279,7 +279,7 @@ namespace jc::ast {
         LitExpr(ValueT val, const parser::Token & token)
             : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, val {val} {}
 
-        static dt::Result <Int, LitPreEvalErr> intValue(
+        static dt::Result<Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,
             span::Symbol sym,
             span::Symbol::Opt /*TODO: suffix*/
@@ -332,7 +332,7 @@ namespace jc::ast {
         }
 
     public:
-        static dt::Result <LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
+        static dt::Result<LitExpr, LitPreEvalErr> fromToken(const parser::Token & tok) {
             if (not tok.isLiteral()) {
                 log::devPanic("Called `ast::LitExpr::fromToken` with non-literal token '", tok.dump(), "'");
             }

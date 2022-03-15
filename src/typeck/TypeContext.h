@@ -18,6 +18,8 @@ namespace jc::typeck {
             return _converter;
         }
 
+        // Interning //
+    public:
         Ty intern(TypeKind::Ptr && kind) {
             auto hash = Type::hashKind(kind);
             auto found = types.find(hash);
@@ -90,6 +92,18 @@ namespace jc::typeck {
             return makeType(std::make_unique<Func>(defId, std::move(inputs), output));
         }
 
+        // Defaults //
+    public:
+        Ty getDefaultIntTy() {
+            return makeInt(Int::Kind::I64);
+        }
+
+        Ty getDefaultFloatTy() {
+            return makeFloat(Float::Kind::F32);
+        }
+
+        // Item types //
+    public:
         void addItemType(DefId defId, Ty type) {
             utils::map::assertNewEmplace(itemsTypes.emplace(defId, type), "TypeContext::addItemType");
         }
@@ -102,6 +116,8 @@ namespace jc::typeck {
             return itemsTypes;
         }
 
+        // Expr types //
+    public:
         void addExprType(NodeId nodeId, Ty type) {
             utils::map::assertNewEmplace(exprTypes.emplace(nodeId, type), "TypeContext::addExprType");
         }
