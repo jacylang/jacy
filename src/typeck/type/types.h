@@ -13,6 +13,20 @@ namespace jc::typeck {
     };
 
     struct Infer : TypeKind {
+        struct Var {
+            bool operator==(const Var & other) const {
+                return val == other.val;
+            }
+
+            bool operator<(const Var & other) const {
+                return val < other.val;
+            }
+
+            uint32_t val;
+        };
+
+        using ValueT = std::variant<Var>;
+
         Infer() : TypeKind {TypeKind::Kind::Infer} {}
 
         size_t hash() const override {

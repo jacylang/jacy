@@ -61,6 +61,7 @@ namespace jc::typeck {
             Tuple,
             Unit,
 
+            // Item types
             Func,
         };
 
