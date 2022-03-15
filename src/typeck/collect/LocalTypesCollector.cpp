@@ -22,4 +22,15 @@ namespace jc::typeck {
             }
         }
     }
+
+    void LocalTypesCollector::visitBlockExpr(const hir::BlockExpr & block, const hir::Expr::ExprData & data) {
+        const auto & lastStmt = block.block.stmts.back();
+        if (lastStmt.kind->kind == hir::StmtKind::Kind::Expr) {
+            const auto & lastExpr = hir::StmtKind::as<hir::ExprStmt>(lastStmt.kind);
+            // Set last expression statement type as block type
+            tyCtx.addExprType(data.nodeId, tyCtx.getExprType(lastExpr->expr.nodeId));
+        } else {
+            tyCtx.addExprType(data.nodeId, tyCtx.makeUnit());
+        }
+    }
 }

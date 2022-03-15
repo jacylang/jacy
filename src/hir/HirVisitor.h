@@ -209,7 +209,7 @@ namespace jc::hir {
 
         virtual void visitGenericArgType(const Type & type);
 
-    private:
+    protected:
         template<class T>
         void visitEach(const std::vector<T> & list, const std::function<void(const T &)> & visitor) const {
             for (const auto & el : list) {
