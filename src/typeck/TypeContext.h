@@ -5,12 +5,18 @@
 #include "typeck/convert/Converter.h"
 
 namespace jc::typeck {
+    using ast::NodeId;
+
     class TypeContext {
     public:
         using TypeMap = std::map<size_t, Ty>;
 
     public:
         TypeContext() = default;
+
+        auto & converter() {
+            return _converter;
+        }
 
         Ty intern(TypeKind::Ptr && kind) {
             auto hash = Type::hashKind(kind);
@@ -92,17 +98,26 @@ namespace jc::typeck {
             return utils::map::expectAt(itemsTypes, defId, "TypeContext::getItemType");
         }
 
-        auto & converter() {
-            return _converter;
-        }
-
         const auto & getItemsTypes() const {
             return itemsTypes;
+        }
+
+        void addExprType(NodeId nodeId, Ty type) {
+            utils::map::assertNewEmplace(exprTypes.emplace(nodeId, type), "TypeContext::addExprType");
+        }
+
+        Ty getExprType(NodeId nodeId) const {
+            return utils::map::expectAt(exprTypes, nodeId, "TypeContext::getExprType");
+        }
+
+        const auto & getExprTypes() const {
+            return exprTypes;
         }
 
     private:
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
+        NodeId::NodeMap<Ty> exprTypes;
         Converter _converter {*this};
     };
 }
