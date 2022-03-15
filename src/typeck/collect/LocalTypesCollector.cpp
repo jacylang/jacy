@@ -1,7 +1,9 @@
 #include "LocalTypesCollector.h"
 
 namespace jc::typeck {
-    void LocalTypesCollector::visitLiteralExpr(const hir::LitExpr & literal) {
+    void LocalTypesCollector::visitLiteralExpr(const hir::LitExpr & literal, const hir::Expr::ExprData & data) {
+        // TODO!: Suffixes
+        tyCtx.addExprType(data.nodeId, getLitExprType(literal.kind));
     }
 
     Ty LocalTypesCollector::getLitExprType(const hir::LitExpr::Kind & kind) {
