@@ -67,6 +67,35 @@ namespace jc::typeck {
             return makeType(std::make_unique<Unit>());
         }
 
+        Ty makeDefaultPrimTypeByKind(TypeKind::Kind kind) {
+            switch (kind) {
+                case TypeKind::Kind::Bottom: {
+                    return makeBottom();
+                }
+                case TypeKind::Kind::Bool: {
+                    return makeBool();
+                }
+                case TypeKind::Kind::Char: {
+                    return makeChar();
+                }
+                case TypeKind::Kind::Int: {
+                    return getDefaultIntTy();
+                }
+                case TypeKind::Kind::Float: {
+                    return getDefaultFloatTy();
+                }
+                case TypeKind::Kind::Str: {
+                    return makeStr();
+                }
+                case TypeKind::Kind::Unit: {
+                    return makeUnit();
+                }
+                default: {
+                    log::devPanic("Called `TypeContext::makePrimTypeByKind` with non-primitive type kind");
+                }
+            }
+        }
+
         Ty makeRef(Region region, Ty ty) {
             return makeType(std::make_unique<Ref>(region, ty));
         }
