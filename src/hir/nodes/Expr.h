@@ -58,12 +58,24 @@ namespace jc::hir {
         using Opt = Option<Expr>;
         using List = std::vector<Expr>;
 
+        struct ExprData {
+            NodeId nodeId;
+            Span span;
+        };
+
         Expr(ExprKind::Ptr && kind, NodeId nodeId, Span span)
             : kind {std::move(kind)}, nodeId {nodeId}, span {span} {}
 
         ExprKind::Ptr kind;
         NodeId nodeId;
         Span span;
+
+        ExprData getExprData() const {
+            return ExprData {
+                nodeId,
+                span,
+            };
+        }
     };
 }
 
