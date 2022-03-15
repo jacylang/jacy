@@ -19,11 +19,16 @@ namespace jc::typeck {
         virtual ~LocalTypesCollector() = default;
 
         // Expressions //
+    public:
         void visitLiteralExpr(const hir::LitExpr & literal, const hir::Expr::ExprData & data) override;
 
         Ty getLitExprType(const hir::LitExpr::Kind & kind);
 
         void visitBlockExpr(const hir::BlockExpr & block, const hir::Expr::ExprData & data) override;
+
+        // Locals //
+    public:
+        void visitLetStmt(const hir::LetStmt & letStmt) override;
 
     private:
         sess::Session::Ptr sess;
