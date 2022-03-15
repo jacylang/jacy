@@ -72,53 +72,53 @@ namespace jc::hir {
     public:
         virtual void visitExpr(const Expr & expr);
 
-        virtual void visitExprKind(const ExprKind::Ptr & expr);
+        virtual void visitExprKind(const ExprKind::Ptr & expr, const Expr::ExprData & data);
 
-        virtual void visitArrayExpr(const ArrayExpr & array);
+        virtual void visitArrayExpr(const ArrayExpr & array, const Expr::ExprData & data);
 
-        virtual void visitAssignExpr(const AssignExpr & assign);
+        virtual void visitAssignExpr(const AssignExpr & assign, const Expr::ExprData & data);
 
-        virtual void visitBlockExpr(const BlockExpr & block);
+        virtual void visitBlockExpr(const BlockExpr & block, const Expr::ExprData & data);
 
-        virtual void visitBorrowExpr(const BorrowExpr & borrow);
+        virtual void visitBorrowExpr(const BorrowExpr & borrow, const Expr::ExprData & data);
 
-        virtual void visitBreakExpr(const BreakExpr & breakExpr);
+        virtual void visitBreakExpr(const BreakExpr & breakExpr, const Expr::ExprData & data);
 
-        virtual void visitContinueExpr(const ContinueExpr & continueExpr);
+        virtual void visitContinueExpr(const ContinueExpr & continueExpr, const Expr::ExprData & data);
 
-        virtual void visitDerefExpr(const DerefExpr & deref);
+        virtual void visitDerefExpr(const DerefExpr & deref, const Expr::ExprData & data);
 
-        virtual void visitFieldExpr(const FieldExpr & field);
+        virtual void visitFieldExpr(const FieldExpr & field, const Expr::ExprData & data);
 
-        virtual void visitIfExpr(const IfExpr & ifExpr);
+        virtual void visitIfExpr(const IfExpr & ifExpr, const Expr::ExprData & data);
 
-        virtual void visitInfixExpr(const InfixExpr & infix);
+        virtual void visitInfixExpr(const InfixExpr & infix, const Expr::ExprData & data);
 
-        virtual void visitInvokeExpr(const InvokeExpr & invoke);
+        virtual void visitInvokeExpr(const InvokeExpr & invoke, const Expr::ExprData & data);
 
-        virtual void visitLambdaExpr(const LambdaExpr & lambda);
+        virtual void visitLambdaExpr(const LambdaExpr & lambda, const Expr::ExprData & data);
 
-        virtual void visitListExpr(const ListExpr & list);
+        virtual void visitListExpr(const ListExpr & list, const Expr::ExprData & data);
 
-        virtual void visitLiteralExpr(const LitExpr & literal);
+        virtual void visitLiteralExpr(const LitExpr & literal, const Expr::ExprData & data);
 
-        virtual void visitLoopExpr(const LoopExpr & loop);
+        virtual void visitLoopExpr(const LoopExpr & loop, const Expr::ExprData & data);
 
-        virtual void visitMatchExpr(const MatchExpr & match);
+        virtual void visitMatchExpr(const MatchExpr & match, const Expr::ExprData & data);
 
-        virtual void visitPathExpr(const PathExpr & path);
+        virtual void visitPathExpr(const PathExpr & path, const Expr::ExprData & data);
 
-        virtual void visitPrefixExpr(const PrefixExpr & prefix);
+        virtual void visitPrefixExpr(const PrefixExpr & prefix, const Expr::ExprData & data);
 
-        virtual void visitReturnExpr(const ReturnExpr & returnExpr);
+        virtual void visitReturnExpr(const ReturnExpr & returnExpr, const Expr::ExprData & data);
 
-        virtual void visitSelfExpr(const SelfExpr & self);
+        virtual void visitSelfExpr(const SelfExpr & self, const Expr::ExprData & data);
 
-        virtual void visitSubscriptExpr(const Subscript & subscript);
+        virtual void visitSubscriptExpr(const Subscript & subscript, const Expr::ExprData & data);
 
-        virtual void visitTupleExpr(const TupleExpr & tuple);
+        virtual void visitTupleExpr(const TupleExpr & tuple, const Expr::ExprData & data);
 
-        virtual void visitUnitExpr(const UnitExpr & unit);
+        virtual void visitUnitExpr(const UnitExpr & unit, const Expr::ExprData & data);
 
         // Type //
     public:

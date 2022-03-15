@@ -302,142 +302,143 @@ namespace jc::hir {
     // Expr //
     void HirVisitor::visitExpr(const Expr & expr) {
         const auto & exprKind = expr.kind;
-        visitExprKind(exprKind);
+        const auto & data = expr.getExprData();
+        visitExprKind(exprKind, data);
     }
 
-    void HirVisitor::visitExprKind(const ExprKind::Ptr & expr) {
+    void HirVisitor::visitExprKind(const ExprKind::Ptr & expr, const Expr::ExprData & data) {
         switch (expr->kind) {
             case ExprKind::Kind::Array: {
-                visitArrayExpr(*ExprKind::as<ArrayExpr>(expr));
+                visitArrayExpr(*ExprKind::as<ArrayExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Assign: {
-                visitAssignExpr(*ExprKind::as<AssignExpr>(expr));
+                visitAssignExpr(*ExprKind::as<AssignExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Block: {
-                visitBlockExpr(*ExprKind::as<BlockExpr>(expr));
+                visitBlockExpr(*ExprKind::as<BlockExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Borrow: {
-                visitBorrowExpr(*ExprKind::as<BorrowExpr>(expr));
+                visitBorrowExpr(*ExprKind::as<BorrowExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Break: {
-                visitBreakExpr(*ExprKind::as<BreakExpr>(expr));
+                visitBreakExpr(*ExprKind::as<BreakExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Continue: {
-                visitContinueExpr(*ExprKind::as<ContinueExpr>(expr));
+                visitContinueExpr(*ExprKind::as<ContinueExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Deref: {
-                visitDerefExpr(*ExprKind::as<DerefExpr>(expr));
+                visitDerefExpr(*ExprKind::as<DerefExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Field: {
-                visitFieldExpr(*ExprKind::as<FieldExpr>(expr));
+                visitFieldExpr(*ExprKind::as<FieldExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::If: {
-                visitIfExpr(*ExprKind::as<IfExpr>(expr));
+                visitIfExpr(*ExprKind::as<IfExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Infix: {
-                visitInfixExpr(*ExprKind::as<InfixExpr>(expr));
+                visitInfixExpr(*ExprKind::as<InfixExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Invoke: {
-                visitInvokeExpr(*ExprKind::as<InvokeExpr>(expr));
+                visitInvokeExpr(*ExprKind::as<InvokeExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Lambda: {
-                visitLambdaExpr(*ExprKind::as<LambdaExpr>(expr));
+                visitLambdaExpr(*ExprKind::as<LambdaExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::List: {
-                visitListExpr(*ExprKind::as<ListExpr>(expr));
+                visitListExpr(*ExprKind::as<ListExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Literal: {
-                visitLiteralExpr(*ExprKind::as<LitExpr>(expr));
+                visitLiteralExpr(*ExprKind::as<LitExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Loop: {
-                visitLoopExpr(*ExprKind::as<LoopExpr>(expr));
+                visitLoopExpr(*ExprKind::as<LoopExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Match: {
-                visitMatchExpr(*ExprKind::as<MatchExpr>(expr));
+                visitMatchExpr(*ExprKind::as<MatchExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Path: {
-                visitPathExpr(*ExprKind::as<PathExpr>(expr));
+                visitPathExpr(*ExprKind::as<PathExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Prefix: {
-                visitPrefixExpr(*ExprKind::as<PrefixExpr>(expr));
+                visitPrefixExpr(*ExprKind::as<PrefixExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Return: {
-                visitReturnExpr(*ExprKind::as<ReturnExpr>(expr));
+                visitReturnExpr(*ExprKind::as<ReturnExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Self: {
-                visitSelfExpr(*ExprKind::as<SelfExpr>(expr));
+                visitSelfExpr(*ExprKind::as<SelfExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Subscript: {
-                visitSubscriptExpr(*ExprKind::as<Subscript>(expr));
+                visitSubscriptExpr(*ExprKind::as<Subscript>(expr), data);
                 break;
             }
             case ExprKind::Kind::Tuple: {
-                visitTupleExpr(*ExprKind::as<TupleExpr>(expr));
+                visitTupleExpr(*ExprKind::as<TupleExpr>(expr), data);
                 break;
             }
             case ExprKind::Kind::Unit: {
-                visitUnitExpr(*ExprKind::as<UnitExpr>(expr));
+                visitUnitExpr(*ExprKind::as<UnitExpr>(expr), data);
                 break;
             }
         }
     }
 
-    void HirVisitor::visitArrayExpr(const ArrayExpr & array) {
+    void HirVisitor::visitArrayExpr(const ArrayExpr & array, const Expr::ExprData & data) {
         visitEach<Expr>(array.elements, [&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitAssignExpr(const AssignExpr & assign) {
+    void HirVisitor::visitAssignExpr(const AssignExpr & assign, const Expr::ExprData & data) {
         visitExpr(assign.rhs);
         visitExpr(assign.lhs);
     }
 
-    void HirVisitor::visitBlockExpr(const BlockExpr & block) {
+    void HirVisitor::visitBlockExpr(const BlockExpr & block, const Expr::ExprData & data) {
         visitBlock(block.block);
     }
 
-    void HirVisitor::visitBorrowExpr(const BorrowExpr & borrow) {
+    void HirVisitor::visitBorrowExpr(const BorrowExpr & borrow, const Expr::ExprData & data) {
         visitExpr(borrow.rhs);
     }
 
-    void HirVisitor::visitBreakExpr(const BreakExpr & breakExpr) {
+    void HirVisitor::visitBreakExpr(const BreakExpr & breakExpr, const Expr::ExprData & data) {
         breakExpr.value.then([&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitContinueExpr(const ContinueExpr &) {}
+    void HirVisitor::visitContinueExpr(const ContinueExpr &, const Expr::ExprData & data) {}
 
-    void HirVisitor::visitDerefExpr(const DerefExpr & deref) {
+    void HirVisitor::visitDerefExpr(const DerefExpr & deref, const Expr::ExprData & data) {
         visitExpr(deref.rhs);
     }
 
-    void HirVisitor::visitFieldExpr(const FieldExpr & field) {
+    void HirVisitor::visitFieldExpr(const FieldExpr & field, const Expr::ExprData & data) {
         visitExpr(field.lhs);
     }
 
-    void HirVisitor::visitIfExpr(const IfExpr & ifExpr) {
+    void HirVisitor::visitIfExpr(const IfExpr & ifExpr, const Expr::ExprData & data) {
         visitExpr(ifExpr.cond);
 
         ifExpr.ifBranch.then([&](const Block & block) {
@@ -449,19 +450,19 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitInfixExpr(const InfixExpr & infix) {
+    void HirVisitor::visitInfixExpr(const InfixExpr & infix, const Expr::ExprData & data) {
         visitExpr(infix.lhs);
         visitExpr(infix.rhs);
     }
 
-    void HirVisitor::visitInvokeExpr(const InvokeExpr & invoke) {
+    void HirVisitor::visitInvokeExpr(const InvokeExpr & invoke, const Expr::ExprData & data) {
         visitExpr(invoke.lhs);
         visitEach<Arg>(invoke.args, [&](const Arg & arg) {
             visitExpr(arg.node);
         });
     }
 
-    void HirVisitor::visitLambdaExpr(const LambdaExpr & lambda) {
+    void HirVisitor::visitLambdaExpr(const LambdaExpr & lambda, const Expr::ExprData & data) {
         visitEach<LambdaParam>(lambda.params, [&](const LambdaParam & param) {
             visitPat(param.pat);
             param.type.then([&](const Type & type) {
@@ -476,19 +477,19 @@ namespace jc::hir {
         visitBody(lambda.body);
     }
 
-    void HirVisitor::visitListExpr(const ListExpr & list) {
+    void HirVisitor::visitListExpr(const ListExpr & list, const Expr::ExprData & data) {
         visitEach<Expr>(list.els, [&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitLiteralExpr(const LitExpr &) {}
+    void HirVisitor::visitLiteralExpr(const LitExpr &, const Expr::ExprData & data) {}
 
-    void HirVisitor::visitLoopExpr(const LoopExpr & loop) {
+    void HirVisitor::visitLoopExpr(const LoopExpr & loop, const Expr::ExprData & data) {
         visitBlock(loop.body);
     }
 
-    void HirVisitor::visitMatchExpr(const MatchExpr & match) {
+    void HirVisitor::visitMatchExpr(const MatchExpr & match, const Expr::ExprData & data) {
         visitExpr(match.subject);
 
         visitEach<MatchArm>(match.arms, [&](const MatchArm & arm) {
@@ -497,23 +498,23 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitPathExpr(const PathExpr & path) {
+    void HirVisitor::visitPathExpr(const PathExpr & path, const Expr::ExprData & data) {
         visitPath(path.path);
     }
 
-    void HirVisitor::visitPrefixExpr(const PrefixExpr & prefix) {
+    void HirVisitor::visitPrefixExpr(const PrefixExpr & prefix, const Expr::ExprData & data) {
         visitExpr(prefix.rhs);
     }
 
-    void HirVisitor::visitReturnExpr(const ReturnExpr & returnExpr) {
+    void HirVisitor::visitReturnExpr(const ReturnExpr & returnExpr, const Expr::ExprData & data) {
         returnExpr.value.then([&](const Expr & expr) {
             visitExpr(expr);
         });
     }
 
-    void HirVisitor::visitSelfExpr(const SelfExpr &) {}
+    void HirVisitor::visitSelfExpr(const SelfExpr &, const Expr::ExprData & data) {}
 
-    void HirVisitor::visitSubscriptExpr(const Subscript & subscript) {
+    void HirVisitor::visitSubscriptExpr(const Subscript & subscript, const Expr::ExprData & data) {
         visitExpr(subscript.lhs);
 
         visitEach<Expr>(subscript.indices, [&](const Expr & expr) {
@@ -521,13 +522,13 @@ namespace jc::hir {
         });
     }
 
-    void HirVisitor::visitTupleExpr(const TupleExpr & tuple) {
+    void HirVisitor::visitTupleExpr(const TupleExpr & tuple, const Expr::ExprData & data) {
         visitEach<NamedExpr>(tuple.values, [&](const NamedExpr & expr) {
             visitExpr(expr.node);
         });
     }
 
-    void HirVisitor::visitUnitExpr(const UnitExpr &) {}
+    void HirVisitor::visitUnitExpr(const UnitExpr &, const Expr::ExprData & data) {}
 
     // Type //
     void HirVisitor::visitType(const Type & type) {
