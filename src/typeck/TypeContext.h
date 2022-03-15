@@ -39,8 +39,12 @@ namespace jc::typeck {
             return makeType(std::make_unique<Bottom>());
         }
 
-        Ty makeInfer() {
-            return makeType(std::make_unique<Infer>());
+        Infer::Var nextTypeVar() {
+            return lastTypeVar++;
+        }
+
+        Ty makeInferVar() {
+            return makeType(std::make_unique<Infer>(nextTypeVar()));
         }
 
         Ty makeBool() {
@@ -163,6 +167,11 @@ namespace jc::typeck {
         TypeMap types;
         DefId::Map<Ty> itemsTypes;
         NodeId::NodeMap<Ty> exprTypes;
+
+        Infer::Var lastTypeVar {0};
+        std::unordered_map<Infer::Var, Ty> typeVars;
+
+
         Converter _converter {*this};
     };
 }

@@ -24,6 +24,10 @@ namespace jc::typeck {
                 return val < other.val;
             }
 
+            Var operator++(int) {
+                return Var {val++};
+            }
+
             ValueT val;
         };
 
