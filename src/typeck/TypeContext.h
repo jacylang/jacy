@@ -100,8 +100,8 @@ namespace jc::typeck {
             }
         }
 
-        Ty makeRef(Region region, Ty ty) {
-            return makeType(std::make_unique<Ref>(region, ty));
+        Ty makeRef(Region region, Mutability mutability, Ty ty) {
+            return makeType(std::make_unique<Ref>(region, mutability, ty));
         }
 
         Ty makePointer(Mutability mutability, Ty type) {

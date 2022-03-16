@@ -121,9 +121,11 @@ namespace jc::typeck {
     };
 
     struct Ref : TypeKind {
-        Ref(Region region, Ty type) : TypeKind {TypeKind::Kind::Ref}, region {region}, type {type} {}
+        Ref(Region region, Mutability mutability, Ty type)
+            : TypeKind {TypeKind::Kind::Ref}, region {region}, mutability {mutability}, type {type} {}
 
         Region region;
+        Mutability mutability;
         Ty type;
 
         size_t hash() const override {
