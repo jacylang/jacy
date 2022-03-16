@@ -491,19 +491,19 @@ namespace jc::core {
         itemCollector.visit();
         sess->endStep();
 
-        printItemsTypes();
+        printTypedHir(party);
     }
 
-    void Interface::printItemsTypes() {
-        if (not config.checkDevPrint(Config::DevPrint::ItemsTypes)) {
+    void Interface::printTypedHir(const hir::Party & party) {
+        if (not config.checkDevPrint(Config::DevPrint::TypedHir)) {
             return;
         }
 
-        log.info("Printing item types (`--dev-print=items-types`)");
+        log.info("Printing item types (`--dev-print=typed-hir`)");
 
         sess->beginStep("Item types printing", sess::MeasUnit::NA);
-        typeck::TypePrinter typePrinter {sess};
-        typePrinter.print();
+        typeck::TypePrinter typePrinter {party, sess};
+        typePrinter.visit();
         sess->endStep();
     }
 

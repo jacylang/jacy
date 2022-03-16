@@ -44,7 +44,7 @@ namespace jc::config {
         {"definitions",  Config::DevPrint::Definitions},
         {"resolutions",  Config::DevPrint::Resolutions},
         {"hir",          Config::DevPrint::Hir},
-        {"items-types",  Config::DevPrint::ItemsTypes},
+        {"typed-hir",    Config::DevPrint::TypedHir},
         {"all",          Config::DevPrint::All},
     };
 

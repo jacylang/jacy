@@ -15,9 +15,9 @@ namespace jc::typeck {
 
         void visitExpr(const hir::Expr & expr) override;
 
+    private:
         void printItemsTypes();
 
-    private:
         void printType(Ty ty);
 
         void printIntType(const Int & intType);

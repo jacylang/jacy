@@ -65,7 +65,7 @@ namespace jc::config {
             Definitions,
             Resolutions,
             Hir,
-            ItemsTypes,
+            TypedHir,
 
             All,
         };
