@@ -338,7 +338,7 @@ $(function() {
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        LitExpr(ValueT val, <span class="keyword">const</span> <a class="code hl_struct" href="structjc_1_1parser_1_1_token.html">parser::Token</a> &amp; token)</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, val {val} {}</div>
 <div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <span class="keyword">static</span> dt::Result &lt;Int, LitPreEvalErr&gt; intValue(</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <span class="keyword">static</span> dt::Result&lt;Int, LitPreEvalErr&gt; intValue(</div>
 <div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            parser::TokLit::Kind kind,</div>
 <div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>            span::Symbol sym,</div>
 <div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            span::Symbol::Opt <span class="comment">/*TODO: suffix*/</span></div>
@@ -391,7 +391,7 @@ $(function() {
 <div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        }</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
 <div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keyword">static</span> dt::Result &lt;LitExpr, LitPreEvalErr&gt; fromToken(<span class="keyword">const</span> parser::Token &amp; tok) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keyword">static</span> dt::Result&lt;LitExpr, LitPreEvalErr&gt; fromToken(<span class="keyword">const</span> parser::Token &amp; tok) {</div>
 <div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>            <span class="keywordflow">if</span> (not tok.isLiteral()) {</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                log::devPanic(<span class="stringliteral">&quot;Called `ast::LitExpr::fromToken` with non-literal token &#39;&quot;</span>, tok.dump(), <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>            }</div>

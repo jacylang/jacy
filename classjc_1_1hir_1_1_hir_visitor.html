@@ -70,6 +70,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classjc_1_1hir_1_1_hir_visitor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">jc::hir::HirVisitor Class Reference</div></div>
@@ -83,6 +84,7 @@ Inheritance diagram for jc::hir::HirVisitor:</div>
   <map id="jc::hir::HirVisitor_map" name="jc::hir::HirVisitor_map">
 <area href="classjc_1_1typeck_1_1_item_collector.html" alt="jc::typeck::ItemCollector" shape="rect" coords="0,56,187,80"/>
 <area href="classjc_1_1typeck_1_1_local_types_collector.html" title="Collects types of expressions and let statements (if have an annotation)" alt="jc::typeck::LocalTypesCollector" shape="rect" coords="197,56,384,80"/>
+<area href="classjc_1_1typeck_1_1_type_printer.html" alt="jc::typeck::TypePrinter" shape="rect" coords="394,56,581,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -175,78 +177,78 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitExprStmt
 <tr class="memitem:a1b41e8d01820de42f46d0351a2faf031"><td class="memItemLeft" align="right" valign="top"><a id="a1b41e8d01820de42f46d0351a2faf031" name="a1b41e8d01820de42f46d0351a2faf031"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_expr.html">Expr</a> &amp;expr)</td></tr>
 <tr class="separator:a1b41e8d01820de42f46d0351a2faf031"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19c94ce64eedc6895d556c342184598a"><td class="memItemLeft" align="right" valign="top"><a id="a19c94ce64eedc6895d556c342184598a" name="a19c94ce64eedc6895d556c342184598a"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitExprKind</b> (const ExprKind::Ptr &amp;expr)</td></tr>
-<tr class="separator:a19c94ce64eedc6895d556c342184598a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c53f1e77b6c3d013dca725bad5356d4"><td class="memItemLeft" align="right" valign="top"><a id="a9c53f1e77b6c3d013dca725bad5356d4" name="a9c53f1e77b6c3d013dca725bad5356d4"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitArrayExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_array_expr.html">ArrayExpr</a> &amp;array)</td></tr>
-<tr class="separator:a9c53f1e77b6c3d013dca725bad5356d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae72d57a703ccc6dfde4265bb57e07fe3"><td class="memItemLeft" align="right" valign="top"><a id="ae72d57a703ccc6dfde4265bb57e07fe3" name="ae72d57a703ccc6dfde4265bb57e07fe3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitAssignExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_assign_expr.html">AssignExpr</a> &amp;assign)</td></tr>
-<tr class="separator:ae72d57a703ccc6dfde4265bb57e07fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32183e7ad6c520d425b83d358bb5e3b6"><td class="memItemLeft" align="right" valign="top"><a id="a32183e7ad6c520d425b83d358bb5e3b6" name="a32183e7ad6c520d425b83d358bb5e3b6"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBlockExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_block_expr.html">BlockExpr</a> &amp;block)</td></tr>
-<tr class="separator:a32183e7ad6c520d425b83d358bb5e3b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af18edacc7d52a54d25ef5836e2c842c7"><td class="memItemLeft" align="right" valign="top"><a id="af18edacc7d52a54d25ef5836e2c842c7" name="af18edacc7d52a54d25ef5836e2c842c7"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBorrowExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_borrow_expr.html">BorrowExpr</a> &amp;borrow)</td></tr>
-<tr class="separator:af18edacc7d52a54d25ef5836e2c842c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c6c8e5ea4b9571282ccf147f165f8ac"><td class="memItemLeft" align="right" valign="top"><a id="a2c6c8e5ea4b9571282ccf147f165f8ac" name="a2c6c8e5ea4b9571282ccf147f165f8ac"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBreakExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_break_expr.html">BreakExpr</a> &amp;breakExpr)</td></tr>
-<tr class="separator:a2c6c8e5ea4b9571282ccf147f165f8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26f551ce4c2dd4895a52ad12398bc58d"><td class="memItemLeft" align="right" valign="top"><a id="a26f551ce4c2dd4895a52ad12398bc58d" name="a26f551ce4c2dd4895a52ad12398bc58d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitContinueExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_continue_expr.html">ContinueExpr</a> &amp;continueExpr)</td></tr>
-<tr class="separator:a26f551ce4c2dd4895a52ad12398bc58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2a127ded503a9bd38c2448a42a435e7"><td class="memItemLeft" align="right" valign="top"><a id="ad2a127ded503a9bd38c2448a42a435e7" name="ad2a127ded503a9bd38c2448a42a435e7"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitDerefExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_deref_expr.html">DerefExpr</a> &amp;deref)</td></tr>
-<tr class="separator:ad2a127ded503a9bd38c2448a42a435e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e4b5d981673af6634010a2b3807798b"><td class="memItemLeft" align="right" valign="top"><a id="a6e4b5d981673af6634010a2b3807798b" name="a6e4b5d981673af6634010a2b3807798b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitFieldExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_field_expr.html">FieldExpr</a> &amp;field)</td></tr>
-<tr class="separator:a6e4b5d981673af6634010a2b3807798b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b707e4544f2cd2930e507ecb2703aa6"><td class="memItemLeft" align="right" valign="top"><a id="a0b707e4544f2cd2930e507ecb2703aa6" name="a0b707e4544f2cd2930e507ecb2703aa6"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitIfExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_if_expr.html">IfExpr</a> &amp;ifExpr)</td></tr>
-<tr class="separator:a0b707e4544f2cd2930e507ecb2703aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a467065f1e5c590f6e731758512eeee2b"><td class="memItemLeft" align="right" valign="top"><a id="a467065f1e5c590f6e731758512eeee2b" name="a467065f1e5c590f6e731758512eeee2b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitInfixExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_infix_expr.html">InfixExpr</a> &amp;infix)</td></tr>
-<tr class="separator:a467065f1e5c590f6e731758512eeee2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a68c2f235873f0b9c0aa9a0e59f9efc7e"><td class="memItemLeft" align="right" valign="top"><a id="a68c2f235873f0b9c0aa9a0e59f9efc7e" name="a68c2f235873f0b9c0aa9a0e59f9efc7e"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitInvokeExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_invoke_expr.html">InvokeExpr</a> &amp;invoke)</td></tr>
-<tr class="separator:a68c2f235873f0b9c0aa9a0e59f9efc7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02a6aa5cd463602917fedb1145e924cb"><td class="memItemLeft" align="right" valign="top"><a id="a02a6aa5cd463602917fedb1145e924cb" name="a02a6aa5cd463602917fedb1145e924cb"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLambdaExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_lambda_expr.html">LambdaExpr</a> &amp;lambda)</td></tr>
-<tr class="separator:a02a6aa5cd463602917fedb1145e924cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7433d1023fc2509b4dbc3be4b3d366e"><td class="memItemLeft" align="right" valign="top"><a id="aa7433d1023fc2509b4dbc3be4b3d366e" name="aa7433d1023fc2509b4dbc3be4b3d366e"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitListExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_list_expr.html">ListExpr</a> &amp;list)</td></tr>
-<tr class="separator:aa7433d1023fc2509b4dbc3be4b3d366e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a320340427ac79a11d18704a9f51ee04c"><td class="memItemLeft" align="right" valign="top"><a id="a320340427ac79a11d18704a9f51ee04c" name="a320340427ac79a11d18704a9f51ee04c"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLiteralExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_lit_expr.html">LitExpr</a> &amp;literal)</td></tr>
-<tr class="separator:a320340427ac79a11d18704a9f51ee04c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a765cc2019e92385a3e9633aa0d976e06"><td class="memItemLeft" align="right" valign="top"><a id="a765cc2019e92385a3e9633aa0d976e06" name="a765cc2019e92385a3e9633aa0d976e06"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLoopExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_loop_expr.html">LoopExpr</a> &amp;loop)</td></tr>
-<tr class="separator:a765cc2019e92385a3e9633aa0d976e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a296304017d40166859cb097d2d2d5d75"><td class="memItemLeft" align="right" valign="top"><a id="a296304017d40166859cb097d2d2d5d75" name="a296304017d40166859cb097d2d2d5d75"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitMatchExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_match_expr.html">MatchExpr</a> &amp;match)</td></tr>
-<tr class="separator:a296304017d40166859cb097d2d2d5d75"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bc9917e3151ef26d327865e14556086"><td class="memItemLeft" align="right" valign="top"><a id="a3bc9917e3151ef26d327865e14556086" name="a3bc9917e3151ef26d327865e14556086"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitPathExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_path_expr.html">PathExpr</a> &amp;path)</td></tr>
-<tr class="separator:a3bc9917e3151ef26d327865e14556086"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af0c4d938bf2d135535ee1be8963e188f"><td class="memItemLeft" align="right" valign="top"><a id="af0c4d938bf2d135535ee1be8963e188f" name="af0c4d938bf2d135535ee1be8963e188f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitPrefixExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_prefix_expr.html">PrefixExpr</a> &amp;prefix)</td></tr>
-<tr class="separator:af0c4d938bf2d135535ee1be8963e188f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4621304ff1508fc8ee8785652f1123af"><td class="memItemLeft" align="right" valign="top"><a id="a4621304ff1508fc8ee8785652f1123af" name="a4621304ff1508fc8ee8785652f1123af"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitReturnExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_return_expr.html">ReturnExpr</a> &amp;returnExpr)</td></tr>
-<tr class="separator:a4621304ff1508fc8ee8785652f1123af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee20234630d0e9cb8a536458bda6c24f"><td class="memItemLeft" align="right" valign="top"><a id="aee20234630d0e9cb8a536458bda6c24f" name="aee20234630d0e9cb8a536458bda6c24f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitSelfExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_self_expr.html">SelfExpr</a> &amp;self)</td></tr>
-<tr class="separator:aee20234630d0e9cb8a536458bda6c24f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75974654141b727d0116ac2d1cd3cb80"><td class="memItemLeft" align="right" valign="top"><a id="a75974654141b727d0116ac2d1cd3cb80" name="a75974654141b727d0116ac2d1cd3cb80"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitSubscriptExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_subscript.html">Subscript</a> &amp;subscript)</td></tr>
-<tr class="separator:a75974654141b727d0116ac2d1cd3cb80"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f6b2169de978ae644a25494e9ff120d"><td class="memItemLeft" align="right" valign="top"><a id="a0f6b2169de978ae644a25494e9ff120d" name="a0f6b2169de978ae644a25494e9ff120d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitTupleExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_tuple_expr.html">TupleExpr</a> &amp;tuple)</td></tr>
-<tr class="separator:a0f6b2169de978ae644a25494e9ff120d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7afcdec03e7993d027fe1b3d62d07dd7"><td class="memItemLeft" align="right" valign="top"><a id="a7afcdec03e7993d027fe1b3d62d07dd7" name="a7afcdec03e7993d027fe1b3d62d07dd7"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitUnitExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_unit_expr.html">UnitExpr</a> &amp;unit)</td></tr>
-<tr class="separator:a7afcdec03e7993d027fe1b3d62d07dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a764ffa078c5d4900aba99e8406fd1fd7"><td class="memItemLeft" align="right" valign="top"><a id="a764ffa078c5d4900aba99e8406fd1fd7" name="a764ffa078c5d4900aba99e8406fd1fd7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitExprKind</b> (const ExprKind::Ptr &amp;expr, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a764ffa078c5d4900aba99e8406fd1fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9a932d2bcd90325c0fec9102f7b33c0"><td class="memItemLeft" align="right" valign="top"><a id="aa9a932d2bcd90325c0fec9102f7b33c0" name="aa9a932d2bcd90325c0fec9102f7b33c0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitArrayExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_array_expr.html">ArrayExpr</a> &amp;array, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:aa9a932d2bcd90325c0fec9102f7b33c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a393dfcb51b0c6a60a4ce14235092266d"><td class="memItemLeft" align="right" valign="top"><a id="a393dfcb51b0c6a60a4ce14235092266d" name="a393dfcb51b0c6a60a4ce14235092266d"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitAssignExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_assign_expr.html">AssignExpr</a> &amp;assign, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a393dfcb51b0c6a60a4ce14235092266d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db3f7ae4895c1247af92501b963b9f1"><td class="memItemLeft" align="right" valign="top"><a id="a0db3f7ae4895c1247af92501b963b9f1" name="a0db3f7ae4895c1247af92501b963b9f1"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBlockExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_block_expr.html">BlockExpr</a> &amp;block, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a0db3f7ae4895c1247af92501b963b9f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad850cab59ccbdc4de66302689d7456ad"><td class="memItemLeft" align="right" valign="top"><a id="ad850cab59ccbdc4de66302689d7456ad" name="ad850cab59ccbdc4de66302689d7456ad"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBorrowExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_borrow_expr.html">BorrowExpr</a> &amp;borrow, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:ad850cab59ccbdc4de66302689d7456ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d251de5dfcdf2aac0a2af03a843ed62"><td class="memItemLeft" align="right" valign="top"><a id="a1d251de5dfcdf2aac0a2af03a843ed62" name="a1d251de5dfcdf2aac0a2af03a843ed62"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitBreakExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_break_expr.html">BreakExpr</a> &amp;breakExpr, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a1d251de5dfcdf2aac0a2af03a843ed62"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e4e6e81384faa896d9280ace0513819"><td class="memItemLeft" align="right" valign="top"><a id="a5e4e6e81384faa896d9280ace0513819" name="a5e4e6e81384faa896d9280ace0513819"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitContinueExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_continue_expr.html">ContinueExpr</a> &amp;continueExpr, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a5e4e6e81384faa896d9280ace0513819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa097587ef8bef6f9b05943f0a67b2ed5"><td class="memItemLeft" align="right" valign="top"><a id="aa097587ef8bef6f9b05943f0a67b2ed5" name="aa097587ef8bef6f9b05943f0a67b2ed5"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitDerefExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_deref_expr.html">DerefExpr</a> &amp;deref, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:aa097587ef8bef6f9b05943f0a67b2ed5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1941fb5421ecc75558451d98840cdf2"><td class="memItemLeft" align="right" valign="top"><a id="af1941fb5421ecc75558451d98840cdf2" name="af1941fb5421ecc75558451d98840cdf2"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitFieldExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_field_expr.html">FieldExpr</a> &amp;field, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:af1941fb5421ecc75558451d98840cdf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8f6bb014c3507fe586bc0277ee110ec"><td class="memItemLeft" align="right" valign="top"><a id="af8f6bb014c3507fe586bc0277ee110ec" name="af8f6bb014c3507fe586bc0277ee110ec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitIfExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_if_expr.html">IfExpr</a> &amp;ifExpr, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:af8f6bb014c3507fe586bc0277ee110ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7f75803e0fd6d517085ec3a4e62d2e7"><td class="memItemLeft" align="right" valign="top"><a id="ad7f75803e0fd6d517085ec3a4e62d2e7" name="ad7f75803e0fd6d517085ec3a4e62d2e7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitInfixExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_infix_expr.html">InfixExpr</a> &amp;infix, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:ad7f75803e0fd6d517085ec3a4e62d2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec3cc860a84361160789bbc15e4ffbdb"><td class="memItemLeft" align="right" valign="top"><a id="aec3cc860a84361160789bbc15e4ffbdb" name="aec3cc860a84361160789bbc15e4ffbdb"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitInvokeExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_invoke_expr.html">InvokeExpr</a> &amp;invoke, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:aec3cc860a84361160789bbc15e4ffbdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadc55b53d40ff3390f9331815fccac25"><td class="memItemLeft" align="right" valign="top"><a id="aadc55b53d40ff3390f9331815fccac25" name="aadc55b53d40ff3390f9331815fccac25"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLambdaExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_lambda_expr.html">LambdaExpr</a> &amp;lambda, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:aadc55b53d40ff3390f9331815fccac25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e7cf0fa7c7d760a2371041a6d3f1f7"><td class="memItemLeft" align="right" valign="top"><a id="a72e7cf0fa7c7d760a2371041a6d3f1f7" name="a72e7cf0fa7c7d760a2371041a6d3f1f7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitListExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_list_expr.html">ListExpr</a> &amp;list, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a72e7cf0fa7c7d760a2371041a6d3f1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bcfdd4b87ecf9d73547247cda75a23a"><td class="memItemLeft" align="right" valign="top"><a id="a0bcfdd4b87ecf9d73547247cda75a23a" name="a0bcfdd4b87ecf9d73547247cda75a23a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLiteralExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_lit_expr.html">LitExpr</a> &amp;literal, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a0bcfdd4b87ecf9d73547247cda75a23a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47eb0a8090fcbbad2ef37693a30e985c"><td class="memItemLeft" align="right" valign="top"><a id="a47eb0a8090fcbbad2ef37693a30e985c" name="a47eb0a8090fcbbad2ef37693a30e985c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitLoopExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_loop_expr.html">LoopExpr</a> &amp;loop, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a47eb0a8090fcbbad2ef37693a30e985c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd64eb179b318ce4cfad186caca12d8"><td class="memItemLeft" align="right" valign="top"><a id="afdd64eb179b318ce4cfad186caca12d8" name="afdd64eb179b318ce4cfad186caca12d8"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitMatchExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_match_expr.html">MatchExpr</a> &amp;match, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:afdd64eb179b318ce4cfad186caca12d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a687cdba01d1948d74f63c55770e54d11"><td class="memItemLeft" align="right" valign="top"><a id="a687cdba01d1948d74f63c55770e54d11" name="a687cdba01d1948d74f63c55770e54d11"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitPathExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_path_expr.html">PathExpr</a> &amp;path, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a687cdba01d1948d74f63c55770e54d11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb43d241b03acb1dfc888567030b016a"><td class="memItemLeft" align="right" valign="top"><a id="adb43d241b03acb1dfc888567030b016a" name="adb43d241b03acb1dfc888567030b016a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitPrefixExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_prefix_expr.html">PrefixExpr</a> &amp;prefix, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:adb43d241b03acb1dfc888567030b016a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86d7e7aceaebb5ff596eb7e940a17dc7"><td class="memItemLeft" align="right" valign="top"><a id="a86d7e7aceaebb5ff596eb7e940a17dc7" name="a86d7e7aceaebb5ff596eb7e940a17dc7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitReturnExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_return_expr.html">ReturnExpr</a> &amp;returnExpr, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a86d7e7aceaebb5ff596eb7e940a17dc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d5247f77692396a41e6a9ef53b38ef5"><td class="memItemLeft" align="right" valign="top"><a id="a4d5247f77692396a41e6a9ef53b38ef5" name="a4d5247f77692396a41e6a9ef53b38ef5"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitSelfExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_self_expr.html">SelfExpr</a> &amp;self, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a4d5247f77692396a41e6a9ef53b38ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3643849235e95e72527413c9373b9525"><td class="memItemLeft" align="right" valign="top"><a id="a3643849235e95e72527413c9373b9525" name="a3643849235e95e72527413c9373b9525"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitSubscriptExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_subscript.html">Subscript</a> &amp;subscript, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a3643849235e95e72527413c9373b9525"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c104c120a23d5cc12fd6cbebf3ef10c"><td class="memItemLeft" align="right" valign="top"><a id="a2c104c120a23d5cc12fd6cbebf3ef10c" name="a2c104c120a23d5cc12fd6cbebf3ef10c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitTupleExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_tuple_expr.html">TupleExpr</a> &amp;tuple, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a2c104c120a23d5cc12fd6cbebf3ef10c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a311e2f9cecaee9d0729bb6bc26f2c952"><td class="memItemLeft" align="right" valign="top"><a id="a311e2f9cecaee9d0729bb6bc26f2c952" name="a311e2f9cecaee9d0729bb6bc26f2c952"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitUnitExpr</b> (const <a class="el" href="structjc_1_1hir_1_1_unit_expr.html">UnitExpr</a> &amp;unit, const <a class="el" href="structjc_1_1hir_1_1_expr_1_1_expr_data.html">Expr::ExprData</a> &amp;data)</td></tr>
+<tr class="separator:a311e2f9cecaee9d0729bb6bc26f2c952"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4381935aec0ca8e79c3f2f7861afe740"><td class="memItemLeft" align="right" valign="top"><a id="a4381935aec0ca8e79c3f2f7861afe740" name="a4381935aec0ca8e79c3f2f7861afe740"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitType</b> (const <a class="el" href="structjc_1_1hir_1_1_type.html">Type</a> &amp;type)</td></tr>
 <tr class="separator:a4381935aec0ca8e79c3f2f7861afe740"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -358,6 +360,13 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitGenericA
 <tr class="memitem:a2c0cbf59fb2bf674389477d1e467754a"><td class="memItemLeft" align="right" valign="top"><a id="a2c0cbf59fb2bf674389477d1e467754a" name="a2c0cbf59fb2bf674389477d1e467754a"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>visitGenericArgType</b> (const <a class="el" href="structjc_1_1hir_1_1_type.html">Type</a> &amp;type)</td></tr>
 <tr class="separator:a2c0cbf59fb2bf674389477d1e467754a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:abb50d38e7edab37b1ab79c90bb1dd917"><td class="memTemplParams" colspan="2"><a id="abb50d38e7edab37b1ab79c90bb1dd917" name="abb50d38e7edab37b1ab79c90bb1dd917"></a>
+template&lt;class T &gt; </td></tr>
+<tr class="memitem:abb50d38e7edab37b1ab79c90bb1dd917"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>visitEach</b> (const std::vector&lt; T &gt; &amp;list, const std::function&lt; void(const T &amp;)&gt; &amp;visitor) const</td></tr>
+<tr class="separator:abb50d38e7edab37b1ab79c90bb1dd917"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>

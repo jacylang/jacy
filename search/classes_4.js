@@ -7,6 +7,7 @@ var searchData=
   ['error_4',['Error',['../structjc_1_1common_1_1_error.html',1,'jc::common']]],
   ['errornode_5',['ErrorNode',['../structjc_1_1ast_1_1_error_node.html',1,'jc::ast']]],
   ['expr_6',['Expr',['../structjc_1_1ast_1_1_expr.html',1,'jc::ast::Expr'],['../structjc_1_1hir_1_1_expr.html',1,'jc::hir::Expr']]],
-  ['exprkind_7',['ExprKind',['../structjc_1_1hir_1_1_expr_kind.html',1,'jc::hir']]],
-  ['exprstmt_8',['ExprStmt',['../structjc_1_1ast_1_1_expr_stmt.html',1,'jc::ast::ExprStmt'],['../structjc_1_1hir_1_1_expr_stmt.html',1,'jc::hir::ExprStmt']]]
+  ['exprdata_7',['ExprData',['../structjc_1_1hir_1_1_expr_1_1_expr_data.html',1,'jc::hir::Expr']]],
+  ['exprkind_8',['ExprKind',['../structjc_1_1hir_1_1_expr_kind.html',1,'jc::hir']]],
+  ['exprstmt_9',['ExprStmt',['../structjc_1_1ast_1_1_expr_stmt.html',1,'jc::ast::ExprStmt'],['../structjc_1_1hir_1_1_expr_stmt.html',1,'jc::hir::ExprStmt']]]
 ];

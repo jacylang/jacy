@@ -84,6 +84,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>TypeMap</b> = std::m
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac181d6a7c0e99d5efa1e84bc94852ef1"><td class="memItemLeft" align="right" valign="top"><a id="ac181d6a7c0e99d5efa1e84bc94852ef1" name="ac181d6a7c0e99d5efa1e84bc94852ef1"></a>
+auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>converter</b> ()</td></tr>
+<tr class="separator:ac181d6a7c0e99d5efa1e84bc94852ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3344af19db99ab581376698fb969e2e"><td class="memItemLeft" align="right" valign="top"><a id="ad3344af19db99ab581376698fb969e2e" name="ad3344af19db99ab581376698fb969e2e"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>intern</b> (TypeKind::Ptr &amp;&amp;kind)</td></tr>
 <tr class="separator:ad3344af19db99ab581376698fb969e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -93,9 +96,12 @@ Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeType</b> (TypeKind:
 <tr class="memitem:aaa92904532e7f79e0adcfdd0c6668b58"><td class="memItemLeft" align="right" valign="top"><a id="aaa92904532e7f79e0adcfdd0c6668b58" name="aaa92904532e7f79e0adcfdd0c6668b58"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeBottom</b> ()</td></tr>
 <tr class="separator:aaa92904532e7f79e0adcfdd0c6668b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84dfb4c68773bf58754a806a591b3909"><td class="memItemLeft" align="right" valign="top"><a id="a84dfb4c68773bf58754a806a591b3909" name="a84dfb4c68773bf58754a806a591b3909"></a>
-Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeInfer</b> ()</td></tr>
-<tr class="separator:a84dfb4c68773bf58754a806a591b3909"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a3bfb937c081c248e23d95699749a51"><td class="memItemLeft" align="right" valign="top"><a id="a9a3bfb937c081c248e23d95699749a51" name="a9a3bfb937c081c248e23d95699749a51"></a>
+<a class="el" href="structjc_1_1typeck_1_1_infer_1_1_var.html">Infer::Var</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nextTypeVar</b> ()</td></tr>
+<tr class="separator:a9a3bfb937c081c248e23d95699749a51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a29b33eb84d8277b0dbb889eff281af"><td class="memItemLeft" align="right" valign="top"><a id="a3a29b33eb84d8277b0dbb889eff281af" name="a3a29b33eb84d8277b0dbb889eff281af"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeInferVar</b> ()</td></tr>
+<tr class="separator:a3a29b33eb84d8277b0dbb889eff281af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a026e13796791e10eba0cc01de0dc36fb"><td class="memItemLeft" align="right" valign="top"><a id="a026e13796791e10eba0cc01de0dc36fb" name="a026e13796791e10eba0cc01de0dc36fb"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeBool</b> ()</td></tr>
 <tr class="separator:a026e13796791e10eba0cc01de0dc36fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -114,9 +120,12 @@ Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeStr</b> ()</td></tr
 <tr class="memitem:ac42f698edc62d83d5dc80f6e900770ba"><td class="memItemLeft" align="right" valign="top"><a id="ac42f698edc62d83d5dc80f6e900770ba" name="ac42f698edc62d83d5dc80f6e900770ba"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeUnit</b> ()</td></tr>
 <tr class="separator:ac42f698edc62d83d5dc80f6e900770ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af57b413b7f7023a14404b9425950803f"><td class="memItemLeft" align="right" valign="top"><a id="af57b413b7f7023a14404b9425950803f" name="af57b413b7f7023a14404b9425950803f"></a>
-Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeRef</b> (<a class="el" href="structjc_1_1typeck_1_1_region.html">Region</a> region, Ty ty)</td></tr>
-<tr class="separator:af57b413b7f7023a14404b9425950803f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b3490fdfda4e79bad015bb8478b6123"><td class="memItemLeft" align="right" valign="top"><a id="a1b3490fdfda4e79bad015bb8478b6123" name="a1b3490fdfda4e79bad015bb8478b6123"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeDefaultPrimTypeByKind</b> (<a class="el" href="structjc_1_1typeck_1_1_type_kind.html#abaf796df008bbc4df10557a28a594e2d">TypeKind::Kind</a> kind)</td></tr>
+<tr class="separator:a1b3490fdfda4e79bad015bb8478b6123"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2305c367cf16ae2c0145ec0317d407d5"><td class="memItemLeft" align="right" valign="top"><a id="a2305c367cf16ae2c0145ec0317d407d5" name="a2305c367cf16ae2c0145ec0317d407d5"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeRef</b> (<a class="el" href="structjc_1_1typeck_1_1_region.html">Region</a> region, <a class="el" href="structjc_1_1typeck_1_1_mutability.html">Mutability</a> mutability, Ty ty)</td></tr>
+<tr class="separator:a2305c367cf16ae2c0145ec0317d407d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc495a909c49fd9a8dad7ace71702495"><td class="memItemLeft" align="right" valign="top"><a id="adc495a909c49fd9a8dad7ace71702495" name="adc495a909c49fd9a8dad7ace71702495"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makePointer</b> (<a class="el" href="structjc_1_1typeck_1_1_mutability.html">Mutability</a> mutability, Ty type)</td></tr>
 <tr class="separator:adc495a909c49fd9a8dad7ace71702495"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -132,18 +141,39 @@ Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeTuple</b> (Tuple::E
 <tr class="memitem:a699875ef61ab93270d0b15db7d9d38ab"><td class="memItemLeft" align="right" valign="top"><a id="a699875ef61ab93270d0b15db7d9d38ab" name="a699875ef61ab93270d0b15db7d9d38ab"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>makeFunc</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, Type::List &amp;&amp;inputs, Ty output)</td></tr>
 <tr class="separator:a699875ef61ab93270d0b15db7d9d38ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3c8408e2699bde67b7def7fd569aef6"><td class="memItemLeft" align="right" valign="top"><a id="af3c8408e2699bde67b7def7fd569aef6" name="af3c8408e2699bde67b7def7fd569aef6"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>getDefaultIntTy</b> ()</td></tr>
+<tr class="separator:af3c8408e2699bde67b7def7fd569aef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673942b419718f44d34a5427bb332c8f"><td class="memItemLeft" align="right" valign="top"><a id="a673942b419718f44d34a5427bb332c8f" name="a673942b419718f44d34a5427bb332c8f"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>getDefaultFloatTy</b> ()</td></tr>
+<tr class="separator:a673942b419718f44d34a5427bb332c8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6772b176b704200842dc19e9ba67457b"><td class="memItemLeft" align="right" valign="top"><a id="a6772b176b704200842dc19e9ba67457b" name="a6772b176b704200842dc19e9ba67457b"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>addItemType</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId, Ty type)</td></tr>
 <tr class="separator:a6772b176b704200842dc19e9ba67457b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af0a7441b9829e4718aae450ec527f287"><td class="memItemLeft" align="right" valign="top"><a id="af0a7441b9829e4718aae450ec527f287" name="af0a7441b9829e4718aae450ec527f287"></a>
 Ty&#160;</td><td class="memItemRight" valign="bottom"><b>getItemType</b> (<a class="el" href="structjc_1_1resolve_1_1_def_id.html">DefId</a> defId) const</td></tr>
 <tr class="separator:af0a7441b9829e4718aae450ec527f287"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac181d6a7c0e99d5efa1e84bc94852ef1"><td class="memItemLeft" align="right" valign="top"><a id="ac181d6a7c0e99d5efa1e84bc94852ef1" name="ac181d6a7c0e99d5efa1e84bc94852ef1"></a>
-auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>converter</b> ()</td></tr>
-<tr class="separator:ac181d6a7c0e99d5efa1e84bc94852ef1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1be6d61347bb968393ad6f1ca4ef3fab"><td class="memItemLeft" align="right" valign="top"><a id="a1be6d61347bb968393ad6f1ca4ef3fab" name="a1be6d61347bb968393ad6f1ca4ef3fab"></a>
 const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getItemsTypes</b> () const</td></tr>
 <tr class="separator:a1be6d61347bb968393ad6f1ca4ef3fab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2279742eaa213069cfa59bcda8be6f13"><td class="memItemLeft" align="right" valign="top"><a id="a2279742eaa213069cfa59bcda8be6f13" name="a2279742eaa213069cfa59bcda8be6f13"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addExprType</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, Ty type)</td></tr>
+<tr class="separator:a2279742eaa213069cfa59bcda8be6f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accc974347dd2e613b079c481c36f1962"><td class="memItemLeft" align="right" valign="top"><a id="accc974347dd2e613b079c481c36f1962" name="accc974347dd2e613b079c481c36f1962"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>getExprType</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId) const</td></tr>
+<tr class="separator:accc974347dd2e613b079c481c36f1962"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5fa57fe5dd940f5584b46f4810a539"><td class="memItemLeft" align="right" valign="top"><a id="a4c5fa57fe5dd940f5584b46f4810a539" name="a4c5fa57fe5dd940f5584b46f4810a539"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getExprTypes</b> () const</td></tr>
+<tr class="separator:a4c5fa57fe5dd940f5584b46f4810a539"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad18eb631927a51f55d1023cd3c7f26bf"><td class="memItemLeft" align="right" valign="top"><a id="ad18eb631927a51f55d1023cd3c7f26bf" name="ad18eb631927a51f55d1023cd3c7f26bf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>addLocalType</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId, Ty type)</td></tr>
+<tr class="separator:ad18eb631927a51f55d1023cd3c7f26bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f381909d18b97ae6618e20fd98c5986"><td class="memItemLeft" align="right" valign="top"><a id="a7f381909d18b97ae6618e20fd98c5986" name="a7f381909d18b97ae6618e20fd98c5986"></a>
+Ty&#160;</td><td class="memItemRight" valign="bottom"><b>getLocalType</b> (<a class="el" href="structjc_1_1ast_1_1_node_id.html">NodeId</a> nodeId) const</td></tr>
+<tr class="separator:a7f381909d18b97ae6618e20fd98c5986"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f6bd13e9e29c9b9c2ed8559cfe1cb8a"><td class="memItemLeft" align="right" valign="top"><a id="a9f6bd13e9e29c9b9c2ed8559cfe1cb8a" name="a9f6bd13e9e29c9b9c2ed8559cfe1cb8a"></a>
+const auto &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getLocalTypes</b> () const</td></tr>
+<tr class="separator:a9f6bd13e9e29c9b9c2ed8559cfe1cb8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/typeck/<a class="el" href="_type_context_8h_source.html">TypeContext.h</a></li>
