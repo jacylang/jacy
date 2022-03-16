@@ -5,7 +5,7 @@ namespace jc::typeck {
     Ty Converter::convert(const hir::Type & type) {
         switch (type.kind->kind) {
             case hir::TypeKind::Kind::Infer: {
-                return tyCtx.makeInfer();
+                return tyCtx.makeInferVar();
             }
             case hir::TypeKind::Kind::Tuple: {
                 return convertTuple(*hir::TypeKind::as<hir::TupleType>(type.kind));

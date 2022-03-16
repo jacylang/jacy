@@ -184,7 +184,7 @@ namespace jc::typeck {
         NodeId::NodeMap<Ty> localTypes;
 
         Infer::Var lastTypeVar {0};
-        std::unordered_map<Infer::Var, Ty> typeVars;
+        std::map<Infer::Var, Ty> typeVars;
 
         Converter _converter {*this};
     };
