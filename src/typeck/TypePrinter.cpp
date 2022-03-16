@@ -133,6 +133,7 @@ namespace jc::typeck {
     void TypePrinter::printRefType(const Ref & ref) {
         // TODO: Region
         log.raw("&");
+        printMutability(ref.mutability, false);
         printType(ref.type);
     }
 
