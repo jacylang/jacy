@@ -24,6 +24,7 @@
 #include "hir/HirPrinter.h"
 #include "typeck/TypePrinter.h"
 #include "typeck/collect/ItemCollector.h"
+#include "typeck/collect/LocalTypesCollector.h"
 
 namespace jc::core {
     using config::Config;

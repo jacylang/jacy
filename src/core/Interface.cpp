@@ -491,6 +491,11 @@ namespace jc::core {
         itemCollector.visit();
         sess->endStep();
 
+        sess->beginStep("Collect locals and expressions types", sess::MeasUnit::NA);
+        typeck::LocalTypesCollector localTypesCollector {party, sess};
+        localTypesCollector.visit();
+        sess->endStep();
+
         printTypedHir(party);
     }
 
@@ -501,7 +506,7 @@ namespace jc::core {
 
         log.info("Printing item types (`--dev-print=typed-hir`)");
 
-        sess->beginStep("Item types printing", sess::MeasUnit::NA);
+        sess->beginStep("Typed HIR printing", sess::MeasUnit::NA);
         typeck::TypePrinter typePrinter {party, sess};
         typePrinter.visit();
         sess->endStep();
