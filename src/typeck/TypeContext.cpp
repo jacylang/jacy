@@ -1,5 +1,3 @@
 #include "typeck/TypeContext.h"
 
-namespace jc::typeck {
-
-}
+namespace jc::typeck {}

@@ -1,7 +1,20 @@
 #include "typeck/TypePrinter.h"
 
 namespace jc::typeck {
-    void TypePrinter::print() {
+    void TypePrinter::visit() {
+        printItemsTypes();
+        hir::HirVisitor::visit();
+    }
+
+    void TypePrinter::visitExpr(const hir::Expr & expr) {
+        hir::HirVisitor::visitExpr(expr);
+        log.raw("/* ");
+        printType(sess->tyCtx.getExprType(expr.nodeId));
+        log.raw(" */");
+    }
+
+    void TypePrinter::printItemsTypes() {
+        log.info("Item types:").nl();
         const auto & itemsTypes = sess->tyCtx.getItemsTypes();
         for (const auto & type : itemsTypes) {
             log.raw(type.first, ": ");
