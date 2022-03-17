@@ -327,9 +327,8 @@ namespace jc::hir {
 
     // Expr //
     void HirPrinter::printExpr(const Expr & expr) {
+        printExprKind(expr.kind);
         printExprType(expr.nodeId);
-
-        return printExprKind(expr.kind);
     }
 
     void HirPrinter::printExprKind(const ExprKind::Ptr & kind) {
@@ -867,6 +866,7 @@ namespace jc::hir {
         }
 
         printType(sess->tyCtx.getItemType(itemId.defId));
+        log.nl();
     }
 
     void HirPrinter::printExprType(NodeId nodeId) {
