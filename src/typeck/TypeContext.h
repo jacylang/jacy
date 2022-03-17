@@ -152,12 +152,10 @@ namespace jc::typeck {
         // Expr types //
     public:
         void addExprType(NodeId nodeId, Ty type) {
-            log::Logger::devDebug("Set type of expression ", nodeId);
             utils::map::assertNewEmplace(exprTypes.emplace(nodeId, type), "TypeContext::addExprType");
         }
 
         Ty getExprType(NodeId nodeId) const {
-            log::Logger::devDebug("Get type of expression ", nodeId);
             return utils::map::expectAt(exprTypes, nodeId, "TypeContext::getExprType");
         }
 
