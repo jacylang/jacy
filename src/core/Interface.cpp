@@ -477,7 +477,7 @@ namespace jc::core {
         log.info("Printing HIR  (`--dev-print=hir`)");
 
         sess->beginStep("HIR Printing", MeasUnit::NA);
-        hir::HirPrinter hirPrinter(party);
+        hir::HirPrinter hirPrinter {party, sess, hir::HirPrinter::PrintMode::Hir};
         sess->endStep();
 
         hirPrinter.print();
@@ -507,8 +507,8 @@ namespace jc::core {
         log.info("Printing item types (`--dev-print=typed-hir`)");
 
         sess->beginStep("Typed HIR printing", sess::MeasUnit::NA);
-        typeck::TypePrinter typePrinter {party, sess};
-        typePrinter.visit();
+        hir::HirPrinter typedHirPrinter {party, sess, hir::HirPrinter::PrintMode::TypedHir};
+        typedHirPrinter.print();
         sess->endStep();
     }
 
