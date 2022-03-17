@@ -282,13 +282,13 @@ namespace jc::hir {
     }
 
     void HirVisitor::visitLetStmt(const LetStmt & letStmt) {
-        visitPat(letStmt.pat);
         letStmt.type.then([&](const Type & type) {
             visitType(type);
         });
         letStmt.value.then([&](const Expr & expr) {
             visitExpr(expr);
         });
+        visitPat(letStmt.pat);
     }
 
     void HirVisitor::visitItemStmt(const ItemStmt & itemStmt) {
