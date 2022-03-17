@@ -851,6 +851,12 @@ namespace jc::hir {
     }
 
     // Typed HIR //
+    void HirPrinter::printType(typeck::Ty type) {
+        log.raw("/* ");
+        typePrinter.printType(type);
+        log.raw(" */");
+    }
+
     void HirPrinter::printItemType(ItemId itemId) {
         printType(sess->tyCtx.getItemType(itemId.defId));
     }

@@ -2,7 +2,6 @@
 #define JACY_SRC_TYPECK_TYPEPRINTER_H
 
 #include "session/Session.h"
-#include "hir/HirVisitor.h"
 
 namespace jc::typeck {
     class TypePrinter {

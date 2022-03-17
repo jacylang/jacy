@@ -2,6 +2,7 @@
 #define JACY_HIR_HIRPRINTER_H
 
 #include "hir/nodes/Party.h"
+#include "typeck/TypePrinter.h"
 #include "session/Session.h"
 
 namespace jc::hir {
@@ -126,7 +127,8 @@ namespace jc::hir {
         HirPrinter(const Party & party, sess::Session::Ptr sess, PrintMode mode)
             : party {party},
               sess {sess},
-              mode {mode} {}
+              mode {mode},
+              typePrinter {sess} {}
 
         void print();
 
@@ -261,6 +263,7 @@ namespace jc::hir {
         // Typed HIR //
     private:
         PrintMode mode;
+        typeck::TypePrinter typePrinter;
 
         void printType(typeck::Ty type);
         void printItemType(ItemId itemId);
