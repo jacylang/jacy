@@ -8,8 +8,6 @@
 namespace jc::hir {
     const std::monostate Delim::NO_CHOP = std::monostate {};
 
-    HirPrinter::HirPrinter(const Party & party) : party {party} {}
-
     void HirPrinter::print() {
         printMod(party.rootMod);
     }

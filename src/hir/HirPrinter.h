@@ -116,7 +116,13 @@ namespace jc::hir {
 
     class HirPrinter {
     public:
-        HirPrinter(const Party & party);
+        enum class PrintMode {
+            Hir,
+            TypedHir,
+        };
+
+    public:
+        HirPrinter(const Party & party, PrintMode mode) : party {party}, mode {mode} {}
 
         void print();
 
@@ -245,6 +251,7 @@ namespace jc::hir {
         const Party & party;
 
     private:
+        PrintMode mode;
         log::Logger log {"hir-printer"};
     };
 }
