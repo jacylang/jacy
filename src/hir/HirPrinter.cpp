@@ -849,4 +849,13 @@ namespace jc::hir {
         printIndent();
         log.raw("}");
     }
+
+    // Typed HIR //
+    void HirPrinter::printItemType(ItemId itemId) {
+        printType(sess->tyCtx.getItemType(itemId.defId));
+    }
+
+    void HirPrinter::printExprType(NodeId nodeId) {
+        printType(sess->tyCtx.getExprType(nodeId));
+    }
 }

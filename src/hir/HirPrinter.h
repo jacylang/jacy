@@ -2,6 +2,7 @@
 #define JACY_HIR_HIRPRINTER_H
 
 #include "hir/nodes/Party.h"
+#include "session/Session.h"
 
 namespace jc::hir {
     using namespace std::string_literals;
@@ -122,7 +123,10 @@ namespace jc::hir {
         };
 
     public:
-        HirPrinter(const Party & party, PrintMode mode) : party {party}, mode {mode} {}
+        HirPrinter(const Party & party, sess::Session::Ptr sess, PrintMode mode)
+            : party {party},
+              sess {sess},
+              mode {mode} {}
 
         void print();
 
@@ -251,8 +255,16 @@ namespace jc::hir {
         const Party & party;
 
     private:
-        PrintMode mode;
+        sess::Session::Ptr sess;
         log::Logger log {"hir-printer"};
+
+        // Typed HIR //
+    private:
+        PrintMode mode;
+
+        void printType(typeck::Ty type);
+        void printItemType(ItemId itemId);
+        void printExprType(NodeId nodeId);
     };
 }
 
