@@ -19,6 +19,8 @@ namespace jc::hir {
     }
 
     void HirPrinter::printItem(const ItemId & itemId) {
+        printItemType(itemId);
+
         const auto & itemWrapper = party.item(itemId);
 
         printVis(itemWrapper.vis);
@@ -325,6 +327,8 @@ namespace jc::hir {
 
     // Expr //
     void HirPrinter::printExpr(const Expr & expr) {
+        printExprType(expr.nodeId);
+
         return printExprKind(expr.kind);
     }
 
