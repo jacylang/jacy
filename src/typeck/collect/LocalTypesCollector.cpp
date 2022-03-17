@@ -6,7 +6,7 @@ namespace jc::typeck {
         tyCtx.addExprType(data.nodeId, getLitExprType(literal.kind));
     }
 
-    Ty LocalTypesCollector::getLitExprType(const hir::LitExpr::Kind & kind) {
+    Ty LocalTypesCollector::getLitExprType(hir::LitExpr::Kind kind) {
         // TODO: Remove `makeDefaultPrimTypeByKind` and use `Infer`
         switch (kind) {
             case ast::LitExpr::Kind::Bool: {
@@ -25,6 +25,8 @@ namespace jc::typeck {
     }
 
     void LocalTypesCollector::visitBlockExpr(const hir::BlockExpr & block, const hir::Expr::ExprData & data) {
+        HirVisitor::visitBlockExpr(block, data);
+
         const auto & lastStmt = block.block.stmts.back();
         if (lastStmt.kind->kind == hir::StmtKind::Kind::Expr) {
             const auto & lastExpr = hir::StmtKind::as<hir::ExprStmt>(lastStmt.kind);

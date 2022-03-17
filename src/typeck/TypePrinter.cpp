@@ -14,7 +14,7 @@ namespace jc::typeck {
     }
 
     void TypePrinter::printItemsTypes() {
-        log.info("Item types:").nl();
+        log.info("Item types:");
         const auto & itemsTypes = sess->tyCtx.getItemsTypes();
         for (const auto & type : itemsTypes) {
             log.raw(type.first, ": ");

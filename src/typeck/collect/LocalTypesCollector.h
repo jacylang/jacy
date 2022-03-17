@@ -22,7 +22,7 @@ namespace jc::typeck {
     public:
         void visitLiteralExpr(const hir::LitExpr & literal, const hir::Expr::ExprData & data) override;
 
-        Ty getLitExprType(const hir::LitExpr::Kind & kind);
+        Ty getLitExprType(hir::LitExpr::Kind kind);
 
         void visitBlockExpr(const hir::BlockExpr & block, const hir::Expr::ExprData & data) override;
 
