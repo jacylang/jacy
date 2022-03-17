@@ -856,20 +856,24 @@ namespace jc::hir {
 
     // Typed HIR //
     void HirPrinter::printType(typeck::Ty type) {
-        if (mode != PrintMode::TypedHir) {
-            return;
-        }
-
         log.raw("/* ");
         typePrinter.printType(type);
         log.raw(" */");
     }
 
     void HirPrinter::printItemType(ItemId itemId) {
+        if (mode != PrintMode::TypedHir) {
+            return;
+        }
+
         printType(sess->tyCtx.getItemType(itemId.defId));
     }
 
     void HirPrinter::printExprType(NodeId nodeId) {
+        if (mode != PrintMode::TypedHir) {
+            return;
+        }
+
         printType(sess->tyCtx.getExprType(nodeId));
     }
 }
