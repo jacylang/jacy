@@ -276,8 +276,17 @@ namespace jc::ast {
         };
 
     private:
-        LitExpr(ValueT val, const parser::Token & token)
-            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, val {val} {}
+        LitExpr(Bool boolValue, const parser::Token & token)
+            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, kind {Kind::Bool}, val {boolValue} {}
+
+        LitExpr(Int intValue, const parser::Token & token)
+            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, kind {Kind::Int}, val {intValue} {}
+
+        LitExpr(Float floatValue, const parser::Token & token)
+            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, kind {Kind::Float}, val {floatValue} {}
+
+        LitExpr(Str strValue, const parser::Token & token)
+            : Expr {token.span, Expr::Kind::LiteralConstant}, token {token}, kind {Kind::Str}, val {strValue} {}
 
         static dt::Result<Int, LitPreEvalErr> intValue(
             parser::TokLit::Kind kind,
