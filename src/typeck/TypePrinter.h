@@ -5,19 +5,11 @@
 #include "hir/HirVisitor.h"
 
 namespace jc::typeck {
-    class TypePrinter : public hir::HirVisitor {
+    class TypePrinter {
     public:
-        TypePrinter(const hir::Party & party, const sess::Session::Ptr & sess)
-            : hir::HirVisitor {party},
-              sess {sess} {}
+        TypePrinter(const sess::Session::Ptr & sess) : sess {sess} {}
 
-        void visit() override;
-
-        void visitExpr(const hir::Expr & expr) override;
-
-    private:
-        void printItemsTypes();
-
+    public:
         void printType(Ty ty);
 
         void printIntType(const Int & intType);
