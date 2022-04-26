@@ -20,6 +20,7 @@
     <p align="center">
     WIP programming language inspired by Rust professing the idea of simplicity and safety.
     </p>
+    <i>Now more like an alternative rustc compiler with a little bit different syntax and additional features, in search of its own way.</i>
     <a align="center" href="https://jacylang.github.io/"><b>Home Page</b></a>
 </div>
 
